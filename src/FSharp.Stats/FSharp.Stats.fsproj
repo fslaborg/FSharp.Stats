@@ -61,9 +61,13 @@
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
     <!-- Core -->
-    <Compile Include="Algebra.fs" />
+    <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="SpecialFunctions.fs" />
+    <!-- Algebra -->
+    <Compile Include="Algebra\SIMDUtil.fs" />
+    <Compile Include="Algebra\Vector.fs" />
+    <Compile Include="Algebra\Matrix.fs" />
     <!-- Distributions -->
     <Compile Include="Distributions\Frequency.fs" />
     <Compile Include="Distributions\Empirical.fs" />

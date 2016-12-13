@@ -1,14 +1,11 @@
 namespace FSharp.Stats.Distributions
 
-
+open FSharp.Stats.Ops
 
 // Continuous probability distributions
 module Continuous = 
     
     open FSharp.Stats.SpecialFunctions
-
-    let isNan x = nan.Equals(x)
-    let isInf x = System.Double.IsInfinity x  
 
     
 // ######
