@@ -65,13 +65,13 @@
     <Compile Include="Random.fs" />
     <Compile Include="SpecialFunctions.fs" />
     <!-- Distributions -->
-    <Compile Include="Distributions\Frequency.fs" />    
+    <Compile Include="Distributions\Frequency.fs" />
     <Compile Include="Distributions\Empirical.fs" />
     <Compile Include="Distributions\Distribution.fs" />
     <Compile Include="Distributions\Continuous.fs" />
     <Compile Include="Distributions\Discrete.fs" />
     <!-- Distributions -->
-    <Compile Include="Testing\TTest.fs" /> 
+    <Compile Include="Testing\TTest.fs" />
     <!-- Content -->
     <None Include="Script.fsx" />
     <None Include="paket.references" />
@@ -84,6 +84,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Y "$(TargetDir)*.dll"  "$(SolutionDir)bin\"
+xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
+  </PropertyGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.1'">
       <ItemGroup>
@@ -100,14 +104,10 @@
       <ItemGroup>
         <Reference Include="System.Numerics.Vectors">
           <HintPath>..\..\packages\System.Numerics.Vectors\ref\net46\System.Numerics.Vectors.dll</HintPath>
-          <Private>True</Private>
+          <Private>False</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
     </When>
   </Choose>
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /Y "$(TargetDir)*.dll"  "$(SolutionDir)bin\"
-xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
-  </PropertyGroup>
 </Project>
