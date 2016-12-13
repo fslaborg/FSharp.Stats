@@ -1,0 +1,21 @@
+source http://www.nuget.org/api/v2
+redirects: on
+framework: net461
+
+nuget FSharp.Core redirects: force
+nuget System.Numerics.Vectors framework net46
+
+group Build
+  source https://nuget.org/api/v2
+  
+  nuget SourceLink.Fake
+  nuget FAKE
+  nuget FSharp.Formatting
+
+  github fsharp/FAKE modules/Octokit/Octokit.fsx
+
+group Test
+  source https://nuget.org/api/v2
+  
+  nuget NUnit ~> 2
+  nuget NUnit.Runners ~> 2
