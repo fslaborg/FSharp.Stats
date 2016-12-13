@@ -71,7 +71,9 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics">
+      <Private>True</Private>
+    </Reference>
     <ProjectReference Include="..\..\src\FSharp.Stats\FSharp.Stats.fsproj">
       <Name>FSharp.Stats</Name>
       <Project>{c51d7ac8-d454-4467-a2b5-051b0c90fd5f}</Project>

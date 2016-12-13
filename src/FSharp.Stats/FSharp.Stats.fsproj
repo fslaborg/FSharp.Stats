@@ -60,7 +60,19 @@
   -->
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
+    <!-- Core -->
     <Compile Include="Algebra.fs" />
+    <Compile Include="Random.fs" />
+    <Compile Include="SpecialFunctions.fs" />
+    <!-- Distributions -->
+    <Compile Include="Distributions\Frequency.fs" />    
+    <Compile Include="Distributions\Empirical.fs" />
+    <Compile Include="Distributions\Distribution.fs" />
+    <Compile Include="Distributions\Continuous.fs" />
+    <Compile Include="Distributions\Discrete.fs" />
+    <!-- Distributions -->
+    <Compile Include="Testing\TTest.fs" /> 
+    <!-- Content -->
     <None Include="Script.fsx" />
     <None Include="paket.references" />
     <None Include="paket.template" />
@@ -94,4 +106,8 @@
       </ItemGroup>
     </When>
   </Choose>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Y "$(TargetDir)*.dll"  "$(SolutionDir)bin\"
+xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
