@@ -78,23 +78,9 @@ type Vector<'T when 'T : (static member Zero : 'T)
 
         let inline min v =
             match v with        
-            | Vector v ->         
-                let count = System.Numerics.Vector< 'T>.Count
-                let rec loop i cMinVec =
-                    if i <= v.Length-count then 
-                        let cVec = System.Numerics.Vector< 'T>(v,i)                   
-                        loop (i+count) (System.Numerics.Vector.Min(cMinVec,cVec))
-                    else 
-                        let cVec = System.Numerics.Vector< 'T>(v,v.Length-count)
-                        System.Numerics.Vector.Min(cMinVec,cVec)
-            
-                let minVec = 
-                    loop count (System.Numerics.Vector< 'T>(v,0))
-            
-                let mutable cmin = minVec.[0]
-                for i=1 to count-1 do 
-                    cmin <- if cmin < minVec.[i] then cmin else minVec.[i]  
-                cmin
+            | Vector v ->
+                v.[0]
+                //SIMDUtil.foldFrom 0 (System.Numerics.Vector.Min) v
         
             | ZeroVector t -> t
 
@@ -142,4 +128,14 @@ type Vector<'T when 'T : (static member Zero : 'T)
             | ZeroVector _, ZeroVector _ -> Vector.Zero     
 
                 
+        let inline sum v =
+            match v with        
+            | Vector v -> SIMDUtil.sum v
+            | ZeroVector t -> t
+            
                 
+        let inline sumBy f v =
+            match v with        
+            | Vector v -> SIMDUtil.sumBy f v
+            | ZeroVector t -> t
+                            

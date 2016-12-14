@@ -65,6 +65,7 @@
     <Compile Include="Random.fs" />
     <Compile Include="SpecialFunctions.fs" />
     <!-- Algebra -->
+    <Compile Include="Algebra\NumiericsSimdVector.fs" />
     <Compile Include="Algebra\SIMDUtil.fs" />
     <Compile Include="Algebra\Vector.fs" />
     <Compile Include="Algebra\Matrix.fs" />
@@ -108,7 +109,7 @@ xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
       <ItemGroup>
         <Reference Include="System.Numerics.Vectors">
           <HintPath>..\..\packages\System.Numerics.Vectors\ref\net46\System.Numerics.Vectors.dll</HintPath>
-          <Private>False</Private>
+          <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
