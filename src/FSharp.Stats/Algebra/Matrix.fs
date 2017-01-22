@@ -2554,7 +2554,7 @@ namespace Microsoft.FSharp.Math
         member x.ToArray() = RowVector.Generic.toArray x
         member x.Copy ()   = RowVector.Generic.copy x
 
-
+    [<AutoOpen>]
     module MatrixTopLevelOperators = 
 
         let matrix ll = Matrix.ofSeq ll
