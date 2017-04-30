@@ -1,5 +1,6 @@
 namespace FSharp.Stats.Distributions
 
+open FSharp.Stats
 open FSharp.Stats.Ops
 
 // Continuous probability distributions
@@ -39,20 +40,20 @@ module Continuous =
         /// Computes the probability density function.
         static member PDF dof x =
             chiSquaredCheckParam dof
-//            if x < 0.0 || dof < 1. then
-//                0.0
-//            else
-//                let k = float dof * 0.5
-//                let x = x * 0.5
-//                if dof = 2. then
-//                    exp (-1. * x)
-//                else
-//                    let pValue = SimpleApprox.incGamma k x // incGamma -> gamma lower incomplete
-//                    if (isNan pValue) || (isInf pValue) ||  (pValue <= 1e-8) then
-//                        1e-14
-//                    else
-//                        1.- pValue / (SimpleApprox.gamma k)  
-            1.
+            if x < 0.0 || dof < 1. then
+                0.0
+            else
+                let k = float dof * 0.5
+                let x = x * 0.5
+                if dof = 2. then
+                    exp (-1. * x)
+                else
+                    let pValue = SpecialFunctions.Gamma.lowerIncomplete k x // incGamma -> gamma lower incomplete
+                    if (isNan pValue) || (isInf pValue) ||  (pValue <= 1e-8) then
+                        1e-14
+                    else
+                        1.- pValue / (SpecialFunctions.Gamma.gamma k)  
+            
 
         /// Computes the cumulative distribution function.
         static member CDF dof x =

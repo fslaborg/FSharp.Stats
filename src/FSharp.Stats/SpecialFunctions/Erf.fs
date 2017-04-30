@@ -1,8 +1,9 @@
-namespace FSharp.Stats
+namespace FSharp.Stats.SpecialFunctions
 
-[<CompilationRepresentationAttribute(CompilationRepresentationFlags.ModuleSuffix)>]
+open System
+
 /// Special mathematical functions
-module SpecialFunctions =
+module Errorfunction =
 
     open System
 
