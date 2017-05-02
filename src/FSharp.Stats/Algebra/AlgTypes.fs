@@ -768,6 +768,17 @@ namespace Microsoft.FSharp.Math
         let scaleRowVecGU       k (a:RowVector<_>)    = let ops = a.ElementOps in unaryOpRowVecGU (fun x -> ops.Multiply(k,x)) a
         let scaleVecGU          k (a:Vector<_>)       = let ops = a.ElementOps in unaryOpVectorGU  (fun x -> ops.Multiply(k,x)) a
         let scaleSparseMatrixGU k (a:SparseMatrix<_>) = let ops = a.ElementOps in unaryOpSparseGU (fun x -> ops.Multiply(k,x)) a
+        // add +        
+        let addScalarDenseMatrixGU  k (a:DenseMatrix<_>)  = let ops = a.ElementOps in unaryOpDenseMatrixGU (fun x -> ops.Add(k,x)) a
+        let addScalarRowVecGU       k (a:RowVector<_>)    = let ops = a.ElementOps in unaryOpRowVecGU (fun x -> ops.Add(k,x)) a
+        let addScalarVecGU          k (a:Vector<_>)       = let ops = a.ElementOps in unaryOpVectorGU  (fun x -> ops.Add(k,x)) a
+        let addScalarSparseMatrixGU k (a:SparseMatrix<_>) = let ops = a.ElementOps in unaryOpSparseGU (fun x -> ops.Add(k,x)) a
+        // sub -        
+        let subScalarDenseMatrixGU  k (a:DenseMatrix<_>)  = let ops = a.ElementOps in unaryOpDenseMatrixGU (fun x -> ops.Subtract(k,x)) a
+        let subScalarRowVecGU       k (a:RowVector<_>)    = let ops = a.ElementOps in unaryOpRowVecGU (fun x -> ops.Subtract(k,x)) a
+        let subScalarVecGU          k (a:Vector<_>)       = let ops = a.ElementOps in unaryOpVectorGU  (fun x -> ops.Subtract(k,x)) a
+        let subScalarSparseMatrixGU k (a:SparseMatrix<_>) = let ops = a.ElementOps in unaryOpSparseGU (fun x -> ops.Subtract(k,x)) a
+
         let negDenseMatrixGU  (a:DenseMatrix<_>)  = let ops = a.ElementOps in unaryOpDenseMatrixGU (fun x -> ops.Negate(x)) a
         let negRowVecGU       (a:RowVector<_>)    = let ops = a.ElementOps in unaryOpRowVecGU (fun x -> ops.Negate(x)) a
         let negVecGU          (a:Vector<_>)       = let ops = a.ElementOps in unaryOpVectorGU  (fun x -> ops.Negate(x)) a
@@ -1160,6 +1171,17 @@ namespace Microsoft.FSharp.Math
         let scaleSparseDS   k m = GU.unaryOpSparseGU  (fun x -> mul k x) m
         let scaleRowVecDS  k m = GU.unaryOpRowVecGU (fun x -> mul k x) m
         let scaleVecDS   k m = GU.unaryOpVectorGU  (fun x -> mul k x) m
+        // add + 
+        let addScalarDenseMatrixDS   k m = GU.unaryOpDenseMatrixGU  (fun x -> add k x) m
+        let addScalarSparseDS   k m = GU.unaryOpSparseGU  (fun x -> add k x) m
+        let addScalarRowVecDS  k m = GU.unaryOpRowVecGU (fun x -> add k x) m
+        let addScalarVecDS   k m = GU.unaryOpVectorGU  (fun x -> add k x) m
+        // sub - 
+        let subScalarDenseMatrixDS   k m = GU.unaryOpDenseMatrixGU  (fun x -> sub k x) m
+        let subScalarSparseDS   k m = GU.unaryOpSparseGU  (fun x -> sub k x) m
+        let subScalarRowVecDS  k m = GU.unaryOpRowVecGU (fun x -> sub k x) m
+        let subScalarVecDS   k m = GU.unaryOpVectorGU  (fun x -> sub k x) m
+
         let negDenseMatrixDS     m   = GU.unaryOpDenseMatrixGU  (fun x -> neg x) m
         let negSparseDS     m   = GU.unaryOpSparseGU  (fun x -> neg x) m
         let negRowVecDS    m   = GU.unaryOpRowVecGU (fun x -> neg x) m
@@ -1500,6 +1522,32 @@ namespace Microsoft.FSharp.Math
             | (:? vector as b)  -> DS.scaleVecDS (tightenF a) b |> loosenV
             | _                 -> GU.scaleVecGU a b
 
+        let addScalarM a b = unaryOpM (fun b -> DS.addScalarDenseMatrixDS (tightenF a) b) (GU.addScalarDenseMatrixGU a)
+                                      (fun b -> DS.addScalarSparseDS (tightenF a) b) (GU.addScalarSparseMatrixGU a) b
+
+        let addScalarRV a b = 
+            match box b with 
+            | (:? rowvec as b)  -> DS.addScalarRowVecDS (tightenF a) b |> loosenRV 
+            | _                 -> GU.addScalarRowVecGU a b
+
+        let addScalarV a b = 
+            match box b with 
+            | (:? vector as b)  -> DS.addScalarVecDS (tightenF a) b |> loosenV
+            | _                 -> GU.addScalarVecGU a b
+
+        let subScalarM a b = unaryOpM (fun b -> DS.subScalarDenseMatrixDS (tightenF a) b) (GU.subScalarDenseMatrixGU a)
+                                      (fun b -> DS.subScalarSparseDS (tightenF a) b) (GU.subScalarSparseMatrixGU a) b
+
+        let subScalarRV a b = 
+            match box b with 
+            | (:? rowvec as b)  -> DS.subScalarRowVecDS (tightenF a) b |> loosenRV 
+            | _                 -> GU.subScalarRowVecGU a b
+
+        let subScalarV a b = 
+            match box b with 
+            | (:? vector as b)  -> DS.subScalarVecDS (tightenF a) b |> loosenV
+            | _                 -> GU.subScalarVecGU a b
+        
         let dotM a b = 
             match a,b with 
             | DenseRepr a,DenseRepr b -> 
@@ -1868,7 +1916,50 @@ namespace Microsoft.FSharp.Math
 // Interface implementation
 
     type Matrix<'T> with
+        static member ( +  )(a: Matrix<'T>,b) = SpecializedGenericImpl.addM a b
+        static member ( -  )(a: Matrix<'T>,b) = SpecializedGenericImpl.subM a b
+        static member ( *  )(a: Matrix<'T>,b) = SpecializedGenericImpl.mulM a b
+        static member ( *  )(a: Matrix<'T>,b : Vector<'T>) = SpecializedGenericImpl.mulMV a b
 
+        static member ( * )((m: Matrix<'T>),k : 'T) = SpecializedGenericImpl.scaleM k m
+
+        static member ( .* )(a: Matrix<'T>,b) = SpecializedGenericImpl.cptMulM a b
+        static member ( * )(k,m: Matrix<'T>) = SpecializedGenericImpl.scaleM k m
+        static member ( ~- )(m: Matrix<'T>)     = SpecializedGenericImpl.negM m
+        static member ( ~+ )(m: Matrix<'T>)     = m
+        // add +
+        static member ( +  )(a: Matrix<'T>,k: 'T) = SpecializedGenericImpl.addScalarM k a
+        static member ( +  )(k: 'T,a: Matrix<'T>) = SpecializedGenericImpl.addScalarM k a
+        // sub -
+        static member ( -  )(a: Matrix<'T>,k: 'T) = SpecializedGenericImpl.subScalarM k a
+        static member ( -  )(k: 'T,a: Matrix<'T>) = SpecializedGenericImpl.subScalarM k a
+
+        member m.GetSlice (start1,finish1,start2,finish2) = 
+            let start1 = match start1 with None -> 0 | Some v -> v 
+            let finish1 = match finish1 with None -> m.NumRows - 1 | Some v -> v 
+            let start2 = match start2 with None -> 0 | Some v -> v 
+            let finish2 = match finish2 with None -> m.NumCols - 1 | Some v -> v 
+            SpecializedGenericImpl.getRegionM m (start1,finish1) (start2,finish2)
+
+        member m.SetSlice (start1,finish1,start2,finish2,vs:Matrix<_>) = 
+            let start1 = match start1 with None -> 0 | Some v -> v 
+            let finish1 = match finish1 with None -> m.NumRows - 1 | Some v -> v 
+            let start2 = match start2 with None -> 0 | Some v -> v 
+            let finish2 = match finish2 with None -> m.NumCols - 1 | Some v -> v 
+            for i = start1 to finish1  do 
+                for j = start2 to finish2 do
+                    m.[i,j] <- vs.[i-start1,j-start2]
+
+
+        member m.Dimensions = m.NumRows,m.NumCols
+
+        member m.Transpose = SpecializedGenericImpl.transM m
+        member m.PermuteRows (p: permutation) : Matrix<'T> = SpecializedGenericImpl.permuteRows p m
+        member m.PermuteColumns (p: permutation) : Matrix<'T> = SpecializedGenericImpl.permuteColumns p m
+
+
+// Interface implementation
+        
         interface IEnumerable<'T> with 
             member m.GetEnumerator() = 
                (seq { for i in 0 .. m.NumRows-1 do
@@ -1923,6 +2014,50 @@ namespace Microsoft.FSharp.Math
 // Interface implementation
 
     type Vector<'T> with
+        static member ( +  )(a: Vector<'T>,b) = SpecializedGenericImpl.addV a b
+        static member ( -  )(a: Vector<'T>,b) = SpecializedGenericImpl.subV a b
+        static member ( .* )(a: Vector<'T>,b) = SpecializedGenericImpl.cptMulV a b
+        
+        static member ( * )(k,m: Vector<'T>) = SpecializedGenericImpl.scaleV k m
+        
+        static member ( * )(a: Vector<'T>,b) = SpecializedGenericImpl.mulVRV a b
+        
+        static member ( * )(m: Vector<'T>,k) = SpecializedGenericImpl.scaleV k m
+        
+        static member ( ~- )(m: Vector<'T>)     = SpecializedGenericImpl.negV m
+        static member ( ~+ )(m: Vector<'T>)     = m
+
+        // add +
+        static member ( + )(k,m: Vector<'T>) = SpecializedGenericImpl.addScalarV k m
+        static member ( + )(m: Vector<'T>,k) = SpecializedGenericImpl.addScalarV k m
+        // sub -
+        static member ( - )(k,m: Vector<'T>) = SpecializedGenericImpl.subScalarV k m
+        static member ( - )(m: Vector<'T>,k) = SpecializedGenericImpl.subScalarV k m
+
+        member m.GetSlice (start,finish) = 
+            let start = match start with None -> 0 | Some v -> v 
+            let finish = match finish with None -> m.NumRows - 1 | Some v -> v 
+            SpecializedGenericImpl.getRegionV m (start,finish)
+
+        member m.SetSlice (start,finish,vs:Vector<_>) = 
+            let start = match start with None -> 0 | Some v -> v 
+            let finish = match finish with None -> m.NumRows - 1 | Some v -> v 
+            for i = start to finish  do 
+                    m.[i] <- vs.[i-start]
+
+
+        member m.DebugDisplay = 
+            let txt = GenericImpl.showVecGU "vector" m
+            new System.Text.StringBuilder(txt)  // return an object with a ToString with the right value, rather than a string. (strings get shown using quotes)
+
+        member m.StructuredDisplayAsArray =  Array.init m.NumRows (fun i -> m.[i])
+
+        member m.Details = m.Values
+
+        member m.Transpose = SpecializedGenericImpl.transV m
+        
+        member m.Permute (p:permutation) = SpecializedGenericImpl.permuteV p m
+
       
         interface System.IComparable with 
              member m.CompareTo(y:obj) = SpecializedGenericImpl.compareV LanguagePrimitives.GenericComparer m (y :?> Vector<'T>)
@@ -1952,6 +2087,48 @@ namespace Microsoft.FSharp.Math
 //--------------------------------------------------------------------------*)
 
     type RowVector<'T> with
+        static member ( +  )(a: RowVector<'T>,b) = SpecializedGenericImpl.addRV a b
+        static member ( -  )(a: RowVector<'T>,b) = SpecializedGenericImpl.subRV a b
+        static member ( .* )(a: RowVector<'T>,b) = SpecializedGenericImpl.cptMulRV a b
+        static member ( * )(k,v: RowVector<'T>) = SpecializedGenericImpl.scaleRV k v
+        
+        static member ( * )(a: RowVector<'T>,b: Matrix<'T>) = SpecializedGenericImpl.mulRVM a b
+        static member ( * )(a: RowVector<'T>,b:Vector<'T>) = SpecializedGenericImpl.mulRVV a b
+        static member ( * )(v: RowVector<'T>,k:'T) = SpecializedGenericImpl.scaleRV k v
+        
+        static member ( ~- )(v: RowVector<'T>)     = SpecializedGenericImpl.negRV v
+        static member ( ~+ )(v: RowVector<'T>)     = v
+
+        // add +
+        static member ( + )(v: RowVector<'T>,k:'T) = SpecializedGenericImpl.addScalarRV k v
+        static member ( + )(k:'T,v: RowVector<'T>) = SpecializedGenericImpl.addScalarRV k v
+        // sub -
+        static member ( - )(v: RowVector<'T>,k:'T) = SpecializedGenericImpl.subScalarRV k v
+        static member ( - )(k:'T,v: RowVector<'T>) = SpecializedGenericImpl.subScalarRV k v
+        
+        member m.GetSlice (start,finish) = 
+            let start = match start with None -> 0 | Some v -> v
+            let finish = match finish with None -> m.NumCols - 1 | Some v -> v 
+            SpecializedGenericImpl.getRegionRV m (start,finish)
+
+        member m.SetSlice (start,finish,vs:RowVector<_>) = 
+            let start = match start with None -> 0 | Some v -> v 
+            let finish = match finish with None -> m.NumCols - 1 | Some v -> v 
+            for i = start to finish  do 
+                   m.[i] <- vs.[i-start]
+
+
+        member m.DebugDisplay = 
+            let txt = GenericImpl.showRowVecGU "rowvec" m
+            new System.Text.StringBuilder(txt)  // return an object with a ToString with the right value, rather than a string. (strings get shown using quotes)
+
+        member m.StructuredDisplayAsArray =  Array.init m.NumCols (fun i -> m.[i])
+
+        member m.Details = m.Values
+
+        member m.Transpose = SpecializedGenericImpl.transRV m
+        
+        member m.Permute (p:permutation) = SpecializedGenericImpl.permuteRV p m
 
         override m.ToString() = GenericImpl.showRowVecGU "rowvec" m
      

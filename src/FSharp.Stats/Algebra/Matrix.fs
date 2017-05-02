@@ -10,53 +10,6 @@ open System.Collections
 open System.Collections.Generic
 open System.Diagnostics
 
-[<AutoOpen>]
-module MatrixExtensions = 
-
-    //----------------------------------------------------------------------------
-    // type Matrix<'T> augmentation
-    //--------------------------------------------------------------------------*)
-    type Matrix<'T> with
-        static member ( +  )(a: Matrix<'T>,b) = SpecializedGenericImpl.addM a b
-        static member ( -  )(a: Matrix<'T>,b) = SpecializedGenericImpl.subM a b
-        static member ( *  )(a: Matrix<'T>,b) = SpecializedGenericImpl.mulM a b
-        static member ( *  )(a: Matrix<'T>,b : Vector<'T>) = SpecializedGenericImpl.mulMV a b
-
-        static member ( * )((m: Matrix<'T>),k : 'T) = SpecializedGenericImpl.scaleM k m
-
-        static member ( .* )(a: Matrix<'T>,b) = SpecializedGenericImpl.cptMulM a b
-        static member ( * )(k,m: Matrix<'T>) = SpecializedGenericImpl.scaleM k m
-        static member ( ~- )(m: Matrix<'T>)     = SpecializedGenericImpl.negM m
-        static member ( ~+ )(m: Matrix<'T>)     = m
-
-        member m.GetSlice (start1,finish1,start2,finish2) = 
-            let start1 = match start1 with None -> 0 | Some v -> v 
-            let finish1 = match finish1 with None -> m.NumRows - 1 | Some v -> v 
-            let start2 = match start2 with None -> 0 | Some v -> v 
-            let finish2 = match finish2 with None -> m.NumCols - 1 | Some v -> v 
-            SpecializedGenericImpl.getRegionM m (start1,finish1) (start2,finish2)
-
-        member m.SetSlice (start1,finish1,start2,finish2,vs:Matrix<_>) = 
-            let start1 = match start1 with None -> 0 | Some v -> v 
-            let finish1 = match finish1 with None -> m.NumRows - 1 | Some v -> v 
-            let start2 = match start2 with None -> 0 | Some v -> v 
-            let finish2 = match finish2 with None -> m.NumCols - 1 | Some v -> v 
-            for i = start1 to finish1  do 
-                for j = start2 to finish2 do
-                    m.[i,j] <- vs.[i-start1,j-start2]
-
-
-        member m.Dimensions = m.NumRows,m.NumCols
-
-        member m.Transpose = SpecializedGenericImpl.transM m
-        member m.PermuteRows (p: permutation) : Matrix<'T> = SpecializedGenericImpl.permuteRows p m
-        member m.PermuteColumns (p: permutation) : Matrix<'T> = SpecializedGenericImpl.permuteColumns p m
-
-
-
-
-
-
 //type matrix = Matrix<float>
 //type vector = Vector<float>
 //type rowvec = RowVector<float>
@@ -300,55 +253,47 @@ end
 
 
 
+[<AutoOpen>]
+module MatrixExtension =
+
+    type Matrix<'T> with 
+        member x.ToArray2()        = Matrix.Generic.toArray2D x
+        member x.ToArray2D()        = Matrix.Generic.toArray2D x
+
+#if FX_NO_DEBUG_DISPLAYS
+#else
+        [<DebuggerBrowsable(DebuggerBrowsableState.Collapsed)>]
+#endif
+
+        member x.NonZeroEntries    = Matrix.Generic.nonzero_entries x
+        member x.ToScalar()        = Matrix.Generic.toScalar x
+        member x.ToRowVector()     = Matrix.Generic.toRowVector x               
+        member x.ToVector()        = Matrix.Generic.toVector x
+
+#if FX_NO_DEBUG_DISPLAYS
+#else
+        [<DebuggerBrowsable(DebuggerBrowsableState.Collapsed)>]
+#endif
+        member x.Norm              = Matrix.Generic.norm x
+
+        member x.Column(n)         = Matrix.Generic.getCol x n
+        member x.Row(n)            = Matrix.Generic.getRow x n
+        member x.Columns (i,ni)    = Matrix.Generic.getCols x i ni
+        member x.Rows (j,nj)       = Matrix.Generic.getRows x j nj
+        member x.Region(i,j,ni,nj) = Matrix.Generic.getRegion x i j ni nj
+        member x.GetDiagonal(i)    = Matrix.Generic.getDiagN x i
+
+#if FX_NO_DEBUG_DISPLAYS
+#else
+        [<DebuggerBrowsable(DebuggerBrowsableState.Collapsed)>]
+#endif
+        member x.Diagonal          = Matrix.Generic.getDiag x
+
+        member x.Copy () = Matrix.Generic.copy x
 
 
 
-//    type Matrix<'T> with 
-//        member x.ToArray2()        = Matrix.Generic.toArray2D x
-//        member x.ToArray2D()        = Matrix.Generic.toArray2D x
-//
-//#if FX_NO_DEBUG_DISPLAYS
-//#else
-//        [<DebuggerBrowsable(DebuggerBrowsableState.Collapsed)>]
-//#endif
-//
-//        member x.NonZeroEntries    = Matrix.Generic.nonzero_entries x
-//        member x.ToScalar()        = Matrix.Generic.toScalar x
-//        member x.ToRowVector()     = Matrix.Generic.toRowVector x               
-//        member x.ToVector()        = Matrix.Generic.toVector x
-//
-//#if FX_NO_DEBUG_DISPLAYS
-//#else
-//        [<DebuggerBrowsable(DebuggerBrowsableState.Collapsed)>]
-//#endif
-//        member x.Norm              = Matrix.Generic.norm x
-//
-//        member x.Column(n)         = Matrix.Generic.getCol x n
-//        member x.Row(n)            = Matrix.Generic.getRow x n
-//        member x.Columns (i,ni)    = Matrix.Generic.getCols x i ni
-//        member x.Rows (j,nj)       = Matrix.Generic.getRows x j nj
-//        member x.Region(i,j,ni,nj) = Matrix.Generic.getRegion x i j ni nj
-//        member x.GetDiagonal(i)    = Matrix.Generic.getDiagN x i
-//
-//#if FX_NO_DEBUG_DISPLAYS
-//#else
-//        [<DebuggerBrowsable(DebuggerBrowsableState.Collapsed)>]
-//#endif
-//        member x.Diagonal          = Matrix.Generic.getDiag x
-//
-//        member x.Copy () = Matrix.Generic.copy x
-//
-//
-//    type Vector<'T> with 
-//        member x.ToArray() = Vector.Generic.toArray x
-//        member x.Norm      = Vector.Generic.norm x
-//        member x.Copy ()   = Vector.Generic.copy x
-//
-//
-//    type RowVector<'T> with 
-//        member x.ToArray() = RowVector.Generic.toArray x
-//        member x.Copy ()   = RowVector.Generic.copy x
-//
+
 //    [<AutoOpen>]
 //    module MatrixTopLevelOperators = 
 //
