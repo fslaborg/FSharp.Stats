@@ -78,6 +78,7 @@
     <Compile Include="Algebra\Matrix.fs" />
     <Compile Include="Algebra\Vector.fs" />
     <Compile Include="Algebra\RowVector.fs" />
+    <Compile Include="Algebra\MatrixTopLevelOperators.fs" />
     <Compile Include="Algebra\NativeArrayExtensions.fs" />
     <Compile Include="Algebra\ILinearAlgebra.fs" />
     <Compile Include="Algebra\LinearAlgebra.fs" />

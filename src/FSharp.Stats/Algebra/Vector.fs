@@ -10,52 +10,6 @@ open System.Collections
 open System.Collections.Generic
 open System.Diagnostics
 
-[<AutoOpen>]
-module VectorExtensions = 
-    //----------------------------------------------------------------------------
-    // type Vector<'T> augmentation
-    //--------------------------------------------------------------------------*)
-    [<CompilationRepresentationAttribute(CompilationRepresentationFlags.ModuleSuffix)>]
-    type Vector<'T> with
-        static member ( +  )(a: Vector<'T>,b) = SpecializedGenericImpl.addV a b
-        static member ( -  )(a: Vector<'T>,b) = SpecializedGenericImpl.subV a b
-        static member ( .* )(a: Vector<'T>,b) = SpecializedGenericImpl.cptMulV a b
-        
-        static member ( * )(k,m: Vector<'T>) = SpecializedGenericImpl.scaleV k m
-        
-        static member ( * )(a: Vector<'T>,b) = SpecializedGenericImpl.mulVRV a b
-        
-        static member ( * )(m: Vector<'T>,k) = SpecializedGenericImpl.scaleV k m
-        
-        static member ( ~- )(m: Vector<'T>)     = SpecializedGenericImpl.negV m
-        static member ( ~+ )(m: Vector<'T>)     = m
-
-        member m.GetSlice (start,finish) = 
-            let start = match start with None -> 0 | Some v -> v 
-            let finish = match finish with None -> m.NumRows - 1 | Some v -> v 
-            SpecializedGenericImpl.getRegionV m (start,finish)
-
-        member m.SetSlice (start,finish,vs:Vector<_>) = 
-            let start = match start with None -> 0 | Some v -> v 
-            let finish = match finish with None -> m.NumRows - 1 | Some v -> v 
-            for i = start to finish  do 
-                    m.[i] <- vs.[i-start]
-
-
-        member m.DebugDisplay = 
-            let txt = GenericImpl.showVecGU "vector" m
-            new System.Text.StringBuilder(txt)  // return an object with a ToString with the right value, rather than a string. (strings get shown using quotes)
-
-        member m.StructuredDisplayAsArray =  Array.init m.NumRows (fun i -> m.[i])
-
-        member m.Details = m.Values
-
-        member m.Transpose = SpecializedGenericImpl.transV m
-        
-        member m.Permute (p:permutation) = SpecializedGenericImpl.permuteV p m
-
-
-
 
 //----------------------------------------------------------------------------
 // module Vector
@@ -193,4 +147,14 @@ module Vector =
     let of_list    xs  = ofList xs
     let of_seq    xs   = ofSeq xs
     let of_scalar x    = ofScalar x
-      
+
+
+[<AutoOpen>]
+module VectorExtension =
+
+    type Vector<'T> with 
+        member x.ToArray() = Vector.Generic.toArray x
+        member x.Norm      = Vector.Generic.norm x
+        member x.Copy ()   = Vector.Generic.copy x
+
+   
