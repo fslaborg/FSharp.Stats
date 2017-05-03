@@ -70,7 +70,6 @@ rv + 1.
 
 
 
-
 //// Linear regression
 //let cost theta X (y:vector) =
 //    let tmp = Matrix.dot X theta 
