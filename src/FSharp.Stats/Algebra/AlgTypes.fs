@@ -25,7 +25,7 @@ namespace Microsoft.FSharp.Math
     open System.Collections
     open System.Collections.Generic
     open System.Diagnostics
-    type permutation = int -> int
+    //type permutation = int -> int
 
 
 //=========================================================================
