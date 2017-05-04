@@ -37,15 +37,16 @@ module Gamma =
     let private EPS = 3.0e-8    //System.Double.Epsilon
 
 
-
     let private gser a x =    
         let gln = gammaLn a
         let rec loop sum del ap =
-            if (abs del < abs sum * EPS) then 
+            let ap' = ap + 1.
+            let del' = del * x / ap'
+            if (abs del < (abs sum) * EPS) then 
                 sum * exp(-x + a * log(x) - gln)
             else 
-                loop (sum+del) (del * x / ap) (a+1.)
-        
+                loop (sum+del') (del') (ap')
+ 
         loop (1. / a) (1. / a) a
 
     // Page 286
