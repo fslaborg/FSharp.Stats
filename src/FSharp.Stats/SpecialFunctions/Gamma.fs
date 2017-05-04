@@ -20,7 +20,7 @@ module Gamma =
 
 
     /// Computes the log gamma function using the Lanczos Coefficients described in Numerical Recipes (Press et al)
-    let gammaln z = 
+    let gammaLn z = 
         let lanczosCoefficients = [76.18009172947146;-86.50532032941677;24.01409824083091;-1.231739572450155;0.1208650973866179e-2;-0.5395239384953e-5]
         let rec sumCoefficients acc i coefficients =
             match coefficients with
@@ -39,7 +39,7 @@ module Gamma =
 
 
     let private gser a x =    
-        let gln = gammaln a
+        let gln = gammaLn a
         let rec loop sum del ap =
             if (abs del < abs sum * EPS) then 
                 sum * exp(-x + a * log(x) - gln)
@@ -55,7 +55,7 @@ module Gamma =
     let private gcf a x =
     
         // let eps = 3.0e-7//System.Double.Epsilon
-        let gln = gammaln a    
+        let gln = gammaLn a    
         let b = x + 1.0 - a
         let c = 1. / FPMIN
         let d = 1. / b
@@ -108,7 +108,7 @@ module Gamma =
         let a1 = a - 1.0
         let lna1 = log a1
         let sqrta1 = sqrt a1
-        let gln = gammaln a
+        let gln = gammaLn a
         let xu =
             if (x > a1) then    
                 max (a1 + 11.5*sqrta1) (x + 6.0*sqrta1)

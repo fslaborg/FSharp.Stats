@@ -67,9 +67,13 @@
     <Compile Include="ServiceLocator.fs" />
     <!-- SpecialFunctions -->
     <Compile Include="SpecialFunctions\Gamma.fs" />
+    <Compile Include="SpecialFunctions\Factorial.fs" />
+    <Compile Include="SpecialFunctions\Beta.fs" />
     <Compile Include="SpecialFunctions\Erf.fs" />
-    <Compile Include="Algebra\Permutation.fs" />
+    <Compile Include="SpecialFunctions\Logistic.fs" />
+    <Compile Include="SpecialFunctions\Binomial.fs" />
     <!-- Algebra -->
+    <Compile Include="Algebra\Permutation.fs" />
     <Compile Include="Algebra\NativeArray.fs" />
     <Compile Include="Algebra\BigRational.fs" />
     <Compile Include="Algebra\INumeric.fs" />

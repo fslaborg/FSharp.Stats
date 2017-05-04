@@ -55,12 +55,18 @@ module Continuous =
                         1e-14
                     else
                         1.- pValue / (SpecialFunctions.Gamma.gamma k)  
-            
+
+        /// Computes the logarithm of probability density function.
+        static member PDFLn dof x = 
+            if System.Double.IsPositiveInfinity(dof) || System.Double.IsPositiveInfinity(x) || x=0. then
+                System.Double.NegativeInfinity
+            else
+                ((1.0 - (dof/2.0))*System.Math.Log(2.0)) + ((dof - 1.0)*System.Math.Log(x)) - (x*x/2.0) - Gamma.gammaLn(dof/2.0)
 
         /// Computes the cumulative distribution function.
         static member CDF dof x =
             chiSquaredCheckParam dof
-            failwith "Not implemented yet."
+            Gamma.lowerIncomplete (dof/2.0) (x*x/2.0)
 
         /// Returns the support of the exponential distribution: [0, Positive Infinity).
         static member Support dof =
@@ -109,9 +115,10 @@ module Continuous =
 
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
         static member Sample min max =
-            uniformCheckParam min max
-            //rndgen.NextFloat() * (max - min) + min
-            nan
+            // Source: fsmathtools
+            uniformCheckParam min max            
+            Random.rndgen.NextFloat() * (max - min) + min
+            
 
         /// Computes the probability density function.
         static member PDF min max x =
@@ -170,17 +177,18 @@ module Continuous =
 
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
         static member Sample mu tau =
+            // Source: fsmathtools
             normalCheckParam mu tau
-//            let mutable v1 = 2.0 * rndgen.NextFloat() - 1.0
-//            let mutable v2 = 2.0 * rndgen.NextFloat() - 1.0
-//            let mutable r = v1 * v1 + v2 * v2
-//            while (r >= 1.0 || r = 0.0) do
-//                v1 <- 2.0 * rndgen.NextFloat() - 1.0
-//                v2 <- 2.0 * rndgen.NextFloat() - 1.0
-//                r <- v1 * v1 + v2 * v2
-//            let fac = sqrt(-2.0*(log r)/r)
-//            (tau * v1 * fac + mu)
-            failwith "Not implemented yet."
+            let mutable v1 = 2.0 * Random.rndgen.NextFloat() - 1.0
+            let mutable v2 = 2.0 * Random.rndgen.NextFloat() - 1.0
+            let mutable r = v1 * v1 + v2 * v2
+            while (r >= 1.0 || r = 0.0) do
+                v1 <- 2.0 * Random.rndgen.NextFloat() - 1.0
+                v2 <- 2.0 * Random.rndgen.NextFloat() - 1.0
+                r <- v1 * v1 + v2 * v2
+            let fac = sqrt(-2.0*(log r)/r)
+            (tau * v1 * fac + mu)
+            //failwith "Not implemented yet."
 
         /// Computes the probability density function.
         static member PDF mu tau x =
@@ -237,13 +245,14 @@ module Continuous =
 
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
         static member Sample lambda = 
+            // Source: fsmathtools
             expCheckParam lambda
-//            let mutable r = rndgen.NextFloat()
-//            while (r = 0.0) do
-//                r <- rndgen.NextFloat()
-//            done;
-//            (- log r)/lambda
-            failwith "Not implemented yet."
+            let mutable r = Random.rndgen.NextFloat()
+            while (r = 0.0) do
+                r <- Random.rndgen.NextFloat()
+            done;
+            (- log r)/lambda
+            
 
         /// Computes the probability density function.
         static member PDF lambda x = 
@@ -306,33 +315,34 @@ module Continuous =
         
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
         static member Sample alpha beta = 
+            // Source: fsmathtools
             gammaCheckParam alpha beta
-//            let mutable a = alpha
-//            // Fix when alpha is less than one.
-//            let alphafix =
-//                if alpha < 1.0 then
-//                    a <- alpha + 1.0
-//                    (rndgen.NextFloat() ** (1.0 / alpha))
-//                else
-//                    1.0
-//            let d = a - 1.0 / 3.0
-//            let c = 1.0 / sqrt(9.0 * d)
-//            let rec gamma_sample () =
-//                let mutable x = Normal.Sample 0.0 1.0
-//                let mutable v = 1.0 + c * x
-//                while v <= 0.0 do
-//                    x <- Normal.Sample 0.0 1.0
-//                    v <- 1.0 + c * x
-//                v <- v * v * v
-//                let u = rndgen.NextFloat()
-//                x <- x * x
-//                if u < 1.0 - 0.0331 * x * x then
-//                    d * v
-//                elif (log u) < 0.5 * x + d * (1.0 - v + (log v)) then
-//                    d * v
-//                else gamma_sample()
-//            alphafix * gamma_sample() / beta
-            failwith "Not implemented yet."
+            let mutable a = alpha
+            // Fix when alpha is less than one.
+            let alphafix =
+                if alpha < 1.0 then
+                    a <- alpha + 1.0
+                    (Random.rndgen.NextFloat() ** (1.0 / alpha))
+                else
+                    1.0
+            let d = a - 1.0 / 3.0
+            let c = 1.0 / sqrt(9.0 * d)
+            let rec gamma_sample () =
+                let mutable x = Normal.Sample 0.0 1.0
+                let mutable v = 1.0 + c * x
+                while v <= 0.0 do
+                    x <- Normal.Sample 0.0 1.0
+                    v <- 1.0 + c * x
+                v <- v * v * v
+                let u = Random.rndgen.NextFloat()
+                x <- x * x
+                if u < 1.0 - 0.0331 * x * x then
+                    d * v
+                elif (log u) < 0.5 * x + d * (1.0 - v + (log v)) then
+                    d * v
+                else gamma_sample()
+            alphafix * gamma_sample() / beta
+            //failwith "Not implemented yet."
         
         /// Computes the probability density function.
         static member PDF alpha beta x = 
@@ -389,6 +399,7 @@ module Continuous =
 
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
         static member Sample alpha beta = 
+            // Source: fsmathtools
             gammaCheckParam alpha beta
             let x = Gamma.Sample alpha 1.0
             let y = Gamma.Sample beta 1.0
@@ -397,10 +408,9 @@ module Continuous =
         /// Computes the probability density function.
         static member PDF alpha beta x = 
             gammaCheckParam alpha beta
-//            if x >= 0.0 && x <= 1.0 then
-//                (x ** (alpha - 1.0)) * ((1.0 - x) ** (beta - 1.0)) / (Core.Beta alpha beta)
-//            else 0.0
-            failwith "Not implemented yet."
+            if x >= 0.0 && x <= 1.0 then
+                (x ** (alpha - 1.0)) * ((1.0 - x) ** (beta - 1.0)) / (SpecialFunctions.Beta.beta alpha beta)
+            else 0.0          
 
         /// Computes the cumulative distribution function.
         static member CDF alpha beta x =
@@ -487,6 +497,76 @@ module Continuous =
 //            member d.PDF x             = Uniform.PDF min max x           
 //            member d.CDF x             = Uniform.CDF min max x         
 //        }   
+
+
+// ######
+// Student's T-distribution
+// ------------------------
+// wiki: "http://en.wikipedia.org/wiki/Student%27s_t-distribution"
+// ######
+
+
+    // Student's T-distribution helper functions.
+    let studentTCheckParam mu tau dof = if System.Double.IsNaN(mu) || mu < 0.0 || tau < 0.0 || System.Double.IsNaN(dof)  || dof < 0. then failwith "Student's T-distribution should be parametrized by mu, tau and dof > 0.0."
+    
+    /// Student's T-distribution
+    type StudentT =
+        /// Computes the mean.
+        static member Mean mu tau dof =
+            studentTCheckParam mu tau dof
+            mu
+
+        /// Computes the variance.
+        static member Variance mu tau dof =
+            studentTCheckParam mu tau dof
+            match dof with
+            | df when System.Double.IsPositiveInfinity(df) -> tau*tau
+            | df when df > 2.0 -> dof*tau*tau/(dof-2.0)
+            | _ -> System.Double.PositiveInfinity
+
+        /// Computes the standard deviation.
+        static member StandardDeviation mu tau dof =
+            studentTCheckParam mu tau dof
+            sqrt (StudentT.Variance mu tau dof)
+            
+
+        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        static member Sample mu tau dof =
+            studentTCheckParam mu tau dof
+            let gamma = Gamma.Sample (0.5*dof) 0.5
+            Normal.Sample mu (tau*sqrt(dof/gamma))
+
+        /// Computes the probability density function.
+        static member PDF mu tau dof x =
+            studentTCheckParam mu tau dof
+            let d = (x - mu) / tau
+            exp (SpecialFunctions.Gamma.gammaLn((dof + 1.)/2.) - SpecialFunctions.Gamma.gammaLn(dof/2.)) * System.Math.Pow(1.0 + (d*d / dof), (-0.5 * (dof + 1.))) / sqrt (dof*pi) / tau
+
+        /// Computes the cumulative distribution function.
+        static member CDF mu tau dof x =
+            studentTCheckParam mu tau dof            
+            failwith "Not implemented yet."
+            let k = (x - mu) / tau
+            let h = dof / (dof + (k * k))
+            let ib = 0.5 * SpecialFunctions.Beta.betaRegularized (dof/2.0) 0.5 h
+            if x <= mu then ib else 1.0 - ib           
+
+        /// Returns the support of the exponential distribution: (Negative Infinity, Positive Infinity).
+        static member Support mu tau dof =
+            studentTCheckParam mu tau dof
+            (System.Double.NegativeInfinity, System.Double.PositiveInfinity)
+
+    /// Initializes a Student's T-distribution        
+    let studentT mu tau dof =
+        { new Distribution<float,float> with
+            member d.Mean              = StudentT.Mean mu tau dof
+            member d.StandardDeviation = StudentT.StandardDeviation mu tau dof
+            member d.Variance          = StudentT.Variance mu tau dof
+            //member d.CoVariance        = StudentT.CoVariance  mu tau
+            member d.Sample ()         = StudentT.Sample mu tau dof
+            member d.PDF x             = StudentT.PDF mu tau dof x      
+            member d.CDF x             = StudentT.CDF mu tau dof x         
+        }   
 
 
 // ######

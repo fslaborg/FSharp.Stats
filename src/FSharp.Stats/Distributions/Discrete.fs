@@ -72,6 +72,8 @@ module Discrete =
 //// Multinomial distribution
 //// ######
 //
+//    /// Computes the multinomial coefficient.
+//    let Multinomial (n: int) (ni: int array) = floor (0.5 + exp ((FactorialLn n) - (Array.fold_left (fun acc a -> acc + (FactorialLn a)) 0.0 ni)))
 //
 //    // Multinomial distribution helper functions.
 //    let multiCheckParam (p: vector) =
