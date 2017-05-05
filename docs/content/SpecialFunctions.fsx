@@ -17,7 +17,8 @@ let ygamma = xgamma |> List.map SpecialFunctions.Gamma.gamma
 
 List.zip xgamma ygamma
 |> Chart.Spline
-|> Chart.withY_AxisStyle("",MinMax=(-4.,4.))
+|> Chart.withY_AxisStyle("gamma",MinMax=(-4.,4.))
+|> Chart.withX_AxisStyle("x")
 |> Chart.withSize (500., 450.)
 |> Chart.Show
 
@@ -26,6 +27,8 @@ let ygammaLn = xgammaLn |> List.map SpecialFunctions.Gamma.gammaLn
 
 List.zip xgammaLn ygammaLn
 |> Chart.Spline
+|> Chart.withY_AxisStyle("log gamma",MinMax=(-4.,4.))
+|> Chart.withX_AxisStyle("x")
 |> Chart.withSize (500., 450.)
 |> Chart.Show
 
@@ -38,8 +41,27 @@ let ygammaInc a =
     |> List.zip xgammaInc
 
 agammaInc
-|> List.map (fun a -> Chart.Spline(ygammaInc a,Name=sprintf "a=%.2f" a,ShowMarkers=false))
+|> List.map (fun a -> Chart.Spline(ygammaInc a,Name=sprintf "a=%.1f" a,ShowMarkers=false))
 |> Chart.Combine
+|> Chart.withY_AxisStyle("lower incomplete gamma P(a,x)")
+|> Chart.withY_AxisStyle("x")
+|> Chart.withSize (500., 450.)
+|> Chart.Show
+
+
+
+let agammaInc' = [0.5;1.;5.;10.;]
+let xgammaInc' = [0. .. 0.1 .. 20.]
+let ygammaInc' a = 
+    xgammaInc' 
+    |> List.map (fun x -> SpecialFunctions.Gamma.upperIncomplete a x) 
+    |> List.zip xgammaInc'
+
+agammaInc'
+|> List.map (fun a -> Chart.Spline(ygammaInc' a,Name=sprintf "a=%.1f" a,ShowMarkers=false))
+|> Chart.Combine
+|> Chart.withY_AxisStyle("upper incomplete gamma P(a,x)")
+|> Chart.withY_AxisStyle("x")
 |> Chart.withSize (500., 450.)
 |> Chart.Show
 

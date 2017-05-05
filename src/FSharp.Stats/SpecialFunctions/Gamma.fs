@@ -148,7 +148,7 @@ module Gamma =
 
     /// Returns the incomplete gamma function Q(a,X) = 1 - P(a,X) (regularized gamma) 
     // gammq -> GammaUpperIncomplete
-    let UpperIncomplete a x =
+    let upperIncomplete a x =
         let ASWITCH=100.
         if (x < 0.0 || a <= 0.0) then failwith ("bad args in gammp")
         if (x= 0.0) then 0.0
