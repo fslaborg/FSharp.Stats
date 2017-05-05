@@ -37,23 +37,39 @@ module Beta =
                 let tmp =  1.0 - (qab * x / qap)
                 if (abs tmp < FPMIN) then 1. / FPMIN else 1. / tmp
             let h = d
-            let loop m mm d =
-                let aa = m*(b - m)*x/((qam + mm)*(a + mm))
+            let rec loop m mm d h c =                
+                let aa = float m * (b - float m)*x/((qam + mm)*(a + mm))
                 let d' = 
                     let tmp = 1.0 + (aa*d)
                     if (abs tmp < FPMIN) then 1. / FPMIN else 1. / tmp
                 let c' = 
                     let tmp = 1.0 + (aa/c)
                     if (abs tmp < FPMIN) then FPMIN else tmp
-                let h = nan
-
-                nan
-
-            1.0  
-
+                let h' = h * d' * c'
+                let aa' = -(a + float m)*(qab + float m)*x/((a + mm)*(qap + mm))
+                let d'' = 
+                    let tmp = 1.0 + (aa' * d')
+                    if (abs tmp < FPMIN) then 1. / FPMIN else 1. / tmp
+                let c'' = 
+                    let tmp = 1.0 + (aa'/c')
+                    if (abs tmp < FPMIN) then FPMIN else tmp
+                
+                let del = d*c
+                let h'' = h' * del
+                
+                if abs (del - 1.0) <= EPS then
+                    if isSymmetryTransformation then 1.0 - (bt*h/a) else bt*h/a
+                else
+                    if m < 140 then
+                        loop (m+1) (mm+2.) d'' h'' c''
+                    else 
+                         if isSymmetryTransformation then 1.0 - (bt*h/a) else bt*h/a
+                
+            loop 1 2. d h c 
             
 
         if isSymmetryTransformation then
             symmetryTransformation b a (1.0-x)
         else
             symmetryTransformation a b x
+
