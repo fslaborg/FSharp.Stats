@@ -545,7 +545,6 @@ module Continuous =
         /// Computes the cumulative distribution function.
         static member CDF mu tau dof x =
             studentTCheckParam mu tau dof            
-            failwith "Not implemented yet."
             let k = (x - mu) / tau
             let h = dof / (dof + (k * k))
             let ib = 0.5 * SpecialFunctions.Beta.lowerIncomplete (dof/2.0) 0.5 h

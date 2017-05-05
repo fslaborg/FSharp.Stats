@@ -5,63 +5,33 @@
 
 (**
 FSharp.Stats
-======================
+============
 
-Documentation
+FSharp.Stats aims to be a user-friendly library for numerical and statistical computation written in F#.
 
-<div class="row">
-  <div class="span1"></div>
-  <div class="span6">
-    <div class="well well-small" id="nuget">
-      The FSharp.Stats library can be <a href="https://nuget.org/packages/FSharp.Stats">installed from NuGet</a>:
-      <pre>PM> Install-Package FSharp.Stats</pre>
-    </div>
-  </div>
-  <div class="span1"></div>
-</div>
 
 Example
 -------
 
-This example demonstrates using a function defined in this sample library.
+This example demonstrates using a function defined in FSharp.Stats library.
 
 *)
 #r "FSharp.Stats.dll"
 open FSharp.Stats
 
-printfn "hello = %i" <| Library.hello 0
 
-(**
-Some more info
+// let A = 
+//     matrix [ [ 1.0; 7.0; 2.0 ]
+//              [ 1.0; 3.0; 1.0 ]
+//              [ 2.0; 9.0; 1.0 ] ]
 
-Samples & documentation
------------------------
+// let B = 
+//     matrix [ [ 10.0; 70.0; 20.0 ]
+//              [ 10.0; 30.0; 10.0 ]
+//              [ 20.0; 90.0; 10.0 ] ]
 
-The library comes with comprehensible documentation. 
-It can include tutorials automatically generated from `*.fsx` files in [the content folder][content]. 
-The API reference is automatically generated from Markdown comments in the library implementation.
 
- * [Tutorial](tutorial.html) contains a further explanation of this sample library.
+// let v = 
+//     vector [|2.0; 20.0; 1.|]
 
- * [API Reference](reference/index.html) contains automatically generated documentation for all types, modules
-   and functions in the library. This includes additional brief samples on using most of the
-   functions.
- 
-Contributing and copyright
---------------------------
 
-The project is hosted on [GitHub][gh] where you can [report issues][issues], fork 
-the project and submit pull requests. If you're adding a new public API, please also 
-consider adding [samples][content] that can be turned into a documentation. You might
-also want to read the [library design notes][readme] to understand how it works.
-
-The library is available under Public Domain license, which allows modification and 
-redistribution for both commercial and non-commercial purposes. For more information see the 
-[License file][license] in the GitHub repository. 
-
-  [content]: https://github.com/fsprojects/FSharp.Stats/tree/master/docs/content
-  [gh]: https://github.com/fsprojects/FSharp.Stats
-  [issues]: https://github.com/fsprojects/FSharp.Stats/issues
-  [readme]: https://github.com/fsprojects/FSharp.Stats/blob/master/README.md
-  [license]: https://github.com/fsprojects/FSharp.Stats/blob/master/LICENSE.txt
-*)
