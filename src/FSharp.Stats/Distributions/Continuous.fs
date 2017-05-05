@@ -548,7 +548,7 @@ module Continuous =
             failwith "Not implemented yet."
             let k = (x - mu) / tau
             let h = dof / (dof + (k * k))
-            let ib = 0.5 * SpecialFunctions.Beta.betaRegularized (dof/2.0) 0.5 h
+            let ib = 0.5 * SpecialFunctions.Beta.lowerIncomplete (dof/2.0) 0.5 h
             if x <= mu then ib else 1.0 - ib           
 
         /// Returns the support of the exponential distribution: (Negative Infinity, Positive Infinity).

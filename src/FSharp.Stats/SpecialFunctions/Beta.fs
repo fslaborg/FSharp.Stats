@@ -14,9 +14,9 @@ module Beta =
     /// Computes the beta function.
     let beta z w = exp (betaLn z w)
 
-
     //  incomplete beta function 
-    let betaRegularized a b x =       
+    /// Returns the regularized lower incomplete beta function
+    let lowerIncomplete a b x =       
         if (a < 0.0) then invalidArg "a" "Argument must not be negative"
         if (b < 0.0) then invalidArg "b" "Argument must not be negative"
         if (x < 0.0 || x > 1.0) then invalidArg "x" "Argument XY interval is inclusive"
@@ -54,19 +54,18 @@ module Beta =
                     let tmp = 1.0 + (aa'/c')
                     if (abs tmp < FPMIN) then FPMIN else tmp
                 
-                let del = d*c
+                let del = d''*c''
                 let h'' = h' * del
                 
                 if abs (del - 1.0) <= EPS then
-                    if isSymmetryTransformation then 1.0 - (bt*h/a) else bt*h/a
+                     if isSymmetryTransformation then 1.0 - (bt*h''/a) else bt*h''/a
                 else
                     if m < 140 then
                         loop (m+1) (mm+2.) d'' h'' c''
                     else 
-                         if isSymmetryTransformation then 1.0 - (bt*h/a) else bt*h/a
+                            if isSymmetryTransformation then 1.0 - (bt*h''/a) else bt*h''/a
                 
-            loop 1 2. d h c 
-            
+            loop 1 2. d h c             
 
         if isSymmetryTransformation then
             symmetryTransformation b a (1.0-x)
