@@ -137,4 +137,4 @@ module Empirical =
             else
                 ((k + 1.) * bandwidth) - halfBw, count)  
         |> Map.ofSeq
-        |> normalize 1.
+        |> normalize bandwidth
