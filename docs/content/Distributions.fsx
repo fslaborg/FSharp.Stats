@@ -17,45 +17,17 @@ or to sample non-uniform random numbers.
 open FSharp.Stats
 open FSharp.Stats.Distributions
 
-let Empiricalcreate bandwidth data =            
-    let halfBw = bandwidth / 2.0       
-    data
-    |> Seq.groupBy (fun x -> floor (x / bandwidth)) 
-    |> Seq.map (fun (k,values) -> 
-        let count = (Seq.length(values)) |> float                                        
-        if k < 0. then
-            ((k  * bandwidth) + halfBw, count)   
-        else
-            ((k + 1.) * bandwidth) - halfBw, count)  
-    |> Map.ofSeq
-    |> Empirical.normalize 1.
+// let trapz x y =
+//     Seq.zip x y
+//     |> Seq.pairwise 
+//     |> Seq.fold (fun acc ((x0,y0),(x1,y1)) -> acc + (x1 - x0) * (y0 + y1) / 2.) 0.
 
-
-let midRect f (x:float) (h:float) = f (x + h/2.)
-
-let trapezium f (x:float) (h:float) = ( (f x) + f (x+h)) / 2.0
-
-let simpson f (x:float) (h:float) = (f x + 4. * f (x + h/2.) + f(x+h))/6.0
-
-
+// ####################################################
+// Student's T-distribution
 // https://en.wikipedia.org/wiki/Student%27s_t-distribution
-let tmp = 
-    Seq.init 10000
-        (fun _ -> Continuous.StudentT.Sample 0. 1. 1.)
-    |> Empiricalcreate 0.5
-    |> Empirical.getZip
-
-[
-    Chart.Column tmp;
-]
-|> Chart.Combine
-|> Chart.withX_AxisStyle("x",MinMax=(-4.,4.))
-|> Chart.withY_AxisStyle("P(x)",MinMax=(0.,0.4))
-|> Chart.withSize (500., 450.)
-|> Chart.Show
 
 let studentTParams = [(0.,1.,1.);(0.,1.,2.);(0.,1.,5.);]
-let xStudentT = [-4. ..0.1.. 4.]
+let xStudentT = [-10. ..0.1.. 10.]
 
 let pdfStudentT mu tau dof = 
     xStudentT 
@@ -86,6 +58,82 @@ studentTParams
 |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,1.))
 |> Chart.withSize (500., 450.)
 (*** include-it:CdfStudentT ***)
+|> Chart.Show
+
+
+let mu,tau,dof = (0.0,1.0,15.0)
+
+(*** define-output:sampleStudentT ***)
+[
+    Seq.init 100000
+        (fun _ -> Continuous.StudentT.Sample mu tau dof)
+    |> Empirical.create 0.1
+    |> Empirical.getZip
+    |> Chart.Column;
+    Chart.Spline(pdfStudentT mu tau dof,Name=sprintf "mu=%.1f tau=%.1f dof=%.1f" mu tau dof,ShowMarkers=false)
+]
+|> Chart.Combine
+|> Chart.withSize (500., 450.)
+(*** define-output:sampleStudentT ***)
+|> Chart.Show
+
+
+
+// ####################################################
+// Gamma distribution
+
+let gammaParams = [(1.,2.);(2.,2.);(3.,2.);(5.,1.);(9.0,0.5);(7.5,1.);(0.5,1.);] // |> List.map (fun (x,y) -> y,x)
+let xgamma = [0. ..0.1.. 20.]
+
+let pdfGamma a b = 
+    xgamma 
+    |> List.map (Continuous.Gamma.PDF a b)
+    |> List.zip xgamma
+
+gammaParams
+|> List.map (fun (a,b) -> Chart.Point(pdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
+(*** define-output:PdfGamma ***)
+|> Chart.Combine
+|> Chart.withX_AxisStyle("x",MinMax=(0.,20.))
+|> Chart.withY_AxisStyle("P(x)",MinMax=(0.,0.5))
+|> Chart.withSize (500., 450.)
+(*** include-it:PdfGamma ***)
+|> Chart.Show
+
+
+let cdfGamma a b = 
+    xgamma 
+    |> List.map (Continuous.Gamma.CDF a b)
+    |> List.zip xgamma
+
+gammaParams
+|> List.map (fun (a,b) -> Chart.Spline(cdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
+(*** define-output:CdfGamma ***)
+|> Chart.Combine
+|> Chart.withX_AxisStyle("x",MinMax=(0.,20.))
+|> Chart.withY_AxisStyle("P(x)",MinMax=(0.,1.0))
+|> Chart.withSize (500., 450.)
+(*** include-it:CdfGamma ***)
+|> Chart.Show
+
+
+// let alpha = 2.0
+// let beta  = 3.0
+let alpha = 0.5
+let beta  = 0.5
+
+(*** define-output:sampleGamma ***)
+[
+    Seq.init 100000
+        (fun _ -> Continuous.Gamma.Sample alpha beta)
+    |> Empirical.create 0.5
+    |> Empirical.getZip
+    |> Chart.Column;
+    Chart.Spline(pdfGamma alpha beta,Name=sprintf "a=%.1f b=%.1f" alpha beta)
+]
+|> Chart.Combine
+|> Chart.withSize (500., 450.)
+(*** define-output:sampleGamma ***)
 |> Chart.Show
 
 

@@ -128,13 +128,21 @@ module Empirical =
     /// Creates probability mass function    
     let create bandwidth data =            
         let halfBw = bandwidth / 2.0       
-        data
-        |> Seq.groupBy (fun x -> floor (x / bandwidth)) 
-        |> Seq.map (fun (k,values) -> 
-            let count = (Seq.length(values)) |> float                                        
-            if k < 0. then
-                ((k  * bandwidth) + halfBw, count)   
-            else
-                ((k + 1.) * bandwidth) - halfBw, count)  
+        let tmp = 
+            data
+            |> Seq.groupBy (fun x -> floor (x / bandwidth)) 
+            |> Seq.map (fun (k,values) -> 
+                let count = (Seq.length(values)) |> float                                        
+                if k < 0. then
+                    ((k  * bandwidth) + halfBw, count)   
+                else
+                    ((k + 1.) * bandwidth) - halfBw, count)
+            |> Seq.sortBy fst
+        let area =
+            tmp
+            |> Seq.pairwise 
+            |> Seq.fold (fun acc ((x0,y0),(x1,y1)) ->                         
+                            acc + (abs (x1 - x0)) * ((y0 + y1) / 2.)) 0.
+        tmp    
+        |> Seq.map (fun (a,b) -> (a,b / area))
         |> Map.ofSeq
-        |> normalize bandwidth

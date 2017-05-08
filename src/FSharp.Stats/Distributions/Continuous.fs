@@ -315,7 +315,7 @@ module Continuous =
         
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
         static member Sample alpha beta = 
-            // Source: fsmathtools
+            // Source: fsmathtools (same in MN)
             gammaCheckParam alpha beta
             let mutable a = alpha
             // Fix when alpha is less than one.
@@ -348,14 +348,17 @@ module Continuous =
         static member PDF alpha beta x = 
             gammaCheckParam alpha beta
             if x >= 0.0 then
-                (beta**alpha) * (x ** (alpha - 1.0)) * (exp (-beta*x)) / SpecialFunctions.Gamma.gamma alpha
+                //(beta**alpha) * (x ** (alpha - 1.0)) * (exp (-beta*x)) / SpecialFunctions.Gamma.gamma alpha
+                Math.Pow(beta, alpha) * Math.Pow(x, alpha - 1.0) * (exp (-beta * x)) / SpecialFunctions.Gamma.gamma alpha
             else 0.0
         
         /// Computes the cumulative distribution function.
         static member CDF alpha beta x =
             gammaCheckParam alpha beta
-            if x < 0.0 then 0.0
-            else failwith "Not implemented yet."
+            if alpha = 0.0 && beta = 0.0 then 
+                0.0
+            else 
+                SpecialFunctions.Gamma.lowerIncomplete alpha (x * beta)
         
         /// Returns the support of the exponential distribution: [0, Positive Infinity).
         static member Support alpha beta =
@@ -535,6 +538,8 @@ module Continuous =
             studentTCheckParam mu tau dof
             let gamma = Gamma.Sample (0.5*dof) 0.5
             Normal.Sample mu (tau*sqrt(dof/gamma))
+            // let gamma = 1. / Gamma.Sample (0.5*dof) (0.5*dof)
+            // Normal.Sample mu (tau*sqrt(gamma))
 
         /// Computes the probability density function.
         static member PDF mu tau dof x =
