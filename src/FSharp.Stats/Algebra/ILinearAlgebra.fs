@@ -1,6 +1,7 @@
 namespace FSharp.Stats.Algebra
 
-open Microsoft.FSharp.Math
+//namespace Microsoft.FSharp.Math // old namespace
+open FSharp.Stats
 
 
 ///This is an internal interface and not for user usage.

@@ -1,18 +1,20 @@
 // (c) Microsoft Corporation 2005-2009. 
 
-namespace Microsoft.FSharp.Math
+//namespace Microsoft.FSharp.Math // old namespace
+namespace FSharp.Stats
 
 module GlobalAssociations =
 
-    open Microsoft.FSharp.Math
-    open Microsoft.FSharp.Math.Instances
+//    open Microsoft.FSharp.Math
+//    open Microsoft.FSharp.Math.Instances
+    open FSharp.Stats.Instances
     open System
     open System.Numerics
 
     let ComplexNumerics = 
       { new IFractional<_> with 
-          member __.Zero = Microsoft.FSharp.Math.Complex.Zero
-          member __.One = Microsoft.FSharp.Math.Complex.One
+          member __.Zero = FSharp.Stats.Complex.Zero
+          member __.One = FSharp.Stats.Complex.One
           member __.Add(a,b) = a + b
           member __.Subtract(a,b) = a - b
           member __.Multiply(a,b) = a * b
@@ -22,9 +24,9 @@ module GlobalAssociations =
           member __.Negate(a) = -a
           member __.Abs(a)  = a // not signed
           member __.Sign(a) = 1 // not signed
-          member __.Reciprocal(a) =  Microsoft.FSharp.Math.Complex.One / a 
-          member __.ToString((x:Microsoft.FSharp.Math.Complex),fmt,fmtprovider) = x.ToString(fmt,fmtprovider)
-          member __.Parse(s,numstyle,fmtprovider) = Microsoft.FSharp.Math.Complex.mkRect (System.Double.Parse(s,numstyle,fmtprovider),0.0) }
+          member __.Reciprocal(a) =  FSharp.Stats.Complex.One / a 
+          member __.ToString((x:FSharp.Stats.Complex),fmt,fmtprovider) = x.ToString(fmt,fmtprovider)
+          member __.Parse(s,numstyle,fmtprovider) = FSharp.Stats.Complex.mkRect (System.Double.Parse(s,numstyle,fmtprovider),0.0) }
 
     let ht = 
         let ht = new System.Collections.Generic.Dictionary<Type,obj>() 
@@ -34,7 +36,7 @@ module GlobalAssociations =
               typeof<int64>,   (Some(Int64Numerics    :> INumeric<int64>) :> obj);
               typeof<BigInteger>,  (Some(BigIntNumerics   :> INumeric<BigInteger>) :> obj);
               typeof<float32>, (Some(Float32Numerics  :> INumeric<float32>) :> obj);
-              typeof<Microsoft.FSharp.Math.Complex>, (Some(ComplexNumerics :> INumeric<Microsoft.FSharp.Math.Complex>) :> obj);
+              typeof<FSharp.Stats.Complex>, (Some(ComplexNumerics :> INumeric<FSharp.Stats.Complex>) :> obj);
               typeof<bignum>,  (Some(BigRationalNumerics   :> INumeric<bignum>) :> obj); ]
            
         List.iter (fun (ty,ops) -> ht.Add(ty,ops)) optab;

@@ -1,6 +1,6 @@
-namespace Microsoft.FSharp.Math.LinearAlgebra
+namespace FSharp.Stats.Algebra
 
-open Microsoft.FSharp.Math
+open FSharp.Stats
 
 
 module LinearAlgebra = 

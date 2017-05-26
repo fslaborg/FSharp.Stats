@@ -1,8 +1,9 @@
 // (c) Microsoft Corporation 2005-2009.  
 
-namespace Microsoft.FSharp.Math
+//namespace Microsoft.FSharp.Math // old namespace
+namespace FSharp.Stats
 
-open Microsoft.FSharp.Math
+//open Microsoft.FSharp.Math
 open System
 open System.Numerics
 open System.Globalization

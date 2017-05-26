@@ -14,12 +14,13 @@
 //    RV   = row vector (dense)
 
 
-namespace Microsoft.FSharp.Math
+//namespace Microsoft.FSharp.Math // old namespace
+namespace FSharp.Stats
 
     #nowarn "60" // implementations in augmentations
     #nowarn "69" // implementations in augmentations
 
-    open Microsoft.FSharp.Math
+    //open Microsoft.FSharp.Math
     open System
     open System.Globalization
     open System.Collections
@@ -1222,8 +1223,10 @@ namespace Microsoft.FSharp.Math
     /// Generic operations that, when used on floating point types, use the specialized versions in DoubleImpl
     module SpecializedGenericImpl = 
 
-        open Microsoft.FSharp.Math.Instances
-        open Microsoft.FSharp.Math.GlobalAssociations
+//        open Microsoft.FSharp.Math.Instances
+//        open Microsoft.FSharp.Math.GlobalAssociations
+        open FSharp.Stats.Instances
+        open FSharp.Stats.GlobalAssociations
 
         module GU = GenericImpl
         module DS = DoubleImpl

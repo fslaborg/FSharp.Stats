@@ -1,9 +1,10 @@
-namespace Microsoft.FSharp.Math
+//namespace Microsoft.FSharp.Math // old namespace
+namespace FSharp.Stats
 
 #nowarn "60" // implementations in augmentations
 #nowarn "69" // implementations in augmentations
 
-open Microsoft.FSharp.Math
+//open Microsoft.FSharp.Math
 open System
 open System.Globalization
 open System.Collections

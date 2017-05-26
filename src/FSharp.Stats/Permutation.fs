@@ -1,6 +1,7 @@
 // (c) Microsoft Corporation 2005-2009. 
 
-namespace Microsoft.FSharp.Math
+//namespace Microsoft.FSharp.Math // old namespace
+namespace FSharp.Stats
 
 type Permutation = int -> int
 

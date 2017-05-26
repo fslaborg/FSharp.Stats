@@ -11,7 +11,8 @@ namespace Microsoft.FSharp.NativeInterop
 open System
 open System.Runtime.InteropServices
 open Microsoft.FSharp.NativeInterop
-open Microsoft.FSharp.Math
+//open Microsoft.FSharp.Math
+open FSharp.Stats
 
 [<AutoOpen>]
 module NativArrayExtensionsForMatrix =

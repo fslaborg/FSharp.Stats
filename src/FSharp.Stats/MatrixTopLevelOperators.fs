@@ -1,4 +1,5 @@
-namespace Microsoft.FSharp.Math
+//namespace Microsoft.FSharp.Math // old namespace
+namespace FSharp.Stats
 
 [<AutoOpen>]
 module MatrixTopLevelOperators = 

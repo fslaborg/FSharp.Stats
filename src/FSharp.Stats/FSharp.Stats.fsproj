@@ -65,6 +65,20 @@
     <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="ServiceLocator.fs" />
+    <!-- Math -->
+    <Compile Include="Permutation.fs" />
+    <Compile Include="BigRational.fs" />
+    <Compile Include="INumeric.fs" />
+    <Compile Include="Complex.fs" />
+    <Compile Include="GlobalAssociations.fs" />
+    <Compile Include="AlgTypes.fs" />
+    <Compile Include="Matrix.fs" />
+    <Compile Include="Vector.fs" />
+    <Compile Include="RowVector.fs" />
+    <Compile Include="MatrixTopLevelOperators.fs" />
+    <!-- Col -->
+    <Compile Include="Intervals.fs" />
+    <Compile Include="SeqStats.fs" />
     <!-- SpecialFunctions -->
     <Compile Include="SpecialFunctions\Gamma.fs" />
     <Compile Include="SpecialFunctions\Factorial.fs" />
@@ -73,17 +87,7 @@
     <Compile Include="SpecialFunctions\Logistic.fs" />
     <Compile Include="SpecialFunctions\Binomial.fs" />
     <!-- Algebra -->
-    <Compile Include="Algebra\Permutation.fs" />
     <Compile Include="Algebra\NativeArray.fs" />
-    <Compile Include="Algebra\BigRational.fs" />
-    <Compile Include="Algebra\INumeric.fs" />
-    <Compile Include="Algebra\Complex.fs" />
-    <Compile Include="Algebra\GlobalAssociations.fs" />
-    <Compile Include="Algebra\AlgTypes.fs" />
-    <Compile Include="Algebra\Matrix.fs" />
-    <Compile Include="Algebra\Vector.fs" />
-    <Compile Include="Algebra\RowVector.fs" />
-    <Compile Include="Algebra\MatrixTopLevelOperators.fs" />
     <Compile Include="Algebra\NativeArrayExtensions.fs" />
     <Compile Include="Algebra\ILinearAlgebra.fs" />
     <Compile Include="Algebra\LinearAlgebraServiceManaged.fs" />

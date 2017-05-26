@@ -2,7 +2,8 @@
 
 #nowarn "52" // defensive copy of structs warning
 
-namespace Microsoft.FSharp.Math
+//namespace Microsoft.FSharp.Math // old namespace
+namespace FSharp.Stats
 
     open Microsoft.FSharp.Math
     open System
