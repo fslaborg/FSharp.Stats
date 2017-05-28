@@ -65,6 +65,7 @@
     <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="ServiceLocator.fs" />
+    <Compile Include="Intervals.fs" />
     <!-- Math -->
     <Compile Include="Permutation.fs" />
     <Compile Include="BigRational.fs" />
@@ -77,8 +78,9 @@
     <Compile Include="RowVector.fs" />
     <Compile Include="MatrixTopLevelOperators.fs" />
     <!-- Col -->
-    <Compile Include="Intervals.fs" />
-    <Compile Include="SeqStats.fs" />
+    <Compile Include="RunningStats.fs" />
+    <Compile Include="Seq.fs" />
+    <Compile Include="List.fs" />
     <!-- SpecialFunctions -->
     <Compile Include="SpecialFunctions\Gamma.fs" />
     <Compile Include="SpecialFunctions\Factorial.fs" />

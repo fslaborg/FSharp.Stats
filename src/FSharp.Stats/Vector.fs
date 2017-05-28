@@ -149,6 +149,22 @@ module Vector =
     let of_seq    xs   = ofSeq xs
     let of_scalar x    = ofScalar x
 
+    // Stats
+    let interval (a:vector) =
+        let rec loop index (minimum) (maximum) =
+            if index < a.Length then
+                let current = a.[index]
+                loop (index+1) (min current minimum) (max current maximum)
+            else
+                Intervals.create minimum maximum          
+        //Init by fist value
+        if a.Length > 1 then
+            loop 1 a.[0] a.[0] 
+        else
+            Intervals.Interval.Empty
+            
+    let mean (a:vector) = (VecDS.sumVecDS a) / float a.Length
+
 
 [<AutoOpen>]
 module VectorExtension =
