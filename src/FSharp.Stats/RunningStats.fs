@@ -2,7 +2,22 @@
 
 
 /// Module to compute common statistical measure on 
-module RunningStats =
+module SummeryStats =
+
+    type SummeryStats<'T> = {
+        N           : 'T
+        Mean        : 'T
+        SumOfSqures : 'T
+        Min         : 'T
+        Max         : 'T
+    }
+
+    let createSummeryStats n mean sos min max =
+        {N=n;Mean=mean;SumOfSqures=sos;Min=min;Max=max}
+
+
+    let var sStats = sStats.SumOfSqures / sStats.N
+
 
     type RunningStats<'T> = {
         N : int

@@ -10,7 +10,7 @@ dfdf
 #r "FSharp.Stats.dll"
 //open FSharp
 open Microsoft.FSharp.Math
-
+open FSharp.Stats
 
 
 
@@ -35,6 +35,8 @@ let v =
 
 let rv = 
     rowvec [|2.0; 20.0; 1.|]
+
+
 
 
 //let f x = x**2.

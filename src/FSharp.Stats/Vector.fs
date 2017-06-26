@@ -148,9 +148,17 @@ module Vector =
     let of_list    xs  = ofList xs
     let of_seq    xs   = ofSeq xs
     let of_scalar x    = ofScalar x
-
+    
+    
+    //----------------------------------------------------------------------------
     // Stats
-    let interval (a:vector) =
+    //----------------------------------------------------------------------------
+    
+    /// Returns the raw data array without copy
+    let raw (a:Vector<'T>) = a.Values
+
+    ///
+    let interval (a:Vector<'T>) =
         let rec loop index (minimum) (maximum) =
             if index < a.Length then
                 let current = a.[index]
@@ -162,8 +170,55 @@ module Vector =
             loop 1 a.[0] a.[0] 
         else
             Intervals.Interval.Empty
-            
-    let mean (a:vector) = (VecDS.sumVecDS a) / float a.Length
+
+    /// Computes the population mean (Normalized by N)            
+    let inline mean (a:Vector<'T>) = 
+        let ops  = a.ElementOps
+        let zero = ops.Zero
+        let one  = ops.One
+        let rec loop i c acc =            
+            if i < a.Length then
+                loop (i+1) (ops.Add(c,one)) (ops.Add(acc,a.[i]))
+            else
+                acc / c
+        loop 0 zero zero
+
+
+    /// Computes the sample median
+    let median (a:Vector<'T>) =
+        a.Values |> Array.median
+        
+
+    
+    /// Returns SummeryStats of vector with N, mean, sum-of-squares, minimum and maximum
+    let inline stats (a:Vector<'T>) =
+        let zero = LanguagePrimitives.GenericZero< 'T > 
+        let one = LanguagePrimitives.GenericOne< 'T >        
+        
+        let rec loop index n (minimum) (maximum) m1 m2 =
+            if index < a.Length then
+                let current = a.[index]
+                let delta  = current - m1                                   
+                let m1'    = m1 + (delta / n)
+                let delta2   = current - m1'
+                let m2' = m2 + delta * delta2                
+                loop (index+1) (n + one) (min current minimum) (max current maximum) m1' m2'
+            else
+                SummeryStats.createSummeryStats n m1 m2 minimum maximum
+        //Init by fist value
+        if a.Length > 1 then
+            loop 1 one a.[0] a.[0] zero zero 
+        else
+            let uNan = zero / zero 
+            SummeryStats.createSummeryStats zero uNan uNan uNan uNan
+
+
+
+
+
+
+
+
 
 
 [<AutoOpen>]

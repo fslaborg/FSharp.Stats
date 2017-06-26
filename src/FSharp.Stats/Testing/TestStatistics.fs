@@ -29,3 +29,24 @@ module TestStatistics =
         {Statistic=statistic; DegreesOfFreedom=dof; PValueLeft=1. - pvalue; PValueRight=pvalue; PValue=pvalue*2.;}
 
 
+    /// <summary>
+    ///   Creates a new F-Test for a given statistic
+    ///   with given degrees of freedom.
+    /// </summary>
+    /// 
+    /// <param name="statistic">The test statistic.</param>
+    /// <param name="d1">The degrees of freedom for the numerator.</param>
+    /// <param name="d2">The degrees of freedom for the denominator.</param>
+    type FTestStatistics = {
+        Statistic            : float
+        DegreesOfFreedom1    : float
+        DegreesOfFreedom2    : float
+        PValue               : float            
+    }
+
+    let createFTest statistic dof1 dof2 =
+        let cdf  =  Distributions.Continuous.F.CDF dof1 dof2 statistic            
+        //let pvalue = 1. - cdf
+        {Statistic=statistic; DegreesOfFreedom1=dof1; DegreesOfFreedom2=dof2; PValue=cdf;}
+
+

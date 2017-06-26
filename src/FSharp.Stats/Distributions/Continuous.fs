@@ -581,13 +581,13 @@ module Continuous =
 
 
     // F-distribution helper functions.
-    let fTCheckParam dof1 dof2 = if dof1 < 0.0 || dof2 < 0.0 then failwith "F-distribution should be parametrized by dof1 and dof2 > 0.0."
+    let fCheckParam dof1 dof2 = if dof1 < 0.0 || dof2 < 0.0 then failwith "F-distribution should be parametrized by dof1 and dof2 > 0.0."
     
     /// F-distribution
     type F =
         /// Computes the mean.
         static member Mean dof1 dof2 =
-            fTCheckParam dof1 dof2
+            fCheckParam dof1 dof2
             if dof2 <= 2. then
                 nan
             else
@@ -595,7 +595,7 @@ module Continuous =
 
         /// Computes the variance.
         static member Variance dof1 dof2 =
-            fTCheckParam dof1 dof2
+            fCheckParam dof1 dof2
             if dof2 <= 4. then
                 nan
             else
@@ -604,20 +604,20 @@ module Continuous =
 
         /// Computes the standard deviation.
         static member StandardDeviation dof1 dof2 =
-            fTCheckParam dof1 dof2
+            fCheckParam dof1 dof2
             sqrt (F.Variance dof1 dof2)
             
 
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
         static member Sample dof1 dof2 =
-            fTCheckParam dof1 dof2
+            fCheckParam dof1 dof2
             let gamma1 = Gamma.Sample (dof1 / 2.0) 2.0
             let gamma2 = Gamma.Sample (dof2 / 2.0) 2.0
             gamma1 / gamma2
 
         /// Computes the probability density function.
         static member PDF dof1 dof2 x =
-            fTCheckParam dof1 dof2
+            fCheckParam dof1 dof2
             if (x <= 0.) then
                 0.
             else
@@ -627,7 +627,7 @@ module Continuous =
 
         /// Computes the cumulative distribution function.
         static member CDF dof1 dof2 x =
-            fTCheckParam dof1 dof2
+            fCheckParam dof1 dof2
             if (x <= 0.) then
                 1.
             else
@@ -645,7 +645,7 @@ module Continuous =
 
         /// Returns the support of the exponential distribution: (0., Positive Infinity).
         static member Support dof1 dof2 =
-            fTCheckParam dof1 dof2
+            fCheckParam dof1 dof2
             (0., System.Double.PositiveInfinity)
 
     /// Initializes a F-distribution         
@@ -661,6 +661,9 @@ module Continuous =
         }   
 
 
+
 // ######
 // ... distribution 
 // ######
+
+

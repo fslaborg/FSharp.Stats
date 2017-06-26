@@ -7,8 +7,9 @@ type Distribution<'a, 'b> =
     abstract StandardDeviation : 'a
     abstract Variance : 'a
     //abstract CoVariance : 'b
-    abstract Sample : unit -> 'a
-    abstract PDF : 'a -> float
-    abstract CDF : 'a -> float
-
+    abstract Sample : unit -> 'b
+    abstract PDF :  'b -> float
+    abstract CDF :  'a -> float
+    //abstract PDFLn : 'a -> float
+    //abstract CDFLn : 'a -> float
 

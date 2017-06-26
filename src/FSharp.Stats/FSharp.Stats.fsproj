@@ -73,14 +73,15 @@
     <Compile Include="Complex.fs" />
     <Compile Include="GlobalAssociations.fs" />
     <Compile Include="AlgTypes.fs" />
+    <Compile Include="RunningStats.fs" />
+    <Compile Include="Array.fs" />
+    <Compile Include="Seq.fs" />
+    <Compile Include="List.fs" />
     <Compile Include="Matrix.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="RowVector.fs" />
     <Compile Include="MatrixTopLevelOperators.fs" />
     <!-- Col -->
-    <Compile Include="RunningStats.fs" />
-    <Compile Include="Seq.fs" />
-    <Compile Include="List.fs" />
     <!-- SpecialFunctions -->
     <Compile Include="SpecialFunctions\Gamma.fs" />
     <Compile Include="SpecialFunctions\Factorial.fs" />
@@ -99,6 +100,9 @@
     <Compile Include="Integration\Integration.fs" />
     <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
+    <Compile Include="Optimization\LP.fs" />
+    <Compile Include="Optimization\QP.fs" />
+    <Compile Include="Optimization\QuasiNewton.fs" />
     <!-- Distributions -->
     <Compile Include="Distributions\Frequency.fs" />
     <Compile Include="Distributions\Empirical.fs" />
@@ -107,7 +111,10 @@
     <Compile Include="Distributions\Discrete.fs" />
     <!-- Testing -->
     <Compile Include="Testing\TestStatistics.fs" />
+    <Compile Include="Testing\Anova.fs" />
     <Compile Include="Testing\TTest.fs" />
+    <!-- Fitting -->
+    <Compile Include="Fitting\Regression.fs" />
     <!-- Content -->
     <None Include="Script.fsx" />
     <None Include="paket.references" />
@@ -115,6 +122,9 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Solver.Foundation">
+      <HintPath>..\..\lib\Microsoft.Solver.Foundation.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -14,6 +14,14 @@ open FSharp.Stats
 
 
 
+let v = 
+    vector [|2.0; 20.0; 1.|]
+
+
+Vector.interval v
+
+
+
 
 let inline stDevPopulationOfMean mean (items:seq<'T>) : 'U  =
     use e = items.GetEnumerator()
@@ -48,7 +56,7 @@ let inline stDevPopulation (items:seq<'T>) : 'U  =
     
 
 
-stDevPopulation [1.;2.]
+stDevPopulation [1.;2.;3.;4.;]
 
 let zero = LanguagePrimitives.GenericZero< float > 
 let one = LanguagePrimitives.GenericOne< float >
@@ -56,6 +64,4 @@ let one = LanguagePrimitives.GenericOne< float >
 (zero / zero)
 
 LanguagePrimitives.GenericGreaterThan 2. 1.
-
-
 

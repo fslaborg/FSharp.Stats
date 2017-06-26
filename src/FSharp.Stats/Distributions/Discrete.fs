@@ -1,5 +1,7 @@
 namespace FSharp.Stats.Distributions
 
+open FSharp.Stats
+
 /// Discrete probability distributions
 module Discrete =
 
@@ -121,7 +123,120 @@ module Discrete =
 //            member d.Sample ()         = Multinomial.Sample p
 //            member d.PDF x             = Multinomial.PDF p x           
 //            member d.CDF x             = Multinomial.CDF p x         
-//        }   
+//        }
+
+   
+// ######
+// Hypergeometric distribution
+// ----------------------------------------------
+// wiki: "http://en.wikipedia.org/wiki/Hypergeometric_distribution"
+// ######
+
+
+    
+    //N is the population size,
+    //K is the number of success states in the population,
+    //n is the number of draws,
+    //k is the number of observed successe
+
+
+
+    // Hypergeometric distribution helper functions.
+    let hypergeoCheckParam N K n = if N <= 0 || K <= 0 || n <= 0 || K >= N || n >= N then failwith "Hypergeometric distribution should be parametrized by N, K and n > 0.0. Further K and n must be >= N"
+    
+    ///Hypergeometric distribution
+    type Hypergeometric =
+        /// Computes the mean.
+        static member Mean N K n =
+            hypergeoCheckParam N K n
+            float (K * n) / float N
+
+        /// Computes the variance.
+        static member Variance N K n =
+            hypergeoCheckParam N K n
+            float (n * K * (N - n) * (N - K)) / float ((N * N * (N - 1)))
+
+        /// Computes the standard deviation.
+        static member StandardDeviation N K n =
+            hypergeoCheckParam N K n
+            sqrt (Hypergeometric.Variance N K n)
+            
+
+        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        /// No parameter checking!
+        static member internal SampleUnchecked N K n =            
+            let rec loop N K n x =
+                if 0 < n then
+                    x
+                else    
+                    let p = float K / float N
+                    let r = Random.rndgen.NextFloat()
+                    if r < p then 
+                        loop (N-1) (K-1) (n-1) (x+1)
+                    else
+                        loop (N-1) (K) (n-1) (x)
+            
+            loop N K n 0
+            
+
+        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        static member Sample N K n =
+            hypergeoCheckParam N K n
+            Hypergeometric.SampleUnchecked N K n
+
+
+        /// Computes the probability density function at k, i.e. P(K = k)
+        static member PDF  N K n k =
+            hypergeoCheckParam N K n
+            (SpecialFunctions.Binomial.coeffcient K k) * (SpecialFunctions.Binomial.coeffcient (N-K) (n-k)) / (SpecialFunctions.Binomial.coeffcient N n)
+
+
+        /// Computes the cumulative distribution function at x, i.e. P(X <= x).
+        static member CDF N K n (x:float) =
+            hypergeoCheckParam N K n            
+            if (x < float (max 0 (n + K - N))) then 
+                0.0
+            elif (x >= float (min K n)) then
+                1.0
+            else
+                let k = floor x |> int 
+                let d = SpecialFunctions.Binomial.coeffcientLn N n
+                let rec loop i acc =
+                    if i <= k then
+                        let tmp = exp ((SpecialFunctions.Binomial.coeffcientLn K i) + (SpecialFunctions.Binomial.coeffcientLn (N-K) (n-i)) - d)
+                        loop (i+1) (acc+tmp)
+                    else
+                        acc
+                loop 0 0.0
+
+
+
+        // /// Computes the inverse of the cumulative distribution function.
+        // static member InvCDF dof1 dof2 p =
+        //     fTCheckParam dof1 dof2
+        //     if (p <= 0.0 || p > 1.0) then
+        //         invalidArg "P" "Input must be between zero and one"
+        //     else
+        //         let u = dof2 / (dof2 + dof1 * x)
+        //         Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
+
+        /// Returns the support of the hypergeometric distribution: (0., Positive Infinity).
+        static member Support N K n =
+            hypergeoCheckParam N K n
+            (0., System.Double.PositiveInfinity)
+
+    /// Initializes a hypergeometric distribution       
+    let hypergeometric N K n =
+        { new Distribution<float,int> with
+            member d.Mean              = Hypergeometric.Mean N K n
+            member d.StandardDeviation = Hypergeometric.StandardDeviation N K n
+            member d.Variance          = Hypergeometric.Variance N K n
+            //member d.CoVariance        = Hypergeometric.CoVariance N K n
+            member d.Sample ()         = Hypergeometric.Sample N K n
+            member d.PDF k             = Hypergeometric.PDF N K n k    
+            member d.CDF x             = Hypergeometric.CDF N K n x         
+        }   
+
 
 
 // ######

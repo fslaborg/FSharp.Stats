@@ -3,6 +3,8 @@
 
 module TTest =
 
+    open FSharp.Stats
+
     /// Equal or unequal sample sizes, assume nothing about variance.
     /// input: (mean1,variance1,N1) (mean2,variance2,N3)
     let private noAssumtion (m1,s1,n1:float) (m2,s2,n2:float) =        
@@ -35,16 +37,14 @@ module TTest =
             // Unequal sample sizes, assume nothing about variance.
             noAssumtion (mean1,variance1,n1) (mean2,variance2,n2)      
 
-    // let twoSample (assumeEqualVariances:bool) sample1 sample2 =
-    //     let m1 = sample1 |> StatisticalMeasure.mean
-    //     let m2 = sample2 |> StatisticalMeasure.mean
 
-    //     let v1 = sample1 |> StatisticalMeasure.var
-    //     let v2 = sample2 |> StatisticalMeasure.var
+    let twoSample (assumeEqualVariances:bool) sample1 sample2 =
+        let s1Stats = Vector.stats sample1
+        let s2Stats = Vector.stats sample2
 
-    //     let n1 = float(Seq.length(sample1))
-    //     let n2 = float(Seq.length(sample2))
+        let v1 = s1Stats.SumOfSqures / s1Stats.N
+        let v2 = s2Stats.SumOfSqures / s2Stats.N
 
-    //     twoSampleFromMeanAndVar assumeEqualVariances (m1,v1,n1) (m2,v2,n2)
+        twoSampleFromMeanAndVar assumeEqualVariances (s1Stats.Mean,v1,s1Stats.N) (s2Stats.Mean,v2,s2Stats.N)
 
 

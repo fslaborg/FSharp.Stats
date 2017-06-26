@@ -13,3 +13,8 @@ module Binomial =
         else
             floor (0.5 + exp ((Factorial.factorialLn n) - (Factorial.factorialLn k) - (Factorial.factorialLn (n-k))))
  
+    // Returns the natural logarithm of the binomial coefficient(n | k) as a ﬂoating-point number
+    let coeffcientLn (n:int) (k:int) = 
+        if ( n < 0 || k < 0 || k > n) then invalidArg "Binomial.coeffcient" ""
+        (Factorial.factorialLn n) - (Factorial.factorialLn k) - (Factorial.factorialLn (n-k))
+
