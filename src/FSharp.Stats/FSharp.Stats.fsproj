@@ -81,8 +81,10 @@
     <Compile Include="Vector.fs" />
     <Compile Include="RowVector.fs" />
     <Compile Include="MatrixTopLevelOperators.fs" />
+    <Compile Include="Rank.fs" />
     <!-- Col -->
     <!-- SpecialFunctions -->
+    <Compile Include="Correlation.fs" />
     <Compile Include="SpecialFunctions\Gamma.fs" />
     <Compile Include="SpecialFunctions\Factorial.fs" />
     <Compile Include="SpecialFunctions\Beta.fs" />
@@ -113,8 +115,17 @@
     <Compile Include="Testing\TestStatistics.fs" />
     <Compile Include="Testing\Anova.fs" />
     <Compile Include="Testing\TTest.fs" />
+    <Compile Include="Testing\ChiSquareTest.fs" />
+    <Compile Include="Testing\Bartlett.fs" />
+    <Compile Include="Testing\PostHoc.fs" />
+    <Compile Include="Testing\PvalueAdjust.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\Regression.fs" />
+    <!-- Signal -->
+    <Compile Include="Signal\Wavelet.fs" />
+    <Compile Include="Signal\ContinousWavelet.fs" />
+    <Compile Include="Signal\Baseline.fs" />
+    <Compile Include="Signal\Filtering.fs" />
     <!-- Content -->
     <None Include="Script.fsx" />
     <None Include="paket.references" />

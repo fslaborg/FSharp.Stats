@@ -669,115 +669,115 @@ module Seq =
 //        else nan    
 //
 //    
-//    // ########################################################################
-//    /// A module which implements helper functions to provide special statistical measures
-//    module UtilityFunctions =
-//
-//        /// <summary>
-//        ///   Computes sum of squares
-//        /// </summary>
-//        ///
-//        /// <param name="items">seq of float</param>
-//        /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-//        /// <returns>sum of squares</returns> 
-//        let sumOfSquares (xData:seq<float>) (exData:seq<float>) =
-//            let xX = Seq.zip xData exData 
-//            Seq.fold (fun acc (x,ex) -> acc + square (x - ex)) 0. xX
-//
-//
-//        /// <summary>
-//        ///   Computes the pooled variance of the given values
-//        /// </summary>
-//        /// 
-//        /// <param name="sizes">The number of samples</param>
-//        /// <param name="variances">The population variances for each samples.</param>
-//        let pooledVarOf (sizes:seq<int>) (variances:seq<float>) =            
-//            
-//            let var,n =
-//                Seq.zip variances sizes
-//                |> Seq.fold (fun (varAcc,nAcc) (variance,size) -> let n   = float size
-//                                                                  let var = variance * (n - 1.)
-//                                                                  (varAcc + var,nAcc + n)) (0., 0.)  
-//            var / n 
-//
-//
-//        /// <summary>
-//        ///   Computes the pooled variance of the given values
-//        /// </summary>
-//        let pooledVar (data:seq<#seq<float>>) =
-//            let sizes = data |> Seq.map Seq.length            
-//            
-//            let var,n =
-//                Seq.zip data sizes
-//                |> Seq.fold (fun (varAcc,nAcc) (sample,size) -> let n   = float size
-//                                                                let var = (varPopulation sample) * (n - 1.)
-//                                                                (varAcc + var,nAcc + n)) (0., 0.)  
-//            var / n 
-//
-//        /// <summary>
-//        ///   Computes the pooled population variance of the given values (Bessel's correction by N-1)
-//        /// </summary>
-//        /// 
-//        /// <param name="sizes">The number of samples</param>
-//        /// <param name="variances">The population variances for each samples.</param>
-//        let pooledVarPopulationOf (sizes:seq<int>) (variances:seq<float>) =            
-//            
-//            let var,n =
-//                Seq.zip variances sizes
-//                |> Seq.fold (fun (varAcc,nAcc) (variance,size) -> let n   = float (size - 1)
-//                                                                  let var = variance * n
-//                                                                  (varAcc + var,nAcc + n)) (0., 0.)  
-//            var / n 
-//
-//
-//        /// <summary>
-//        ///   Computes the pooled population variance of the given values (Bessel's correction by N-1)
-//        /// </summary>
-//        let pooledVarPopulation (data:seq<#seq<float>>) =
-//            let sizes = data |> Seq.map Seq.length            
-//            
-//            let var,n =
-//                Seq.zip data sizes
-//                |> Seq.fold (fun (varAcc,nAcc) (sample,size) -> let n   = float (size - 1)
-//                                                                let var = (varPopulation sample) * n
-//                                                                (varAcc + var,nAcc + n)) (0., 0.)  
-//            var / n 
-//
-//
-//        /// <summary>
-//        ///   Computes the pooled standard deviation of the given values
-//        /// </summary>
-//        ///
-//        /// <param name="sizes">The number of samples</param>
-//        /// <param name="variances">The population variances for each samples.</param>       
-//        let pooledStDevOf (sizes:seq<int>) (variances:seq<float>) =  
-//            sqrt (pooledVarOf sizes variances)
-//
-//
-//        /// <summary>
-//        ///   Computes the pooled standard deviation of the given values.
-//        /// </summary>       
-//        let pooledStDev (data:seq<#seq<float>>) = 
-//            sqrt (pooledVar data)
-//
-//
-//        /// <summary>
-//        ///   Computes the pooled population standard deviation of the given values (Bessel's correction by N-1)
-//        /// </summary>
-//        ///
-//        /// <param name="sizes">The number of samples</param>
-//        /// <param name="variances">The population variances for each samples.</param>       
-//        let pooledStDevPopulationOf (sizes:seq<int>) (variances:seq<float>) =  
-//            sqrt (pooledVarPopulationOf sizes variances)
-//
-//
-//        /// <summary>
-//        ///   Computes the pooled population standard deviation of the given values (Bessel's correction by N-1)
-//        /// </summary>       
-//        let pooledStDevPopulation (data:seq<#seq<float>>) = 
-//            sqrt (pooledVarPopulation data)
-//
-//
+    // ########################################################################
+    /// A module which implements helper functions to provide special statistical measures
+    module UtilityFunctions =
+        
+        /// <summary>
+        ///   Computes sum of squares
+        /// </summary>
+        ///
+        /// <param name="items">seq of float</param>
+        /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+        /// <returns>sum of squares</returns> 
+        let sumOfSquares (xData:seq<float>) (exData:seq<float>) =
+            let xX = Seq.zip xData exData 
+            Seq.fold (fun acc (x,ex) -> acc + square (x - ex)) 0. xX
+
+
+        /// <summary>
+        ///   Computes the pooled variance of the given values
+        /// </summary>
+        /// 
+        /// <param name="sizes">The number of samples</param>
+        /// <param name="variances">The population variances for each samples.</param>
+        let pooledVarOf (sizes:seq<int>) (variances:seq<float>) =            
+            
+            let var,n =
+                Seq.zip variances sizes
+                |> Seq.fold (fun (varAcc,nAcc) (variance,size) -> let n   = float size
+                                                                  let var = variance * (n - 1.)
+                                                                  (varAcc + var,nAcc + n)) (0., 0.)  
+            var / n 
+
+
+        /// <summary>
+        ///   Computes the pooled variance of the given values
+        /// </summary>
+        let pooledVar (data:seq<#seq<float>>) =
+            let sizes = data |> Seq.map Seq.length            
+            
+            let var,n =
+                Seq.zip data sizes
+                |> Seq.fold (fun (varAcc,nAcc) (sample,size) -> let n   = float size
+                                                                let var = (varPopulation sample) * (n - 1.)
+                                                                (varAcc + var,nAcc + n)) (0., 0.)  
+            var / n 
+
+        /// <summary>
+        ///   Computes the pooled population variance of the given values (Bessel's correction by N-1)
+        /// </summary>
+        /// 
+        /// <param name="sizes">The number of samples</param>
+        /// <param name="variances">The population variances for each samples.</param>
+        let pooledVarPopulationOf (sizes:seq<int>) (variances:seq<float>) =            
+            
+            let var,n =
+                Seq.zip variances sizes
+                |> Seq.fold (fun (varAcc,nAcc) (variance,size) -> let n   = float (size - 1)
+                                                                  let var = variance * n
+                                                                  (varAcc + var,nAcc + n)) (0., 0.)  
+            var / n 
+
+
+        /// <summary>
+        ///   Computes the pooled population variance of the given values (Bessel's correction by N-1)
+        /// </summary>
+        let pooledVarPopulation (data:seq<#seq<float>>) =
+            let sizes = data |> Seq.map Seq.length            
+            
+            let var,n =
+                Seq.zip data sizes
+                |> Seq.fold (fun (varAcc,nAcc) (sample,size) -> let n   = float (size - 1)
+                                                                let var = (varPopulation sample) * n
+                                                                (varAcc + var,nAcc + n)) (0., 0.)  
+            var / n 
+
+
+        /// <summary>
+        ///   Computes the pooled standard deviation of the given values
+        /// </summary>
+        ///
+        /// <param name="sizes">The number of samples</param>
+        /// <param name="variances">The population variances for each samples.</param>       
+        let pooledStDevOf (sizes:seq<int>) (variances:seq<float>) =  
+            sqrt (pooledVarOf sizes variances)
+
+
+        /// <summary>
+        ///   Computes the pooled standard deviation of the given values.
+        /// </summary>       
+        let pooledStDev (data:seq<#seq<float>>) = 
+            sqrt (pooledVar data)
+
+
+        /// <summary>
+        ///   Computes the pooled population standard deviation of the given values (Bessel's correction by N-1)
+        /// </summary>
+        ///
+        /// <param name="sizes">The number of samples</param>
+        /// <param name="variances">The population variances for each samples.</param>       
+        let pooledStDevPopulationOf (sizes:seq<int>) (variances:seq<float>) =  
+            sqrt (pooledVarPopulationOf sizes variances)
+
+
+        /// <summary>
+        ///   Computes the pooled population standard deviation of the given values (Bessel's correction by N-1)
+        /// </summary>       
+        let pooledStDevPopulation (data:seq<#seq<float>>) = 
+            sqrt (pooledVarPopulation data)
+
+
 //    // ########################################################################
 //    /// A module which implements functional matrix operations.
 //    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]

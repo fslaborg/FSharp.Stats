@@ -793,6 +793,11 @@ namespace FSharp.Stats
             let mA= a.NumRows
             createVecGU a.OpsData mA (fun i -> f a.[i])
 
+        let map2VecGU f (a:Vector<'a>) (b:Vector<'a>) : Vector<'a> = 
+            let mA= if a.NumRows = b.NumRows then a.NumRows else raise (ArgumentException("Vectors of different length."))                        
+            createVecGU a.OpsData mA (fun i -> f a.[i] b.[i])
+
+
         let copyDenseMatrixGU (a : DenseMatrix<'T>) : DenseMatrix<'T> = 
             let arrA = a.Values 
             createDenseMatrixGU a.OpsData a.NumRows a.NumCols (fun i j -> getArray2D arrA i j)
@@ -1710,6 +1715,8 @@ namespace FSharp.Stats
             | DenseRepr a -> DenseRepr(GU.mapDenseMatrixGU f a)
 
         let mapV  f a = GU.mapVecGU f a
+
+        let map2V  f a b = GU.map2VecGU f a b
 
         let copyM  a = 
             match a with 
