@@ -120,7 +120,7 @@ module Quantile =
 
 
         /// Estimates the q-th quantile from the unsorted data array. (in place)
-        let inline normalInPLace q (data:array<_>) =
+        let normalInPLace q (data:array<_>) =
             let f q (data:array<'a>) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
                 let h' = int h
@@ -233,7 +233,7 @@ module Quantile =
 
 
         /// Estimates the q-th quantile from the unsorted data array. (in place)
-        let inline normalInPLace q (data:array<_>) =
+        let normalInPLace q (data:array<_>) =
             let f q (data:array<'a>) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
                 let h' = int h

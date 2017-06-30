@@ -126,5 +126,6 @@ module Bandwidth =
         let bandUCV (value:float) = band_ucv_bin (value) (data.Length) (nb) (d) (cnt)
         let optFunction = new System.Func<float,float>(bandUCV)
         
-        MathNet.Numerics.RootFinding.Brent.FindRoot(optFunction, lower, upper)
+        //MathNet.Numerics.RootFinding.Brent.FindRoot(optFunction, lower, upper)
+        raise (System.NotImplementedException())
         
