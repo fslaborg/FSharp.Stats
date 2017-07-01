@@ -149,8 +149,8 @@ module Quantile =
             elif (h' >= data.Length || q = 1.) then
                 Array.max data
             else
-                let a = Array.quickSelectInPlace (h'-1) data
-                let b = Array.quickSelectInPlace h' data
+                let a = data.[h'-1]
+                let b = data.[h']
                 a + (h - float h') * (b - a);    
 
 
@@ -158,7 +158,7 @@ module Quantile =
         let empiricalInvCdfInPLace q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q + 0.5
-                Array.quickSelectInPlace (int (ceil (h-0.5))-1) data
+                data.[(int (ceil (h-0.5))-1)]
         
             quantileHelper f q data
 
@@ -168,8 +168,8 @@ module Quantile =
 
             let f q (data:array<_>) =
                 let h = float data.Length * q + 0.5
-                let a = Array.quickSelectInPlace (int (ceil (h - 0.5)) - 1) data
-                let b = Array.quickSelectInPlace (int (((h + 0.5) - 1.)*0.5)) data
+                let a = data.[ (int (ceil (h - 0.5)) - 1) ]
+                let b = data.[ (int (((h + 0.5) - 1.)*0.5)) ]
                 a + b
         
             quantileHelper f q data
@@ -179,7 +179,7 @@ module Quantile =
         let nearestInPLace q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q
-                Array.quickSelectInPlace (int (System.Math.Round(h)) - 1) data
+                data.[ (int (System.Math.Round(h)) - 1) ]
         
             quantileHelper f q data
 
@@ -189,8 +189,8 @@ module Quantile =
             let f q (data:array<_>) =
                 let h  = float data.Length * q
                 let h' = int h
-                let a = Array.quickSelectInPlace (h' - 1) data
-                let b = Array.quickSelectInPlace (h') data
+                let a = data.[ (h' - 1) ]
+                let b = data.[ (h') ]
                 a - (h - float h') * (b - a)
         
             quantileHelper f q data
@@ -201,8 +201,8 @@ module Quantile =
             let f q (data:array<_>) =
                 let h  = float data.Length * q + 0.5
                 let h' = int h
-                let a = Array.quickSelectInPlace (h' - 1) data
-                let b = Array.quickSelectInPlace (h') data
+                let a = data.[ (h' - 1) ]
+                let b = data.[ (h') ]
                 a - (h - float h') * (b - a)
         
             quantileHelper f q data        
@@ -213,8 +213,8 @@ module Quantile =
             let f q (data:array<_>) =
                 let h  = float (data.Length+1) * q
                 let h' = int h
-                let a = Array.quickSelectInPlace (h' - 1) data
-                let b = Array.quickSelectInPlace (h') data
+                let a = data.[ (h' - 1) ]
+                let b = data.[ (h') ]
                 a - (h - float h') * (b - a)
         
             quantileHelper f q data
@@ -225,8 +225,8 @@ module Quantile =
             let f q (data:array<_>) =                
                 let h  = float (data.Length+1) * q + 1.
                 let h' = int h
-                let a = Array.quickSelectInPlace (h' - 1) data
-                let b = Array.quickSelectInPlace (h') data
+                let a = data.[ (h' - 1) ]
+                let b = data.[ (h') ]
                 a - (h - float h') * (b - a)
         
             quantileHelper f q data
@@ -237,8 +237,8 @@ module Quantile =
             let f q (data:array<'a>) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
                 let h' = int h
-                let a = Array.quickSelectInPlace (h' - 1) data |> float
-                let b = Array.quickSelectInPlace (h') data |> float
+                let a = data.[ (h' - 1) ]
+                let b = data.[ (h') ]
                 a - (h - float h') * (b - a)
             
             quantileHelper f q data
@@ -328,4 +328,12 @@ module Quantile =
     let interQuantileRange (qf:QuantileFunction<'a>) (data:array<'a>) =
         (qf 0.75 data) - (qf 0.25 data)
         
+
+    /// Computes percentiles
+    /// percentiles: Each percentile must be between 0.0 and 1.0 (inclusive)
+    /// CalcMethod should be ofSorted array
+    let computePercentiles (calcMethod) (percentile:seq<float>) (data:seq<float>) =
+        let data' = data |> Seq.toArray |> Array.sort
+        let qtf = fun q -> calcMethod data'
+        percentile |> Seq.map qtf
 

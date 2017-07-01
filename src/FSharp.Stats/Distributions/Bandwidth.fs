@@ -59,33 +59,33 @@ module Bandwidth =
         (3.5 * ssd) / (xLength ** (1./3.))
 
 
-//    /// Calcultes bandwidth based on the Freedman–Diaconis rule
-//    let freedmanDiaconis (data:float[]) =
-//        let xLength = float data.Length
-//        if (xLength < 2. ) then raise (System.ArgumentException("need at least 2 data points"))
-//        let iqr = (Percentiles.IQR nist data) |> float
-//        (2. * iqr ) / (1./3.)
-//
-//
-//    //  It defaults to 0.9 times the minimum of the standard deviation and the interquartile range divided by 1.34 times
-//    //  the sample size to the negative one-fifth power (= Silverman's ‘rule of thumb’, Silverman (1986, page 48, eqn (3.31)) unless the quartiles coincide when a positive result will be guaranteed.
-//    /// Implements Silverman's ‘rule of thumb’ for choosing the bandwidth of a Gaussian kernel density estimator.
-//    let nrd0 (x:float[]) =
-//        let xLength = x.Length
-//        if (xLength < 2 ) then raise (System.ArgumentException("need at least 2 data points"))
-//        let hi = Seq.stDev x        
-//        let iqrX = (Percentiles.IQR nist x |> float) / 1.34 // # qnorm(.75) - qnorm(.25) = 1.34898
-//        let lo = let m = Array.min([|hi;iqrX|])
-//                 if (m = 0.0)  then
-//                    if hi <> 0. then
-//                        hi
-//                    elif abs(x.[0]) <> 0. then
-//                        abs(x.[0])
-//                    else
-//                        1.
-//                 else
-//                    m
-//        0.9 * lo * float(xLength)**(-0.2)
+    /// Calcultes bandwidth based on the Freedman–Diaconis rule
+    let freedmanDiaconis (data:float[]) =
+        let xLength = float data.Length
+        if (xLength < 2. ) then raise (System.ArgumentException("need at least 2 data points"))
+        let iqr = (Quantile.interQuantileRange Quantile.nist data) |> float
+        (2. * iqr ) / (1./3.)
+
+
+    //  It defaults to 0.9 times the minimum of the standard deviation and the interquartile range divided by 1.34 times
+    //  the sample size to the negative one-fifth power (= Silverman's ‘rule of thumb’, Silverman (1986, page 48, eqn (3.31)) unless the quartiles coincide when a positive result will be guaranteed.
+    /// Implements Silverman's ‘rule of thumb’ for choosing the bandwidth of a Gaussian kernel density estimator.
+    let nrd0 (x:float[]) =
+        let xLength = x.Length
+        if (xLength < 2 ) then raise (System.ArgumentException("need at least 2 data points"))
+        let hi = Seq.stDev x        
+        let iqrX = (Quantile.interQuantileRange Quantile.nist x |> float) / 1.34 // # qnorm(.75) - qnorm(.25) = 1.34898
+        let lo = let m = Array.min([|hi;iqrX|])
+                 if (m = 0.0)  then
+                    if hi <> 0. then
+                        hi
+                    elif abs(x.[0]) <> 0. then
+                        abs(x.[0])
+                    else
+                        1.
+                 else
+                    m
+        0.9 * lo * float(xLength)**(-0.2)
 
 
     //  Scott and Terrell, 1987 || Silverman, 1986
