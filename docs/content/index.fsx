@@ -4,16 +4,16 @@
 #I "../../bin"
 
 (**
-FSharp.Stats
-============
+# FSharp.Stats
+
 
 FSharp.Stats aims to be a user-friendly library for numerical and statistical computation written in F#.
 
 
-Example
--------
+## Example
 
-This example demonstrates using a function defined in FSharp.Stats library.
+
+This example demonstrates using a function defined in the FSharp.Stats library.
 
 *)
 #r "FSharp.Stats.dll"

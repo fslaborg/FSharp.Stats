@@ -5,7 +5,26 @@
 #r "../../packages/build/FSharp.Plotly/lib/net40/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
-dfdf
+
+#Optimization
+
+<a name="GradientDescent"></a>
+
+##GradientDescent
+
+<a name="LP"></a>
+
+##LP
+
+<a name="QP"></a>
+
+##QP
+
+<a name="QuasiNewton"></a>
+
+##QuasiNewton
+
+
 *)
 #r "D:/Source/FSharp.Stats/bin/FSharp.Stats.dll"
 //#r "FSharp.Stats.dll"

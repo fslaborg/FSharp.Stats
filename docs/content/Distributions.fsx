@@ -5,12 +5,36 @@
 #r "../../packages/build/FSharp.Plotly/lib/net40/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
-Probability Distributions
-=========================
+#Probability Distributions
+
 
 FSharp.Stats a provides a wide range of probability distributions. Given the
 distribution parameters they can be used to investigate their statistical properties
 or to sample non-uniform random numbers.
+
+<a name="Bandwidth"></a>
+
+##Bandwidth
+
+<a name="Frequency"></a>
+
+##Frequency
+
+<a name="Empirical"></a>
+
+##Empirical
+
+<a name="Distribution"></a>
+
+##Distribution
+
+<a name="Continuous"></a>
+
+##Continuous
+
+<a name="Discrete"></a>
+
+##Discrete
 
 *)
 #r "FSharp.Stats.dll"

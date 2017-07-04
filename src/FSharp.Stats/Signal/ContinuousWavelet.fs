@@ -4,7 +4,7 @@ open FSharp.Stats
 
 
 
-module ContinousWavelet =
+module ContinuousWavelet =
     
     let transform x = raise (System.NotImplementedException())
 

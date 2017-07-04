@@ -5,7 +5,34 @@
 #r "../../packages/build/FSharp.Plotly/lib/net40/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
-dfdf
+#Special Functions
+
+<a name="Gamma"></a>
+
+##Gamma
+
+<a name="Factorial"></a>
+
+##Factorial
+
+<a name="Beta"></a>
+
+##Beta
+
+<a name="Erf"></a>
+
+##Error Function
+
+<a name="Logistics"></a>
+
+##Logistics
+
+<a name="Binomial"></a>
+
+##Binomial
+
+
+
 *)
 //#r "D:/Source/FSharp.Stats/bin/FSharp.Stats.dll"
 #r "FSharp.Stats.dll"

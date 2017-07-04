@@ -125,7 +125,7 @@
     <Compile Include="Fitting\Regression.fs" />
     <!-- Signal -->
     <Compile Include="Signal\Wavelet.fs" />
-    <Compile Include="Signal\ContinousWavelet.fs" />
+    <Compile Include="Signal\ContinuousWavelet.fs" />
     <Compile Include="Signal\Baseline.fs" />
     <Compile Include="Signal\Filtering.fs" />
     <!-- Content -->

@@ -5,10 +5,19 @@
 #r "../../packages/build/FSharp.Plotly/lib/net40/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
-Statistical testing
-===================
 
-FSharp.Stats a provides 
+
+#Fitting
+
+<a name="Linear"></a>
+
+##Linear Regression
+
+<a name="Polynomial"></a>
+
+##Polynomial Regression
+
+
 
 
 
