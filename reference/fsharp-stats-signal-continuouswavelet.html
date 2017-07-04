@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Anova - FSharp.Stats</title>
+    <title>ContinuousWavelet - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -35,37 +35,14 @@
 
 
 
-<h1>Anova</h1>
+<h1>ContinuousWavelet</h1>
 <p>
-  <span>Namespace: FSharp.Stats.Testing</span><br />
+  <span>Namespace: FSharp.Stats.Signal</span><br />
 </p>
 <div class="xmldoc">
 </div>
 
 <!-- Render nested types and modules, if there are any -->
-  <h2>Nested types and modules</h2>
-  <div>
-      <table class="table table-bordered type-list">
-    <thead>
-      <tr><td>Type</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td class="type-name">
-            <a href="fsharp-stats-testing-anova-anovavariationsource.html">AnovaVariationSource</a>
-          </td>
-          <td class="xmldoc"></td>
-        </tr>
-        <tr>
-          <td class="type-name">
-            <a href="fsharp-stats-testing-anova-variationsource.html">VariationSource</a>
-          </td>
-          <td class="xmldoc"></td>
-        </tr>
-    </tbody>
-  </table>
-
-  </div>
 
   <h3>Functions and values</h3>
   <table class="table table-bordered member-list">
@@ -76,40 +53,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1081', 1081)" onmouseover="showTip(event, '1081', 1081)">
-            createAnovaVariationSource (...)
+          <code onmouseout="hideTip(event, '1064', 1064)" onmouseover="showTip(event, '1064', 1064)">
+            transform x
           </code>
-          <div class="tip" id="1081">
-            <strong>Signature:</strong> degreesOfFreedom:float -&gt; meanSquares:float -&gt; significance:float -&gt; source:VariationSource -&gt; statistic:float -&gt; sumOfSquares:float -&gt; AnovaVariationSource<br />
-                      </div>
+          <div class="tip" id="1064">
+            <strong>Signature:</strong> x:&#39;?8531 -&gt; &#39;?8532<br />
+                          <strong>Type parameters:</strong> '?8531, '?8532          </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/Anova.fs#L25-25" class="github-link">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/ContinuousWavelet.fs#L9-9" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
           
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '1082', 1082)" onmouseover="showTip(event, '1082', 1082)">
-            oneWayAnova samples
-          </code>
-          <div class="tip" id="1082">
-            <strong>Signature:</strong> samples:seq&lt;&#39;?8071&gt; -&gt; AnovaVariationSource<br />
-                          <strong>Type parameters:</strong> '?8071          </div>
-        </td>
-        <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/Anova.fs#L32-32" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Calculates one-way analysis of variance (one-way ANOVA) which is a technique used to compare means of two or more samples (using the F distribution)
-The ANOVA tests the null hypothesis that samples in two or more groups are drawn from populations with the same mean values.</p>
-
-
         </td>
       </tr>
     </tbody>
