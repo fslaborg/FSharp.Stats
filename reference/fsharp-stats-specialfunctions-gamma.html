@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Gamma - FSharp.Stats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Timo Mühlhaus"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>Gamma</h1>
+<p>
+  <span>Namespace: FSharp.Stats.SpecialFunctions</span><br />
+</p>
+<div class="xmldoc">
+<p>Special mathematical functions</p>
+
+</div>
+
+<!-- Render nested types and modules, if there are any -->
+
+  <h3>Functions and values</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Function or value</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1076', 1076)" onmouseover="showTip(event, '1076', 1076)">
+            gamma z
+          </code>
+          <div class="tip" id="1076">
+            <strong>Signature:</strong> z:float&lt;MeasureOne&gt; -&gt; float<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Gamma.fs#L11-11" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Computes the gamma function using the Lanczos Coefficients described in Numerical Recipes (Press et al)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1077', 1077)" onmouseover="showTip(event, '1077', 1077)">
+            gammaLn z
+          </code>
+          <div class="tip" id="1077">
+            <strong>Signature:</strong> z:float&lt;MeasureOne&gt; -&gt; float&lt;MeasureOne&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Gamma.fs#L23-23" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Computes the log gamma function using the Lanczos Coefficients described in Numerical Recipes (Press et al)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1078', 1078)" onmouseover="showTip(event, '1078', 1078)">
+            lowerIncomplete a x
+          </code>
+          <div class="tip" id="1078">
+            <strong>Signature:</strong> a:float&lt;MeasureOne&gt; -&gt; x:float&lt;MeasureOne&gt; -&gt; float&lt;MeasureOne&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Gamma.fs#L137-137" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Returns the incomplete gamma function P(a,X) (regularized gamma)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1079', 1079)" onmouseover="showTip(event, '1079', 1079)">
+            upperIncomplete a x
+          </code>
+          <div class="tip" id="1079">
+            <strong>Signature:</strong> a:float&lt;MeasureOne&gt; -&gt; x:float&lt;MeasureOne&gt; -&gt; float&lt;MeasureOne&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Gamma.fs#L151-151" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Returns the incomplete gamma function Q(a,X) = 1 - P(a,X) (regularized gamma)</p>
+
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">FSharp.Stats</li>
+            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+            <li><a href="/FSharp.Stats/license.html">License</a></li>
+            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>

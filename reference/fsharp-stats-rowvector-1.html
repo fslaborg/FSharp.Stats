@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>RowVector<'T> - FSharp.Stats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Timo Mühlhaus"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>RowVector<'T></h1>
+<p>
+  <span>Namespace: FSharp.Stats</span><br />
+</p>
+<div class="xmldoc">
+</div>
+  <h3>Constructors</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Constructor</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1372', 1372)" onmouseover="showTip(event, '1372', 1372)">
+            new(opsRV, arrRV)
+          </code>
+          <div class="tip" id="1372">
+            <strong>Signature:</strong> (opsRV:INumeric&lt;&#39;T&gt; option * arrRV:&#39;T array) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L181-181" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>.ctor</code></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Instance members</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Instance member</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1373', 1373)" onmouseover="showTip(event, '1373', 1373)">
+            DebugDisplay
+          </code>
+          <div class="tip" id="1373">
+            <strong>Signature:</strong> StringBuilder<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2131-2131" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_DebugDisplay</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1374', 1374)" onmouseover="showTip(event, '1374', 1374)">
+            Details
+          </code>
+          <div class="tip" id="1374">
+            <strong>Signature:</strong> &#39;T array<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2137-2137" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_Details</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1375', 1375)" onmouseover="showTip(event, '1375', 1375)">
+            ElementOps
+          </code>
+          <div class="tip" id="1375">
+            <strong>Signature:</strong> INumeric&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L203-203" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_ElementOps</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1376', 1376)" onmouseover="showTip(event, '1376', 1376)">
+            GetSlice(start, finish)
+          </code>
+          <div class="tip" id="1376">
+            <strong>Signature:</strong> (start:int option * finish:int option) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2119-2119" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1377', 1377)" onmouseover="showTip(event, '1377', 1377)">
+            InternalValues
+          </code>
+          <div class="tip" id="1377">
+            <strong>Signature:</strong> &#39;T array<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L191-191" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_InternalValues</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1378', 1378)" onmouseover="showTip(event, '1378', 1378)">
+            [i]
+          </code>
+          <div class="tip" id="1378">
+            <strong>Signature:</strong> i:int -&gt; &#39;T<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L210-210" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>set_Item</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1379', 1379)" onmouseover="showTip(event, '1379', 1379)">
+            [()]
+          </code>
+          <div class="tip" id="1379">
+            <strong>Signature:</strong> unit -&gt; int<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L209-209" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_Item</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1380', 1380)" onmouseover="showTip(event, '1380', 1380)">
+            Length
+          </code>
+          <div class="tip" id="1380">
+            <strong>Signature:</strong> int<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L201-201" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_Length</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1381', 1381)" onmouseover="showTip(event, '1381', 1381)">
+            NumCols
+          </code>
+          <div class="tip" id="1381">
+            <strong>Signature:</strong> int<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L202-202" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_NumCols</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1382', 1382)" onmouseover="showTip(event, '1382', 1382)">
+            OpsData
+          </code>
+          <div class="tip" id="1382">
+            <strong>Signature:</strong> INumeric&lt;&#39;T&gt; option<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L193-193" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_OpsData</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1383', 1383)" onmouseover="showTip(event, '1383', 1383)">
+            Permute(p)
+          </code>
+          <div class="tip" id="1383">
+            <strong>Signature:</strong> p:permutation -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2141-2141" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1384', 1384)" onmouseover="showTip(event, '1384', 1384)">
+            SetSlice(start, finish, vs)
+          </code>
+          <div class="tip" id="1384">
+            <strong>Signature:</strong> (start:int option * finish:int option * vs:RowVector&lt;&#39;T&gt;) -&gt; unit<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2124-2124" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1385', 1385)" onmouseover="showTip(event, '1385', 1385)">
+            StructuredDisplayAsArray
+          </code>
+          <div class="tip" id="1385">
+            <strong>Signature:</strong> &#39;T []<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2135-2135" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_StructuredDisplayAsArray</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1386', 1386)" onmouseover="showTip(event, '1386', 1386)">
+            Transpose
+          </code>
+          <div class="tip" id="1386">
+            <strong>Signature:</strong> Vector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2139-2139" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_Transpose</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1387', 1387)" onmouseover="showTip(event, '1387', 1387)">
+            Values
+          </code>
+          <div class="tip" id="1387">
+            <strong>Signature:</strong> &#39;T array<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L192-192" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>get_Values</code></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Static members</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Static member</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1388', 1388)" onmouseover="showTip(event, '1388', 1388)">
+            ( - )(k, v)
+          </code>
+          <div class="tip" id="1388">
+            <strong>Signature:</strong> (k:&#39;T * v:RowVector&lt;&#39;T&gt;) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2117-2117" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Subtraction</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1389', 1389)" onmouseover="showTip(event, '1389', 1389)">
+            ( - )(v, k)
+          </code>
+          <div class="tip" id="1389">
+            <strong>Signature:</strong> (v:RowVector&lt;&#39;T&gt; * k:&#39;T) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2116-2116" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Subtraction</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1390', 1390)" onmouseover="showTip(event, '1390', 1390)">
+            ( - )(a, b)
+          </code>
+          <div class="tip" id="1390">
+            <strong>Signature:</strong> (a:RowVector&lt;&#39;T&gt; * b:RowVector&lt;&#39;T&gt;) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2101-2101" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Subtraction</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1391', 1391)" onmouseover="showTip(event, '1391', 1391)">
+            ( * )(v, k)
+          </code>
+          <div class="tip" id="1391">
+            <strong>Signature:</strong> (v:RowVector&lt;&#39;T&gt; * k:&#39;T) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2107-2107" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Multiply</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1392', 1392)" onmouseover="showTip(event, '1392', 1392)">
+            ( * )(a, b)
+          </code>
+          <div class="tip" id="1392">
+            <strong>Signature:</strong> (a:RowVector&lt;&#39;T&gt; * b:Vector&lt;&#39;T&gt;) -&gt; &#39;T<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2106-2106" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Multiply</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1393', 1393)" onmouseover="showTip(event, '1393', 1393)">
+            ( * )(a, b)
+          </code>
+          <div class="tip" id="1393">
+            <strong>Signature:</strong> (a:RowVector&lt;&#39;T&gt; * b:Matrix&lt;&#39;T&gt;) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2105-2105" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Multiply</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1394', 1394)" onmouseover="showTip(event, '1394', 1394)">
+            ( * )(k, v)
+          </code>
+          <div class="tip" id="1394">
+            <strong>Signature:</strong> (k:&#39;T * v:RowVector&lt;&#39;T&gt;) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2103-2103" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Multiply</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1395', 1395)" onmouseover="showTip(event, '1395', 1395)">
+            ( .* )(a, b)
+          </code>
+          <div class="tip" id="1395">
+            <strong>Signature:</strong> (a:RowVector&lt;&#39;T&gt; * b:RowVector&lt;&#39;T&gt;) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2102-2102" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_DotMultiply</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1396', 1396)" onmouseover="showTip(event, '1396', 1396)">
+            ( ~- )(v)
+          </code>
+          <div class="tip" id="1396">
+            <strong>Signature:</strong> v:RowVector&lt;&#39;T&gt; -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2109-2109" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_UnaryNegation</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1397', 1397)" onmouseover="showTip(event, '1397', 1397)">
+            ( ~+ )(v)
+          </code>
+          <div class="tip" id="1397">
+            <strong>Signature:</strong> v:RowVector&lt;&#39;T&gt; -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2110-2110" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_UnaryPlus</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1398', 1398)" onmouseover="showTip(event, '1398', 1398)">
+            ( + )(k, v)
+          </code>
+          <div class="tip" id="1398">
+            <strong>Signature:</strong> (k:&#39;T * v:RowVector&lt;&#39;T&gt;) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2114-2114" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Addition</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1399', 1399)" onmouseover="showTip(event, '1399', 1399)">
+            ( + )(v, k)
+          </code>
+          <div class="tip" id="1399">
+            <strong>Signature:</strong> (v:RowVector&lt;&#39;T&gt; * k:&#39;T) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2113-2113" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Addition</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1400', 1400)" onmouseover="showTip(event, '1400', 1400)">
+            ( + )(a, b)
+          </code>
+          <div class="tip" id="1400">
+            <strong>Signature:</strong> (a:RowVector&lt;&#39;T&gt; * b:RowVector&lt;&#39;T&gt;) -&gt; RowVector&lt;&#39;T&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L2100-2100" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Addition</code></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">FSharp.Stats</li>
+            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+            <li><a href="/FSharp.Stats/license.html">License</a></li>
+            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>

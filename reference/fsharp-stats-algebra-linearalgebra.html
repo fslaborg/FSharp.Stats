@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>LinearAlgebra - FSharp.Stats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Timo Mühlhaus"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>LinearAlgebra</h1>
+<p>
+  <span>Namespace: FSharp.Stats.Algebra</span><br />
+</p>
+<div class="xmldoc">
+</div>
+
+<!-- Render nested types and modules, if there are any -->
+
+  <h3>Functions and values</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Function or value</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '929', 929)" onmouseover="showTip(event, '929', 929)">
+            Cholesky a
+          </code>
+          <div class="tip" id="929">
+            <strong>Signature:</strong> a:matrix -&gt; Matrix&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L101-101" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Given A[n,n] real symmetric positive definite.
+Finds the cholesky decomposition L such that L' * L = A.
+May fail if not positive definite.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '930', 930)" onmouseover="showTip(event, '930', 930)">
+            EigenSpectrum m
+          </code>
+          <div class="tip" id="930">
+            <strong>Signature:</strong> m:&#39;?10232 -&gt; &#39;?10233<br />
+                          <strong>Type parameters:</strong> '?10232, '?10233          </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L46-46" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Compute eigenvalue/eigenvector decomposition of a square real matrix.
+Returns two arrays containing the eigenvalues and eigenvectors, which may be complex.
+This call may fail.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '931', 931)" onmouseover="showTip(event, '931', 931)">
+            EigenSpectrumWhenSymmetric a
+          </code>
+          <div class="tip" id="931">
+            <strong>Signature:</strong> a:&#39;?10241 -&gt; &#39;?10242<br />
+                          <strong>Type parameters:</strong> '?10241, '?10242          </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L76-76" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Compute eigenvalues and eigenvectors for a real symmetric matrix.
+Returns arrays of the values and vectors (both based on reals).
+This call may fail.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '932', 932)" onmouseover="showTip(event, '932', 932)">
+            EigenValues m
+          </code>
+          <div class="tip" id="932">
+            <strong>Signature:</strong> m:&#39;?10235 -&gt; &#39;?10236<br />
+                          <strong>Type parameters:</strong> '?10235, '?10236          </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L56-56" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Compute eigenvalues of a square real matrix.
+Returns arrays containing the eigenvalues which may be complex.
+This call may fail.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '933', 933)" onmouseover="showTip(event, '933', 933)">
+            EigenValuesWhenSymmetric a
+          </code>
+          <div class="tip" id="933">
+            <strong>Signature:</strong> a:&#39;?10238 -&gt; &#39;?10239<br />
+                          <strong>Type parameters:</strong> '?10238, '?10239          </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L66-66" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Compute eigenvalues for a real symmetric matrix.
+Returns array of real eigenvalues.
+This call may fail.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '934', 934)" onmouseover="showTip(event, '934', 934)">
+            Hessenberg A
+          </code>
+          <div class="tip" id="934">
+            <strong>Signature:</strong> A:matrix -&gt; matrix * Matrix&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L128-128" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '935', 935)" onmouseover="showTip(event, '935', 935)">
+            Inverse a
+          </code>
+          <div class="tip" id="935">
+            <strong>Signature:</strong> a:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L85-85" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Given A[n,n] find it's inverse.
+This call may fail.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '936', 936)" onmouseover="showTip(event, '936', 936)">
+            LeastSquares a b
+          </code>
+          <div class="tip" id="936">
+            <strong>Signature:</strong> a:Matrix&lt;float&gt; -&gt; b:vector -&gt; Vector&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L93-93" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Given A[m,n] and B[m] solves AX = B for X[n].
+When m=&gt;n, have over constrained system, finds least squares solution for X.
+When m&lt;n, have under constrained system, finds least norm solution for X.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '937', 937)" onmouseover="showTip(event, '937', 937)">
+            LU a
+          </code>
+          <div class="tip" id="937">
+            <strong>Signature:</strong> a:Matrix&lt;float&gt; -&gt; (int -&gt; int) * Matrix&lt;float&gt; * Matrix&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L108-108" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Given A[n,n] real matrix.
+Finds P,L,U such that L<em>U = P</em>A with L,U lower/upper triangular.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '938', 938)" onmouseover="showTip(event, '938', 938)">
+            preDivideByMatrix a b
+          </code>
+          <div class="tip" id="938">
+            <strong>Signature:</strong> a:matrix -&gt; b:matrix -&gt; Matrix&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L38-38" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Given A[n,m] and B[n,k] solve for X[m,k] such that AX = B
+This call may fail.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '939', 939)" onmouseover="showTip(event, '939', 939)">
+            preDivideByVector A b
+          </code>
+          <div class="tip" id="939">
+            <strong>Signature:</strong> A:matrix -&gt; b:vector -&gt; Vector&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L30-30" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Given A[n,m] and B[n] solve for x[m] such that Ax = B
+This call may fail.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '940', 940)" onmouseover="showTip(event, '940', 940)">
+            QR a
+          </code>
+          <div class="tip" id="940">
+            <strong>Signature:</strong> a:matrix -&gt; matrix * Matrix&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L117-117" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Given A[m,n] finds Q[m,m] and R[k,n] where k = min m n.
+Have A = Q.R  when m<=n.
+Have A = Q.RX when m>n and RX[m,n] is R[n,n] row extended with (m-n) zero rows.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '941', 941)" onmouseover="showTip(event, '941', 941)">
+            SolveLinearSystem A b
+          </code>
+          <div class="tip" id="941">
+            <strong>Signature:</strong> A:matrix -&gt; b:vector -&gt; Vector&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L18-18" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '942', 942)" onmouseover="showTip(event, '942', 942)">
+            SolveLinearSystems A B
+          </code>
+          <div class="tip" id="942">
+            <strong>Signature:</strong> A:matrix -&gt; B:matrix -&gt; Matrix&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L23-23" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '943', 943)" onmouseover="showTip(event, '943', 943)">
+            SolveTriangularLinearSystem A b isLower
+          </code>
+          <div class="tip" id="943">
+            <strong>Signature:</strong> A:matrix -&gt; b:vector -&gt; isLower:bool -&gt; Vector&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L8-8" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '944', 944)" onmouseover="showTip(event, '944', 944)">
+            SolveTriangularLinearSystems A B isLower
+          </code>
+          <div class="tip" id="944">
+            <strong>Signature:</strong> A:matrix -&gt; B:matrix -&gt; isLower:bool -&gt; Matrix&lt;float&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L13-13" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '945', 945)" onmouseover="showTip(event, '945', 945)">
+            SVD a
+          </code>
+          <div class="tip" id="945">
+            <strong>Signature:</strong> a:&#39;?10249 -&gt; &#39;?10250<br />
+                          <strong>Type parameters:</strong> '?10249, '?10250          </div>
+        </td>
+        <td class="xmldoc">
+            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L122-122" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">FSharp.Stats</li>
+            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+            <li><a href="/FSharp.Stats/license.html">License</a></li>
+            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>
