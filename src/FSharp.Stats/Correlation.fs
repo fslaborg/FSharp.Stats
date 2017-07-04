@@ -3,7 +3,7 @@
 module Correlation =
 
     /// Pearson correlation 
-    let inline pearsonCorr (seq1:seq<'T>) (seq2:seq<'T>) : float =
+    let inline pearson (seq1:seq<'T>) (seq2:seq<'T>) : float =
         use e = seq1.GetEnumerator()
         use e2 = seq2.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'T > 
@@ -29,12 +29,12 @@ module Correlation =
         loop zero zero zero zero zero zero
     
     /// Spearman Correlation (with ranks)
-    let spearmanCorr array1 array2 =
+    let spearman array1 array2 =
     
         let spearRank1 = FSharp.Stats.Rank.rankFirst array1 
         let spearRank2 = FSharp.Stats.Rank.rankFirst array2
 
-        pearsonCorr spearRank1 spearRank2
+        pearson spearRank1 spearRank2
 
     /// Kendall Correlation Coefficient 
     let kendall (setA:_[]) (setB:_[]) =
