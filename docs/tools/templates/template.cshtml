@@ -42,11 +42,33 @@
             <li><a href="@Properties["project-nuget"]">Get Library via NuGet</a></li>
             <li><a href="@Properties["project-github"]">Source Code on GitHub</a></li>
             <li><a href="@Root/license.html">License</a></li>
-            <li><a href="@Root/release-notes.html">Release Notes</a></li>
-            
+            <li><a href="@Root/release-notes.html">Release Notes</a></li>           
             <li class="nav-header">Getting started</li>
             <li><a href="@Root/tutorial.html">Sample tutorial</a></li>
-
+			<li class="nav-header">Basic</li>
+			<li><a href="@Root/Summary.html">Summary</a>
+			@if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Summary.fsx"))
+            {
+				<ul class="nav nav-list">
+				<li><a href="@Root/Summary.html#Mean">Mean</a></li>
+				<li><a href="@Root/Summary.html#Median">Median</a></li>
+				<li><a href="@Root/Summary.html#Std">Standard Deviation</a></li>
+				</ul>
+            }
+			</li>
+			<li><a href="@Root/Correlation.html">Correlation</a></li>
+			<li><a href="@Root/Covariance.html">Covariance</a></li>
+			<li><a href="@Root/Rank.html">Rank</a></li>
+			<li class="divider"></li>
+			<li><a href="@Root/Matrix_Vector.html">Matrix and Vector</a></li>
+			@if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Matrix_Vector.fsx"))
+              {
+				  <ul class="nav nav-list">
+				  	<li><a href="@Root/Matrix_Vector.html#Vector">Vector</a></li>
+					<li><a href="@Root/Matrix_Vector.html#Matrix">Matrix</a></li>
+				  </ul>
+              }
+			  </li>
             <li class="nav-header">Documentation</li>
             <li><a href="@Root/reference/index.html">API Reference</a></li>
           </ul>
