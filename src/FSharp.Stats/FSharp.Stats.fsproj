@@ -85,6 +85,7 @@
     <!-- Col -->
     <!-- SpecialFunctions -->
     <Compile Include="Correlation.fs" />
+    <Compile Include="Quantile.fs" />
     <Compile Include="SpecialFunctions\Gamma.fs" />
     <Compile Include="SpecialFunctions\Factorial.fs" />
     <Compile Include="SpecialFunctions\Beta.fs" />
@@ -94,6 +95,7 @@
     <!-- Algebra -->
     <Compile Include="Algebra\NativeArray.fs" />
     <Compile Include="Algebra\NativeArrayExtensions.fs" />
+    <Compile Include="Algebra\NativeUtilities.fs" />
     <Compile Include="Algebra\ILinearAlgebra.fs" />
     <Compile Include="Algebra\LinearAlgebraServiceManaged.fs" />
     <Compile Include="Algebra\LinearAlgebraServiceMKL.fs" />
@@ -106,6 +108,7 @@
     <Compile Include="Optimization\QP.fs" />
     <Compile Include="Optimization\QuasiNewton.fs" />
     <!-- Distributions -->
+    <Compile Include="Distributions\Bandwidth.fs" />
     <Compile Include="Distributions\Frequency.fs" />
     <Compile Include="Distributions\Empirical.fs" />
     <Compile Include="Distributions\Distribution.fs" />
@@ -123,7 +126,7 @@
     <Compile Include="Fitting\Regression.fs" />
     <!-- Signal -->
     <Compile Include="Signal\Wavelet.fs" />
-    <Compile Include="Signal\ContinousWavelet.fs" />
+    <Compile Include="Signal\ContinuousWavelet.fs" />
     <Compile Include="Signal\Baseline.fs" />
     <Compile Include="Signal\Filtering.fs" />
     <!-- Content -->
@@ -180,14 +183,6 @@ xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.1'">
-      <ItemGroup>
-        <Reference Include="System.Numerics.Vectors">
-          <HintPath>..\..\packages\System.Numerics.Vectors\ref\net46\System.Numerics.Vectors.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.1'" />
   </Choose>
 </Project>

@@ -14,7 +14,28 @@ module Intervals =
     /// Creates closed interval [min,max] by given start and size
     let ofSize min size =
         ClosedInterval (min, min + size)
-        
+
+    /// Returns min and max value of Interval [min,max]
+    let inline values (interval:Interval<'a>) =
+        let zero = LanguagePrimitives.GenericZero< 'a >
+        match interval with
+        | ClosedInterval (min,max) -> min,max
+        | Empty -> (zero / zero,zero / zero)
+    
+    /// Returns min/start value of Interval [min,max]
+    let inline getStart (interval:Interval<'a>) =
+        let zero = LanguagePrimitives.GenericZero< 'a >
+        match interval with
+        | ClosedInterval (min,_) -> min
+        | Empty -> zero / zero
+
+    /// Returns max/end value of Interval [min,max]
+    let inline getEnd (interval:Interval<'a>) =
+        let zero = LanguagePrimitives.GenericZero< 'a >
+        match interval with
+        | ClosedInterval (_,max) -> max
+        | Empty -> zero / zero
+
 
     /// Returns the size of an closed interval
     let inline trySize interval =

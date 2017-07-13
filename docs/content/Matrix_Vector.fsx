@@ -4,7 +4,19 @@
 #I "../../bin"
 
 (**
-dfdf
+#Matrix and Vector
+
+
+<a name="Vector"></a>
+
+##Vector
+
+<a name="Matrix"></a>
+
+##Matrix
+
+
+
 *)
 //#r "D:/Source/FSharp.Stats/bin/FSharp.Stats.dll"
 #r "FSharp.Stats.dll"
@@ -65,10 +77,11 @@ A + 1.
 v + 1.
 rv + 1.
 
+let () =
+    let assemblyProbeDirectory =  "D:/Source/FSharp.Stats/lib"
+    System.IO.Directory.SetCurrentDirectory(assemblyProbeDirectory)
 
-
-
-
+LinearAlgebraMKL.dgesdd_ A
 
 
 
