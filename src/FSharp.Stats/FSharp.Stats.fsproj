@@ -95,6 +95,7 @@
     <!-- Algebra -->
     <Compile Include="Algebra\NativeArray.fs" />
     <Compile Include="Algebra\NativeArrayExtensions.fs" />
+    <Compile Include="Algebra\NativeUtilities.fs" />
     <Compile Include="Algebra\ILinearAlgebra.fs" />
     <Compile Include="Algebra\LinearAlgebraServiceManaged.fs" />
     <Compile Include="Algebra\LinearAlgebraServiceMKL.fs" />
