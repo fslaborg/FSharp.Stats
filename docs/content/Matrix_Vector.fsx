@@ -77,10 +77,11 @@ A + 1.
 v + 1.
 rv + 1.
 
+let () =
+    let assemblyProbeDirectory =  "D:/Source/FSharp.Stats/lib"
+    System.IO.Directory.SetCurrentDirectory(assemblyProbeDirectory)
 
-
-
-
+LinearAlgebraMKL.dgesdd_ A
 
 
 
