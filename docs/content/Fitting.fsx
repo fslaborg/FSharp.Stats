@@ -17,6 +17,10 @@ open FSharp.Plotly
 
 ##Polynomial Regression
 
+<a name="Hermite"></a>
+
+##Hermite Spline Regression
+
 
 
 
@@ -95,5 +99,35 @@ Regression.Polynomial.calculateANOVA 2 coeff' xVector' yVector'
 |> Chart.Combine
 (*** include-it:polynomial1 ***)
 
+
+
+
+(**
+Hermite Spline Regression
+-----------------
+*)
+
+
+
+
+let x = vector [0.0;1.0;2.0;3.0;4.5;5.1;7.6;] 
+let y = vector [2.2;5.5;7.7;9.9;11.1;12.3;13.9]
+
+// Weigth matrix with equal weights
+let W = Matrix.diag (Vector.ones y.Length)
+
+let a,e,b,c = Hermite.splineIncreasing x y W 10.0
+
+let t = [0.0 .. 0.01 .. 7.5]
+
+let eval = Hermite.initEvalAt x a c
+
+(*** define-output:hermitespline1 ***)
+[
+    Chart.Point(x,y)
+    Chart.Point(t,t |> Seq.map eval)
+]
+|> Chart.Combine
+(*** include-it:hermitespline1 ***)
 
 

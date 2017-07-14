@@ -124,6 +124,7 @@
     <Compile Include="Testing\PvalueAdjust.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\Regression.fs" />
+    <Compile Include="Fitting\Hermite.fs" />
     <!-- Signal -->
     <Compile Include="Signal\Wavelet.fs" />
     <Compile Include="Signal\ContinuousWavelet.fs" />
