@@ -25,20 +25,23 @@ module Ops =
     /// Returs true if x is Float infinity
     let isInf x = System.Double.IsInfinity x  
 
-
-
     /// Returns the reverted log2 (2^x)
     let revLog2 x = 2.**x
 
     /// Returns x squared (x^2)
     let inline square x = x * x
 
-
+    ///
     let arsinh x =  
         x + sqrt(square x + 1.) |> log
-
 
     /// Rounds a double-precision floating-point value to a specified number of fractional digits.  
     let round (digits:int) (x:float) =
         System.Math.Round(x, digits)
     
+    /// Signum function, assigns a positive sign to a with respect to the signing of b. 
+    let signum (a:float) (b:float) =
+        if b >= 0. then 
+            if a >= 0. then a else -a
+        else
+            if a >= 0. then -a else a 
