@@ -86,6 +86,7 @@
     <!-- SpecialFunctions -->
     <Compile Include="Correlation.fs" />
     <Compile Include="Quantile.fs" />
+    <Compile Include="Precision.fs" />
     <Compile Include="SpecialFunctions\Gamma.fs" />
     <Compile Include="SpecialFunctions\Factorial.fs" />
     <Compile Include="SpecialFunctions\Beta.fs" />
@@ -100,8 +101,9 @@
     <Compile Include="Algebra\LinearAlgebraServiceManaged.fs" />
     <Compile Include="Algebra\LinearAlgebraServiceMKL.fs" />
     <Compile Include="Algebra\LinearAlgebra.fs" />
-    <!-- Integration -->
+    <Compile Include="Integration\Differentiation.fs" />
     <Compile Include="Integration\Integration.fs" />
+    <!-- Integration -->
     <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
     <Compile Include="Optimization\LP.fs" />
@@ -122,6 +124,10 @@
     <Compile Include="Testing\Bartlett.fs" />
     <Compile Include="Testing\PostHoc.fs" />
     <Compile Include="Testing\PvalueAdjust.fs" />
+    <!-- RootFinding -->
+    <Compile Include="RootFinding\Brent.fs" />
+    <!-- Interpolation -->
+    <Compile Include="Interpolation\CubicSpline.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\Regression.fs" />
     <!-- Signal -->
