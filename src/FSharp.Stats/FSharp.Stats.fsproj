@@ -132,6 +132,7 @@
     <Compile Include="Fitting\Regression.fs" />
     <Compile Include="Fitting\Hermite.fs" />
     <!-- Signal -->
+    <Compile Include="Signal\FFT.fs" />
     <Compile Include="Signal\Wavelet.fs" />
     <Compile Include="Signal\ContinuousWavelet.fs" />
     <Compile Include="Signal\Baseline.fs" />
