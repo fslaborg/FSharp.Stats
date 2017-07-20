@@ -6,26 +6,32 @@
 module Array =
 
 
-    let range (items:list<_>) =        
-        let rec loop l (minimum) (maximum) =
-            match l with
-            | h::t -> loop t (min h minimum) (max h maximum)
-            | [] -> Intervals.create minimum maximum          
+    let range (a:array<_>) =        
+        let rec loop index (minimum) (maximum) =
+            if index < a.Length then
+                let current = a.[index]
+                loop (index+1) (min current minimum) (max current maximum)
+            else
+                Intervals.create minimum maximum          
         //Init by fist value
-        match items with
-        | h::t  -> loop t h h
-        | [] -> Intervals.Interval.Empty
+        if a.Length > 1 then
+            loop 1 a.[0] a.[0] 
+        else
+            Intervals.Interval.Empty
+
+
+    // Swaps items of left and right index
+    let swapInPlace left right (items:array<'T>) =
+        let tmp = items.[left]
+        items.[left]  <- items.[right]
+        items.[right] <- tmp
 
 
     /// Arranges the items between the left and right border, that all items left of the pivot element are smaller and bigger on the right.
     /// Function works in place and returns the index of the pivote element
     let partionSortInPlace left right (items:array<'T>) =   
         
-        // Swaps items of left and right index
-        let swapInPlace left right (items:array<'T>) =
-            let tmp = items.[left]
-            items.[left]  <- items.[right]
-            items.[right] <- tmp
+
 
         // Median of three optimization improves performance in general,
         // and eliminates worst-case behavior for sorted or reverse-sorted data.    
@@ -193,4 +199,5 @@ module Array =
         Array.init length ( fun x -> (float x * stepWidth) + from)  
 
 
-
+    let sort2InPlaceByKeys (from:int) (count:int) (keys:array<'T>) (items:array<'T>) =
+        System.Array.Sort(keys, items, from, count)

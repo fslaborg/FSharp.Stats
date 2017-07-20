@@ -29,10 +29,10 @@ module Approximation =
         let nx = xy |> Seq.map ( fun (x,y) -> x) |> Seq.toArray
         let ny = xy |> Seq.map ( fun (x,y) -> y) |> Seq.toArray
 
+        
+        let interPol = FSharp.Stats.Interpolation.LinearSpline.initInterpolateInplace nx ny
+        v |> Seq.map (fun x ->  FSharp.Stats.Interpolation.LinearSpline.interpolate interPol x )
 
-        v
-        //let interPol = MathNet.Numerics.Interpolation.LinearSpline.Interpolate(nx,ny)
-        //v |> Seq.map (fun x ->  interPol.Interpolate(x) )
 
 
 

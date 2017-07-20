@@ -7,26 +7,19 @@ module Density =
 
     open FSharp.Stats
 
-    /// Swaps items of left and right index
-    let swapInPlace left right (arr:array<'T>) =
-        let tmp = arr.[left]
-        arr.[left]  <- arr.[right]
-        arr.[right] <- tmp
-        arr
-
 
     /// Applying the given function to each of the elements of the array and returns the value in place.
-    let mapInPlace f (arr:array<'T>) =
+    let private mapInPlace f (arr:array<'T>) =
         for i=0 to Array.length arr-1 do
             arr.[i] <- f arr.[i]
         arr
 
 
 
-    /// Generates array sequence (like R! seq.int)
-    let seqInit (from:float) (tto:float) (length:int) =
-        let stepWidth = (tto - from) / (float length - 1.)
-        Array.init length ( fun x -> (float x * stepWidth) + from)  
+//    /// Generates array sequence (like R! seq.int)
+//    let seqInit (from:float) (tto:float) (length:int) =
+//        let stepWidth = (tto - from) / (float length - 1.)
+//        Array.init length ( fun x -> (float x * stepWidth) + from)  
 
 
 
@@ -65,7 +58,7 @@ module Density =
         // let _from   = defaultArg from (Array.min(x) - float(_cut) * _bandwidth)
         // let _to     = defaultArg tto  (Array.max(x) + float(_cut) * _bandwidth)
 
-    let approx (x:seq<float>) (y:seq<float>) (v:seq<float>) (ties:seq<float> -> float) = v
+    //let approx (x:seq<float>) (y:seq<float>) (v:seq<float>) (ties:seq<float> -> float) = v
 
 
     let densityEstimation' _cut _from _to n weights bandwidth kernel data =
@@ -85,7 +78,7 @@ module Density =
 
         let kords =               
             let fftKords =  
-                let a = seqInit 0. (2.*(up - lo)) (2 * n)
+                let a = Array.seqInit 0. (2.*(up - lo)) (2 * n)
                 (a.[(n + 1)..(2 * n)-1] <- (a.[1..n-1] |> Array.rev |> Array.map (fun x -> x * -1.0)  ) )
                 a 
                 |> Array.map (kernel >> Complex.ofReal)
@@ -105,9 +98,9 @@ module Density =
 
 
 
-        let xords = seqInit lo up n
-        let nx    = seqInit _from _to n
-        let kdeY  = approx xords kords nx Seq.average |> Seq.toArray
+        let xords = Array.seqInit lo up n
+        let nx    = Array.seqInit _from _to n
+        let kdeY  = Interpolation.Approximation.approx xords kords nx Seq.average |> Seq.toArray
     
         Array.zip nx kdeY
     

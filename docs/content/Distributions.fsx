@@ -161,3 +161,18 @@ let beta  = 0.5
 |> Chart.Show
 
 
+
+
+
+
+
+// Density estimation
+let nv = Array.init 1000 (fun _ -> Distributions.Continuous.Normal.Sample 5. 2.)
+
+
+//let gaussianKernel bandwitdh x =
+//    Distributions.Continuous.Normal.PDF 0. bandwitdh x
+
+Density.densityEstimation 0.2 (Distributions.Continuous.Normal.PDF 0. 0.2) nv
+
+
