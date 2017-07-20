@@ -13,7 +13,7 @@ Basic stats
 open FSharp.Stats
 
 
-let nv = Vector.init 1000 (fun _ -> Distributions.Continuous.Normal.Sample 5. 2.)
+let nv = Vector.init 10000 (fun _ -> Distributions.Continuous.Normal.Sample 5. 0.1)
 
 
 let v = 

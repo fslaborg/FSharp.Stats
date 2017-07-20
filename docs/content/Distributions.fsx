@@ -166,13 +166,15 @@ let beta  = 0.5
 
 
 
+// ##############
 // Density estimation
+
 let nv = Array.init 1000 (fun _ -> Distributions.Continuous.Normal.Sample 5. 2.)
 
+let xy = KernelDensity.estimate KernelDensity.Kernel.gaussian 1.0 nv
 
-//let gaussianKernel bandwitdh x =
-//    Distributions.Continuous.Normal.PDF 0. bandwitdh x
+Chart.SplineArea xy
+|> Chart.Show
 
-Density.densityEstimation 0.2 (Distributions.Continuous.Normal.PDF 0. 0.2) nv
 
 
