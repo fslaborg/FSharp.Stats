@@ -185,3 +185,12 @@ module Array =
                off
 
         Array.init k (fun i -> source.[(loop (rnd.Next(n - i)) n i)] )
+
+
+    /// Generates array sequence (like R! seq.int)
+    let seqInit (from:float) (tto:float) (length:int) =
+        let stepWidth = (tto - from) / (float length - 1.)
+        Array.init length ( fun x -> (float x * stepWidth) + from)  
+
+
+

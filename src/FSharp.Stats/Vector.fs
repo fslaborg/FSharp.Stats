@@ -187,7 +187,7 @@ module Vector =
 
 
     /// Computes the sample median
-    let median (a:Vector<'T>) =
+    let inline median (a:Vector<'T>) =
         a.Values |> Array.median
         
 

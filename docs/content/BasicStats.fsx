@@ -13,13 +13,21 @@ Basic stats
 open FSharp.Stats
 
 
+let nv = Vector.init 1000 (fun _ -> Distributions.Continuous.Normal.Sample 5. 2.)
+
 
 let v = 
     vector [|2.0; 20.0; 1.|]
 
 
-Vector.interval v
+Vector.interval nv
 
+
+Vector.median nv
+
+Vector.stats nv
+
+Array.median [|2.0; 20.0; 1.|]
 
 
 

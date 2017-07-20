@@ -109,6 +109,16 @@
     <Compile Include="Optimization\LP.fs" />
     <Compile Include="Optimization\QP.fs" />
     <Compile Include="Optimization\QuasiNewton.fs" />
+    <!-- Interpolation -->
+    <Compile Include="Interpolation\LinearSpline.fs" />
+    <Compile Include="Interpolation\CubicSpline.fs" />
+    <Compile Include="Interpolation\Approximation.fs" />
+    <!-- Signal -->
+    <Compile Include="Signal\FFT.fs" />
+    <Compile Include="Signal\Wavelet.fs" />
+    <Compile Include="Signal\ContinuousWavelet.fs" />
+    <Compile Include="Signal\Baseline.fs" />
+    <Compile Include="Signal\Filtering.fs" />
     <!-- Distributions -->
     <Compile Include="Distributions\Bandwidth.fs" />
     <Compile Include="Distributions\Frequency.fs" />
@@ -116,6 +126,7 @@
     <Compile Include="Distributions\Distribution.fs" />
     <Compile Include="Distributions\Continuous.fs" />
     <Compile Include="Distributions\Discrete.fs" />
+    <Compile Include="Distributions\Density.fs" />
     <!-- Testing -->
     <Compile Include="Testing\TestStatistics.fs" />
     <Compile Include="Testing\Anova.fs" />
@@ -126,17 +137,9 @@
     <Compile Include="Testing\PvalueAdjust.fs" />
     <!-- RootFinding -->
     <Compile Include="RootFinding\Brent.fs" />
-    <!-- Interpolation -->
-    <Compile Include="Interpolation\CubicSpline.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\Regression.fs" />
     <Compile Include="Fitting\Hermite.fs" />
-    <!-- Signal -->
-    <Compile Include="Signal\FFT.fs" />
-    <Compile Include="Signal\Wavelet.fs" />
-    <Compile Include="Signal\ContinuousWavelet.fs" />
-    <Compile Include="Signal\Baseline.fs" />
-    <Compile Include="Signal\Filtering.fs" />
     <!-- Content -->
     <None Include="Script.fsx" />
     <None Include="paket.references" />

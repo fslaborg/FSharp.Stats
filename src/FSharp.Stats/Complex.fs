@@ -97,6 +97,8 @@ namespace FSharp.Stats
                   (div (sub exp2ix one) (add exp2ix one)) |> iscale -1.0
 
 
+      let ofReal r = mkRect (r,0.)
+
     type Complex with 
         static member Create(a,b) = Complex.mkRect (a,b)
         static member CreatePolar(a,b) = Complex.mkPolar (a,b)
@@ -125,7 +127,8 @@ namespace FSharp.Stats
         static member ( * ) (a,b) = Complex.smul a b
         static member ( * ) (a,b) = Complex.muls a b
 
-
+    
+    [<AutoOpen>]
     module ComplexTopLevelOperators = 
         let complex x y = Complex.mkRect (x,y)
 
