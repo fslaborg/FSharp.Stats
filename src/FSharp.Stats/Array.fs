@@ -89,9 +89,15 @@ module Array =
             else 
                 items.[pivot]
     
-        
-        let items' = Array.copy items
-        quickSelect' items' 0 (items'.Length - 1) (k - 1)
+
+        let k' = k - 1
+        if k' <= 0 then
+            Array.min items
+        elif k' > items.Length-1 then
+            Array.max items
+        else        
+            let items' = Array.copy items
+            quickSelect' items' 0 (items'.Length - 1)  k' 
 
 
     /// Finds the kth smallest element in an unordered array
@@ -112,9 +118,15 @@ module Array =
             // if equal, return the value
             else 
                 items.[pivot]
-    
         
-        quickSelect' items 0 (items.Length - 1) (k - 1)
+
+        let k' = k - 1
+        if k' <= 0 then
+            Array.min items
+        elif k' > items.Length-1 then
+            Array.max items
+        else
+            quickSelect' items 0 (items.Length - 1) k'
 
 
     /// Computes the sample median
