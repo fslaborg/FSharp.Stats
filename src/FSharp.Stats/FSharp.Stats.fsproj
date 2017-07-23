@@ -77,8 +77,8 @@
     <Compile Include="Array.fs" />
     <Compile Include="Seq.fs" />
     <Compile Include="List.fs" />
-    <Compile Include="Matrix.fs" />
     <Compile Include="Vector.fs" />
+    <Compile Include="Matrix.fs" />
     <Compile Include="RowVector.fs" />
     <Compile Include="MatrixTopLevelOperators.fs" />
     <Compile Include="Rank.fs" />
@@ -103,6 +103,7 @@
     <Compile Include="Algebra\LinearAlgebra.fs" />
     <Compile Include="Integration\Differentiation.fs" />
     <Compile Include="Integration\Integration.fs" />
+    <Compile Include="RootFinding\Brent.fs" />
     <!-- Integration -->
     <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
@@ -125,7 +126,6 @@
     <Compile Include="Testing\PostHoc.fs" />
     <Compile Include="Testing\PvalueAdjust.fs" />
     <!-- RootFinding -->
-    <Compile Include="RootFinding\Brent.fs" />
     <!-- Interpolation -->
     <Compile Include="Interpolation\CubicSpline.fs" />
     <!-- Fitting -->
