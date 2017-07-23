@@ -101,10 +101,11 @@
     <Compile Include="Algebra\LinearAlgebraServiceManaged.fs" />
     <Compile Include="Algebra\LinearAlgebraServiceMKL.fs" />
     <Compile Include="Algebra\LinearAlgebra.fs" />
-    <Compile Include="Integration\Differentiation.fs" />
-    <Compile Include="Integration\Integration.fs" />
+    <!-- RootFinding -->
     <Compile Include="RootFinding\Brent.fs" />
     <!-- Integration -->
+    <Compile Include="Integration\Differentiation.fs" />
+    <Compile Include="Integration\Integration.fs" />
     <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
     <Compile Include="Optimization\LP.fs" />
@@ -136,10 +137,6 @@
     <Compile Include="Testing\Bartlett.fs" />
     <Compile Include="Testing\PostHoc.fs" />
     <Compile Include="Testing\PvalueAdjust.fs" />
-    <!-- RootFinding -->
-    <!-- Interpolation -->
-    <Compile Include="Interpolation\CubicSpline.fs" />
-    <Compile Include="RootFinding\Brent.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\Regression.fs" />
     <Compile Include="Fitting\Hermite.fs" />
