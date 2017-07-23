@@ -12,14 +12,48 @@ Basic stats
 #r "FSharp.Stats.dll"
 open FSharp.Stats
 
+let nv = Vector.init 10000 (fun _ -> Distributions.Continuous.Normal.Sample 0. 1.0)
+
+
+let x = [0.1 .. 0.01 .. 1.0] 
+let d = [|0.05;0.5;0.9|]
+
+let y = 
+    x 
+    |> List.map (fun q -> Quantile.OfSorted.mode q  d )
+    
+
+
+
+
+let q = 0.5
+let h = (float 3) * q + 0.5
+
+Array.quickSelectInPlace (int (ceil (h-0.5))) d
+
+
+x |> List.map (fun q -> (float 3 * q + 1.) |> int)
+
+Array.quickSelect 1 d
+
+Quantile.mode 0.8  d
+
+Chart.Point( y, x)
+|> Chart.Show
 
 
 let v = 
     vector [|2.0; 20.0; 1.|]
 
 
-Vector.interval v
+Vector.interval nv
 
+
+Vector.median nv
+
+Vector.stats nv
+
+Array.median [|2.0; 20.0; 1.|]
 
 
 

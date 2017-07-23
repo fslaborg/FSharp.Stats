@@ -6,26 +6,32 @@
 module Array =
 
 
-    let range (items:list<_>) =        
-        let rec loop l (minimum) (maximum) =
-            match l with
-            | h::t -> loop t (min h minimum) (max h maximum)
-            | [] -> Intervals.create minimum maximum          
+    let range (a:array<_>) =        
+        let rec loop index (minimum) (maximum) =
+            if index < a.Length then
+                let current = a.[index]
+                loop (index+1) (min current minimum) (max current maximum)
+            else
+                Intervals.create minimum maximum          
         //Init by fist value
-        match items with
-        | h::t  -> loop t h h
-        | [] -> Intervals.Interval.Empty
+        if a.Length > 1 then
+            loop 1 a.[0] a.[0] 
+        else
+            Intervals.Interval.Empty
+
+
+    // Swaps items of left and right index
+    let swapInPlace left right (items:array<'T>) =
+        let tmp = items.[left]
+        items.[left]  <- items.[right]
+        items.[right] <- tmp
 
 
     /// Arranges the items between the left and right border, that all items left of the pivot element are smaller and bigger on the right.
     /// Function works in place and returns the index of the pivote element
     let partionSortInPlace left right (items:array<'T>) =   
         
-        // Swaps items of left and right index
-        let swapInPlace left right (items:array<'T>) =
-            let tmp = items.[left]
-            items.[left]  <- items.[right]
-            items.[right] <- tmp
+
 
         // Median of three optimization improves performance in general,
         // and eliminates worst-case behavior for sorted or reverse-sorted data.    
@@ -83,9 +89,15 @@ module Array =
             else 
                 items.[pivot]
     
-        
-        let items' = Array.copy items
-        quickSelect' items' 0 (items'.Length - 1) (k - 1)
+
+        let k' = k - 1
+        if k' <= 0 then
+            Array.min items
+        elif k' > items.Length-1 then
+            Array.max items
+        else        
+            let items' = Array.copy items
+            quickSelect' items' 0 (items'.Length - 1)  k' 
 
 
     /// Finds the kth smallest element in an unordered array
@@ -106,9 +118,15 @@ module Array =
             // if equal, return the value
             else 
                 items.[pivot]
-    
         
-        quickSelect' items 0 (items.Length - 1) (k - 1)
+
+        let k' = k - 1
+        if k' <= 0 then
+            Array.min items
+        elif k' > items.Length-1 then
+            Array.max items
+        else
+            quickSelect' items 0 (items.Length - 1) k'
 
 
     /// Computes the sample median
@@ -185,3 +203,13 @@ module Array =
                off
 
         Array.init k (fun i -> source.[(loop (rnd.Next(n - i)) n i)] )
+
+
+    /// Generates array sequence (like R! seq.int)
+    let seqInit (from:float) (tto:float) (length:int) =
+        let stepWidth = (tto - from) / (float length - 1.)
+        Array.init length ( fun x -> (float x * stepWidth) + from)  
+
+
+    let sort2InPlaceByKeys (from:int) (count:int) (keys:array<'T>) (items:array<'T>) =
+        System.Array.Sort(keys, items, from, count)
