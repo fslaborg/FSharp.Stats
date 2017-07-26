@@ -12,7 +12,16 @@ Basic stats
 #r "FSharp.Stats.dll"
 open FSharp.Stats
 
-let nv = Vector.init 10000 (fun _ -> Distributions.Continuous.Normal.Sample 0. 1.0)
+let nv = Vector.init 10000 (fun _ -> Distributions.Continuous.Normal.Sample 0. 4.0)
+
+nv |> Seq.stDevPopulation
+
+
+Distributions.Bandwidth.nrd0 nv.Values
+
+
+
+Quantile.interQuantileRange Quantile.nist nv.Values
 
 
 let x = [0.1 .. 0.01 .. 1.0] 
