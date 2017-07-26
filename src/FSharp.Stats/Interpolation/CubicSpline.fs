@@ -4,7 +4,7 @@ open System
 
 module CubicSpline = 
     
-    type Spline = {
+    type SplineCoefficients = {
         /// sample points (N+1), sorted ascending
         XValues : float []
         /// Zero order spline coefficients (N)
@@ -18,7 +18,7 @@ module CubicSpline =
         }
 
     ///
-    let createSpline xValues c0 c1 c2 c3 = {
+    let private createSplineCoefficients xValues c0 c1 c2 c3 = {
         XValues=xValues;C0=c0;C1=c1;C2=c2;C3=c3 
         }
 
@@ -42,11 +42,10 @@ module CubicSpline =
             c1.[i] <- firstDerivatives.[i]
             c2.[i] <- (3.*(yValues.[i+1] - yValues.[i])/w - 2. * firstDerivatives.[i] - firstDerivatives.[i+1])/w 
             c3.[i] <- (2.*(yValues.[i] - yValues.[i+1])/w +      firstDerivatives.[i] + firstDerivatives.[i+1])/ww 
-        let spline = createSpline xValues c0 c1 c2 c3
-        (fun (splineOperation: Spline -> float -> float) x -> splineOperation spline x) 
-
+        createSplineCoefficients xValues c0 c1 c2 c3
+        
     ///
-    let private leftSegmentIdx arr value = 
+    let leftSegmentIdx arr value = 
         let idx = 
             let tmp = Array.BinarySearch(arr, value)
             let idx = if tmp < 0 then ~~~tmp-1 else tmp
@@ -55,7 +54,7 @@ module CubicSpline =
 
     //For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm
     ///
-    let initAkimaInterpolation (xValues:float []) (yValues:float []) =
+    let akimaCoefficients (xValues:float []) (yValues:float []) =
         if xValues.Length <> yValues.Length then
             failwith "input arrays differ in length"
         elif
@@ -90,42 +89,42 @@ module CubicSpline =
         interpolateHermiteSorted xValues yValues dd
     
     ///
-    let interpolateAtX (spline:Spline) xVal =
-        let k = leftSegmentIdx spline.XValues xVal 
-        let x = xVal - spline.XValues.[k]
-        spline.C0.[k] + x*(spline.C1.[k] + x*(spline.C2.[k] + x*spline.C3.[k]))
+    let interpolateAtX (splineCoeffs:SplineCoefficients) xVal =
+        let k = leftSegmentIdx splineCoeffs.XValues xVal 
+        let x = xVal - splineCoeffs.XValues.[k]
+        splineCoeffs.C0.[k] + x*(splineCoeffs.C1.[k] + x*(splineCoeffs.C2.[k] + x*splineCoeffs.C3.[k]))
 
 
     ///
-    let firstDerivative (spline:Spline) xVal =
-        let k = leftSegmentIdx spline.XValues xVal 
-        let x = xVal - spline.XValues.[k]
-        spline.C1.[k] + x*(2.*spline.C2.[k] + x*3.*spline.C3.[k])
+    let firstDerivative (splineCoeffs:SplineCoefficients) xVal =
+        let k = leftSegmentIdx splineCoeffs.XValues xVal 
+        let x = xVal - splineCoeffs.XValues.[k]
+        splineCoeffs.C1.[k] + x*(2.*splineCoeffs.C2.[k] + x*3.*splineCoeffs.C3.[k])
 
 
     ///
-    let secondDerivative (spline:Spline) xVal =
-        let k = leftSegmentIdx spline.XValues xVal 
-        let x = xVal - spline.XValues.[k]
-        2.*spline.C2.[k] + x*6.*spline.C3.[k]
+    let secondDerivative (splineCoeffs:SplineCoefficients) xVal =
+        let k = leftSegmentIdx splineCoeffs.XValues xVal 
+        let x = xVal - splineCoeffs.XValues.[k]
+        2.*splineCoeffs.C2.[k] + x*6.*splineCoeffs.C3.[k]
 
 
     ///
-    let computeIndefiniteIntegral (spline:Spline) = 
+    let computeIndefiniteIntegral (splineCoeffs:SplineCoefficients) = 
         let integral = 
-            let tmp = Array.zeroCreate spline.C0.Length
+            let tmp = Array.zeroCreate splineCoeffs.C0.Length
             for i = 0 to tmp.Length-2 do
-                let w = spline.XValues.[i+1] - spline.XValues.[i] 
-                tmp.[i+1] <- tmp.[i] + w*(spline.C0.[i] + w*(spline.C1.[i]/2. + w*(spline.C2.[i]/3. + w*spline.C3.[i]/4.)))
+                let w = splineCoeffs.XValues.[i+1] - splineCoeffs.XValues.[i] 
+                tmp.[i+1] <- tmp.[i] + w*(splineCoeffs.C0.[i] + w*(splineCoeffs.C1.[i]/2. + w*(splineCoeffs.C2.[i]/3. + w*splineCoeffs.C3.[i]/4.)))
             tmp
         integral
 
     ///
-    let integrate (spline:Spline) xVal = 
-        let integral = computeIndefiniteIntegral spline 
-        let k = leftSegmentIdx spline.XValues xVal 
-        let x = xVal - spline.XValues.[k]
-        integral.[k] + x*(spline.C0.[k] + x*(spline.C1.[k]/2. + x*(spline.C2.[k]/3. + x*spline.C3.[k]/4.)))
+    let integrate (splineCoeffs:SplineCoefficients) xVal = 
+        let integral = computeIndefiniteIntegral splineCoeffs 
+        let k = leftSegmentIdx splineCoeffs.XValues xVal 
+        let x = xVal - splineCoeffs.XValues.[k]
+        integral.[k] + x*(splineCoeffs.C0.[k] + x*(splineCoeffs.C1.[k]/2. + x*(splineCoeffs.C2.[k]/3. + x*splineCoeffs.C3.[k]/4.)))
 
     ///
     let definiteIntegral (integrateF: float -> float) xVal1 xVal2 =

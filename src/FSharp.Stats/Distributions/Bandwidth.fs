@@ -125,8 +125,8 @@ module Bandwidth =
                   tmpCnt  
 
         let bandUCV (value:float) = band_ucv_bin (value) (data.Length) (nb) (d) (cnt)
-        let optFunction = new System.Func<float,float>(bandUCV)
         
-        //MathNet.Numerics.RootFinding.Brent.FindRoot(optFunction, lower, upper)
-        raise (System.NotImplementedException())
+        match FSharp.Stats.Rootfinding.Brent.tryFindRootWith 1e-8 100 bandUCV lower upper with 
+        | Some x -> x
+        | None   -> failwith "bin size could not be determined"
         

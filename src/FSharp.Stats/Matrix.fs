@@ -247,6 +247,22 @@ module Matrix = begin
     let init_dense i j a = initDense i j a
     let init_sparse i j a = initSparse i j a
 
+    //----------------------------------------------------------------------------
+    // Stats
+    //----------------------------------------------------------------------------
+    
+
+    /// Computes the row wise mean of a Matrix 
+    let meanRowWise (a:matrix) = 
+        a
+        |> foldByRow (fun acc r -> acc + r ) (Vector.zero a.NumRows)
+        |> Vector.map (fun sum -> sum / (a.NumRows |> float))
+    
+    /// Computes the Column wise mean of a Matrix 
+    let meanColumnWise (a:matrix) = 
+        a.Transpose 
+        |> foldByRow (fun acc r -> acc + r ) (Vector.zero a.NumCols)
+        |> Vector.map (fun sum -> sum / (a.NumCols |> float))
 
 end
 
@@ -293,7 +309,7 @@ module MatrixExtension =
         member x.Copy () = Matrix.Generic.copy x
 
 
-
+    
 
 //    [<AutoOpen>]
 //    module MatrixTopLevelOperators = 
