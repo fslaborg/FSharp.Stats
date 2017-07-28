@@ -222,17 +222,14 @@ module Seq =
         let one = LanguagePrimitives.GenericOne< 'U >
         let rec loop n m1 m2 =
             match e.MoveNext() with
-            | true  -> 
-                let n'       = n + one
-                let delta    = e.Current - m1
-                let delta_n  = delta / n                
-                //let term1    = delta * delta_n * n'
-                let m1' = m1 + delta_n        // this is the mean
-                let m2' = delta * delta_n * n'
-                loop n m1' m2'
-            | false -> if (LanguagePrimitives.GenericGreaterThan n zero) then sqrt(m2 / n) else Unchecked.defaultof< 'U > 
-        loop zero zero zero
-
+            | true  ->                         
+                let delta  = e.Current - m1                                   
+                let m1'    = m1 + (delta / n)
+                let delta2   = e.Current - m1'
+                let m2' = m2 + delta * delta2
+                loop (n + one) m1' m2'
+            | false -> if (LanguagePrimitives.GenericGreaterThan n one) then sqrt(m2 / (n-one)) else (zero / zero)
+        loop one zero zero
 
 
     /// <summary>

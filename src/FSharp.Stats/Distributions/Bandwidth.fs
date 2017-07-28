@@ -74,17 +74,18 @@ module Bandwidth =
         let xLength = x.Length
         if (xLength < 2 ) then raise (System.ArgumentException("need at least 2 data points"))
         let hi = Seq.stDev x        
-        let iqrX = (Quantile.interQuantileRange Quantile.nist x |> float) / 1.34 // # qnorm(.75) - qnorm(.25) = 1.34898
-        let lo = let m = Array.min([|hi;iqrX|])
-                 if (m = 0.0)  then
-                    if hi <> 0. then
-                        hi
-                    elif abs(x.[0]) <> 0. then
-                        abs(x.[0])
-                    else
-                        1.
-                 else
-                    m
+        let iqrX = (Quantile.interQuantileRange Quantile.nist x) / 1.34 // # qnorm(.75) - qnorm(.25) = 1.34898
+        let lo = 
+            let m = min hi iqrX
+            if (m = 0.0)  then
+                if hi <> 0. then
+                    hi
+                elif abs(x.[0]) <> 0. then
+                   abs(x.[0])
+                else
+                   1.
+            else
+                m
         0.9 * lo * float(xLength)**(-0.2)
 
 
@@ -124,8 +125,8 @@ module Bandwidth =
                   tmpCnt  
 
         let bandUCV (value:float) = band_ucv_bin (value) (data.Length) (nb) (d) (cnt)
-        let optFunction = new System.Func<float,float>(bandUCV)
         
-        //MathNet.Numerics.RootFinding.Brent.FindRoot(optFunction, lower, upper)
-        raise (System.NotImplementedException())
+        match FSharp.Stats.Rootfinding.Brent.tryFindRootWith 1e-8 100 bandUCV lower upper with 
+        | Some x -> x
+        | None   -> failwith "bin size could not be determined"
         

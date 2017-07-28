@@ -1,6 +1,6 @@
 namespace FSharp.Stats.Fitting
-
-
+open System
+open System.Collections.Generic
 
 module Hermite =    
 
@@ -16,7 +16,6 @@ module Hermite =
             for i=0 to min-1 do
                 m.[i,i] <- value
             m
-
 
         let calcGlambda  (D:Matrix<float>) (H:Matrix<float>) (W:Matrix<float>) (n:int) lambd = 
             let dInverse = Algebra.LinearAlgebra.Inverse D
@@ -174,8 +173,69 @@ module Hermite =
         let evalAt =  calcS h x a c 
     
         (fun t ->
-            let i = Array.findIndexBack (fun xs -> xs <= t) (x.InternalValues)
+            let i = 
+                match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
+                | Some x -> x 
+                | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
             evalAt i t
             )
+    ///
+    let private leftSegmentIdx arr value = 
+        let idx = 
+            let tmp = Array.BinarySearch(arr, value)
+            let idx = if tmp < 0 then ~~~tmp-1 else tmp
+            idx
+        idx 
 
-       
+    ///
+    let initEvalAtWithLinearInterpol (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+
+        let n = x.Length
+
+        //Definiere Intervalle
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+
+        // Hilfsfunktionen F{i,1-4}(t) für SmoothSpline
+        let calcF1 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+            (x.[i+1] - t) / h.[i]
+
+        let calcF2 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+            (t - x.[i]) / h.[i]
+
+        let calcF3 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+            ((calcF1 h x i t)**3.0 - (calcF1 h x i t) ) * (h.[i]**2.0) / 6.0
+
+        let calcF4 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+            ((calcF2 h x i t)**3.0 - (calcF2 h x i t) ) * (h.[i]**2.0) / 6.0
+
+        // Hilfsfunktion S{i} für SmoothSpline 
+        let calcS (h:Vector<float>) (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (i:int) (t:float) =
+            a.[i] * (calcF1 h x i t) + a.[i+1] * (calcF2 h x i t) + c.[i] * (calcF3 h x i t) + c.[i+1] * (calcF4 h x i t)
+
+        let evalAt =  calcS h x a c 
+
+        let linearInterPolLowerBorder t =
+            let halfDeltaLeftMostKnotAdjacentKnot = (x.InternalValues.[1] - x.InternalValues.[0]) / 2.
+            let yValHalfSegment = evalAt 0 (halfDeltaLeftMostKnotAdjacentKnot + x.InternalValues.[0])
+            let yAtLeftMostKnot = evalAt 0 x.InternalValues.[0]
+            let m = (yValHalfSegment - yAtLeftMostKnot ) / halfDeltaLeftMostKnotAdjacentKnot
+            let b = yAtLeftMostKnot - m * x.InternalValues.[0]
+            m * t + b
+
+        let linearInterPolUpperBorder t =
+            let halfDeltaRightMostKnotAdjacentKnot = (x.InternalValues.[x.InternalValues.Length-1] - x.InternalValues.[x.InternalValues.Length-2]) / 2.
+            let yValHalfSegment = evalAt (x.InternalValues.Length-2) (x.InternalValues.[x.InternalValues.Length-2] + halfDeltaRightMostKnotAdjacentKnot)
+            let yAtRightMostKnot = evalAt (x.InternalValues.Length-2) x.InternalValues.[x.InternalValues.Length-1]
+            let m = (yAtRightMostKnot - yValHalfSegment) / halfDeltaRightMostKnotAdjacentKnot
+            let b = yAtRightMostKnot - (m * x.InternalValues.[x.InternalValues.Length-1])
+            m * t + b
+        
+        (fun t ->
+                match leftSegmentIdx x.InternalValues t with 
+                | idx when idx < 0 -> 
+                    linearInterPolLowerBorder t 
+                | idx when idx > (x.InternalValues.Length-2) -> 
+                    linearInterPolUpperBorder t
+                | idx -> evalAt idx t 
+           
+            )    

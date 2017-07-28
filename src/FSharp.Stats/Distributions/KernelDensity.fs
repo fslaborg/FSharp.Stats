@@ -91,14 +91,14 @@ module KernelDensity =
         let lo = _from - 4. * bandwidth
         let up = _to + 4. * bandwidth
 
-        // normalize weights
-        let weights' =
-            let wsum = weights |> Array.sum
-            weights |> Array.map (fun w -> w / wsum)
+        //// normalize weights
+        //let weights' =
+        //    let wsum = weights |> Array.sum
+        //    weights |> Array.map (fun w -> w / wsum)
 
-        let totalMass = weights' |> Array.sum
+        let totalMass = weights |> Array.sum
         let y  =
-            massdist x weights' nx lo up (2*n) n 
+            massdist x weights nx lo up (2*n) n 
             |> Array.map ( fun yValue -> yValue * totalMass)
 
 
@@ -132,6 +132,9 @@ module KernelDensity =
         Array.zip nx kdeY
     
 
+    let estimateWithWeight weights kernel bandwidth data =
+        let _from,_to = Array.range data |> Intervals.values
+        estimateWith 3 _from _to 512 weights kernel bandwidth data
 
 
     let estimate kernel bandwidth data =

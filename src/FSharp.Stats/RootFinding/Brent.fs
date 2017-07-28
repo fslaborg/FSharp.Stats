@@ -85,7 +85,7 @@ module Brent =
         let fRoot' = func root'
         lowerBound, fMin, root', fRoot'
     ///
-    let tryFindRoot accuracy maxInterations (func: float -> float) (lowerBound:float) (upperBound:float) = 
+    let tryFindRootWith accuracy maxInterations (func: float -> float) (lowerBound:float) (upperBound:float) = 
         let fMin: float  = func lowerBound
         let fMax: float  = func upperBound
         if Math.Sign(fMin) = Math.Sign(fMax) then None 
@@ -114,3 +114,6 @@ module Brent =
                 /// accuracy is not sufficient to reach a root 
                 None 
         loop accuracy maxInterations 0 lowerBound upperBound upperBound fMin fMax fMax  (0.,0.) nan
+    
+    let tryFindRoot (func: float -> float) (lowerBound:float) (upperBound:float) =
+        tryFindRootWith 1e-8 100 func lowerBound upperBound
