@@ -342,7 +342,9 @@ Target "ReleaseLocal" (fun _ ->
     CleanDir tempDocsDir
     CopyRecursive "docs/output" tempDocsDir true |> tracefn "%A"
     ReplaceInFiles 
-        (seq {yield "/" + project + "/",""}) 
+        (seq {
+            yield "href=\"/" + project + "/","href=\""
+            yield "src=\"/" + project + "/","src=\""}) 
         ((filesInDirMatching "*.html" (directoryInfo tempDocsDir)) |> Array.map (fun x -> tempDocsDir + "/" + x.Name))
 )
 
