@@ -16,7 +16,7 @@ module SummeryStats =
         {N=n;Mean=mean;SumOfSqures=sos;Min=min;Max=max}
 
 
-    let var sStats = sStats.SumOfSqures / sStats.N
+    let inline var sStats = sStats.SumOfSqures / sStats.N
 
 
     type RunningStats<'T> = {

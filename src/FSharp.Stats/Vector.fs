@@ -198,21 +198,23 @@ module Vector =
         let one = LanguagePrimitives.GenericOne< 'T >        
         
         let rec loop index n (minimum) (maximum) m1 m2 =
-            if index < a.Length then
-                let current = a.[index]
-                let delta  = current - m1                                   
-                let m1'    = m1 + (delta / n)
-                let delta2   = current - m1'
-                let m2' = m2 + delta * delta2                
+            if index < a.Length then            
+                let current  = a.[index]
+                let delta    = current - m1               
+                let delta_n  = (delta / n)
+                //let delta_n2 = delta_n * delta_n
+                let m1'    = m1 + delta_n            
+                let m2' = m2 + delta * delta_n * (n-one)
                 loop (index+1) (n + one) (min current minimum) (max current maximum) m1' m2'
             else
-                SummeryStats.createSummeryStats n m1 m2 minimum maximum
+                SummeryStats.createSummeryStats (n-one) m1 m2 minimum maximum
         //Init by fist value
         if a.Length > 1 then
-            loop 1 one a.[0] a.[0] zero zero 
+            loop 0 one a.[0] a.[0] zero zero 
         else
             let uNan = zero / zero 
             SummeryStats.createSummeryStats zero uNan uNan uNan uNan
+
 
 
 
