@@ -12,6 +12,44 @@ Basic stats
 #r "FSharp.Stats.dll"
 open FSharp.Stats
 
+
+// Mean 28.6
+(**
+$ \sum_{i=1}^{10} t_i $
+**)
+let mTv = 
+    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
+    |> Seq.meanBy float
+
+
+// Harmonic mean 10.01109
+let hmTv = 
+    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
+    |> Seq.meanHarmonicBy float
+
+
+// Geometric mean 18.92809
+let gmTv = 
+    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
+    |> Seq.meanGeometricBy float 
+ 
+
+
+// sample standard deviation n-1  23.70279
+let stdevTv =
+    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
+    |> Seq.stDevBy float
+    
+
+// sample standard deviation n  23.70279
+let stdevPopTv =
+    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
+    |> Seq.stDevPopulationBy float
+
+
+
+//System.Math.Pow
+
 let nv = Vector.init 10000 (fun _ -> Distributions.Continuous.Normal.Sample 0. 4.0)
 
 nv |> Seq.stDevPopulation
@@ -31,6 +69,30 @@ let y =
     x 
     |> List.map (fun q -> Quantile.OfSorted.mode q  d )
     
+
+let inline divByInt a b =
+    LanguagePrimitives.DivideByInt a b
+
+
+//divByInt 6 5
+
+
+
+let firstNumber=5000
+let secondeNumber=37
+
+let inline decimalResult (a:'t) = 
+    let ops = GlobalAssociations.TryGetNumericAssociation<'t>()
+    ops.Value.Add(a,secondeNumber)
+    
+
+
+
+//type System.Int32 with
+//    member this.DivideByInt a b = LanguagePrimitives.DivideByInt (float a) / b 
+
+//System.Int32()
+
 
 
 
