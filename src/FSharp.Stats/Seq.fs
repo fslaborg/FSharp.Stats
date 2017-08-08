@@ -101,30 +101,33 @@ module Seq =
     let inline meanGeometric (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
-        let one = LanguagePrimitives.GenericOne< 'U >
         let rec loop n (acc) =
             match e.MoveNext() with
-            | true  -> loop (n + 1) (acc + e.Current)
-            | false -> if (n > 0) then one / (pown acc n) else (zero / zero)            
-        loop 0 one          
+            | true  -> loop (n + 1) (acc + log e.Current)
+            | false -> 
+                if (n > 0) then exp (LanguagePrimitives.DivideByInt< 'U > acc n) else (zero / zero)            
+        loop 0 zero          
         
 
-    
     /// <summary>
-    ///   Computes the log gemetric mean
+    ///   Computes gemetric mean
     /// </summary>
     ///
+    /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>log gemetric mean</returns>   
-    let inline meanLogGeometric (items:seq<'T>) : 'U  =
+    /// <returns>gemetric mean</returns>   
+    let inline meanGeometricBy f (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
         let rec loop n (acc) =
             match e.MoveNext() with
-            | true  -> loop (n + 1 ) (acc + log e.Current )
-            | false -> if (n > 0) then LanguagePrimitives.DivideByInt< 'U > acc n else (zero / zero)          
-        loop 0 zero
+            | true  -> loop (n + 1) (acc + log ( f e.Current ))
+            | false -> 
+                if (n > 0) then exp (LanguagePrimitives.DivideByInt< 'U > acc n) else (zero / zero)            
+        loop 0 zero          
+
+    
 
 
 //    //GrandMean
@@ -189,172 +192,165 @@ module Seq =
         
 
 
-    // #region standard deviation, variance and coefficient of variation
-
-
-    /// <summary>
-    ///   Computes the sample standard deviation
-    /// </summary>
-    ///
-    /// <param name="mean">value around which the standard deviation is calculated (mean)</param>
-    /// <param name="items">The input sequence.</param>
-    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>standard deviation of a sample</returns> 
-    let inline stDevOfMean mean (items:seq<'T>) : 'U  =
-        use e = items.GetEnumerator()
-        let rec loop n (acc) =
-            match e.MoveNext() with
-            | true  -> loop (n + 1) (acc + ((e.Current - mean) * (e.Current - mean)))
-            | false -> if (n > 1) then sqrt(LanguagePrimitives.DivideByInt< 'U > acc n) else Unchecked.defaultof< 'U >            
-        loop 0 LanguagePrimitives.GenericZero< 'U >        
-
+    // #region standard deviation, variance and coefficient of variation      
 
     /// <summary>
-    ///   Computes the sample standard deviation
+    ///   Computes the sample variance (Bessel's correction by N-1)
     /// </summary>
     ///
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>standard deviation of a sample</returns> 
-    let inline stDev (items:seq<'T>) : 'U  =
-        use e = items.GetEnumerator()
-        let zero = LanguagePrimitives.GenericZero< 'U > 
-        let one = LanguagePrimitives.GenericOne< 'U >
-        let rec loop n m1 m2 =
-            match e.MoveNext() with
-            | true  ->                         
-                let delta  = e.Current - m1                                   
-                let m1'    = m1 + (delta / n)
-                let delta2   = e.Current - m1'
-                let m2' = m2 + delta * delta2
-                loop (n + one) m1' m2'
-            | false -> if (LanguagePrimitives.GenericGreaterThan n one) then sqrt(m2 / (n-one)) else (zero / zero)
-        loop one zero zero
-
-
-    /// <summary>
-    ///   Computes the population standard deviation (Bessel's correction by N-1)
-    /// </summary>
-    ///
-    /// <param name="mean">value around which the standard deviation is calculated (mean)</param>
-    /// <param name="items">The input sequence.</param>
-    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population standard deviation (Bessel's correction by N-1)</returns>     
-    let inline stDevPopulationOfMean mean (items:seq<'T>) : 'U  =
-        use e = items.GetEnumerator()
-        let rec loop n (acc) =
-            match e.MoveNext() with
-            | true  -> loop (n + 1) (acc + ((e.Current - mean) * (e.Current - mean)))
-            | false -> if (n > 1) then sqrt(LanguagePrimitives.DivideByInt< 'U > acc (n - 1)) else Unchecked.defaultof< 'U >            
-        loop 0 LanguagePrimitives.GenericZero< 'U >     
-
-
-    /// <summary>
-    ///   Computes the population standard deviation (Bessel's correction by N-1)
-    /// </summary>
-    ///
-    /// <param name="items">The input sequence.</param>
-    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population standard deviation (Bessel's correction by N-1)</returns>     
-    let inline stDevPopulation (items:seq<'T>) : 'U  =
-        use e = items.GetEnumerator()
-        let zero = LanguagePrimitives.GenericZero< 'U > 
-        let one = LanguagePrimitives.GenericOne< 'U >
-        let rec loop n m1 m2 =
-            match e.MoveNext() with
-            | true  ->                         
-                let delta  = e.Current - m1                                   
-                let m1'    = m1 + (delta / n)
-                let delta2   = e.Current - m1'
-                let m2' = m2 + delta * delta2
-                loop (n + one) m1' m2'
-            | false -> if (LanguagePrimitives.GenericGreaterThan n one) then sqrt(m2 / (n-one-one)) else (zero / zero)
-        loop one zero zero
-
-
-    /// <summary>
-    ///   Computes the sample variance
-    /// </summary>
-    ///
-    /// <param name="mean">value around which the variance is calculated (mean)</param>
-    /// <param name="items">The input sequence.</param>
-    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>variance</returns> 
-    let inline varOfMean mean (items:seq<'T>) : 'U  =
-        use e = items.GetEnumerator()
-        let rec loop n (acc) =
-            match e.MoveNext() with
-            | true  -> loop (n + 1) (acc + ((e.Current - mean) * (e.Current - mean)))
-            | false -> if (n > 1) then (LanguagePrimitives.DivideByInt< 'U > acc (n)) else Unchecked.defaultof< 'U >            
-        loop 0 LanguagePrimitives.GenericZero< 'U >     
-
-
-    /// <summary>
-    ///   Computes the sample variance
-    /// </summary>
-    ///
-    /// <param name="items">The input sequence.</param>
-    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>variance</returns> 
+    /// <returns>variance of a sample (Bessel's correction by N-1)</returns> 
     let inline var (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
-        let one = LanguagePrimitives.GenericOne< 'U >
         let rec loop n m1 m2 =
             match e.MoveNext() with
-            | true  -> 
-                let n'       = n + one
-                let delta    = e.Current - m1
-                let delta_n  = delta / n                
-                //let term1    = delta * delta_n * n'
-                let m1' = m1 + delta_n        // this is the mean
-                let m2' = delta * delta_n * n'
-                loop n m1' m2'
-            | false -> if (LanguagePrimitives.GenericGreaterThan n zero) then m2 / n else Unchecked.defaultof< 'U > 
-        loop zero zero zero
+            | true  ->                         
+                let n' = n + 1
+                let delta  = e.Current - m1                                   
+                let m1'    = m1 + (LanguagePrimitives.DivideByInt< 'U > delta n')
+                let delta2   = e.Current - m1'
+                let m2' = m2 + delta * delta2
+                loop n' m1' m2'
+            | false -> 
+                if n > 1 then 
+                    LanguagePrimitives.DivideByInt< 'U > m2 (n-1)
+                else (zero / zero)
+        loop 0 zero zero 
 
 
     /// <summary>
-    ///   Computes the unbaised variance estimator of the given values (Bessel's correction by N-1)
+    ///   Computes the sample variance (Bessel's correction by N-1)
     /// </summary>
     ///
-    /// <param name="mean">value around which the variance is calculated (mean)</param>
+    /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>unbaised population variance estimator (Bessel's correction by N-1)</returns> 
-    let inline varPopulationOfMean mean (items:seq<'T>) : 'U  =
+    /// <returns>variance of a sample (Bessel's correction by N-1)</returns> 
+    let inline varBy f (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
-        let rec loop n (acc) =
+        let zero = LanguagePrimitives.GenericZero< 'U > 
+        let rec loop n m1 m2 =
             match e.MoveNext() with
-            | true  -> loop (n + 1) (acc + ((e.Current - mean) * (e.Current - mean)))
-            | false -> if (n > 1) then (LanguagePrimitives.DivideByInt< 'U > acc (n-1)) else Unchecked.defaultof< 'U >            
-        loop 0 LanguagePrimitives.GenericZero< 'U >     
-
+            | true  ->                         
+                let n' = n + 1
+                let c = f e.Current
+                let delta  = c - m1                                   
+                let m1'    = m1 + (LanguagePrimitives.DivideByInt< 'U > delta n')
+                let delta2   = c - m1'
+                let m2' = m2 + delta * delta2
+                loop n' m1' m2'
+            | false -> 
+                if n > 1 then 
+                    LanguagePrimitives.DivideByInt< 'U > m2 (n-1)
+                else (zero / zero)
+        loop 0 zero zero 
 
 
     /// <summary>
-    ///   Computes the unbaised variance estimator of the given values (Bessel's correction by N-1)
+    ///   Computes variance of the given values (denominator N)
     /// </summary>
     ///    
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>unbaised population variance estimator (Bessel's correction by N-1)</returns> 
+    /// <returns>unbaised population variance estimator (denominator N)</returns> 
     let inline varPopulation (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
-        let one = LanguagePrimitives.GenericOne< 'U >
         let rec loop n m1 m2 =
             match e.MoveNext() with
-            | true  -> 
-                let n'       = n + one
-                let delta    = e.Current - m1
-                let delta_n  = delta / n                
-                //let term1    = delta * delta_n * n'
-                let m1' = m1 + delta_n        // this is the mean
-                let m2' = delta * delta_n * n'
-                loop n m1' m2'
-            | false -> if (LanguagePrimitives.GenericGreaterThan n zero) then m2 / (n-one) else Unchecked.defaultof< 'U > 
-        loop zero zero zero
+            | true  ->                         
+                let n' = n + 1
+                let delta  = e.Current - m1                                   
+                let m1'    = m1 + (LanguagePrimitives.DivideByInt< 'U > delta n')
+                let delta2   = e.Current - m1'
+                let m2' = m2 + delta * delta2
+                loop n' m1' m2'
+            | false -> 
+                if n > 1 then 
+                    LanguagePrimitives.DivideByInt< 'U > m2 n
+                else (zero / zero)
+        loop 0 zero zero 
+
+
+    /// <summary>
+    ///   Computes variance of the given values (denominator N)
+    /// </summary>
+    ///    
+    /// <param name="f">A function applied to transform each element of the sequence.</param>
+    /// <param name="items">The input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>unbaised population variance estimator (denominator N)</returns> 
+    let inline varPopulationBy f (items:seq<'T>) : 'U  =
+        use e = items.GetEnumerator()
+        let zero = LanguagePrimitives.GenericZero< 'U > 
+        let rec loop n m1 m2 =
+            match e.MoveNext() with
+            | true  ->                         
+                let n' = n + 1
+                let c = f e.Current
+                let delta  = c - m1                                   
+                let m1'    = m1 + (LanguagePrimitives.DivideByInt< 'U > delta n')
+                let delta2   = c - m1'
+                let m2' = m2 + delta * delta2
+                loop n' m1' m2'
+            | false -> 
+                if n > 1 then 
+                    LanguagePrimitives.DivideByInt< 'U > m2 n 
+                else (zero / zero)
+        loop 0 zero zero 
+
+
+
+    /// <summary>
+    ///   Computes the sample standard deviation
+    /// </summary>
+    ///
+    /// <param name="items">The input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>standard deviation of a sample (Bessel's correction by N-1)</returns> 
+    let inline stDev (items:seq<'T>) : 'U  =
+        sqrt ( var items )
+
+
+    /// <summary>
+    ///   Computes the sample standard deviation
+    /// </summary>
+    ///
+    /// <param name="f">A function applied to transform each element of the sequence.</param>
+    /// <param name="items">The input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>standard deviation of a sample (Bessel's correction by N-1)</returns> 
+    let inline stDevBy f (items:seq<'T>) : 'U  =
+        sqrt ( varBy f items )    
+
+
+    /// <summary>
+    ///   Computes the population standard deviation (denominator = N)
+    /// </summary>
+    ///
+    /// <param name="items">The input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>population standard deviation (denominator = N)</returns>     
+    let inline stDevPopulation (items:seq<'T>) : 'U  =
+        sqrt (varPopulation items)
+
+
+    /// <summary>
+    ///   Computes the population standard deviation (denominator = N)
+    /// </summary>
+    ///
+    /// <param name="f">A function applied to transform each element of the sequence.</param>
+    /// <param name="items">The input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>population standard deviation (denominator = N)</returns>     
+    let inline stDevPopulationBy f (items:seq<'T>) : 'U  =
+        sqrt (varPopulationBy f items)
+   
+
+
+
 
 
     /// <summary>

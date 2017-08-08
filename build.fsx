@@ -336,6 +336,18 @@ Target "ReleaseDocs" (fun _ ->
     Branches.push tempDocsDir
 )
 
+Target "ReleaseLocal" (fun _ ->
+    let tempDocsDir = "docs/local"
+    CreateDir tempDocsDir
+    CleanDir tempDocsDir
+    CopyRecursive "docs/output" tempDocsDir true |> tracefn "%A"
+    ReplaceInFiles 
+        (seq {
+            yield "href=\"/" + project + "/","href=\""
+            yield "src=\"/" + project + "/","src=\""}) 
+        ((filesInDirMatching "*.html" (directoryInfo tempDocsDir)) |> Array.map (fun x -> tempDocsDir + "/" + x.Name))
+)
+
 #load "paket-files/build/fsharp/FAKE/modules/Octokit/Octokit.fsx"
 open Octokit
 

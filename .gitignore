@@ -172,6 +172,9 @@ packages/
 # Generated documentation folder
 docs/output/
 
+#ignore local docs
+docs/local/
+
 # Temp folder used for publishing docs
 temp/
 

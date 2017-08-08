@@ -1,5 +1,8 @@
 namespace FSharp.Stats
 
+#nowarn "40"
+#nowarn "42"
+
 /// Operations module (automatically opened)
 [<AutoOpen>]
 module Ops =
@@ -45,3 +48,27 @@ module Ops =
             if a >= 0. then a else -a
         else
             if a >= 0. then -a else a 
+
+    open Microsoft.FSharp.Reflection
+
+    [<NoDynamicInvocation>]
+    //let inline private retype (x : 'a) : 'b = (# "" x : 'b #)
+    let inline retype<'T,'U> (x:'T) : 'U = (# "" x : 'U #)
+
+    let inline multByInt32 (x:'T) (n:int) : 'T =
+        x * (retype n)
+        
+
+
+    let inline nthroot n (A:'T) : 'U =
+        let rec f x =
+            let m = n - 1
+            let m' = multByInt32 x m
+            let x' = (m' + A / (pown x m))
+            let x'' = LanguagePrimitives.DivideByInt< 'U > x' n
+            if float (abs(x'' - x))  < 1e-9 then 
+                x''
+            else
+                f x''
+    
+        f (LanguagePrimitives.DivideByInt< 'U > A n)
