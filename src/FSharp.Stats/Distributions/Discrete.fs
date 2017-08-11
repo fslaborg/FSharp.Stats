@@ -298,7 +298,7 @@ module Discrete =
             binomialCheckParam  p n
             if k < 0 || k > n then
                 0.0
-            elif p = 9. then
+            elif p = 0. then
                 if k = 0 then 1. else 0.
             else
                 exp ( (SpecialFunctions.Binomial.coeffcientLn n k) + (float k * log p + ( float (n - k)*log(1.-p) )) )
@@ -324,7 +324,7 @@ module Discrete =
             (0., float n)
 
     /// Initializes a Binomial distribution       
-    let Binomial p n =
+    let binomial p n =
         { new Distribution<float,int> with
             member d.Mean              = Binomial.Mean p n
             member d.StandardDeviation = Binomial.StandardDeviation p n

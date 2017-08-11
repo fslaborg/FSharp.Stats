@@ -176,10 +176,6 @@ let xy = KernelDensity.estimate KernelDensity.Kernel.gaussian 1.0 nv
 Chart.SplineArea xy
 |> Chart.Show
 
-open FSharp.Stats
-open FSharp.Stats.Distributions
-
-Discrete.Binomial.Mean 0.5 100
 
 
 
@@ -204,4 +200,8 @@ binomialParams
 |> Chart.withSize (500., 450.)
 (*** include-it:PdfStudentT ***)
 |> Chart.Show
+
+
+
+
 
