@@ -41,6 +41,9 @@ or to sample non-uniform random numbers.
 open FSharp.Stats
 open FSharp.Stats.Distributions
 
+
+FSharp.Stats.SpecialFunctions.Factorial.factorial 5
+
 // let trapz x y =
 //     Seq.zip x y
 //     |> Seq.pairwise 
@@ -195,8 +198,8 @@ binomialParams
 |> List.map (fun (p,n) -> Chart.Spline(pdfBinomial p n,Name=sprintf "p=%.1f n=%i" p n,ShowMarkers=false))
 (*** define-output:PdfStudentT ***)
 |> Chart.Combine
-|> Chart.withX_AxisStyle("x",MinMax=(-4.,4.))
-|> Chart.withY_AxisStyle("P(x)",MinMax=(0.,0.4))
+|> Chart.withX_AxisStyle("x")
+|> Chart.withY_AxisStyle("P(x)")
 |> Chart.withSize (500., 450.)
 (*** include-it:PdfStudentT ***)
 |> Chart.Show
