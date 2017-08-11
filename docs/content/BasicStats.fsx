@@ -13,6 +13,12 @@ Basic stats
 open FSharp.Stats
 
 
+// Range min to max
+let rTv = 
+    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
+    |> Seq.rangeBy float
+
+
 // Mean 28.6
 (**
 $ \sum_{i=1}^{10} t_i $
@@ -41,10 +47,110 @@ let stdevTv =
     |> Seq.stDevBy float
     
 
-// sample standard deviation n  23.70279
+// population standard deviation n  
 let stdevPopTv =
     [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
     |> Seq.stDevPopulationBy float
+
+
+// Coefficient of Variation 0.0783
+let cvTv =
+    [5.; 5.5; 4.9; 4.85; 5.25; 5.05; 6.0;] 
+    |> Seq.cv(*By float*)
+
+
+
+
+type RunningStats<'T> = {
+    N : int
+    M1 : 'T
+    M2 : 'T
+    M3 : 'T
+    M4 : 'T
+}
+
+let createRunningStats n m1 m2 m3 m4 =
+    {N=n;M1=m1;M2=m2;M3=m3;M4=m4}
+
+
+let inline ofSeq (items:seq<'T>) : RunningStats< 'U >  =
+    use e = items.GetEnumerator()
+    let zero  = LanguagePrimitives.GenericZero< 'U > 
+    //let one   = LanguagePrimitives.GenericOne< 'U > 
+                
+    let rec loop n (m1:'U) (m2:'U) (m3:'U) (m4:'U) =
+        match e.MoveNext() with
+        | true  -> 
+
+            let n' = n + 1
+            let delta  = e.Current - m1       
+            let delta_n  = LanguagePrimitives.DivideByInt< 'U > delta n'                       
+            let m1'    = m1 + delta_n
+
+            let delta2   = e.Current - m1'
+            let term1    = delta * delta2            
+            let delta_n2 = delta_n * delta_n
+
+            let m2' = m2 + term1//delta * delta2
+
+            let n'       = n + 1
+            let delta    = e.Current - m1
+            let delta_n  = LanguagePrimitives.DivideByInt< 'U > delta n'
+            let delta_n2 = delta_n * delta_n
+            
+
+            let m1' = m1 + delta_n
+            let m4' = m4 + (Ops.multByInt32 (term1 * delta_n2) (n'*n' - 3*n' + 3)) + (Ops.multByInt32 (delta_n2 * m2) 6) - (Ops.multByInt32 (delta_n * m3) 4)
+            let m3' = m3 + (Ops.multByInt32 (term1 * m2) (n' - 2)) - (Ops.multByInt32 (delta_n * m2) 3 )
+//                let m4' = m4 + (term1 * delta_n2 * (n'*n' - 3*n' + 3) + 6 * delta_n2 * m2 - 4 * delta_n * m3)
+//                let m3' = m3 + (term1 * delta_n * (n' - 2) - 3 * delta_n * m2)
+            
+
+            printfn "m2: %f" m2'
+
+            loop (n + 1) m1' m2' m3' m4' 
+        | false -> 
+            if (n > 1) then 
+                createRunningStats n m1 m2 m3 m4 
+            else
+                let nanU = zero / zero
+                createRunningStats n nanU nanU nanU nanU
+    loop 0 zero zero zero zero
+
+let inline var (rStats:RunningStats<'T>) = 
+    LanguagePrimitives.DivideByInt rStats.M2 (rStats.N-1)
+
+let stdevTv' =
+    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
+    |> Seq.map float
+    |> ofSeq
+    |> var
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

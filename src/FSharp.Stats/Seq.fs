@@ -17,6 +17,24 @@ module Seq =
         | false -> Intervals.Interval.Empty
 
 
+    let rangeBy f (items:seq<_>) =
+        use e = items.GetEnumerator()
+        let rec loop minimum maximum minimumV maximumV =
+            match e.MoveNext() with
+            | true  -> 
+                let current = f e.Current
+                let mmin,mminV = if current < minimum then current,e.Current else minimum,minimumV
+                let mmax,mmaxV = if current > maximum then current,e.Current else maximum,maximumV
+                loop mmin mmax mminV mmaxV
+            | false -> Intervals.create minimumV maximumV          
+        //Init by fist value
+        match e.MoveNext() with
+        | true  -> 
+            let current = f e.Current
+            loop current current e.Current e.Current
+        | false -> Intervals.Interval.Empty
+
+
     // #region means
 
     /// <summary>
@@ -254,7 +272,7 @@ module Seq =
     ///    
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>unbaised population variance estimator (denominator N)</returns> 
+    /// <returns>population variance estimator (denominator N)</returns> 
     let inline varPopulation (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -281,7 +299,7 @@ module Seq =
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>unbaised population variance estimator (denominator N)</returns> 
+    /// <returns>population variance estimator (denominator N)</returns> 
     let inline varPopulationBy f (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -353,89 +371,126 @@ module Seq =
 
 
 
-    /// <summary>
-    ///   Computes the Coefficient of Variation of a sample
-    /// </summary>
-    ///
-    /// <param name="mean">value around which the standard deviation is calculated (mean)</param>
-    /// <param name="items">The input sequence.</param>
-    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>Coefficient of Variation of a sample</returns> 
-    let inline cvOfMean mean (items:seq<'T>) : 'U  =
-        use e = items.GetEnumerator()
-        let rec loop n (acc) =
-            match e.MoveNext() with
-            | true  -> loop (n + 1) (acc + ((e.Current - mean) * (e.Current - mean)))
-            | false -> if (n > 1) then sqrt(LanguagePrimitives.DivideByInt< 'U > acc n) / mean else Unchecked.defaultof< 'U >            
-        loop 0 LanguagePrimitives.GenericZero< 'U > 
+
+
+
+
+
+
+
 
 
     /// <summary>
-    ///   Computes the Coefficient of Variation of a sample
+    ///   Computes the Coefficient of Variation of a sample (Bessel's correction by N-1)
     /// </summary>
     ///
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>Coefficient of Variation of a sample</returns> 
+    /// <returns>Coefficient of Variation of a sample (Bessel's correction by N-1)</returns> 
     let inline cv (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
-        let one = LanguagePrimitives.GenericOne< 'U >
         let rec loop n m1 m2 =
             match e.MoveNext() with
-            | true  -> 
-                let n'       = n + one
-                let delta    = e.Current - m1
-                let delta_n  = delta / n                
-                //let term1    = delta * delta_n * n'
-                let m1' = m1 + delta_n        // this is the mean
-                let m2' = delta * delta_n * n'
-                loop n m1' m2'
-            | false -> if (LanguagePrimitives.GenericGreaterThan n zero) then (m2 / n) / m1 else Unchecked.defaultof< 'U > 
-        loop zero zero zero
+            | true  ->                         
+                let n' = n + 1
+                let delta  = e.Current - m1                                   
+                let m1'    = m1 + (LanguagePrimitives.DivideByInt< 'U > delta n')
+                let delta2   = e.Current - m1'
+                let m2' = m2 + delta * delta2
+                loop n' m1' m2'
+            | false -> 
+                if n > 1 then 
+                    let sd = sqrt ( LanguagePrimitives.DivideByInt< 'U > m2 (n-1) )
+                    sd / m1
+                else (zero / zero)
+        loop 0 zero zero         
 
 
     /// <summary>
-    ///   Computes the Coefficient of Variation of the population (population standard deviation)
+    ///   Computes the Coefficient of Variation of a sample (Bessel's correction by N-1)
     /// </summary>
     ///
-    /// <param name="mean">value around which the standard deviation is calculated (mean)</param>
+    /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>Coefficient of Variation of the population (Bessel's correction by N-1)</returns> 
-    let inline cvPopulationOfMean mean (items:seq<'T>) : 'U  =
+    /// <returns>Coefficient of Variation of a sample (Bessel's correction by N-1)</returns> 
+    let inline cvBy f (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
-        let rec loop n (acc) =
+        let zero = LanguagePrimitives.GenericZero< 'U > 
+        let rec loop n m1 m2 =
             match e.MoveNext() with
-            | true  -> loop (n + 1) (acc + ((e.Current - mean) * (e.Current - mean)))
-            | false -> if (n > 1) then sqrt(LanguagePrimitives.DivideByInt< 'U > acc (n-1)) / mean else Unchecked.defaultof< 'U >            
-        loop 0 LanguagePrimitives.GenericZero< 'U >        
+            | true  ->                         
+                let n' = n + 1
+                let current = f e.Current
+                let delta  = current - m1                                   
+                let m1'    = m1 + (LanguagePrimitives.DivideByInt< 'U > delta n')
+                let delta2   = current - m1'
+                let m2' = m2 + delta * delta2
+                loop n' m1' m2'
+            | false -> 
+                if n > 1 then 
+                    let sd = sqrt ( LanguagePrimitives.DivideByInt< 'U > m2 (n-1) )
+                    sd / m1
+                else (zero / zero)
+        loop 0 zero zero   
+        
 
 
     /// <summary>
     ///   Computes the Coefficient of Variation of the population (population standard deviation)
     /// </summary>
     ///
-    /// <param name="mean">value around which the standard deviation is calculated (mean)</param>
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>Coefficient of Variation of the population (Bessel's correction by N-1)</returns> 
+    /// <returns>Coefficient of Variation of the population</returns> 
     let inline cvPopulation (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
-        let one = LanguagePrimitives.GenericOne< 'U >
         let rec loop n m1 m2 =
             match e.MoveNext() with
-            | true  -> 
-                let n'       = n + one
-                let delta    = e.Current - m1
-                let delta_n  = delta / n                
-                //let term1    = delta * delta_n * n'
-                let m1' = m1 + delta_n        // this is the mean
-                let m2' = delta * delta_n * n'
-                loop n m1' m2'
-            | false -> if (LanguagePrimitives.GenericGreaterThan n zero) then (m2 / (n - one)) / m1 else Unchecked.defaultof< 'U > 
-        loop zero zero zero
+            | true  ->                         
+                let n' = n + 1
+                let delta  = e.Current - m1                                   
+                let m1'    = m1 + (LanguagePrimitives.DivideByInt< 'U > delta n')
+                let delta2   = e.Current - m1'
+                let m2' = m2 + delta * delta2
+                loop n' m1' m2'
+            | false -> 
+                if n > 1 then 
+                    let sd = sqrt ( LanguagePrimitives.DivideByInt< 'U > m2 n )
+                    sd / m1
+                else (zero / zero)
+        loop 0 zero zero   
+
+
+    /// <summary>
+    ///   Computes the Coefficient of Variation of the population (population standard deviation)
+    /// </summary>
+    ///
+    /// <param name="f">A function applied to transform each element of the sequence.</param>
+    /// <param name="items">The input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>Coefficient of Variation of the population</returns> 
+    let inline cvPopulationBy f (items:seq<'T>) : 'U  =
+        use e = items.GetEnumerator()
+        let zero = LanguagePrimitives.GenericZero< 'U > 
+        let rec loop n m1 m2 =
+            match e.MoveNext() with
+            | true  ->                         
+                let n' = n + 1
+                let current = f e.Current
+                let delta  = current - m1                                   
+                let m1'    = m1 + (LanguagePrimitives.DivideByInt< 'U > delta n')
+                let delta2   = current - m1'
+                let m2' = m2 + delta * delta2
+                loop n' m1' m2'
+            | false -> 
+                if n > 1 then 
+                    let sd = sqrt ( LanguagePrimitives.DivideByInt< 'U > m2 n )
+                    sd / m1
+                else (zero / zero)
+        loop 0 zero zero 
 
 
 //    // #endregion standard deviation, variance and coefficient of variation
@@ -629,8 +684,10 @@ module Seq =
 //        let m4 = s4 / n
 //        
 //        m4 / (m2 * m2) - 3.
-//
-//
+
+
+
+
 //    /// Median absolute deviation
 //    /// MAD
 //    let medianAbsoluteDev (data:seq<float>) =
@@ -661,6 +718,64 @@ module Seq =
 //        else nan    
 //
 //    
+
+    /// Returns SummeryStats of deq with N, mean, sum-of-squares, minimum and maximum
+    let inline stats (items:seq<'T>) =
+        use e = items.GetEnumerator()
+        let zero = LanguagePrimitives.GenericZero< 'T > 
+        let one = LanguagePrimitives.GenericOne< 'T >        
+        
+        let rec loop n (minimum) (maximum) m1 m2 =
+            match e.MoveNext() with
+            | true  -> 
+                let current  = e.Current
+                let delta    = current - m1               
+                let delta_n  = (delta / n)
+                //let delta_n2 = delta_n * delta_n
+                let m1'    = m1 + delta_n            
+                let m2' = m2 + delta * delta_n * (n-one)
+                loop (n + one) (min current minimum) (max current maximum) m1' m2'
+
+            | false -> SummeryStats.createSummeryStats (n-one) m1 m2 minimum maximum
+
+        //Init by fist value        
+        match e.MoveNext() with
+        | true -> loop one e.Current e.Current zero zero 
+        | false ->
+            let uNan = zero / zero 
+            SummeryStats.createSummeryStats zero uNan uNan uNan uNan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // ########################################################################
     /// A module which implements helper functions to provide special statistical measures
     module UtilityFunctions =
