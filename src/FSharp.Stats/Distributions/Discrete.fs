@@ -324,7 +324,7 @@ module Discrete =
             (0., float n)
 
     /// Initializes a Binomial distribution       
-    let Binomial p n =
+    let binomial p n =
         { new Distribution<float,int> with
             member d.Mean              = Binomial.Mean p n
             member d.StandardDeviation = Binomial.StandardDeviation p n
