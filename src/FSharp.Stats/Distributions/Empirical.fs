@@ -1,4 +1,4 @@
-namespace FSharp.Stats.Distributions
+﻿namespace FSharp.Stats.Distributions
 
 /// Represents a probability mass function (map from values to probabilities).
 module Empirical =
@@ -77,10 +77,34 @@ module Empirical =
 
     
     /// Normalizes this PMF so the sum of all probabilities equals fraction
-    let normalize (fraction:float) (pmf:Map<float,float>) =
+    let normalizewith (fraction:float) (pmf:Map<float,float>) =
         let total = sum pmf
         let factor = if total <> 0. then (fraction / total) else raise (System.Exception("total probability is zero") )  
         pmf |> Seq.map (fun kv -> (kv.Key,kv.Value * factor)) |> Map.ofSeq
+
+    /// Normalizes this PMF so the sum of all probabilities equals 1. 
+    /// Discrete Probability Distribution
+    let normalize (pmf:Map<float,float>) =
+        let total = sum pmf         
+        pmf |> Seq.map (fun kv -> (kv.Key,kv.Value / total)) |> Map.ofSeq
+
+
+    /// Normalizes this PMF so the sum of all probabilities equals 100 percent 
+    /// Discrete Percentage Probability Distribution
+    let normalizePercentage (pmf:Map<float,float>) =
+        let total = sum pmf         
+        pmf |> Seq.map (fun kv -> (kv.Key,100. * kv.Value / total)) |> Map.ofSeq
+
+    /// Normalizes this PMF by the bandwidth n/Δx
+    /// Frequency Denisty Distribution
+    let normalizeBandwidth bw (pmf:Map<float,float>) =
+        pmf |> Seq.map (fun kv -> (kv.Key,kv.Value / bw)) |> Map.ofSeq
+
+    /// Normalizes this PMF by the bandwidth to area equals 1.  (n/N)/Δx
+    /// Probability Denisty Distribution
+    let normalizePDD bw (pmf:Map<float,float>) =
+        let total = sum pmf         
+        pmf |> Seq.map (fun kv -> (kv.Key,(kv.Value / total) / bw)) |> Map.ofSeq
 
 
     /// Chooses a random element from this PMF

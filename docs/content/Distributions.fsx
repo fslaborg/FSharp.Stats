@@ -41,6 +41,9 @@ or to sample non-uniform random numbers.
 open FSharp.Stats
 open FSharp.Stats.Distributions
 
+
+FSharp.Stats.SpecialFunctions.Factorial.factorial 5
+
 // let trapz x y =
 //     Seq.zip x y
 //     |> Seq.pairwise 
@@ -175,6 +178,33 @@ let xy = KernelDensity.estimate KernelDensity.Kernel.gaussian 1.0 nv
 
 Chart.SplineArea xy
 |> Chart.Show
+
+
+
+
+// ####################################################
+// Binomial distribution
+// https://en.wikipedia.org/wiki/Binomial_distribution
+
+let binomialParams = [(0.5,20);(0.7,20);(0.5,40);]
+let xBinomial = [0 .. 1 .. 40]
+
+let pdfBinomial p n = 
+    xBinomial 
+    |> List.map (Discrete.Binomial.PDF p n)
+    |> List.zip xBinomial
+
+binomialParams
+|> List.map (fun (p,n) -> Chart.Spline(pdfBinomial p n,Name=sprintf "p=%.1f n=%i" p n,ShowMarkers=false))
+(*** define-output:PdfStudentT ***)
+|> Chart.Combine
+|> Chart.withX_AxisStyle("x")
+|> Chart.withY_AxisStyle("P(x)")
+|> Chart.withSize (500., 450.)
+(*** include-it:PdfStudentT ***)
+|> Chart.Show
+
+
 
 
 
