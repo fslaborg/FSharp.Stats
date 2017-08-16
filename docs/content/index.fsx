@@ -20,18 +20,24 @@ This example demonstrates using a function defined in the FSharp.Stats library.
 open FSharp.Stats
 
 
-// let A = 
-//     matrix [ [ 1.0; 7.0; 2.0 ]
-//              [ 1.0; 3.0; 1.0 ]
-//              [ 2.0; 9.0; 1.0 ] ]
+let A = 
+    matrix [[ 1.0; 7.0; 2.0 ]
+            [ 1.0; 3.0; 1.0 ]
+            [ 2.0; 9.0; 1.0 ] ]
 
-// let B = 
-//     matrix [ [ 10.0; 70.0; 20.0 ]
-//              [ 10.0; 30.0; 10.0 ]
-//              [ 20.0; 90.0; 10.0 ] ]
+let v = vector [|2.0; 20.0; 1.|]
 
 
-// let v = 
-//     vector [|2.0; 20.0; 1.|]
+let v' = A * v
 
 
+Vector.mean v'
+
+(**
+
+## Documentation
+
+The API reference is automatically generated from Markdown comments in the library implementation.
+
+It can be found [here](reference/index.html).
+*)
