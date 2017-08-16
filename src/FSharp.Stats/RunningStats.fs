@@ -22,7 +22,7 @@ module SummeryStats =
     let inline varPopulation sStats = sStats.SumOfSqures / sStats.N
     ///
     let inline var (sStats:SummeryStats<'T>) = 
-        let one = LanguagePrimitives.GenericZero<'T>
+        let one = LanguagePrimitives.GenericOne<'T>
         sStats.SumOfSqures / (sStats.N - one)
 
 
