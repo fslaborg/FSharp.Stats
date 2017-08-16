@@ -510,7 +510,8 @@ module Continuous =
 
 
     // Student's T-distribution helper functions.
-    let studentTCheckParam mu tau dof = if System.Double.IsNaN(mu) || mu < 0.0 || tau < 0.0 || System.Double.IsNaN(dof)  || dof < 0. then failwith "Student's T-distribution should be parametrized by mu, tau and dof > 0.0."
+    //let studentTCheckParam mu tau dof = if System.Double.IsNaN(mu) || mu < 0.0 || tau < 0.0 || System.Double.IsNaN(dof)  || dof < 0. then failwith "Student's T-distribution should be parametrized by mu, tau and dof > 0.0."
+    let studentTCheckParam mu tau dof = if System.Double.IsNaN(mu) || tau < 0.0 || System.Double.IsNaN(dof)  || dof < 0. then failwith "Student's T-distribution should be parametrized by mu, tau and dof > 0.0."
     
     /// Student's T-distribution
     type StudentT =
