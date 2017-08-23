@@ -20,7 +20,7 @@ module Factorial =
     let private FactorialLn_NTop = 2000
 
     let private FactorialLn_cache =
-        let cache = Array.zeroCreate FactorialLn_NTop         
+        let cache = Array.zeroCreate (FactorialLn_NTop + 1)
         for i=0 to FactorialLn_NTop do
             cache.[i] <-Gamma.gammaLn ((float i) + 1.0)
         cache

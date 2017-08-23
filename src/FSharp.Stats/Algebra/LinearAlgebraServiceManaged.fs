@@ -32,7 +32,7 @@ module LinearAlgebraManaged =
             let (nK,mK) = matrixDims K
             let (nB,mB) = matrixDims B
             if nK<>mK || nB<> nK then invalidArg "Matrix" "Cannot do backward substitution on non-square matrices."
-            let X = Matrix.zero nK mK
+            let X = Matrix.zero(max nB nK) (max mB mK) // t
             for i=0 to nK-1 do
                 for k=0 to mB-1 do
                     let s = ref B.[i,k]
@@ -47,7 +47,7 @@ module LinearAlgebraManaged =
             let (nK,mK) = matrixDims K
             let (nB,mB) = matrixDims B
             if nK<>mK || nB<> nK then invalidArg "Matrix" "Cannot do backward substitution on non-square matrices."
-            let X = Matrix.zero nK mK
+            let X = Matrix.zero (max nB nK) (max mB mK) //t
             for i=0 to nK-1 do
                 for k=0 to mB-1 do
                     let s = ref B.[nK-i-1,k]

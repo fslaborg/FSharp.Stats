@@ -44,3 +44,12 @@ A hypothesis test examines two opposing hypotheses about a population: the null 
 *)
 #r "FSharp.Stats.dll"
 open FSharp.Stats
+open FSharp.Stats.Testing
+
+
+let sample1 = [|-0.2268419965; -0.3772357485|] |> FSharp.Stats.Vector.ofArray
+let sample2 = [|-0.6076633409; -0.1781469665|] |> FSharp.Stats.Vector.ofArray
+
+Testing.TTest.twoSample false sample1  sample2
+
+

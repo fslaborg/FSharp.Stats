@@ -36,8 +36,8 @@ module Quantile =
             elif (h' >= data.Length || q = 1.) then
                 Array.max data
             else
-                let a = Array.quickSelectInPlace (h'-1) data
-                let b = Array.quickSelectInPlace h' data
+                let a = Array.quickSelectInPlace  h' data
+                let b = Array.quickSelectInPlace (h'+1) data
                 a + (h - float h') * (b - a);    
 
 
@@ -45,7 +45,8 @@ module Quantile =
         let empiricalInvCdfInPLace q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q + 0.5
-                Array.quickSelectInPlace (int (ceil (h-0.5))-1) data
+                //Array.quickSelectInPlace (int (ceil (h-0.5))-1) data
+                Array.quickSelectInPlace (int (ceil (h-0.5))) data  // TM checked
         
             quantileHelper f q data
 
@@ -55,9 +56,9 @@ module Quantile =
 
             let f q (data:array<_>) =
                 let h = float data.Length * q + 0.5
-                let a = Array.quickSelectInPlace (int (ceil (h - 0.5)) - 1) data
-                let b = Array.quickSelectInPlace (int (((h + 0.5) - 1.)*0.5)) data
-                a + b
+                let a = Array.quickSelectInPlace (int (ceil (h - 0.5))) data     // TM checked
+                let b = Array.quickSelectInPlace (int (((h + 0.5) - 1.))+1) data // TM checked
+                (a + b) * 0.5
         
             quantileHelper f q data
 
@@ -66,7 +67,8 @@ module Quantile =
         let nearestInPLace q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q
-                Array.quickSelectInPlace (int (System.Math.Round(h)) - 1) data
+                //Array.quickSelectInPlace (int (System.Math.Round(h)) - 1) data
+                Array.quickSelectInPlace (int (System.Math.Round(h))) data // TM checked
         
             quantileHelper f q data
 
@@ -76,9 +78,9 @@ module Quantile =
             let f q (data:array<_>) =
                 let h  = float data.Length * q
                 let h' = int h
-                let a = Array.quickSelectInPlace (h' - 1) data
-                let b = Array.quickSelectInPlace (h') data
-                a - (h - float h') * (b - a)
+                let a = Array.quickSelectInPlace (h') data   //TM
+                let b = Array.quickSelectInPlace (h'+1) data //TM
+                a + (h - float h') * (b - a)
         
             quantileHelper f q data
 
@@ -88,9 +90,9 @@ module Quantile =
             let f q (data:array<_>) =
                 let h  = float data.Length * q + 0.5
                 let h' = int h
-                let a = Array.quickSelectInPlace (h' - 1) data
-                let b = Array.quickSelectInPlace (h') data
-                a - (h - float h') * (b - a)
+                let a = Array.quickSelectInPlace (h') data   //TM
+                let b = Array.quickSelectInPlace (h'+1) data //TM
+                a + (h - float h') * (b - a)
         
             quantileHelper f q data        
 
@@ -100,9 +102,9 @@ module Quantile =
             let f q (data:array<_>) =
                 let h  = float (data.Length+1) * q
                 let h' = int h
-                let a = Array.quickSelectInPlace (h' - 1) data
-                let b = Array.quickSelectInPlace (h') data
-                a - (h - float h') * (b - a)
+                let a = Array.quickSelectInPlace (h') data   //TM
+                let b = Array.quickSelectInPlace (h'+1) data //TM
+                a + (h - float h') * (b - a)
         
             quantileHelper f q data
 
@@ -110,11 +112,11 @@ module Quantile =
         /// Estimates the q-th quantile from the unsorted data array. (in place)
         let modeInPLace q (data:array<_>) =
             let f q (data:array<_>) =                
-                let h  = float (data.Length+1) * q + 1.
+                let h  = float (data.Length-1) * q + 1.
                 let h' = int h
-                let a = Array.quickSelectInPlace (h' - 1) data
-                let b = Array.quickSelectInPlace (h') data
-                a - (h - float h') * (b - a)
+                let a = Array.quickSelectInPlace (h') data   //TM
+                let b = Array.quickSelectInPlace (h'+1) data //TM
+                a + (h - float h') * (b - a)
         
             quantileHelper f q data
 
@@ -124,9 +126,9 @@ module Quantile =
             let f q (data:array<'a>) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
                 let h' = int h
-                let a = Array.quickSelectInPlace (h' - 1) data |> float
-                let b = Array.quickSelectInPlace (h') data |> float
-                a - (h - float h') * (b - a)
+                let a = Array.quickSelectInPlace (h') data |> float //TM
+                let b = Array.quickSelectInPlace (h'+1) data |> float //TM
+                a + (h - float h') * (b - a)
             
             quantileHelper f q data
 
@@ -137,7 +139,7 @@ module Quantile =
         
         /// Estimates the q-th quantile from the unsorted data array. (in place)
         /// Approximately median-unbiased regardless of the sample distribution.
-        let computeOfSorted q (data:array<_>) =
+        let compute q (data:array<_>) =
         
             let h  = ((float data.Length + 1./3.)*q + 1./3.)
             let h' = h |> int
@@ -155,7 +157,7 @@ module Quantile =
 
 
         /// Estimates the q-th quantile from the unsorted data array. (in place)
-        let empiricalInvCdfInPLace q (data:array<_>) =
+        let empiricalInvCdf q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q + 0.5
                 data.[(int (ceil (h-0.5))-1)]
@@ -164,82 +166,82 @@ module Quantile =
 
 
         /// Estimates the q-th quantile from the unsorted data array. (in place)
-        let empiricalInvCdfAverageInPLace q (data:array<_>) =
+        let empiricalInvCdfAverage q (data:array<_>) =
 
             let f q (data:array<_>) =
                 let h = float data.Length * q + 0.5
                 let a = data.[ (int (ceil (h - 0.5)) - 1) ]
-                let b = data.[ (int (((h + 0.5) - 1.)*0.5)) ]
-                a + b
+                let b = data.[ (int (((h + 0.5) - 1.))) ]
+                (a + b)*0.5
         
             quantileHelper f q data
 
 
         /// Estimates the q-th quantile from the unsorted data array. (in place)
-        let nearestInPLace q (data:array<_>) =
+        let nearest q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q
-                data.[ (int (System.Math.Round(h)) - 1) ]
+                data.[max (int (System.Math.Round(h)) - 1) 0 ]
         
             quantileHelper f q data
 
 
         /// Estimates the q-th quantile from the unsorted data array. (in place)
-        let californiaInPLace q (data:array<_>) =
+        let california q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float data.Length * q
                 let h' = int h
-                let a = data.[ (h' - 1) ]
-                let b = data.[ (h') ]
-                a - (h - float h') * (b - a)
+                let a = data.[ max (h' - 1) 0]
+                let b = data.[ min h' (data.Length-1) ]
+                a + (h - float h') * (b - a)
         
             quantileHelper f q data
 
 
         /// Estimates the q-th quantile from the unsorted data array. (in place)
-        let hazenInPLace q (data:array<_>) =
+        let hazen q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float data.Length * q + 0.5
                 let h' = int h
-                let a = data.[ (h' - 1) ]
-                let b = data.[ (h') ]
-                a - (h - float h') * (b - a)
+                let a = data.[ max (h' - 1) 0]
+                let b = data.[ min h' (data.Length-1) ]
+                a + (h - float h') * (b - a)
         
             quantileHelper f q data        
 
 
         /// Estimates the q-th quantile from the unsorted data array. (in place)
-        let nistInPLace q (data:array<_>) =
+        let nist q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float (data.Length+1) * q
                 let h' = int h
-                let a = data.[ (h' - 1) ]
-                let b = data.[ (h') ]
-                a - (h - float h') * (b - a)
+                let a = data.[ max (h' - 1) 0]
+                let b = data.[ min h' (data.Length-1) ]
+                a + (h - float h') * (b - a)
         
             quantileHelper f q data
 
 
         /// Estimates the q-th quantile from the unsorted data array. (in place)
-        let modeInPLace q (data:array<_>) =
+        let mode q (data:array<_>) =
             let f q (data:array<_>) =                
-                let h  = float (data.Length+1) * q + 1.
+                let h  = float (data.Length-1) * q + 1.
                 let h' = int h
-                let a = data.[ (h' - 1) ]
-                let b = data.[ (h') ]
-                a - (h - float h') * (b - a)
+                let a = data.[ max (h' - 1) 0]
+                let b = data.[ min h' (data.Length-1) ]
+                a + (h - float h') * (b - a)
         
             quantileHelper f q data
 
 
         /// Estimates the q-th quantile from the unsorted data array. (in place)
-        let normalInPLace q (data:array<_>) =
+        let normal q (data:array<_>) =
             let f q (data:array<'a>) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
                 let h' = int h
-                let a = data.[ (h' - 1) ]
-                let b = data.[ (h') ]
-                a - (h - float h') * (b - a)
+                let a = data.[ max (h' - 1) 0]
+                let b = data.[ min h' (data.Length-1) ]
+                a + (h - float h') * (b - a)
             
             quantileHelper f q data
 
@@ -262,8 +264,8 @@ module Quantile =
             Array.max data
         else
             let data' = Array.copy data
-            let a = Array.quickSelectInPlace (h'-1) data'
-            let b = Array.quickSelectInPlace h' data'
+            let a = Array.quickSelectInPlace (h') data'
+            let b = Array.quickSelectInPlace (h'+1) data'
             a + (h - float h') * (b - a); 
 
 
@@ -283,12 +285,6 @@ module Quantile =
     let nearest q (data:array<_>) =
         let data' = Array.copy data
         InPlace.nearestInPLace q data'   
-
-
-    /// Estimates the q-th quantile from the unsorted data array.
-    let empiricalInvCdfInPLace q (data:array<_>) =
-        let data' = Array.copy data
-        InPlace.empiricalInvCdfInPLace q data'
         
      
     /// Estimates the q-th quantile from the unsorted data array.
@@ -310,6 +306,7 @@ module Quantile =
     
     
     /// Estimates the q-th quantile from the unsorted data array.
+    /// R! default
     let mode q (data:array<_>) =
         let data' = Array.copy data
         InPlace.modeInPLace q data'        
