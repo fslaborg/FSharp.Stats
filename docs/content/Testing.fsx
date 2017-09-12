@@ -53,3 +53,10 @@ let sample2 = [|-0.6076633409; -0.1781469665|] |> FSharp.Stats.Vector.ofArray
 Testing.TTest.twoSample false sample1  sample2
 
 
+
+let contrastMatrix = 
+    [| [|1.0;-1.0;0.0;|] ; [|0.;-1.0;1.0;|] ; [|-1.0;0.;1.0;|] ; |]
+
+
+Testing.Hays contrastMatrix 
+
