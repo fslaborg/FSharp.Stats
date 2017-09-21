@@ -2,28 +2,28 @@
 
 
 /// Module to compute common statistical measure on 
-module SummeryStats =
+module SummaryStats =
 
-    type SummeryStats<'T> = {
+    type SummaryStats<'T> = {
         N           : 'T
         Mean        : 'T
-        SumOfSqures : 'T
+        SumOfSquares : 'T
         Min         : 'T
         Max         : 'T
     }
 
-    let createSummeryStats n mean sos min max =
-        {N=n;Mean=mean;SumOfSqures=sos;Min=min;Max=max}
+    let createSummaryStats n mean sos min max =
+        {N=n;Mean=mean;SumOfSquares=sos;Min=min;Max=max}
 
     
     ///
     let inline mean sStats = sStats.Mean
     ///
-    let inline varPopulation sStats = sStats.SumOfSqures / sStats.N
+    let inline varPopulation sStats = sStats.SumOfSquares / sStats.N
     ///
-    let inline var (sStats:SummeryStats<'T>) = 
+    let inline var (sStats:SummaryStats<'T>) = 
         let one = LanguagePrimitives.GenericOne<'T>
-        sStats.SumOfSqures / (sStats.N - one)
+        sStats.SumOfSquares / (sStats.N - one)
 
 
 module RunningStats =
