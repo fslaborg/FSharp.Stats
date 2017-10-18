@@ -123,12 +123,14 @@ xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
     <Compile Include="Correlation.fs" />
     <Compile Include="Quantile.fs" />
     <Compile Include="Precision.fs" />
+    <!-- SpecialFunctions -->
     <Compile Include="SpecialFunctions\Gamma.fs" />
     <Compile Include="SpecialFunctions\Factorial.fs" />
     <Compile Include="SpecialFunctions\Beta.fs" />
     <Compile Include="SpecialFunctions\Erf.fs" />
     <Compile Include="SpecialFunctions\Logistic.fs" />
     <Compile Include="SpecialFunctions\Binomial.fs" />
+    <!-- Algebra -->
     <Compile Include="Algebra\NativeArray.fs" />
     <Compile Include="Algebra\NativeArrayExtensions.fs" />
     <Compile Include="Algebra\NativeUtilities.fs" />
@@ -136,22 +138,28 @@ xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
     <Compile Include="Algebra\LinearAlgebraServiceManaged.fs" />
     <Compile Include="Algebra\LinearAlgebraServiceMKL.fs" />
     <Compile Include="Algebra\LinearAlgebra.fs" />
+    <!-- RootFinding -->
     <Compile Include="RootFinding\Brent.fs" />
+    <!-- Integration -->
     <Compile Include="Integration\Differentiation.fs" />
     <Compile Include="Integration\Integration.fs" />
+    <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
     <Compile Include="Optimization\LP.fs" />
     <Compile Include="Optimization\QP.fs" />
     <Compile Include="Optimization\QuasiNewton.fs" />
     <Compile Include="Optimization\Bisection.fs" />
+    <!-- Interpolation -->
     <Compile Include="Interpolation\LinearSpline.fs" />
     <Compile Include="Interpolation\CubicSpline.fs" />
     <Compile Include="Interpolation\Approximation.fs" />
+    <!-- Signal -->
     <Compile Include="Signal\FFT.fs" />
     <Compile Include="Signal\Wavelet.fs" />
     <Compile Include="Signal\ContinuousWavelet.fs" />
     <Compile Include="Signal\Baseline.fs" />
     <Compile Include="Signal\Filtering.fs" />
+    <!-- Distributions -->
     <Compile Include="Distributions\Bandwidth.fs" />
     <Compile Include="Distributions\Frequency.fs" />
     <Compile Include="Distributions\Empirical.fs" />
@@ -159,6 +167,7 @@ xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
     <Compile Include="Distributions\Continuous.fs" />
     <Compile Include="Distributions\Discrete.fs" />
     <Compile Include="Distributions\KernelDensity.fs" />
+    <!-- Testing -->
     <Compile Include="Testing\TestStatistics.fs" />
     <Compile Include="Testing\Anova.fs" />
     <Compile Include="Testing\TTest.fs" />
@@ -166,8 +175,16 @@ xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
     <Compile Include="Testing\Bartlett.fs" />
     <Compile Include="Testing\PostHoc.fs" />
     <Compile Include="Testing\PvalueAdjust.fs" />
+    <!-- Fitting -->
     <Compile Include="Fitting\Regression.fs" />
     <Compile Include="Fitting\Hermite.fs" />
+    <!-- ML -->
+    <Compile Include="ML\DistanceMetrics.fs" />
+    <Compile Include="ML\Impute.fs" />
+    <!-- ML / Unsupervised -->
+    <Compile Include="ML\Unsupervised\IterativeClustering.fs" />
+    <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
+    <Compile Include="ML\Unsupervised\DbScan.fs" />
     <Content Include="App.config" />
     <Content Include="packages.config" />
     <None Include="paket.references" />
@@ -178,9 +195,6 @@ xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
       <HintPath>..\..\lib\Microsoft.Solver.Foundation.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />

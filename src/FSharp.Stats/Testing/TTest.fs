@@ -28,9 +28,10 @@ module TTest =
                         TestStatistics.createTTest statistic dof 
                 else                
                     // Samples have unequal sizes, but assume same variance.
-                    let sp = 4.0//Statistics.Tools.PooledVariance(sample1, sample2);
-                    let statistic = (mean1 - mean2) / (sp * System.Math.Sqrt(1.0 / n1 + 1.0 / n2));
-
+                    //let sp = 4.0//Statistics.Tools.PooledVariance(sample1, sample2);
+                    let sp = (variance1 * (n1-1.) + variance2 * (n2-1.)) / (n1 + n2 - 1.)
+                    let statistic = (mean1 - mean2) / ((sqrt sp) * System.Math.Sqrt(1.0 / n1 + 1.0 / n2));
+                    
                     let dof = n1 + n2 - 2.
                     TestStatistics.createTTest statistic dof
         else
