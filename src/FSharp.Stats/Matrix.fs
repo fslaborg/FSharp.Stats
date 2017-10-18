@@ -121,7 +121,22 @@ module Matrix = begin
         let init_dense i j a      = initDense i j a
         let init_sparse i j a     = initSparse i j a
         let nonzero_entries a     = MS.nonZeroEntriesM a 
-         
+        
+        // TM
+        /// Applies function f along row axis 
+        let enumerateRowWise f (m:matrix) =
+            seq [ 
+                for coli=0 to m.NumCols-1 do 
+                yield f (seq [for rowi=0 to m.NumRows-1 do yield m.[rowi,coli]])
+                ]
+        // TM
+        /// Applies function f along colúmn axis 
+        let enumerateColumnWise f (m:matrix) =
+            seq [ 
+                for rowi=0 to m.NumRows-1 do 
+                yield f (seq [for coli=0 to m.NumCols-1 do yield m.[rowi,coli]])
+                ]    
+
     end
 
     module MG = Generic
