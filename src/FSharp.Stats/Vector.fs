@@ -192,7 +192,7 @@ module Vector =
         
 
     
-    /// Returns SummeryStats of vector with N, mean, sum-of-squares, minimum and maximum
+    /// Returns SummaryStats of vector with N, mean, sum-of-squares, minimum and maximum
     let inline stats (a:Vector<'T>) =
         let zero = LanguagePrimitives.GenericZero< 'T > 
         let one = LanguagePrimitives.GenericOne< 'T >        
@@ -207,15 +207,19 @@ module Vector =
                 let m2' = m2 + delta * delta_n * (n-one)
                 loop (index+1) (n + one) (min current minimum) (max current maximum) m1' m2'
             else
-                SummeryStats.createSummeryStats (n-one) m1 m2 minimum maximum
+                SummaryStats.createSummaryStats (n-one) m1 m2 minimum maximum
         //Init by fist value
         if a.Length > 1 then
             loop 0 one a.[0] a.[0] zero zero 
         else
             let uNan = zero / zero 
-            SummeryStats.createSummeryStats zero uNan uNan uNan uNan
+            SummaryStats.createSummaryStats zero uNan uNan uNan uNan
 
+    /// Module to compute common statistical measure on 
+    module SummaryStats = 
 
+        /// Returns SummaryStats of vector with N, mean, sum-of-squares, minimum and maximum
+        let ofVector (a:Vector<'a>) = stats a
 
 
 

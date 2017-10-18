@@ -42,8 +42,8 @@ module TTest =
         let s1Stats = Vector.stats sample1
         let s2Stats = Vector.stats sample2
 
-        let v1 = SummeryStats.var s1Stats
-        let v2 = SummeryStats.var s2Stats
+        let v1 = SummaryStats.var s1Stats
+        let v2 = SummaryStats.var s2Stats
 
         twoSampleFromMeanAndVar assumeEqualVariances (s1Stats.Mean,v1,s1Stats.N) (s2Stats.Mean,v2,s2Stats.N)
 
