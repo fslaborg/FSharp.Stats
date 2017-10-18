@@ -51,6 +51,36 @@ module IterativeClustering =
 
 
 
+    // cvmax - Algorith by Moth’d Belal. Al-Daoud (Ref.: A New Algorithm for Cluster Initialization)
+    let intitCVMAX (sample: float[] array) k =
+        let dmatrix = matrix sample
+        let cvmax =
+            dmatrix
+            |> Matrix.Generic.enumerateColumnWise Seq.var
+            |> Seq.zip (Matrix.Generic.enumerateColumnWise id dmatrix)
+            |> Seq.maxBy snd
+            |> fst
+            |> Seq.mapi (fun rowI value -> (rowI,value)) 
+            |> Seq.toArray 
+            |> Array.sortBy snd
+                    
+        if cvmax.Length < k then failwithf "Number of data points must be at least %i" k        
+//        //
+//        let intDivide a b = 
+//            int (System.Math.Floor((float a) / (float b)))
+    
+        let chunkSize = cvmax.Length / k
+        let midChunk  = chunkSize / 2
+        [ for i=1 to k do
+            let index = 
+                match (chunkSize * i) with
+                | x when x < cvmax.Length -> x - midChunk
+                | x                       -> chunkSize * (i - 1) + ((cvmax.Length - chunkSize * (i - 1)) / 2)
+            //printfn "Array.lenght = %i and index = %i" cvmax.Length (index-1)
+            yield cvmax.[index-1] |> fst]
+        |> Seq.map (fun rowI -> dmatrix.Row(rowI).ToArray())
+        |> Seq.toArray
+
 //    // cvmax - Algorith by Moth’d Belal. Al-Daoud (Ref.: A New Algorithm for Cluster Initialization)
 //    let intitCVMAX (sample: float[] array) k =
 //        let dmatrix = matrix sample

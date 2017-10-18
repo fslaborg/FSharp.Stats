@@ -83,11 +83,9 @@ let () =
 
 LinearAlgebraMKL.dgesdd_ A
 
-let enumerateRows f (m:matrix) =
-    seq [ 
-        for coli=0 to m.NumCols-1 do 
-        yield f seq [for rowi=0 to m.NumRows-1 do yield m.[rowi,coli]] 
-        ]
+
+
+
 
 //// Linear regression
 //let cost theta X (y:vector) =
