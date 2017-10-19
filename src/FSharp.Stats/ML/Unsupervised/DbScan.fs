@@ -32,8 +32,16 @@ module DbScan =
 
         member this.IsInCluster =  tag.HasFlag DbscanFlag.IsInCluster
 
+    type DbscanResult<'a> = {
+        Clusterlist     : seq<seq<'a>>
+        Corepoints      : seq<seq<'a>>
+        Noisepoints     : seq<'a>
+        }
 
-
+    let inline private createDbscanResult clusterList corepointList noisepoints = {
+        Clusterlist  = clusterList
+        Noisepoints  = noisepoints
+        Corepoints   = corepointList }
 
 
     let inline compute (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float) (input:seq<#seq<'a>>) =   
@@ -45,15 +53,15 @@ module DbScan =
 
         let inline expandCluster dfu (point:TaggedValue<'a array>) (neighours:List<TaggedValue<'a array>>) (sourcelist:List<TaggedValue<'a array>>) (eps:float) (minPts:int) (cluster:List<TaggedValue<'a array>>)= 
             cluster.Add point                                                                        
-            point.SetIsInCluster () //InCluster <- true                                                                  
+            point.SetIsInCluster ()                                                                 
             let rec loop i =                                                                         
                 if i < neighours.Count then                                                          
                     let p = neighours.[i]                                                            
                     if not p.IsVisited then                                                        
-                        p.SetIsVisited()//p.Visited <- true                                                            
-                        //let neiOfP = getRegion dfu p sourcelist eps
+                        p.SetIsVisited()                                                         
                         let neiOfP = sourcelist.FindAll (fun x -> dfu x.Value p.Value <= eps)
-                        if neiOfP.Count >= minPts then                                               
+                        if neiOfP.Count >= minPts then
+                            p.SetIsCore ()  // not necessary if no information about core or border point is needed                                               
                             neighours.AddRange neiOfP                                                
                     if not p.IsInCluster then                                                      
                         cluster.Add p                                                                
@@ -65,28 +73,31 @@ module DbScan =
         let clusterList = List<List<TaggedValue<'a array>>>() 
     
         let sourcelist = List (input |> Seq.map convert)
-
-        let newEPS = eps * eps                                                        
+                                                        
         let mutable counter = 0                                                       
         for i=0 to sourcelist.Count-1 do                                              
             //printfn "counter %i" counter                                              
             counter <- counter + 1                                                    
             if not sourcelist.[i].IsVisited then                                        
                 sourcelist.[i].SetIsVisited ()
-                let neiOfI = sourcelist.FindAll (fun x -> dfu x.Value sourcelist.[i].Value <= newEPS)
-                //let neiOfI = getRegion dfu sourcelist.[i] sourcelist newEPS                 //here
+                let neiOfI = sourcelist.FindAll (fun x -> dfu x.Value sourcelist.[i].Value <= eps)     //resizeable array hier schon erweitern?           
                 if neiOfI.Count >= minPts then                                        
                     let c = List<TaggedValue<'a array>>()                                         
-                    expandCluster dfu sourcelist.[i] neiOfI sourcelist newEPS minPts c      //here
+                    expandCluster dfu sourcelist.[i] neiOfI sourcelist eps minPts c      
                     clusterList.Add c                                                
         let noisepoints =                                                            
             sourcelist.FindAll (fun x -> not x.IsInCluster)
         noiseList.AddRange noisepoints
-
-        clusterList |> Seq.map (fun l -> l |> Seq.map (fun x -> x.Value) )
-
-
-
+        let clusterListResult = clusterList |> Seq.map (fun l -> l |> Seq.map (fun x -> x.Value) )
+        let noisePtsResult    = noiseList |> Seq.map (fun x -> x.Value) 
+        let corePtsResult     = 
+            clusterList 
+            |> Seq.map (fun l -> 
+                            l 
+                            |> Seq.filter (fun x -> x.IsCore = true) 
+                            |> Seq.map (fun x -> x.Value)
+                       )
+        createDbscanResult clusterListResult corePtsResult noisePtsResult
 
 
 
