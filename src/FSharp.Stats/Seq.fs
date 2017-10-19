@@ -736,14 +736,14 @@ module Seq =
                 let m2' = m2 + delta * delta_n * (n-one)
                 loop (n + one) (min current minimum) (max current maximum) m1' m2'
 
-            | false -> SummeryStats.createSummeryStats (n-one) m1 m2 minimum maximum
+            | false -> SummaryStats.createSummaryStats (n-one) m1 m2 minimum maximum
 
         //Init by fist value        
         match e.MoveNext() with
         | true -> loop one e.Current e.Current zero zero 
         | false ->
             let uNan = zero / zero 
-            SummeryStats.createSummeryStats zero uNan uNan uNan uNan
+            SummaryStats.createSummaryStats zero uNan uNan uNan uNan
 
 
 
