@@ -75,13 +75,13 @@ Array.zip lable data
 //four dimensional clustering with sepal length, petal length, sepal width and petal width
 let t = DbScan.compute DistanceMetrics.Array.euclideanNaN 5 1.0 data
 
-//extract sepal length and petal width
-let sepL_petW      = data |> Array.map (fun x -> [x.[0];x.[3]])
+//extract petal length and petal width
+let petL_petW      = data |> Array.map (fun x -> [x.[2];x.[3]])
 
-//extract sepal length, sepal width and petal length
-let sepL_sepW_petL = data |> Array.map (fun x -> [x.[0];x.[1];x.[2]])
+//extract petal width, petal length and sepal length  
+let petW_petL_sepL = data |> Array.map (fun x -> [x.[3];x.[2];x.[0]])
 
-//to create a chart with two dimensional data points use the following function
+//to create a chart with two dimensional data use the following function
 let create2dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float) (input:seq<#seq<'a>>) =  
     if (input |> Seq.head |> Seq.length) = 2 then  
         let result = DbScan.compute (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float) (input:seq<#seq<'a>>)
@@ -118,13 +118,14 @@ let create2dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
         |> Chart.withTitle chartname
     else failwith "create2dChart only can handle 2 coordinates"
 
-//applied function to two dimensional 'sepal length, petal width' data set
-create2dChart DistanceMetrics.Array.euclideanNaN 20 0.4 sepL_petW
-|> Chart.withX_AxisStyle "Sepal length"
-|> Chart.withY_AxisStyle "Petal width"
+//applied function for two dimensional 'sepal length, petal width' data set
+create2dChart DistanceMetrics.Array.euclidean 20 0.5 petL_petW
+|> Chart.withX_AxisStyle "Petal width"
+|> Chart.withY_AxisStyle "Petal length"
 |> Chart.Show
 
-//to create a chart with three dimensional data points use the following function
+
+//to create a chart with three dimensional data use the following function
 let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float) (input:seq<#seq<'a>>) =   
     if (input |> Seq.head |> Seq.length) = 3 then  
         let result = DbScan.compute (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float) (input:seq<#seq<'a>>)
@@ -134,7 +135,7 @@ let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
                 |> Seq.mapi (fun i l ->
                                     l
                                     |> Seq.map (fun x -> x.[0],x.[1],x.[2])
-                                    |> Seq.distinct //more efficient visualization; no difference in plot but in point numbers
+                                    |> Seq.distinct //faster visualization; no difference in plot but in point number
                                     |> fun x -> Chart.Scatter3d (x,StyleParam.Mode.Markers)
                                     |> Chart.withTraceName (sprintf "Cluster %i" i)
                             )
@@ -145,7 +146,7 @@ let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
             if result.Noisepoints |> Seq.length > 0 then 
                 result.Noisepoints
                 |> Seq.map (fun x -> x.[0],x.[1],x.[2])  
-                |> Seq.distinct //more efficient visualization; no difference in plot but in point numbers
+                |> Seq.distinct //faster visualization; no difference in plot but in point number
                 |> fun x -> Chart.Scatter3d (x,StyleParam.Mode.Markers)
                 |> Chart.withTraceName "Noise"
             else Chart.Scatter3d ([],StyleParam.Mode.Markers)
@@ -162,12 +163,12 @@ let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
     else failwith "create3dChart only can handle 3 coordinates"
 
 
-//applied function to two dimensional 'sepal length, sepal width, petal length' data set
+//applied function for three dimensional 'petal width, petal length, sepal length' data set
 //for faster computation you can use the squaredEuclidean distance and set your eps to its square
-create3dChart DistanceMetrics.Array.euclideanNaNSquared 10 1. sepL_sepW_petL 
-|> Chart.withX_AxisStyle "Sepal length"
-|> Chart.withY_AxisStyle "Sepal width"
-|> Chart.withZ_AxisStyle "Petal length"
+create3dChart DistanceMetrics.Array.euclideanNaNSquared 20 (0.7**2.) petW_petL_sepL 
+|> Chart.withX_AxisStyle "Petal length"
+|> Chart.withY_AxisStyle "Petal width"
+|> Chart.withZ_AxisStyle "Sepal length"
 |> Chart.Show
 
 
