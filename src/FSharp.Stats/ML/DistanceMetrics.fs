@@ -23,10 +23,19 @@ module DistanceMetrics =
                 dist <- dist + (x * x)
             float dist
             |> sqrt
-
         
-        /// Euclidean distance between 2 vectors
-        let inline euclideanNaN (v1:Vector<float>) (v2:Vector<float>) = 
+
+        /// Squared Euclidean distance between 2 vectors
+        let inline euclideanSquared (v1:Vector<'a>) (v2:Vector<'a>) = 
+            let dim = min v1.Length v2.Length
+            let mutable dist = LanguagePrimitives.GenericZero< 'a >
+            for i in 0 .. (dim - 1) do
+                let x = v1.[i] - v2.[i]
+                dist <- dist + (x * x)
+            float dist
+        
+        /// Euclidean distance between 2 vectors (ignores nan) 
+        let euclideanNaN (v1:Vector<float>) (v2:Vector<float>) = 
             let dim = min v1.Length v2.Length
             let mutable dist = 0.0 
             for i in 0 .. (dim - 1) do
@@ -34,24 +43,154 @@ module DistanceMetrics =
                 if not (nan.Equals (x)) then
                     dist <- dist + (x * x)
             sqrt dist 
+
+        /// Cityblock distance of two vectors
+        let inline cityblock (v1:Vector<'a>) (v2:Vector<'a>) = 
+            let dim = min v1.Length v2.Length
+            let mutable dist = LanguagePrimitives.GenericZero< 'a > 
+            for i in 0 .. (dim - 1) do
+                let x = 
+                    if v1.[i] > v2.[i] then
+                        v1.[i] - v2.[i] 
+                    else v2.[i] - v1.[i]                  
+                dist <- dist + x
+            float dist
+
+        /// Cityblock distance of two vectors
+        let inline cityblockNaN (v1:Vector<float>) (v2:Vector<float>) = 
+            let dim = min v1.Length v2.Length
+            let mutable dist = 0.
+            for i in 0 .. (dim - 1) do
+                let x = v1.[i] - v2.[i] |> System.Math.Abs
+                dist <- dist + x
+            dist
  
+    module Array = 
+        
+        /// Euclidean distance of two coordinate arrays
+        let inline euclidean (a1:array<'a>) (a2:array<'a>) = 
+            let dim = min a1.Length a2.Length
+            let mutable dist = LanguagePrimitives.GenericZero< 'a > 
+            for i in 0 .. (dim - 1) do
+                let x = a1.[i] - a2.[i]
+                dist <- dist + (x * x)
+            float dist
+            |> sqrt         
+        
+        /// Euclidean distance of two coordinate float arrays (ignores nan)
+        let euclideanNaN (a1:array<float>) (a2:array<float>) =                     
+            let dim = min a1.Length a2.Length
+            let mutable dist = 0.0 
+            for i in 0 .. (dim - 1) do
+                let x = a1.[i] - a2.[i]
+                if not (nan.Equals (x)) then
+                    dist <- dist + (x * x)
+            sqrt dist 
 
-    /// Euclidean distance between 2 vectors
-    let euclidean v1 v2 = 
-        Seq.zip v1 v2
-        |> Seq.fold (fun d (e1,e2) -> d + ((e1 - e2) * (e1 - e2))) 0.
-        |> sqrt
+        /// Squared Euclidean distance of two coordinate float arrays (ignores nan)
+        let euclideanNaNSquared (a1:array<float>) (a2:array<float>) =               
+            let dim = min a1.Length a2.Length
+            let mutable dist = 0.0
+            for i in 0 .. (dim - 1) do
+                let x = a1.[i] - a2.[i]
+                if not (nan.Equals (x)) then
+                    dist <- dist + (x * x)
+            float dist
 
-    /// Euclidean distance between 2 vectors (ignores nan)
-    let euclideanNaN v1 v2 = 
-        Seq.zip v1 v2
-        |> Seq.map (fun (e1, e2) -> (e1 - e2) * (e1 - e2))
-        |> Seq.filter (fun x -> not(System.Double.IsNaN(x)))
-        |> Seq.sum
+        /// Cityblock distance of two coordinate arrays
+        let inline cityblock (a1:array<'a>) (a2:array<'a>) = 
+            let dim = min a1.Length a2.Length
+            let mutable dist = LanguagePrimitives.GenericZero< 'a > 
+            for i in 0 .. (dim - 1) do
+                let x = 
+                    if a1.[i] > a2.[i] then
+                        a1.[i] - a2.[i] 
+                    else a2.[i] - a1.[i]                  
+                dist <- dist + x
+            float dist
+
+        /// Cityblock distance of two coordinate float arrays (ignores nan)
+        let cityblockNaN (a1:array<float>) (a2:array<float>) = 
+            let dim = min a1.Length a2.Length
+            let mutable dist = 0.0
+            for i in 0 .. (dim - 1) do 
+                let x = a1.[i] - a2.[i]
+                if not (nan.Equals (x)) then
+                    dist <- dist + (x |> System.Math.Abs)
+            dist
+
+        
+
+    /// Euclidean distance of two coordinate sequences
+    let inline euclidean (s1:seq<'a>) (s2:seq<'a>) = 
+        Seq.zip s1 s2
+        |> Seq.fold (fun acc (c1,c2) -> 
+                            let dC = c1 - c2
+                            acc + (dC * dC)) LanguagePrimitives.GenericZero< 'a > 
         |> sqrt
+       
+        
+    /// Euclidean distance of two coordinate float sequences (ignores nan)
+    let euclideanNaN (s1:seq<float>) (s2:seq<float>) =    
+        Seq.zip s1 s2
+        |> Seq.fold (fun acc (c1,c2) -> 
+                            let dC = c1 - c2
+                            if not (nan.Equals dC) then 
+                                acc + (dC * dC)
+                            else acc    
+                    ) 0.
+                               
+        |> sqrt
+            
+    /// Squared Euclidean distance of two coordinate float sequences (ignores nan)
+    let euclideanNaNSquared (s1:seq<float>) (s2:seq<float>) =            
+        Seq.zip s1 s2
+        |> Seq.fold (fun acc (c1,c2) -> 
+                            let dC = c1 - c2
+                            if not (nan.Equals dC) then 
+                                acc + (dC * dC)
+                            else acc    
+                    ) 0.
+                               
+    /// Cityblock distance of two coordinate float sequences
+    let inline cityblock (s1:seq<'a>) (s2:seq<'a>) = 
+        Seq.zip s1 s2
+        |> Seq.fold (fun acc (c1,c2) ->
+                        if c1 < c2 then 
+                            acc + (c2 - c1)
+                        else acc + (c1 - c2)            
+                    ) LanguagePrimitives.GenericZero< 'a > 
+        |> float
+
+    /// Cityblock distance of two coordinate float sequences
+    let cityblockNaN (s1:seq<float>) (s2:seq<float>) = 
+        Seq.zip s1 s2
+        |> Seq.fold (fun acc (c1,c2) ->
+                        let dC = c1 - c2 |> System.Math.Abs
+                        if not (nan.Equals dC) then
+                            acc + dC
+                        else acc
+                    ) 0.
+
+
+//    /// Euclidean distance between 2 vectors
+//    let euclidean v1 v2 = 
+//        Seq.zip v1 v2
+//        |> Seq.fold (fun d (e1,e2) -> d + ((e1 - e2) * (e1 - e2))) 0.
+//        |> sqrt
+//
+//    /// Euclidean distance between 2 vectors (ignores nan)
+//    let euclideanNaN v1 v2 = 
+//        Seq.zip v1 v2
+//        |> Seq.map (fun (e1, e2) -> (e1 - e2) * (e1 - e2))
+//        |> Seq.filter (fun x -> not(System.Double.IsNaN(x)))
+//        |> Seq.sum
+//        |> sqrt
+
+
 
     /// "Dissimilarity" uses 1. - pearsons correlation coefficient 
-    let dissimilarity v1 v2 =
+    let inline dissimilarity v1 v2 =
         1. - Correlation.pearson v1 v2
 
 
@@ -88,9 +227,10 @@ module DistanceMetrics =
 
 //Value	Description
 //'euclidean'	Euclidean distance.
+//'euclideanSquared' Squared euclidean distance. If distance to check for is squared too, the computation is faster because of lacking square root calculation
 //'seuclidean'	Standardized Euclidean distance. Each coordinate difference between X and a query point is scaled, meaning divided by a scale value S. The default value of S is the standard deviation computed from X, S=nanstd(X). To specify another value for S, use the Scale name-value pair.
 //'mahalanobis'	Mahalanobis distance, computed using a positive definite covariance matrix C. The default value of C is the sample covariance matrix of X, as computed by nancov(X). To specify a different value for C, use the 'Cov' name-value pair.
-//'cityblock'	City block distance.
+//'cityblock'	City block distance. (Manhattan distance, taxi cap distance)
 //'minkowski'	Minkowski distance. The default exponent is 2. To specify a different exponent, use the 'P' name-value pair.
 //'chebychev'	Chebychev distance (maximum coordinate difference).
 //'cosine'	One minus the cosine of the included angle between observations (treated as vectors).
