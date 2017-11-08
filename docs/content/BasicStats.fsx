@@ -2,7 +2,7 @@
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
 #I "../../bin"
-#r "../../packages/build/FSharp.Plotly/lib/net40/Fsharp.Plotly.dll"
+#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
 Basic stats
@@ -216,7 +216,7 @@ Array.quickSelect 1 d
 Quantile.mode 0.8  d
 
 Chart.Point( y, x)
-|> Chart.Show
+
 
 
 let v = 

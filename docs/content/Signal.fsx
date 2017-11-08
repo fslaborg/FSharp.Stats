@@ -2,7 +2,7 @@
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
 #I "../../bin"
-#r "../../packages/build/FSharp.Plotly/lib/net40/Fsharp.Plotly.dll"
+#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
 
@@ -51,10 +51,10 @@ let y' = Signal.FFT.inverse (y |> Array.map (fun v ->  Complex.Create (v, 0.) ))
     Chart.Line(t,y')
 ]
 |> Chart.Combine
-|> Chart.Show
+|>  
 
 
-Chart.Line(t,y') |> Chart.Show
+Chart.Line(t,y') 
 
 
 
@@ -63,6 +63,6 @@ let f t = 5. + 2. * cos (2.*pi*t-90.) + 3.* cos (4.*pi*t)
 let y = x |> Array.map f
 let y' = Signal.FFT.inverse (y |> Array.map (fun v ->  Complex.Create (v, 0.) )) |> Array.map (fun c -> c.RealPart)
 
-Chart.Line(x,x |> Array.map f) |> Chart.Show
+Chart.Line(x,x |> Array.map f) 
 
-Chart.Line(x,y') |> Chart.Show
+Chart.Line(x,y') 

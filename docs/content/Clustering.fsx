@@ -38,7 +38,7 @@ Chart.Heatmap(data,ColNames=colnames,RowNames=(lable |> Seq.mapi (fun i s -> spr
 |> Chart.withMarginSize(Left=250.)
 |> Chart.withSize(500.,1100.)
 (*** include-it:heat1 ***)
-|> Chart.Show
+
 
 
 open FSharp.Stats.ML
@@ -66,7 +66,6 @@ Array.zip lable data
 |> Array.unzip
 |> fun (l,d) -> Chart.Heatmap(d,ColNames=colnames,RowNames=(l |> Seq.mapi (fun i s -> sprintf "%s%i" s i )),Colorscale=colorscaleValue,Showscale=true)
 |> Chart.withSize(500.,1100.)
-|> Chart.Show
 
 
 // ---------------
@@ -122,7 +121,6 @@ let create2dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
 create2dChart DistanceMetrics.Array.euclidean 20 0.5 petL_petW
 |> Chart.withX_AxisStyle "Petal width"
 |> Chart.withY_AxisStyle "Petal length"
-|> Chart.Show
 
 
 //to create a chart with three dimensional data use the following function
@@ -169,7 +167,7 @@ create3dChart DistanceMetrics.Array.euclideanNaNSquared 20 (0.7**2.) petW_petL_s
 |> Chart.withX_AxisStyle "Petal length"
 |> Chart.withY_AxisStyle "Petal width"
 |> Chart.withZ_AxisStyle "Sepal length"
-|> Chart.Show
+
 
 
 // ---------------
@@ -195,7 +193,7 @@ Chart.Heatmap(hdata,ColNames=colnames,RowNames=(hlable |> Seq.mapi (fun i s -> s
 |> Chart.withMarginSize(Left=250.)
 |> Chart.withSize(500.,2100.)
 (*** include-it:heat1 ***)
-|> Chart.Show
+
 
 
 
