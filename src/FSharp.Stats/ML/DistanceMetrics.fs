@@ -1,6 +1,6 @@
 ﻿namespace FSharp.Stats.ML
 
-
+///Functions for computing distances of elements or sets
 module DistanceMetrics =
 
     open FSharp.Stats
@@ -171,23 +171,6 @@ module DistanceMetrics =
                             acc + dC
                         else acc
                     ) 0.
-
-
-//    /// Euclidean distance between 2 vectors
-//    let euclidean v1 v2 = 
-//        Seq.zip v1 v2
-//        |> Seq.fold (fun d (e1,e2) -> d + ((e1 - e2) * (e1 - e2))) 0.
-//        |> sqrt
-//
-//    /// Euclidean distance between 2 vectors (ignores nan)
-//    let euclideanNaN v1 v2 = 
-//        Seq.zip v1 v2
-//        |> Seq.map (fun (e1, e2) -> (e1 - e2) * (e1 - e2))
-//        |> Seq.filter (fun x -> not(System.Double.IsNaN(x)))
-//        |> Seq.sum
-//        |> sqrt
-
-
 
     /// "Dissimilarity" uses 1. - pearsons correlation coefficient 
     let inline dissimilarity v1 v2 =
