@@ -129,5 +129,54 @@ let eval = Hermite.initEvalAt x a c
 ]
 |> Chart.Combine
 (*** include-it:hermitespline1 ***)
+|> Chart.Show
+
+
+let m1 = vector [|14.69707479;49.40105967;4.63026942;7.728633952;4.077401498;3.847039793;3.294171442;4.837594998;0.345542383;7.141212053|]
+let m2 = vector [|1.156069364;10.69364162;9.248554913;2.312138728;13.00578035;9.826589595;12.42774566;7.225433526;1.156069364;32.94797688|]
+let m3 = vector [|0.139580499;5.089121731;3.153427595;4.343756039;5.899058788;6.242208666;7.593415919;5.831556204;1.551657515;60.15621704|]
+
+let t1 = vector [|0.129230005;8.82273372;6.149632627;7.616209201;9.226621001;9.247565753;9.274231037;7.417205731;2.153290552;39.96328037|]
+let t2 = vector [|1.020411515;18.39983282;11.69962593;11.3877188;8.877225494;6.802075352;6.42866738;6.570529817;2.237481955;26.57643094|]
+let t3 = vector [|1.514770998;15.24095695;7.727525997;9.372988152;9.944448026;8.774023957;7.817375851;7.23063126;2.16513451;30.2121443|]
+
+
+let N = m1.Length
+let oneVec = Vector.create N 1. //:> Vector<float>
+let X = Matrix.ofSeq  [ m1; m2; m3] 
+
+let r1 = Regression.Linear.coefficientOfMatrix (X.Transpose) t1 // Glucose
+let r2 = Regression.Linear.coefficientOfMatrix (X.Transpose) t2 // Fructose
+let r3 = Regression.Linear.coefficientOfMatrix (X.Transpose) t3 // Sucrose
+
+
+open FSharp.Stats
+let bwm1 = 1.//Distributions.Bandwidth.nrd0 m1.Values
+let km1 = Distributions.KernelDensity.estimate Distributions.KernelDensity.Kernel.biweight bwm1 m1.Values
+
+let bwm2 = 1.//Distributions.Bandwidth.nrd0 m2.Values
+let km2 = Distributions.KernelDensity.estimate Distributions.KernelDensity.Kernel.biweight bwm2 m2.Values
+
+let bwm3 = 1.//Distributions.Bandwidth.nrd0 m3.Values
+let km3 = Distributions.KernelDensity.estimate Distributions.KernelDensity.Kernel.biweight bwm3 m3.Values
+
+//[
+//Chart.Point ([1..10], m1 ,Name = "Chlorophyll")
+//Chart.Point ([1..10], m2,Name = "UGPase")
+//Chart.Point ([1..10], m3,Name = "Nitrat")
+//]
+//|> Chart.Combine
+//|> Chart.Show
+
+
+
+[
+Chart.Point (km1 ,Name = "Chlorophyll")
+Chart.Point (km2,Name = "UGPase")
+Chart.Point (km3,Name = "Nitrat")
+]
+|> Chart.Combine
+|> Chart.Show
+
 
 
