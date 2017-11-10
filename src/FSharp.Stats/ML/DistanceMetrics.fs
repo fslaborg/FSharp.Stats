@@ -4,21 +4,38 @@
 module DistanceMetrics =
 
     open FSharp.Stats
+    open FSharp.Stats.Algebra
+    open FSharp.Stats.Algebra.LinearAlgebra
     
     //  the Distance between 2 observations 'a is a float
     //  It also better be positive - left to the implementer
     /// Signiture type for distance functions
     type Distance<'a> = 'a -> 'a -> float
 
+    module Vector = 
+        
+        /// Euclidean distance between 2 vectors
+        let inline euclidean (v1:Vector<'a>) (v2:Vector<'a>) = 
+            let dim = min v1.Length v2.Length
+            let mutable dist = LanguagePrimitives.GenericZero< 'a > 
+            for i in 0 .. (dim - 1) do
+                let x = v1.[i] - v2.[i]
+                dist <- dist + (x * x)
+            float dist
+            |> sqrt
 
-    let distEucl (arr1:float[]) (arr2:float[]) =
-        let dim = arr1.Length
-        let mutable dist = 0.
-        for i in 0 .. (dim - 1) do
-            let x = arr1.[i] - arr2.[i]
-            dist <- dist + (x * x)
-        dist 
+        
+        /// Euclidean distance between 2 vectors
+        let inline euclideanNaN (v1:Vector<float>) (v2:Vector<float>) = 
+            let dim = min v1.Length v2.Length
+            let mutable dist = 0.0 
+            for i in 0 .. (dim - 1) do
+                let x = v1.[i] - v2.[i]
+                if not (nan.Equals (x)) then
+                    dist <- dist + (x * x)
+            sqrt dist 
  
+
     /// Euclidean distance between 2 vectors
     let euclidean v1 v2 = 
         Seq.zip v1 v2

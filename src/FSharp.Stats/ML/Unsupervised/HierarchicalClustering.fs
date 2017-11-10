@@ -1,5 +1,8 @@
 ﻿namespace FSharp.Stats.ML.Unsupervised
 
+open System
+open System.Collections.Generic
+
 open FSharp.Stats.ML
 
 /// Agglomerative hierarchical clustering
@@ -80,11 +83,15 @@ module HierarchicalClustering =
         | Leaf of int * int * 'T
 
     // Returns cluster Id
-    let private getClusterId (c:Cluster<'T>) =
+    let getClusterId (c:Cluster<'T>) =
         match c with
         | Cluster.Node(id,_,_,_,_) -> id   
         | Cluster.Leaf(id,_,_) -> id
-        
+
+    let tryGetLeafValue (c:Cluster<'T>) =
+        match c with
+        | Cluster.Node(_) -> None
+        | Cluster.Leaf(_,_,value) -> Some value
 
     // Returns cluster member count
     let private getClusterMemberCount (c:Cluster<'T>) =
@@ -212,56 +219,91 @@ module HierarchicalClustering =
                                     let nInput = ((createCluster (count) dist c1 c2)::rInput)
                                     whileLoop nInput (count + 1 )
             | None             -> input
-
- 
-//        // Finds cluster pair with min distance
-//        let findMinDinstancePair' (cachedDist:DistanceCaching<'T>) (inputList:Cluster<'T> ResizeArray) =                            
-//            if inputList.Count >= 2 then 
-//                let mutable dist   = cachedDist.calcDistance inputList.[0] inputList.[1]                
-//                let mutable index1 = inputList.[0]
-//                let mutable index2 = inputList.[1]
-//
-//                for i=0 to inputList.Count-1 do
-//                    for ii=i+1 to inputList.Count-1 do
-//                        let dist' = cachedDist.calcDistance inputList.[i] inputList.[ii]
-//                        if dist' < dist then
-//                            dist <- dist'
-//                            index1 <- inputList.[i]
-//                            index2 <- inputList.[ii]
-//
-//                Some (index1,index2,dist)
-//            else
-//                None
-//
-//
-//
-//        // Loops while all clusters are merged
-//        let rec whileLoop' (input:ResizeArray<Cluster<'T>>) (count:int) =          
-//            match (findMinDinstancePair' cachedDist input) with
-//            | Some(c1,c2,dist) -> //remove
-//                                  input.Remove(c1) |> ignore
-//                                  input.Remove(c2) |> ignore
-////                                  let c1 = input.[c1Index]
-////                                  let c2 = input.[c2Index]
-////                                  input.RemoveAt(c1Index) |> ignore
-////                                  input.RemoveAt(c2Index) |> ignore
-//                                  // merge cluster
-//                                  let mergedCluster = (createCluster (count) dist c1 c2)
-//                                  input.Add(mergedCluster)
-//                                  whileLoop' input (count + 1 )
-//            | None             -> input
-
-
-        //#endregion Cluster Helper
     
         // Create a new cluster for each data point                        
         let clusterList = data |> Seq.mapi (fun i dp -> createClusterValue i dp) |> Seq.toList
         // Iterate
         (whileLoop clusterList (clusterList.Length))|> List.head
-//        // Create a new cluster for each data point                        
-//        let clusterList = data |> Seq.mapi (fun i dp -> createClusterValue i dp) |> ResizeArray.ofSeq // Seq.toList
-//        // Iterate        
-//        (whileLoop' clusterList (clusterList.Count)).[0]
+
+
+
+
+
+    ///// Builds a hierarchy of clusters of data containing cluster labels
+    //let generate'<'T> (distance:DistanceMetrics.Distance<'T>) (linker:Linker.LancWilliamsLinker) (data:seq<'T>) = 
+ 
+    //    //#region Distance Caching
+    //    let cachedDist = DistanceCaching<'T> (distance,linker)
+
+    //    //#endregion Distance Caching
+        
+    //    //#region Cluster Helper       
+    //    // Removes cluster from list
+    //    let removeCluster (inputList:List<Cluster<'T>>) (c1:Cluster<'T>) (c2:Cluster<'T>) = 
+    //        let idC1 = getClusterId c1
+    //        let idC2 = getClusterId c2
+    //        inputList.RemoveAll(fun c -> 
+    //            let cId = getClusterId c
+    //            cId = idC1 || cId = idC2 ) |> ignore
+    //        inputList
+             
+
+    //    // Finds cluster pair with min distance
+    //    let tryFindMinDistanceCluster (cachedDist:DistanceCaching<'T>) (inputList:List<Cluster<'T>>) = 
+    //        let len = inputList.Count
+            
+    //        let rec innerLoop ii c1 acc =
+    //            printfn "H ii %i" ii
+    //            if ii < len then
+    //                let c2 = inputList.[ii]
+    //                let dist = cachedDist.calcDistance c1 c2
+    //                let _,_,cmin = acc
+    //                if dist < cmin then
+    //                    innerLoop (ii+1) c1 (c1,c2,dist)
+    //                else
+    //                    innerLoop (ii+1) c1 acc
+    //            else
+    //                acc
+
+    //        let rec outerLoop i acc =
+    //            printfn "Outer i %i len %i" i len
+    //            if i < len-1 then
+    //                let acc' = innerLoop (i+1) (inputList.[i]) acc
+    //                outerLoop (i+1) acc'                    
+    //            else
+    //                acc
+
+    //        if len > 1 then
+    //            let h1 = inputList.[0]
+    //            let h2 = inputList.[1]
+    //            let d  = cachedDist.calcDistance h1 h2
+    //            Some (outerLoop 0 (h1,h2,d))
+    //        else
+    //            None
+            
+    //    // Loops while all clusters are merged
+    //    let rec whileLoop (input:List<Cluster<'T>>) (count:int) =
+    //        match (tryFindMinDistanceCluster cachedDist input) with
+    //        | Some(c1,c2,dist) -> //remove
+    //                                let tmp = removeCluster input c1 c2
+    //                                tmp.Add( createCluster (count) dist c1 c2 )
+    //                                //let mCount = getClusterMemberCount c1 + getClusterMemberCount c2
+    //                                whileLoop tmp (count + 1 )
+    //        | None             -> input
+
+    
+    //    // Create a new cluster for each data point                        
+    //    let clusterList = data |> Seq.mapi (fun i dp -> createClusterValue i dp) |> List
+    //    // Iterate
+    //    let tmp = whileLoop clusterList (clusterList.Count)
+    //    if tmp.Count > 0 then tmp.[0] else failwith "List can not be empty"
+
+
+
+
+
+
+
 
 
     /// Returns 
