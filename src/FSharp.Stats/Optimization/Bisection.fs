@@ -2,7 +2,7 @@
 
 module Bisection = 
     
-    ///Finds the value in an interval for which a given function returns a value at least as close to 0 as the accuracy 
+    ///Finds the value in an interval for which a given function returns a value close to 0 
     let tryFindRoot func accuracy lowerBound upperBound maxIter = 
 
         let rec loop a b i = 
@@ -32,7 +32,6 @@ module Bisection =
                     if fb < 0. then 
                         loop a b 0
                     else None
-
         if lowerBound < upperBound then checkConditions lowerBound upperBound
         else checkConditions upperBound lowerBound
             
