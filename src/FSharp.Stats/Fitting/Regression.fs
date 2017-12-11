@@ -235,27 +235,17 @@ module Regression =
             let calculateANOVA (coef : float) x y =                
                 calculateANOVA 1 (fitFunc coef) x y 
 
-        
+       
         /// Caclualtes the coefficients for linear regression
         /// in the form of [|intercept; slope;|]
-        let coefficientOfMatrix (X : Matrix<float>) (y : Vector<float>) =
-            let coef = Algebra.LinearAlgebra.LeastSquares X y
-            //X.QR().Solve(y)
-            coef//.ToArray()
-
-
-        /// Caclualtes the coefficients for linear regression
         let coefficient (x_data : Vector<float>) (y_data : Vector<float>) =
             if x_data.Length <> y_data.Length then
                 raise (System.ArgumentException("vector x and y have to be the same size!"))
             let N = x_data.Length
-            let oneVec = Vector.create N 1. //:> Vector<float>
-            let X = Matrix.ofSeq  [ oneVec; x_data] 
-
-            coefficientOfMatrix (X.Transpose) y_data
+            let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else x_data.[m] )
+            Algebra.LinearAlgebra.LeastSquares X y_data
             
-        
-
+            
         /// Fit to x
         let fit (coef : Vector<float>) (x:float) =
             if coef.Length <> 2 then
@@ -281,7 +271,6 @@ module Regression =
             Matrix.init vec.Length (order+1) (fun m order -> pown vec.[m] order) 
             //Matrix. ofRowVector (vector [ for i = 0 to (vec.Count - 1) do yield (vandermondeRow order vec.[i]) ])
             
-
         /// Caclualtes the coefficients for polynomial regression
         let coefficient (order:int) (x_data : Vector<float>) (y_data : Vector<float>) =
             if x_data.Length <> y_data.Length then
@@ -294,7 +283,6 @@ module Regression =
             let AtA = A.Transpose * A
             let Aty = A.Transpose * y_data
             Algebra.LinearAlgebra.LeastSquares AtA Aty        
-
     
         /// Fit to x
         let fit (order) (coef : Vector<float>) (x:float) =            

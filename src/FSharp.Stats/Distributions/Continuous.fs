@@ -193,7 +193,7 @@ module Continuous =
         /// Computes the probability density function.
         static member PDF mu tau x =
             normalCheckParam mu tau
-            (exp (-0.5 * (x-mu)*(x-mu) / (tau*tau))) / (sqrt (2.0 * Ops.pi))
+            (exp (-0.5 * (x-mu)*(x-mu) / (tau*tau))) / (sqrt (2.0 * Ops.pi * (tau*tau)))
 
         /// Computes the cumulative distribution function.
         static member CDF mu tau x =
