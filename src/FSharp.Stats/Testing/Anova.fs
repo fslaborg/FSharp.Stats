@@ -31,6 +31,21 @@ module Anova =
     let createAnovaVariationSource degreesOfFreedom meanSquares significance source statistic sumOfSquares =
         { DegreesOfFreedom = degreesOfFreedom; MeanSquares = meanSquares; Significance = significance; Source = source; Statistic = statistic; SumOfSquares = sumOfSquares;}
 
+    type OneWayAnovaVariationSources =
+        {
+            // first factor source
+            Factor   : AnovaVariationSource
+            // Error (within-variance) source
+            Error       : AnovaVariationSource
+            // Total source of variance
+            Total       : AnovaVariationSource
+        }
+
+
+    let createOneWayAnovaVariationSources factor error total =
+        { Factor = factor;Error=error;Total=total}
+
+
 
     type TwoWayAnovaVariationSources =
         {
@@ -83,8 +98,19 @@ module Anova =
 
         let FTest = Testing.TestStatistics.createFTest (MSb / MSw) Db Dw            
 
-        { DegreesOfFreedom = Db; MeanSquares = (Sb / Db); Significance = FTest.PValue; Source = VariationSource.BetweenGroups; Statistic = FTest.Statistic; SumOfSquares = Sb; }                 
+        let dfT = float (totalSize - 1)
+        let sst = 
+            samples
+            |> Seq.concat
+            |> Seq.sumBy (fun v -> 
+                            let u = v - totalMean
+                            u * u )            
 
+        let factor = createAnovaVariationSource Db (Sb / Db) FTest.PValue VariationSource.BetweenGroups FTest.Statistic Sb
+        let error  = createAnovaVariationSource Dw (Sw / Dw) nan VariationSource.WithinGroups nan Sw
+        let total  = createAnovaVariationSource dfT (sst / dfT) nan VariationSource.Total nan sst
+        
+        createOneWayAnovaVariationSources factor error total
 
 
     // #################################################################
@@ -120,6 +146,14 @@ module Anova =
 
         // Calculate factor means
         let fstFactorMean =
+            //Array.init sndFactorCount (fun i -> 
+            //    let mutable sum = 0.0
+            //    for j=0 to samples.[i].Length-1 do
+            //        for k=0 to samples.[i].[j].Length-1 do
+            //        sum <- sum + samples.[i].[j].[k]
+            //    sum / float (sndFactorCount * replCount)
+            //    )
+
             samples
             |> Array.map (fun arr -> 
                 let sum = arr |> Array.sumBy Array.sum
@@ -129,7 +163,7 @@ module Anova =
             Array.init sndFactorCount (fun j -> 
                 let mutable sum = 0.0
                 for i=0 to samples.Length-1 do
-                    for k=0 to samples.[i].[j].Length do
+                    for k=0 to samples.[i].[j].Length-1 do
                     sum <- sum + samples.[i].[j].[k]
                 sum / float (fstFactorCount * replCount)
                 )
