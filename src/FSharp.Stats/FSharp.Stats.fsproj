@@ -178,6 +178,7 @@ xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
     <!-- Fitting -->
     <Compile Include="Fitting\Regression.fs" />
     <Compile Include="Fitting\Hermite.fs" />
+    <Compile Include="Fitting\QuantileNormalization.fs" />
     <!-- ML -->
     <Compile Include="ML\DistanceMetrics.fs" />
     <Compile Include="ML\Impute.fs" />
