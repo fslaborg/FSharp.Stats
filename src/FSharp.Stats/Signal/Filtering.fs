@@ -29,8 +29,10 @@ module Filtering =
 //        // Reverse filtered signal
 //        MathNet.Numerics.IntegralTransforms.Fourier.Inverse signalFFT
 //        signalFFT |> Math.Complex.fromComplexFloatArray
-//        
-//    
+
+
+
+ 
 //    ///http://www.centerspace.net/blog/nmath/chebyshev-filters-with-nmath/
 //    let chebeshevFilter = 
 //        0
