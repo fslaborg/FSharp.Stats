@@ -115,6 +115,7 @@ xcopy /Y "$(TargetDir)*.xml" "$(SolutionDir)bin\"</PostBuildEvent>
     <Compile Include="Array.fs" />
     <Compile Include="Seq.fs" />
     <Compile Include="List.fs" />
+    <Compile Include="JaggedArray.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="Matrix.fs" />
     <Compile Include="RowVector.fs" />
