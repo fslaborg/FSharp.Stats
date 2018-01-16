@@ -16,7 +16,11 @@ module List =
         | h::t  -> loop t h h
         | [] -> Intervals.Interval.Empty
 
-
+    /// computes the population mean (normalized by n)
+    let mean items =
+        items
+        |> List.fold (fun (n,sum) x -> 1 + n,sum + x) (0,0.)
+        |> fun (n,sum) -> sum / float n
 
     /// Calculate the median of a list of items.
     /// The result is a tuple of two items whose mean is the median.
