@@ -688,14 +688,16 @@ module Seq =
 
 
 
-//    /// Median absolute deviation
-//    /// MAD
-//    let medianAbsoluteDev (data:seq<float>) =
-//        let median = MathNet.Numerics.Statistics.Statistics.Median(data)
-//        let dev = data |> Seq.map (fun x -> abs(x-median))
-//        MathNet.Numerics.Statistics.Statistics.Median(dev)
-//
-//
+    /// Median absolute deviation (MAD)
+    let medianAbsoluteDev (data:seq<float>) =        
+        let data' = data |> Seq.toArray
+        let m' = Array.median data'
+        data' 
+        |> Array.map (fun x -> abs ( x - m' ))
+        |> Array.median
+        
+
+
 //    /// Average absolute deviation (Normalized by N)
 //    let populationAverageDev (data) =        
 //        let filterSeq =

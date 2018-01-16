@@ -95,6 +95,9 @@ module LinearAlgebraManaged =
         // if not (isLowerTriangular lres) then failwith "choleskyFactor: not lower triangular result";
         lres.Transpose  // REVIEW optimize this so we don't have to take transpose ...
     
+
+    /// For a matrix A, the LU factorization is a pair of lower triangular matrix L and upper triangular matrix U so that A = L*U.
+    /// The pivot function encode a permutation operation such for a matrix P P*A = L*U.
     let LU A =
         let (nA,mA) = matrixDims A
         if nA<>mA then invalidArg "Matrix" "lu: not square"
@@ -135,12 +138,15 @@ module LinearAlgebraManaged =
         (((*P.Length,*)Permutation.ofArray P),L + Matrix.identity nA,U)
         //(P, L + (Matrix.identity nA), U)
     
+
+    /// Solves a system of linear equations, AX = B, with A LU factorized.
     let SolveLinearSystem (A:matrix) (b:vector) =
         let (n,m) = matrixDims A
         if n <> m then invalidArg "Matrix" "Matrix must be square." 
         let P,L,U = LU A
         (SolveTriangularLinearSystem U (SolveTriangularLinearSystem L (b.Permute P) true) false)
-        
+
+    /// Solves a system of linear equations, Ax = b, with A LU factorized.        
     let SolveLinearSystems (A:matrix) (B:matrix) =
         let (n,m) = matrixDims A
         if n <> m then invalidArg "Matrix" "Matrix must be square." 
@@ -269,3 +275,22 @@ module LinearAlgebraManaged =
                                         )
         leverage
         
+    
+    /// Calculates the pseudo inverse of the matrix
+    let pseudoInvers (matrix:Matrix<float>) =
+        let (m,n) = matrixDims matrix
+        // Is this an overdetermined or underdetermined system?
+        if m > n then
+            let qm,R = QR matrix
+            let i = Matrix.identity m
+            let Qtb = qm.Transpose * i
+            SolveTriangularLinearSystems R.[0..n-1,0..n-1] Qtb.[0..n-1,0..m-1] false
+        else
+            let qm,R = QR matrix.Transpose
+            let i = Matrix.identity n
+            let Qtb = qm.Transpose * i        
+            let s = SolveTriangularLinearSystems R.[0..m-1,0..m-1] Qtb.[0..m-1,0..n-1] false
+            s.Transpose            
+
+
+
