@@ -129,7 +129,19 @@ module LinearAlgebra =
         //if HaveService() then failwith "Not implemented yet."// REVIEW LinearAlgebraService.Hessenberg A
         //                    else LinearAlgebraManaged.Hessenberg A
         LinearAlgebraManaged.Hessenberg A
-
+        
+    /// computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
+    let hatmatrix A = 
+        LinearAlgebraManaged.hatMatrix A
+        
+    /// computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
+    let leverageBy A = 
+        LinearAlgebraManaged.leverageBy A
+        
+    /// computes the leverage directly by QR decomposition of the designmatrix used in ordinary least squares approaches
+    /// and computing of the diagnonal entries of the Hat matrix, known as the leverages of the regressors
+    let leverage A = 
+        LinearAlgebraManaged.leverage A
     ///// This method computes the condition number by just dividing the largest singular value
     ///// by the smallest.
     //let Condition (A:matrix) =

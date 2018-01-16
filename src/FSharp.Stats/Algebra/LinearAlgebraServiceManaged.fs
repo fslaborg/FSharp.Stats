@@ -244,3 +244,28 @@ module LinearAlgebraManaged =
             let s = SolveTriangularLinearSystem R.[0..m-1,0..m-1] Qtb false
             Vector.init n (fun i -> if i < m then s.[i] else 0.0)
 
+    /// computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
+    let hatMatrix (designMatrix: Matrix<float>) = 
+        let qm,R = QR designMatrix
+        let q1 = qm.GetSlice ((Some 0),(Some (qm.NumRows-1)),(Some 0),(Some (R.NumCols-1)))
+        // computes the hatmatrix 
+        q1 * q1.Transpose
+
+    
+    /// computes the leverages of every dataPoint of a dataSet given by the diagonal of the hat matrix. 
+    let leverageBy (hatMatrix: Matrix<float>) = 
+        hatMatrix.Diagonal
+
+    /// computes the leverage directly by QR decomposition of the designmatrix used in ordinary least squares approaches
+    /// and computing of the diagnonal entries of the Hat matrix, known as the leverages of the regressors
+    let leverage (designMatrix: Matrix<float>) = 
+        let qm,R = QR designMatrix
+        let q1 = qm.GetSlice ((Some 0),(Some (qm.NumRows-1)),(Some 0),(Some (R.NumCols-1)))
+        let leverage = 
+            let diagonal = FSharp.Stats.Vector.create q1.NumRows 0. 
+            diagonal 
+            |> FSharp.Stats.Vector.mapi (fun i x -> 
+                                            FSharp.Stats.Matrix.foldRow (fun acc x -> acc + (x ** 2.)) 0. q1 i 
+                                        )
+        leverage
+        
