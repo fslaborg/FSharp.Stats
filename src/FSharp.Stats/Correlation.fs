@@ -77,3 +77,19 @@ module Correlation =
             loop 0 1 0.0 0.0 0.0 0.0 0.0
 
         kendallCorrFun (FSharp.Stats.Rank.rankFirst setA ) (FSharp.Stats.Rank.rankFirst setB )
+
+    /// computes the sample correlation of two signal at a given lag.
+    /// was tested in comparison to: https://www.wessa.net/rwasp_autocorrelation.wasp
+    let correlationOf lag (seq1:seq<float>) (seq2:seq<float>) = 
+        let seq1C = Seq.length seq1
+        let seq2C = Seq.length seq2
+        if seq1C <> seq2C then failwithf "Both inputs must have the same length"
+        if lag >= seq1C then   failwithf "lag must be smaller than input length"
+        let seq1' = seq1 |> Seq.take (seq1C - lag)
+        let seq2' = seq2 |> Seq.skip (lag)
+        pearson seq1' seq2' 
+ 
+    /// computes the sample auto correlation of a signal at a given lag.
+    let acfOf lag seq = 
+        correlationOf lag seq seq 
+    
