@@ -22,10 +22,10 @@ module SAM =
     
         let calcStats s0 (a:float[]) (u:float[]) =        
             let ma,mu = Array.average a,Array.average u
-            let ri    = ma - mu
+            let ri    = mu - ma
             let si    = 
                 let n = ((1.0/ float a.Length) + (1.0/ float u.Length)) / float (a.Length+u.Length-2 )
-                n * (a |> Array.sumBy (fun v -> v - ma * v - ma)) + (u |> Array.sumBy (fun v -> v - mu * v - mu))
+                n * ((a |> Array.sumBy (fun v -> (v - ma) * (v - ma))) + (u |> Array.sumBy (fun v -> (v - mu) * (v - mu))))
                 |> sqrt
 
             createSAM ri si (ri/(si+s0))
@@ -38,18 +38,26 @@ module SAM =
         //let rnd = System.Random()
         let dataA' = JaggedArray.copy dataA
         let dataU' = JaggedArray.copy dataU
-    
-        [|0..iterations-1|]
-        |> Array.map (fun _ -> 
-            let rndDataA = JaggedArray.shuffleColumnWiseInPlace dataA'
-            let rndDataU = JaggedArray.shuffleColumnWiseInPlace dataU'
-            calculate s0 rndDataA rndDataU
-            )
-        |> JaggedArray.transpose
-        |> Array.map (fun tt -> 
-            let (ri',si',di') = tt |> Array.fold (fun (ri,si,di) t -> ri+t.Ri,si+t.Si,di + t.Statistics) (0.,0.,0.)  
-            createSAM (ri' / float iterations) (si' / float iterations) (di' / float iterations)
-            )
+        let dibs= 
+            [|0..iterations-1|]
+            |> Array.map (fun _ -> 
+                let rndDataA = JaggedArray.shuffleColumnWiseInPlace dataA'
+                let rndDataU = JaggedArray.shuffleColumnWiseInPlace dataU'
+                let tmp = calculate s0 rndDataA rndDataU                
+                tmp |> Array.sortInPlaceBy (fun t -> t.Statistics) 
+                tmp
+                )
+        // for each di count dib > di
+
+        let dei =
+            dibs
+            |> JaggedArray.transpose
+            |> Array.map (fun tt -> 
+                let (ri',si',di') = tt |> Array.fold (fun (ri,si,di) t -> ri+t.Ri,si+t.Si,di + t.Statistics) (0.,0.,0.)  
+                createSAM (ri' / float iterations) (si' / float iterations) (di' / float iterations)
+                )
+        
+        dei
 
     /// 
     let permutationBalancedSAM iterations s0 (dataA:float array array) (dataU:float array array) =
@@ -61,7 +69,9 @@ module SAM =
         |> Array.map (fun _ -> 
             let rndDataA = JaggedArray.shuffleInPlace dataA'
             let rndDataU = JaggedArray.shuffleInPlace dataU'
-            calculate s0 rndDataA rndDataU
+            let tmp = calculate s0 rndDataA rndDataU                
+            tmp |> Array.sortInPlaceBy (fun t -> t.Statistics) 
+            tmp
             )
         |> JaggedArray.transpose
         |> Array.map (fun tt -> 
@@ -106,7 +116,9 @@ module SAM =
         |> Array.map (fun _ -> 
             let rndData = shuffleInPlace' rnd data        
             let rndDataA,rndDataU = Array.unzip rndData
-            calculate s0 rndDataA rndDataU
+            let tmp = calculate s0 rndDataA rndDataU                
+            tmp |> Array.sortInPlaceBy (fun t -> t.Statistics) 
+            tmp
             )
         |> JaggedArray.transpose
         |> Array.map (fun tt -> 
@@ -121,11 +133,11 @@ module SAM =
 
         /// Computes s0 using the nearest rank method
         let nearestRank percentile (tt:array<SAM>) =
-            if percentile < 0. || percentile > 1.0 then failwith "Percentile must be between 0.0 and 1.0"
+            if percentile < 0. || percentile > 100.0 then failwith "Percentile must be between 0.0 and 100.0"
             let sortedTT= 
                 tt
                 |> Array.sortBy (fun t -> t.Si)
-            let index = System.Math.Round( percentile * float tt.Length, 0)
+            let index = System.Math.Round( percentile / 100. * float tt.Length, 0)
             
             sortedTT.[(int index)].Si
 

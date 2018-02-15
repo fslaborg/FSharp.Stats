@@ -9,6 +9,9 @@ module Ops =
 
     /// The constant pi = 3.141596...
     let pi = System.Math.PI
+
+    /// The constant pi = 3.141596...
+    let sqrt2pi = nan 
     
     /// Float infinity.
     let inf = System.Double.PositiveInfinity

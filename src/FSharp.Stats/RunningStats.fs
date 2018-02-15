@@ -24,6 +24,14 @@ module SummaryStats =
     let inline var (sStats:SummaryStats<'T>) = 
         let one = LanguagePrimitives.GenericOne<'T>
         sStats.SumOfSquares / (sStats.N - one)
+    ///
+    let inline stDev (rStats:SummaryStats<'T>) = 
+        sqrt (var rStats)
+    ///
+    let inline stDevPopulation (rStats:SummaryStats<'T>) = 
+        sqrt (varPopulation rStats)
+
+
 
 
 module RunningStats =

@@ -16,7 +16,7 @@ module Factorial =
             cache.[i] <- cache.[i-1] * (float i)
         cache
 
-    // The size of the table of factorials in logarithm. The value FactorialLn_NTop D 2000 should be increased if your integer arguments are often larger
+    // The size of the table of factorials in logarithm. The value FactorialLn_NTop D 2 should be increased if your integer arguments are often larger
     let private FactorialLn_NTop = 2000
 
     let private FactorialLn_cache =
