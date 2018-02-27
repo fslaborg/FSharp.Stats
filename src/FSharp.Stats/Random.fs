@@ -6,6 +6,7 @@ module Random =
     /// Interface that every uniform random number generator must implement.
     type IRandom = interface
         abstract NextInt : unit -> int
+        abstract NextInt : int -> int
         abstract NextFloat : unit -> float
     end
 
@@ -21,6 +22,7 @@ module Random =
                             if n >= 0 then this.rnd <- new System.Random(n)
         interface IRandom with
             member x.NextInt() = x.rnd.Next()
+            member x.NextInt maxValue = x.rnd.Next(maxValue)
             member x.NextFloat() =x.rnd.NextDouble()
         end
 
