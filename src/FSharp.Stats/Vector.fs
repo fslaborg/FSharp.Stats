@@ -17,41 +17,47 @@ open System.Diagnostics
 //--------------------------------------------------------------------------*)
       
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+///Basic vector operations
 module Vector = 
 
     module Generic = 
-
+        
         module OpsS = SpecializedGenericImpl
-
-        let get (a:Vector<_>) i   = a.[i]
-        let set (a:Vector<_>) i x = a.[i] <- x
+        ///Returns the value of the vector a at the given index i
+        let get (v:Vector<_>) i   = v.[i]
+        ///Sets the value x to the vector a at the given index i
+        let set (v:Vector<_>) i x = v.[i] <- x
+        ///Returns length of vector v
         let length (v:Vector<_>) = v.Length
-        let ofList    xss   = OpsS.listV xss
-        let ofSeq    xss   = OpsS.seqV xss
-        let init  m   f = OpsS.initV m f
-        let initNumeric  m   f = OpsS.createNumericV m f
+        ///Creates vector from list xss
+        let ofList    l   = OpsS.listV l
+        ///Creates vector from seq xss
+        let ofSeq    s   = OpsS.seqV s
+        let init  count   f = OpsS.initV count f
+        let initNumeric  count   f = OpsS.createNumericV count f
         let ofArray arr       = OpsS.arrayV arr
         let toArray (v:Vector<_>) = Array.init v.Length (get v)
 
-        let create  m x   = OpsS.constV m x
-        let zero n = OpsS.zeroV n
-        let ones n = OpsS.createNumericV n (fun ops _ -> ops.One)
+        let create  count x   = OpsS.constV count x
+        let zero count = OpsS.zeroV count
+        let ones count = OpsS.createNumericV count (fun ops _ -> ops.One)
         let ofScalar   x = OpsS.scalarV x
-        let add a b = OpsS.addV a b
-        let sub a b = OpsS.subV a b
-        let mulRVV a b = OpsS.mulRVV a b
-        let mulVRV a b = OpsS.mulVRV a b
-        let cptMul a b = OpsS.cptMulV a b
-        let cptMax a b = OpsS.cptMaxV a b
-        let cptMin a b = OpsS.cptMinV a b
+        let add v1 v2 = OpsS.addV v1 v2
+        let sub v1 v2 = OpsS.subV v1 v2
+        let mulRVV v1 v2 = OpsS.mulRVV v1 v2
+        let mulVRV v1 v2 = OpsS.mulVRV v1 v2
+        let cptMul v1 v2 = OpsS.cptMulV v1 v2
+        let cptMax v1 v2 = OpsS.cptMaxV v1 v2
+        let cptMin v1 v2 = OpsS.cptMinV v1 v2
         let scale a b = OpsS.scaleV a b
-        let dot a b = OpsS.dotV a b
-        let neg a = OpsS.negV a 
-        let transpose a = OpsS.transV a 
-        let inplaceAdd a b = OpsS.inplaceAddV a b
-        let inplaceSub a b = OpsS.inplaceSubV a b
-        let inplace_cptMul a b = OpsS.inplaceCptMulV a b
-        let inplace_scale a b = OpsS.inplaceScaleV a b
+        ///Dot product of the two vectors
+        let dot v1 v2 = OpsS.dotV v1 v2
+        let neg v = OpsS.negV v 
+        let transpose v = OpsS.transV v 
+        let inplaceAdd v1 v2 = OpsS.inplaceAddV v1 v2
+        let inplaceSub v1 v2 = OpsS.inplaceSubV v1 v2
+        let inplace_cptMul v1 v2 = OpsS.inplaceCptMulV v1 v2
+        let inplace_scale v1 v2 = OpsS.inplaceScaleV v1 v2
 
 
 
@@ -69,8 +75,10 @@ module Vector =
         let compare a b = OpsS.compareV a b
         let hash a = OpsS.hashV a
         let inplace_assign  f a = OpsS.assignV f a
+        ///Sum of all elements of the vector a
         let sum  (a:Vector<_>) = let ops = a.ElementOps in fold (fun x y -> ops.Add(x,y)) ops.Zero a
         let prod (a:Vector<_>) = let ops = a.ElementOps in fold (fun x y -> ops.Multiply(x,y)) ops.One a
+
         let norm (a:Vector<_>) = 
             let normOps = GenericImpl.getNormOps a.ElementOps 
             sqrt (fold (fun x y -> x + normOps.Norm(y)**2.0) 0.0 a)
@@ -86,14 +94,20 @@ module Vector =
     module VG = Generic
     module VecDS = DoubleImpl
     module VecGU = GenericImpl
-
-    let get (a:vector) j   = VG.get a j 
-    let set (a:vector) j x = VG.set a j x
-    let length (a:vector)     = VG.length a
-    let nrows (a:vector)   = VG.length a
-    let init  m   f = VecDS.createVecDS  m   f
+    ///Returns the value of the vector a at the given index j
+    let get (v:vector) j   = VG.get v j 
+    ///Sets the value x to the vector a at the given index j
+    let set (v:vector) j x = VG.set v j x
+    ///Returns length of vector a
+    let length (v:vector)     = VG.length v
+    ///Returns length of vector a
+    let nrows (v:vector)   = VG.length v
+    ///Initiates vector of length m and fills it by applying function f on indices
+    let init  i   f = VecDS.createVecDS  i   f
+    ///Creates vector with values of array arr
     let ofArray arr : vector = VG.ofArray arr
-    let toArray (m : vector) = VG.toArray m
+    ///Creates array with values of vector m
+    let toArray (v : vector) = VG.toArray v
 
     type range = int * int
     let countR ((a,b) : range)   = (b-a)+1
@@ -106,37 +120,57 @@ module Vector =
     let range n1 n2    = let r = (n1,n2)   in init (countR  r) (fun i -> float(idxR r i)) 
 
     let rangef a b c  = let r = (a,b,c) in init (countRF r) (fun i -> idxRF r i)
-
+    ///Creates vector with values of list xs
     let ofList    xs    = VecDS.listVecDS    xs
+    ///Creates vector with values of sequence xs
     let ofSeq    xs    = VecDS.seqVecDS    xs
+    ///Creates vector of length i and fills it with value x
     let create  m   x  = VecDS.constVecDS  m   x
+    ///Creates one dimensional vector of value x
     let ofScalar x     = VecDS.scalarVecDS x
+    ///Builds a new vector whose elements are the results of adding the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
     let add a b = VecDS.addVecDS   a b
-    let sub a b = VecDS.subVecDS   a b
-    let mulRVV a b = VecDS.mulRowVecVecDS   a b
-    let mulVRV a b = VecDS.mulVecRowVecDS   a b 
-    let cptMul a b = VecDS.cptMulVecDS   a b
-    let cptMax a b = VecDS.cptMaxVecDS a b
-    let cptMin a b = VecDS.cptMinVecDS a b
-    let scale a b = VecDS.scaleVecDS   a b
-    let neg a  = VecDS.negVecDS a
-    let dot a b = VecDS.dotVecDS a b
-    let transpose  (a:vector) = VG.transpose a
-    let exists  f (a:vector) = VG.exists f a
-    let forall  f (a:vector) = VG.forall f a
-    let existsi  f (a:vector) = VG.existsi f a
-    let foralli  f (a:vector) = VG.foralli f a
-    let map  f (a:vector) = VG.map f a
-    let map2  f (a:vector) (b:vector) = VG.map2 f a b
-    let copy (a:vector) = VG.copy a
-    let mapi  f (a:vector) : vector = VG.mapi f a
-    let fold  f z (a:vector) = VG.fold f z a
-    let foldi  f z (a:vector) = VG.foldi f z a
+    ///Builds a new vector whose elements are the results of substracting the corresponding elements of vector from vector a. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    let sub v1 v2 = VecDS.subVecDS   v1 v2
+    let mulRVV v1 v2 = VecDS.mulRowVecVecDS   v1 v2
+    let mulVRV v1 v2 = VecDS.mulVecRowVecDS   v1 v2
+    let cptMul v1 v2 = VecDS.cptMulVecDS   v1 v2
+    let cptMax v1 v2 = VecDS.cptMaxVecDS v1 v2
+    let cptMin v1 v2 = VecDS.cptMinVecDS v1 v2
+    ///Builds a new vector whose elements are the results of multiplying the given scalar with each of the elements of the vector.
+    let scale x v = VecDS.scaleVecDS   x v
+    ///Builds a new vector whose elements are the results of multiplying -1 with each of the elements of the vector.
+    let neg v  = VecDS.negVecDS v
+    ///Dot product of the two vectors
+    let dot v1 v2 = VecDS.dotVecDS v1 v2
+    let transpose  (v:vector) = VG.transpose v
+    let exists  f (v:vector) = VG.exists f v
+    let forall  f (v:vector) = VG.forall f v
+    let existsi  f (v:vector) = VG.existsi f v
+    let foralli  f (v:vector) = VG.foralli f v
+    ///Builds a new vector whose elements are the results of applying the given function to each of the elements of the vector.
+    let map  f (v:vector) = VG.map f v
+    ///Builds a new vector whose elements are the results of applying the given function to the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    let map2  f (v1:vector) (v2:vector) = VG.map2 f v1 v2
+    ///Builds a new vector that contains the elements of the given vector.
+    let copy (v:vector) = VG.copy v
+    ///Builds a new vector whose elements are the results of applying the given function to each of the elements of the vector and their corresponding index.
+    let mapi  f (v:vector) : vector = VG.mapi f v
+    ///Applies a function to each element of the vector, threading an accumulator argument through the computation.
+    let fold  f (acc:'State) (v:vector) = VG.fold f acc v
+    ///Applies a function to each element of the vector and their corresponding index, threading an accumulator argument through the computation.
+    let foldi  f (acc:'State) (v:vector) = VG.foldi f acc v
+    ///Creates a vector of length n and fills it with zeros
     let zero n = create n 0.0
+    ///Creates a vector of length n and fills it with ones
     let ones n = create n 1.0
+    ///Sum of all elements of the vector
     let sum a  = VecDS.sumVecDS a
+    ///Product of all elements of the vector
     let prod a   = fold      (fun x y -> x * y) 1.0 a
+    ///Euklidian norm of the vector
     let norm  (a:vector) = sqrt (fold (fun x y -> x + y * y) 0.0 a) (* fixed *)
+    ///Builds a new vector whose elements are the results of exponentiating each of the elements of the vector.
     let cptPow  a y = map  (fun x -> x ** y) a
     let inplace_assign  f (a:vector) = VG.inplace_assign f a
     let inplace_mapi f (a:vector) = VG.inplace_mapi f a
@@ -144,11 +178,15 @@ module Vector =
     let inplace_sub a b = VecDS.inplaceSubVecDS a b
     let inplace_cptMul a b = VecDS.inplaceCptMulVecDS a b
     let inplace_scale a b = VecDS.inplaceScaleVecDS a b  
-
+    ///Builds vector from array
     let of_array arr   = ofArray arr
+    ///Builds array from vector
     let to_array m     = toArray m
+    ///Builds vector from list
     let of_list    xs  = ofList xs
+    ///Builds vector from sequence
     let of_seq    xs   = ofSeq xs
+    ///Builds one dimensional vector from scalar
     let of_scalar x    = ofScalar x
     
     
