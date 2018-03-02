@@ -389,6 +389,7 @@ Target "BuildPackage" DoNothing
 Target "All" DoNothing
 
 "AssemblyInfo"
+  ==> "Clean"
   ==> "Build"
   ==> "CopyBinaries"
   ==> "RunTests"
