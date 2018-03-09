@@ -247,7 +247,7 @@ namespace FSharp.Stats
         interface IEnumerable  with 
             member x.GetEnumerator() = (arrV :> IEnumerable).GetEnumerator()
         
-
+        ///Length of vector
         member m.Length = arrV.Length
         member m.NumRows = arrV.Length
         member m.ElementOps = 
@@ -1895,9 +1895,30 @@ namespace FSharp.Stats
         let countR ((a,b) : range)   = (b-a)+1
         let idxR    ((a,_) : range) i = a+i
         let inR    ((a,b) : range) i = a <= i && i <= b
-        
+        ///Returns row of index i of matrix a
         let getRowM  (a:Matrix<_>) i = createRVx (opsM a) a.NumCols (fun j -> a.[i,j])
-        let selColM  (a:Matrix<_>) j = createVx (opsM a) a.NumRows (fun i -> a.[i,j]) 
+        ///Replaces row of index j of matrix a with values of vector v, if vector length matches rowsize
+        let setRowM (a:Matrix<_>) i (v:Vector<_>) = 
+            if a.NumCols = v.Length then
+                let l = v.Length-1
+                for j = 0 to l do
+                    a.[i,j] <- v.[j]
+            elif a.NumCols < v.Length then
+                failwith ("Can't set row, vector is longer than matrix column number")
+            else 
+                failwith ("Can't set row, vector is shorter than matrix column number")
+        ///Returns row of index i of matrix a
+        let getColM  (a:Matrix<_>) j = createVx (opsM a) a.NumRows (fun i -> a.[i,j])
+        ///Replaces column of index i of matrix a with values of vector v, if vector length matches columnsize
+        let setColM (a:Matrix<_>) j (v:Vector<_>) = 
+            if a.NumCols = v.Length then
+                let l = v.Length-1
+                for i = 0 to l do
+                    a.[i,j] <- v.[i]
+            elif a.NumCols < v.Length then
+                failwith ("Can't set column, vector is longer than matrix row number")
+            else 
+                failwith ("Can't set column, vector is shorter than matrix row number")
         let getRegionV  (a:Vector<_>)    r      = createVx a.OpsData (countR r) (fun i -> a.[idxR r i]) 
         let getRegionRV (a:RowVector<_>) r      = createRVx a.OpsData (countR r) (fun i -> a.[idxR r i]) 
 
@@ -1914,7 +1935,7 @@ namespace FSharp.Stats
 
         let rowvecM (x:RowVector<_>) = initM 1         x.NumCols (fun _ j -> x.[j]) 
         let vectorM (x:Vector<_>) = initM x.NumRows  1         (fun i _ -> x.[i])  
-        let toVectorM x = selColM x 0 
+        let toVectorM x = getColM x 0 
         let toRowVectorM x = getRowM x 0 
         let toScalarM (x:Matrix<_>) = x.[0,0]
 

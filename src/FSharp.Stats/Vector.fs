@@ -130,10 +130,11 @@ module Vector =
     let ofScalar x     = VecDS.scalarVecDS x
     ///Builds a new vector whose elements are the results of adding the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
     let add a b = VecDS.addVecDS   a b
-    ///Builds a new vector whose elements are the results of substracting the corresponding elements of vector from vector a. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    ///Builds a new vector whose elements are the results of substracting the corresponding elements of vector b from vector a. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
     let sub v1 v2 = VecDS.subVecDS   v1 v2
     let mulRVV v1 v2 = VecDS.mulRowVecVecDS   v1 v2
     let mulVRV v1 v2 = VecDS.mulVecRowVecDS   v1 v2
+    ///Builds a new vector whose elements are the results of multiplying the corresponding elements of the given vectors. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
     let cptMul v1 v2 = VecDS.cptMulVecDS   v1 v2
     let cptMax v1 v2 = VecDS.cptMaxVecDS v1 v2
     let cptMin v1 v2 = VecDS.cptMinVecDS v1 v2
