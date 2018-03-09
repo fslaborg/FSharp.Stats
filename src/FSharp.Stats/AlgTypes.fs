@@ -217,7 +217,7 @@ namespace FSharp.Stats
 #else
              [<System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.RootHidden)>]
 #endif
-             member x.Items = v |> Seq.truncate 1000 |> Seq.toArray 
+             member x.Items = v |> Seq.truncate 1 |> Seq.toArray 
 
 #if FX_NO_DEBUG_DISPLAYS
 #else
@@ -265,7 +265,7 @@ namespace FSharp.Stats
         VectorDebugView<'T>(v: Vector<'T>)  =  
 
              [<System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.RootHidden)>]
-             member x.Items = v |> Seq.truncate 1000 |> Seq.toArray 
+             member x.Items = v |> Seq.truncate 1 |> Seq.toArray 
 #endif
 
 

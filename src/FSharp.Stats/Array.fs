@@ -207,10 +207,10 @@ module Array =
 
     /// Shuffels the input array (method: Fisher-Yates)
     let shuffleFisherYates (arr : _[]) =
-        let random = new System.Random()
+        let random = Random.rndgen //new System.Random()
         for i = arr.Length downto 1 do
             // Pick random element to swap.
-            let j = random.Next(i) // 0 <= j <= i-1
+            let j = random.NextInt i // 0 <= j <= i-1
             // Swap.
             let tmp = arr.[j]
             arr.[j] <- arr.[i - 1]

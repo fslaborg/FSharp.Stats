@@ -65,11 +65,6 @@
     <Reference Include="System.ValueTuple">
       <HintPath>..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
-    <ProjectReference Include="..\..\src\FSharp.Stats\FSharp.Stats.fsproj">
-      <Name>FSharp.Stats</Name>
-      <Project>{820c8407-795a-4dbf-ab4f-9f7852ce8ef4}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

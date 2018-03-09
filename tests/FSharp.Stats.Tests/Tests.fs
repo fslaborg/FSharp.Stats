@@ -1,6 +1,5 @@
 module FSharp.Stats.Tests
 
-open FSharp.Stats
 open NUnit.Framework
 
 [<Test>]

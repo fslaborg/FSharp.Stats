@@ -275,8 +275,32 @@ module Matrix = begin
 
     //----------------------------------------------------------------------------
     // Stats
-    //----------------------------------------------------------------------------
+
+    /// Returns upper triangular Matrix by setting all values beneath the diagonal to Zero.  
+    /// Warning: triangular matrices can only be computed for square input matrices.
+    let getUpperTriangular (a:Matrix<float>) = 
+        let nA = a.NumCols 
+        let mA = a.NumRows
+        if nA<>mA then invalidArg "a" "expected a square matrix";
+        else
+        a  
+        |> mapi (fun n m x -> if n > m then 0. else x ) 
     
+    /// Returns lower triangular Matrix by setting all values beneath the diagonal to Zero.
+    /// Warning: triangular matrices can only be computed for square input matrices.
+    let getLowerTriangular (a:Matrix<float>)  = 
+        let nA = a.NumCols 
+        let mA = a.NumRows
+        if nA<>mA then invalidArg "a" "expected a square matrix";
+        else
+        a  
+        |> mapi (fun n m x -> if n < m then 0. else x ) 
+
+    /// Returns diagonal matrix by setting all values beneath and above the diagonal to Zero.
+    /// Warning: diagonal matrices can only be computed for square input matrices.
+    let toDiagonal (a:Matrix<float>) = 
+        getDiag a
+        |> diag
 
     /// Computes the row wise mean of a Matrix 
     let meanRowWise (a:matrix) = 
@@ -289,12 +313,43 @@ module Matrix = begin
         a.Transpose 
         |> foldByRow (fun acc r -> acc + r ) (Vector.zero a.NumCols)
         |> Vector.map (fun sum -> sum / (a.NumCols |> float))
+    
+
+    /// computes the column specific covariance matrix of a data matrix as described at:
+    // http://stattrek.com/matrix-algebra/covariance-matrix.aspx
+    let columnCovarianceMatrixOf df (dataMatrix:Matrix<float>) =
+        /// Step 1:
+        /// contains the deviation scores for the data matrix 
+        let devMatrix =
+            let ident = ones dataMatrix.NumRows dataMatrix.NumRows
+            dataMatrix - (ident * dataMatrix |> map (fun elem -> elem / float dataMatrix.NumRows))
+        /// Step 2:
+        /// Compute devMatrix' * devMatrix, the k x k deviation sums of squares and cross products matrix for x.
+        let devMTdevM =
+            devMatrix.Transpose * devMatrix
+        /// Step 3: 
+        /// Then, divide each term in the deviation sums of squares and cross product matrix by n to create the variance-covariance matrix. That is:
+        devMTdevM |> map (fun elem -> elem / (float df))
+
+    /// computes the column specific population covariance matrix of a data matrix 
+    let columnPopulationCovarianceMatrixOf (dataMatrix:Matrix<float>) =
+        columnCovarianceMatrixOf dataMatrix.NumRows dataMatrix
+
+    /// computes the column specific sample covariance matrix of a data matrix
+    let columnSampleCovarianceMatrixOf (dataMatrix:Matrix<float>) =
+        columnCovarianceMatrixOf (dataMatrix.NumRows-1) dataMatrix
+
+    /// computes the row specific population covariance matrix of a data matrix 
+    let rowPopulationCovarianceMatrixOf (dataMatrix:Matrix<float>) =
+        columnCovarianceMatrixOf dataMatrix.Transpose.NumRows dataMatrix.Transpose
+
+    /// computes the row specific sample covariance matrix of a data matrix 
+    let rowSampleCovarianceMatrixOf (dataMatrix:Matrix<float>) =
+        columnCovarianceMatrixOf (dataMatrix.Transpose.NumRows-1) dataMatrix.Transpose
+
+    //----------------------------------------------------------------------------
 
 end
-
-
-
-
 
 [<AutoOpen>]
 module MatrixExtension =
@@ -334,8 +389,6 @@ module MatrixExtension =
 
         member x.Copy () = Matrix.Generic.copy x
 
-
-    
 
 //    [<AutoOpen>]
 //    module MatrixTopLevelOperators = 
