@@ -3,7 +3,6 @@
 
 module Outliers =
     open FSharp.Stats
-    open FSharp.Stats
 
     type OutlierBorders =
         {Upper : float;
