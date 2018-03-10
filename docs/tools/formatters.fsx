@@ -9,7 +9,7 @@ module Formatters
 
 //#I "../../bin"
 //#r "../../bin/FSharp.Plotly.dll"
-#r "../../packages/build/FSharp.Plotly/lib/net40/Fsharp.Plotly.dll"
+#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
 
 open Fake
 open System.IO

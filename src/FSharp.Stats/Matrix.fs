@@ -31,7 +31,7 @@ module Matrix = begin
         // Accessors
         let get (a:Matrix<_>) i j   = a.[i,j]
         let set (a:Matrix<_>) i j x = a.[i,j] <- x
-            
+                  
         // Creation
         let ofList    xss      = MS.listM  xss
         let ofSeq     xss      = MS.seqM  xss
@@ -58,6 +58,7 @@ module Matrix = begin
         let cptMul a b = MS.cptMulM a b
         let cptMax a b = MS.cptMaxM a b
         let cptMin a b = MS.cptMinM a b
+        /// Builds a new matrix where the elements are the result of multiplying every element of the given matrix with the given value
         let scale a b = MS.scaleM a b
         let dot a b = MS.dotM a b
         let neg a = MS.negM a 
@@ -88,8 +89,14 @@ module Matrix = begin
           
         let compare a b = MS.compareM LanguagePrimitives.GenericComparer a b
         let hash a      = MS.hashM LanguagePrimitives.GenericEqualityComparer a
+        ///Returns row of index i of matrix a
         let getRow    a i           = MS.getRowM a i
-        let getCol    a j           = MS.selColM a j
+        ///Replaces row of index j of matrix a with values of vector v, if vector length matches rowsize
+        let setRow (a:Matrix<_>) j (v:Vector<_>) = MS.setRowM a j v
+        ///Returns col of index j of matrix a
+        let getCol    a j           = MS.getColM a j  
+        ///Replaces column of index i of matrix a with values of vector v, if vector length matches columnsize
+        let setCol (a:Matrix<_>) i (v:Vector<_>) = MS.setColM a i v
         let getCols   a i1 i2       = MS.getColsM a (i1,i1+i2-1)
         let getRows   a j1 j2       = MS.getRowsM a (j1,j1+j2-1)
         let getRegion a i1 j1 i2 j2 = MS.getRegionM a (i1,i1+i2-1) (j1,j1+j2-1)
@@ -196,12 +203,16 @@ module Matrix = begin
     let nonzero_entries (a:matrix) = MG.nonzero_entries a 
 
     let zero m n  = DS.zeroDenseMatrixDS m n |> MS.dense
-    let identity m  : matrix = MG.identity m 
-        
+    let identity m  : matrix = MG.identity m      
     let ones m n  = create m n 1.0
-        
+    ///Returns row of index i of matrix a    
     let getRow (a:matrix) i      = MG.getRow a i
+    ///Replaces row of index j of matrix a with values of vector v, if vector length matches rowsize
+    let setRow (a:Matrix<_>) j (v:Vector<_>) = MG.setRow a j v
+    ///Returns col of index j of matrix a
     let getCol (a:matrix) j      = MG.getCol a j
+    ///Replaces column of index i of matrix a with values of vector v, if vector length matches columnsize
+    let setCol (a:Matrix<_>) i (v:Vector<_>) = MG.setCol a i v
     let getCols (a:matrix) i1 i2    = MG.getCols a i1 i2
     let getRows (a:matrix) j1 j2    = MG.getRows a j1 j2
     let getRegion (a:matrix) i1 j1 i2 j2    = MG.getRegion a i1 j1 i2 j2
@@ -264,8 +275,32 @@ module Matrix = begin
 
     //----------------------------------------------------------------------------
     // Stats
-    //----------------------------------------------------------------------------
+
+    /// Returns upper triangular Matrix by setting all values beneath the diagonal to Zero.  
+    /// Warning: triangular matrices can only be computed for square input matrices.
+    let getUpperTriangular (a:Matrix<float>) = 
+        let nA = a.NumCols 
+        let mA = a.NumRows
+        if nA<>mA then invalidArg "a" "expected a square matrix";
+        else
+        a  
+        |> mapi (fun n m x -> if n > m then 0. else x ) 
     
+    /// Returns lower triangular Matrix by setting all values beneath the diagonal to Zero.
+    /// Warning: triangular matrices can only be computed for square input matrices.
+    let getLowerTriangular (a:Matrix<float>)  = 
+        let nA = a.NumCols 
+        let mA = a.NumRows
+        if nA<>mA then invalidArg "a" "expected a square matrix";
+        else
+        a  
+        |> mapi (fun n m x -> if n < m then 0. else x ) 
+
+    /// Returns diagonal matrix by setting all values beneath and above the diagonal to Zero.
+    /// Warning: diagonal matrices can only be computed for square input matrices.
+    let toDiagonal (a:Matrix<float>) = 
+        getDiag a
+        |> diag
 
     /// Computes the row wise mean of a Matrix 
     let meanRowWise (a:matrix) = 
@@ -278,12 +313,43 @@ module Matrix = begin
         a.Transpose 
         |> foldByRow (fun acc r -> acc + r ) (Vector.zero a.NumCols)
         |> Vector.map (fun sum -> sum / (a.NumCols |> float))
+    
+
+    /// computes the column specific covariance matrix of a data matrix as described at:
+    // http://stattrek.com/matrix-algebra/covariance-matrix.aspx
+    let columnCovarianceMatrixOf df (dataMatrix:Matrix<float>) =
+        /// Step 1:
+        /// contains the deviation scores for the data matrix 
+        let devMatrix =
+            let ident = ones dataMatrix.NumRows dataMatrix.NumRows
+            dataMatrix - (ident * dataMatrix |> map (fun elem -> elem / float dataMatrix.NumRows))
+        /// Step 2:
+        /// Compute devMatrix' * devMatrix, the k x k deviation sums of squares and cross products matrix for x.
+        let devMTdevM =
+            devMatrix.Transpose * devMatrix
+        /// Step 3: 
+        /// Then, divide each term in the deviation sums of squares and cross product matrix by n to create the variance-covariance matrix. That is:
+        devMTdevM |> map (fun elem -> elem / (float df))
+
+    /// computes the column specific population covariance matrix of a data matrix 
+    let columnPopulationCovarianceMatrixOf (dataMatrix:Matrix<float>) =
+        columnCovarianceMatrixOf dataMatrix.NumRows dataMatrix
+
+    /// computes the column specific sample covariance matrix of a data matrix
+    let columnSampleCovarianceMatrixOf (dataMatrix:Matrix<float>) =
+        columnCovarianceMatrixOf (dataMatrix.NumRows-1) dataMatrix
+
+    /// computes the row specific population covariance matrix of a data matrix 
+    let rowPopulationCovarianceMatrixOf (dataMatrix:Matrix<float>) =
+        columnCovarianceMatrixOf dataMatrix.Transpose.NumRows dataMatrix.Transpose
+
+    /// computes the row specific sample covariance matrix of a data matrix 
+    let rowSampleCovarianceMatrixOf (dataMatrix:Matrix<float>) =
+        columnCovarianceMatrixOf (dataMatrix.Transpose.NumRows-1) dataMatrix.Transpose
+
+    //----------------------------------------------------------------------------
 
 end
-
-
-
-
 
 [<AutoOpen>]
 module MatrixExtension =
@@ -323,8 +389,6 @@ module MatrixExtension =
 
         member x.Copy () = Matrix.Generic.copy x
 
-
-    
 
 //    [<AutoOpen>]
 //    module MatrixTopLevelOperators = 

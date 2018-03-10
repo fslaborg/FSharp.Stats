@@ -331,6 +331,6 @@ module Quantile =
     /// CalcMethod should be ofSorted array
     let computePercentiles (calcMethod) (percentile:seq<float>) (data:seq<float>) =
         let data' = data |> Seq.toArray |> Array.sort
-        let qtf = fun q -> calcMethod data'
+        let qtf = fun q -> calcMethod q data'
         percentile |> Seq.map qtf
 
