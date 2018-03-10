@@ -1,2 +1,2 @@
-#### 0.0.1-beta - December 09 2016
+#### 0.0.1 February 02 2018
 * Initial commit
