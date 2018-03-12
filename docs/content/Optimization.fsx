@@ -2,8 +2,11 @@
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
 //#I "../../bin"
-#r "../../packages/build/FSharp.Plotly/lib/net40/Fsharp.Plotly.dll"
+#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
+#I "../../bin"
+#r "FSharp.Stats.dll"
 open FSharp.Plotly
+open FSharp.Stats
 (**
 
 #Optimization
@@ -26,7 +29,7 @@ open FSharp.Plotly
 
 
 *)
-#r "D:/Source/FSharp.Stats/bin/FSharp.Stats.dll"
+
 //#r "FSharp.Stats.dll"
 //open FSharp
 open Microsoft.FSharp.Math
@@ -44,9 +47,9 @@ let rosenbrock (xs: vector) =
 
 // The minimum at (1, 1) may be found quickly and easily using the functions defined above as follows:
 
-let xs =
-    vector[0.0; 0.0]
-    |> GradientDescent.minimize rosenbrock (GradientDescent.grad rosenbrock)
+//let xs =
+//    vector[0.0; 0.0]
+//    |> GradientDescent.minimize rosenbrock (GradientDescent.grad rosenbrock)
 
 
 
@@ -73,7 +76,6 @@ let z =
 Chart.Surface(z,x,y)
 |> Chart.withSize(600.,600.)
 (*** include-it:rosenContour ***)
-|> Chart.Show
 
 
 

@@ -146,13 +146,13 @@ Target "Build" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Run the unit tests using test runner
 
-Target "RunTests" (fun _ ->
-    !! testAssemblies
-    |> NUnit (fun p ->
-        { p with
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 20.
-            OutputFile = "TestResults.xml" })
+Target "RunTests" (fun _ -> () 
+    //!! testAssemblies
+    //|> NUnit (fun p ->
+    //    { p with
+    //        DisableShadowCopy = true
+    //        TimeOut = TimeSpan.FromMinutes 20.
+    //        OutputFile = "TestResults.xml" })
 )
 
 #if MONO
@@ -389,6 +389,7 @@ Target "BuildPackage" DoNothing
 Target "All" DoNothing
 
 "AssemblyInfo"
+  ==> "Clean"
   ==> "Build"
   ==> "CopyBinaries"
   ==> "RunTests"

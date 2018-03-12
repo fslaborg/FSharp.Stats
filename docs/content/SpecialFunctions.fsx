@@ -2,7 +2,7 @@
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
 #I "../../bin"
-#r "../../packages/build/FSharp.Plotly/lib/net40/Fsharp.Plotly.dll"
+#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
 #Special Functions
@@ -47,7 +47,7 @@ List.zip xgamma ygamma
 |> Chart.withY_AxisStyle("gamma",MinMax=(-4.,4.))
 |> Chart.withX_AxisStyle("x")
 |> Chart.withSize (500., 450.)
-|> Chart.Show
+
 
 let xgammaLn = [0.01 ..0.1.. 5.]
 let ygammaLn = xgammaLn |> List.map SpecialFunctions.Gamma.gammaLn
@@ -57,7 +57,7 @@ List.zip xgammaLn ygammaLn
 |> Chart.withY_AxisStyle("log gamma",MinMax=(-4.,4.))
 |> Chart.withX_AxisStyle("x")
 |> Chart.withSize (500., 450.)
-|> Chart.Show
+
 
 
 let agammaInc = [0.5;1.;5.;10.;]
@@ -73,7 +73,7 @@ agammaInc
 |> Chart.withY_AxisStyle("lower incomplete gamma P(a,x)")
 |> Chart.withY_AxisStyle("x")
 |> Chart.withSize (500., 450.)
-|> Chart.Show
+
 
 
 
@@ -90,7 +90,7 @@ agammaInc'
 |> Chart.withY_AxisStyle("upper incomplete gamma P(a,x)")
 |> Chart.withY_AxisStyle("x")
 |> Chart.withSize (500., 450.)
-|> Chart.Show
+
 
 
 
@@ -112,9 +112,3 @@ betaParam
 //|> Chart.withY_AxisStyle("beta",MinMax=(-4.,4.))
 //|> Chart.withX_AxisStyle("x")
 |> Chart.withSize (500., 450.)
-|> Chart.Show
-
-
-
-
-

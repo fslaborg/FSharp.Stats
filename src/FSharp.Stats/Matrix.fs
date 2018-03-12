@@ -31,7 +31,7 @@ module Matrix = begin
         // Accessors
         let get (a:Matrix<_>) i j   = a.[i,j]
         let set (a:Matrix<_>) i j x = a.[i,j] <- x
-            
+                  
         // Creation
         let ofList    xss      = MS.listM  xss
         let ofSeq     xss      = MS.seqM  xss
@@ -58,6 +58,7 @@ module Matrix = begin
         let cptMul a b = MS.cptMulM a b
         let cptMax a b = MS.cptMaxM a b
         let cptMin a b = MS.cptMinM a b
+        /// Builds a new matrix where the elements are the result of multiplying every element of the given matrix with the given value
         let scale a b = MS.scaleM a b
         let dot a b = MS.dotM a b
         let neg a = MS.negM a 
@@ -88,8 +89,14 @@ module Matrix = begin
           
         let compare a b = MS.compareM LanguagePrimitives.GenericComparer a b
         let hash a      = MS.hashM LanguagePrimitives.GenericEqualityComparer a
+        ///Returns row of index i of matrix a
         let getRow    a i           = MS.getRowM a i
-        let getCol    a j           = MS.selColM a j
+        ///Replaces row of index j of matrix a with values of vector v, if vector length matches rowsize
+        let setRow (a:Matrix<_>) j (v:Vector<_>) = MS.setRowM a j v
+        ///Returns col of index j of matrix a
+        let getCol    a j           = MS.getColM a j  
+        ///Replaces column of index i of matrix a with values of vector v, if vector length matches columnsize
+        let setCol (a:Matrix<_>) i (v:Vector<_>) = MS.setColM a i v
         let getCols   a i1 i2       = MS.getColsM a (i1,i1+i2-1)
         let getRows   a j1 j2       = MS.getRowsM a (j1,j1+j2-1)
         let getRegion a i1 j1 i2 j2 = MS.getRegionM a (i1,i1+i2-1) (j1,j1+j2-1)
@@ -196,12 +203,16 @@ module Matrix = begin
     let nonzero_entries (a:matrix) = MG.nonzero_entries a 
 
     let zero m n  = DS.zeroDenseMatrixDS m n |> MS.dense
-    let identity m  : matrix = MG.identity m 
-        
+    let identity m  : matrix = MG.identity m      
     let ones m n  = create m n 1.0
-        
+    ///Returns row of index i of matrix a    
     let getRow (a:matrix) i      = MG.getRow a i
+    ///Replaces row of index j of matrix a with values of vector v, if vector length matches rowsize
+    let setRow (a:Matrix<_>) j (v:Vector<_>) = MG.setRow a j v
+    ///Returns col of index j of matrix a
     let getCol (a:matrix) j      = MG.getCol a j
+    ///Replaces column of index i of matrix a with values of vector v, if vector length matches columnsize
+    let setCol (a:Matrix<_>) i (v:Vector<_>) = MG.setCol a i v
     let getCols (a:matrix) i1 i2    = MG.getCols a i1 i2
     let getRows (a:matrix) j1 j2    = MG.getRows a j1 j2
     let getRegion (a:matrix) i1 j1 i2 j2    = MG.getRegion a i1 j1 i2 j2
