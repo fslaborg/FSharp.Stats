@@ -56,15 +56,16 @@ module Rank =
     /// Ranks each entry of the given unsorted data array.
     /// Ties are replaced by their minimum  
     let inline rankMin (data:array<_>) =    
-        let minTies a _ = (a + 1)
-        rank minTies id data
+        //let one = LanguagePrimitives.GenericOne< 'b > 
+        let minTies a _ =  (float a + 1.)
+        rank minTies float data
 
 
     /// Ranks each entry of the given unsorted data array.
     /// Ties are replaced by their maximum  
     let inline rankMax (data:array<_>) =    
-        let maxTies _ b = b
-        rank maxTies id data
+        let maxTies _ b = float b
+        rank maxTies float data
 
 
     /// Ranks each entry of the given unsorted data array.
