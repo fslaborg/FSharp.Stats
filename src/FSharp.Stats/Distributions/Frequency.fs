@@ -36,12 +36,17 @@ module Frequency =
     /// Returns the total of the frequencies in the map
     let sum (hist:Map<float,int>) =
         hist |> Seq.sumBy (fun kv -> kv.Value)
-        
+    
+    /// Returns the average of the frequencies in the map
+    let average (hist:Map<float,int>) =
+        hist
+        |> Map.fold (fun (sum,count) k v -> sum + v, count + 1 ) (0,0)
+        |> fun (sum,count) -> float sum / (float count)
+
     /// Gets the largest frequency in the map.
     let maxLike (hist:Map<float,int>) =
         (hist |> Seq.maxBy (fun kv -> kv.Value)).Value
         
-
     /// Gets the frequency associated with the value x
     let frequencyAt (hist:Map<float,int>) (x:float) =        
         if hist.ContainsKey(x) then

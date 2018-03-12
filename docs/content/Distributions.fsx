@@ -69,7 +69,7 @@ studentTParams
 |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,0.4))
 |> Chart.withSize (500., 450.)
 (*** include-it:PdfStudentT ***)
-|> Chart.Show
+|>  
 
 
 let cdfStudentT mu tau dof = 
@@ -85,7 +85,7 @@ studentTParams
 |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,1.))
 |> Chart.withSize (500., 450.)
 (*** include-it:CdfStudentT ***)
-|> Chart.Show
+
 
 
 let mu,tau,dof = (0.0,1.0,15.0)
@@ -102,7 +102,7 @@ let mu,tau,dof = (0.0,1.0,15.0)
 |> Chart.Combine
 |> Chart.withSize (500., 450.)
 (*** define-output:sampleStudentT ***)
-|> Chart.Show
+
 
 
 
@@ -125,7 +125,7 @@ gammaParams
 |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,0.5))
 |> Chart.withSize (500., 450.)
 (*** include-it:PdfGamma ***)
-|> Chart.Show
+|>  
 
 
 let cdfGamma a b = 
@@ -141,7 +141,7 @@ gammaParams
 |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,1.0))
 |> Chart.withSize (500., 450.)
 (*** include-it:CdfGamma ***)
-|> Chart.Show
+|>  
 
 
 // let alpha = 2.0
@@ -161,7 +161,7 @@ let beta  = 0.5
 |> Chart.Combine
 |> Chart.withSize (500., 450.)
 (*** define-output:sampleGamma ***)
-|> Chart.Show
+|>  
 
 
 
@@ -177,7 +177,7 @@ let nv = Array.init 1000 (fun _ -> Distributions.Continuous.Normal.Sample 5. 2.)
 let xy = KernelDensity.estimate KernelDensity.Kernel.gaussian 1.0 nv
 
 Chart.SplineArea xy
-|> Chart.Show
+|>  
 
 
 
@@ -202,7 +202,6 @@ binomialParams
 |> Chart.withY_AxisStyle("P(x)")
 |> Chart.withSize (500., 450.)
 (*** include-it:PdfStudentT ***)
-|> Chart.Show
 
 
 
