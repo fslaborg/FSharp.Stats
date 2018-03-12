@@ -1,3 +1,0 @@
-http://fsharpnews.blogspot.de/2011/01/gradient-descent.html
-
-https://github.com/cureos/csnumerics
