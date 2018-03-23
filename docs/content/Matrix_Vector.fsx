@@ -23,6 +23,7 @@
 //open FSharp
 open Microsoft.FSharp.Math
 open FSharp.Stats
+open FSharp.Stats.Algebra
 
 
 
@@ -77,11 +78,9 @@ A + 1.
 v + 1.
 rv + 1.
 
-let () =
-    let assemblyProbeDirectory =  "D:/Source/FSharp.Stats/lib"
-    System.IO.Directory.SetCurrentDirectory(assemblyProbeDirectory)
-
-LinearAlgebraMKL.dgesdd_ A
+//let () =
+//    let assemblyProbeDirectory =  "D:/Source/FSharp.Stats/lib"
+//    System.IO.Directory.SetCurrentDirectory(assemblyProbeDirectory)
 
 
 

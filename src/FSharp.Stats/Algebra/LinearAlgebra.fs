@@ -3,7 +3,22 @@ namespace FSharp.Stats.Algebra
 open FSharp.Stats
 
 
+
 module LinearAlgebra = 
+
+    //let private LinearAlgebraService = 
+    //    let tmp = new ServiceLocator.ServiceProvider<ILinearAlgebra>([ProviderService.MKLProvider])
+    //    tmp.Start()
+    //    tmp
+    let private MKLService = new ServiceLocator.ServiceProvider<ILinearAlgebra>([ProviderService.MKLProvider])
+
+    let Service() = 
+        match MKLService.Service() with
+        | Some svc -> svc
+        | None     -> failwith "MKL service either not available, or not started"
+    
+    let private HaveService() =
+        MKLService.Available()
     
     let SolveTriangularLinearSystem (A:matrix) (b:vector) (isLower:bool) =
         //if HaveService() then LinearAlgebraService.solveTriangularForVector A b isLower
@@ -120,10 +135,11 @@ module LinearAlgebra =
         LinearAlgebraManaged.QR a
   
     let SVD a = 
-        //if HaveService() then let U,D,V = LinearAlgebraService.SVD a
-        //                        U,Vector.ofArray D,V
-        //                    else LinearAlgebraManaged.SVD a
-        LinearAlgebraManaged.SVD a
+        if HaveService() then 
+            let U,D,V = Service().dgesdd_ a
+            Vector.ofArray U,D,V
+        else
+            LinearAlgebraManaged.SVD a
 
     let Hessenberg A =
         //if HaveService() then failwith "Not implemented yet."// REVIEW LinearAlgebraService.Hessenberg A

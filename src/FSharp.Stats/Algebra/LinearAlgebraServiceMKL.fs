@@ -87,137 +87,140 @@ module LapackMKLStubs =
   
     [<System.Runtime.InteropServices.DllImport(@"mkl.dll",EntryPoint="cblas_dgemv")>]
     extern void dgemv_(int32* trans, int* m, int* n,double* alpha, double* A, int* lda,double* x, int* incx, double* beta,double* y, int* incy)
+
+open Microsoft.FSharp.NativeInterop
+open LapackMKLStubs
+open FSharp.Stats.Algebra
   
-
-
-module LinearAlgebraMKL = 
-
-    open Microsoft.FSharp.NativeInterop
-    open LapackMKLStubs
+/// Internal provider of Lapack functionality, not for direct user usage.
+type LinearAlgebraMKL() =
+    interface ILinearAlgebra with 
     
-    ///Matrix-Matrix Multiplication
-    let dgemm_ (a:matrix) (b:matrix) = 
-        // input copies
-        let a = Matrix.copy a
-        let b = Matrix.copy b
-        // dimensions
-        let m = NativeUtilities.matrixDim1 a in
-        let k = NativeUtilities.matrixDim2 a in
-        NativeUtilities.assertDimensions "dgemm_" ("k","Dim1(b)") (k,NativeUtilities.matrixDim1 b);
-        let n = NativeUtilities.matrixDim2 b in
-        // allocate results
-        let c = Matrix.zero (m) (n)
-        // transpose
-        let c = Matrix.transpose c
-        // setup actuals
-        let mutable arg_layout = CBLASLAYOUT.CblasColMajor //'t'
-        let mutable arg_transa = CBLASTRANSPOSE.CblasTrans//'t'
-        let mutable arg_transb = CBLASTRANSPOSE.CblasNoTrans//'t'
-        let mutable arg_m = m
-        let mutable arg_n = n
-        let mutable arg_k = k
-        let mutable arg_alpha = 1.0
-        let arg_a = NativeUtilities.pinM a
-        let mutable arg_ldk = k
-        let arg_b = NativeUtilities.pinM b
-        let mutable arg_ldn = n
-        let mutable arg_beta = 1.0
-        let arg_c = NativeUtilities.pinM c
-        let mutable arg_ldm = m
-        // call function
-        try
-            LapackMKLStubs.dgemm_(&&arg_layout,&&arg_transa,&&arg_transb,&&arg_m,&&arg_n,&&arg_k,&&arg_alpha,arg_a.Ptr,&&arg_ldk,arg_b.Ptr,&&arg_ldn,&&arg_beta,arg_c.Ptr,&&arg_ldm)
-        finally
-            NativeUtilities.freeM arg_a
-            NativeUtilities.freeM arg_b
-            NativeUtilities.freeM arg_c
-        // INFO
-        // fixups
-        let c = Matrix.transpose c
-        // result tuple
-        c
+        ///Matrix-Matrix Multiplication
+        member this.dgemm_ (a,b) = //(a:matrix) (b:matrix) = 
+            // input copies
+            let a = Matrix.copy a
+            let b = Matrix.copy b
+            // dimensions
+            let m = NativeUtilities.matrixDim1 a in
+            let k = NativeUtilities.matrixDim2 a in
+            NativeUtilities.assertDimensions "dgemm_" ("k","Dim1(b)") (k,NativeUtilities.matrixDim1 b);
+            let n = NativeUtilities.matrixDim2 b in
+            // allocate results
+            let c = Matrix.zero (m) (n)
+            // transpose
+            let c = Matrix.transpose c
+            // setup actuals
+            let mutable arg_layout = CBLASLAYOUT.CblasColMajor //'t'
+            let mutable arg_transa = CBLASTRANSPOSE.CblasTrans//'t'
+            let mutable arg_transb = CBLASTRANSPOSE.CblasNoTrans//'t'
+            let mutable arg_m = m
+            let mutable arg_n = n
+            let mutable arg_k = k
+            let mutable arg_alpha = 1.0
+            let arg_a = NativeUtilities.pinM a
+            let mutable arg_ldk = k
+            let arg_b = NativeUtilities.pinM b
+            let mutable arg_ldn = n
+            let mutable arg_beta = 1.0
+            let arg_c = NativeUtilities.pinM c
+            let mutable arg_ldm = m
+            // call function
+            try
+                LapackMKLStubs.dgemm_(&&arg_layout,&&arg_transa,&&arg_transb,&&arg_m,&&arg_n,&&arg_k,&&arg_alpha,arg_a.Ptr,&&arg_ldk,arg_b.Ptr,&&arg_ldn,&&arg_beta,arg_c.Ptr,&&arg_ldm)
+            finally
+                NativeUtilities.freeM arg_a
+                NativeUtilities.freeM arg_b
+                NativeUtilities.freeM arg_c
+            // INFO
+            // fixups
+            let c = Matrix.transpose c
+            // result tuple
+            c
 
 
 
 
-    ///Singular Value Decomposition Divide- Conquer
-    let dgesdd_ (a:matrix) = 
-        // input copies
-        let a = Matrix.copy a
-        // dimensions
-        let m = NativeUtilities.matrixDim1 a in
-        let n = NativeUtilities.matrixDim2 a in
-        // allocate results
-        let s = Array.zeroCreate  (min m n)
-        let u = Matrix.zero (m) (m)
-        let vt = Matrix.zero (n) (n)
-        let work = Array.zeroCreate  (1)
-        let iwork = Array.zeroCreate  (8*(min m n))
-        // transpose
-        let a = Matrix.transpose a
-        let u = Matrix.transpose u
-        let vt = Matrix.transpose vt
-        // setup actuals
-        let mutable arg_JOBZ = 'A'
-        let mutable arg_m = m
-        let mutable arg_n = n
-        let arg_a = NativeUtilities.pinM a
-        let mutable arg_lda = max 1 m
-        let arg_s = NativeUtilities.pinA s
-        let arg_u = NativeUtilities.pinM u
-        let mutable arg_ldu = m
-        let arg_vt = NativeUtilities.pinM vt
-        let mutable arg_ldvt = n
-        let arg_work = NativeUtilities.pinA work
-        let mutable arg_lwork = -1
-        let arg_iwork = NativeUtilities.pinA iwork
-        let mutable arg_info = 0
-        // ask for work array size
-        try
-            LapackMKLStubs.dgesdd_(&&arg_JOBZ,&&arg_m,&&arg_n,arg_a.Ptr,&&arg_lda,arg_s.Ptr,arg_u.Ptr,&&arg_ldu,arg_vt.Ptr,&&arg_ldvt,arg_work.Ptr,&&arg_lwork,arg_iwork.Ptr,&&arg_info)
-        finally
-            NativeUtilities.freeA arg_work
+        ///Singular Value Decomposition Divide- Conquer
+        member this.dgesdd_ (a:matrix) = 
+            // input copies
+            let a = Matrix.copy a
+            // dimensions
+            let m = NativeUtilities.matrixDim1 a in
+            let n = NativeUtilities.matrixDim2 a in
+            // allocate results
+            let s = Array.zeroCreate  (min m n)
+            let u = Matrix.zero (m) (m)
+            let vt = Matrix.zero (n) (n)
+            let work = Array.zeroCreate  (1)
+            let iwork = Array.zeroCreate  (8*(min m n))
+            // transpose
+            let a = Matrix.transpose a
+            let u = Matrix.transpose u
+            let vt = Matrix.transpose vt
+            // setup actuals
+            let mutable arg_JOBZ = 'A'
+            let mutable arg_m = m
+            let mutable arg_n = n
+            let arg_a = NativeUtilities.pinM a
+            let mutable arg_lda = max 1 m
+            let arg_s = NativeUtilities.pinA s
+            let arg_u = NativeUtilities.pinM u
+            let mutable arg_ldu = m
+            let arg_vt = NativeUtilities.pinM vt
+            let mutable arg_ldvt = n
+            let arg_work = NativeUtilities.pinA work
+            let mutable arg_lwork = -1
+            let arg_iwork = NativeUtilities.pinA iwork
+            let mutable arg_info = 0
+            // ask for work array size
+            try
+                LapackMKLStubs.dgesdd_(&&arg_JOBZ,&&arg_m,&&arg_n,arg_a.Ptr,&&arg_lda,arg_s.Ptr,arg_u.Ptr,&&arg_ldu,arg_vt.Ptr,&&arg_ldvt,arg_work.Ptr,&&arg_lwork,arg_iwork.Ptr,&&arg_info)
+            finally
+                NativeUtilities.freeA arg_work
        
-        if arg_info = 0   || arg_info=(-12) then
-            arg_lwork <- int32 work.[0]
-        else assert(false)
+            if arg_info = 0   || arg_info=(-12) then
+                arg_lwork <- int32 work.[0]
+            else assert(false)
         
-        let arg_work = NativeUtilities.pinA (Array.zeroCreate arg_lwork : float[])
-        // call function
-        try
-            LapackMKLStubs.dgesdd_(&&arg_JOBZ,&&arg_m,&&arg_n,arg_a.Ptr,&&arg_lda,arg_s.Ptr,arg_u.Ptr,&&arg_ldu,arg_vt.Ptr,&&arg_ldvt,arg_work.Ptr,&&arg_lwork,arg_iwork.Ptr,&&arg_info)
-        finally
-            NativeUtilities.freeM arg_a
-            NativeUtilities.freeA arg_s
-            NativeUtilities.freeM arg_u
-            NativeUtilities.freeM arg_vt
-            NativeUtilities.freeA arg_work
-            NativeUtilities.freeA arg_iwork
-        // INFO
-        match arg_info with
-        | -1  -> failwith "dgesdd_: JOBZ (argument 1)"
-        | -2  -> failwith "dgesdd_: m (argument 2)"
-        | -3  -> failwith "dgesdd_: n (argument 3)"
-        | -4  -> failwith "dgesdd_: a (argument 4)"
-        | -5  -> failwith "dgesdd_: lda (argument 5)"
-        | -6  -> failwith "dgesdd_: s (argument 6)"
-        | -7  -> failwith "dgesdd_: u (argument 7)"
-        | -8  -> failwith "dgesdd_: ldu (argument 8)"
-        | -9  -> failwith "dgesdd_: vt (argument 9)"
-        | -10 -> failwith "dgesdd_: ldvt (argument 10)"
-        | -11 -> failwith "dgesdd_: work (argument 11)"
-        | -12 -> failwith "dgesdd_: lwork (argument 12)"
-        | -13 -> failwith "dgesdd_: iwork (argument 13)"
-        | -14 -> failwith "dgesdd_: info (argument 14)"
-        | 0   -> ()
-        | n   -> failwith (sprintf "dgesdd_ : returned %d. The computation failed." n)
-        // fixups
-        let u = Matrix.transpose u
-        let vt = Matrix.transpose vt
-        // result tuple
-        s,u,vt
+            let arg_work = NativeUtilities.pinA (Array.zeroCreate arg_lwork : float[])
+            // call function
+            try
+                LapackMKLStubs.dgesdd_(&&arg_JOBZ,&&arg_m,&&arg_n,arg_a.Ptr,&&arg_lda,arg_s.Ptr,arg_u.Ptr,&&arg_ldu,arg_vt.Ptr,&&arg_ldvt,arg_work.Ptr,&&arg_lwork,arg_iwork.Ptr,&&arg_info)
+            finally
+                NativeUtilities.freeM arg_a
+                NativeUtilities.freeA arg_s
+                NativeUtilities.freeM arg_u
+                NativeUtilities.freeM arg_vt
+                NativeUtilities.freeA arg_work
+                NativeUtilities.freeA arg_iwork
+            // INFO
+            match arg_info with
+            | -1  -> failwith "dgesdd_: JOBZ (argument 1)"
+            | -2  -> failwith "dgesdd_: m (argument 2)"
+            | -3  -> failwith "dgesdd_: n (argument 3)"
+            | -4  -> failwith "dgesdd_: a (argument 4)"
+            | -5  -> failwith "dgesdd_: lda (argument 5)"
+            | -6  -> failwith "dgesdd_: s (argument 6)"
+            | -7  -> failwith "dgesdd_: u (argument 7)"
+            | -8  -> failwith "dgesdd_: ldu (argument 8)"
+            | -9  -> failwith "dgesdd_: vt (argument 9)"
+            | -10 -> failwith "dgesdd_: ldvt (argument 10)"
+            | -11 -> failwith "dgesdd_: work (argument 11)"
+            | -12 -> failwith "dgesdd_: lwork (argument 12)"
+            | -13 -> failwith "dgesdd_: iwork (argument 13)"
+            | -14 -> failwith "dgesdd_: info (argument 14)"
+            | 0   -> ()
+            | n   -> failwith (sprintf "dgesdd_ : returned %d. The computation failed." n)
+            // fixups
+            let u = Matrix.transpose u
+            let vt = Matrix.transpose vt
+            // result tuple
+            s,u,vt
 
 
+module ProviderService = 
+    let MKLProvider = ServiceLocator.createProviderX64  "MKL" [|"mkl.dll"|] ServiceLocator.OS.Windows (fun () -> new LinearAlgebraMKL() :> ILinearAlgebra)
 
 
 
