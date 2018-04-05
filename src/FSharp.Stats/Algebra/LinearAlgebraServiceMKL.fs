@@ -88,11 +88,27 @@ module LapackMKLStubs =
     [<System.Runtime.InteropServices.DllImport(@"mkl.dll",EntryPoint="cblas_dgemv")>]
     extern void dgemv_(int32* trans, int* m, int* n,double* alpha, double* A, int* lda,double* x, int* incx, double* beta,double* y, int* incy)
 
+
+module BlasStubs =
+
+    [<System.Runtime.InteropServices.DllImport(@"libblas.dll",EntryPoint="dgemm_")>]
+    extern void dgemm_(char *TRANSA, char *TRANSB, int *M, int *N, int *K, double *ALPHA, double *A, int *LDA, double *B, int *LDB, double *BETA, double *C, int *LDC)
+
+
+module LapackStubs =
+    
+    [<System.Runtime.InteropServices.DllImport(@"liblapack.dll",EntryPoint="dgesvd_")>]
+    extern void dgesvd_(char* JOBU, char* JOBVT, int *M, int *N, double *A, int *LDA, double *S, double *U, int *LDU, double *VT, int *LDVT, double *WORK, int *LWORK, int *INFO)
+
+    [<System.Runtime.InteropServices.DllImport(@"liblapack.dll",EntryPoint="dgesdd_")>]
+    extern void dgesdd_(char *JOBZ, int *M, int *N, double *A, int *LDA, double *S, double *U, int *LDU, double *VT, int *LDVT, double *WORK, int *LWORK, int *IWORK, int *INFO)
+
+
 open Microsoft.FSharp.NativeInterop
 open LapackMKLStubs
 open FSharp.Stats.Algebra
   
-/// Internal provider of Lapack functionality, not for direct user usage.
+/// Internal provider of MKL functionality, not for direct user usage.
 type LinearAlgebraMKL() =
     interface ILinearAlgebra with 
     
@@ -218,9 +234,247 @@ type LinearAlgebraMKL() =
             // result tuple
             s,u,vt
 
+        member this.dgesdd_thin_(a:matrix) = 
+            printfn "Function not implemented yet, use the lapack provider"
+            ([||],matrix[||],matrix[||])
 
+
+/// Internal provider of Lapack functionality, not for direct user usage.
+type LinearAlgebraLAPACK() =
+    interface ILinearAlgebra with 
+    
+        ///Matrix-Matrix Multiplication
+        member this.dgemm_ (a,b) = 
+
+            // input copies
+            let a = Matrix.copy a
+            let b = Matrix.copy b
+
+            // dimensions
+            let m = NativeUtilities.matrixDim1 a in
+            let k = NativeUtilities.matrixDim2 a in
+            NativeUtilities.assertDimensions "dgemm_" ("k","Dim1(b)") (k,NativeUtilities.matrixDim1 b);
+            let n = NativeUtilities.matrixDim2 b in
+
+            // allocate results
+            let c = Matrix.zero (m) (n)
+
+            // transpose
+            let c = Matrix.transpose c
+            //setup actuals ------------------------------------------------------------
+            //computation type and scalars        
+            let mutable arg_TRANSA = 'T'
+            let mutable arg_TRANSB = 'T'
+            let mutable arg_alpha = 1.
+            let mutable arg_beta = 0.
+
+            //dimensions of input arrays
+            let mutable arg_m = m
+            let mutable arg_n = n 
+            let mutable arg_k = k
+
+            let mutable arg_lda = max 1 k
+            let mutable arg_ldb = max 1 n
+            let mutable arg_ldc = max 1 m
+
+            let arg_a = NativeUtilities.pinM a
+            let arg_b = NativeUtilities.pinM b
+            let arg_c = NativeUtilities.pinM c
+
+            try 
+                printfn "calling dgemm ..."
+                BlasStubs.dgemm_(&&arg_TRANSA,&&arg_TRANSB,&&arg_m,&&arg_n,&&arg_k,&&arg_alpha,arg_a.Ptr,&&arg_lda,arg_b.Ptr,&&arg_ldb,&&arg_beta,arg_c.Ptr,&&arg_ldc)
+            finally
+                NativeUtilities.freeM arg_a
+                NativeUtilities.freeM arg_b
+                NativeUtilities.freeM arg_c
+
+            let c = Matrix.transpose c
+            // result tuple
+            c
+
+        member this.dgesdd_(a:matrix) =
+
+            // input copies
+            let a = Matrix.copy a
+            // dimensions
+            let m = NativeUtilities.matrixDim1 a in
+            let n = NativeUtilities.matrixDim2 a in
+
+            let s = Array.zeroCreate  (min m n)
+            let u = Matrix.zero (m) (m)
+            let vt = Matrix.zero (n) (n)
+            let work = Array.zeroCreate  (1)
+            let iwork = Array.zeroCreate  (8*(min m n))
+
+            // transpose
+            let a = Matrix.transpose a
+            let u = Matrix.transpose u
+            let vt = Matrix.transpose vt
+
+            //setup actuals ------------------------------------------------------------
+            //computation type
+            let mutable arg_JOBZ = 'A'
+
+            //dimensions of input array a
+            let mutable arg_m = m
+            let mutable arg_n = n 
+
+            //output matrices and their leading dimensions
+            let mutable arg_lda = max 1 m
+            let mutable arg_ldu = m
+            let mutable arg_ldvt = n
+
+            let arg_s   = NativeUtilities.pinA s
+            let arg_a   = NativeUtilities.pinM a
+            let arg_u   = NativeUtilities.pinM u
+            let arg_vt  = NativeUtilities.pinM vt
+
+            //workspaces
+            let arg_work = NativeUtilities.pinA work
+            let mutable arg_lwork = -1
+            let arg_iwork = NativeUtilities.pinA iwork
+            let mutable arg_info = 0
+
+            try 
+                LapackStubs.dgesdd_(&&arg_JOBZ,&&arg_m,&&arg_n,arg_a.Ptr,&&arg_lda,arg_s.Ptr,arg_u.Ptr,&&arg_ldu,arg_vt.Ptr,&&arg_ldvt,arg_work.Ptr,&&arg_lwork,arg_iwork.Ptr,&&arg_info )
+            finally
+                NativeUtilities.freeA arg_work
+
+            //get workspace size
+            if arg_info = 0   || arg_info=(-12) then
+                arg_lwork <- int32 work.[0]
+            else assert(false)
+
+            //assign workspace size to the work array
+            let arg_work = NativeUtilities.pinA (Array.zeroCreate arg_lwork : float[])
+            //call dgesdd_
+            try 
+                LapackStubs.dgesdd_(&&arg_JOBZ,&&arg_m,&&arg_n,arg_a.Ptr,&&arg_lda,arg_s.Ptr,arg_u.Ptr,&&arg_ldu,arg_vt.Ptr,&&arg_ldvt,arg_work.Ptr,&&arg_lwork,arg_iwork.Ptr,&&arg_info )
+            finally
+                NativeUtilities.freeM arg_a
+                NativeUtilities.freeA arg_s
+                NativeUtilities.freeM arg_u
+                NativeUtilities.freeM arg_vt
+                NativeUtilities.freeA arg_work
+                NativeUtilities.freeA arg_iwork
+            //fail if info contains an error code
+            match arg_info with
+            | -1  -> failwith "dgesdd_: JOBZ (argument 1)"
+            | -2  -> failwith "dgesdd_: m (argument 2)"
+            | -3  -> failwith "dgesdd_: n (argument 3)"
+            | -4  -> failwith "dgesdd_: a (argument 4)"
+            | -5  -> failwith "dgesdd_: lda (argument 5)"
+            | -6  -> failwith "dgesdd_: s (argument 6)"
+            | -7  -> failwith "dgesdd_: u (argument 7)"
+            | -8  -> failwith "dgesdd_: ldu (argument 8)"
+            | -9  -> failwith "dgesdd_: vt (argument 9)"
+            | -10 -> failwith "dgesdd_: ldvt (argument 10)"
+            | -11 -> failwith "dgesdd_: work (argument 11)"
+            | -12 -> failwith "dgesdd_: lwork (argument 12)"
+            | -13 -> failwith "dgesdd_: iwork (argument 13)"
+            | -14 -> failwith "dgesdd_: info (argument 14)"
+            | 0   -> ()
+            | n   -> failwith (sprintf "dgesdd_ : returned %d. The computation failed." n)
+            
+            // fixups
+            let u = Matrix.transpose u
+            let vt = Matrix.transpose vt
+            // result tuple
+            s,u,vt
+
+
+        member this.dgesdd_thin_(a:matrix) =
+            // input copies
+            let a = Matrix.copy a
+            // dimensions
+            let m = NativeUtilities.matrixDim1 a in
+            let n = NativeUtilities.matrixDim2 a in
+
+            let s = Array.zeroCreate  (min m n)
+            let u = Matrix.zero (m) (n)
+            let vt = Matrix.zero (n) (n)
+            let work = Array.zeroCreate  (1)
+            let iwork = Array.zeroCreate  (8*(min m n))
+
+            //setup actuals ------------------------------------------------------------
+            //computation type
+            let mutable arg_JOBZ = 'S'
+
+            //dimensions of input array a
+            let mutable arg_m = m
+            let mutable arg_n = n 
+
+            //output matrices and their leading dimensions
+            let mutable arg_ldu = m
+            let mutable arg_ldvt = n
+            let mutable arg_lda = max 1 m
+            
+            // transpose
+            let a = Matrix.transpose a
+            let u = Matrix.transpose u
+            let vt = Matrix.transpose vt
+
+            let arg_s   = NativeUtilities.pinA s
+            let arg_a   = NativeUtilities.pinM a
+            let arg_u   = NativeUtilities.pinM u
+            let arg_vt  = NativeUtilities.pinM vt
+
+            //workspaces
+            let arg_work = NativeUtilities.pinA work
+            let mutable arg_lwork = -1
+            let arg_iwork = NativeUtilities.pinA iwork
+            let mutable arg_info = 0
+
+            try 
+                LapackStubs.dgesdd_(&&arg_JOBZ,&&arg_m,&&arg_n,arg_a.Ptr,&&arg_lda,arg_s.Ptr,arg_u.Ptr,&&arg_ldu,arg_vt.Ptr,&&arg_ldvt,arg_work.Ptr,&&arg_lwork,arg_iwork.Ptr,&&arg_info )
+            finally
+                NativeUtilities.freeA arg_work
+
+            //get workspace size
+            if arg_info = 0   || arg_info=(-12) then
+                arg_lwork <- int32 work.[0]
+            else assert(false)
+
+            //assign workspace size to the work array
+            let arg_work = NativeUtilities.pinA (Array.zeroCreate arg_lwork : float[])
+            //call dgesdd_
+            try 
+                LapackStubs.dgesdd_(&&arg_JOBZ,&&arg_m,&&arg_n,arg_a.Ptr,&&arg_lda,arg_s.Ptr,arg_u.Ptr,&&arg_ldu,arg_vt.Ptr,&&arg_ldvt,arg_work.Ptr,&&arg_lwork,arg_iwork.Ptr,&&arg_info )
+            finally
+                NativeUtilities.freeM arg_a
+                NativeUtilities.freeA arg_s
+                NativeUtilities.freeM arg_u
+                NativeUtilities.freeM arg_vt
+                NativeUtilities.freeA arg_work
+                NativeUtilities.freeA arg_iwork
+            //fail if info contains an error code
+            match arg_info with
+            | -1  -> failwith "dgesdd_: JOBZ (argument 1)"
+            | -2  -> failwith "dgesdd_: m (argument 2)"
+            | -3  -> failwith "dgesdd_: n (argument 3)"
+            | -4  -> failwith "dgesdd_: a (argument 4)"
+            | -5  -> failwith "dgesdd_: lda (argument 5)"
+            | -6  -> failwith "dgesdd_: s (argument 6)"
+            | -7  -> failwith "dgesdd_: u (argument 7)"
+            | -8  -> failwith "dgesdd_: ldu (argument 8)"
+            | -9  -> failwith "dgesdd_: vt (argument 9)"
+            | -10 -> failwith "dgesdd_: ldvt (argument 10)"
+            | -11 -> failwith "dgesdd_: work (argument 11)"
+            | -12 -> failwith "dgesdd_: lwork (argument 12)"
+            | -13 -> failwith "dgesdd_: iwork (argument 13)"
+            | -14 -> failwith "dgesdd_: info (argument 14)"
+            | 0   -> ()
+            | n   -> failwith (sprintf "dgesdd_ : returned %d. The computation failed." n)
+            
+            // fixups
+            let u = Matrix.transpose u
+            let vt = Matrix.transpose vt
+            // result tuple
+            s,u,vt
 module ProviderService = 
     let MKLProvider = ServiceLocator.createProviderX64  "MKL" [|"mkl.dll"|] ServiceLocator.OS.Windows (fun () -> new LinearAlgebraMKL() :> ILinearAlgebra)
+    let LAPACKProvider = ServiceLocator.createProviderX64  "LAPACK" [|"libblas.dll";"liblapack.dll"|] ServiceLocator.OS.Windows (fun () -> new LinearAlgebraLAPACK() :> ILinearAlgebra)
 
 
 
