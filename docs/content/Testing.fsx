@@ -43,6 +43,7 @@ A hypothesis test examines two opposing hypotheses about a population: the null 
 
 *)
 #r "FSharp.Stats.dll"
+#r "netstandard.dll"
 open FSharp.Stats
 open FSharp.Stats.Testing
 
@@ -337,12 +338,22 @@ Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
 
 
 
+//qValue
+// Example
+let pvalues =
+    "C:/Users/muehl/OneDrive/Development/_Current/Pep/output.txt"
+    |> System.IO.File.ReadLines
+    |> Seq.map float 
+    |> Seq.toArray
 
+// 0.6763407 from Storey R! devtools
+let pi0 = Testing.PvalueAdjust.Qvalues.pi0_Bootstrap [|0.0 ..0.05..0.9|] pvalues
+let qvalues  = Testing.PvalueAdjust.Qvalues.ofPValues pi0 pvalues
 
+qvalues |> Seq.filter (fun x -> x < 0.1) |> Seq.length
 
-
-
-
+FSharp.Plotly.Chart.Histogram( pvalues, HistNorm=FSharp.Plotly.StyleParam.HistNorm.Probability)
+|> FSharp.Plotly.Chart.Show
 
 
 
