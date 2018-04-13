@@ -31,8 +31,13 @@ module Rank =
 
                     loop (i+1) (i)
             else
-                //break ties if left over
-                setTies pi i
+                //break ties if left over                
+                //setTies pi i
+                if (i = pi + 1) then
+                    ranks.[index.[pi]] <- convert i
+                else
+                    //break ties
+                    setTies pi i
 
         loop 1 0 |> ignore
         ranks

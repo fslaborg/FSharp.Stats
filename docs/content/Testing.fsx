@@ -341,7 +341,8 @@ Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
 //qValue
 // Example
 let pvalues =
-    "C:/Users/muehl/OneDrive/Development/_Current/Pep/output.txt"
+    "D:/OneDrive/Development/_Current/Pep/output.txt"
+    //"C:/Users/muehl/OneDrive/Development/_Current/Pep/output.txt"
     |> System.IO.File.ReadLines
     |> Seq.map float 
     |> Seq.toArray
@@ -352,8 +353,14 @@ let qvalues  = Testing.PvalueAdjust.Qvalues.ofPValues pi0 pvalues
 
 qvalues |> Seq.filter (fun x -> x < 0.1) |> Seq.length
 
+FSharp.Plotly.Chart.Point (pvalues,qvalues)
+|> FSharp.Plotly.Chart.Show
+
 FSharp.Plotly.Chart.Histogram( pvalues, HistNorm=FSharp.Plotly.StyleParam.HistNorm.Probability)
 |> FSharp.Plotly.Chart.Show
 
 
+Rank.rankAverage [|1.;0.2;0.2;2.;3.;2.|]
 
+Rank.rankMin [|1.;0.2;0.2;2.;3.;2.|]
+Rank.rankMax [|1.;0.2;0.2;2.;3.;2.|]
