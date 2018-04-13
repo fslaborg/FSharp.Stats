@@ -80,14 +80,41 @@ module PvalueAdjust =
 //            // multiply each q-value by the proportion of true nulls expected to be under it (the inverse of how you get there from the p-value)
 //            |> Seq.map (fun r -> r.Value * r.RankIndex / m0)    
 //            |> Array.ofSeq
+
+        let private bind (arr:float[]) =
+            let arr' = Array.copy arr
+            for i=1 to arr'.Length-1 do
+                if arr'.[i] < arr'.[i-1] then
+                    arr'.[i] <- arr'.[i-1]
+            arr'
+               
     
+        /// Calculates the robust version of the q-value. See Storey JD (2002) JRSS-B 64: 479-498.
+        let ofPValuesRobust (pi0:float) (pvalues:float[]) =
+            let m  = float pvalues.Length
+            let m0 = m * pi0
+            pvalues
+            |> Rank.rankAverage
+            |> Array.mapi (fun i r -> 
+                let qval = 
+                    let p = pvalues.[i]
+                    p * m0 / (r * (1. - (1. - p)**m))
+                min qval 1.
+                )
+            |> bind
 
 
+        /// Calculates q-values from given p-values.
         let ofPValues (pi0:float) (pvalues:float[]) =        
             let m0 = float pvalues.Length * pi0
             pvalues
             |> Rank.rankAverage
-            |> Array.mapi (fun i r -> pvalues.[i] / r * m0 )
+            |> Array.mapi (fun i r -> 
+                let qval = pvalues.[i] / r * m0 
+                min qval 1.
+                )            
+            |> bind
+
 
 
 

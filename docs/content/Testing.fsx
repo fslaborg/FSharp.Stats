@@ -341,7 +341,7 @@ Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
 //qValue
 // Example
 let pvalues =
-    "D:/OneDrive/Development/_Current/Pep/output.txt"
+    "D:/OneDrive/Development/_Current/Pep/pvalDavidTest.txt"
     //"C:/Users/muehl/OneDrive/Development/_Current/Pep/output.txt"
     |> System.IO.File.ReadLines
     |> Seq.map float 
@@ -360,7 +360,20 @@ FSharp.Plotly.Chart.Histogram( pvalues, HistNorm=FSharp.Plotly.StyleParam.HistNo
 |> FSharp.Plotly.Chart.Show
 
 
+
+Rank.rankAverage pvalues
+
 Rank.rankAverage [|1.;0.2;0.2;2.;3.;2.|]
 
 Rank.rankMin [|1.;0.2;0.2;2.;3.;2.|]
 Rank.rankMax [|1.;0.2;0.2;2.;3.;2.|]
+
+
+let bind (arr:float[]) =
+    let arr' = Array.copy arr
+    for i=1 to arr'.Length-1 do
+        if arr'.[i] < arr'.[i-1] then
+            arr'.[i] <- arr'.[i-1]
+    arr'
+
+bind [|1.;0.2;0.2;2.;3.;2.|]
