@@ -43,6 +43,7 @@ A hypothesis test examines two opposing hypotheses about a population: the null 
 
 *)
 #r "FSharp.Stats.dll"
+#r "netstandard.dll"
 open FSharp.Stats
 open FSharp.Stats.Testing
 
@@ -253,10 +254,11 @@ TukeyHSD contrastMatrixDsd dsd
 
 
 
+let d1 = [159.;179.;100.;45.;384.;230.;100.;320.;80.;220.;320.;210.;]
+let d2 = [14.4;15.2;11.3;2.5;22.7;14.9;1.41;15.81;4.19;15.39;17.25;9.52; ]
+    
 
-
-
-
+Testing.FisherHotelling.test d1 d2
 
 
 // https://www.wessa.net/rwasp_Two%20Factor%20ANOVA.wasp
@@ -337,12 +339,63 @@ Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
 
 
 
+//qValue
+// Example
+let pvalues =
+    //"D:/OneDrive/Development/_Current/Pep/pvalDavidTest.txt"
+    //"C:/Users/muehl/OneDrive/Development/_Current/Pep/output.txt"
+    "C:/Users/muehl/OneDrive/Development/_Current/Pep/output.txt"
+    |> System.IO.File.ReadLines
+    |> Seq.map float 
+    |> Seq.toArray
+
+
+let bindBy (objArr:float[]) (arr:float[]) =
+    let arr' = Array.copy arr
+    let index = Array.init arr.Length id
+    System.Array.Sort(objArr,index)
+    for i=1 to arr'.Length-1 do
+        if arr'.[index.[i]] < arr'.[index.[i-1]] then
+            arr'.[index.[i]] <- arr'.[index.[i-1]]
+    arr'
+
+/// Calculates q-values from given p-values.
+let ofPValues (pi0:float) (pvalues:float[]) =        
+    let m0 = float pvalues.Length * pi0
+    pvalues
+    |> Rank.rankAverage
+    |> Array.mapi (fun i r -> 
+        let qval = pvalues.[i] * m0 / r  
+        min qval 1.
+        )
+    |> bindBy pvalues
+
+
+// 0.6763407 from Storey R! devtools
+let pi0 = Testing.PvalueAdjust.Qvalues.pi0_Bootstrap [|0.0 ..0.05..0.9|] pvalues
+let qvalues  = Testing.PvalueAdjust.Qvalues.ofPValues pi0 pvalues
+//let qvalues  = ofPValues pi0 pvalues
+
+
+qvalues |> Seq.filter (fun x -> x < 0.1) |> Seq.length
+
+FSharp.Plotly.Chart.Point (pvalues,qvalues)
+|> FSharp.Plotly.Chart.Show
+
+FSharp.Plotly.Chart.Histogram( pvalues, HistNorm=FSharp.Plotly.StyleParam.HistNorm.Probability)
+|> FSharp.Plotly.Chart.Show
+
+
+
+Rank.rankAverage pvalues
+
+Rank.rankAverage [|1.;0.2;0.2;2.;3.;2.|]
+
+Rank.rankMin [|1.;0.2;0.2;2.;3.;2.|]
+Rank.rankMax [|1.;0.2;0.2;2.;3.;2.|]
 
 
 
 
-
-
-
-
+bindBy [|1.;0.2;0.2;2.;3.;2.|] [|1.;0.3;0.2;2.;3.;4.|]
 

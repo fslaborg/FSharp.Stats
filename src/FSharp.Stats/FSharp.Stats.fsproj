@@ -92,6 +92,7 @@
     <Compile Include="Testing\PvalueAdjust.fs" />
     <Compile Include="Testing\Outliers.fs" />
     <Compile Include="Testing\SAM.fs" />
+    <Compile Include="Testing\FisherHotelling.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\Regression.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
