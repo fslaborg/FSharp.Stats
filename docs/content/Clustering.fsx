@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin"
+#I "../../bin/FSharp.Stats/net461"
 #r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
 
 open FSharp.Plotly
@@ -27,6 +27,7 @@ let lable,data =
     |> Array.shuffleFisherYates
     |> Array.unzip
 
+
 let colnames = ["Sepal length";"Sepal width";"Petal length";"Petal width"]
 
 
@@ -34,10 +35,11 @@ let colorscaleValue =
     //StyleParam.ColorScale.Electric
     StyleParam.Colorscale.Electric //Custom [(0.0,"#3D9970");(1.0,"#001f3f")]
 
+(*** define:heat1 ***)
 Chart.Heatmap(data,ColNames=colnames,RowNames=(lable |> Seq.mapi (fun i s -> sprintf "%s%i" s i )),Colorscale=colorscaleValue,Showscale=true)
 |> Chart.withMarginSize(Left=250.)
 |> Chart.withSize(500.,1100.)
-(*** include-it:heat1 ***)
+(*** include:heat1 ***)
 
 
 
@@ -192,7 +194,7 @@ let hdata =
 Chart.Heatmap(hdata,ColNames=colnames,RowNames=(hlable |> Seq.mapi (fun i s -> sprintf "%s%i" s i )),Colorscale=colorscaleValue,Showscale=true)
 |> Chart.withMarginSize(Left=250.)
 |> Chart.withSize(500.,2100.)
-(*** include-it:heat1 ***)
+(*** include:heat1 ***)
 
 
 

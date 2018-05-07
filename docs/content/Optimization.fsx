@@ -3,7 +3,7 @@
 // it to define helpers that you do not want to show in the documentation.
 //#I "../../bin"
 #r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
-#I "../../bin"
+#I "../../bin/FSharp.Stats/net461"
 #r "FSharp.Stats.dll"
 open FSharp.Plotly
 open FSharp.Stats
@@ -72,10 +72,10 @@ let z =
 
 
   
-(*** define-output:rosenContour ***)
+(*** define:rosenContour ***)
 Chart.Surface(z,x,y)
 |> Chart.withSize(600.,600.)
-(*** include-it:rosenContour ***)
+(*** include:rosenContour ***)
 
 
 

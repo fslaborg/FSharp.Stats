@@ -1,13 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <ProjectGuid>1ddd1606-4d66-46f3-8b97-2f8529cf92d8</ProjectGuid>
+    <RootNamespace>FSharp.Stats.MSF</RootNamespace>
+    <AssemblyName>FSharp.Stats.MSF</AssemblyName>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <DocumentationFile>bin\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-  </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Optimization\LP.fs" />
     <Compile Include="Optimization\QP.fs" />
@@ -24,9 +24,9 @@
       <HintPath>..\..\lib\Microsoft.Solver.Foundation.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /Y &quot;$(TargetDir)*.dll&quot;  &quot;$(SolutionDir)bin\&quot;&#xD;&#xA;xcopy /Y &quot;$(TargetDir)*.xml&quot; &quot;$(SolutionDir)bin\&quot;" />
-  </Target>
-
+  
+  <ItemGroup>
+    <Content Include="App.config" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

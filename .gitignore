@@ -20,6 +20,7 @@ build/
 [Bb]in/
 [Oo]bj/
 
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
@@ -170,7 +171,7 @@ $RECYCLE.BIN/
 packages/
 
 # Generated documentation folder
-docs/output/
+docs/formatted/
 
 #ignore local docs
 docs/local/
@@ -188,7 +189,6 @@ release.sh
 localpackages/
 paket-files
 *.orig
-.paket/paket.exe
 docs/content/license.md
 docs/content/release-notes.md
 .fake

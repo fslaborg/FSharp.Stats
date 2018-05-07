@@ -1,20 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <Tailcalls>true</Tailcalls>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <WarningLevel>3</WarningLevel>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <ProjectGuid>4e235ddd-1b59-4a93-abe9-2feef18b09a1</ProjectGuid>
+    <RootNamespace>FSharp.Stats</RootNamespace>
+    <AssemblyName>FSharp.Stats</AssemblyName>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <DocumentationFile>bin\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -92,6 +84,7 @@
     <Compile Include="Testing\PvalueAdjust.fs" />
     <Compile Include="Testing\Outliers.fs" />
     <Compile Include="Testing\SAM.fs" />
+    <Compile Include="Testing\FisherHotelling.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\Regression.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
@@ -103,9 +96,8 @@
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
     <Compile Include="ML\Unsupervised\DbScan.fs" />
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /Y &quot;$(TargetDir)*.dll&quot;  &quot;$(SolutionDir)bin\&quot;&#xD;&#xA;xcopy /Y &quot;$(TargetDir)*.xml&quot; &quot;$(SolutionDir)bin\&quot;" />
-  </Target>
-
+  <ItemGroup>
+    <Content Include="App.config" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

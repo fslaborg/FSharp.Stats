@@ -1,9 +1,8 @@
 module FSharp.Stats.Tests
 
-open NUnit.Framework
+open FSharp.Stats
+open Xunit
 
-[<Test>]
-let ``hello returns 42`` () =
-  let result = 42
-  printfn "%i" result
-  Assert.AreEqual(42,result)
+[<Fact>]
+let ``true is always true`` () =
+    Assert.True(true)

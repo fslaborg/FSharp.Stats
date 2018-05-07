@@ -1,5 +1,5 @@
 (*** hide ***)
-#I "../../bin"
+#I "../../bin/FSharp.Stats/net461"
 
 (** 
 

@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin"
+#I "../../bin/FSharp.Stats/net461"
 #r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
@@ -63,12 +63,12 @@ let pdfStudentT mu tau dof =
 
 studentTParams
 |> List.map (fun (mu,tau,dof) -> Chart.Spline(pdfStudentT mu tau dof,Name=sprintf "mu=%.1f tau=%.1f dof=%.1f" mu tau dof,ShowMarkers=false))
-(*** define-output:PdfStudentT ***)
+(*** define:PdfStudentT ***)
 |> Chart.Combine
 |> Chart.withX_AxisStyle("x",MinMax=(-4.,4.))
 |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,0.4))
 |> Chart.withSize (500., 450.)
-(*** include-it:PdfStudentT ***)
+(*** include:PdfStudentT ***)
 |>  
 
 
@@ -79,18 +79,18 @@ let cdfStudentT mu tau dof =
 
 studentTParams
 |> List.map (fun (mu,tau,dof) -> Chart.Spline(cdfStudentT mu tau dof,Name=sprintf "mu=%.1f tau=%.1f dof=%.1f" mu tau dof,ShowMarkers=false))
-(*** define-output:CdfStudentT ***)
+(*** define:CdfStudentT ***)
 |> Chart.Combine
 |> Chart.withX_AxisStyle("x",MinMax=(-4.,4.))
 |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,1.))
 |> Chart.withSize (500., 450.)
-(*** include-it:CdfStudentT ***)
+(*** include:CdfStudentT ***)
 
 
 
 let mu,tau,dof = (0.0,1.0,15.0)
 
-(*** define-output:sampleStudentT ***)
+(*** define:sampleStudentT ***)
 [
     Seq.init 100000
         (fun _ -> Continuous.StudentT.Sample mu tau dof)
@@ -101,7 +101,7 @@ let mu,tau,dof = (0.0,1.0,15.0)
 ]
 |> Chart.Combine
 |> Chart.withSize (500., 450.)
-(*** define-output:sampleStudentT ***)
+(*** define:sampleStudentT ***)
 
 
 
@@ -119,12 +119,12 @@ let pdfGamma a b =
 
 gammaParams
 |> List.map (fun (a,b) -> Chart.Point(pdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
-(*** define-output:PdfGamma ***)
+(*** define:PdfGamma ***)
 |> Chart.Combine
 |> Chart.withX_AxisStyle("x",MinMax=(0.,20.))
 |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,0.5))
 |> Chart.withSize (500., 450.)
-(*** include-it:PdfGamma ***)
+(*** include:PdfGamma ***)
 |>  
 
 
@@ -135,12 +135,12 @@ let cdfGamma a b =
 
 gammaParams
 |> List.map (fun (a,b) -> Chart.Spline(cdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
-(*** define-output:CdfGamma ***)
+(*** define:CdfGamma ***)
 |> Chart.Combine
 |> Chart.withX_AxisStyle("x",MinMax=(0.,20.))
 |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,1.0))
 |> Chart.withSize (500., 450.)
-(*** include-it:CdfGamma ***)
+(*** include:CdfGamma ***)
 |>  
 
 
@@ -149,7 +149,7 @@ gammaParams
 let alpha = 0.5
 let beta  = 0.5
 
-(*** define-output:sampleGamma ***)
+(*** define:sampleGamma ***)
 [
     Seq.init 100000
         (fun _ -> Continuous.Gamma.Sample alpha beta)
@@ -160,7 +160,7 @@ let beta  = 0.5
 ]
 |> Chart.Combine
 |> Chart.withSize (500., 450.)
-(*** define-output:sampleGamma ***)
+(*** define:sampleGamma ***)
 |>  
 
 
@@ -196,12 +196,12 @@ let pdfBinomial p n =
 
 binomialParams
 |> List.map (fun (p,n) -> Chart.Spline(pdfBinomial p n,Name=sprintf "p=%.1f n=%i" p n,ShowMarkers=false))
-(*** define-output:PdfStudentT ***)
+(*** define:PdfStudentT ***)
 |> Chart.Combine
 |> Chart.withX_AxisStyle("x")
 |> Chart.withY_AxisStyle("P(x)")
 |> Chart.withSize (500., 450.)
-(*** include-it:PdfStudentT ***)
+(*** include:PdfStudentT ***)
 
 
 

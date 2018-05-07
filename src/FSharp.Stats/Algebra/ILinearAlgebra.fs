@@ -61,8 +61,16 @@ type ILinearAlgebra =
     //abstract dgesvd_ :
     //  Matrix<float> -> double array * Matrix<float> * Matrix<float>
 
-    //Singular Value Decomposition Divide- Conquer
+
+    ///Returns the full Singular Value Decomposition of the input MxN matrix A : A = U * SIGMA * V**T in the tuple (S, U, V**T) , where S is an array containing the diagonal elements of SIGMA.
+    ///uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
     abstract dgesdd_ : Matrix<float> -> double array * Matrix<float> * Matrix<float>
+
+
+    ///Returns the thin Singular Value Decomposition of the input MxN matrix A : A = U * SIGMA * V**T in the tuple (S, U, V**T) , where S is an array containing the diagonal elements of SIGMA.
+    ///The first min(M,N) columns of U and the first min(M,N) rows of V**T are returned in the arrays U and VT;
+    ///uses the LAPACK routine dgesdd with the argument JOBZ = 'S'
+    abstract dgesdd_thin_ : Matrix<float> -> double array * Matrix<float> * Matrix<float>
 
     ////Single Value Decomposition for Symmetric Matrices
     //abstract dsygv_ :

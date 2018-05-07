@@ -205,7 +205,9 @@ module Seq =
     // Median 
     /// Sample Median
     let inline median (items:seq<'T>) : 'U  =
-        raise (new System.NotImplementedException())
+        // TODO
+        items |> Seq.toArray |> Array.median
+        //raise (new System.NotImplementedException())
 
         
 

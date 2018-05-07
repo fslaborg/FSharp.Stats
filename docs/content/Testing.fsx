@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin"
+#I "../../bin/FSharp.Stats/net461"
 #r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
@@ -53,12 +53,11 @@ let sample2 = [|-0.6076633409; -0.1781469665|] |> FSharp.Stats.Vector.ofArray
 
 Testing.TTest.twoSample false sample1  sample2
 
-
 // Example from:  http://www.statstutor.ac.uk/resources/uploaded/paired-t-test.pdf
 // A paired t-test is used to compare two population means where you have two samples in
 // which observations in one sample can be paired with observations in the other sample.
 // Examples of where this might occur are:
-//      -   Before-and-after observations on the same subjects (e.g. students’ diagnostic test
+//      -   Before-and-after observations on the same subjects (e.g. studentsâ€™ diagnostic test
 //          results before and after a particular module or course).
 //      -   A comparison of two different methods of measurement or two different treatments
 //          where the measurements/treatments are applied to the same subjects (e.g. blood
@@ -68,8 +67,6 @@ let sampleP1 = vector [18.;21.;16.;22.;19.;24.;17.;21.;23.;18.;14.;16.;16.;19.;1
 let sampleP2 = vector [22.;25.;17.;24.;16.;29.;20.;23.;19.;20.;15.;15.;18.;26.;18.;24.;18.;25.;19.;16.;]
 
 Testing.TTest.twoSamplePaired sampleP1 sampleP2
-
-
 
 // http://astatsa.com/OneWay_Anova_with_TukeyHSD/
 let dataOneWay =
@@ -271,10 +268,11 @@ TukeyHSD contrastMatrixDsd dsd
 
 
 
+let d1 = [159.;179.;100.;45.;384.;230.;100.;320.;80.;220.;320.;210.;]
+let d2 = [14.4;15.2;11.3;2.5;22.7;14.9;1.41;15.81;4.19;15.39;17.25;9.52; ]
+    
 
-
-
-
+Testing.FisherHotelling.test d1 d2
 
 
 // https://www.wessa.net/rwasp_Two%20Factor%20ANOVA.wasp
@@ -358,15 +356,40 @@ Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
 //qValue
 // Example
 let pvalues =
-    "D:/OneDrive/Development/_Current/Pep/pvalDavidTest.txt"
+    //"D:/OneDrive/Development/_Current/Pep/pvalDavidTest.txt"
     //"C:/Users/muehl/OneDrive/Development/_Current/Pep/output.txt"
+    "C:/Users/muehl/OneDrive/Development/_Current/Pep/output.txt"
     |> System.IO.File.ReadLines
     |> Seq.map float 
     |> Seq.toArray
 
+
+let bindBy (objArr:float[]) (arr:float[]) =
+    let arr' = Array.copy arr
+    let index = Array.init arr.Length id
+    System.Array.Sort(objArr,index)
+    for i=1 to arr'.Length-1 do
+        if arr'.[index.[i]] < arr'.[index.[i-1]] then
+            arr'.[index.[i]] <- arr'.[index.[i-1]]
+    arr'
+
+/// Calculates q-values from given p-values.
+let ofPValues (pi0:float) (pvalues:float[]) =        
+    let m0 = float pvalues.Length * pi0
+    pvalues
+    |> Rank.rankAverage
+    |> Array.mapi (fun i r -> 
+        let qval = pvalues.[i] * m0 / r  
+        min qval 1.
+        )
+    |> bindBy pvalues
+
+
 // 0.6763407 from Storey R! devtools
 let pi0 = Testing.PvalueAdjust.Qvalues.pi0_Bootstrap [|0.0 ..0.05..0.9|] pvalues
 let qvalues  = Testing.PvalueAdjust.Qvalues.ofPValues pi0 pvalues
+//let qvalues  = ofPValues pi0 pvalues
+
 
 qvalues |> Seq.filter (fun x -> x < 0.1) |> Seq.length
 
@@ -384,6 +407,11 @@ Rank.rankAverage [|1.;0.2;0.2;2.;3.;2.|]
 
 Rank.rankMin [|1.;0.2;0.2;2.;3.;2.|]
 Rank.rankMax [|1.;0.2;0.2;2.;3.;2.|]
+
+
+
+
+bindBy [|1.;0.2;0.2;2.;3.;2.|] [|1.;0.3;0.2;2.;3.;4.|]
 
 
 let bind (arr:float[]) =
