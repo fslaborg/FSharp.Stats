@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin"
+#I "../../bin/FSharp.Stats/net461"
 #r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
@@ -65,13 +65,13 @@ let bic = Regression.calcBIC 2. summary.Count summary.Error
 Regression.getResiduals fit xVector yVector
 Regression.calculateSSE fit xVector yVector
 
-(*** define-output:regression1 ***)
+(*** define:regression1 ***)
 [
     Chart.Point(Seq.zip xVector yVector,Name="data points");
     Chart.Line(Seq.zip xVector regLine,Name ="regression")
 ]
 |> Chart.Combine
-(*** include-it:regression1 ***)
+(*** include:regression1 ***)
 
 
 
@@ -91,13 +91,13 @@ let regLine' = vector xVector' |> Vector.map fit'
 
 Regression.Polynomial.calculateANOVA 2 coeff' xVector' yVector'
 
-(*** define-output:polynomial1 ***)
+(*** define:polynomial1 ***)
 [
     Chart.Point(Seq.zip xVector' yVector',Name="data points");
     Chart.Spline(Seq.zip xVector' regLine',Name ="regression")
 ]
 |> Chart.Combine
-(*** include-it:polynomial1 ***)
+(*** include:polynomial1 ***)
 
 
 
@@ -122,13 +122,13 @@ let t = [0.0 .. 0.01 .. 7.5]
 
 let eval = Hermite.initEvalAt x a c
 
-(*** define-output:hermitespline1 ***)
+(*** define:hermitespline1 ***)
 [
     Chart.Point(x,y)
     Chart.Point(t,t |> Seq.map eval)
 ]
 |> Chart.Combine
-(*** include-it:hermitespline1 ***)
+(*** include:hermitespline1 ***)
 |> Chart.Show
 
 

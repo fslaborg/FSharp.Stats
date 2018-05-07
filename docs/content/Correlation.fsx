@@ -3,7 +3,7 @@
 #Correlation
 
 *)
-#I "../../bin"
+#I "../../bin/FSharp.Stats/net461"
 #r "../../packages/build/FSharp.Plotly/lib/net40/Fsharp.Plotly.dll"
 #r "FSharp.Stats.dll"
 

@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin"
+#I "../../bin/FSharp.Stats/net461"
 #r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
 open FSharp.Plotly
 (**
@@ -53,6 +53,20 @@ let sample2 = [|-0.6076633409; -0.1781469665|] |> FSharp.Stats.Vector.ofArray
 
 Testing.TTest.twoSample false sample1  sample2
 
+// Example from:  http://www.statstutor.ac.uk/resources/uploaded/paired-t-test.pdf
+// A paired t-test is used to compare two population means where you have two samples in
+// which observations in one sample can be paired with observations in the other sample.
+// Examples of where this might occur are:
+//      -   Before-and-after observations on the same subjects (e.g. students’ diagnostic test
+//          results before and after a particular module or course).
+//      -   A comparison of two different methods of measurement or two different treatments
+//          where the measurements/treatments are applied to the same subjects (e.g. blood
+//          pressure measurements using a stethoscope and a dynamap).
+
+let sampleP1 = vector [18.;21.;16.;22.;19.;24.;17.;21.;23.;18.;14.;16.;16.;19.;18.;20.;12.;22.;15.;17.;]
+let sampleP2 = vector [22.;25.;17.;24.;16.;29.;20.;23.;19.;20.;15.;15.;18.;26.;18.;24.;18.;25.;19.;16.;]
+
+Testing.TTest.twoSamplePaired sampleP1 sampleP2
 
 // http://astatsa.com/OneWay_Anova_with_TukeyHSD/
 let dataOneWay =
@@ -399,3 +413,12 @@ Rank.rankMax [|1.;0.2;0.2;2.;3.;2.|]
 
 bindBy [|1.;0.2;0.2;2.;3.;2.|] [|1.;0.3;0.2;2.;3.;4.|]
 
+
+let bind (arr:float[]) =
+    let arr' = Array.copy arr
+    for i=1 to arr'.Length-1 do
+        if arr'.[i] < arr'.[i-1] then
+            arr'.[i] <- arr'.[i-1]
+    arr'
+
+bind [|1.;0.2;0.2;2.;3.;2.|]

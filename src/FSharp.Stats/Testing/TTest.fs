@@ -1,4 +1,4 @@
-﻿namespace FSharp.Stats.Testing
+namespace FSharp.Stats.Testing
 
 
 module TTest =
@@ -38,7 +38,7 @@ module TTest =
             // Unequal sample sizes, assume nothing about variance.
             noAssumtion (mean1,variance1,n1) (mean2,variance2,n2)      
 
-
+    /// Computes a t-test or a Welch test 
     let twoSample (assumeEqualVariances:bool) sample1 sample2 =
         let s1Stats = Vector.stats sample1
         let s2Stats = Vector.stats sample2
@@ -49,3 +49,17 @@ module TTest =
         twoSampleFromMeanAndVar assumeEqualVariances (s1Stats.Mean,v1,s1Stats.N) (s2Stats.Mean,v2,s2Stats.N)
 
 
+    //// Computes a paired t-test used to compare two population means where you have two samples in
+    /// which observations in one sample can be paired with observations in the other sample.
+    let twoSamplePaired (sample1:Vector<float>) (sample2:Vector<float>) =                
+        let deltas = Vector.map2 (fun a b -> b - a) sample1 sample2
+        // Vector.map2 takes shorter of both
+        let n = float deltas.Length
+        
+        let deltasStats = Vector.stats deltas
+        let mean = SummaryStats.mean deltasStats
+        let std = SummaryStats.stDev deltasStats
+
+        let standardError = std / sqrt n
+        let statistic = mean / standardError
+        TestStatistics.createTTest statistic (n - 1.)            
