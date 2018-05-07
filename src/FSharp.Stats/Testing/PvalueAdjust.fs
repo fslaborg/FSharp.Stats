@@ -81,11 +81,20 @@ module PvalueAdjust =
 //            |> Seq.map (fun r -> r.Value * r.RankIndex / m0)    
 //            |> Array.ofSeq
 
-        let private bind (arr:float[]) =
+        //let private bind (arr:float[]) =
+        //    let arr' = Array.copy arr
+        //    for i=1 to arr'.Length-1 do
+        //        if arr'.[i] < arr'.[i-1] then
+        //            arr'.[i] <- arr'.[i-1]
+        //    arr'
+
+        let private bindBy (objArr:float[]) (arr:float[]) =
             let arr' = Array.copy arr
+            let index = Array.init arr.Length id
+            System.Array.Sort(objArr,index)
             for i=1 to arr'.Length-1 do
-                if arr'.[i] < arr'.[i-1] then
-                    arr'.[i] <- arr'.[i-1]
+                if arr'.[index.[i]] < arr'.[index.[i-1]] then
+                    arr'.[index.[i]] <- arr'.[index.[i-1]]
             arr'
                
     
@@ -101,7 +110,7 @@ module PvalueAdjust =
                     p * m0 / (r * (1. - (1. - p)**m))
                 min qval 1.
                 )
-            |> bind
+            |> bindBy pvalues
 
 
         /// Calculates q-values from given p-values.
@@ -113,7 +122,7 @@ module PvalueAdjust =
                 let qval = pvalues.[i] / r * m0 
                 min qval 1.
                 )            
-            |> bind
+            |> bindBy pvalues
 
 
 
