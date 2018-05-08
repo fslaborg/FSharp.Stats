@@ -30,6 +30,8 @@ let info =
 #load "../../packages/build/FSharp.Formatting/FSharp.Formatting.fsx"
 #I "../../packages/build/FAKE/tools/"
 #r "FakeLib.dll"
+#load "formatters.fsx"
+
 open Fake
 open System.IO
 open Fake.FileHelper
