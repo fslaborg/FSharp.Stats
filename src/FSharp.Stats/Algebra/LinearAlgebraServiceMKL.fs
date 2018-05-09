@@ -103,6 +103,8 @@ module LapackStubs =
     [<System.Runtime.InteropServices.DllImport(@"liblapack.dll",EntryPoint="dgesdd_")>]
     extern void dgesdd_(char *JOBZ, int *M, int *N, double *A, int *LDA, double *S, double *U, int *LDU, double *VT, int *LDVT, double *WORK, int *LWORK, int *IWORK, int *INFO)
 
+    [<System.Runtime.InteropServices.DllImport(@"liblapack.dll",EntryPoint="dgeev_")>]
+    extern void dgeev_(char *JOBVL, char *JOBVR, int *N, double *A, int *LDA, double *WR, double *WI, double *VL, int *LDVL, double *VR, int *LDVR, double *WORK, int *LWORK, int *INFO);
 
 open Microsoft.FSharp.NativeInterop
 open LapackMKLStubs
@@ -238,13 +240,15 @@ type LinearAlgebraMKL() =
             printfn "Function not implemented yet, use the lapack provider"
             ([||],matrix[||],matrix[||])
 
+        //member this.dgeev_(a:Matrix<float>) =
+        //    Array.zeroCreate 0, Array.zeroCreate 0, matrix [||]
+
 
 /// Internal provider of Lapack functionality, not for direct user usage.
 type LinearAlgebraLAPACK() =
     interface ILinearAlgebra with 
-    
-        ///Matrix-Matrix Multiplication
-        member this.dgemm_ (a,b) = 
+        //Matrix-Matrix Multiplication
+        member this.dgemm_ (a:Matrix<float>,b:Matrix<float>) = 
 
             // input copies
             let a = Matrix.copy a
@@ -292,8 +296,8 @@ type LinearAlgebraLAPACK() =
             let c = Matrix.transpose c
             // result tuple
             c
-
-        member this.dgesdd_(a:matrix) =
+        //Full SVD
+        member this.dgesdd_(a:Matrix<float>) =
 
             // input copies
             let a = Matrix.copy a
@@ -382,9 +386,8 @@ type LinearAlgebraLAPACK() =
             let vt = Matrix.transpose vt
             // result tuple
             s,u,vt
-
-
-        member this.dgesdd_thin_(a:matrix) =
+        //Thin SVD
+        member this.dgesdd_thin_(a:Matrix<float>) =
             // input copies
             let a = Matrix.copy a
             // dimensions
@@ -472,9 +475,84 @@ type LinearAlgebraLAPACK() =
             let vt = Matrix.transpose vt
             // result tuple
             s,u,vt
+        //Eigenvalue decomposition of a real non-symmetric square matrix
+        //member this.dgeev_(a:Matrix<float>) =
+        //    // input copies
+        //    let a = Matrix.copy a
+        //    // dimensions
+        //    let n = NativeUtilities.matrixDim1 a in
+        //    NativeUtilities.assertDimensions "dgeev_" ("n","Dim2(a)") (n,NativeUtilities.matrixDim2 a);
+        //    // allocate results
+        //    let wr = Array.zeroCreate  (n)
+        //    let wi = Array.zeroCreate  (n)
+        //    let vl = Matrix.zero (n) (n)
+        //    let vr = Matrix.zero (n) (n)
+        //    let work = Array.zeroCreate  (1)
+        //    // transpose
+        //    let a = Matrix.transpose a
+        //    // setup actuals
+        //    let mutable arg_jobvl = 'N'
+        //    let mutable arg_jobvr = 'V'
+        //    let mutable arg_n = n
+        //    let arg_a = NativeUtilities.pinM a
+        //    let mutable arg_lda = n
+        //    let arg_wr = NativeUtilities.pinA wr
+        //    let arg_wi = NativeUtilities.pinA wi
+        //    let arg_vl = NativeUtilities.pinM vl
+        //    let mutable arg_ldvl = n
+        //    let arg_vr = NativeUtilities.pinM vr
+        //    let mutable arg_ldvr = n
+        //    let arg_work = NativeUtilities.pinA work
+        //    let mutable arg_lwork = -1
+        //    let mutable arg_info = 0
+        //    //workspace query
+        //    try 
+        //        LapackStubs.dgeev_(&&arg_jobvl,&&arg_jobvr,&&arg_n,arg_a.Ptr,&&arg_lda,arg_wr.Ptr,arg_wi.Ptr,arg_vl.Ptr,&&arg_ldvl,arg_vr.Ptr,&&arg_ldvr,arg_work.Ptr,&&arg_lwork,&&arg_info)
+        //    finally
+        //        NativeUtilities.freeA arg_work
+        //    //get workspace size
+        //    if arg_info = 0   || arg_info=(-12) then
+        //        arg_lwork <- int32 work.[0]
+        //    else assert(false)
+        //    //assign workspace size to the work array
+        //    let arg_work = NativeUtilities.pinA (Array.zeroCreate arg_lwork : float[])
+        //    //call function
+        //    try
+        //      LapackStubs.dgeev_(&&arg_jobvl,&&arg_jobvr,&&arg_n,arg_a.Ptr,&&arg_lda,arg_wr.Ptr,arg_wi.Ptr,arg_vl.Ptr,&&arg_ldvl,arg_vr.Ptr,&&arg_ldvr,arg_work.Ptr,&&arg_lwork,&&arg_info)
+        //    finally
+        //      NativeUtilities.freeM arg_a
+        //      NativeUtilities.freeA arg_wr
+        //      NativeUtilities.freeA arg_wi
+        //      NativeUtilities.freeM arg_vl
+        //      NativeUtilities.freeM arg_vr
+        //      NativeUtilities.freeA arg_work
+        //    // INFO
+        //    match arg_info with
+        //     | -1  -> failwith "dgeev_: jobvl (argument 1)"
+        //     | -2  -> failwith "dgeev_: jobvr (argument 2)"
+        //     | -3  -> failwith "dgeev_: n (argument 3)"
+        //     | -4  -> failwith "dgeev_: a (argument 4)"
+        //     | -5  -> failwith "dgeev_: lda (argument 5)"
+        //     | -6  -> failwith "dgeev_: wr (argument 6)"
+        //     | -7  -> failwith "dgeev_: wi (argument 7)"
+        //     | -8  -> failwith "dgeev_: vl (argument 8)"
+        //     | -9  -> failwith "dgeev_: ldvl (argument 9)"
+        //     | -10 -> failwith "dgeev_: vr (argument 10)"
+        //     | -11 -> failwith "dgeev_: ldvr (argument 11)"
+        //     | -12 -> failwith "dgeev_: work (argument 12)"
+        //     | -13 -> failwith "dgeev_: lwork (argument 13)"
+        //     | -14 -> failwith "dgeev_: info (argument 14)"
+        //     | 0   -> ()
+        //     | n   -> failwith (sprintf "dgeev_ : returned %d. The computation failed." n)
+        //    // fixups
+        //    let vr = Matrix.transpose vr
+        //    // result tuple
+        //    wr,wi,vr
+
+
 module ProviderService = 
     let MKLProvider = ServiceLocator.createProviderX64  "MKL" [|"mkl.dll"|] ServiceLocator.OS.Windows (fun () -> new LinearAlgebraMKL() :> ILinearAlgebra)
-    let LAPACKProvider = ServiceLocator.createProviderX64  "LAPACK" [|"libblas.dll";"liblapack.dll"|] ServiceLocator.OS.Windows (fun () -> new LinearAlgebraLAPACK() :> ILinearAlgebra)
+    let LAPACKProvider = ServiceLocator.createProviderX64  "LAPACK" [|"libblas.dll";"liblapack.dll";"libgcc_s_seh-1.dll";"libgfortran-4.dll";"libquadmath-0.dll";"libwinpthread-1.dll"|] ServiceLocator.OS.Windows (fun () -> new LinearAlgebraLAPACK() :> ILinearAlgebra)
 
 
 

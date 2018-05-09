@@ -5,12 +5,14 @@ open FSharp.Stats
 
 
 module LinearAlgebra = 
+    open System
 
     //let private LinearAlgebraService = 
     //    let tmp = new ServiceLocator.ServiceProvider<ILinearAlgebra>([ProviderService.MKLProvider])
     //    tmp.Start()
     //    tmp
-    let private MKLService = new ServiceLocator.ServiceProvider<ILinearAlgebra>([ProviderService.MKLProvider])
+    let private MKLService = new ServiceLocator.ServiceProvider<ILinearAlgebra>([ProviderService.LAPACKProvider;(*ProviderService.MKLProvider*)])
+
 
     let Service() = 
         match MKLService.Service() with
@@ -55,14 +57,20 @@ module LinearAlgebra =
         //                    else LinearAlgebraManaged.SolveLinearSystems a b
         LinearAlgebraManaged.SolveLinearSystems a b
     
-    /// Compute eigenvalue/eigenvector decomposition of a square real matrix.
-    /// Returns two arrays containing the eigenvalues and eigenvectors, which may be complex.
-    /// This call may fail.
-    let EigenSpectrum m = 
-        //if HaveService() then let evals, evecs = LinearAlgebraService.eigenvectors m
-        //                        let n = evals.Length
-        //                        Vector.Generic.init n (fun i -> evals.[i]), Matrix.Generic.init n n (fun i j -> (evecs.[i]).[j])
-        //                    else LinearAlgebraManaged.eigenvectors m
+    ///Compoutes for an N-by-N real nonsymmetric matrix A, the
+    ///eigenvalue decomposition eigenvalues and right eigenvectors.
+    ///The right eigenvector v(j) of A satisfies
+    ///
+    ///                 A * v(j) = lambda(j) * v(j)
+    ///
+    ///where lambda(j) is its eigenvalue.
+    ///The computed eigenvectors are normalized to have Euclidean norm
+    ///equal to 1 and largest component real. Uses the LAPACK subroutine dgeev with arguments JOBVR = 'V' and JOBVL = 'N'
+    ///
+    ///Returns the real (first array) and imaginary (second array) parts of the eigenvalues and a matrix containing the corresponding eigenvectors
+    let EVD m = 
+        //if HaveService() then 
+            //Service().dgeev_(m)
         LinearAlgebraManaged.eigenvectors m
                            
     /// Compute eigenvalues of a square real matrix.
@@ -133,13 +141,33 @@ module LinearAlgebra =
         //if HaveService() then LinearAlgebraService.QR a
         //                    else LinearAlgebraManaged.QR a
         LinearAlgebraManaged.QR a
-  
-    let SVD a = 
+
+    ///Returns the full Singular Value Decomposition of the input MxN matrix 
+    ///
+    ///A : A = U * SIGMA * V**T in the tuple (S, U, V**T), 
+    ///
+    ///where S is an array containing the diagonal elements of SIGMA.
+    ///uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
+    let SVD (a:Matrix<float>) = 
         if HaveService() then 
-            let U,D,V = Service().dgesdd_ a
-            Vector.ofArray U,D,V
+            let S,U,Vt = Service().dgesdd_ a
+            Vector.ofArray S,U,Vt
         else
             LinearAlgebraManaged.SVD a
+
+    ///Returns the thin Singular Value Decomposition of the input MxN matrix A 
+    ///
+    ///A = U * SIGMA * V**T in the tuple (S, U, V**T), 
+    ///
+    ///where S is an array containing the diagonal elements of SIGMA.
+    ///The first min(M,N) columns of U and the first min(M,N) rows of V**T are returned in the arrays U and VT;
+    ///uses the LAPACK routine dgesdd with the argument JOBZ = 'S'
+    let thinSVD a =
+        if HaveService() then 
+            let S,U,Vt = Service().dgesdd_thin_ a
+            Vector.ofArray S, U, Vt
+        else
+            failwith "managed version not implemented"
 
     let Hessenberg A =
         //if HaveService() then failwith "Not implemented yet."// REVIEW LinearAlgebraService.Hessenberg A
