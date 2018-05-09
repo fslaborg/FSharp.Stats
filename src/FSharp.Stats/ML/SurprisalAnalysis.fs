@@ -39,5 +39,5 @@ module SurprisalAnalysis =
         let lagranges = svMatrix * rsv
         createSAResult lsv rsv svMatrix sv lsv lagranges
 
-    let errorEstimation (A:Matrix<float>) =
-        ()
+    //let errorEstimation (A:Matrix<float>) =
+    //    ()
