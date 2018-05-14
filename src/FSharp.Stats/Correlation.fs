@@ -14,17 +14,18 @@ module Correlation =
                     loop (n + one) (sumX + e.Current) (sumY + e2.Current) (sumXY + (e.Current * e2.Current)) (sumXX + (e.Current * e.Current)) (sumYY + (e2.Current * e2.Current))
                 | false -> 
                     if n > zero then  
-
                         // Covariance
                         let cov = float ((sumXY * n) - (sumX * sumY))
-
                         // Standard Deviation
                         let stndDev1 = sqrt (float ((n * sumXX) - (sumX * sumX)))
                         let stndDev2 = sqrt (float ((n * sumYY) - (sumY * sumY)))
-
                         // Correlation
-                        cov / (stndDev1 * stndDev2)
-                                               
+                        let tmp = cov / (stndDev1 * stndDev2)
+                        // TODO: solve in a prettier coding fashion
+                        if tmp >= 1. then 1. 
+                        elif tmp <= -1. then -1.
+                        else tmp              
+                        
                     else nan
         loop zero zero zero zero zero zero
     
