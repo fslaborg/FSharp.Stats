@@ -33,8 +33,18 @@ type ILinearAlgebra =
     //  Matrix<float> * Matrix<float> * int array * char * double array * double array *
     //  Matrix<float> * Matrix<float> * float * double array * double array
 
-    ////Eigen Value Non-Symmetric
-    //abstract dgeev_ : char * Matrix<float> -> double array * double array * double [,]    
+    ///Compoutes for an N-by-N real nonsymmetric matrix A, the
+    ///eigenvalue decomposition eigenvalues and right eigenvectors.
+    ///The right eigenvector v(j) of A satisfies
+    ///
+    ///                 A * v(j) = lambda(j) * v(j)
+    ///
+    ///where lambda(j) is its eigenvalue.
+    ///The computed eigenvectors are normalized to have Euclidean norm
+    ///equal to 1 and largest component real. Uses the LAPACK subroutine dgeev with arguments JOBVR = 'V' and JOBVL = 'N'
+    ///
+    ///Returns the real (first array) and imaginary (second array) parts of the eigenvalues and a matrix containing the corresponding eigenvectors
+    //abstract dgeev_ : Matrix<float> -> double array * double array * Matrix<float>   
 
     ////Eigen Value of Symmetric Matrix
     //abstract dsyev_ : char * char * Matrix<float> -> Matrix<float> * double array
@@ -62,12 +72,20 @@ type ILinearAlgebra =
     //  Matrix<float> -> double array * Matrix<float> * Matrix<float>
 
 
-    ///Returns the full Singular Value Decomposition of the input MxN matrix A : A = U * SIGMA * V**T in the tuple (S, U, V**T) , where S is an array containing the diagonal elements of SIGMA.
+    ///Returns the full Singular Value Decomposition of the input MxN matrix 
+    ///
+    ///A : A = U * SIGMA * V**T in the tuple (S, U, V**T), 
+    ///
+    ///where S is an array containing the diagonal elements of SIGMA.
     ///uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
     abstract dgesdd_ : Matrix<float> -> double array * Matrix<float> * Matrix<float>
 
 
-    ///Returns the thin Singular Value Decomposition of the input MxN matrix A : A = U * SIGMA * V**T in the tuple (S, U, V**T) , where S is an array containing the diagonal elements of SIGMA.
+    ///Returns the thin Singular Value Decomposition of the input MxN matrix A 
+    ///
+    ///A = U * SIGMA * V**T in the tuple (S, U, V**T), 
+    ///
+    ///where S is an array containing the diagonal elements of SIGMA.
     ///The first min(M,N) columns of U and the first min(M,N) rows of V**T are returned in the arrays U and VT;
     ///uses the LAPACK routine dgesdd with the argument JOBZ = 'S'
     abstract dgesdd_thin_ : Matrix<float> -> double array * Matrix<float> * Matrix<float>

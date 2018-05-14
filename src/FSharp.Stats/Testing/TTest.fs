@@ -1,4 +1,4 @@
-﻿namespace FSharp.Stats.Testing
+namespace FSharp.Stats.Testing
 
 
 module TTest =
