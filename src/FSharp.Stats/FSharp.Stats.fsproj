@@ -40,6 +40,7 @@
     <Compile Include="SpecialFunctions\Erf.fs" />
     <Compile Include="SpecialFunctions\Logistic.fs" />
     <Compile Include="SpecialFunctions\Binomial.fs" />
+    <Compile Include="Algebra\SVD.fs" />
     <!-- Algebra -->
     <Compile Include="Algebra\NativeArray.fs" />
     <Compile Include="Algebra\NativeArrayExtensions.fs" />
