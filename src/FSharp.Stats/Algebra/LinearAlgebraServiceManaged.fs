@@ -18,7 +18,12 @@ module LinearAlgebraManaged =
     
     //type Permutation = Permutation of int * (int -> int)
     
-    let SVD A = NYI()
+    let SVD (a:matrix) =
+        let (umatrix,s,vmatrix) = SVD.computeInPlace (a.ToArray2D())
+        //Matrix.diag
+        Vector.ofArray s,Matrix.ofArray2D umatrix,Matrix.ofArray2D vmatrix
+        //(Matrix.ofArray2D umatrix,s,Matrix.ofArray2D vmatrix)
+        
     let EigenSpectrum A = NYI()
     let Condition A = NYI()
 

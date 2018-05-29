@@ -137,7 +137,7 @@ module Matrix = begin
                 yield f (seq [for rowi=0 to m.NumRows-1 do yield m.[rowi,coli]])
                 ]
         // TM
-        /// Applies function f along colúmn axis 
+        /// Applies function f along colÃºmn axis 
         let enumerateColumnWise f (m:matrix) =
             seq [ 
                 for rowi=0 to m.NumRows-1 do 
@@ -161,6 +161,7 @@ module Matrix = begin
     // Creation
     let init  m n f = DS.initDenseMatrixDS  m n f |> MS.dense 
     let ofList    xss   = DS.listDenseMatrixDS    xss |> MS.dense
+    let ofColList xss   = DS.colListDenseMatrixDS    xss |> MS.dense
     let ofSeq     xss   = DS.seqDenseMatrixDS    xss |> MS.dense
     let diag  (v:vector)   = MG.diag v 
     let initDiagonal  (v:vector)   = MG.diag v 

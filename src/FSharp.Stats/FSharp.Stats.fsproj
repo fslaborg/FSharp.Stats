@@ -93,6 +93,7 @@
     <!-- ML -->
     <Compile Include="ML\DistanceMetrics.fs" />
     <Compile Include="ML\Impute.fs" />
+    <Compile Include="ML\Unsupervised\PrincipalComponentAnalysis.fs" />
     <!-- ML / Unsupervised -->
     <Compile Include="ML\Unsupervised\IterativeClustering.fs" />
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />

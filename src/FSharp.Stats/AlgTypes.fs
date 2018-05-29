@@ -425,6 +425,17 @@ namespace FSharp.Stats
               let values = Array2D.zeroCreate m n
               List.iteri (fun i rw -> List.iteri (fun j x -> values.[i,j] <- x) rw) xss;
               DenseMatrix(ops,values)
+
+        let colListDenseMatrixGU ops xss =
+            let m = List.length xss
+            match xss with 
+            | [] -> invalidArg "xss" "unexpected empty list"
+            | h :: t -> 
+                let n = List.length h
+                if not (List.forall (fun xs -> List.length xs=n) t) then invalidArg "xss" "the lists are not all of the same length";
+                let values = Array2D.zeroCreate n m
+                List.iteri (fun i rw -> List.iteri (fun j x -> values.[j,i] <- x) rw) xss;
+                DenseMatrix(ops,values)
         
         let listRowVecGU ops xs = mkRowVecGU ops (Array.ofList xs) 
         let listVecGU ops xs = mkVecGU ops (Array.ofList xs) 
@@ -1067,6 +1078,7 @@ namespace FSharp.Stats
         let inline mkRowVecDS arr          = GU.mkRowVecGU          FloatOps arr
         let inline mkVecDS  arr            = GU.mkVecGU             FloatOps arr
         let inline listDenseMatrixDS  ll   = GU.listDenseMatrixGU   FloatOps ll
+        let inline colListDenseMatrixDS ll = GU.colListDenseMatrixGU FloatOps ll
         let inline listRowVecDS l          = GU.listRowVecGU        FloatOps l
         let inline listVecDS  l            = GU.listVecGU           FloatOps l
         let inline seqDenseMatrixDS  ll    = GU.seqDenseMatrixGU    FloatOps ll

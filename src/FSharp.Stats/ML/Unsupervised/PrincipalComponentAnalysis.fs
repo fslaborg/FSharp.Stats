@@ -1,10 +1,6 @@
-﻿namespace BioFSharp.Stats.ML.Unsupervised
+namespace FSharp.Stats.ML.Unsupervised
 
-
-open BioFSharp.Stats
-open MathNet.Numerics
-open MathNet.Numerics.LinearAlgebra
-open MathNet.Numerics.LinearAlgebra.Double
+open FSharp.Stats
 
 
 (** Problems:
@@ -42,7 +38,9 @@ module PCA =
 
     /// Returns an AdjustmentFactory which centers the data
     let toAdjustCenter (data:Matrix<float>) : AdjustmentFactory =        
-        let colMeans = StatisticalMeasure.Matrix.columnMean data |> Seq.toArray                     
+        let colMeans =
+            data |> Matrix.meanColumnWise
+                  
         let adjust (direction:AdjustmentDirection) (aData:Matrix<float>) = 
             match direction with
             | Obverse -> aData |> Matrix.mapi (fun ri ci value -> value - colMeans.[ci] )
@@ -52,8 +50,9 @@ module PCA =
 
     /// Returns an AdjustmentFactory as covariance matrix
     let toAdjustCovariance (data:Matrix<float>) : AdjustmentFactory =                
-        let colMeans = StatisticalMeasure.Matrix.columnMean data |> Seq.toArray                     
-        let sqrtI = sqrt (float data.RowCount)
+        let colMeans =
+            data |> Matrix.meanColumnWise                    
+        let sqrtI = sqrt (float data.NumRows)
         let adjust (direction:AdjustmentDirection) (aData:Matrix<float>) = 
             match direction with
             | Obverse -> aData |> Matrix.mapi (fun ri ci value -> (value - colMeans.[ci]) / sqrtI )
@@ -63,32 +62,51 @@ module PCA =
 
     /// Returns an AdjustmentFactory which centers and standardize the data
     let toAdjustStandardize (data:Matrix<float>) : AdjustmentFactory =                
-        let colMeans = StatisticalMeasure.Matrix.columnMean data |> Seq.toArray                     
+        let colMeans =
+            data |> Matrix.meanColumnWise                    
         // Atttention: not entierly shure if space of data before
-        let colStDev = [| for coli in data.EnumerateColumns() do
-                                yield StatisticalMeasure.stDevPopulation coli |]        
+        let colStDev =
+            data |> Matrix.Generic.enumerateColumnWise Seq.stDevPopulation |> Seq.toArray
+     
         let adjust (direction:AdjustmentDirection) (aData:Matrix<float>) = 
             match direction with
-            | Obverse -> aData |> Matrix.mapi (fun ri ci value -> if colStDev.[ci] = 0. then raise (System.ArgumentException(sprintf "Standard deviation cannot be zero (cannot standardize the constant variable at column index %i" ci))
-                                                                  (value - colMeans.[ci]) / colStDev.[ci] )
-            | Reverse -> aData |> Matrix.mapi (fun ri ci value -> if colStDev.[ci] = 0. then raise (System.ArgumentException(sprintf "Standard deviation cannot be zero (cannot standardize the constant variable at column index %i" ci))
-                                                                  (value * colStDev.[ci]) + colMeans.[ci] )
+            | Obverse ->
+                aData
+                |> Matrix.mapi (fun ri ci value ->
+                    if colStDev.[ci] = 0. then
+                        raise (System.ArgumentException(sprintf "Standard deviation cannot be zero (cannot standardize the constant variable at column index %i" ci))
+                    (value - colMeans.[ci]) / colStDev.[ci] )
+            | Reverse ->
+                aData
+                |> Matrix.mapi (fun ri ci value ->
+                    if colStDev.[ci] = 0. then
+                        raise (System.ArgumentException(sprintf "Standard deviation cannot be zero (cannot standardize the constant variable at column index %i" ci))
+                    (value * colStDev.[ci]) + colMeans.[ci] )
         adjust
 
 
     /// Returns an AdjustmentFactory which centers and standardize the data
     let toAdjustCorrelation (data:Matrix<float>) : AdjustmentFactory =                
-        let colMeans = StatisticalMeasure.Matrix.columnMean data |> Seq.toArray                     
-        let sqrtI = sqrt (float data.RowCount)
+        let colMeans =
+            data |> Matrix.meanColumnWise                    
+        let sqrtI = sqrt (float data.NumRows)
         // Atttention: not entierly shure if space of data before
-        let colStDev = [| for coli in data.EnumerateColumns() do
-                                yield StatisticalMeasure.stDevPopulation coli |]        
+        let colStDev =
+            data |> Matrix.Generic.enumerateColumnWise Seq.stDevPopulation |> Seq.toArray    
         let adjust (direction:AdjustmentDirection)  (aData:Matrix<float>) = 
             match direction with
-            | Obverse -> aData |> Matrix.mapi (fun ri ci value -> if colStDev.[ci] = 0. then raise (System.ArgumentException(sprintf "Standard deviation cannot be zero (cannot standardize the constant variable at column index %i" ci))
-                                                                  (value - colMeans.[ci]) / colStDev.[ci] * sqrtI)
-            | Reverse -> aData |> Matrix.mapi (fun ri ci value -> if colStDev.[ci] = 0. then raise (System.ArgumentException(sprintf "Standard deviation cannot be zero (cannot standardize the constant variable at column index %i" ci))
-                                                                  (value * colStDev.[ci] / sqrtI) + colMeans.[ci] )
+            | Obverse ->
+                aData
+                |> Matrix.mapi (fun ri ci value ->
+                    if colStDev.[ci] = 0. then
+                        raise (System.ArgumentException(sprintf "Standard deviation cannot be zero (cannot standardize the constant variable at column index %i" ci))
+                    (value - colMeans.[ci]) / colStDev.[ci] * sqrtI)
+            | Reverse ->
+                aData
+                |> Matrix.mapi (fun ri ci value ->
+                    if colStDev.[ci] = 0. then 
+                        raise (System.ArgumentException(sprintf "Standard deviation cannot be zero (cannot standardize the constant variable at column index %i" ci))
+                    (value * colStDev.[ci] / sqrtI) + colMeans.[ci] )
         adjust        
            
              
@@ -132,12 +150,12 @@ module PCA =
         
 
 
-    /// Computes a principal componant analysis of a given covariance matrix
-    let computeOfCovarianceMatrix (covMatrix: #Matrix<float>) =
-        // Calculate the eigenvectors and eigenvalues
-        let evd = covMatrix.Evd()
+    ///// Computes a principal componant analysis of a given covariance matrix
+    //let computeOfCovarianceMatrix (covMatrix: #Matrix<float>) =
+    //    // Calculate the eigenvectors and eigenvalues
+    //    let evd = covMatrix.Evd()
         
-        createComponentsOf (evd.EigenVectors) (evd.EigenValues |> Seq.map (fun x -> sqrt x.r))
+    //    createComponentsOf (evd.EigenVectors) (evd.EigenValues |> Seq.map (fun x -> sqrt x.r))
 
 
 
@@ -146,12 +164,16 @@ module PCA =
     //  The SVD method is used for numerical accuracy
     let computeOfMatrix (dataMatrix: #Matrix<float>) =
         // Perform the Singular Value Decomposition (SVD) of the matrix                
-        let transpose = if dataMatrix.RowCount < dataMatrix.ColumnCount then true else false
+        let transpose = if dataMatrix.NumRows < dataMatrix.NumCols then true else false
         
-        let svd            =  if transpose then dataMatrix.Transpose().Svd(true) else dataMatrix.Svd(true)
-        let singularValues = svd.W.Diagonal()
+        let s,u,v = 
+            if transpose then
+                FSharp.Stats.Algebra.LinearAlgebraManaged.SVD dataMatrix.Transpose
+            else
+                FSharp.Stats.Algebra.LinearAlgebraManaged.SVD dataMatrix
+        let singularValues = s
         // EigenVectors are the right sigular vectors
-        let eigenVectors   = if transpose then svd.U else svd.VT.Inverse()
+        let eigenVectors   = if transpose then u else FSharp.Stats.Algebra.LinearAlgebraManaged.Inverse v
 //        // Eigenvalues are the square of the singular values
 //        let eigenValues = singularValues |> Vector.map (fun x -> x * x ) 
         
@@ -171,19 +193,20 @@ module PCA =
     /// Returns feature matrix (eigenvector matrix) from components
     let getFeatureMatrixOfComponents (components:Component[]) = 
         components
-        |> Seq.map (fun c -> c.EigenVector) 
+        |> Seq.map (fun c -> c.EigenVector |> Array.toList)
         |> Seq.toList
-        |> DenseMatrix.OfColumnArrays
+        |> Matrix.ofColList
 
 
     /// Returns communality
     let getCommunality (components:Component[]) = 
         let fsMatrix = 
             components
-            |> Seq.map (fun c -> c.Loadings) 
+            |> Seq.map (fun c -> c.Loadings |> Array.toList)
             |> Seq.toList
-            |> DenseMatrix.OfColumnArrays
-        fsMatrix.TransposeAndMultiply(fsMatrix).Diagonal().ToArray()
+            |> Matrix.ofColList
+        fsMatrix.Transpose * fsMatrix.Diagonal
+        //fsMatrix.TransposeAndMultiply(fsMatrix).Diagonal().ToArray()
 
 
     /// Projects a given matrix into principal component space (projections or factor scores)
@@ -201,31 +224,31 @@ module PCA =
     let revert (adj:AdjustmentFactory) (components:Component[]) (dataMatrix: #Matrix<float>) =         
         let featureM = getFeatureMatrixOfComponents components        
         
-        let revMatrix = (DenseMatrix.OfMatrix dataMatrix) * featureM.Transpose()
+        let revMatrix = dataMatrix * featureM.Transpose
         adj AdjustmentDirection.Reverse revMatrix
          
 
-    /// Contribution of an observation to a component
-    //  High contribution value means contribution of this observation is larger then the average contribution
-    let contributionOfTransformed (transformedDataMatrix: #Matrix<float>) = 
-        // square future matrix 
-        let sfm = transformedDataMatrix |> Matrix.map (fun x -> x * x)
-        // sum over columns
-        let colSums = sfm |> Matrix.sumRowsBy (fun coli col -> col)  
+    ///// Contribution of an observation to a component
+    ////  High contribution value means contribution of this observation is larger then the average contribution
+    //let contributionOfTransformed (transformedDataMatrix: #Matrix<float>) = 
+    //    // square future matrix 
+    //    let sfm = transformedDataMatrix |> Matrix.map (fun x -> x * x)
+    //    // sum over columns
+    //    let colSums = sfm |> Matrix.sumRowsBy (fun coli col -> col)  
         
-        sfm 
-        |> Matrix.mapCols (fun coli col -> col.Divide(colSums.[coli]))
+    //    sfm 
+    //    |> Matrix.mapCols (fun coli col -> col.Divide(colSums.[coli]))
 
 
-    /// Calculates the squared cosine of a component with an observation
-    //  The squared cosine shows the importance of a component for a given observation 
-    let importanceOfTransformed (transformedDataMatrix: #Matrix<float>) =         
-        // square future matrix 
-        let sfm = transformedDataMatrix |> Matrix.map (fun x -> x * x)
-        let d2 = sfm |> Matrix.sumColsBy (fun coli col -> col)
+    ///// Calculates the squared cosine of a component with an observation
+    ////  The squared cosine shows the importance of a component for a given observation 
+    //let importanceOfTransformed (transformedDataMatrix: #Matrix<float>) =         
+    //    // square future matrix 
+    //    let sfm = transformedDataMatrix |> Matrix.map (fun x -> x * x)
+    //    let d2 = sfm |> Matrix.sumColsBy (fun coli col -> col)
         
-        sfm 
-        |> Matrix.mapCols (fun coli col -> col.PointwiseDivide(d2))
+    //    sfm 
+    //    |> Matrix.mapCols (fun coli col -> col.PointwiseDivide(d2))
 
     
     /// Returns xy-coordinates for scree plot in a tuple (component number vs. EigenValue)    

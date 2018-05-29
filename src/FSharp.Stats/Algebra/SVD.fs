@@ -28,8 +28,8 @@ module SVD =
 
     exception BreakException 
 
-    let compute (A:float[,]) =
-        let a = Array2D.copy A
+    let computeInPlace (a:float[,]) =
+        //let a = Array2D.copy A
         // number of rows in A
         let m = a.GetLength(0)
         // number of columns in A
@@ -403,5 +403,10 @@ module SVD =
                 p <- p - 1
 
         (umatrix,s,vmatrix)
+
+
+    let compute (a:float[,]) =
+        Array2D.copy a
+        |> computeInPlace
 
     

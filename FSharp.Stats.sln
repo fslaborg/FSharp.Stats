@@ -38,6 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D
 		docs\content\Integration.fsx = docs\content\Integration.fsx
 		docs\content\LinearAlgebra.fsx = docs\content\LinearAlgebra.fsx
 		docs\content\Matrix_Vector.fsx = docs\content\Matrix_Vector.fsx
+		docs\content\ML.fsx = docs\content\ML.fsx
 		docs\content\Optimization.fsx = docs\content\Optimization.fsx
 		docs\content\Quantile.fsx = docs\content\Quantile.fsx
 		docs\content\Rank.fsx = docs\content\Rank.fsx
