@@ -162,7 +162,7 @@ module PCA =
     /// Computes a principal componant analysis of a given covariance matrix
     /// !Attention: Matrix needs to be centered before
     //  The SVD method is used for numerical accuracy
-    let computeOfMatrix (dataMatrix: #Matrix<float>) =
+    let computeOfMatrix (dataMatrix: Matrix<float>) =
         // Perform the Singular Value Decomposition (SVD) of the matrix                
         let transpose = if dataMatrix.NumRows < dataMatrix.NumCols then true else false
 
@@ -183,7 +183,7 @@ module PCA =
 
 
     /// Computes a principal componant analysis
-    let compute (adj:AdjustmentFactory) (dataMatrix: #Matrix<float>) =                             
+    let compute (adj:AdjustmentFactory) (dataMatrix: Matrix<float>) =                             
         computeOfMatrix (adj AdjustmentDirection.Obverse dataMatrix)
         
 
@@ -211,7 +211,7 @@ module PCA =
 
 
     /// Projects a given matrix into principal component space (projections or factor scores)
-    let transform (adj:AdjustmentFactory) (components:Component[]) (dataMatrix: #Matrix<float>) = 
+    let transform (adj:AdjustmentFactory) (components:Component[]) (dataMatrix: Matrix<float>) = 
         let dataM    = adj AdjustmentDirection.Obverse dataMatrix
         let featureM = getFeatureMatrixOfComponents components
             
@@ -222,7 +222,7 @@ module PCA =
     ///   transformation is only possible if all components are present, and, if the
     ///   data has been standardized, the original standard deviation and means of
     ///   the original matrix are known.
-    let revert (adj:AdjustmentFactory) (components:Component[]) (dataMatrix: #Matrix<float>) =         
+    let revert (adj:AdjustmentFactory) (components:Component[]) (dataMatrix: Matrix<float>) =         
         let featureM = getFeatureMatrixOfComponents components        
         
         let revMatrix = dataMatrix * featureM.Transpose
@@ -257,7 +257,7 @@ module PCA =
     let zipScree (components:Component[]) =
         components |> Seq.map ( fun c -> (float c.Index,c.EigenValue) )
 
-    let zipScores componentIndex1 componentIndex2 (transformedDataMatrix: #Matrix<float>) = 
+    let zipScores componentIndex1 componentIndex2 (transformedDataMatrix: Matrix<float>) = 
         Seq.zip (transformedDataMatrix.Column(componentIndex1)) (transformedDataMatrix.Column(componentIndex1))
 
 

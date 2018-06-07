@@ -186,18 +186,34 @@ module Matrix = begin
         
         // TM
         /// Applies function f along row axis 
-        let enumerateRowWise f (m:matrix) =
+        let enumerateRowWise f (m:Matrix<'a>) =
             seq [ 
                 for coli=0 to m.NumCols-1 do 
                 yield f (seq [for rowi=0 to m.NumRows-1 do yield m.[rowi,coli]])
-                ]
+            ]
+
+        /// Maps every matrix row using the position dependant function
+        let mapiRows (f: int -> RowVector<'a> -> 'b) (m:Matrix<'a>) =
+            seq [
+                for rowi=0 to m.NumRows-1 do
+                    yield f rowi (getRow m rowi)
+            ]
+                
         // TM
         /// Applies function f along colúmn axis 
-        let enumerateColumnWise f (m:matrix) =
+        let enumerateColumnWise f (m:Matrix<'a>) =
             seq [ 
                 for rowi=0 to m.NumRows-1 do 
                 yield f (seq [for coli=0 to m.NumCols-1 do yield m.[rowi,coli]])
-                ]    
+            ]    
+
+        /// Maps every matrix column using the position dependant function
+        let mapiCols (f: int -> Vector<'a> -> 'b) (m:Matrix<'a>) =
+            seq [
+                for coli=0 to m.NumCols-1 do
+                    yield f coli (getCol m coli)
+            ]
+
     end
 
     module MG = Generic
@@ -213,9 +229,12 @@ module Matrix = begin
     let set (a:matrix) i j x = MG.set a i j x    
     // Creation
     let init  m n f = DS.initDenseMatrixDS  m n f |> MS.dense 
-    let ofList    xss   = DS.listDenseMatrixDS    xss |> MS.dense
-    let ofColList xss   = DS.colListDenseMatrixDS    xss |> MS.dense
-    let ofSeq     xss   = DS.seqDenseMatrixDS    xss |> MS.dense
+    let ofList     xss   = DS.listDenseMatrixDS    xss |> MS.dense
+    let ofColList  xss   = DS.colListDenseMatrixDS    xss |> MS.dense
+    let ofSeq      xss   = DS.seqDenseMatrixDS    xss |> MS.dense
+    let ofColSeq   xss   = DS.colSeqDenseMatrixDS    xss |> MS.dense
+    let ofArray    xss   = DS.arrayDenseMatrixDS    xss |> MS.dense
+    let ofColArray xss   = DS.colArrayDenseMatrixDS    xss |> MS.dense
     let diag  (v:vector)   = MG.diag v 
     let initDiagonal  (v:vector)   = MG.diag v 
     let constDiag  n x : matrix  = MG.constDiag n x 

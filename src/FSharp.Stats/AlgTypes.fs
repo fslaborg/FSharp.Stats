@@ -436,13 +436,50 @@ namespace FSharp.Stats
                 let values = Array2D.zeroCreate n m
                 List.iteri (fun i rw -> List.iteri (fun j x -> values.[j,i] <- x) rw) xss;
                 DenseMatrix(ops,values)
-        
-        let listRowVecGU ops xs = mkRowVecGU ops (Array.ofList xs) 
-        let listVecGU ops xs = mkVecGU ops (Array.ofList xs) 
 
-        let seqDenseMatrixGU ops xss = listDenseMatrixGU ops (xss |> Seq.toList |> List.map Seq.toList)
-        let seqVecGU  ops xss = listVecGU ops (xss |> Seq.toList)
-        let seqRowVecGU ops xss = listRowVecGU ops (xss |> Seq.toList)
+        let listVecGU ops xs = mkVecGU ops (Array.ofList xs)         
+        let listRowVecGU ops xs = mkRowVecGU ops (Array.ofList xs) 
+
+        let seqDenseMatrixGU ops xss = // TM
+            //listDenseMatrixGU ops (xss |> Seq.toList |> List.map Seq.toList)
+            let m = Seq.length xss
+            if m < 1 then invalidArg "xss" "unexpected empty seq"
+            let n = xss |> Seq.head |> Seq.length
+            if not (Seq.forall (fun xs -> Seq.length xs=n) xss) then invalidArg "xss" "the sequences are not all of the same length";
+            let values = Array2D.zeroCreate m n
+            Seq.iteri (fun i rw -> Seq.iteri (fun j x -> values.[i,j] <- x) rw) xss;
+            DenseMatrix(ops,values)
+
+        let colSeqDenseMatrixGU ops xss = // TM
+            //listDenseMatrixGU ops (xss |> Seq.toList |> List.map Seq.toList)
+            let m = Seq.length xss
+            if m < 1 then invalidArg "xss" "unexpected empty seq"
+            let n = xss |> Seq.head |> Seq.length
+            if not (Seq.forall (fun xs -> Seq.length xs=n) xss) then invalidArg "xss" "the sequences are not all of the same length";
+            let values = Array2D.zeroCreate m n
+            Seq.iteri (fun i rw -> Seq.iteri (fun j x -> values.[j,i] <- x) rw) xss;
+            DenseMatrix(ops,values)
+
+        let seqVecGU  ops xss = mkVecGU ops (Array.ofSeq xss) 
+        let seqRowVecGU ops xss = mkRowVecGU ops (Array.ofSeq xss)
+
+        let arrayDenseMatrixGU ops xss = // TM
+            let m = Array.length xss
+            if m < 1 then invalidArg "xss" "unexpected empty array"
+            let n = xss.[0] |> Array.length
+            if not (Array.forall (fun xs -> Array.length xs=n) xss) then invalidArg "xss" "the arrays are not all of the same length";
+            let values = Array2D.zeroCreate m n
+            Array.iteri (fun i rw -> Array.iteri (fun j x -> values.[i,j] <- x) rw) xss;
+            DenseMatrix(ops,values)
+
+        let colArrayDenseMatrixGU ops xss = // TM
+            let m = Array.length xss
+            if m < 1 then invalidArg "xss" "unexpected empty array"
+            let n = xss.[0] |> Array.length
+            if not (Array.forall (fun xs -> Array.length xs=n) xss) then invalidArg "xss" "the arrays are not all of the same length";
+            let values = Array2D.zeroCreate m n
+            Array.iteri (fun i rw -> Array.iteri (fun j x -> values.[j,i] <- x) rw) xss;
+            DenseMatrix(ops,values)
 
         let inline binaryOpDenseMatrixGU f (a:DenseMatrix<_>) (b:DenseMatrix<_>) = (* pointwise binary operator *)
             let nA = a.NumCols
@@ -1082,6 +1119,9 @@ namespace FSharp.Stats
         let inline listRowVecDS l          = GU.listRowVecGU        FloatOps l
         let inline listVecDS  l            = GU.listVecGU           FloatOps l
         let inline seqDenseMatrixDS  ll    = GU.seqDenseMatrixGU    FloatOps ll
+        let inline colSeqDenseMatrixDS  ll = GU.colSeqDenseMatrixGU FloatOps ll
+        let inline arrayDenseMatrixDS  ll    = GU.arrayDenseMatrixGU    FloatOps ll
+        let inline colArrayDenseMatrixDS  ll = GU.colArrayDenseMatrixGU FloatOps ll
         let inline seqRowVecDS l           = GU.seqRowVecGU         FloatOps l
         let inline seqVecDS  l             = GU.seqVecGU            FloatOps l
 
@@ -1907,7 +1947,7 @@ namespace FSharp.Stats
         let countR ((a,b) : range)   = (b-a)+1
         let idxR    ((a,_) : range) i = a+i
         let inR    ((a,b) : range) i = a <= i && i <= b
-        ///Returns row of index i of matrix a
+        ///Returns row of index i of matrix a as a vector
         let getRowM  (a:Matrix<_>) i = createRVx (opsM a) a.NumCols (fun j -> a.[i,j])
         ///Replaces row of index j of matrix a with values of vector v, if vector length matches rowsize
         let setRowM (a:Matrix<_>) i (v:Vector<_>) = 
@@ -1919,7 +1959,7 @@ namespace FSharp.Stats
                 failwith ("Can't set row, vector is longer than matrix column number")
             else 
                 failwith ("Can't set row, vector is shorter than matrix column number")
-        ///Returns row of index i of matrix a
+        ///Returns col of index i of matrix a as a vector
         let getColM  (a:Matrix<_>) j = createVx (opsM a) a.NumRows (fun i -> a.[i,j])
         ///Replaces column of index i of matrix a with values of vector v, if vector length matches columnsize
         let setColM (a:Matrix<_>) j (v:Vector<_>) = 

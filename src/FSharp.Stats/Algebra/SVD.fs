@@ -247,7 +247,7 @@ module SVD =
                     if (ks = k) then
                         raise BreakException
                     let mutable t = (if ks <> p then (abs e.[ks]) else 0.0) +
-                               (if ks <> k+1 then (abs e.[ks-1]) else 0.0)
+                                        (if ks <> k+1 then (abs e.[ks-1]) else 0.0)
                     if ((abs s.[ks]) <= tiny + eps*t) then
                         s.[ks] <- 0.0
                         raise BreakException
