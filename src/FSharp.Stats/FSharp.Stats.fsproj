@@ -8,6 +8,9 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <DocumentationFile>bin\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <Tailcalls>true</Tailcalls>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="Ops.fs" />

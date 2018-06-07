@@ -34,7 +34,7 @@ module SVD =
         let m = a.GetLength(0)
         // number of columns in A
         let n = a.GetLength(1)
-
+        
         // * Apparently the failing cases are only a proper subset of (m<n), so
         // * let's not throw error. Correct fix to come later? if (m<n) { throw
         // * new IllegalArgumentException("Jama SVD only works for m >= n") }
@@ -201,7 +201,7 @@ module SVD =
                     vmatrix.[i,k] <- 0.0
                 vmatrix.[k,k] <- 1.0
 
-
+        printfn "Here2"
         // Main iteration loop for the singular values.    
         // TODO: rec
         let mutable pp = p - 1
@@ -265,6 +265,7 @@ module SVD =
             match kase with
             | 1 ->             
                 // Deflate negligible s(p).
+                //printfn "case 1"
                 let mutable f = e.[p - 2]
                 e.[p - 2] <- 0.0
                 for j = p-2 downto k do
@@ -285,6 +286,7 @@ module SVD =
                 
             | 2 ->
                 // Split at negligible s(k).
+                //printfn "case 2"
                 let mutable f = e.[k - 1]
                 e.[k - 1] <- 0.0
                 for j = k to p-1 do
@@ -302,6 +304,7 @@ module SVD =
                 // Perform one qr step.
             | 3 ->            
                 // Calculate the shift.
+                //printfn "case 3"
                 let scale = 
                     max (abs s.[p - 1]) (abs s.[p - 2])
                     |> max (abs e.[p - 2])
@@ -326,7 +329,7 @@ module SVD =
                 let mutable g = sk*ek
 
                 // Chase zeros.
-                for j = k to p-1 do
+                for j = k to p-2 do
                     let mutable t = hypot f g
                     let mutable cs = f/t
                     let mutable sn = g/t
@@ -366,6 +369,7 @@ module SVD =
             // Convergence.
             | 4 ->            
                 // Make the singular values positive.
+                //printfn "case 4"
                 if (s.[k] <= 0.0) then
                     s.[k] <- (if s.[k] < 0.0 then -s.[k] else 0.0)
                     if (wantv) then
