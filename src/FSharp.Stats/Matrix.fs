@@ -476,7 +476,21 @@ module Matrix = begin
     let rowSampleCovarianceMatrixOf (dataMatrix:Matrix<float>) =
         columnCovarianceMatrixOf (dataMatrix.Transpose.NumRows-1) dataMatrix.Transpose
     //----------------------------------------------------------------------------
+
+    /// Applies function f along row axis 
+    let enumerateRowWise f (m:matrix) = Generic.enumerateRowWise f m
+
+    /// Maps every matrix row using the position dependant function
+    let mapiRows (f: int -> rowvec -> 'b) (m:matrix) = Generic.mapiRows f m
+                
+    /// Applies function f along column axis 
+    let enumerateColumnWise f (m:matrix) = Generic.enumerateColumnWise f m    
+
+    /// Maps every matrix column using the position dependant function
+    let mapiCols (f: int -> vector -> 'b) (m:matrix) = Generic.mapiCols f m    
+
 end
+
 [<AutoOpen>]
 module MatrixExtension =
 
