@@ -92,6 +92,7 @@
     <!-- Fitting -->
     <Compile Include="Fitting\Regression.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
+    <Compile Include="Fitting\Spline.fs" />
     <Compile Include="ML\SurprisalAnalysis.fs" />
     <!-- ML -->
     <Compile Include="ML\DistanceMetrics.fs" />

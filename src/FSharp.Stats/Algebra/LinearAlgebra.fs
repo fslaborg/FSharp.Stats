@@ -7,6 +7,8 @@ open FSharp.Stats
 module LinearAlgebra = 
     open System
 
+    type Factorization = matrix -> (matrix*matrix*matrix)
+
     //let private LinearAlgebraService = 
     //    let tmp = new ServiceLocator.ServiceProvider<ILinearAlgebra>([ProviderService.MKLProvider])
     //    tmp.Start()
@@ -191,30 +193,30 @@ module LinearAlgebra =
     //let Condition (A:matrix) =
     //    let _,D,_ = SVD A
     //    D.[0] / D.[D.Length-1]
-    //
-    ///// Compute the determinant of a matrix by performing an LU decomposition since if A = P'LU,
-    ///// then det(A) = det(P') * det(L) * det(U).
-    //let Determinant A =
-    //    let P,_,U = LU A
-    //    // Compute the sign of a permutation REVIEW maybe this should go into permutation?
-    //    let PermutationSign (len,p) =
-    //        let a = Array.init len (fun i -> p i)                        // Get an array representation of the permutation
-    //        let v = Array.init len                                         // Find the positions of all the positions in the permutation
-    //                            (fun i -> Array.findIndex (fun x -> x = i) a)
-    //        let mutable sign = 1.0                                              // Remember the sign
-    //        for i=0 to len-2 do                                            // Start transposing elements keeping track of how many
-    //            if a.[i] <> i then                                              // transpositions we have taken.
-    //                a.[v.[i]] <- a.[i]
-    //                a.[i] <- i
-    //                v.[a.[v.[i]]] <- v.[i]
-    //                v.[i] <- i
-    //                sign <- -sign
-    //        assert(a = [|0 .. len-1|])
-    //        assert(v = [|0 .. len-1|])
-    //        sign
-    //    let n = A.NumRows
-    //    let P = (fun i -> P i)
-    //    (PermutationSign (n,P)) * (Vector.prod U.Diagonal)
+    
+    /// Compute the determinant of a matrix by performing an LU decomposition since if A = P'LU,
+    /// then det(A) = det(P') * det(L) * det(U).
+    let Determinant A =
+        let P,_,U = LU A
+        // Compute the sign of a permutation REVIEW maybe this should go into permutation?
+        let PermutationSign (len,p) =
+            let a = Array.init len (fun i -> p i)                          // Get an array representation of the permutation
+            let v = Array.init len                                         // Find the positions of all the positions in the permutation
+                                (fun i -> Array.findIndex (fun x -> x = i) a)
+            let mutable sign = 1.0                                         // Remember the sign
+            for i=0 to len-2 do                                            // Start transposing elements keeping track of how many
+                if a.[i] <> i then                                         // transpositions we have taken.
+                    a.[v.[i]] <- a.[i]
+                    a.[i] <- i
+                    v.[a.[v.[i]]] <- v.[i]
+                    v.[i] <- i
+                    sign <- -sign
+            assert(a = [|0 .. len-1|])
+            assert(v = [|0 .. len-1|])
+            sign
+        let n = A.NumRows
+        let P = (fun i -> P i)
+        (PermutationSign (n,P)) * (Vector.prod U.Diagonal)
         
     //// matrix multiplication
     //let MM A B =
