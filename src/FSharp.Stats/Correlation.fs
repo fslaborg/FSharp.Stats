@@ -1,4 +1,4 @@
-﻿namespace FSharp.Stats
+namespace FSharp.Stats
 
 module Correlation =
 
@@ -92,5 +92,16 @@ module Correlation =
  
     /// computes the sample auto correlation of a signal at a given lag.
     let acfOf lag seq = 
-        correlationOf lag seq seq 
-    
+        correlationOf lag seq seq
+
+    // Implemented according to the R package "MatrixCorrelation"
+    /// Computes the rv2 coefficient.  
+    let rv2 (x: matrix) (y: matrix) =
+        let xxt = x*x.Transpose 
+        let yyt = y*y.Transpose 
+        xxt |> Matrix.inplace_mapi (fun r c x -> if r = c then 0. else x)
+        yyt |> Matrix.inplace_mapi (fun r c x -> if r = c then 0. else x)
+        let num = (xxt*yyt).Diagonal |> Vector.sum
+        let deno1 = xxt |> Matrix.map (fun x -> x**2.) |> Matrix.sum |> sqrt 
+        let deno2 = yyt |> Matrix.map (fun x -> x**2.) |> Matrix.sum |> sqrt 
+        num / (deno1 * deno2)
