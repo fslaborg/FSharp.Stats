@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
-    <ProjectGuid>8c9c2381-cfca-4a67-be10-671eecea994d</ProjectGuid>
+    <TargetFrameworks>net45;net47</TargetFrameworks>
     <RootNamespace>FSharp.Stats.MSF</RootNamespace>
     <AssemblyName>FSharp.Stats.MSF</AssemblyName>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <DocumentationFile>bin\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
+    <Name>FSharp.Stats.MSF</Name>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Optional: Include PDB in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Scripts\**" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Optimization\LP.fs" />
     <Compile Include="Optimization\QP.fs" />
@@ -24,9 +33,6 @@
       <HintPath>..\..\lib\Microsoft.Solver.Foundation.dll</HintPath>
     </Reference>
   </ItemGroup>
-  
-  <ItemGroup>
-    <Content Include="App.config" />
-  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

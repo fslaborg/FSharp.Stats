@@ -1,2 +1,2 @@
-#### 0.0.1 February 02 2018
-* Initial commit
+#### 0.0.1 - Tuesday, July 3, 2018
+* Initial release
