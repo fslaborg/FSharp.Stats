@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{63297B
 		paket.references = paket.references
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docsrc", "docsrc", "{A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats", "src\FSharp.Stats\FSharp.Stats.fsproj", "{FAAFA66E-170B-4DA5-AA21-69A429CBE646}"
 EndProject
@@ -21,13 +21,32 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{BF60
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{83F16175-43B1-4C90-A1EE-8E351C33435D}"
 	ProjectSection(SolutionItems) = preProject
-		docsrc\tools\generate.fsx = docsrc\tools\generate.fsx
 		docsrc\tools\templates\template.cshtml = docsrc\tools\templates\template.cshtml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D5255-776D-4B61-85F9-73C37AA1FB9A}"
 	ProjectSection(SolutionItems) = preProject
+		docsrc\content\BasicStats.fsx = docsrc\content\BasicStats.fsx
+		docsrc\content\Clustering.fsx = docsrc\content\Clustering.fsx
+		docsrc\content\Correlation.fsx = docsrc\content\Correlation.fsx
+		docsrc\content\Covariance.fsx = docsrc\content\Covariance.fsx
+		docsrc\content\Distributions.fsx = docsrc\content\Distributions.fsx
+		docsrc\content\Fitting.fsx = docsrc\content\Fitting.fsx
+		docsrc\content\Impute.fsx = docsrc\content\Impute.fsx
 		docsrc\content\index.fsx = docsrc\content\index.fsx
+		docsrc\content\Integration.fsx = docsrc\content\Integration.fsx
+		docsrc\content\license.md = docsrc\content\license.md
+		docsrc\content\LinearAlgebra.fsx = docsrc\content\LinearAlgebra.fsx
+		docsrc\content\Matrix_Vector.fsx = docsrc\content\Matrix_Vector.fsx
+		docsrc\content\ML.fsx = docsrc\content\ML.fsx
+		docsrc\content\Optimization.fsx = docsrc\content\Optimization.fsx
+		docsrc\content\Quantile.fsx = docsrc\content\Quantile.fsx
+		docsrc\content\Rank.fsx = docsrc\content\Rank.fsx
+		docsrc\content\release-notes.md = docsrc\content\release-notes.md
+		docsrc\content\Signal.fsx = docsrc\content\Signal.fsx
+		docsrc\content\SpecialFunctions.fsx = docsrc\content\SpecialFunctions.fsx
+		docsrc\content\Summary.fsx = docsrc\content\Summary.fsx
+		docsrc\content\Testing.fsx = docsrc\content\Testing.fsx
 		docsrc\content\tutorial.fsx = docsrc\content\tutorial.fsx
 	EndProjectSection
 EndProject
