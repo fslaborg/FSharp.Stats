@@ -214,6 +214,19 @@ module Matrix = begin
                     yield f coli (getCol m coli)
             ]
 
+        /// Iterates the given Matrix row wise and places every element in a new vector with length n*m.
+        let flattenRowWise (a: Matrix<'a>) =
+            let tmp = FSharp.Stats.Vector.Generic.zero (a.NumRows*a.NumCols)
+            for m = 0 to a.NumRows-1 do 
+                for n = 0 to a.NumCols-1 do 
+                    tmp.[m*a.NumCols+n] <- a.[m,n]
+            tmp 
+
+        /// Iterates the given Matrix column wise and places every element in a new vector with length n*m.
+        let flattenColWise (a: Matrix<'a>) = 
+            a.Transpose |> flattenRowWise
+
+
     end
 
     module MG = Generic
@@ -489,6 +502,12 @@ module Matrix = begin
     /// Maps every matrix column using the position dependant function
     let mapiCols (f: int -> vector -> 'b) (m:matrix) = Generic.mapiCols f m    
 
+    /// Iterates the given Matrix row wise and places every element in a new vector with length n*m.
+    let flattenRowWise (a: matrix) = Generic.flattenRowWise a
+            
+    /// Iterates the given Matrix column wise and places every element in a new vector with length n*m.
+    let flattenColWise (a: matrix) = Generic.flattenColWise a 
+            
 end
 
 [<AutoOpen>]

@@ -1,9 +1,10 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/FSharp.Stats/net461"
+#I "../../src/FSharp.Stats/bin/Release/net461"
 #r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
 open FSharp.Plotly
+#r "netstandard.dll"
 (**
 
 
@@ -39,14 +40,65 @@ Linear Regression
 
 
 // Test versus http://www.cyclismo.org/tutorial/R/linearLeastSquares.html
-let xVector = vector [2000.;   2001.;  2002.;  2003.;   2004.;]
+let xVector =
+    vector [2000.;   2001.;  2002.;  2003.;   2004.;]
+
+let xVectorM =
+    vector [2000.;   2001.;  2002.;  2003.;   2004.;]
+    |> Matrix.ofVector
 let yVector = vector [9.34;   8.50;  7.62;  6.93;  6.60;]
 
-let coeff   = Regression.Linear.coefficient xVector yVector
-let fit     = Regression.Linear.fit coeff
+
+
+
+let coeffM   = Regression.OrdinaryLeastSquares.Linear.MultiVariateCoefficient xVectorM yVector
+
+let coeff   = Regression.OrdinaryLeastSquares.Linear.coefficient xVector yVector
+
+
+let fit     = Regression.OrdinaryLeastSquares.Linear.fit coeff
+let fitM     = Regression.OrdinaryLeastSquares.Linear.fit' coeffM
+
+fit 2002.
+fitM (vector [2002.])    
+
 let regLine = xVector |> Vector.map fit
 
+let xVectorMulti =
+    [
+    [1.; 1. ;2.  ]
+    [2.; 0.5;6.  ]
+    [3.; 0.8;10. ]
+    [4.; 2. ;14. ]
+    [5.; 4. ;18. ]
+    [6.; 3. ;22. ]
+    ]
+    |> Matrix.ofSeq
 
+let f (x:Matrix<float>) =
+    x
+    |> Matrix.mapiRows (fun i v ->
+        //let v = v.Transpose
+        100. + (v.[0] * 2.5) + (v.[1] * 4.) + (v.[2] * 0.5))
+
+let y = vector <| f xVectorMulti
+
+let coeffM2   = Regression.OrdinaryLeastSquares.Linear.MultiVariateCoefficient xVectorMulti y
+
+let fitM2     = Regression.OrdinaryLeastSquares.Linear.fit' coeffM2
+
+fitM2 (vector [3.; 0.8;10. ]) 
+
+let MultiVariateCoefficient (x_data : Matrix<float>) (y_data : Vector<float>) =
+    if x_data.NumRows <> y_data.Length then
+        raise (System.ArgumentException("vector x and y have to be the same size!"))
+    let m = x_data.NumRows
+    let n = x_data.NumCols
+    let X = Matrix.init m (n+1) (fun m n ->  if n = 0 then 1. else x_data.[m,n-1] )
+    //Algebra.LinearAlgebra.LeastSquares X y_data
+    X
+let X = MultiVariateCoefficient xVectorMulti y
+Algebra.LinearAlgebra.LeastSquares X y
 
 let summary = Regression.calulcateSumOfSquares fit xVector yVector
 
