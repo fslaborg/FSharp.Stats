@@ -100,7 +100,7 @@ module Regression =
         sumOfSqures.Regression / sumOfSqures.Total
         
 
-    /// Gets the coefficient of determination, as known as the R-Squared (R²)
+    /// Gets the coefficient of determination, as known as the R-Squared (RÂ²)
     (*
         ///    The coefficient of determination is used in the context of statistical models
         ///    whose main purpose is the prediction of future outcomes on the basis of other
@@ -234,49 +234,64 @@ module Regression =
                 /// 
                 let calculateANOVA (coef : float) x y =                
                     calculateANOVA 1 (fitFunc coef) x y 
-      
-            /// Caclualtes the coefficients for linear regression
-            /// in the form of [|intercept; slope;|]
-            let coefficient (x_data : Vector<float>) (y_data : Vector<float>) =
-                if x_data.Length <> y_data.Length then
-                    raise (System.ArgumentException("vector x and y have to be the same size!"))
-                let N = x_data.Length
-                let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else x_data.[m] )
-                Algebra.LinearAlgebra.LeastSquares X y_data
-                    
-            /// Fit to x
-            let fit (coef : Vector<float>) (x:float) =
-                if coef.Length <> 2 then
-                    raise (System.ArgumentException("Coefficient has to be [a;b]!"))
-                coef.[0] + coef.[1] * x
 
+            module Univariable =
+                /// Caclualtes the coefficients for linear regression
+                /// in the form of [|intercept; slope;|]
+                let coefficient (x_data : Vector<float>) (y_data : Vector<float>) =
+                    if x_data.Length <> y_data.Length then
+                        raise (System.ArgumentException("vector x and y have to be the same size!"))
+                    let N = x_data.Length
+                    let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else x_data.[m] )
+                    Algebra.LinearAlgebra.LeastSquares X y_data
+                    
+                /// Fit to x
+                let fit (coef : Vector<float>) (x:float) =
+                    if coef.Length <> 2 then
+                        raise (System.ArgumentException("Coefficient has to be [a;b]!"))
+                    coef.[0] + coef.[1] * x
         
-            let calculateANOVA (coef : Vector<float>) (x_data) (y_data) =
-                if coef.Length <> 2 then
-                    raise (System.ArgumentException("Coefficient has to be [a;b]!"))
-                let fitFunction x = coef.[0] + coef.[1] * x 
-                calculateANOVA 1 fitFunction x_data y_data 
+                let calculateANOVA (coef : Vector<float>) (x_data) (y_data) =
+                    if coef.Length <> 2 then
+                        raise (System.ArgumentException("Coefficient has to be [a;b]!"))
+                    let fitFunction x = coef.[0] + coef.[1] * x 
+                    calculateANOVA 1 fitFunction x_data y_data 
     
-            /// Fits a model (y(x) = b + m * x) to the data and returns the cooks distance for every data pair present in the
-            /// input collections as an estimator for the influence of each data point in coefficient estimation.  
-            let cooksDistance (x_data : Vector<float>) (y_data : Vector<float>) =
-                if x_data.Length <> y_data.Length then
-                    raise (System.ArgumentException("vector x and y have to be the same size!"))
-                let N = x_data.Length
-                let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else x_data.[m] )
-                let coeffs = Algebra.LinearAlgebra.LeastSquares X y_data
-                let leverages = Algebra.LinearAlgebra.leverage X
-                let yPred = Vector.map (fit coeffs) x_data
-                let squaredDeviations = Vector.map2 (fun y yPr -> (y - yPr) ** 2.)  yPred y_data 
-                let MSE = squaredDeviations |> Vector.sum |> fun sumOfSquares -> sumOfSquares / (float x_data.Length)         
-                // compute cooksDistance for every Point in the dataSet
-                squaredDeviations 
-                |> FSharp.Stats.Vector.mapi (fun i squaredDev -> 
-                                                let fstFactor = squaredDev / (MSE * float coeffs.Length)
-                                                let sndFactor = leverages.[i] / ((1. - leverages.[i]) ** 2.)
-                                                fstFactor * sndFactor
-                                            )
-                                   
+                /// Fits a model (y(x) = b + m * x) to the data and returns the cooks distance for every data pair present in the
+                /// input collections as an estimator for the influence of each data point in coefficient estimation.  
+                let cooksDistance (x_data : Vector<float>) (y_data : Vector<float>) =
+                    if x_data.Length <> y_data.Length then
+                        raise (System.ArgumentException("vector x and y have to be the same size!"))
+                    let N = x_data.Length
+                    let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else x_data.[m] )
+                    let coeffs = Algebra.LinearAlgebra.LeastSquares X y_data
+                    let leverages = Algebra.LinearAlgebra.leverage X
+                    let yPred = Vector.map (fit coeffs) x_data
+                    let squaredDeviations = Vector.map2 (fun y yPr -> (y - yPr) ** 2.)  yPred y_data 
+                    let MSE = squaredDeviations |> Vector.sum |> fun sumOfSquares -> sumOfSquares / (float x_data.Length)         
+                    // compute cooksDistance for every Point in the dataSet
+                    squaredDeviations 
+                    |> FSharp.Stats.Vector.mapi (fun i squaredDev -> 
+                                                    let fstFactor = squaredDev / (MSE * float coeffs.Length)
+                                                    let sndFactor = leverages.[i] / ((1. - leverages.[i]) ** 2.)
+                                                    fstFactor * sndFactor
+                                                )
+
+            module Multivariable =           
+                /// Caclualtes the coefficients for linear regression
+                /// in the form of [|intercept; slope;|]
+                let coefficients (x_data : Matrix<float>) (y_data : Vector<float>) =
+                    if x_data.NumRows <> y_data.Length then
+                        raise (System.ArgumentException("vector x and y have to be the same size!"))
+                    let m = x_data.NumRows
+                    let n = x_data.NumCols
+                    let X = Matrix.init m (n+1) (fun m n ->  if n = 0 then 1. else x_data.[m,n-1] )
+                    Algebra.LinearAlgebra.LeastSquares X y_data
+                    
+                /// Fit to x
+                let fit (coef : Vector<float>) (x:Vector<float>) =
+                    let tmp :Vector<float> = Vector.init (x.Length+1) (fun i -> if i = 0 then 1. else x.[i-1])
+                    Vector.dot tmp coef 
 
         /// Simple polynomial regression
         module Polynomial =
