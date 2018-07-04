@@ -1,4 +1,4 @@
-﻿namespace FSharp.Stats.Testing
+namespace FSharp.Stats.Testing
 
 
 /// Fisher-Z transformation for Pearson correlation coefficient after Hotelling (1953) for n< 50
@@ -54,7 +54,7 @@ module FisherHotelling =
 
         let n = filtered |> Seq.length |> float
         let fdataA,fdataB = filtered|> List.ofSeq |> List.unzip        
-        let cf = Correlation.pearson fdataA fdataB
+        let cf = Correlation.Seq.pearson fdataA fdataB
         let nz = n * (transformFisherHotellingZ cf n)
         
         if n < 3. then 
@@ -72,7 +72,7 @@ module FisherHotelling =
                 jackknife
                 |> Seq.map (fun fdatas -> 
                     let fdataA,fdataB = fdatas |> Seq.choose (fun x -> x) |> List.ofSeq |> List.unzip
-                    Correlation.pearson fdataA fdataB
+                    Correlation.Seq.pearson fdataA fdataB
                     )
         
             let pseudoZs = pseudoCfs |> Seq.map (fun pcf -> (nz - ((n-1.)*(transformFisherHotellingZ pcf (n-1.)))) )

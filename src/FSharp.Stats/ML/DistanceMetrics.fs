@@ -1,4 +1,4 @@
-﻿namespace FSharp.Stats.ML
+namespace FSharp.Stats.ML
 
 ///Functions for computing distances of elements or sets
 module DistanceMetrics =
@@ -174,7 +174,7 @@ module DistanceMetrics =
 
     /// "Dissimilarity" uses 1. - pearsons correlation coefficient 
     let inline dissimilarity v1 v2 =
-        1. - Correlation.pearson v1 v2
+        1. - Correlation.Seq.pearson v1 v2
 
 
     // Levenshtein distance between strings, lifted from:
