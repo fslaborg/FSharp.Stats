@@ -1,9 +1,10 @@
-﻿namespace FSharp.Stats.Testing
+namespace FSharp.Stats.Testing
 
 open FSharp.Stats
 
 module SAM = 
 
+    /// Represents the relative difference, the pooled standard error and the test statistics
     type SAM = {
         /// relative diffence of mean
         Ri : float
@@ -13,12 +14,18 @@ module SAM =
         Statistics : float
         }
 
+
+    /// Creates the type SAM
     let createSAM ri si stats =
         {Ri=ri; Si=si; Statistics=stats}
 
 
-    /// Calculates SAM test statistics 
-    let calculate s0 (dataA:float array array) (dataU:float array array) =
+    // <param name="s0" >small positive constant chosen to minimize the coefficient of variation of the test statistics  </param>
+    // <param name="dataA" >samples with treatment A</param>
+    // <param name="dataU" >samples with treatment U</param>
+
+    /// Calculates SAM test statistics for two class unpaired data
+    let calculateTwoClassUnpaired s0 (dataA:float array array) (dataU:float array array) =
     
         let calcStats s0 (a:float[]) (u:float[]) =        
             let ma,mu = Array.average a,Array.average u
@@ -33,8 +40,20 @@ module SAM =
         Array.map2 (fun a u -> calcStats s0 a u) dataA dataU    
 
 
-    /// 
-    let permutationBalancedColWiseSAM iterations s0 (dataA:float array array) (dataU:float array array) =
+    let expectedValue (dibs:SAM[][]) =
+        let iterations = dibs.Length
+        let dei =
+            dibs
+            |> JaggedArray.transpose
+            |> Array.map (fun tt -> 
+                let (ri',si',di') = tt |> Array.fold (fun (ri,si,di) t -> ri+t.Ri,si+t.Si,di + t.Statistics) (0.,0.,0.)  
+                createSAM (ri' / float iterations) (si' / float iterations) (di' / float iterations)
+                )
+        
+        dei        
+
+    ///Permutes all the samples. Different treatments are NOT mixed. Then the statistics for the permuatations is calculated.
+    let permutationWithin calculate iterations s0 (dataA:float array array) (dataU:float array array) =
         //let rnd = System.Random()
         let dataA' = JaggedArray.copy dataA
         let dataU' = JaggedArray.copy dataU
@@ -47,40 +66,43 @@ module SAM =
                 tmp |> Array.sortInPlaceBy (fun t -> t.Statistics) 
                 tmp
                 )
+        dibs
         // for each di count dib > di
 
-        let dei =
-            dibs
-            |> JaggedArray.transpose
-            |> Array.map (fun tt -> 
-                let (ri',si',di') = tt |> Array.fold (fun (ri,si,di) t -> ri+t.Ri,si+t.Si,di + t.Statistics) (0.,0.,0.)  
-                createSAM (ri' / float iterations) (si' / float iterations) (di' / float iterations)
-                )
-        
-        dei
 
-    /// 
-    let permutationBalancedSAM iterations s0 (dataA:float array array) (dataU:float array array) =
-        //let rnd = System.Random()
-        let dataA' = JaggedArray.copy dataA
-        let dataU' = JaggedArray.copy dataU
-    
-        [|0..iterations-1|]
-        |> Array.map (fun _ -> 
-            let rndDataA = JaggedArray.shuffleInPlace dataA'
-            let rndDataU = JaggedArray.shuffleInPlace dataU'
-            let tmp = calculate s0 rndDataA rndDataU                
-            tmp |> Array.sortInPlaceBy (fun t -> t.Statistics) 
-            tmp
-            )
-        |> JaggedArray.transpose
-        |> Array.map (fun tt -> 
-            let (ri',si',di') = tt |> Array.fold (fun (ri,si,di) t -> ri+t.Ri,si+t.Si,di + t.Statistics) (0.,0.,0.)  
-            createSAM (ri' / float iterations) (si' / float iterations) (di' / float iterations)
-            )
+    // TODO
+    /// Permutes all the samples. Different treatments are mixed.
+    let permutationBalanced calculate iterations s0 (dataA':float array array) (dataU':float array array) =
+        let rnd = System.Random()
+        let half=int (float  dataA'.[0].Length/ 2.)
+        let amount= dataA'.Length
+        let reps= dataA'.[0].Length
 
-    ///
-    let permutationCompleteSAM iterations s0 (dataA:float array array) (dataU:float array array) =
+        let shuffleFisherYates (random:System.Random) (arr : _[]) = 
+            let arr' = Array.copy arr
+            for i = arr.Length downto 1 do
+                let j = random.Next(i) 
+                let tmp = arr'.[j]
+                arr'.[j] <- arr'.[i - 1]
+                arr'.[i - 1] <- tmp
+            arr'  
+
+        let dib=
+            let rec balanced index (dataA:float[][]) (dataU:float[][]) temp1=
+                if index <iterations then
+                    let rndDataA0,rndDataU0 = Array.unzip ([|0..amount-1|]|>Array.map (fun x -> ([|dataA.[x].[0..half-1];dataU.[x].[half..reps-1]|]|> Array.concat),([|dataU.[x].[0..half-1];dataA.[x].[half..reps-1]|]|> Array.concat)))
+                    let rndDataA =  rndDataA0|> Array.map (fun x -> shuffleFisherYates rnd x)
+                    let rndDataU =  rndDataU0|> Array.map (fun x -> shuffleFisherYates rnd x)
+                    let temp= calculate s0 rndDataA rndDataU
+                    temp|> Array.sortInPlaceBy ( fun x -> x.Statistics)
+                    balanced (index+1) rndDataA rndDataU (temp::temp1)               
+                else temp1|> List.toArray
+            balanced 0 dataA' dataU' []
+        dib
+
+
+    /// Permutes all the samples. Different treatments are mixed.
+    let permutationImbalanced calculate iterations s0 (dataA:float array array) (dataU:float array array) =
         let rnd = System.Random()
         let dataA' = JaggedArray.copy dataA
         let dataU' = JaggedArray.copy dataU
@@ -120,10 +142,130 @@ module SAM =
             tmp |> Array.sortInPlaceBy (fun t -> t.Statistics) 
             tmp
             )
-        |> JaggedArray.transpose
-        |> Array.map (fun tt -> 
-            let (ri',si',di') = tt |> Array.fold (fun (ri,si,di) t -> ri+t.Ri,si+t.Si,di + t.Statistics) (0.,0.,0.)  
-            createSAM (ri' / float iterations) (si' / float iterations) (di' / float iterations)
+
+
+    // TODO: move to Array          private
+    /// Iterates over elements of the input array and increase the counter if the function returens true
+    let private countIf f (arr : _[]) =
+        let mutable counter = 0
+        for i=0 to arr.Length-1 do
+            if f arr.[i] then
+                counter <- counter + 1
+        counter
+
+    // TODO: move to Array            private
+    let private binarySearchIndexBy compare (arr: 'a []) = 
+        if arr.Length = 0 then ~~~(1) else
+
+        let rec loop lower upper = 
+            if lower > upper then ~~~ lower 
+            else
+                let middle = lower + ((upper - lower) / 2)
+                let comparisonResult = compare arr.[middle]   
+                if comparisonResult = 0 then
+                    middle
+                elif comparisonResult > 0 then
+                    loop lower (middle - 1)
+                else
+                    loop (middle + 1) upper           
+        loop 0 (arr.Length-1) 
+
+    // TODO: move to Array            private
+    let private bindBy (objArr:float[]) (arr:float[]) =
+        let arr' = Array.copy arr
+        let objArr' = Array.copy objArr
+        let index = Array.init arr.Length id
+        System.Array.Sort(objArr',index)
+        for i=1 to arr'.Length-1 do
+            if arr'.[index.[i]] < arr'.[index.[i-1]] then
+                arr'.[index.[i]] <- arr'.[index.[i-1]]
+        arr'
+
+    /// Estimates pi0. Chosen to minimize the coefficient of variation of the test statistics 
+    let estimatePi0 (dis:SAM []) (dibs:SAM[][]) =
+        let perms =
+            dibs
+            |> Array.collect (fun x -> x |> Array.map (fun y -> y.Statistics))
+        let q25 = Quantile.InPlace.modeInPLace 0.25 perms
+        let q75 = Quantile.InPlace.modeInPLace 0.75 perms
+        //let q0,q50=modeInPLace 0.0 perms , modeInPLace 0.5 perms
+        let notSig =
+            dis |> countIf (fun x -> q25 < x.Statistics && x.Statistics < q75)
+
+        float notSig / (0.5 * float dis.Length)
+        
+
+    ///Finds all pairs of symmetric cutoffs
+    // an array conmtaining all the pairs of cuts, the higher cut is the first, the lower cut the second value
+    let getSymmetricCuts (di : SAM [])  (dei : SAM [])=
+        let ups,los =
+            di
+            |> Array.map (fun b -> b.Statistics)
+            |> Array.sort
+            |> Array.map (fun x -> (x, -x))
+            |> Array.partition (fun (a,b) -> a >= 0.)
+        [|ups;los|]|> Array.concat |> Array.distinct
+        
+
+
+    let qvalueByCut pi0 (dis: SAM []) (dibs: SAM[][]) (cut:(float*float)) = 
+        // median amount of permutations above and below the cuts
+        let cut1,cut2 = cut
+        let gmed =
+            dibs
+            |> Array.map (fun arr -> arr |> countIf ( fun x -> x.Statistics >= cut1 || x.Statistics <= cut2) )
+            |> Array.median
+
+        
+        let fdis = dis |> countIf (fun v -> v.Statistics > cut1 || v.Statistics < cut2)
+        
+        let medianfdr= (pi0 * float gmed)/( float fdis)
+        //medianfdr*100.
+        medianfdr
+
+
+    let qvalues pi0 (dis: SAM []) (dibs: SAM[][]) (cuts:(float*float)[]) = 
+        let convertIndex (arr: _ [])  (i:int) =
+            if i < 0 then
+                let i' = (~~~i)-1
+                if i' < 0 then arr.[0] else arr.[i']
+            else
+                if i >= arr.Length then arr.[arr.Length-1] else arr.[i]
+
+        let convertIndex' (arr: _ [])  (i:int) =
+            if i < 0 then
+                let i' = (~~~i)
+                if i' < 0 then arr.[0] else arr.[i']
+            else
+                if i >= arr.Length then arr.[arr.Length-1] else arr.[i]
+                                
+                
+
+        let cuToQ,clToQ =
+            cuts
+            |> Array.map (fun cut ->
+                let q = qvalueByCut pi0 dis dibs cut
+                (fst cut,q),(snd cut,q) )
+            |> Array.unzip
+        // Ensure monotonicity within q values
+        let cuToQ =
+            let cu,q = cuToQ |> Array.unzip    
+            let q' = bindBy (cu |> Array.map (fun x -> -x)) q
+            Array.zip cu q'
+
+        let clToQ =
+            let cl,q = clToQ |> Array.unzip    
+            let q' = bindBy cl q
+            Array.zip cl q'
+
+        cuToQ |> Array.sortInPlaceBy fst
+        clToQ |> Array.sortInPlaceBy fst
+        dis
+        |> Array.map (fun s ->
+            let cuQ = binarySearchIndexBy (fun (cu,v) -> compare cu s.Statistics) cuToQ |> convertIndex cuToQ |> snd
+            let clQ = binarySearchIndexBy (fun (cl,v) -> compare cl s.Statistics) clToQ |> convertIndex' clToQ |> snd
+            min cuQ clQ
+            |> min 1.0
             )
 
 
@@ -206,7 +348,7 @@ module SAM =
 
 
         /// Estimates s0 from given data set. Chosen to minimize the coefficient of variation of the test statistics 
-        let estimateFrom (dataA:float array array) (dataU:float array array) =
+        let estimateFrom calculate (dataA:float array array) (dataU:float array array) =
             let tt = calculate 0.0 dataA dataU
             estimate tt
 
