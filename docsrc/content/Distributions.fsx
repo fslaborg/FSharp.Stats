@@ -1,8 +1,9 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/FSharp.Stats/net461"
-#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
+#I "../../bin/FSharp.Stats/netstandard2.0"
+#r "../../packages/formatting/FSharp.Plotly/lib/netstandard2.0/Fsharp.Plotly.dll"
+#r "netstandard"
 open FSharp.Plotly
 (**
 #Probability Distributions
@@ -63,13 +64,14 @@ let pdfStudentT mu tau dof =
 
 studentTParams
 |> List.map (fun (mu,tau,dof) -> Chart.Spline(pdfStudentT mu tau dof,Name=sprintf "mu=%.1f tau=%.1f dof=%.1f" mu tau dof,ShowMarkers=false))
-(*** define:PdfStudentT ***)
+(*** define-output::PdfStudentT ***)
 |> Chart.Combine
 |> Chart.withX_AxisStyle("x",MinMax=(-4.,4.))
 |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,0.4))
 |> Chart.withSize (500., 450.)
-(*** include:PdfStudentT ***)
-|>  
+|> GenericChart.toChartHtmlWithSize 700 500
+(*** include-output::PdfStudentT ***)
+
 
 
 let cdfStudentT mu tau dof = 
