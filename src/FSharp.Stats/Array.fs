@@ -59,10 +59,12 @@ module Array =
         let rec loop i j =
             if (i < j) then
                 let j' = moveRightIndex i j
-                let i' = moveLeftIndex i j'
-                if i' < j' then swapInPlace i' j' items
-            
-                loop i' j'
+                let i' = moveLeftIndex i j'            
+                if i'=i && j'=j then // experimental to avoid: nan compare always false
+                    -1
+                else               
+                    if i' < j' then swapInPlace i' j' items
+                    loop i' j'
             else
                 i
 
@@ -71,23 +73,25 @@ module Array =
 
 
     /// Finds the kth smallest element in an unordered array
-    let quickSelect k (items:array<'T>) =
-        
+    let inline quickSelect k (items:array<'T>) =
+        let zero = LanguagePrimitives.GenericZero< 'T > 
+
         let rec quickSelect' (items:array<'T>) left right k =
 
             // get pivot position  
             let pivot = partitionSortInPlace left right items 
-
-            // if pivot is less than k, select from the right part  
-            if (pivot < k) then             
-                quickSelect' items (pivot + 1) right k
-            // if pivot is greater than k, select from the left side  
-            elif (pivot > k) then
-                quickSelect' items left (pivot - 1) k
-            // if equal, return the value
-            else 
-                items.[pivot]
-    
+            if pivot >= 0 then
+                // if pivot is less than k, select from the right part  
+                if (pivot < k) then             
+                    quickSelect' items (pivot + 1) right k
+                // if pivot is greater than k, select from the left side  
+                elif (pivot > k) then
+                    quickSelect' items left (pivot - 1) k
+                // if equal, return the value
+                else 
+                    items.[pivot]
+            else
+                zero / zero
 
         let k' = k - 1
         if k' <= 0 then
@@ -101,23 +105,24 @@ module Array =
 
     /// Finds the kth smallest element in an unordered array
     /// Works in place and can change the order of the elements in the input array
-    let quickSelectInPlace k (items:array<'T>) : 'T =
+    let inline quickSelectInPlace k (items:array<'T>) : 'T =
+        let zero = LanguagePrimitives.GenericZero< 'T > 
         
         let rec quickSelect' (items:array<'T>) left right k =
-
             // get pivot position  
             let pivot = partitionSortInPlace left right items 
-
-            // if pivot is less than k, select from the right part  
-            if (pivot < k) then             
-                quickSelect' items (pivot + 1) right k
-            // if pivot is greater than k, select from the left side  
-            elif (pivot > k) then
-                quickSelect' items left (pivot - 1) k
-            // if equal, return the value
-            else 
-                items.[pivot]
-        
+            if pivot >= 0 then
+                // if pivot is less than k, select from the right part  
+                if (pivot < k) then             
+                    quickSelect' items (pivot + 1) right k
+                // if pivot is greater than k, select from the left side  
+                elif (pivot > k) then
+                    quickSelect' items left (pivot - 1) k
+                // if equal, return the value
+                else 
+                    items.[pivot]
+            else
+                zero / zero
 
         let k' = k - 1
         if k' <= 0 then
@@ -130,6 +135,9 @@ module Array =
 
     /// Computes the sample median
     let inline median (items:array<'T>) =
+
+        let zero = LanguagePrimitives.GenericZero< 'T > 
+        let one = LanguagePrimitives.GenericOne< 'T > 
 
         // returns max element of array from index to right index
         let rec max cMax index rigthIndex (input:array<'T>) =
@@ -148,24 +156,23 @@ module Array =
 
             // get pivot position  
             let pivotIndex = partitionSortInPlace left right items 
+            if pivotIndex >= 0 then
+                // if pivot is less than k, select from the right part  
+                if (pivotIndex < k) then             
+                    medianQuickSelect items (pivotIndex + 1) right k
+                // if pivot is greater than k, select from the left side  
+                elif (pivotIndex > k) then
+                    medianQuickSelect items left (pivotIndex - 1) k
+                // if equal, return the value
+                else 
+                    let n = items.Length
+                    if n % 2 = 0 then
+                        (max (items.[pivotIndex-1]) 0 (pivotIndex-1) items,items.[pivotIndex])
+                    else
+                        (items.[pivotIndex],items.[pivotIndex])
+            else
+                (zero/zero,zero/zero)
 
-            // if pivot is less than k, select from the right part  
-            if (pivotIndex < k) then             
-                medianQuickSelect items (pivotIndex + 1) right k
-            // if pivot is greater than k, select from the left side  
-            elif (pivotIndex > k) then
-                medianQuickSelect items left (pivotIndex - 1) k
-            // if equal, return the value
-            else 
-                let n = items.Length
-                if n % 2 = 0 then
-                    (max (items.[pivotIndex-1]) 0 (pivotIndex-1) items,items.[pivotIndex])
-                else
-                    (items.[pivotIndex],items.[pivotIndex])
-
-        
-        let zero = LanguagePrimitives.GenericZero< 'T > 
-        let one = LanguagePrimitives.GenericOne< 'T > 
         
         if items.Length > 0 then
             let items' = Array.copy items

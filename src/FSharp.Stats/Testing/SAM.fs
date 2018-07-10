@@ -208,11 +208,11 @@ module SAM =
             |> Array.partition (fun (dis,deis,delta) -> deis >= 0.)
         // monoton increase ups (inplace)
         for i=1 to ups.Length-1 do
-            if getDelta ups.[i] > getDelta ups.[i-1] then
+            if getDelta ups.[i] >= getDelta ups.[i-1] then
                 ups.[i] <- replaceDelta ups.[i] ups.[i-1]
         // monoton increase los (inplace)
         for i=1 to los.Length-1 do
-            if getDelta los.[i] < getDelta los.[i-1] then
+            if getDelta los.[i] <= getDelta los.[i-1] then
                 los.[i] <- replaceDelta ups.[i] ups.[i-1]
         // find the matching cutoffs
         let cuts set1 set2=
