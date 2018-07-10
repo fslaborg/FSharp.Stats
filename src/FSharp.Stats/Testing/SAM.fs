@@ -353,4 +353,55 @@ module SAM =
             estimate tt
 
 
+
+
+
+
+
+//let n = 1000
+//let nRep = 3
+
+//let dataA =
+//    [|0..n|]
+//    |> Array.map (fun i ->
+//        Array.init 3 (fun _ -> Distributions.Continuous.Normal.Sample 0. 1. ))
+
+
+//let dataB =
+//    [|0..n|]
+//    |> Array.map (fun i ->
+//        if i < 100 then 
+//            Array.init 3 (fun _ -> Distributions.Continuous.Normal.Sample 5. 1. )
+//        elif i > 100 && i < 200 then 
+//            Array.init 3 (fun _ -> Distributions.Continuous.Normal.Sample -5. 1. )
+//        else
+//            Array.init 3 (fun _ -> Distributions.Continuous.Normal.Sample 0. 1. ))
+
+
+
+//let priorStats = SAM.calculateTwoClassUnpaired 0. dataA dataB
+//let s0 = SAM.S0.estimate priorStats
+
+//let samStats  = SAM.calculateTwoClassUnpaired s0 dataA dataB
+//let permStats = SAM.permutationWithin (SAM.calculateTwoClassUnpaired) 5 s0 dataA dataB 
+
+//let pi0 = SAM.estimatePi0 samStats permStats
+
+//let cuts = SAM.getSymmetricCuts samStats (SAM.expectedValue permStats)
+
+//let qValues = SAM.qvalues pi0 samStats permStats cuts
+
+
+//qValues |> Array.filter (fun q -> q <= 0.05) |> Array.length    
+ 
+
+//Chart.Point(Seq.zip (samStats |> Seq.map (fun s -> s.Statistics)) qValues)
+//|> Chart.Show
+
+
+//Chart.Histogram (samStats |> Seq.map (fun x -> x.Statistics))
+//|> Chart.Show
+
+
+
     

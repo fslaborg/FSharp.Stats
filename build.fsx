@@ -294,7 +294,6 @@ Target.create "Docs" (fun _ ->
 // Release Scripts
 
 Target.create "ReleaseDocs" (fun _ ->
-    Fake.Core.Trace.trace "<-ReleaseDocs ----------------------------------->"
     let tempDocsDir = "temp/gh-pages"
     Shell.cleanDir tempDocsDir
     Git.Repository.cloneSingleBranch "" (gitHome + "/" + gitName + ".git") "gh-pages" tempDocsDir
@@ -304,7 +303,6 @@ Target.create "ReleaseDocs" (fun _ ->
     Git.Commit.exec tempDocsDir (sprintf "Update generated documentation for version %s" release.NugetVersion)
     Git.Branches.push tempDocsDir
 )
-
 
 //#load "paket-files/fsharp/FAKE/modules/Octokit/Octokit.fsx"
 //open Octokit
@@ -364,13 +362,13 @@ Target.create "All" ignore
   ==> "CopyBinaries"
   ==> "RunTests"
   ==> "GenerateDocs"
-  //==> "NuGet"
+  ==> "NuGet"
   ==> "All"
 
 "RunTests" ?=> "CleanDocs"
 
 "CleanDocs"
-  ==> "Docs"
+  ==>"Docs"
   ==> "ReferenceDocs"
   ==> "GenerateDocs"
 
@@ -378,11 +376,10 @@ Target.create "All" ignore
   ==> "Release"
 
 "BuildPackage"
-  ==> "ReleaseDocs"
-  //==> "PublishNuget"
+  ==> "PublishNuget"
   ==> "Release"
 
 "ReleaseDocs"
   ==> "Release"
 
-Target.runOrDefaultWithArguments "Release"
+Target.runOrDefaultWithArguments "All"

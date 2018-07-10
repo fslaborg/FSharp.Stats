@@ -1,5 +1,5 @@
 type file
-id FSharp.Stats
+id FSharp.Stats.Lapack
 title
     FSharp.Stats
 owners
@@ -26,4 +26,4 @@ description
     F# project for statistical computing
 
 files
-	../../bin/FSharp.Stats ==> lib
+	../../bin/FSharp.Stats.Lapack ==> lib

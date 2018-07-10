@@ -42,6 +42,9 @@ or to sample non-uniform random numbers.
 open FSharp.Stats
 open FSharp.Stats.Distributions
 
+//let test = 2
+//(*** include-value: test ***)
+
 
 FSharp.Stats.SpecialFunctions.Factorial.factorial 5
 
@@ -62,14 +65,15 @@ let pdfStudentT mu tau dof =
     |> List.map (Continuous.StudentT.PDF mu tau dof)
     |> List.zip xStudentT
 
-studentTParams
-|> List.map (fun (mu,tau,dof) -> Chart.Spline(pdfStudentT mu tau dof,Name=sprintf "mu=%.1f tau=%.1f dof=%.1f" mu tau dof,ShowMarkers=false))
 (*** define-output::PdfStudentT ***)
-|> Chart.Combine
-|> Chart.withX_AxisStyle("x",MinMax=(-4.,4.))
-|> Chart.withY_AxisStyle("P(x)",MinMax=(0.,0.4))
-|> Chart.withSize (500., 450.)
-|> GenericChart.toChartHtmlWithSize 700 500
+let v =
+    studentTParams
+    |> List.map (fun (mu,tau,dof) -> Chart.Spline(pdfStudentT mu tau dof,Name=sprintf "mu=%.1f tau=%.1f dof=%.1f" mu tau dof,ShowMarkers=false))
+    |> Chart.Combine
+    |> Chart.withX_AxisStyle("x",MinMax=(-4.,4.))
+    |> Chart.withY_AxisStyle("P(x)",MinMax=(0.,0.4))
+    |> Chart.withSize (500., 450.)
+    |> GenericChart.toChartHtmlWithSize 700 500
 (*** include-output::PdfStudentT ***)
 
 

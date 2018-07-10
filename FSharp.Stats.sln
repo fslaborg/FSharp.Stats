@@ -72,6 +72,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{7C6D08
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.MSF", "src\FSharp.Stats.MSF\FSharp.Stats.MSF.fsproj", "{71B30A14-8023-4D0F-97A8-EAF99952C479}"
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.Lapack", "src\FSharp.Stats.Lapack\FSharp.Stats.Lapack.fsproj", "{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,10 @@ Global
 		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
