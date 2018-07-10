@@ -1,0 +1,2940 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>GenericImpl - FSharp.Stats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Timo Mühlhaus"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>GenericImpl</h1>
+<p>
+  <span>Namespace: FSharp.Stats</span><br />
+  </p>
+<div class="xmldoc">
+<p>Implementations of operations that will work for any type</p>
+
+</div>
+
+<!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-genericimpl-opsdata-1.html">OpsData<'T></a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+  <h3>Functions and values</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Function or value</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '158', 158)" onmouseover="showTip(event, '158', 158)">
+            add ops x y
+          </code>
+          <div class="tip" id="158">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;T&gt; -&gt; x:&#39;T -&gt; y:&#39;T -&gt; &#39;T<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L635-635" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '159', 159)" onmouseover="showTip(event, '159', 159)">
+            addDenseMatrixGU a b
+          </code>
+          <div class="tip" id="159">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?10857&gt; -&gt; b:DenseMatrix&lt;&#39;?10857&gt; -&gt; DenseMatrix&lt;&#39;?10857&gt;<br />
+                          <strong>Type parameters:</strong> '?10857                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L611-611" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '160', 160)" onmouseover="showTip(event, '160', 160)">
+            addRowVecGU a b
+          </code>
+          <div class="tip" id="160">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?10861&gt; -&gt; b:RowVector&lt;&#39;?10861&gt; -&gt; RowVector&lt;&#39;?10861&gt;<br />
+                          <strong>Type parameters:</strong> '?10861                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L613-613" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '161', 161)" onmouseover="showTip(event, '161', 161)">
+            addScalarDenseMatrixGU k a
+          </code>
+          <div class="tip" id="161">
+            <strong>Signature:</strong> k:&#39;?10936 -&gt; a:DenseMatrix&lt;&#39;?10936&gt; -&gt; DenseMatrix&lt;&#39;?10936&gt;<br />
+                          <strong>Type parameters:</strong> '?10936                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L821-821" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '162', 162)" onmouseover="showTip(event, '162', 162)">
+            addScalarRowVecGU k a
+          </code>
+          <div class="tip" id="162">
+            <strong>Signature:</strong> k:&#39;?10938 -&gt; a:RowVector&lt;&#39;?10938&gt; -&gt; RowVector&lt;&#39;?10938&gt;<br />
+                          <strong>Type parameters:</strong> '?10938                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L822-822" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '163', 163)" onmouseover="showTip(event, '163', 163)">
+            addScalarSparseMatrixGU k a
+          </code>
+          <div class="tip" id="163">
+            <strong>Signature:</strong> k:&#39;?10942 -&gt; a:SparseMatrix&lt;&#39;?10942&gt; -&gt; SparseMatrix&lt;&#39;?10942&gt;<br />
+                          <strong>Type parameters:</strong> '?10942                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L824-824" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '164', 164)" onmouseover="showTip(event, '164', 164)">
+            addScalarVecGU k a
+          </code>
+          <div class="tip" id="164">
+            <strong>Signature:</strong> k:&#39;?10940 -&gt; a:Vector&lt;&#39;?10940&gt; -&gt; Vector&lt;&#39;?10940&gt;<br />
+                          <strong>Type parameters:</strong> '?10940                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L823-823" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '165', 165)" onmouseover="showTip(event, '165', 165)">
+            addSparseMatrixGU a b
+          </code>
+          <div class="tip" id="165">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10859&gt; -&gt; b:SparseMatrix&lt;&#39;?10859&gt; -&gt; SparseMatrix&lt;&#39;?10859&gt;<br />
+                          <strong>Type parameters:</strong> '?10859                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L612-612" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '166', 166)" onmouseover="showTip(event, '166', 166)">
+            addVecGU a b
+          </code>
+          <div class="tip" id="166">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?10863&gt; -&gt; b:Vector&lt;&#39;?10863&gt; -&gt; Vector&lt;&#39;?10863&gt;<br />
+                          <strong>Type parameters:</strong> '?10863                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L614-614" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '167', 167)" onmouseover="showTip(event, '167', 167)">
+            arrayDenseMatrixGU ops xss
+          </code>
+          <div class="tip" id="167">
+            <strong>Signature:</strong> ops:OpsData&lt;&#39;?10828&gt; -&gt; xss:&#39;?10828 [] [] -&gt; DenseMatrix&lt;&#39;?10828&gt;<br />
+                          <strong>Type parameters:</strong> '?10828                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L466-466" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '168', 168)" onmouseover="showTip(event, '168', 168)">
+            assignArray m f arr
+          </code>
+          <div class="tip" id="168">
+            <strong>Signature:</strong> m:int -&gt; f:(int -&gt; &#39;?10780) -&gt; arr:&#39;?10780 [] -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10780                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L311-311" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '169', 169)" onmouseover="showTip(event, '169', 169)">
+            assignArray2D m n f arr
+          </code>
+          <div class="tip" id="169">
+            <strong>Signature:</strong> m:int -&gt; n:int -&gt; f:(int -&gt; int -&gt; &#39;?10774) -&gt; arr:&#39;?10774 [,] -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10774                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L298-298" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '170', 170)" onmouseover="showTip(event, '170', 170)">
+            assignConstArray m x arr
+          </code>
+          <div class="tip" id="170">
+            <strong>Signature:</strong> m:int -&gt; x:&#39;?10782 -&gt; arr:&#39;?10782 [] -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10782                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L315-315" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '171', 171)" onmouseover="showTip(event, '171', 171)">
+            assignConstArray2D m n x arr
+          </code>
+          <div class="tip" id="171">
+            <strong>Signature:</strong> m:int -&gt; n:int -&gt; x:&#39;?10776 -&gt; arr:&#39;?10776 [,] -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10776                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L303-303" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '172', 172)" onmouseover="showTip(event, '172', 172)">
+            assignDenseMatrixGU f a
+          </code>
+          <div class="tip" id="172">
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10778) -&gt; a:DenseMatrix&lt;&#39;?10778&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10778                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L308-308" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '173', 173)" onmouseover="showTip(event, '173', 173)">
+            assignRowVecGU f a
+          </code>
+          <div class="tip" id="173">
+            <strong>Signature:</strong> f:(int -&gt; &#39;?10786) -&gt; a:RowVector&lt;&#39;?10786&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10786                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L322-322" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '174', 174)" onmouseover="showTip(event, '174', 174)">
+            assignVecGU f a
+          </code>
+          <div class="tip" id="174">
+            <strong>Signature:</strong> f:(int -&gt; &#39;?10784) -&gt; a:Vector&lt;&#39;?10784&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10784                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L319-319" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '175', 175)" onmouseover="showTip(event, '175', 175)">
+            binaryOpDenseMatrixGU f a b
+          </code>
+          <div class="tip" id="175">
+            <strong>Signature:</strong> f:(&#39;?10832 -&gt; &#39;?10833 -&gt; &#39;?10832) -&gt; a:DenseMatrix&lt;&#39;?10832&gt; -&gt; b:DenseMatrix&lt;&#39;?10833&gt; -&gt; DenseMatrix&lt;&#39;?10832&gt;<br />
+                          <strong>Type parameters:</strong> '?10832, '?10833                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L484-484" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '176', 176)" onmouseover="showTip(event, '176', 176)">
+            binaryOpRowVecGU f a b
+          </code>
+          <div class="tip" id="176">
+            <strong>Signature:</strong> f:(&#39;?10841 -&gt; &#39;?10842 -&gt; &#39;?10841) -&gt; a:RowVector&lt;&#39;?10841&gt; -&gt; b:RowVector&lt;&#39;?10842&gt; -&gt; RowVector&lt;&#39;?10841&gt;<br />
+                          <strong>Type parameters:</strong> '?10841, '?10842                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L567-567" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '177', 177)" onmouseover="showTip(event, '177', 177)">
+            binaryOpSparseMatrixGU f a b
+          </code>
+          <div class="tip" id="177">
+            <strong>Signature:</strong> f:(&#39;?10839 -&gt; &#39;?10839 -&gt; &#39;?10839) -&gt; a:SparseMatrix&lt;&#39;?10839&gt; -&gt; b:SparseMatrix&lt;&#39;?10839&gt; -&gt; SparseMatrix&lt;&#39;?10839&gt;<br />
+                          <strong>Type parameters:</strong> '?10839                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L525-525" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '178', 178)" onmouseover="showTip(event, '178', 178)">
+            binaryOpVecGU f a b
+          </code>
+          <div class="tip" id="178">
+            <strong>Signature:</strong> f:(&#39;?10844 -&gt; &#39;?10845 -&gt; &#39;?10844) -&gt; a:Vector&lt;&#39;?10844&gt; -&gt; b:Vector&lt;&#39;?10845&gt; -&gt; Vector&lt;&#39;?10844&gt;<br />
+                          <strong>Type parameters:</strong> '?10844, '?10845                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L573-573" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '179', 179)" onmouseover="showTip(event, '179', 179)">
+            colArrayDenseMatrixGU ops xss
+          </code>
+          <div class="tip" id="179">
+            <strong>Signature:</strong> ops:OpsData&lt;&#39;?10830&gt; -&gt; xss:&#39;?10830 [] [] -&gt; DenseMatrix&lt;&#39;?10830&gt;<br />
+                          <strong>Type parameters:</strong> '?10830                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L475-475" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '180', 180)" onmouseover="showTip(event, '180', 180)">
+            colListDenseMatrixGU ops xss
+          </code>
+          <div class="tip" id="180">
+            <strong>Signature:</strong> ops:OpsData&lt;&#39;?10812&gt; -&gt; xss:&#39;?10812 list list -&gt; DenseMatrix&lt;&#39;?10812&gt;<br />
+                          <strong>Type parameters:</strong> '?10812                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L429-429" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '181', 181)" onmouseover="showTip(event, '181', 181)">
+            colSeqDenseMatrixGU ops xss
+          </code>
+          <div class="tip" id="181">
+            <strong>Signature:</strong> ops:OpsData&lt;&#39;?10821&gt; -&gt; xss:seq&lt;&#39;?10822&gt; -&gt; DenseMatrix&lt;&#39;?10821&gt;<br />
+                          <strong>Type parameters:</strong> '?10821, '?10822                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L453-453" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '182', 182)" onmouseover="showTip(event, '182', 182)">
+            copyDenseMatrixGU a
+          </code>
+          <div class="tip" id="182">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;T&gt; -&gt; DenseMatrix&lt;&#39;T&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L849-849" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '183', 183)" onmouseover="showTip(event, '183', 183)">
+            copyRowVecGU a
+          </code>
+          <div class="tip" id="183">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?10970&gt; -&gt; RowVector&lt;&#39;?10970&gt;<br />
+                          <strong>Type parameters:</strong> '?10970                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L856-856" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '184', 184)" onmouseover="showTip(event, '184', 184)">
+            copySparseGU a
+          </code>
+          <div class="tip" id="184">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10855&gt; -&gt; SparseMatrix&lt;&#39;?10855&gt;<br />
+                          <strong>Type parameters:</strong> '?10855                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L604-604" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '185', 185)" onmouseover="showTip(event, '185', 185)">
+            copyVecGU a
+          </code>
+          <div class="tip" id="185">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?10968&gt; -&gt; Vector&lt;&#39;?10968&gt;<br />
+                          <strong>Type parameters:</strong> '?10968                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L853-853" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '186', 186)" onmouseover="showTip(event, '186', 186)">
+            cptMaxDenseMatrixGU a b
+          </code>
+          <div class="tip" id="186">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?10881&gt; -&gt; b:DenseMatrix&lt;&#39;?10881&gt; -&gt; DenseMatrix&lt;&#39;?10881&gt;<br />
+                          <strong>Type parameters:</strong> '?10881                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L627-627" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '187', 187)" onmouseover="showTip(event, '187', 187)">
+            cptMaxSparseMatrixGU a b
+          </code>
+          <div class="tip" id="187">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10885&gt; -&gt; b:SparseMatrix&lt;&#39;?10885&gt; -&gt; SparseMatrix&lt;&#39;?10885&gt;<br />
+                          <strong>Type parameters:</strong> '?10885                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L629-629" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '188', 188)" onmouseover="showTip(event, '188', 188)">
+            cptMaxVecGU a b
+          </code>
+          <div class="tip" id="188">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?10889&gt; -&gt; b:Vector&lt;&#39;?10889&gt; -&gt; Vector&lt;&#39;?10889&gt;<br />
+                          <strong>Type parameters:</strong> '?10889                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L632-632" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '189', 189)" onmouseover="showTip(event, '189', 189)">
+            cptMinDenseMatrixGU a b
+          </code>
+          <div class="tip" id="189">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?10883&gt; -&gt; b:DenseMatrix&lt;&#39;?10883&gt; -&gt; DenseMatrix&lt;&#39;?10883&gt;<br />
+                          <strong>Type parameters:</strong> '?10883                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L628-628" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '190', 190)" onmouseover="showTip(event, '190', 190)">
+            cptMinSparseMatrixGU a b
+          </code>
+          <div class="tip" id="190">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10887&gt; -&gt; b:SparseMatrix&lt;&#39;?10887&gt; -&gt; SparseMatrix&lt;&#39;?10887&gt;<br />
+                          <strong>Type parameters:</strong> '?10887                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L630-630" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '191', 191)" onmouseover="showTip(event, '191', 191)">
+            cptMinVecGU a b
+          </code>
+          <div class="tip" id="191">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?10891&gt; -&gt; b:Vector&lt;&#39;?10891&gt; -&gt; Vector&lt;&#39;?10891&gt;<br />
+                          <strong>Type parameters:</strong> '?10891                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L633-633" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '192', 192)" onmouseover="showTip(event, '192', 192)">
+            cptMulDenseMatrixGU a b
+          </code>
+          <div class="tip" id="192">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?10873&gt; -&gt; b:DenseMatrix&lt;&#39;?10873&gt; -&gt; DenseMatrix&lt;&#39;?10873&gt;<br />
+                          <strong>Type parameters:</strong> '?10873                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L622-622" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Point-wise multiplication</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '193', 193)" onmouseover="showTip(event, '193', 193)">
+            cptMulRowVecGU a b
+          </code>
+          <div class="tip" id="193">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?10877&gt; -&gt; b:RowVector&lt;&#39;?10877&gt; -&gt; RowVector&lt;&#39;?10877&gt;<br />
+                          <strong>Type parameters:</strong> '?10877                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L624-624" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '194', 194)" onmouseover="showTip(event, '194', 194)">
+            cptMulSparseMatrixGU a b
+          </code>
+          <div class="tip" id="194">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10875&gt; -&gt; b:SparseMatrix&lt;&#39;?10875&gt; -&gt; SparseMatrix&lt;&#39;?10875&gt;<br />
+                          <strong>Type parameters:</strong> '?10875                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L623-623" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '195', 195)" onmouseover="showTip(event, '195', 195)">
+            cptMulVecGU a b
+          </code>
+          <div class="tip" id="195">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?10879&gt; -&gt; b:Vector&lt;&#39;?10879&gt; -&gt; Vector&lt;&#39;?10879&gt;<br />
+                          <strong>Type parameters:</strong> '?10879                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L625-625" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '196', 196)" onmouseover="showTip(event, '196', 196)">
+            createArray m
+          </code>
+          <div class="tip" id="196">
+            <strong>Signature:</strong> m:int -&gt; &#39;?10770 []<br />
+                          <strong>Type parameters:</strong> '?10770                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L294-294" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '197', 197)" onmouseover="showTip(event, '197', 197)">
+            createArray2D m n
+          </code>
+          <div class="tip" id="197">
+            <strong>Signature:</strong> m:int -&gt; n:int -&gt; &#39;?10772 [,]<br />
+                          <strong>Type parameters:</strong> '?10772                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L296-296" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '198', 198)" onmouseover="showTip(event, '198', 198)">
+            createConstDenseMatrixGU ops m n x
+          </code>
+          <div class="tip" id="198">
+            <strong>Signature:</strong> ops:OpsData&lt;&#39;?10788&gt; -&gt; m:int -&gt; n:int -&gt; x:&#39;?10788 -&gt; DenseMatrix&lt;&#39;?10788&gt;<br />
+                          <strong>Type parameters:</strong> '?10788                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L325-325" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '199', 199)" onmouseover="showTip(event, '199', 199)">
+            createConstRowVecGU ops m x
+          </code>
+          <div class="tip" id="199">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10790&gt; option -&gt; m:int -&gt; x:&#39;?10790 -&gt; RowVector&lt;&#39;?10790&gt;<br />
+                          <strong>Type parameters:</strong> '?10790                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L330-330" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '200', 200)" onmouseover="showTip(event, '200', 200)">
+            createConstVecGU ops m x
+          </code>
+          <div class="tip" id="200">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10792&gt; option -&gt; m:int -&gt; x:&#39;?10792 -&gt; Vector&lt;&#39;?10792&gt;<br />
+                          <strong>Type parameters:</strong> '?10792                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L335-335" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '201', 201)" onmouseover="showTip(event, '201', 201)">
+            createDenseMatrixGU ops m n f
+          </code>
+          <div class="tip" id="201">
+            <strong>Signature:</strong> ops:OpsData&lt;&#39;?10794&gt; -&gt; m:int -&gt; n:int -&gt; f:(int -&gt; int -&gt; &#39;?10794) -&gt; DenseMatrix&lt;&#39;?10794&gt;<br />
+                          <strong>Type parameters:</strong> '?10794                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L341-341" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '202', 202)" onmouseover="showTip(event, '202', 202)">
+            createRowVecGU ops m f
+          </code>
+          <div class="tip" id="202">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10796&gt; option -&gt; m:int -&gt; f:(int -&gt; &#39;?10796) -&gt; RowVector&lt;&#39;?10796&gt;<br />
+                          <strong>Type parameters:</strong> '?10796                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L346-346" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '203', 203)" onmouseover="showTip(event, '203', 203)">
+            createVecGU ops m f
+          </code>
+          <div class="tip" id="203">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10798&gt; option -&gt; m:int -&gt; f:(int -&gt; &#39;?10798) -&gt; Vector&lt;&#39;?10798&gt;<br />
+                          <strong>Type parameters:</strong> '?10798                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L351-351" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '204', 204)" onmouseover="showTip(event, '204', 204)">
+            debug 
+          </code>
+          <div class="tip" id="204">
+            <strong>Signature:</strong> bool<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L668-668" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '205', 205)" onmouseover="showTip(event, '205', 205)">
+            debugShowDenseMatrixGU m
+          </code>
+          <div class="tip" id="205">
+            <strong>Signature:</strong> m:DenseMatrix&lt;&#39;?11072&gt; -&gt; string<br />
+                          <strong>Type parameters:</strong> '?11072                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1080-1080" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '206', 206)" onmouseover="showTip(event, '206', 206)">
+            dotDenseMatrixGU a b
+          </code>
+          <div class="tip" id="206">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?11030&gt; -&gt; b:DenseMatrix&lt;&#39;?11030&gt; -&gt; &#39;?11030<br />
+                          <strong>Type parameters:</strong> '?11030                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L988-988" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '207', 207)" onmouseover="showTip(event, '207', 207)">
+            dotVecGU a b
+          </code>
+          <div class="tip" id="207">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?11032&gt; -&gt; b:Vector&lt;&#39;?11032&gt; -&gt; &#39;?11032<br />
+                          <strong>Type parameters:</strong> '?11032                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L992-992" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '208', 208)" onmouseover="showTip(event, '208', 208)">
+            existsiDenseMatrixGU pred a
+          </code>
+          <div class="tip" id="208">
+            <strong>Signature:</strong> pred:(int -&gt; int -&gt; &#39;?11008 -&gt; bool) -&gt; a:DenseMatrix&lt;&#39;?11008&gt; -&gt; bool<br />
+                          <strong>Type parameters:</strong> '?11008                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L935-935" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '209', 209)" onmouseover="showTip(event, '209', 209)">
+            existsiVecGU pred a
+          </code>
+          <div class="tip" id="209">
+            <strong>Signature:</strong> pred:(int -&gt; &#39;?11010 -&gt; bool) -&gt; a:Vector&lt;&#39;?11010&gt; -&gt; bool<br />
+                          <strong>Type parameters:</strong> '?11010                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L943-943" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '210', 210)" onmouseover="showTip(event, '210', 210)">
+            existsR f (n, m)
+          </code>
+          <div class="tip" id="210">
+            <strong>Signature:</strong> f:(int -&gt; bool) -&gt; (n:int * m:int) -&gt; bool<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L920-920" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '211', 211)" onmouseover="showTip(event, '211', 211)">
+            fold2DenseMatrixGU f z a b
+          </code>
+          <div class="tip" id="211">
+            <strong>Signature:</strong> f:(&#39;?11022 -&gt; &#39;?11023 -&gt; &#39;?11024 -&gt; &#39;?11022) -&gt; z:&#39;?11022 -&gt; a:DenseMatrix&lt;&#39;?11023&gt; -&gt; b:DenseMatrix&lt;&#39;?11024&gt; -&gt; &#39;?11022<br />
+                          <strong>Type parameters:</strong> '?11022, '?11023, '?11024                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L966-966" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '212', 212)" onmouseover="showTip(event, '212', 212)">
+            fold2VecGU f z a b
+          </code>
+          <div class="tip" id="212">
+            <strong>Signature:</strong> f:(&#39;?11026 -&gt; &#39;?11027 -&gt; &#39;?11028 -&gt; &#39;?11026) -&gt; z:&#39;?11026 -&gt; a:Vector&lt;&#39;?11027&gt; -&gt; b:Vector&lt;&#39;?11028&gt; -&gt; &#39;?11026<br />
+                          <strong>Type parameters:</strong> '?11026, '?11027, '?11028                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L980-980" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '213', 213)" onmouseover="showTip(event, '213', 213)">
+            foldDenseMatrixGU f z a
+          </code>
+          <div class="tip" id="213">
+            <strong>Signature:</strong> f:(&#39;?10990 -&gt; &#39;?10991 -&gt; &#39;?10990) -&gt; z:&#39;?10990 -&gt; a:DenseMatrix&lt;&#39;?10991&gt; -&gt; &#39;?10990<br />
+                          <strong>Type parameters:</strong> '?10990, '?10991                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L888-888" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '214', 214)" onmouseover="showTip(event, '214', 214)">
+            foldiDenseMatrixGU f z a
+          </code>
+          <div class="tip" id="214">
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10996 -&gt; &#39;?10997 -&gt; &#39;?10996) -&gt; z:&#39;?10996 -&gt; a:DenseMatrix&lt;&#39;?10997&gt; -&gt; &#39;?10996<br />
+                          <strong>Type parameters:</strong> '?10996, '?10997                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L903-903" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '215', 215)" onmouseover="showTip(event, '215', 215)">
+            foldiVecGU f z a
+          </code>
+          <div class="tip" id="215">
+            <strong>Signature:</strong> f:(int -&gt; &#39;?10999 -&gt; &#39;?11000 -&gt; &#39;?10999) -&gt; z:&#39;?10999 -&gt; a:Vector&lt;&#39;?11000&gt; -&gt; &#39;?10999<br />
+                          <strong>Type parameters:</strong> '?10999, '?11000                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L913-913" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '216', 216)" onmouseover="showTip(event, '216', 216)">
+            foldR f z (a, b)
+          </code>
+          <div class="tip" id="216">
+            <strong>Signature:</strong> f:(&#39;a -&gt; int -&gt; &#39;a) -&gt; z:&#39;a -&gt; (a:int * b:int) -&gt; &#39;a<br />
+                          <strong>Type parameters:</strong> 'a                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L639-639" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '217', 217)" onmouseover="showTip(event, '217', 217)">
+            foldVecGU f z a
+          </code>
+          <div class="tip" id="217">
+            <strong>Signature:</strong> f:(&#39;?10993 -&gt; &#39;?10994 -&gt; &#39;?10993) -&gt; z:&#39;?10993 -&gt; a:Vector&lt;&#39;?10994&gt; -&gt; &#39;?10993<br />
+                          <strong>Type parameters:</strong> '?10993, '?10994                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L898-898" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '218', 218)" onmouseover="showTip(event, '218', 218)">
+            foralliDenseMatrixGU pred a
+          </code>
+          <div class="tip" id="218">
+            <strong>Signature:</strong> pred:(int -&gt; int -&gt; &#39;?11004 -&gt; bool) -&gt; a:DenseMatrix&lt;&#39;?11004&gt; -&gt; bool<br />
+                          <strong>Type parameters:</strong> '?11004                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L922-922" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '219', 219)" onmouseover="showTip(event, '219', 219)">
+            foralliVecGU pred a
+          </code>
+          <div class="tip" id="219">
+            <strong>Signature:</strong> pred:(int -&gt; &#39;?11006 -&gt; bool) -&gt; a:Vector&lt;&#39;?11006&gt; -&gt; bool<br />
+                          <strong>Type parameters:</strong> '?11006                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L930-930" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '220', 220)" onmouseover="showTip(event, '220', 220)">
+            forallR f (n, m)
+          </code>
+          <div class="tip" id="220">
+            <strong>Signature:</strong> f:(int -&gt; bool) -&gt; (n:int * m:int) -&gt; bool<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L919-919" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '221', 221)" onmouseover="showTip(event, '221', 221)">
+            genericMulDenseMatrix a b
+          </code>
+          <div class="tip" id="221">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?10904&gt; -&gt; b:DenseMatrix&lt;&#39;?10904&gt; -&gt; DenseMatrix&lt;&#39;?10904&gt;<br />
+                          <strong>Type parameters:</strong> '?10904                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L656-656" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '222', 222)" onmouseover="showTip(event, '222', 222)">
+            genericMulSparse zero add mul a b
+          </code>
+          <div class="tip" id="222">
+            <strong>Signature:</strong> zero:&#39;?10907 -&gt; add:(&#39;?10907 -&gt; &#39;?10907 -&gt; &#39;?10907) -&gt; mul:(&#39;?10907 -&gt; &#39;?10908 -&gt; &#39;?10907) -&gt; a:SparseMatrix&lt;&#39;?10907&gt; -&gt; b:SparseMatrix&lt;&#39;?10908&gt; -&gt; SparseMatrix&lt;&#39;?10907&gt;<br />
+                          <strong>Type parameters:</strong> '?10907, '?10908                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L671-671" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '223', 223)" onmouseover="showTip(event, '223', 223)">
+            getArray2D arrDM i j
+          </code>
+          <div class="tip" id="223">
+            <strong>Signature:</strong> arrDM:&#39;?10766 [,] -&gt; i:int -&gt; j:int -&gt; &#39;?10766<br />
+                          <strong>Type parameters:</strong> '?10766                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L291-291" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '224', 224)" onmouseover="showTip(event, '224', 224)">
+            getNormOps ops
+          </code>
+          <div class="tip" id="224">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;T&gt; -&gt; INormFloat&lt;&#39;T&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L282-282" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '225', 225)" onmouseover="showTip(event, '225', 225)">
+            initSparseMatrixGU maxi maxj ops s
+          </code>
+          <div class="tip" id="225">
+            <strong>Signature:</strong> maxi:int -&gt; maxj:int -&gt; ops:OpsData&lt;&#39;?10800&gt; -&gt; s:seq&lt;int * int * &#39;?10800&gt; -&gt; SparseMatrix&lt;&#39;?10800&gt;<br />
+                          <strong>Type parameters:</strong> '?10800                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L357-357" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Create a matrix from a sparse sequence</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '226', 226)" onmouseover="showTip(event, '226', 226)">
+            inplace_mapiDenseMatrixGU f a
+          </code>
+          <div class="tip" id="226">
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10984 -&gt; &#39;?10984) -&gt; a:DenseMatrix&lt;&#39;?10984&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10984                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L878-878" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '227', 227)" onmouseover="showTip(event, '227', 227)">
+            inplace_mapiRowVecGU f a
+          </code>
+          <div class="tip" id="227">
+            <strong>Signature:</strong> f:(int -&gt; &#39;?10986 -&gt; &#39;?10986) -&gt; a:RowVector&lt;&#39;?10986&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10986                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L882-882" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '228', 228)" onmouseover="showTip(event, '228', 228)">
+            inplace_mapiVecGU f a
+          </code>
+          <div class="tip" id="228">
+            <strong>Signature:</strong> f:(int -&gt; &#39;?10988 -&gt; &#39;?10988) -&gt; a:Vector&lt;&#39;?10988&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10988                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L885-885" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '229', 229)" onmouseover="showTip(event, '229', 229)">
+            inplaceAddDenseMatrixGU a b
+          </code>
+          <div class="tip" id="229">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?11038&gt; -&gt; b:DenseMatrix&lt;&#39;?11038&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11038                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1005-1005" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '230', 230)" onmouseover="showTip(event, '230', 230)">
+            inplaceAddRowVecGU a b
+          </code>
+          <div class="tip" id="230">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?11042&gt; -&gt; b:Vector&lt;&#39;?11042&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11042                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1014-1014" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '231', 231)" onmouseover="showTip(event, '231', 231)">
+            inplaceAddVecGU a b
+          </code>
+          <div class="tip" id="231">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?11040&gt; -&gt; b:Vector&lt;&#39;?11040&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11040                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1010-1010" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '232', 232)" onmouseover="showTip(event, '232', 232)">
+            inplaceCptMulDenseMatrixGU a b
+          </code>
+          <div class="tip" id="232">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?11050&gt; -&gt; b:DenseMatrix&lt;&#39;?11050&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11050                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1031-1031" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '233', 233)" onmouseover="showTip(event, '233', 233)">
+            inplaceCptMulRowVecGU a b
+          </code>
+          <div class="tip" id="233">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?11054&gt; -&gt; b:Vector&lt;&#39;?11054&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11054                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1040-1040" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '234', 234)" onmouseover="showTip(event, '234', 234)">
+            inplaceCptMulVecGU a b
+          </code>
+          <div class="tip" id="234">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?11052&gt; -&gt; b:Vector&lt;&#39;?11052&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11052                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1036-1036" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '235', 235)" onmouseover="showTip(event, '235', 235)">
+            inplaceScaleDenseMatrixGU x a
+          </code>
+          <div class="tip" id="235">
+            <strong>Signature:</strong> x:&#39;?11056 -&gt; a:DenseMatrix&lt;&#39;?11056&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11056                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1044-1044" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '236', 236)" onmouseover="showTip(event, '236', 236)">
+            inplaceScaleRowVecGU x a
+          </code>
+          <div class="tip" id="236">
+            <strong>Signature:</strong> x:&#39;?11060 -&gt; a:RowVector&lt;&#39;?11060&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11060                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1052-1052" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '237', 237)" onmouseover="showTip(event, '237', 237)">
+            inplaceScaleVecGU x a
+          </code>
+          <div class="tip" id="237">
+            <strong>Signature:</strong> x:&#39;?11058 -&gt; a:Vector&lt;&#39;?11058&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11058                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1048-1048" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '238', 238)" onmouseover="showTip(event, '238', 238)">
+            inplaceSubDenseMatrixGU a b
+          </code>
+          <div class="tip" id="238">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?11044&gt; -&gt; b:DenseMatrix&lt;&#39;?11044&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11044                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1018-1018" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '239', 239)" onmouseover="showTip(event, '239', 239)">
+            inplaceSubRowVecGU a b
+          </code>
+          <div class="tip" id="239">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?11048&gt; -&gt; b:Vector&lt;&#39;?11048&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11048                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1027-1027" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '240', 240)" onmouseover="showTip(event, '240', 240)">
+            inplaceSubVecGU a b
+          </code>
+          <div class="tip" id="240">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?11046&gt; -&gt; b:Vector&lt;&#39;?11046&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?11046                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1023-1023" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '241', 241)" onmouseover="showTip(event, '241', 241)">
+            listDenseMatrixGU ops xss
+          </code>
+          <div class="tip" id="241">
+            <strong>Signature:</strong> ops:OpsData&lt;&#39;?10810&gt; -&gt; xss:&#39;?10810 list list -&gt; DenseMatrix&lt;&#39;?10810&gt;<br />
+                          <strong>Type parameters:</strong> '?10810                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L418-418" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '242', 242)" onmouseover="showTip(event, '242', 242)">
+            listRowVecGU ops xs
+          </code>
+          <div class="tip" id="242">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10816&gt; option -&gt; xs:&#39;?10816 list -&gt; RowVector&lt;&#39;?10816&gt;<br />
+                          <strong>Type parameters:</strong> '?10816                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L441-441" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '243', 243)" onmouseover="showTip(event, '243', 243)">
+            listVecGU ops xs
+          </code>
+          <div class="tip" id="243">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10814&gt; option -&gt; xs:&#39;?10814 list -&gt; Vector&lt;&#39;?10814&gt;<br />
+                          <strong>Type parameters:</strong> '?10814                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L440-440" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '244', 244)" onmouseover="showTip(event, '244', 244)">
+            map2VecGU f a b
+          </code>
+          <div class="tip" id="244">
+            <strong>Signature:</strong> f:(&#39;a -&gt; &#39;a -&gt; &#39;a) -&gt; a:Vector&lt;&#39;a&gt; -&gt; b:Vector&lt;&#39;a&gt; -&gt; Vector&lt;&#39;a&gt;<br />
+                          <strong>Type parameters:</strong> 'a                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L844-844" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '245', 245)" onmouseover="showTip(event, '245', 245)">
+            mapDenseMatrixGU f a
+          </code>
+          <div class="tip" id="245">
+            <strong>Signature:</strong> f:(&#39;T -&gt; &#39;T) -&gt; a:DenseMatrix&lt;&#39;T&gt; -&gt; DenseMatrix&lt;&#39;T&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L836-836" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '246', 246)" onmouseover="showTip(event, '246', 246)">
+            mapiDenseMatrixGU f a
+          </code>
+          <div class="tip" id="246">
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;T -&gt; &#39;T) -&gt; a:DenseMatrix&lt;&#39;T&gt; -&gt; DenseMatrix&lt;&#39;T&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L862-862" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '247', 247)" onmouseover="showTip(event, '247', 247)">
+            mapiRowVecGU f a
+          </code>
+          <div class="tip" id="247">
+            <strong>Signature:</strong> f:(int -&gt; &#39;?10976 -&gt; &#39;?10976) -&gt; a:RowVector&lt;&#39;?10976&gt; -&gt; RowVector&lt;&#39;?10976&gt;<br />
+                          <strong>Type parameters:</strong> '?10976                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L866-866" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '248', 248)" onmouseover="showTip(event, '248', 248)">
+            mapiVecGU f a
+          </code>
+          <div class="tip" id="248">
+            <strong>Signature:</strong> f:(int -&gt; &#39;?10978 -&gt; &#39;?10978) -&gt; a:Vector&lt;&#39;?10978&gt; -&gt; Vector&lt;&#39;?10978&gt;<br />
+                          <strong>Type parameters:</strong> '?10978                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L869-869" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '249', 249)" onmouseover="showTip(event, '249', 249)">
+            mapR f (n, m)
+          </code>
+          <div class="tip" id="249">
+            <strong>Signature:</strong> f:(int -&gt; &#39;?11066) -&gt; (n:int * m:int) -&gt; &#39;?11066 list<br />
+                          <strong>Type parameters:</strong> '?11066                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1070-1070" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '250', 250)" onmouseover="showTip(event, '250', 250)">
+            mapVecGU f a
+          </code>
+          <div class="tip" id="250">
+            <strong>Signature:</strong> f:(&#39;?10962 -&gt; &#39;?10962) -&gt; a:Vector&lt;&#39;?10962&gt; -&gt; Vector&lt;&#39;?10962&gt;<br />
+                          <strong>Type parameters:</strong> '?10962                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L840-840" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '251', 251)" onmouseover="showTip(event, '251', 251)">
+            mkDenseMatrixGU ops arr
+          </code>
+          <div class="tip" id="251">
+            <strong>Signature:</strong> ops:OpsData&lt;&#39;?10760&gt; -&gt; arr:&#39;?10760 [,] -&gt; DenseMatrix&lt;&#39;?10760&gt;<br />
+                          <strong>Type parameters:</strong> '?10760                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L287-287" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '252', 252)" onmouseover="showTip(event, '252', 252)">
+            mkRowVecGU ops arr
+          </code>
+          <div class="tip" id="252">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10762&gt; option -&gt; arr:&#39;?10762 array -&gt; RowVector&lt;&#39;?10762&gt;<br />
+                          <strong>Type parameters:</strong> '?10762                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L288-288" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '253', 253)" onmouseover="showTip(event, '253', 253)">
+            mkVecGU ops arr
+          </code>
+          <div class="tip" id="253">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10764&gt; option -&gt; arr:&#39;?10764 array -&gt; Vector&lt;&#39;?10764&gt;<br />
+                          <strong>Type parameters:</strong> '?10764                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L289-289" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '254', 254)" onmouseover="showTip(event, '254', 254)">
+            mul ops x y
+          </code>
+          <div class="tip" id="254">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;T&gt; -&gt; x:&#39;T -&gt; y:&#39;T -&gt; &#39;T<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L637-637" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '255', 255)" onmouseover="showTip(event, '255', 255)">
+            mulDenseMatrixVecGU a b
+          </code>
+          <div class="tip" id="255">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?10922&gt; -&gt; b:Vector&lt;&#39;?10922&gt; -&gt; Vector&lt;&#39;?10922&gt;<br />
+                          <strong>Type parameters:</strong> '?10922                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L774-774" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '256', 256)" onmouseover="showTip(event, '256', 256)">
+            mulRowVecDenseMatrixGU a b
+          </code>
+          <div class="tip" id="256">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?10920&gt; -&gt; b:DenseMatrix&lt;&#39;?10920&gt; -&gt; RowVector&lt;&#39;?10920&gt;<br />
+                          <strong>Type parameters:</strong> '?10920                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L763-763" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '257', 257)" onmouseover="showTip(event, '257', 257)">
+            mulRowVecVecGU a b
+          </code>
+          <div class="tip" id="257">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?10912&gt; -&gt; b:Vector&lt;&#39;?10912&gt; -&gt; &#39;?10912<br />
+                          <strong>Type parameters:</strong> '?10912                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L751-751" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '258', 258)" onmouseover="showTip(event, '258', 258)">
+            mulRVSparseMatrixGU a b
+          </code>
+          <div class="tip" id="258">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?10926&gt; -&gt; b:SparseMatrix&lt;&#39;?10926&gt; -&gt; RowVector&lt;&#39;?10926&gt;<br />
+                          <strong>Type parameters:</strong> '?10926                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L800-800" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '259', 259)" onmouseover="showTip(event, '259', 259)">
+            mulSparseMatrixGU a b
+          </code>
+          <div class="tip" id="259">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10910&gt; -&gt; b:SparseMatrix&lt;&#39;?10910&gt; -&gt; SparseMatrix&lt;&#39;?10910&gt;<br />
+                          <strong>Type parameters:</strong> '?10910                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L745-745" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '260', 260)" onmouseover="showTip(event, '260', 260)">
+            mulSparseVecGU a b
+          </code>
+          <div class="tip" id="260">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10924&gt; -&gt; b:Vector&lt;&#39;?10924&gt; -&gt; Vector&lt;&#39;?10924&gt;<br />
+                          <strong>Type parameters:</strong> '?10924                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L785-785" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '261', 261)" onmouseover="showTip(event, '261', 261)">
+            mulVecRowVecGU a b
+          </code>
+          <div class="tip" id="261">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?10918&gt; -&gt; b:RowVector&lt;&#39;?10918&gt; -&gt; DenseMatrix&lt;&#39;?10918&gt;<br />
+                          <strong>Type parameters:</strong> '?10918                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L761-761" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '262', 262)" onmouseover="showTip(event, '262', 262)">
+            negDenseMatrixGU a
+          </code>
+          <div class="tip" id="262">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?10952&gt; -&gt; DenseMatrix&lt;&#39;?10952&gt;<br />
+                          <strong>Type parameters:</strong> '?10952                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L831-831" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '263', 263)" onmouseover="showTip(event, '263', 263)">
+            negRowVecGU a
+          </code>
+          <div class="tip" id="263">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?10954&gt; -&gt; RowVector&lt;&#39;?10954&gt;<br />
+                          <strong>Type parameters:</strong> '?10954                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L832-832" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '264', 264)" onmouseover="showTip(event, '264', 264)">
+            negSparseMatrixGU a
+          </code>
+          <div class="tip" id="264">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10958&gt; -&gt; SparseMatrix&lt;&#39;?10958&gt;<br />
+                          <strong>Type parameters:</strong> '?10958                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L834-834" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '265', 265)" onmouseover="showTip(event, '265', 265)">
+            negVecGU a
+          </code>
+          <div class="tip" id="265">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?10956&gt; -&gt; Vector&lt;&#39;?10956&gt;<br />
+                          <strong>Type parameters:</strong> '?10956                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L833-833" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '266', 266)" onmouseover="showTip(event, '266', 266)">
+            nonzeroEntriesDenseMatrixGU a
+          </code>
+          <div class="tip" id="266">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?10837&gt; -&gt; seq&lt;int * int * &#39;?10837&gt;<br />
+                          <strong>Type parameters:</strong> '?10837                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L512-512" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '267', 267)" onmouseover="showTip(event, '267', 267)">
+            nonZeroEntriesSparseMatrixGU a
+          </code>
+          <div class="tip" id="267">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10835&gt; -&gt; seq&lt;int32 * int * &#39;?10835&gt;<br />
+                          <strong>Type parameters:</strong> '?10835                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L495-495" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '268', 268)" onmouseover="showTip(event, '268', 268)">
+            normDenseMatrixGU a
+          </code>
+          <div class="tip" id="268">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?11034&gt; -&gt; float&lt;MeasureOne&gt;<br />
+                          <strong>Type parameters:</strong> '?11034                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L997-997" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '269', 269)" onmouseover="showTip(event, '269', 269)">
+            normSparseMatrixGU a
+          </code>
+          <div class="tip" id="269">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?11036&gt; -&gt; float&lt;MeasureOne&gt;<br />
+                          <strong>Type parameters:</strong> '?11036                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1001-1001" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '270', 270)" onmouseover="showTip(event, '270', 270)">
+            opsOfOpsData d
+          </code>
+          <div class="tip" id="270">
+            <strong>Signature:</strong> d:OpsData&lt;&#39;T&gt; -&gt; INumeric&lt;&#39;T&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L277-277" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '271', 271)" onmouseover="showTip(event, '271', 271)">
+            permuteRowVecGU p a
+          </code>
+          <div class="tip" id="271">
+            <strong>Signature:</strong> p:permutation -&gt; a:RowVector&lt;&#39;?10982&gt; -&gt; RowVector&lt;&#39;?10982&gt;<br />
+                          <strong>Type parameters:</strong> '?10982                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L875-875" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '272', 272)" onmouseover="showTip(event, '272', 272)">
+            permuteVecGU p a
+          </code>
+          <div class="tip" id="272">
+            <strong>Signature:</strong> p:permutation -&gt; a:Vector&lt;&#39;?10980&gt; -&gt; Vector&lt;&#39;?10980&gt;<br />
+                          <strong>Type parameters:</strong> '?10980                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L872-872" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '273', 273)" onmouseover="showTip(event, '273', 273)">
+            primShowDenseMatrixGU (sepX, sepR) a
+          </code>
+          <div class="tip" id="273">
+            <strong>Signature:</strong> (sepX:string * sepR:string) -&gt; a:DenseMatrix&lt;&#39;e&gt; -&gt; string<br />
+                          <strong>Type parameters:</strong> 'e                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1072-1072" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '274', 274)" onmouseover="showTip(event, '274', 274)">
+            prodDenseMatrixGU a
+          </code>
+          <div class="tip" id="274">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?11018&gt; -&gt; &#39;?11018<br />
+                          <strong>Type parameters:</strong> '?11018                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L960-960" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '275', 275)" onmouseover="showTip(event, '275', 275)">
+            prodSparseMatrixGU a
+          </code>
+          <div class="tip" id="275">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?11020&gt; -&gt; &#39;?11020<br />
+                          <strong>Type parameters:</strong> '?11020                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L964-964" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '276', 276)" onmouseover="showTip(event, '276', 276)">
+            rowvecDenseMatrixGU x
+          </code>
+          <div class="tip" id="276">
+            <strong>Signature:</strong> x:RowVector&lt;&#39;?10914&gt; -&gt; DenseMatrix&lt;&#39;?10914&gt;<br />
+                          <strong>Type parameters:</strong> '?10914                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L758-758" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '277', 277)" onmouseover="showTip(event, '277', 277)">
+            scaleDenseMatrixGU k a
+          </code>
+          <div class="tip" id="277">
+            <strong>Signature:</strong> k:&#39;?10928 -&gt; a:DenseMatrix&lt;&#39;?10928&gt; -&gt; DenseMatrix&lt;&#39;?10928&gt;<br />
+                          <strong>Type parameters:</strong> '?10928                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L816-816" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '278', 278)" onmouseover="showTip(event, '278', 278)">
+            scaleRowVecGU k a
+          </code>
+          <div class="tip" id="278">
+            <strong>Signature:</strong> k:&#39;?10930 -&gt; a:RowVector&lt;&#39;?10930&gt; -&gt; RowVector&lt;&#39;?10930&gt;<br />
+                          <strong>Type parameters:</strong> '?10930                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L817-817" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '279', 279)" onmouseover="showTip(event, '279', 279)">
+            scaleSparseMatrixGU k a
+          </code>
+          <div class="tip" id="279">
+            <strong>Signature:</strong> k:&#39;?10934 -&gt; a:SparseMatrix&lt;&#39;?10934&gt; -&gt; SparseMatrix&lt;&#39;?10934&gt;<br />
+                          <strong>Type parameters:</strong> '?10934                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L819-819" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '280', 280)" onmouseover="showTip(event, '280', 280)">
+            scaleVecGU k a
+          </code>
+          <div class="tip" id="280">
+            <strong>Signature:</strong> k:&#39;?10932 -&gt; a:Vector&lt;&#39;?10932&gt; -&gt; Vector&lt;&#39;?10932&gt;<br />
+                          <strong>Type parameters:</strong> '?10932                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L818-818" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '281', 281)" onmouseover="showTip(event, '281', 281)">
+            seqDenseMatrixGU ops xss
+          </code>
+          <div class="tip" id="281">
+            <strong>Signature:</strong> ops:OpsData&lt;&#39;?10818&gt; -&gt; xss:seq&lt;&#39;?10819&gt; -&gt; DenseMatrix&lt;&#39;?10818&gt;<br />
+                          <strong>Type parameters:</strong> '?10818, '?10819                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L443-443" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '282', 282)" onmouseover="showTip(event, '282', 282)">
+            seqRowVecGU ops xss
+          </code>
+          <div class="tip" id="282">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10826&gt; option -&gt; xss:seq&lt;&#39;?10826&gt; -&gt; RowVector&lt;&#39;?10826&gt;<br />
+                          <strong>Type parameters:</strong> '?10826                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L464-464" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '283', 283)" onmouseover="showTip(event, '283', 283)">
+            seqVecGU ops xss
+          </code>
+          <div class="tip" id="283">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10824&gt; option -&gt; xss:seq&lt;&#39;?10824&gt; -&gt; Vector&lt;&#39;?10824&gt;<br />
+                          <strong>Type parameters:</strong> '?10824                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L463-463" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '284', 284)" onmouseover="showTip(event, '284', 284)">
+            setArray2D arrDM i j x
+          </code>
+          <div class="tip" id="284">
+            <strong>Signature:</strong> arrDM:&#39;?10768 [,] -&gt; i:int -&gt; j:int -&gt; x:&#39;?10768 -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10768                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L292-292" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '285', 285)" onmouseover="showTip(event, '285', 285)">
+            showDenseMatrixGU m
+          </code>
+          <div class="tip" id="285">
+            <strong>Signature:</strong> m:DenseMatrix&lt;&#39;?11070&gt; -&gt; string<br />
+                          <strong>Type parameters:</strong> '?11070                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1079-1079" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '286', 286)" onmouseover="showTip(event, '286', 286)">
+            showItem opsData x
+          </code>
+          <div class="tip" id="286">
+            <strong>Signature:</strong> opsData:OpsData&lt;&#39;?11064&gt; -&gt; x:&#39;?11064 -&gt; string<br />
+                          <strong>Type parameters:</strong> '?11064                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1064-1064" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '287', 287)" onmouseover="showTip(event, '287', 287)">
+            showRowVecGU s a
+          </code>
+          <div class="tip" id="287">
+            <strong>Signature:</strong> s:string -&gt; a:RowVector&lt;&#39;?11076&gt; -&gt; string<br />
+                          <strong>Type parameters:</strong> '?11076                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1087-1087" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '288', 288)" onmouseover="showTip(event, '288', 288)">
+            showVecGU s a
+          </code>
+          <div class="tip" id="288">
+            <strong>Signature:</strong> s:string -&gt; a:Vector&lt;&#39;?11074&gt; -&gt; string<br />
+                          <strong>Type parameters:</strong> '?11074                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1082-1082" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '289', 289)" onmouseover="showTip(event, '289', 289)">
+            sub ops x y
+          </code>
+          <div class="tip" id="289">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;T&gt; -&gt; x:&#39;T -&gt; y:&#39;T -&gt; &#39;T<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L636-636" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '290', 290)" onmouseover="showTip(event, '290', 290)">
+            subDenseMatrixGU a b
+          </code>
+          <div class="tip" id="290">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?10865&gt; -&gt; b:DenseMatrix&lt;&#39;?10865&gt; -&gt; DenseMatrix&lt;&#39;?10865&gt;<br />
+                          <strong>Type parameters:</strong> '?10865                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L616-616" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '291', 291)" onmouseover="showTip(event, '291', 291)">
+            subRowVecGU a b
+          </code>
+          <div class="tip" id="291">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?10869&gt; -&gt; b:RowVector&lt;&#39;?10869&gt; -&gt; RowVector&lt;&#39;?10869&gt;<br />
+                          <strong>Type parameters:</strong> '?10869                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L618-618" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '292', 292)" onmouseover="showTip(event, '292', 292)">
+            subScalarDenseMatrixGU k a
+          </code>
+          <div class="tip" id="292">
+            <strong>Signature:</strong> k:&#39;?10944 -&gt; a:DenseMatrix&lt;&#39;?10944&gt; -&gt; DenseMatrix&lt;&#39;?10944&gt;<br />
+                          <strong>Type parameters:</strong> '?10944                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L826-826" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '293', 293)" onmouseover="showTip(event, '293', 293)">
+            subScalarRowVecGU k a
+          </code>
+          <div class="tip" id="293">
+            <strong>Signature:</strong> k:&#39;?10946 -&gt; a:RowVector&lt;&#39;?10946&gt; -&gt; RowVector&lt;&#39;?10946&gt;<br />
+                          <strong>Type parameters:</strong> '?10946                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L827-827" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '294', 294)" onmouseover="showTip(event, '294', 294)">
+            subScalarSparseMatrixGU k a
+          </code>
+          <div class="tip" id="294">
+            <strong>Signature:</strong> k:&#39;?10950 -&gt; a:SparseMatrix&lt;&#39;?10950&gt; -&gt; SparseMatrix&lt;&#39;?10950&gt;<br />
+                          <strong>Type parameters:</strong> '?10950                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L829-829" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '295', 295)" onmouseover="showTip(event, '295', 295)">
+            subScalarVecGU k a
+          </code>
+          <div class="tip" id="295">
+            <strong>Signature:</strong> k:&#39;?10948 -&gt; a:Vector&lt;&#39;?10948&gt; -&gt; Vector&lt;&#39;?10948&gt;<br />
+                          <strong>Type parameters:</strong> '?10948                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L828-828" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '296', 296)" onmouseover="showTip(event, '296', 296)">
+            subSparseMatrixGU a b
+          </code>
+          <div class="tip" id="296">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10867&gt; -&gt; b:SparseMatrix&lt;&#39;?10867&gt; -&gt; SparseMatrix&lt;&#39;?10867&gt;<br />
+                          <strong>Type parameters:</strong> '?10867                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L617-617" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '297', 297)" onmouseover="showTip(event, '297', 297)">
+            subVecGU a b
+          </code>
+          <div class="tip" id="297">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?10871&gt; -&gt; b:Vector&lt;&#39;?10871&gt; -&gt; Vector&lt;&#39;?10871&gt;<br />
+                          <strong>Type parameters:</strong> '?10871                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L619-619" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '298', 298)" onmouseover="showTip(event, '298', 298)">
+            sumDenseMatrixGU a
+          </code>
+          <div class="tip" id="298">
+            <strong>Signature:</strong> a:DenseMatrix&lt;&#39;?11012&gt; -&gt; &#39;?11012<br />
+                          <strong>Type parameters:</strong> '?11012                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L948-948" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '299', 299)" onmouseover="showTip(event, '299', 299)">
+            sumfR f (a, b)
+          </code>
+          <div class="tip" id="299">
+            <strong>Signature:</strong> f:(int -&gt; float&lt;MeasureOne&gt;) -&gt; (a:int * b:int) -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L645-645" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '300', 300)" onmouseover="showTip(event, '300', 300)">
+            sumRGU ops f (arg3, arg4)
+          </code>
+          <div class="tip" id="300">
+            <strong>Signature:</strong> ops:INumeric&lt;&#39;?10902&gt; -&gt; f:(int -&gt; &#39;?10902) -&gt; (int * int) -&gt; &#39;?10902<br />
+                          <strong>Type parameters:</strong> '?10902                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L652-652" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '301', 301)" onmouseover="showTip(event, '301', 301)">
+            sumSparseMatrixGU a
+          </code>
+          <div class="tip" id="301">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?11014&gt; -&gt; &#39;?11014<br />
+                          <strong>Type parameters:</strong> '?11014                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L952-952" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '302', 302)" onmouseover="showTip(event, '302', 302)">
+            sumVecGU a
+          </code>
+          <div class="tip" id="302">
+            <strong>Signature:</strong> a:Vector&lt;&#39;?11016&gt; -&gt; &#39;?11016<br />
+                          <strong>Type parameters:</strong> '?11016                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L956-956" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '303', 303)" onmouseover="showTip(event, '303', 303)">
+            toDenseSparseMatrixGU a
+          </code>
+          <div class="tip" id="303">
+            <strong>Signature:</strong> a:SparseMatrix&lt;&#39;?10972&gt; -&gt; DenseMatrix&lt;&#39;?10972&gt;<br />
+                          <strong>Type parameters:</strong> '?10972                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L859-859" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '304', 304)" onmouseover="showTip(event, '304', 304)">
+            unaryOpDenseMatrixGU f a
+          </code>
+          <div class="tip" id="304">
+            <strong>Signature:</strong> f:(&#39;?10847 -&gt; &#39;?10847) -&gt; a:DenseMatrix&lt;&#39;?10847&gt; -&gt; DenseMatrix&lt;&#39;?10847&gt;<br />
+                          <strong>Type parameters:</strong> '?10847                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L579-579" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '305', 305)" onmouseover="showTip(event, '305', 305)">
+            unaryOpRowVecGU f a
+          </code>
+          <div class="tip" id="305">
+            <strong>Signature:</strong> f:(&#39;?10849 -&gt; &#39;?10849) -&gt; a:RowVector&lt;&#39;?10849&gt; -&gt; RowVector&lt;&#39;?10849&gt;<br />
+                          <strong>Type parameters:</strong> '?10849                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L585-585" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '306', 306)" onmouseover="showTip(event, '306', 306)">
+            unaryOpSparseGU f a
+          </code>
+          <div class="tip" id="306">
+            <strong>Signature:</strong> f:(&#39;?10853 -&gt; &#39;?10853) -&gt; a:SparseMatrix&lt;&#39;?10853&gt; -&gt; SparseMatrix&lt;&#39;?10853&gt;<br />
+                          <strong>Type parameters:</strong> '?10853                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L595-595" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '307', 307)" onmouseover="showTip(event, '307', 307)">
+            unaryOpVectorGU f a
+          </code>
+          <div class="tip" id="307">
+            <strong>Signature:</strong> f:(&#39;?10851 -&gt; &#39;?10851) -&gt; a:Vector&lt;&#39;?10851&gt; -&gt; Vector&lt;&#39;?10851&gt;<br />
+                          <strong>Type parameters:</strong> '?10851                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L590-590" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '308', 308)" onmouseover="showTip(event, '308', 308)">
+            vectorDenseMatrixGU x
+          </code>
+          <div class="tip" id="308">
+            <strong>Signature:</strong> x:Vector&lt;&#39;?10916&gt; -&gt; DenseMatrix&lt;&#39;?10916&gt;<br />
+                          <strong>Type parameters:</strong> '?10916                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L759-759" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '309', 309)" onmouseover="showTip(event, '309', 309)">
+            wrapList (pre, mid, post, trim) show l
+          </code>
+          <div class="tip" id="309">
+            <strong>Signature:</strong> (pre:string * mid:string * post:string * trim:bool) -&gt; show:(&#39;?11062 -&gt; string) -&gt; l:&#39;?11062 list -&gt; string list<br />
+                          <strong>Type parameters:</strong> '?11062                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L1057-1057" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '310', 310)" onmouseover="showTip(event, '310', 310)">
+            zeroizeArray opsData arr m
+          </code>
+          <div class="tip" id="310">
+            <strong>Signature:</strong> opsData:OpsData&lt;&#39;?10804&gt; -&gt; arr:&#39;?10804 [] -&gt; m:int -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10804                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L403-403" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '311', 311)" onmouseover="showTip(event, '311', 311)">
+            zeroizeDenseMatrixGUA arr m n
+          </code>
+          <div class="tip" id="311">
+            <strong>Signature:</strong> arr:&#39;T [,] -&gt; m:int -&gt; n:int -&gt; DenseMatrix&lt;&#39;T&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L396-396" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '312', 312)" onmouseover="showTip(event, '312', 312)">
+            zeroizeRowVecGUA arr m
+          </code>
+          <div class="tip" id="312">
+            <strong>Signature:</strong> arr:&#39;T [] -&gt; m:int -&gt; RowVector&lt;&#39;T&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L413-413" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '313', 313)" onmouseover="showTip(event, '313', 313)">
+            zeroizeVecGUA arr m
+          </code>
+          <div class="tip" id="313">
+            <strong>Signature:</strong> arr:&#39;T [] -&gt; m:int -&gt; Vector&lt;&#39;T&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L408-408" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">FSharp.Stats</li>
+            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+            <li><a href="/FSharp.Stats/license.html">License</a></li>
+            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+			<li class="nav-header">Basic</li>
+			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
+			</li>
+			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
+			<li class="divider"></li>
+			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+			  </li>
+			<li class="divider"></li>
+			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
+			</li>
+			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
+			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
+			</li>
+			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
+			</li>
+			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
+			</li>
+			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+			</li>
+			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+			  </li>
+
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>
