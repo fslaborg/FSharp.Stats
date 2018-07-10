@@ -198,13 +198,13 @@ module SAM =
 
 
     ///Finds all pairs of asymmetric cutoffs according to the differences between di and dEi
-    let getAsymmetricCuts (di : SAM [])  (dei : SAM []) =
+    let getAsymmetricCuts (di : SAM [])  (dei : SAM [])=
         let getDelta (_,_,delta) = delta
         let getDi (di,_,_) = di
         let replaceDeltaAbs (disA,deisA,deltaA) (disB,deisB,deltaB) = (disA,deisA,(abs deltaB))
         let di'  = di |> Array.sortBy (fun x -> x.Statistics)
         let dei' = dei |> Array.sortBy (fun x -> x.Statistics)
-        let ups,los' =
+        let ups,los =
             Array.zip di' dei'
             |> Array.map (fun (di,dei) -> di.Statistics,dei.Statistics, (di.Statistics - dei.Statistics))
             |> Array.partition (fun (dis,deis,delta) -> deis >= 0.)
@@ -214,7 +214,7 @@ module SAM =
                 ups.[i] <- replaceDeltaAbs ups.[i] ups.[i-1]
                 
         // monoton increase los (inplace)
-        let los= los'|> Array.map (fun (a,b,c) -> a,b, abs c)
+        let los'= los|> Array.map (fun (a,b,c) -> a,b, abs c)
         for i=1 to los.Length-1 do
             if getDelta los.[i] > getDelta los.[i-1] then
                 los.[i] <- replaceDeltaAbs los.[i] los.[i-1]
@@ -233,9 +233,9 @@ module SAM =
                         cur |> Array.minBy (fun (dis,deis,delta)-> delta )
                 x,y)
         
-        let cutsFromUp  = cuts ups los |> Array.map (fun (a,b) -> getDi a, getDi b )
+        let cutsFromUp  = cuts ups los' |> Array.map (fun (a,b) -> getDi a, getDi b )
 
-        let cutsFromLow = cuts los ups |> Array.map (fun (a,b) -> getDi b, getDi a )
+        let cutsFromLow = cuts los' ups |> Array.map (fun (a,b) -> getDi b, getDi a )
         [|cutsFromUp;cutsFromLow|]|> Array.concat |> Array.distinct
         
 
