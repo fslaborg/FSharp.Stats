@@ -204,7 +204,7 @@ module SAM =
         let replaceDeltaAbs (disA,deisA,deltaA) (disB,deisB,deltaB) = (disA,deisA,(abs deltaB))
         let di'  = di |> Array.sortBy (fun x -> x.Statistics)
         let dei' = dei |> Array.sortBy (fun x -> x.Statistics)
-        let ups,los' =
+        let ups,los =
             Array.zip di' dei'
             |> Array.map (fun (di,dei) -> di.Statistics,dei.Statistics, (di.Statistics - dei.Statistics))
             |> Array.partition (fun (dis,deis,delta) -> deis >= 0.)
@@ -214,14 +214,14 @@ module SAM =
                 ups.[i] <- replaceDeltaAbs ups.[i] ups.[i-1]
                 
         // monoton increase los (inplace)
-        let los= los'|> Array.map (fun (a,b,c) -> a,b, abs c)
-        for i=1 to los.Length-1 do
-            if getDelta los.[i] > getDelta los.[i-1] then
-                los.[i] <- replaceDeltaAbs los.[i] los.[i-1]
+        let los' = los |> Array.map (fun (a,b,c) -> a,b, abs c)
+        for i=1 to los'.Length-1 do
+            if getDelta los'.[i] > getDelta los'.[i-1] then
+                los'.[i] <- replaceDeltaAbs los'.[i] los.[i-1]
         // find the matching cutoffs
         let cuts set1 set2=
             set1
-            |>Array.map (fun x -> 
+            |> Array.map (fun x -> 
                 let cur =
                     set2
                     |> Array.filter (fun (dis,deis,delta) -> delta >= (getDelta x) )
@@ -233,9 +233,9 @@ module SAM =
                         cur |> Array.minBy (fun (dis,deis,delta)-> delta )
                 x,y)
         
-        let cutsFromUp  = cuts ups los |> Array.map (fun (a,b) -> getDi a, getDi b )
-
-        let cutsFromLow = cuts los ups |> Array.map (fun (a,b) -> getDi b, getDi a )
+        let cutsFromUp  = cuts ups los' |> Array.map (fun (a,b) -> getDi a, getDi b )
+        let cutsFromLow = cuts los' ups |> Array.map (fun (a,b) -> getDi b, getDi a )
+        
         [|cutsFromUp;cutsFromLow|]|> Array.concat |> Array.distinct
         
 
@@ -366,17 +366,16 @@ module SAM =
                 loop source
 
 
-            let si    = tt |> Array.map (fun t -> t.Si)
-            let stats = tt |> Array.map (fun t -> t.Statistics)
+            let si = tt |> Array.map (fun t -> t.Si)
+            let di = tt |> Array.map (fun t -> t.Statistics)
+            let si' = Array.copy si
             let s0percentile= [|0. .. 0.05 .. 1.|] 
-            let br = [|0. .. 0.01 .. 1.|] |> Array.map (fun p -> Quantile.InPlace.modeInPLace p si)            
-
+            let br = [|0. .. 0.01 .. 1.|] |> Array.map (fun p -> Quantile.InPlace.modeInPLace p si')            
             let cvSd =
-                let tmp = Seq.zip si stats
+                let tmp = Seq.zip si di
                 s0percentile
                 |> Array.map (fun k -> 
-                    let w  = Quantile.InPlace.modeInPLace k si
-                    // Calc corrected test statistic
+                    let w  = if k = 0. then 0. else Quantile.InPlace.modeInPLace k si'
                     let mads = 
                         bind (fun a b -> fst b < a) br tmp
                         |> Seq.map (fun v ->
@@ -384,12 +383,13 @@ module SAM =
                             |> Seq.map (fun (t,s) -> t * s / (s + w))
                             |> Seq.medianAbsoluteDev                            
                             )
-                        |> Seq.toArray                                            
+                        |> Seq.toArray  
+                        |> Array.map (fun (x) ->if nan.Equals(x) then 100. else x)
                     k, Seq.stDev mads / Array.median mads
                     )
-                                
-            let pMinCvSd = cvSd |> Array.minBy snd |> fst // kleinste oder größte quantile mit kleinster cv
-            Quantile.InPlace.modeInPLace pMinCvSd si
+ 
+            let pMinCvSd = cvSd |> Array.minBy snd |> fst 
+            Quantile.InPlace.modeInPLace pMinCvSd si'
 
 
         /// Estimates s0 from given data set. Chosen to minimize the coefficient of variation of the test statistics 
