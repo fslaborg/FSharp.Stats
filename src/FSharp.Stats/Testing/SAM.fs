@@ -198,7 +198,7 @@ module SAM =
 
 
     ///Finds all pairs of asymmetric cutoffs according to the differences between di and dEi
-    let getAsymmetricCuts (di : SAM [])  (dei : SAM [])=
+    let getAsymmetricCuts (di : SAM [])  (dei : SAM []) =
         let getDelta (_,_,delta) = delta
         let getDi (di,_,_) = di
         let replaceDeltaAbs (disA,deisA,deltaA) (disB,deisB,deltaB) = (disA,deisA,(abs deltaB))
