@@ -275,7 +275,8 @@ module SAM =
         let convertIndex' (arr: _ [])  (i:int) =
             if i < 0 then
                 let i' = (~~~i)
-                if i' < 0 then arr.[0] else arr.[i']
+                if i' < 0 then arr.[0] else
+                    if i' >= arr.Length then arr.[arr.Length-1] else arr.[i']
             else
                 if i >= arr.Length then arr.[arr.Length-1] else arr.[i]
                                 
