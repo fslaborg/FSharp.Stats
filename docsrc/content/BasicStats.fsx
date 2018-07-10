@@ -1,9 +1,9 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/FSharp.Stats/net461"
-#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
-open FSharp.Plotly
+#I "../../bin/FSharp.Stats/netstandard2.0"
+//#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
+//open FSharp.Plotly
 (**
 Basic stats
 =========================
@@ -127,7 +127,9 @@ let stdevTv' =
     |> var
     
 
-
+let med = 
+    [|1.2; 1.2; nan; 24.; 6.; 23.4; 47.; 24.; 54.; nan;|]
+    |> Array.median
 
 
 

@@ -212,7 +212,7 @@ module SAM =
         for i=1 to ups.Length-1 do
             if getDelta ups.[i] < getDelta ups.[i-1] then
                 ups.[i] <- replaceDeltaAbs ups.[i] ups.[i-1]
-
+                
         // monoton increase los (inplace)
         let los= los'|> Array.map (fun (a,b,c) -> a,b, abs c)
         for i=1 to los.Length-1 do
