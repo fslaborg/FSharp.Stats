@@ -193,6 +193,46 @@ module SAM =
             dis |> countIf (fun x -> q25 < x.Statistics && x.Statistics < q75)
 
         float notSig / (0.5 * float dis.Length)
+
+
+    ///Finds all pairs of asymmetric cutoffs according to the differences between di and dEi
+    let getAsymmetricCuts (di : SAM [])  (dei : SAM [])=
+        let getDelta (_,_,delta) = delta
+        let replaceDelta (disA,deisA,deltaA) (disB,deisB,deltaB) = (disA,deisA,deltaB)
+
+        let di'  = di |> Array.sortBy (fun x -> x.Statistics)
+        let dei' = dei |> Array.sortBy (fun x -> x.Statistics)
+        let ups,los =
+            Array.zip di' dei'
+            |> Array.map (fun (di,dei) -> di.Statistics,dei.Statistics, abs (di.Statistics - dei.Statistics))
+            |> Array.partition (fun (dis,deis,delta) -> deis >= 0.)
+        // monoton increase ups (inplace)
+        for i=1 to ups.Length-1 do
+            if getDelta ups.[i] > getDelta ups.[i-1] then
+                ups.[i] <- replaceDelta ups.[i] ups.[i-1]
+        // monoton increase los (inplace)
+        for i=1 to los.Length-1 do
+            if getDelta los.[i] < getDelta los.[i-1] then
+                los.[i] <- replaceDelta ups.[i] ups.[i-1]
+        // find the matching cutoffs
+        let cuts set1 set2=
+            set1
+            |>Array.map (fun x -> 
+                let cur =
+                    set2
+                    |> Array.filter (fun (dis,deis,delta) -> delta >= (getDelta x) )
+                let y =
+                    if Array.isEmpty cur then
+                        let (dis,deis,delta) = x 
+                        (dis,deis,(set1 |> Array.maxBy getDelta |> getDelta))
+                    else
+                        cur |> Array.minBy (fun (dis,deis,delta)-> delta )
+                x,y)
+        
+        let cutsFromUp  = cuts ups los |> Array.map (fun (a,b) -> getDelta a, getDelta b )
+        let cutsFromLow = cuts los ups |> Array.map (fun (a,b) -> getDelta b, getDelta a )
+
+        [|cutsFromUp;cutsFromLow|]|> Array.concat |> Array.distinct
         
 
     ///Finds all pairs of symmetric cutoffs
