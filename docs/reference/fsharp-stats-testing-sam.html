@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>SAM - FSharp.Stats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Timo Mühlhaus"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>SAM</h1>
+<p>
+  <span>Namespace: FSharp.Stats.Testing</span><br />
+  </p>
+<div class="xmldoc">
+</div>
+
+<!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-testing-sam-sam.html">SAM</a>
+          </td>
+          <td class="xmldoc">
+          <p>Represents the relative difference, the pooled standard error and the test statistics</p>
+
+
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered module-list">
+    <thead>
+      <tr><td>Module</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="module-name">
+            <a href="fsharp-stats-testing-sam-s0.html">S0</a>
+          </td>
+          <td class="xmldoc">
+          <p>Module with different estimation methods computing s0</p>
+
+
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+  <h3>Functions and values</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Function or value</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1365', 1365)" onmouseover="showTip(event, '1365', 1365)">
+            calculateTwoClassUnpaired s0 dataA dataU
+          </code>
+          <div class="tip" id="1365">
+            <strong>Signature:</strong> s0:float&lt;MeasureOne&gt; -&gt; dataA:float array array -&gt; dataU:float array array -&gt; SAM []<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L30-30" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Calculates SAM test statistics for two class unpaired data</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1366', 1366)" onmouseover="showTip(event, '1366', 1366)">
+            createSAM ri si stats
+          </code>
+          <div class="tip" id="1366">
+            <strong>Signature:</strong> ri:float -&gt; si:float -&gt; stats:float -&gt; SAM<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L21-21" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Creates the type SAM</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1367', 1367)" onmouseover="showTip(event, '1367', 1367)">
+            estimatePi0 dis dibs
+          </code>
+          <div class="tip" id="1367">
+            <strong>Signature:</strong> dis:SAM [] -&gt; dibs:SAM [] [] -&gt; float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L187-187" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Estimates pi0. Chosen to minimize the coefficient of variation of the test statistics</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1368', 1368)" onmouseover="showTip(event, '1368', 1368)">
+            expectedValue dibs
+          </code>
+          <div class="tip" id="1368">
+            <strong>Signature:</strong> dibs:SAM [] [] -&gt; SAM []<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L45-45" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1369', 1369)" onmouseover="showTip(event, '1369', 1369)">
+            getAsymmetricCuts di dei
+          </code>
+          <div class="tip" id="1369">
+            <strong>Signature:</strong> di:SAM [] -&gt; dei:SAM [] -&gt; (float * float) []<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L201-201" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Finds all pairs of asymmetric cutoffs according to the differences between di and dEi</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1370', 1370)" onmouseover="showTip(event, '1370', 1370)">
+            getSymmetricCuts di dei
+          </code>
+          <div class="tip" id="1370">
+            <strong>Signature:</strong> di:SAM [] -&gt; dei:SAM [] -&gt; (float * float) []<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L244-244" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Finds all pairs of symmetric cutoffs</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1371', 1371)" onmouseover="showTip(event, '1371', 1371)">
+            permutationBalanced (...)
+          </code>
+          <div class="tip" id="1371">
+            <strong>Signature:</strong> calculate:(&#39;?8908 -&gt; float [] [] -&gt; float [] [] -&gt; SAM []) -&gt; iterations:int -&gt; s0:&#39;?8908 -&gt; dataA&#39;:float array array -&gt; dataU&#39;:float array array -&gt; SAM [] []<br />
+                          <strong>Type parameters:</strong> '?8908                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L77-77" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Permutes all the samples. Different treatments are mixed.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1372', 1372)" onmouseover="showTip(event, '1372', 1372)">
+            permutationImbalanced (...)
+          </code>
+          <div class="tip" id="1372">
+            <strong>Signature:</strong> calculate:(&#39;?8910 -&gt; float [] [] -&gt; float [] [] -&gt; SAM []) -&gt; iterations:int -&gt; s0:&#39;?8910 -&gt; dataA:float array array -&gt; dataU:float array array -&gt; SAM [] []<br />
+                          <strong>Type parameters:</strong> '?8910                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L107-107" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Permutes all the samples. Different treatments are mixed.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1373', 1373)" onmouseover="showTip(event, '1373', 1373)">
+            permutationWithin (...)
+          </code>
+          <div class="tip" id="1373">
+            <strong>Signature:</strong> calculate:(&#39;?8906 -&gt; float [] [] -&gt; float [] [] -&gt; SAM []) -&gt; iterations:int -&gt; s0:&#39;?8906 -&gt; dataA:float array array -&gt; dataU:float array array -&gt; SAM [] []<br />
+                          <strong>Type parameters:</strong> '?8906                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L58-58" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Permutes all the samples. Different treatments are NOT mixed. Then the statistics for the permuatations is calculated.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1374', 1374)" onmouseover="showTip(event, '1374', 1374)">
+            qvalueByCut pi0 dis dibs (arg4, arg5)
+          </code>
+          <div class="tip" id="1374">
+            <strong>Signature:</strong> pi0:float -&gt; dis:SAM [] -&gt; dibs:SAM [] [] -&gt; (float * float) -&gt; float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L255-255" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1375', 1375)" onmouseover="showTip(event, '1375', 1375)">
+            qvalues pi0 dis dibs cuts
+          </code>
+          <div class="tip" id="1375">
+            <strong>Signature:</strong> pi0:float -&gt; dis:SAM [] -&gt; dibs:SAM [] [] -&gt; cuts:(float * float) [] -&gt; float []<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L271-271" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">FSharp.Stats</li>
+            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+            <li><a href="/FSharp.Stats/license.html">License</a></li>
+            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+			<li class="nav-header">Basic</li>
+			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
+			</li>
+			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
+			<li class="divider"></li>
+			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+			  </li>
+			<li class="divider"></li>
+			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
+			</li>
+			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
+			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
+			</li>
+			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
+			</li>
+			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
+			</li>
+			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+			</li>
+			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+			  </li>
+
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>
