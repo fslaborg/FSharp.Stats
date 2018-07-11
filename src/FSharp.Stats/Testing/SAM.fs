@@ -42,6 +42,89 @@ module SAM =
         Array.map2 (fun a u -> calcStats s0 a u) dataA dataU    
 
 
+    // different input needed as well as a differnt way of permuting the data  
+    ///Calculates SAM test statistics for two class paired data
+    let calculateTwoClassPaired s0 (dataA:float array array) (y:float array) =
+
+            let calcStats s0 (a:float[]) (u:float[]) = 
+                let zipped= Array.zip a u
+                let ri    =  (y|> Array.map (fun i -> let f= fst ( zipped|> Array.find ( fun (x,y) -> y=i  ))
+                                                      let g= fst (zipped|> Array.find ( fun (x,y) -> y=(-i)  ))
+                                                      let zik= f-g
+                                                      zik/i ))|> Array.sum
+                         
+                let si    = 
+                    let roof= (y|> Array.map (fun i -> let f= fst ( zipped|> Array.find ( fun (x,y) -> y=i  ))
+                                                       let g= fst (zipped|> Array.find ( fun (x,y) -> y=(-i)  ))
+                                                       let zik= f-g
+                                                       (zik-ri)**2.)) |> Array.sum
+                    let low=a.Length*(a.Length-1)
+                    (roof/ float low)**0.5
+
+                createSAM ri si (ri/(si+s0)) 
+
+            dataA|> Array.map ( fun x -> calcStats s0 x y) 
+
+
+    // different input needed as well as a differnt way of permuting the data  
+    ///Calculates SAM test statistics for one class data
+    let calculateOneClass s0 (dataA:float array array) (y:float array) =
+
+            let calcStats s0 (a:float[]) (u:float[]) =  
+                let ma= Array.average a
+                let ri    = a|> Array.sumBy ( fun x -> x/ float a.Length)
+
+                let si    = 
+                    let sum= (a|> Array.mapi (fun i v -> (v - ma)**2.))|> Array.sum
+                    let low= a.Length*(a.Length-1)
+                    (sum/float low)**0.5
+
+                createSAM ri si (ri/(si+s0)) 
+
+            dataA|> Array.map ( fun x -> calcStats s0 x y) 
+
+
+    // different input needed as well as a differnt way of permuting the data  
+    ///Calculates SAM test statistics for multi class data
+    let calculateMulticlassResponse s0 (dataA:float array array) (parseToClass:float array)=
+            let classes= parseToClass|> Array.distinct
+            let nk= classes |> Array.map (fun x -> parseToClass|> Array.filter (fun y -> y=x) |> Array.length)
+
+            let multiply (array:int[])=
+                let rec mul index elem =
+                    if index < array.Length then
+                        let mult= float array.[index]*elem
+                        mul (index+1) mult
+                    else elem
+                mul 0 1.
+
+            let calcStats s0 (a:(float[])) (u:float[]) =    
+                let zipped= Array.zip a u 
+                let ri    =  let prem= float ((nk)|> Array.sum) / float (multiply nk)
+                             let summed= (classes|> Array.mapi (fun i v -> let xik= zipped|> Array.filter (fun (a,b) -> b=v)
+                                                                                        |> Array.map ( fun (va,c) -> va/ float nk.[i])|> Array.sum
+                                                                           let xiroof= zipped|> Array.map (fun b -> fst b)
+                                                                                                |> Array.map (fun c -> c/ float a.Length)
+                                                                                                |> Array.sum
+                                                                           float nk.[i]*(xik-xiroof)**2.)) |> Array.sum
+
+                             (prem*summed)**0.5
+                let si    = 
+                    let prem= 1./ (nk|> Array.sumBy (fun x -> float x-1.))
+                    let nextsum= nk|> Array.sumBy (fun x -> 1./ float x)
+                    let innerSum=  (classes|> Array.mapi (fun i v -> let preclass=zipped|> Array.filter (fun (a,b) -> b=v)
+                                                                     let xik= preclass  |> Array.map ( fun (va,c) -> va/ float nk.[i])|> Array.sum
+                                                                     preclass|> Array.sumBy (fun (x,y) -> (x-xik)**2.))) |> Array.sum
+                             
+
+                    (prem*nextsum*innerSum)**0.5
+
+                createSAM ri si (ri/(si+s0)) 
+
+            dataA|> Array.map ( fun x -> calcStats s0 x parseToClass) 
+
+
+
     let expectedValue (dibs:SAM[][]) =
         let iterations = dibs.Length
         let dei =
