@@ -5,7 +5,7 @@ namespace FSharp.Stats.Fitting
 
 we estimate the relationship of one variable with another by expressing one in terms of a linear function of the other.
 *)
-module Regression =    
+module LinearRegression =    
 
     open FSharp.Stats
     
