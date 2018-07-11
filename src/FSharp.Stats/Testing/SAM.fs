@@ -217,7 +217,7 @@ module SAM =
         let los' = los |> Array.map (fun (a,b,c) -> a,b, abs c)
         for i=1 to los'.Length-1 do
             if getDelta los'.[i] > getDelta los'.[i-1] then
-                los'.[i] <- replaceDeltaAbs los'.[i] los.[i-1]
+                los'.[i] <- replaceDeltaAbs los'.[i] los'.[i-1]
         // find the matching cutoffs
         let cuts set1 set2=
             set1
