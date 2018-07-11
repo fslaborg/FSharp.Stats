@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
-    <ProjectGuid>2da3058d-390e-4ecf-8f57-ae7742c38795</ProjectGuid>
+    <TargetFramework>net47</TargetFramework>
     <RootNamespace>FSharp.Stats.Tests</RootNamespace>
     <AssemblyName>FSharp.Stats.Tests</AssemblyName>
-    <DebugType>portable</DebugType>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Name>FSharp.Stats.Tests</Name>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-
   <ItemGroup>
+    <Compile Include="Generators.fs" />
     <Compile Include="Tests.fs" />
-    <Content Include="App.config" />
+    <Compile Include="RunTests.fs" />
+    <None Include="paket.references" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FSharp.Stats\FSharp.Stats.fsproj" />
+    <ProjectReference Include="..\..\src\FSharp.Stats\FSharp.Stats.fsproj"></ProjectReference>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

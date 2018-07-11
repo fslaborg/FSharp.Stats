@@ -1,23 +1,29 @@
-type project
+type file
+id FSharp.Stats.MSF
 title
-    FSharp.FGL
+    FSharp.Stats
 owners
     Timo Mühlhaus
-authors
+authors 
     Timo Mühlhaus
 projectUrl
-    https://github.com/CSBiology/FSharp.FGL
+    https://github.com/CSBiology/FSharp.Stats
 iconUrl
-    https://raw.githubusercontent.com/CSBiology/FSharp.FGL/master/docs/files/img/logo.png
+    https://raw.githubusercontent.com/CSBiology/FSharp.Stats/master/docs/files/img/logo.png
 licenseUrl
-    https://github.com/CSBiology/FSharp.FGL/blob/master/LICENSE.txt
+    https://github.com/CSBiology/FSharp.Stats/blob/master/LICENSE.txt
 requireLicenseAcceptance
     false
+language
+    F#
 copyright
-    Copyright 2015
+    Copyright 2017
 tags
-    functional graph library F# FSharp bioinformatics
+    FSharp F# Statistics Mathematics Stats Math Numerics
 summary
-    Functional graph library for F#
+    F# project for statistical computing
 description
-    Functional graph library for F#
+    F# project for statistical computing
+
+files
+	../../bin/FSharp.Stats.MSF ==> lib

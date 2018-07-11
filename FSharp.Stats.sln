@@ -1,59 +1,78 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{63297B98-5CED-492C-A5B7-A5B4F73CF142}"
 	ProjectSection(SolutionItems) = preProject
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
+		paket.references = paket.references
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docsrc", "docsrc", "{A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats", "src\FSharp.Stats\FSharp.Stats.fsproj", "{4E235DDD-1B59-4A93-ABE9-2FEEF18B09A1}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats", "src\FSharp.Stats\FSharp.Stats.fsproj", "{FAAFA66E-170B-4DA5-AA21-69A429CBE646}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{BF60BC93-E09B-4E5F-9D85-95A519479D54}"
 	ProjectSection(SolutionItems) = preProject
-		build.fsx = build.fsx
 		README.md = README.md
 		RELEASE_NOTES.md = RELEASE_NOTES.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{83F16175-43B1-4C90-A1EE-8E351C33435D}"
 	ProjectSection(SolutionItems) = preProject
-		docs\tools\generate.fsx = docs\tools\generate.fsx
-		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
+		docsrc\tools\templates\template.cshtml = docsrc\tools\templates\template.cshtml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D5255-776D-4B61-85F9-73C37AA1FB9A}"
 	ProjectSection(SolutionItems) = preProject
-		docs\content\BasicStats.fsx = docs\content\BasicStats.fsx
-		docs\content\Clustering.fsx = docs\content\Clustering.fsx
-		docs\content\Correlation.fsx = docs\content\Correlation.fsx
-		docs\content\Covariance.fsx = docs\content\Covariance.fsx
-		docs\content\Distributions.fsx = docs\content\Distributions.fsx
-		docs\content\Fitting.fsx = docs\content\Fitting.fsx
-		docs\content\Impute.fsx = docs\content\Impute.fsx
-		docs\content\index.fsx = docs\content\index.fsx
-		docs\content\Integration.fsx = docs\content\Integration.fsx
-		docs\content\LinearAlgebra.fsx = docs\content\LinearAlgebra.fsx
-		docs\content\Matrix_Vector.fsx = docs\content\Matrix_Vector.fsx
-		docs\content\ML.fsx = docs\content\ML.fsx
-		docs\content\Optimization.fsx = docs\content\Optimization.fsx
-		docs\content\Quantile.fsx = docs\content\Quantile.fsx
-		docs\content\Rank.fsx = docs\content\Rank.fsx
-		docs\content\Signal.fsx = docs\content\Signal.fsx
-		docs\content\SpecialFunctions.fsx = docs\content\SpecialFunctions.fsx
-		docs\content\Summary.fsx = docs\content\Summary.fsx
-		docs\content\Testing.fsx = docs\content\Testing.fsx
-		docs\content\tutorial.fsx = docs\content\tutorial.fsx
+		docsrc\content\BasicStats.fsx = docsrc\content\BasicStats.fsx
+		docsrc\content\Clustering.fsx = docsrc\content\Clustering.fsx
+		docsrc\content\Correlation.fsx = docsrc\content\Correlation.fsx
+		docsrc\content\Covariance.fsx = docsrc\content\Covariance.fsx
+		docsrc\content\Distributions.fsx = docsrc\content\Distributions.fsx
+		docsrc\content\Fitting.fsx = docsrc\content\Fitting.fsx
+		docsrc\content\Impute.fsx = docsrc\content\Impute.fsx
+		docsrc\content\index.fsx = docsrc\content\index.fsx
+		docsrc\content\Integration.fsx = docsrc\content\Integration.fsx
+		docsrc\content\license.md = docsrc\content\license.md
+		docsrc\content\LinearAlgebra.fsx = docsrc\content\LinearAlgebra.fsx
+		docsrc\content\Matrix_Vector.fsx = docsrc\content\Matrix_Vector.fsx
+		docsrc\content\ML.fsx = docsrc\content\ML.fsx
+		docsrc\content\Optimization.fsx = docsrc\content\Optimization.fsx
+		docsrc\content\Quantile.fsx = docsrc\content\Quantile.fsx
+		docsrc\content\Rank.fsx = docsrc\content\Rank.fsx
+		docsrc\content\release-notes.md = docsrc\content\release-notes.md
+		docsrc\content\Signal.fsx = docsrc\content\Signal.fsx
+		docsrc\content\SpecialFunctions.fsx = docsrc\content\SpecialFunctions.fsx
+		docsrc\content\Summary.fsx = docsrc\content\Summary.fsx
+		docsrc\content\Testing.fsx = docsrc\content\Testing.fsx
+		docsrc\content\tutorial.fsx = docsrc\content\tutorial.fsx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ED8079DD-2B06-4030-9F0F-DC548F98E1C4}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.MSF", "src\FSharp.Stats.MSF\FSharp.Stats.MSF.fsproj", "{8C9C2381-CFCA-4A67-BE10-671EECEA994D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.Tests", "tests\FSharp.Stats.Tests\FSharp.Stats.Tests.fsproj", "{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.Tests", "tests\FSharp.Stats.Tests\FSharp.Stats.Tests.fsproj", "{2DA3058D-390E-4ECF-8F57-AE7742C38795}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{078A9C52-DDC1-46F4-9235-9E6C89C87AFD}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{7C6D08E7-3EAC-4335-8F4B-252C193C27C9}"
+	ProjectSection(SolutionItems) = preProject
+		.travis.yml = .travis.yml
+		appveyor.yml = appveyor.yml
+		build.cmd = build.cmd
+		build.fsx = build.fsx
+		build.proj = build.proj
+		build.sh = build.sh
+	EndProjectSection
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.MSF", "src\FSharp.Stats.MSF\FSharp.Stats.MSF.fsproj", "{71B30A14-8023-4D0F-97A8-EAF99952C479}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.Lapack", "src\FSharp.Stats.Lapack\FSharp.Stats.Lapack.fsproj", "{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,18 +80,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4E235DDD-1B59-4A93-ABE9-2FEEF18B09A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E235DDD-1B59-4A93-ABE9-2FEEF18B09A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E235DDD-1B59-4A93-ABE9-2FEEF18B09A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E235DDD-1B59-4A93-ABE9-2FEEF18B09A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C9C2381-CFCA-4A67-BE10-671EECEA994D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C9C2381-CFCA-4A67-BE10-671EECEA994D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C9C2381-CFCA-4A67-BE10-671EECEA994D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C9C2381-CFCA-4A67-BE10-671EECEA994D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2DA3058D-390E-4ECF-8F57-AE7742C38795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2DA3058D-390E-4ECF-8F57-AE7742C38795}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2DA3058D-390E-4ECF-8F57-AE7742C38795}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2DA3058D-390E-4ECF-8F57-AE7742C38795}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAAFA66E-170B-4DA5-AA21-69A429CBE646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAAFA66E-170B-4DA5-AA21-69A429CBE646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAAFA66E-170B-4DA5-AA21-69A429CBE646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAAFA66E-170B-4DA5-AA21-69A429CBE646}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,9 +103,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{83F16175-43B1-4C90-A1EE-8E351C33435D} = {A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}
 		{8E6D5255-776D-4B61-85F9-73C37AA1FB9A} = {A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}
-		{2DA3058D-390E-4ECF-8F57-AE7742C38795} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
+		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C50F9EB5-7227-4BA5-AF8F-BCA7F7ECD383}
+		SolutionGuid = {97270415-1E71-487B-BDF5-FBE2D8EFFD09}
 	EndGlobalSection
 EndGlobal

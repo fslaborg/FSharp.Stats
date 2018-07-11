@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
-    <ProjectGuid>4e235ddd-1b59-4a93-abe9-2feef18b09a1</ProjectGuid>
+    <TargetFrameworks>net45;net47;netstandard2.0</TargetFrameworks>
     <RootNamespace>FSharp.Stats</RootNamespace>
     <AssemblyName>FSharp.Stats</AssemblyName>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <DocumentationFile>bin\$(Configuration)\$(AssemblyName).XML</DocumentationFile>
+    <Name>FSharp.Stats</Name>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Optional: Include PDB in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <Tailcalls>true</Tailcalls>
-  </PropertyGroup>
-
+  <ItemGroup>
+    <EmbeddedResource Remove="Scripts\**" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />
@@ -94,8 +99,8 @@
     <Compile Include="Fitting\LinearRegression.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
     <Compile Include="Fitting\Spline.fs" />
-    <Compile Include="ML\SurprisalAnalysis.fs" />
     <!-- ML -->
+    <Compile Include="ML\SurprisalAnalysis.fs" />
     <Compile Include="ML\DistanceMetrics.fs" />
     <Compile Include="ML\Impute.fs" />
     <Compile Include="ML\Unsupervised\PrincipalComponentAnalysis.fs" />
@@ -103,9 +108,8 @@
     <Compile Include="ML\Unsupervised\IterativeClustering.fs" />
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
     <Compile Include="ML\Unsupervised\DbScan.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App.config" />
+    <None Include="paket.references" />
+    <None Include="paket.template" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

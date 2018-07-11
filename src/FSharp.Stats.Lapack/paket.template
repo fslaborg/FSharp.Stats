@@ -1,0 +1,29 @@
+type file
+id FSharp.Stats.Lapack
+title
+    FSharp.Stats
+owners
+    Timo Mühlhaus
+authors 
+    Timo Mühlhaus
+projectUrl
+    https://github.com/CSBiology/FSharp.Stats
+iconUrl
+    https://raw.githubusercontent.com/CSBiology/FSharp.Stats/master/docs/files/img/logo.png
+licenseUrl
+    https://github.com/CSBiology/FSharp.Stats/blob/master/LICENSE.txt
+requireLicenseAcceptance
+    false
+language
+    F#
+copyright
+    Copyright 2017
+tags
+    FSharp F# Statistics Mathematics Stats Math Numerics
+summary
+    F# project for statistical computing
+description
+    F# project for statistical computing
+
+files
+	../../bin/FSharp.Stats.Lapack ==> lib
