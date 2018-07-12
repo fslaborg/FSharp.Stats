@@ -93,13 +93,11 @@ module NonLinearRegression =
             let paramCount = solverOptions.InitialParamGuess.Length
             let dataPointCount = xData.Length
             let currentParamGuess = Vector.ofArray solverOptions.InitialParamGuess
-            let newParamGuess     = Vector.zero paramCount
             let jacobian       = Matrix.create dataPointCount paramCount 0.
             let residualVector = Vector.create dataPointCount 0.
             ///
             currentValueRSS <- getRSS model xData yData currentParamGuess
             while (anotherIteration = true) do 
-
                 /// 
                 let jacobian' = updateJacobianInplace model dataPointCount xData currentParamGuess jacobian            
                 ///
@@ -110,7 +108,7 @@ module NonLinearRegression =
                 let step = 
                      LinearAlgebra.SolveLinearSystem (LinearAlgebra.Cholesky hessian) (Matrix.mulV (Matrix.transpose jacobian') residualVector')     
                 ///
-                let newParamGuess = Vector.sub currentParamGuess step
+                let newParamGuess = currentParamGuess - step
                 /// 
                 newValueRSS <- getRSS model xData yData newParamGuess
                 ///
@@ -118,8 +116,7 @@ module NonLinearRegression =
                 /// 
                 anotherIteration <- shouldTerminate currentValueRSS newValueRSS paramsAtIteration.Count currentParamGuess newParamGuess solverOptions
                 /// 
-                for i = 0 to newParamGuess.Length do
-                    currentParamGuess.[i] <- newParamGuess.[i]
+                Vector.inplace_mapi (fun i _ -> newParamGuess.[i]) currentParamGuess
                 /// 
                 currentValueRSS <- newValueRSS
             paramsAtIteration
@@ -141,7 +138,6 @@ module NonLinearRegression =
             let paramCount = solverOptions.InitialParamGuess.Length
             let dataPointCount = xData.Length
             let currentParamGuess = Vector.ofArray solverOptions.InitialParamGuess
-            let newParamGuess     = Vector.zero paramCount
             let jacobian = Matrix.zero dataPointCount paramCount
             let residualVector = Vector.zero dataPointCount
             currentValueRSS <- getRSS model xData yData currentParamGuess      
@@ -157,13 +153,13 @@ module NonLinearRegression =
                 ///
                 let step = LinearAlgebra.SolveLinearSystem ((hessian + Matrix.scale lambda diagonal) |> LinearAlgebra.Cholesky) (Matrix.mulV (Matrix.transpose jacobian') residualVector')
                 ///
-                let newParamGuess' = Vector.mapi (fun i _ -> currentParamGuess.[i] - step.[i]) newParamGuess
+                let newParamGuess = currentParamGuess - step
                 /// 
-                newValueRSS <- getRSS model xData yData newParamGuess'
+                newValueRSS <- getRSS model xData yData newParamGuess
                 //
                 paramsAtIteration.Add(newParamGuess)     
                 /// 
-                anotherIteration <- shouldTerminate currentValueRSS newValueRSS paramsAtIteration.Count currentParamGuess newParamGuess' solverOptions
+                anotherIteration <- shouldTerminate currentValueRSS newValueRSS paramsAtIteration.Count currentParamGuess newParamGuess solverOptions
                 ///
                 if newValueRSS < currentValueRSS then
                     Vector.inplace_mapi (fun i _ -> newParamGuess.[i]) currentParamGuess
