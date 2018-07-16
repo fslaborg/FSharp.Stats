@@ -54,25 +54,25 @@ module NonLinearRegression =
         
         sumOfSquaredResiduals
 
-    let updateJacobianInplace (model: Model) dataPointCount (xData: float[]) (paramVector: Vector<float>) (jacobian: Matrix<float> ) =
+    let updateJacobianInplace (model: Model) (xData: float[]) (paramVector: Vector<float>) (jacobian: Matrix<float> ) =
         // Nr. of Parameters
         let paramCount = paramVector.Length
         // populate Jacobian Matrix
-        for i = 0 to dataPointCount-1 do 
+        for i = 0 to xData.Length-1 do 
             let gradient = Vector.zero paramCount
             model.GetGradientValue paramVector gradient xData.[i] |> ignore
             Matrix.setRow jacobian i gradient            
         jacobian
 
     /// Returns the residual vector, each row i contains the difference between the yEst_i and the yData_i. 
-    let updateResidualVectorInPlace (model: Model) dataPointCount (xData: float[]) (yData: float []) (paramVector: Vector<float>) (residualVector: Vector<float>) = 
-        for i = 0 to dataPointCount-1 do 
+    let updateResidualVectorInPlace (model: Model) (xData: float[]) (yData: float []) (paramVector: Vector<float>) (residualVector: Vector<float>) = 
+        for i = 0 to xData.Length-1 do 
             let yValueEst = model.GetFunctionValue paramVector xData.[i]
             residualVector.[i] <- (yValueEst - yData.[i])
         residualVector
 
     /// Returns true if convergence criteria are met or a user defined number of iiterations has been carried out
-    let private shouldTerminate (currentValueRSS: float) (newValueRSS: float) (iterationCount:int) (currentParamGuess:Vector<float>) 
+    let shouldTerminate (currentValueRSS: float) (newValueRSS: float) (iterationCount:int) (currentParamGuess:Vector<float>) 
             (newParamGuess:Vector<float>) (solverOptions: SolverOptions)  = 
         if abs (newValueRSS-currentValueRSS) <= solverOptions.MinimumDeltaValue ||
             Vector.sub newParamGuess currentParamGuess |> Vector.norm <= solverOptions.MinimumDeltaParameters ||
@@ -80,102 +80,82 @@ module NonLinearRegression =
             false
         else 
             true
-            
+    
+    ///
+    let solverConverged (solverOptions: SolverOptions) (estParams:ResizeArray<vector>) =
+        solverOptions.MaximumIterations = estParams.Count 
+        |> not     
+        
     module GaussNewton = 
-
-        /// Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
+        /// Returns an collection of parameter vectors as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
         /// model function. 
         let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) (xData: float[]) (yData: float []) = 
             let paramsAtIteration = new ResizeArray<vector>()
-            let mutable anotherIteration = true
-            let mutable currentValueRSS = 0.0
-            let mutable newValueRSS = 0.0
-            let paramCount = solverOptions.InitialParamGuess.Length
-            let dataPointCount = xData.Length
-            let currentParamGuess = Vector.ofArray solverOptions.InitialParamGuess
-            let jacobian       = Matrix.create dataPointCount paramCount 0.
-            let residualVector = Vector.create dataPointCount 0.
-            ///
-            currentValueRSS <- getRSS model xData yData currentParamGuess
-            while (anotherIteration = true) do 
-                /// 
-                let jacobian' = updateJacobianInplace model dataPointCount xData currentParamGuess jacobian            
-                ///
-                let residualVector' = updateResidualVectorInPlace model dataPointCount xData yData currentParamGuess residualVector 
-                ///
+            let initialParamGuess = Vector.ofArray solverOptions.InitialParamGuess
+            let residualVector = Vector.zero xData.Length
+            let jacobian = Matrix.zero xData.Length solverOptions.InitialParamGuess.Length
+            let initialValueRSS = getRSS model xData yData initialParamGuess  
+            let rec loop jacobian residualVector currentParamGuess currentValueRSS (paramsAtIteration:ResizeArray<vector>) = 
+                let jacobian' = updateJacobianInplace model xData currentParamGuess jacobian 
+                let residualVector' = updateResidualVectorInPlace model xData yData currentParamGuess residualVector
                 let hessian = jacobian'.Transpose * jacobian' 
-                /// 
-                let step = 
-                     LinearAlgebra.SolveLinearSystem (LinearAlgebra.Cholesky hessian) (Matrix.mulV (Matrix.transpose jacobian') residualVector')     
-                ///
+                let step = LinearAlgebra.LeastSquares hessian (Matrix.mulV (jacobian'.Transpose) residualVector')
                 let newParamGuess = currentParamGuess - step
-                /// 
-                newValueRSS <- getRSS model xData yData newParamGuess
-                ///
-                paramsAtIteration.Add(newParamGuess) |> ignore       
-                /// 
-                anotherIteration <- shouldTerminate currentValueRSS newValueRSS paramsAtIteration.Count currentParamGuess newParamGuess solverOptions
-                /// 
-                Vector.inplace_mapi (fun i _ -> newParamGuess.[i]) currentParamGuess
-                /// 
-                currentValueRSS <- newValueRSS
-            paramsAtIteration
-
+                let newValueRSS = getRSS model xData yData newParamGuess
+                paramsAtIteration.Add(newParamGuess)     
+                if shouldTerminate currentValueRSS newValueRSS paramsAtIteration.Count currentParamGuess newParamGuess solverOptions then 
+                    paramsAtIteration
+                else 
+                    let currentParamGuess' = Vector.mapi (fun i _ -> newParamGuess.[i]) currentParamGuess
+                    let currentValueRSS' = newValueRSS
+                    loop jacobian' residualVector' currentParamGuess' currentValueRSS' paramsAtIteration
+            loop jacobian residualVector initialParamGuess initialValueRSS paramsAtIteration
+        
+        /// Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
+        /// model function. 
         let estimatedParams (model: Model) (solverOptions: SolverOptions) (xData: float[]) (yData: float []) = 
             let estParams = estimatedParamsVerbose model solverOptions xData yData
             estParams.[estParams.Count-1]
 
     module LevenbergMarquardt = 
 
-        /// Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
+        /// Returns an collection of parameter vectors as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
         /// model function. 
         let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (xData: float[]) (yData: float []) = 
             let paramsAtIteration = new ResizeArray<vector>()
-            let mutable anotherIteration = true
-            let mutable lambda = lambdaInitial
-            let mutable currentValueRSS = 0.0
-            let mutable newValueRSS = 0.0
-            let paramCount = solverOptions.InitialParamGuess.Length
-            let dataPointCount = xData.Length
-            let currentParamGuess = Vector.ofArray solverOptions.InitialParamGuess
-            let jacobian = Matrix.zero dataPointCount paramCount
-            let residualVector = Vector.zero dataPointCount
-            currentValueRSS <- getRSS model xData yData currentParamGuess      
-            while (anotherIteration = true) do 
-                /// 
-                let jacobian' = updateJacobianInplace model dataPointCount xData currentParamGuess jacobian 
-                ///
-                let residualVector' = updateResidualVectorInPlace model dataPointCount xData yData currentParamGuess residualVector 
-                ///
+            let initialParamGuess = Vector.ofArray solverOptions.InitialParamGuess
+            let residualVector = Vector.zero xData.Length
+            let jacobian = Matrix.zero xData.Length solverOptions.InitialParamGuess.Length
+            let initialValueRSS = getRSS model xData yData initialParamGuess  
+            let rec loop lambda jacobian residualVector currentParamGuess currentValueRSS (paramsAtIteration:ResizeArray<vector>) = 
+                let jacobian' = updateJacobianInplace model xData currentParamGuess jacobian 
+                let residualVector' = updateResidualVectorInPlace model xData yData currentParamGuess residualVector
                 let hessian = jacobian'.Transpose * jacobian' 
-                ///
                 let diagonal = Matrix.initDiagonal hessian.Diagonal
-                ///
-                let step = LinearAlgebra.SolveLinearSystem ((hessian + Matrix.scale lambda diagonal) |> LinearAlgebra.Cholesky) (Matrix.mulV (Matrix.transpose jacobian') residualVector')
-                ///
+                let modHessian = (hessian + Matrix.scale lambda diagonal) 
+                let step = LinearAlgebra.LeastSquares modHessian (Matrix.mulV (jacobian'.Transpose) residualVector')
                 let newParamGuess = currentParamGuess - step
-                /// 
-                newValueRSS <- getRSS model xData yData newParamGuess
-                //
+                let newValueRSS = getRSS model xData yData newParamGuess
                 paramsAtIteration.Add(newParamGuess)     
-                /// 
-                anotherIteration <- shouldTerminate currentValueRSS newValueRSS paramsAtIteration.Count currentParamGuess newParamGuess solverOptions
-                ///
-                if newValueRSS < currentValueRSS then
-                    Vector.inplace_mapi (fun i _ -> newParamGuess.[i]) currentParamGuess
-                    currentValueRSS <- newValueRSS
+                if shouldTerminate currentValueRSS newValueRSS paramsAtIteration.Count currentParamGuess newParamGuess solverOptions then 
+                    paramsAtIteration
+                elif newValueRSS < currentValueRSS then
+                    let lambda' = lambda / lambdaFactor
+                    let currentParamGuess' = Vector.mapi (fun i _ -> newParamGuess.[i]) currentParamGuess
+                    let currentValueRSS' = newValueRSS
+                    loop lambda' jacobian' residualVector' currentParamGuess' currentValueRSS' paramsAtIteration
                 else
-                    lambda <- lambda * lambdaFactor
-            paramsAtIteration
+                    let lambda' = lambda * lambdaFactor
+                    loop lambda' jacobian' residualVector' currentParamGuess currentValueRSS paramsAtIteration
+            loop lambdaInitial jacobian residualVector initialParamGuess initialValueRSS paramsAtIteration
+            //paramsAtIteration   
 
+        /// Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
+        /// model function. 
         let estimatedParams (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (xData: float[]) (yData: float []) = 
             let estParams = estimatedParamsVerbose model solverOptions  lambdaInitial lambdaFactor xData yData
             estParams.[estParams.Count-1]
 
-        ///
-        let solverConverged (solverOptions: SolverOptions) (estParams:ResizeArray<vector>) =
-            solverOptions.MaximumIterations = estParams.Count 
-            |> not 
             
     module Table = 
         
