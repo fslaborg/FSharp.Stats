@@ -41,6 +41,7 @@
     <Compile Include="Correlation.fs" />
     <Compile Include="Quantile.fs" />
     <Compile Include="Precision.fs" />
+    <Compile Include="Geometry.fs" />
     <!-- SpecialFunctions -->
     <Compile Include="SpecialFunctions\Gamma.fs" />
     <Compile Include="SpecialFunctions\Factorial.fs" />
@@ -48,6 +49,7 @@
     <Compile Include="SpecialFunctions\Erf.fs" />
     <Compile Include="SpecialFunctions\Logistic.fs" />
     <Compile Include="SpecialFunctions\Binomial.fs" />
+    <Compile Include="Algebra\EVD.fs" />
     <Compile Include="Algebra\SVD.fs" />
     <!-- Algebra -->
     <Compile Include="Algebra\NativeArray.fs" />
@@ -84,6 +86,7 @@
     <Compile Include="Distributions\Continuous.fs" />
     <Compile Include="Distributions\Discrete.fs" />
     <Compile Include="Distributions\KernelDensity.fs" />
+    <Compile Include="Testing\RMT.fs" />
     <!-- Testing -->
     <Compile Include="Testing\TestStatistics.fs" />
     <Compile Include="Testing\Anova.fs" />

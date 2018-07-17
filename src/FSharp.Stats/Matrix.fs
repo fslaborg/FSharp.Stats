@@ -444,16 +444,28 @@ module Matrix = begin
         getDiag a
         |> diag
 
+    /// Computes the row wise sum of a Matrix 
+    let sumRows (a:matrix) = 
+        a
+        |> foldByRow (fun acc r -> acc + r ) (Vector.zero a.NumRows)
+        
+    
+    /// Computes the Column wise sum of a Matrix 
+    let sumColumns (a:matrix) = 
+        a.Transpose 
+        |> foldByRow (fun acc r -> acc + r ) (Vector.zero a.NumCols)
+        
+
     /// Computes the row wise mean of a Matrix 
     let meanRowWise (a:matrix) = 
         a
-        |> foldByRow (fun acc r -> acc + r ) (Vector.zero a.NumRows)
+        |> sumRows
         |> Vector.map (fun sum -> sum / (a.NumRows |> float))
     
     /// Computes the Column wise mean of a Matrix 
     let meanColumnWise (a:matrix) = 
         a.Transpose 
-        |> foldByRow (fun acc r -> acc + r ) (Vector.zero a.NumCols)
+        |> sumColumns
         |> Vector.map (fun sum -> sum / (a.NumCols |> float))
     
 

@@ -124,3 +124,16 @@ module Correlation =
             let deno1 = xxt |> Matrix.map (fun x -> x**2.) |> Matrix.sum |> sqrt 
             let deno2 = yyt |> Matrix.map (fun x -> x**2.) |> Matrix.sum |> sqrt 
             num / (deno1 * deno2)
+
+
+        let corr (x: matrix) =
+            let exp = x |> Matrix.map (fun i -> i*i) |> Matrix.sumRows
+            let cov = x * x.Transpose
+            //Matrix.col
+            exp
+
+            //let z = exp.ToColumnMatrix()      
+
+            //let cov = x*x.Transpose() //vectorToTensorMatrix v vt  //m*m.Transpose() 
+            //let z' = z*z.Transpose() |> Matrix.map (fun i -> sqrt i)  
+            //cov./z'        

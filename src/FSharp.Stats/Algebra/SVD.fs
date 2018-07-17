@@ -3,18 +3,6 @@ namespace FSharp.Stats.Algebra
 open FSharp.Stats
 
 module SVD =
-    let private hypot (a:float) (b:float) =
-        let at = abs a
-        let bt = abs b
-        if at > bt then
-            let ct = bt / at
-            at * sqrt (1. + ct * ct) 
-        elif (bt > 0.0) then
-            let ct = at / bt
-            bt * sqrt (1. + ct * ct)
-        else
-            0.0
-            
 
     type private SvdCase =
         // 1 if s(p) and e[k-1] are negligible and k<p
@@ -59,7 +47,7 @@ module SVD =
                 // Compute 2-norm of k-th column without under/overflow.
                 s.[k] <- 0.
                 for i = k to m-1 do
-                    s.[k] <- hypot s.[k] a.[i,k]
+                    s.[k] <- Geometry.hypot s.[k] a.[i,k]
            
                 if (s.[k] <> 0.0) then
                     if (a.[k,k] < 0.0) then
@@ -104,7 +92,7 @@ module SVD =
                 // Compute 2-norm without under/overflow.
                 e.[k] <- 0.
                 for i = k+1 to n-1 do
-                    e.[k] <- hypot e.[k] e.[i]
+                    e.[k] <- Geometry.hypot e.[k] e.[i]
             
                 if (e.[k] <> 0.0) then
                     if (e.[k + 1] < 0.0) then
@@ -269,7 +257,7 @@ module SVD =
                 let mutable f = e.[p - 2]
                 e.[p - 2] <- 0.0
                 for j = p-2 downto k do
-                    let mutable t = hypot s.[j] f
+                    let mutable t = Geometry.hypot s.[j] f
                     printfn "t : %A - f: %A" t f
                     let cs = s.[j] / t
                     let sn = f / t
@@ -290,7 +278,7 @@ module SVD =
                 let mutable f = e.[k - 1]
                 e.[k - 1] <- 0.0
                 for j = k to p-1 do
-                    let mutable t = hypot s.[j] f
+                    let mutable t = Geometry.hypot s.[j] f
                     let cs = s.[j]/t
                     let sn = f/t
                     s.[j] <- t
@@ -330,7 +318,7 @@ module SVD =
 
                 // Chase zeros.
                 for j = k to p-2 do
-                    let mutable t = hypot f g
+                    let mutable t = Geometry.hypot f g
                     let mutable cs = f/t
                     let mutable sn = g/t
                     if (j <> k) then
@@ -347,7 +335,7 @@ module SVD =
                             vmatrix.[i,j] <- t
                     
                 
-                    t <- hypot f g
+                    t <- Geometry.hypot f g
                     cs <- f/t
                     sn <- g/t
                     s.[j] <- t
