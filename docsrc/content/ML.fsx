@@ -1,9 +1,9 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/FSharp.Stats/netstandard2.0/"
-#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
-#r "netstandard.dll"
+#I "../../bin/FSharp.Stats/netstandard2.0"
+#r "../../packages/formatting/FSharp.Plotly/lib/netstandard2.0/Fsharp.Plotly.dll"
+#r "netstandard"
 open FSharp.Plotly
 (**
 Basic stats
@@ -41,7 +41,7 @@ open FSharp.Stats.ML
 open FSharp.Stats.ML.Unsupervised
 
 
-let adjCenter = PCA.toAdjustCovariance irisFeaturesMatrix
+let adjCenter = PCA.toAdjustCorrelation irisFeaturesMatrix
 let irisPCA = PCA.compute adjCenter irisFeaturesMatrix
 let irisDataPCA = PCA.transform adjCenter irisPCA irisFeaturesMatrix
 let irisrev = PCA.revert adjCenter irisPCA irisDataPCA
@@ -88,5 +88,7 @@ plotLoadingsColoredByGrouping irisPCA
 |> Chart.Show
 
 
-plotScoresColoredByGrouping irisDataPCA irisLables (fun x -> x) 1 2
+plotScoresColoredByGrouping irisDataPCA irisLables (fun x -> x) 1 3
 |> Chart.Show   
+
+

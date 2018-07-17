@@ -125,11 +125,11 @@ module Correlation =
             let deno2 = yyt |> Matrix.map (fun x -> x**2.) |> Matrix.sum |> sqrt 
             num / (deno1 * deno2)
 
-        /// Computes rowise pearson correlation
-        // TODO: TEST
-        let corr (x: matrix) =
-            let exp = x |> Matrix.map (fun i -> i*i) |> Matrix.sumRows
-            let z = exp * exp.Transpose |> Matrix.map sqrt
-            let cov = x * x.Transpose
+        ///// Computes rowise pearson correlation
+        //// TODO: TEST
+        //let corr (x: matrix) =
+        //    let exp = x |> Matrix.map (fun i -> i*i) |> Matrix.sumRows
+        //    let z = exp * exp.Transpose |> Matrix.map sqrt
+        //    let cov = x * x.Transpose
             
-            cov ./ z
+        //    cov ./ z

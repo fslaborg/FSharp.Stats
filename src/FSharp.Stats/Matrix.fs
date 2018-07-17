@@ -188,12 +188,13 @@ module Matrix = begin
         /// Applies function f along row axis 
         let enumerateRowWise f (m:Matrix<'a>) =
             seq [ 
-                for coli=0 to m.NumCols-1 do 
-                yield f (seq [for rowi=0 to m.NumRows-1 do yield m.[rowi,coli]])
-            ]
+                for rowi=0 to m.NumRows-1 do 
+                yield f (seq [for coli=0 to m.NumCols-1 do yield m.[rowi,coli]])
+            ]  
 
         /// Maps every matrix row using the position dependant function
         let mapiRows (f: int -> RowVector<'a> -> 'b) (m:Matrix<'a>) =
+
             seq [
                 for rowi=0 to m.NumRows-1 do
                     yield f rowi (getRow m rowi)
@@ -203,10 +204,10 @@ module Matrix = begin
         /// Applies function f along colúmn axis 
         let enumerateColumnWise f (m:Matrix<'a>) =
             seq [ 
-                for rowi=0 to m.NumRows-1 do 
-                yield f (seq [for coli=0 to m.NumCols-1 do yield m.[rowi,coli]])
-            ]    
-
+                for coli=0 to m.NumCols-1 do 
+                yield f (seq [for rowi=0 to m.NumRows-1 do yield m.[rowi,coli]])
+            ]
+  
         /// Maps every matrix column using the position dependant function
         let mapiCols (f: int -> Vector<'a> -> 'b) (m:Matrix<'a>) =
             seq [
@@ -464,7 +465,7 @@ module Matrix = begin
     
     /// Computes the Column wise mean of a Matrix 
     let meanColumnWise (a:matrix) = 
-        a.Transpose 
+        a
         |> sumColumns
         |> Vector.map (fun sum -> sum / (a.NumCols |> float))
     

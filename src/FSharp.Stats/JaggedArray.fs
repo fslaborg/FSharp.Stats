@@ -3,6 +3,15 @@
 [<AutoOpen>]
 module JaggedArray =
 
+    /// Creates an jagged array with the given dimensions and a generator function to compute the elements
+    let init rowN colN f =
+        Array.init rowN (fun rowi ->
+            Array.init colN (fun coli -> f rowi coli)) 
+
+    /// Creates an jagged array where the entries are initially the default value Unchecked.defaultof
+    let zeroCreate rowN colN = 
+        Array.init rowN (fun _ -> Array.zeroCreate colN)
+
     /// Copies the jagged array
     let copy (arr : _[][]) = 
         Array.init arr.Length (fun i ->
