@@ -226,4 +226,7 @@ module EVD =
         
         (e,v,d)
 
+    let getRealEigenvalues (e,v,d) = d
+    let getImaginaryEigenvalues (e,v,d) = e
+    let getEigenvalueMAtrix (e,v,d) = v
 

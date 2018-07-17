@@ -86,7 +86,6 @@
     <Compile Include="Distributions\Continuous.fs" />
     <Compile Include="Distributions\Discrete.fs" />
     <Compile Include="Distributions\KernelDensity.fs" />
-    <Compile Include="Testing\RMT.fs" />
     <!-- Testing -->
     <Compile Include="Testing\TestStatistics.fs" />
     <Compile Include="Testing\Anova.fs" />
@@ -98,6 +97,7 @@
     <Compile Include="Testing\Outliers.fs" />
     <Compile Include="Testing\SAM.fs" />
     <Compile Include="Testing\FisherHotelling.fs" />
+    <Compile Include="Testing\RMT.fs" />
     <Compile Include="Fitting\NonLinearRegression.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\LinearRegression.fs" />
