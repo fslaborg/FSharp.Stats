@@ -98,6 +98,7 @@
     <Compile Include="Testing\Outliers.fs" />
     <Compile Include="Testing\SAM.fs" />
     <Compile Include="Testing\FisherHotelling.fs" />
+    <Compile Include="Fitting\NonLinearRegression.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\LinearRegression.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
