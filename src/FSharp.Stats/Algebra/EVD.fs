@@ -120,7 +120,7 @@ module EVD =
             tst1 <- max tst1 (abs(d.[l]) + abs(e.[l]))
             let m = 
                 let rec loop m =
-                    if m > n-1 || (abs(e.[m]) <= eps*tst1) then
+                    if m > n-2 || (abs(e.[m]) <= eps*tst1) then
                         m
                     else 
                         loop (m+1)
