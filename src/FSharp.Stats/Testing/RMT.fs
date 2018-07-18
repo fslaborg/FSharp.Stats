@@ -5,11 +5,11 @@ module RMT =
 
     open FSharp.Stats
 
-    let spectralUnfolding egvalues =  
-        let x = [0. .. 0.01 .. 1.] 
-        let y = 
+    let private spectralUnfolding egvalues =  
+        let y = [0. .. 0.01 .. 1.] 
+        let x = 
             egvalues
-            |> Quantile.computePercentiles (Quantile.OfSorted.compute) x
+            |> Quantile.computePercentiles (Quantile.OfSorted.compute) y
         
         Interpolation.Approximation.approx x y egvalues (Seq.min)
         
@@ -23,7 +23,7 @@ module RMT =
     let private evaluateWigner (xValue:float) =
         System.Math.PI*0.5*xValue*System.Math.E**(-System.Math.PI*0.25*xValue*xValue)    
 
-    let private nearesNeighbourSpacing egvLength (uEgv:seq<float>) = 
+    let private nearestNeighbourSpacing egvLength (uEgv:seq<float>) = 
         uEgv
         |> Seq.map (fun x -> x * float egvLength)
         |> Seq.sort
@@ -41,7 +41,7 @@ module RMT =
 
         let nnSpacing =
             unfoldedEgv
-            |> nearesNeighbourSpacing unfoldedEgv.Length
+            |> nearestNeighbourSpacing unfoldedEgv.Length
             |> Seq.toArray
         
         let histo =
@@ -64,23 +64,26 @@ module RMT =
     // bwQuantile uses % data to calculate a more robust histogram
     let compute (bwQuantile : float) accuracy (sigCriterion : float) (m:float[,]) =
 
-        let rec stepSearch left right =
-            let thr = left + right / 2.
+        let rec stepSearch previousChi left right =
+            let thr = (left + right) / 2.
             let chi =
                 m
                 |> Array2D.map (fun v -> if abs v > thr then v else 0.)
                 |> computeChiSquared bwQuantile
 
-            if left - right > accuracy then 
+            if right - left > accuracy then 
                 if chi.PValue <= sigCriterion  then
                     // jump left
-                    stepSearch  left thr
+                    stepSearch chi left thr
                 else
-                    stepSearch thr right
+                    stepSearch previousChi thr right
             else
-                thr,chi
+                if chi.PValue <= sigCriterion  then
+                    thr,chi
+                else 
+                    right,previousChi
                 
-        stepSearch 0. 1.
+        stepSearch (TestStatistics.createChiSquare 0. 1.) 0. 1.
 
 
 
