@@ -35,7 +35,7 @@ module EVD =
                     d.[k] <- d.[k] / scale
                     h <- h + d.[k] * d.[k]
                 let mutable f = d.[i - 1]
-                let mutable g = if (f > 0.) then -sqrt(h) else -sqrt(h)
+                let mutable g = if (f > 0.) then -sqrt(h) else sqrt(h)
                 e.[i] <- scale*g
                 h <- h - f*g
                 d.[i - 1] <- f - g

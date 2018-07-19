@@ -26,6 +26,11 @@ module JaggedArray =
         else
             arr
 
+    let ofArray2D (arr:'T[,]) =
+        let n,m = Array2D.length1 arr,Array2D.length2 arr
+        Array.init n (fun i ->
+                Array.init m (fun j -> arr.[i,j])) 
+
     /// Converts a jagged list into a jagged array
     let ofJaggedList (data: 'T list list) =
         data
