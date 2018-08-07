@@ -127,7 +127,7 @@ module Correlation =
         
         ///computes a matrix that contains the metric given by the corrFunction parameter applied rowwise for every row against every other row of the input matrix
         let rowWiseCorrelationMatrix (corrFunction : seq<float> -> seq<float> -> float) (m : Matrix<float>) =
-            let vectors = toJaggedArray sampleMatrix
+            let vectors = Matrix.toJaggedArray m
             let result : float [] [] = [|for i=0 to vectors.Length-1 do yield (Array.init vectors.Length (fun innerIndex -> if i=innerIndex then 1. else 0.))|]
             for i=0 to vectors.Length-1 do
                 for j=i+1 to vectors.Length-1 do
@@ -138,7 +138,7 @@ module Correlation =
 
         ///computes a matrix that contains the metric given by the corrFunction parameter applied columnwise for every column against every other column of the input matrix
         let columnWiseCorrelationMatrix (corrFunction : seq<float> -> seq<float> -> float) (m : Matrix<float>) =
-            sampleMatrix
+            m
             |> Matrix.transpose
             |> rowWiseCorrelationMatrix
 
