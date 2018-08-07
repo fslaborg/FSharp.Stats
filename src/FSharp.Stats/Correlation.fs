@@ -124,6 +124,33 @@ module Correlation =
             let deno1 = xxt |> Matrix.map (fun x -> x**2.) |> Matrix.sum |> sqrt 
             let deno2 = yyt |> Matrix.map (fun x -> x**2.) |> Matrix.sum |> sqrt 
             num / (deno1 * deno2)
+        
+        ///computes a matrix that contains the metric given by the corrFunction parameter applied rowwise for every row against every other row of the input matrix
+        let rowWiseCorrelationMatrix (corrFunction : seq<float> -> seq<float> -> float) (m : Matrix<float>) =
+            let vectors = toJaggedArray sampleMatrix
+            let result : float [] [] = [|for i=0 to vectors.Length-1 do yield (Array.init vectors.Length (fun innerIndex -> if i=innerIndex then 1. else 0.))|]
+            for i=0 to vectors.Length-1 do
+                for j=i+1 to vectors.Length-1 do
+                    let corr = corrFunction vectors.[i] vectors.[j]
+                    result.[i].[j] <- corr
+                    result.[j].[i] <- corr
+            result |> matrix
+
+        ///computes a matrix that contains the metric given by the corrFunction parameter applied columnwise for every column against every other column of the input matrix
+        let columnWiseCorrelationMatrix (corrFunction : seq<float> -> seq<float> -> float) (m : Matrix<float>) =
+            sampleMatrix
+            |> Matrix.transpose
+            |> rowWiseCorrelationMatrix
+
+        ///computes the rowwise pearson correlation matrix for the input matrix
+        let rowWisePearson (m:Matrix<float>) =
+            m
+            |> rowWiseCorrelationMatrix Seq.pearson
+
+       ///computes the columnwise pearson correlation matrix for the input matrix
+        columnWisePearson (m:Matrix<float>) =
+            m
+            |> columnWiseCorrelationMatrix Seq.pearson
 
         ///// Computes rowise pearson correlation
         //// TODO: TEST
