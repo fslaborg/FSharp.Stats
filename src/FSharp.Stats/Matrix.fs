@@ -258,7 +258,7 @@ module Matrix = begin
 
     let ofArray2D arr : matrix = MG.ofArray2D arr
     let toArray2D (m : matrix) = MG.toArray2D m
-    let toJaggedArray (m: matrix) = Mg.toJaggedArray m 
+    let toJaggedArray (m: matrix) = MG.toJaggedArray m 
     let getDiagN  (a:matrix) n = MG.getDiagN a n
     let getDiag  (a:matrix) = MG.getDiag a
     // Operators

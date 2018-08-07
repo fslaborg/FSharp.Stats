@@ -140,7 +140,7 @@ module Correlation =
         let columnWiseCorrelationMatrix (corrFunction : seq<float> -> seq<float> -> float) (m : Matrix<float>) =
             m
             |> Matrix.transpose
-            |> rowWiseCorrelationMatrix
+            |> (rowWiseCorrelationMatrix corrFunction)
 
         ///computes the rowwise pearson correlation matrix for the input matrix
         let rowWisePearson (m:Matrix<float>) =
