@@ -99,11 +99,11 @@ module LinearAlgebra =
     /// Returns arrays of the values and vectors (both based on reals).
     /// This call may fail.
     let EigenSpectrumWhenSymmetric a =
-        //if HaveService() then let evals, evecs = LinearAlgebraService.symmetricEigenvectors a
-        //                        let n = evals.Length
-        //                        Vector.init n (fun i -> evals.[i]), Matrix.init n n (fun i j -> (evecs.[i]).[j])
-        //                    else LinearAlgebraManaged.symmetricEigenvectors a
-        LinearAlgebraManaged.symmetricEigenvectors a
+        if HaveService() then 
+            Service().dsyevd_(a)
+        else 
+            LinearAlgebraManaged.symmetricEigenvectors a
+
     
     /// Given A[n,n] find it's inverse.
     /// This call may fail.

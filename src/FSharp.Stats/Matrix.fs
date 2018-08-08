@@ -37,6 +37,7 @@ module Matrix = begin
         let init m n f = MS.initM  m n f
         let ofArray2D (arr: 'T[,])  : Matrix<'T> = MS.arrayM arr
         let toArray2D (m:Matrix<_>) = Array2D.init m.NumRows m.NumCols (fun i j -> get m i j)
+        let toJaggedArray (m:Matrix<_>) = [|for i=0 to m.NumRows-1 do yield (Array.init m.NumCols (fun j -> get m i j))|]
         let initNumeric m n f = MS.initNumericM m n f
         let zero m n = MS.zeroM m n
         let identity m = MS.identityM m
@@ -257,6 +258,7 @@ module Matrix = begin
 
     let ofArray2D arr : matrix = MG.ofArray2D arr
     let toArray2D (m : matrix) = MG.toArray2D m
+    let toJaggedArray (m: matrix) = MG.toJaggedArray m 
     let getDiagN  (a:matrix) n = MG.getDiagN a n
     let getDiag  (a:matrix) = MG.getDiag a
     // Operators

@@ -33,24 +33,31 @@ type ILinearAlgebra =
     //  Matrix<float> * Matrix<float> * int array * char * double array * double array *
     //  Matrix<float> * Matrix<float> * float * double array * double array
 
-    ///Compoutes for an N-by-N real nonsymmetric matrix A, the
-    ///eigenvalue decomposition eigenvalues and right eigenvectors.
-    ///The right eigenvector v(j) of A satisfies
-    ///
-    ///                 A * v(j) = lambda(j) * v(j)
-    ///
-    ///where lambda(j) is its eigenvalue.
-    ///The computed eigenvectors are normalized to have Euclidean norm
-    ///equal to 1 and largest component real. Uses the LAPACK subroutine dgeev with arguments JOBVR = 'V' and JOBVL = 'N'
-    ///
+    ////Compoutes for an N-by-N real nonsymmetric matrix A, the
+    ////eigenvalue decomposition eigenvalues and right eigenvectors.
+    ////The right eigenvector v(j) of A satisfies
+    ////
+    ////                 A * v(j) = lambda(j) * v(j)
+    ////
+    ////where lambda(j) is its eigenvalue.
+    ////The computed eigenvectors are normalized to have Euclidean norm
+    ////equal to 1 and largest component real. Uses the LAPACK subroutine dgeev with arguments JOBVR = 'V' and JOBVL = 'N'
+    ////
     ///Returns the real (first array) and imaginary (second array) parts of the eigenvalues and a matrix containing the corresponding eigenvectors
     //abstract dgeev_ : Matrix<float> -> double array * double array * Matrix<float>   
 
     ////Eigen Value of Symmetric Matrix
     //abstract dsyev_ : char * char * Matrix<float> -> Matrix<float> * double array
 
-    ////Eigen Value of Symmetric Matrix - Divide and Conquer
-    //abstract dsyevd_ : char * char * Matrix<float> -> Matrix<float> * double array
+
+    ///Computes for a N-by-N real symmetric matrix A, the
+    ///eigenvalue decomposition of eigenvalues and right eigenvectors.
+    ///The right eigenvector v(j) of A satisfies
+    ///
+    ///                 A * v(j) = lambda(j) * v(j)
+    ///
+    ///where lambda(j) is its eigenvalue.
+    abstract dsyevd_ : Matrix<float> -> Matrix<float> * double array
 
     ////Eigen Value for a pair of general matrices
     //abstract dggev_ :

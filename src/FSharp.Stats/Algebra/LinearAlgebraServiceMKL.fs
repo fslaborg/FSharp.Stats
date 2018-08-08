@@ -106,6 +106,9 @@ module LapackStubs =
     [<System.Runtime.InteropServices.DllImport(@"liblapack.dll",EntryPoint="dgeev_")>]
     extern void dgeev_(char *JOBVL, char *JOBVR, int *N, double *A, int *LDA, double *WR, double *WI, double *VL, int *LDVL, double *VR, int *LDVR, double *WORK, int *LWORK, int *INFO);
 
+    [<System.Runtime.InteropServices.DllImport(@"liblapack.dll",EntryPoint="dsyevd_")>]
+    extern void dsyevd_(char *jobz, char *uplo, int *n, double *a, int *lda, double *w, double *work, int *lwork, int *iwork, int *liwork, int *info);
+
 open Microsoft.FSharp.NativeInterop
 open LapackMKLStubs
 open FSharp.Stats.Algebra
@@ -239,6 +242,10 @@ type LinearAlgebraMKL() =
         member this.dgesdd_thin_(a:matrix) = 
             printfn "Function not implemented yet, use the lapack provider"
             ([||],matrix[||],matrix[||])
+
+        member this.dsyevd_(a:matrix) = 
+            printfn "Function not implemented yet, use the lapack provider"
+            (matrix[||],[||])
 
         //member this.dgeev_(a:Matrix<float>) =
         //    Array.zeroCreate 0, Array.zeroCreate 0, matrix [||]
@@ -386,6 +393,7 @@ type LinearAlgebraLAPACK() =
             let vt = Matrix.transpose vt
             // result tuple
             s,u,vt
+
         //Thin SVD
         member this.dgesdd_thin_(a:Matrix<float>) =
             // input copies
@@ -475,6 +483,7 @@ type LinearAlgebraLAPACK() =
             let vt = Matrix.transpose vt
             // result tuple
             s,u,vt
+
         //Eigenvalue decomposition of a real non-symmetric square matrix
         //member this.dgeev_(a:Matrix<float>) =
         //    // input copies
@@ -548,6 +557,75 @@ type LinearAlgebraLAPACK() =
         //    let vr = Matrix.transpose vr
         //    // result tuple
         //    wr,wi,vr
+
+        ///Eigen Value Decomposition of Symmetric Matrix
+        member this.dsyevd_(a:matrix) = 
+
+            let jobz = 'V'
+            let uplo = 'L'
+            // input copies
+            let a = Matrix.copy a
+            // dimensions
+            let n = NativeUtilities.matrixDim1 a in
+            NativeUtilities.assertDimensions "dsyevd_" ("n","Dim2(a)") (n,NativeUtilities.matrixDim2 a);
+            // allocate results
+            let w = Array.zeroCreate  (n)
+            let work = Array.zeroCreate  (1)
+            let iwork = Array.zeroCreate  (1)
+            // transpose
+            let a = Matrix.transpose a
+            // setup actuals
+            let mutable arg_jobz = jobz
+            let mutable arg_uplo = uplo
+            let mutable arg_n = n
+            let arg_a = NativeUtilities.pinM a
+            let mutable arg_lda = max 1 n
+            let arg_w = NativeUtilities.pinA w
+            let arg_work = NativeUtilities.pinA work
+            let mutable arg_lwork = -1
+            let arg_iwork = NativeUtilities.pinA iwork
+            let mutable arg_liwork = -1
+            let mutable arg_info = 0
+            // ask for work array size
+            try
+                LapackStubs.dsyevd_(&&arg_jobz,&&arg_uplo,&&arg_n,arg_a.Ptr,&&arg_lda,arg_w.Ptr,arg_work.Ptr,&&arg_lwork,arg_iwork.Ptr,&&arg_liwork,&&arg_info)
+            finally
+                NativeUtilities.freeA arg_work
+                NativeUtilities.freeA arg_iwork
+            if arg_info = 0   || arg_info=(-8)  || arg_info=(-10) then
+                arg_lwork <- int32 work.[0]
+                arg_liwork <-  iwork.[0]
+            else assert(false)
+            let arg_work = NativeUtilities.pinA (Array.zeroCreate arg_lwork : float[])
+            let arg_iwork = NativeUtilities.pinA (Array.zeroCreate arg_liwork : int[])
+            // call function
+            try
+                LapackStubs.dsyevd_(&&arg_jobz,&&arg_uplo,&&arg_n,arg_a.Ptr,&&arg_lda,arg_w.Ptr,arg_work.Ptr,&&arg_lwork,arg_iwork.Ptr,&&arg_liwork,&&arg_info)
+            finally
+                NativeUtilities.freeM arg_a
+                NativeUtilities.freeA arg_w
+                NativeUtilities.freeA arg_work
+                NativeUtilities.freeA arg_iwork
+            // INFO
+            match arg_info with
+             | -1  -> failwith "dsyevd_: jobz (argument 1)"
+             | -2  -> failwith "dsyevd_: uplo (argument 2)"
+             | -3  -> failwith "dsyevd_: n (argument 3)"
+             | -4  -> failwith "dsyevd_: a (argument 4)"
+             | -5  -> failwith "dsyevd_: lda (argument 5)"
+             | -6  -> failwith "dsyevd_: w (argument 6)"
+             | -7  -> failwith "dsyevd_: work (argument 7)"
+             | -8  -> failwith "dsyevd_: lwork (argument 8)"
+             | -9  -> failwith "dsyevd_: iwork (argument 9)"
+             | -10 -> failwith "dsyevd_: liwork (argument 10)"
+             | -11 -> failwith "dsyevd_: info (argument 11)"
+             | 0   -> ()
+             | n   -> failwith (sprintf "dsyevd_ : returned %d. The computation failed." n)
+            // fixups
+            let a = Matrix.transpose a
+            // result tuple
+            a,w
+
 
 
 module ProviderService = 
