@@ -92,3 +92,31 @@ plotScoresColoredByGrouping irisDataPCA irisLables (fun x -> x) 1 3
 |> Chart.Show   
 
 
+
+// ---------------
+// Kmeans clustering
+// For random cluster inititalization use randomInitFactory:
+let rng = new System.Random()
+let randomInitFactory : IterativeClustering.CentroidsFactory<float []> = 
+    IterativeClustering.randomCentroids<float []> rng
+let cvmaxFactory : IterativeClustering.CentroidsFactory<float []> = 
+    IterativeClustering.intitCVMAX
+let kmeansResult = 
+    IterativeClustering.kmeans <| DistanceMetrics.euclidean <| cvmaxFactory 
+    <| (Matrix.toJaggedArrayRowWise irisFeaturesMatrix) <| 3
+
+let chartsOfClassifiedData = 
+    Matrix.toJaggedArrayRowWise irisFeaturesMatrix
+    |> Seq.groupBy (fun dataPoint -> fst (kmeansResult.Classifier dataPoint))
+    |> Seq.sortBy fst
+    |> Seq.map (fun (key, values) -> 
+           values
+           |> Seq.map 
+                  (fun v -> 
+                  Chart.Line v 
+                  |> Chart.WithStyling
+                         (Color = System.Drawing.Color.Silver, BorderWidth = 1))
+           |> Chart.Combine
+           |> Chart.WithTitle(key.ToString()))
+    |> Chart.Rows
+    |> Chart.ShowChart
