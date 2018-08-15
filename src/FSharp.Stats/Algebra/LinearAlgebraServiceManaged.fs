@@ -23,7 +23,12 @@ module LinearAlgebraManaged =
         //Matrix.diag
         Vector.ofArray s,Matrix.ofArray2D umatrix,Matrix.ofArray2D vmatrix
         //(Matrix.ofArray2D umatrix,s,Matrix.ofArray2D vmatrix)
-        
+    
+    let symmetricEigenspectrum (a:matrix) = 
+        EVD.symmetricEvd (a.ToArray2D())
+        |> EVD.getRealEigenvalues
+
+
     let EigenSpectrum A = NYI()
     let Condition A = NYI()
 
