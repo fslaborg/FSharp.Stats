@@ -21,17 +21,12 @@
     <Compile Include="Optimization\LP.fs" />
     <Compile Include="Optimization\QP.fs" />
     <Compile Include="Optimization\QuasiNewton.fs" />
+    <Compile Include="Optimization\NelderMead.fs" />
     <Compile Include="Fitting\Hermite.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FSharp.Stats\FSharp.Stats.fsproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.Solver.Foundation">
-      <HintPath>..\..\lib\Microsoft.Solver.Foundation.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

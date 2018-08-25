@@ -9,6 +9,7 @@ nuget Expecto
 nuget Expecto.BenchmarkDotNet
 nuget Expecto.FsCheck
 nuget Expecto.VisualStudio.TestAdapter version_in_path: true
+nuget Microsoft.Solver.Foundation
 
 clitool dotnet-fake
 

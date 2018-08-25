@@ -2,9 +2,11 @@
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
 //#I "../../bin"
-#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
-#I "../../bin/FSharp.Stats/net461"
+#r "netstandard"
+#r "../../packages/formatting/FSharp.Plotly/lib/netstandard2.0/Fsharp.Plotly.dll"
+#I "../../bin/FSharp.Stats.MSF/net47"
 #r "FSharp.Stats.dll"
+#r "FSharp.Stats.MSF.dll"
 open FSharp.Plotly
 open FSharp.Stats
 (**
@@ -40,7 +42,7 @@ open FSharp.Stats.Optimization
 
 // http://fsharpnews.blogspot.de/2011/01/gradient-descent.html
 
-let rosenbrock (xs: vector) =
+let rosenbrock (xs: float[]) =
     let x, y = xs.[0], xs.[1]
     pown (1.0 - x) 2 + 100.0 * pown (y - pown x 2) 2
 
@@ -53,7 +55,7 @@ let rosenbrock (xs: vector) =
 
 
 
-
+Optimization.NelderMead.minimizeWith rosenbrock [|0.;0.|] [|0.;0.|] [|0.5;0.5|]
 
 
 
