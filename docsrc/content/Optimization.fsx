@@ -6,6 +6,7 @@
 #r "../../packages/formatting/FSharp.Plotly/lib/netstandard2.0/Fsharp.Plotly.dll"
 #I "../../bin/FSharp.Stats.MSF/net47"
 #r "FSharp.Stats.dll"
+#r "Microsoft.Solver.Foundation.dll"
 #r "FSharp.Stats.MSF.dll"
 open FSharp.Plotly
 open FSharp.Stats
@@ -55,9 +56,12 @@ let rosenbrock (xs: float[]) =
 
 
 
-Optimization.NelderMead.minimizeWith rosenbrock [|0.;0.|] [|0.;0.|] [|0.5;0.5|]
+Optimization.NelderMead.minimizeWith rosenbrock [|0.;0.|] [|0.;0.|] [|0.3;0.5|]
 
 
+let d x = x**4. - x
+
+let s = Optimization.NelderMead.minimizeSingleWith d 0. -1. 0.5
 
 
 let x = vector [|-2. ..0.1.. 2.|]

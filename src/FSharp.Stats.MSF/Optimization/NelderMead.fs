@@ -55,7 +55,8 @@ module NelderMead =
     let minimizeWith (f: float[] -> float) (init:float[]) (lower:float[]) (upper:float[])  =
         
         let solverParams = NelderMeadSolverParams()
-        let solver = NelderMeadSolver() 
+        let solver = NelderMeadSolver()
+        
         //add variables for every starting point
         let variables = 
             init 
@@ -67,17 +68,17 @@ module NelderMead =
 
         let lowBound = 
             lower 
-            |> Array.map (fun sp -> 
+            |> Array.mapi (fun i sp -> 
                 let (_,variable) = solver.AddVariable(null)
-                solver.SetLowerBound(variable, Rational.op_Implicit sp)
+                solver.SetLowerBound(variables.[i], Rational.op_Implicit sp)
                 variable
                 )
                 
         let upBound = 
             upper 
-            |> Array.map (fun sp -> 
+            |> Array.mapi (fun i sp -> 
                 let (_,variable) = solver.AddVariable(null)
-                solver.SetUpperBound(variable, Rational.op_Implicit sp)
+                solver.SetUpperBound(variables.[i], Rational.op_Implicit sp)
                 variable
                 )
 
@@ -111,7 +112,7 @@ module NelderMead =
         solver.Solve(solverParams) |> ignore
         
         variables |> Array.map (fun v -> solver.GetValue(v).ToDouble() )
-
+        
 
 
     let minimizeSingleWith (f: float -> float) (init:float) (lower:float) (upper:float)  =
@@ -124,19 +125,8 @@ module NelderMead =
             solver.SetValue(variable, Rational.op_Implicit init)
             variable
             
-        let lowBound = 
-            let (_,variable) = solver.AddVariable(null)
-            solver.SetLowerBound(variable, Rational.op_Implicit lower)
-            variable
-               
-        let upBound = 
-            let (_,variable) = solver.AddVariable(null)
-            solver.SetUpperBound(variable, Rational.op_Implicit upper)
-            variable
-
-        //add a row and set it as the goal 
-        let _, vidRow = solver.AddRow(null) 
-        solver.AddGoal(vidRow, 0, true)  |> ignore
+        solver.SetBounds(variableIndex, Rational.op_Implicit lower, Rational.op_Implicit upper)
+        solver.AddGoal(variableIndex,0, true)  |> ignore
         
         let mutable cValue : float = nan
 
