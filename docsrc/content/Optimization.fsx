@@ -43,7 +43,7 @@ open FSharp.Stats.Optimization
 
 // http://fsharpnews.blogspot.de/2011/01/gradient-descent.html
 
-let rosenbrock (xs: float[]) =
+let rosenbrock (xs: vector) =
     let x, y = xs.[0], xs.[1]
     pown (1.0 - x) 2 + 100.0 * pown (y - pown x 2) 2
 
@@ -56,7 +56,7 @@ let rosenbrock (xs: float[]) =
 
 
 
-Optimization.NelderMead.minimizeWith rosenbrock [|0.;0.|] [|0.;0.|] [|0.3;0.5|]
+//Optimization.NelderMead.minimizeWith rosenbrock [|0.;0.|] [|0.;0.|] [|1.5;1.5|]
 
 
 let d x = x**4. - x
@@ -112,7 +112,7 @@ let descend a b f (f': _ -> vector) (lambda, xs, f_xs) =
         b * lambda, xs_2, f_xs_2
 
 
-/// radient descent algorithm to minimize a given function and derivative
+/// gradient descent algorithm to minimize a given function and derivative
 let minimize f f' xs =
     //let _, xs, _ = fixedPoint (descend 0.5 1.1 f f') (eps, xs, f xs)
     //xs

@@ -60,28 +60,12 @@ module NelderMead =
         //add variables for every starting point
         let variables = 
             init 
-            |> Array.map (fun sp -> 
+            |> Array.mapi (fun i sp -> 
                 let (_,variable) = solver.AddVariable(null)
                 solver.SetValue(variable, Rational.op_Implicit sp)
+                solver.SetBounds(variable, Rational.op_Implicit lower.[i], Rational.op_Implicit upper.[i])
                 variable
                 )
-
-        let lowBound = 
-            lower 
-            |> Array.mapi (fun i sp -> 
-                let (_,variable) = solver.AddVariable(null)
-                solver.SetLowerBound(variables.[i], Rational.op_Implicit sp)
-                variable
-                )
-                
-        let upBound = 
-            upper 
-            |> Array.mapi (fun i sp -> 
-                let (_,variable) = solver.AddVariable(null)
-                solver.SetUpperBound(variables.[i], Rational.op_Implicit sp)
-                variable
-                )
-
 
         //add a row and set it as the goal 
         let _, vidRow = solver.AddRow(null) 
