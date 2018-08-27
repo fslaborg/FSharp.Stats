@@ -46,8 +46,6 @@ open FSharp.Stats.Distributions
 //(*** include-value: test ***)
 
 
-FSharp.Stats.SpecialFunctions.Factorial.factorial 5
-
 // let trapz x y =
 //     Seq.zip x y
 //     |> Seq.pairwise 
@@ -200,14 +198,14 @@ let pdfBinomial p n =
     |> List.map (Discrete.Binomial.PDF p n)
     |> List.zip xBinomial
 
-binomialParams
-|> List.map (fun (p,n) -> Chart.Spline(pdfBinomial p n,Name=sprintf "p=%.1f n=%i" p n,ShowMarkers=false))
-(*** define:PdfStudentT ***)
-|> Chart.Combine
-|> Chart.withX_AxisStyle("x")
-|> Chart.withY_AxisStyle("P(x)")
-|> Chart.withSize (500., 450.)
-(*** include:PdfStudentT ***)
+//binomialParams
+//|> List.map (fun (p,n) -> Chart.Spline(pdfBinomial p n,Name=sprintf "p=%.1f n=%i" p n,ShowMarkers=false))
+//(*** define:PdfStudentT ***)
+//|> Chart.Combine
+//|> Chart.withX_AxisStyle("x")
+//|> Chart.withY_AxisStyle("P(x)")
+//|> Chart.withSize (500., 450.)
+//(*** include:PdfStudentT ***)
 
 
 

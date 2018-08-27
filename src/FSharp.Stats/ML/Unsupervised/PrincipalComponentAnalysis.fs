@@ -166,15 +166,16 @@ module PCA =
         // Perform the Singular Value Decomposition (SVD) of the matrix                
         let transpose = if dataMatrix.NumRows < dataMatrix.NumCols then true else false
 
+        // (umatrix,s,vmatrix)  let s,u,v = 
         let s,u,v = 
             if transpose then
-                FSharp.Stats.Algebra.LinearAlgebraManaged.SVD dataMatrix.Transpose
+                FSharp.Stats.Algebra.LinearAlgebra.SVD dataMatrix.Transpose               
             else
-                FSharp.Stats.Algebra.LinearAlgebraManaged.SVD dataMatrix
+                FSharp.Stats.Algebra.LinearAlgebra.SVD dataMatrix
         let singularValues = s
-        printfn "SVD done"
+        //printfn "SVD done"
         // EigenVectors are the right sigular vectors
-        let eigenVectors   = if transpose then u else FSharp.Stats.Algebra.LinearAlgebraManaged.Inverse v
+        let eigenVectors   = if transpose then u else FSharp.Stats.Algebra.LinearAlgebra.Inverse v
 //        // Eigenvalues are the square of the singular values
 //        let eigenValues = singularValues |> Vector.map (fun x -> x * x ) 
         

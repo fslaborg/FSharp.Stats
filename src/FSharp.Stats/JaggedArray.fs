@@ -25,7 +25,17 @@ module JaggedArray =
             Array.init (colSize) (fun rowI ->  Array.init (arr.Length) (fun colI -> (arr.[colI].[rowI])))
         else
             arr
+    
+    /// Converts from an Array2D into an jagged array
+    let toArray2D (arr: 'T [][]) =
+        let n = arr.Length
+        if n > 0 then 
+            let m = arr.[0].Length
+            Array2D.init n m (fun i j -> arr.[i].[j])
+        else
+            Array2D.zeroCreate 0 0    
 
+    /// Converts a jagged array into an Array2D
     let ofArray2D (arr:'T[,]) =
         let n,m = Array2D.length1 arr,Array2D.length2 arr
         Array.init n (fun i ->
