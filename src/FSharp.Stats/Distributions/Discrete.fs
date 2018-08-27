@@ -166,7 +166,7 @@ module Discrete =
         /// No parameter checking!
         static member internal SampleUnchecked N K n =            
             let rec loop N K n x =
-                if 0 < n then
+                if 0 = n then
                     x
                 else    
                     let p = float K / float N
@@ -276,15 +276,21 @@ module Discrete =
 
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
         /// No parameter checking!
-        static member internal SampleUnchecked p n =            
-            let rec loop p n k =
-                if k < n then
+        static member internal SampleUnchecked p n =          
+            let rec loop n k =
+                if n = 0 then k
+                else 
                     let k' = if Random.rndgen.NextFloat() < p then k + 1 else k
-                    loop p n k'
-                else    
-                    k                                        
+                    loop (n-1) k'
+            loop n 0
+            //let rec loop p n k =
+            //    if k < n then
+            //        let k' = if Random.rndgen.NextFloat() < p then k + 1 else k
+            //        loop p n k'
+            //    else    
+            //        k                                        
             
-            loop p n 0
+            //loop p n 0
             
 
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
@@ -428,6 +434,93 @@ module Discrete =
         }   
 
 
+// ######
+// Poisson-Distribution
+// ----------------------------------------------
+// wiki: "href="https://en.wikipedia.org/wiki/Poisson_distribution"
+// ######
+
+
+    
+    // (lambda) is the expected number of occurrences.    
+
+
+    // Binomial distribution helper functions.
+    let poissonCheckParam lambda = if lambda <= 0 then failwith "Binomial distribution should be parametrized by lambda >= 1"
+    
+    ///Binomial distribution
+    type Poisson =
+        /// Computes the mean.
+        static member Mean lambda =
+            poissonCheckParam lambda
+            failwith "Not implemented yet."
+
+        /// Computes the variance.
+        static member Variance lambda =
+            poissonCheckParam lambda
+            failwith "Not implemented yet."
+
+        /// Computes the standard deviation.
+        static member StandardDeviation lambda =
+            poissonCheckParam lambda
+            failwith "Not implemented yet."
+            
+        ///// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        ///// No parameter checking!
+        //static member internal SampleUnchecked p n =            
+        //    let rec loop p n k =
+        //        if k < n then
+        //            let k' = if Random.rndgen.NextFloat() < p then k + 1 else k
+        //            loop p n k'
+        //        else    
+        //            k                                        
+            
+        //    loop p n 0
+
+        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        /// No parameter checking!
+        static member internal SampleUnchecked lambda =            
+            poissonCheckParam lambda
+            failwith "Not implemented yet."
+            
+
+        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        static member Sample lambda =
+            poissonCheckParam lambda
+            failwith "Not implemented yet."
+
+        /// Computes the probability density function at k, i.e. P(K = k)
+        static member PDF lambda k =
+            if k > 170 then 
+                System.Math.E ** (System.Math.Log (float lambda) * float k - SpecialFunctions.Factorial.factorialLn k) * System.Math.E**(- float lambda)
+            else
+                (float lambda**float k * System.Math.E**(- float lambda)) / SpecialFunctions.Factorial.factorial k
+
+
+        /// Computes the cumulative distribution function at x, i.e. P(X <= x).
+        static member CDF lambda =
+            poissonCheckParam lambda
+            failwith "Not implemented yet."
+
+
+
+
+        /// Returns the support of the Binomial distribution: (0., n).
+        static member Support lambda =
+            poissonCheckParam lambda
+            failwith "Not implemented yet."
+
+    /// Initializes a Binomial distribution       
+    let poisson lambda =
+        { new Distribution<float,int> with
+            member d.Mean              = Poisson.Mean lambda
+            member d.StandardDeviation = Poisson.StandardDeviation lambda
+            member d.Variance          = Poisson.Variance lambda
+            //member d.CoVariance        = Binomial.CoVariance p n
+            member d.Sample ()         = Poisson.Sample lambda
+            member d.PDF k             = Poisson.PDF lambda k
+            member d.CDF x             = Poisson.CDF lambda
+        }
 
 // ######
 // ... distribution

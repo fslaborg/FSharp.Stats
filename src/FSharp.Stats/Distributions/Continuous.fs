@@ -711,7 +711,7 @@ module Continuous =
                 v2 <- 2.0 * Random.rndgen.NextFloat() - 1.0
                 r <- v1 * v1 + v2 * v2
             let fac = sqrt(-2.0*(log r)/r)
-            (tau * v1 * fac + mu)
+            exp (tau * v1 * fac + mu)
             //failwith "Not implemented yet."
 
         /// Computes the probability density function.
@@ -719,14 +719,14 @@ module Continuous =
             logNormalCheckParam mu tau
             let a = (log x - mu) / tau
             //exp(-0.5*a*a)/(x * tau * Ops.Sqrt2Pi)
-            nan
+            failwith "Not implemented yet."
             
 
         /// Computes the cumulative distribution function.
         static member CDF mu tau x =
             logNormalCheckParam mu tau            
             //0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((x - mu)/(tau*(sqrt 2.0))))
-            nan
+            failwith "Not implemented yet."
 
         /// Returns the support of the exponential distribution: [0, Positive Infinity).
         static member Support mu tau =

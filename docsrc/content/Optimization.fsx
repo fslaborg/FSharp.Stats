@@ -2,9 +2,12 @@
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
 //#I "../../bin"
-#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
-#I "../../bin/FSharp.Stats/net461"
+#r "netstandard"
+#r "../../packages/formatting/FSharp.Plotly/lib/netstandard2.0/Fsharp.Plotly.dll"
+#I "../../bin/FSharp.Stats.MSF/net47"
 #r "FSharp.Stats.dll"
+#r "Microsoft.Solver.Foundation.dll"
+#r "FSharp.Stats.MSF.dll"
 open FSharp.Plotly
 open FSharp.Stats
 (**
@@ -53,9 +56,12 @@ let rosenbrock (xs: vector) =
 
 
 
+//Optimization.NelderMead.minimizeWith rosenbrock [|0.;0.|] [|0.;0.|] [|1.5;1.5|]
 
 
+let d x = x**4. - x
 
+let s = Optimization.NelderMead.minimizeSingleWith d 0. -1. 0.5
 
 
 let x = vector [|-2. ..0.1.. 2.|]
@@ -106,7 +112,7 @@ let descend a b f (f': _ -> vector) (lambda, xs, f_xs) =
         b * lambda, xs_2, f_xs_2
 
 
-/// radient descent algorithm to minimize a given function and derivative
+/// gradient descent algorithm to minimize a given function and derivative
 let minimize f f' xs =
     //let _, xs, _ = fixedPoint (descend 0.5 1.1 f f') (eps, xs, f xs)
     //xs
