@@ -7,6 +7,85 @@ module Hermite =
     open FSharp.Stats
     open FSharp.Stats.Optimization
 
+    let private getDiag (m:Matrix<'a>)=
+        let range = min m.NumRows m.NumCols
+        vector [for i = 0 to range - 1 do yield m.[i,i]]
+
+    let unzip4 arr  =
+        Array.foldBack (fun (a,b,c,d) (accA,accB,accC,accD) -> a::accA, b::accB, c::accC, d::accD) arr ([],[],[],[])
+        |> fun (ra,rb,rc,rd) -> Array.ofList ra,Array.ofList rb,Array.ofList rc,Array.ofList rd
+
+    ///works if MKL service is available
+    let getGCV (C:Matrix<float>) (D:Matrix<float>) (H:Matrix<float>) (W:Matrix<float>) (n:int) (y:vector) (a:vector) (lambda:float) =
+        let constr = C*(a |> Matrix.ofVector) 
+        let tol = 0.001 
+        let Ca =    
+            let rec loop i caPrev =
+                if i < C.NumRows then
+                    if System.Math.Abs(constr.[i,0]) <= tol then 
+                        loop (i+1) (((C.Row i) |> Seq.toArray)::caPrev)
+                    else loop (i+1) caPrev
+                else 
+                    if caPrev |> List.isEmpty then
+                        Matrix.create 0 0 0.
+                    else 
+                    matrix (caPrev |> List.rev)
+            loop 0 []
+
+            //let mutable Caprev :float[][] = [||]
+            //for i = 0 to C.NumRows - 1 do
+            //    if System.Math.Abs(constr.[i,0]) <= tol then 
+            //        Caprev <- Array.append Caprev [|(C.Row i) |> Seq.toArray|]
+
+            //if Caprev = [||] then
+            //    Matrix.create 0 0 0.
+            //else matrix Caprev
+       
+        let Z =
+            if Ca.NumRows * Ca.NumCols = 0 then 
+                Matrix.identity n            
+            else
+                let k = 
+                    let (eps,U,V) =
+                        Algebra.LinearAlgebra.SVD Ca
+                    let rank = eps |> Seq.filter (fun x -> x >= 1e-5) |> Seq.length //Threshold if a singular value is considered as 0. //mat.NumRows - eps.Length
+                    let count = V.NumRows - rank
+                    Matrix.getRows V (rank) (count)
+                    |> Matrix.transpose
+                k
+       
+        let I = Matrix.identity n
+
+        let G_lambda (lambd:float)  = 
+            let dInverse = Algebra.LinearAlgebra.Inverse D
+            2. * ( H.Transpose * dInverse * H + lambd / (float n)  * (W.Transpose * W))
+    
+        let A_tild (lambd:float)    = 
+            let zproInverse = Algebra.LinearAlgebra.Inverse (Z.Transpose * (G_lambda lambd) * Z)
+            2. * (lambd / (float n)) * ( Z * zproInverse) * Z.Transpose * (W.Transpose * W)
+
+        let V_tild (lambd:float) =     
+            let aMat = a |> Matrix.ofVector
+            let yMat = y |> Matrix.ofVector
+            let no = 
+                (W * (aMat - yMat))
+                |> fun m -> Matrix.getCol m  0
+                |> Vector.norm
+                |> fun x -> x*x
+  
+            let tr = I - (A_tild lambd) |> getDiag |> Vector.sum
+
+            (float n) * no / (tr * tr)
+
+        let var_ny (lambd:float) =
+            let a = ((W * (a-y)) |>Vector.norm ) ** 2.
+            let b = I - (A_tild lambd) |> getDiag |> Vector.sum
+            a/b
+
+        let gcv = V_tild lambda
+
+        let variance = var_ny lambda
+        (gcv,variance)
 
     let private spline operator (x:Vector<float>) (y:Vector<float>) (W:Matrix<float>) lambd =
 
@@ -28,30 +107,19 @@ module Hermite =
 
 
         let getCtemP n (B:Matrix<float>) (h:Vector<float>) =
+
             let Ctemp = Matrix.zero (4*(n-1)+1) n
-            //Constraint für monoton steigend
-            for i=1 to (n-1) do
-                for j=1 to n do
-                    if (j<i) then
-                        Ctemp.[(4*i - 3) - 1 , j - 1] <- 0.0
-                        Ctemp.[(4*i - 1) - 1 , j - 1] <- 0.0 - B.[i-1 , j-1]
-                        Ctemp.[(4*i - 0) - 1 , j - 1] <- 0.0 - B.[i , j-1]
-                    elif (j=i) then
-                        Ctemp.[(4*i - 3) - 1 , j - 1] <- (-3.0 / h.[i-1])
-                        Ctemp.[(4*i - 1) - 1 , j - 1] <- (-3.0 / h.[i-1]) - B.[i-1 , j-1]
-                        Ctemp.[(4*i - 0) - 1 , j - 1] <- (-3.0 / h.[i-1]) - B.[i , j-1]
-                    elif (j=i+1) then
-                        Ctemp.[(4*i - 3) - 1 , j - 1] <- (+3.0 / h.[i-1])
-                        Ctemp.[(4*i - 1) - 1 , j - 1] <- (+3.0 / h.[i-1]) - B.[i-1 , j-1]
-                        Ctemp.[(4*i - 0) - 1 , j - 1] <- (+3.0 / h.[i-1]) - B.[i , j-1]
-                    else
-                        Ctemp.[(4*i - 3) - 1 , j - 1] <- 0.0
-                        Ctemp.[(4*i - 1) - 1 , j - 1] <- 0.0 - B.[i-1 , j-1]
-                        Ctemp.[(4*i - 0) - 1 , j - 1] <- 0.0 - B.[i , j-1]
-                    Ctemp.[(4*i - 2) - 1 , j - 1] <- B.[i-1 , j-1]
-            for j in 1 .. n do
-                 Ctemp.[(4*(n-1)) + 1 - 1 , j - 1] <- B.[n-1 , j-1]
-        
+
+            for i = 1 to (n - 1) do    
+                let temp = 
+                    let htemp = 3./h.[i-1]
+                    (List.init (i-1) (fun x -> 0.))::[-htemp]::[htemp]::[(List.init (n-i-1) (fun x -> 0.))]
+                    |> List.concat
+                    |> vector
+                Matrix.setRow Ctemp (4*i-4) temp
+                Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
+                Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
+                Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
             Ctemp
 
 
@@ -117,7 +185,7 @@ module Hermite =
         let Q = calcGlambda (Matrix.ofArray2D D) (Matrix.ofArray2D H) W n lambd 
         let c = calcclambda W n y lambd |> Vector.toArray
 
-        let b = Array.create n (-infinity,0.) // Reconsider
+        let b = Array.create ((A |> Array2D.length1)) (-infinity,0.) //Array.create n (-infinity,0.) // Reconsider
 
         let a' = 
             let tmp = Matrix.create Q.NumRows Q.NumCols 1. |> setDiagonalInplace 0.5
@@ -134,6 +202,8 @@ module Hermite =
             // padding zero
             Vector.init (tmp.Length+2) (fun i -> if i>0 && i<=tmp.Length then tmp.[i-1] else 0.0) 
 
+        //works if MKL service either is available 
+        //let (gcv',var') = getGCV (A |> Matrix.ofArray2D) (Matrix.ofArray2D D) (Matrix.ofArray2D H) W y.Length y a' lambd
         (a',e',b',c')
 
 
