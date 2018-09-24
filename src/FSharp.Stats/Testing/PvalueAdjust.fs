@@ -65,7 +65,7 @@ module PvalueAdjust =
             min (tmp) (1.0)
 
         /// Estimates pi0 from given p-Values by Storeys bootstrap method using default lambda's
-        let pi0_Bootstrap (p:float[]) = pi0_BootstrapWithLambda [|0.0 ..0.05..0.9|]
+        let pi0_Bootstrap (p:float[]) = pi0_BootstrapWithLambda [|0.0 ..0.05..0.9|] p
 
 
 
