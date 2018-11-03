@@ -102,6 +102,7 @@
     <Compile Include="Fitting\NonLinearRegression.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\LinearRegression.fs" />
+    <Compile Include="Fitting\GoodnessOfFit.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
     <Compile Include="Fitting\Spline.fs" />
     <!-- ML -->
