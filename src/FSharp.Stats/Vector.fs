@@ -58,7 +58,7 @@ module Vector =
         let inplaceSub v1 v2 = OpsS.inplaceSubV v1 v2
         let inplace_cptMul v1 v2 = OpsS.inplaceCptMulV v1 v2
         let inplace_scale v1 v2 = OpsS.inplaceScaleV v1 v2
-
+        let singleton x = Vector(None,[|x|])
 
 
         let exists  f a = OpsS.existsV  f a
@@ -189,7 +189,8 @@ module Vector =
     let of_seq    xs   = ofSeq xs
     ///Builds one dimensional vector from scalar
     let of_scalar x    = ofScalar x
-    
+    ///Builds vector of Length 1 from value x
+    let singleton x = Generic.singleton x
     
     //----------------------------------------------------------------------------
     // Stats

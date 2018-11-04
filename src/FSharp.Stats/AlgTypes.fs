@@ -2033,7 +2033,7 @@ namespace FSharp.Stats
                 for j = start2 to finish2 do
                     m.[i,j] <- vs.[i-start1,j-start2]
 
-
+        /// RowCount * ColumnCount
         member m.Dimensions = m.NumRows,m.NumCols
 
         member m.Transpose = SpecializedGenericImpl.transM m
