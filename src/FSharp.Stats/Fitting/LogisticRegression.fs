@@ -53,9 +53,10 @@ module LogisticRegression =
         let denominator = Vector.norm before
         numerator / denominator
 
+
     module Univariable = 
         /// Calculates the weights for logistic regression.
-        let coefficient epsilon (x_data : Vector<float>) (y_data : Vector<float>) =
+        let coefficient epsilon alpha (x_data : Vector<float>) (y_data : Vector<float>) =
             if x_data.Length <> y_data.Length then
                 raise (System.ArgumentException("vector x and y have to be the same size!"))
 
@@ -79,7 +80,7 @@ module LogisticRegression =
 
             let weights = Vector.zero (2) // 1 more weight for constant
 
-            descent weights 1.0 
+            descent weights alpha
 
         /// Returns the regression function
         let fitFunc (coef: Vector<float>) = 
@@ -89,10 +90,18 @@ module LogisticRegression =
         let fit (coef: Vector<float>) x= 
             predict coef (Vector.singleton x)
 
+        let estimateAlpha epsilon (x_data : Vector<float>) (y_data : Vector<float>) = 
+            let fR2 alpha = 
+                let weight = coefficient epsilon alpha x_data y_data
+                let f = fitFunc weight
+                let r2 = GoodnessOfFit.calculateSSE f x_data y_data
+                r2
+            Optimization.Brent.minimizeWith fR2 0. 1. 0.001 100
+
     module Multivariable = 
 
         /// Calculates the weights for logistic regression.
-        let coefficient epsilon (x_data : Matrix<float>) (y_data : Vector<float>) =
+        let coefficient epsilon alpha (x_data : Matrix<float>) (y_data : Vector<float>) =
             if (x_data.NumRows) <> y_data.Length then
                 raise (System.ArgumentException("columns of matrix x and vector y have to be the same size!"))
 
@@ -116,7 +125,7 @@ module LogisticRegression =
             let vars = x_data.NumCols
             let weights = Vector.zero (vars+1) // 1 more weight for constant
 
-            descent weights 1.0
+            descent weights alpha
     
         /// Returns the regression function
         let fitFunc (coef: Vector<float>) = 
@@ -125,3 +134,11 @@ module LogisticRegression =
         /// Returns the regression function
         let fit (coef: Vector<float>) (x:Vector<float>)= 
             predict coef x
+
+        //let estimateAlpha epsilon (x_data : Matrix<float>) (y_data : Vector<float>) = 
+        //    let fR2 alpha = 
+        //        let weight = coefficient epsilon alpha x_data y_data
+        //        let f = fitFunc weight
+        //        let r2 = GoodnessOfFit.calculateSSE f x_data y_data
+        //        r2
+        //    Optimization.Brent.minimizeWith fR2 0. 1. 0.001 100
