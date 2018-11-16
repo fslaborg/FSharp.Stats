@@ -476,4 +476,4 @@ Target.create "All" ignore
 "All"
   ==> "ReleaseLocal"
 
-Target.runOrDefault "All"
+Target.runOrDefaultWithArguments "All"
