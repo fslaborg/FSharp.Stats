@@ -65,6 +65,7 @@
     <!-- Integration -->
     <Compile Include="Integration\Differentiation.fs" />
     <Compile Include="Integration\Integration.fs" />
+    <Compile Include="Optimization\BrentExt.fs" />
     <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
     <Compile Include="Optimization\Bisection.fs" />
@@ -99,11 +100,11 @@
     <Compile Include="Testing\SAM.fs" />
     <Compile Include="Testing\FisherHotelling.fs" />
     <Compile Include="Testing\RMT.fs" />
-    <Compile Include="Fitting\LogisticRegression.fs" />
     <Compile Include="Fitting\NonLinearRegression.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\LinearRegression.fs" />
     <Compile Include="Fitting\GoodnessOfFit.fs" />
+    <Compile Include="Fitting\LogisticRegression.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
     <Compile Include="Fitting\Spline.fs" />
     <!-- ML -->

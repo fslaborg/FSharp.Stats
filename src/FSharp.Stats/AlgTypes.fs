@@ -845,6 +845,17 @@ namespace FSharp.Stats
             let mA= if a.NumRows = b.NumRows then a.NumRows else raise (ArgumentException("Vectors of different length."))                        
             createVecGU a.OpsData mA (fun i -> f a.[i] b.[i])
 
+        let map3VecGU f (a:Vector<'a>) (b:Vector<'a>) (c:Vector<'a>) : Vector<'a> = 
+            let mA= if a.NumRows = b.NumRows && a.NumRows = c.NumRows then a.NumRows else raise (ArgumentException("Vectors of different length."))                        
+            createVecGU a.OpsData mA (fun i -> f a.[i] b.[i] c.[i])
+            
+        let zipVecGU (a:Vector<'a>) (b:Vector<'b>) : Vector<'a*'b> = 
+            let mA= if a.NumRows = b.NumRows then a.NumRows else raise (ArgumentException("Vectors of different length."))     
+            createVecGU None mA (fun i -> a.[i],b.[i])
+        
+        let unzipVecGU (a : Vector<'a*'b>) : Vector<'a> * Vector<'b> = 
+            let mA = a.NumRows
+            createVecGU None mA (fun i -> fst a.[i]),createVecGU None mA (fun i -> snd a.[i])
 
         let copyDenseMatrixGU (a : DenseMatrix<'T>) : DenseMatrix<'T> = 
             let arrA = a.Values 
@@ -874,6 +885,16 @@ namespace FSharp.Stats
 
         let permuteRowVecGU (p:permutation) (a:RowVector<_>) = 
             createRowVecGU a.OpsData a.NumCols (fun i -> a.[p i])
+
+        let inline inplace_mapDenseMatrixGU f (a:DenseMatrix<_>) = 
+            let arrA = a.Values 
+            assignDenseMatrixGU (fun i j -> f (getArray2D arrA i j)) a
+
+        let inline inplace_mapRowVecGU f (a:RowVector<_>) = 
+            assignRowVecGU (fun i -> f a.[i]) a
+
+        let inline inplace_mapVecGU f (a:Vector<_>) = 
+            assignVecGU (fun i -> f a.[i]) a
 
         let inline inplace_mapiDenseMatrixGU f (a:DenseMatrix<_>) = 
             let arrA = a.Values 
@@ -1770,6 +1791,12 @@ namespace FSharp.Stats
 
         let map2V  f a b = GU.map2VecGU f a b
 
+        let map3V f a b c = GU.map3VecGU f a b c
+
+        let zipV a b = GU.zipVecGU a b
+
+        let unzipV a = GU.unzipVecGU a
+
         let copyM  a = 
             match a with 
             | SparseRepr a -> SparseRepr (GU.copySparseGU a)
@@ -1814,11 +1841,18 @@ namespace FSharp.Stats
 
         let getDiagM  a = getDiagnM a 0
 
+        let inline inplace_mapM  f a = 
+            match a with 
+            | SparseRepr _ -> sparseNotMutable()
+            | DenseRepr a -> GU.inplace_mapDenseMatrixGU f a
+
         let inline inplace_mapiM  f a = 
             match a with 
             | SparseRepr _ -> sparseNotMutable()
             | DenseRepr a -> GU.inplace_mapiDenseMatrixGU f a
 
+        let inline inplace_mapV  f a = GU.inplace_mapVecGU f a
+ 
         let inline inplace_mapiV  f a = GU.inplace_mapiVecGU f a
         
         let inline foldM  f z a = 

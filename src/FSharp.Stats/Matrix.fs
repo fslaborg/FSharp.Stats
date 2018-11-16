@@ -166,6 +166,7 @@ module Matrix = begin
         let inplace_assign f a    = MS.inplaceAssignM  f a
         let inplace_cptMul a b    = MS.inplaceCptMulM a b
         let inplace_scale a b     = MS.inplaceScaleM a b
+        let inplace_map f a      = MS.inplace_mapM f a
         let inplace_mapi f a      = MS.inplace_mapiM f a
         let of_rowvec x           = ofRowVector x
         let of_vector x           = ofVector x
