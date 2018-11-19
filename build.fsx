@@ -207,8 +207,25 @@ Target.create "Build" (fun _ ->
 // Run the unit tests using test runner
 
 Target.create "RunTests" (fun _ ->
-    !! testAssemblies
-    |> Expecto.run id
+    let assemblies = !! testAssemblies
+
+    let setParams f =
+        match Environment.isWindows with
+        | true ->
+            fun p ->
+                { p with
+                    FileName = f}
+        | false ->
+            fun p ->
+                { p with
+                    FileName = "mono"
+                    Arguments = f }
+    assemblies
+    |> Seq.map (fun f ->
+        Process.execSimple (setParams f) System.TimeSpan.MaxValue
+    )
+    |>Seq.reduce (+)
+    |> (fun i -> if i > 0 then failwith "")
 )
 
 // --------------------------------------------------------------------------------------
