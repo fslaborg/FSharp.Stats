@@ -6,9 +6,10 @@ namespace FSharp.Stats.Algebra
 //open Microsoft.FSharp.Math
 //open Microsoft.FSharp.Math. Bindings.Internals.NativeUtilities
 open FSharp.Stats
-
+open DotNetExtensions
 /// This module is for internal use only.
 module LinearAlgebraManaged = 
+    open System
 
     //let a = 1.    
 
@@ -192,24 +193,6 @@ module LinearAlgebraManaged =
                 A.[l,k] <- A.[l,k] - 2.0 * v.[l-i] * v'A.[k-i]
         v                                                              // Return reflection vector.
 
-    type SparseVector() = 
-        member val entries = new ResizeArray<(int*float)>() with get,set
-        member m.Front
-            with get() = m.entries.[0]
-            and set(value) = m.entries.[0] <- value
-        member m.Add (entry:(int*float)) =
-            m.entries.Add(entry)
-        member m.IsEmpty =
-            m.entries.Count <= 0
-        member m.Swap (other:SparseVector) =
-            let temp = new ResizeArray<(int*float)> (other.entries)
-            other.entries <- new ResizeArray<(int*float)>(m.entries)
-            m.entries <- new ResizeArray<(int*float)>(temp)
-        member m.PopFront =
-            let value = m.entries.[0]
-            m.entries.RemoveAt(0)
-            value
-
     /// QR factorization function for dense matrices
     let QRDense (A:matrix) =
         let (n,m) = matrixDims A
@@ -242,11 +225,11 @@ module LinearAlgebraManaged =
         
         // Copies the row of a Sparsematrix into a Sparsevector
         let CopyRow(nnz:int, offset:int, A:SparseMatrix<float>) =
-            let sparseVector = SparseVector()
+            let sparseVector = ResizeArray<(int*float)>()
             for i=nnz-1 downto 0 do
                 if(not (A.SparseValues.[i+offset] = 0.0)) then
                     let entry = (A.SparseColumnValues.[i+offset], A.SparseValues.[i+offset])
-                    sparseVector.entries.Insert(0, entry)
+                    sparseVector.Insert(0, entry)
             sparseVector
         
         // Returns "value" with the sign of "sign"
@@ -266,7 +249,7 @@ module LinearAlgebraManaged =
                 Copysign(1.0/c, s)
 
         // Apply the givens rotation on 2 Sparsevectors
-        let applyGivens( x : SparseVector, y : SparseVector) = 
+        let applyGivens( x : ResizeArray<(int*float)>, y : ResizeArray<(int*float)>) = 
             let a = snd x.Front
             let b = snd y.Front
     
@@ -298,53 +281,53 @@ module LinearAlgebraManaged =
             let mutable q = 0
             p <- p + 1 // Skip the first entry since we already handled it above
     
-            while (p < x.entries.Count && q < y.entries.Count) do
-                if (fst x.entries.[p] = fst y.entries.[q]) then
-                    let xNew = c  * snd x.entries.[p] - s * snd y.entries.[q]
-                    let yNew = s *  snd x.entries.[p] + c * snd y.entries.[q]
+            while (p < x.Count && q < y.Count) do
+                if (fst x.[p] = fst y.[q]) then
+                    let xNew = c  * snd x.[p] - s * snd y.[q]
+                    let yNew = s *  snd x.[p] + c * snd y.[q]
                     if (not (xNew = 0.0)) then
-                        x.entries.[p] <- (fst x.entries.[p], xNew)
+                        x.[p] <- (fst x.[p], xNew)
                         p <- p + 1
                     else
-                        x.entries.RemoveAt(p)
+                        x.RemoveAt(p)
                     if ( not (yNew = 0.0)) then
-                        y.entries.[q] <- (fst y.entries.[q], yNew)
+                        y.[q] <- (fst y.[q], yNew)
                         q <- q + 1
                     else
-                        y.entries.RemoveAt(q)
-                else if(fst x.entries.[p] < fst y.entries.[q]) then
-                    let k = fst x.entries.[p]
-                    let xNew = c * snd x.entries.[p]
-                    let yNew = s * snd x.entries.[p]
-                    x.entries.[p] <- (fst x.entries.[p] , xNew)
+                        y.RemoveAt(q)
+                else if(fst x.[p] < fst y.[q]) then
+                    let k = fst x.[p]
+                    let xNew = c * snd x.[p]
+                    let yNew = s * snd x.[p]
+                    x.[p] <- (fst x.[p] , xNew)
                     p <-p + 1
-                    y.entries.Insert(q,(k, yNew))
+                    y.Insert(q,(k, yNew))
                     q <- q + 1
                 else
-                    let k = fst y.entries.[q]
-                    let xNew= -s * snd y.entries.[q]
-                    let yNew= c * snd y.entries.[q]
-                    x.entries.Insert(p,(k, xNew))
+                    let k = fst y.[q]
+                    let xNew= -s * snd y.[q]
+                    let yNew= c * snd y.[q]
+                    x.Insert(p,(k, xNew))
                     p <- p + 1
-                    y.entries.[q] <- (fst y.entries.[q], yNew)
+                    y.[q] <- (fst y.[q], yNew)
                     q <- q + 1
-            if(p < x.entries.Count) then
-                while(p < x.entries.Count) do
-                    let k = fst x.entries.[p]
-                    let xNew = c * snd x.entries.[p]
-                    let yNew = s * snd x.entries.[p]
-                    x.entries.[p] <- (fst x.entries.[p], xNew)
+            if(p < x.Count) then
+                while(p < x.Count) do
+                    let k = fst x.[p]
+                    let xNew = c * snd x.[p]
+                    let yNew = s * snd x.[p]
+                    x.[p] <- (fst x.[p], xNew)
                     p <- p + 1
-                    y.entries.Insert(q,(k, yNew))
+                    y.Insert(q,(k, yNew))
                     q <- q + 1      
-            else if(q < y.entries.Count) then
-                while(q < y.entries.Count) do
-                    let k = fst y.entries.[q]
-                    let xNew = -s * snd y.entries.[q]
-                    let yNew = c * snd y.entries.[q]
-                    x.entries.Insert(p,(k, xNew))
+            else if(q < y.Count) then
+                while(q < y.Count) do
+                    let k = fst y.[q]
+                    let xNew = -s * snd y.[q]
+                    let yNew = c * snd y.[q]
+                    x.Insert(p,(k, xNew))
                     p <- p + 1
-                    y.entries.[q] <- (fst y.entries.[q], yNew)
+                    y.[q] <- (fst y.[q], yNew)
                     q <- q + 1
 
             encode(c, s)
@@ -352,38 +335,42 @@ module LinearAlgebraManaged =
         // Run Sparse QR
         let m = A.NumRows
         let n = A.NumCols
-        let mutable Q = new ResizeArray<SparseVector>()
-        let mutable R = new ResizeArray<SparseVector>()
+        let mutable Q = new ResizeArray<ResizeArray<(int*float)>>()
+        let mutable R = new ResizeArray<ResizeArray<(int*float)>>()
    
         for i = 0 to m - 1 do
-            Q.Add(SparseVector())
-            R.Add(SparseVector())
+            Q.Add(ResizeArray<(int*float)>())
+            R.Add(ResizeArray<(int*float)>())
 
         for a = 0 to m-1 do
-            let row = CopyRow(A.SparseRowOffsets.[a+1] - A.SparseRowOffsets.[a], A.SparseRowOffsets.[a], A)
+            let mutable row = CopyRow(A.SparseRowOffsets.[a+1] - A.SparseRowOffsets.[a], A.SparseRowOffsets.[a], A)
             let mutable q = 0
             while((not row.IsEmpty) && fst row.Front < a && fst row.Front < n) do
                 let j = fst row.Front
 
                 if(R.[j].IsEmpty || fst R.[j].Front > j) then
-                    R.[j].Swap(row)
-                    Q.[a].entries.Insert(q, (j, 1.0))
+                    let temp = new ResizeArray<(int*float)> (row)
+                    row <- new ResizeArray<(int*float)>(R.[a])
+                    R.[a] <- new ResizeArray<(int*float)>(temp)
+                    Q.[a].Insert(q, (j, 1.0))
                     q <- q + 1
                     ()
                 else
                     let ret = applyGivens(R.[j], row)
-                    Q.[a].entries.Insert(q, (j, ret))
+                    Q.[a].Insert(q, (j, ret))
                     q <- q + 1
                     ()
             if (a < n) then
-                R.[a].Swap(row)
+                let temp = new ResizeArray<(int*float)> (row)
+                row <- new ResizeArray<(int*float)>(R.[a])
+                R.[a] <- new ResizeArray<(int*float)>(temp)
                 ()
 
         let mutable x = -1
 
         let RSeq = seq{ for row in R do
                             x <- x+1
-                            for entry in row.entries do
+                            for entry in row do
                                 yield(x, fst entry, snd entry)}
 
         let ROut = Matrix.initSparse m n RSeq
@@ -391,7 +378,7 @@ module LinearAlgebraManaged =
         x <- -1
         let QSeq = seq{ for row in Q do
                             x <- x+1
-                            for entry in row.entries do
+                            for entry in row do
                                 yield(x, fst entry, snd entry)}
 
         let QOut = Matrix.initSparse m n QSeq
