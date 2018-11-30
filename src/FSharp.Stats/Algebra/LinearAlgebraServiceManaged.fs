@@ -221,10 +221,10 @@ module LinearAlgebraManaged =
         Q,R
 
     /// QR factorization function for sparse matrices, returns Q as a product of givens rotations and R as upper triangular
-    let QRSparse(A:SparseMatrix<float>) =
-        
-        // Copies the row of a Sparsematrix into a Sparsevector
-        let CopyRow(nnz:int, offset:int, A:SparseMatrix<float>) =
+    let QRSparse (A:SparseMatrix<float>) =
+
+        /// Copies the row of a Sparsematrix into a Sparsevector
+        let CopyRow (nnz:int) (offset:int) (A:SparseMatrix<float>) =
             let sparseVector = ResizeArray<(int*float)>()
             for i=nnz-1 downto 0 do
                 if(not (A.SparseValues.[i+offset] = 0.0)) then
@@ -232,8 +232,8 @@ module LinearAlgebraManaged =
                     sparseVector.Insert(0, entry)
             sparseVector
         
-        // Returns "value" with the sign of "sign"
-        let Copysign(value:float, sign:float) =
+        /// Returns "value" with the sign of "sign"
+        let Copysign (value:float) (sign:float) =
             if (sign >= 0.0) then
                 abs(value)
             else // sign is negative
@@ -242,14 +242,14 @@ module LinearAlgebraManaged =
                 else
                    value * -1.0
 
-        let encode(c:float, s:float) = 
+        let Encode(c:float) (s:float) = 
             if(abs(s) < c) then
                 s
             else
-                Copysign(1.0/c, s)
+                Copysign (1.0/c) s
 
-        // Apply the givens rotation on 2 Sparsevectors
-        let applyGivens( x : ResizeArray<(int*float)>, y : ResizeArray<(int*float)>) = 
+        /// Apply the givens rotation on 2 Sparsevectors
+        let ApplyGivens (x : ResizeArray<(int*float)>) (y : ResizeArray<(int*float)>) = 
             let a = snd x.Front
             let b = snd y.Front
     
@@ -272,7 +272,7 @@ module LinearAlgebraManaged =
                     c <- 1.0 / sqrt(1.0 + tau * tau)
                     s <- c * tau
 
-            // rotate the start of each list
+            // Rotate the start of each list
             x.Front <- (fst x.Front, c * a - s * b)
             y.PopFront |> ignore
     
@@ -330,7 +330,7 @@ module LinearAlgebraManaged =
                     y.[q] <- (fst y.[q], yNew)
                     q <- q + 1
 
-            encode(c, s)
+            Encode c s
         
         // Run Sparse QR
         let m = A.NumRows
@@ -343,7 +343,7 @@ module LinearAlgebraManaged =
             R.Add(ResizeArray<(int*float)>())
 
         for a = 0 to m-1 do
-            let mutable row = CopyRow(A.SparseRowOffsets.[a+1] - A.SparseRowOffsets.[a], A.SparseRowOffsets.[a], A)
+            let mutable row = CopyRow (A.SparseRowOffsets.[a+1] - A.SparseRowOffsets.[a]) A.SparseRowOffsets.[a] A
             let mutable q = 0
             while((not row.IsEmpty) && fst row.Front < a && fst row.Front < n) do
                 let j = fst row.Front
@@ -356,7 +356,7 @@ module LinearAlgebraManaged =
                     q <- q + 1
                     ()
                 else
-                    let ret = applyGivens(R.[j], row)
+                    let ret = ApplyGivens R.[j] row
                     Q.[a].Insert(q, (j, ret))
                     q <- q + 1
                     ()
@@ -366,20 +366,23 @@ module LinearAlgebraManaged =
                 R.[a] <- new ResizeArray<(int*float)>(temp)
                 ()
 
-        let mutable x = -1
+        let mutable x = 0
 
         let RSeq = seq{ for row in R do
-                            x <- x+1
                             for entry in row do
-                                yield(x, fst entry, snd entry)}
+                                yield(x, fst entry, snd entry)
+                            x <- x+1
+                      }
+                            
 
         let ROut = Matrix.initSparse m n RSeq
 
-        x <- -1
+        x <- 0
         let QSeq = seq{ for row in Q do
-                            x <- x+1
                             for entry in row do
-                                yield(x, fst entry, snd entry)}
+                                yield(x, fst entry, snd entry)
+                            x <- x+1  
+                      }
 
         let QOut = Matrix.initSparse m n QSeq
         QOut, ROut
@@ -421,8 +424,8 @@ module LinearAlgebraManaged =
     let leastSquares A (b: vector) =
 
         // Q.transpose * b for sparse Q
-        let MultiplyVectorWithTransposeGivensMatrix (q:SparseMatrix<float>, x:vector) =
-            let outVec = vector x
+        let MultiplyVectorWithTransposeGivensMatrix (q:SparseMatrix<float>, b:vector) =
+            let outVec = vector b
             let m = q.NumRows
             for i = 0 to m-1 do
                 for j = q.SparseRowOffsets.[i] to (q.SparseRowOffsets.[i+1] - 1) do
