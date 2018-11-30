@@ -191,23 +191,20 @@ module LinearAlgebraManaged =
             for k=i to m-1 do
                 A.[l,k] <- A.[l,k] - 2.0 * v.[l-i] * v'A.[k-i]
         v                                                              // Return reflection vector.
-    
-    type SparseEntry (index:int, value:float) =
-        member m.index = index
-        member val value = value with get, set
 
     type SparseVector() = 
-        member val entries = new ResizeArray<SparseEntry>() with get,set
-        member m.Front =
-            m.entries.[0]
-        member m.Add (entry:SparseEntry) =
+        member val entries = new ResizeArray<(int*float)>() with get,set
+        member m.Front
+            with get() = m.entries.[0]
+            and set(value) = m.entries.[0] <- value
+        member m.Add (entry:(int*float)) =
             m.entries.Add(entry)
         member m.IsEmpty =
             m.entries.Count <= 0
         member m.Swap (other:SparseVector) =
-            let temp = new ResizeArray<SparseEntry> (other.entries)
-            other.entries <- new ResizeArray<SparseEntry>(m.entries)
-            m.entries <- new ResizeArray<SparseEntry>(temp)
+            let temp = new ResizeArray<(int*float)> (other.entries)
+            other.entries <- new ResizeArray<(int*float)>(m.entries)
+            m.entries <- new ResizeArray<(int*float)>(temp)
         member m.PopFront =
             let value = m.entries.[0]
             m.entries.RemoveAt(0)
@@ -248,7 +245,7 @@ module LinearAlgebraManaged =
             let sparseVector = SparseVector()
             for i=nnz-1 downto 0 do
                 if(not (A.SparseValues.[i+offset] = 0.0)) then
-                    let entry = SparseEntry(A.SparseColumnValues.[i+offset], A.SparseValues.[i+offset])
+                    let entry = (A.SparseColumnValues.[i+offset], A.SparseValues.[i+offset])
                     sparseVector.entries.Insert(0, entry)
             sparseVector
         
@@ -270,8 +267,8 @@ module LinearAlgebraManaged =
 
         // Apply the givens rotation on 2 Sparsevectors
         let applyGivens( x : SparseVector, y : SparseVector) = 
-            let a = x.Front.value
-            let b = y.Front.value
+            let a = snd x.Front
+            let b = snd y.Front
     
             let mutable c = -1.0
             let mutable s = -1.0
@@ -293,7 +290,7 @@ module LinearAlgebraManaged =
                     s <- c * tau
 
             // rotate the start of each list
-            x.Front.value <- c * a - s * b
+            x.Front <- (fst x.Front, c * a - s * b)
             y.PopFront |> ignore
     
             // Iterators
@@ -302,52 +299,52 @@ module LinearAlgebraManaged =
             p <- p + 1 // Skip the first entry since we already handled it above
     
             while (p < x.entries.Count && q < y.entries.Count) do
-                if (x.entries.[p].index = y.entries.[q].index) then
-                    let xNew = c  * x.entries.[p].value - s * y.entries.[q].value
-                    let yNew = s *  x.entries.[p].value + c * y.entries.[q].value
+                if (fst x.entries.[p] = fst y.entries.[q]) then
+                    let xNew = c  * snd x.entries.[p] - s * snd y.entries.[q]
+                    let yNew = s *  snd x.entries.[p] + c * snd y.entries.[q]
                     if (not (xNew = 0.0)) then
-                        x.entries.[p].value <- xNew
+                        x.entries.[p] <- (fst x.entries.[p], xNew)
                         p <- p + 1
                     else
                         x.entries.RemoveAt(p)
                     if ( not (yNew = 0.0)) then
-                        y.entries.[q].value <- yNew
+                        y.entries.[q] <- (fst y.entries.[q], yNew)
                         q <- q + 1
                     else
                         y.entries.RemoveAt(q)
-                else if(x.entries.[p].index < y.entries.[q].index) then
-                    let k = x.entries.[p].index
-                    let xNew = c * x.entries.[p].value
-                    let yNew = s * x.entries.[p].value
-                    x.entries.[p].value <- xNew
+                else if(fst x.entries.[p] < fst y.entries.[q]) then
+                    let k = fst x.entries.[p]
+                    let xNew = c * snd x.entries.[p]
+                    let yNew = s * snd x.entries.[p]
+                    x.entries.[p] <- (fst x.entries.[p] , xNew)
                     p <-p + 1
-                    y.entries.Insert(q, SparseEntry(k, yNew))
+                    y.entries.Insert(q,(k, yNew))
                     q <- q + 1
                 else
-                    let k = y.entries.[q].index
-                    let xNew= -s * y.entries.[q].value
-                    let yNew= c * y.entries.[q].value
-                    x.entries.Insert(p,SparseEntry(k, xNew))
+                    let k = fst y.entries.[q]
+                    let xNew= -s * snd y.entries.[q]
+                    let yNew= c * snd y.entries.[q]
+                    x.entries.Insert(p,(k, xNew))
                     p <- p + 1
-                    y.entries.[q].value <- yNew
+                    y.entries.[q] <- (fst y.entries.[q], yNew)
                     q <- q + 1
             if(p < x.entries.Count) then
                 while(p < x.entries.Count) do
-                    let k = x.entries.[p].index
-                    let xNew = c * x.entries.[p].value
-                    let yNew = s * x.entries.[p].value
-                    x.entries.[p].value <- xNew
+                    let k = fst x.entries.[p]
+                    let xNew = c * snd x.entries.[p]
+                    let yNew = s * snd x.entries.[p]
+                    x.entries.[p] <- (fst x.entries.[p], xNew)
                     p <- p + 1
-                    y.entries.Insert(q,SparseEntry(k, yNew))
+                    y.entries.Insert(q,(k, yNew))
                     q <- q + 1      
             else if(q < y.entries.Count) then
                 while(q < y.entries.Count) do
-                    let k = y.entries.[q].index
-                    let xNew = -s * y.entries.[q].value
-                    let yNew = c * y.entries.[q].value
-                    x.entries.Insert(p,SparseEntry(k, xNew))
+                    let k = fst y.entries.[q]
+                    let xNew = -s * snd y.entries.[q]
+                    let yNew = c * snd y.entries.[q]
+                    x.entries.Insert(p,(k, xNew))
                     p <- p + 1
-                    y.entries.[q].value <- yNew
+                    y.entries.[q] <- (fst y.entries.[q], yNew)
                     q <- q + 1
 
             encode(c, s)
@@ -365,17 +362,17 @@ module LinearAlgebraManaged =
         for a = 0 to m-1 do
             let row = CopyRow(A.SparseRowOffsets.[a+1] - A.SparseRowOffsets.[a], A.SparseRowOffsets.[a], A)
             let mutable q = 0
-            while((not row.IsEmpty) && row.Front.index < a && row.Front.index < n) do
-                let j = row.Front.index
+            while((not row.IsEmpty) && fst row.Front < a && fst row.Front < n) do
+                let j = fst row.Front
 
-                if(R.[j].IsEmpty || R.[j].Front.index > j) then
+                if(R.[j].IsEmpty || fst R.[j].Front > j) then
                     R.[j].Swap(row)
-                    Q.[a].entries.Insert(q, SparseEntry(j, 1.0))
+                    Q.[a].entries.Insert(q, (j, 1.0))
                     q <- q + 1
                     ()
                 else
                     let ret = applyGivens(R.[j], row)
-                    Q.[a].entries.Insert(q, SparseEntry(j, ret))
+                    Q.[a].entries.Insert(q, (j, ret))
                     q <- q + 1
                     ()
             if (a < n) then
@@ -387,7 +384,7 @@ module LinearAlgebraManaged =
         let RSeq = seq{ for row in R do
                             x <- x+1
                             for entry in row.entries do
-                                yield(x, entry.index, float entry.value)}
+                                yield(x, fst entry, snd entry)}
 
         let ROut = Matrix.initSparse m n RSeq
 
@@ -395,7 +392,7 @@ module LinearAlgebraManaged =
         let QSeq = seq{ for row in Q do
                             x <- x+1
                             for entry in row.entries do
-                                yield(x, entry.index, float entry.value)}
+                                yield(x, fst entry, snd entry)}
 
         let QOut = Matrix.initSparse m n QSeq
         QOut, ROut
