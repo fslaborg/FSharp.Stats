@@ -15,6 +15,27 @@ Basic stats
 open FSharp.Stats
 
 
+
+let a = 
+    [|
+        0.841788;0.726692;0.892715;0.645022;
+        0.282855;0.000000;0.000000;0.727865;
+        0.000000;0.744897;0.507446;0.980313;
+        0.910520;0.000000;0.812722;
+    |] 
+
+
+//a  |> quickSelect 0 14 5
+
+
+
+//Chart.Point (a|> Array.sort ,[|1..15|] |> Array.map (fun k -> quickSelect 0 14 k a))
+//|> Chart.Show
+
+a |> Array.median
+
+
+
 // Range min to max
 let rTv = 
     [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
