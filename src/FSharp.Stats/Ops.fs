@@ -10,14 +10,14 @@ module Ops =
     /// The constant pi = 3.141596...
     let pi = System.Math.PI
 
-    /// The constant pi = 3.141596...
-    let sqrt2pi = nan 
+    ///// The constant pi = 3.141596...
+    //let sqrt2pi = nan 
     
     /// Float infinity.
     let inf = System.Double.PositiveInfinity
     
-    /// Float NaN.
-    let NaN = System.Double.NaN
+    ///// Float NaN.
+    //let NaN = System.Double.NaN
     
     /// Returns the logarithm for x in base 2.
     let log2 x = System.Math.Log(x, 2.0)
@@ -25,11 +25,14 @@ module Ops =
     /// Returns the logarithm for x in base 10.
     let log10 x = System.Math.Log10(x)    
 
-    /// Returs true if x is Float NaN
-    let isNan x = nan.Equals(x)
+    /// Returs true if x is nan (generics) equality
+    //let inline isNan< ^T when ^T : equality > (num:^T) :  bool = num <> num
+    let inline isNan num = num <> num
 
-    /// Returs true if x is Float infinity
-    let isInf x = System.Double.IsInfinity x  
+    /// Returs true if x is infinity (generics)
+    let inline isInf< ^T when ^T : 
+        (static member IsInfinity : ^T -> bool)> (num:^T) :bool =
+      (^T : (static member IsInfinity : ^T -> bool) (num))
 
     /// Returns the reverted log2 (2^x)
     let revLog2 x = 2.**x

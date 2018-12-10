@@ -28,38 +28,47 @@ module Array =
 
     /// Arranges the items between the left and right border, that all items left of the pivot element are smaller and bigger on the right.
     /// Function works in place and returns the index of the pivote element (using Lomuto's partitioning algorithm)
-    let partitionSortInPlace left right (items:array<'T>) =   
+    let inline partitionSortInPlace left right (items:array<'T>) =   
         let random = Random.rndgen
         let pivot_index = left + random.NextInt() % (right - left + 1)
         let pivot = items.[pivot_index]
-        swapInPlace pivot_index right items // swap random pivot to right.
-        let pivot_index' = right;
-        // https://stackoverflow.com/questions/22080055/quickselect-algorithm-fails-with-duplicated-elements
-        //let mutable i = left - 1
+        if isNan pivot then
+            -1
+        else
+            swapInPlace pivot_index right items // swap random pivot to right.
+            let pivot_index' = right;
+            // https://stackoverflow.com/questions/22080055/quickselect-algorithm-fails-with-duplicated-elements
+            //let mutable i = left - 1
 
-        //for j = left to right - 1 do    
-        //    if (arr.[j] <= pivot) then    
-        //        i <- i + 1
-        //        swapInPlace i j arr
-        let rec loop i j =
-            if j <  right then 
-                if (items.[j] <= pivot) then        
-                    let i' = i + 1
-                    swapInPlace i' j items            
-                    loop i' (j+1)
+            //for j = left to right - 1 do    
+            //    if (arr.[j] <= pivot) then    
+            //        i <- i + 1
+            //        swapInPlace i j arr
+            let rec loop i j =
+                if j <  right then 
+                    let v = items.[j]
+                    if isNan v then   // true if nan
+                        loop -1 right // break beacause nan
+                    else
+                        if (v <= pivot) then        
+                            let i' = i + 1
+                            swapInPlace i' j items            
+                            loop i' (j+1)
+                        else
+                            loop i (j+1)
                 else
-                    loop i (j+1)
-            else
+                    i
+
+            let i = loop (left - 1) left
+            if i < 0 then
                 i
-
-        let i = loop (left - 1) left
-        swapInPlace (i + 1) pivot_index' items // swap back the pivot
-        i + 1
-
+            else
+                swapInPlace (i + 1) pivot_index' items // swap back the pivot
+                i + 1
 
     /// Finds the kth smallest element in an unordered array (note that k is ONE-based)
     /// Works in place and can change the order of the elements in the input array
-    let rec quickSelectInPlaceWith left right k (arr:array<'T>) =  
+    let rec quickSelectInPlaceWith left right k (arr:array<'T>) : 'T =  
 
         if ( left = right ) then
             arr.[left]
@@ -79,7 +88,7 @@ module Array =
     /// Finds the kth smallest element in an unordered array (note that k is ONE-based)
     /// Works in place and can change the order of the elements in the input array
     let inline quickSelectInPlace k (items:array<'T>) : 'T =
-        let zero = LanguagePrimitives.GenericZero< 'T > 
+        //let zero = LanguagePrimitives.GenericZero< 'T > 
 
         if k <= 0 then
             Array.min items
@@ -91,7 +100,7 @@ module Array =
 
     /// Finds the kth smallest element in an unordered array (note that k is ONE-based)
     let inline quickSelect k (items:array<'T>) =
-        let zero = LanguagePrimitives.GenericZero< 'T > 
+        //let zero = LanguagePrimitives.GenericZero< 'T > 
 
         if k <= 0 then
             Array.min items
