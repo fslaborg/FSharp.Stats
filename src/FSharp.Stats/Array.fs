@@ -33,7 +33,7 @@ module Array =
         let pivot_index = left + random.NextInt() % (right - left + 1)
         let pivot = items.[pivot_index]
         if isNan pivot then
-            -1
+            ~~~pivot_index
         else
             swapInPlace pivot_index right items // swap random pivot to right.
             let pivot_index' = right;
@@ -48,7 +48,7 @@ module Array =
                 if j <  right then 
                     let v = items.[j]
                     if isNan v then   // true if nan
-                        loop -1 right // break beacause nan
+                        loop (~~~j) right // break beacause nan                    
                     else
                         if (v <= pivot) then        
                             let i' = i + 1
@@ -60,7 +60,7 @@ module Array =
                     i
 
             let i = loop (left - 1) left
-            if i < 0 then
+            if i < -1 then
                 i
             else
                 swapInPlace (i + 1) pivot_index' items // swap back the pivot
@@ -74,22 +74,22 @@ module Array =
             arr.[left]
         else
             let pivotIndex = partitionSortInPlace left right arr
-
-            let length = pivotIndex - left + 1
-            if ( length = k) then
-                arr.[pivotIndex]
-            else 
-                if ( k < length ) then
-                    quickSelectInPlaceWith left (pivotIndex - 1) k arr
+            if pivotIndex < 0 then
+                arr.[~~~pivotIndex]             
+            else
+                let length = pivotIndex - left + 1
+                if ( length = k) then
+                    arr.[pivotIndex]
                 else 
-                    quickSelectInPlaceWith (pivotIndex + 1) right (k - length) arr
+                    if ( k < length ) then
+                        quickSelectInPlaceWith left (pivotIndex - 1) k arr
+                    else 
+                        quickSelectInPlaceWith (pivotIndex + 1) right (k - length) arr
    
 
     /// Finds the kth smallest element in an unordered array (note that k is ONE-based)
     /// Works in place and can change the order of the elements in the input array
     let inline quickSelectInPlace k (items:array<'T>) : 'T =
-        //let zero = LanguagePrimitives.GenericZero< 'T > 
-
         if k <= 0 then
             Array.min items
         elif k > items.Length-1 then
@@ -100,8 +100,6 @@ module Array =
 
     /// Finds the kth smallest element in an unordered array (note that k is ONE-based)
     let inline quickSelect k (items:array<'T>) =
-        //let zero = LanguagePrimitives.GenericZero< 'T > 
-
         if k <= 0 then
             Array.min items
         elif k > items.Length-1 then
@@ -109,7 +107,6 @@ module Array =
         else
             let items' = Array.copy items
             quickSelectInPlaceWith 0 (items'.Length - 1) k items'
-
 
 
 
