@@ -5,8 +5,8 @@ open System.Reflection
 [<assembly: AssemblyTitleAttribute("FSharp.Stats.MSF")>]
 [<assembly: AssemblyProductAttribute("FSharp.Stats")>]
 [<assembly: AssemblyDescriptionAttribute("F# project for statistical computing")>]
-[<assembly: AssemblyVersionAttribute("0.0.1")>]
-[<assembly: AssemblyFileVersionAttribute("0.0.1")>]
+[<assembly: AssemblyVersionAttribute("0.0.13")>]
+[<assembly: AssemblyFileVersionAttribute("0.0.13")>]
 [<assembly: AssemblyConfigurationAttribute("Release")>]
 do ()
 
@@ -14,6 +14,6 @@ module internal AssemblyVersionInformation =
     let [<Literal>] AssemblyTitle = "FSharp.Stats.MSF"
     let [<Literal>] AssemblyProduct = "FSharp.Stats"
     let [<Literal>] AssemblyDescription = "F# project for statistical computing"
-    let [<Literal>] AssemblyVersion = "0.0.1"
-    let [<Literal>] AssemblyFileVersion = "0.0.1"
+    let [<Literal>] AssemblyVersion = "0.0.13"
+    let [<Literal>] AssemblyFileVersion = "0.0.13"
     let [<Literal>] AssemblyConfiguration = "Release"

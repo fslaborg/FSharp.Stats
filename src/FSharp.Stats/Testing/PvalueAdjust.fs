@@ -103,7 +103,8 @@ module PvalueAdjust =
             let m  = float pvalues.Length
             let m0 = m * pi0
             pvalues
-            |> Rank.rankAverage
+            |> Rank.rankFirst
+            |> Array.map float
             |> Array.mapi (fun i r -> 
                 let qval = 
                     let p = pvalues.[i]
@@ -117,12 +118,14 @@ module PvalueAdjust =
         let ofPValues (pi0:float) (pvalues:float[]) =        
             let m0 = float pvalues.Length * pi0
             pvalues
-            |> Rank.rankAverage
+            |> Rank.rankFirst
+            |> Array.map float
             |> Array.mapi (fun i r -> 
                 let qval = pvalues.[i] / r * m0 
                 min qval 1.
                 )            
             |> bindBy pvalues
+
 
 
 
