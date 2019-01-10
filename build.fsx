@@ -17,7 +17,7 @@ open Fake.IO.Globbing.Operators
 open Fake.DotNet.Testing
 open Fake.Tools
 open Fake.Api
-
+open Fake.Tools.Git
 
 [<AutoOpen>]
 module TemporaryDocumentationHelpers =
@@ -174,9 +174,12 @@ Target.create "AssemblyInfo" (fun _ ->
 // But keeps a subdirectory structure for each project in the
 // src folder to support multiple project outputs
 Target.create "CopyBinaries" (fun _ ->
-    !! "src/**/*.??proj"
-    -- "src/**/*.shproj"
-    |>  Seq.map (fun f -> ((Path.getDirectory f) </> "bin" </> configuration, "bin" </> (Path.GetFileNameWithoutExtension f)))
+    let targets = 
+        !! "src/**/*.??proj"
+        -- "src/**/*.shproj"
+        |>  Seq.map (fun f -> ((Path.getDirectory f) </> "bin" </> configuration, "bin" </> (Path.GetFileNameWithoutExtension f)))
+    for i in targets do printfn "%A" i
+    targets
     |>  Seq.iter (fun (fromDir, toDir) -> Shell.copyDir toDir fromDir (fun _ -> true))
 )
 
@@ -196,11 +199,28 @@ Target.create "CleanDocs" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Build library & test project
 
+Target.create "Restore" (fun _ ->
+    solutionFile
+    |> DotNet.restore id
+)
+
 Target.create "Build" (fun _ ->
-    solutionFile 
-    |> DotNet.build (fun p -> 
+    (*solutionFile
+    |> DotNet.build (fun p ->
         { p with
-            Configuration = buildConfiguration })
+            Configuration = buildConfiguration })*)
+    let setParams (defaults:MSBuildParams) =
+        { defaults with
+            Verbosity = Some(Quiet)
+            Targets = ["Build"]
+            Properties =
+                [
+                    "Optimize", "True"
+                    "DebugSymbols", "True"
+                    "Configuration", configuration
+                ]
+         }
+    MSBuild.build setParams solutionFile
 )
 
 // --------------------------------------------------------------------------------------
@@ -231,9 +251,13 @@ Target.create "RunTests" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Build a NuGet package
 
+let paketPath = Tools.findToolInSubPath "paket.exe" (Directory.GetCurrentDirectory() @@ ".paket/")
+printfn "%s" paketPath
+
 Target.create "NuGet" (fun _ ->
     Paket.pack(fun p ->
         { p with
+            ToolPath = paketPath
             OutputPath = "bin"
             Version = release.NugetVersion
             ReleaseNotes = String.toLines release.Notes})
@@ -275,7 +299,7 @@ let root = website
 let referenceBinaries = []
 
 let layoutRootsAll = new System.Collections.Generic.Dictionary<string, string list>()
-layoutRootsAll.Add("en",[   templates; 
+layoutRootsAll.Add("en",[   templates;
                             formatting @@ "templates"
                             formatting @@ "templates/reference" ])
 
@@ -283,28 +307,28 @@ Target.create "ReferenceDocs" (fun _ ->
     Directory.ensure (output @@ "reference")
 
     let binaries () =
-        let manuallyAdded = 
-            referenceBinaries 
+        let manuallyAdded =
+            referenceBinaries
             |> List.map (fun b -> bin @@ b)
-   
-        let conventionBased = 
+
+        let conventionBased =
             DirectoryInfo.getSubDirectories <| DirectoryInfo bin
-            |> Array.map (fun d -> 
-                let net45Bin = 
-                    DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
-                let net47Bin =
-                    DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))
-                if net45Bin.Length > 0 then  
-                    d.Name, net45Bin.[0]
-                else   
-                    d.Name, net47Bin.[0]  ) 
-            |> Array.map (fun (name, d) -> 
-                d.GetFiles()
-                |> Array.filter (fun x -> 
+            |> Array.collect (fun d ->
+                let name, dInfo =
+                    let net45Bin =
+                        DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
+                    let net47Bin =
+                        DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))
+                    if net45Bin.Length > 0 then
+                        d.Name, net45Bin.[0]
+                    else
+                        d.Name, net47Bin.[0]
+
+                dInfo.GetFiles()
+                |> Array.filter (fun x ->
                     x.Name.ToLower() = (sprintf "%s.dll" name).ToLower())
-                |> Array.map (fun x -> x.FullName) 
+                |> Array.map (fun x -> x.FullName)
                 )
-            |> Array.concat
             |> List.ofArray
 
         conventionBased @ manuallyAdded
@@ -320,12 +344,12 @@ Target.create "ReferenceDocs" (fun _ ->
 )
 
 let copyFiles () =
-    Shell.copyRecursive files output true 
+    Shell.copyRecursive files output true
     |> Trace.logItems "Copying file: "
     Directory.ensure (output @@ "content")
-    Shell.copyRecursive (formatting @@ "styles") (output @@ "content") true 
+    Shell.copyRecursive (formatting @@ "styles") (output @@ "content") true
     |> Trace.logItems "Copying styles and scripts: "
-        
+
 Target.create "Docs" (fun _ ->
     File.delete "docsrc/content/release-notes.md"
     Shell.copyFile "docsrc/content/" "RELEASE_NOTES.md"
@@ -335,7 +359,7 @@ Target.create "Docs" (fun _ ->
     Shell.copyFile "docsrc/content/" "LICENSE.txt"
     Shell.rename "docsrc/content/license.md" "docsrc/content/LICENSE.txt"
 
-    
+
     DirectoryInfo.getSubDirectories (DirectoryInfo.ofPath templates)
     |> Seq.iter (fun d ->
                     let name = d.Name
@@ -345,7 +369,7 @@ Target.create "Docs" (fun _ ->
                                        formatting @@ "templates"
                                        formatting @@ "templates/reference" ]))
     copyFiles ()
-    
+
     for dir in  [ content; ] do
         let langSpecificPath(lang, path:string) =
             path.Split([|'/'; '\\'|], System.StringSplitOptions.RemoveEmptyEntries)
@@ -364,7 +388,7 @@ Target.create "Docs" (fun _ ->
                 ProjectParameters  = ("root", root)::info
                 Template = docTemplate 
                 FsiEval = true
-                })
+                } )
 )
 
 // --------------------------------------------------------------------------------------
@@ -458,6 +482,7 @@ Target.create "All" ignore
 
 "Clean"
   ==> "AssemblyInfo"
+  ==> "Restore"
   ==> "Build"
   ==> "CopyBinaries"
   ==> "RunTests"
