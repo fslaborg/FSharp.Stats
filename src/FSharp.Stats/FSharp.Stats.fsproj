@@ -80,6 +80,8 @@
     <Compile Include="Signal\Baseline.fs" />
     <Compile Include="Signal\Filtering.fs" />
     <Compile Include="Signal\Convolution.fs" />
+    <Compile Include="Signal\PeakDetection.fs" />
+    <Compile Include="Signal\Padding.fs" />
     <!-- Distributions -->
     <Compile Include="Distributions\Bandwidth.fs" />
     <Compile Include="Distributions\Frequency.fs" />
