@@ -48,15 +48,14 @@ module SAM =
             dibs
             |> JaggedArray.transpose
             |> Array.map (fun tt -> 
-                let (ri',si',di') = tt |> Array.fold (fun (ri,si,di) t -> ri+t.Ri,si+t.Si,di + t.Statistics) (0.,0.,0.)  
-                createSAM (ri' / float iterations) (si' / float iterations) (di' / float iterations)
-                )
+                            let (ri',si',di') = tt |> Array.fold (fun (ri,si,di) t -> ri+t.Ri,si+t.Si,di + t.Statistics) (0.,0.,0.)  
+                            createSAM (ri' / float iterations) (si' / float iterations) (di' / float iterations)
+                         )
         
         dei        
 
     ///Permutes all the samples. Different treatments are NOT mixed. Then the statistics for the permuatations is calculated.
     let permutationWithin calculate iterations s0 (dataA:float array array) (dataU:float array array) =
-        //let rnd = System.Random()
         let dataA' = JaggedArray.copy dataA
         let dataU' = JaggedArray.copy dataU
         let dibs= 
@@ -75,15 +74,14 @@ module SAM =
     // TODO
     /// Permutes all the samples. Different treatments are mixed.
     let permutationBalanced calculate iterations s0 (dataA':float array array) (dataU':float array array) =
-        let rnd = System.Random()
         let half=int (float  dataA'.[0].Length/ 2.)
         let amount= dataA'.Length
         let reps= dataA'.[0].Length
 
-        let shuffleFisherYates (random:System.Random) (arr : _[]) = 
+        let shuffleFisherYates (random:FSharp.Stats.Random.IRandom) (arr : _[]) = 
             let arr' = Array.copy arr
             for i = arr.Length downto 1 do
-                let j = random.Next(i) 
+                let j = random.NextInt(i) 
                 let tmp = arr'.[j]
                 arr'.[j] <- arr'.[i - 1]
                 arr'.[i - 1] <- tmp
@@ -91,10 +89,10 @@ module SAM =
 
         let dib=
             let rec balanced index (dataA:float[][]) (dataU:float[][]) temp1=
-                if index <iterations then
+                if index < iterations then
                     let rndDataA0,rndDataU0 = Array.unzip ([|0..amount-1|]|>Array.map (fun x -> ([|dataA.[x].[0..half-1];dataU.[x].[half..reps-1]|]|> Array.concat),([|dataU.[x].[0..half-1];dataA.[x].[half..reps-1]|]|> Array.concat)))
-                    let rndDataA =  rndDataA0|> Array.map (fun x -> shuffleFisherYates rnd x)
-                    let rndDataU =  rndDataU0|> Array.map (fun x -> shuffleFisherYates rnd x)
+                    let rndDataA =  rndDataA0|> Array.map (fun x -> shuffleFisherYates Random.rndgen x)
+                    let rndDataU =  rndDataU0|> Array.map (fun x -> shuffleFisherYates Random.rndgen x)
                     let temp= calculate s0 rndDataA rndDataU
                     temp|> Array.sortInPlaceBy ( fun x -> x.Statistics)
                     balanced (index+1) rndDataA rndDataU (temp::temp1)               
@@ -105,14 +103,13 @@ module SAM =
 
     /// Permutes all the samples. Different treatments are mixed.
     let permutationImbalanced calculate iterations s0 (dataA:float array array) (dataU:float array array) =
-        let rnd = System.Random()
         let dataA' = JaggedArray.copy dataA
         let dataU' = JaggedArray.copy dataU
         let data = Array.zip dataA' dataU'
 
 
         // Case specific FisherYates shuffling 
-        let shuffleInPlace' (random:System.Random) (arr : array<('a[]*'a[])>) = 
+        let shuffleInPlace' (random:FSharp.Stats.Random.IRandom) (arr : array<('a[]*'a[])>) = 
             let rowCount =  arr.Length
             let colCountFst,colCountSnd = 
                 if rowCount < 1 then 0,0 else Array.length ( fst(arr.[0]) ), Array.length ( snd(arr.[0]) )
@@ -128,8 +125,8 @@ module SAM =
             for colI = colCount downto 1 do
                 for rowI = rowCount downto 1 do
                     // Pick random element to swap.
-                    let i = random.Next(rowI) // 0 <= i <= rowI-1
-                    let j = random.Next(colI) // 0 <= j <= colI-1
+                    let i = random.NextInt(rowI) // 0 <= i <= rowI-1
+                    let j = random.NextInt(colI) // 0 <= j <= colI-1
                     // Swap.
                     let tmp = arr.[i] |> getByIndex j
                     arr.[i] |> setByIndexInPlace j (arr.[rowI - 1] |> getByIndex (colI - 1))
@@ -138,7 +135,7 @@ module SAM =
     
         [|0..iterations-1|]
         |> Array.map (fun _ -> 
-            let rndData = shuffleInPlace' rnd data        
+            let rndData = shuffleInPlace' Random.rndgen data        
             let rndDataA,rndDataU = Array.unzip rndData
             let tmp = calculate s0 rndDataA rndDataU                
             tmp |> Array.sortInPlaceBy (fun t -> t.Statistics) 
@@ -368,28 +365,31 @@ module SAM =
 
             let si = tt |> Array.map (fun t -> t.Si)
             let di = tt |> Array.map (fun t -> t.Statistics)
-            let si' = Array.copy si
+            let si' = Array.copy si |> Array.sort
             let s0percentile= [|0. .. 0.05 .. 1.|] 
-            let br = [|0. .. 0.01 .. 1.|] |> Array.map (fun p -> Quantile.InPlace.modeInPLace p si')            
+            let br = [|0. .. 0.01 .. 1.|] |> Array.map (fun p -> Quantile.mode p si')            
             let cvSd =
                 let tmp = Seq.zip si di
                 s0percentile
                 |> Array.map (fun k -> 
-                    let w  = if k = 0. then 0. else Quantile.InPlace.modeInPLace k si'
+                    let w  = if k = 0. then 0. else  Quantile.mode k si'
                     let mads = 
                         bind (fun a b -> fst b < a) br tmp
                         |> Seq.map (fun v ->
                             v 
                             |> Seq.map (fun (t,s) -> t * s / (s + w))
-                            |> Seq.medianAbsoluteDev                            
+                            |> Seq.medianAbsoluteDev          
+                            //|> fun x -> x / 0.64
                             )
                         |> Seq.toArray  
                         |> Array.map (fun (x) ->if nan.Equals(x) then 100. else x)
-                    k, Seq.stDev mads / Array.median mads
+                    printfn "s0Perc = %f, cv = %f" k (Seq.cv mads) 
+                    k, Seq.cv mads //Seq.stDev mads / Array.median mads
+
                     )
  
             let pMinCvSd = cvSd |> Array.minBy snd |> fst 
-            Quantile.InPlace.modeInPLace pMinCvSd si'
+            Quantile.mode pMinCvSd si'
 
 
         /// Estimates s0 from given data set. Chosen to minimize the coefficient of variation of the test statistics 

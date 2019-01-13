@@ -186,4 +186,5 @@ docsrc/tools/FSharp.Formatting.svclog
 
 # generated docs
 docs/
+/temp
 

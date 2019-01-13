@@ -60,15 +60,18 @@ module Vector =
         let inplace_scale v1 v2 = OpsS.inplaceScaleV v1 v2
 
 
-
-        let exists  f a = OpsS.existsV  f a
-        let forall  f a = OpsS.forallV  f a
-        let existsi  f a = OpsS.existsiV  f a
-        let foralli  f a = OpsS.foralliV  f a
-        let map  f a = OpsS.mapV f a
-        let map2  f a b = OpsS.map2V f a b
+        let exists  f v = OpsS.existsV  f v
+        let forall  f v = OpsS.forallV  f v
+        let existsi  f v = OpsS.existsiV  f v
+        let foralli  f v = OpsS.foralliV  f v
+        let map  f v = OpsS.mapV f v
+        let map2  f v1 v2 = OpsS.map2V f v1 v2
+        let map3  f v1 v2 v3 = OpsS.map3V f v1 v2 v3
+        let zip v1 v2 = OpsS.zipV v1 v2
+        let unzip v = OpsS.unzipV v
         let mapi f a = OpsS.mapiV f a
         let copy a = OpsS.copyV a
+        let inplace_map  f a = OpsS.inplace_mapV f a
         let inplace_mapi  f a = OpsS.inplace_mapiV f a
         let fold  f z a = OpsS.foldV f z a
         let foldi  f z a = OpsS.foldiV f z a
@@ -153,6 +156,8 @@ module Vector =
     let map  f (v:vector) = VG.map f v
     ///Builds a new vector whose elements are the results of applying the given function to the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
     let map2  f (v1:vector) (v2:vector) = VG.map2 f v1 v2
+    ///Builds a new vector whose elements are the results of applying the given function to the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    let map3  f (v1:vector) (v2:vector) (v3:vector) = VG.map3 f v1 v2 v3
     ///Builds a new vector that contains the elements of the given vector.
     let copy (v:vector) = VG.copy v
     ///Builds a new vector whose elements are the results of applying the given function to each of the elements of the vector and their corresponding index.
@@ -166,30 +171,39 @@ module Vector =
     ///Creates a vector of length n and fills it with ones
     let ones n = create n 1.0
     ///Sum of all elements of the vector
-    let sum a  = VecDS.sumVecDS a
+    let sum v  = VecDS.sumVecDS v
     ///Product of all elements of the vector
-    let prod a   = fold      (fun x y -> x * y) 1.0 a
+    let prod v   = fold      (fun x y -> x * y) 1.0 v
     ///Euklidian norm of the vector
-    let norm  (a:vector) = sqrt (fold (fun x y -> x + y * y) 0.0 a) (* fixed *)
+    let norm  (v:vector) = sqrt (fold (fun x y -> x + y * y) 0.0 v) (* fixed *)
     ///Builds a new vector whose elements are the results of exponentiating each of the elements of the vector.
-    let cptPow  a y = map  (fun x -> x ** y) a
-    let inplace_assign  f (a:vector) = VG.inplace_assign f a
-    let inplace_mapi f (a:vector) = VG.inplace_mapi f a
-    let inplace_add a b = VecDS.inplaceAddVecDS a b
-    let inplace_sub a b = VecDS.inplaceSubVecDS a b
-    let inplace_cptMul a b = VecDS.inplaceCptMulVecDS a b
-    let inplace_scale a b = VecDS.inplaceScaleVecDS a b  
+    let cptPow  v y = map  (fun x -> x ** y) v
+    ///Applies the given function to each of the indexes of the vector.
+    let inplace_assign  f (v:vector) = VG.inplace_assign f v
+    ///Applies the given function to each of the elements of the vector.
+    let inplace_map f (v:vector) = VG.inplace_map f v
+    ///Applies the given function to each of the elements of the vector and their corresponding index.
+    let inplace_mapi f (v:vector) = VG.inplace_mapi f v
+    ///Add values of vector v2 to values of vector v1. Vector v2 stays unchanged.
+    let inplace_add v1 v2 = VecDS.inplaceAddVecDS v1 v2
+    ///Substract values of vector v2 from values of vector v1. Vector v2 stays unchanged.
+    let inplace_sub v1 v2 = VecDS.inplaceSubVecDS v1 v2
+    ///Multiply values of vector v1 with values of vector v2. Vector v2 stays unchanged.
+    let inplace_cptMul v1 v2 = VecDS.inplaceCptMulVecDS v1 v2
+    ///Multiply values of vector v1 with scalar.
+    let inplace_scale x v = VecDS.inplaceScaleVecDS x v
     ///Builds vector from array
     let of_array arr   = ofArray arr
     ///Builds array from vector
-    let to_array m     = toArray m
+    let to_array v     = toArray v
     ///Builds vector from list
     let of_list    xs  = ofList xs
     ///Builds vector from sequence
     let of_seq    xs   = ofSeq xs
     ///Builds one dimensional vector from scalar
     let of_scalar x    = ofScalar x
-    
+    ///Builds vector of Length 1 from value x
+    let singleton x = of_scalar x
     
     //----------------------------------------------------------------------------
     // Stats

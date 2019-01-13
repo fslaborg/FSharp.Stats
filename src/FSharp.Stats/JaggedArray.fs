@@ -111,14 +111,13 @@ module JaggedArray =
     /// Shuffles each column of a jagged array separately  (method: Fisher-Yates)
     let shuffleColumnWiseInPlace (arr: 'T [][]) =
         if arr.Length > 0 then 
-            let random      = new System.Random()
             let rowCount    = arr.Length
             let columnCount = arr.[0].Length
             
             for ci = columnCount - 1 downto 0 do 
                 for ri = rowCount downto  1 do
                     // Pick random element to swap.
-                    let rj = random.Next(ri) // 0 <= j <= i-1
+                    let rj = Random.rndgen.NextInt(ri) // 0 <= j <= i-1
                     // Swap.
                     let tmp         =  arr.[rj].[ci]
                     arr.[rj].[ci]     <- arr.[ri - 1].[ci]
@@ -132,14 +131,13 @@ module JaggedArray =
     /// Shuffles each row of a jagged array separately  (method: Fisher-Yates)
     let shuffleRowWiseInPlace (arr: 'T [][]) =
         if arr.Length > 0 then 
-            let random      = new System.Random()
             let rowCount    = arr.Length
             let columnCount = arr.[0].Length
             
             for ri = rowCount - 1 downto  0 do
                 for ci = columnCount downto 1 do 
                     // Pick random element to swap.
-                    let cj = random.Next(ci) // 0 <= j <= i-1
+                    let cj = Random.rndgen.NextInt(ci) // 0 <= j <= i-1
                     // Swap.
                     let tmp           =  arr.[ri].[cj]
                     arr.[ri].[cj]     <- arr.[ri].[ci - 1]
@@ -153,14 +151,13 @@ module JaggedArray =
     /// Shuffels a jagged array (method: Fisher-Yates)
     let shuffleInPlace (arr: 'T [][]) =
         if arr.Length > 0 then 
-            let random      = new System.Random()
             let rowCount    = arr.Length
             let columnCount = arr.[0].Length
             for ri = rowCount downto 1 do
                 for ci = columnCount downto 1 do 
                     // Pick random element to swap.
-                    let rj = random.Next(ri) // 0 <= j <= i-1
-                    let cj = random.Next(ci)
+                    let rj = Random.rndgen.NextInt(ri) // 0 <= j <= i-1
+                    let cj = Random.rndgen.NextInt(ci)
                     // Swap.
                     let tmp               =  arr.[rj].[cj]
                     arr.[rj].[cj]         <- arr.[ri - 1].[ci - 1]

@@ -65,6 +65,7 @@
     <!-- Integration -->
     <Compile Include="Integration\Differentiation.fs" />
     <Compile Include="Integration\Integration.fs" />
+    <Compile Include="Optimization\BrentExt.fs" />
     <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
     <Compile Include="Optimization\Bisection.fs" />
@@ -79,6 +80,8 @@
     <Compile Include="Signal\Baseline.fs" />
     <Compile Include="Signal\Filtering.fs" />
     <Compile Include="Signal\Convolution.fs" />
+    <Compile Include="Signal\PeakDetection.fs" />
+    <Compile Include="Signal\Padding.fs" />
     <!-- Distributions -->
     <Compile Include="Distributions\Bandwidth.fs" />
     <Compile Include="Distributions\Frequency.fs" />
@@ -102,6 +105,8 @@
     <Compile Include="Fitting\NonLinearRegression.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\LinearRegression.fs" />
+    <Compile Include="Fitting\GoodnessOfFit.fs" />
+    <Compile Include="Fitting\LogisticRegression.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
     <Compile Include="Fitting\Spline.fs" />
     <!-- ML -->

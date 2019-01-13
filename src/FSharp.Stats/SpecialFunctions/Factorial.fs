@@ -8,6 +8,13 @@ module Factorial =
     // This is the largest integer value for which the factorial function doesn't overflow the floating point format.
     let private Factorial_max = 170
 
+    //let inline facti n =
+    //    let rec loop acc n = 
+    //       if n<=LanguagePrimitives.GenericOne 
+    //        then acc 
+    //        else loop (n*acc) (n-LanguagePrimitives.GenericOne)
+    //    loop LanguagePrimitives.GenericOne n
+
     let private Factorial_cache =
         //let cache =  [| 0 .. Factorial_max |] |> Array.map (fun a -> float a)
         let cache = Array.zeroCreate (Factorial_max + 1)

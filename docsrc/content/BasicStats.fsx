@@ -2,10 +2,10 @@
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
 #I "../../bin/FSharp.Stats/netstandard2.0"
-#r "../../packages/formatting/FSharp.Plotly/lib/netstandard2.0/Fsharp.Plotly.dll"
+#r @"../../lib\Formatting\FSharp.Plotly.dll"
 #r "netstandard"
 //#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
-//open FSharp.Plotly
+open FSharp.Plotly
 (**
 Basic stats
 =========================
@@ -13,6 +13,22 @@ Basic stats
 **)
 #r "FSharp.Stats.dll"
 open FSharp.Stats
+
+(*** hide ***)
+//let a = 
+//    [|
+//        0.841788;0.726692;0.892715;0.645022;
+//        0.282855;0.000000;0.000000;0.727865;
+//        0.000000;0.744897;0.507446;0.980313;
+//        0.910520;0.000000;0.812722;
+//    |] 
+//Chart.Point (a|> Array.sort ,[|1..15|] |> Array.map (fun k -> Array.quickSelect k a))
+//|> Chart.Show
+//a |> Array.median
+//Array.quickSelect 5 a
+
+
+
 
 
 // Range min to max
@@ -59,9 +75,6 @@ let stdevPopTv =
 let cvTv =
     [5.; 5.5; 4.9; 4.85; 5.25; 5.05; 6.0;] 
     |> Seq.cv(*By float*)
-
-
-
 
 type RunningStats<'T> = {
     N : int
@@ -133,44 +146,15 @@ let med =
     [|1.2; 1.2; nan; 24.; 6.; 23.4; 47.; 24.; 54.; nan;|]
     |> Array.median
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //System.Math.Pow
 
 let nv = Vector.init 10000 (fun _ -> Distributions.Continuous.Normal.Sample 0. 4.0)
 
 nv |> Seq.stDevPopulation
 
-
 Distributions.Bandwidth.nrd0 nv.Values
 
-
-
 Quantile.interQuantileRange Quantile.nist nv.Values
-
 
 let x = [0.1 .. 0.01 .. 1.0] 
 let d = [|0.05;0.5;0.9|]
@@ -186,8 +170,6 @@ let inline divByInt a b =
 
 //divByInt 6 5
 
-
-
 let firstNumber=5000
 let secondeNumber=37
 
@@ -196,22 +178,15 @@ let inline decimalResult (a:'t) =
     ops.Value.Add(a,secondeNumber)
     
 
-
-
 //type System.Int32 with
 //    member this.DivideByInt a b = LanguagePrimitives.DivideByInt (float a) / b 
 
 //System.Int32()
 
-
-
-
-
 let q = 0.5
 let h = (float 3) * q + 0.5
 
 Array.quickSelectInPlace (int (ceil (h-0.5))) d
-
 
 x |> List.map (fun q -> (float 3 * q + 1.) |> int)
 
@@ -219,13 +194,11 @@ Array.quickSelect 1 d
 
 Quantile.mode 0.8  d
 
-Chart.Point( y, x)
-
-
+let pointChart = Chart.Point( y, x)
+(*** include-value:pointChart ***)
 
 let v = 
     vector [|2.0; 20.0; 1.|]
-
 
 Vector.interval nv
 
@@ -235,8 +208,6 @@ Vector.median nv
 Vector.stats nv
 
 Array.median [|2.0; 20.0; 1.|]
-
-
 
 let inline stDevPopulationOfMean mean (items:seq<'T>) : 'U  =
     use e = items.GetEnumerator()
@@ -253,7 +224,6 @@ let stDevPop' = Seq.stDevPopulation [1.;2.;3.;4.;]
 
 (GlobalAssociations.ht.[typeof<float>])
 
-
 let inline stDevPopulation (items:seq<'T>) : 'U  =
     use e = items.GetEnumerator()
     let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -269,7 +239,6 @@ let inline stDevPopulation (items:seq<'T>) : 'U  =
         | false -> if (LanguagePrimitives.GenericGreaterThan n one) then sqrt(m2 / (n-one)) else (zero / zero)
     loop one zero zero
     
-
 
 stDevPopulation [1.;2.;3.;4.;]
 

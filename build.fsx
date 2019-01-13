@@ -12,10 +12,68 @@ open Fake.Core.TargetOperators
 open Fake.DotNet
 open Fake.IO
 open Fake.IO.FileSystemOperators
+open Fake.IO.Globbing
 open Fake.IO.Globbing.Operators
 open Fake.DotNet.Testing
 open Fake.Tools
 open Fake.Api
+open Fake.Tools.Git
+
+[<AutoOpen>]
+module TemporaryDocumentationHelpers =
+
+    type LiterateArguments =
+        { ToolPath : string
+          Source : string
+          OutputDirectory : string 
+          Template : string
+          ProjectParameters : (string * string) list
+          LayoutRoots : string list 
+          FsiEval : bool }
+
+
+    let private run toolPath command = 
+        if 0 <> Process.execSimple ((fun info ->
+                { info with
+                    FileName = toolPath
+                    Arguments = command }) >> Process.withFramework) System.TimeSpan.MaxValue
+
+        then failwithf "FSharp.Formatting %s failed." command
+
+    let createDocs p =
+        let toolPath = Tools.findToolInSubPath "fsformatting.exe" (Directory.GetCurrentDirectory() @@ "lib/Formatting")
+
+        let defaultLiterateArguments =
+            { ToolPath = toolPath
+              Source = ""
+              OutputDirectory = ""
+              Template = ""
+              ProjectParameters = []
+              LayoutRoots = [] 
+              FsiEval = false }
+
+        let arguments = (p:LiterateArguments->LiterateArguments) defaultLiterateArguments
+        let layoutroots =
+            if arguments.LayoutRoots.IsEmpty then []
+            else [ "--layoutRoots" ] @ arguments.LayoutRoots
+        let source = arguments.Source
+        let template = arguments.Template
+        let outputDir = arguments.OutputDirectory
+        let fsiEval = if arguments.FsiEval then [ "--fsieval" ] else []
+
+        let command = 
+            arguments.ProjectParameters
+            |> Seq.map (fun (k, v) -> [ k; v ])
+            |> Seq.concat
+            |> Seq.append 
+                   (["literate"; "--processdirectory" ] @ layoutroots @ [ "--inputdirectory"; source; "--templatefile"; template; 
+                      "--outputDirectory"; outputDir] @ fsiEval @ [ "--replacements" ])
+            |> Seq.map (fun s -> 
+                   if s.StartsWith "\"" then s
+                   else sprintf "\"%s\"" s)
+            |> String.separated " "
+        run arguments.ToolPath command
+        printfn "Successfully generated docs for %s" source
 
 // --------------------------------------------------------------------------------------
 // START TODO: Provide project-specific details below
@@ -116,9 +174,12 @@ Target.create "AssemblyInfo" (fun _ ->
 // But keeps a subdirectory structure for each project in the
 // src folder to support multiple project outputs
 Target.create "CopyBinaries" (fun _ ->
-    !! "src/**/*.??proj"
-    -- "src/**/*.shproj"
-    |>  Seq.map (fun f -> ((Path.getDirectory f) </> "bin" </> configuration, "bin" </> (Path.GetFileNameWithoutExtension f)))
+    let targets = 
+        !! "src/**/*.??proj"
+        -- "src/**/*.shproj"
+        |>  Seq.map (fun f -> ((Path.getDirectory f) </> "bin" </> configuration, "bin" </> (Path.GetFileNameWithoutExtension f)))
+    for i in targets do printfn "%A" i
+    targets
     |>  Seq.iter (fun (fromDir, toDir) -> Shell.copyDir toDir fromDir (fun _ -> true))
 )
 
@@ -138,27 +199,65 @@ Target.create "CleanDocs" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Build library & test project
 
+Target.create "Restore" (fun _ ->
+    solutionFile
+    |> DotNet.restore id
+)
+
 Target.create "Build" (fun _ ->
-    solutionFile 
-    |> DotNet.build (fun p -> 
+    (*solutionFile
+    |> DotNet.build (fun p ->
         { p with
-            Configuration = buildConfiguration })
+            Configuration = buildConfiguration })*)
+    let setParams (defaults:MSBuildParams) =
+        { defaults with
+            Verbosity = Some(Quiet)
+            Targets = ["Build"]
+            Properties =
+                [
+                    "Optimize", "True"
+                    "DebugSymbols", "True"
+                    "Configuration", configuration
+                ]
+         }
+    MSBuild.build setParams solutionFile
 )
 
 // --------------------------------------------------------------------------------------
 // Run the unit tests using test runner
 
 Target.create "RunTests" (fun _ ->
-    !! testAssemblies
-    |> Expecto.run id
+    let assemblies = !! testAssemblies
+
+    let setParams f =
+        match Environment.isWindows with
+        | true ->
+            fun p ->
+                { p with
+                    FileName = f}
+        | false ->
+            fun p ->
+                { p with
+                    FileName = "mono"
+                    Arguments = f }
+    assemblies
+    |> Seq.map (fun f ->
+        Process.execSimple (setParams f) System.TimeSpan.MaxValue
+    )
+    |>Seq.reduce (+)
+    |> (fun i -> if i > 0 then failwith "")
 )
 
 // --------------------------------------------------------------------------------------
 // Build a NuGet package
 
+let paketPath = Tools.findToolInSubPath "paket.exe" (Directory.GetCurrentDirectory() @@ ".paket/")
+printfn "%s" paketPath
+
 Target.create "NuGet" (fun _ ->
     Paket.pack(fun p ->
         { p with
+            ToolPath = paketPath
             OutputPath = "bin"
             Version = release.NugetVersion
             ReleaseNotes = String.toLines release.Notes})
@@ -200,7 +299,7 @@ let root = website
 let referenceBinaries = []
 
 let layoutRootsAll = new System.Collections.Generic.Dictionary<string, string list>()
-layoutRootsAll.Add("en",[   templates; 
+layoutRootsAll.Add("en",[   templates;
                             formatting @@ "templates"
                             formatting @@ "templates/reference" ])
 
@@ -208,28 +307,28 @@ Target.create "ReferenceDocs" (fun _ ->
     Directory.ensure (output @@ "reference")
 
     let binaries () =
-        let manuallyAdded = 
-            referenceBinaries 
+        let manuallyAdded =
+            referenceBinaries
             |> List.map (fun b -> bin @@ b)
-   
-        let conventionBased = 
+
+        let conventionBased =
             DirectoryInfo.getSubDirectories <| DirectoryInfo bin
-            |> Array.map (fun d -> 
-                let net45Bin = 
-                    DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
-                let net47Bin =
-                    DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))
-                if net45Bin.Length > 0 then  
-                    d.Name, net45Bin.[0]
-                else   
-                    d.Name, net47Bin.[0]  ) 
-            |> Array.map (fun (name, d) -> 
-                d.GetFiles()
-                |> Array.filter (fun x -> 
+            |> Array.collect (fun d ->
+                let name, dInfo =
+                    let net45Bin =
+                        DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
+                    let net47Bin =
+                        DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))
+                    if net45Bin.Length > 0 then
+                        d.Name, net45Bin.[0]
+                    else
+                        d.Name, net47Bin.[0]
+
+                dInfo.GetFiles()
+                |> Array.filter (fun x ->
                     x.Name.ToLower() = (sprintf "%s.dll" name).ToLower())
-                |> Array.map (fun x -> x.FullName) 
+                |> Array.map (fun x -> x.FullName)
                 )
-            |> Array.concat
             |> List.ofArray
 
         conventionBased @ manuallyAdded
@@ -245,12 +344,12 @@ Target.create "ReferenceDocs" (fun _ ->
 )
 
 let copyFiles () =
-    Shell.copyRecursive files output true 
+    Shell.copyRecursive files output true
     |> Trace.logItems "Copying file: "
     Directory.ensure (output @@ "content")
-    Shell.copyRecursive (formatting @@ "styles") (output @@ "content") true 
+    Shell.copyRecursive (formatting @@ "styles") (output @@ "content") true
     |> Trace.logItems "Copying styles and scripts: "
-        
+
 Target.create "Docs" (fun _ ->
     File.delete "docsrc/content/release-notes.md"
     Shell.copyFile "docsrc/content/" "RELEASE_NOTES.md"
@@ -260,7 +359,7 @@ Target.create "Docs" (fun _ ->
     Shell.copyFile "docsrc/content/" "LICENSE.txt"
     Shell.rename "docsrc/content/license.md" "docsrc/content/LICENSE.txt"
 
-    
+
     DirectoryInfo.getSubDirectories (DirectoryInfo.ofPath templates)
     |> Seq.iter (fun d ->
                     let name = d.Name
@@ -270,7 +369,7 @@ Target.create "Docs" (fun _ ->
                                        formatting @@ "templates"
                                        formatting @@ "templates/reference" ]))
     copyFiles ()
-    
+
     for dir in  [ content; ] do
         let langSpecificPath(lang, path:string) =
             path.Split([|'/'; '\\'|], System.StringSplitOptions.RemoveEmptyEntries)
@@ -281,13 +380,15 @@ Target.create "Docs" (fun _ ->
             | Some lang -> layoutRootsAll.[lang]
             | None -> layoutRootsAll.["en"] // "en" is the default language
 
-        FSFormatting.createDocs (fun args ->
+        createDocs (fun args ->
             { args with
                 Source = content
-                OutputDirectory = output 
+                OutputDirectory = output
                 LayoutRoots = layoutRoots
                 ProjectParameters  = ("root", root)::info
-                Template = docTemplate } )
+                Template = docTemplate 
+                FsiEval = true
+                } )
 )
 
 // --------------------------------------------------------------------------------------
@@ -302,6 +403,17 @@ Target.create "ReleaseDocs" (fun _ ->
     Git.Staging.stageAll tempDocsDir
     Git.Commit.exec tempDocsDir (sprintf "Update generated documentation for version %s" release.NugetVersion)
     Git.Branches.push tempDocsDir
+)
+
+Target.create "ReleaseLocal" (fun _ ->
+    let tempDocsDir = "temp/gh-pages"
+    Shell.cleanDir tempDocsDir |> ignore
+    Shell.copyRecursive "docs" tempDocsDir true  |> printfn "%A"
+    Shell.replaceInFiles 
+        (seq {
+            yield "href=\"/" + project + "/","href=\""
+            yield "src=\"/" + project + "/","src=\""}) 
+        (Directory.EnumerateFiles tempDocsDir |> Seq.filter (fun x -> x.EndsWith(".html")))
 )
 
 //#load "paket-files/fsharp/FAKE/modules/Octokit/Octokit.fsx"
@@ -370,6 +482,7 @@ Target.create "All" ignore
 
 "Clean"
   ==> "AssemblyInfo"
+  ==> "Restore"
   ==> "Build"
   ==> "CopyBinaries"
   ==> "RunTests"
@@ -402,4 +515,7 @@ Target.create "All" ignore
   ==> "NuGet"
   ==> "GitReleaseNuget"
 
-Target.runOrDefault "All"
+"All"
+  ==> "ReleaseLocal"
+
+Target.runOrDefaultWithArguments "All"
