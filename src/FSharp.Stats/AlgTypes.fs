@@ -666,81 +666,97 @@ namespace FSharp.Stats
               (fun i j -> (0,nA - 1) |> sumRGU ops (fun k -> mul ops (getArray2D arrA i k) (getArray2D arrB k j)))
 
         let debug = false
-        
-        // SParse matrix multiplication algorithm. inline to get specialization at the 'double' type
+
+        let NormalizeOrdering (M:SparseMatrix<_>) = 
+            for i = 0 to M.NumRows-1 do
+                let index = M.SparseRowOffsets.[i]
+                let count = M.SparseRowOffsets.[i+1] - index
+                if count > 1 then
+                    System.Array.Sort(M.SparseColumnValues, M.SparseValues, index, count)
+
+        // Performs an inplace map with function x => X, skipping zero values
+        let NormalizeZeros (M:SparseMatrix<_>) =
+            let mutable nonZero = 0
+            for row = 0 to M.NumRows - 1 do
+                let startIndex = M.SparseRowOffsets.[row]
+                let endIndex = M.SparseRowOffsets.[row + 1]
+                M.SparseRowOffsets.[row] <- nonZero
+                for j = startIndex to endIndex - 1 do
+                    let item = M.SparseValues.[j]
+                    if not(M.ElementOps.Equals(item, M.ElementOps.Zero)) then
+                        M.SparseValues.[nonZero] <- item
+                        M.SparseColumnValues.[nonZero] <- M.SparseColumnValues.[j]
+                        nonZero <- nonZero + 1
+            Array.truncate nonZero M.SparseColumnValues |> ignore
+            Array.truncate nonZero M.SparseValues |> ignore
+            M.SparseRowOffsets.[M.NumRows] <- nonZero
+
+        let Normalize (M:SparseMatrix<_>) = 
+            NormalizeOrdering M
+            NormalizeZeros M
+
+        // Sparse matrix multiplication algorithm. inline to get specialization at the 'double' type
         let inline genericMulSparse zero add mul (a:SparseMatrix<_>) (b:SparseMatrix<_>) =
-            let nA = a.NumCols
-            let mA = a.NumRows
-            let nB = b.NumCols 
-            let mB = b.NumRows
-            if nA<>mB then invalidArg "b" "the two matrices do not have compatible dimensions"
-            let C = new ResizeArray<_>()
-            let jC = new ResizeArray<_>()
-            let MA1 = mA + 1 
-            let offsAcc = Array.zeroCreate MA1
-            let index = Array.zeroCreate mA
-            let temp = Array.create mA zero
-            let ptr = new Dictionary<_,_>(11)
-            if debug then printf "start, #items in result = %d, #offsAcc = %d, mA = %d\n" jC.Count offsAcc.Length mA;
+            let ax = a.SparseValues
+            let ap = a.SparseRowOffsets
+            let ai = a.SparseColumnValues
 
-            let mutable mlast = 0
-            for i = 0 to mA-1 do
-                if debug then printf "i = %d, mlast = %d\n" i mlast;
-                offsAcc.[i] <- mlast
-                
-                let kmin1 = a.MinIndexForRow i
-                let kmax1 = a.MaxIndexForRow i
-                if kmin1 < kmax1 then 
-                    let mutable itemp = 0
-                    let mutable ptrNeedsClear = true // clear the ptr table on demand. 
-                    for j = kmin1 to kmax1 - 1 do
-                        if debug then printf "  j = %d\n" j;
-                        let ja_j = a.SparseColumnValues.[j]
-                        let kmin2 = b.MinIndexForRow ja_j
-                        let kmax2 = b.MaxIndexForRow ja_j
-                        for k = kmin2 to kmax2 - 1 do
-                            let jb_k = b.SparseColumnValues.[k]
-                            if debug then printf "    i = %d, j = %d, k = %d, ja_j = %d, jb_k = %d\n" i j k ja_j jb_k;
-                            let va = a.SparseValues.[j] 
-                            let vb = b.SparseValues.[k]
-                            if debug then printf "    va = %O, vb = %O\n" va vb;
-                            let summand = mul va vb
-                            if debug then printf "    summand = %O\n" summand;
-                            if ptrNeedsClear then (ptr.Clear();ptrNeedsClear <- false);
+            let bx = b.SparseValues
+            let bp = b.SparseRowOffsets
+            let bi = b.SparseColumnValues
 
-                            if not (ptr.ContainsKey(jb_k)) then
-                                if debug then printf "    starting entry %d\n" jb_k;
-                                ptr.[jb_k] <- itemp
-                                let ptr_jb_k = itemp
-                                temp.[ptr_jb_k] <- summand
-                                index.[ptr_jb_k] <- jb_k
-                                itemp <- itemp + 1
-                            else
-                                if debug then printf "    adding to entry %d\n" jb_k;
-                                let ptr_jb_k = ptr.[jb_k]
-                                temp.[ptr_jb_k] <- add temp.[ptr_jb_k] summand
-                        done
-                    done
-                    if itemp > 0 then 
-                        // Sort by index. 
-                        // REVIEW: avoid the allocations here
-                        let sorted = (temp.[0..itemp-1],index.[0..itemp-1]) ||> Array.zip 
-                        Array.sortInPlaceBy (fun (_,idx) -> idx) sorted
-                        for s = 0 to itemp-1 do
-                            let (v,idx) = sorted.[s]
-                            if debug then printf "  writing value %O at index %d to result matrix\n" v idx;
-                            C.Add(v)
-                            jC.Add(idx)
-                        if debug then printf " itemp = %d, mlast = %d\n" itemp mlast;
-                        mlast <- mlast + itemp 
-            done
-            offsAcc.[mA] <- mlast;
-            if debug then printf "done, #items in result = %d, #offsAcc = %d, mA = %d\n" jC.Count offsAcc.Length mA;
-            SparseMatrix(opsData = a.OpsData,
-                         sparseRowOffsets=offsAcc,
-                         ncols= nB,
-                         columnValues=jC.ToArray(),
-                         sparseValues=C.ToArray())
+            let rows = a.NumRows
+            let cols = b.NumCols
+
+            let cp = Array.zeroCreate (rows+1)
+
+            let marker = Array.create cols -1
+
+            let mutable count = 0
+            for i = 0 to rows - 1 do
+                for j= ap.[i] to ap.[i + 1]-1 do
+                    // Row number to be added
+                    let a = ai.[j]
+                    for k = bp.[a] to bp.[a + 1] - 1 do
+                        let b = bi.[k]
+                        if not (marker.[b] = i) then
+                            marker.[b] <- i
+                            count <- count + 1
+                cp.[i + 1] <- count
+    
+            let ci = Array.zeroCreate count
+            let cx = Array.create count zero
+
+            // Reset marker array
+            for ib= 0 to cols-1 do
+                marker.[ib] <- -1
+            // Reset count
+            count <- 0
+
+            for i = 0 to rows - 1 do
+                let rowStart = cp.[i]
+                for j = ap.[i] to ap.[i + 1] - 1 do
+                    let a = ai.[j]
+                    let aEntry = ax.[j]
+                    for k = bp.[a] to bp.[a + 1] - 1 do
+                        let b = bi.[k]
+                        let bEntry = bx.[k]
+                        if marker.[b] < rowStart then
+                            marker.[b] <- count
+                            ci.[marker.[b]] <- b
+                            cx.[marker.[b]] <- mul aEntry bEntry;
+                            count <- count + 1
+                        else
+                            let prod = mul aEntry bEntry
+                            cx.[marker.[b]] <- add cx.[marker.[b]] prod
+
+            let matrix = SparseMatrix(opsData = a.OpsData,
+                                     sparseRowOffsets= cp,
+                                     ncols = cols,
+                                     columnValues=ci,
+                                     sparseValues=cx)
+            Normalize matrix
+            matrix
 
         let mulSparseMatrixGU (a: SparseMatrix<_>) b =
             let ops = a.ElementOps 
