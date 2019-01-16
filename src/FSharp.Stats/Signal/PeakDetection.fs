@@ -143,10 +143,10 @@ module PeakDetection =
                 yield i
             |]    
 
-    /// Returns Index of the highestPeak flanking a given mzValue
-    let idxOfHighestPeakBy (xData: float []) (yData: float []) x = 
+    /// Returns Index of the highestPeak flanking a given x value (xt)
+    let idxOfHighestPeakBy (xData: float []) (yData: float []) xt = 
         let idxHigh = 
-            xData |> Array.tryFindIndex (fun x -> x > x) // faster as binary search
+            xData |> Array.tryFindIndex (fun x -> x > xt) // faster as binary search
         let idxLow = 
             match idxHigh with 
             | Option.None   -> Some (xData.Length-1) 
@@ -163,11 +163,11 @@ module PeakDetection =
             else idxHigh.Value
                 
     /// Returns Index of the highestPeak flanking a given mzValue
-    let idxOfClosestPeakBy (xData: float []) (yData: float []) x = 
+    let idxOfClosestPeakBy (xData: float []) (yData: float []) xt = 
         if xData |> Array.isEmpty then 0
         else
         xData 
-        |> Array.mapi (fun i x -> abs (x - x), i) // faster as binary search
+        |> Array.mapi (fun i x -> abs (x - xt), i) // faster as binary search
         |> Array.minBy (fun (value,idx) -> value)
         |> fun (value,idx) -> idx
 
