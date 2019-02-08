@@ -67,11 +67,11 @@ module PeakDetection =
 
     ///
     type IdentifiedPeak = {
-        Apex                 : PeakFeature option
+        Apex                 : PeakFeature 
         LeftLiftOff          : PeakFeature option 
-        LeftEnd              : PeakFeature option
+        LeftEnd              : PeakFeature
         RightLiftOff         : PeakFeature option 
-        RightEnd             : PeakFeature option 
+        RightEnd             : PeakFeature 
         LeftSidedConvolved   : bool
         RightSidedConvolved  : bool
         XData                : float []
@@ -238,7 +238,6 @@ module PeakDetection =
         /// in the direction given by the step parameter and returns a tuple. The first value of the tuple indicates if the peak is isolated (true indicates yes) and the second value is the 
         /// index index of the determined peak end. 
         let tryFindPeakEnd step (xData: float []) (yData: float []) (smoothedYData: float []) (labeledSndDevData: Tag<Extrema,(float*float)> []) (closestPeakIdx: int) (closestLiftOffIdx: int option) =
-            printfn "clostestPeakIdx = %i" closestPeakIdx
             ///
             let signalBorderBy (step:int) =
                 if Math.Sign(step) = 1 then 
@@ -268,13 +267,13 @@ module PeakDetection =
                 // Only one Liftoff and no flanking peak indicates a isolated peak.
                 if kLiftOffs = 1 && hasFlankingPeak = false then
                     true, 
-                    match iterUntili  (fun i (y:float) -> y > smoothedYData.[i-step] || y > smoothedYData.[closestPeakIdx]) step (closestPeakIdx+step) smoothedYData with 
+                    match iterUntili  (fun i (y:float) -> y > smoothedYData.[i-step] || y > smoothedYData.[closestPeakIdx]) step (closestPeakIdx+(3*step)) smoothedYData with 
                     | Option.None   -> signalBorderBy step
                     | Option.Some x -> x            
-                // Only one Liftoff indicates a convoluted peak, iterate backwards.            
+                // Only one Liftoff indicates a convoluted peak          
                 elif kLiftOffs = 1 then
                     false, 
-                    match  iterUntili (fun i (y:float) -> y > smoothedYData.[i-step] || y > smoothedYData.[closestPeakIdx]) step (closestPeakIdx+step) smoothedYData with
+                    match  iterUntili (fun i (y:float) -> y > smoothedYData.[i-step] || y > smoothedYData.[closestPeakIdx]) step (closestPeakIdx+(3*step)) smoothedYData with
                     | Option.None   ->  (closestPeakIdx)+1
                     | Option.Some x -> x-step
                 // If more than one Liftoff between two peaks is detected, the peaks are well separated
@@ -286,12 +285,12 @@ module PeakDetection =
                 else
                     /// No Liftoffs detected
                     false,  
-                    match iterUntili (fun i (y:float) ->  y > smoothedYData.[i-step] || y > smoothedYData.[closestPeakIdx]) step (closestPeakIdx+step) smoothedYData with 
+                    match iterUntili (fun i (y:float) ->  y > smoothedYData.[i-step] || y > smoothedYData.[closestPeakIdx]) step (closestPeakIdx+(3*step)) smoothedYData with 
                     | Option.None   -> signalBorderBy step
                     | Option.Some x -> x
             | Option.None   ->
                     false, 
-                    match iterUntili (fun i (y:float) -> y > smoothedYData.[i-step] || y > smoothedYData.[closestPeakIdx]) step  (closestPeakIdx+step) smoothedYData with
+                    match iterUntili (fun i (y:float) -> y > smoothedYData.[i-step] || y > smoothedYData.[closestPeakIdx]) step  (closestPeakIdx+(3*step)) smoothedYData with
                     | Option.None   -> signalBorderBy step 
                     | Option.Some x -> x
           
@@ -310,7 +309,7 @@ module PeakDetection =
 
         ///
         let characterizePeak (xData: float []) (yData: float []) smoothedYData (labeledSndDevData: Tag<Extrema,(float*float)> []) (peakIdx: int) = 
-            let apex = Option.Some (createPeakFeature peakIdx xData.[peakIdx] yData.[peakIdx])
+            let apex =createPeakFeature peakIdx xData.[peakIdx] yData.[peakIdx]
             let leftLiftOffIdx = closestLeftLiftOffIdx labeledSndDevData peakIdx  
             let leftLiftOff = 
                 match leftLiftOffIdx with 
@@ -318,7 +317,7 @@ module PeakDetection =
                 | Option.None   -> Option.None
             let convL,leftPeakEnd  = 
                 let conv,leftIdx = findLeftBorderOf xData yData smoothedYData labeledSndDevData peakIdx leftLiftOffIdx
-                conv, Some (createPeakFeature leftIdx  xData.[leftIdx] yData.[leftIdx])
+                conv, (createPeakFeature leftIdx  xData.[leftIdx] yData.[leftIdx])
             let rightLiftOffIdx = closestRightLiftOffIdx labeledSndDevData peakIdx  
             let rightLiftOff = 
                 match rightLiftOffIdx with 
@@ -326,7 +325,7 @@ module PeakDetection =
                 | Option.None   -> Option.None
             let convR,rightPeakEnd = 
                 let conv,rightIdx = findRightBorderOf xData yData smoothedYData labeledSndDevData peakIdx rightLiftOffIdx
-                conv, Some (createPeakFeature rightIdx xData.[rightIdx] yData.[rightIdx])
+                conv, (createPeakFeature rightIdx xData.[rightIdx] yData.[rightIdx])
             createIdentifiedPeak 
                 apex 
                 leftLiftOff
@@ -335,8 +334,8 @@ module PeakDetection =
                 rightPeakEnd
                 (not convL)
                 (not convR)
-                xData.[leftPeakEnd.Value.Index .. rightPeakEnd.Value.Index]
-                yData.[leftPeakEnd.Value.Index .. rightPeakEnd.Value.Index]
+                xData.[leftPeakEnd.Index .. rightPeakEnd.Index]
+                yData.[leftPeakEnd.Index .. rightPeakEnd.Index]
 
 
         ///
@@ -349,11 +348,11 @@ module PeakDetection =
                                                                                                                                                  
 
         ///    
-        let getPeaks snr ws xData yData = 
+        let getPeaks snr polOrder ws xData yData = 
             ///
-            let smoothedYData = Filtering.savitzky_golay ws 3 0 1 yData |> Array.ofSeq
+            let smoothedYData = Filtering.savitzky_golay ws polOrder 0 1 yData |> Array.ofSeq
             ///
-            let negSndDev = Filtering.savitzky_golay ws 3 2 1 yData |> Array.ofSeq |> Array.map ((*) -1.)  
+            let negSndDev = Filtering.savitzky_golay ws polOrder 2 1 smoothedYData |> Array.ofSeq |> Array.map ((*) -1.)  
             ///
             let labeledDataTmp = labelPeaks 0. 0. (xData |> Array.ofSeq) negSndDev 
             ///
