@@ -15,8 +15,8 @@ module Random =
     ///// A standard implementation of a uniform random source using System.Random()
     type RandThreadSafe =
         val mutable rnd : ThreadLocal<Random>
-        /// Constructs the default random number generator with seed 17.
-        new() = { rnd = new ThreadLocal<Random>(fun () -> new Random(17)) }
+        /// Constructs the default random number generator using a time dependent default seed value.
+        new() = { rnd = new ThreadLocal<Random>(fun () -> new Random()) }
         /// If n is negative, the random number generator seed is based on system time, if it is zero or positive it will
         /// use n as the seed.
         new(n) as this = { rnd = new ThreadLocal<Random>(fun () -> new Random()) }
@@ -30,8 +30,8 @@ module Random =
 
     type RandBasic =
         val mutable rnd : Random
-        /// Constructs the default random number generator with seed 17.
-        new() = { rnd = new Random(17) }
+        /// Constructs the default random number generator using a time dependent default seed value.
+        new() = { rnd = new Random() }
         /// If n is negative, the random number generator seed is based on system time, if it is zero or positive it will
         /// use n as the seed.
         new(n) as this = { rnd = new Random() }
