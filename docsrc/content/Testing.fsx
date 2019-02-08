@@ -394,10 +394,10 @@ let qvalues  = Testing.PvalueAdjust.Qvalues.ofPValues pi0 pvalues
 qvalues |> Seq.filter (fun x -> x < 0.1) |> Seq.length
 
 FSharp.Plotly.Chart.Point (pvalues,qvalues)
-|> FSharp.Plotly.Chart.Show
+//|> FSharp.Plotly.Chart.Show
 
 FSharp.Plotly.Chart.Histogram( pvalues, HistNorm=FSharp.Plotly.StyleParam.HistNorm.Probability)
-|> FSharp.Plotly.Chart.Show
+//|> FSharp.Plotly.Chart.Show
 
 
 

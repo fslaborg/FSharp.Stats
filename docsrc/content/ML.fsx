@@ -85,11 +85,11 @@ let plotScoresColoredByGrouping (transformedData : Matrix<float>)
 plotLoadingsColoredByGrouping irisPCA 
     [ "Sepal length"; "Sepal width"; "Petal length"; "Petal width" ] 
     (fun x -> x) 1 2
-|> Chart.Show
+//|> Chart.Show
 
 
 plotScoresColoredByGrouping irisDataPCA irisLables (fun x -> x) 1 3
-|> Chart.Show   
+//|> Chart.Show   
 
 
 

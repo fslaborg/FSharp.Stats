@@ -181,7 +181,7 @@ let eval = Hermite.initEvalAt x a c
 ]
 |> Chart.Combine
 (*** include:hermitespline1 ***)
-|> Chart.Show
+//|> Chart.Show
 
 
 let m1 = vector [|14.69707479;49.40105967;4.63026942;7.728633952;4.077401498;3.847039793;3.294171442;4.837594998;0.345542383;7.141212053|]
@@ -228,7 +228,7 @@ Chart.Point (km2,Name = "UGPase")
 Chart.Point (km3,Name = "Nitrat")
 ]
 |> Chart.Combine
-|> Chart.Show
+//|> Chart.Show
 
 
 
