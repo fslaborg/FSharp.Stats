@@ -16,8 +16,7 @@ open System.Diagnostics
 //type rowvec = RowVector<float>
 
 module MRandom = 
-    let seed = 99
-    let randomGen = new System.Random(seed)
+    let randomGen = new System.Random()
     let float f = randomGen.NextDouble() * f 
 
 
