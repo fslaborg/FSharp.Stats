@@ -35,5 +35,5 @@ differentiateTwoPointTryFindH hArray testFunction 2. //results in 4.
 If you want to use a presuggested hArray then you can use the "differentiateTwoPointTryFindHFromPremadeArr".
 This function uses an array from 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005; 0.0001 ..|]-increments as hArray.
 *)
-differentiateTwoPointTryFindHFromPremadeArr
+differentiateTwoPointTryFindHFromPremadeArr testFunction 2. //results in 4.
 
