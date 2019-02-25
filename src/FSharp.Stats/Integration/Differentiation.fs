@@ -26,56 +26,63 @@ module Differentiation =
         let b  = (x1 - x0 - a*t1*t1)/t1
         (2.*a*t) + b
 
-    ///correcture of the Array.iterUntili function; here no boundarys are set to the lower and upper end
-    let private iterUntiliWithoutCutOff (predicate: int -> 'T -> bool) stepSize startIdx (arr: 'T []) =
-        let rec loop  (arr: 'T []) currentIdx =
-            if currentIdx < 0 then None
-            elif currentIdx > arr.Length-1 then None
-            else                                              
-                match predicate currentIdx arr.[currentIdx] with 
-                | true -> Some currentIdx   
-                | _               -> loop arr (currentIdx+stepSize) 
-        loop arr startIdx 
-
-    ///Output is the approximation for f'(x) at x.
-    ///h is the window for the difference calculation. f is the function for which to calculate numerical differentiation. x is the point at which the difference between "x and x+h"/"x-h and x+h" is calculated.
-    let differentiateTwoPoint h f x =
-        //error is proportional to h
-        let forwardDifference = 
-            ( (f (x+h)) - (f x) ) / h     
-
-        //error is proportional to h^2, so it decreases with this function for h<1
-        let centralDifference = 
-            ( (f (x+h)) - (f (x-h)) ) / (2.*h) 
-        if h >= 1. then forwardDifference else centralDifference
-
-    //if something is wrong with the following function, try to implement the function shown next: TODO: https://www.johndcook.com/NumericalODEStepSize.pdf
-    //source for the function below: http://math.bd.psu.edu/faculty/stevens/Old-Courses/MTHBD423-Fall2003/Notes-Handouts/ndiff.pdf
-    ///h is tested from all numbers in hArr. f is the function and x the point at which the numerical differentiation is calculated
-    let optimalStepSize hArr f x = 
-        let doPadding arr = [|[|(Array.max arr)*2.|];arr;[|(Array.min arr)/2.|]|] |> Array.concat
-        let paddedArr = doPadding hArr
-        paddedArr
-        |> Array.sortDescending
-        |> iterUntiliWithoutCutOff (fun i tryH -> if i <> 0 && i <> (paddedArr.Length-1)
-                                                        then (abs ((differentiateTwoPoint paddedArr.[i+1] f x) - (differentiateTwoPoint paddedArr.[i] f x)) >= abs ((differentiateTwoPoint paddedArr.[i] f x) - (differentiateTwoPoint paddedArr.[i-1] f x)))
-                                                        else 0. = 1. //anything that gives false, iterUntili goes to the next index number if output is false.
-                                   ) 1 0
-        |> fun x -> if x.IsSome = true then x.Value else failwith "No value found, try choose smaller h."
-        |> fun idx -> paddedArr.[idx]
+    module TwoPointDifferentiation =
     
-    ///Output is the approximation for f'(x) at x.
-    ///Uses "optimalStepSize"-function to calculate optimal h for "differentiateTwoPoint" -function. 
-    ///h is tested from all numbers in hArr. f is the function and x the point at which numerical differentiation is calculated.
-    let differentiateTwoPointTryFindH hArr f x =
-        differentiateTwoPoint (optimalStepSize hArr f x) f x
-    
-    ///Output is the approximation for f'(x) at x.
-    ///Uses "optimalStepSize"-function to calculate optimal h for "differentiateTwoPoint" -function. 
-    ///h is tested from h = 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005; 0.0001 ..|]-increments. f is the function and x the point at which numerical differentiation is calculated.
-    let differentiateTwoPointTryFindHFromPremadeArr f x =
-        let small = Array.init 98 (fun i ->[|( 0.1 **((float i)+2.));(0.5*( 0.1 **((float i)+2.)))|]
-                                      )|> Array.concat|> Array.sortDescending
-        differentiateTwoPoint (optimalStepSize small f x) f x
+        //correcture of the Array.iterUntili function; here no boundarys are set to the lower and upper end
+        /// Iterates the data array beginning from the startIdx. 
+        /// The step size and direction are implied by magnitude and sign of stepSize. The function returns
+        /// the idx of the first value for which predicate returns true or the end/start of the collection
+        /// is reached (returning None). The predicate function takes the idx of the current value as an additional
+        /// parameter.
+        let private iterUntiliWithoutCutOff (predicate: int -> 'T -> bool) stepSize startIdx (arr: 'T []) =
+            let rec loop  (arr: 'T []) currentIdx =
+                if currentIdx < 0 then None
+                elif currentIdx > arr.Length-1 then None
+                else                                              
+                    match predicate currentIdx arr.[currentIdx] with 
+                    | true -> Some currentIdx   
+                    | _               -> loop arr (currentIdx+stepSize) 
+            loop arr startIdx 
+
+        ///Returns the approximation of f'(x) at x by calculating the two point differentiation.
+        ///h is the window for the difference calculation. f is the function for which to calculate numerical differentiation. x is the point at which the difference between "x and x+h"/"x-h and x+h" is calculated.
+        let differentiate h f x =
+            //error is proportional to h
+            let forwardDifference = 
+                ( (f (x+h)) - (f x) ) / h     
+
+            //error is proportional to h^2, so it decreases with this function for h<1
+            let centralDifference = 
+                ( (f (x+h)) - (f (x-h)) ) / (2.*h) 
+            if h >= 1. then forwardDifference else centralDifference
+
+        //if something is wrong with the following function, try to implement the function shown next: TODO: https://www.johndcook.com/NumericalODEStepSize.pdf
+        //source for the function below: http://math.bd.psu.edu/faculty/stevens/Old-Courses/MTHBD423-Fall2003/Notes-Handouts/ndiff.pdf
+        ///Returns the optimal size for h from all tested values in hArr. f is the function and x the point at which the numerical differentiation is calculated.
+        let optimalStepSize hArr f x = 
+            let doPadding arr = [|[|(Array.max arr)*2.|];arr;[|(Array.min arr)/2.|]|] |> Array.concat
+            let paddedArr = doPadding hArr
+            paddedArr
+            |> Array.sortDescending
+            |> iterUntiliWithoutCutOff (fun i tryH -> if i <> 0 && i <> (paddedArr.Length-1)
+                                                            then (abs ((differentiate paddedArr.[i+1] f x) - (differentiate paddedArr.[i] f x)) >= abs ((differentiate paddedArr.[i] f x) - (differentiate paddedArr.[i-1] f x)))
+                                                            else 0. = 1. //anything that gives false, iterUntili goes to the next index number if output is false.
+                                       ) 1 0
+            |> fun x -> if x.IsSome = true then x.Value else failwith "No value found, try choose smaller h."
+            |> fun idx -> paddedArr.[idx]
+        
+        ///Returns the approximation of f'(x) at x by calculating the two point differentiation.
+        ///Uses "optimalStepSize"-function to calculate optimal h for "differentiate" -function. 
+        ///h is tested from all numbers in hArr. f is the function and x the point at which numerical differentiation is calculated.
+        let differentiateTryFindH hArr f x =
+            differentiate (optimalStepSize hArr f x) f x
+        
+        ///Returns the approximation of f'(x) at x by calculating the two point differentiation.
+        ///Uses "optimalStepSize"-function to calculate optimal h for "differentiate"-function. 
+        ///h is tested from h = 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005; 0.0001 ..|]-increments. f is the function and x the point at which numerical differentiation is calculated.
+        let differentiateOptimalH f x =
+            let small = Array.init 98 (fun i ->[|( 0.1 **((float i)+2.));(0.5*( 0.1 **((float i)+2.)))|]
+                                          )|> Array.concat|> Array.sortDescending
+            differentiate (optimalStepSize small f x) f x
 
 
