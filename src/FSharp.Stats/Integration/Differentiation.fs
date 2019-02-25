@@ -3,8 +3,8 @@ namespace FSharp.Stats.Integration
 open FSharp.Stats
 open FSharpAux
 
+///In numerical analysis, numerical differentiation describes algorithms for estimating the derivative of a mathematical function using values of the function and perhaps other knowledge about the function.
 module Differentiation =
-
 
     /// Three-Point Differentiation Helper.
     /// xValues Sample Points t.
@@ -26,6 +26,9 @@ module Differentiation =
         let b  = (x1 - x0 - a*t1*t1)/t1
         (2.*a*t) + b
 
+    ///A two-point estimation is to compute the slope of a nearby secant line through two points.
+    ///This gives an approximations of f'(x) at x respectively to two points "x and x+h"/"x-h and x+h"(depending on the used algorithm) of the function f.
+    ///Choosing a small number h, h represents a small change in x, and it can be either positive or negative.
     module TwoPointDifferentiation =
     
         //correcture of the Array.iterUntili function; here no boundarys are set to the lower and upper end
