@@ -11,7 +11,7 @@ The function uses two different mathematical approaches to decrease the error, o
 
 </br>
 
-![Data model]https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Derivative.svg/800px-Derivative.svg.png
+![Data model](img/Derivative.svg.png)
 
 </br>
 *)
