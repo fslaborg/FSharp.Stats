@@ -14,6 +14,8 @@ open FSharp.Stats
 
 ## Differentiation
 
+Numerical differentiation is used to estimate the derivative of a mathematical function using values of the function and perhaps other knowledge about the function.
+
 <a name="ThreePointDifferentiation"></a>
 
 ### Three-Point Differentiation
@@ -43,7 +45,7 @@ We compare the resulting values with the values of the known differential f'(x) 
 *)
 
 
-(* TO-DO: Include task*)
+// TODO: Include task 
 [
 Chart.Point(xs,ys,Name = "f(x)")
 Chart.Point(y's,Name = "f'(x)")
@@ -56,8 +58,9 @@ Chart.Point(Array.map (fun x -> x,(x ** 2.) * 3.) xs,Name = "g(x)")
 
 ### Two-Point Differentiation
 
-Numerical differentiation is used to estimate the derivative of a mathematical function using values of the function and perhaps other knowledge about the function.
-To achieve this, it calculates the difference of f(x) at x and f(x) at x+h and correlates it to h. This will give better approximations the smaller h is. 
+
+To calculate the approximation for the derivative, a Two-Point Differentiation calculates the difference of f(x) at x and f(x) at x+h and correlates it to h. 
+This will give better approximations the smaller h is. 
 The function uses two different mathematical approaches to decrease the error, one for h > 1. and one for h < 1.
 
 </br>
@@ -73,30 +76,29 @@ open FSharp.Stats.Integration.Differentiation
 
 let testFunction x = x**2. 
 
-differentiate 0.5 testFunction 2. //results in 4., the correct result for f(x) = x**2.
-differentiate 3. testFunction 2. //results in 7.; the approximation error increases as h increases
-differentiate 0.1 testFunction 2. // results in 4.
+let test1 = differentiate 0.5 testFunction 2. //results in 4., the correct result for f(x) = x**2.
+let test2 = differentiate 3. testFunction 2. //results in 7.; the approximation error increases as h increases
+let test3 = differentiate 0.1 testFunction 2. // results in 4.
+
+(*** include-value:test1 ***)
+(*** include-value:test2 ***)
+(*** include-value:test3 ***)
 
 (**
-You can try and find an optimal h - value with the "optimalStepSize" - function. This function uses the first h-value it assumes to give good results.
+You can try and find an optimal h - value with the "differentiateOptimalHBy" - function. 
+This function uses the first h-value it assumes to give good results for the numerical differentiation calculation.
 Due to this, possible error due to float precision is avoided.
 In the following example this is not really necessary, as values are quite big.
-
-**This function is set private but still used in the follow-up functions explained later**
-
 *)
 let hArray = [|0.1 .. 0.1 .. 2.|]
 
-optimalStepSize hArray testFunction 2. //results in 0.2
-
-differentiate 0.2 testFunction 2. //results in 4.
-
+let test4 = differentiateOptimalHBy hArray testFunction 2.
+(*** include-value:test4 ***)
 (**
-The previous two functions are already combined in "differentiateTryFindH".
-*)
-differentiateOptimalHBy hArray testFunction 2. //results in 4.
-(**
-If you want to use a presuggested hArray then you can use the "differentiateOptimalH".
+If you want to use a presuggested hArray then you can use the "differentiateOptimalH" function.
 This function uses an array from 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005; 0.0001 ..|]-increments as hArray.
 *)
-differentiateOptimalH testFunction 2. //results in 4.
+
+let test5 = differentiateOptimalH testFunction 2. 
+
+(*** include-value:test5 ***)
