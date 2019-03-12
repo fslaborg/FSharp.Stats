@@ -3,8 +3,12 @@
 // it to define helpers that you do not want to show in the documentation.
 #I "../../bin/FSharp.Stats/netstandard2.0"
 (**
-Differentiation
-========================
+# Differentiation
+
+<a name="TwoPointDifferentiation"></a>
+
+## Two-Point Differentiation
+
 Numerical differentiation is used to estimate the derivative of a mathematical function using values of the function and perhaps other knowledge about the function.
 To achieve this, it calculates the difference of f(x) at x and f(x) at x+h and correlates it to h. This will give better approximations the smaller h is. 
 The function uses two different mathematical approaches to decrease the error, one for h > 1. and one for h < 1.
