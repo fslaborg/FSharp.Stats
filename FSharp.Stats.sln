@@ -30,7 +30,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D
 		docsrc\content\Clustering.fsx = docsrc\content\Clustering.fsx
 		docsrc\content\Correlation.fsx = docsrc\content\Correlation.fsx
 		docsrc\content\Covariance.fsx = docsrc\content\Covariance.fsx
-		docsrc\content\Differentiation.fsx = docsrc\content\Differentiation.fsx
 		docsrc\content\Distributions.fsx = docsrc\content\Distributions.fsx
 		docsrc\content\Fitting.fsx = docsrc\content\Fitting.fsx
 		docsrc\content\Impute.fsx = docsrc\content\Impute.fsx
