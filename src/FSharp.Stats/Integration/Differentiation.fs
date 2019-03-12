@@ -31,13 +31,13 @@ module Differentiation =
     ///Choosing a small number h, h represents a small change in x, and it can be either positive or negative.
     module TwoPointDifferentiation =
     
-        //correcture of the Array.iterUntili function; here no boundarys are set to the lower and upper end
+        //  
         /// Iterates the data array beginning from the startIdx. 
         /// The step size and direction are implied by magnitude and sign of stepSize. The function returns
         /// the idx of the first value for which predicate returns true or the end/start of the collection
         /// is reached (returning None). The predicate function takes the idx of the current value as an additional
         /// parameter.
-        let private iterUntiliWithoutCutOff (predicate: int -> 'T -> bool) stepSize startIdx (arr: 'T []) =
+        let private iterUntili (predicate: int -> 'T -> bool) stepSize startIdx (arr: 'T []) =
             let rec loop  (arr: 'T []) currentIdx =
                 if currentIdx < 0 then None
                 elif currentIdx > arr.Length-1 then None
@@ -67,10 +67,11 @@ module Differentiation =
             let paddedArr = doPadding hArr
             paddedArr
             |> Array.sortDescending
-            |> iterUntiliWithoutCutOff (fun i tryH -> if i <> 0 && i <> (paddedArr.Length-1) 
-                                                      then (abs ((differentiate paddedArr.[i+1] f x) - (differentiate paddedArr.[i] f x)) >= abs ((differentiate paddedArr.[i] f x) - (differentiate paddedArr.[i-1] f x))) 
-                                                      else 0. = 1. //Anything that gives false, iterUntili goes to the next index number if output is false.
-                                       ) 1 0
+            |> iterUntili (fun i tryH ->  
+                                i <> 0 && 
+                                i <> (paddedArr.Length-1) && 
+                                abs ((differentiate paddedArr.[i+1] f x) - (differentiate paddedArr.[i] f x)) >= abs ((differentiate paddedArr.[i] f x) - (differentiate paddedArr.[i-1] f x))
+                          ) 1 0
             |> fun x -> if x.IsSome = true then x.Value else failwith "No value found, try choose smaller h."
             |> fun idx -> paddedArr.[idx]
         
@@ -85,12 +86,7 @@ module Differentiation =
         ///h is tested from h = 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005; 0.0001 ..|]-increments. 
         ///f is the function and x the point at which numerical differentiation is calculated.
         let differentiateOptimalH f x =
-            let smallArr = Array.init 98 (fun i -> 0.1**((float i)+2.)
-                                          )
-            let smallArrHalf = smallArr |> Array.map (fun x -> x/2.)
-            let small = [|smallArr; smallArrHalf|]
-                        |> Array.concat
-                        |> Array.sortDescending
+            let small = [|for i in 0 .. 97 do yield 0.1**((float i)+2.);yield (0.1**((float i)+2.)/2.) |]
             differentiate (optimalStepSize small f x) f x
 
 
