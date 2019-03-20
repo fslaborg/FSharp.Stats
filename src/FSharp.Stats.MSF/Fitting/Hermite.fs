@@ -2,6 +2,13 @@ namespace FSharp.Stats.Fitting
 open System
 open System.Collections.Generic
 
+(*
+1. Do not use PSeq for parallelization (use Async instead)
+2. add:
+    FSharp.Stats.ServiceLocator.setEnvironmentPathVariable @"..\FSharp.Stats\lib"
+    FSharp.Stats.Algebra.LinearAlgebra.Service()
+*)
+
 module Hermite =    
 
     open FSharp.Stats
@@ -57,7 +64,7 @@ module Hermite =
         Array.foldBack (fun (a,b,c,d) (accA,accB,accC,accD) -> a::accA, b::accB, c::accC, d::accD) arr ([],[],[],[])
         |> fun (ra,rb,rc,rd) -> Array.ofList ra,Array.ofList rb,Array.ofList rc,Array.ofList rd
     
-    let private unzip4List li =
+    let private unzip4 li =
         let length = Seq.length li
         let la = Array.zeroCreate length
         let lb = Array.zeroCreate length
@@ -128,18 +135,21 @@ module Hermite =
         yVal |> Vector.map (fun x -> (x - yMean) / std) 
     
             
-    ///W_method: 0=identical weighting | 1=Variance //identical y_replicates lead to 1./0.
+    ///W_method: 0=identical weighting | 1=coefficientOfVariation | 2=variance
     let getWeighting (xVal:Vector<float>) (yVal:Vector<float>) (w_method:int) (numRep:int) =
         if w_method = 0 || numRep = 1 then 
             Matrix.diag(Vector.ones xVal.Length)
-        else
-            let Wtemp = Matrix.create xVal.Length xVal.Length 0.
-            let diagVec = vector [for i = 0 to xVal.Length - 1 do yield 1. / (yVal.[(i*numRep)..(i*numRep + numRep - 1)] |> Seq.stDev)]
+        elif w_method = 2 then
+            let Wtemp = Matrix.create xVal.Length xVal.Length 0.            
+            let diagVec = 
+                if yVal.Length%numRep = 0 then
+                    vector [for i = 0 to xVal.Length - 1 do yield 1. / (yVal.[(i*numRep)..(i*numRep + numRep - 1)] |> Seq.stDev)]
+                else failwithf "arrLength no multiple of replicate number"
             let (maxWtemp,minWtemp) = 
                 let mean = diagVec |> Seq.mean
                 let std  = diagVec |> Seq.stDev
                 (mean + std),(mean - std)
-    
+            
             let diagVecNew = 
                 diagVec |> Vector.map (fun x -> match x with
                                                 | x when x > maxWtemp -> maxWtemp
@@ -150,6 +160,19 @@ module Hermite =
                 let length = (float Wtemp.NumCols)
                 diagVecNew |> Vector.map (fun x -> x / trace * length)
             for i = 0 to xVal.Length - 1 do Wtemp.[i,i] <- finalDiag.[i]
+            Wtemp
+        else
+            let Wtemp = Matrix.create xVal.Length xVal.Length 0.
+            let cvOfVec =
+                if yVal.Length%numRep = 0 then
+                    let length = yVal.Length / numRep 
+                    let cv = vector [for i = 0 to length-1 do yield yVal.[i*numRep..i*numRep+numRep-1] |> fun g -> max 0. (System.Math.Log((1./(Math.Abs(Seq.cvPopulation g))),2.))(*(1./((Seq.cvPopulation g) + 0.25))*)] //0.25???
+                    cv
+                else failwithf "arrLength no multiple of replicate number"
+            printfn "%A" cvOfVec
+
+            
+            for i = 0 to xVal.Length - 1 do Wtemp.[i,i] <- cvOfVec.[i]
             Wtemp
                 
     let getInitialEstimate (D:Matrix<float>) (H:Matrix<float>) (W:Matrix<float>) (n) (y)= 
@@ -287,7 +310,7 @@ module Hermite =
         let variance = var_ny lambda
         (gcv,variance)
 
-    let private spline operator (x:Vector<float>) (y:Vector<float>) (W:Matrix<float>) lambd con=
+    let private spline operator (x:Vector<float>) (y:Vector<float>) (W:Matrix<float>) con=
 
         /// Sets the diagonal to value inplace
         let setDiagonalInplace value (m:Matrix<_>) =
@@ -474,7 +497,7 @@ module Hermite =
                 //a',e',gcv,c' 
                 a',e',(gcv,var),c' 
                         )
-            |> unzip4List
+            |> unzip4
             |> fun (a,e,gcvvar,c) -> 
                 let gcv = gcvvar |> Array.map fst
                 let var = gcvvar |> Array.map snd
@@ -487,7 +510,7 @@ module Hermite =
                 let lambdafin = 0.01*(1.2**(float gcvminIndex))
                 ((efin,gcvmin),(afin,varmin),lambdafin,cfin)
                     )
-        |> unzip4List
+        |> unzip4
         |> fun (x,afinvar,lambdafin,c) -> ((x |> Array.unzip),afinvar,lambdafin,c)
         |> fun tmp -> 
             let e = tmp |> fun (a,b,c,d) -> fst a
@@ -599,7 +622,7 @@ module Hermite =
                 let (gcv,var) = getGCV (aMat |> Matrix.ofArray2D) (Matrix.ofArray2D D) (Matrix.ofArray2D H) W y.Length y a' lambd
                 a',e',gcv,c' 
                         )
-            |> unzip4List
+            |> unzip4
             |> fun (a,e,gcv,c) -> 
                 let gcvminIndex = gcv |> Array.findIndex (fun x -> x = (gcv |> Array.min))
                 let gcvmin = gcv.[gcvminIndex]
@@ -609,7 +632,7 @@ module Hermite =
                 let lambdafin = lambd
                 ((efin,gcvmin),afin,lambdafin,cfin)
                     )
-        |> unzip4List
+        |> unzip4
         |> fun (x,afin,lambdafin,c) -> ((x |> Array.unzip),afin,lambdafin,c)
         |> fun tmp -> 
             let e = tmp |> fun (a,b,c,d) -> fst a
@@ -626,27 +649,27 @@ module Hermite =
             let cfinal = cfin.[eminIndex]
             createHermiteResultSimple afinal cfinal gcvfinal efinal lambdafinal ctemp nan
 
-    let splineIncreasing (x:Vector<float>) (y:Vector<float>) (W:Matrix<float>) lambd con= 
-        spline (~-) x y W lambd con
+    let splineIncreasing (x:Vector<float>) (y:Vector<float>) (W:Matrix<float>) con= 
+        spline (~-) x y W con
 
-    let splineDecreasing (x:Vector<float>) (y:Vector<float>) (W:Matrix<float>) lambd con= 
-        spline (~+) x y W lambd con
+    let splineDecreasing (x:Vector<float>) (y:Vector<float>) (W:Matrix<float>) con= 
+        spline (~+) x y W con
         
-
+    
     let getBestFitOfWeighting arr wMat xVal=
         let getinitialestimate = getInitialEstimateOfWXY wMat (vector arr) xVal 
         let initial = getinitialestimate |> fun (a,b,c,d) -> b
         
-        let fst1 =(1,splineIncreasing xVal (vector arr) wMat 1. 0 )  |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.04) x.Lambda x.Ctemp x.Variance)
-        let fst2 =(-1,splineDecreasing xVal (vector arr) wMat 1. 0)  |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.04) x.Lambda x.Ctemp x.Variance)
+        let fst1 =(1,splineIncreasing xVal (vector arr) wMat 0 )  |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.04) x.Lambda x.Ctemp x.Variance)
+        let fst2 =(-1,splineDecreasing xVal (vector arr) wMat 0)  |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.04) x.Lambda x.Ctemp x.Variance)
         let bestfst = [fst1;fst2] |> List.minBy (fun (cl,x) -> x.Error)                                                                                                    
                                                                                                                                                                             
-        let snd1 =(2,splineIncreasing xVal (vector arr) wMat 1. 1; ) |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.06) x.Lambda x.Ctemp x.Variance)
-        let snd2 =( 2,splineDecreasing xVal (vector arr) wMat 1. 1;) |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.06) x.Lambda x.Ctemp x.Variance)
+        let snd1 =(2,splineIncreasing xVal (vector arr) wMat 1; ) |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.06) x.Lambda x.Ctemp x.Variance)
+        let snd2 =( 2,splineDecreasing xVal (vector arr) wMat 1;) |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.06) x.Lambda x.Ctemp x.Variance)
         let bestsnd = [snd1;snd2] |> List.minBy (fun (cl,x) -> x.Error)                                                                                                    
                                                                                                                                                                              
-        let trd1 =(3,splineIncreasing xVal (vector arr) wMat 1. 2; ) |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.Variance)
-        let trd2 =(-3,splineDecreasing xVal (vector arr) wMat 1. 2;) |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.Variance)
+        let trd1 =(3,splineIncreasing xVal (vector arr) wMat 2; ) |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.Variance)
+        let trd2 =(-3,splineDecreasing xVal (vector arr) wMat 2;) |> fun (cl,x) -> (cl, createHermiteResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.Variance)
         let besttrd = [trd1;trd2] |> List.minBy (fun (cl,x) -> x.Error)
         
         [bestfst;bestsnd;besttrd]
@@ -707,11 +730,11 @@ module Hermite =
         loop 1 [] []
 
 
-    ///weightinmethod 0:identical; 1:variance
+    ///weightinmethod 0:identical; 1:cv 2:variance
     let getBestFit xVal yVal repNumber weightingMethod = 
-        let xValMeans = calcMeanOfRep yVal repNumber
+        let yValMeans = calcMeanOfRep yVal repNumber |> normValues
         let weightingMatrix = (getWeighting xVal (yVal |> vector) weightingMethod repNumber)
-        let (cl,fit) = getBestFitOfWeighting xValMeans weightingMatrix xVal
+        let (cl,fit) = getBestFitOfWeighting yValMeans weightingMatrix xVal
         let (mins,maxs) = investigateTrace 0.001 (fit.TraceA |> Seq.toArray)
         let clNew = 
             if mins = [] then
