@@ -794,8 +794,8 @@ module Hermite =
         idx 
 
     ///
-    let initEvalAtWithLinearInterpol (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
-
+    let initEvalAtWithLinearInterpol (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (stepwidth:float)=
+        //stepwidth defines range in that interpolation is calculated (xVal.[0] + stepwidth) and (xVal.last - stepwidth)
         let n = x.Length
 
         //Definiere Intervalle
@@ -822,6 +822,8 @@ module Hermite =
 
         let linearInterPolLowerBorder t =
             let halfDeltaLeftMostKnotAdjacentKnot = (x.InternalValues.[1] - x.InternalValues.[0]) / 2.
+            let halfDeltaLeftMostKnotAdjacentKnot = stepwidth
+            //let halfDeltaLeftMostKnotAdjacentKnot = x.InternalValues.[0] + stepwidth
             let yValHalfSegment = evalAt 0 (halfDeltaLeftMostKnotAdjacentKnot + x.InternalValues.[0])
             let yAtLeftMostKnot = evalAt 0 x.InternalValues.[0]
             let m = (yValHalfSegment - yAtLeftMostKnot ) / halfDeltaLeftMostKnotAdjacentKnot
@@ -829,8 +831,9 @@ module Hermite =
             m * t + b
 
         let linearInterPolUpperBorder t =
-            let halfDeltaRightMostKnotAdjacentKnot = (x.InternalValues.[x.InternalValues.Length-1] - x.InternalValues.[x.InternalValues.Length-2]) / 2.
-            let yValHalfSegment = evalAt (x.InternalValues.Length-2) (x.InternalValues.[x.InternalValues.Length-2] + halfDeltaRightMostKnotAdjacentKnot)
+            //let halfDeltaRightMostKnotAdjacentKnot = (x.InternalValues.[x.InternalValues.Length-1] - x.InternalValues.[x.InternalValues.Length-2]) / 2.
+            let halfDeltaRightMostKnotAdjacentKnot = stepwidth
+            let yValHalfSegment = evalAt (x.InternalValues.Length-2) (x.InternalValues.[x.InternalValues.Length-1] - halfDeltaRightMostKnotAdjacentKnot)
             let yAtRightMostKnot = evalAt (x.InternalValues.Length-2) x.InternalValues.[x.InternalValues.Length-1]
             let m = (yAtRightMostKnot - yValHalfSegment) / halfDeltaRightMostKnotAdjacentKnot
             let b = yAtRightMostKnot - (m * x.InternalValues.[x.InternalValues.Length-1])
