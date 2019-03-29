@@ -469,7 +469,7 @@ module Matrix = begin
     let meanColumnWise (a:matrix) = 
         a
         |> sumColumns
-        |> Vector.map (fun sum -> sum / (a.NumCols |> float))
+        |> Vector.map (fun sum -> sum / (a.NumRows |> float))
     
 
     /// computes the column specific covariance matrix of a data matrix as described at:
