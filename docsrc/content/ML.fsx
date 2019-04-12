@@ -32,6 +32,55 @@ let irisLables = irisData |> List.map (fun ii -> ii.[4])
 let irisFeaturesMatrix = Matrix.ofList irisFeatures
 
 
+// https://intoli.com/blog/pca-and-svd/
+//https://medium.com/@jonathan_hui/machine-learning-singular-value-decomposition-svd-principal-component-analysis-pca-1d45e885e491
+
+//# we now perform singular value decomposition of X
+//# "economy size" (or "thin") SVD
+//U, s, Vt = la.svd(X, full_matrices=False)
+//V = Vt.T
+//S = np.diag(s)
+
+//# 1) then columns of V are principal directions/axes.
+//assert np.allclose(*flip_signs(V, principal_axes))
+
+//# 2) columns of US are principal components
+//assert np.allclose(*flip_signs(U.dot(S), principal_components))
+
+//# 3) singular values are related to the eigenvalues of covariance matrix
+//assert np.allclose((s ** 2) / (n - 1), l)
+
+
+let meanColumnWise (a:matrix) = 
+    a
+    |> Matrix.sumColumns
+    |> Vector.map (fun sum -> sum / (a.NumRows |> float))
+
+
+let toAdjustStandardize (data:Matrix<float>) =                
+    let colMeans =
+        data |> meanColumnWise                    
+    // Atttention: not entierly sure if space of data before
+    let colStDev =
+        data |> Matrix.Generic.enumerateColumnWise Seq.stDevPopulation |> Seq.toArray
+     
+    data
+    |> Matrix.mapi (fun ri ci value ->
+        if colStDev.[ci] = 0. then
+            raise (System.ArgumentException(sprintf "Standard deviation cannot be zero (cannot standardize the constant variable at column index %i" ci))
+        (value - colMeans.[ci]) / colStDev.[ci] )
+    
+    
+toAdjustStandardize irisFeaturesMatrix
+
+let s,u,vt = FSharp.Stats.Algebra.LinearAlgebra.SVD  ( toAdjustStandardize irisFeaturesMatrix )
+let v = vt.Transpose |> Matrix.map (fun v -> v)
+
+let principal_components = u * s 
+
+Chart.Point(Seq.zip (Matrix.getCol v 0) (Matrix.getCol v 1))
+|> Chart.Show
+
 (**
 BioFSharp ML module 
 --------------------
@@ -41,7 +90,7 @@ open FSharp.Stats.ML
 open FSharp.Stats.ML.Unsupervised
 
 
-let adjCenter = PCA.toAdjustCorrelation irisFeaturesMatrix
+let adjCenter = PCA.toAdjustCenter irisFeaturesMatrix
 let irisPCA = PCA.compute adjCenter irisFeaturesMatrix
 let irisDataPCA = PCA.transform adjCenter irisPCA irisFeaturesMatrix
 let irisrev = PCA.revert adjCenter irisPCA irisDataPCA
