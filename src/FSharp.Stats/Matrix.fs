@@ -16,8 +16,7 @@ open System.Diagnostics
 //type rowvec = RowVector<float>
 
 module MRandom = 
-    let seed = 99
-    let randomGen = new System.Random(seed)
+    let randomGen = new System.Random()
     let float f = randomGen.NextDouble() * f 
 
 
@@ -470,7 +469,7 @@ module Matrix = begin
     let meanColumnWise (a:matrix) = 
         a
         |> sumColumns
-        |> Vector.map (fun sum -> sum / (a.NumCols |> float))
+        |> Vector.map (fun sum -> sum / (a.NumRows |> float))
     
 
     /// computes the column specific covariance matrix of a data matrix as described at:
