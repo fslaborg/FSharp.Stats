@@ -40,7 +40,7 @@ module LinearRegression =
             /// Regression through the origin (y : x -> bx)
             module RTO =
             
-                /// Caclualtes the coefficients for linear regression through the origin 
+                /// Calculates the coefficients for linear regression through the origin 
                 let coefficientOfVector (x : Vector<float>) (y : Vector<float>) =
                     if x.Length <> y.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -48,7 +48,7 @@ module LinearRegression =
                     let denominator = x |> Seq.sumBy (fun x -> x * x)
                     numerator / denominator
 
-                /// Caclualtes the coefficients for linear regression through the origin 
+                /// Calculates the coefficients for linear regression through the origin 
                 let coefficient (x : float list) (y : float list) =
                     coefficientOfVector (vector x) (vector y)
                 
@@ -64,7 +64,7 @@ module LinearRegression =
                     coef * x
 
             module Univariable =
-                /// Caclualtes the coefficients for linear regression
+                /// Calculates the coefficients for linear regression
                 /// in the form of [|intercept; slope;|]
                 let coefficient (x_data : Vector<float>) (y_data : Vector<float>) =
                     if x_data.Length <> y_data.Length then
@@ -100,7 +100,7 @@ module LinearRegression =
                                                 )
 
             module Multivariable =           
-                /// Caclualtes the coefficients for linear regression
+                /// Calculates the coefficients for linear regression
                 /// in the form of [|intercept; slope;|]
                 let coefficients (x_data : Matrix<float>) (y_data : Vector<float>) =
                     if x_data.NumRows <> y_data.Length then
@@ -126,7 +126,7 @@ module LinearRegression =
                 Matrix.init vec.Length (order+1) (fun m order -> pown vec.[m] order) 
                 //Matrix. ofRowVector (vector [ for i = 0 to (vec.Count - 1) do yield (vandermondeRow order vec.[i]) ])
             
-            /// Caclualtes the coefficients for polynomial regression
+            /// Calculates the coefficients for polynomial regression
             let coefficient order (x_data : Vector<float>) (y_data : Vector<float>) =
                 if x_data.Length <> y_data.Length then
                     raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -138,7 +138,36 @@ module LinearRegression =
                 let AtA = A.Transpose * A
                 let Aty = A.Transpose * y_data
                 Algebra.LinearAlgebra.LeastSquares AtA Aty        
-    
+
+            /// Calculates the coefficients for polynomial regression with given weighting
+            let coefficientsWithWeighting order (weighting : Vector<float>) (x_data : Vector<float>) (y_data : Vector<float>) = 
+                if x_data.Length <> y_data.Length || x_data.Length <> weighting.Length then
+                    raise (System.ArgumentException("vector x,y and weighting have to be the same size!"))
+                let A = 
+                    let includeWeighting weighting order =
+                        Matrix.init (order + 1) (order + 1) (fun i j -> 
+                                                                Vector.map2 (fun x w -> w * (pown x (i + j))) x_data weighting 
+                                                                |> Vector.sum
+                                                            )
+                    includeWeighting weighting order
+                let b = 
+                    Vector.init (order + 1) (fun i -> 
+                                                Vector.map3 (fun x y w -> w * (pown x i) * y) x_data y_data weighting 
+                                                |> Vector.sum
+                                            )
+                Algebra.LinearAlgebra.SolveLinearSystem A b   
+
+            /////takes vector of data with n>1 replicates and gives a vector of weightings based on the variance in measurements ( 1/var(i..j) )
+            /////only apply if y > 0 !
+            //let getWeightingOfVariance numberOfReplicates (y_Data:Vector<float>) =
+            //    let var =
+            //        if y_Data.Length % numberOfReplicates = 0 then
+            //            let length = y_Data.Length / numberOfReplicates
+            //            let variance = vector [for i = 0 to length-1 do yield y_Data.[i * numberOfReplicates .. (i + 1) * numberOfReplicates - 1] |> Seq.var]
+            //            variance
+            //        else raise (System.ArgumentException("data length no multiple of replicate number!")) 
+            //    Vector.init (y_Data.Length / numberOfReplicates) (fun i -> 1. / var.[i])
+                        
             /// Fit to x
             let fit (order) (coef : Vector<float>) (x:float) =            
                 Vector.dot coef (vandermondeRow order x)
