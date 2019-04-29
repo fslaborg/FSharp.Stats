@@ -71,7 +71,7 @@ let dy' = t |> Array.map (fun t -> (-t**2.))
 
 let dysg = Signal.Filtering.savitzky_golay  31 4 0 1 dy
 
-
+(*** do-not-eval ***)
 [
     Chart.Point(t, dy, Name="data with noise");
     Chart.Point(t, dy', Name="data without noise");
