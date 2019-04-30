@@ -207,5 +207,33 @@ module GoodnessOfFit =
             let calculateANOVA (order) (coef : Vector<float>) (x_data) (y_data) = 
                 let fitFunction x = Vector.dot coef (vandermondeRow order x)
                 calculateANOVA order fitFunction x_data y_data 
-            
+
+            module CrossValidation =
+
+                ///calculates LeaveOneOutCrossValidation
+                let loocv (x_Data:Vector<float>) (y_Data:Vector<float>) order =
+                    [0..x_Data.Length-1]
+                    |> List.map (fun x ->
+                                    let xTmp = 
+                                        x_Data
+                                        |> Seq.toList
+                                        |> fun xDat -> xDat.[..x-1]@xDat.[x+1..]
+                                        |> vector
+                                    let yTmp = 
+                                        y_Data
+                                        |> Seq.toList
+                                        |> fun yDat -> yDat.[..x-1]@yDat.[x+1..]
+                                        |> vector
+                                    let coefTmp = LinearRegression.OrdinaryLeastSquares.Polynomial.coefficient order xTmp yTmp
+                                    let error = 
+                                        let yFit = LinearRegression.OrdinaryLeastSquares.Polynomial.fit order coefTmp (float x_Data.[x])
+                                        pown (yFit - y_Data.[x]) 2 
+                                    error
+                                )
+                    |> List.sum
+                    |> fun x -> x/(float x_Data.Length)
+
+
+
+
             
