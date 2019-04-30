@@ -217,8 +217,37 @@ module NonLinearRegression =
             InitialParamGuess       = initialParamGuess
             }
 
+    /////////////////////////
+    /// Exponential function of the form "y = a * exp(b * x)"
+        let expModel = 
+            let parameterNames = [|"a";"b"|]
+            let getFunctionValues = (fun (parameters:Vector<float>) x -> 
+                parameters.[0] * Math.Exp(parameters.[1] * x))
+            let getGradientValues =
+                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue -> 
+                    gradientVector.[0] <- Math.Exp(parameterVector.[1] * xValue)  
+                    gradientVector.[1] <- parameterVector.[0] * xValue * Math.Exp(parameterVector.[1] * xValue)  
+                    gradientVector)    
+            createModel parameterNames getFunctionValues getGradientValues
 
-        
+        ///Takes the result of the linearization as initialGuessParams
+        let expSolverOptions (x_data:float []) (y_data:float [])= 
+            //gets the linear representation of the problem and solves it by simple linear regression
+            let initialParamGuess =
+                let y_ln = y_data |> Array.map (fun x -> Math.Log(x)) |> vector
+                let linearReg = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient (vector x_data) y_ln
+                let a = exp linearReg.[0]
+                let b = linearReg.[1]
+                [|a;b|]
+
+            {
+            MinimumDeltaValue       = 0.0001
+            MinimumDeltaParameters  = 0.0001  
+            MaximumIterations       = 10000
+            InitialParamGuess       = initialParamGuess
+            }
+
+    
     /////////////////////////
     /// Exponentially modified Gaussian (EMG) of the form "y =  ((amp*std)/tau) * sqrt(PI/2.) * exp(1./2. * ((std/tau)**2.) - ((x-meanX)/tau)) * Erfc((1./sqrt(2.)) * ((std/tau)-((x-meanX)/std)))"
 
