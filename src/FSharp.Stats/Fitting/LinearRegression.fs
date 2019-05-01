@@ -196,4 +196,42 @@ module LinearRegression =
             // Find the model parameters ? such that X*? with predictor X becomes as close to response Y as possible, with least squares residuals.
             // Uses a singular value decomposition and is therefore more numerically stable (especially if ill-conditioned) than the normal equations or QR but also slower.
             // </summary>            
-                  
+    
+    module RobustRegression =
+        
+        /// Simple linear regression y : x -> a + bx
+        module Linear =
+
+            //(http://195.134.76.37/applets/AppletTheil/Appl_Theil2.html)
+            ///Calculates theil's incomplete method 
+            ///in the form of [|intercept; slope;|]
+            let theilEstimator (x_Values: Vector<float>) (y_Values: Vector<float>)= 
+                //sort data in ascending order (x_value)
+                let data =
+                    Array.zip (Vector.toArray x_Values) (Vector.toArray y_Values)
+                    |> Array.sortBy fst
+                
+                //low/high group. (If n is odd, the middle value is ignored)
+                let (low,high) =
+                    let length = data.Length
+                    match length % 2 with
+                    | 1 -> data.[..(length / 2 - 1)],data.[(length / 2 + 1)..]
+                    | _ -> data.[..(length / 2 - 1)],data.[(length / 2)..]
+
+                let slope =
+                    low
+                    |> Array.mapi (fun i (xL,yL) -> 
+                        let (xH,yH) = high.[i]
+                        //calculate slope
+                        (yH - yL) / (xH - xL)
+                                )
+                    |> FSharp.Stats.Array.median
+
+                let intercept =
+                    data
+                    |> Array.map (fun (xV,yV) -> yV - (slope * xV))
+                    |> FSharp.Stats.Array.median
+
+                vector [|intercept;slope|]
+
+            let fit = OrdinaryLeastSquares.Linear.Univariable.fit
