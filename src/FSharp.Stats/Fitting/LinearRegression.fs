@@ -234,4 +234,34 @@ module LinearRegression =
 
                 vector [|intercept;slope|]
 
+
+            ///Calculates the robust Theil-Sen estimator for linear regression
+            ///in the form of [|intercept; slope;|]
+            let theilSenEstimator (x_Values: Vector<float>) (y_Values: Vector<float>) =
+                //failwith "Not implemented yet." 
+                let xLength = x_Values.Length
+
+                let indicesOfUniqueOccurences =
+                    let rec loop acc i =
+                        if i < xLength then 
+                            let tmp = x_Values.[i]
+                            let occurences =
+                                x_Values
+                                |> Seq.filter (fun xT -> tmp = xT)
+                            if Seq.length occurences > 1 
+                                then loop acc (i+1)
+                            else loop (i::acc) (i+1)
+                        else acc
+                    loop [] 0
+
+                let isolateUnique (data: Vector<float>) =
+                    indicesOfUniqueOccurences
+                    |> List.map (fun i -> data.[i])
+                    |> vector
+
+                let filteredXData = isolateUnique x_Values
+                let filteredYData = isolateUnique y_Values
+                theilEstimator filteredXData filteredYData
+
+
             let fit = OrdinaryLeastSquares.Linear.Univariable.fit
