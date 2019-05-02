@@ -71,7 +71,7 @@ module Spline =
         
         type BoundaryCondition =
             | Natural
-            //| Periodic
+            | Periodic
             //| Parabolic
             //| NotAKnot
             //| Quadratic
@@ -146,6 +146,23 @@ module Spline =
                     tmp2.[4 * (intervalNumber - 1) + 1] <- 2.
                     //tmp2.[4 * (intervalNumber - 1) + 2] <- 0.
                     //tmp2.[4 * (intervalNumber - 1) + 3] <- 0.
+
+                    [|(tmp1,0.);(tmp2,0.)|]
+
+                | Periodic ->
+                    //first conditionf'0(x0)-f'n-1(xn) = 0
+                    tmp1.[0] <- 3. * (pown firstX 2)
+                    tmp1.[1] <- 2. * firstX
+                    tmp1.[2] <- 1.
+                    tmp1.[4 * (intervalNumber - 1) + 0] <- -3. * (pown lastX 2)
+                    tmp1.[4 * (intervalNumber - 1) + 1] <- -2. * lastX
+                    tmp1.[4 * (intervalNumber - 1) + 2] <- -1.
+
+                    //second condition: f''0(x0)-f''n-1(xn) = 0
+                    tmp2.[0] <- 6. * firstX
+                    tmp2.[1] <- 2. 
+                    tmp2.[4 * (intervalNumber - 1) + 0] <- -6. * lastX
+                    tmp2.[4 * (intervalNumber - 1) + 1] <- -2. 
 
                     [|(tmp1,0.);(tmp2,0.)|]
 
