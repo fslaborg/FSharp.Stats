@@ -66,6 +66,143 @@ module Spline =
             let helper = Array.zip basis (theta.ToArray())
             /// Our actualy smoothing spline
             fun x -> helper |> Array.sumBy  (fun (f,w) -> w * f x)
+    
+    module Interpolation =
+        
+        type BoundaryCondition =
+            | Natural
+            //| Periodic
+            //| Parabolic
+            //| NotAKnot
+            //| Quadratic
+            //| Clamped
+              
+        ///computes all coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
+        ///fn(x) = (an)x³+(bn)x²+(cn)x+(dn)
+        let coefficients (boundaryCondition: BoundaryCondition) (x_Values: Vector<float>) (y_Values: Vector<float>) =
+            //f(x)   = ax³+bx²+cx+d
+            //f'(x)  = 3ax²+2bx+c
+            //f''(x) = 6ax+2b
+
+            let intervalNumber = x_Values.Length - 1
+
+            let interpolatingConstraints intervalIndex (x:float) (y:float) =
+                let tmp = Array.init (4 * intervalNumber) (fun x -> 0.)
+                tmp.[4 * intervalIndex + 0] <- pown x 3  
+                tmp.[4 * intervalIndex + 1] <- pown x 2 
+                tmp.[4 * intervalIndex + 2] <- x
+                tmp.[4 * intervalIndex + 3] <- 1.
+                (tmp,y)
+
+            let firstDerivativeConstraints intervalIndex x =
+                let tmp = Array.init (4 * intervalNumber) (fun x -> 0.)
+                let f'a = 3. * (pown x 2)
+                let f'b = 2. * x
+                let f'c = 1.
+                let f'd = 0.
+                tmp.[4 * intervalIndex + 0] <- f'a
+                tmp.[4 * intervalIndex + 1] <- f'b
+                tmp.[4 * intervalIndex + 2] <- f'c
+                //tmp.[4 * intervalIndex + 3] <- f'd
+                tmp.[4 * intervalIndex + 4] <- - f'a
+                tmp.[4 * intervalIndex + 5] <- - f'b
+                tmp.[4 * intervalIndex + 6] <- - f'c
+                //tmp.[4 * intervalIndex + 7] <- - f'd
+                (tmp,0.)
+
+            let secondDerivativeConstraints intervalIndex x =
+                let tmp = Array.init (4 * intervalNumber) (fun x -> 0.)
+                let f''a = 6. * x
+                let f''b = 2.
+                let f''c = 0.
+                let f''d = 0.
+                tmp.[4 * intervalIndex + 0] <- f''a
+                tmp.[4 * intervalIndex + 1] <- f''b
+                //tmp.[4 * intervalIndex + 2] <- f''c
+                //tmp.[4 * intervalIndex + 3] <- f''d
+                tmp.[4 * intervalIndex + 4] <- - f''a
+                tmp.[4 * intervalIndex + 5] <- - f''b
+                //tmp.[4 * intervalIndex + 6] <- - f''c
+                //tmp.[4 * intervalIndex + 7] <- - f''d
+                (tmp,0.)
+            
+            let boundaryCondition = 
+                let firstX = x_Values.[0]
+                let secondX = x_Values.[1]
+                let lastX = x_Values.[intervalNumber]
+                let penultimate = x_Values.[intervalNumber - 1]
+                let tmp1 = Array.init (4 * intervalNumber) (fun x -> 0.)
+                let tmp2 = Array.init (4 * intervalNumber) (fun x -> 0.)
+                match boundaryCondition with
+                | Natural ->
+                    //first condition: f''0(x0) = 0
+                    tmp1.[0] <- 6. * firstX
+                    tmp1.[1] <- 2.
+                    //tmp.[2] <- 0.
+                    //tmp.[3] <- 0.
+
+                    //second condition: f''n-1(xn) = 0
+                    tmp2.[4 * (intervalNumber - 1) + 0] <- 6. * lastX
+                    tmp2.[4 * (intervalNumber - 1) + 1] <- 2.
+                    //tmp2.[4 * (intervalNumber - 1) + 2] <- 0.
+                    //tmp2.[4 * (intervalNumber - 1) + 3] <- 0.
+
+                    [|(tmp1,0.);(tmp2,0.)|]
 
 
+            let (equations,solutions) =
+                let interPolConstraints =
+                    [|0 .. intervalNumber - 1|]
+                    |> Array.map (fun i -> 
+                        [|
+                        interpolatingConstraints i x_Values.[i] y_Values.[i]
+                        interpolatingConstraints i x_Values.[i+1] y_Values.[i+1]
+                        |])
+                        |> Array.concat
 
+                let derivativeConstraints =
+                    [|0 .. intervalNumber - 2|]
+                    |> Array.map (fun i -> 
+                        [|
+                        firstDerivativeConstraints  i x_Values.[i+1]
+                        secondDerivativeConstraints i x_Values.[i+1]
+                        |])
+                    |> Array.concat
+                
+                [|interPolConstraints;derivativeConstraints;boundaryCondition|]
+                |> Array.concat
+                |> Array.unzip
+                
+            let A = Matrix.ofArray equations
+            let b = Vector.ofArray solutions
+
+            Algebra.LinearAlgebra.SolveLinearSystem A b 
+
+        let fit (coefficients: Vector<float>) (x_Values: Vector<float>) x =
+            let intervalNumber =
+                
+                if x > Seq.last x_Values || x < x_Values.[0] then 
+                    failwith "Spline is not defined outside of the interval [x_Values.[0],x_Values.[n-1]]"
+                
+                if x = Seq.last x_Values then 
+                    Vector.length x_Values - 2
+                else
+                    x_Values
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - x) > 0.)
+                    |> fun nextInterval -> nextInterval - 1
+            
+            let y_Value = 
+                coefficients.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
+                coefficients.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
+                coefficients.[4 * intervalNumber + 2] * x          +    //c*x
+                coefficients.[4 * intervalNumber + 3]                   //d
+            
+            y_Value
+
+            
+
+
+                    
+                
+
+            
