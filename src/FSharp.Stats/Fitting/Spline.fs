@@ -74,8 +74,8 @@ module Spline =
             | Periodic
             | Parabolic
             | NotAKnot
-            //| Quadratic
-            //| Clamped
+            | Quadratic
+            | Clamped
               
         ///computes all coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
         ///fn(x) = (an)x³+(bn)x²+(cn)x+(dn)
@@ -192,6 +192,24 @@ module Spline =
                 
                     [|(tmp1,0.);(tmp2,0.)|]
 
+                | Quadratic ->
+                    //first condition: a1 = 0
+                    tmp1.[0] <- 1.
+                
+                    //second condition: an = 0.
+                    tmp2.[4 * (intervalNumber - 1) + 0] <- 1.
+                
+                    [|(tmp1,0.);(tmp2,0.)|]
+                
+                | Clamped -> //user defined border f''
+                    failwith "Not implemented yet. Slopes m1 and m2 have to be set by user"
+                    ////first condition: f''0(x0) = m1
+                    //tmp1.[0] <- 6. * firstX
+                    //tmp1.[1] <- 2.
+                    ////second condition: f''n-1(xn) = m2
+                    //tmp2.[4 * (intervalNumber - 1) + 0] <- 6. * lastX
+                    //tmp2.[4 * (intervalNumber - 1) + 1] <- 2.
+                    //[|(tmp1,m1);(tmp2,m2)|]
 
 
             let (equations,solutions) =
