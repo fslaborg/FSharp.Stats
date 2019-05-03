@@ -70,21 +70,37 @@ module Spline =
     module Interpolation =
         
         type BoundaryCondition =
+            ///most used spline variant: f'' at borders is set to 0
             | Natural
+            ///f' at first point is the same as f' at the last point
             | Periodic
+            ///f'' at first/second and last/penultimate knot are equal
             | Parabolic
+            ///f''' at second and penultimate knot are continuous
             | NotAKnot
+            ///first and last polynomial are quadratic, not cubic
             | Quadratic
+            ///f' at first and last knot are set by user
             | Clamped
               
         ///computes all coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
-        ///fn(x) = (an)x³+(bn)x²+(cn)x+(dn)
+        ///where: fn(x) = (an)x³+(bn)x²+(cn)x+(dn)
         let coefficients (boundaryCondition: BoundaryCondition) (x_Values: Vector<float>) (y_Values: Vector<float>) =
             //f(x)   = ax³+bx²+cx+d
             //f'(x)  = 3ax²+2bx+c
             //f''(x) = 6ax+2b
 
-            let intervalNumber = x_Values.Length - 1
+            let (xVal,yVal) =
+                let indices =
+                    x_Values
+                    |> Seq.indexed
+                    |> Seq.sortBy snd
+                    |> Seq.map fst
+                let sortedX_Values = indices |> Seq.map (fun i -> x_Values.[i]) |> vector
+                let sortedY_Values = indices |> Seq.map (fun i -> y_Values.[i]) |> vector
+                sortedX_Values,sortedY_Values
+
+            let intervalNumber = xVal.Length - 1
 
             let interpolatingConstraints intervalIndex (x:float) (y:float) =
                 let tmp = Array.init (4 * intervalNumber) (fun x -> 0.)
@@ -127,10 +143,10 @@ module Spline =
                 (tmp,0.)
             
             let boundaryCondition = 
-                let firstX = x_Values.[0]
-                let secondX = x_Values.[1]
-                let lastX = x_Values.[intervalNumber]
-                let penultimate = x_Values.[intervalNumber - 1]
+                let firstX = xVal.[0]
+                let secondX = xVal.[1]
+                let lastX = xVal.[intervalNumber]
+                let penultimate = xVal.[intervalNumber - 1]
                 let tmp1 = Array.init (4 * intervalNumber) (fun x -> 0.)
                 let tmp2 = Array.init (4 * intervalNumber) (fun x -> 0.)
                 match boundaryCondition with
@@ -217,8 +233,8 @@ module Spline =
                     [|0 .. intervalNumber - 1|]
                     |> Array.map (fun i -> 
                         [|
-                        interpolatingConstraints i x_Values.[i] y_Values.[i]
-                        interpolatingConstraints i x_Values.[i+1] y_Values.[i+1]
+                        interpolatingConstraints i xVal.[i] yVal.[i]
+                        interpolatingConstraints i xVal.[i+1] yVal.[i+1]
                         |])
                         |> Array.concat
 
@@ -226,8 +242,8 @@ module Spline =
                     [|0 .. intervalNumber - 2|]
                     |> Array.map (fun i -> 
                         [|
-                        firstDerivativeConstraints  i x_Values.[i+1]
-                        secondDerivativeConstraints i x_Values.[i+1]
+                        firstDerivativeConstraints  i xVal.[i+1]
+                        secondDerivativeConstraints i xVal.[i+1]
                         |])
                     |> Array.concat
                 
@@ -241,15 +257,16 @@ module Spline =
             Algebra.LinearAlgebra.SolveLinearSystem A b 
 
         let fit (coefficients: Vector<float>) (x_Values: Vector<float>) x =
+            let sortedX = x_Values |> Seq.sort
             let intervalNumber =
                 
-                if x > Seq.last x_Values || x < x_Values.[0] then 
-                    failwith "Spline is not defined outside of the interval [x_Values.[0],x_Values.[n-1]]"
+                if x > Seq.last sortedX || x < Seq.head sortedX then 
+                    failwith "Spline is not defined outside of the interval of the xValues"
                 
-                if x = Seq.last x_Values then 
-                    Vector.length x_Values - 2
+                if x = Seq.last sortedX then 
+                    Seq.length sortedX - 2
                 else
-                    x_Values
+                    sortedX
                     |> Seq.findIndex(fun x_Knot -> (x_Knot - x) > 0.)
                     |> fun nextInterval -> nextInterval - 1
             
@@ -266,5 +283,3 @@ module Spline =
 
                     
                 
-
-            
