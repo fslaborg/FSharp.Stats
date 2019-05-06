@@ -203,8 +203,7 @@ module LinearRegression =
         module Linear =
 
             //(http://195.134.76.37/applets/AppletTheil/Appl_Theil2.html)
-            ///Calculates theil's incomplete method 
-            ///in the form of [|intercept; slope;|]
+            ///Calculates theil's incomplete method in the form of [|intercept; slope;|]
             let theilEstimator (x_Values: Vector<float>) (y_Values: Vector<float>)= 
                 //sort data in ascending order (x_value)
                 let data =
@@ -214,6 +213,10 @@ module LinearRegression =
                 //low/high group. (If n is odd, the middle value is ignored)
                 let (low,high) =
                     let length = data.Length
+
+                    if length <= 1 then 
+                        raise (System.ArgumentException("input vector is too small"))
+
                     match length % 2 with
                     | 1 -> data.[..(length / 2 - 1)],data.[(length / 2 + 1)..]
                     | _ -> data.[..(length / 2 - 1)],data.[(length / 2)..]
@@ -235,10 +238,8 @@ module LinearRegression =
                 vector [|intercept;slope|]
 
 
-            ///Calculates the robust Theil-Sen estimator for linear regression
-            ///in the form of [|intercept; slope;|]
+            ///Calculates the robust Theil-Sen estimator for linear regression in the form of [|intercept; slope;|]
             let theilSenEstimator (x_Values: Vector<float>) (y_Values: Vector<float>) =
-                //failwith "Not implemented yet." 
                 let xLength = x_Values.Length
 
                 let indicesOfUniqueOccurences =
