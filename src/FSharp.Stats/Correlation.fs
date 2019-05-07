@@ -30,6 +30,32 @@ module Correlation =
                         
                         else nan
             loop zero zero zero zero zero zero
+
+        /// weighted pearson correlation (http://sci.tech-archive.net/Archive/sci.stat.math/2006-02/msg00171.html)
+        let inline pearsonWeighted (seq1:seq<'T>) (seq2:seq<'T>) (weights:seq<'T>) : float =
+            // TODO: solve in a prettier coding fashion
+            if Seq.length seq1 <> Seq.length seq2 || Seq.length seq2 <> Seq.length weights then failwithf "input arguments are not the same length"
+            let weightedMean x_Val w_Val = 
+                let a = Seq.fold2 (fun acc xi wi -> acc + (xi * wi)) 0. x_Val w_Val
+                let b = Seq.sum w_Val
+                a / b
+            let weightedCoVariance x_Val y_Val w_Val = 
+                let weightedMeanXW = weightedMean x_Val w_Val
+                let weightedMeanYW = weightedMean y_Val w_Val
+                let a = 
+                    Seq.map3 (fun xi yi wi -> 
+                        wi * (xi - weightedMeanXW) * (yi - weightedMeanYW)
+                            ) x_Val y_Val w_Val
+                    |> Seq.sum
+                let b = Seq.sum w_Val
+                a / b
+            let weightedCorrelation x_Val y_Val w_Val =
+                let a = weightedCoVariance x_Val y_Val w_Val
+                let b = 
+                    (weightedCoVariance x_Val x_Val w_Val) * (weightedCoVariance y_Val y_Val w_Val)
+                    |> sqrt
+                a / b          
+            weightedCorrelation seq1 seq2 weights
     
         /// Spearman Correlation (with ranks)
         let spearman array1 array2 =
