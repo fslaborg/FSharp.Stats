@@ -227,7 +227,6 @@ module Spline =
                     //tmp2.[4 * (intervalNumber - 1) + 1] <- 2.
                     //[|(tmp1,m1);(tmp2,m2)|]
 
-
             let (equations,solutions) =
                 let interPolConstraints =
                     [|0 .. intervalNumber - 1|]
@@ -280,7 +279,8 @@ module Spline =
 
     module Hermite =
 
-        ///calculates a function to interpolate between the datapoints with given slopes (y_Data')
+        ///calculates a function to interpolate between the datapoints with given slopes (y_Data').
+        ///the data has to be sorted ascending
         let cubicHermite (x_Data: Vector<float>) (y_Data: Vector<float>) (y_Data': Vector<float>) =
             let n = x_Data.Length
 
@@ -324,6 +324,30 @@ module Spline =
                 )              
         
 
-            
+        ///calculates the slopes by averaging the slopes of neighbouring tangents
+        let getSimpleSlopes (x_Data: Vector<float>) (y_Data: Vector<float>) = 
+            Vector.init x_Data.Length (fun i ->
+                if i = 0 then
+                    (y_Data.[i] - y_Data.[i+1]) / (x_Data.[i] - x_Data.[i+1])
+                elif i = x_Data.Length - 1 then 
+                    (y_Data.[i] - y_Data.[i-1]) / (x_Data.[i] - x_Data.[i-1])
+                else 
+                    let s1 = (y_Data.[i] - y_Data.[i+1]) / (x_Data.[i] - x_Data.[i+1])
+                    let s2 = (y_Data.[i] - y_Data.[i-1]) / (x_Data.[i] - x_Data.[i-1])
+                    (s1 + s2) / 2.
+                                      )
 
 
+        //let a = [|4.;2.;1.;6.;8.|]
+        //let b = [|3.;6.;2.;1.;7.|]
+        //let (sortedX,sortedY) =
+        //    Array.zip a b
+        //    |> Array.sortBy fst
+        //    |> Array.unzip
+        //    |> (fun (x,y) -> vector x, vector y
+        //let slopes = getSimpleSlopes sortedX sortedY
+        //let fit = cubicHermite sortedX sortedY slopes
+        //[|1. .. 0.1 .. 8|]
+        //|> Array.map (fun x -> x,fit x)
+        //|> Chart.Point
+        //|> Chart.Show
