@@ -118,17 +118,20 @@ module Hermite =
     
         if colNa <> colNb then 
             failwithf "Matrix and vector differ in column length"
-        else
-            let conMatrix = Matrix.create rowN colNa 0.
-    
-            for i = 0 to rowNa - 1 do 
-                for j = 0 to colNa - 1 do
-                    conMatrix.[i,j] <- a.[i,j]
-    
-            for j = 0 to colNb - 1 do
-                conMatrix.[rowN - 1,j] <- b.[j]
-            conMatrix
-                
+        
+        let conMatrix = Matrix.init rowN colNa (fun i j -> 
+            if i < rowNa then
+                a.[i,j]
+            else b.[j]
+            )       
+        //let conMatrix = Matrix.create rowN colNa 0.
+        //for i = 0 to rowNa - 1 do 
+        //    for j = 0 to colNa - 1 do
+        //        conMatrix.[i,j] <- a.[i,j]    
+        //for j = 0 to colNb - 1 do
+        //    conMatrix.[rowN - 1,j] <- b.[j]
+        conMatrix
+             
     let normValues (yVal:Vector<float>) =
         let yMean = yVal |> Seq.mean
         let std   = yVal |> Seq.stDev
