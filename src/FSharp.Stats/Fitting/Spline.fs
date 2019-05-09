@@ -278,8 +278,52 @@ module Spline =
             
             y_Value
 
+    module Hermite =
+
+        ///calculates a function to interpolate between the datapoints with given slopes (y_Data')
+        let cubicHermite (x_Data: Vector<float>) (y_Data: Vector<float>) (y_Data': Vector<float>) =
+            let n = x_Data.Length
+
+            let phi0 t tAdd1 x =
+                let tmp = (x - t) / (tAdd1 - t)
+                2. * (pown tmp 3) - 3. * (pown tmp 2) + 1.
+                           
+            let phi1 t tAdd1 x =
+                let tmp = (x - t) / (tAdd1 - t)
+                - 2. * (pown tmp 3) + 3. * (pown tmp 2)    
+
+            let psi0 t tAdd1 x =
+                let tmp = (x - t) / (tAdd1 - t)
+                let a = tAdd1 - t
+                let b = (pown tmp 3) - 2. * (pown tmp 2) + tmp
+                a * b
+                
+            let psi1 t tAdd1 x =
+                let tmp = (x - t) / (tAdd1 - t)
+                let a = tAdd1 - t
+                let b = (pown tmp 3) - (pown tmp 2)
+                a * b 
+
+            let calculate index x =
+                let ph0 = y_Data.[index]    * phi0 x_Data.[index] x_Data.[index+1] x
+                let ph1 = y_Data.[index+1]  * phi1 x_Data.[index] x_Data.[index+1] x
+                let ps0 = y_Data'.[index]   * psi0 x_Data.[index] x_Data.[index+1] x
+                let ps1 = y_Data'.[index+1] * psi1 x_Data.[index] x_Data.[index+1] x
+                ph0 + ph1 + ps0 + ps1
+
+
+            (fun t ->
+                if t = Seq.last x_Data then 
+                    Seq.last y_Data
+                else                 
+                    let i = 
+                        match Array.tryFindIndexBack (fun xs -> xs <= t) (x_Data |> Vector.toArray) with 
+                        | Some x -> x 
+                        | None   -> failwith "The given x_Value is out of the range defined in x_Data"
+                    calculate i t
+                )              
+        
+
             
 
 
-                    
-                
