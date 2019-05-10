@@ -310,6 +310,18 @@ module Array =
             tmpArr.[i - 1] <- tmp
         tmpArr  
 
+    /// Shuffels the input array (method: Fisher-Yates) in place
+    let shuffleFisherYatesInPlace (arr : _[]) =
+        let random = Random.rndgen //new System.Random()
+        for i = arr.Length downto 1 do
+            // Pick random element to swap.
+            let j = random.NextInt i // 0 <= j <= i-1
+            // Swap.
+            let tmp = arr.[j]
+            arr.[j] <- arr.[i - 1]
+            arr.[i - 1] <- tmp
+        arr  
+
 
     /// Generates array sequence (like R! seq.int)
     let seqInit (from:float) (tto:float) (length:int) =
