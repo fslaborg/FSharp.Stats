@@ -13,7 +13,9 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -39,7 +41,7 @@
 <p>
   <span>Namespace: FSharp.Stats</span><br />
   <span>Parent Module: <a href="fsharp-stats-matrixmodule.html">Matrix</a></span>
-</p>
+  </p>
 <div class="xmldoc">
 </div>
 
@@ -54,33 +56,36 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '420', 420)" onmouseover="showTip(event, '420', 420)">
+          <code onmouseout="hideTip(event, '537', 537)" onmouseover="showTip(event, '537', 537)">
             add a b
           </code>
-          <div class="tip" id="420">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9061&gt; -&gt; b:Matrix&lt;&#39;?9061&gt; -&gt; Matrix&lt;&#39;?9061&gt;<br />
-                          <strong>Type parameters:</strong> '?9061          </div>
+          <div class="tip" id="537">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10448&gt; -&gt; b:Matrix&lt;&#39;?10448&gt; -&gt; Matrix&lt;&#39;?10448&gt;<br />
+                          <strong>Type parameters:</strong> '?10448                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L53-53" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L52-52" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Performs a element wise addition of matrices a and b (a+b).
+Only usable if both matrices have the same dimensions.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '421', 421)" onmouseover="showTip(event, '421', 421)">
+          <code onmouseout="hideTip(event, '538', 538)" onmouseover="showTip(event, '538', 538)">
             compare a b
           </code>
-          <div class="tip" id="421">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9127&gt; -&gt; b:Matrix&lt;&#39;?9127&gt; -&gt; int<br />
-                          <strong>Type parameters:</strong> '?9127          </div>
+          <div class="tip" id="538">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10514&gt; -&gt; b:Matrix&lt;&#39;?10514&gt; -&gt; int<br />
+                          <strong>Type parameters:</strong> '?10514                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L89-89" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L137-137" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -90,15 +95,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '422', 422)" onmouseover="showTip(event, '422', 422)">
+          <code onmouseout="hideTip(event, '539', 539)" onmouseover="showTip(event, '539', 539)">
             constDiag n x
           </code>
-          <div class="tip" id="422">
-            <strong>Signature:</strong> n:int -&gt; x:&#39;?9059 -&gt; Matrix&lt;&#39;?9059&gt;<br />
-                          <strong>Type parameters:</strong> '?9059          </div>
+          <div class="tip" id="539">
+            <strong>Signature:</strong> n:int -&gt; x:&#39;?10446 -&gt; Matrix&lt;&#39;?10446&gt;<br />
+                          <strong>Type parameters:</strong> '?10446                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L50-50" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L47-47" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -108,15 +113,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '423', 423)" onmouseover="showTip(event, '423', 423)">
-            copy a
+          <code onmouseout="hideTip(event, '540', 540)" onmouseover="showTip(event, '540', 540)">
+            copy(a)
           </code>
-          <div class="tip" id="423">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9107&gt; -&gt; Matrix&lt;&#39;?9107&gt;<br />
-                          <strong>Type parameters:</strong> '?9107          </div>
+          <div class="tip" id="540">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10494&gt; -&gt; Matrix&lt;&#39;?10494&gt;<br />
+                          <strong>Type parameters:</strong> '?10494                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L77-77" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L119-119" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -126,69 +131,78 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '424', 424)" onmouseover="showTip(event, '424', 424)">
+          <code onmouseout="hideTip(event, '541', 541)" onmouseover="showTip(event, '541', 541)">
             cptMax a b
           </code>
-          <div class="tip" id="424">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9073&gt; -&gt; b:Matrix&lt;&#39;?9073&gt; -&gt; Matrix&lt;&#39;?9073&gt;<br />
-                          <strong>Type parameters:</strong> '?9073          </div>
+          <div class="tip" id="541">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10460&gt; -&gt; b:Matrix&lt;&#39;?10460&gt; -&gt; Matrix&lt;&#39;?10460&gt;<br />
+                          <strong>Type parameters:</strong> '?10460                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L59-59" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L70-70" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Performs a element wise comparison of matrices a and b always preserving the greater value.
+Only usable if both matrices have the same dimensions.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '425', 425)" onmouseover="showTip(event, '425', 425)">
+          <code onmouseout="hideTip(event, '542', 542)" onmouseover="showTip(event, '542', 542)">
             cptMin a b
           </code>
-          <div class="tip" id="425">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9075&gt; -&gt; b:Matrix&lt;&#39;?9075&gt; -&gt; Matrix&lt;&#39;?9075&gt;<br />
-                          <strong>Type parameters:</strong> '?9075          </div>
+          <div class="tip" id="542">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10462&gt; -&gt; b:Matrix&lt;&#39;?10462&gt; -&gt; Matrix&lt;&#39;?10462&gt;<br />
+                          <strong>Type parameters:</strong> '?10462                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L60-60" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L73-73" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Performs a element wise comparison of matrices a and b always preserving the smaller value.
+Only usable if both matrices have the same dimensions.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '426', 426)" onmouseover="showTip(event, '426', 426)">
+          <code onmouseout="hideTip(event, '543', 543)" onmouseover="showTip(event, '543', 543)">
             cptMul a b
           </code>
-          <div class="tip" id="426">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9071&gt; -&gt; b:Matrix&lt;&#39;?9071&gt; -&gt; Matrix&lt;&#39;?9071&gt;<br />
-                          <strong>Type parameters:</strong> '?9071          </div>
+          <div class="tip" id="543">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10458&gt; -&gt; b:Matrix&lt;&#39;?10458&gt; -&gt; Matrix&lt;&#39;?10458&gt;<br />
+                          <strong>Type parameters:</strong> '?10458                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L58-58" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L67-67" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Performs a element wise multiplication of matrices a and b (a*b, Hadamard-Product).
+Only usable if both matrices have the same dimensions.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '427', 427)" onmouseover="showTip(event, '427', 427)">
+          <code onmouseout="hideTip(event, '544', 544)" onmouseover="showTip(event, '544', 544)">
             create m n x
           </code>
-          <div class="tip" id="427">
-            <strong>Signature:</strong> m:int -&gt; n:int -&gt; x:&#39;?9051 -&gt; Matrix&lt;&#39;?9051&gt;<br />
-                          <strong>Type parameters:</strong> '?9051          </div>
+          <div class="tip" id="544">
+            <strong>Signature:</strong> m:int -&gt; n:int -&gt; x:&#39;?10438 -&gt; Matrix&lt;&#39;?10438&gt;<br />
+                          <strong>Type parameters:</strong> '?10438                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L44-44" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L43-43" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -198,15 +212,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '428', 428)" onmouseover="showTip(event, '428', 428)">
-            diag v
+          <code onmouseout="hideTip(event, '545', 545)" onmouseover="showTip(event, '545', 545)">
+            diag(v)
           </code>
-          <div class="tip" id="428">
-            <strong>Signature:</strong> v:Vector&lt;&#39;?9055&gt; -&gt; Matrix&lt;&#39;?9055&gt;<br />
-                          <strong>Type parameters:</strong> '?9055          </div>
+          <div class="tip" id="545">
+            <strong>Signature:</strong> v:Vector&lt;&#39;?10442&gt; -&gt; Matrix&lt;&#39;?10442&gt;<br />
+                          <strong>Type parameters:</strong> '?10442                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L48-48" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L45-45" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -216,69 +230,160 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '429', 429)" onmouseover="showTip(event, '429', 429)">
+          <code onmouseout="hideTip(event, '546', 546)" onmouseover="showTip(event, '546', 546)">
             dot a b
           </code>
-          <div class="tip" id="429">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9079&gt; -&gt; b:Matrix&lt;&#39;?9079&gt; -&gt; &#39;?9079<br />
-                          <strong>Type parameters:</strong> '?9079          </div>
+          <div class="tip" id="546">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10466&gt; -&gt; b:Matrix&lt;&#39;?10466&gt; -&gt; &#39;?10466<br />
+                          <strong>Type parameters:</strong> '?10466                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L62-62" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L78-78" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Performs a dot product of matrices a and b.
+Only usable if both matrices have the same dimensions.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '430', 430)" onmouseover="showTip(event, '430', 430)">
+          <code onmouseout="hideTip(event, '547', 547)" onmouseover="showTip(event, '547', 547)">
+            enumerateColumnWise f m
+          </code>
+          <div class="tip" id="547">
+            <strong>Signature:</strong> f:(seq&lt;&#39;a&gt; -&gt; &#39;a) -&gt; m:Matrix&lt;&#39;a&gt; -&gt; seq&lt;&#39;a&gt;<br />
+                          <strong>Type parameters:</strong> 'a, 'a                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L206-206" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Applies function f along colúmn axis</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '548', 548)" onmouseover="showTip(event, '548', 548)">
+            enumerateRowWise f m
+          </code>
+          <div class="tip" id="548">
+            <strong>Signature:</strong> f:(seq&lt;&#39;a&gt; -&gt; &#39;?10588) -&gt; m:Matrix&lt;&#39;a&gt; -&gt; seq&lt;&#39;?10588&gt;<br />
+                          <strong>Type parameters:</strong> 'a, '?10588                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L190-190" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Applies function f along row axis</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '549', 549)" onmouseover="showTip(event, '549', 549)">
             exists f a
           </code>
-          <div class="tip" id="430">
-            <strong>Signature:</strong> f:(&#39;?9097 -&gt; bool) -&gt; a:Matrix&lt;&#39;?9097&gt; -&gt; bool<br />
-                          <strong>Type parameters:</strong> '?9097          </div>
+          <div class="tip" id="549">
+            <strong>Signature:</strong> f:(&#39;?10484 -&gt; bool) -&gt; a:Matrix&lt;&#39;?10484&gt; -&gt; bool<br />
+                          <strong>Type parameters:</strong> '?10484                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L72-72" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L103-103" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Iterates the given Matrix row wise and applies function f element wise.
+The iteration stops and returns true if an element satisfies the condition or false when the end of
+the matrix is reached.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '431', 431)" onmouseover="showTip(event, '431', 431)">
+          <code onmouseout="hideTip(event, '550', 550)" onmouseover="showTip(event, '550', 550)">
             existsi f a
           </code>
-          <div class="tip" id="431">
-            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?9101 -&gt; bool) -&gt; a:Matrix&lt;&#39;?9101&gt; -&gt; bool<br />
-                          <strong>Type parameters:</strong> '?9101          </div>
+          <div class="tip" id="550">
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10488 -&gt; bool) -&gt; a:Matrix&lt;&#39;?10488&gt; -&gt; bool<br />
+                          <strong>Type parameters:</strong> '?10488                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L74-74" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L111-111" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Iterates the given Matrix row wise and applies function f element wise.
+The iteration stops and returns true if an element satisfies the condition or false when the end of
+the matrix is reached.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '432', 432)" onmouseover="showTip(event, '432', 432)">
+          <code onmouseout="hideTip(event, '551', 551)" onmouseover="showTip(event, '551', 551)">
+            flattenColWise(a)
+          </code>
+          <div class="tip" id="551">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;a&gt; -&gt; Vector&lt;&#39;a&gt;<br />
+                          <strong>Type parameters:</strong> 'a                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L228-228" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Iterates the given Matrix column wise and places every element in a new vector with length n*m.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '552', 552)" onmouseover="showTip(event, '552', 552)">
+            flattenRowWise(a)
+          </code>
+          <div class="tip" id="552">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;a&gt; -&gt; Vector&lt;&#39;a&gt;<br />
+                          <strong>Type parameters:</strong> 'a                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L220-220" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Iterates the given Matrix row wise and places every element in a new vector with length n*m.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '553', 553)" onmouseover="showTip(event, '553', 553)">
             fold f z a
           </code>
-          <div class="tip" id="432">
-            <strong>Signature:</strong> f:(&#39;?9121 -&gt; &#39;?9122 -&gt; &#39;?9121) -&gt; z:&#39;?9121 -&gt; a:Matrix&lt;&#39;?9122&gt; -&gt; &#39;?9121<br />
-                          <strong>Type parameters:</strong> '?9121, '?9122          </div>
+          <div class="tip" id="553">
+            <strong>Signature:</strong> f:(&#39;?10508 -&gt; &#39;?10509 -&gt; &#39;?10508) -&gt; z:&#39;?10508 -&gt; a:Matrix&lt;&#39;?10509&gt; -&gt; &#39;?10508<br />
+                          <strong>Type parameters:</strong> '?10508, '?10509                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L86-86" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L133-133" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -288,15 +393,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '433', 433)" onmouseover="showTip(event, '433', 433)">
+          <code onmouseout="hideTip(event, '554', 554)" onmouseover="showTip(event, '554', 554)">
             foldi f z a
           </code>
-          <div class="tip" id="433">
-            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?9124 -&gt; &#39;?9125 -&gt; &#39;?9124) -&gt; z:&#39;?9124 -&gt; a:Matrix&lt;&#39;?9125&gt; -&gt; &#39;?9124<br />
-                          <strong>Type parameters:</strong> '?9124, '?9125          </div>
+          <div class="tip" id="554">
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10511 -&gt; &#39;?10512 -&gt; &#39;?10511) -&gt; z:&#39;?10511 -&gt; a:Matrix&lt;&#39;?10512&gt; -&gt; &#39;?10511<br />
+                          <strong>Type parameters:</strong> '?10511, '?10512                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L87-87" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L135-135" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -306,51 +411,59 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '434', 434)" onmouseover="showTip(event, '434', 434)">
+          <code onmouseout="hideTip(event, '555', 555)" onmouseover="showTip(event, '555', 555)">
             forall f a
           </code>
-          <div class="tip" id="434">
-            <strong>Signature:</strong> f:(&#39;?9099 -&gt; bool) -&gt; a:Matrix&lt;&#39;?9099&gt; -&gt; bool<br />
-                          <strong>Type parameters:</strong> '?9099          </div>
+          <div class="tip" id="555">
+            <strong>Signature:</strong> f:(&#39;?10486 -&gt; bool) -&gt; a:Matrix&lt;&#39;?10486&gt; -&gt; bool<br />
+                          <strong>Type parameters:</strong> '?10486                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L73-73" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L107-107" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Iterates the given Matrix row wise and applies function f element wise.
+The iteration stops and returns false if an element fails the condition or true when the end of
+the matrix is reached.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '435', 435)" onmouseover="showTip(event, '435', 435)">
+          <code onmouseout="hideTip(event, '556', 556)" onmouseover="showTip(event, '556', 556)">
             foralli f a
           </code>
-          <div class="tip" id="435">
-            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?9103 -&gt; bool) -&gt; a:Matrix&lt;&#39;?9103&gt; -&gt; bool<br />
-                          <strong>Type parameters:</strong> '?9103          </div>
+          <div class="tip" id="556">
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10490 -&gt; bool) -&gt; a:Matrix&lt;&#39;?10490&gt; -&gt; bool<br />
+                          <strong>Type parameters:</strong> '?10490                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L75-75" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L115-115" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Iterates the given Matrix row wise and applies function f element wise.
+The iteration stops and returns false if an element fails the condition or true when the end of
+the matrix is reached.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '436', 436)" onmouseover="showTip(event, '436', 436)">
+          <code onmouseout="hideTip(event, '557', 557)" onmouseover="showTip(event, '557', 557)">
             get a i j
           </code>
-          <div class="tip" id="436">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9030&gt; -&gt; i:int -&gt; j:int -&gt; &#39;?9030<br />
-                          <strong>Type parameters:</strong> '?9030          </div>
+          <div class="tip" id="557">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10415&gt; -&gt; i:int -&gt; j:int -&gt; &#39;?10415<br />
+                          <strong>Type parameters:</strong> '?10415                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L32-32" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L31-31" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -360,33 +473,35 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '437', 437)" onmouseover="showTip(event, '437', 437)">
+          <code onmouseout="hideTip(event, '558', 558)" onmouseover="showTip(event, '558', 558)">
             getCol a j
           </code>
-          <div class="tip" id="437">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9133&gt; -&gt; j:int -&gt; Vector&lt;&#39;?9133&gt;<br />
-                          <strong>Type parameters:</strong> '?9133          </div>
+          <div class="tip" id="558">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10522&gt; -&gt; j:int -&gt; Vector&lt;&#39;?10522&gt;<br />
+                          <strong>Type parameters:</strong> '?10522                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L92-92" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L145-145" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Returns col of index j of matrix a</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '438', 438)" onmouseover="showTip(event, '438', 438)">
+          <code onmouseout="hideTip(event, '559', 559)" onmouseover="showTip(event, '559', 559)">
             getCols a i1 i2
           </code>
-          <div class="tip" id="438">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9135&gt; -&gt; i1:int -&gt; i2:int -&gt; Matrix&lt;&#39;?9135&gt;<br />
-                          <strong>Type parameters:</strong> '?9135          </div>
+          <div class="tip" id="559">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10526&gt; -&gt; i1:int -&gt; i2:int -&gt; Matrix&lt;&#39;?10526&gt;<br />
+                          <strong>Type parameters:</strong> '?10526                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L93-93" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L149-149" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -396,15 +511,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '439', 439)" onmouseover="showTip(event, '439', 439)">
-            getDiag a
+          <code onmouseout="hideTip(event, '560', 560)" onmouseover="showTip(event, '560', 560)">
+            getDiag(a)
           </code>
-          <div class="tip" id="439">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9113&gt; -&gt; Vector&lt;&#39;?9113&gt;<br />
-                          <strong>Type parameters:</strong> '?9113          </div>
+          <div class="tip" id="560">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10500&gt; -&gt; Vector&lt;&#39;?10500&gt;<br />
+                          <strong>Type parameters:</strong> '?10500                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L80-80" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L125-125" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -414,15 +529,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '440', 440)" onmouseover="showTip(event, '440', 440)">
+          <code onmouseout="hideTip(event, '561', 561)" onmouseover="showTip(event, '561', 561)">
             getDiagN a n
           </code>
-          <div class="tip" id="440">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9111&gt; -&gt; n:int -&gt; Vector&lt;&#39;?9111&gt;<br />
-                          <strong>Type parameters:</strong> '?9111          </div>
+          <div class="tip" id="561">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10498&gt; -&gt; n:int -&gt; Vector&lt;&#39;?10498&gt;<br />
+                          <strong>Type parameters:</strong> '?10498                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L79-79" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L123-123" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -432,15 +547,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '441', 441)" onmouseover="showTip(event, '441', 441)">
+          <code onmouseout="hideTip(event, '562', 562)" onmouseover="showTip(event, '562', 562)">
             getRegion a i1 j1 i2 j2
           </code>
-          <div class="tip" id="441">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9139&gt; -&gt; i1:int -&gt; j1:int -&gt; i2:int -&gt; j2:int -&gt; Matrix&lt;&#39;?9139&gt;<br />
-                          <strong>Type parameters:</strong> '?9139          </div>
+          <div class="tip" id="562">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10530&gt; -&gt; i1:int -&gt; j1:int -&gt; i2:int -&gt; j2:int -&gt; Matrix&lt;&#39;?10530&gt;<br />
+                          <strong>Type parameters:</strong> '?10530                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L95-95" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L153-153" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -450,33 +565,35 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '442', 442)" onmouseover="showTip(event, '442', 442)">
+          <code onmouseout="hideTip(event, '563', 563)" onmouseover="showTip(event, '563', 563)">
             getRow a i
           </code>
-          <div class="tip" id="442">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9131&gt; -&gt; i:int -&gt; RowVector&lt;&#39;?9131&gt;<br />
-                          <strong>Type parameters:</strong> '?9131          </div>
+          <div class="tip" id="563">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10518&gt; -&gt; i:int -&gt; RowVector&lt;&#39;?10518&gt;<br />
+                          <strong>Type parameters:</strong> '?10518                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L91-91" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L141-141" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Returns row of index i of matrix a</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '443', 443)" onmouseover="showTip(event, '443', 443)">
+          <code onmouseout="hideTip(event, '564', 564)" onmouseover="showTip(event, '564', 564)">
             getRows a j1 j2
           </code>
-          <div class="tip" id="443">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9137&gt; -&gt; j1:int -&gt; j2:int -&gt; Matrix&lt;&#39;?9137&gt;<br />
-                          <strong>Type parameters:</strong> '?9137          </div>
+          <div class="tip" id="564">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10528&gt; -&gt; j1:int -&gt; j2:int -&gt; Matrix&lt;&#39;?10528&gt;<br />
+                          <strong>Type parameters:</strong> '?10528                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L94-94" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L151-151" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -486,15 +603,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '444', 444)" onmouseover="showTip(event, '444', 444)">
-            hash a
+          <code onmouseout="hideTip(event, '565', 565)" onmouseover="showTip(event, '565', 565)">
+            hash(a)
           </code>
-          <div class="tip" id="444">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9129&gt; -&gt; int<br />
-                          <strong>Type parameters:</strong> '?9129          </div>
+          <div class="tip" id="565">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10516&gt; -&gt; int<br />
+                          <strong>Type parameters:</strong> '?10516                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L90-90" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L139-139" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -504,15 +621,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '445', 445)" onmouseover="showTip(event, '445', 445)">
-            identity m
+          <code onmouseout="hideTip(event, '566', 566)" onmouseover="showTip(event, '566', 566)">
+            identity(m)
           </code>
-          <div class="tip" id="445">
-            <strong>Signature:</strong> m:int -&gt; Matrix&lt;&#39;?9049&gt;<br />
-                          <strong>Type parameters:</strong> '?9049          </div>
+          <div class="tip" id="566">
+            <strong>Signature:</strong> m:int -&gt; Matrix&lt;&#39;?10436&gt;<br />
+                          <strong>Type parameters:</strong> '?10436                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L43-43" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L42-42" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -522,15 +639,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '446', 446)" onmouseover="showTip(event, '446', 446)">
+          <code onmouseout="hideTip(event, '567', 567)" onmouseover="showTip(event, '567', 567)">
             init m n f
           </code>
-          <div class="tip" id="446">
-            <strong>Signature:</strong> m:int -&gt; n:int -&gt; f:(int -&gt; int -&gt; &#39;?9039) -&gt; Matrix&lt;&#39;?9039&gt;<br />
-                          <strong>Type parameters:</strong> '?9039          </div>
+          <div class="tip" id="567">
+            <strong>Signature:</strong> m:int -&gt; n:int -&gt; f:(int -&gt; int -&gt; &#39;?10424) -&gt; Matrix&lt;&#39;?10424&gt;<br />
+                          <strong>Type parameters:</strong> '?10424                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L38-38" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L36-36" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -540,15 +657,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '447', 447)" onmouseover="showTip(event, '447', 447)">
+          <code onmouseout="hideTip(event, '568', 568)" onmouseover="showTip(event, '568', 568)">
             init_dense i j a
           </code>
-          <div class="tip" id="447">
-            <strong>Signature:</strong> i:int -&gt; j:int -&gt; a:seq&lt;int * int * &#39;?9188&gt; -&gt; Matrix&lt;&#39;?9188&gt;<br />
-                          <strong>Type parameters:</strong> '?9188          </div>
+          <div class="tip" id="568">
+            <strong>Signature:</strong> i:int -&gt; j:int -&gt; a:seq&lt;int * int * &#39;?10581&gt; -&gt; Matrix&lt;&#39;?10581&gt;<br />
+                          <strong>Type parameters:</strong> '?10581                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L121-121" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L184-184" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -558,15 +675,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '448', 448)" onmouseover="showTip(event, '448', 448)">
-            init_diagonal v
+          <code onmouseout="hideTip(event, '569', 569)" onmouseover="showTip(event, '569', 569)">
+            init_diagonal(v)
           </code>
-          <div class="tip" id="448">
-            <strong>Signature:</strong> v:Vector&lt;&#39;?9184&gt; -&gt; Matrix&lt;&#39;?9184&gt;<br />
-                          <strong>Type parameters:</strong> '?9184          </div>
+          <div class="tip" id="569">
+            <strong>Signature:</strong> v:Vector&lt;&#39;?10577&gt; -&gt; Matrix&lt;&#39;?10577&gt;<br />
+                          <strong>Type parameters:</strong> '?10577                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L119-119" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L182-182" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -576,15 +693,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '449', 449)" onmouseover="showTip(event, '449', 449)">
+          <code onmouseout="hideTip(event, '570', 570)" onmouseover="showTip(event, '570', 570)">
             init_sparse i j a
           </code>
-          <div class="tip" id="449">
-            <strong>Signature:</strong> i:int -&gt; j:int -&gt; a:seq&lt;int * int * &#39;?9190&gt; -&gt; Matrix&lt;&#39;?9190&gt;<br />
-                          <strong>Type parameters:</strong> '?9190          </div>
+          <div class="tip" id="570">
+            <strong>Signature:</strong> i:int -&gt; j:int -&gt; a:seq&lt;int * int * &#39;?10583&gt; -&gt; Matrix&lt;&#39;?10583&gt;<br />
+                          <strong>Type parameters:</strong> '?10583                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L122-122" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L185-185" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -594,15 +711,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '450', 450)" onmouseover="showTip(event, '450', 450)">
+          <code onmouseout="hideTip(event, '571', 571)" onmouseover="showTip(event, '571', 571)">
             initDense i j a
           </code>
-          <div class="tip" id="450">
-            <strong>Signature:</strong> i:int -&gt; j:int -&gt; a:seq&lt;int * int * &#39;?9117&gt; -&gt; Matrix&lt;&#39;?9117&gt;<br />
-                          <strong>Type parameters:</strong> '?9117          </div>
+          <div class="tip" id="571">
+            <strong>Signature:</strong> i:int -&gt; j:int -&gt; a:seq&lt;int * int * &#39;?10504&gt; -&gt; Matrix&lt;&#39;?10504&gt;<br />
+                          <strong>Type parameters:</strong> '?10504                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L83-83" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L129-129" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -612,15 +729,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '451', 451)" onmouseover="showTip(event, '451', 451)">
-            initDiagonal v
+          <code onmouseout="hideTip(event, '572', 572)" onmouseover="showTip(event, '572', 572)">
+            initDiagonal(v)
           </code>
-          <div class="tip" id="451">
-            <strong>Signature:</strong> v:Vector&lt;&#39;?9057&gt; -&gt; Matrix&lt;&#39;?9057&gt;<br />
-                          <strong>Type parameters:</strong> '?9057          </div>
+          <div class="tip" id="572">
+            <strong>Signature:</strong> v:Vector&lt;&#39;?10444&gt; -&gt; Matrix&lt;&#39;?10444&gt;<br />
+                          <strong>Type parameters:</strong> '?10444                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L49-49" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L46-46" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -630,15 +747,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '452', 452)" onmouseover="showTip(event, '452', 452)">
+          <code onmouseout="hideTip(event, '573', 573)" onmouseover="showTip(event, '573', 573)">
             initNumeric m n f
           </code>
-          <div class="tip" id="452">
-            <strong>Signature:</strong> m:int -&gt; n:int -&gt; f:(INumeric&lt;&#39;?9045&gt; -&gt; int -&gt; int -&gt; &#39;?9045) -&gt; Matrix&lt;&#39;?9045&gt;<br />
-                          <strong>Type parameters:</strong> '?9045          </div>
+          <div class="tip" id="573">
+            <strong>Signature:</strong> m:int -&gt; n:int -&gt; f:(INumeric&lt;&#39;?10432&gt; -&gt; int -&gt; int -&gt; &#39;?10432) -&gt; Matrix&lt;&#39;?10432&gt;<br />
+                          <strong>Type parameters:</strong> '?10432                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L41-41" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L40-40" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -648,15 +765,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '453', 453)" onmouseover="showTip(event, '453', 453)">
+          <code onmouseout="hideTip(event, '574', 574)" onmouseover="showTip(event, '574', 574)">
             initSparse i j a
           </code>
-          <div class="tip" id="453">
-            <strong>Signature:</strong> i:int -&gt; j:int -&gt; a:seq&lt;int * int * &#39;?9119&gt; -&gt; Matrix&lt;&#39;?9119&gt;<br />
-                          <strong>Type parameters:</strong> '?9119          </div>
+          <div class="tip" id="574">
+            <strong>Signature:</strong> i:int -&gt; j:int -&gt; a:seq&lt;int * int * &#39;?10506&gt; -&gt; Matrix&lt;&#39;?10506&gt;<br />
+                          <strong>Type parameters:</strong> '?10506                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L84-84" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L131-131" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -666,15 +783,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '454', 454)" onmouseover="showTip(event, '454', 454)">
+          <code onmouseout="hideTip(event, '575', 575)" onmouseover="showTip(event, '575', 575)">
             inplace_add a b
           </code>
-          <div class="tip" id="454">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9169&gt; -&gt; b:Matrix&lt;&#39;?9169&gt; -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?9169          </div>
+          <div class="tip" id="575">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10562&gt; -&gt; b:Matrix&lt;&#39;?10562&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10562                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L112-112" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L175-175" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -684,15 +801,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '455', 455)" onmouseover="showTip(event, '455', 455)">
+          <code onmouseout="hideTip(event, '576', 576)" onmouseover="showTip(event, '576', 576)">
             inplace_assign f a
           </code>
-          <div class="tip" id="455">
-            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?9151) -&gt; a:Matrix&lt;&#39;?9151&gt; -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?9151          </div>
+          <div class="tip" id="576">
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10542) -&gt; a:Matrix&lt;&#39;?10542&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10542                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L103-103" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L165-165" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -702,15 +819,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '456', 456)" onmouseover="showTip(event, '456', 456)">
+          <code onmouseout="hideTip(event, '577', 577)" onmouseover="showTip(event, '577', 577)">
             inplace_cptMul a b
           </code>
-          <div class="tip" id="456">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9153&gt; -&gt; b:Matrix&lt;&#39;?9153&gt; -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?9153          </div>
+          <div class="tip" id="577">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10544&gt; -&gt; b:Matrix&lt;&#39;?10544&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10544                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L104-104" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L166-166" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -720,15 +837,33 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '457', 457)" onmouseover="showTip(event, '457', 457)">
+          <code onmouseout="hideTip(event, '578', 578)" onmouseover="showTip(event, '578', 578)">
+            inplace_map f a
+          </code>
+          <div class="tip" id="578">
+            <strong>Signature:</strong> f:(&#39;?10548 -&gt; &#39;?10548) -&gt; a:Matrix&lt;&#39;?10548&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10548                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L168-168" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '579', 579)" onmouseover="showTip(event, '579', 579)">
             inplace_mapi f a
           </code>
-          <div class="tip" id="457">
-            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?9157 -&gt; &#39;?9157) -&gt; a:Matrix&lt;&#39;?9157&gt; -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?9157          </div>
+          <div class="tip" id="579">
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10550 -&gt; &#39;?10550) -&gt; a:Matrix&lt;&#39;?10550&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10550                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L106-106" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L169-169" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -738,15 +873,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '458', 458)" onmouseover="showTip(event, '458', 458)">
+          <code onmouseout="hideTip(event, '580', 580)" onmouseover="showTip(event, '580', 580)">
             inplace_scale a b
           </code>
-          <div class="tip" id="458">
-            <strong>Signature:</strong> a:&#39;?9155 -&gt; b:Matrix&lt;&#39;?9155&gt; -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?9155          </div>
+          <div class="tip" id="580">
+            <strong>Signature:</strong> a:&#39;?10546 -&gt; b:Matrix&lt;&#39;?10546&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10546                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L105-105" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L167-167" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -756,15 +891,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '459', 459)" onmouseover="showTip(event, '459', 459)">
+          <code onmouseout="hideTip(event, '581', 581)" onmouseover="showTip(event, '581', 581)">
             inplace_sub a b
           </code>
-          <div class="tip" id="459">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9171&gt; -&gt; b:Matrix&lt;&#39;?9171&gt; -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?9171          </div>
+          <div class="tip" id="581">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10564&gt; -&gt; b:Matrix&lt;&#39;?10564&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10564                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L113-113" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L176-176" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -774,51 +909,59 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '460', 460)" onmouseover="showTip(event, '460', 460)">
+          <code onmouseout="hideTip(event, '582', 582)" onmouseover="showTip(event, '582', 582)">
             inplaceAdd a b
           </code>
-          <div class="tip" id="460">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9093&gt; -&gt; b:Matrix&lt;&#39;?9093&gt; -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?9093          </div>
+          <div class="tip" id="582">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10480&gt; -&gt; b:Matrix&lt;&#39;?10480&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10480                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L69-69" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L95-95" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Performs a element wise addition of matrices a and b (a+b).
+Attention: the output overrides matrix a.
+Only usable if both matrices have the same dimensions.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '461', 461)" onmouseover="showTip(event, '461', 461)">
+          <code onmouseout="hideTip(event, '583', 583)" onmouseover="showTip(event, '583', 583)">
             inplaceSub a b
           </code>
-          <div class="tip" id="461">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9095&gt; -&gt; b:Matrix&lt;&#39;?9095&gt; -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?9095          </div>
+          <div class="tip" id="583">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10482&gt; -&gt; b:Matrix&lt;&#39;?10482&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10482                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L70-70" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L99-99" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Performs a element wise substraction of matrices a and b (a-b).
+Attention: the output overrides matrix a.
+Only usable if both matrices have the same dimensions.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '462', 462)" onmouseover="showTip(event, '462', 462)">
+          <code onmouseout="hideTip(event, '584', 584)" onmouseover="showTip(event, '584', 584)">
             map f a
           </code>
-          <div class="tip" id="462">
-            <strong>Signature:</strong> f:(&#39;?9105 -&gt; &#39;?9105) -&gt; a:Matrix&lt;&#39;?9105&gt; -&gt; Matrix&lt;&#39;?9105&gt;<br />
-                          <strong>Type parameters:</strong> '?9105          </div>
+          <div class="tip" id="584">
+            <strong>Signature:</strong> f:(&#39;?10492 -&gt; &#39;?10492) -&gt; a:Matrix&lt;&#39;?10492&gt; -&gt; Matrix&lt;&#39;?10492&gt;<br />
+                          <strong>Type parameters:</strong> '?10492                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L76-76" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L117-117" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -828,15 +971,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '463', 463)" onmouseover="showTip(event, '463', 463)">
+          <code onmouseout="hideTip(event, '585', 585)" onmouseover="showTip(event, '585', 585)">
             mapi f a
           </code>
-          <div class="tip" id="463">
-            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?9109 -&gt; &#39;?9109) -&gt; a:Matrix&lt;&#39;?9109&gt; -&gt; Matrix&lt;&#39;?9109&gt;<br />
-                          <strong>Type parameters:</strong> '?9109          </div>
+          <div class="tip" id="585">
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10496 -&gt; &#39;?10496) -&gt; a:Matrix&lt;&#39;?10496&gt; -&gt; Matrix&lt;&#39;?10496&gt;<br />
+                          <strong>Type parameters:</strong> '?10496                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L78-78" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L121-121" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -846,51 +989,138 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '464', 464)" onmouseover="showTip(event, '464', 464)">
+          <code onmouseout="hideTip(event, '586', 586)" onmouseover="showTip(event, '586', 586)">
+            mapiCols f m
+          </code>
+          <div class="tip" id="586">
+            <strong>Signature:</strong> f:(int -&gt; Vector&lt;&#39;a&gt; -&gt; &#39;b) -&gt; m:Matrix&lt;&#39;a&gt; -&gt; seq&lt;&#39;b&gt;<br />
+                          <strong>Type parameters:</strong> 'a, 'b                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L213-213" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Maps every matrix column using the position dependant function</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '587', 587)" onmouseover="showTip(event, '587', 587)">
+            mapiRows f m
+          </code>
+          <div class="tip" id="587">
+            <strong>Signature:</strong> f:(int -&gt; RowVector&lt;&#39;a&gt; -&gt; &#39;b) -&gt; m:Matrix&lt;&#39;a&gt; -&gt; seq&lt;&#39;b&gt;<br />
+                          <strong>Type parameters:</strong> 'a, 'b                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L197-197" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Maps every matrix row using the position dependant function</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '588', 588)" onmouseover="showTip(event, '588', 588)">
             mul a b
           </code>
-          <div class="tip" id="464">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9065&gt; -&gt; b:Matrix&lt;&#39;?9065&gt; -&gt; Matrix&lt;&#39;?9065&gt;<br />
-                          <strong>Type parameters:</strong> '?9065          </div>
+          <div class="tip" id="588">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10452&gt; -&gt; b:Matrix&lt;&#39;?10452&gt; -&gt; Matrix&lt;&#39;?10452&gt;<br />
+                          <strong>Type parameters:</strong> '?10452                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L55-55" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L58-58" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Performs a left sided matrix multiplication of a and b (a*b).
+Only usable if both matrices have the same dimensions.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '465', 465)" onmouseover="showTip(event, '465', 465)">
+          <code onmouseout="hideTip(event, '589', 589)" onmouseover="showTip(event, '589', 589)">
             mulRV a b
           </code>
-          <div class="tip" id="465">
-            <strong>Signature:</strong> a:RowVector&lt;&#39;?9067&gt; -&gt; b:Matrix&lt;&#39;?9067&gt; -&gt; RowVector&lt;&#39;?9067&gt;<br />
-                          <strong>Type parameters:</strong> '?9067          </div>
+          <div class="tip" id="589">
+            <strong>Signature:</strong> a:RowVector&lt;&#39;?10454&gt; -&gt; b:Matrix&lt;&#39;?10454&gt; -&gt; RowVector&lt;&#39;?10454&gt;<br />
+                          <strong>Type parameters:</strong> '?10454                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L56-56" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L61-61" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Performs a matrix multiplication of the 1<em>n rowvector a and the m</em>n matrix b (a*b).
+Only usable if column number (n) of the vector equals the row number (m) of the matrix.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '466', 466)" onmouseover="showTip(event, '466', 466)">
+          <code onmouseout="hideTip(event, '590', 590)" onmouseover="showTip(event, '590', 590)">
             mulV a b
           </code>
-          <div class="tip" id="466">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9069&gt; -&gt; b:Vector&lt;&#39;?9069&gt; -&gt; Vector&lt;&#39;?9069&gt;<br />
-                          <strong>Type parameters:</strong> '?9069          </div>
+          <div class="tip" id="590">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10456&gt; -&gt; b:Vector&lt;&#39;?10456&gt; -&gt; Vector&lt;&#39;?10456&gt;<br />
+                          <strong>Type parameters:</strong> '?10456                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L57-57" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L64-64" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Performs a matrix multiplication m<em>n matrix a and the m</em>1 vector b (a*b).
+Only usable if column number (n) of the matrix equals the row number (m) of the vector.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '591', 591)" onmouseover="showTip(event, '591', 591)">
+            neg(a)
+          </code>
+          <div class="tip" id="591">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10468&gt; -&gt; Matrix&lt;&#39;?10468&gt;<br />
+                          <strong>Type parameters:</strong> '?10468                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L80-80" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Scales matrix a by element wise mulitplication with minus 1.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '592', 592)" onmouseover="showTip(event, '592', 592)">
+            nonzero_entries(a)
+          </code>
+          <div class="tip" id="592">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10585&gt; -&gt; seq&lt;int * int * &#39;?10585&gt;<br />
+                          <strong>Type parameters:</strong> '?10585                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L186-186" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -900,15 +1130,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '467', 467)" onmouseover="showTip(event, '467', 467)">
-            neg a
+          <code onmouseout="hideTip(event, '593', 593)" onmouseover="showTip(event, '593', 593)">
+            norm(a)
           </code>
-          <div class="tip" id="467">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9081&gt; -&gt; Matrix&lt;&#39;?9081&gt;<br />
-                          <strong>Type parameters:</strong> '?9081          </div>
+          <div class="tip" id="593">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10476&gt; -&gt; float&lt;MeasureOne&gt;<br />
+                          <strong>Type parameters:</strong> '?10476                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L63-63" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L89-89" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -918,15 +1148,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '468', 468)" onmouseover="showTip(event, '468', 468)">
-            nonzero_entries a
+          <code onmouseout="hideTip(event, '594', 594)" onmouseover="showTip(event, '594', 594)">
+            of_array2D(arr)
           </code>
-          <div class="tip" id="468">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9192&gt; -&gt; seq&lt;int * int * &#39;?9192&gt;<br />
-                          <strong>Type parameters:</strong> '?9192          </div>
+          <div class="tip" id="594">
+            <strong>Signature:</strong> arr:&#39;?10573 [,] -&gt; Matrix&lt;&#39;?10573&gt;<br />
+                          <strong>Type parameters:</strong> '?10573                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L123-123" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L180-180" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -936,15 +1166,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '469', 469)" onmouseover="showTip(event, '469', 469)">
-            norm a
+          <code onmouseout="hideTip(event, '595', 595)" onmouseover="showTip(event, '595', 595)">
+            of_list(xss)
           </code>
-          <div class="tip" id="469">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9089&gt; -&gt; float&lt;MeasureOne&gt;<br />
-                          <strong>Type parameters:</strong> '?9089          </div>
+          <div class="tip" id="595">
+            <strong>Signature:</strong> xss:&#39;?10568 list list -&gt; Matrix&lt;&#39;?10568&gt;<br />
+                          <strong>Type parameters:</strong> '?10568                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L67-67" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L178-178" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -954,15 +1184,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '470', 470)" onmouseover="showTip(event, '470', 470)">
-            of_array2D arr
+          <code onmouseout="hideTip(event, '596', 596)" onmouseover="showTip(event, '596', 596)">
+            of_rowvec(x)
           </code>
-          <div class="tip" id="470">
-            <strong>Signature:</strong> arr:&#39;?9180 [,] -&gt; Matrix&lt;&#39;?9180&gt;<br />
-                          <strong>Type parameters:</strong> '?9180          </div>
+          <div class="tip" id="596">
+            <strong>Signature:</strong> x:RowVector&lt;&#39;?10552&gt; -&gt; Matrix&lt;&#39;?10552&gt;<br />
+                          <strong>Type parameters:</strong> '?10552                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L117-117" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L170-170" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -972,15 +1202,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '471', 471)" onmouseover="showTip(event, '471', 471)">
-            of_list xss
+          <code onmouseout="hideTip(event, '597', 597)" onmouseover="showTip(event, '597', 597)">
+            of_scalar(x)
           </code>
-          <div class="tip" id="471">
-            <strong>Signature:</strong> xss:&#39;?9175 list list -&gt; Matrix&lt;&#39;?9175&gt;<br />
-                          <strong>Type parameters:</strong> '?9175          </div>
+          <div class="tip" id="597">
+            <strong>Signature:</strong> x:&#39;?10566 -&gt; Matrix&lt;&#39;?10566&gt;<br />
+                          <strong>Type parameters:</strong> '?10566                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L115-115" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L177-177" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -990,15 +1220,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '472', 472)" onmouseover="showTip(event, '472', 472)">
-            of_rowvec x
+          <code onmouseout="hideTip(event, '598', 598)" onmouseover="showTip(event, '598', 598)">
+            of_seq(xss)
           </code>
-          <div class="tip" id="472">
-            <strong>Signature:</strong> x:RowVector&lt;&#39;?9159&gt; -&gt; Matrix&lt;&#39;?9159&gt;<br />
-                          <strong>Type parameters:</strong> '?9159          </div>
+          <div class="tip" id="598">
+            <strong>Signature:</strong> xss:seq&lt;&#39;?10570&gt; -&gt; Matrix&lt;&#39;?10571&gt;<br />
+                          <strong>Type parameters:</strong> '?10570, '?10571                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L107-107" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L179-179" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1008,15 +1238,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '473', 473)" onmouseover="showTip(event, '473', 473)">
-            of_scalar x
+          <code onmouseout="hideTip(event, '599', 599)" onmouseover="showTip(event, '599', 599)">
+            of_vector(x)
           </code>
-          <div class="tip" id="473">
-            <strong>Signature:</strong> x:&#39;?9173 -&gt; Matrix&lt;&#39;?9173&gt;<br />
-                          <strong>Type parameters:</strong> '?9173          </div>
+          <div class="tip" id="599">
+            <strong>Signature:</strong> x:Vector&lt;&#39;?10554&gt; -&gt; Matrix&lt;&#39;?10554&gt;<br />
+                          <strong>Type parameters:</strong> '?10554                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L114-114" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L171-171" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1026,51 +1256,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '474', 474)" onmouseover="showTip(event, '474', 474)">
-            of_seq xss
+          <code onmouseout="hideTip(event, '600', 600)" onmouseover="showTip(event, '600', 600)">
+            ofArray2D(arr)
           </code>
-          <div class="tip" id="474">
-            <strong>Signature:</strong> xss:seq&lt;&#39;?9177&gt; -&gt; Matrix&lt;&#39;?9178&gt;<br />
-                          <strong>Type parameters:</strong> '?9177, '?9178          </div>
-        </td>
-        <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L116-116" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '475', 475)" onmouseover="showTip(event, '475', 475)">
-            of_vector x
-          </code>
-          <div class="tip" id="475">
-            <strong>Signature:</strong> x:Vector&lt;&#39;?9161&gt; -&gt; Matrix&lt;&#39;?9161&gt;<br />
-                          <strong>Type parameters:</strong> '?9161          </div>
-        </td>
-        <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L108-108" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '476', 476)" onmouseover="showTip(event, '476', 476)">
-            ofArray2D arr
-          </code>
-          <div class="tip" id="476">
+          <div class="tip" id="600">
             <strong>Signature:</strong> arr:&#39;T [,] -&gt; Matrix&lt;&#39;T&gt;<br />
-                          <strong>Type parameters:</strong> 'T          </div>
+                          <strong>Type parameters:</strong> 'T                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L39-39" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L37-37" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1080,15 +1274,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '477', 477)" onmouseover="showTip(event, '477', 477)">
-            ofList xss
+          <code onmouseout="hideTip(event, '601', 601)" onmouseover="showTip(event, '601', 601)">
+            ofList(xss)
           </code>
-          <div class="tip" id="477">
-            <strong>Signature:</strong> xss:&#39;?9034 list list -&gt; Matrix&lt;&#39;?9034&gt;<br />
-                          <strong>Type parameters:</strong> '?9034          </div>
+          <div class="tip" id="601">
+            <strong>Signature:</strong> xss:&#39;?10419 list list -&gt; Matrix&lt;&#39;?10419&gt;<br />
+                          <strong>Type parameters:</strong> '?10419                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L36-36" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L34-34" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1098,15 +1292,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '478', 478)" onmouseover="showTip(event, '478', 478)">
-            ofRowVector x
+          <code onmouseout="hideTip(event, '602', 602)" onmouseover="showTip(event, '602', 602)">
+            ofRowVector(x)
           </code>
-          <div class="tip" id="478">
-            <strong>Signature:</strong> x:RowVector&lt;&#39;?9141&gt; -&gt; Matrix&lt;&#39;?9141&gt;<br />
-                          <strong>Type parameters:</strong> '?9141          </div>
+          <div class="tip" id="602">
+            <strong>Signature:</strong> x:RowVector&lt;&#39;?10532&gt; -&gt; Matrix&lt;&#39;?10532&gt;<br />
+                          <strong>Type parameters:</strong> '?10532                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L97-97" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L155-155" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1116,15 +1310,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '479', 479)" onmouseover="showTip(event, '479', 479)">
-            ofScalar x
+          <code onmouseout="hideTip(event, '603', 603)" onmouseover="showTip(event, '603', 603)">
+            ofScalar(x)
           </code>
-          <div class="tip" id="479">
-            <strong>Signature:</strong> x:&#39;?9053 -&gt; Matrix&lt;&#39;?9053&gt;<br />
-                          <strong>Type parameters:</strong> '?9053          </div>
+          <div class="tip" id="603">
+            <strong>Signature:</strong> x:&#39;?10440 -&gt; Matrix&lt;&#39;?10440&gt;<br />
+                          <strong>Type parameters:</strong> '?10440                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L46-46" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L44-44" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1134,15 +1328,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '480', 480)" onmouseover="showTip(event, '480', 480)">
-            ofSeq xss
+          <code onmouseout="hideTip(event, '604', 604)" onmouseover="showTip(event, '604', 604)">
+            ofSeq(xss)
           </code>
-          <div class="tip" id="480">
-            <strong>Signature:</strong> xss:seq&lt;&#39;?9036&gt; -&gt; Matrix&lt;&#39;?9037&gt;<br />
-                          <strong>Type parameters:</strong> '?9036, '?9037          </div>
+          <div class="tip" id="604">
+            <strong>Signature:</strong> xss:seq&lt;&#39;?10421&gt; -&gt; Matrix&lt;&#39;?10422&gt;<br />
+                          <strong>Type parameters:</strong> '?10421, '?10422                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L37-37" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L35-35" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1152,15 +1346,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '481', 481)" onmouseover="showTip(event, '481', 481)">
-            ofVector x
+          <code onmouseout="hideTip(event, '605', 605)" onmouseover="showTip(event, '605', 605)">
+            ofVector(x)
           </code>
-          <div class="tip" id="481">
-            <strong>Signature:</strong> x:Vector&lt;&#39;?9143&gt; -&gt; Matrix&lt;&#39;?9143&gt;<br />
-                          <strong>Type parameters:</strong> '?9143          </div>
+          <div class="tip" id="605">
+            <strong>Signature:</strong> x:Vector&lt;&#39;?10534&gt; -&gt; Matrix&lt;&#39;?10534&gt;<br />
+                          <strong>Type parameters:</strong> '?10534                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L98-98" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L157-157" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1170,51 +1364,55 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '482', 482)" onmouseover="showTip(event, '482', 482)">
-            prod a
+          <code onmouseout="hideTip(event, '606', 606)" onmouseover="showTip(event, '606', 606)">
+            prod(a)
           </code>
-          <div class="tip" id="482">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9087&gt; -&gt; &#39;?9087<br />
-                          <strong>Type parameters:</strong> '?9087          </div>
+          <div class="tip" id="606">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10474&gt; -&gt; &#39;?10474<br />
+                          <strong>Type parameters:</strong> '?10474                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L66-66" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L87-87" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Computes the product of all matrix elements.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '483', 483)" onmouseover="showTip(event, '483', 483)">
+          <code onmouseout="hideTip(event, '607', 607)" onmouseover="showTip(event, '607', 607)">
             scale a b
           </code>
-          <div class="tip" id="483">
-            <strong>Signature:</strong> a:&#39;?9077 -&gt; b:Matrix&lt;&#39;?9077&gt; -&gt; Matrix&lt;&#39;?9077&gt;<br />
-                          <strong>Type parameters:</strong> '?9077          </div>
+          <div class="tip" id="607">
+            <strong>Signature:</strong> a:&#39;?10464 -&gt; b:Matrix&lt;&#39;?10464&gt; -&gt; Matrix&lt;&#39;?10464&gt;<br />
+                          <strong>Type parameters:</strong> '?10464                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L61-61" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L75-75" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Builds a new matrix where the elements are the result of multiplying every element of the given matrix with the given value</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '484', 484)" onmouseover="showTip(event, '484', 484)">
+          <code onmouseout="hideTip(event, '608', 608)" onmouseover="showTip(event, '608', 608)">
             set a i j x
           </code>
-          <div class="tip" id="484">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9032&gt; -&gt; i:int -&gt; j:int -&gt; x:&#39;?9032 -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?9032          </div>
+          <div class="tip" id="608">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10417&gt; -&gt; i:int -&gt; j:int -&gt; x:&#39;?10417 -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10417                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L33-33" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L32-32" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1224,51 +1422,96 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '485', 485)" onmouseover="showTip(event, '485', 485)">
+          <code onmouseout="hideTip(event, '609', 609)" onmouseover="showTip(event, '609', 609)">
+            setCol a i v
+          </code>
+          <div class="tip" id="609">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10524&gt; -&gt; i:int -&gt; v:Vector&lt;&#39;?10524&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10524                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L147-147" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Replaces column of index i of matrix a with values of vector v, if vector length matches columnsize</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '610', 610)" onmouseover="showTip(event, '610', 610)">
+            setRow a j v
+          </code>
+          <div class="tip" id="610">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10520&gt; -&gt; j:int -&gt; v:Vector&lt;&#39;?10520&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10520                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L143-143" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Replaces row of index j of matrix a with values of vector v, if vector length matches rowsize</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '611', 611)" onmouseover="showTip(event, '611', 611)">
             sub a b
           </code>
-          <div class="tip" id="485">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9063&gt; -&gt; b:Matrix&lt;&#39;?9063&gt; -&gt; Matrix&lt;&#39;?9063&gt;<br />
-                          <strong>Type parameters:</strong> '?9063          </div>
+          <div class="tip" id="611">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10450&gt; -&gt; b:Matrix&lt;&#39;?10450&gt; -&gt; Matrix&lt;&#39;?10450&gt;<br />
+                          <strong>Type parameters:</strong> '?10450                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L54-54" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L55-55" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Performs a element wise substraction of matrices a and b (a-b).
+Only usable if both matrices have the same dimensions.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '486', 486)" onmouseover="showTip(event, '486', 486)">
-            sum a
+          <code onmouseout="hideTip(event, '612', 612)" onmouseover="showTip(event, '612', 612)">
+            sum(a)
           </code>
-          <div class="tip" id="486">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9085&gt; -&gt; &#39;?9085<br />
-                          <strong>Type parameters:</strong> '?9085          </div>
+          <div class="tip" id="612">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10472&gt; -&gt; &#39;?10472<br />
+                          <strong>Type parameters:</strong> '?10472                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L65-65" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L85-85" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Computes the sum all elements matrix elements.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '487', 487)" onmouseover="showTip(event, '487', 487)">
-            to_array2D m
+          <code onmouseout="hideTip(event, '613', 613)" onmouseover="showTip(event, '613', 613)">
+            to_array2D(m)
           </code>
-          <div class="tip" id="487">
-            <strong>Signature:</strong> m:Matrix&lt;&#39;?9182&gt; -&gt; &#39;?9182 [,]<br />
-                          <strong>Type parameters:</strong> '?9182          </div>
+          <div class="tip" id="613">
+            <strong>Signature:</strong> m:Matrix&lt;&#39;?10575&gt; -&gt; &#39;?10575 [,]<br />
+                          <strong>Type parameters:</strong> '?10575                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L118-118" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L181-181" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1278,15 +1521,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '488', 488)" onmouseover="showTip(event, '488', 488)">
-            to_dense a
+          <code onmouseout="hideTip(event, '614', 614)" onmouseover="showTip(event, '614', 614)">
+            to_dense(a)
           </code>
-          <div class="tip" id="488">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9186&gt; -&gt; Matrix&lt;&#39;?9186&gt;<br />
-                          <strong>Type parameters:</strong> '?9186          </div>
+          <div class="tip" id="614">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10579&gt; -&gt; Matrix&lt;&#39;?10579&gt;<br />
+                          <strong>Type parameters:</strong> '?10579                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L120-120" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L183-183" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1296,15 +1539,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '489', 489)" onmouseover="showTip(event, '489', 489)">
-            to_rowvec x
+          <code onmouseout="hideTip(event, '615', 615)" onmouseover="showTip(event, '615', 615)">
+            to_rowvec(x)
           </code>
-          <div class="tip" id="489">
-            <strong>Signature:</strong> x:Matrix&lt;&#39;?9165&gt; -&gt; RowVector&lt;&#39;?9165&gt;<br />
-                          <strong>Type parameters:</strong> '?9165          </div>
+          <div class="tip" id="615">
+            <strong>Signature:</strong> x:Matrix&lt;&#39;?10558&gt; -&gt; RowVector&lt;&#39;?10558&gt;<br />
+                          <strong>Type parameters:</strong> '?10558                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L110-110" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L173-173" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1314,15 +1557,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '490', 490)" onmouseover="showTip(event, '490', 490)">
-            to_scalar x
+          <code onmouseout="hideTip(event, '616', 616)" onmouseover="showTip(event, '616', 616)">
+            to_scalar(x)
           </code>
-          <div class="tip" id="490">
-            <strong>Signature:</strong> x:Matrix&lt;&#39;?9167&gt; -&gt; &#39;?9167<br />
-                          <strong>Type parameters:</strong> '?9167          </div>
+          <div class="tip" id="616">
+            <strong>Signature:</strong> x:Matrix&lt;&#39;?10560&gt; -&gt; &#39;?10560<br />
+                          <strong>Type parameters:</strong> '?10560                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L111-111" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L174-174" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1332,15 +1575,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '491', 491)" onmouseover="showTip(event, '491', 491)">
-            to_vector x
+          <code onmouseout="hideTip(event, '617', 617)" onmouseover="showTip(event, '617', 617)">
+            to_vector(x)
           </code>
-          <div class="tip" id="491">
-            <strong>Signature:</strong> x:Matrix&lt;&#39;?9163&gt; -&gt; Vector&lt;&#39;?9163&gt;<br />
-                          <strong>Type parameters:</strong> '?9163          </div>
+          <div class="tip" id="617">
+            <strong>Signature:</strong> x:Matrix&lt;&#39;?10556&gt; -&gt; Vector&lt;&#39;?10556&gt;<br />
+                          <strong>Type parameters:</strong> '?10556                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L109-109" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L172-172" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1350,15 +1593,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '492', 492)" onmouseover="showTip(event, '492', 492)">
-            toArray2D m
+          <code onmouseout="hideTip(event, '618', 618)" onmouseover="showTip(event, '618', 618)">
+            toArray2D(m)
           </code>
-          <div class="tip" id="492">
-            <strong>Signature:</strong> m:Matrix&lt;&#39;?9043&gt; -&gt; &#39;?9043 [,]<br />
-                          <strong>Type parameters:</strong> '?9043          </div>
+          <div class="tip" id="618">
+            <strong>Signature:</strong> m:Matrix&lt;&#39;?10428&gt; -&gt; &#39;?10428 [,]<br />
+                          <strong>Type parameters:</strong> '?10428                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L40-40" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L38-38" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1368,15 +1611,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '493', 493)" onmouseover="showTip(event, '493', 493)">
-            toDense a
+          <code onmouseout="hideTip(event, '619', 619)" onmouseover="showTip(event, '619', 619)">
+            toDense(a)
           </code>
-          <div class="tip" id="493">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9115&gt; -&gt; Matrix&lt;&#39;?9115&gt;<br />
-                          <strong>Type parameters:</strong> '?9115          </div>
+          <div class="tip" id="619">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10502&gt; -&gt; Matrix&lt;&#39;?10502&gt;<br />
+                          <strong>Type parameters:</strong> '?10502                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L81-81" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L127-127" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1386,15 +1629,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '494', 494)" onmouseover="showTip(event, '494', 494)">
-            toRowVector x
+          <code onmouseout="hideTip(event, '620', 620)" onmouseover="showTip(event, '620', 620)">
+            toJaggedArray(m)
           </code>
-          <div class="tip" id="494">
-            <strong>Signature:</strong> x:Matrix&lt;&#39;?9147&gt; -&gt; RowVector&lt;&#39;?9147&gt;<br />
-                          <strong>Type parameters:</strong> '?9147          </div>
+          <div class="tip" id="620">
+            <strong>Signature:</strong> m:Matrix&lt;&#39;?10430&gt; -&gt; &#39;?10430 [] []<br />
+                          <strong>Type parameters:</strong> '?10430                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L100-100" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L39-39" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1404,15 +1647,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '495', 495)" onmouseover="showTip(event, '495', 495)">
-            toScalar x
+          <code onmouseout="hideTip(event, '621', 621)" onmouseover="showTip(event, '621', 621)">
+            toRowVector(x)
           </code>
-          <div class="tip" id="495">
-            <strong>Signature:</strong> x:Matrix&lt;&#39;?9149&gt; -&gt; &#39;?9149<br />
-                          <strong>Type parameters:</strong> '?9149          </div>
+          <div class="tip" id="621">
+            <strong>Signature:</strong> x:Matrix&lt;&#39;?10538&gt; -&gt; RowVector&lt;&#39;?10538&gt;<br />
+                          <strong>Type parameters:</strong> '?10538                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L101-101" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L161-161" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1422,15 +1665,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '496', 496)" onmouseover="showTip(event, '496', 496)">
-            toVector x
+          <code onmouseout="hideTip(event, '622', 622)" onmouseover="showTip(event, '622', 622)">
+            toScalar(x)
           </code>
-          <div class="tip" id="496">
-            <strong>Signature:</strong> x:Matrix&lt;&#39;?9145&gt; -&gt; Vector&lt;&#39;?9145&gt;<br />
-                          <strong>Type parameters:</strong> '?9145          </div>
+          <div class="tip" id="622">
+            <strong>Signature:</strong> x:Matrix&lt;&#39;?10540&gt; -&gt; &#39;?10540<br />
+                          <strong>Type parameters:</strong> '?10540                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L99-99" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L163-163" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1440,15 +1683,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '497', 497)" onmouseover="showTip(event, '497', 497)">
-            trace a
+          <code onmouseout="hideTip(event, '623', 623)" onmouseover="showTip(event, '623', 623)">
+            toVector(x)
           </code>
-          <div class="tip" id="497">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9083&gt; -&gt; &#39;?9083<br />
-                          <strong>Type parameters:</strong> '?9083          </div>
+          <div class="tip" id="623">
+            <strong>Signature:</strong> x:Matrix&lt;&#39;?10536&gt; -&gt; Vector&lt;&#39;?10536&gt;<br />
+                          <strong>Type parameters:</strong> '?10536                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L64-64" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L159-159" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1458,33 +1701,56 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '498', 498)" onmouseover="showTip(event, '498', 498)">
-            transpose a
+          <code onmouseout="hideTip(event, '624', 624)" onmouseover="showTip(event, '624', 624)">
+            trace(a)
           </code>
-          <div class="tip" id="498">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?9091&gt; -&gt; Matrix&lt;&#39;?9091&gt;<br />
-                          <strong>Type parameters:</strong> '?9091          </div>
+          <div class="tip" id="624">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10470&gt; -&gt; &#39;?10470<br />
+                          <strong>Type parameters:</strong> '?10470                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L68-68" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L83-83" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Computes the trace of matrix a by summing elements of the diagonal.
+Only usable if matrices a is a square matrix (m*m).</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '499', 499)" onmouseover="showTip(event, '499', 499)">
+          <code onmouseout="hideTip(event, '625', 625)" onmouseover="showTip(event, '625', 625)">
+            transpose(a)
+          </code>
+          <div class="tip" id="625">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10478&gt; -&gt; Matrix&lt;&#39;?10478&gt;<br />
+                          <strong>Type parameters:</strong> '?10478                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L91-91" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Returns the transpose of matrix a</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '626', 626)" onmouseover="showTip(event, '626', 626)">
             zero m n
           </code>
-          <div class="tip" id="499">
-            <strong>Signature:</strong> m:int -&gt; n:int -&gt; Matrix&lt;&#39;?9047&gt;<br />
-                          <strong>Type parameters:</strong> '?9047          </div>
+          <div class="tip" id="626">
+            <strong>Signature:</strong> m:int -&gt; n:int -&gt; Matrix&lt;&#39;?10434&gt;<br />
+                          <strong>Type parameters:</strong> '?10434                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L42-42" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L41-41" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -1498,42 +1764,47 @@
         <div class="span3">
           <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-            <li class="nav-header">FSharp.Stats</li>
-            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-            <li><a href="/FSharp.Stats/license.html">License</a></li>
-            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>           
-            <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-			<li class="nav-header">Basic</li>
-			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
-			</li>
-			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-			  </li>
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
-			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-			</li>
-			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-			  </li>
-            <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
+
+
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

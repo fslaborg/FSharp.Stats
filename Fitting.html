@@ -14,6 +14,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -354,7 +355,7 @@
 <span class="l">47: </span>
 <span class="l">48: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">|&gt;</span> <span class="id">Chart</span><span class="pn">.</span><span class="id">Show</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">//|&gt; Chart.Show</span>
 
 
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs50', 146)" onmouseover="showTip(event, 'fs50', 146)" class="id">m1</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">14.69707479</span><span class="pn">;</span><span class="n">49.40105967</span><span class="pn">;</span><span class="n">4.63026942</span><span class="pn">;</span><span class="n">7.728633952</span><span class="pn">;</span><span class="n">4.077401498</span><span class="pn">;</span><span class="n">3.847039793</span><span class="pn">;</span><span class="n">3.294171442</span><span class="pn">;</span><span class="n">4.837594998</span><span class="pn">;</span><span class="n">0.345542383</span><span class="pn">;</span><span class="n">7.141212053</span><span class="pn">|]</span>
@@ -401,7 +402,7 @@
 <span class="id">Chart</span><span class="pn">.</span><span class="id">Point</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs66', 184)" onmouseover="showTip(event, 'fs66', 184)" class="id">km3</span><span class="pn">,</span><span class="id">Name</span> <span class="o">=</span> <span class="s">&quot;Nitrat&quot;</span><span class="pn">)</span>
 <span class="pn">]</span>
 <span class="o">|&gt;</span> <span class="id">Chart</span><span class="pn">.</span><span class="id">Combine</span>
-<span class="o">|&gt;</span> <span class="id">Chart</span><span class="pn">.</span><span class="id">Show</span>
+<span class="c">//|&gt; Chart.Show</span>
 </code></pre></td>
 </tr>
 </table>
@@ -477,50 +478,51 @@
         <div class="span3">
           <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-            <li class="nav-header">FSharp.Stats</li>
-            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-            <li><a href="/FSharp.Stats/license.html">License</a></li>
-            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
-            
-            <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
 
-			<li class="nav-header">Basic</li>
-			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
-			</li>
-			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-			  </li>
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
-			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-				  <ul class="nav nav-list">
-				  	<li><a href="/FSharp.Stats/Fitting.html#Linear">Linear Regression</a></li>
-					<li><a href="/FSharp.Stats/Fitting.html#Polynomial">Polynomial Regression</a></li>
-				  </ul>
-			</li>
-			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-			  </li>
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              <ul class="nav nav-list">
+                  <li><a href="/FSharp.Stats/Fitting.html#Linear">Linear Regression</a></li>
+                  <li><a href="/FSharp.Stats/Fitting.html#Polynomial">Polynomial Regression</a></li>
+              </ul>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
 
 
-            <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

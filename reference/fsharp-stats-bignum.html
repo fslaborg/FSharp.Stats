@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>bignum - FSharp.Stats</title>
+    <title>BigNum - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -13,7 +13,9 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -35,10 +37,11 @@
 
 
 
-<h1>bignum</h1>
+<h1>BigNum</h1>
 <p>
-  <span>Namespace: FSharp.Stats</span><br />
-</p>
+
+    <span>Namespace: FSharp.Stats</span><br />
+    </p>
 <div class="xmldoc">
 </div>
   <h3>Instance members</h3>
@@ -50,15 +53,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1444', 1444)" onmouseover="showTip(event, '1444', 1444)">
-            Denominator
+          <code onmouseout="hideTip(event, '1695', 1695)" onmouseover="showTip(event, '1695', 1695)">
+            x.Denominator
           </code>
-          <div class="tip" id="1444">
+          <div class="tip" id="1695">
             <strong>Signature:</strong> BigInteger<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L256-256" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L256-256" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -69,15 +72,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1445', 1445)" onmouseover="showTip(event, '1445', 1445)">
-            IsNegative
+          <code onmouseout="hideTip(event, '1696', 1696)" onmouseover="showTip(event, '1696', 1696)">
+            x.IsNegative
           </code>
-          <div class="tip" id="1445">
+          <div class="tip" id="1696">
             <strong>Signature:</strong> bool<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L241-241" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L241-241" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -88,15 +91,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1446', 1446)" onmouseover="showTip(event, '1446', 1446)">
-            IsPositive
+          <code onmouseout="hideTip(event, '1697', 1697)" onmouseover="showTip(event, '1697', 1697)">
+            x.IsPositive
           </code>
-          <div class="tip" id="1446">
+          <div class="tip" id="1697">
             <strong>Signature:</strong> bool<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L246-246" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L246-246" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -107,15 +110,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1447', 1447)" onmouseover="showTip(event, '1447', 1447)">
-            Numerator
+          <code onmouseout="hideTip(event, '1698', 1698)" onmouseover="showTip(event, '1698', 1698)">
+            x.Numerator
           </code>
-          <div class="tip" id="1447">
+          <div class="tip" id="1698">
             <strong>Signature:</strong> BigInteger<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L251-251" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L251-251" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -126,15 +129,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1448', 1448)" onmouseover="showTip(event, '1448', 1448)">
-            Sign
+          <code onmouseout="hideTip(event, '1699', 1699)" onmouseover="showTip(event, '1699', 1699)">
+            x.Sign
           </code>
-          <div class="tip" id="1448">
+          <div class="tip" id="1699">
             <strong>Signature:</strong> int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L261-261" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L261-261" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -145,15 +148,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1449', 1449)" onmouseover="showTip(event, '1449', 1449)">
-            StructuredDisplayString
+          <code onmouseout="hideTip(event, '1700', 1700)" onmouseover="showTip(event, '1700', 1700)">
+            x.StructuredDisplayString
           </code>
-          <div class="tip" id="1449">
+          <div class="tip" id="1700">
             <strong>Signature:</strong> string<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L294-294" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L294-294" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -172,15 +175,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1450', 1450)" onmouseover="showTip(event, '1450', 1450)">
-            One
+          <code onmouseout="hideTip(event, '1701', 1701)" onmouseover="showTip(event, '1701', 1701)">
+            BigRational.One
           </code>
-          <div class="tip" id="1450">
+          <div class="tip" id="1701">
             <strong>Signature:</strong> BigRational<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L199-199" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L199-199" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -191,15 +194,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1451', 1451)" onmouseover="showTip(event, '1451', 1451)">
-            Zero
+          <code onmouseout="hideTip(event, '1702', 1702)" onmouseover="showTip(event, '1702', 1702)">
+            BigRational.Zero
           </code>
-          <div class="tip" id="1451">
+          <div class="tip" id="1702">
             <strong>Signature:</strong> BigRational<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L198-198" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/BigRational.fs#L198-198" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -214,42 +217,47 @@
         <div class="span3">
           <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-            <li class="nav-header">FSharp.Stats</li>
-            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-            <li><a href="/FSharp.Stats/license.html">License</a></li>
-            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>           
-            <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-			<li class="nav-header">Basic</li>
-			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
-			</li>
-			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-			  </li>
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
-			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-			</li>
-			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-			  </li>
-            <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
+
+
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

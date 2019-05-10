@@ -13,7 +13,9 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -38,6 +40,11 @@
 <h1>NativArrayExtensionsForMatrix</h1>
 <p>
   <span>Namespace: Microsoft.FSharp.NativeInterop</span><br />
+        <span>
+          Attributes:<br />
+[&lt;AutoOpen&gt;]<br />
+          
+      </span>
 </p>
 <div class="xmldoc">
 </div>
@@ -53,15 +60,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1093', 1093)" onmouseover="showTip(event, '1093', 1093)">
+          <code onmouseout="hideTip(event, '1527', 1527)" onmouseover="showTip(event, '1527', 1527)">
             pinObj obj f
           </code>
-          <div class="tip" id="1093">
-            <strong>Signature:</strong> obj:obj -&gt; f:(GCHandle -&gt; &#39;?7275) -&gt; &#39;?7275<br />
-                          <strong>Type parameters:</strong> '?7275          </div>
+          <div class="tip" id="1527">
+            <strong>Signature:</strong> obj:obj -&gt; f:(GCHandle -&gt; &#39;?8265) -&gt; &#39;?8265<br />
+                          <strong>Type parameters:</strong> '?8265                        <span>
+            <strong>Attributes:</strong><br />
+[&lt;NoDynamicInvocation&gt;]<br />
+          </span>
+          </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeArrayExtensions.fs#L23-23" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeArrayExtensions.fs#L23-23" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -71,15 +82,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1094', 1094)" onmouseover="showTip(event, '1094', 1094)">
-            pinObjUnscoped obj
+          <code onmouseout="hideTip(event, '1528', 1528)" onmouseover="showTip(event, '1528', 1528)">
+            pinObjUnscoped(obj)
           </code>
-          <div class="tip" id="1094">
+          <div class="tip" id="1528">
             <strong>Signature:</strong> obj:obj -&gt; GCHandle<br />
-                      </div>
+                                    <span>
+            <strong>Attributes:</strong><br />
+[&lt;NoDynamicInvocation&gt;]<br />
+          </span>
+          </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeArrayExtensions.fs#L21-21" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeArrayExtensions.fs#L21-21" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -97,15 +112,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1095', 1095)" onmouseover="showTip(event, '1095', 1095)">
-            of_matrix(m)
+          <code onmouseout="hideTip(event, '1529', 1529)" onmouseover="showTip(event, '1529', 1529)">
+            PinnedArray2.of_matrix(m)
           </code>
-          <div class="tip" id="1095">
+          <div class="tip" id="1529">
             <strong>Signature:</strong> m:Matrix&lt;&#39;T&gt; -&gt; PinnedArray2&lt;&#39;T&gt;<br />
-                      </div>
+                                    <span>
+            <strong>Attributes:</strong><br />
+[&lt;NoDynamicInvocation&gt;]<br />
+          </span>
+          </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeArrayExtensions.fs#L47-47" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeArrayExtensions.fs#L47-47" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -116,15 +135,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1096', 1096)" onmouseover="showTip(event, '1096', 1096)">
-            of_rowvec(m)
+          <code onmouseout="hideTip(event, '1530', 1530)" onmouseover="showTip(event, '1530', 1530)">
+            PinnedArray.of_rowvec(m)
           </code>
-          <div class="tip" id="1096">
+          <div class="tip" id="1530">
             <strong>Signature:</strong> m:RowVector&lt;&#39;T&gt; -&gt; PinnedArray&lt;&#39;T&gt;<br />
-                      </div>
+                                    <span>
+            <strong>Attributes:</strong><br />
+[&lt;NoDynamicInvocation&gt;]<br />
+          </span>
+          </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeArrayExtensions.fs#L38-38" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeArrayExtensions.fs#L38-38" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -135,15 +158,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1097', 1097)" onmouseover="showTip(event, '1097', 1097)">
-            of_vector(m)
+          <code onmouseout="hideTip(event, '1531', 1531)" onmouseover="showTip(event, '1531', 1531)">
+            PinnedArray.of_vector(m)
           </code>
-          <div class="tip" id="1097">
+          <div class="tip" id="1531">
             <strong>Signature:</strong> m:Vector&lt;&#39;T&gt; -&gt; PinnedArray&lt;&#39;T&gt;<br />
-                      </div>
+                                    <span>
+            <strong>Attributes:</strong><br />
+[&lt;NoDynamicInvocation&gt;]<br />
+          </span>
+          </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeArrayExtensions.fs#L32-32" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeArrayExtensions.fs#L32-32" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -158,42 +185,47 @@
         <div class="span3">
           <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-            <li class="nav-header">FSharp.Stats</li>
-            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-            <li><a href="/FSharp.Stats/license.html">License</a></li>
-            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>           
-            <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-			<li class="nav-header">Basic</li>
-			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
-			</li>
-			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-			  </li>
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
-			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-			</li>
-			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-			  </li>
-            <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
+
+
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

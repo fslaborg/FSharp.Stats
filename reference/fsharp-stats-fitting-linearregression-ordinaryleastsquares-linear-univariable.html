@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Univariable - FSharp.Stats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Timo Mühlhaus"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
+    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>Univariable</h1>
+<p>
+  <span>Namespace: FSharp.Stats.Fitting</span><br />
+  <span>Parent Module: <a href="fsharp-stats-fitting-linearregression-ordinaryleastsquares-linear.html">Linear</a></span>
+  </p>
+<div class="xmldoc">
+</div>
+
+<!-- Render nested types and modules, if there are any -->
+
+  <h3>Functions and values</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Function or value</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1259', 1259)" onmouseover="showTip(event, '1259', 1259)">
+            coefficient x_data y_data
+          </code>
+          <div class="tip" id="1259">
+            <strong>Signature:</strong> x_data:Vector&lt;float&gt; -&gt; y_data:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L69-69" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Calculates the coefficients for linear regression
+in the form of [|intercept; slope;|]</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1260', 1260)" onmouseover="showTip(event, '1260', 1260)">
+            cooksDistance x_data y_data
+          </code>
+          <div class="tip" id="1260">
+            <strong>Signature:</strong> x_data:Vector&lt;float&gt; -&gt; y_data:Vector&lt;float&gt; -&gt; vector<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L84-84" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Fits a model (y(x) = b + m * x) to the data and returns the cooks distance for every data pair present in the
+input collections as an estimator for the influence of each data point in coefficient estimation.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1261', 1261)" onmouseover="showTip(event, '1261', 1261)">
+            fit coef x
+          </code>
+          <div class="tip" id="1261">
+            <strong>Signature:</strong> coef:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L77-77" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Fit to x</p>
+
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
+
+
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>

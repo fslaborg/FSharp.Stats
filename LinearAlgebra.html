@@ -14,6 +14,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -99,8 +100,8 @@
 <span class="l">62: </span>
 <span class="l">63: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">FSharp</span><span class="pn">.</span><span class="id">Stats</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="id">FSharp</span><span class="pn">.</span><span class="id">Stats</span><span class="pn">.</span><span class="id">Algebra</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">Stats</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 5)" onmouseover="showTip(event, 'fs3', 5)" class="id">Algebra</span>
 
 <span class="c">// Consider a system of linear equation writen in matrix form</span>
 <span class="c">//   x1 +   x2 -   x3 =  4.</span>
@@ -108,23 +109,23 @@
 <span class="c">// 2.x1 + 3.x2 +   x3 =  7.</span>
 <span class="c">// -&gt; AX = B</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 3)" onmouseover="showTip(event, 'fs2', 3)" class="id">A</span> <span class="o">=</span> 
-    <span class="id">matrix</span> <span class="pn">[</span> <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span>  <span class="n">1.0</span><span class="pn">;</span> <span class="o">-</span><span class="n">1.0</span> <span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="id">A</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="fn">matrix</span> <span class="pn">[</span> <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span>  <span class="n">1.0</span><span class="pn">;</span> <span class="o">-</span><span class="n">1.0</span> <span class="pn">]</span>
              <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span> <span class="o">-</span><span class="n">2.0</span><span class="pn">;</span> <span class="o">-</span><span class="n">3.0</span> <span class="pn">]</span>
              <span class="pn">[</span> <span class="n">2.0</span><span class="pn">;</span>  <span class="n">3.0</span><span class="pn">;</span>  <span class="n">1.0</span> <span class="pn">]</span> <span class="pn">]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 4)" onmouseover="showTip(event, 'fs3', 4)" class="id">B</span> <span class="o">=</span> 
-    <span class="id">matrix</span> <span class="pn">[</span> <span class="pn">[</span>  <span class="n">4.0</span><span class="pn">;</span> <span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 8)" onmouseover="showTip(event, 'fs6', 8)" class="id">B</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs5', 9)" onmouseover="showTip(event, 'fs5', 9)" class="fn">matrix</span> <span class="pn">[</span> <span class="pn">[</span>  <span class="n">4.0</span><span class="pn">;</span> <span class="pn">]</span>
              <span class="pn">[</span> <span class="o">-</span><span class="n">6.0</span><span class="pn">;</span> <span class="pn">]</span>
              <span class="pn">[</span>  <span class="n">7.0</span><span class="pn">;</span> <span class="pn">]</span> <span class="pn">]</span>
 
 
 
-<span class="id">ServiceLocator</span><span class="pn">.</span><span class="id">setEnvironmentPathVariable</span> <span class="pn">(</span><span class="k">__SOURCE_DIRECTORY__</span> <span class="o">+</span> <span class="s">&quot;/../../lib&quot;</span><span class="pn">)</span> <span class="c">//&quot;D:/Source/FSharp.Stats/lib&quot;</span>
+<span onmouseout="hideTip(event, 'fs7', 10)" onmouseover="showTip(event, 'fs7', 10)" class="m">ServiceLocator</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 11)" onmouseover="showTip(event, 'fs8', 11)" class="id">setEnvironmentPathVariable</span> <span class="pn">(</span><span class="k">__SOURCE_DIRECTORY__</span> <span class="o">+</span> <span class="s">&quot;/../../lib&quot;</span><span class="pn">)</span> <span class="c">//&quot;D:/Source/FSharp.Stats/lib&quot;</span>
 
-<span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="m">LinearAlgebra</span><span class="pn">.</span><span class="id">Service</span><span class="pn">(</span><span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs9', 12)" onmouseover="showTip(event, 'fs9', 12)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 13)" onmouseover="showTip(event, 'fs10', 13)" class="id">Service</span><span class="pn">(</span><span class="pn">)</span>
 
-<span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="m">LinearAlgebra</span><span class="pn">.</span><span class="id">SVD</span> <span onmouseout="hideTip(event, 'fs2', 7)" onmouseover="showTip(event, 'fs2', 7)" class="id">A</span>
+<span onmouseout="hideTip(event, 'fs9', 14)" onmouseover="showTip(event, 'fs9', 14)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 15)" onmouseover="showTip(event, 'fs11', 15)" class="id">SVD</span> <span onmouseout="hideTip(event, 'fs4', 16)" onmouseover="showTip(event, 'fs4', 16)" class="id">A</span>
 
 
 
@@ -134,11 +135,11 @@
 <span class="c">// LY = B and UX = Y</span>
 <span class="c">// First solve LY = B for Y and then solve UX = Y for X.</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 8)" onmouseover="showTip(event, 'fs5', 8)" class="id">P</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs6', 9)" onmouseover="showTip(event, 'fs6', 9)" class="id">L</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs7', 10)" onmouseover="showTip(event, 'fs7', 10)" class="id">U</span> <span class="o">=</span> <span class="id">Algebra</span><span class="pn">.</span><span class="id">LinearAlgebraManaged</span><span class="pn">.</span><span class="id">LU</span> <span onmouseout="hideTip(event, 'fs2', 11)" onmouseover="showTip(event, 'fs2', 11)" class="id">A</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 17)" onmouseover="showTip(event, 'fs12', 17)" class="fn">P</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs13', 18)" onmouseover="showTip(event, 'fs13', 18)" class="id">L</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs14', 19)" onmouseover="showTip(event, 'fs14', 19)" class="id">U</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 20)" onmouseover="showTip(event, 'fs3', 20)" class="fn">Algebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 21)" onmouseover="showTip(event, 'fs15', 21)" class="m">LinearAlgebraManaged</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 22)" onmouseover="showTip(event, 'fs16', 22)" class="id">LU</span> <span onmouseout="hideTip(event, 'fs4', 23)" onmouseover="showTip(event, 'fs4', 23)" class="id">A</span>
 
 
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 12)" onmouseover="showTip(event, 'fs1', 12)" class="id">FSharp</span><span class="pn">.</span><span class="id">Stats</span><span class="pn">.</span><span class="id">Algebra</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 13)" onmouseover="showTip(event, 'fs1', 13)" class="id">FSharp</span><span class="pn">.</span><span class="id">Stats</span><span class="pn">.</span><span class="id">Algebra</span><span class="pn">.</span><span class="id">LinearAlgebraManaged</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 24)" onmouseover="showTip(event, 'fs1', 24)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 25)" onmouseover="showTip(event, 'fs2', 25)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 26)" onmouseover="showTip(event, 'fs3', 26)" class="id">Algebra</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 27)" onmouseover="showTip(event, 'fs1', 27)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 28)" onmouseover="showTip(event, 'fs2', 28)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 29)" onmouseover="showTip(event, 'fs3', 29)" class="id">Algebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 30)" onmouseover="showTip(event, 'fs15', 30)" class="id">LinearAlgebraManaged</span>
 
 <span class="c">//let SolveLinearSystemsByQR (A:matrix) (B:matrix) =</span>
 <span class="c">//    let (n,m) = A.Dimensions</span>
@@ -166,58 +167,68 @@
 </tr>
 </table>
 
-<div class="tip" id="fs1">namespace Microsoft.FSharp</div>
-<div class="tip" id="fs2">val A : obj</div>
-<div class="tip" id="fs3">val B : obj</div>
-<div class="tip" id="fs4">module LinearAlgebra</div>
-<div class="tip" id="fs5">val P : obj</div>
-<div class="tip" id="fs6">val L : obj</div>
-<div class="tip" id="fs7">val U : obj</div>
+<div class="tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="tip" id="fs2">namespace FSharp.Stats</div>
+<div class="tip" id="fs3">namespace FSharp.Stats.Algebra</div>
+<div class="tip" id="fs4">val A : Matrix&lt;float&gt;</div>
+<div class="tip" id="fs5">Multiple items<br />val matrix : ll:seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
+<div class="tip" id="fs6">val B : Matrix&lt;float&gt;</div>
+<div class="tip" id="fs7">module ServiceLocator<br /><br />from FSharp.Stats</div>
+<div class="tip" id="fs8">val setEnvironmentPathVariable : dllDirectory:string -&gt; unit</div>
+<div class="tip" id="fs9">module LinearAlgebra<br /><br />from FSharp.Stats.Algebra</div>
+<div class="tip" id="fs10">val Service : unit -&gt; ILinearAlgebra</div>
+<div class="tip" id="fs11">val SVD : a:Matrix&lt;float&gt; -&gt; vector * Matrix&lt;float&gt; * Matrix&lt;float&gt;</div>
+<div class="tip" id="fs12">val P : (int -&gt; int)</div>
+<div class="tip" id="fs13">val L : Matrix&lt;float&gt;</div>
+<div class="tip" id="fs14">val U : Matrix&lt;float&gt;</div>
+<div class="tip" id="fs15">module LinearAlgebraManaged<br /><br />from FSharp.Stats.Algebra</div>
+<div class="tip" id="fs16">val LU : A:Matrix&lt;float&gt; -&gt; (int -&gt; int) * Matrix&lt;float&gt; * Matrix&lt;float&gt;</div>
 
         </div>
         <div class="span3">
           <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-            <li class="nav-header">FSharp.Stats</li>
-            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-            <li><a href="/FSharp.Stats/license.html">License</a></li>
-            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
-            
-            <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
 
-			<li class="nav-header">Basic</li>
-			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
-			</li>
-			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-			  </li>
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
-			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-			</li>
-			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-			  </li>
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
 
 
-            <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

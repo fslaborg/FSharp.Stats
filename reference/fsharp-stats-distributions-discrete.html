@@ -13,7 +13,9 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -38,7 +40,7 @@
 <h1>Discrete</h1>
 <p>
   <span>Namespace: FSharp.Stats.Distributions</span><br />
-</p>
+  </p>
 <div class="xmldoc">
 <p>Discrete probability distributions</p>
 
@@ -56,17 +58,51 @@
           <td class="type-name">
             <a href="fsharp-stats-distributions-discrete-bernoulli.html">Bernoulli</a>
           </td>
-          <td class="xmldoc"><p>Bernoulli distribution.</p>
+          <td class="xmldoc">
+          <p>Bernoulli distribution.</p>
 
-</td>
+
+          </td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-distributions-discrete-binomial.html">Binomial</a>
+          </td>
+          <td class="xmldoc">
+          <p>Binomial distribution</p>
+
+
+          </td>
         </tr>
         <tr>
           <td class="type-name">
             <a href="fsharp-stats-distributions-discrete-hypergeometric.html">Hypergeometric</a>
           </td>
-          <td class="xmldoc"><p>Hypergeometric distribution</p>
+          <td class="xmldoc">
+          <p>Hypergeometric distribution</p>
 
-</td>
+
+          </td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-distributions-discrete-poisson.html">Poisson</a>
+          </td>
+          <td class="xmldoc">
+          <p>Binomial distribution</p>
+
+
+          </td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-distributions-discrete-wilcoxon.html">Wilcoxon</a>
+          </td>
+          <td class="xmldoc">
+          <p>Wilcoxon distribution</p>
+
+
+          </td>
         </tr>
     </tbody>
   </table>
@@ -82,15 +118,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '993', 993)" onmouseover="showTip(event, '993', 993)">
-            bernCheckParam p
+          <code onmouseout="hideTip(event, '1183', 1183)" onmouseover="showTip(event, '1183', 1183)">
+            bernCheckParam(p)
           </code>
-          <div class="tip" id="993">
+          <div class="tip" id="1183">
             <strong>Signature:</strong> p:float&lt;MeasureOne&gt; -&gt; unit<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L14-14" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L14-14" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -100,15 +136,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '994', 994)" onmouseover="showTip(event, '994', 994)">
-            bernoulli p
+          <code onmouseout="hideTip(event, '1184', 1184)" onmouseover="showTip(event, '1184', 1184)">
+            bernoulli(p)
           </code>
-          <div class="tip" id="994">
+          <div class="tip" id="1184">
             <strong>Signature:</strong> p:float&lt;MeasureOne&gt; -&gt; Distribution&lt;float,float&gt;<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L61-61" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L61-61" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -120,15 +156,35 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '995', 995)" onmouseover="showTip(event, '995', 995)">
-            hypergeoCheckParam N K n
+          <code onmouseout="hideTip(event, '1185', 1185)" onmouseover="showTip(event, '1185', 1185)">
+            binomial p n
           </code>
-          <div class="tip" id="995">
-            <strong>Signature:</strong> N:int -&gt; K:int -&gt; n:int -&gt; unit<br />
-                      </div>
+          <div class="tip" id="1185">
+            <strong>Signature:</strong> p:float&lt;MeasureOne&gt; -&gt; n:int -&gt; Distribution&lt;float,int&gt;<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L145-145" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L333-333" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Initializes a Binomial distribution</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1186', 1186)" onmouseover="showTip(event, '1186', 1186)">
+            binomialCheckParam p n
+          </code>
+          <div class="tip" id="1186">
+            <strong>Signature:</strong> p:float&lt;MeasureOne&gt; -&gt; n:int -&gt; unit<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L257-257" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -138,21 +194,115 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '996', 996)" onmouseover="showTip(event, '996', 996)">
-            hypergeometric N K n
+          <code onmouseout="hideTip(event, '1187', 1187)" onmouseover="showTip(event, '1187', 1187)">
+            hypergeoCheckParam N K n
           </code>
-          <div class="tip" id="996">
-            <strong>Signature:</strong> N:int -&gt; K:int -&gt; n:int -&gt; Distribution&lt;float,int&gt;<br />
-                      </div>
+          <div class="tip" id="1187">
+            <strong>Signature:</strong> N:int -&gt; K:int -&gt; n:int -&gt; unit<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L229-229" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L145-145" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1188', 1188)" onmouseover="showTip(event, '1188', 1188)">
+            hypergeometric N K n
+          </code>
+          <div class="tip" id="1188">
+            <strong>Signature:</strong> N:int -&gt; K:int -&gt; n:int -&gt; Distribution&lt;float,int&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L229-229" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
           <p>Initializes a hypergeometric distribution</p>
 
 
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1189', 1189)" onmouseover="showTip(event, '1189', 1189)">
+            poisson(lambda)
+          </code>
+          <div class="tip" id="1189">
+            <strong>Signature:</strong> lambda:int -&gt; Distribution&lt;float,int&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L514-514" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Initializes a Binomial distribution</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1190', 1190)" onmouseover="showTip(event, '1190', 1190)">
+            poissonCheckParam(lambda)
+          </code>
+          <div class="tip" id="1190">
+            <strong>Signature:</strong> lambda:int -&gt; unit<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L449-449" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1191', 1191)" onmouseover="showTip(event, '1191', 1191)">
+            wilcoxon p n
+          </code>
+          <div class="tip" id="1191">
+            <strong>Signature:</strong> p:float&lt;MeasureOne&gt; -&gt; n:int -&gt; Distribution&lt;float,int&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L425-425" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Initializes a Wilcoxon distribution</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1192', 1192)" onmouseover="showTip(event, '1192', 1192)">
+            wilcoxonCheckParam p n
+          </code>
+          <div class="tip" id="1192">
+            <strong>Signature:</strong> p:float&lt;MeasureOne&gt; -&gt; n:int -&gt; unit<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete.fs#L355-355" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
         </td>
       </tr>
     </tbody>
@@ -162,42 +312,47 @@
         <div class="span3">
           <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-            <li class="nav-header">FSharp.Stats</li>
-            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-            <li><a href="/FSharp.Stats/license.html">License</a></li>
-            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>           
-            <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-			<li class="nav-header">Basic</li>
-			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
-			</li>
-			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-			  </li>
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
-			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-			</li>
-			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-			  </li>
-            <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
+
+
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

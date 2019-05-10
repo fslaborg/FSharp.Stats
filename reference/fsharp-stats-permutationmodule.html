@@ -13,7 +13,9 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -38,6 +40,12 @@
 <h1>Permutation</h1>
 <p>
   <span>Namespace: FSharp.Stats</span><br />
+        <span>
+          Attributes:<br />
+[&lt;RequireQualifiedAccess&gt;]<br />
+[&lt;CompilationRepresentation(4)&gt;]<br />
+          
+      </span>
 </p>
 <div class="xmldoc">
 </div>
@@ -53,15 +61,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '537', 537)" onmouseover="showTip(event, '537', 537)">
-            identity(k)
+          <code onmouseout="hideTip(event, '667', 667)" onmouseover="showTip(event, '667', 667)">
+            Permutation.identity(k)
           </code>
-          <div class="tip" id="537">
+          <div class="tip" id="667">
             <strong>Signature:</strong> k:int -&gt; int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L48-48" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L48-48" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -71,15 +79,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '538', 538)" onmouseover="showTip(event, '538', 538)">
-            invalidArg(arg msg)
+          <code onmouseout="hideTip(event, '668', 668)" onmouseover="showTip(event, '668', 668)">
+            Permutation.invalidArg arg msg
           </code>
-          <div class="tip" id="538">
-            <strong>Signature:</strong> arg:string -&gt; msg:string -&gt; &#39;?8833<br />
-                          <strong>Type parameters:</strong> '?8833          </div>
+          <div class="tip" id="668">
+            <strong>Signature:</strong> arg:string -&gt; msg:string -&gt; &#39;?12305<br />
+                          <strong>Type parameters:</strong> '?12305                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L14-14" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L14-14" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -89,15 +97,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '539', 539)" onmouseover="showTip(event, '539', 539)">
-            inverse(size p)
+          <code onmouseout="hideTip(event, '669', 669)" onmouseover="showTip(event, '669', 669)">
+            Permutation.inverse size p
           </code>
-          <div class="tip" id="539">
+          <div class="tip" id="669">
             <strong>Signature:</strong> size:int -&gt; p:(int -&gt; int) -&gt; int -&gt; int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L50-50" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L50-50" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -107,15 +115,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '540', 540)" onmouseover="showTip(event, '540', 540)">
-            of_array(arr)
+          <code onmouseout="hideTip(event, '670', 670)" onmouseover="showTip(event, '670', 670)">
+            Permutation.of_array(arr)
           </code>
-          <div class="tip" id="540">
+          <div class="tip" id="670">
             <strong>Signature:</strong> arr:int [] -&gt; int -&gt; int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L28-28" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L28-28" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -125,15 +133,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '541', 541)" onmouseover="showTip(event, '541', 541)">
-            of_pairs(mappings)
+          <code onmouseout="hideTip(event, '671', 671)" onmouseover="showTip(event, '671', 671)">
+            Permutation.of_pairs(mappings)
           </code>
-          <div class="tip" id="541">
+          <div class="tip" id="671">
             <strong>Signature:</strong> mappings:seq&lt;int * int&gt; -&gt; int -&gt; int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L34-34" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L34-34" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -143,15 +151,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '542', 542)" onmouseover="showTip(event, '542', 542)">
-            ofArray(arr)
+          <code onmouseout="hideTip(event, '672', 672)" onmouseover="showTip(event, '672', 672)">
+            Permutation.ofArray(arr)
           </code>
-          <div class="tip" id="542">
+          <div class="tip" id="672">
             <strong>Signature:</strong> arr:int [] -&gt; int -&gt; int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L26-26" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L26-26" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -161,15 +169,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '543', 543)" onmouseover="showTip(event, '543', 543)">
-            ofFreshArray(arr)
+          <code onmouseout="hideTip(event, '673', 673)" onmouseover="showTip(event, '673', 673)">
+            Permutation.ofFreshArray(arr)
           </code>
-          <div class="tip" id="543">
+          <div class="tip" id="673">
             <strong>Signature:</strong> arr:int [] -&gt; int -&gt; int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L16-16" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L16-16" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -179,15 +187,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '544', 544)" onmouseover="showTip(event, '544', 544)">
-            ofPairs(mappings)
+          <code onmouseout="hideTip(event, '674', 674)" onmouseover="showTip(event, '674', 674)">
+            Permutation.ofPairs(mappings)
           </code>
-          <div class="tip" id="544">
+          <div class="tip" id="674">
             <strong>Signature:</strong> mappings:seq&lt;int * int&gt; -&gt; int -&gt; int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L30-30" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L30-30" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -197,15 +205,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '545', 545)" onmouseover="showTip(event, '545', 545)">
-            reversal(size)
+          <code onmouseout="hideTip(event, '675', 675)" onmouseover="showTip(event, '675', 675)">
+            Permutation.reversal(size)
           </code>
-          <div class="tip" id="545">
+          <div class="tip" id="675">
             <strong>Signature:</strong> size:int -&gt; int -&gt; int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L39-39" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L39-39" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -215,15 +223,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '546', 546)" onmouseover="showTip(event, '546', 546)">
-            rotation(size distance)
+          <code onmouseout="hideTip(event, '676', 676)" onmouseover="showTip(event, '676', 676)">
+            Permutation.rotation size distance
           </code>
-          <div class="tip" id="546">
+          <div class="tip" id="676">
             <strong>Signature:</strong> size:int -&gt; distance:int -&gt; int -&gt; int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L43-43" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L43-43" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -233,15 +241,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '547', 547)" onmouseover="showTip(event, '547', 547)">
-            swap(n m k)
+          <code onmouseout="hideTip(event, '677', 677)" onmouseover="showTip(event, '677', 677)">
+            Permutation.swap n m k
           </code>
-          <div class="tip" id="547">
+          <div class="tip" id="677">
             <strong>Signature:</strong> n:int -&gt; m:int -&gt; k:int -&gt; int<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L36-36" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Permutation.fs#L36-36" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -255,42 +263,47 @@
         <div class="span3">
           <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-            <li class="nav-header">FSharp.Stats</li>
-            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-            <li><a href="/FSharp.Stats/license.html">License</a></li>
-            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>           
-            <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-			<li class="nav-header">Basic</li>
-			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
-			</li>
-			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-			  </li>
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
-			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-			</li>
-			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-			  </li>
-            <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
+
+
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

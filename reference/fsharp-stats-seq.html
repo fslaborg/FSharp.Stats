@@ -13,7 +13,9 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -38,6 +40,11 @@
 <h1>Seq</h1>
 <p>
   <span>Namespace: FSharp.Stats</span><br />
+        <span>
+          Attributes:<br />
+[&lt;AutoOpen&gt;]<br />
+          
+      </span>
 </p>
 <div class="xmldoc">
 <p>Module to compute common statistical measure</p>
@@ -56,9 +63,11 @@
           <td class="module-name">
             <a href="fsharp-stats-seq-utilityfunctions.html">UtilityFunctions</a>
           </td>
-          <td class="xmldoc"><p>A module which implements helper functions to provide special statistical measures</p>
+          <td class="xmldoc">
+          <p>A module which implements helper functions to provide special statistical measures</p>
 
-</td>
+
+          </td>
         </tr>
     </tbody>
   </table>
@@ -74,19 +83,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '620', 620)" onmouseover="showTip(event, '620', 620)">
-            cv items
+          <code onmouseout="hideTip(event, '759', 759)" onmouseover="showTip(event, '759', 759)">
+            cv(items)
           </code>
-          <div class="tip" id="620">
+          <div class="tip" id="759">
             <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^?8638, ^?8639, ^?8640, ^?8641, ^?8642          </div>
+                          <strong>Type parameters:</strong> ^T, ^U, ^a, ^b                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L387-387" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L392-392" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the Coefficient of Variation of a sample</p>
+          <p>Computes the Coefficient of Variation of a sample (Bessel's correction by N-1)</p>
 
 
         </td>
@@ -94,19 +103,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '621', 621)" onmouseover="showTip(event, '621', 621)">
-            cvOfMean mean items
+          <code onmouseout="hideTip(event, '760', 760)" onmouseover="showTip(event, '760', 760)">
+            cvBy f items
           </code>
-          <div class="tip" id="621">
-            <strong>Signature:</strong> mean:^?8629 -&gt; items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^?8629, ^T, ^?8631, ^?8632, ^U, ^?8634          </div>
+          <div class="tip" id="760">
+            <strong>Signature:</strong> f:(&#39;T -&gt; ^?11028) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
+                          <strong>Type parameters:</strong> 'T, ^?11028, ^U, ^?11030, ^?11031                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L371-371" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L420-420" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the Coefficient of Variation of a sample</p>
+          <p>Computes the Coefficient of Variation of a sample (Bessel's correction by N-1)</p>
 
 
         </td>
@@ -114,15 +123,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '622', 622)" onmouseover="showTip(event, '622', 622)">
-            cvPopulation items
+          <code onmouseout="hideTip(event, '761', 761)" onmouseover="showTip(event, '761', 761)">
+            cvPopulation(items)
           </code>
-          <div class="tip" id="622">
+          <div class="tip" id="761">
             <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^?8653, ^?8654, ^?8655, ^?8656, ^?8657, ^?8658          </div>
+                          <strong>Type parameters:</strong> ^T, ^U, ^?11035, ^?11036                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L430-430" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L449-449" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -134,15 +143,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '623', 623)" onmouseover="showTip(event, '623', 623)">
-            cvPopulationOfMean mean items
+          <code onmouseout="hideTip(event, '762', 762)" onmouseover="showTip(event, '762', 762)">
+            cvPopulationBy f items
           </code>
-          <div class="tip" id="623">
-            <strong>Signature:</strong> mean:^?8644 -&gt; items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^?8644, ^T, ^?8646, ^?8647, ^U, ^?8649          </div>
+          <div class="tip" id="762">
+            <strong>Signature:</strong> f:(&#39;T -&gt; ^?11039) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
+                          <strong>Type parameters:</strong> 'T, ^?11039, ^U, ^?11041, ^?11042                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L413-413" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L477-477" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -154,15 +163,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '624', 624)" onmouseover="showTip(event, '624', 624)">
-            mean items
+          <code onmouseout="hideTip(event, '763', 763)" onmouseover="showTip(event, '763', 763)">
+            mean(items)
           </code>
-          <div class="tip" id="624">
+          <div class="tip" id="763">
             <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U          </div>
+                          <strong>Type parameters:</strong> ^T, ^U                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L29-29" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L47-47" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -174,15 +183,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '625', 625)" onmouseover="showTip(event, '625', 625)">
+          <code onmouseout="hideTip(event, '764', 764)" onmouseover="showTip(event, '764', 764)">
             meanBy f items
           </code>
-          <div class="tip" id="625">
+          <div class="tip" id="764">
             <strong>Signature:</strong> f:(&#39;T -&gt; ^U) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^U          </div>
+                          <strong>Type parameters:</strong> 'T, ^U                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L47-47" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L65-65" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -194,15 +203,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '626', 626)" onmouseover="showTip(event, '626', 626)">
-            meanGeometric items
+          <code onmouseout="hideTip(event, '765', 765)" onmouseover="showTip(event, '765', 765)">
+            meanGeometric(items)
           </code>
-          <div class="tip" id="626">
+          <div class="tip" id="765">
             <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U          </div>
+                          <strong>Type parameters:</strong> ^T, ^U                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L101-101" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L119-119" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -214,15 +223,35 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '627', 627)" onmouseover="showTip(event, '627', 627)">
-            meanHarmonic items
+          <code onmouseout="hideTip(event, '766', 766)" onmouseover="showTip(event, '766', 766)">
+            meanGeometricBy f items
           </code>
-          <div class="tip" id="627">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^?8553          </div>
+          <div class="tip" id="766">
+            <strong>Signature:</strong> f:(&#39;T -&gt; ^?10970) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
+                          <strong>Type parameters:</strong> 'T, ^?10970, ^U                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L64-64" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L138-138" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Computes gemetric mean</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '767', 767)" onmouseover="showTip(event, '767', 767)">
+            meanHarmonic(items)
+          </code>
+          <div class="tip" id="767">
+            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
+                          <strong>Type parameters:</strong> ^T, ^U, ^?10961                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L82-82" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -234,15 +263,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '628', 628)" onmouseover="showTip(event, '628', 628)">
+          <code onmouseout="hideTip(event, '768', 768)" onmouseover="showTip(event, '768', 768)">
             meanHarmonicBy f items
           </code>
-          <div class="tip" id="628">
+          <div class="tip" id="768">
             <strong>Signature:</strong> f:(&#39;T -&gt; ^U) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^U          </div>
+                          <strong>Type parameters:</strong> 'T, ^U                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L83-83" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L101-101" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -254,35 +283,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '629', 629)" onmouseover="showTip(event, '629', 629)">
-            meanLogGeometric items
-          </code>
-          <div class="tip" id="629">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U          </div>
-        </td>
-        <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L120-120" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the log gemetric mean</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '630', 630)" onmouseover="showTip(event, '630', 630)">
+          <code onmouseout="hideTip(event, '769', 769)" onmouseover="showTip(event, '769', 769)">
             meanTruncated percent data
           </code>
-          <div class="tip" id="630">
+          <div class="tip" id="769">
             <strong>Signature:</strong> percent:float -&gt; data:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U          </div>
+                          <strong>Type parameters:</strong> ^T, ^U                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L142-142" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L163-163" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -294,15 +303,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '631', 631)" onmouseover="showTip(event, '631', 631)">
+          <code onmouseout="hideTip(event, '770', 770)" onmouseover="showTip(event, '770', 770)">
             meanTruncatedBy f percent data
           </code>
-          <div class="tip" id="631">
+          <div class="tip" id="770">
             <strong>Signature:</strong> f:(&#39;T -&gt; ^U) -&gt; percent:float -&gt; data:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^U          </div>
+                          <strong>Type parameters:</strong> 'T, ^U                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L165-165" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L186-186" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -314,15 +323,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '632', 632)" onmouseover="showTip(event, '632', 632)">
-            median items
+          <code onmouseout="hideTip(event, '771', 771)" onmouseover="showTip(event, '771', 771)">
+            median(items)
           </code>
-          <div class="tip" id="632">
-            <strong>Signature:</strong> items:seq&lt;&#39;T&gt; -&gt; &#39;U<br />
-                          <strong>Type parameters:</strong> 'T, 'U          </div>
+          <div class="tip" id="771">
+            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^T<br />
+                          <strong>Type parameters:</strong> ^T, ^a                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L186-186" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L207-207" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -334,15 +343,35 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '633', 633)" onmouseover="showTip(event, '633', 633)">
-            range items
+          <code onmouseout="hideTip(event, '772', 772)" onmouseover="showTip(event, '772', 772)">
+            medianAbsoluteDev(data)
           </code>
-          <div class="tip" id="633">
-            <strong>Signature:</strong> items:seq&lt;&#39;a&gt; -&gt; Interval&lt;&#39;a&gt;<br />
-                          <strong>Type parameters:</strong> 'a          </div>
+          <div class="tip" id="772">
+            <strong>Signature:</strong> data:seq&lt;float&gt; -&gt; float<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L8-8" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L694-694" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Median absolute deviation (MAD)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '773', 773)" onmouseover="showTip(event, '773', 773)">
+            range(items)
+          </code>
+          <div class="tip" id="773">
+            <strong>Signature:</strong> items:seq&lt;&#39;a&gt; -&gt; Interval&lt;&#39;a&gt;<br />
+                          <strong>Type parameters:</strong> 'a                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L8-8" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -352,15 +381,53 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '634', 634)" onmouseover="showTip(event, '634', 634)">
-            stDev items
+          <code onmouseout="hideTip(event, '774', 774)" onmouseover="showTip(event, '774', 774)">
+            rangeBy f items
           </code>
-          <div class="tip" id="634">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^a, ^b, ^c, ^d, ^e          </div>
+          <div class="tip" id="774">
+            <strong>Signature:</strong> f:(&#39;?10950 -&gt; &#39;?10951) -&gt; items:seq&lt;&#39;?10950&gt; -&gt; Interval&lt;&#39;?10950&gt;<br />
+                          <strong>Type parameters:</strong> '?10950, '?10951                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L219-219" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L20-20" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '775', 775)" onmouseover="showTip(event, '775', 775)">
+            stats(items)
+          </code>
+          <div class="tip" id="775">
+            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; SummaryStats&lt;^T&gt;<br />
+                          <strong>Type parameters:</strong> ^T, ^a, ^b                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L727-727" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Returns SummeryStats of deq with N, mean, sum-of-squares, minimum and maximum</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '776', 776)" onmouseover="showTip(event, '776', 776)">
+            stDev(items)
+          </code>
+          <div class="tip" id="776">
+            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
+                          <strong>Type parameters:</strong> ^T, ^a, ^b, ^U                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L333-333" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -372,15 +439,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '635', 635)" onmouseover="showTip(event, '635', 635)">
-            stDevOfMean mean items
+          <code onmouseout="hideTip(event, '777', 777)" onmouseover="showTip(event, '777', 777)">
+            stDevBy f items
           </code>
-          <div class="tip" id="635">
-            <strong>Signature:</strong> mean:^?8573 -&gt; items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^?8573, ^T, ^?8575, ^?8576, ^U          </div>
+          <div class="tip" id="777">
+            <strong>Signature:</strong> f:(&#39;T -&gt; ^?11006) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
+                          <strong>Type parameters:</strong> 'T, ^?11006, ^?11007, ^?11008, ^U                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L203-203" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L345-345" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -392,19 +459,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '636', 636)" onmouseover="showTip(event, '636', 636)">
-            stDevPopulation items
+          <code onmouseout="hideTip(event, '778', 778)" onmouseover="showTip(event, '778', 778)">
+            stDevPopulation(items)
           </code>
-          <div class="tip" id="636">
+          <div class="tip" id="778">
             <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^?8595, ^?8596, ^?8597, ^?8598, ^?8599, ^?8600          </div>
+                          <strong>Type parameters:</strong> ^T, ^a, ^b, ^U                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L262-262" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L356-356" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the population standard deviation (Bessel's correction by N-1)</p>
+          <p>Computes the population standard deviation (denominator = N)</p>
 
 
         </td>
@@ -412,19 +479,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '637', 637)" onmouseover="showTip(event, '637', 637)">
-            stDevPopulationOfMean mean items
+          <code onmouseout="hideTip(event, '779', 779)" onmouseover="showTip(event, '779', 779)">
+            stDevPopulationBy f items
           </code>
-          <div class="tip" id="637">
-            <strong>Signature:</strong> mean:^?8587 -&gt; items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^?8587, ^T, ^?8589, ^?8590, ^U          </div>
+          <div class="tip" id="779">
+            <strong>Signature:</strong> f:(&#39;T -&gt; ^?11017) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
+                          <strong>Type parameters:</strong> 'T, ^?11017, ^?11018, ^?11019, ^U                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L246-246" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L368-368" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the population standard deviation (Bessel's correction by N-1)</p>
+          <p>Computes the population standard deviation (denominator = N)</p>
 
 
         </td>
@@ -432,19 +499,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '638', 638)" onmouseover="showTip(event, '638', 638)">
-            var items
+          <code onmouseout="hideTip(event, '780', 780)" onmouseover="showTip(event, '780', 780)">
+            var(items)
           </code>
-          <div class="tip" id="638">
+          <div class="tip" id="780">
             <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^?8610, ^?8611, ^?8612, ^?8613          </div>
+                          <strong>Type parameters:</strong> ^T, ^U, ^a                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L302-302" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L224-224" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the sample variance</p>
+          <p>Computes the sample variance (Bessel's correction by N-1)</p>
 
 
         </td>
@@ -452,19 +519,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '639', 639)" onmouseover="showTip(event, '639', 639)">
-            varOfMean mean items
+          <code onmouseout="hideTip(event, '781', 781)" onmouseover="showTip(event, '781', 781)">
+            varBy f items
           </code>
-          <div class="tip" id="639">
-            <strong>Signature:</strong> mean:^?8602 -&gt; items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^?8602, ^T, ^?8604, ^?8605, ^U          </div>
+          <div class="tip" id="781">
+            <strong>Signature:</strong> f:(&#39;T -&gt; ^?10987) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
+                          <strong>Type parameters:</strong> 'T, ^?10987, ^U, ^?10989                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L286-286" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L251-251" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the sample variance</p>
+          <p>Computes the sample variance (Bessel's correction by N-1)</p>
 
 
         </td>
@@ -472,19 +539,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '640', 640)" onmouseover="showTip(event, '640', 640)">
-            varPopulation items
+          <code onmouseout="hideTip(event, '782', 782)" onmouseover="showTip(event, '782', 782)">
+            varPopulation(items)
           </code>
-          <div class="tip" id="640">
+          <div class="tip" id="782">
             <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^b, ^c, ^d, ^e, ^f          </div>
+                          <strong>Type parameters:</strong> ^T, ^U, ^a                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L345-345" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L278-278" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the unbaised variance estimator of the given values (Bessel's correction by N-1)</p>
+          <p>Computes variance of the given values (denominator N)</p>
 
 
         </td>
@@ -492,19 +559,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '641', 641)" onmouseover="showTip(event, '641', 641)">
-            varPopulationOfMean mean items
+          <code onmouseout="hideTip(event, '783', 783)" onmouseover="showTip(event, '783', 783)">
+            varPopulationBy f items
           </code>
-          <div class="tip" id="641">
-            <strong>Signature:</strong> mean:^?8615 -&gt; items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^?8615, ^T, ^?8617, ^?8618, ^U          </div>
+          <div class="tip" id="783">
+            <strong>Signature:</strong> f:(&#39;T -&gt; ^?10996) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
+                          <strong>Type parameters:</strong> 'T, ^?10996, ^U, ^?10998                      </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L328-328" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L305-305" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the unbaised variance estimator of the given values (Bessel's correction by N-1)</p>
+          <p>Computes variance of the given values (denominator N)</p>
 
 
         </td>
@@ -516,42 +583,47 @@
         <div class="span3">
           <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-            <li class="nav-header">FSharp.Stats</li>
-            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-            <li><a href="/FSharp.Stats/license.html">License</a></li>
-            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>           
-            <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-			<li class="nav-header">Basic</li>
-			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
-			</li>
-			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-			  </li>
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
-			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-			</li>
-			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-			  </li>
-            <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
+
+
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>

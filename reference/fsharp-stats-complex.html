@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>complex - FSharp.Stats</title>
+    <title>Complex - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -13,7 +13,9 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -35,12 +37,49 @@
 
 
 
-<h1>complex</h1>
+<h1>Complex</h1>
 <p>
-  <span>Namespace: FSharp.Stats</span><br />
+
+    <span>Namespace: FSharp.Stats</span><br />
+            <span>
+            Attributes: <br />
+[&lt;Struct&gt;]<br />
+[&lt;CustomEquality&gt;]<br />
+[&lt;CustomComparison&gt;]<br />
+            
+        </span>
 </p>
 <div class="xmldoc">
+<p>Complex number in cartesian form</p>
+
 </div>
+  <h3>Constructors</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Constructor</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1757', 1757)" onmouseover="showTip(event, '1757', 1757)">
+            new(real, imaginary)
+          </code>
+          <div class="tip" id="1757">
+            <strong>Signature:</strong> (real:float * imaginary:float) -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L14-14" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>.ctor</code></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
   <h3>Instance members</h3>
   <table class="table table-bordered member-list">
     <thead>
@@ -50,15 +89,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1452', 1452)" onmouseover="showTip(event, '1452', 1452)">
-            Conjugate
+          <code onmouseout="hideTip(event, '1758', 1758)" onmouseover="showTip(event, '1758', 1758)">
+            x.Conjugate
           </code>
-          <div class="tip" id="1452">
+          <div class="tip" id="1758">
             <strong>Signature:</strong> Complex<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L107-107" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L136-136" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -69,15 +108,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1453', 1453)" onmouseover="showTip(event, '1453', 1453)">
-            i
+          <code onmouseout="hideTip(event, '1759', 1759)" onmouseover="showTip(event, '1759', 1759)">
+            x.i
           </code>
-          <div class="tip" id="1453">
+          <div class="tip" id="1759">
             <strong>Signature:</strong> float<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L17-17" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L17-17" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -88,15 +127,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1454', 1454)" onmouseover="showTip(event, '1454', 1454)">
-            ImaginaryPart
+          <code onmouseout="hideTip(event, '1760', 1760)" onmouseover="showTip(event, '1760', 1760)">
+            x.ImaginaryPart
           </code>
-          <div class="tip" id="1454">
+          <div class="tip" id="1760">
             <strong>Signature:</strong> float<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L106-106" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L135-135" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -107,15 +146,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1455', 1455)" onmouseover="showTip(event, '1455', 1455)">
-            Magnitude
+          <code onmouseout="hideTip(event, '1761', 1761)" onmouseover="showTip(event, '1761', 1761)">
+            x.Magnitude
           </code>
-          <div class="tip" id="1455">
+          <div class="tip" id="1761">
             <strong>Signature:</strong> float<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L103-103" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L132-132" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -126,15 +165,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1456', 1456)" onmouseover="showTip(event, '1456', 1456)">
-            Phase
+          <code onmouseout="hideTip(event, '1762', 1762)" onmouseover="showTip(event, '1762', 1762)">
+            x.Phase
           </code>
-          <div class="tip" id="1456">
+          <div class="tip" id="1762">
             <strong>Signature:</strong> float<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L104-104" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L133-133" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -145,15 +184,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1457', 1457)" onmouseover="showTip(event, '1457', 1457)">
-            r
+          <code onmouseout="hideTip(event, '1763', 1763)" onmouseover="showTip(event, '1763', 1763)">
+            x.r
           </code>
-          <div class="tip" id="1457">
+          <div class="tip" id="1763">
             <strong>Signature:</strong> float<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L16-16" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L16-16" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -164,20 +203,56 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1458', 1458)" onmouseover="showTip(event, '1458', 1458)">
-            RealPart
+          <code onmouseout="hideTip(event, '1764', 1764)" onmouseover="showTip(event, '1764', 1764)">
+            x.RealPart
           </code>
-          <div class="tip" id="1458">
+          <div class="tip" id="1764">
             <strong>Signature:</strong> float<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L105-105" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L134-134" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
           
               <p>CompiledName: <code>get_RealPart</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1765', 1765)" onmouseover="showTip(event, '1765', 1765)">
+            x.ToString(fmt, fmtprovider)
+          </code>
+          <div class="tip" id="1765">
+            <strong>Signature:</strong> (fmt:string * fmtprovider:IFormatProvider) -&gt; string<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L20-20" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1766', 1766)" onmouseover="showTip(event, '1766', 1766)">
+            x.ToString(fmt)
+          </code>
+          <div class="tip" id="1766">
+            <strong>Signature:</strong> fmt:string -&gt; string<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L19-19" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
         </td>
       </tr>
     </tbody>
@@ -191,15 +266,256 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1459', 1459)" onmouseover="showTip(event, '1459', 1459)">
-            One
+          <code onmouseout="hideTip(event, '1767', 1767)" onmouseover="showTip(event, '1767', 1767)">
+            Complex.( - )(a, b)
           </code>
-          <div class="tip" id="1459">
-            <strong>Signature:</strong> Complex<br />
-                      </div>
+          <div class="tip" id="1767">
+            <strong>Signature:</strong> (a:complex * b:complex) -&gt; Complex<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L118-118" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L150-150" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Subtraction</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1768', 1768)" onmouseover="showTip(event, '1768', 1768)">
+            Complex.( * )(a, b)
+          </code>
+          <div class="tip" id="1768">
+            <strong>Signature:</strong> (a:complex * b:float) -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L155-155" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Multiply</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1769', 1769)" onmouseover="showTip(event, '1769', 1769)">
+            Complex.( * )(a, b)
+          </code>
+          <div class="tip" id="1769">
+            <strong>Signature:</strong> (a:float * b:complex) -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L154-154" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Multiply</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1770', 1770)" onmouseover="showTip(event, '1770', 1770)">
+            Complex.( * )(a, b)
+          </code>
+          <div class="tip" id="1770">
+            <strong>Signature:</strong> (a:complex * b:complex) -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L151-151" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Multiply</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1771', 1771)" onmouseover="showTip(event, '1771', 1771)">
+            Complex.( / )(a, b)
+          </code>
+          <div class="tip" id="1771">
+            <strong>Signature:</strong> (a:complex * b:complex) -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L152-152" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Division</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1772', 1772)" onmouseover="showTip(event, '1772', 1772)">
+            Complex.( ~- )(a)
+          </code>
+          <div class="tip" id="1772">
+            <strong>Signature:</strong> a:complex -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L153-153" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_UnaryNegation</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1773', 1773)" onmouseover="showTip(event, '1773', 1773)">
+            Complex.( + )(a, b)
+          </code>
+          <div class="tip" id="1773">
+            <strong>Signature:</strong> (a:complex * b:complex) -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L149-149" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>op_Addition</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1774', 1774)" onmouseover="showTip(event, '1774', 1774)">
+            Complex.Abs(x)
+          </code>
+          <div class="tip" id="1774">
+            <strong>Signature:</strong> x:complex -&gt; float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L140-140" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1775', 1775)" onmouseover="showTip(event, '1775', 1775)">
+            Complex.Cos(x)
+          </code>
+          <div class="tip" id="1775">
+            <strong>Signature:</strong> x:complex -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L139-139" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1776', 1776)" onmouseover="showTip(event, '1776', 1776)">
+            Complex.Create(a, b)
+          </code>
+          <div class="tip" id="1776">
+            <strong>Signature:</strong> (a:float * b:float) -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L130-130" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1777', 1777)" onmouseover="showTip(event, '1777', 1777)">
+            Complex.CreatePolar(a, b)
+          </code>
+          <div class="tip" id="1777">
+            <strong>Signature:</strong> (a:float * b:float) -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L131-131" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1778', 1778)" onmouseover="showTip(event, '1778', 1778)">
+            Complex.Exp(x)
+          </code>
+          <div class="tip" id="1778">
+            <strong>Signature:</strong> x:complex -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L143-143" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1779', 1779)" onmouseover="showTip(event, '1779', 1779)">
+            Complex.Log(x)
+          </code>
+          <div class="tip" id="1779">
+            <strong>Signature:</strong> x:complex -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L142-142" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1780', 1780)" onmouseover="showTip(event, '1780', 1780)">
+            Complex.One
+          </code>
+          <div class="tip" id="1780">
+            <strong>Signature:</strong> Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L147-147" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -210,15 +526,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1460', 1460)" onmouseover="showTip(event, '1460', 1460)">
-            OneI
+          <code onmouseout="hideTip(event, '1781', 1781)" onmouseover="showTip(event, '1781', 1781)">
+            Complex.OneI
           </code>
-          <div class="tip" id="1460">
+          <div class="tip" id="1781">
             <strong>Signature:</strong> Complex<br />
-                      </div>
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L119-119" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L148-148" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -229,15 +545,69 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1461', 1461)" onmouseover="showTip(event, '1461', 1461)">
-            Zero
+          <code onmouseout="hideTip(event, '1782', 1782)" onmouseover="showTip(event, '1782', 1782)">
+            Complex.Sin(x)
           </code>
-          <div class="tip" id="1461">
-            <strong>Signature:</strong> Complex<br />
-                      </div>
+          <div class="tip" id="1782">
+            <strong>Signature:</strong> x:complex -&gt; Complex<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-            <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L117-117" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L138-138" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1783', 1783)" onmouseover="showTip(event, '1783', 1783)">
+            Complex.Sqrt(x)
+          </code>
+          <div class="tip" id="1783">
+            <strong>Signature:</strong> x:complex -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L144-144" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1784', 1784)" onmouseover="showTip(event, '1784', 1784)">
+            Complex.Tan(x)
+          </code>
+          <div class="tip" id="1784">
+            <strong>Signature:</strong> x:complex -&gt; Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L141-141" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1785', 1785)" onmouseover="showTip(event, '1785', 1785)">
+            Complex.Zero
+          </code>
+          <div class="tip" id="1785">
+            <strong>Signature:</strong> Complex<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Complex.fs#L146-146" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -252,42 +622,47 @@
         <div class="span3">
           <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-            <li class="nav-header">FSharp.Stats</li>
-            <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-            <li class="divider"></li>
-            <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-            <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-            <li><a href="/FSharp.Stats/license.html">License</a></li>
-            <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>           
-            <li class="nav-header">Getting started</li>
-            <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-			<li class="nav-header">Basic</li>
-			<li><a href="/FSharp.Stats/Summary.html">Summary</a>
-			</li>
-			<li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-			<li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-			<li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-			<li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li> 
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-			  </li>
-			<li class="divider"></li>
-			<li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li> 
-			<li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-			<li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Testing.html">Testing</a></li> 
-			</li>
-			<li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-			</li>
-			<li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-			  </li>
-            <li class="nav-header">Documentation</li>
-            <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
+
+
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
           </ul>
         </div>
       </div>
