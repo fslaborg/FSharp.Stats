@@ -42,7 +42,8 @@ module DbScan =
         Noisepoints  = noisepoints }
 
 
-    let inline compute (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float) (input:seq<#seq<'a>>) =   
+    //let inline compute (dfu:'a -> 'a -> float) (minPts:int) (eps:float) (input:seq<'a>) = 
+    let inline compute (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float) (input:seq<#seq<'a>>) = 
 
         let convert (input:seq<'a>) =
             match input with

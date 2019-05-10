@@ -351,3 +351,6 @@ module Spline =
         //|> Array.map (fun x -> x,fit x)
         //|> Chart.Point
         //|> Chart.Show
+
+
+
