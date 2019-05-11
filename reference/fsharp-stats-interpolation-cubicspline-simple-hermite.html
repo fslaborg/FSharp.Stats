@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>dmatrix - FSharp.Stats</title>
+    <title>Hermite - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -37,132 +37,61 @@
 
 
 
-<h1>dmatrix</h1>
+<h1>Hermite</h1>
 <p>
-
-    <span>Namespace: FSharp.Stats</span><br />
-        <span>Parent Module: <a href="fsharp-stats-specializedgenericimpl.html">SpecializedGenericImpl</a></span><br />
-    </p>
+  <span>Namespace: FSharp.Stats.Interpolation</span><br />
+  <span>Parent Module: <a href="fsharp-stats-interpolation-cubicspline-simple.html">Simple</a></span>
+  </p>
 <div class="xmldoc">
 </div>
-  <h3>Instance members</h3>
+
+<!-- Render nested types and modules, if there are any -->
+
+  <h3>Functions and values</h3>
   <table class="table table-bordered member-list">
     <thead>
-      <tr><td>Instance member</td><td>Description</td></tr>
+      <tr><td>Function or value</td><td>Description</td></tr>
     </thead>
     <tbody>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1648', 1648)" onmouseover="showTip(event, '1648', 1648)">
-            x.ElementOps
+          <code onmouseout="hideTip(event, '1336', 1336)" onmouseover="showTip(event, '1336', 1336)">
+            cubicHermite x_Data y_Data y_Data&#39;
           </code>
-          <div class="tip" id="1648">
-            <strong>Signature:</strong> INumeric&lt;float&gt;<br />
+          <div class="tip" id="1336">
+            <strong>Signature:</strong> x_Data:Vector&lt;float&gt; -&gt; y_Data:Vector&lt;float&gt; -&gt; y_Data&#39;:Vector&lt;float&gt; -&gt; float -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L60-60" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L372-372" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
-              <p>CompiledName: <code>get_ElementOps</code></p>
+          <p>calculates a function to interpolate between the datapoints with given slopes (y_Data').
+the data has to be sorted ascending</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1649', 1649)" onmouseover="showTip(event, '1649', 1649)">
-            [i]
+          <code onmouseout="hideTip(event, '1337', 1337)" onmouseover="showTip(event, '1337', 1337)">
+            getSimpleSlopes x_Data y_Data
           </code>
-          <div class="tip" id="1649">
-            <strong>Signature:</strong> i:int -&gt; int<br />
+          <div class="tip" id="1337">
+            <strong>Signature:</strong> x_Data:Vector&lt;float&gt; -&gt; y_Data:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L65-65" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L416-416" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
-              <p>CompiledName: <code>get_Item</code></p>
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
+          <p>calculates the slopes by averaging the slopes of neighbouring tangents</p>
 
-          <code onmouseout="hideTip(event, '1650', 1650)" onmouseover="showTip(event, '1650', 1650)">
-            x.NumCols
-          </code>
-          <div class="tip" id="1650">
-            <strong>Signature:</strong> int<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L58-58" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-              <p>CompiledName: <code>get_NumCols</code></p>
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1651', 1651)" onmouseover="showTip(event, '1651', 1651)">
-            x.NumRows
-          </code>
-          <div class="tip" id="1651">
-            <strong>Signature:</strong> int<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L57-57" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-              <p>CompiledName: <code>get_NumRows</code></p>
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '1652', 1652)" onmouseover="showTip(event, '1652', 1652)">
-            x.OpsData
-          </code>
-          <div class="tip" id="1652">
-            <strong>Signature:</strong> OpsData&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L55-55" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-              <p>CompiledName: <code>get_OpsData</code></p>
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '1653', 1653)" onmouseover="showTip(event, '1653', 1653)">
-            x.Values
-          </code>
-          <div class="tip" id="1653">
-            <strong>Signature:</strong> float [,]<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L56-56" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-              <p>CompiledName: <code>get_Values</code></p>
         </td>
       </tr>
     </tbody>

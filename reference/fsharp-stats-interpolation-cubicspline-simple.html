@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>dmatrix - FSharp.Stats</title>
+    <title>Simple - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -37,132 +37,115 @@
 
 
 
-<h1>dmatrix</h1>
+<h1>Simple</h1>
 <p>
-
-    <span>Namespace: FSharp.Stats</span><br />
-        <span>Parent Module: <a href="fsharp-stats-specializedgenericimpl.html">SpecializedGenericImpl</a></span><br />
-    </p>
+  <span>Namespace: FSharp.Stats.Interpolation</span><br />
+  <span>Parent Module: <a href="fsharp-stats-interpolation-cubicspline.html">CubicSpline</a></span>
+  </p>
 <div class="xmldoc">
 </div>
-  <h3>Instance members</h3>
+
+<!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-interpolation-cubicspline-simple-boundarycondition.html">BoundaryCondition</a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered module-list">
+    <thead>
+      <tr><td>Module</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="module-name">
+            <a href="fsharp-stats-interpolation-cubicspline-simple-hermite.html">Hermite</a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+  <h3>Functions and values</h3>
   <table class="table table-bordered member-list">
     <thead>
-      <tr><td>Instance member</td><td>Description</td></tr>
+      <tr><td>Function or value</td><td>Description</td></tr>
     </thead>
     <tbody>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1648', 1648)" onmouseover="showTip(event, '1648', 1648)">
-            x.ElementOps
+          <code onmouseout="hideTip(event, '1333', 1333)" onmouseover="showTip(event, '1333', 1333)">
+            coefficients(...)
           </code>
-          <div class="tip" id="1648">
-            <strong>Signature:</strong> INumeric&lt;float&gt;<br />
+          <div class="tip" id="1333">
+            <strong>Signature:</strong> boundaryCondition:BoundaryCondition -&gt; x_Values:Vector&lt;float&gt; -&gt; y_Values:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L60-60" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L156-156" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
-              <p>CompiledName: <code>get_ElementOps</code></p>
+          <p>computes all coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)].
+where: fn(x) = (an)x�+(bn)x�+(cn)x+(dn)</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1649', 1649)" onmouseover="showTip(event, '1649', 1649)">
-            [i]
+          <code onmouseout="hideTip(event, '1334', 1334)" onmouseover="showTip(event, '1334', 1334)">
+            fit coefficients x_Values x
           </code>
-          <div class="tip" id="1649">
-            <strong>Signature:</strong> i:int -&gt; int<br />
+          <div class="tip" id="1334">
+            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L65-65" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L327-327" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
-              <p>CompiledName: <code>get_Item</code></p>
+          <p>Fits a cubic spline with given coefficients. Only defined within the range of the given x_Values</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1650', 1650)" onmouseover="showTip(event, '1650', 1650)">
-            x.NumCols
+          <code onmouseout="hideTip(event, '1335', 1335)" onmouseover="showTip(event, '1335', 1335)">
+            fitForce coefficients x_Values x
           </code>
-          <div class="tip" id="1650">
-            <strong>Signature:</strong> int<br />
+          <div class="tip" id="1335">
+            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L58-58" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L350-350" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
-              <p>CompiledName: <code>get_NumCols</code></p>
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
+          <p>forces a spline fit even outside of the interval defined in x_Values</p>
 
-          <code onmouseout="hideTip(event, '1651', 1651)" onmouseover="showTip(event, '1651', 1651)">
-            x.NumRows
-          </code>
-          <div class="tip" id="1651">
-            <strong>Signature:</strong> int<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L57-57" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-              <p>CompiledName: <code>get_NumRows</code></p>
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1652', 1652)" onmouseover="showTip(event, '1652', 1652)">
-            x.OpsData
-          </code>
-          <div class="tip" id="1652">
-            <strong>Signature:</strong> OpsData&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L55-55" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-              <p>CompiledName: <code>get_OpsData</code></p>
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '1653', 1653)" onmouseover="showTip(event, '1653', 1653)">
-            x.Values
-          </code>
-          <div class="tip" id="1653">
-            <strong>Signature:</strong> float [,]<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L56-56" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-              <p>CompiledName: <code>get_Values</code></p>
         </td>
       </tr>
     </tbody>

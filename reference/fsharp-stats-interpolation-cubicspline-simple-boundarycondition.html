@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>ChiSquared - FSharp.Stats</title>
+    <title>BoundaryCondition - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -37,38 +37,36 @@
 
 
 
-<h1>ChiSquared</h1>
+<h1>BoundaryCondition</h1>
 <p>
 
-    <span>Namespace: FSharp.Stats.Distributions</span><br />
-        <span>Parent Module: <a href="fsharp-stats-distributions-continuousmodule.html">Continuous</a></span><br />
+    <span>Namespace: FSharp.Stats.Interpolation</span><br />
+        <span>Parent Module: <a href="fsharp-stats-interpolation-cubicspline-simple.html">Simple</a></span><br />
     </p>
 <div class="xmldoc">
-<p>ChiSquared distribution.</p>
-
 </div>
-  <h3>Static members</h3>
+  <h3>Union Cases</h3>
   <table class="table table-bordered member-list">
     <thead>
-      <tr><td>Static member</td><td>Description</td></tr>
+      <tr><td>Union Case</td><td>Description</td></tr>
     </thead>
     <tbody>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1958', 1958)" onmouseover="showTip(event, '1958', 1958)">
-            ChiSquared.CDF dof x
+          <code onmouseout="hideTip(event, '2097', 2097)" onmouseover="showTip(event, '2097', 2097)">
+            Clamped
           </code>
-          <div class="tip" id="1958">
-            <strong>Signature:</strong> dof:float -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
+          <div class="tip" id="2097">
+            <strong>Signature:</strong> <br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L67-67" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L152-152" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the cumulative distribution function.</p>
+          <p>f' at first and last knot are set by user</p>
 
 
         </td>
@@ -76,19 +74,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1959', 1959)" onmouseover="showTip(event, '1959', 1959)">
-            ChiSquared.Mean(dof)
+          <code onmouseout="hideTip(event, '2098', 2098)" onmouseover="showTip(event, '2098', 2098)">
+            Natural
           </code>
-          <div class="tip" id="1959">
-            <strong>Signature:</strong> dof:float -&gt; float<br />
+          <div class="tip" id="2098">
+            <strong>Signature:</strong> <br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L25-25" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L142-142" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the mean.</p>
+          <p>most used spline variant: f'' at borders is set to 0</p>
 
 
         </td>
@@ -96,19 +94,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1960', 1960)" onmouseover="showTip(event, '1960', 1960)">
-            ChiSquared.PDF dof x
+          <code onmouseout="hideTip(event, '2099', 2099)" onmouseover="showTip(event, '2099', 2099)">
+            NotAKnot
           </code>
-          <div class="tip" id="1960">
-            <strong>Signature:</strong> dof:float -&gt; x:float&lt;MeasureOne&gt; -&gt; float&lt;MeasureOne&gt;<br />
+          <div class="tip" id="2099">
+            <strong>Signature:</strong> <br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L43-43" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L148-148" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the probability density function.</p>
+          <p>f''' at second and penultimate knot are continuous</p>
 
 
         </td>
@@ -116,19 +114,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1961', 1961)" onmouseover="showTip(event, '1961', 1961)">
-            ChiSquared.PDFLn dof x
+          <code onmouseout="hideTip(event, '2100', 2100)" onmouseover="showTip(event, '2100', 2100)">
+            Parabolic
           </code>
-          <div class="tip" id="1961">
-            <strong>Signature:</strong> dof:float -&gt; x:float -&gt; float<br />
+          <div class="tip" id="2100">
+            <strong>Signature:</strong> <br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L60-60" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L146-146" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the logarithm of probability density function.</p>
+          <p>f'' at first/second and last/penultimate knot are equal</p>
 
 
         </td>
@@ -136,19 +134,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1962', 1962)" onmouseover="showTip(event, '1962', 1962)">
-            ChiSquared.Sample(dof)
+          <code onmouseout="hideTip(event, '2101', 2101)" onmouseover="showTip(event, '2101', 2101)">
+            Periodic
           </code>
-          <div class="tip" id="1962">
-            <strong>Signature:</strong> dof:float -&gt; float<br />
+          <div class="tip" id="2101">
+            <strong>Signature:</strong> <br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L37-37" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L144-144" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Produces a random sample using the current random number generator (from GetSampleGenerator()).</p>
+          <p>f' at first point is the same as f' at the last point</p>
 
 
         </td>
@@ -156,59 +154,19 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1963', 1963)" onmouseover="showTip(event, '1963', 1963)">
-            ChiSquared.StandardDeviation(dof)
+          <code onmouseout="hideTip(event, '2102', 2102)" onmouseover="showTip(event, '2102', 2102)">
+            Quadratic
           </code>
-          <div class="tip" id="1963">
-            <strong>Signature:</strong> dof:float -&gt; float<br />
+          <div class="tip" id="2102">
+            <strong>Signature:</strong> <br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L33-33" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L150-150" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the standard deviation.</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '1964', 1964)" onmouseover="showTip(event, '1964', 1964)">
-            ChiSquared.Support(dof)
-          </code>
-          <div class="tip" id="1964">
-            <strong>Signature:</strong> dof:float -&gt; float&lt;MeasureOne&gt; * float<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L72-72" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Returns the support of the exponential distribution: [0, Positive Infinity).</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '1965', 1965)" onmouseover="showTip(event, '1965', 1965)">
-            ChiSquared.Variance(dof)
-          </code>
-          <div class="tip" id="1965">
-            <strong>Signature:</strong> dof:float -&gt; float<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L29-29" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the variance.</p>
+          <p>first and last polynomial are quadratic, not cubic</p>
 
 
         </td>
