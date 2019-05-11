@@ -365,6 +365,44 @@ module CubicSpline =
                 coefficients.[4 * intervalNumber + 3]                   //d            
             y_Value
 
+        let private getDerivative order (coefficients: Vector<float>) (x_Values: Vector<float>) x =
+            let sortedX = x_Values |> Seq.sort
+            let intervalNumber =
+                if x >= Seq.last sortedX then 
+                    Seq.length sortedX - 2
+                elif x < Seq.head sortedX then 
+                    0
+                else
+                    sortedX
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - x) > 0.)
+                    |> fun nextInterval -> nextInterval - 1            
+            match order with
+            | d when d = 1 ->
+                let firstDerivative = 
+                    3. * coefficients.[4 * intervalNumber + 0] * (pown x 2) +   //3a*x²
+                    2. * coefficients.[4 * intervalNumber + 1] * x +            //2b*x
+                    coefficients.[4 * intervalNumber + 2]                       //c          
+                firstDerivative
+            | d when d = 2 ->
+                let secondDerivative = 
+                    6. * coefficients.[4 * intervalNumber + 0] * x +   //6ax
+                    2. * coefficients.[4 * intervalNumber + 1]         //2b      
+                secondDerivative
+            | d when d = 3 ->
+                let thirdDerivative = 
+                    6. * coefficients.[4 * intervalNumber + 0]  //6a     
+                thirdDerivative
+            | _ -> failwithf "for cubic splines no derivative > 3 is defined"
+
+        let getFirstDerivative (coefficients: Vector<float>) (x_Values: Vector<float>) x =
+            getDerivative 1 coefficients x_Values x
+
+        let getSecondDerivative (coefficients: Vector<float>) (x_Values: Vector<float>) x =
+            getDerivative 2 coefficients x_Values x    
+        
+        let getThirdDerivative (coefficients: Vector<float>) (x_Values: Vector<float>) x =
+            getDerivative 3 coefficients x_Values x
+
         module Hermite =
 
             ///calculates a function to interpolate between the datapoints with given slopes (y_Data').

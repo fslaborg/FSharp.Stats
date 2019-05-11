@@ -121,6 +121,20 @@ let splineChart =
 
 (*** include-value:splineChart ***)
 
+(*** do-not-eval ***)
+//additionally you can calculate the derivatives of the spline
+[
+Chart.Point(x_Data,y_Data) |> Chart.withTraceName "raw data"
+[1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x) |> Chart.Line  |> Chart.withTraceName "spline fit"
+[1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getFirstDerivative  coeffSpline x_Data x) |> Chart.Point |> Chart.withTraceName "fst derivative"
+[1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getSecondDerivative coeffSpline x_Data x) |> Chart.Point |> Chart.withTraceName "snd derivative"
+[1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getThirdDerivative  coeffSpline x_Data x) |> Chart.Point |> Chart.withTraceName "trd derivative"
+]
+|> Chart.Combine
+|> Chart.Show
+
+
+
 (**
 Interpolation.Approximation
 Interpolation.LinearSpline
