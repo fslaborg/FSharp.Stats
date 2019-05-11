@@ -1,11 +1,11 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
+#r "netstandard.dll"
 #I "../../src/FSharp.Stats/bin/Release/net461"
 #r "../../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
+#r @"../../lib/Formatting/FSharp.Plotly.dll"
 open FSharp.Plotly
-#r "netstandard.dll"
 
 
 
@@ -26,25 +26,31 @@ While the least squares approach efficiently minimizes the sum of squared residu
 An alternative is a robust simple linear regression like Theil's incomplete method or the Theil-Sen estimator, that are outlier resistant.
 
 *)
-(*** do-not-eval***)
+
 open FSharp.Stats
-open FSharp.Stats.Fitting.LinearRegression
 open FSharp.Plotly
+open FSharp.Stats.Fitting.LinearRegression
 
 let x_Data = vector [|1.;2.;3.;|]
 let y_Data = vector [|4.;7.;9.;|]
 
 //Least squares simple linear regression
-let coefficientsLinearLS = OrdinaryLeastSquares.Linear.Univariable.coefficient x_Data y_Data
-let fittingFunctionLinearLS x = OrdinaryLeastSquares.Linear.Univariable.fit coefficientsLinearLS x
+let coefficientsLinearLS = 
+    OrdinaryLeastSquares.Linear.Univariable.coefficient x_Data y_Data
+let fittingFunctionLinearLS x = 
+    OrdinaryLeastSquares.Linear.Univariable.fit coefficientsLinearLS x
 
 //Robust simple linear regression
-let coefficientsLinearRobust = RobustRegression.Linear.theilSenEstimator x_Data y_Data 
-let fittingFunctionLinearRobust x = RobustRegression.Linear.fit coefficientsLinearRobust x
+let coefficientsLinearRobust = 
+    RobustRegression.Linear.theilSenEstimator x_Data y_Data 
+let fittingFunctionLinearRobust x = 
+    RobustRegression.Linear.fit coefficientsLinearRobust x
 
 //least squares simple linear regression through the origin
-let coefficientsLinearRTO = OrdinaryLeastSquares.Linear.RTO.coefficientOfVector x_Data y_Data 
-let fittingFunctionLinearRobust x = OrdinaryLeastSquares.Linear.RTO.fit coefficientsLinearRTO x
+let coefficientsLinearRTO = 
+    OrdinaryLeastSquares.Linear.RTO.coefficientOfVector x_Data y_Data 
+let fittingFunctionLinearRTO x = 
+    OrdinaryLeastSquares.Linear.RTO.fit coefficientsLinearRTO x
 
 
 let rawChart = 
@@ -52,20 +58,27 @@ let rawChart =
     |> Chart.withTraceName "raw data"
     
 let fittingLS = 
-    let fit = [|0. .. 4.|] |> Array.map (fun x -> x,fittingFunctionLinearLS x)
+    let fit = 
+        [|0. .. 4.|] 
+        |> Array.map (fun x -> x,fittingFunctionLinearLS x)
     Chart.Line(fit)
     |> Chart.withTraceName "least squares"
 
 let fittingRobust = 
-    let fit = [|0. .. 4.|] |> Array.map (fun x -> x,fittingFunctionLinearRobust x)
+    let fit = 
+        [|0. .. 4.|] 
+        |> Array.map (fun x -> x,fittingFunctionLinearRobust x)
     Chart.Line(fit)
     |> Chart.withTraceName "TheilSen estimator"
 
 let fittingRTO = 
-    let fit = [|0. .. 4.|] |> Array.map (fun x -> x,fittingFunctionLinearRobust x)
+    let fit = 
+        [|0. .. 4.|] 
+        |> Array.map (fun x -> x,fittingFunctionLinearRTO x)
     Chart.Line(fit)
     |> Chart.withTraceName "through origin"
 
+(*** do-not-eval***)
 [rawChart;fittingLS;fittingRobust;fittingRTO] 
 |> Chart.Combine
 |> Chart.Show
@@ -82,6 +95,7 @@ let xVectorMulti =
     [6.; 3. ;22. ]
     ]
     |> Matrix.ofSeq
+
 let yVectorMulti = 
     let transformX (x:Matrix<float>) =
         x
@@ -89,8 +103,11 @@ let yVectorMulti =
     xVectorMulti
     |> transformX
     |> vector
-let coefficientsMV = LinearRegression.OrdinaryLeastSquares.Linear.Multivariable.coefficients xVectorMulti yVectorMulti
-let fittingFunctionMV x= LinearRegression.OrdinaryLeastSquares.Linear.Multivariable.fit coefficientsMV x
+
+let coefficientsMV = 
+    OrdinaryLeastSquares.Linear.Multivariable.coefficients xVectorMulti yVectorMulti
+let fittingFunctionMV x = 
+    OrdinaryLeastSquares.Linear.Multivariable.fit coefficientsMV x
 
 
 (**
@@ -100,47 +117,57 @@ let fittingFunctionMV x= LinearRegression.OrdinaryLeastSquares.Linear.Multivaria
 In polynomial regression a higher degree (d > 1) polynomial is fitted to the data. The coefficients are chosen that the sum of squared residuals is minimized.
 
 *)
-(*** do-not-eval***)
+
 open FSharp.Stats
 open FSharp.Stats.Fitting.LinearRegression
 open FSharp.Plotly
 
-let x_Data = vector [|1. .. 10.|]
-let y_Data = vector [|4.;7.;9.;8.;6.;3.;2.;5.;6.;8.;|]
+let x_DataP = vector [|1. .. 10.|]
+let y_DataP = vector [|4.;7.;9.;8.;6.;3.;2.;5.;6.;8.;|]
 
 //Least squares polynomial regression
 
-//define the order the polynomial should have (order 3: f(x) = ax³ + bx² + cx + d)
+//define the order the polynomial should have (order 3: f(x) = ax^3 + bx^2 + cx + d)
 let order = 3
-let coefficientsPol = OrdinaryLeastSquares.Polynomial.coefficient order x_Data y_Data 
-let fittingFunctionPol x = OrdinaryLeastSquares.Polynomial.fit order coefficientsPol x
+let coefficientsPol = 
+    OrdinaryLeastSquares.Polynomial.coefficient order x_DataP y_DataP 
+let fittingFunctionPol x = 
+    OrdinaryLeastSquares.Polynomial.fit order coefficientsPol x
 
 //weighted least squares polynomial regression
-//If heteroscedasticity is assumed or the impact of single datapoints should be increased/decreased you can use a weighted version of the polynomial regression.
+//If heteroscedasticity is assumed or the impact of single datapoints should be 
+//increased/decreased you can use a weighted version of the polynomial regression.
 
-//define the order the polynomial should have (order 3: f(x) = ax³ + bx² + cx + d)
-let order = 3
+//define the order the polynomial should have (order 3: f(x) = ax^3 + bx^2 + cx + d)
+let orderP = 3
 
 //define the weighting vector
-let weights = y_Data |> Vector.map (fun y -> 1. / y)
-let coefficientsPolW = OrdinaryLeastSquares.Polynomial.coefficientsWithWeighting order weights x_Data y_Data 
-let fittingFunctionPolW x = OrdinaryLeastSquares.Polynomial.fit order coefficientsPolW x
+let weights = y_DataP |> Vector.map (fun y -> 1. / y)
+let coefficientsPolW = 
+    OrdinaryLeastSquares.Polynomial.coefficientsWithWeighting orderP weights x_DataP y_DataP 
+let fittingFunctionPolW x = 
+    OrdinaryLeastSquares.Polynomial.fit orderP coefficientsPolW x
 
-let rawChart = 
-    Chart.Point(x_Data,y_Data)
+let rawChartP = 
+    Chart.Point(x_DataP,y_DataP)
     |> Chart.withTraceName "raw data"
     
 let fittingPol = 
-    let fit = [|1. .. 0.01 .. 10.|] |> Array.map (fun x -> x,fittingFunctionPol x)
+    let fit = 
+        [|1. .. 0.01 .. 10.|] 
+        |> Array.map (fun x -> x,fittingFunctionPol x)
     Chart.Line(fit)
     |> Chart.withTraceName "order = 3"
 
 let fittingPolW = 
-    let fit = [|1. .. 0.01 .. 10.|] |> Array.map (fun x -> x,fittingFunctionPolW x)
+    let fit = 
+        [|1. .. 0.01 .. 10.|] 
+        |> Array.map (fun x -> x,fittingFunctionPolW x)
     Chart.Line(fit)
     |> Chart.withTraceName "order = 3 weigthed"
 
-[rawChart;fittingPol;fittingPolW] 
+(*** do-not-eval***)
+[rawChartP;fittingPol;fittingPolW] 
 |> Chart.Combine
 |> Chart.Show
 
@@ -149,26 +176,39 @@ let fittingPolW =
 
 Nonlinear Regression is used if a known model should to be fitted to the data that cannot be represented in a linear system of equations. 
 Common examples are: 
-    - gaussian functions
-    - log functions
-    - exponential functions
+
+ - gaussian functions
+
+ - log functions
+
+ - exponential functions
 
 To fit such models to your data the `NonLinearRegression` module can be used. Two solver-methods are availiable to iteratively converge to a minimal least squares value.
-    - GaussNewton
-    - LevenbergMarquardt
 
-For solving a nonlinear problem the model function has to be converted to a `NonLinearRegression.Model` type consisting of the parameter names, the function itself, and partial derivatives of all unknown parameters.
+ - GaussNewton
+
+ - LevenbergMarquardt
+
+For solving a nonlinear problem the model function has to be converted to a `NonLinearRegression.Model` type consisting of 
+
+ - parameter names,
+
+ - the function itself, and
+
+ - partial derivatives of all unknown parameters.
+
 For clarification a exponential relationship in the form of `y = a * exp(b * x)` should be solved:
 
 *)
+
 open System
 open FSharp.Stats.Fitting
 open FSharp.Stats.Fitting.LinearRegression
 open FSharp.Stats.Fitting.NonLinearRegression
 
 
-let x_Data = [|1.;2.; 3.; 4.|]
-let y_Data = [|5.;14.;65.;100.|]
+let x_DataN = [|1.;2.; 3.; 4.|]
+let y_DataN = [|5.;14.;65.;100.|]
 
 //search for:  y = a * exp(b * x)
 
@@ -176,19 +216,22 @@ let y_Data = [|5.;14.;65.;100.|]
 // 1.1 define parameter names
 let parameterNames = [|"a";"b"|]
 
-// 1.2 define the exponential function that gets a parameter vector containing the searched parameters and the x_value and gives the corresponding y_value
+// 1.2 define the exponential function that gets a parameter vector containing the 
+//searched parameters and the x_value and gives the corresponding y_value
 let getFunctionValue =                 
-    fun (parameterVector: Vector<float>) x -> parameterVector.[0] * Math.Exp(parameterVector.[1] * x)
-                                            //a                   *      exp(b                   * x)
+    fun (parameterVector: Vector<float>) x -> 
+        parameterVector.[0] * Math.Exp(parameterVector.[1] * x)
+      //a                   *      exp(b                   * x)
 
-// 1.3 Define partial derivatives of the exponential function. Take partial derivatives for every unknown parameter 
-//     and insert it into the gradient vector sorted by parameterNames.
+// 1.3 Define partial derivatives of the exponential function. 
+//     Take partial derivatives for every unknown parameter and
+//     insert it into the gradient vector sorted by parameterNames.
 let getGradientValues =
-    fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue -> 
+    fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValueN -> 
         // partial derivative of y=a*exp(b*x) in respect to the first parameter (a)   --> exp(b*x)
-        gradientVector.[0] <- Math.Exp(parameterVector.[1] * xValue)  
+        gradientVector.[0] <- Math.Exp(parameterVector.[1] * xValueN)  
         // partial derivative of y=a*exp(b*x) in respect to the second parameter (b)  --> a*x*exp(b*x)
-        gradientVector.[1] <- parameterVector.[0] * xValue * Math.Exp(parameterVector.[1] * xValue)  
+        gradientVector.[1] <- parameterVector.[0] * xValueN * Math.Exp(parameterVector.[1] * xValueN)  
 
         gradientVector
 
@@ -208,12 +251,15 @@ let deltaP = 0.0001
 let k = 1000
 
 // 2.4 define an initial guess
-//     For many problems you can set a default value or let the user decide to choose an appropriate guess.
-//     In the case of an exponential or log model you can use the solution of the linearized problem as a first guess.
+//     For many problems you can set a default value or let the user decide to choose an 
+//     appropriate guess. In the case of an exponential or log model you can use the 
+//     solution of the linearized problem as a first guess.
 let initialParamGuess (x_data:float []) (y_data:float [])=
-    //gets the linear representation of the problem and solves it by simple linear regression (prone to least-squares-deviations at high y_Values)
+    //gets the linear representation of the problem and solves it by simple linear regression 
+    //(prone to least-squares-deviations at high y_Values)
     let y_ln = y_data |> Array.map (fun x -> Math.Log(x)) |> vector
-    let linearReg = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient (vector x_data) y_ln
+    let linearReg = 
+        LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient (vector x_data) y_ln
     //calculates the parameters back into the exponential representation
     let a = exp linearReg.[0]
     let b = linearReg.[1]
@@ -221,12 +267,12 @@ let initialParamGuess (x_data:float []) (y_data:float [])=
 
 // 2.5 create the solverOptions
 let solverOptions = 
-    let guess = initialParamGuess x_Data y_Data
+    let guess = initialParamGuess x_DataN y_DataN
     NonLinearRegression.createSolverOption 0.0001 0.0001 1000 guess
 
 
 // 3. get coefficients
-let coefficientsExp = GaussNewton.estimatedParams model solverOptions x_Data y_Data
+let coefficientsExp = GaussNewton.estimatedParams model solverOptions x_DataN y_DataN
 //val coefficients = vector [|5.68867298; 0.7263428835|]
 
 
@@ -256,15 +302,15 @@ The right amount of smoothing can be determined by cross validation or generaliz
 (*** do-not-eval***)
 open FSharp.Stats.Fitting
 
-let x_Data = [|1.;2.; 3.; 4.|]
-let y_Data = [|5.;14.;65.;100.|]
+let x_DataS = [|1.;2.; 3.; 4.|]
+let y_DataS = [|5.;14.;65.;100.|]
 
-let data = Array.zip x_Data y_Data
+let data = Array.zip x_DataS y_DataS
 
 //in every x position a knot should be located
-let knots = x_Data
+let knots = x_DataS
 
-let spline lambda x = Spline.smoothingSpline data knots
+let spline lambda x = (Spline.smoothingSpline data knots) lambda x
 
 let fit lambda = 
     [|1. .. 0.1 .. 4.|]
@@ -272,10 +318,10 @@ let fit lambda =
     |> Chart.Line
     |> Chart.withTraceName (sprintf "lambda: %.2f" lambda)
 
-let rawChart = Chart.Point(data)
+let rawChartS = Chart.Point(data)
 
 [
-rawChart
+rawChartS
 fit 0.001
 fit 0.1
 fit 10.
