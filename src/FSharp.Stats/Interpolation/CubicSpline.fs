@@ -3,129 +3,442 @@ namespace FSharp.Stats.Interpolation
 open System
 
 module CubicSpline = 
+    open FSharp.Stats
+    open FSharp.Stats.Algebra
+    open FSharp.Stats.Algebra.LinearAlgebra
     
-    type SplineCoefficients = {
-        /// sample points (N+1), sorted ascending
-        XValues : float []
-        /// Zero order spline coefficients (N)
-        C0 : float []
-        /// First order spline coefficients (N)
-        C1 : float []
-        /// Second order spline coefficients (N)
-        C2 : float []
-        /// Third order spline coefficients (N)
-        C3 : float []
-        }
+    module Differentiable =
 
-    ///
-    let private createSplineCoefficients xValues c0 c1 c2 c3 = {
-        XValues=xValues;C0=c0;C1=c1;C2=c2;C3=c3 
-        }
+        type SplineCoefficients = {
+            /// sample points (N+1), sorted ascending
+            XValues : float []
+            /// Zero order spline coefficients (N)
+            C0 : float []
+            /// First order spline coefficients (N)
+            C1 : float []
+            /// Second order spline coefficients (N)
+            C2 : float []
+            /// Third order spline coefficients (N)
+            C3 : float []
+            }
 
-    // For reference see: http://www.dorn.org/uni/sls/kap06/f08_01.htm
-    ///
-    let interpolateHermiteSorted (xValues:float []) (yValues:float []) (firstDerivatives:float []) = 
-        if xValues.Length <> yValues.Length || xValues.Length <> firstDerivatives.Length then
-            failwith "input arrays differ in length"
-        elif
-            xValues.Length < 2 then
-            failwith "input arrays are too small to perform a spline interpolation" 
+        ///
+        let private createSplineCoefficients xValues c0 c1 c2 c3 = {
+            XValues=xValues;C0=c0;C1=c1;C2=c2;C3=c3 
+            }
+
+        // For reference see: http://www.dorn.org/uni/sls/kap06/f08_01.htm
+        ///
+        let interpolateHermiteSorted (xValues:float []) (yValues:float []) (firstDerivatives:float []) = 
+            if xValues.Length <> yValues.Length || xValues.Length <> firstDerivatives.Length then
+                failwith "input arrays differ in length"
+            elif
+                xValues.Length < 2 then
+                failwith "input arrays are too small to perform a spline interpolation" 
     
-        let c0 = Array.zeroCreate (xValues.Length-1)
-        let c1 = Array.zeroCreate (xValues.Length-1)
-        let c2 = Array.zeroCreate (xValues.Length-1)
-        let c3 = Array.zeroCreate (xValues.Length-1)
-        for i = 0 to (c0.Length-1) do
-            let w = xValues.[i+1] - xValues.[i]
-            let ww = w*w 
-            c0.[i] <- yValues.[i] 
-            c1.[i] <- firstDerivatives.[i]
-            c2.[i] <- (3.*(yValues.[i+1] - yValues.[i])/w - 2. * firstDerivatives.[i] - firstDerivatives.[i+1])/w 
-            c3.[i] <- (2.*(yValues.[i] - yValues.[i+1])/w +      firstDerivatives.[i] + firstDerivatives.[i+1])/ww 
-        createSplineCoefficients xValues c0 c1 c2 c3
+            let c0 = Array.zeroCreate (xValues.Length-1)
+            let c1 = Array.zeroCreate (xValues.Length-1)
+            let c2 = Array.zeroCreate (xValues.Length-1)
+            let c3 = Array.zeroCreate (xValues.Length-1)
+            for i = 0 to (c0.Length-1) do
+                let w = xValues.[i+1] - xValues.[i]
+                let ww = w*w 
+                c0.[i] <- yValues.[i] 
+                c1.[i] <- firstDerivatives.[i]
+                c2.[i] <- (3.*(yValues.[i+1] - yValues.[i])/w - 2. * firstDerivatives.[i] - firstDerivatives.[i+1])/w 
+                c3.[i] <- (2.*(yValues.[i] - yValues.[i+1])/w +      firstDerivatives.[i] + firstDerivatives.[i+1])/ww 
+            createSplineCoefficients xValues c0 c1 c2 c3
         
-    ///
-    let leftSegmentIdx arr value = 
-        let idx = 
-            let tmp = Array.BinarySearch(arr, value)
-            let idx = if tmp < 0 then ~~~tmp-1 else tmp
-            idx
-        Math.Min(arr.Length-2,Math.Max(idx, 0))
+        ///
+        let leftSegmentIdx arr value = 
+            let idx = 
+                let tmp = Array.BinarySearch(arr, value)
+                let idx = if tmp < 0 then ~~~tmp-1 else tmp
+                idx
+            Math.Min(arr.Length-2,Math.Max(idx, 0))
 
-    //For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm
-    ///
-    let akimaCoefficients (xValues:float []) (yValues:float []) =
-        if xValues.Length <> yValues.Length then
-            failwith "input arrays differ in length"
-        elif
-            xValues.Length < 5 then
-            failwith "input arrays are too small to perform a spline interpolation" 
-        // prepare divided differences (diff) and weights (we)
-        let diff = 
-            let tmp = Array.zeroCreate (xValues.Length-1)
-            for i = 0 to tmp.Length-1 do
-                tmp.[i] <- (yValues.[i+1] - yValues.[i])/(xValues.[i+1] - xValues.[i])
-            tmp
-        let we  = 
-            let tmp = Array.zeroCreate (xValues.Length-1)
-            for i = 1 to tmp.Length-1 do
-                tmp.[i] <- (diff.[i]-diff.[i-1]) |> abs 
-            tmp
-        // prepare Hermite interpolation scheme   
-        let dd = 
-            let tmp = Array.zeroCreate xValues.Length
-            for i = 2 to tmp.Length-3 do 
-                let ddi = 
-                    if FSharp.Stats.Precision.almostEqualNorm we.[i-1] 0.0 && FSharp.Stats.Precision.almostEqualNorm we.[i+1] 0.0 then
-                        (((xValues.[i + 1] - xValues.[i])*diff.[i - 1]) + ((xValues.[i] - xValues.[i - 1])*diff.[i]))/(xValues.[i + 1] - xValues.[i - 1])
-                    else
-                        ((we.[i + 1]*diff.[i - 1]) + (we.[i - 1]*diff.[i]))/(we.[i + 1] + we.[i - 1])
-                tmp.[i] <- ddi 
-            tmp.[0]          <- FSharp.Stats.Integration.Differentiation.differentiateThreePoint xValues yValues 0 0 1 2
-            tmp.[1]          <- FSharp.Stats.Integration.Differentiation.differentiateThreePoint xValues yValues 1 0 1 2 
-            tmp.[xValues.Length-2] <- FSharp.Stats.Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-2) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
-            tmp.[xValues.Length-1] <- FSharp.Stats.Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-2) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
-            tmp
-        interpolateHermiteSorted xValues yValues dd
+        //For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm
+        ///
+        let akimaCoefficients (xValues:float []) (yValues:float []) =
+            if xValues.Length <> yValues.Length then
+                failwith "input arrays differ in length"
+            elif
+                xValues.Length < 5 then
+                failwith "input arrays are too small to perform a spline interpolation" 
+            // prepare divided differences (diff) and weights (we)
+            let diff = 
+                let tmp = Array.zeroCreate (xValues.Length-1)
+                for i = 0 to tmp.Length-1 do
+                    tmp.[i] <- (yValues.[i+1] - yValues.[i])/(xValues.[i+1] - xValues.[i])
+                tmp
+            let we  = 
+                let tmp = Array.zeroCreate (xValues.Length-1)
+                for i = 1 to tmp.Length-1 do
+                    tmp.[i] <- (diff.[i]-diff.[i-1]) |> abs 
+                tmp
+            // prepare Hermite interpolation scheme   
+            let dd = 
+                let tmp = Array.zeroCreate xValues.Length
+                for i = 2 to tmp.Length-3 do 
+                    let ddi = 
+                        if FSharp.Stats.Precision.almostEqualNorm we.[i-1] 0.0 && FSharp.Stats.Precision.almostEqualNorm we.[i+1] 0.0 then
+                            (((xValues.[i + 1] - xValues.[i])*diff.[i - 1]) + ((xValues.[i] - xValues.[i - 1])*diff.[i]))/(xValues.[i + 1] - xValues.[i - 1])
+                        else
+                            ((we.[i + 1]*diff.[i - 1]) + (we.[i - 1]*diff.[i]))/(we.[i + 1] + we.[i - 1])
+                    tmp.[i] <- ddi 
+                tmp.[0]          <- FSharp.Stats.Integration.Differentiation.differentiateThreePoint xValues yValues 0 0 1 2
+                tmp.[1]          <- FSharp.Stats.Integration.Differentiation.differentiateThreePoint xValues yValues 1 0 1 2 
+                tmp.[xValues.Length-2] <- FSharp.Stats.Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-2) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
+                tmp.[xValues.Length-1] <- FSharp.Stats.Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-2) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
+                tmp
+            interpolateHermiteSorted xValues yValues dd
     
-    ///
-    let interpolateAtX (splineCoeffs:SplineCoefficients) xVal =
-        let k = leftSegmentIdx splineCoeffs.XValues xVal 
-        let x = xVal - splineCoeffs.XValues.[k]
-        splineCoeffs.C0.[k] + x*(splineCoeffs.C1.[k] + x*(splineCoeffs.C2.[k] + x*splineCoeffs.C3.[k]))
+        ///
+        let interpolateAtX (splineCoeffs:SplineCoefficients) xVal =
+            let k = leftSegmentIdx splineCoeffs.XValues xVal 
+            let x = xVal - splineCoeffs.XValues.[k]
+            splineCoeffs.C0.[k] + x*(splineCoeffs.C1.[k] + x*(splineCoeffs.C2.[k] + x*splineCoeffs.C3.[k]))
 
 
-    ///
-    let firstDerivative (splineCoeffs:SplineCoefficients) xVal =
-        let k = leftSegmentIdx splineCoeffs.XValues xVal 
-        let x = xVal - splineCoeffs.XValues.[k]
-        splineCoeffs.C1.[k] + x*(2.*splineCoeffs.C2.[k] + x*3.*splineCoeffs.C3.[k])
+        ///
+        let firstDerivative (splineCoeffs:SplineCoefficients) xVal =
+            let k = leftSegmentIdx splineCoeffs.XValues xVal 
+            let x = xVal - splineCoeffs.XValues.[k]
+            splineCoeffs.C1.[k] + x*(2.*splineCoeffs.C2.[k] + x*3.*splineCoeffs.C3.[k])
 
 
-    ///
-    let secondDerivative (splineCoeffs:SplineCoefficients) xVal =
-        let k = leftSegmentIdx splineCoeffs.XValues xVal 
-        let x = xVal - splineCoeffs.XValues.[k]
-        2.*splineCoeffs.C2.[k] + x*6.*splineCoeffs.C3.[k]
+        ///
+        let secondDerivative (splineCoeffs:SplineCoefficients) xVal =
+            let k = leftSegmentIdx splineCoeffs.XValues xVal 
+            let x = xVal - splineCoeffs.XValues.[k]
+            2.*splineCoeffs.C2.[k] + x*6.*splineCoeffs.C3.[k]
 
 
-    ///
-    let computeIndefiniteIntegral (splineCoeffs:SplineCoefficients) = 
-        let integral = 
-            let tmp = Array.zeroCreate splineCoeffs.C0.Length
-            for i = 0 to tmp.Length-2 do
-                let w = splineCoeffs.XValues.[i+1] - splineCoeffs.XValues.[i] 
-                tmp.[i+1] <- tmp.[i] + w*(splineCoeffs.C0.[i] + w*(splineCoeffs.C1.[i]/2. + w*(splineCoeffs.C2.[i]/3. + w*splineCoeffs.C3.[i]/4.)))
-            tmp
-        integral
+        ///
+        let computeIndefiniteIntegral (splineCoeffs:SplineCoefficients) = 
+            let integral = 
+                let tmp = Array.zeroCreate splineCoeffs.C0.Length
+                for i = 0 to tmp.Length-2 do
+                    let w = splineCoeffs.XValues.[i+1] - splineCoeffs.XValues.[i] 
+                    tmp.[i+1] <- tmp.[i] + w*(splineCoeffs.C0.[i] + w*(splineCoeffs.C1.[i]/2. + w*(splineCoeffs.C2.[i]/3. + w*splineCoeffs.C3.[i]/4.)))
+                tmp
+            integral
 
-    ///
-    let integrate (splineCoeffs:SplineCoefficients) xVal = 
-        let integral = computeIndefiniteIntegral splineCoeffs 
-        let k = leftSegmentIdx splineCoeffs.XValues xVal 
-        let x = xVal - splineCoeffs.XValues.[k]
-        integral.[k] + x*(splineCoeffs.C0.[k] + x*(splineCoeffs.C1.[k]/2. + x*(splineCoeffs.C2.[k]/3. + x*splineCoeffs.C3.[k]/4.)))
+        ///
+        let integrate (splineCoeffs:SplineCoefficients) xVal = 
+            let integral = computeIndefiniteIntegral splineCoeffs 
+            let k = leftSegmentIdx splineCoeffs.XValues xVal 
+            let x = xVal - splineCoeffs.XValues.[k]
+            integral.[k] + x*(splineCoeffs.C0.[k] + x*(splineCoeffs.C1.[k]/2. + x*(splineCoeffs.C2.[k]/3. + x*splineCoeffs.C3.[k]/4.)))
 
-    ///
-    let definiteIntegral (integrateF: float -> float) xVal1 xVal2 =
-        integrateF xVal2 - integrateF xVal1 
+        ///
+        let definiteIntegral (integrateF: float -> float) xVal1 xVal2 =
+            integrateF xVal2 - integrateF xVal1 
+
+    module Simple =
+        
+        type BoundaryCondition =
+            ///most used spline variant: f'' at borders is set to 0
+            | Natural
+            ///f' at first point is the same as f' at the last point
+            | Periodic
+            ///f'' at first/second and last/penultimate knot are equal
+            | Parabolic
+            ///f''' at second and penultimate knot are continuous
+            | NotAKnot
+            ///first and last polynomial are quadratic, not cubic
+            | Quadratic
+            ///f' at first and last knot are set by user
+            | Clamped
+              
+        ///computes all coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
+        ///where: fn(x) = (an)x³+(bn)x²+(cn)x+(dn)
+        let coefficients (boundaryCondition: BoundaryCondition) (x_Values: Vector<float>) (y_Values: Vector<float>) =
+            //f(x)   = ax³+bx²+cx+d
+            //f'(x)  = 3ax²+2bx+c
+            //f''(x) = 6ax+2b
+
+            let (xVal,yVal) =
+                let indices =
+                    x_Values
+                    |> Seq.indexed
+                    |> Seq.sortBy snd
+                    |> Seq.map fst
+                let sortedX_Values = indices |> Seq.map (fun i -> x_Values.[i]) |> vector
+                let sortedY_Values = indices |> Seq.map (fun i -> y_Values.[i]) |> vector
+                sortedX_Values,sortedY_Values
+
+            let intervalNumber = xVal.Length - 1
+
+            let interpolatingConstraints intervalIndex (x:float) (y:float) =
+                let tmp = Array.init (4 * intervalNumber) (fun x -> 0.)
+                tmp.[4 * intervalIndex + 0] <- pown x 3  
+                tmp.[4 * intervalIndex + 1] <- pown x 2 
+                tmp.[4 * intervalIndex + 2] <- x
+                tmp.[4 * intervalIndex + 3] <- 1.
+                (tmp,y)
+
+            let firstDerivativeConstraints intervalIndex x =
+                let tmp = Array.init (4 * intervalNumber) (fun x -> 0.)
+                let f'a = 3. * (pown x 2)
+                let f'b = 2. * x
+                let f'c = 1.
+                let f'd = 0.
+                tmp.[4 * intervalIndex + 0] <- f'a
+                tmp.[4 * intervalIndex + 1] <- f'b
+                tmp.[4 * intervalIndex + 2] <- f'c
+                //tmp.[4 * intervalIndex + 3] <- f'd
+                tmp.[4 * intervalIndex + 4] <- - f'a
+                tmp.[4 * intervalIndex + 5] <- - f'b
+                tmp.[4 * intervalIndex + 6] <- - f'c
+                //tmp.[4 * intervalIndex + 7] <- - f'd
+                (tmp,0.)
+
+            let secondDerivativeConstraints intervalIndex x =
+                let tmp = Array.init (4 * intervalNumber) (fun x -> 0.)
+                let f''a = 6. * x
+                let f''b = 2.
+                let f''c = 0.
+                let f''d = 0.
+                tmp.[4 * intervalIndex + 0] <- f''a
+                tmp.[4 * intervalIndex + 1] <- f''b
+                //tmp.[4 * intervalIndex + 2] <- f''c
+                //tmp.[4 * intervalIndex + 3] <- f''d
+                tmp.[4 * intervalIndex + 4] <- - f''a
+                tmp.[4 * intervalIndex + 5] <- - f''b
+                //tmp.[4 * intervalIndex + 6] <- - f''c
+                //tmp.[4 * intervalIndex + 7] <- - f''d
+                (tmp,0.)
+            
+            let boundaryCondition = 
+                let firstX = xVal.[0]
+                let secondX = xVal.[1]
+                let lastX = xVal.[intervalNumber]
+                let penultimate = xVal.[intervalNumber - 1]
+                let tmp1 = Array.init (4 * intervalNumber) (fun x -> 0.)
+                let tmp2 = Array.init (4 * intervalNumber) (fun x -> 0.)
+                match boundaryCondition with
+                | Natural ->
+                    //first condition: f''0(x0) = 0
+                    tmp1.[0] <- 6. * firstX
+                    tmp1.[1] <- 2.
+                    //tmp.[2] <- 0.
+                    //tmp.[3] <- 0.
+
+                    //second condition: f''n-1(xn) = 0
+                    tmp2.[4 * (intervalNumber - 1) + 0] <- 6. * lastX
+                    tmp2.[4 * (intervalNumber - 1) + 1] <- 2.
+                    //tmp2.[4 * (intervalNumber - 1) + 2] <- 0.
+                    //tmp2.[4 * (intervalNumber - 1) + 3] <- 0.
+
+                    [|(tmp1,0.);(tmp2,0.)|]
+
+                | Periodic ->
+                    //first conditionf'0(x0)-f'n-1(xn) = 0
+                    tmp1.[0] <- 3. * (pown firstX 2)
+                    tmp1.[1] <- 2. * firstX
+                    tmp1.[2] <- 1.
+                    tmp1.[4 * (intervalNumber - 1) + 0] <- -3. * (pown lastX 2)
+                    tmp1.[4 * (intervalNumber - 1) + 1] <- -2. * lastX
+                    tmp1.[4 * (intervalNumber - 1) + 2] <- -1.
+
+                    //second condition: f''0(x0)-f''n-1(xn) = 0
+                    tmp2.[0] <- 6. * firstX
+                    tmp2.[1] <- 2. 
+                    tmp2.[4 * (intervalNumber - 1) + 0] <- -6. * lastX
+                    tmp2.[4 * (intervalNumber - 1) + 1] <- -2. 
+
+                    [|(tmp1,0.);(tmp2,0.)|]
+
+                | Parabolic -> 
+                    //first condition: f''0(x0) - f''0(x1) = 0
+                    tmp1.[0] <- 6. * firstX
+                    tmp1.[1] <- 2.
+                    tmp1.[4] <- -6. * secondX
+                    tmp1.[5] <- -2.
+                
+                    //second condition: f''n-1(x(n-1)) - f''n-1(xn) = 0
+                    tmp2.[4 * (intervalNumber - 1) + 0] <- 6. * lastX
+                    tmp2.[4 * (intervalNumber - 1) + 1] <- 2. 
+                    tmp2.[4 * (intervalNumber - 2) + 0] <- -6. * penultimate
+                    tmp2.[4 * (intervalNumber - 2) + 1] <- -2. 
+                
+                    [|(tmp1,0.);(tmp2,0.)|]
+                
+                | NotAKnot ->
+                    //first condition: f'''0(x1) - f'''1(x1) = 0
+                    tmp1.[0] <- 1.
+                    tmp1.[4] <- -1.
+                
+                    //second condition: f'''n-1(x(n-1)) - f'''n-2(x(n-1)) = 0
+                    tmp2.[4 * (intervalNumber - 1) + 0] <- 1.
+                    tmp2.[4 * (intervalNumber - 2) + 0] <- -1.
+                
+                    [|(tmp1,0.);(tmp2,0.)|]
+
+                | Quadratic ->
+                    //first condition: a1 = 0
+                    tmp1.[0] <- 1.
+                
+                    //second condition: an = 0.
+                    tmp2.[4 * (intervalNumber - 1) + 0] <- 1.
+                
+                    [|(tmp1,0.);(tmp2,0.)|]
+                
+                | Clamped -> //user defined border f''
+                    failwith "Not implemented yet. Slopes m1 and m2 have to be set by user"
+                    ////first condition: f''0(x0) = m1
+                    //tmp1.[0] <- 6. * firstX
+                    //tmp1.[1] <- 2.
+                    ////second condition: f''n-1(xn) = m2
+                    //tmp2.[4 * (intervalNumber - 1) + 0] <- 6. * lastX
+                    //tmp2.[4 * (intervalNumber - 1) + 1] <- 2.
+                    //[|(tmp1,m1);(tmp2,m2)|]
+
+            let (equations,solutions) =
+                let interPolConstraints =
+                    [|0 .. intervalNumber - 1|]
+                    |> Array.map (fun i -> 
+                        [|
+                        interpolatingConstraints i xVal.[i] yVal.[i]
+                        interpolatingConstraints i xVal.[i+1] yVal.[i+1]
+                        |])
+                        |> Array.concat
+
+                let derivativeConstraints =
+                    [|0 .. intervalNumber - 2|]
+                    |> Array.map (fun i -> 
+                        [|
+                        firstDerivativeConstraints  i xVal.[i+1]
+                        secondDerivativeConstraints i xVal.[i+1]
+                        |])
+                    |> Array.concat
+                
+                [|interPolConstraints;derivativeConstraints;boundaryCondition|]
+                |> Array.concat
+                |> Array.unzip
+                
+            let A = Matrix.ofArray equations
+            let b = Vector.ofArray solutions
+
+            Algebra.LinearAlgebra.SolveLinearSystem A b 
+        
+        ///Fits a cubic spline with given coefficients. Only defined within the range of the given x_Values
+        let fit (coefficients: Vector<float>) (x_Values: Vector<float>) x =
+            let sortedX = x_Values |> Seq.sort
+            let intervalNumber =
+                
+                if x > Seq.last sortedX || x < Seq.head sortedX then 
+                    failwith "Spline is not defined outside of the interval of the xValues"
+                
+                if x = Seq.last sortedX then 
+                    Seq.length sortedX - 2
+                else
+                    sortedX
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - x) > 0.)
+                    |> fun nextInterval -> nextInterval - 1
+            
+            let y_Value = 
+                coefficients.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
+                coefficients.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
+                coefficients.[4 * intervalNumber + 2] * x          +    //c*x
+                coefficients.[4 * intervalNumber + 3]                   //d
+            
+            y_Value
+
+        ///forces a spline fit even outside of the interval defined in x_Values
+        let fitForce (coefficients: Vector<float>) (x_Values: Vector<float>) x =
+            let sortedX = x_Values |> Seq.sort
+            let intervalNumber =
+                if x >= Seq.last sortedX then 
+                    Seq.length sortedX - 2
+                elif x < Seq.head sortedX then 
+                    0
+                else
+                    sortedX
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - x) > 0.)
+                    |> fun nextInterval -> nextInterval - 1            
+            let y_Value = 
+                coefficients.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
+                coefficients.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
+                coefficients.[4 * intervalNumber + 2] * x          +    //c*x
+                coefficients.[4 * intervalNumber + 3]                   //d            
+            y_Value
+
+        module Hermite =
+
+            ///calculates a function to interpolate between the datapoints with given slopes (y_Data').
+            ///the data has to be sorted ascending
+            let cubicHermite (x_Data: Vector<float>) (y_Data: Vector<float>) (y_Data': Vector<float>) =
+                let n = x_Data.Length
+
+                let phi0 t tAdd1 x =
+                    let tmp = (x - t) / (tAdd1 - t)
+                    2. * (pown tmp 3) - 3. * (pown tmp 2) + 1.
+                           
+                let phi1 t tAdd1 x =
+                    let tmp = (x - t) / (tAdd1 - t)
+                    - 2. * (pown tmp 3) + 3. * (pown tmp 2)    
+
+                let psi0 t tAdd1 x =
+                    let tmp = (x - t) / (tAdd1 - t)
+                    let a = tAdd1 - t
+                    let b = (pown tmp 3) - 2. * (pown tmp 2) + tmp
+                    a * b
+                
+                let psi1 t tAdd1 x =
+                    let tmp = (x - t) / (tAdd1 - t)
+                    let a = tAdd1 - t
+                    let b = (pown tmp 3) - (pown tmp 2)
+                    a * b 
+
+                let calculate index x =
+                    let ph0 = y_Data.[index]    * phi0 x_Data.[index] x_Data.[index+1] x
+                    let ph1 = y_Data.[index+1]  * phi1 x_Data.[index] x_Data.[index+1] x
+                    let ps0 = y_Data'.[index]   * psi0 x_Data.[index] x_Data.[index+1] x
+                    let ps1 = y_Data'.[index+1] * psi1 x_Data.[index] x_Data.[index+1] x
+                    ph0 + ph1 + ps0 + ps1
+
+
+                (fun t ->
+                    if t = Seq.last x_Data then 
+                        Seq.last y_Data
+                    else                 
+                        let i = 
+                            match Array.tryFindIndexBack (fun xs -> xs <= t) (x_Data |> Vector.toArray) with 
+                            | Some x -> x 
+                            | None   -> failwith "The given x_Value is out of the range defined in x_Data"
+                        calculate i t
+                    )              
+        
+
+            ///calculates the slopes by averaging the slopes of neighbouring tangents
+            let getSimpleSlopes (x_Data: Vector<float>) (y_Data: Vector<float>) = 
+                Vector.init x_Data.Length (fun i ->
+                    if i = 0 then
+                        (y_Data.[i] - y_Data.[i+1]) / (x_Data.[i] - x_Data.[i+1])
+                    elif i = x_Data.Length - 1 then 
+                        (y_Data.[i] - y_Data.[i-1]) / (x_Data.[i] - x_Data.[i-1])
+                    else 
+                        let s1 = (y_Data.[i] - y_Data.[i+1]) / (x_Data.[i] - x_Data.[i+1])
+                        let s2 = (y_Data.[i] - y_Data.[i-1]) / (x_Data.[i] - x_Data.[i-1])
+                        (s1 + s2) / 2.
+                                          )
+
+
+            //let a = [|4.;2.;1.;6.;8.|]
+            //let b = [|3.;6.;2.;1.;7.|]
+            //let (sortedX,sortedY) =
+            //    Array.zip a b
+            //    |> Array.sortBy fst
+            //    |> Array.unzip
+            //    |> (fun (x,y) -> vector x, vector y
+            //let slopes = getSimpleSlopes sortedX sortedY
+            //let fit = cubicHermite sortedX sortedY slopes
+            //[|1. .. 0.1 .. 8|]
+            //|> Array.map (fun x -> x,fit x)
+            //|> Chart.Point
+            //|> Chart.Show
+
+
+
