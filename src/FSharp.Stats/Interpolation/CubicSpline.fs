@@ -463,20 +463,36 @@ module CubicSpline =
                         (s1 + s2) / 2.
                                           )
 
+            ///if the knots are monotone in/decreasing, the spline also is monotone (http://www.korf.co.uk/spline.pdf)
+            let getSlopesTryMonotonicity (x_Data: Vector<float>) (y_Data: Vector<float>) =
+                let calcSlope i =
+                    let s1 = (x_Data.[i+1] - x_Data.[i]) / (y_Data.[i+1] - y_Data.[i])
+                    let s2 = (x_Data.[i] - x_Data.[i-1]) / (y_Data.[i] - y_Data.[i-1])
+                    2. / (s1 + s2)
 
-            //let a = [|4.;2.;1.;6.;8.|]
-            //let b = [|3.;6.;2.;1.;7.|]
-            //let (sortedX,sortedY) =
-            //    Array.zip a b
-            //    |> Array.sortBy fst
-            //    |> Array.unzip
-            //    |> (fun (x,y) -> vector x, vector y
-            //let slopes = getSimpleSlopes sortedX sortedY
-            //let fit = cubicHermite sortedX sortedY slopes
-            //[|1. .. 0.1 .. 8|]
-            //|> Array.map (fun x -> x,fit x)
-            //|> Chart.Point
-            //|> Chart.Show
+                let rec loop i acc =
+                    if i = x_Data.Length - 1 then
+                        let s1 = (3. * (y_Data.[i] - y_Data.[i-1])) / (2. * (x_Data.[i] - x_Data.[i-1]))
+                        let s2 = 
+                            let s21 = (y_Data.[i-1] - y_Data.[i]) / (x_Data.[i-1] - x_Data.[i])
+                            let s22 = (y_Data.[i-1] - y_Data.[i-2]) / (x_Data.[i-1] - x_Data.[i-2])
+                            (s21 + s22) / 4.
+                        let tmp = s1 - s2
+                        (tmp::acc) |> List.rev
+                    else 
+                        let tmp = calcSlope i
+                        if ((y_Data.[i] - y_Data.[i-1]) * (y_Data.[i+1] - y_Data.[i])) <= 0. then 
+                            loop (i+1) (0.::acc)
+                        else 
+                            loop (i+1) (tmp::acc)
 
+                let slopeAtFstKnot = 
+                    let s1 = (3. * (y_Data.[1] - y_Data.[0])) / (2. * (x_Data.[1] - x_Data.[0]))
+                    let s2 = calcSlope 1 / 2.
+                    let slope = s1 - s2
+                    slope
+ 
+                let slopes = loop 1 [slopeAtFstKnot] 
+                slopes |> vector
 
-
+            
