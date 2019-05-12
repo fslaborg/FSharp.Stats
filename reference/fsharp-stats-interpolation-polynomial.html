@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>EVD - FSharp.Stats</title>
+    <title>Polynomial - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -37,9 +37,9 @@
 
 
 
-<h1>EVD</h1>
+<h1>Polynomial</h1>
 <p>
-  <span>Namespace: FSharp.Stats.Algebra</span><br />
+  <span>Namespace: FSharp.Stats.Interpolation</span><br />
   </p>
 <div class="xmldoc">
 </div>
@@ -55,73 +55,39 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1099', 1099)" onmouseover="showTip(event, '1099', 1099)">
-            getEigenvalueMAtrix(e, v, d)
+          <code onmouseout="hideTip(event, '1348', 1348)" onmouseover="showTip(event, '1348', 1348)">
+            coefficients x_Data y_Data
           </code>
-          <div class="tip" id="1099">
-            <strong>Signature:</strong> (e:&#39;?10077 * v:&#39;?10078 * d:&#39;?10079) -&gt; &#39;?10078<br />
-                          <strong>Type parameters:</strong> '?10077, '?10078, '?10079                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/EVD.fs#L231-231" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '1100', 1100)" onmouseover="showTip(event, '1100', 1100)">
-            getImaginaryEigenvalues(e, v, d)
-          </code>
-          <div class="tip" id="1100">
-            <strong>Signature:</strong> (e:&#39;?10073 * v:&#39;?10074 * d:&#39;?10075) -&gt; &#39;?10073<br />
-                          <strong>Type parameters:</strong> '?10073, '?10074, '?10075                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/EVD.fs#L230-230" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '1101', 1101)" onmouseover="showTip(event, '1101', 1101)">
-            getRealEigenvalues(e, v, d)
-          </code>
-          <div class="tip" id="1101">
-            <strong>Signature:</strong> (e:&#39;a * v:&#39;b * d:&#39;c) -&gt; &#39;c<br />
-                          <strong>Type parameters:</strong> 'a, 'b, 'c                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/EVD.fs#L229-229" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '1102', 1102)" onmouseover="showTip(event, '1102', 1102)">
-            symmetricEvd(a)
-          </code>
-          <div class="tip" id="1102">
-            <strong>Signature:</strong> a:float [,] -&gt; float [] * float [,] * float []<br />
+          <div class="tip" id="1348">
+            <strong>Signature:</strong> x_Data:Vector&lt;float&gt; -&gt; y_Data:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/EVD.fs#L210-210" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/Polynomial.fs#L14-14" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the</p>
+          <p>calculates the polynomial coefficients for interpolating the given unsorted data. No duplicates allowed!</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1349', 1349)" onmouseover="showTip(event, '1349', 1349)">
+            fit coef x
+          </code>
+          <div class="tip" id="1349">
+            <strong>Signature:</strong> coef:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/Polynomial.fs#L26-26" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>takes interpolating</p>
 
 
         </td>
