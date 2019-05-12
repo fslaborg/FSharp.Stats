@@ -8,16 +8,14 @@
 open FSharp.Plotly
 
 
-
-
 (**
 
 #Interpolation
 
 ##Polynomial Interpolation
 
-In polynomial interpolation a polynomial is fitted to the data using the least squares approach (see Fitting documentation). By the use of the degree equal to the number of data points - 1 it results in a interpolating curve.
-A degree other than n-1 results in a regression polynomial.
+Here a polynomial is fitted to the data. In general a polynomial with degree = dataPointNumber - 1 has sufficient flexibility to interpolate all data points.
+The least squares approach is not sufficient to converge to an interpolating polynomial! A degree other than n-1 results in a regression polynomial.
 
 *)
 
@@ -25,33 +23,30 @@ open FSharp.Stats
 open FSharp.Stats.Fitting.LinearRegression
 open FSharp.Plotly
 
-let x_data = vector [|1. .. 4.|]
-let y_data = vector [|4.;7.;9.;8.;|]
+let x_data = vector [|1. .. 6.|]
+let y_data = vector [|4.;7.;9.;8.;7.;9.;|]
 
 //Polynomial interpolation
 
-//Define the order the polynomial should have. In Interpolation the order is equal to the data length - 1
-let order = x_data.Length - 1
+//Define the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
 let coefficients = 
-    OrdinaryLeastSquares.Polynomial.coefficient order x_data y_data 
+    Interpolation.Polynomial.coefficients x_data y_data 
 let interpolFunction x = 
-    OrdinaryLeastSquares.Polynomial.fit order coefficients x
+    Interpolation.Polynomial.fit coefficients x
 
 let rawChart = 
     Chart.Point(x_data,y_data)
     |> Chart.withTraceName "raw data"
     
 let interpolPol = 
-    let fit = [|1. .. 0.01 .. 4.|] |> Array.map (fun x -> x,interpolFunction x)
+    let fit = [|1. .. 0.1 .. 6.|] |> Array.map (fun x -> x,interpolFunction x)
     fit
     |> Chart.Line
     |> Chart.withTraceName "interpolating polynomial"
 
-(*** do-not-eval ***)
 let chartPol = 
     [rawChart;interpolPol] 
     |> Chart.Combine
-
 
 (*** include-value:chartPol ***)
 
@@ -85,6 +80,7 @@ In general piecewise cubic splines only are defined within the region defined by
 *)
 
 
+open FSharp.Plotly
 open FSharp.Stats.Interpolation
 open FSharp.Stats.Fitting.LinearRegression
 
@@ -101,13 +97,12 @@ let fit  x =
 let fitForce x = 
     CubicSpline.Simple.fitForce coeffSpline x_Data x
 
-//to compare the spline fit with an interpolating polynomial a leastSquares fit with order = n - 1 is created.
+//to compare the spline fit with an interpolating polynomial:
 let coeffPolynomial = 
-    OrdinaryLeastSquares.Polynomial.coefficient 5 x_Data y_Data
+    Interpolation.Polynomial.coefficients x_Data y_Data
 let fitPol x = 
-    OrdinaryLeastSquares.Polynomial.fit 5 coeffPolynomial x
+    Interpolation.Polynomial.fit coeffPolynomial x
 
-(*** do-not-eval ***)
 let splineChart =
     [
     Chart.Point(x_Data,y_Data)                                           |> Chart.withTraceName "raw data"
@@ -116,26 +111,69 @@ let splineChart =
     [1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x)       |> Chart.Line |> Chart.withTraceName "fitSpline"
     ]
     |> Chart.Combine
-    |> Chart.Show
-
 
 (*** include-value:splineChart ***)
 
-(*** do-not-eval ***)
 //additionally you can calculate the derivatives of the spline
-[
-Chart.Point(x_Data,y_Data) |> Chart.withTraceName "raw data"
-[1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x) |> Chart.Line  |> Chart.withTraceName "spline fit"
-[1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getFirstDerivative  coeffSpline x_Data x) |> Chart.Point |> Chart.withTraceName "fst derivative"
-[1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getSecondDerivative coeffSpline x_Data x) |> Chart.Point |> Chart.withTraceName "snd derivative"
-[1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getThirdDerivative  coeffSpline x_Data x) |> Chart.Point |> Chart.withTraceName "trd derivative"
-]
-|> Chart.Combine
-|> Chart.Show
+//The cubic spline interpolation is continuous in f, f', and  f''.
+let derivativeChart =
+    [
+    Chart.Point(x_Data,y_Data) |> Chart.withTraceName "raw data"
+    [1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x) |> Chart.Line  |> Chart.withTraceName "spline fit"
+    [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getFirstDerivative  coeffSpline x_Data x) |> Chart.Point |> Chart.withTraceName "fst derivative"
+    [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getSecondDerivative coeffSpline x_Data x) |> Chart.Point |> Chart.withTraceName "snd derivative"
+    [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getThirdDerivative  coeffSpline x_Data x) |> Chart.Point |> Chart.withTraceName "trd derivative"
+    ]
+    |> Chart.Combine
 
 
+(*** include-value:derivativeChart ***)
 
 (**
-Interpolation.Approximation
-Interpolation.LinearSpline
+## Hermite interpolation
+
+In Hermite interpolation the user can define the slopes of the function in the knots. This is especially useful if the function is oscillating and thereby generates local minima/maxima.
+Intuitevely the slope of a knot should be between the slopes of the adjacent straight lines. By using this slope calculation a monotone knot behavior results in a monotone spline.
+
+
+ - [Slope calculation](http://www.korf.co.uk/spline.pdf)
+
 *)
+
+open FSharp.Stats
+open FSharp.Stats.Interpolation
+open FSharp.Stats.Interpolation.CubicSpline
+open FSharp.Plotly
+
+//example from http://www.korf.co.uk/spline.pdf
+let x_DataH = vector [0.;10.;30.;50.;70.;80.;82.]
+let y_DataH = vector [150.;200.;200.;200.;180.;100.;0.]
+
+//Get slopes for Hermite spline. Try to fit a monotone function.
+let tryMonotoneSlope = Simple.Hermite.getSlopesTryMonotonicity x_DataH y_DataH    
+//get function for Hermite spline
+let funHermite = Simple.Hermite.cubicHermite x_DataH y_DataH tryMonotoneSlope
+
+//get coefficients and function for a classic natural spline
+let coeffSpl = Simple.coefficients Simple.BoundaryCondition.Natural x_DataH y_DataH
+let funNaturalSpline x = Simple.fit coeffSpl x_DataH x
+
+//get coefficients and function for a classic polynomial interpolation
+let coeffPolInterpol = 
+    //let neutralWeights = Vector.init 7 (fun x -> 1.)
+    //Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.coefficientsWithWeighting 6 neutralWeights x_DataH y_DataH
+    Interpolation.Polynomial.coefficients x_DataH y_DataH
+let funPolInterpol x = 
+    //Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.fit 6 coeffPolInterpol x
+    Interpolation.Polynomial.fit coeffPolInterpol x
+
+let splineComparison =
+    [
+    Chart.Point(x_DataH,y_DataH) |> Chart.withTraceName "raw data"
+    [0. .. 82.] |> List.map (fun x -> x,funNaturalSpline x) |> Chart.Line  |> Chart.withTraceName "natural spline"
+    [0. .. 82.] |> List.map (fun x -> x,funHermite x      ) |> Chart.Line  |> Chart.withTraceName "hermite spline"
+    [0. .. 82.] |> List.map (fun x -> x,funPolInterpol x  ) |> Chart.Line  |> Chart.withTraceName "polynomial"
+    ]
+    |> Chart.Combine
+
+(*** include-value:splineComparison ***)
