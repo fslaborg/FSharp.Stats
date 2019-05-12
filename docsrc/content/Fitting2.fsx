@@ -8,21 +8,17 @@
 open FSharp.Plotly
 
 
-
-
 (**
 
 #Fitting
 ##Linear Regression
 
 In Linear Regression a linear system of equations is generated. The coefficients obtained by the solution to this equation 
-system minimizes the distance from the regression curve to the data points. These distances are also known as residuals (or least squares).
+system minimize the squared distances from the regression curve to the data points. These distances are also known as residuals (or least squares).
 
 ###Simple Linear Regression
 
-Simple linear regression aims to fit a straight regression line to the data
-
-While the least squares approach efficiently minimizes the sum of squared residuals it is prone to outliers. 
+Simple linear regression aims to fit a straight regression line to the data. While the least squares approach efficiently minimizes the sum of squared residuals it is prone to outliers. 
 An alternative is a robust simple linear regression like Theil's incomplete method or the Theil-Sen estimator, that are outlier resistant.
 
 *)
@@ -31,8 +27,8 @@ open FSharp.Stats
 open FSharp.Plotly
 open FSharp.Stats.Fitting.LinearRegression
 
-let x_Data = vector [|1.;2.;3.;|]
-let y_Data = vector [|4.;7.;9.;|]
+let x_Data = vector [|1. .. 10.|]
+let y_Data = vector [|4.;7.;9.;12.;15.;17.;16.;23.;5.;30.|]
 
 //Least squares simple linear regression
 let coefficientsLinearLS = 
@@ -59,30 +55,30 @@ let rawChart =
     
 let fittingLS = 
     let fit = 
-        [|0. .. 4.|] 
+        [|0. .. 11.|] 
         |> Array.map (fun x -> x,fittingFunctionLinearLS x)
     Chart.Line(fit)
-    |> Chart.withTraceName "least squares"
+    |> Chart.withTraceName "least squares (LS)"
 
 let fittingRobust = 
     let fit = 
-        [|0. .. 4.|] 
+        [|0. .. 11.|] 
         |> Array.map (fun x -> x,fittingFunctionLinearRobust x)
     Chart.Line(fit)
     |> Chart.withTraceName "TheilSen estimator"
 
 let fittingRTO = 
     let fit = 
-        [|0. .. 4.|] 
+        [|0. .. 11.|] 
         |> Array.map (fun x -> x,fittingFunctionLinearRTO x)
     Chart.Line(fit)
-    |> Chart.withTraceName "through origin"
+    |> Chart.withTraceName "LS through origin"
 
-(*** do-not-eval***)
-[rawChart;fittingLS;fittingRobust;fittingRTO] 
-|> Chart.Combine
-|> Chart.Show
+let simpleLinearChart =
+    [rawChart;fittingLS;fittingRTO;fittingRobust;] 
+    |> Chart.Combine
 
+(*** include-value:simpleLinearChart ***)
 
 //Multivariate simple linear regression
 let xVectorMulti =
@@ -154,22 +150,24 @@ let rawChartP =
     
 let fittingPol = 
     let fit = 
-        [|1. .. 0.01 .. 10.|] 
+        [|1. .. 0.1 .. 10.|] 
         |> Array.map (fun x -> x,fittingFunctionPol x)
     Chart.Line(fit)
     |> Chart.withTraceName "order = 3"
 
 let fittingPolW = 
     let fit = 
-        [|1. .. 0.01 .. 10.|] 
+        [|1. .. 0.1 .. 10.|] 
         |> Array.map (fun x -> x,fittingFunctionPolW x)
     Chart.Line(fit)
     |> Chart.withTraceName "order = 3 weigthed"
 
-(*** do-not-eval***)
-[rawChartP;fittingPol;fittingPolW] 
-|> Chart.Combine
-|> Chart.Show
+let polRegressionChart =
+    [rawChartP;fittingPol;fittingPolW] 
+    |> Chart.Combine
+
+(*** include-value:polRegressionChart ***)
+
 
 (**
 ##Nonlinear Regression
@@ -283,15 +281,22 @@ let fittingFunction x = coefficientsExp.[0] * Math.Exp(coefficientsExp.[1] * x)
 
 ##Smoothing spline
 
-A smoothing spline aims to minimize a function with two error terms: 
-- error1: sum of squared residuals
+A smoothing spline aims to minimize a function consisting of two error terms: 
+
+ - error1: sum of squared residuals
+
     - Similar to the OrdinaryLeastSquares regression this error term ensures the fidelity to the data.
-- error2: integral of the second derivative of the fitting function
+
+ - error2: integral of the second derivative of the fitting function
+
     - This error term ensures the smoothness of the resulting curve.
 
 A smoothing parameter (lambda) mediates between the two error terms.
-- E = error1 + (lambda * error2)
+
+ - E = error1 + (lambda * error2)
+
     - If lambda = 0, the the resulting curve minimizes the sum of squared residuals and results in an interpolating curve.
+
     - If lambda = infinity, the resulting curve is punished by the smoothness measurement and results in a straight regression line.
 
 The spline is constructed out of piecewise cubic polynomials that meet at knots. In the defined knots the function is continuous. 
@@ -299,11 +304,11 @@ Depending on the used smoothing factor and the defined knots the smoothing splin
 
 The right amount of smoothing can be determined by cross validation or generalized cross validation.
 *)
-(*** do-not-eval***)
+
 open FSharp.Stats.Fitting
 
 let x_DataS = [|1.;2.; 3.; 4.|]
-let y_DataS = [|5.;14.;65.;100.|]
+let y_DataS = [|5.;14.;65.;75.|]
 
 let data = Array.zip x_DataS y_DataS
 
@@ -316,16 +321,17 @@ let fit lambda =
     [|1. .. 0.1 .. 4.|]
     |> Array.map (fun x -> x,spline lambda x)
     |> Chart.Line
-    |> Chart.withTraceName (sprintf "lambda: %.2f" lambda)
+    |> Chart.withTraceName (sprintf "lambda: %.3f" lambda)
 
 let rawChartS = Chart.Point(data)
 
-[
-rawChartS
-fit 0.001
-fit 0.1
-fit 10.
-]
-|> Chart.Combine
-|> Chart.Show
+let smoothingSplines =
+    [
+    rawChartS
+    fit 0.001
+    fit 0.02
+    fit 1.
+    ]
+    |> Chart.Combine
 
+(*** include-value:smoothingSplines ***)
