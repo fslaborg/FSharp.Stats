@@ -145,6 +145,16 @@
 				  <li><a href="@Root/Fitting.html#Nonlinear-Regression">Nonlinear Regression</a></li>
               </ul>
               }
+			  </li>
+              <li><a href="@Root/Interpolation.html">Interpolation</a></li>
+              @if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Interpolation.fsx"))
+              {
+              <ul class="nav nav-list">
+                  <li><a href="@Root/Interpolation.html#Polynomial-Interpolation">Polynomial Interpolation</a></li>
+                  <li><a href="@Root/Interpolation.html#Cubic-interpolating-Spline">Cubic interpolating Spline</a></li>
+				  <li><a href="@Root/Interpolation.html#Hermite-interpolation">Hermite interpolation</a></li>
+              </ul>
+              }
               </li>
               <li><a href="@Root/Signal.html">Signal</a></li>
               @if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Signal.fsx"))
