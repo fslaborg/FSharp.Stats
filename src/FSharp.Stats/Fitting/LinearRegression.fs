@@ -172,6 +172,20 @@ module LinearRegression =
             let fit (order) (coef : Vector<float>) (x:float) =            
                 Vector.dot coef (vandermondeRow order x)
 
+            ///gets derivative at x with given polynomial coefficients. Level1 = fst derivative; Level2 = smd derivative ...
+            let getDerivative (*(order: int)*) (coef: Vector<float>) (level: int) (x: float) =
+                let order = coef.Length - 1
+                Array.init (order + 1) (fun i -> 
+                    let factor = 
+                        //[for l = 0 to (level - 1) do yield i-l] 
+                        List.init level (fun l -> i-l)
+                        |> List.filter (fun v -> not (nan.Equals(v)))
+                        |> List.fold (fun acc c -> acc * (float c)) 1.
+                    factor * coef.[i] * (pown x (i-level))
+                    )
+                |> Array.filter (fun v -> not (nan.Equals(v)))
+                |> Array.sum
+                
             /// Fits a polynomial model of user defined order to the data and returns the cooks distance for every data pair present in the
             /// input collections as an estimator for the influence of each data point in coefficient estimation.  
             let cooksDistance order (x_data : Vector<float>) (y_data : Vector<float>) =
