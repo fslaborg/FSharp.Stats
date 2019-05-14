@@ -26,3 +26,17 @@ module Polynomial =
     let fit (coef : Vector<float>) (x:float) =
         coef |> Vector.foldi (fun i acc c -> acc + (c * (pown x i))) 0.
 
+    ///gets derivative at x with given polynomial coefficients. Level1 = fst derivative; Level2 = smd derivative ...
+    let getDerivative (*(order: int)*) (coef: Vector<float>) (level: int) (x: float) =
+        let order = coef.Length - 1
+        Array.init (order + 1) (fun i -> 
+            let factor = 
+                //[for l = 0 to (level - 1) do yield i-l] 
+                List.init level (fun l -> i-l)
+                |> List.filter (fun v -> not (nan.Equals(v)))
+                |> List.fold (fun acc c -> acc * (float c)) 1.
+            factor * coef.[i] * (pown x (i-level))
+            )
+        |> Array.filter (fun v -> not (nan.Equals(v)))
+        |> Array.sum
+
