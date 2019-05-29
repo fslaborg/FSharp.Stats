@@ -152,7 +152,7 @@ module CubicSpline =
             | Clamped
               
         ///computes all coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
-        ///where: fn(x) = (an)x³+(bn)x²+(cn)x+(dn)
+        ///where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)
         let coefficients (boundaryCondition: BoundaryCondition) (x_Values: Vector<float>) (y_Values: Vector<float>) =
             //f(x)   = ax³+bx²+cx+d
             //f'(x)  = 3ax²+2bx+c
@@ -318,7 +318,7 @@ module CubicSpline =
                 |> Array.concat
                 |> Array.unzip
                 
-            let A = Matrix.ofArray equations
+            let A = Matrix.ofJaggedArray equations
             let b = Vector.ofArray solutions
 
             Algebra.LinearAlgebra.SolveLinearSystem A b 
