@@ -62,13 +62,26 @@ module Padding =
         //inserts points lying on the linear interpolation of the two adjacent knots
         | LinearInterpolation
         
+    //padds data point in huge gaps (e.g. big ranges with no data)
+    type HugeGapPaddingMethod =
+        //inserts random data points taken from the original data set in a huge data gap
+        | Random 
+        //inserts nan values in a huge data gap
+        | NaN
+        //does not insert any point internally
+        | Delete
+        //inserts 0.0 as y_Value
+        | Zero
+        //inserts points lying on the linear interpolation of the two adjacent knots
+        | LinearInterpolation
 
     ///Adds additional data points to the beginning and end of data set (number: borderpadding; x_Value distance: minDistance; y_Value: random).
     ///Between every pair of data point where the difference in x_Values is greater than minDistance, additional datapoints are generated as defined in internalPaddingMethod.
+    ///If huge data chunks are missing (missing gap < maxDistance), data points are added as defined in hugeGapPaddingMethod.
     ///default: internalPaddingMethod=LinearInterpolation; hugeGapPaddingMethod=Random (like in border cases)
     ///getDiff: get the difference in x_Values as float representation (if 'a is float then (-))
     ///addToXValue: function that adds a float to the x_Value (if 'a is float then (+))
-    let inline padd (data : ('a * float) []) (minDistance: float) (maxDistance : float) (getDiff: 'a -> 'a -> float) (addToXValue : 'a -> float -> 'a) (borderpadding : int) (internalPaddingMethod: InternalPaddingMethod) =
+    let inline padd (data : ('a * float) []) (minDistance: float) (maxDistance : float) (getDiff: 'a -> 'a -> float) (addToXValue : 'a -> float -> 'a) (borderpadding : int) (internalPaddingMethod: InternalPaddingMethod) (hugeGapPaddingMethod: HugeGapPaddingMethod) =
         let rnd = System.Random()
         let n = data.Length
         ///minimal x_Value
@@ -126,40 +139,73 @@ module Padding =
                         //how must the spacing be to insert the number of data points in a uniformly manner
                         let xSpacing = diff / (numberOfPointsToAdd + 1.)
 
-                  
-                        match internalPaddingMethod with
-                        | InternalPaddingMethod.Random -> 
-                            let pointsToAdd =
-                                [1 .. int numberOfPointsToAdd]
-                                |> List.map (fun interval -> 
-                                    let x = addToXValue (fst current) (float interval * xSpacing)
-                                    let y = data.[rnd.Next(0,n)] |> snd
-                                    x,y
-                                    )
-                            loop (i+1) (pointsToAdd::[current]::acc)    //add random             
-                        | InternalPaddingMethod.NaN -> 
-                            let pointsToAdd =
-                                [1 .. int numberOfPointsToAdd]
-                                |> List.map (fun interval -> 
-                                    let x = addToXValue (fst current) (float interval * xSpacing)
-                                    let y = nan
-                                    x,y
-                                    )
-                            loop (i+1) (pointsToAdd::[current]::acc)    //add nan
-                        | InternalPaddingMethod.Delete -> 
-                            loop (i+1) ([current]::acc)                 //no values are added
-                        | InternalPaddingMethod.Zero -> 
-                            let pointsToAdd =
-                                [1 .. int numberOfPointsToAdd]
-                                |> List.map (fun interval -> 
-                                    let x = addToXValue (fst current) (float interval * xSpacing)
-                                    let y = 0.0
-                                    x,y
-                                    )
-                            loop (i+1) (pointsToAdd::[current]::acc)    //zeros are added
-                        | _ ->
-                            let pointsToAdd = linearInterpol current next numberOfPointsToAdd xSpacing                              
-                            loop (i+1) (pointsToAdd::[current]::acc)    //linear interpolation values are added
+                        //if there is a huge gap, then do not use the internalPaddingMethod, but use the specified hugeGapPaddingMethod
+                        if diff > maxDistance then
+                            match hugeGapPaddingMethod with
+                            | HugeGapPaddingMethod.Random -> 
+                                let pointsToAdd =
+                                    [1 .. int numberOfPointsToAdd]
+                                    |> List.map (fun interval -> 
+                                        let x = addToXValue (fst current) (float interval * xSpacing)
+                                        let y = data.[rnd.Next(0,n)] |> snd
+                                        x,y)
+                                loop (i+1) (pointsToAdd::[current]::acc)    //add random             
+                            | HugeGapPaddingMethod.NaN -> 
+                                let pointsToAdd =
+                                    [1 .. int numberOfPointsToAdd]
+                                    |> List.map (fun interval -> 
+                                        let x = addToXValue (fst current) (float interval * xSpacing)
+                                        let y = nan
+                                        x,y)
+                                loop (i+1) (pointsToAdd::[current]::acc)    //add nan
+                            | HugeGapPaddingMethod.Delete ->
+                                loop (i+1) ([current]::acc)                 //no values are added
+                            | HugeGapPaddingMethod.Zero -> 
+                                let pointsToAdd =
+                                    [1 .. int numberOfPointsToAdd]
+                                    |> List.map (fun interval -> 
+                                        let x = addToXValue (fst current) (float interval * xSpacing)
+                                        let y = 0.0
+                                        x,y)
+                                loop (i+1) (pointsToAdd::[current]::acc)    //zeros are added
+                            | _ ->
+                                let pointsToAdd = linearInterpol current next numberOfPointsToAdd xSpacing                              
+                                loop (i+1) (pointsToAdd::[current]::acc)    //linear interpolation values are added
+                        //if the gap is greater than minDistance but smaller than maxDistance, padd the gap as defined in internalPaddingMethod
+                        else
+                            match internalPaddingMethod with
+                            | InternalPaddingMethod.Random -> 
+                                let pointsToAdd =
+                                    [1 .. int numberOfPointsToAdd]
+                                    |> List.map (fun interval -> 
+                                        let x = addToXValue (fst current) (float interval * xSpacing)
+                                        let y = data.[rnd.Next(0,n)] |> snd
+                                        x,y
+                                        )
+                                loop (i+1) (pointsToAdd::[current]::acc)    //add random             
+                            | InternalPaddingMethod.NaN -> 
+                                let pointsToAdd =
+                                    [1 .. int numberOfPointsToAdd]
+                                    |> List.map (fun interval -> 
+                                        let x = addToXValue (fst current) (float interval * xSpacing)
+                                        let y = nan
+                                        x,y
+                                        )
+                                loop (i+1) (pointsToAdd::[current]::acc)    //add nan
+                            | InternalPaddingMethod.Delete -> 
+                                loop (i+1) ([current]::acc)                 //no values are added
+                            | InternalPaddingMethod.Zero -> 
+                                let pointsToAdd =
+                                    [1 .. int numberOfPointsToAdd]
+                                    |> List.map (fun interval -> 
+                                        let x = addToXValue (fst current) (float interval * xSpacing)
+                                        let y = 0.0
+                                        x,y
+                                        )
+                                loop (i+1) (pointsToAdd::[current]::acc)    //zeros are added
+                            | _ ->
+                                let pointsToAdd = linearInterpol current next numberOfPointsToAdd xSpacing                              
+                                loop (i+1) (pointsToAdd::[current]::acc)    //linear interpolation values are added
 
 
                     else
