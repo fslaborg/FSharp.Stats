@@ -29,7 +29,7 @@ let irisFeatures =
     |> List.map (fun ii -> ii.[0..3] |> Array.map float |> Array.toList)    
 
 let irisLables = irisData |> List.map (fun ii -> ii.[4])
-let irisFeaturesMatrix = Matrix.ofList irisFeatures
+let irisFeaturesMatrix = Matrix.ofJaggedList irisFeatures
 
 
 // https://intoli.com/blog/pca-and-svd/
@@ -72,7 +72,7 @@ let toAdjustStandardize (data:Matrix<float>) =
     
     
 toAdjustStandardize irisFeaturesMatrix
-
+(*** do-not-eval ***)
 let s,u,vt = FSharp.Stats.Algebra.LinearAlgebra.SVD  ( toAdjustStandardize irisFeaturesMatrix )
 let v = vt.Transpose |> Matrix.map (fun v -> v)
 
@@ -91,6 +91,7 @@ open FSharp.Stats.ML.Unsupervised
 
 
 let adjCenter = PCA.toAdjustCenter irisFeaturesMatrix
+(*** do-not-eval ***)
 let irisPCA = PCA.compute adjCenter irisFeaturesMatrix
 let irisDataPCA = PCA.transform adjCenter irisPCA irisFeaturesMatrix
 let irisrev = PCA.revert adjCenter irisPCA irisDataPCA

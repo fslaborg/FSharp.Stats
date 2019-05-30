@@ -119,6 +119,8 @@
     <Compile Include="ML\Unsupervised\IterativeClustering.fs" />
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
     <Compile Include="ML\Unsupervised\DbScan.fs" />
+    <!-- MISC -->
+    <Compile Include="FSIPrinters.fs" />
     <None Include="paket.references" />
     <None Include="paket.template" />
   </ItemGroup>
