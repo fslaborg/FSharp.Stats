@@ -19,6 +19,17 @@ module Padding =
             let maxX = data |> Array.last |> fst
             (getDiff maxX minX) / (float n)
 
+        ///median spacing of the data points
+        let inline getMedianSpacing (data : ('a * float) []) (getDiff: 'a -> 'a -> float) = 
+            let n = data.Length
+            ///get median spacing
+            let median =
+                [|1 .. n - 1|]
+                |> Array.map (fun idx -> getDiff (fst data.[idx]) (fst data.[idx - 1]))
+                |> Array.sort
+                |> fun intervals -> intervals.[int (n / 2) - 1]
+            median
+
         module Time =
 
             ///getDiff: calculates the time span between the two events as total minutes (float)
@@ -222,3 +233,29 @@ module Padding =
     let padSignalEnd x = raise (System.NotImplementedException())
 
     let padSparseSignal x = raise (System.NotImplementedException())
+
+    
+////Example
+//let rnd = System.Random()
+//let data = 
+//    Array.init 1000 (fun x -> 1000.* rnd.NextDouble(),rnd.NextDouble()) 
+//    |> Array.sortBy fst
+
+////let avgSpacing = HelperFunctions.getAvgSpacing data (-)
+//let avgSpacing = HelperFunctions.getAvgSpacing data HelperFunctions.Float.getDiffFloat
+////interpolate data point y-values when small gaps are present
+//let innerPadMethod = Padding.InternalPaddingMethod.LinearInterpolation
+////take random data point y-values when huge gaps are between data points
+//let hugeGapPadMethod = Padding.HugeGapPaddingMethod.Random
+////maximal allowed gap between datapoints where internalPaddingMethod can be applied.
+////if internalPaddingMethod = hugeGapPaddingMethod, then it does not matter which value is chosen
+//let maxSpacing = 0.05
+////since were dealing with floats the functions are (-) and (+)
+//let getDiffFu = HelperFunctions.Float.getDiffFloat      //(-)
+//let addXValue = HelperFunctions.Float.addToXValueFloat  //(+)
+////number of datapoints the dataset gets expanded to the left and to the rigth
+//let borderpadding = 4000
+////get the paddedDataSet
+//let paddedData =
+//    //if a gap is greater than 1000. the InternalPaddingMethod is applied
+//    Padding.padd data avgSpacing maxSpacing getDiffFu addXValue borderpadding innerPadMethod hugeGapPadMethod
