@@ -75,6 +75,7 @@
     <Compile Include="Interpolation\CubicSpline.fs" />
     <Compile Include="Interpolation\Approximation.fs" />
     <!-- Signal -->
+    <Compile Include="Signal\Padding.fs" />
     <Compile Include="Signal\FFT.fs" />
     <Compile Include="Signal\Wavelet.fs" />
     <Compile Include="Signal\ContinuousWavelet.fs" />
@@ -82,7 +83,6 @@
     <Compile Include="Signal\Filtering.fs" />
     <Compile Include="Signal\Convolution.fs" />
     <Compile Include="Signal\PeakDetection.fs" />
-    <Compile Include="Signal\Padding.fs" />
     <!-- Distributions -->
     <Compile Include="Distributions\Bandwidth.fs" />
     <Compile Include="Distributions\Frequency.fs" />
