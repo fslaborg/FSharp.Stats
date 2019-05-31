@@ -106,3 +106,74 @@ module ContinuousWavelet =
             Padding.padd rawData minDistance maxDistance (-) (+) paddingArea Padding.InternalPaddingMethod.Zero Padding.HugeGapPaddingMethod.Zero
         transform paddedData (-) paddingArea wavelet
 
+
+////Example
+//open FSharp.Plotly
+//open FSharp.Stats.Signal
+//open FSharp.Stats.Signal.Padding
+//open FSharp.Stats.Signal.Wavelet
+
+////Data
+//let rnd = System.Random()
+//let data = 
+//    Array.init 1000 (fun x -> 1000.* rnd.NextDouble(),rnd.NextDouble()) 
+//    |> Array.sortBy fst
+
+////Padding
+////let avgSpacing = HelperFunctions.getAvgSpacing data (-)
+//let avgSpacing = HelperFunctions.getAvgSpacing data HelperFunctions.Float.getDiffFloat
+////interpolate data point y-values when small gaps are present
+//let innerPadMethod = Padding.InternalPaddingMethod.LinearInterpolation
+////take random data point y-values when huge gaps are between data points
+//let hugeGapPadMethod = Padding.HugeGapPaddingMethod.Random
+////maximal allowed gap between datapoints where internalPaddingMethod can be applied.
+////if internalPaddingMethod = hugeGapPaddingMethod, then it does not matter which value is chosen
+//let maxSpacing = 1.
+////since were dealing with floats the functions are (-) and (+)
+//let getDiffFu = HelperFunctions.Float.getDiffFloat      //(-)
+//let addXValue = HelperFunctions.Float.addToXValueFloat  //(+)
+////number of datapoints the dataset gets expanded to the left and to the rigth. Minimum=biggestRicker.PaddArea
+//let borderpadding = 250
+////get the paddedDataSet
+//let paddedData =
+//    //if a gap is greater than 1000. the InternalPaddingMethod is applied
+//    Padding.padd data avgSpacing maxSpacing getDiffFu addXValue borderpadding innerPadMethod hugeGapPadMethod
+
+////Continuopus WaveletTransform
+////ricker to use
+//let rickerList = 
+//    [|2. .. 22.|]
+//    |> Array.map (fun x -> Wavelet.createRicker (x**1.1))
+////get transformed data based on paddedData
+//let transformedData =
+//    let transformSingle wavelet = ContinuousWavelet.transform paddedData getDiffFu borderpadding wavelet
+//    rickerList
+//    |> Array.map (fun ricker -> transformSingle ricker)
+
+////Charting
+//let chart =
+//    let waveletHeatmap =
+//        let colNames = 
+//            transformedData.[0]
+//            |> Array.map fst
+//        transformedData
+//        |> JaggedArray.map snd
+//        |> fun data' -> Chart.Heatmap(data',ColNames=colNames,Showscale=false) 
+//        |> Chart.withTraceName("transformed")
+//        |> Chart.withX_AxisStyle("",MinMax=(-250.,1250.))
+//        |> Chart.withY_AxisStyle("Scale")
+//    let rawChart =
+//        data
+//        |> Chart.Line
+//        |> Chart.withTraceName("rawData")
+//        |> Chart.withX_AxisStyle("",MinMax=(-250.,1250.))
+//    let paddedChart =
+//        paddedData
+//        |> Chart.Line
+//        |> Chart.withTraceName "paddedData"
+//        |> Chart.withX_AxisStyle("",MinMax=(-250.,1250.))
+//    [rawChart;paddedChart;waveletHeatmap]
+//    |> Chart.Stack 1  
+//    |> Chart.withSize(1200.,900.)
+//chart
+//|> Chart.Show
