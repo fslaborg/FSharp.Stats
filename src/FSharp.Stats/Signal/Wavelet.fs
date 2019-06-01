@@ -1,8 +1,8 @@
 namespace FSharp.Stats.Signal
 
-open FSharp.Stats
 open System
-
+open FSharp.Stats
+open FSharpAux
 
 module Wavelet =
 
@@ -16,6 +16,8 @@ module Wavelet =
         MinimumPosX : float
         //function that takes a x_value and gives the corresponding y_value
         RickerFun   : (float -> float)
+        //ricker function values for discrete wavelet transform 
+        RickerValues: float []
         }
 
     //creation function for Ricker
@@ -29,9 +31,52 @@ module Wavelet =
             fakA * fakB * fakC
         let padArea =   (7. * scale) |> ceil
         let minimumPosX = 1.73205 * scale
+        let rickerValues = [|-padArea .. padArea|] |> Array.map rickerFun
+
         {
-        Scale       = scale
-        PaddingArea = padArea
-        MinimumPosX = minimumPosX
-        RickerFun   = rickerFun
+        Scale        = scale
+        PaddingArea  = padArea
+        MinimumPosX  = minimumPosX
+        RickerFun    = rickerFun
+        RickerValues = rickerValues
+        }
+
+    ///3D-wavelet
+    type Marr =  {
+        //scale of the wavelet
+        Scale           : float  
+        //distance to where the wavelet functions cross the xy-axis-plane
+        Radius          : float 
+        //half of the width of the wavelet
+        PaddingArea     : float      
+        //function that takes a x- and y-value and gives the corresponding z-value
+        MarrValues      : float [,]
+                        }
+    
+    //creation function for Marr
+    let createMarr (radius : float) = 
+        let functionMarr x (y : float) s = 
+            let squareX = pown x 2
+            let squareY = pown y 2
+            let squareS = pown s 2
+            let facA = 1./(Math.PI * squareS)
+            let facB = 1.-(squareX + squareY)/(2. * squareS)
+            let facC = exp(-(squareX + squareY)/(2. * squareS))
+            facA * facB * facC
+
+        let functionValuesMarr scale xy_values = 
+            xy_values
+            |> Array.map (fun y -> 
+                xy_values
+                |> Array.map (fun x -> 
+                    functionMarr x y scale
+                    )
+                )
+        let scale = 0.7071 * radius
+        let paddingArea = ceil (3. * radius + 2.)
+        {
+        Scale           = 0.7071 * scale
+        Radius          = radius   
+        PaddingArea     = paddingArea
+        MarrValues         = Array2D.ofJaggedArray (functionValuesMarr scale [|- paddingArea .. paddingArea|])
         }
