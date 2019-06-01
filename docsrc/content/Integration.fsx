@@ -77,18 +77,18 @@ open FSharp.Stats.Integration.Differentiation
 let testFunction x = x**2. 
 
 let test1 = differentiate 0.5 testFunction 2.
+//Result for test1 is: 4.00
+
 let test2 = differentiate 3. testFunction 2.
+//Result for test2 is: 7.00
+
 let test3 = differentiate 0.1 testFunction 2.
+//Result for test3 is: 4.00
 
 (**
-The correct result for test1 (f(x) = x**2.) is assumed to be 4.
+- The correct result for test1 (f(x) = x**2.) is assumed to be 4.
+- With a higher h (for test2 h = 3., compared to the 0.5 used in test1) the approximation error increases.
 *)
-(*** include-output:test1 ***)
-(**
-With a higher h (for test2 h = 3., compared to the 0.5 used in test1) the approximation error increases.
-*)
-(*** include-output:test2 ***)
-(*** include-output:test3 ***)
 
 (**
 You can try and find an optimal h - value with the "differentiateOptimalHBy" - function. 
@@ -99,28 +99,12 @@ In the following example this is not really necessary, as values are quite big.
 let hArray = [|0.1 .. 0.1 .. 2.|]
 
 let test4 = differentiateOptimalHBy hArray testFunction 2.
+//Result for test4 is: 4.00
 
-
-(*** include-output:test4 ***)
 (**
 If you want to use a presuggested hArray then you can use the "differentiateOptimalH" function.
 This function uses an array from 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005; 0.0001 ..|]-increments as hArray.
 *)
+
 let test5 = differentiateOptimalH testFunction 2. 
-(*** include-output:test5 ***)
-
-(**
-##### Print Helper Functions
-
-_The following is not part of the tutorial_
-*)
-(*** define-output:test1 ***)
-printf "Result for test1 is: %f" test1
-(*** define-output:test2 ***)
-printf "Result for test2 is: %f" test2
-(*** define-output:test3 ***)
-printf "Result for test3 is: %f" test3
-(*** define-output:test4 ***)
-printf "Result for test4 is: %f" test4
-(*** define-output:test5 ***)
-printf "Result for test5 is: %f" test5
+//Result for test5 is: 4.00

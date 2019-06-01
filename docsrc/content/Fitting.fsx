@@ -90,7 +90,7 @@ let xVectorMulti =
     [5.; 4. ;18. ]
     [6.; 3. ;22. ]
     ]
-    |> Matrix.ofSeq
+    |> Matrix.ofJaggedSeq
 
 let yVectorMulti = 
     let transformX (x:Matrix<float>) =
