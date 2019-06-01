@@ -8,7 +8,7 @@ open Wavelet
 
 ///Continuous wavelet transform on non discrete data
 module ContinuousWavelet =
-    
+
     module HelperFunctions =
 
         module Time =
@@ -86,7 +86,7 @@ module ContinuousWavelet =
             |> ceil |> int 
 
         let paddedData = 
-            Padding.padd rawData minDistance maxDistance (-) (+) paddingArea Padding.InternalPaddingMethod.LinearInterpolation Padding.HugeGapPaddingMethod.Random
+            Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.InternalPaddingMethod.LinearInterpolation Padding.HugeGapPaddingMethod.Random
         transform paddedData (-) paddingArea wavelet
 
     let transformDefaultZero (rawData : ('a * float) []) (wavelet: Wavelet.Ricker) =
@@ -103,9 +103,47 @@ module ContinuousWavelet =
             (wavelet.PaddingArea / minDistance) + 1.
             |> ceil |> int 
         let paddedData = 
-            Padding.padd rawData minDistance maxDistance (-) (+) paddingArea Padding.InternalPaddingMethod.Zero Padding.HugeGapPaddingMethod.Zero
+            Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.InternalPaddingMethod.Zero Padding.HugeGapPaddingMethod.Zero
         transform paddedData (-) paddingArea wavelet
 
+    module Discrete = 
+        
+        //performs a continuous wavelet transform on discrete data. (paddingNumber = borderpadding)
+        let transform (data: float []) (borderpadding: int) (wavelet: Wavelet.Ricker) =
+            let n = data.Length - borderpadding * 2
+            let offset = wavelet.PaddingArea |> int
+            Array.init n (fun i -> 
+                let indexX = i + borderpadding
+                let rec loop acc a =
+                    if a <= 2 * offset then
+                        let acc' = acc + ((wavelet.RickerValues).[a] * (data.[(indexX+(a-offset))] |> float))
+                        loop acc' a
+                    else
+                        acc
+                loop 0. 0
+                )
+
+        module ThreeDimensional =
+            
+            //performs a continuous wavelet transform on discrete data. (paddingNumber = borderpadding)
+            let transform (data: float [,]) (borderpadding: int) (wavelet: Wavelet.Marr) =
+                    let resolutionPixelfst = (Array2D.length1 data) - borderpadding * 2
+                    let resolutionPixelsnd = (Array2D.length2 data) - borderpadding * 2
+                    let offset = wavelet.PaddingArea |> ceil |> int
+                    Array2D.init resolutionPixelfst resolutionPixelsnd (fun i j -> 
+                        let indexX = i + borderpadding
+                        let indexY = j + borderpadding
+                        let rec loop acc' a b =
+                            if a <= 2 * offset then
+                                if b <= 2 * offset then
+                                    let acc = acc' + ((wavelet.MarrValues).[a,b] * (data.[(indexX+(a-offset)),(indexY+(b-offset))] |> float))
+                                    loop acc a (b + 1)
+                                else
+                                    loop acc' (a + 1) 0
+                            else acc'
+                        loop 0. 0 0
+                        )
+            
 
 ////Example
 //open FSharp.Plotly
@@ -137,7 +175,7 @@ module ContinuousWavelet =
 ////get the paddedDataSet
 //let paddedData =
 //    //if a gap is greater than 1000. the InternalPaddingMethod is applied
-//    Padding.padd data avgSpacing maxSpacing getDiffFu addXValue borderpadding innerPadMethod hugeGapPadMethod
+//    Padding.pad data avgSpacing maxSpacing getDiffFu addXValue borderpadding innerPadMethod hugeGapPadMethod
 
 ////Continuopus WaveletTransform
 ////ricker to use
