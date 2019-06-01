@@ -92,7 +92,7 @@ module Padding =
     ///default: internalPaddingMethod=LinearInterpolation; hugeGapPaddingMethod=Random (like in border cases)
     ///getDiff: get the difference in x_Values as float representation (if 'a is float then (-))
     ///addToXValue: function that adds a float to the x_Value (if 'a is float then (+))
-    let inline padd (data : ('a * float) []) (minDistance: float) (maxDistance : float) (getDiff: 'a -> 'a -> float) (addToXValue : 'a -> float -> 'a) (borderpadding : int) (internalPaddingMethod: InternalPaddingMethod) (hugeGapPaddingMethod: HugeGapPaddingMethod) =
+    let inline pad (data : ('a * float) []) (minDistance: float) (maxDistance : float) (getDiff: 'a -> 'a -> float) (addToXValue : 'a -> float -> 'a) (borderpadding : int) (internalPaddingMethod: InternalPaddingMethod) (hugeGapPaddingMethod: HugeGapPaddingMethod) =
         let rnd = System.Random()
         let n = data.Length
         ///minimal x_Value
@@ -233,8 +233,65 @@ module Padding =
     let padSignalEnd x = raise (System.NotImplementedException())
 
     let padSparseSignal x = raise (System.NotImplementedException())
-
     
+    module Discrete =
+
+        
+        ///Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).
+        let padRnd (data : float []) (borderpadding : int) =
+            let rnd = System.Random()
+            let n = data.Length
+            ///adds 'borderpadding' number of random data points to the left
+            let leftPadding     = 
+                Array.init borderpadding (fun i -> 
+                    let paddY = data.[rnd.Next(0,n)] //n+1
+                    paddY)
+                    |> Array.rev
+            ///adds 'borderpadding' number of random data points to the rigth
+            let rightPadding    = 
+                Array.init borderpadding (fun i -> 
+                    let paddY = data.[rnd.Next(0,n)] //n+1
+                    paddY)
+
+            [leftPadding;data;rightPadding] |> Array.concat
+
+        ///Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).
+        let padZero (data : float []) (borderpadding : int) =
+            let padding = 
+                Array.zeroCreate borderpadding 
+            [padding;data;padding] |> Array.concat
+
+
+        module ThreeDimensional =
+
+            type Padding3DMethod =
+                //adds zeros to the Array2D borders 
+                | Zero
+                //adds random data points taken from the original data to the Array2D borders
+                | Random
+        
+            /// padds artificial data points to the borders of the given Array2D. increment=1; n=borderpadding
+            let pad (data: float [,]) (borderpadding: int) (paddingMethod : Padding3DMethod) : float [,]=
+                //TODO: change data input from float to 'a
+                let rnd = System.Random()    
+
+                let padArray2D =
+                    let rowCount = Array2D.length1 data 
+                    let colCount = Array2D.length2 data
+                    let rowPadding = rowCount + borderpadding
+                    let colPadding = colCount + borderpadding
+                    Array2D.init (rowCount + borderpadding * 2) (colCount + borderpadding * 2)
+                        (fun rowI colI -> 
+                            if (rowI < borderpadding || colI < borderpadding) || (rowI >= rowPadding  || colI >= colPadding) then
+                                match paddingMethod with
+                                | Zero -> 0.
+                                | _ -> float data.[rnd.Next(0,rowCount),rnd.Next(0,colCount)] 
+                            else
+                                data.[rowI-borderpadding,colI-borderpadding]              
+                        )
+        
+                padArray2D
+
 ////Example
 //let rnd = System.Random()
 //let data = 
@@ -258,4 +315,4 @@ module Padding =
 ////get the paddedDataSet
 //let paddedData =
 //    //if a gap is greater than 1000. the InternalPaddingMethod is applied
-//    Padding.padd data avgSpacing maxSpacing getDiffFu addXValue borderpadding innerPadMethod hugeGapPadMethod
+//    Padding.pad data avgSpacing maxSpacing getDiffFu addXValue borderpadding innerPadMethod hugeGapPadMethod
