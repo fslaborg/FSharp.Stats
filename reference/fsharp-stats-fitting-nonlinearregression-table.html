@@ -13,7 +13,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/styles/CSBStyles.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -56,10 +56,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1288', 1288)" onmouseover="showTip(event, '1288', 1288)">
+          <code onmouseout="hideTip(event, '1289', 1289)" onmouseover="showTip(event, '1289', 1289)">
             emgModel
           </code>
-          <div class="tip" id="1288">
+          <div class="tip" id="1289">
             <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
@@ -74,10 +74,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1289', 1289)" onmouseover="showTip(event, '1289', 1289)">
+          <code onmouseout="hideTip(event, '1290', 1290)" onmouseover="showTip(event, '1290', 1290)">
             emgSolverOptions(initialParamGuess)
           </code>
-          <div class="tip" id="1289">
+          <div class="tip" id="1290">
             <strong>Signature:</strong> initialParamGuess:float [] -&gt; SolverOptions<br />
                                   </div>
         </td>
@@ -92,10 +92,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1290', 1290)" onmouseover="showTip(event, '1290', 1290)">
+          <code onmouseout="hideTip(event, '1291', 1291)" onmouseover="showTip(event, '1291', 1291)">
             expModel
           </code>
-          <div class="tip" id="1290">
+          <div class="tip" id="1291">
             <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
@@ -112,10 +112,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1291', 1291)" onmouseover="showTip(event, '1291', 1291)">
+          <code onmouseout="hideTip(event, '1292', 1292)" onmouseover="showTip(event, '1292', 1292)">
             expSolverOptions x_data y_data
           </code>
-          <div class="tip" id="1291">
+          <div class="tip" id="1292">
             <strong>Signature:</strong> x_data:float [] -&gt; y_data:float [] -&gt; SolverOptions<br />
                                   </div>
         </td>
@@ -132,10 +132,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1292', 1292)" onmouseover="showTip(event, '1292', 1292)">
+          <code onmouseout="hideTip(event, '1293', 1293)" onmouseover="showTip(event, '1293', 1293)">
             gaussModel
           </code>
-          <div class="tip" id="1292">
+          <div class="tip" id="1293">
             <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
@@ -152,10 +152,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1293', 1293)" onmouseover="showTip(event, '1293', 1293)">
+          <code onmouseout="hideTip(event, '1294', 1294)" onmouseover="showTip(event, '1294', 1294)">
             gaussSolverOptions(initialParamGuess)
           </code>
-          <div class="tip" id="1293">
+          <div class="tip" id="1294">
             <strong>Signature:</strong> initialParamGuess:float [] -&gt; SolverOptions<br />
                                   </div>
         </td>
@@ -170,10 +170,48 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1294', 1294)" onmouseover="showTip(event, '1294', 1294)">
+          <code onmouseout="hideTip(event, '1295', 1295)" onmouseover="showTip(event, '1295', 1295)">
+            hillModel
+          </code>
+          <div class="tip" id="1295">
+            <strong>Signature:</strong> Model<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L349-349" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Hill equation "y = Vm * x^n / (k^n+x^n)"</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1296', 1296)" onmouseover="showTip(event, '1296', 1296)">
+            hillSolverOptions Vm n k
+          </code>
+          <div class="tip" id="1296">
+            <strong>Signature:</strong> Vm:float&lt;MeasureOne&gt; -&gt; n:float&lt;MeasureOne&gt; -&gt; k:float&lt;MeasureOne&gt; -&gt; SolverOptions<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L362-362" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1297', 1297)" onmouseover="showTip(event, '1297', 1297)">
             lineModel
           </code>
-          <div class="tip" id="1294">
+          <div class="tip" id="1297">
             <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
@@ -191,10 +229,10 @@ Line model of the form "y = a * x + b"</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1295', 1295)" onmouseover="showTip(event, '1295', 1295)">
+          <code onmouseout="hideTip(event, '1298', 1298)" onmouseover="showTip(event, '1298', 1298)">
             lineSolverOptions(initialParamGuess)
           </code>
-          <div class="tip" id="1295">
+          <div class="tip" id="1298">
             <strong>Signature:</strong> initialParamGuess:float [] -&gt; SolverOptions<br />
                                   </div>
         </td>
@@ -209,10 +247,10 @@ Line model of the form "y = a * x + b"</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1296', 1296)" onmouseover="showTip(event, '1296', 1296)">
+          <code onmouseout="hideTip(event, '1299', 1299)" onmouseover="showTip(event, '1299', 1299)">
             parabolaModel
           </code>
-          <div class="tip" id="1296">
+          <div class="tip" id="1299">
             <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
@@ -229,10 +267,10 @@ Line model of the form "y = a * x + b"</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1297', 1297)" onmouseover="showTip(event, '1297', 1297)">
+          <code onmouseout="hideTip(event, '1300', 1300)" onmouseover="showTip(event, '1300', 1300)">
             parabolaSolverOptions(initialParamGuess)
           </code>
-          <div class="tip" id="1297">
+          <div class="tip" id="1300">
             <strong>Signature:</strong> initialParamGuess:float [] -&gt; SolverOptions<br />
                                   </div>
         </td>

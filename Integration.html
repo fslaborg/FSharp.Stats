@@ -14,7 +14,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/styles/CSBStyles.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -97,15 +97,20 @@ The function uses two different mathematical approaches to decrease the error, o
 </br>
 <p><img src="img/Derivative.svg.png" alt="Data model" /></p>
 </br>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-<span class="l">7: </span>
-<span class="l">8: </span>
-<span class="l">9: </span>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="pp">#r</span> <span class="s">&quot;FSharp.Stats.dll&quot;</span>
 <span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 49)" onmouseover="showTip(event, 'fs1', 49)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 50)" onmouseover="showTip(event, 'fs3', 50)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 51)" onmouseover="showTip(event, 'fs15', 51)" class="id">Integration</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 52)" onmouseover="showTip(event, 'fs16', 52)" class="id">Differentiation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 53)" onmouseover="showTip(event, 'fs21', 53)" class="id">TwoPointDifferentiation</span>
@@ -114,16 +119,20 @@ The function uses two different mathematical approaches to decrease the error, o
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs22', 58)" onmouseover="showTip(event, 'fs22', 58)" class="fn">testFunction</span> <span onmouseout="hideTip(event, 'fs11', 59)" onmouseover="showTip(event, 'fs11', 59)" class="id">x</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 60)" onmouseover="showTip(event, 'fs11', 60)" class="id">x</span><span class="o">**</span><span class="n">2.</span> 
 
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 61)" onmouseover="showTip(event, 'fs23', 61)" class="id">test1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 62)" onmouseover="showTip(event, 'fs24', 62)" class="fn">differentiate</span> <span class="n">0.5</span> <span onmouseout="hideTip(event, 'fs22', 63)" onmouseover="showTip(event, 'fs22', 63)" class="fn">testFunction</span> <span class="n">2.</span>
+<span class="c">//Result for test1 is: 4.00</span>
+
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 64)" onmouseover="showTip(event, 'fs25', 64)" class="id">test2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 65)" onmouseover="showTip(event, 'fs24', 65)" class="fn">differentiate</span> <span class="n">3.</span> <span onmouseout="hideTip(event, 'fs22', 66)" onmouseover="showTip(event, 'fs22', 66)" class="fn">testFunction</span> <span class="n">2.</span>
+<span class="c">//Result for test2 is: 7.00</span>
+
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 67)" onmouseover="showTip(event, 'fs26', 67)" class="id">test3</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 68)" onmouseover="showTip(event, 'fs24', 68)" class="fn">differentiate</span> <span class="n">0.1</span> <span onmouseout="hideTip(event, 'fs22', 69)" onmouseover="showTip(event, 'fs22', 69)" class="fn">testFunction</span> <span class="n">2.</span>
+<span class="c">//Result for test3 is: 4.00</span>
 </code></pre></td>
 </tr>
 </table>
-<p>The correct result for test1 (f(x) = x<em></em>2.) is assumed to be 4.</p>
-<table class="pre"><tr><td><pre><code>Result for test1 is: 4.000000</code></pre></td></tr></table>
-<p>With a higher h (for test2 h = 3., compared to the 0.5 used in test1) the approximation error increases.</p>
-<table class="pre"><tr><td><pre><code>Result for test2 is: 7.000000</code></pre></td></tr></table>
-<table class="pre"><tr><td><pre><code>Result for test3 is: 4.000000</code></pre></td></tr></table>
+<ul>
+<li>The correct result for test1 (f(x) = x<em></em>2.) is assumed to be 4.</li>
+<li>With a higher h (for test2 h = 3., compared to the 0.5 used in test1) the approximation error increases.</li>
+</ul>
 <p>You can try and find an optimal h - value with the "differentiateOptimalHBy" - function.
 This function uses the first h-value it assumes to give good results for the numerical differentiation calculation.
 Due to this, possible error due to float precision is avoided.
@@ -131,52 +140,22 @@ In the following example this is not really necessary, as values are quite big.<
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
+<span class="l">4: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 70)" onmouseover="showTip(event, 'fs27', 70)" class="id">hArray</span> <span class="o">=</span> <span class="pn">[|</span><span class="n">0.1</span> <span class="o">..</span> <span class="n">0.1</span> <span class="o">..</span> <span class="n">2.</span><span class="pn">|]</span>
 
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 71)" onmouseover="showTip(event, 'fs28', 71)" class="id">test4</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 72)" onmouseover="showTip(event, 'fs29', 72)" class="fn">differentiateOptimalHBy</span> <span onmouseout="hideTip(event, 'fs27', 73)" onmouseover="showTip(event, 'fs27', 73)" class="id">hArray</span> <span onmouseout="hideTip(event, 'fs22', 74)" onmouseover="showTip(event, 'fs22', 74)" class="fn">testFunction</span> <span class="n">2.</span>
+<span class="c">//Result for test4 is: 4.00</span>
 </code></pre></td>
 </tr>
 </table>
-<table class="pre"><tr><td><pre><code>Result for test4 is: 4.000000</code></pre></td></tr></table>
 <p>If you want to use a presuggested hArray then you can use the "differentiateOptimalH" function.
 This function uses an array from 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005; 0.0001 ..|]-increments as hArray.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 75)" onmouseover="showTip(event, 'fs30', 75)" class="id">test5</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 76)" onmouseover="showTip(event, 'fs31', 76)" class="fn">differentiateOptimalH</span> <span onmouseout="hideTip(event, 'fs22', 77)" onmouseover="showTip(event, 'fs22', 77)" class="fn">testFunction</span> <span class="n">2.</span> 
-</code></pre></td>
-</tr>
-</table>
-<table class="pre"><tr><td><pre><code>Result for test5 is: 4.000000</code></pre></td></tr></table>
-<h5><a name="Print-Helper-Functions" class="anchor" href="#Print-Helper-Functions">Print Helper Functions</a></h5>
-<p><em>The following is not part of the tutorial</em></p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs32', 78)" onmouseover="showTip(event, 'fs32', 78)" class="fn">printf</span> <span class="s">&quot;Result for test1 is: </span><span class="pf">%f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs23', 79)" onmouseover="showTip(event, 'fs23', 79)" class="id">test1</span>
-</code></pre></td>
-</tr>
-</table>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs32', 80)" onmouseover="showTip(event, 'fs32', 80)" class="fn">printf</span> <span class="s">&quot;Result for test2 is: </span><span class="pf">%f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs25', 81)" onmouseover="showTip(event, 'fs25', 81)" class="id">test2</span>
-</code></pre></td>
-</tr>
-</table>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs32', 82)" onmouseover="showTip(event, 'fs32', 82)" class="fn">printf</span> <span class="s">&quot;Result for test3 is: </span><span class="pf">%f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs26', 83)" onmouseover="showTip(event, 'fs26', 83)" class="id">test3</span>
-</code></pre></td>
-</tr>
-</table>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs32', 84)" onmouseover="showTip(event, 'fs32', 84)" class="fn">printf</span> <span class="s">&quot;Result for test4 is: </span><span class="pf">%f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs28', 85)" onmouseover="showTip(event, 'fs28', 85)" class="id">test4</span>
-</code></pre></td>
-</tr>
-</table>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs32', 86)" onmouseover="showTip(event, 'fs32', 86)" class="fn">printf</span> <span class="s">&quot;Result for test5 is: </span><span class="pf">%f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs30', 87)" onmouseover="showTip(event, 'fs30', 87)" class="id">test5</span>
+<span class="c">//Result for test5 is: 4.00</span>
 </code></pre></td>
 </tr>
 </table>
@@ -212,7 +191,6 @@ This function uses an array from 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005
 <div class="tip" id="fs29">val differentiateOptimalHBy : hArr:float [] -&gt; f:(float -&gt; float) -&gt; x:float -&gt; float</div>
 <div class="tip" id="fs30">val test5 : float</div>
 <div class="tip" id="fs31">val differentiateOptimalH : f:(float -&gt; float) -&gt; x:float -&gt; float</div>
-<div class="tip" id="fs32">val printf : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T</div>
 
         </div>
         <div class="span3">

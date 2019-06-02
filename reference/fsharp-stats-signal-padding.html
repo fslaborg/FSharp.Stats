@@ -13,7 +13,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/styles/CSBStyles.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -42,9 +42,61 @@
   <span>Namespace: FSharp.Stats.Signal</span><br />
   </p>
 <div class="xmldoc">
+<p>padds data points to the beginning, the end and on internal intervals of the data</p>
+
 </div>
 
 <!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-signal-padding-hugegappaddingmethod.html">HugeGapPaddingMethod</a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-signal-padding-internalpaddingmethod.html">InternalPaddingMethod</a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered module-list">
+    <thead>
+      <tr><td>Module</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="module-name">
+            <a href="fsharp-stats-signal-padding-discrete.html">Discrete</a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+        <tr>
+          <td class="module-name">
+            <a href="fsharp-stats-signal-padding-helperfunctions.html">HelperFunctions</a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
 
   <h3>Functions and values</h3>
   <table class="table table-bordered member-list">
@@ -55,15 +107,40 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1449', 1449)" onmouseover="showTip(event, '1449', 1449)">
+          <code onmouseout="hideTip(event, '1460', 1460)" onmouseover="showTip(event, '1460', 1460)">
+            pad(...)
+          </code>
+          <div class="tip" id="1460">
+            <strong>Signature:</strong> data:(&#39;a * float) [] -&gt; minDistance:float -&gt; maxDistance:float -&gt; getDiff:(&#39;a -&gt; &#39;a -&gt; float) -&gt; addToXValue:(&#39;a -&gt; float -&gt; &#39;a) -&gt; borderpadding:int -&gt; internalPaddingMethod:InternalPaddingMethod -&gt; hugeGapPaddingMethod:HugeGapPaddingMethod -&gt; (&#39;a * float) []<br />
+                          <strong>Type parameters:</strong> 'a                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L95-95" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Adds additional data points to the beginning and end of data set (number: borderpadding; x<em>Value distance: minDistance; y</em>Value: random).
+Between every pair of data point where the difference in x<em>Values is greater than minDistance, additional datapoints are generated as defined in internalPaddingMethod.
+If huge data chunks are missing (missing gap &lt; maxDistance), data points are added as defined in hugeGapPaddingMethod.
+default: internalPaddingMethod=LinearInterpolation; hugeGapPaddingMethod=Random (like in border cases)
+getDiff: get the difference in x</em>Values as float representation (if 'a is float then (-))
+addToXValue: function that adds a float to the x_Value (if 'a is float then (+))</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1461', 1461)" onmouseover="showTip(event, '1461', 1461)">
             padSignalEnd(x)
           </code>
-          <div class="tip" id="1449">
-            <strong>Signature:</strong> x:&#39;?9695 -&gt; &#39;?9696<br />
-                          <strong>Type parameters:</strong> '?9695, '?9696                      </div>
+          <div class="tip" id="1461">
+            <strong>Signature:</strong> x:&#39;?9885 -&gt; &#39;?9886<br />
+                          <strong>Type parameters:</strong> '?9885, '?9886                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L13-13" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L233-233" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -73,15 +150,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1450', 1450)" onmouseover="showTip(event, '1450', 1450)">
+          <code onmouseout="hideTip(event, '1462', 1462)" onmouseover="showTip(event, '1462', 1462)">
             padSignalStart(x)
           </code>
-          <div class="tip" id="1450">
-            <strong>Signature:</strong> x:&#39;?9692 -&gt; &#39;?9693<br />
-                          <strong>Type parameters:</strong> '?9692, '?9693                      </div>
+          <div class="tip" id="1462">
+            <strong>Signature:</strong> x:&#39;?9882 -&gt; &#39;?9883<br />
+                          <strong>Type parameters:</strong> '?9882, '?9883                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L11-11" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L231-231" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -91,15 +168,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1451', 1451)" onmouseover="showTip(event, '1451', 1451)">
+          <code onmouseout="hideTip(event, '1463', 1463)" onmouseover="showTip(event, '1463', 1463)">
             padSignalStartAndEnd(x)
           </code>
-          <div class="tip" id="1451">
-            <strong>Signature:</strong> x:&#39;?9689 -&gt; &#39;?9690<br />
-                          <strong>Type parameters:</strong> '?9689, '?9690                      </div>
+          <div class="tip" id="1463">
+            <strong>Signature:</strong> x:&#39;?9879 -&gt; &#39;?9880<br />
+                          <strong>Type parameters:</strong> '?9879, '?9880                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L9-9" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L229-229" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -109,15 +186,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1452', 1452)" onmouseover="showTip(event, '1452', 1452)">
+          <code onmouseout="hideTip(event, '1464', 1464)" onmouseover="showTip(event, '1464', 1464)">
             padSparseSignal(x)
           </code>
-          <div class="tip" id="1452">
-            <strong>Signature:</strong> x:&#39;?9698 -&gt; &#39;?9699<br />
-                          <strong>Type parameters:</strong> '?9698, '?9699                      </div>
+          <div class="tip" id="1464">
+            <strong>Signature:</strong> x:&#39;?9888 -&gt; &#39;?9889<br />
+                          <strong>Type parameters:</strong> '?9888, '?9889                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L15-15" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L235-235" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

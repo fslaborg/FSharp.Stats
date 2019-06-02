@@ -14,7 +14,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBstyle.css" /> <!--/FSharp.Stats-->
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/styles/CSBStyles.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -101,14 +101,6 @@
 <span class="l">53: </span>
 <span class="l">54: </span>
 <span class="l">55: </span>
-<span class="l">56: </span>
-<span class="l">57: </span>
-<span class="l">58: </span>
-<span class="l">59: </span>
-<span class="l">60: </span>
-<span class="l">61: </span>
-<span class="l">62: </span>
-<span class="l">63: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs5', 6)" onmouseover="showTip(event, 'fs5', 6)" class="id">IO</span>
 
@@ -122,7 +114,7 @@
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs16', 21)" onmouseover="showTip(event, 'fs16', 21)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs17', 22)" onmouseover="showTip(event, 'fs17', 22)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs18', 23)" onmouseover="showTip(event, 'fs18', 23)" class="id">ii</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs18', 24)" onmouseover="showTip(event, 'fs18', 24)" class="id">ii</span><span class="m">.</span><span class="pn">[</span><span class="n">0..</span><span class="n">3</span><span class="pn">]</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs19', 25)" onmouseover="showTip(event, 'fs19', 25)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 26)" onmouseover="showTip(event, 'fs20', 26)" class="id">map</span> <span onmouseout="hideTip(event, 'fs21', 27)" onmouseover="showTip(event, 'fs21', 27)" class="fn">float</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs19', 28)" onmouseover="showTip(event, 'fs19', 28)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 29)" onmouseover="showTip(event, 'fs22', 29)" class="id">toList</span><span class="pn">)</span>    
 
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 30)" onmouseover="showTip(event, 'fs23', 30)" class="id">irisLables</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 31)" onmouseover="showTip(event, 'fs6', 31)" class="id">irisData</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs16', 32)" onmouseover="showTip(event, 'fs16', 32)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs17', 33)" onmouseover="showTip(event, 'fs17', 33)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs18', 34)" onmouseover="showTip(event, 'fs18', 34)" class="id">ii</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs18', 35)" onmouseover="showTip(event, 'fs18', 35)" class="id">ii</span><span class="m">.</span><span class="pn">[</span><span class="n">4</span><span class="pn">]</span><span class="pn">)</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 36)" onmouseover="showTip(event, 'fs24', 36)" class="id">irisFeaturesMatrix</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 37)" onmouseover="showTip(event, 'fs25', 37)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 38)" onmouseover="showTip(event, 'fs26', 38)" class="id">ofList</span> <span onmouseout="hideTip(event, 'fs15', 39)" onmouseover="showTip(event, 'fs15', 39)" class="id">irisFeatures</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 36)" onmouseover="showTip(event, 'fs24', 36)" class="id">irisFeaturesMatrix</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 37)" onmouseover="showTip(event, 'fs25', 37)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 38)" onmouseover="showTip(event, 'fs26', 38)" class="id">ofJaggedList</span> <span onmouseout="hideTip(event, 'fs15', 39)" onmouseover="showTip(event, 'fs15', 39)" class="id">irisFeatures</span>
 
 
 <span class="c">// https://intoli.com/blog/pca-and-svd/</span>
@@ -165,8 +157,18 @@
     
     
 <span onmouseout="hideTip(event, 'fs35', 87)" onmouseover="showTip(event, 'fs35', 87)" class="fn">toAdjustStandardize</span> <span onmouseout="hideTip(event, 'fs24', 88)" onmouseover="showTip(event, 'fs24', 88)" class="id">irisFeaturesMatrix</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs50', 89)" onmouseover="showTip(event, 'fs50', 89)" class="id">s</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs51', 90)" onmouseover="showTip(event, 'fs51', 90)" class="id">u</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs52', 91)" onmouseover="showTip(event, 'fs52', 91)" class="id">vt</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 92)" onmouseover="showTip(event, 'fs1', 92)" class="fn">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 93)" onmouseover="showTip(event, 'fs3', 93)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 94)" onmouseover="showTip(event, 'fs53', 94)" class="id">Algebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 95)" onmouseover="showTip(event, 'fs54', 95)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs55', 96)" onmouseover="showTip(event, 'fs55', 96)" class="id">SVD</span>  <span class="pn">(</span> <span onmouseout="hideTip(event, 'fs35', 97)" onmouseover="showTip(event, 'fs35', 97)" class="fn">toAdjustStandardize</span> <span onmouseout="hideTip(event, 'fs24', 98)" onmouseover="showTip(event, 'fs24', 98)" class="id">irisFeaturesMatrix</span> <span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs50', 89)" onmouseover="showTip(event, 'fs50', 89)" class="id">s</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs51', 90)" onmouseover="showTip(event, 'fs51', 90)" class="id">u</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs52', 91)" onmouseover="showTip(event, 'fs52', 91)" class="id">vt</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 92)" onmouseover="showTip(event, 'fs1', 92)" class="fn">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 93)" onmouseover="showTip(event, 'fs3', 93)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 94)" onmouseover="showTip(event, 'fs53', 94)" class="id">Algebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 95)" onmouseover="showTip(event, 'fs54', 95)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs55', 96)" onmouseover="showTip(event, 'fs55', 96)" class="id">SVD</span>  <span class="pn">(</span> <span onmouseout="hideTip(event, 'fs35', 97)" onmouseover="showTip(event, 'fs35', 97)" class="fn">toAdjustStandardize</span> <span onmouseout="hideTip(event, 'fs24', 98)" onmouseover="showTip(event, 'fs24', 98)" class="id">irisFeaturesMatrix</span> <span class="pn">)</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs56', 99)" onmouseover="showTip(event, 'fs56', 99)" class="id">v</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs52', 100)" onmouseover="showTip(event, 'fs52', 100)" class="id">vt</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs57', 101)" onmouseover="showTip(event, 'fs57', 101)" class="id">Transpose</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs25', 102)" onmouseover="showTip(event, 'fs25', 102)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs58', 103)" onmouseover="showTip(event, 'fs58', 103)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs59', 104)" onmouseover="showTip(event, 'fs59', 104)" class="id">v</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs59', 105)" onmouseover="showTip(event, 'fs59', 105)" class="id">v</span><span class="pn">)</span>
 
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs60', 106)" onmouseover="showTip(event, 'fs60', 106)" class="id">principal_components</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs51', 107)" onmouseover="showTip(event, 'fs51', 107)" class="id">u</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs50', 108)" onmouseover="showTip(event, 'fs50', 108)" class="id">s</span> 
@@ -178,6 +180,20 @@
 </table>
 <h2><a name="BioFSharp-ML-module" class="anchor" href="#BioFSharp-ML-module">BioFSharp ML module</a></h2>
 <p>Principal component analysis of the iris data set and visual inspection of the result.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 121)" onmouseover="showTip(event, 'fs1', 121)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 122)" onmouseover="showTip(event, 'fs3', 122)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs66', 123)" onmouseover="showTip(event, 'fs66', 123)" class="id">ML</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 124)" onmouseover="showTip(event, 'fs1', 124)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 125)" onmouseover="showTip(event, 'fs3', 125)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs66', 126)" onmouseover="showTip(event, 'fs66', 126)" class="id">ML</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs67', 127)" onmouseover="showTip(event, 'fs67', 127)" class="id">Unsupervised</span>
+
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs68', 128)" onmouseover="showTip(event, 'fs68', 128)" class="fn">adjCenter</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs69', 129)" onmouseover="showTip(event, 'fs69', 129)" class="m">PCA</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs70', 130)" onmouseover="showTip(event, 'fs70', 130)" class="id">toAdjustCenter</span> <span onmouseout="hideTip(event, 'fs24', 131)" onmouseover="showTip(event, 'fs24', 131)" class="id">irisFeaturesMatrix</span>
+</code></pre></td>
+</tr>
+</table>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -256,18 +272,8 @@
 <span class="l">76: </span>
 <span class="l">77: </span>
 <span class="l">78: </span>
-<span class="l">79: </span>
-<span class="l">80: </span>
-<span class="l">81: </span>
-<span class="l">82: </span>
-<span class="l">83: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 121)" onmouseover="showTip(event, 'fs1', 121)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 122)" onmouseover="showTip(event, 'fs3', 122)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs66', 123)" onmouseover="showTip(event, 'fs66', 123)" class="id">ML</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 124)" onmouseover="showTip(event, 'fs1', 124)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 125)" onmouseover="showTip(event, 'fs3', 125)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs66', 126)" onmouseover="showTip(event, 'fs66', 126)" class="id">ML</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs67', 127)" onmouseover="showTip(event, 'fs67', 127)" class="id">Unsupervised</span>
-
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs68', 128)" onmouseover="showTip(event, 'fs68', 128)" class="fn">adjCenter</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs69', 129)" onmouseover="showTip(event, 'fs69', 129)" class="m">PCA</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs70', 130)" onmouseover="showTip(event, 'fs70', 130)" class="id">toAdjustCenter</span> <span onmouseout="hideTip(event, 'fs24', 131)" onmouseover="showTip(event, 'fs24', 131)" class="id">irisFeaturesMatrix</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs71', 132)" onmouseover="showTip(event, 'fs71', 132)" class="id">irisPCA</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs69', 133)" onmouseover="showTip(event, 'fs69', 133)" class="m">PCA</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs72', 134)" onmouseover="showTip(event, 'fs72', 134)" class="id">compute</span> <span onmouseout="hideTip(event, 'fs68', 135)" onmouseover="showTip(event, 'fs68', 135)" class="fn">adjCenter</span> <span onmouseout="hideTip(event, 'fs24', 136)" onmouseover="showTip(event, 'fs24', 136)" class="id">irisFeaturesMatrix</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs71', 132)" onmouseover="showTip(event, 'fs71', 132)" class="id">irisPCA</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs69', 133)" onmouseover="showTip(event, 'fs69', 133)" class="m">PCA</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs72', 134)" onmouseover="showTip(event, 'fs72', 134)" class="id">compute</span> <span onmouseout="hideTip(event, 'fs68', 135)" onmouseover="showTip(event, 'fs68', 135)" class="fn">adjCenter</span> <span onmouseout="hideTip(event, 'fs24', 136)" onmouseover="showTip(event, 'fs24', 136)" class="id">irisFeaturesMatrix</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs73', 137)" onmouseover="showTip(event, 'fs73', 137)" class="id">irisDataPCA</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs69', 138)" onmouseover="showTip(event, 'fs69', 138)" class="m">PCA</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs74', 139)" onmouseover="showTip(event, 'fs74', 139)" class="id">transform</span> <span onmouseout="hideTip(event, 'fs68', 140)" onmouseover="showTip(event, 'fs68', 140)" class="fn">adjCenter</span> <span onmouseout="hideTip(event, 'fs71', 141)" onmouseover="showTip(event, 'fs71', 141)" class="id">irisPCA</span> <span onmouseout="hideTip(event, 'fs24', 142)" onmouseover="showTip(event, 'fs24', 142)" class="id">irisFeaturesMatrix</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs75', 143)" onmouseover="showTip(event, 'fs75', 143)" class="id">irisrev</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs69', 144)" onmouseover="showTip(event, 'fs69', 144)" class="m">PCA</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs76', 145)" onmouseover="showTip(event, 'fs76', 145)" class="id">revert</span> <span onmouseout="hideTip(event, 'fs68', 146)" onmouseover="showTip(event, 'fs68', 146)" class="fn">adjCenter</span> <span onmouseout="hideTip(event, 'fs71', 147)" onmouseover="showTip(event, 'fs71', 147)" class="id">irisPCA</span> <span onmouseout="hideTip(event, 'fs73', 148)" onmouseover="showTip(event, 'fs73', 148)" class="id">irisDataPCA</span>
 
@@ -374,7 +380,7 @@
 <div class="tip" id="fs23">val irisLables : string list</div>
 <div class="tip" id="fs24">val irisFeaturesMatrix : Matrix&lt;float&gt;</div>
 <div class="tip" id="fs25">Multiple items<br />module Matrix<br /><br />from FSharp.Stats<br /><br />--------------------<br />type Matrix&lt;&#39;T&gt; =<br />&#160;&#160;| DenseRepr of DenseMatrix&lt;&#39;T&gt;<br />&#160;&#160;| SparseRepr of SparseMatrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IEnumerable<br />&#160;&#160;&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IStructuralEquatable<br />&#160;&#160;&#160;&#160;interface IStructuralComparable<br />&#160;&#160;&#160;&#160;interface IComparable<br />&#160;&#160;&#160;&#160;override Equals : yobj:obj -&gt; bool<br />&#160;&#160;&#160;&#160;override GetHashCode : unit -&gt; int<br />&#160;&#160;&#160;&#160;member GetSlice : start1:int option * finish1:int option * start2:int option * finish2:int option -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member PermuteColumns : p:permutation -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member PermuteRows : p:permutation -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;...</div>
-<div class="tip" id="fs26">val ofList : xss:float list list -&gt; Matrix&lt;float&gt;</div>
+<div class="tip" id="fs26">val ofJaggedList : xss:float list list -&gt; Matrix&lt;float&gt;</div>
 <div class="tip" id="fs27">val meanColumnWise : a:matrix -&gt; Vector&lt;float&gt;</div>
 <div class="tip" id="fs28">val a : matrix</div>
 <div class="tip" id="fs29">Multiple items<br />val matrix : ll:seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
