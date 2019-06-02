@@ -105,6 +105,234 @@ let paddedDataChart=
 
 ##Continuous Wavelet
 
+The Continuous Wavelet Transform (CWT) is a multiresolution analysis method to gain insights into frequency components of a signal with simultaneous 
+temporal classification. Wavelet in this context stands for small wave and describes a window function which is convoluted with the original signal at 
+every position in time. Many wavelets exist, every one of them is useful for a certain application, thereby 'searching' for specific patterns in the data. 
+By increasing the dimensions (scale) of the wavelet function, different frequency patterns are studied.
+
+In contrast to the Fourier transform, that gives a perfect frequency resolution but no time resolution, the CWT is capable of mediating between the two opposing 
+properties of time resolution and frequency resolution (Heisenberg's uncertainty principle).
+
+For further information please visit [The Wavelet Tutorial](http://web.iitd.ac.in/~sumeet/WaveletTutorial.pdf).
+*)
+
+
+open FSharp.Stats
+
+///Array containing wavelets of all scales that should be investigated. The propagated frequency corresponds to 4 * Ricker.Scale
+let rickerArray = 
+    [|2. .. 10.|] |> Array.map (fun x -> Wavelet.createRicker (x**1.8))
+
+///the data already was padded with 1000 additional datapoints in the beginning and end of the data set (see above). 
+///Not it is transformed with the previous defined wavelets.
+let transformedData = 
+    rickerArray
+    |> Array.map (fun wavelet -> ContinuousWavelet.transform paddedData (-) 1000 wavelet)
+
+///combining the raw and transformed data in one chart
+let combinedChart =
+    let yAxis() =
+            Axis.LinearAxis.init(Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    //CWT-chart
+    let heatmap =
+        let colNames = 
+            transformedData.[0] |> Array.map fst
+        transformedData
+        |> JaggedArray.map snd
+        |> fun x -> Chart.Heatmap(x,ColNames=colNames,Showscale=false)
+   
+        |> Chart.withAxisAnchor(X=1)
+        |> Chart.withAxisAnchor(Y=1)
+
+    //Rawchart
+    let rawChart = 
+        Chart.Line (data,Color = "#1f77b4",Name = "rawData")
+        |> Chart.withAxisAnchor(X=2)
+        |> Chart.withAxisAnchor(Y=2) 
+
+    //combine the charts and add additional styling
+    Chart.Combine([heatmap;rawChart])
+    |> Chart.withX_AxisStyle("Time",Side=StyleParam.Side.Bottom,Id=2,Showgrid=false)
+    |> Chart.withX_AxisStyle("", Side=StyleParam.Side.Top,Showgrid=false, Id=1,Overlaying=StyleParam.AxisAnchorId.X 2)
+    |> Chart.withY_AxisStyle("Temperature", MinMax=(-25.,30.), Side=StyleParam.Side.Left,Id=2)
+    |> Chart.withY_AxisStyle(
+        "Correlation", MinMax=(0.,19.),Showgrid=false, Side=StyleParam.Side.Right,
+        Id=1,Overlaying=StyleParam.AxisAnchorId.Y 2)
+    |> Chart.withLegend true
+    |> Chart.withX_Axis (yAxis())
+    |> Chart.withY_Axis (yAxis())
+    //|> Chart.withSize(900.,700.)
+    
+
+(*** include-value:combinedChart ***)
+
+
+
+
+
+
+(**
+
+Because in most cases default parameters are sufficient to transform the data, there are two additional functions to process the raw data with automated padding:
+ 
+1. `ContinuousWavelet.transformDefault`
+   
+ - padding is chosen in an automated manner based on the used wavelet
+
+ - minDistance: median spacing / 2
+
+ - maxDistance: median spacing * 10
+
+ - internalPadding: LinearInterpolation
+
+ - hugeGapPadding: Random
+
+2. `ContinuousWavelet.transformDefaultZero`
+
+ - padding is chosen in an automated manner based on the used wavelet  
+
+ - minDistance: smallest occuring spacing
+
+ - maxDistance: Infinity
+
+ - internalPadding: Zero
+
+ - hugeGapPadding: Zero (redundant)
+
+
+*)
+
+//used wavelets
+let rickerArrayDefault = 
+    [|2. .. 2. .. 10.|] |> Array.map (fun x -> Wavelet.createRicker (x**1.8))
+
+//transforms the data with default parameters (InternalPadding=LinearInterpol;HugeGapPadd=Random)
+let defaultTransform =
+    rickerArrayDefault
+    |> Array.map (ContinuousWavelet.transformDefault data)
+
+//alternative presentation of the wavelet correlation coefficients as line charts
+let defaultChart =
+    let myYAxis() =
+            Axis.LinearAxis.init(
+                Title="Temperature and Correlation",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    let myXAxis() =
+            Axis.LinearAxis.init(
+                Title="Time",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    let rawDataChart =
+        [|Chart.Area(data,Name= "rawData")|]
+    let cwtCharts =
+        let scale i = rickerArrayDefault.[i].Scale
+        defaultTransform 
+        |> Array.mapi (fun i x -> Chart.Line(x,Name=(sprintf "s: %.1f" (scale i))))
+
+    Array.append rawDataChart cwtCharts
+    |> Chart.Combine
+    |> Chart.withY_Axis (myYAxis())
+    |> Chart.withX_Axis (myXAxis())
+    |> Chart.withTitle "default transform"
+
+(**
+- Because random y-values are introduced, small wavelets are going to receive a high correlation in big gaps!
+- s = scale
+- f = frequency [days]
+*)
+(*** include-value:defaultChart ***)
+
+//transforms the data with default parameters (InternalPadding=Zero;HugeGapPadd=Zero)
+let defaultZeroTransform =
+    rickerArrayDefault
+    |> Array.map (ContinuousWavelet.transformDefaultZero data)
+
+//alternative presentation of the wavelet correlation coefficients as line charts
+let defaultZeroChart =
+    let myYAxis() =
+            Axis.LinearAxis.init(
+                Title="Temperature and Correlation",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    let myXAxis() =
+            Axis.LinearAxis.init(
+                Title="Time",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    let rawDataChart =
+        [|Chart.Area(data,Name= "rawData")|]
+    let cwtCharts =
+        let scale i = rickerArrayDefault.[i].Scale
+        defaultZeroTransform 
+        |> Array.mapi (fun i x -> Chart.Line(x,Name=(sprintf "s: %.1f" (scale i) )))
+
+    Array.append rawDataChart cwtCharts
+    |> Chart.Combine
+    |> Chart.withY_Axis (myYAxis())
+    |> Chart.withX_Axis (myXAxis())
+    |> Chart.withTitle "default Zero transform"
+
+(**
+- Because zeros are introduced, the adjacent signals are going to receive a high correlation!
+- In this example the correlation coefficients in general drop to the half intensity in respect to the default transform above because a zero value is introduced between every data point (minDistance = 0.5).
+- s = scale
+- f = frequency [days]
+*)
+
+(*** include-value:defaultZeroChart ***)
+
+(**
+
+##Continuous Wavelet 3D
+
+When dealing with three dimensional data a three dimensional wavelet has to be used for signal convolution. Here the Marr wavelet (3D mexican hat wavlet) is used for analysis.
+Common cases are:
+
+- (microscopic) images
+
+- micro arrays
+
+
+*)
+
+open FSharp.Stats.Signal
+
+let data2D =
+    let rnd = System.Random()
+    Array2D.init 50 50 (fun i j -> 
+        if (i,j) = (15,15) then 5.
+        elif (i,j) = (35,35) then -5.
+        else rnd.NextDouble())
+
+let data2DChart = 
+    data2D
+    |> JaggedArray.ofArray2D
+    |> fun data -> Chart.Heatmap(data,Showscale=false)
+    |> Chart.withX_AxisStyle "raw data"
+
+//has to be greater than the padding area of the used wavelet
+let padding = 11
+
+let paddedData2D =
+    //padding the data points with 50 artificial random points on each side
+    Padding.Discrete.ThreeDimensional.pad data2D padding Padding.Discrete.ThreeDimensional.Random
+
+let marrWavelet = 
+    Wavelet.createMarr 3.
+
+
+let transformedData2D =
+    ContinuousWavelet.Discrete.ThreeDimensional.transform paddedData2D padding marrWavelet
+
+let chartHeatmap =
+    transformedData2D
+    |> JaggedArray.ofArray2D
+    |> fun data -> Chart.Heatmap(data,Showscale=false)
+    |> Chart.withX_AxisStyle "wavelet transformed"
+
+let combined2DChart =
+    [data2DChart;chartHeatmap]
+    |> Chart.Stack 2
+
+(*** include-value:combined2DChart***)
+
+
+
+(**
+
 <a name="FFT"></a>
 
 ## Fast Fourier transform
