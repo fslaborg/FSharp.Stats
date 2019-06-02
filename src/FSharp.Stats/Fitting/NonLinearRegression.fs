@@ -343,4 +343,54 @@ module NonLinearRegression =
             //[|"amp";"meanX";"std";"tau"|]
             InitialParamGuess       = initialParamGuess
             }
-        
+
+    /////////////////////////
+    /// Hill equation "y = Vm * x^n / (k^n+x^n)"
+        let hillModel = 
+            let parameterNames = [|"Vm";"n";"k"|]
+            let getFunctionValues = (fun (parameters:Vector<float>) x -> 
+                parameters.[0] * x**parameters.[1] / (parameters.[2]**parameters.[1] + x**parameters.[1])
+                )
+            let getGradientValues =
+                (fun (parameters:Vector<float>) (gradientVector: Vector<float>) x -> 
+                    gradientVector.[0] <- x**parameters.[1] / (parameters.[2]**parameters.[1] + x**parameters.[1])
+                    gradientVector.[1] <- parameters.[0] * x**parameters.[1] * Math.Log(x) * (- 1. / ((parameters.[2]**parameters.[1] + x**parameters.[1])**2.)) * (parameters.[2]**parameters.[1] * Math.Log(parameters.[2]) + x**parameters.[1] * Math.Log(x))
+                    gradientVector.[2] <- parameters.[0] * x**parameters.[1] * (- 1. / ((parameters.[2]**parameters.[1] + x**parameters.[1])**2.)) * parameters.[1] * parameters.[2]**(parameters.[1] - 1.)
+                    gradientVector)    
+            createModel parameterNames getFunctionValues getGradientValues
+            
+        let hillSolverOptions Vm n k = 
+            if Vm <= 0. || n <= 0. || k <= 0. then 
+                failwithf "Vm, n, and k cannot be negative!"
+
+            {
+            MinimumDeltaValue       = 0.0001
+            MinimumDeltaParameters  = 0.0001  
+            MaximumIterations       = 10000
+            InitialParamGuess       = [|Vm;n;k|]
+            }
+    
+        //fails because n and k become negative during the optimization iterations
+        //add borders to GaussNewton (default -Infinity - Infinity)
+        //let hillModelWithFixedVm Vm = 
+        //    let parameterNames = [|"n";"k"|]
+        //    let getFunctionValues = (fun (parameters:Vector<float>) x -> 
+        //        Vm * x**parameters.[0] / (parameters.[1]**parameters.[0] + x**parameters.[0])
+        //        )
+        //    let getGradientValues =
+        //        (fun (parameters:Vector<float>) (gradientVector: Vector<float>) x -> 
+        //            gradientVector.[0] <- Vm * x**parameters.[0] * Math.Log(x) * (- 1. / ((parameters.[1]**parameters.[0] + x**parameters.[0])**2.)) * (parameters.[1]**parameters.[0] * Math.Log(parameters.[1]) + x**parameters.[0] * Math.Log(x))
+        //            gradientVector.[1] <- Vm * x**parameters.[0] * (- 1. / ((parameters.[1]**parameters.[0] + x**parameters.[0])**2.)) * parameters.[0] * parameters.[1]**(parameters.[0] - 1.)
+        //            gradientVector)    
+        //    createModel parameterNames getFunctionValues getGradientValues
+            
+        //let hillSolverOptionsWithFixedVm n k = 
+        //    if n <= 0. || k <= 0. then 
+        //        failwithf "n and k cannot be negative!"
+
+        //    {
+        //    MinimumDeltaValue       = 0.0001
+        //    MinimumDeltaParameters  = 0.0001  
+        //    MaximumIterations       = 10000
+        //    InitialParamGuess       = [|n;k|]
+        //    }
