@@ -9,7 +9,7 @@ module FSIPrinters =
         let colLength = mat.NumCols
         let rowLength = mat.NumRows
         //number of rows/column to print from each side
-        let numberToPrint = 7
+        let numberToPrint = 10
 
         ///print column indices and horizontal separator
         let rowHeader() = 
@@ -20,7 +20,7 @@ module FSIPrinters =
                 printfn "%s" (String.concat "" (List.init ((2 * numberToPrint) * 10 + 7 + 9) (fun _ -> "_"))) //7=header, 9=fstItem
             else 
                 printfn "%s" (String.concat " " ("       "::(List.init colLength (fun i -> sprintf "%8i " i ))))
-                printfn "%s" (String.concat "" (List.init (colLength * numberToPrint + 7) (fun _ -> "_")))
+                printfn "%s" (String.concat "" (List.init (colLength * 10 + 7) (fun _ -> "_")))
 
         //print internal horizonal separaor
         let placeHolder() = 
