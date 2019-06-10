@@ -93,7 +93,7 @@ module MessagePrompts =
     let releaseMsg = """This will stage all uncommitted changes, push them to the origin and bump the release version to the latest number in the RELEASE_NOTES.md file. 
         Do you want to continue?"""
 
-    let releaseDocsMsg = """This will push the docs to gh-pages. Remember building the docs prior to this. Do you want to continue?"""
+    let releaseDocsMsg = """This will push the docs to gh-pages. Do you want to continue?"""
 
 // --------------------------------------------------------------------------------------
 // START TODO: Provide project-specific details below
@@ -503,6 +503,7 @@ Target.create "ReleaseConfirmation" (fun _ -> match promptYesNo releaseMsg with 
 Target.create "ReleaseDocsConfirmation" (fun _ -> match promptYesNo releaseDocsMsg with | true -> () |_ -> failwith "Release canceled")
 
 Target.create "All" ignore
+Target.create "BuildBinaries" ignore
 
 "Clean"
   ==> "AssemblyInfo"
@@ -529,7 +530,8 @@ Target.create "All" ignore
   ==> "PublishNuget"
   ==> "Release"
 
-"ReleaseDocsConfirmation"
+"All"
+  ==> "ReleaseDocsConfirmation"
   ==> "ReleaseDocs"
 
 "ReleaseDocs"
@@ -545,5 +547,13 @@ Target.create "All" ignore
 
 "All"
   ==> "ReleaseLocal"
+
+"Clean"
+  ==> "AssemblyInfo"
+  ==> "Restore"
+  ==> "Build"
+  ==> "CopyBinaries"
+  ==> "RunTests"
+  ==> "BuildBinaries"
 
 Target.runOrDefaultWithArguments "All"
