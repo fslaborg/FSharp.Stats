@@ -17,10 +17,11 @@ let myAxis() = LinearAxis.init(Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgr
 
 #Temporal Classification
 
-When working with time series data it often proves difficult to cluster the signals by k-means clustering. While most clustering algorithms work with distances, it often is not of interest how the 
-signals amplitude changes over time. The shape and with it the location of the extrema in the signal is a more reasonable measure for similarities of protein- or transcript kinetics.
+When working with time series data it often proves difficult to cluster the signals. While most clustering algorithms work based on distances, it often is *not* of interest how the 
+signals amplitude changes over time. The shape and thereby the location of the extrema in the signal is a more reasonable measure for similarities of protein- or transcript kinetics.
+
 In order to classify signals by their shape, it is beneficial to use constrained smoothing splines to fit the data and extract the location of extrema.
-Therefore smoothing splines are fitted to the data with different shape constraints. Monotonicity can be enforced for every interval separately, thereby constraining a predefined shape.
+Monotonicity can be enforced for every interval separately, thereby constraining a predefined shape.
 
 The validity of the shape assumption is checked via a modified GCV and corrected AIC, both corrected for small sample sizes. If the shape assumption holds, the signal is classified according to the extremum positions.
 
@@ -195,9 +196,10 @@ let minMaxSpline =
     Hermite.splineIncreasing x_Values (Hermite.calcMeanOfRep y_Values 3) weighting 2  
     |> fun (constraintMatrices,result) -> result
 
-//returns a list of tuples that describe extrema. The first item defines if the extremum is a maximum (1) or minimum (-1) 
-//and the second item defines the corresponding x value.
+//returns a list of tuples that describe extrema. The first item defines if the extremum
+//is a maximum (1) or minimum (-1) and the second item defines the corresponding x value.
 let isolateExtrema = 
     Hermite.getExtrema x_Values minMaxSpline.TraceA minMaxSpline.TraceC
+    |> fun extrema -> sprintf "Location of extrema are: %A" extrema
 
 (*** include-value:isolateExtrema ***)
