@@ -205,6 +205,12 @@ module Hermite =
             vector [for i = 0 to length-1 do yield arr.[i*rep..i*rep+rep-1] |> Seq.average]      
         else failwithf "arrLength no multiple of replicate number"
              
+    let calcStDevOfRep (arr:Vector<float>) rep =
+        if arr.Length%rep = 0 then
+            let length = arr.Length / rep 
+            vector [for i = 0 to length-1 do yield arr.[i*rep..i*rep+rep-1] |> Seq.stDev]      
+        else failwithf "arrLength no multiple of replicate number"
+
     let normValues (yVal:Vector<float>) =
         let yMean = yVal |> Seq.mean
         let std   = yVal |> Seq.stDev
