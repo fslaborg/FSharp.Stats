@@ -122,6 +122,19 @@ module Hermite =
         | De2 //2 minima
         | Complex //more complex
 
+    let getParentShape (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+        let extrema = getExtrema x a c
+        let extremaCount = extrema.Length
+        let n = a.Length
+        if extremaCount = 0 then
+            if a.[0] < a.[n-1] then In0
+            else De0
+        elif extremaCount = 1 then
+            if fst extrema.[0] = 1. then In1
+            else De1
+        else
+            if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In2
+            else De2
 
     //check the spline for the predefined condition
     let checkshape (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (con:Condition)=
