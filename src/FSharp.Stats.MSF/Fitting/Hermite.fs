@@ -1097,6 +1097,26 @@ module Hermite =
                 accMin,accMax
         loop 1 [] []
 
+    ///gets the observation values (x,y), the number of measured replicates and the weightingmethod and returns the spline result of the best fit
+    let getBestFit xVal yVal repNumber weightingMethod = 
+        let yValMeans = calcMeanOfRep yVal repNumber |> normValues
+        let weightingMatrix = (getWeighting xVal (yVal |> vector) weightingMethod repNumber)
+        let (cl,fit) = getBestFitOfWeighting xVal yValMeans weightingMatrix 
+        //let (mins,maxs) = investigateTrace 0.001 (fit.TraceA |> Seq.toArray)
+        //let clNew = 
+        //    if mins = [] then
+        //        if maxs = [] then 
+        //            if fit.TraceA.[0] < fit.TraceA.[fit.TraceA.Length - 1] then 1
+        //            else -1
+        //        else 2
+        //    else  
+        //        if maxs = [] then -2
+        //        else 
+        //            if maxs.[0] < mins.[0] then 3
+        //            else -3
+                    
+        //createHermiteResult fit.TraceA fit.TraceC fit.Error fit.GCV fit.Lambda mins maxs clNew fit.Ctemp fit.AICc
+        fit
 
 
 
