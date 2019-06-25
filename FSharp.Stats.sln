@@ -47,6 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D
 		docsrc\content\Signal.fsx = docsrc\content\Signal.fsx
 		docsrc\content\SpecialFunctions.fsx = docsrc\content\SpecialFunctions.fsx
 		docsrc\content\Summary.fsx = docsrc\content\Summary.fsx
+		docsrc\content\TemporalClassification.fsx = docsrc\content\TemporalClassification.fsx
 		docsrc\content\Testing.fsx = docsrc\content\Testing.fsx
 		docsrc\content\tutorial.fsx = docsrc\content\tutorial.fsx
 	EndProjectSection
