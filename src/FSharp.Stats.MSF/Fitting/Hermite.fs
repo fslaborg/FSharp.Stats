@@ -924,6 +924,124 @@ module Hermite =
         |> List.minBy (fun (cl,result) -> result.AICc)
         |> fun (cl,result) -> if result.AICc < initialSelectionCriterion then (cl,result) else Complex,result        
 
+    //same as initEvalAt, but with recalculated polynomial coefficients
+    let initFunctionWithCoefficients (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =  
+        let n = x.Length
+        //define interval stepwidth
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+
+        let deriv i (a:Vector<float>) (c:Vector<float>) xV=
+            let tmpT = xV - x.[i] / h.[i]
+            let pa = -1./6. * c.[0] + 1./6. * c.[1]
+            let pb = 0.5 * c.[0] 
+            let pc = -1./3. * c.[0] - 1./6. * c.[1] - a.[0] + a.[1]
+            let pd = a.[0]
+            pa * tmpT**3. + pb * tmpT**2. + pc * tmpT + pd
+
+        (fun t ->
+            let i =
+                if t = Seq.last x then 
+                    Seq.length x - 2
+                else
+                    x
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - t) > 0.)
+                    |> fun nextInterval -> nextInterval - 1
+            deriv i a.[i .. i+1] c.[i .. i+1] t
+            )
+    
+    //recalculates the polynomial coefficients of the given spline f(knot) and f''(knot)
+    let getcoefficients (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+        let n = x.Length
+        //Definiere Intervalle
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+        let deriv (a:Vector<float>) (c:Vector<float>) =
+            let pa = -1./6. * c.[0] + 1./6. * c.[1]
+            let pb = 0.5 * c.[0] 
+            let pc = -1./3. * c.[0] - 1./6. * c.[1] - a.[0] + a.[1]
+            let pd = a.[0]
+            [pa;pb;pc;pd]
+        [0 .. n-1]
+        |> List.map (fun i ->
+            let t = x.[i]
+            let i =
+                if t = Seq.last x then 
+                    Seq.length x - 2
+                else
+                    x
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - t) > 0.)
+                    |> fun nextInterval -> nextInterval - 1
+            deriv a.[i .. i+1] c.[i .. i+1]
+            )
+        |> List.concat
+
+    ///returns a function that calculates the second derivative for a given xValue
+    let getSndDerivative (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+        let n = x.Length
+        //define interval stepwidth
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+        let deriv i (a:Vector<float>) (c:Vector<float>) xV=
+            let tmpT = xV - x.[i] / h.[i]
+            let pa = -1./6. * c.[0] + 1./6. * c.[1]
+            let pb = 0.5 * c.[0] 
+            //let pc = -1./3. * c.[0] - 1./6. * c.[1] - a.[0] + a.[1]
+            //let pd = a.[0]
+            6. * pa * tmpT + 2. * pb
+        (fun t ->
+            let i =
+                if t = Seq.last x then 
+                    Seq.length x - 2
+                else
+                    x
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - t) > 0.)
+                    |> fun nextInterval -> nextInterval - 1
+            deriv i a.[i .. i+1] c.[i .. i+1] t
+            )
+
+    let getSndDerivativeSquared (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+        let n = x.Length
+        //define interval stepwidth
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+        let deriv i (a:Vector<float>) (c:Vector<float>) xV=
+            let tmpT = xV - x.[i] / h.[i]
+            let pa = -1./6. * c.[0] + 1./6. * c.[1]
+            let pb = 0.5 * c.[0] 
+            pown (6. * pa * tmpT + 2. * pb) 2       
+        (fun t ->
+            let i =
+                if t = Seq.last x then 
+                    Seq.length x - 2
+                else
+                    x
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - t) > 0.)
+                    |> fun nextInterval -> nextInterval - 1
+            deriv i a.[i .. i+1] c.[i .. i+1] t
+            )
+
+    ///returns a function that calculates the first derivative for a given xValue
+    let getFstDerivative (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+        let n = x.Length
+        //define interval stepwidth
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+        let deriv i (a:Vector<float>) (c:Vector<float>) xV=
+            let tmpT = xV - x.[i] / h.[i]
+            printfn "%.3f\t%A\t%A" xV a c
+            let pa = -1./6. * c.[0] + 1./6. * c.[1]
+            let pb = 0.5 * c.[0] 
+            let pc = -1./3. * c.[0] - 1./6. * c.[1] - a.[0] + a.[1]
+            //let pd = a.[0]
+            3. * pa * tmpT**2. + 2. * pb * tmpT + pc
+
+
+        (fun t ->
+            let i =
+                if t = Seq.last x then 
+                    Seq.length x - 2
+                else
+                    x
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - t) > 0.)
+                    |> fun nextInterval -> nextInterval - 1
+            deriv i a.[i .. i+1] c.[i .. i+1] t
+            )
         
 
     ///gets indices of minima and maxima by brute force search
