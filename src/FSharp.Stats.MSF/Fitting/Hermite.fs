@@ -588,6 +588,61 @@ module Hermite =
                 list
                 |> Array.ofList 
 
+            elif con = 3 then
+                for m = 3 to (n-1) do 
+                    for j = (m+1) to (n-1) do
+                        for k = (j+1) to (n-1) do
+                            for i=1 to (m-1) do 
+                                let temp = 
+                                    (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
+                                    |> vector
+                                Matrix.setRow Ctemp (4*i-4) temp
+                                Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
+                                Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
+                                Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
+                                if i = m - 1 then
+                                    Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
+                                    Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                            for i = m to j-1 do
+                                let temp =                
+                                    (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
+                                    |> vector
+                                Matrix.setRow Ctemp (4*i-4) (- temp)
+                                Matrix.setRow Ctemp (4*i-3) (- (B.Row (i-1) |> vector))
+                                Matrix.setRow Ctemp (4*i-2) (- (temp - (B.Row (i-1) |> vector)))
+                                Matrix.setRow Ctemp (4*i-1) (- (temp - (B.Row (i) |> vector)))
+                                if i = j - 1 then
+                                    Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-3) -(B.Row (i-1) |> vector)
+                                    Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                            for i = j to k-1 do
+                                let temp =                
+                                    (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
+                                    |> vector
+                                Matrix.setRow Ctemp (4*i-4) (temp)
+                                Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
+                                Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
+                                Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
+                                if i = k - 1 then //if i = j - 1 then
+                                    Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector) 
+                                    Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                            for i = k to n-1 do
+                                let temp = 
+                                    (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
+                                    |> vector
+                                Matrix.setRow Ctemp (4*i-4) (- temp)
+                                Matrix.setRow Ctemp (4*i-3) (-(B.Row (i-1) |> vector))
+                                Matrix.setRow Ctemp (4*i-2) (-(temp - (B.Row (i-1) |> vector)))
+                                Matrix.setRow Ctemp (4*i-1) (-(temp - (B.Row (i) |> vector)))
+                            Matrix.setRow Ctemp (4*(n-1)) (- B.Row (n-1) |> vector)
+                            list <- (Matrix.copy Ctemp)::list
+                list
+                |> Array.ofList 
             
             else failwith "Condition max 3"
 
