@@ -269,6 +269,13 @@ module Array =
         else
             zero / zero    
 
+    /// Median absolute deviation (MAD)
+    let medianAbsoluteDev (data : float []) =       
+        let med = median data
+        data
+        |> Array.map (fun x -> abs ( x - med ))
+        |> median
+
     // When we sample with replacement, the two sample values are independent.
     // Practically, this means that what we get on the first one doesn't affect what we get on the second.
     // Mathematically, this means that the covariance between the two is zero

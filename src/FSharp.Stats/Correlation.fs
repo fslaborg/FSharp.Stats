@@ -1,7 +1,43 @@
 namespace FSharp.Stats
-
+/// Contains correlation functions for different data types 
 module Correlation =
 
+    /// This module contains normalization and helper functions for the biweighted midcorrelation
+    module private bicorHelpers = 
+
+        let sumBy2 f (a1 : float []) (a2 : float []) = 
+            let mutable sum = 0.
+            for i = 0 to a1.Length - 1 do
+                sum <- sum + (f a1.[i] a2.[i])
+            sum
+
+        let sumBy4 f (a1 : float []) (a2 : float []) (a3 : float []) (a4 : float [])= 
+            let mutable sum = 0.
+            for i = 0 to a1.Length - 1 do
+                sum <- sum + (f a1.[i] a2.[i] a3.[i] a4.[i])
+            sum    
+
+        let identity (x: float) = 
+            if x > 0. then 1. else 0.
+
+        let deviation med mad value = 
+            (value - med) / (9. * mad)
+
+        let weight dev = ((1. - (dev ** 2.)) ** 2.) * (identity (1. - (abs dev)))
+
+        let getNormalizationFactor (values: float []) (weights:float[]) (med:float) = 
+            sumBy2 (fun value weight -> 
+                ((value - med) * weight) ** 2.
+                )
+                values
+                weights
+            |> sqrt
+
+        let normalize (value:float) (weight:float) normalizationFactor med =   
+            normalizationFactor
+            |> (/) ((value - med) * weight)
+
+    /// Contains correlation functions optimized for sequences
     [<AutoOpen>]
     module Seq = 
         /// Pearson correlation 
@@ -107,6 +143,27 @@ module Correlation =
 
             kendallCorrFun (FSharp.Stats.Rank.rankFirst setA ) (FSharp.Stats.Rank.rankFirst setB )
 
+        /// Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.
+        let bicor seq1 seq2 = 
+            
+            let xs,ys  = seq1 |> Array.ofSeq, seq2 |> Array.ofSeq
+
+            let xMed = xs |> Array.median
+            let xMad = xs |> Array.medianAbsoluteDev
+            let xWeights = xs |> Array.map ((bicorHelpers.deviation xMed xMad) >> bicorHelpers.weight)
+            let xNF = bicorHelpers.getNormalizationFactor xs xWeights xMed
+
+            let yMed = ys |> Array.median
+            let yMad = ys |> Array.medianAbsoluteDev
+            let yWeights = ys |> Array.map ((bicorHelpers.deviation yMed yMad) >> bicorHelpers.weight)
+            let yNF = bicorHelpers.getNormalizationFactor ys yWeights yMed
+
+            bicorHelpers.sumBy4 (fun xVal xWeight yVal yWeight ->
+                (bicorHelpers.normalize xVal xWeight xNF xMed) * (bicorHelpers.normalize yVal yWeight yNF yMed)
+                )
+                xs xWeights ys yWeights 
+
+    /// Contains correlation functions optimized for vectors
     [<AutoOpen>]
     module Vector =
 
@@ -135,7 +192,27 @@ module Correlation =
         let xCorr lag v1 v2 = 
             correlationOf Vector.dot lag v1 v2
 
+        /// Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.
+        let bicor (vec1:vector) (vec2:vector) = 
+            
+            let xs,ys  = vec1.Values, vec2.Values
 
+            let xMed = xs |> Array.median
+            let xMad = xs |> Array.medianAbsoluteDev
+            let xWeights = xs |> Array.map ((bicorHelpers.deviation xMed xMad) >> bicorHelpers.weight)
+            let xNF = bicorHelpers.getNormalizationFactor xs xWeights xMed
+
+            let yMed = ys |> Array.median
+            let yMad = ys |> Array.medianAbsoluteDev
+            let yWeights = ys |> Array.map ((bicorHelpers.deviation yMed yMad) >> bicorHelpers.weight)
+            let yNF = bicorHelpers.getNormalizationFactor ys yWeights yMed
+
+            bicorHelpers.sumBy4 (fun xVal xWeight yVal yWeight ->
+                (bicorHelpers.normalize xVal xWeight xNF xMed) * (bicorHelpers.normalize yVal yWeight yNF yMed)
+                )
+                xs xWeights ys yWeights 
+
+    /// Contains correlation functions optimized for matrices
     [<AutoOpen>]
     module Matrix =
     
@@ -178,6 +255,45 @@ module Correlation =
             m
             |> columnWiseCorrelationMatrix Seq.pearson
 
+        /// Computes the rowwise biweighted midcorrelation matrix for the input matrix 
+        let rowWiseBicor (m : matrix) =
+
+            let vectors = Matrix.toJaggedArray m
+            let result : float [] [] = [|for i=0 to vectors.Length-1 do yield (Array.init vectors.Length (fun innerIndex -> if i=innerIndex then 1. else 0.))|]
+
+            let meds : float [] = Array.zeroCreate vectors.Length
+            let mads : float [] = Array.zeroCreate vectors.Length
+            let weightss : float [][] = Array.zeroCreate vectors.Length
+            let nfs : float [] = Array.zeroCreate vectors.Length
+
+            for i=0 to vectors.Length-1 do
+                let xs = vectors.[i]
+                let xMed = xs |> Array.median
+                let xMad = xs |> Array.medianAbsoluteDev
+                let xWeights = xs |> Array.map ((bicorHelpers.deviation xMed xMad) >> bicorHelpers.weight)
+                let xNF = bicorHelpers.getNormalizationFactor xs xWeights xMed
+
+                meds.[i] <- xMed
+                mads.[i] <- xMad
+                weightss.[i] <- xWeights
+                nfs.[i] <- xNF
+
+                for j=0 to i - 1 do
+
+                    let corr = 
+                        bicorHelpers.sumBy4 (fun xVal xWeight yVal yWeight ->
+                            (bicorHelpers.normalize xVal xWeight xNF xMed) * (bicorHelpers.normalize yVal yWeight nfs.[j] meds.[j]))
+                            xs xWeights vectors.[j] weightss.[j]
+                    result.[i].[j] <- corr
+                    result.[j].[i] <- corr
+            result |> matrix
+
+        /// Computes the columnwise biweighted midcorrelation matrix for the input matrix 
+        let columnWiseBicor (m : matrix) =
+            m
+            |> Matrix.transpose
+            |> rowWiseBicor
+
         ///// Computes rowise pearson correlation
         //// TODO: TEST
         //let corr (x: matrix) =
@@ -186,3 +302,4 @@ module Correlation =
         //    let cov = x * x.Transpose
             
         //    cov ./ z
+
