@@ -110,7 +110,7 @@ module Empirical =
     /// Chooses a random element from this PMF
     let random (pmf:Map<float,float>) = 
         if pmf.Count <= 0 then raise (System.Exception("Pmf contains no values") )  
-        let target = System.Random().NextDouble()
+        let target = FSharp.Stats.Random.rndgen.NextFloat()
         //pmf |> Seq.map (fun kv -> (kv.Key,kv.Value)) |> Seq.scan (fun state (k,v) -> (k, v + snd state)) (0.,0.)
         let x,y =
             pmf
