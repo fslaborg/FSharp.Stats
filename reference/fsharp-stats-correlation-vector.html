@@ -13,7 +13,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/styles/CSBStyles.css" /> <!--/FSharp.Stats-->
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -48,6 +48,8 @@
       </span>
 </p>
 <div class="xmldoc">
+<p>Contains correlation functions optimized for vectors</p>
+
 </div>
 
 <!-- Render nested types and modules, if there are any -->
@@ -61,15 +63,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '70', 70)" onmouseover="showTip(event, '70', 70)">
+          <code onmouseout="hideTip(event, '74', 74)" onmouseover="showTip(event, '74', 74)">
             autoCorrelation lag v1
           </code>
-          <div class="tip" id="70">
+          <div class="tip" id="74">
             <strong>Signature:</strong> lag:int -&gt; v1:vector -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L123-123" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L180-180" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -81,15 +83,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '71', 71)" onmouseover="showTip(event, '71', 71)">
+          <code onmouseout="hideTip(event, '75', 75)" onmouseover="showTip(event, '75', 75)">
             autoCovariance lag seq
           </code>
-          <div class="tip" id="71">
+          <div class="tip" id="75">
             <strong>Signature:</strong> lag:int -&gt; seq:vector -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L127-127" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L184-184" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -101,15 +103,35 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '72', 72)" onmouseover="showTip(event, '72', 72)">
+          <code onmouseout="hideTip(event, '76', 76)" onmouseover="showTip(event, '76', 76)">
+            bicor vec1 vec2
+          </code>
+          <div class="tip" id="76">
+            <strong>Signature:</strong> vec1:vector -&gt; vec2:vector -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L196-196" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '77', 77)" onmouseover="showTip(event, '77', 77)">
             correlationOf corrF lag v1 v2
           </code>
-          <div class="tip" id="72">
+          <div class="tip" id="77">
             <strong>Signature:</strong> corrF:(vector -&gt; vector -&gt; float) -&gt; lag:int -&gt; v1:vector -&gt; v2:vector -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L115-115" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L172-172" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -122,15 +144,15 @@ was tested in comparison to: <a href="https://www.wessa.net/rwasp_autocorrelatio
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '73', 73)" onmouseover="showTip(event, '73', 73)">
+          <code onmouseout="hideTip(event, '78', 78)" onmouseover="showTip(event, '78', 78)">
             normalizedXCorr lag v1 v2
           </code>
-          <div class="tip" id="73">
+          <div class="tip" id="78">
             <strong>Signature:</strong> lag:int -&gt; v1:vector -&gt; v2:vector -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L131-131" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L188-188" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -142,15 +164,15 @@ was tested in comparison to: <a href="https://www.wessa.net/rwasp_autocorrelatio
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '74', 74)" onmouseover="showTip(event, '74', 74)">
+          <code onmouseout="hideTip(event, '79', 79)" onmouseover="showTip(event, '79', 79)">
             xCorr lag v1 v2
           </code>
-          <div class="tip" id="74">
+          <div class="tip" id="79">
             <strong>Signature:</strong> lag:int -&gt; v1:vector -&gt; v2:vector -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L135-135" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L192-192" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

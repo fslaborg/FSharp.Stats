@@ -13,7 +13,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/styles/CSBStyles.css" /> <!--/FSharp.Stats-->
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -48,6 +48,8 @@
       </span>
 </p>
 <div class="xmldoc">
+<p>Contains correlation functions optimized for sequences</p>
+
 </div>
 
 <!-- Render nested types and modules, if there are any -->
@@ -61,15 +63,35 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '66', 66)" onmouseover="showTip(event, '66', 66)">
-            kendall setA setB
+          <code onmouseout="hideTip(event, '69', 69)" onmouseover="showTip(event, '69', 69)">
+            bicor seq1 seq2
           </code>
-          <div class="tip" id="66">
-            <strong>Signature:</strong> setA:&#39;?10283 [] -&gt; setB:&#39;?10284 [] -&gt; float&lt;MeasureOne&gt;<br />
-                          <strong>Type parameters:</strong> '?10283, '?10284                      </div>
+          <div class="tip" id="69">
+            <strong>Signature:</strong> seq1:seq&lt;float&gt; -&gt; seq2:seq&lt;float&gt; -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L69-69" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L147-147" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '70', 70)" onmouseover="showTip(event, '70', 70)">
+            kendall setA setB
+          </code>
+          <div class="tip" id="70">
+            <strong>Signature:</strong> setA:&#39;?10291 [] -&gt; setB:&#39;?10292 [] -&gt; float&lt;MeasureOne&gt;<br />
+                          <strong>Type parameters:</strong> '?10291, '?10292                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L105-105" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -81,15 +103,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '67', 67)" onmouseover="showTip(event, '67', 67)">
+          <code onmouseout="hideTip(event, '71', 71)" onmouseover="showTip(event, '71', 71)">
             pearson seq1 seq2
           </code>
-          <div class="tip" id="67">
+          <div class="tip" id="71">
             <strong>Signature:</strong> seq1:seq&lt;^T&gt; -&gt; seq2:seq&lt;^T&gt; -&gt; float<br />
                           <strong>Type parameters:</strong> ^T, ^a, ^b                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L8-8" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L44-44" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -101,15 +123,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '68', 68)" onmouseover="showTip(event, '68', 68)">
+          <code onmouseout="hideTip(event, '72', 72)" onmouseover="showTip(event, '72', 72)">
             pearsonWeighted seq1 seq2 weights
           </code>
-          <div class="tip" id="68">
+          <div class="tip" id="72">
             <strong>Signature:</strong> seq1:seq&lt;float&lt;MeasureOne&gt;&gt; -&gt; seq2:seq&lt;float&lt;MeasureOne&gt;&gt; -&gt; weights:seq&lt;float&lt;MeasureOne&gt;&gt; -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L35-35" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L71-71" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -121,15 +143,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '69', 69)" onmouseover="showTip(event, '69', 69)">
+          <code onmouseout="hideTip(event, '73', 73)" onmouseover="showTip(event, '73', 73)">
             spearman array1 array2
           </code>
-          <div class="tip" id="69">
-            <strong>Signature:</strong> array1:&#39;?10280 array -&gt; array2:&#39;?10281 array -&gt; float<br />
-                          <strong>Type parameters:</strong> '?10280, '?10281                      </div>
+          <div class="tip" id="73">
+            <strong>Signature:</strong> array1:&#39;?10288 array -&gt; array2:&#39;?10289 array -&gt; float<br />
+                          <strong>Type parameters:</strong> '?10288, '?10289                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L61-61" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L97-97" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

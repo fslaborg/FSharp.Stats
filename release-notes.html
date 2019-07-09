@@ -13,7 +13,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/styles/CSBStyles.css" /> <!--/FSharp.Stats-->
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -34,6 +34,115 @@
       <div class="row">
         <div class="span9" id="main">
           
+<h4><a name="0-1-0-Wednesday-July-3-2019" class="anchor" href="#0-1-0-Wednesday-July-3-2019">0.1.0 - Wednesday, July 3, 2019</a></h4>
+<p>Several bugfixes and additions to multiple namespaces:</p>
+<ul>
+<li>
+<strong>FSharp.Stats</strong> (core)
+<ul>
+<li>
+Additional functionalities:
+<ul>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/15b12b07278162fe1ddc5b5a2bc9975615c7a388">Matrix FSI printer</a> for increasing convenience when working with matrices</li>
+<li>Biweight midcorrelation for <a href="https://github.com/CSBiology/FSharp.Stats/commit/f85c362e121c72fdc501539f401b6bf8e89514a4">sequences</a>, <a href="https://github.com/CSBiology/FSharp.Stats/commit/84c4369e0b84eda8ac67d43362d93168427ed0f4">vectors and matrices</a></li>
+</ul>
+</li>
+<li>
+Bug fixes:
+<ul>
+<li><p>Fix shuffle functions to not shuffle in place (commits <a href="https://github.com/CSBiology/FSharp.Stats/commit/2816d81eed86fdf3ceb4a754635cda698f96f3ab">2816d81</a> and <a href="https://github.com/CSBiology/FSharp.Stats/commit/475874d58a1c73d3a7bdcf6f3c49e3179cbf34d0">475874d</a>)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>FSharp.Stats.Fitting</strong>
+<ul>
+<li>
+Additional functionalities:
+<ul>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/723ae6514947c93e992cba17549646cd8db6beab">Weighted polynomial least squares fitting</a> to cope with heteroscedacity</li>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/78ffe3d540478c1814eacaff5079a3ff43259fb4">Adjusted coefficient of determination</a> to incorporate the number of required variables</li>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/7b81f4198a6b48d948e2f30bef023e1205c1f788">Leave-out-one cross validation</a></li>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/6050c6bb67d08bc1c06008601442af4c124b2ca7">Exponential fit</a> model in non-linear regression</li>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/5c433181e0b7a1529a54bf64ec9fd16447187fdb">Theil-Sen estimator</a> for robust linear regression</li>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/e03123933ee2bc3b3dd2e6da54892f2b9254ee27">Weighted pearson correlation</a> to cope with heteroscedacity</li>
+<li><p>Calculate derivatives for <a href="https://github.com/CSBiology/FSharp.Stats/commit/fa78afeedb9cda2563f6c7554588f1439782cfd9">polynomial regression</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>FSharp.Stats.Interpolation</strong>
+<ul>
+<li>
+Additional functionalities:
+<ul>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/b8e72d3d22eabcdc1a68aba67a2139b7ea9d44a1">Polynomial interpolation</a></li>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/5036d4ed666218ad9cb82a91b7db489e1742d424">Cubic spline interpolating</a> with several boundary conditions</li>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/d9ac98d74904b19fa338dc35c3f1e676f3926b54">Cubic Hermite spline</a> with <a href="https://github.com/CSBiology/FSharp.Stats/commit/49ee64e5aea6a0dfb8504e0807260b31fd1148ed">simple slope estimator</a></li>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/8de4caa2a31c5cbd5192597b375911d6a8ce96ec">Get monotonicity slopes</a> that if possible fit an monotone interpolating cubic spline</li>
+<li><p>Calculate derivatives for <a href="https://github.com/CSBiology/FSharp.Stats/commit/23682c65d8a6088a0cc3a919e2975729eda36687">interpolating polynomials</a> and <a href="https://github.com/CSBiology/FSharp.Stats/commit/98a74fe9222b39cfca2c5641879d99b689251aec">interpolating cubic splines</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>FSharp.Stats.Integration</strong>
+<ul>
+<li>
+Additional functionality:
+<ul>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/7bd502ca0c02de9cb9218ccbb7b1a7468881f6b9#diff-ea4073dc197d0496ca8c047f82974244">TwoPointDifferentiation</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>FSharp.Stats.Algebra</strong>
+<ul>
+<li>
+Additional functionality:
+<ul>
+<li><p>Calculation of the <a href="https://github.com/CSBiology/FSharp.Stats/commit/723ae6514947c93e992cba17549646cd8db6beab">nullpace of a matrix</a> based on SVD</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>FSharp.Stats.Signal</strong>
+<ul>
+<li>
+Additional functionalities:
+<ul>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/60c6b16710d79bd0e87da8b6e0d1f6d8c33ecde4">Ricker wavelet</a> for 2D continuous wavelet transform</li>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/6f77aba16befaf22bb430900a25b5a59e204e0bc">Marr wavelet</a> for 3D continuous wavelet transform</li>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/a575b7a7cd7260cffd28bb4bc903297e2ba11985">Signal padding</a></li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/90eb89eba11335c73ee4f6f181b421bf7bfb0029">Continuous wavelet transform</a> with <a href="https://github.com/CSBiology/FSharp.Stats/commit/117e551a9c3d1c9798ce0aa2ff7b3f9027808322">defaultCWT</a> and <a href="https://github.com/CSBiology/FSharp.Stats/commit/4feda5959b0024c7834e5d82c87cd1411f237d35">discrete CWT</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>FSharp.Stats.MSF</strong>
+<ul>
+<li>
+Several improvements for Hermite (Temporal Classification):
+<ul>
+<li>
+commit <a href="https://github.com/CSBiology/FSharp.Stats/commit/c0d98de77840a25a76712302dcca383646e52b95">c0d98de</a>
+<ul>
+<li>add extrema calculation of constrained spline</li>
+<li>add third extrema constraints</li>
+<li>add various weighting methods</li>
+<li>add corrected AIC model selection criterion</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h4><a name="0-0-14-Friday-April-12-2019" class="anchor" href="#0-0-14-Friday-April-12-2019">0.0.14 - Friday, April 12, 2019</a></h4>
 <ul>
 <li>

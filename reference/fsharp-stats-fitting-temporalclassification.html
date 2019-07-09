@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>TemporalClassification - FSharp.Stats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Timo Mühlhaus"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
+    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>TemporalClassification</h1>
+<p>
+  <span>Namespace: FSharp.Stats.Fitting</span><br />
+  </p>
+<div class="xmldoc">
+</div>
+
+<!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-fitting-temporalclassification-condition.html">Condition</a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-fitting-temporalclassification-innerresult.html">InnerResult</a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-fitting-temporalclassification-tempclassresult.html">TempClassResult</a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-fitting-temporalclassification-weightingmethod.html">WeightingMethod</a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+  <h3>Functions and values</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Function or value</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1309', 1309)" onmouseover="showTip(event, '1309', 1309)">
+            calcMeanOfRep arr rep
+          </code>
+          <div class="tip" id="1309">
+            <strong>Signature:</strong> arr:Vector&lt;float&gt; -&gt; rep:int -&gt; Vector&lt;float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L204-204" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1310', 1310)" onmouseover="showTip(event, '1310', 1310)">
+            calcStDevOfRep arr rep
+          </code>
+          <div class="tip" id="1310">
+            <strong>Signature:</strong> arr:Vector&lt;float&gt; -&gt; rep:int -&gt; Vector&lt;float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L210-210" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1311', 1311)" onmouseover="showTip(event, '1311', 1311)">
+            checkshape x a c con
+          </code>
+          <div class="tip" id="1311">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; a:Vector&lt;float&gt; -&gt; c:Vector&lt;float&gt; -&gt; con:Condition -&gt; bool<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L142-142" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1312', 1312)" onmouseover="showTip(event, '1312', 1312)">
+            createInnerResult a g c e v l
+          </code>
+          <div class="tip" id="1312">
+            <strong>Signature:</strong> a:Vector&lt;float&gt; -&gt; g:float -&gt; c:float [,] -&gt; e:float -&gt; v:float -&gt; l:float -&gt; InnerResult<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L498-498" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1313', 1313)" onmouseover="showTip(event, '1313', 1313)">
+            createTempClassResult(...)
+          </code>
+          <div class="tip" id="1313">
+            <strong>Signature:</strong> a:vector -&gt; c:vector -&gt; e:float -&gt; gcv:float -&gt; lambda:float -&gt; ctemp:float [,] -&gt; aic:float -&gt; splinefunction:(float -&gt; float) -&gt; TempClassResult<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L180-180" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1314', 1314)" onmouseover="showTip(event, '1314', 1314)">
+            getAIC d a y W
+          </code>
+          <div class="tip" id="1314">
+            <strong>Signature:</strong> d:float -&gt; a:Vector&lt;float&gt; -&gt; y:Vector&lt;float&gt; -&gt; W:Matrix&lt;float&gt; -&gt; float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L318-318" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>d: complexity (count of extrema)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1315', 1315)" onmouseover="showTip(event, '1315', 1315)">
+            getBestFit(...)
+          </code>
+          <div class="tip" id="1315">
+            <strong>Signature:</strong> xVal:Vector&lt;float&gt; -&gt; yVal:Vector&lt;float&gt; -&gt; repNumber:int -&gt; weightingMethod:WeightingMethod -&gt; TempClassResult<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L1122-1122" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>gets the observation values (x,y), the number of measured replicates and the weightingmethod and returns the spline result of the best fit</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1316', 1316)" onmouseover="showTip(event, '1316', 1316)">
+            getBestFitOfWeighting(...)
+          </code>
+          <div class="tip" id="1316">
+            <strong>Signature:</strong> x_values:Vector&lt;float&gt; -&gt; y_values:seq&lt;float&gt; -&gt; wMat:Matrix&lt;float&gt; -&gt; Condition * TempClassResult<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L926-926" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>returns the best fit of the observation x,-and y-values and a given weightingMatrix</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1317', 1317)" onmouseover="showTip(event, '1317', 1317)">
+            getcoefficients x a c
+          </code>
+          <div class="tip" id="1317">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; a:Vector&lt;float&gt; -&gt; c:Vector&lt;float&gt; -&gt; float&lt;MeasureOne&gt; list<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L974-974" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1318', 1318)" onmouseover="showTip(event, '1318', 1318)">
+            getExtrema x a c
+          </code>
+          <div class="tip" id="1318">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; a:Vector&lt;float&gt; -&gt; c:Vector&lt;float&gt; -&gt; (float&lt;MeasureOne&gt; * float&lt;MeasureOne&gt;) list<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L52-52" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1319', 1319)" onmouseover="showTip(event, '1319', 1319)">
+            getFstDerivative x a c
+          </code>
+          <div class="tip" id="1319">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; a:Vector&lt;float&gt; -&gt; c:Vector&lt;float&gt; -&gt; float -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L1042-1042" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>returns a function that calculates the first derivative for a given xValue</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1320', 1320)" onmouseover="showTip(event, '1320', 1320)">
+            getGCV C D H W n y a lambda
+          </code>
+          <div class="tip" id="1320">
+            <strong>Signature:</strong> C:Matrix&lt;float&gt; -&gt; D:Matrix&lt;float&gt; -&gt; H:Matrix&lt;float&gt; -&gt; W:Matrix&lt;float&gt; -&gt; n:int -&gt; y:vector -&gt; a:vector -&gt; lambda:float -&gt; float * float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L416-416" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>calculates the generalized cross validation(GCV), and the modified GCV for small sample sizes: (mGCV,GCV)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1321', 1321)" onmouseover="showTip(event, '1321', 1321)">
+            getInitialEstimate D H W n y xVal
+          </code>
+          <div class="tip" id="1321">
+            <strong>Signature:</strong> D:Matrix&lt;float&gt; -&gt; H:Matrix&lt;float&gt; -&gt; W:Matrix&lt;float&gt; -&gt; n:int -&gt; y:Vector&lt;float&gt; -&gt; xVal:Vector&lt;float&gt; -&gt; TempClassResult<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L329-329" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>calculates an unconstrained smoothing spline</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1322', 1322)" onmouseover="showTip(event, '1322', 1322)">
+            getInitialEstimateOfWXY W y xVal
+          </code>
+          <div class="tip" id="1322">
+            <strong>Signature:</strong> W:Matrix&lt;float&gt; -&gt; y:Vector&lt;float&gt; -&gt; xVal:Vector&lt;float&gt; -&gt; TempClassResult<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L397-397" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>calculates an unconstrained smoothing spline for a given weightingmatrix, x-, and y-Values</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1323', 1323)" onmouseover="showTip(event, '1323', 1323)">
+            getParentShape x a c
+          </code>
+          <div class="tip" id="1323">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; a:Vector&lt;float&gt; -&gt; c:Vector&lt;float&gt; -&gt; Condition<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L126-126" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1324', 1324)" onmouseover="showTip(event, '1324', 1324)">
+            getSndDerivative x a c
+          </code>
+          <div class="tip" id="1324">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; a:Vector&lt;float&gt; -&gt; c:Vector&lt;float&gt; -&gt; float -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L999-999" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>returns a function that calculates the second derivative for a given xValue</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1325', 1325)" onmouseover="showTip(event, '1325', 1325)">
+            getSndDerivativeSquared x a c
+          </code>
+          <div class="tip" id="1325">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; a:Vector&lt;float&gt; -&gt; c:Vector&lt;float&gt; -&gt; float -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L1021-1021" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1326', 1326)" onmouseover="showTip(event, '1326', 1326)">
+            getWeighting xVal yVal w_method numRep
+          </code>
+          <div class="tip" id="1326">
+            <strong>Signature:</strong> xVal:Vector&lt;float&gt; -&gt; yVal:Vector&lt;float&gt; -&gt; w_method:WeightingMethod -&gt; numRep:int -&gt; Matrix&lt;float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L238-238" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>creates a weighting matrix out of the x-, and y-Values, the given weighting method and the number of measured replicates.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1327', 1327)" onmouseover="showTip(event, '1327', 1327)">
+            initEvalAt x a c
+          </code>
+          <div class="tip" id="1327">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; a:Vector&lt;float&gt; -&gt; c:Vector&lt;float&gt; -&gt; float -&gt; float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L18-18" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1328', 1328)" onmouseover="showTip(event, '1328', 1328)">
+            initEvalAtWithLinearInterpol(...)
+          </code>
+          <div class="tip" id="1328">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; a:Vector&lt;float&gt; -&gt; c:Vector&lt;float&gt; -&gt; stepwidth:float -&gt; float -&gt; float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L1154-1154" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>geturns a function, that gives the corresponding spline function and approximates the areas outside of x by linear interpolation of the border knots and the next value of stepwidth difference</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1329', 1329)" onmouseover="showTip(event, '1329', 1329)">
+            initFunctionWithCoefficients x a c
+          </code>
+          <div class="tip" id="1329">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; a:Vector&lt;float&gt; -&gt; c:Vector&lt;float&gt; -&gt; float -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L949-949" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1330', 1330)" onmouseover="showTip(event, '1330', 1330)">
+            mapCondition operator con
+          </code>
+          <div class="tip" id="1330">
+            <strong>Signature:</strong> operator:(Matrix&lt;float&gt; -&gt; matrix) -&gt; con:int -&gt; Condition<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L155-155" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1331', 1331)" onmouseover="showTip(event, '1331', 1331)">
+            normValues(yVal)
+          </code>
+          <div class="tip" id="1331">
+            <strong>Signature:</strong> yVal:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L216-216" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1332', 1332)" onmouseover="showTip(event, '1332', 1332)">
+            splineDecreasing x y W con
+          </code>
+          <div class="tip" id="1332">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; y:Vector&lt;float&gt; -&gt; W:Matrix&lt;float&gt; -&gt; con:int -&gt; float [,] [] * TempClassResult<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L922-922" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>calculates a constrained initially decreasing spline with given y-,and y-Values, a weighting matrix and the number of allowed extrema</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1333', 1333)" onmouseover="showTip(event, '1333', 1333)">
+            splineIncreasing x y W con
+          </code>
+          <div class="tip" id="1333">
+            <strong>Signature:</strong> x:Vector&lt;float&gt; -&gt; y:Vector&lt;float&gt; -&gt; W:Matrix&lt;float&gt; -&gt; con:int -&gt; float [,] [] * TempClassResult<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L918-918" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>calculates a constrained initially increasing spline with given y-,and y-Values, a weighting matrix and the number of allowed extrema</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1334', 1334)" onmouseover="showTip(event, '1334', 1334)">
+            splineManual ctemp x y W lambd
+          </code>
+          <div class="tip" id="1334">
+            <strong>Signature:</strong> ctemp:float [,] -&gt; x:Vector&lt;float&gt; -&gt; y:Vector&lt;float&gt; -&gt; W:Matrix&lt;float&gt; -&gt; lambd:float -&gt; TempClassResult<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats.MSF/Fitting/TemporalClassification.fs#L821-821" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <img src="/FSharp.Stats/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+			  </li>
+              <li><a href="/FSharp.Stats/Interpolation.html">Interpolation</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
+			  <li><a href="/FSharp.Stats/TemporalClassification.html">Temporal Classification</a></li>
+
+
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>

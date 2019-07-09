@@ -13,7 +13,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/styles/CSBStyles.css" /> <!--/FSharp.Stats-->
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -48,6 +48,8 @@
       </span>
 </p>
 <div class="xmldoc">
+<p>Contains correlation functions optimized for matrices</p>
+
 </div>
 
 <!-- Render nested types and modules, if there are any -->
@@ -61,15 +63,35 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '61', 61)" onmouseover="showTip(event, '61', 61)">
+          <code onmouseout="hideTip(event, '62', 62)" onmouseover="showTip(event, '62', 62)">
+            columnWiseBicor(m)
+          </code>
+          <div class="tip" id="62">
+            <strong>Signature:</strong> m:matrix -&gt; Matrix&lt;float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L292-292" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Computes the columnwise biweighted midcorrelation matrix for the input matrix</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '63', 63)" onmouseover="showTip(event, '63', 63)">
             columnWiseCorrelationMatrix(...)
           </code>
-          <div class="tip" id="61">
+          <div class="tip" id="63">
             <strong>Signature:</strong> corrFunction:(seq&lt;float&gt; -&gt; seq&lt;float&gt; -&gt; float) -&gt; m:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L166-166" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L243-243" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -81,15 +103,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '62', 62)" onmouseover="showTip(event, '62', 62)">
+          <code onmouseout="hideTip(event, '64', 64)" onmouseover="showTip(event, '64', 64)">
             columnWisePearson(m)
           </code>
-          <div class="tip" id="62">
+          <div class="tip" id="64">
             <strong>Signature:</strong> m:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L177-177" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L254-254" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -101,15 +123,35 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '63', 63)" onmouseover="showTip(event, '63', 63)">
+          <code onmouseout="hideTip(event, '65', 65)" onmouseover="showTip(event, '65', 65)">
+            rowWiseBicor(m)
+          </code>
+          <div class="tip" id="65">
+            <strong>Signature:</strong> m:matrix -&gt; Matrix&lt;float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L259-259" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Computes the rowwise biweighted midcorrelation matrix for the input matrix</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '66', 66)" onmouseover="showTip(event, '66', 66)">
             rowWiseCorrelationMatrix corrFunction m
           </code>
-          <div class="tip" id="63">
+          <div class="tip" id="66">
             <strong>Signature:</strong> corrFunction:(seq&lt;float&gt; -&gt; seq&lt;float&gt; -&gt; float) -&gt; m:matrix -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L155-155" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L232-232" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -121,15 +163,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '64', 64)" onmouseover="showTip(event, '64', 64)">
+          <code onmouseout="hideTip(event, '67', 67)" onmouseover="showTip(event, '67', 67)">
             rowWisePearson(m)
           </code>
-          <div class="tip" id="64">
+          <div class="tip" id="67">
             <strong>Signature:</strong> m:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L172-172" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L249-249" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -141,15 +183,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '65', 65)" onmouseover="showTip(event, '65', 65)">
+          <code onmouseout="hideTip(event, '68', 68)" onmouseover="showTip(event, '68', 68)">
             rv2 x y
           </code>
-          <div class="tip" id="65">
+          <div class="tip" id="68">
             <strong>Signature:</strong> x:matrix -&gt; y:matrix -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L144-144" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L221-221" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

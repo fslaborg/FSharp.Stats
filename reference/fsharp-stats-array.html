@@ -13,7 +13,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/styles/CSBStyles.css" /> <!--/FSharp.Stats-->
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
     <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -83,9 +83,29 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '2', 2)" onmouseover="showTip(event, '2', 2)">
-            partitionSortInPlace left right items
+            medianAbsoluteDev(data)
           </code>
           <div class="tip" id="2">
+            <strong>Signature:</strong> data:float [] -&gt; float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L273-273" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Median absolute deviation (MAD)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '3', 3)" onmouseover="showTip(event, '3', 3)">
+            partitionSortInPlace left right items
+          </code>
+          <div class="tip" id="3">
             <strong>Signature:</strong> left:int -&gt; right:int -&gt; items:&#39;T array -&gt; int<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
@@ -103,10 +123,10 @@ Function works in place and returns the index of the pivote element (using Lomut
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '3', 3)" onmouseover="showTip(event, '3', 3)">
+          <code onmouseout="hideTip(event, '4', 4)" onmouseover="showTip(event, '4', 4)">
             quickSelect k items
           </code>
-          <div class="tip" id="3">
+          <div class="tip" id="4">
             <strong>Signature:</strong> k:int -&gt; items:&#39;T array -&gt; &#39;T<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
@@ -123,10 +143,10 @@ Function works in place and returns the index of the pivote element (using Lomut
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '4', 4)" onmouseover="showTip(event, '4', 4)">
+          <code onmouseout="hideTip(event, '5', 5)" onmouseover="showTip(event, '5', 5)">
             quickSelectInPlace k items
           </code>
-          <div class="tip" id="4">
+          <div class="tip" id="5">
             <strong>Signature:</strong> k:int -&gt; items:&#39;T array -&gt; &#39;T<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
@@ -144,10 +164,10 @@ Works in place and can change the order of the elements in the input array</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '5', 5)" onmouseover="showTip(event, '5', 5)">
+          <code onmouseout="hideTip(event, '6', 6)" onmouseover="showTip(event, '6', 6)">
             quickSelectInPlaceWith left right k arr
           </code>
-          <div class="tip" id="5">
+          <div class="tip" id="6">
             <strong>Signature:</strong> left:int -&gt; right:int -&gt; k:int -&gt; arr:&#39;T array -&gt; &#39;T<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
@@ -165,10 +185,10 @@ Works in place and can change the order of the elements in the input array</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '6', 6)" onmouseover="showTip(event, '6', 6)">
+          <code onmouseout="hideTip(event, '7', 7)" onmouseover="showTip(event, '7', 7)">
             range(a)
           </code>
-          <div class="tip" id="6">
+          <div class="tip" id="7">
             <strong>Signature:</strong> a:&#39;a array -&gt; Interval&lt;&#39;a&gt;<br />
                           <strong>Type parameters:</strong> 'a                      </div>
         </td>
@@ -183,15 +203,15 @@ Works in place and can change the order of the elements in the input array</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '7', 7)" onmouseover="showTip(event, '7', 7)">
+          <code onmouseout="hideTip(event, '8', 8)" onmouseover="showTip(event, '8', 8)">
             sampleWithOutReplacement rnd source k
           </code>
-          <div class="tip" id="7">
+          <div class="tip" id="8">
             <strong>Signature:</strong> rnd:Random -&gt; source:&#39;b array -&gt; k:int -&gt; &#39;b []<br />
                           <strong>Type parameters:</strong> 'b                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L284-284" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L291-291" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -203,15 +223,15 @@ Works in place and can change the order of the elements in the input array</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '8', 8)" onmouseover="showTip(event, '8', 8)">
+          <code onmouseout="hideTip(event, '9', 9)" onmouseover="showTip(event, '9', 9)">
             sampleWithReplacement rnd source k
           </code>
-          <div class="tip" id="8">
+          <div class="tip" id="9">
             <strong>Signature:</strong> rnd:Random -&gt; source:&#39;a array -&gt; k:int -&gt; &#39;a []<br />
                           <strong>Type parameters:</strong> 'a                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L276-276" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L283-283" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -223,15 +243,15 @@ Works in place and can change the order of the elements in the input array</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '9', 9)" onmouseover="showTip(event, '9', 9)">
+          <code onmouseout="hideTip(event, '10', 10)" onmouseover="showTip(event, '10', 10)">
             seqInit from tto length
           </code>
-          <div class="tip" id="9">
+          <div class="tip" id="10">
             <strong>Signature:</strong> from:float -&gt; tto:float -&gt; length:int -&gt; float []<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L327-327" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L334-334" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -243,15 +263,15 @@ Works in place and can change the order of the elements in the input array</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '10', 10)" onmouseover="showTip(event, '10', 10)">
+          <code onmouseout="hideTip(event, '11', 11)" onmouseover="showTip(event, '11', 11)">
             shuffleFisherYates(arr)
           </code>
-          <div class="tip" id="10">
-            <strong>Signature:</strong> arr:&#39;?11177 [] -&gt; &#39;?11177 []<br />
-                          <strong>Type parameters:</strong> '?11177                      </div>
+          <div class="tip" id="11">
+            <strong>Signature:</strong> arr:&#39;?11191 [] -&gt; &#39;?11191 []<br />
+                          <strong>Type parameters:</strong> '?11191                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L301-301" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L308-308" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -263,15 +283,15 @@ Works in place and can change the order of the elements in the input array</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '11', 11)" onmouseover="showTip(event, '11', 11)">
+          <code onmouseout="hideTip(event, '12', 12)" onmouseover="showTip(event, '12', 12)">
             shuffleFisherYatesInPlace(arr)
           </code>
-          <div class="tip" id="11">
-            <strong>Signature:</strong> arr:&#39;?11179 [] -&gt; &#39;?11179 []<br />
-                          <strong>Type parameters:</strong> '?11179                      </div>
+          <div class="tip" id="12">
+            <strong>Signature:</strong> arr:&#39;?11193 [] -&gt; &#39;?11193 []<br />
+                          <strong>Type parameters:</strong> '?11193                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L314-314" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L321-321" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -283,15 +303,15 @@ Works in place and can change the order of the elements in the input array</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '12', 12)" onmouseover="showTip(event, '12', 12)">
+          <code onmouseout="hideTip(event, '13', 13)" onmouseover="showTip(event, '13', 13)">
             sort2InPlaceByKeys from count keys items
           </code>
-          <div class="tip" id="12">
+          <div class="tip" id="13">
             <strong>Signature:</strong> from:int -&gt; count:int -&gt; keys:&#39;T array -&gt; items:&#39;T array -&gt; unit<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L332-332" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L339-339" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -301,10 +321,10 @@ Works in place and can change the order of the elements in the input array</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '13', 13)" onmouseover="showTip(event, '13', 13)">
+          <code onmouseout="hideTip(event, '14', 14)" onmouseover="showTip(event, '14', 14)">
             swapInPlace left right items
           </code>
-          <div class="tip" id="13">
+          <div class="tip" id="14">
             <strong>Signature:</strong> left:int -&gt; right:int -&gt; items:&#39;T array -&gt; unit<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
