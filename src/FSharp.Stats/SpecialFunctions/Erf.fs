@@ -36,3 +36,12 @@ module Errorfunction =
             let a5 =  1.061405429
             let t = 1.0 / (1.0 + p*x)
             (exp (-(x*x))) * t * (a1 + t*(a2 + t*(a3 + t*(a4 + t*a5))))
+
+    let erfcx x =
+        if x < 25. then
+            Erfc(x) * exp(x*x)
+        else
+            let y = 1. / x
+            let z = y * y
+            let s = y*(1.+z*(-0.5+z*(0.75+z*(-1.875+z*(6.5625-29.53125*z)))))
+            s * 0.564189583547756287

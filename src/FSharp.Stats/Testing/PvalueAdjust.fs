@@ -90,8 +90,9 @@ module PvalueAdjust =
 
         let private bindBy (objArr:float[]) (arr:float[]) =
             let arr' = Array.copy arr
+            let objArr' = Array.copy objArr
             let index = Array.init arr.Length id
-            System.Array.Sort(objArr,index)
+            System.Array.Sort(objArr',index)
             for i=1 to arr'.Length-1 do
                 if arr'.[index.[i]] < arr'.[index.[i-1]] then
                     arr'.[index.[i]] <- arr'.[index.[i-1]]

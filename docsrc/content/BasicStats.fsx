@@ -153,7 +153,7 @@ let nv = Vector.init 10000 (fun _ -> Distributions.Continuous.Normal.Sample 0. 4
 nv |> Seq.stDevPopulation
 
 Distributions.Bandwidth.nrd0 nv.Values
-
+(*** do-not-eval ***)
 Quantile.interQuantileRange Quantile.nist nv.Values
 
 let x = [0.1 .. 0.01 .. 1.0] 
@@ -186,6 +186,7 @@ let inline decimalResult (a:'t) =
 let q = 0.5
 let h = (float 3) * q + 0.5
 
+(*** do-not-eval ***)
 Array.quickSelectInPlace (int (ceil (h-0.5))) d
 
 x |> List.map (fun q -> (float 3 * q + 1.) |> int)
@@ -194,6 +195,7 @@ Array.quickSelect 1 d
 
 Quantile.mode 0.8  d
 
+(*** do-not-eval ***)
 let pointChart = Chart.Point( y, x)
 (*** include-value:pointChart ***)
 

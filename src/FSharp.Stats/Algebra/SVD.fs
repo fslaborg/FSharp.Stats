@@ -189,7 +189,6 @@ module SVD =
                     vmatrix.[i,k] <- 0.0
                 vmatrix.[k,k] <- 1.0
 
-        printfn "Here2"
         // Main iteration loop for the singular values.    
         // TODO: rec
         let mutable pp = p - 1

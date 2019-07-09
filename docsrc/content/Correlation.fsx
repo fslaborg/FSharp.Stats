@@ -21,8 +21,8 @@ let x = [0. .. 100.]
 let gaussPDF = Normal.PDF 10. 2.
 let yGauss = x |> List.map gaussPDF
 
-Chart.Point(x,yGauss)
-|> Chart.Show
+//Chart.Point(x,yGauss)
+//|> Chart.Show
 
 let autoCorrGauss = lags |> List.map (fun lag -> acfOf lag yGauss)
 

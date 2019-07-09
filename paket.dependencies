@@ -5,6 +5,10 @@ source https://nuget.org/api/v2
 nuget FSharp.Core
 nuget Argu
 
+git https://github.com/CSBiology/FSharpAux.git nuget Packages: /
+nuget FSharpAux
+nuget FSharpAux.IO
+
 nuget Expecto
 nuget Expecto.BenchmarkDotNet
 nuget Expecto.FsCheck

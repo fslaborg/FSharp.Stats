@@ -1,6 +1,6 @@
 namespace FSharp.Stats.Fitting
 
-
+open System
 (*
 
 we estimate the relationship of one variable with another by expressing one in terms of a linear function of the other.
@@ -49,7 +49,7 @@ module NonLinearRegression =
         let sumOfSquaredResiduals =
             Array.fold2 (fun acc xValue yValue ->  
                             let yValueEst = model.GetFunctionValue paramVector xValue
-                            acc + ((yValueEst - yValue) **2.)
+                            acc + ((yValueEst - yValue) ** 2.)
                         ) 0.0 xData yData
         
         sumOfSquaredResiduals
@@ -74,12 +74,11 @@ module NonLinearRegression =
     /// Returns true if convergence criteria are met or a user defined number of iiterations has been carried out
     let shouldTerminate (currentValueRSS: float) (newValueRSS: float) (iterationCount:int) (currentParamGuess:Vector<float>) 
             (newParamGuess:Vector<float>) (solverOptions: SolverOptions)  = 
-        if abs (newValueRSS-currentValueRSS) <= solverOptions.MinimumDeltaValue ||
+        //abs (newValueRSS-currentValueRSS) <= solverOptions.MinimumDeltaValue ||
             Vector.sub newParamGuess currentParamGuess |> Vector.norm <= solverOptions.MinimumDeltaParameters ||
-            iterationCount >= solverOptions.MaximumIterations then
-            false
-        else 
-            true
+                iterationCount >= solverOptions.MaximumIterations 
+
+
     
     ///
     let solverConverged (solverOptions: SolverOptions) (estParams:ResizeArray<vector>) =
@@ -131,9 +130,9 @@ module NonLinearRegression =
                 let jacobian' = updateJacobianInplace model xData currentParamGuess jacobian 
                 let residualVector' = updateResidualVectorInPlace model xData yData currentParamGuess residualVector
                 let hessian = jacobian'.Transpose * jacobian' 
-                let diagonal = Matrix.initDiagonal hessian.Diagonal
-                let modHessian = (hessian + Matrix.scale lambda diagonal) 
-                let step = LinearAlgebra.LeastSquares modHessian (Matrix.mulV (jacobian'.Transpose) residualVector')
+                let diagonal = Matrix.initDiagonal (Vector.map (fun x -> ((lambda)*x)) hessian.Diagonal)
+                let modHessian = (hessian + diagonal) 
+                let step = FSharp.Stats.Algebra.LinearAlgebra.SolveLinearSystem modHessian (Matrix.mulV (jacobian'.Transpose) residualVector')
                 let newParamGuess = currentParamGuess - step
                 let newValueRSS = getRSS model xData yData newParamGuess
                 paramsAtIteration.Add(newParamGuess)     
@@ -148,7 +147,6 @@ module NonLinearRegression =
                     let lambda' = lambda * lambdaFactor
                     loop lambda' jacobian' residualVector' currentParamGuess currentValueRSS paramsAtIteration
             loop lambdaInitial jacobian residualVector initialParamGuess initialValueRSS paramsAtIteration
-            //paramsAtIteration   
 
         /// Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
         /// model function. 
@@ -219,31 +217,122 @@ module NonLinearRegression =
             InitialParamGuess       = initialParamGuess
             }
 
+    /////////////////////////
+    /// Exponential function of the form "y = a * exp(b * x)"
+        let expModel = 
+            let parameterNames = [|"a";"b"|]
+            let getFunctionValues = (fun (parameters:Vector<float>) x -> 
+                parameters.[0] * Math.Exp(parameters.[1] * x))
+            let getGradientValues =
+                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue -> 
+                    gradientVector.[0] <- Math.Exp(parameterVector.[1] * xValue)  
+                    gradientVector.[1] <- parameterVector.[0] * xValue * Math.Exp(parameterVector.[1] * xValue)  
+                    gradientVector)    
+            createModel parameterNames getFunctionValues getGradientValues
 
-        
+        ///Takes the result of the linearization as initialGuessParams
+        let expSolverOptions (x_data:float []) (y_data:float [])= 
+            //gets the linear representation of the problem and solves it by simple linear regression
+            let initialParamGuess =
+                let y_ln = y_data |> Array.map (fun x -> Math.Log(x)) |> vector
+                let linearReg = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient (vector x_data) y_ln
+                let a = exp linearReg.[0]
+                let b = linearReg.[1]
+                [|a;b|]
+
+            {
+            MinimumDeltaValue       = 0.0001
+            MinimumDeltaParameters  = 0.0001  
+            MaximumIterations       = 10000
+            InitialParamGuess       = initialParamGuess
+            }
+
+    
     /////////////////////////
     /// Exponentially modified Gaussian (EMG) of the form "y =  ((amp*std)/tau) * sqrt(PI/2.) * exp(1./2. * ((std/tau)**2.) - ((x-meanX)/tau)) * Erfc((1./sqrt(2.)) * ((std/tau)-((x-meanX)/std)))"
 
+
+        let private findZ initMeanX initStdev initTau x =
+            1./sqrt(2.) * ((initStdev/initTau) - ((x - initMeanX) / initStdev))
+
         let emgModel = {
+
             ParameterNames= [|"amp";"meanX";"std";"tau"|]
-            GetFunctionValue = (fun (parameterVector:Vector<float>) xValue ->  ((parameterVector.[0]*parameterVector.[2])/parameterVector.[3]) * sqrt(System.Math.PI/2.) * exp(1./2. * ((parameterVector.[2]/parameterVector.[3])**2.) - ((xValue-parameterVector.[1])/parameterVector.[3])) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc((1./sqrt(2.)) * ((parameterVector.[2]/parameterVector.[3])-((xValue-parameterVector.[1])/parameterVector.[2]))) )
+            GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> 
+                            
+                                let a,m,s,t = parameterVector.[0], parameterVector.[1], parameterVector.[2],parameterVector.[3]
+
+                                let standardEMG a m s t xValue = 
+                                    ((a*s)/t) * sqrt(System.Math.PI/2.) * exp(1./2. * ((s/t)**2.) - ((xValue-m)/t)) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc((1./sqrt(2.)) * ((s/t)-((xValue-m)/s))) 
+                                let delleyEMG a m s t xValue = 
+                                    a * exp((-0.5)*((xValue-m)/s)**2.) * (s/t) * sqrt(Math.PI/2.) * FSharp.Stats.SpecialFunctions.Errorfunction.erfcx ((1./(sqrt 2.)) * ((s/t) - ((xValue-m)/s)))
+                                let asymptoticEMG a m s t xValue = 
+                                    let numerator = 
+                                        let exp = exp(-(1./2.) * (((xValue - m)/s)**2.))
+                                        a * exp
+                                    let denominator = 1. - (((xValue - m)*t) / (s**2.) )
+                                    numerator / denominator
+                                let z = findZ m s t xValue 
+                                if z < 0. then 
+                                    standardEMG a m s t xValue 
+                                elif z >= 0. && z <= (67100000.) then 
+                                    delleyEMG a m s t xValue 
+                                else 
+                                    asymptoticEMG a m s t xValue 
+                              )
+
             GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue -> 
-                                gradientVector.[0] <- (1./parameterVector.[3]) * 1.25331 * parameterVector.[2] * exp( (0.5*(parameterVector.[2]**2.) / (parameterVector.[3]**2.) ) - ( (xValue-parameterVector.[1]) / parameterVector.[3]) ) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc(0.707107 * ( (parameterVector.[2] / parameterVector.[3] ) - ( (xValue-parameterVector.[1]) / parameterVector.[2]) ) )
-                            //0 passt
-                                gradientVector.[1] <-  ( (1./parameterVector.[3]**2.) *  1.25331 * parameterVector.[0] * parameterVector.[2] * exp( (0.5*(parameterVector.[2]**2.) / (parameterVector.[3]**2.) ) - ( (xValue-parameterVector.[1]) / parameterVector.[3]) ) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc(0.707107 * ( (parameterVector.[2] / parameterVector.[3] ) - ( (xValue-parameterVector.[1]) / parameterVector.[2]) ) ) )  
-                                                        - ( (1./parameterVector.[3]) * parameterVector.[0] * exp( ( (0.5 * parameterVector.[2]**2.) / parameterVector.[3]**2. ) - (0.5 * (((parameterVector.[2]/parameterVector.[3]) - ( (xValue-parameterVector.[1]) / parameterVector.[2] ) )**2.) ) - ( (xValue-parameterVector.[1]) / parameterVector.[3] ) ) )
-                            //1 passt
-                                gradientVector.[2] <-     ( (1./ (parameterVector.[3]))                                 * 1.25331 * parameterVector.[0] * exp( (0.5*(parameterVector.[2]**2.) / (parameterVector.[3]**2.) ) - ( (xValue-parameterVector.[1]) / parameterVector.[3]) ) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc(0.707107 * ( (parameterVector.[2] / parameterVector.[3] ) - ( (xValue-parameterVector.[1]) / parameterVector.[2]) ) )) 
-                                                        + ( (1./ (parameterVector.[3]**3.)) * (parameterVector.[2]**2.) * 1.25331 * parameterVector.[0] * exp( (0.5*(parameterVector.[2]**2.) / (parameterVector.[3]**2.) ) - ( (xValue-parameterVector.[1]) / parameterVector.[3]) ) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc(0.707107 * ( (parameterVector.[2] / parameterVector.[3] ) - ( (xValue-parameterVector.[1]) / parameterVector.[2]) ) ))
-                                                        - ( (1./ (parameterVector.[3]))  )  * (parameterVector.[2])     * 1.00000 * parameterVector.[0] * exp( (-0.5*( (parameterVector.[2] / parameterVector.[3])  - ( (xValue-parameterVector.[1]) / parameterVector.[2]) )**2. ) - ((xValue-parameterVector.[1]) / parameterVector.[3]) + (0.5*(parameterVector.[2]**2.) / (parameterVector.[3]**2.) ) ) * ( ((xValue-parameterVector.[1]) / (parameterVector.[2]**2.) ) + 1./parameterVector.[3] )    
+
+                                let a,m,s,t = parameterVector.[0], parameterVector.[1], parameterVector.[2],parameterVector.[3]
+                                let standardGradient a m s t xValue  = 
+                                    gradientVector.[0] <- (1./t) * 1.25331 * s * exp( (0.5*(s**2.) / (t**2.) ) - ( (xValue-m) / t) ) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc(0.707107 * ( (s / t ) - ( (xValue-m) / s) ) )
+                                    gradientVector.[1] <-  ( (1./t**2.) *  1.25331 * a * s * exp( (0.5*(s**2.) / (t**2.) ) - ( (xValue-m) / t) ) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc(0.707107 * ( (s / t ) - ( (xValue-m) / s) ) ) )  
+                                                            - ( (1./t) * a * exp( ( (0.5 * s**2.) / t**2. ) - (0.5 * (((s/t) - ( (xValue-m) / s ) )**2.) ) - ( (xValue-m) / t ) ) )
+                                    gradientVector.[2] <-     ( (1./ (t))                                 * 1.25331 * a * exp( (0.5*(s**2.) / (t**2.) ) - ( (xValue-m) / t) ) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc(0.707107 * ( (s / t ) - ( (xValue-m) / s) ) )) 
+                                                            + ( (1./ (t**3.)) * (s**2.) * 1.25331 * a * exp( (0.5*(s**2.) / (t**2.) ) - ( (xValue-m) / t) ) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc(0.707107 * ( (s / t ) - ( (xValue-m) / s) ) ))
+                                                            - ( (1./ (t))  )  * (s)     * 1.00000 * a * exp( (-0.5*( (s / t)  - ( (xValue-m) / s) )**2. ) - ((xValue-m) / t) + (0.5*(s**2.) / (t**2.) ) ) * ( ((xValue-m) / (s**2.) ) + 1./t )    
+
+                                    gradientVector.[3] <-  (a * exp((-0.5 * (-xValue + m + s**2./t)**2.)/s**2. + 0.5 * (s/t)**2. - xValue/t + m/t) * s * (1. * s + ( (exp( (0.5 * (-xValue + m + s**2. / t)**2.)/s**2.)) * (-1.25331 * s**2. + (1.25331 * xValue - 1.25331 * m - 1.25331 * t) * t) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc((-0.707107 * (xValue - m))/s + (0.707107 * s)/t))/t))/t**3.              
+
+                                    gradientVector 
+                                /// TODO: Derivation is causing arithmetic overflows, do again with erfcx.
+                                let delleyGradient a m s t xValue =
+                                    gradientVector.[0] <- (1.25331 * s * exp(0.5 * (((s/t) - ((xValue - m)/s))**2.) - ((0.5 * ((xValue - m)**2.))/(s**2.))) * SpecialFunctions.Errorfunction.Erfc(0.707107 * ((s/t) - ((xValue - m)/s)))) / t
+                            
+                                    gradientVector.[1] <- (1.25331 * a * (exp((0.5 * ((s**2.) + t * ((m - xValue))**2.)) / ((s**2.)*(t**2.))) * ((s**2.) + (4.44089*(10.** -16.)) * t * xValue - (4.44089*(10.** -16.)) * t * m) * 
+                                                            SpecialFunctions.Errorfunction.Erfc(((0.707107 * s)/t) - ((0.707107 * (xValue - m))/s)) - 0.797885 * s * t) *
+                                                            exp(-((0.5 * ((s**2.) + t * ((m - xValue))**2.))/((s**2.) * (t**2.))) + ((0.5 * ((((s**2.)/t) - xValue + m)**2.))/(s**2.)) - ((0.5 * ((xValue - m)**2.))/(s**2.)))) 
+                                                            / (s * (t**2.))
+                            
+                                    gradientVector.[2] <- (a * exp( ((0.5 * ((m + (s**2.)/t - xValue)**2.))/s**2.) - ((0.5 * ((xValue - m)**2.))/(s**2.)) ) *
+                                                            ( ( (((2.78292*(10.** -16.)) * (m**2.))/s**2.) - (((5.5658*(10.** -16.)) * m * xValue)/(s**2.)) + ((1.25331 * s**2.)/(t**2.)) + (((2.78292*(10.** -16.)) * (xValue**2.))/(s**2.)) + 1.25331) * 
+                                                                SpecialFunctions.Errorfunction.Erfc( ((0.707107 * s)/t) - ((0.707107 * (xValue - m))/s) ) + 
+                                                                (exp( -(0.5 * ((m * t - t * xValue + (s**2.))**2.))/((t**2.) * (s**2.)) ) * 
+                                                                //shows 1. in wolfram alpha, doesnt show dot for anything else
+                                                                    (1.*m * t - 1.*t * xValue - 1.*(s**2.)) ) / (t * s))) /t
+                            
+                                    gradientVector.[3] <- -(1.25331 * a * s * 
+                                                            (exp((0.5 * ((t * (m - xValue) + (s**2.))**2.))/((s**2.) * (t**2.))) * (t * (m - xValue + 1. * t) + s**2.) *
+                                                                SpecialFunctions.Errorfunction.Erfc( ((0.707107 * s)/t) - ((0.707107 * (xValue - m))/s) ) - 0.797885 * s * t
+                                                            ) *
+                                                                exp(-((0.5 * ((t * (m - xValue) + (s**2.))**2.))/((s**2.) * (t**2.))) + ((0.5 * ((m + ((s**2.)/t) - xValue)**2.))/(s**2.)) - ((0.5 * ((xValue - m)**2.))/(s**2.))))
+                                                                /(t**4.)
+                                    gradientVector 
                         
-                                gradientVector.[3] <-  - ( (1./ (parameterVector.[3]**2.))  * (parameterVector.[2])     * 1.25331 * parameterVector.[0] * exp( (0.5*(parameterVector.[2]**2.) / (parameterVector.[3]**2.) ) - ( (xValue-parameterVector.[1]) / parameterVector.[3]) ) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc(0.707107 * ( (parameterVector.[2] / parameterVector.[3] ) - ( (xValue-parameterVector.[1]) / parameterVector.[2]) ) )) 
-                                               
-                                                        + ( (1./ (parameterVector.[3]))      * (parameterVector.[2])     * 1.25331 * parameterVector.[0] * exp( (0.5*(parameterVector.[2]**2.) / (parameterVector.[3]**2.) ) - ( (xValue-parameterVector.[1]) / parameterVector.[3]) ) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc(0.707107 * ( (parameterVector.[2] / parameterVector.[3] ) - ( (xValue-parameterVector.[1]) / parameterVector.[2]) ) )) 
-                                                        * ( ((xValue-parameterVector.[1]) / parameterVector.[3]**2. ) - ((parameterVector.[2]**2.) / (parameterVector.[3]**3.)) )
-                                               
-                                                        + ( (1./ (parameterVector.[3]**3.))  )   * (parameterVector.[2]**2.)     * 1.00000 * parameterVector.[0] * exp( (-0.5*( (parameterVector.[2] / parameterVector.[3])  - ( (xValue-parameterVector.[1]) / parameterVector.[2])**2. ) ) - ((xValue-parameterVector.[1]) / parameterVector.[3]) + (0.5*(parameterVector.[2]**2.) / (parameterVector.[3]**2.) ) ) 
-                                gradientVector ) 
+                                let asymGradient a m s t xValue =
+                                    gradientVector.[0] <- exp (-(0.5 * (xValue - m)**2.)/s**2.)/(1. - (t * (xValue - m))/s**2.)
+                                    gradientVector.[1] <- -(a * exp(-(0.5 * (xValue - m)**2.)/(s**2.)) * ((s**2.)*t + (s**2.)*(m - xValue) + t*((xValue**2.) - 2.*xValue*m + (m**2.))))/(((s**2.) - t*xValue + t*m)**2.)
+                                    gradientVector.[2] <- -(a * (m - xValue) * exp(-(0.5*((xValue - m)**2.))/(s**2.)) * (-m*t*(s**2.)*(m - xValue) - t*xValue*(s**2.)*(xValue - m) - (s**4.)*(m - xValue) - 2.*t*s**4.)) / ((s**3.)*(m*t - t*xValue + (s**2.))**2.)
+                                    gradientVector.[3] <- (a * (xValue - m) * exp(-(0.5 * ((xValue - m)**2.))/s**2.)) / ((s**2.) * ((((t * (m - xValue))/(s**2.)) + 1.)**2.))
+                                    gradientVector 
+                                let z = findZ m s t xValue 
+                                if z < 0. then 
+                                    standardGradient a m s t xValue 
+                                elif z >= 0. && z <= (67100000.) then 
+                                    standardGradient a m s t xValue 
+                                else 
+                                    asymGradient a m s t xValue
+                              ) 
             }
 
 
@@ -254,4 +343,54 @@ module NonLinearRegression =
             //[|"amp";"meanX";"std";"tau"|]
             InitialParamGuess       = initialParamGuess
             }
-        
+
+    /////////////////////////
+    /// Hill equation "y = Vm * x^n / (k^n+x^n)"
+        let hillModel = 
+            let parameterNames = [|"Vm";"n";"k"|]
+            let getFunctionValues = (fun (parameters:Vector<float>) x -> 
+                parameters.[0] * x**parameters.[1] / (parameters.[2]**parameters.[1] + x**parameters.[1])
+                )
+            let getGradientValues =
+                (fun (parameters:Vector<float>) (gradientVector: Vector<float>) x -> 
+                    gradientVector.[0] <- x**parameters.[1] / (parameters.[2]**parameters.[1] + x**parameters.[1])
+                    gradientVector.[1] <- parameters.[0] * x**parameters.[1] * Math.Log(x) * (- 1. / ((parameters.[2]**parameters.[1] + x**parameters.[1])**2.)) * (parameters.[2]**parameters.[1] * Math.Log(parameters.[2]) + x**parameters.[1] * Math.Log(x))
+                    gradientVector.[2] <- parameters.[0] * x**parameters.[1] * (- 1. / ((parameters.[2]**parameters.[1] + x**parameters.[1])**2.)) * parameters.[1] * parameters.[2]**(parameters.[1] - 1.)
+                    gradientVector)    
+            createModel parameterNames getFunctionValues getGradientValues
+            
+        let hillSolverOptions Vm n k = 
+            if Vm <= 0. || n <= 0. || k <= 0. then 
+                failwithf "Vm, n, and k cannot be negative!"
+
+            {
+            MinimumDeltaValue       = 0.0001
+            MinimumDeltaParameters  = 0.0001  
+            MaximumIterations       = 10000
+            InitialParamGuess       = [|Vm;n;k|]
+            }
+    
+        //fails because n and k become negative during the optimization iterations
+        //add borders to GaussNewton (default -Infinity - Infinity)
+        //let hillModelWithFixedVm Vm = 
+        //    let parameterNames = [|"n";"k"|]
+        //    let getFunctionValues = (fun (parameters:Vector<float>) x -> 
+        //        Vm * x**parameters.[0] / (parameters.[1]**parameters.[0] + x**parameters.[0])
+        //        )
+        //    let getGradientValues =
+        //        (fun (parameters:Vector<float>) (gradientVector: Vector<float>) x -> 
+        //            gradientVector.[0] <- Vm * x**parameters.[0] * Math.Log(x) * (- 1. / ((parameters.[1]**parameters.[0] + x**parameters.[0])**2.)) * (parameters.[1]**parameters.[0] * Math.Log(parameters.[1]) + x**parameters.[0] * Math.Log(x))
+        //            gradientVector.[1] <- Vm * x**parameters.[0] * (- 1. / ((parameters.[1]**parameters.[0] + x**parameters.[0])**2.)) * parameters.[0] * parameters.[1]**(parameters.[0] - 1.)
+        //            gradientVector)    
+        //    createModel parameterNames getFunctionValues getGradientValues
+            
+        //let hillSolverOptionsWithFixedVm n k = 
+        //    if n <= 0. || k <= 0. then 
+        //        failwithf "n and k cannot be negative!"
+
+        //    {
+        //    MinimumDeltaValue       = 0.0001
+        //    MinimumDeltaParameters  = 0.0001  
+        //    MaximumIterations       = 10000
+        //    InitialParamGuess       = [|n;k|]
+        //    }

@@ -61,6 +61,7 @@ let rosenbrock (xs: vector) =
 
 let d x = x**4. - x
 
+(*** do-not-eval ***)
 let s = Optimization.NelderMead.minimizeSingleWith d 0. -1. 0.5
 
 
@@ -77,11 +78,13 @@ let z =
                     )
 
 
-  
-(*** define:rosenContour ***)
-Chart.Surface(z,x,y)
-|> Chart.withSize(600.,600.)
-(*** include:rosenContour ***)
+
+(*** do-not-eval ***)
+let rosenContour = 
+    Chart.Surface(z,x,y)
+    |> Chart.withSize(600.,600.)
+
+(*** include-value:rosenContour ***)
 
 
 
@@ -122,7 +125,7 @@ let minimize f f' xs =
 let grad f xs =
     Vector.mapi (partialD (f xs) f xs) xs
    
-
+(*** do-not-eval ***)
 let xs' =
     vector[0.0; 0.0]
     |> minimize rosenbrock (grad rosenbrock)

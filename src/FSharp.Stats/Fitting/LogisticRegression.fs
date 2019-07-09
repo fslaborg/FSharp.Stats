@@ -55,6 +55,7 @@ module LogisticRegression =
 
 
     module Univariable = 
+
         /// Calculates the weights for logistic regression.
         let coefficient epsilon alpha (x_data : Vector<float>) (y_data : Vector<float>) =
             if x_data.Length <> y_data.Length then
@@ -82,9 +83,6 @@ module LogisticRegression =
 
             descent weights alpha
 
-        /// Returns the regression function
-        let fitFunc (coef: Vector<float>) = 
-            fun x -> predict coef (Vector.singleton x)
 
         /// Returns the regression function
         let fit (coef: Vector<float>) x= 
@@ -93,7 +91,7 @@ module LogisticRegression =
         let estimateAlpha epsilon (x_data : Vector<float>) (y_data : Vector<float>) = 
             let fR2 alpha = 
                 let weight = coefficient epsilon alpha x_data y_data
-                let f = fitFunc weight
+                let f = fit weight
                 let r2 = GoodnessOfFit.calculateSSE f x_data y_data
                 r2
             Optimization.Brent.minimizeWith fR2 0. 1. 0.001 100

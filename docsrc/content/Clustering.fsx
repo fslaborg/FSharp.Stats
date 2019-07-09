@@ -9,7 +9,11 @@ open FSharp.Plotly
 #r "FSharp.Stats.dll"
 open FSharp.Stats
 
+(**
 
+*)
+
+(*** do-not-eval ***)
 let fromFileWithSep (separator:char) (filePath) =     
     // The function is implemented using a sequence expression
     seq {   let sr = System.IO.File.OpenText(filePath)
@@ -19,6 +23,7 @@ let fromFileWithSep (separator:char) (filePath) =
                 yield words }
 
 
+(*** do-not-eval ***)
 let lable,data =
     fromFileWithSep ',' (__SOURCE_DIRECTORY__ + "/data/irisData.csv")
     |> Seq.skip 1
@@ -27,7 +32,7 @@ let lable,data =
     |> Array.shuffleFisherYates
     |> Array.unzip
 
-
+(*** do-not-eval ***)
 let colnames = ["Sepal length";"Sepal width";"Petal length";"Petal width"]
 
 
@@ -56,7 +61,7 @@ let randomInitFactory : IterativeClustering.CentroidsFactory<float []> =
 //let cvmaxFactory : IterativeClustering.CentroidsFactory<float []> = 
 //    IterativeClustering.intitCVMAX
   
-
+(*** do-not-eval ***)
 let kmeansResult = 
     IterativeClustering.kmeans <| DistanceMetrics.euclidean <| randomInitFactory 
     <| data <| 4
@@ -120,6 +125,7 @@ let create2dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
     else failwith "create2dChart only can handle 2 coordinates"
 
 //applied function for two dimensional 'sepal length, petal width' data set
+(*** do-not-eval ***)
 create2dChart DistanceMetrics.Array.euclidean 20 0.5 petL_petW
 |> Chart.withX_AxisStyle "Petal width"
 |> Chart.withY_AxisStyle "Petal length"
@@ -165,6 +171,7 @@ let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
 
 //applied function for three dimensional 'petal width, petal length, sepal length' data set
 //for faster computation you can use the squaredEuclidean distance and set your eps to its square
+(*** do-not-eval ***)
 create3dChart DistanceMetrics.Array.euclideanNaNSquared 20 (0.7**2.) petW_petL_sepL 
 |> Chart.withX_AxisStyle "Petal length"
 |> Chart.withY_AxisStyle "Petal width"
@@ -177,6 +184,7 @@ create3dChart DistanceMetrics.Array.euclideanNaNSquared 20 (0.7**2.) petW_petL_s
 //// fast #time
 //let htmp = HierarchicalClustering.generate' DistanceMetrics.euclidean Linker.wardLwLinker data
 // slower
+(*** do-not-eval ***)
 let htmp = 
     HierarchicalClustering.generate DistanceMetrics.euclidean Linker.wardLwLinker data
     |> HierarchicalClustering.flattenHClust

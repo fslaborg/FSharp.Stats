@@ -70,6 +70,8 @@ module Filtering =
 
         if window_size % 2 <> 1 || window_size < 1 then
             failwith "window_size size must be a positive odd number"
+        if order < deriv then
+            failwith "order must be greater or equal to the used derivative"
         if window_size < order + 2 then
             failwith "window_size is too small for the polynomials order"
         //let order_range = [0..order]
