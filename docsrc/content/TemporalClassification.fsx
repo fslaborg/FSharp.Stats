@@ -67,11 +67,11 @@ let y_Values =
 let rawDataChart =   
     //calculates the means and standard deviations of the three replicates and plots it as line
     let line =
-        Hermite.calcMeanOfRep y_Values 3
+        TemporalClassification.calcMeanOfRep y_Values 3
         |> Seq.indexed
         |> Chart.Line
         |> Chart.withTraceName (sprintf "means")
-        |> Chart.withYErrorStyle(Array=Hermite.calcStDevOfRep y_Values 3)
+        |> Chart.withYErrorStyle(Array=TemporalClassification.calcStDevOfRep y_Values 3)
 
     //plots all measurements as points 
     let points =
@@ -99,10 +99,10 @@ The spline takes the variance of the measured replicates in account. If there is
 a lower weight to these points as their importance in the shape determination should be decreased.
 
 *)
-let weightingMethod = Hermite.WeightingMethod.StandardDeviationAdj
+let weightingMethod = TemporalClassification.WeightingMethod.StandardDeviationAdj
 
 //calculate the points weighting according to the specified weightingmethod
-let weighting = Hermite.getWeighting x_Values y_Values weightingMethod 3
+let weighting = TemporalClassification.getWeighting x_Values y_Values weightingMethod 3
 
 let weightingColumnChart = 
     Matrix.getDiag weighting
@@ -121,7 +121,7 @@ let weightingColumnChart =
 let splineChart =
 
     let means = 
-        Hermite.calcMeanOfRep y_Values 3
+        TemporalClassification.calcMeanOfRep y_Values 3
 
     //plot the means of the replicates as gray dots
     let origPoints = 
@@ -133,21 +133,21 @@ let splineChart =
     //defines a function that gives the unconstrained spline value for a given x value
     //the AICc is reported as model selection criterion
     let unconstrainedSpline = 
-        Hermite.getInitialEstimateOfWXY weighting means x_Values
+        TemporalClassification.getInitialEstimateOfWXY weighting means x_Values
         |> fun result -> result.AICc,result.SplineFunction
 
     //defines a function that gives the constrained spline value for a given x value
     //Constraint: One minimum
     //the AICc is reported as model selection criterion
     let monotoneSpline = 
-        Hermite.splineIncreasing x_Values means weighting 0
+        TemporalClassification.splineIncreasing x_Values means weighting 0
         |> fun (constraintMatrices,result) -> result.AICc,result.SplineFunction
 
     //defines a function that gives the constrained spline value for a given x value
     //Constraint: A maximum, then a minimum
     //the AICc is reported as model selection criterion
     let minMaxSpline = 
-        Hermite.splineIncreasing x_Values means weighting 2  
+        TemporalClassification.splineIncreasing x_Values means weighting 2  
         |> fun (constraintMatrices,result) -> result.AICc,result.SplineFunction
 
     //defines the x_Values, the functions should be fitted with
@@ -193,13 +193,29 @@ As an example the Extrema of the red spline above are specified:
 
 ///fits a spline with two extrema present, where the first one is a maximum
 let minMaxSpline = 
-    Hermite.splineIncreasing x_Values (Hermite.calcMeanOfRep y_Values 3) weighting 2  
+    TemporalClassification.splineIncreasing x_Values (TemporalClassification.calcMeanOfRep y_Values 3) weighting 2  
     |> fun (constraintMatrices,result) -> result
 
 //returns a list of tuples that describe extrema. The first item defines if the extremum
 //is a maximum (1) or minimum (-1) and the second item defines the corresponding x value.
 let isolateExtrema = 
-    Hermite.getExtrema x_Values minMaxSpline.TraceA minMaxSpline.TraceC
+    TemporalClassification.getExtrema x_Values minMaxSpline.TraceA minMaxSpline.TraceC
     |> fun extrema -> sprintf "Location of extrema are: %A" extrema
 
 (*** include-value:isolateExtrema ***)
+
+(**
+To classify a signal according to its shape, a specially tailored function can be used. In this case the extrema list is empty because the 
+best spline is monotonically and since the parentClass is In0 the spline is monotonically increasing.
+*)
+
+//returns the shape class that matches the given case best. (constraints for 2 extrema are investigated)
+let bestFit = 
+    TemporalClassification.getBestFit x_Values y_Values 3 weightingMethod
+    |> fun spline ->
+        let parentShape = TemporalClassification.getParentShape x_Values spline.TraceA spline.TraceC
+        let extrema     = TemporalClassification.getExtrema x_Values spline.TraceA spline.TraceC
+        sprintf "ParentShape: %A\nLocation of extrema are: %A" parentShape extrema
+
+
+(*** include-value:bestFit ***)
