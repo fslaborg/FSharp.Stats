@@ -9,7 +9,8 @@ open System.Collections.Generic
     FSharp.Stats.Algebra.LinearAlgebra.Service()
 *)
 
-module Hermite =    
+module TemporalClassification =    
+//module Hermite =    
 
     open FSharp.Stats
     open FSharp.Stats.Optimization
@@ -132,9 +133,10 @@ module Hermite =
         elif extremaCount = 1 then
             if fst extrema.[0] = 1. then In1
             else De1
-        else
+        elif extremaCount = 2 then
             if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In2
             else De2
+        else Complex
 
     //check the spline for the predefined condition
     let checkshape (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (con:Condition)=
