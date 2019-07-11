@@ -157,6 +157,19 @@ module LinearAlgebra =
         else
             LinearAlgebraManaged.SVD a
 
+    //(synonym: kernel) Returns an orthonormal basis for the null space of A. Ax = 0
+    let nullspace (a:Matrix<float>)= 
+        if HaveService() then 
+            let (eps,U,V) = SVD a
+            let rank = 
+                eps 
+                |> Seq.filter (fun x -> x >= 1e-5) //Threshold whether a singular value is considered as zero.
+                |> Seq.length 
+            let count = V.NumRows - rank 
+            Matrix.getRows V rank count
+            |> Matrix.transpose
+        else failwith "MKL service either not available, or not started"
+
     ///Returns the thin Singular Value Decomposition of the input MxN matrix A 
     ///
     ///A = U * SIGMA * V**T in the tuple (S, U, V**T), 

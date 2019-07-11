@@ -66,6 +66,4 @@ module Spline =
             let helper = Array.zip basis (theta.ToArray())
             /// Our actualy smoothing spline
             fun x -> helper |> Array.sumBy  (fun (f,w) -> w * f x)
-
-
-
+       

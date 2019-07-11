@@ -269,6 +269,13 @@ module Array =
         else
             zero / zero    
 
+    /// Median absolute deviation (MAD)
+    let medianAbsoluteDev (data : float []) =       
+        let med = median data
+        data
+        |> Array.map (fun x -> abs ( x - med ))
+        |> median
+
     // When we sample with replacement, the two sample values are independent.
     // Practically, this means that what we get on the first one doesn't affect what we get on the second.
     // Mathematically, this means that the covariance between the two is zero
@@ -299,6 +306,19 @@ module Array =
 
     /// Shuffels the input array (method: Fisher-Yates)
     let shuffleFisherYates (arr : _[]) =
+        let tmpArr = Array.copy arr
+        let random = Random.rndgen //new System.Random()
+        for i = arr.Length downto 1 do
+            // Pick random element to swap.
+            let j = random.NextInt i // 0 <= j <= i-1
+            // Swap.
+            let tmp = tmpArr.[j]
+            tmpArr.[j] <- tmpArr.[i - 1]
+            tmpArr.[i - 1] <- tmp
+        tmpArr  
+
+    /// Shuffels the input array (method: Fisher-Yates) in place
+    let shuffleFisherYatesInPlace (arr : _[]) =
         let random = Random.rndgen //new System.Random()
         for i = arr.Length downto 1 do
             // Pick random element to swap.

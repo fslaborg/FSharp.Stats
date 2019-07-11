@@ -243,6 +243,9 @@ module Vector =
     let inline median (a:Vector<'T>) =
         a.Values |> Array.median
         
+    /// Median absolute deviation (MAD)
+    let medianAbsoluteDev (a : vector) =       
+        a.Values |> Array.medianAbsoluteDev
 
     
     /// Returns SummaryStats of vector with N, mean, sum-of-squares, minimum and maximum

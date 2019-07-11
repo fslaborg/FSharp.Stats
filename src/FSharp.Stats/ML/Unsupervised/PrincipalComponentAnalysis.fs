@@ -197,7 +197,7 @@ module PCA =
         components
         |> Seq.map (fun c -> c.EigenVector |> Array.toList)
         |> Seq.toList
-        |> Matrix.ofColList
+        |> Matrix.ofJaggedColList
 
 
     /// Returns communality
@@ -206,7 +206,7 @@ module PCA =
             components
             |> Seq.map (fun c -> c.Loadings |> Array.toList)
             |> Seq.toList
-            |> Matrix.ofColList
+            |> Matrix.ofJaggedColList
         fsMatrix.Transpose * fsMatrix.Diagonal
         //fsMatrix.TransposeAndMultiply(fsMatrix).Diagonal().ToArray()
 

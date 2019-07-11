@@ -23,7 +23,7 @@
     <Compile Include="Optimization\QP.fs" />
     <Compile Include="Optimization\QuasiNewton.fs" />
     <Compile Include="Optimization\NelderMead.fs" />
-    <Compile Include="Fitting\Hermite.fs" />
+    <Compile Include="Fitting\TemporalClassification.fs" />
   </ItemGroup>
 
   <ItemGroup>

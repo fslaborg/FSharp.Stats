@@ -29,7 +29,7 @@ module GoodnessOfFit =
         {Regression=ssr; Error=sse; Total=sst; SSxx=ssxx; SSxy=ssxy; MeanX = meanX;MeanY =meanY; Count=count}
               
     ///  
-    let calulcateSumOfSquares (fitFunc:float -> float)  (x_data : seq<float>) (y_data : seq<float>) = 
+    let calculateSumOfSquares (fitFunc:float -> float)  (x_data : seq<float>) (y_data : seq<float>) = 
         let meanX = Seq.mean x_data
         let meanY = Seq.mean y_data
         let count,sst,sse,ssxx,ssxy =
@@ -72,7 +72,7 @@ module GoodnessOfFit =
         let TTest = Testing.TestStatistics.createTTest statistic (sumOfSquares.Count - 2.)
         TTest
 
-    let calulcateDetermination (sumOfSquares:SumOfSquares) =
+    let calculateDetermination (sumOfSquares:SumOfSquares) =
         sumOfSquares.Regression / sumOfSquares.Total
         
 
@@ -88,7 +88,7 @@ module GoodnessOfFit =
         ///    regression approximates the real data points. An R^2 of 1.0 indicates that the
         ///    regression perfectly fits the data.
     *)
-    let calulcateDeterminationFromValue (actual:seq<float>) (expected:seq<float>) = 
+    let calculateDeterminationFromValue (actual:seq<float>) (expected:seq<float>) = 
         let meanY = Seq.mean actual
         let SSE,SST =
             Seq.zip actual expected
@@ -99,6 +99,11 @@ module GoodnessOfFit =
                         ) (0.,0.)
         ((SST - SSE) / SST)
  
+    /// Gets the adjusted coefficient of determination, as known as the R-Squared (R²adj). It is adjusted by the number of used variables (not including the constant term) (https://ebrary.net/1008/economics/adjusted_coefficient_determination_adjusted)
+    let calculateDeterminationAdj (actual:seq<float>) (expected:seq<float>) (variables:int) =
+        let dataLength = Seq.length actual |> float
+        let tmpAdj = (1. - calculateDeterminationFromValue actual expected) * (dataLength - 1.) / (dataLength - 1. - (float variables))
+        1. - tmpAdj
 
     /// Calculates Akaike information criterion (AIC) which is a measure of the relative quality of a regression model for a given set of data    
     // ! Formula used for regression only (because number of model parameter are missing)
@@ -202,5 +207,33 @@ module GoodnessOfFit =
             let calculateANOVA (order) (coef : Vector<float>) (x_data) (y_data) = 
                 let fitFunction x = Vector.dot coef (vandermondeRow order x)
                 calculateANOVA order fitFunction x_data y_data 
-            
+
+            module CrossValidation =
+
+                ///calculates LeaveOneOutCrossValidation
+                let loocv (x_Data:Vector<float>) (y_Data:Vector<float>) order =
+                    [0..x_Data.Length-1]
+                    |> List.map (fun x ->
+                                    let xTmp = 
+                                        x_Data
+                                        |> Seq.toList
+                                        |> fun xDat -> xDat.[..x-1]@xDat.[x+1..]
+                                        |> vector
+                                    let yTmp = 
+                                        y_Data
+                                        |> Seq.toList
+                                        |> fun yDat -> yDat.[..x-1]@yDat.[x+1..]
+                                        |> vector
+                                    let coefTmp = LinearRegression.OrdinaryLeastSquares.Polynomial.coefficient order xTmp yTmp
+                                    let error = 
+                                        let yFit = LinearRegression.OrdinaryLeastSquares.Polynomial.fit order coefTmp (float x_Data.[x])
+                                        pown (yFit - y_Data.[x]) 2 
+                                    error
+                                )
+                    |> List.sum
+                    |> fun x -> x/(float x_Data.Length)
+
+
+
+
             
