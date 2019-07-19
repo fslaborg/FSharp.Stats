@@ -85,7 +85,7 @@ module Matrix = begin
         let sum a = MS.sumM a
         /// Computes the product of all matrix elements.
         let prod a = MS.prodM a
-        ///
+        ///Frobenius matrix norm
         let norm a = MS.normM a
         /// Returns the transpose of matrix a 
         let transpose a = MS.transM a
