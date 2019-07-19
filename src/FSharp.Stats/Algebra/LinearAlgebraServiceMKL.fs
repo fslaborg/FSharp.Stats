@@ -102,6 +102,9 @@ module LapackStubs =
 
     [<System.Runtime.InteropServices.DllImport(@"liblapack.dll",EntryPoint="dgesdd_")>]
     extern void dgesdd_(char *JOBZ, int *M, int *N, double *A, int *LDA, double *S, double *U, int *LDU, double *VT, int *LDVT, double *WORK, int *LWORK, int *IWORK, int *INFO)
+    
+    //[<System.Runtime.InteropServices.DllImport(@"liblapack.dll",EntryPoint="dgejsv_")>]
+    //extern void dgejsv_(char *JOBA, char *JOBU, char *JOBV, char *JOBR, char *JOBT, char *JOBP, int *M, int *N, double *A, int *LDA, double *SVA, double *U, int *LDU, double *V, int *LDV, double *WORK, int *LWORK, int *IWORK, int *INFO)
 
     [<System.Runtime.InteropServices.DllImport(@"liblapack.dll",EntryPoint="dgeev_")>]
     extern void dgeev_(char *JOBVL, char *JOBVR, int *N, double *A, int *LDA, double *WR, double *WI, double *VL, int *LDVL, double *VR, int *LDVR, double *WORK, int *LWORK, int *INFO);
@@ -245,7 +248,7 @@ type LinearAlgebraMKL() =
 
         member this.dsyevd_(a:matrix) = 
             printfn "Function not implemented yet, use the lapack provider"
-            (matrix[||],[||])
+            (matrix[||],vector [||])
 
         //member this.dgeev_(a:Matrix<float>) =
         //    Array.zeroCreate 0, Array.zeroCreate 0, matrix [||]
@@ -624,7 +627,7 @@ type LinearAlgebraLAPACK() =
             // fixups
             let a = Matrix.transpose a
             // result tuple
-            a,w
+            a,vector w
 
 
 

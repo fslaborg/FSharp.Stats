@@ -33,11 +33,14 @@ module RMT =
     let computeChiSquared (bwQuantile : float)  (m:float[,]) =
                 
         let unfoldedEgv = 
-            m             
-            |> Algebra.EVD.symmetricEvd
-            |> Algebra.EVD.getRealEigenvalues
-            |> spectralUnfolding
-            |> Seq.toArray
+            FSharp.Stats.Algebra.LinearAlgebra.EigenSpectrumWhenSymmetric (Matrix.ofArray2D m)
+            |> fun (eigenvectors,eigenvalues) -> 
+                let spUnfold =
+                    eigenvalues 
+                    |> spectralUnfolding
+                    |> Seq.toArray
+                spUnfold
+
 
         let nnSpacing =
             unfoldedEgv
@@ -48,7 +51,7 @@ module RMT =
             let bw = computeBandwidth nnSpacing bwQuantile
             FSharp.Stats.Distributions.Frequency.create bw nnSpacing
             |> FSharp.Stats.Distributions.Frequency.getZip
-            |> Seq.filter (fun (x,count) -> evaluateWigner x > 1. / ((float nnSpacing.Length)*bw)) // WICHTIG
+            |> Seq.filter (fun (x,count) -> evaluateWigner x > 1. / ((float nnSpacing.Length) * bw)) // WICHTIG
             |> Seq.map (fun (x,y) -> x , (float y) / ((float nnSpacing.Length)*bw))
             |> Seq.toArray
 
@@ -61,8 +64,9 @@ module RMT =
 
         
     ///Computes the critical Threshold for which the NNSD of the matrix significantly abides from the Wigner-Surmise
-    // bwQuantile uses % data to calculate a more robust histogram
-    let compute (bwQuantile : float) accuracy (sigCriterion : float) (m:float[,]) =
+    /// bwQuantile uses % data to calculate a more robust histogram //0.9 0.01 0.05
+    /// to reduce the search space for the threshold you can restrict the range to [leftBorder,rightBorder]
+    let computeWithInterval (bwQuantile : float) accuracy (sigCriterion : float) (m:float[,]) (leftBorder,rightBorder)=
 
         let rec stepSearch previousChi left right =
             let thr = (left + right) / 2.
@@ -83,10 +87,13 @@ module RMT =
                 else 
                     right,previousChi
                 
-        stepSearch (TestStatistics.createChiSquare 0. 1.) 0. 1.
+        stepSearch (TestStatistics.createChiSquare 0. 1.) leftBorder rightBorder
 
 
-
+    ///Computes the critical Threshold for which the NNSD of the matrix significantly abides from the Wigner-Surmise
+    /// bwQuantile uses % data to calculate a more robust histogram //0.9 0.01 0.05
+    let compute (bwQuantile : float) accuracy (sigCriterion : float) (m:float[,]) =
+        computeWithInterval bwQuantile accuracy sigCriterion m (0.,1.)
                 
             
 
