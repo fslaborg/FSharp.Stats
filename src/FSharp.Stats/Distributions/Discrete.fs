@@ -198,6 +198,8 @@ module Discrete =
                 0.0
             elif (x >= float (min K n)) then
                 1.0
+            elif N-K < n then
+                1.0
             else
                 let k = floor x |> int 
                 let d = SpecialFunctions.Binomial.coeffcientLn N n
