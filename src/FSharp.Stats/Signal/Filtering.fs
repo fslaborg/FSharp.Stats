@@ -96,5 +96,24 @@ module Filtering =
     
         correlate_valid m.Transpose y
 
-        
+    // Method is based on: https://doi.org/10.1021/ac0600196
+    /// Estimates the autocorrelation at lag 1 of a blank signal (containing only noise). Subsequently, the signal of interest is smoothed
+    /// several times by a savitzky golay filter using constant polynomial order and variing windowWidth. For each iteration, the deviation
+    /// of the smoothed to the original signal is computed and the autocorrelation at lag 1 of this residual noise is computed. The function returns the optimized
+    /// window width yielding a autocorrelation at lag 1 closest to the value computed for the blank signal.
+    let optimizeWindowWidth polOrder (windowWidthToTest:int[]) (blankSignal:float[]) (signalOfInterest:float[]) =
+        let signalOfInterest' = signalOfInterest |> vector
+        let noiseAutoCorr = Correlation.Vector.autoCorrelation 1 (blankSignal |> vector)
+        let filterF w yData = savitzky_golay w polOrder 0 0 yData
+        let windowWidthToTest' = windowWidthToTest |> Array.filter (fun x -> x%2 <> 0)
+        let optimizedWindowWidth = 
+            windowWidthToTest'
+            |> Array.map (fun w ->
+                          let smoothedY = filterF w signalOfInterest
+                          let noise = smoothedY - (signalOfInterest')
+                          w, Correlation.Vector.autoCorrelation 1 noise
+                         )
+            |> Array.minBy (fun (w,ac) -> (ac - noiseAutoCorr) |> abs ) 
+            |> fst
+        optimizedWindowWidth          
 

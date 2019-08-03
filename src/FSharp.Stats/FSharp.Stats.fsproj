@@ -112,6 +112,7 @@
     <Compile Include="Fitting\Spline.fs" />
     <!-- ML -->
     <Compile Include="ML\SurprisalAnalysis.fs" />
+    <Compile Include="ML\SimilarityMetrics.fs" />
     <Compile Include="ML\DistanceMetrics.fs" />
     <Compile Include="ML\Impute.fs" />
     <Compile Include="ML\Unsupervised\PrincipalComponentAnalysis.fs" />
