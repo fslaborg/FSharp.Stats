@@ -142,7 +142,7 @@ module Discrete =
 
 
     // Hypergeometric distribution helper functions.
-    let hypergeoCheckParam N K n = if N <= 0 || K <= 0 || n <= 0 || K >= N || n >= N then failwith "Hypergeometric distribution should be parametrized by N, K and n > 0.0. Further K and n must be >= N"
+    let hypergeoCheckParam N K n = if N <= 0 || K <= 0 || n <= 0 || K > N || n > N then failwith "Hypergeometric distribution should be parametrized by N, K and n > 0.0. Further K and n must be <= N"
     
     ///Hypergeometric distribution
     type Hypergeometric =
