@@ -305,7 +305,7 @@ module MatrixTests =
 
                    Expect.equal actual testVector1LowerDiag "Matrix.getDiagN did not return the correct offset -1 diagonal"
 
-            ]
+            
 
 
             ]
