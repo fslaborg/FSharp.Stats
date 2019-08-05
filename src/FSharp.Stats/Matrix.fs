@@ -120,6 +120,7 @@ module Matrix = begin
         ///
         let mapi f a = MS.mapiM f a
         ///
+        //TO_DO: refactor to take an Direction union case and use more descriptive name
         let getDiagN a n = MS.getDiagnM a n
         ///
         let getDiag a = MS.getDiagnM a 0
@@ -243,25 +244,43 @@ module Matrix = begin
     let get (a:matrix) i j   = MG.get a i j
     let set (a:matrix) i j x = MG.set a i j x    
     // Creation
+    ///returns a dense matrix with m rows and n rows, applying the init function with the two indices as arguments
     let init  m n f = DS.initDenseMatrixDS  m n f |> MS.dense 
+    ///returns a dense matrix with the inner lists of the input jagged list as its rows
     let ofJaggedList     xss   = DS.listDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner lists of the input jagged list as its columns
     let ofJaggedColList  xss   = DS.colListDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner lists of the input jagged list as its rows
     let ofJaggedSeq      xss   = DS.seqDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner lists of the input jagged list as its columns
     let ofJaggedColSeq   xss   = DS.colSeqDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner lists of the input jagged list as its rows
     let ofJaggedArray    xss   = DS.arrayDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner lists of the input jagged list as its columns
     let ofJaggedColArray xss   = DS.colArrayDenseMatrixDS    xss |> MS.dense
+    ///
     let diag  (v:vector)   = MG.diag v 
+    ///
+    //TO-DO: this should do something else as Matrix.diag. E.g. int -> (int -> float) -> Matrix<float>
     let initDiagonal  (v:vector)   = MG.diag v 
+    ///
     let constDiag  n x : matrix  = MG.constDiag n x 
+    ///
+    //TO-DO: maybe rename to constCreate
     let create  m n x  = DS.constDenseMatrixDS  m n x |> MS.dense
+    ///
     let ofScalar x     = DS.scalarDenseMatrixDS x |> MS.dense
-
+    ///
     let ofArray2D arr : matrix = MG.ofArray2D arr
+    ///
     let toArray2D (m : matrix) = MG.toArray2D m
+    ///
     let toJaggedArray (m: matrix) = MG.toJaggedArray m 
+    ///
     let getDiagN  (a:matrix) n = MG.getDiagN a n
+    ///
     let getDiag  (a:matrix) = MG.getDiag a
-    // Operators
+
     // Operators
     /// Performs a element wise addition of matrices a and b (a+b).
     /// Only usable if both matrices have the same dimensions.
