@@ -233,7 +233,58 @@ module GoodnessOfFit =
                     |> List.sum
                     |> fun x -> x/(float x_Data.Length)
 
-
+                ///k-fold cross validation
+                ///Calculates the average SSE of given data, the order used to fit the polynomial and the subset you want to leave out (k).
+                ///Consider to choose k that n%k=0 for equally bin sizes.
+                let kfcv (x_Data:Vector<float>) (y_Data:Vector<float>) order k =
+                    let zippedData =    
+                        Seq.zip x_Data y_Data 
+                        |> Array.ofSeq
+                    //how many items have to be in a group
+                    let itemsPerGroup = (float x_Data.Length / (float k)) |> int
+                    //let over = x_Data.Length%int itemsPerGroup
+                    let n = x_Data.Length
+                    let rnd = System.Random()
+                    //generate k-1 subsets of the original data (without replacement)
+                    let chunks =
+                        [|1..k-1|]
+                        |> Array.map (fun x -> 
+                            let rec loop i acc =
+                                if i = itemsPerGroup then 
+                                    acc |> List.sort |> Array.ofSeq
+                                else 
+                                    let rnd = rnd.Next(0,n)
+                                    let tmp = zippedData.[rnd]
+                                    if not (nan.Equals(fst tmp)) then
+                                        zippedData.[rnd] <- (nan,nan)
+                                        loop (i+1) (tmp::acc)
+                                    else loop i acc
+                            loop 0 []
+                            )
+                    //generate the kth subset out of the left over values in the original data set
+                    let rest = zippedData |> Array.filter (fun (a,b) -> not (nan.Equals(a)))
+                    //combine all the subsets
+                    let subsequence = Array.append [|rest|] chunks 
+                    
+                    //perform the kfcv with fitting a polynomial of order 'oder' to all but one subsets, and calculate the SSE of this fit to the left out validation data set
+                    subsequence 
+                    |> Array.mapi (fun i x -> 
+                        let fitOfRemaining =      
+                            let (subX,subY) = 
+                                Array.append subsequence.[0..i-1] subsequence.[i+1..] 
+                                |> Array.concat
+                                |> Array.unzip
+                            let dataLeftOut = x
+                            let fit = 
+                                Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.coefficient order (vector subX) (vector subY)
+                                |> fun coeffs -> Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.fit order coeffs
+                            dataLeftOut
+                            |> Array.map (fun (xLO,yLO) -> pown (fit xLO - yLO) 2)
+                            |> Array.sum
+                        fitOfRemaining
+                        )
+                    |> Array.sum
+                    |> fun x -> x/(float n)
 
 
             
