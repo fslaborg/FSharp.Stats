@@ -24,6 +24,7 @@ module Random =
                             if n >= 0 then this.rnd <- new ThreadLocal<Random>(fun () -> new Random(n))
         interface IRandom with
             member x.NextInt() = x.rnd.Value.Next()
+            ///maxValue is not part of the possible sampling range (minVal <= x < maxVal)
             member x.NextInt maxValue = x.rnd.Value.Next(maxValue)
             member x.NextFloat() =x.rnd.Value.NextDouble()
         end
@@ -38,6 +39,7 @@ module Random =
                          then
                             if n >= 0 then this.rnd <- new Random(n)
         interface IRandom with
+            ///maxValue is not part of the possible sampling range (minVal <= x < maxVal)
             member x.NextInt() = x.rnd.Next()
             member x.NextInt maxValue = x.rnd.Next(maxValue)
             member x.NextFloat() =x.rnd.NextDouble()
