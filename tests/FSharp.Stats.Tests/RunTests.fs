@@ -8,7 +8,7 @@ module RunTests =
     [<EntryPoint>]
     let main args =
         //================================ Matrix ===============================================================
-        Tests.runTestsWithArgs defaultConfig args MatrixTests.testFloatImplementation |> ignore
+        Tests.runTestsWithArgs defaultConfig args MatrixTests.testFloatImplementationDense |> ignore
 
         //=========================== Special Functions =========================================================
         Tests.runTestsWithArgs defaultConfig args SpecialFunctionsTests.testGammaFunctions |> ignore
