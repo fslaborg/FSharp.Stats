@@ -55,19 +55,20 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1554', 1554)" onmouseover="showTip(event, '1554', 1554)">
+          <code onmouseout="hideTip(event, '1567', 1567)" onmouseover="showTip(event, '1567', 1567)">
             compute(...)
           </code>
-          <div class="tip" id="1554">
+          <div class="tip" id="1567">
             <strong>Signature:</strong> bwQuantile:float -&gt; accuracy:float&lt;MeasureOne&gt; -&gt; sigCriterion:float -&gt; m:float [,] -&gt; float&lt;MeasureOne&gt; * ChiSquareStatistics<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/RMT.fs#L65-65" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/RMT.fs#L95-95" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Computes the critical Threshold for which the NNSD of the matrix significantly abides from the Wigner-Surmise</p>
+          <p>Computes the critical Threshold for which the NNSD of the matrix significantly abides from the Wigner-Surmise
+bwQuantile uses % data to calculate a more robust histogram //0.9 0.01 0.05</p>
 
 
         </td>
@@ -75,10 +76,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1555', 1555)" onmouseover="showTip(event, '1555', 1555)">
+          <code onmouseout="hideTip(event, '1568', 1568)" onmouseover="showTip(event, '1568', 1568)">
             computeChiSquared bwQuantile m
           </code>
-          <div class="tip" id="1555">
+          <div class="tip" id="1568">
             <strong>Signature:</strong> bwQuantile:float -&gt; m:float [,] -&gt; ChiSquareStatistics<br />
                                   </div>
         </td>
@@ -88,6 +89,28 @@
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
           
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1569', 1569)" onmouseover="showTip(event, '1569', 1569)">
+            computeWithInterval(...)
+          </code>
+          <div class="tip" id="1569">
+            <strong>Signature:</strong> bwQuantile:float -&gt; accuracy:float&lt;MeasureOne&gt; -&gt; sigCriterion:float -&gt; m:float [,] -&gt; (leftBorder:float&lt;MeasureOne&gt; * rightBorder:float&lt;MeasureOne&gt;) -&gt; float&lt;MeasureOne&gt; * ChiSquareStatistics<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/RMT.fs#L69-69" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Computes the critical Threshold for which the NNSD of the matrix significantly abides from the Wigner-Surmise
+bwQuantile uses % data to calculate a more robust histogram //0.9 0.01 0.05
+to reduce the search space for the threshold you can restrict the range to [leftBorder,rightBorder]</p>
+
+
         </td>
       </tr>
     </tbody>

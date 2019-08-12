@@ -55,10 +55,33 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1476', 1476)" onmouseover="showTip(event, '1476', 1476)">
+          <code onmouseout="hideTip(event, '1488', 1488)" onmouseover="showTip(event, '1488', 1488)">
+            optimizeWindowWidth(...)
+          </code>
+          <div class="tip" id="1488">
+            <strong>Signature:</strong> polOrder:int -&gt; windowWidthToTest:int [] -&gt; blankSignal:float [] -&gt; signalOfInterest:float [] -&gt; int<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Filtering.fs#L104-104" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Estimates the autocorrelation at lag 1 of a blank signal (containing only noise). Subsequently, the signal of interest is smoothed
+several times by a savitzky golay filter using constant polynomial order and variing windowWidth. For each iteration, the deviation
+of the smoothed to the original signal is computed and the autocorrelation at lag 1 of this residual noise is computed. The function returns the optimized
+window width yielding a autocorrelation at lag 1 closest to the value computed for the blank signal.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1489', 1489)" onmouseover="showTip(event, '1489', 1489)">
             savitzky_golay(...)
           </code>
-          <div class="tip" id="1476">
+          <div class="tip" id="1489">
             <strong>Signature:</strong> window_size:int -&gt; order:int -&gt; deriv:int -&gt; rate:int -&gt; data:float [] -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
