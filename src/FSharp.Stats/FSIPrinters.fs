@@ -12,22 +12,25 @@ module FSIPrinters =
         let numberToPrint = 10
 
         ///print column indices and horizontal separator
-        let rowHeader() = 
+        let rowHeader = 
             if colLength > (2 * numberToPrint) then 
                 let strHead = String.concat " " ("       "::(List.init numberToPrint (fun i -> sprintf "%8i " i )))
                 let strLast = String.concat " " (List.init numberToPrint (fun i -> sprintf "%8i " (colLength - numberToPrint + i )))
-                printfn "%s      ...  %s" strHead strLast
-                printfn "%s" (String.concat "" (List.init ((2 * numberToPrint) * 10 + 7 + 9) (fun _ -> "_"))) //7=header, 9=fstItem
+                [|
+                    sprintf "%s      ...  %s" strHead strLast
+                    sprintf "%s" (String.concat "" (List.init ((2 * numberToPrint) * 10 + 7 + 9) (fun _ -> "_"))) //7=header, 9=fstItem
+                |]
             else 
-                printfn "%s" (String.concat " " ("       "::(List.init colLength (fun i -> sprintf "%8i " i ))))
-                printfn "%s" (String.concat "" (List.init (colLength * 10 + 7) (fun _ -> "_")))
-
+                [|
+                    sprintf "%s" (String.concat " " ("       "::(List.init colLength (fun i -> sprintf "%8i " i ))))
+                    sprintf "%s" (String.concat "" (List.init (colLength * 10 + 7) (fun _ -> "_")))
+                |]
         //print internal horizonal separaor
-        let placeHolder() = 
+        let placeHolder = 
             let single = "      ..."
             if colLength > (2 * numberToPrint) then 
-                 printfn "%s" (String.concat " " ("...   "::(List.init (2 * numberToPrint + 1) (fun _ -> single))))
-            else printfn "%s" (String.concat " " ("...   "::(List.init colLength (fun _ -> single))))
+                 [|sprintf "%s" (String.concat " " ("...   "::(List.init (2 * numberToPrint + 1) (fun _ -> single))))|]
+            else [|sprintf "%s" (String.concat " " ("...   "::(List.init colLength (fun _ -> single))))|]
 
         //print row with row index and vertical separator
         let printRow index = 
@@ -42,25 +45,30 @@ module FSIPrinters =
                     | x when x >= 10000.  -> sprintf "%8.2g" x
                     | _    -> sprintf "%8.3f" x)
             if colLength > (2 * numberToPrint) then
-                let strHead = currentRow.[0 .. (numberToPrint - 1)]            |> toString |> String.concat "  "
+                let strHead = currentRow.[0 .. (numberToPrint - 1)]     |> toString |> String.concat "  "
                 let strLast = currentRow.[colLength - numberToPrint ..] |> toString |> String.concat "  "
                 let printString = sprintf "%s       ...  %s" strHead strLast
-                printfn "%-5i | %s" index printString
-            else printfn "%-5i | %s" index (currentRow |> toString |> String.concat "  ")
+                sprintf "%-5i | %s" index printString
+            else sprintf "%-5i | %s" index (currentRow |> toString |> String.concat "  ")
         
-        //print column indices
-        rowHeader()
         if rowLength > (2 * numberToPrint) then 
             //print first 10 rows
-            [0 .. (numberToPrint - 1)] |> Seq.iter printRow
-            //print horizontal separator
-            placeHolder()
+            let chunk1 = Array.init numberToPrint printRow
             //print last 10 rows
-            [rowLength - (numberToPrint + 1) .. rowLength - 1] |> Seq.iter printRow
+            let chunk2 = [|rowLength - (numberToPrint + 1) .. rowLength - 1|] |> Array.map printRow
+            [|rowHeader;chunk1;placeHolder;chunk2|]
+            |> Array.concat            
+            |> String.concat "\r\n"
+            |> sprintf "\r\n%s\r\n"
         else
             //print all rows
-            [0 .. rowLength - 1 ] |> Seq.iter printRow
+            let chunk = Array.init rowLength printRow
+            [|rowHeader;chunk|]
+            |> Array.concat
+            |> String.concat "\r\n"
+            |> sprintf "\r\n%s\r\n"
 
+//fsi.AddPrinter(FSharp.Stats.FSIPrinters.matrix)
 //let matrix1 = Matrix.init 7 20 (fun i j -> -(float i) + (float j))
 //let matrix2 = Matrix.init 20 7 (fun i j -> -(float i) + (float j))
 //let matrix3 = Matrix.init 1000 1000 (fun i j -> -(float i) + (float j))
