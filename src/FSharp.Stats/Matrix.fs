@@ -386,6 +386,21 @@ module Matrix = begin
     /// i2*n matrix.
     /// Only usable if (i1+i2-1) does not exceed m.
     let getRows (a:matrix) i1 i2 = MG.getRows a i1 i2
+
+    let countBy f (a:matrix) =
+        let n = a.NumCols * a.NumRows
+        let (r,c) = a.Dimensions
+        let rec loop ir ic acc =
+            if ir = r then
+                if ic = c then
+                    [true,acc;false,n - acc]
+                else loop ir (ic+1) (if f a.[ir,ic] then acc + 1 else acc)
+            else 
+                if ic = c then
+                    loop (ir+1) 0 acc
+                else loop (ir+1) (ic+1) (if f a.[ir,ic] then acc + 1 else acc)
+        loop 0 0 0
+
     /// Accesses the m*n matrix a and returns a total of i2 rows and j2 columns starting from row index i1 and colum index j1. The Result is a new
     /// i2*j2 matrix.
     /// Only usable if (i1+i2-1) does not exceed m and (j1+j2-1) does not exceed n.

@@ -117,6 +117,16 @@ module Vector =
     let idxR    ((a,_) : range) i = a+i
     type rangef = float * float * float // start, skip, end
     let countRF ((a,d,b) : rangef)   = System.Convert.ToInt32((b-a)/d) + 1
+    let countBy f (a:Vector<_>) =
+        let n = a.Length
+        let rec loop i acc =
+            if i = n then
+                [true,acc;false,n - acc]
+            else 
+                if f a.[i] then 
+                    loop (i+1) (acc+1)
+                else loop (i+1) acc
+        loop 0 0
     //let countRF ((a,d,b) : rangef)   = Float.to_int((b-a)/d) + 1
     let idxRF  ((a,d,b) : rangef) i = System.Math.Min (a + d * float(i),b)
 
