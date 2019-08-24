@@ -448,7 +448,7 @@ module Discrete =
 
 
     // Binomial distribution helper functions.
-    let poissonCheckParam lambda = if lambda <= 0 then failwith "Binomial distribution should be parametrized by lambda >= 1"
+    let poissonCheckParam lambda = if lambda <= 0. then failwith "Binomial distribution should be parametrized by lambda > 0."
     
     ///Binomial distribution
     type Poisson =
@@ -494,9 +494,9 @@ module Discrete =
         /// Computes the probability density function at k, i.e. P(K = k)
         static member PDF lambda k =
             if k > 170 then 
-                System.Math.E ** (System.Math.Log (float lambda) * float k - SpecialFunctions.Factorial.factorialLn k) * System.Math.E**(- float lambda)
+                System.Math.E ** (System.Math.Log lambda * float k - SpecialFunctions.Factorial.factorialLn k) * System.Math.E**(-lambda)
             else
-                (float lambda**float k * System.Math.E**(- float lambda)) / SpecialFunctions.Factorial.factorial k
+                (lambda**float k * System.Math.E**(-lambda)) / SpecialFunctions.Factorial.factorial k
 
 
         /// Computes the cumulative distribution function at x, i.e. P(X <= x).
