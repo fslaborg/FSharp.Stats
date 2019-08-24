@@ -154,7 +154,7 @@ module Seq =
 
 
     /// <summary>
-    ///   Computes the truncated (trimmed) mean
+    ///   Computes the truncated (trimmed) mean where x percent of the highest, and x percent of the lowest values are discarded (total 2x)
     /// </summary>
     ///
     /// <param name="items">The input sequence.</param>
@@ -164,11 +164,11 @@ module Seq =
         let zero = LanguagePrimitives.GenericZero< 'U > 
         let n = Seq.length(data)
         if (n > 0) then    
-            let k = int (floor (float n * percent))
+            let k = int ((float n * percent))
             data
             |> Seq.sort
             |> Seq.skip k
-            |> Seq.take (n - k)
+            |> Seq.take (n - 2 * k)
             |> mean
 
         else
@@ -753,7 +753,21 @@ module Seq =
 
 
 
-
+    /// calculates the sample means with a given number of replicates present in the sequence
+    let inline getMeanOfReplicates rep (data:seq<'a>) =
+        if ( Seq.length data ) % rep = 0 then
+            data
+            |> Seq.chunkBySize rep
+            |> Seq.map Seq.average
+        else failwithf "sequence length  is no multiple of replicate number"
+       
+    /// calculates the sample standard deviations with a given number of replicates present in the sequence
+    let inline getStDevOfReplicates rep (data:seq<'a>) =
+        if ( Seq.length data ) % rep = 0 then
+            data
+            |> Seq.chunkBySize rep
+            |> Seq.map stDev
+        else failwithf "sequence length  is no multiple of replicate number"
 
 
 
