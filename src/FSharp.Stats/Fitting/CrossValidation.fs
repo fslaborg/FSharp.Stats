@@ -46,10 +46,10 @@ module CrossValidation =
         |> PSeq.map (fun chunk ->
             let xTest,xTrain =
                 xData
-                |> splitRows chunk
+                |> Matrix.splitRows chunk
             let yTest,yTrain =
                 yData
-                |> splitVector chunk
+                |> Vector.splitVector chunk
     
             let preds = fit xTrain yTrain xTest
             let error = error preds yTest
@@ -80,10 +80,10 @@ module CrossValidation =
         |> Seq.map (fun chunk ->
             let xTest,xTrain =
                 xData
-                |> splitRows chunk
+                |> Matrix.splitRows chunk
             let yTest,yTrain =
                 yData
-                |> splitVector chunk
+                |> Vector.splitVector chunk
     
             let preds = fit xTrain yTrain xTest
             let error = error preds yTest
