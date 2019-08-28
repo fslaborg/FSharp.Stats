@@ -556,6 +556,90 @@ module Matrix = begin
             
     /// Iterates the given Matrix column wise and places every element in a new vector with length n*m.
     let flattenColWise (a: matrix) = Generic.flattenColWise a 
+
+    /// Removes a row at a given index
+    let removeRowAt (index:int) (m:Matrix<'T>) : Matrix<'T> =
+        let nRows,nCols = m.Dimensions
+        //let nm = Matrix.Generic.zero (nRows-1) nCols
+        let nm = MG.zero (nRows-1) nCols
+        let rec loop nRowI rowI =
+            if rowI < 0 then
+                nm
+            else
+                if rowI <> index then
+                    for colI=0 to nCols-1 do
+                        nm.[nRowI,colI] <- m.[rowI,colI]
+                    loop (nRowI-1) (rowI-1) 
+                else
+                    loop (nRowI) (rowI-1) 
+    
+        loop (nRows-2) (nRows-1)
+
+    /// Removes a column at a given index
+    let removeColAt index (m:Matrix<_>) =
+        let nRows,nCols = m.Dimensions
+        //let nm = Matrix.Generic.zero nRows (nCols-1)
+        let nm = MG.zero nRows (nCols-1)
+        let rec loop nColI colI =
+            if nColI < 0 then
+                nm
+            else
+                if colI <> index then
+                    for rowI=0 to nRows-1 do
+                        nm.[rowI,nColI] <- m.[rowI,colI]
+                    loop (nColI-1) (colI-1) 
+                else
+                    loop (nColI) (colI-1) 
+    
+        loop (nRows-2) (nRows-1)
+
+    /// Splits a matrix along row direction according to given indices. Returns (matrix including rows according to indices, rest)
+    let splitRows (indices:int[]) (m:Matrix<_>) =
+
+        let nRows,nCols = m.Dimensions
+        //let nm  = Matrix.Generic.zero (nRows-indices.Length) nCols
+        //let nmi = Matrix.Generic.zero indices.Length nCols
+        let nm  = MG.zero (nRows-indices.Length) nCols
+        let nmi = MG.zero indices.Length nCols
+        indices |> Array.sortInPlace
+        let rec loop nRowI nRowIi rowI =
+            match rowI with
+            | i as rowI when rowI < 0 -> nmi,nm
+            | i as rowI when nRowIi >= 0 && rowI = indices.[nRowIi] ->
+                for colI=0 to nCols-1 do
+                    nmi.[nRowIi,colI] <- m.[rowI,colI]                
+                loop (nRowI) (nRowIi-1) (rowI-1)                       
+            | _ -> //i as rowI when rowI <> indices.[ii] ->
+                for colI=0 to nCols-1 do
+                    nm.[nRowI,colI] <- m.[rowI,colI]
+                loop (nRowI-1) (nRowIi) (rowI-1) 
+    
+        loop (nRows-1-indices.Length) (indices.Length-1) (nRows-1)
+
+
+    /// Splits a matrix along column direction according to given indices. Returns (matrix including cols according to indices, rest)
+    let splitCols (indices:int[]) (m:Matrix<_>) =
+        let nRows,nCols = m.Dimensions
+        //let nm  = Matrix.Generic.zero nRows (nCols-indices.Length)
+        //let nmi = Matrix.Generic.zero nRows indices.Length 
+        let nm  = MG.zero nRows (nCols-indices.Length)
+        let nmi = MG.zero nRows indices.Length 
+        indices |> Array.sortInPlace
+        let rec loop nColI nColIi colI =
+            match colI with
+            | i as colI when colI < 0 -> nmi,nm
+            | i as colI when nColIi >= 0 && colI = indices.[nColIi] ->
+                for rowI=0 to nRows-1 do
+                    nmi.[rowI,nColIi] <- m.[rowI,colI]                
+                loop (nColI) (nColIi-1) (colI-1)                       
+            | _ -> //i as rowI when rowI <> indices.[ii] ->
+                for rowI=0 to nRows-1 do
+                    nm.[rowI,nColI] <- m.[rowI,colI]
+                loop (nColI-1) (nColIi) (colI-1) 
+    
+        loop (nCols-1-indices.Length) (indices.Length-1) (nCols-1)
+
+
             
 end
 

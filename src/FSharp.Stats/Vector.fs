@@ -304,6 +304,29 @@ module Vector =
         let (mul,sumX,sumY) = loop 0 0. 0. 0.
         (mul - (sumX * sumY)/(float v1.Length)) / (float v1.Length - 1.) 
 
+
+
+    /// Splits a vector according to given indices. Returns (vector including values according to indices, rest)
+    let splitVector (indices:int[]) (v:Vector<_>) =
+        let len = v.Length
+        //let nv  = Vector.Generic.zero (len-indices.Length)
+        //let nvi = Vector.Generic.zero indices.Length
+        let nv  = VG.zero (len-indices.Length)
+        let nvi = VG.zero indices.Length
+        indices |> Array.sortInPlace
+        let rec loop ni nii i =
+            match i with
+            | i when i < 0 -> nvi,nv
+            | i when nii >= 0 && i = indices.[nii] ->            
+                nvi.[nii] <- v.[i]                
+                loop (ni) (nii-1) (i-1)                       
+            | _ -> 
+                nv.[ni] <- v.[i]
+                loop (ni-1) (nii) (i-1) 
+    
+        loop (len-1-indices.Length) (indices.Length-1) (len-1)
+
+
     /// Module to compute common statistical measure on 
     module SummaryStats = 
 
