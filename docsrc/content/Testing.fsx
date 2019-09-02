@@ -150,20 +150,14 @@ Testing.TTest.twoSamplePaired sampleP1 sampleP2
 ##Bartlett
 <a name="PostHoc"></a>
 ##PostHoc
+
 This test uses the data shown for Anova.
 *)
 
-Testing.PostHoc.hays contrastMatrix dataOneWay 
-
 
 open PostHoc
-        
-//let sumOfSquareContrast (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =        
-//    let l           =  Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast 
-//    let denominator = (Array.map2 (fun a n -> (abs a) / (float n)) contrast sampleSizes) |> Array.sum
-//    (l * l / denominator,l)
 
-hays contrastMatrix dataOneWay 
+Testing.PostHoc.hays contrastMatrix dataOneWay 
 
 
 //let m1 = Seq.mean dataOneWay.[0]
@@ -193,12 +187,7 @@ let contrastMatrixDmg =
     |]
 
 
-hays contrastMatrixDmg dmg 
-
-// Tuky HSD
-
-dmg.[2] |> Seq.sum
-
+Testing.PostHoc.hays contrastMatrixDmg dmg 
 
 Anova.oneWayAnova dmg
 
@@ -217,15 +206,8 @@ let dsd =
         [|55.; 66.; 49.; 64.; 70.; 68.;|] ;   
     |]
 
-let contrastMatrixDsd = contrastMatrix
-    //[| 
-     //[|1.0;-1.0;0.0;|] ; 
-     //[|1.0;0.0;-1.0;|] ; 
-     //[|0.0;1.0;-1.0;|]   
-    //|]
+let contrastMatrixDsd = contrastMatrix //used in docs for "Anova"
 
-dsd |> Array.map Array.average   
-   
 Anova.oneWayAnova dsd
 
 tukeyHSD contrastMatrixDsd dsd 
@@ -276,12 +258,5 @@ pValues
 MultipleTesting.benjaminiHochbergFDRBy (fun x -> x,x) pValues
 |> List.rev
 
-
-(**
-##Rest; needs sorting
-*)
-
-(*** hide ***)
-// Is this part from the PosHoc module? and why is it here? 
 
 
