@@ -146,7 +146,7 @@ let splineChart =
     //defines a function that gives the constrained spline value for a given x value
     //Constraint: A maximum, then a minimum
     //the AICc is reported as model selection criterion
-    let minMaxSpline = 
+    let maxMinSpline = 
         TemporalClassification.splineIncreasing x_Values means weighting 2  
         |> fun (constraintMatrices,result) -> result.AICc,result.SplineFunction
 
@@ -158,18 +158,18 @@ let splineChart =
         |> List.map (fun x -> x,(snd monotoneSpline) x)
         |> Chart.Line
         |> Chart.withTraceName (sprintf "Monotone AICc: %.2f" (fst monotoneSpline))                              
-    let minMaxSplineChart =                                             
+    let maxMinSplineChart =                                             
         xVec                   
-        |> List.map (fun x -> x,(snd minMaxSpline) x)         
+        |> List.map (fun x -> x,(snd maxMinSpline) x)         
         |>  Chart.Line           
-        |> Chart.withTraceName (sprintf "MinMax AICc: %.2f" (fst minMaxSpline))    
+        |> Chart.withTraceName (sprintf "MaxMin AICc: %.2f" (fst maxMinSpline))    
     let unconstrainedChart =                                             
         xVec                        
         |> List.map (fun x -> x,(snd unconstrainedSpline) x)     
         |> Chart.Line             
         |> Chart.withTraceName (sprintf "Unconstrained AICc: %.2f" (fst unconstrainedSpline))
 
-    [origPoints;unconstrainedChart;monotoneSplineChart;minMaxSplineChart]
+    [origPoints;unconstrainedChart;monotoneSplineChart;maxMinSplineChart]
     |> Chart.Combine
     |> Chart.withX_Axis (myAxis())
     |> Chart.withY_Axis (myAxis())

@@ -114,6 +114,29 @@ module LinearRegression =
                 let fit (coef : Vector<float>) (x:Vector<float>) =
                     let tmp :Vector<float> = Vector.init (x.Length+1) (fun i -> if i = 0 then 1. else x.[i-1])
                     Vector.dot tmp coef 
+            
+            module RidgeRegression =           
+
+                let coefficients lambda (x_data : Matrix<float>) (y_data : Vector<float>) =
+                    if x_data.NumRows <> y_data.Length then
+                        raise (System.ArgumentException("vector x and y have to be the same size!"))
+                    let m = x_data.NumRows
+                    let n = x_data.NumCols
+                    let X = Matrix.init m (n+1) (fun m n ->  if n = 0 then 1. else x_data.[m,n-1] )
+                    
+                    let lambdaIdentity = lambda * Matrix.identity n
+                    let sumDot = X.Transpose * X + lambdaIdentity
+                    let theInverse = Algebra.LinearAlgebra.Inverse sumDot
+                    let inverseXt = theInverse * X.Transpose
+                    let w = inverseXt * y_data
+ 
+                    w
+
+                /// Fit to x
+                let fit (coef : Vector<float>) (x:Vector<float>) =
+                    let tmp :Vector<float> = Vector.init (x.Length+1) (fun i -> if i = 0 then 1. else x.[i-1])
+                    Vector.dot tmp coef 
+
 
         /// Simple polynomial regression
         module Polynomial =

@@ -117,6 +117,16 @@ module Vector =
     let idxR    ((a,_) : range) i = a+i
     type rangef = float * float * float // start, skip, end
     let countRF ((a,d,b) : rangef)   = System.Convert.ToInt32((b-a)/d) + 1
+    let countBy f (a:Vector<_>) =
+        let n = a.Length
+        let rec loop i acc =
+            if i = n then
+                [true,acc;false,n - acc]
+            else 
+                if f a.[i] then 
+                    loop (i+1) (acc+1)
+                else loop (i+1) acc
+        loop 0 0
     //let countRF ((a,d,b) : rangef)   = Float.to_int((b-a)/d) + 1
     let idxRF  ((a,d,b) : rangef) i = System.Math.Min (a + d * float(i),b)
 
@@ -293,6 +303,29 @@ module Vector =
                 loop (n+1) (sumMul + (v1.[n]*v2.[n])) (sumX+v1.[n]) (sumY+v2.[n]) 
         let (mul,sumX,sumY) = loop 0 0. 0. 0.
         (mul - (sumX * sumY)/(float v1.Length)) / (float v1.Length - 1.) 
+
+
+
+    /// Splits a vector according to given indices. Returns (vector including values according to indices, rest)
+    let splitVector (indices:int[]) (v:Vector<_>) =
+        let len = v.Length
+        //let nv  = Vector.Generic.zero (len-indices.Length)
+        //let nvi = Vector.Generic.zero indices.Length
+        let nv  = VG.zero (len-indices.Length)
+        let nvi = VG.zero indices.Length
+        indices |> Array.sortInPlace
+        let rec loop ni nii i =
+            match i with
+            | i when i < 0 -> nvi,nv
+            | i when nii >= 0 && i = indices.[nii] ->            
+                nvi.[nii] <- v.[i]                
+                loop (ni) (nii-1) (i-1)                       
+            | _ -> 
+                nv.[ni] <- v.[i]
+                loop (ni-1) (nii) (i-1) 
+    
+        loop (len-1-indices.Length) (indices.Length-1) (len-1)
+
 
     /// Module to compute common statistical measure on 
     module SummaryStats = 

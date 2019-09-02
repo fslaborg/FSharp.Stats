@@ -20,7 +20,7 @@ module PostHoc =
 
 
     // Ref.: Hays, William L. (1988). Statistics (4th ed.). New York: Holt, Rinehart, & Winston. (pp. 313–315)                                      
-    let Hays (contrastMatrix:float[][]) (data:float[][]) =
+    let hays (contrastMatrix:float[][]) (data:float[][]) =
 
         let calcStats (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =        
             let l           =  Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast 
@@ -62,7 +62,7 @@ module PostHoc =
     // https://www.uvm.edu/~dhowell/gradstat/psych341/labs/Lab1/Multcomp.html
     // https://brownmath.com/stat/anova1.htm
     /// Tukey-Kramer approach
-    let TukeyHSD (contrastMatrix:float[][]) (data:float[][]) =
+    let tukeyHSD (contrastMatrix:float[][]) (data:float[][]) =
 
         let calcStats (msw:float) (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =        
             let l           =  Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast 

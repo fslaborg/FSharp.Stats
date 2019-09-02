@@ -4,6 +4,7 @@ open System
 
 /// Special mathematical functions
 module Gamma =
+    open FSharp.Stats
     
 
     
@@ -136,13 +137,18 @@ module Gamma =
     // gammp -> GammaLowerIncomplete
     let lowerIncomplete a x =
         let ASWITCH=100.
-        if (x < 0.0 || a <= 0.0) then failwith ("bad args in gammp")
-        if (x= 0.0) then 0.0
-        elif (a >= ASWITCH) then
-            gammpapprox a x true
+        //if (x < 0.0 || a <= 0.0) then failwith ("bad args in gammp")
+        match x with
+        | x when x = 0. -> 0.
+        | x when (x < 0.0 || a <= 0.0) -> nan
+        | x when (isPosInf x) -> 1.
+        | _ -> 
+            if (x= 0.0) then 0.0
+            elif (a >= ASWITCH) then
+                gammpapprox a x true
 
-        elif (x < a+1.0) then gser a x
-        else 1.0 - gcf a x
+            elif (x < a+1.0) then gser a x
+            else 1.0 - gcf a x
 
 
 
@@ -150,13 +156,18 @@ module Gamma =
     // gammq -> GammaUpperIncomplete
     let upperIncomplete a x =
         let ASWITCH=100.
-        if (x < 0.0 || a <= 0.0) then failwith ("bad args in gammp")
-        if (x= 0.0) then 0.0
-        elif (a >= ASWITCH) then
-            gammpapprox a x true
+        //if (x < 0.0 || a <= 0.0) then failwith ("bad args in gammp")
+        match x with
+        | x when x = 0. -> 0.
+        | x when (x < 0.0 || a <= 0.0) -> nan
+        | x when (isPosInf x) -> 1.
+        | _ -> 
+            if (x= 0.0) then 0.0
+            elif (a >= ASWITCH) then
+                gammpapprox a x true
 
-        elif (x < a+1.0) then 1.0 - gser a x
-        else gcf a x
+            elif (x < a+1.0) then 1.0 - gser a x
+            else gcf a x
 
 
 

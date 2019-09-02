@@ -85,7 +85,7 @@ module Matrix = begin
         let sum a = MS.sumM a
         /// Computes the product of all matrix elements.
         let prod a = MS.prodM a
-        ///
+        ///Frobenius matrix norm
         let norm a = MS.normM a
         /// Returns the transpose of matrix a 
         let transpose a = MS.transM a
@@ -120,6 +120,7 @@ module Matrix = begin
         ///
         let mapi f a = MS.mapiM f a
         ///
+        //TO_DO: refactor to take an Direction union case and use more descriptive name
         let getDiagN a n = MS.getDiagnM a n
         ///
         let getDiag a = MS.getDiagnM a 0
@@ -243,25 +244,43 @@ module Matrix = begin
     let get (a:matrix) i j   = MG.get a i j
     let set (a:matrix) i j x = MG.set a i j x    
     // Creation
+    ///returns a dense matrix with m rows and n rows, applying the init function with the two indices as arguments
     let init  m n f = DS.initDenseMatrixDS  m n f |> MS.dense 
+    ///returns a dense matrix with the inner lists of the input jagged list as its rows
     let ofJaggedList     xss   = DS.listDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner lists of the input jagged list as its columns
     let ofJaggedColList  xss   = DS.colListDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner lists of the input jagged list as its rows
     let ofJaggedSeq      xss   = DS.seqDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner lists of the input jagged list as its columns
     let ofJaggedColSeq   xss   = DS.colSeqDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner lists of the input jagged list as its rows
     let ofJaggedArray    xss   = DS.arrayDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner lists of the input jagged list as its columns
     let ofJaggedColArray xss   = DS.colArrayDenseMatrixDS    xss |> MS.dense
+    ///
     let diag  (v:vector)   = MG.diag v 
+    ///
+    //TO-DO: this should do something else as Matrix.diag. E.g. int -> (int -> float) -> Matrix<float>
     let initDiagonal  (v:vector)   = MG.diag v 
+    ///
     let constDiag  n x : matrix  = MG.constDiag n x 
+    ///
+    //TO-DO: maybe rename to constCreate
     let create  m n x  = DS.constDenseMatrixDS  m n x |> MS.dense
+    ///
     let ofScalar x     = DS.scalarDenseMatrixDS x |> MS.dense
-
+    ///
     let ofArray2D arr : matrix = MG.ofArray2D arr
+    ///
     let toArray2D (m : matrix) = MG.toArray2D m
+    ///
     let toJaggedArray (m: matrix) = MG.toJaggedArray m 
+    ///
     let getDiagN  (a:matrix) n = MG.getDiagN a n
+    ///
     let getDiag  (a:matrix) = MG.getDiag a
-    // Operators
+
     // Operators
     /// Performs a element wise addition of matrices a and b (a+b).
     /// Only usable if both matrices have the same dimensions.
@@ -367,6 +386,21 @@ module Matrix = begin
     /// i2*n matrix.
     /// Only usable if (i1+i2-1) does not exceed m.
     let getRows (a:matrix) i1 i2 = MG.getRows a i1 i2
+
+    let countBy f (a:matrix) =
+        let n = a.NumCols * a.NumRows
+        let (r,c) = a.Dimensions
+        let rec loop ir ic acc =
+            if ir = r then
+                if ic = c then
+                    [true,acc;false,n - acc]
+                else loop ir (ic+1) (if f a.[ir,ic] then acc + 1 else acc)
+            else 
+                if ic = c then
+                    loop (ir+1) 0 acc
+                else loop (ir+1) (ic+1) (if f a.[ir,ic] then acc + 1 else acc)
+        loop 0 0 0
+
     /// Accesses the m*n matrix a and returns a total of i2 rows and j2 columns starting from row index i1 and colum index j1. The Result is a new
     /// i2*j2 matrix.
     /// Only usable if (i1+i2-1) does not exceed m and (j1+j2-1) does not exceed n.
@@ -522,6 +556,90 @@ module Matrix = begin
             
     /// Iterates the given Matrix column wise and places every element in a new vector with length n*m.
     let flattenColWise (a: matrix) = Generic.flattenColWise a 
+
+    /// Removes a row at a given index
+    let removeRowAt (index:int) (m:Matrix<'T>) : Matrix<'T> =
+        let nRows,nCols = m.Dimensions
+        //let nm = Matrix.Generic.zero (nRows-1) nCols
+        let nm = MG.zero (nRows-1) nCols
+        let rec loop nRowI rowI =
+            if rowI < 0 then
+                nm
+            else
+                if rowI <> index then
+                    for colI=0 to nCols-1 do
+                        nm.[nRowI,colI] <- m.[rowI,colI]
+                    loop (nRowI-1) (rowI-1) 
+                else
+                    loop (nRowI) (rowI-1) 
+    
+        loop (nRows-2) (nRows-1)
+
+    /// Removes a column at a given index
+    let removeColAt index (m:Matrix<_>) =
+        let nRows,nCols = m.Dimensions
+        //let nm = Matrix.Generic.zero nRows (nCols-1)
+        let nm = MG.zero nRows (nCols-1)
+        let rec loop nColI colI =
+            if nColI < 0 then
+                nm
+            else
+                if colI <> index then
+                    for rowI=0 to nRows-1 do
+                        nm.[rowI,nColI] <- m.[rowI,colI]
+                    loop (nColI-1) (colI-1) 
+                else
+                    loop (nColI) (colI-1) 
+    
+        loop (nRows-2) (nRows-1)
+
+    /// Splits a matrix along row direction according to given indices. Returns (matrix including rows according to indices, rest)
+    let splitRows (indices:int[]) (m:Matrix<_>) =
+
+        let nRows,nCols = m.Dimensions
+        //let nm  = Matrix.Generic.zero (nRows-indices.Length) nCols
+        //let nmi = Matrix.Generic.zero indices.Length nCols
+        let nm  = MG.zero (nRows-indices.Length) nCols
+        let nmi = MG.zero indices.Length nCols
+        indices |> Array.sortInPlace
+        let rec loop nRowI nRowIi rowI =
+            match rowI with
+            | i as rowI when rowI < 0 -> nmi,nm
+            | i as rowI when nRowIi >= 0 && rowI = indices.[nRowIi] ->
+                for colI=0 to nCols-1 do
+                    nmi.[nRowIi,colI] <- m.[rowI,colI]                
+                loop (nRowI) (nRowIi-1) (rowI-1)                       
+            | _ -> //i as rowI when rowI <> indices.[ii] ->
+                for colI=0 to nCols-1 do
+                    nm.[nRowI,colI] <- m.[rowI,colI]
+                loop (nRowI-1) (nRowIi) (rowI-1) 
+    
+        loop (nRows-1-indices.Length) (indices.Length-1) (nRows-1)
+
+
+    /// Splits a matrix along column direction according to given indices. Returns (matrix including cols according to indices, rest)
+    let splitCols (indices:int[]) (m:Matrix<_>) =
+        let nRows,nCols = m.Dimensions
+        //let nm  = Matrix.Generic.zero nRows (nCols-indices.Length)
+        //let nmi = Matrix.Generic.zero nRows indices.Length 
+        let nm  = MG.zero nRows (nCols-indices.Length)
+        let nmi = MG.zero nRows indices.Length 
+        indices |> Array.sortInPlace
+        let rec loop nColI nColIi colI =
+            match colI with
+            | i as colI when colI < 0 -> nmi,nm
+            | i as colI when nColIi >= 0 && colI = indices.[nColIi] ->
+                for rowI=0 to nRows-1 do
+                    nmi.[rowI,nColIi] <- m.[rowI,colI]                
+                loop (nColI) (nColIi-1) (colI-1)                       
+            | _ -> //i as rowI when rowI <> indices.[ii] ->
+                for rowI=0 to nRows-1 do
+                    nm.[rowI,nColI] <- m.[rowI,colI]
+                loop (nColI-1) (nColIi) (colI-1) 
+    
+        loop (nCols-1-indices.Length) (indices.Length-1) (nCols-1)
+
+
             
 end
 

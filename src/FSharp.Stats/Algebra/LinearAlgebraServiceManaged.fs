@@ -25,8 +25,8 @@ module LinearAlgebraManaged =
         //(Matrix.ofArray2D umatrix,s,Matrix.ofArray2D vmatrix)
     
     let symmetricEigenspectrum (a:matrix) = 
-        EVD.symmetricEvd (a.ToArray2D())
-        |> EVD.getRealEigenvalues
+        let (e,v,d) = EVD.symmetricEvd (a.ToArray2D())
+        (Matrix.ofArray2D v,vector d)
 
 
     let EigenSpectrum A = NYI()

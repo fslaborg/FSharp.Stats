@@ -1,72 +1,24 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/FSharp.Stats/net461"
-#r "../../packages/build/FSharp.Plotly/lib/net45/Fsharp.Plotly.dll"
-open FSharp.Plotly
+#I "../../bin/FSharp.Stats/net47"
+#r @"FSharp.Stats.dll"
+#r "netstandard.dll"
+
 (**
 #Statistical testing
-
-
-FSharp.Stats a provides 
+FSharp.Stats a provides hypothesis tests for different applications.
 A hypothesis test is a statistical test that is used to determine whether there is enough evidence 
 in a sample of data to infer that a certain condition is true for the entire population. 
 A hypothesis test examines two opposing hypotheses about a population: the null hypothesis and the alternative hypothesis.
-
 <a name="TestStatistics"></a>
-
 ##Test Statistics
-
 <a name="Anova"></a>
-
 ##Anova
-
-<a name="TTest"></a>
-
-##T-Test
-
-<a name="ChiSquareTest"></a>
-
-##Chi-Squared Test
-
-<a name="Bartlett"></a>
-
-##Bartlett
-
-<a name="PostHoc"></a>
-
-##PostHoc
-
-<a name="PvalueAdjust"></a>
-
-##Adjusting P-Values
-
 *)
-#r "FSharp.Stats.dll"
-#r "netstandard.dll"
+
 open FSharp.Stats
 open FSharp.Stats.Testing
-
-
-let sample1 = [|-0.2268419965; -0.3772357485|] |> FSharp.Stats.Vector.ofArray
-let sample2 = [|-0.6076633409; -0.1781469665|] |> FSharp.Stats.Vector.ofArray
-
-Testing.TTest.twoSample false sample1  sample2
-
-// Example from:  http://www.statstutor.ac.uk/resources/uploaded/paired-t-test.pdf
-// A paired t-test is used to compare two population means where you have two samples in
-// which observations in one sample can be paired with observations in the other sample.
-// Examples of where this might occur are:
-//      -   Before-and-after observations on the same subjects (e.g. students’ diagnostic test
-//          results before and after a particular module or course).
-//      -   A comparison of two different methods of measurement or two different treatments
-//          where the measurements/treatments are applied to the same subjects (e.g. blood
-//          pressure measurements using a stethoscope and a dynamap).
-
-let sampleP1 = vector [18.;21.;16.;22.;19.;24.;17.;21.;23.;18.;14.;16.;16.;19.;18.;20.;12.;22.;15.;17.;]
-let sampleP2 = vector [22.;25.;17.;24.;16.;29.;20.;23.;19.;20.;15.;15.;18.;26.;18.;24.;18.;25.;19.;16.;]
-
-Testing.TTest.twoSamplePaired sampleP1 sampleP2
 
 // http://astatsa.com/OneWay_Anova_with_TukeyHSD/
 let dataOneWay =
@@ -77,8 +29,6 @@ let dataOneWay =
     [|1.26705653; 1.625320787; 1.266108976; 1.154187629; 1.268498943; 1.069518717;|];
     |]
 
-
-
 let contrastMatrix = 
     [| [|1.0;-1.0;0.0;0.0;|] ; [|1.0;0.0;-1.0;0.0;|] ; [|1.0;0.;0.0;-1.0;|] ; 
     [|0.0;1.0;-1.0;0.0;|]    ; [|0.0;1.0;0.0;-1.0;|] ;
@@ -86,194 +36,6 @@ let contrastMatrix =
     |]
 
 Anova.oneWayAnova dataOneWay
-
-//Testing.Hays contrastMatrix 
-
-Testing.PostHoc.Hays contrastMatrix dataOneWay 
-
-
-
-open TestStatistics
-        
-type Contrast = { Index            : int;                      
-                    L                : float;
-                    DegreesOfFreedom : float;
-                    MeanSquares      : float;
-                    Significance     : float;                      
-                    Statistic        : float;
-                    SumOfSquares     : float;
-                    }
-    
-let createContrast index l degreesOfFreedom meanSquares significance statistic sumOfSquares =
-    {Index = index; L = l; DegreesOfFreedom = degreesOfFreedom; MeanSquares = meanSquares; Significance = significance; Statistic = statistic; SumOfSquares = sumOfSquares;}
-
-
-//let sumOfSquareContrast (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =        
-//    let l           =  Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast 
-//    let denominator = (Array.map2 (fun a n -> (abs a) / (float n)) contrast sampleSizes) |> Array.sum
-//    (l * l / denominator,l)
-
-
-let Scheffe (contrastMatrix:float[][]) (data:float[][]) =
-
-    let calcStats (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =        
-        let l           =  Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast 
-        let denominator = (Array.map2 (fun c n -> (abs c) / (float n)) contrast sampleSizes) |> Array.sum
-        (l, denominator)
-        
-    // Sample sizes
-    let sizes = data |> Array.map (fun x -> x.Length)
-    let totalSize = sizes |> Array.sum
-    let groupCount = data.Length
-    // Degrees of freedom
-    let Db = float(groupCount - 1)
-    let Dw = float(totalSize - groupCount)
-    let Dt = groupCount * totalSize - 1
-
-    // Step 1. Calculate the mean within each group
-    let sampleMeans = data |> Array.map Seq.mean        
-    // Step 2. Calculate the sum of squares contrast associated
-    let stats = contrastMatrix |> Array.map (fun ar -> calcStats sizes sampleMeans ar)
-    // Step 3. Calculate the weighted "within-group" sum of squares
-    let Sw = 
-        data
-        |> Array.mapi (fun i ar -> 
-            let tmp =
-                ar 
-                |> Array.fold (fun acc elem -> 
-                    acc + ((elem-sampleMeans.[i])**2.0)) 0.0
-            float (sizes.[i] - 1) * tmp) |> Array.sum
-    let MSw = Sw / Dw // within-group mean square or MSerror
-    
-    // Step 5. Calculate the F statistic per contrast
-    Array.mapi  (fun i (l, denominator) ->
-        let fValue = ((l * l) / Db) / (MSw * denominator)
-        printfn "%f" ((l * l) / Db)
-        if nan.Equals(fValue) then
-            createContrast i l Db MSw nan nan Sw
-        else
-            let FTest = createFTest fValue Db Dw
-            createContrast i l Db MSw FTest.PValue fValue Sw   
-                ) stats
-
-
-Scheffe contrastMatrix dataOneWay 
-
-
-//let m1 = Seq.mean dataOneWay.[0]
-//let m2 = Seq.mean dataOneWay.[1]
-
-//let s1 = Seq.sum dataOneWay.[0]
-//let s2 = Seq.sum dataOneWay.[1]
-//let s3 = Seq.sum dataOneWay.[2]
-
-
-//let d = (m1-m2)**2.0
-//d / (3.926003843 * (1./5. + 1./5.))
-
-// http://www.statisticslectures.com/topics/posthoconewayanova/
-let dmg = 
-    [|
-     [|9.;8.;7.;8.;8.;9.;8.;|];
-     [|7.;6.;6.;7.;8.;7.;6.;|];
-     [|4.;3.;2.;3.;4.;3.;2.;|] ; 
-    |]
-
-let contrastMatrixDmg = 
-    [| 
-     [|1.0;-1.0;0.0;|] ; 
-     [|1.0;0.0;-1.0;|] ; 
-     [|0.0;1.0;-1.0;|]   
-    |]
-
-
-Scheffe contrastMatrixDmg dmg 
-
-// Tuky HSD
-
-
-
-dmg.[2] |> Seq.sum
-
-
-Anova.oneWayAnova dmg
-
-/// Tukey-Kramer approach
-let TukeyHSD (contrastMatrix:float[][]) (data:float[][]) =
-
-    let calcStats (msw:float) (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =        
-        let l           =  Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast 
-        let denominator = (Array.map2 (fun a n -> (abs a) * (msw / (float n))) contrast sampleSizes) |> Array.sum
-        //printfn "msw: %f d: %f" msw (denominator)
-        ((l / (sqrt (denominator))),l)
-        
-    // Sample sizes
-    let sizes = data |> Array.map (fun x -> x.Length)
-    let totalSize = sizes |> Array.sum
-    let groupCount = data.Length
-    // Degrees of freedom
-    let Db = float(groupCount - 1)
-    let Dw = float(totalSize - groupCount)
-    let Dt = groupCount * totalSize - 1
-
-    // Step 1. Calculate the mean within each group
-    let sampleMeans = data |> Array.map Seq.mean        
-
-    // Step 2. Calculate the "within-group" sum of squares
-    let Sw = data|> Array.mapi (fun i ar -> ar |> Array.fold (fun acc elem -> acc + ((elem-sampleMeans.[i])**2.0)) 0.0) |> Array.sum
-    let MSw = Sw / Dw // within-group mean square or MSerror
-    
-    // Step 3. 
-    let stats = contrastMatrix |> Array.map (fun ar -> calcStats MSw sizes sampleMeans ar)
-    
-    // Step 4. Calculate the F statistic per contrast
-    Array.mapi  (fun i (tValue,l)  ->
-                        if nan.Equals(tValue) then
-                            createContrast i l Db MSw nan nan Sw  
-                        else
-                            let TTest = createTTest tValue Dw
-                            createContrast i l Db MSw TTest.PValue TTest.Statistic Sw
-                                      
-                ) stats
-    
-
-
-
-//TukeyHSD contrastMatrixDmg dmg 
-// https://brownmath.com/stat/anova1.htm
-
-let dsd = 
-    [|
-     //[|7.;4.;6.;8.;6.;6.;2.;9.|];
-     //[|5.;5.;3.;4.;4.;7.;2.;2.|];
-     //[|2.;4.;7.;1.;2.;1.;5.;5.|] ; 
-        [|64.; 72.; 68.; 77.; 56.; 95.;|] ;
-        [|78.; 91.; 97.; 82.; 85.; 77.;|] ;
-        [|75.; 93.; 78.; 71.; 63.; 76.;|] ;
-        [|55.; 66.; 49.; 64.; 70.; 68.;|] ;   
-    |]
-
-let contrastMatrixDsd = contrastMatrix
-    //[| 
-     //[|1.0;-1.0;0.0;|] ; 
-     //[|1.0;0.0;-1.0;|] ; 
-     //[|0.0;1.0;-1.0;|]   
-    //|]
-
-dsd |> Array.map Array.average   
-   
-Anova.oneWayAnova dsd
-
-TukeyHSD contrastMatrixDsd dsd 
-
-
-
-let d1 = [159.;179.;100.;45.;384.;230.;100.;320.;80.;220.;320.;210.;]
-let d2 = [14.4;15.2;11.3;2.5;22.7;14.9;1.41;15.81;4.19;15.39;17.25;9.52; ]
-    
-
-Testing.FisherHotelling.test d1 d2
-
 
 // https://www.wessa.net/rwasp_Two%20Factor%20ANOVA.wasp
 
@@ -351,74 +113,150 @@ let data' =
 Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
 
 
-
-
-//qValue
-// Example
-let pvalues =
-    //"D:/OneDrive/Development/_Current/Pep/pvalDavidTest.txt"
-    //"C:/Users/muehl/OneDrive/Development/_Current/Pep/output.txt"
-    "C:/Users/muehl/OneDrive/Development/_Current/Pep/output.txt"
-    |> System.IO.File.ReadLines
-    |> Seq.map float 
-    |> Seq.toArray
-
-
-let bindBy (objArr:float[]) (arr:float[]) =
-    let arr' = Array.copy arr
-    let index = Array.init arr.Length id
-    System.Array.Sort(objArr,index)
-    for i=1 to arr'.Length-1 do
-        if arr'.[index.[i]] < arr'.[index.[i-1]] then
-            arr'.[index.[i]] <- arr'.[index.[i-1]]
-    arr'
-
-/// Calculates q-values from given p-values.
-let ofPValues (pi0:float) (pvalues:float[]) =        
-    let m0 = float pvalues.Length * pi0
-    pvalues
-    |> Rank.rankAverage
-    |> Array.mapi (fun i r -> 
-        let qval = pvalues.[i] * m0 / r  
-        min qval 1.
-        )
-    |> bindBy pvalues
-
-
-// 0.6763407 from Storey R! devtools
-let pi0 = Testing.PvalueAdjust.Qvalues.pi0_Bootstrap [|0.0 ..0.05..0.9|] pvalues
-let qvalues  = Testing.PvalueAdjust.Qvalues.ofPValues pi0 pvalues
-//let qvalues  = ofPValues pi0 pvalues
-
-
-qvalues |> Seq.filter (fun x -> x < 0.1) |> Seq.length
-
-FSharp.Plotly.Chart.Point (pvalues,qvalues)
-//|> FSharp.Plotly.Chart.Show
-
-FSharp.Plotly.Chart.Histogram( pvalues, HistNorm=FSharp.Plotly.StyleParam.HistNorm.Probability)
-//|> FSharp.Plotly.Chart.Show
+(**
+<a name="TTest"></a>
+##T-Test
+Standard example for using the two sample T-Test.
+*)
 
 
 
-Rank.rankAverage pvalues
+let sample1 = [|-0.2268419965; -0.3772357485|] |> FSharp.Stats.Vector.ofArray
+let sample2 = [|-0.6076633409; -0.1781469665|] |> FSharp.Stats.Vector.ofArray
 
-Rank.rankAverage [|1.;0.2;0.2;2.;3.;2.|]
+Testing.TTest.twoSample false sample1 sample2
 
-Rank.rankMin [|1.;0.2;0.2;2.;3.;2.|]
-Rank.rankMax [|1.;0.2;0.2;2.;3.;2.|]
+(**
+Example from:  http://www.statstutor.ac.uk/resources/uploaded/paired-t-test.pdf.
+A paired t-test is used to compare two population means where you have two samples in
+which observations in one sample can be paired with observations in the other sample.
+Examples of where this might occur are:
+     -   Before-and-after observations on the same subjects (e.g. students’ diagnostic test
+         results before and after a particular module or course).
+     -   A comparison of two different methods of measurement or two different treatments
+         where the measurements/treatments are applied to the same subjects (e.g. blood
+         pressure measurements using a stethoscope and a dynamap).
+*)
+
+let sampleP1 = vector [18.;21.;16.;22.;19.;24.;17.;21.;23.;18.;14.;16.;16.;19.;18.;20.;12.;22.;15.;17.;]
+let sampleP2 = vector [22.;25.;17.;24.;16.;29.;20.;23.;19.;20.;15.;15.;18.;26.;18.;24.;18.;25.;19.;16.;]
+
+Testing.TTest.twoSamplePaired sampleP1 sampleP2
+
+(**
+<a name="ChiSquareTest"></a>
+##Chi-Squared Test
+<a name="Bartlett"></a>
+##Bartlett
+<a name="PostHoc"></a>
+##PostHoc
+
+This test uses the data shown for Anova.
+*)
+
+
+open PostHoc
+
+Testing.PostHoc.hays contrastMatrix dataOneWay 
+
+
+//let m1 = Seq.mean dataOneWay.[0]
+//let m2 = Seq.mean dataOneWay.[1]
+
+//let s1 = Seq.sum dataOneWay.[0]
+//let s2 = Seq.sum dataOneWay.[1]
+//let s3 = Seq.sum dataOneWay.[2]
+
+
+//let d = (m1-m2)**2.0
+//d / (3.926003843 * (1./5. + 1./5.))
+
+// http://www.statisticslectures.com/topics/posthoconewayanova/
+let dmg = 
+    [|
+     [|9.;8.;7.;8.;8.;9.;8.;|];
+     [|7.;6.;6.;7.;8.;7.;6.;|];
+     [|4.;3.;2.;3.;4.;3.;2.;|] ; 
+    |]
+
+let contrastMatrixDmg = 
+    [| 
+     [|1.0;-1.0;0.0;|] ; 
+     [|1.0;0.0;-1.0;|] ; 
+     [|0.0;1.0;-1.0;|]   
+    |]
+
+
+Testing.PostHoc.hays contrastMatrixDmg dmg 
+
+Anova.oneWayAnova dmg
+
+
+//TukeyHSD contrastMatrixDmg dmg 
+// https://brownmath.com/stat/anova1.htm
+
+let dsd = 
+    [|
+     //[|7.;4.;6.;8.;6.;6.;2.;9.|];
+     //[|5.;5.;3.;4.;4.;7.;2.;2.|];
+     //[|2.;4.;7.;1.;2.;1.;5.;5.|] ; 
+        [|64.; 72.; 68.; 77.; 56.; 95.;|] ;
+        [|78.; 91.; 97.; 82.; 85.; 77.;|] ;
+        [|75.; 93.; 78.; 71.; 63.; 76.;|] ;
+        [|55.; 66.; 49.; 64.; 70.; 68.;|] ;   
+    |]
+
+let contrastMatrixDsd = contrastMatrix //used in docs for "Anova"
+
+Anova.oneWayAnova dsd
+
+tukeyHSD contrastMatrixDsd dsd 
+
+
+let d1 = [159.;179.;100.;45.;384.;230.;100.;320.;80.;220.;320.;210.;]
+let d2 = [14.4;15.2;11.3;2.5;22.7;14.9;1.41;15.81;4.19;15.39;17.25;9.52; ]
+    
+
+Testing.FisherHotelling.test d1 d2
+
+//Testing.Hays contrastMatrix 
+
+(**
+<a name="PvalueAdjust"></a>
+
+##Multiple Testing
+
+### Q Value
+*)
+
+
+let pValues =
+    [|
+        0.000002;0.000048;0.000096;0.000096;0.000351;0.000368;0.000368;0.000371;0.000383;0.000383;0.000705;0.000705;0.000705;0.000705;0.000739;0.00101;0.001234;0.001509;0.001509;0.001509;0.001509;0.001686;0.001686;0.001964;0.001964;0.001964;0.001964;0.001964;0.001964;0.001964;0.002057;0.002295;0.002662;0.002662
+        ;0.002662;0.002662;0.002662;0.002662;0.002662;0.002672;0.002714;0.002922;0.00348;0.004066;0.004176;0.004176;0.004562;0.004562;0.005848;0.005848;0.006277;0.007024;0.007614;0.007614;0.007614;0.007614;0.007614;0.00979;0.01049;0.01049;0.012498;0.012498;0.012498;0.017908;0.018822;0.019003;0.019003;0.019003
+        ;0.020234;0.02038;0.021317;0.023282;0.026069;0.026773;0.027255;0.027255;0.027255;0.027255;0.0274;0.030338;0.03128;0.034516;0.034516;0.037267;0.037267;0.040359;0.042706;0.043506;0.04513;0.04513;0.047135;0.049261;0.049261;0.049261;0.049261;0.049333;0.050457;0.052112;0.052476;0.060504;0.063031;0.063031
+        ;0.063031;0.063031;0.065316;0.065316;0.066751;0.067688;0.069676;0.073043;0.078139;0.078594;0.078594;0.095867;0.098913;0.102606;0.102606;0.102606;0.107444;0.116213;0.126098;0.135099;0.135099;0.159786;0.179654;0.199372;0.203542;0.203542;0.211249;0.211968;0.226611;0.228287;0.238719;0.247204;0.263942
+        ;0.263942;0.289175;0.306064;0.330191;0.330191;0.340904;0.343869;0.350009;0.355614;0.355614;0.359354;0.386018;0.386018;0.434486;0.438791;0.464694;0.471015;0.4715;0.479307;0.490157;0.505652;0.539465;0.539465;0.558338;0.558338;0.601991;0.61052;0.634365;0.637835;0.677506;0.678222;0.727881;0.748533
+        ;0.753718;0.758701;0.810979;0.838771;0.854833;0.872159;0.878727;0.890621;0.916361;0.954779;0.98181;0.985365;0.986261;0.98958;0.99861;0.99861;0.999602;0.999895
+    |] |> Array.sort
+
+let pi0 = 
+    pValues
+    |> MultipleTesting.Qvalues.pi0Bootstrap 
+
+pValues
+|> MultipleTesting.Qvalues.ofPValues pi0
+
+pValues
+|> MultipleTesting.Qvalues.ofPValuesRobust pi0 
+
+(**
+### Benajmini-Hochberg
+
+*)
+
+MultipleTesting.benjaminiHochbergFDRBy (fun x -> x,x) pValues
+|> List.rev
 
 
 
-
-bindBy [|1.;0.2;0.2;2.;3.;2.|] [|1.;0.3;0.2;2.;3.;4.|]
-
-
-let bind (arr:float[]) =
-    let arr' = Array.copy arr
-    for i=1 to arr'.Length-1 do
-        if arr'.[i] < arr'.[i-1] then
-            arr'.[i] <- arr'.[i-1]
-    arr'
-
-bind [|1.;0.2;0.2;2.;3.;2.|]
