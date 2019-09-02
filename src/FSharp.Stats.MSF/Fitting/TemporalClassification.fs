@@ -118,9 +118,13 @@ module TemporalClassification =
         | In0 //monotonically increasing
         | In1 //1 maximum
         | In2 //2 maxima
+        | In3 //3 maxima
+        | In4 //4 maxima
         | De0 //monotonically decreasing
         | De1 //1 minimum
         | De2 //2 minima
+        | De3 //3 minima
+        | De4 //4 minima
         | Complex //more complex
 
     let getParentShape (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
@@ -136,6 +140,12 @@ module TemporalClassification =
         elif extremaCount = 2 then
             if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In2
             else De2
+        elif extremaCount = 3 then
+            if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In3
+            else De3
+        elif extremaCount = 4 then
+            if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In4
+            else De4
         else Complex
 
     //check the spline for the predefined condition
@@ -147,9 +157,13 @@ module TemporalClassification =
         | In0       -> extremaCount = 0 && a.[0] <= a.[n-1]
         | In1       -> extremaCount = 1 && (fst extrema.[0]) = 1.
         | In2       -> extremaCount = 2 && (fst extrema.[0]) = 1. && (fst extrema.[1]) = -1.
+        | In3       -> extremaCount = 3 && (fst extrema.[0]) = 1.
+        | In4       -> extremaCount = 4 && (fst extrema.[0]) = 1. && (fst extrema.[1]) = -1.
         | De0       -> extremaCount = 0 && a.[0] >= a.[n-1]
         | De1       -> extremaCount = 1 && (fst extrema.[0]) = -1.
         | De2       -> extremaCount = 2 && (fst extrema.[0]) = -1. && (fst extrema.[1]) = 1.
+        | De3       -> extremaCount = 3 && (fst extrema.[0]) = -1.
+        | De4       -> extremaCount = 4 && (fst extrema.[0]) = -1. && (fst extrema.[1]) = 1.
         | Complex   -> true
 
     let mapCondition (operator:Matrix<float> -> matrix) con =
@@ -158,6 +172,8 @@ module TemporalClassification =
         | x when con = 0 -> if mat = operator mat then Condition.De0 else Condition.In0
         | x when con = 1 -> if mat = operator mat then Condition.De1 else Condition.In1
         | x when con = 2 -> if mat = operator mat then Condition.De2 else Condition.In2
+        | x when con = 3 -> if mat = operator mat then Condition.De3 else Condition.In3
+        | x when con = 4 -> if mat = operator mat then Condition.De4 else Condition.In4
 
     type TempClassResult = {
         //spline function values at knots
@@ -539,7 +555,8 @@ module TemporalClassification =
                 [|Ctemp|]
 
             elif (con=1) then
-                for j = 3 to (n - 1) do 
+                //for j = 3 to (n - 1) do 
+                for j = 2 to (n - 1) do 
                     for i = 1 to (j-1) do
                         let temp = 
                             (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
@@ -568,7 +585,8 @@ module TemporalClassification =
                 |> Array.ofList 
                 
             elif con = 2 then
-                for m = 3 to (n-1) do 
+                //for m = 3 to (n-1) do 
+                for m = 2 to (n-1) do 
                     for j = (m+1) to (n-1) do //from 7 to 6 do
                         for i=1 to (m-1) do 
                             let temp = 
@@ -610,7 +628,8 @@ module TemporalClassification =
                 |> Array.ofList 
 
             elif con = 3 then
-                for m = 3 to (n-1) do 
+                //for m = 3 to (n-1) do 
+                for m = 2 to (n-1) do 
                     for j = (m+1) to (n-1) do
                         for k = (j+1) to (n-1) do
                             for i=1 to (m-1) do 
@@ -664,8 +683,78 @@ module TemporalClassification =
                             list <- (Matrix.copy Ctemp)::list
                 list
                 |> Array.ofList 
-            
-            else failwith "Condition max 3"
+                
+            elif con = 4 then
+                //for m = 3 to (n-1) do 
+                for m = 2 to (n-1) do 
+                    for j = (m+1) to (n-1) do
+                        for k = (j+1) to (n-1) do
+                            for l = (k+1) to (n-1) do //
+                                for i=1 to (m-1) do 
+                                    let temp = 
+                                        (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
+                                        |> vector
+                                    Matrix.setRow Ctemp (4*i-4) temp
+                                    Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
+                                    Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
+                                    Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
+                                    if i = m - 1 then
+                                        Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
+                                        Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                for i = m to j-1 do
+                                    let temp =                
+                                        (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
+                                        |> vector
+                                    Matrix.setRow Ctemp (4*i-4) (- temp)
+                                    Matrix.setRow Ctemp (4*i-3) (- (B.Row (i-1) |> vector))
+                                    Matrix.setRow Ctemp (4*i-2) (- (temp - (B.Row (i-1) |> vector)))
+                                    Matrix.setRow Ctemp (4*i-1) (- (temp - (B.Row (i) |> vector)))
+                                    if i = j - 1 then
+                                        Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-3) -(B.Row (i-1) |> vector)
+                                        Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                for i = j to k-1 do
+                                    let temp =                
+                                        (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
+                                        |> vector
+                                    Matrix.setRow Ctemp (4*i-4) (temp)
+                                    Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
+                                    Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
+                                    Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
+                                    if i = k - 1 then //if i = j - 1 then
+                                        Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector) 
+                                        Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                for i = k to l-1 do
+                                    let temp =                
+                                        (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
+                                        |> vector
+                                    Matrix.setRow Ctemp (4*i-4) (temp)
+                                    Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
+                                    Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
+                                    Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
+                                    if i = l - 1 then //if i = j - 1 then
+                                        Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector) 
+                                        Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                for i = l to n-1 do
+                                    let temp = 
+                                        (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
+                                        |> vector
+                                    Matrix.setRow Ctemp (4*i-4) (- temp)
+                                    Matrix.setRow Ctemp (4*i-3) (-(B.Row (i-1) |> vector))
+                                    Matrix.setRow Ctemp (4*i-2) (-(temp - (B.Row (i-1) |> vector)))
+                                    Matrix.setRow Ctemp (4*i-1) (-(temp - (B.Row (i) |> vector)))
+                                Matrix.setRow Ctemp (4*(n-1)) (- B.Row (n-1) |> vector)
+                                list <- (Matrix.copy Ctemp)::list
+                list
+                |> Array.ofList  
+            else failwith "Condition max 4"
 
         ///calculates the weighted squared error of the spline functions and the observation values at the knots
         let getError (y:Vector<float>) (a:Vector<float>) (W:Matrix<float>) =
@@ -939,9 +1028,17 @@ module TemporalClassification =
         let trd1 =(In2,splineIncreasing x_values (vector y_values) wMat 2) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.AICc x.SplineFunction)
         let trd2 =(De2,splineDecreasing x_values (vector y_values) wMat 2) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.AICc x.SplineFunction)
         let besttrd = [trd1;trd2] |> List.minBy (fun (cl,x) -> x.AICc)
+        //splines with three extremum
+        let qua1 =(In3,splineIncreasing x_values (vector y_values) wMat 3) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.06) x.Lambda x.Ctemp x.AICc x.SplineFunction)
+        let qua2 =(De3,splineDecreasing x_values (vector y_values) wMat 3) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.06) x.Lambda x.Ctemp x.AICc x.SplineFunction)
+        let bestqua = [qua1;qua2] |> List.minBy (fun (cl,x) -> x.AICc)                                                               
+        //splines with four extrema                                                                                                                                             
+        let qui1 =(In4,splineIncreasing x_values (vector y_values) wMat 4) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.AICc x.SplineFunction)
+        let qui2 =(De4,splineDecreasing x_values (vector y_values) wMat 4) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.AICc x.SplineFunction)
+        let bestqui = [qui1;qui2] |> List.minBy (fun (cl,x) -> x.AICc)
 
         //selection of optimal shape possibility by model selection via AICc 
-        [bestfst;bestsnd;besttrd]
+        [bestfst;bestsnd;besttrd;bestqua;bestqui]
         |> List.minBy (fun (cl,result) -> result.AICc)
         |> fun (cl,result) -> if result.AICc < initialSelectionCriterion then (cl,result) else Complex,result        
 
