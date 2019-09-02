@@ -119,8 +119,8 @@ Only usable if both matrices have the same dimensions.</p>
             colRange(a)
           </code>
           <div class="tip" id="431">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?10472&gt; -&gt; int * int<br />
-                          <strong>Type parameters:</strong> '?10472                      </div>
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10485&gt; -&gt; int * int<br />
+                          <strong>Type parameters:</strong> '?10485                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L409-409" class="github-link">
@@ -388,8 +388,8 @@ Only usable if both matrices have the same dimensions.</p>
             enumerateColumnWise f m
           </code>
           <div class="tip" id="445">
-            <strong>Signature:</strong> f:(seq&lt;float&gt; -&gt; &#39;?10534) -&gt; m:matrix -&gt; seq&lt;&#39;?10534&gt;<br />
-                          <strong>Type parameters:</strong> '?10534                      </div>
+            <strong>Signature:</strong> f:(seq&lt;float&gt; -&gt; &#39;?10547) -&gt; m:matrix -&gt; seq&lt;&#39;?10547&gt;<br />
+                          <strong>Type parameters:</strong> '?10547                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L549-549" class="github-link">
@@ -408,8 +408,8 @@ Only usable if both matrices have the same dimensions.</p>
             enumerateRowWise f m
           </code>
           <div class="tip" id="446">
-            <strong>Signature:</strong> f:(seq&lt;float&gt; -&gt; &#39;?10530) -&gt; m:matrix -&gt; seq&lt;&#39;?10530&gt;<br />
-                          <strong>Type parameters:</strong> '?10530                      </div>
+            <strong>Signature:</strong> f:(seq&lt;float&gt; -&gt; &#39;?10543) -&gt; m:matrix -&gt; seq&lt;&#39;?10543&gt;<br />
+                          <strong>Type parameters:</strong> '?10543                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L543-543" class="github-link">
@@ -512,8 +512,8 @@ the matrix is reached.</p>
             fold f z a
           </code>
           <div class="tip" id="451">
-            <strong>Signature:</strong> f:(&#39;?10449 -&gt; float -&gt; &#39;?10449) -&gt; z:&#39;?10449 -&gt; a:matrix -&gt; &#39;?10449<br />
-                          <strong>Type parameters:</strong> '?10449                      </div>
+            <strong>Signature:</strong> f:(&#39;?10462 -&gt; float -&gt; &#39;?10462) -&gt; z:&#39;?10462 -&gt; a:matrix -&gt; &#39;?10462<br />
+                          <strong>Type parameters:</strong> '?10462                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L346-346" class="github-link">
@@ -589,8 +589,8 @@ If the input function is f and the elements are i0...iN, then this function comp
             foldi f z a
           </code>
           <div class="tip" id="455">
-            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10451 -&gt; float -&gt; &#39;?10451) -&gt; z:&#39;?10451 -&gt; a:matrix -&gt; &#39;?10451<br />
-                          <strong>Type parameters:</strong> '?10451                      </div>
+            <strong>Signature:</strong> f:(int -&gt; int -&gt; &#39;?10464 -&gt; float -&gt; &#39;?10464) -&gt; z:&#39;?10464 -&gt; a:matrix -&gt; &#39;?10464<br />
+                          <strong>Type parameters:</strong> '?10464                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L352-352" class="github-link">
@@ -1493,8 +1493,8 @@ and their row (m) and column (n) indicies.</p>
             of_seq(xss)
           </code>
           <div class="tip" id="501">
-            <strong>Signature:</strong> xss:seq&lt;&#39;?10511&gt; -&gt; Matrix&lt;float&gt;<br />
-                          <strong>Type parameters:</strong> '?10511                      </div>
+            <strong>Signature:</strong> xss:seq&lt;&#39;?10524&gt; -&gt; Matrix&lt;float&gt;<br />
+                          <strong>Type parameters:</strong> '?10524                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L448-448" class="github-link">
@@ -1607,8 +1607,8 @@ and their row (m) and column (n) indicies.</p>
             ofJaggedColSeq(xss)
           </code>
           <div class="tip" id="507">
-            <strong>Signature:</strong> xss:seq&lt;&#39;?10413&gt; -&gt; Matrix&lt;float&gt;<br />
-                          <strong>Type parameters:</strong> '?10413                      </div>
+            <strong>Signature:</strong> xss:seq&lt;&#39;?10426&gt; -&gt; Matrix&lt;float&gt;<br />
+                          <strong>Type parameters:</strong> '?10426                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L256-256" class="github-link">
@@ -1774,9 +1774,49 @@ and their row (m) and column (n) indicies.</p>
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '516', 516)" onmouseover="showTip(event, '516', 516)">
-            rowPopulationCovarianceMatrixOf(...)
+            removeColAt index m
           </code>
           <div class="tip" id="516">
+            <strong>Signature:</strong> index:int -&gt; m:Matrix&lt;&#39;?10555&gt; -&gt; Matrix&lt;&#39;?10555&gt;<br />
+                          <strong>Type parameters:</strong> '?10555                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L579-579" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Removes a column at a given index</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '517', 517)" onmouseover="showTip(event, '517', 517)">
+            removeRowAt index m
+          </code>
+          <div class="tip" id="517">
+            <strong>Signature:</strong> index:int -&gt; m:Matrix&lt;&#39;T&gt; -&gt; Matrix&lt;&#39;T&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L561-561" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Removes a row at a given index</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '518', 518)" onmouseover="showTip(event, '518', 518)">
+            rowPopulationCovarianceMatrixOf(...)
+          </code>
+          <div class="tip" id="518">
             <strong>Signature:</strong> dataMatrix:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
@@ -1793,12 +1833,12 @@ and their row (m) and column (n) indicies.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '517', 517)" onmouseover="showTip(event, '517', 517)">
+          <code onmouseout="hideTip(event, '519', 519)" onmouseover="showTip(event, '519', 519)">
             rowRange(a)
           </code>
-          <div class="tip" id="517">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?10470&gt; -&gt; int * int<br />
-                          <strong>Type parameters:</strong> '?10470                      </div>
+          <div class="tip" id="519">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10483&gt; -&gt; int * int<br />
+                          <strong>Type parameters:</strong> '?10483                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L408-408" class="github-link">
@@ -1811,10 +1851,10 @@ and their row (m) and column (n) indicies.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '518', 518)" onmouseover="showTip(event, '518', 518)">
+          <code onmouseout="hideTip(event, '520', 520)" onmouseover="showTip(event, '520', 520)">
             rowSampleCovarianceMatrixOf(dataMatrix)
           </code>
-          <div class="tip" id="518">
+          <div class="tip" id="520">
             <strong>Signature:</strong> dataMatrix:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
@@ -1831,10 +1871,10 @@ and their row (m) and column (n) indicies.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '519', 519)" onmouseover="showTip(event, '519', 519)">
+          <code onmouseout="hideTip(event, '521', 521)" onmouseover="showTip(event, '521', 521)">
             scale a b
           </code>
-          <div class="tip" id="519">
+          <div class="tip" id="521">
             <strong>Signature:</strong> a:float -&gt; b:matrix -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
@@ -1851,10 +1891,10 @@ and their row (m) and column (n) indicies.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '520', 520)" onmouseover="showTip(event, '520', 520)">
+          <code onmouseout="hideTip(event, '522', 522)" onmouseover="showTip(event, '522', 522)">
             set a i j x
           </code>
-          <div class="tip" id="520">
+          <div class="tip" id="522">
             <strong>Signature:</strong> a:matrix -&gt; i:int -&gt; j:int -&gt; x:float -&gt; unit<br />
                                   </div>
         </td>
@@ -1869,12 +1909,12 @@ and their row (m) and column (n) indicies.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '521', 521)" onmouseover="showTip(event, '521', 521)">
+          <code onmouseout="hideTip(event, '523', 523)" onmouseover="showTip(event, '523', 523)">
             setCol a j v
           </code>
-          <div class="tip" id="521">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?10464&gt; -&gt; j:int -&gt; v:Vector&lt;&#39;?10464&gt; -&gt; unit<br />
-                          <strong>Type parameters:</strong> '?10464                      </div>
+          <div class="tip" id="523">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10477&gt; -&gt; j:int -&gt; v:Vector&lt;&#39;?10477&gt; -&gt; unit<br />
+                          <strong>Type parameters:</strong> '?10477                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L380-380" class="github-link">
@@ -1889,10 +1929,10 @@ and their row (m) and column (n) indicies.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '522', 522)" onmouseover="showTip(event, '522', 522)">
+          <code onmouseout="hideTip(event, '524', 524)" onmouseover="showTip(event, '524', 524)">
             setRow a i v
           </code>
-          <div class="tip" id="522">
+          <div class="tip" id="524">
             <strong>Signature:</strong> a:Matrix&lt;&#39;a&gt; -&gt; i:int -&gt; v:Vector&lt;&#39;a&gt; -&gt; unit<br />
                           <strong>Type parameters:</strong> 'a                      </div>
         </td>
@@ -1909,10 +1949,50 @@ and their row (m) and column (n) indicies.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '523', 523)" onmouseover="showTip(event, '523', 523)">
+          <code onmouseout="hideTip(event, '525', 525)" onmouseover="showTip(event, '525', 525)">
+            splitCols indices m
+          </code>
+          <div class="tip" id="525">
+            <strong>Signature:</strong> indices:int [] -&gt; m:Matrix&lt;&#39;?10559&gt; -&gt; Matrix&lt;&#39;?10559&gt; * Matrix&lt;&#39;?10559&gt;<br />
+                          <strong>Type parameters:</strong> '?10559                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L621-621" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Splits a matrix along column direction according to given indices. Returns (matrix including cols according to indices, rest)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '526', 526)" onmouseover="showTip(event, '526', 526)">
+            splitRows indices m
+          </code>
+          <div class="tip" id="526">
+            <strong>Signature:</strong> indices:int [] -&gt; m:Matrix&lt;&#39;a&gt; -&gt; Matrix&lt;&#39;a&gt; * Matrix&lt;&#39;a&gt;<br />
+                          <strong>Type parameters:</strong> 'a                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L597-597" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Splits a matrix along row direction according to given indices. Returns (matrix including rows according to indices, rest)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '527', 527)" onmouseover="showTip(event, '527', 527)">
             sub a b
           </code>
-          <div class="tip" id="523">
+          <div class="tip" id="527">
             <strong>Signature:</strong> a:matrix -&gt; b:matrix -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
@@ -1930,10 +2010,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '524', 524)" onmouseover="showTip(event, '524', 524)">
+          <code onmouseout="hideTip(event, '528', 528)" onmouseover="showTip(event, '528', 528)">
             sum(a)
           </code>
-          <div class="tip" id="524">
+          <div class="tip" id="528">
             <strong>Signature:</strong> a:matrix -&gt; float<br />
                                   </div>
         </td>
@@ -1948,10 +2028,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '525', 525)" onmouseover="showTip(event, '525', 525)">
+          <code onmouseout="hideTip(event, '529', 529)" onmouseover="showTip(event, '529', 529)">
             sumColumns(a)
           </code>
-          <div class="tip" id="525">
+          <div class="tip" id="529">
             <strong>Signature:</strong> a:matrix -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
@@ -1968,10 +2048,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '526', 526)" onmouseover="showTip(event, '526', 526)">
+          <code onmouseout="hideTip(event, '530', 530)" onmouseover="showTip(event, '530', 530)">
             sumRows(a)
           </code>
-          <div class="tip" id="526">
+          <div class="tip" id="530">
             <strong>Signature:</strong> a:matrix -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
@@ -1988,10 +2068,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '527', 527)" onmouseover="showTip(event, '527', 527)">
+          <code onmouseout="hideTip(event, '531', 531)" onmouseover="showTip(event, '531', 531)">
             to_array2D(m)
           </code>
-          <div class="tip" id="527">
+          <div class="tip" id="531">
             <strong>Signature:</strong> m:matrix -&gt; float [,]<br />
                                   </div>
         </td>
@@ -2006,10 +2086,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '528', 528)" onmouseover="showTip(event, '528', 528)">
+          <code onmouseout="hideTip(event, '532', 532)" onmouseover="showTip(event, '532', 532)">
             to_dense(x)
           </code>
-          <div class="tip" id="528">
+          <div class="tip" id="532">
             <strong>Signature:</strong> x:matrix -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
@@ -2024,10 +2104,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '529', 529)" onmouseover="showTip(event, '529', 529)">
+          <code onmouseout="hideTip(event, '533', 533)" onmouseover="showTip(event, '533', 533)">
             to_rowvec(x)
           </code>
-          <div class="tip" id="529">
+          <div class="tip" id="533">
             <strong>Signature:</strong> x:Matrix&lt;float&gt; -&gt; rowvec<br />
                                   </div>
         </td>
@@ -2042,10 +2122,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '530', 530)" onmouseover="showTip(event, '530', 530)">
+          <code onmouseout="hideTip(event, '534', 534)" onmouseover="showTip(event, '534', 534)">
             to_scalar(x)
           </code>
-          <div class="tip" id="530">
+          <div class="tip" id="534">
             <strong>Signature:</strong> x:Matrix&lt;float&gt; -&gt; float<br />
                                   </div>
         </td>
@@ -2060,10 +2140,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '531', 531)" onmouseover="showTip(event, '531', 531)">
+          <code onmouseout="hideTip(event, '535', 535)" onmouseover="showTip(event, '535', 535)">
             to_vector(x)
           </code>
-          <div class="tip" id="531">
+          <div class="tip" id="535">
             <strong>Signature:</strong> x:Matrix&lt;float&gt; -&gt; vector<br />
                                   </div>
         </td>
@@ -2078,10 +2158,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '532', 532)" onmouseover="showTip(event, '532', 532)">
+          <code onmouseout="hideTip(event, '536', 536)" onmouseover="showTip(event, '536', 536)">
             toArray2D(m)
           </code>
-          <div class="tip" id="532">
+          <div class="tip" id="536">
             <strong>Signature:</strong> m:matrix -&gt; float [,]<br />
                                   </div>
         </td>
@@ -2096,10 +2176,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '533', 533)" onmouseover="showTip(event, '533', 533)">
+          <code onmouseout="hideTip(event, '537', 537)" onmouseover="showTip(event, '537', 537)">
             toDense(a)
           </code>
-          <div class="tip" id="533">
+          <div class="tip" id="537">
             <strong>Signature:</strong> a:matrix -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
@@ -2116,10 +2196,10 @@ Only usable if both matrices have the same dimensions.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '534', 534)" onmouseover="showTip(event, '534', 534)">
+          <code onmouseout="hideTip(event, '538', 538)" onmouseover="showTip(event, '538', 538)">
             toDiagonal(a)
           </code>
-          <div class="tip" id="534">
+          <div class="tip" id="538">
             <strong>Signature:</strong> a:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
@@ -2137,10 +2217,10 @@ Warning: diagonal matrices can only be computed for square input matrices.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '535', 535)" onmouseover="showTip(event, '535', 535)">
+          <code onmouseout="hideTip(event, '539', 539)" onmouseover="showTip(event, '539', 539)">
             toJaggedArray(m)
           </code>
-          <div class="tip" id="535">
+          <div class="tip" id="539">
             <strong>Signature:</strong> m:matrix -&gt; float [] []<br />
                                   </div>
         </td>
@@ -2155,10 +2235,10 @@ Warning: diagonal matrices can only be computed for square input matrices.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '536', 536)" onmouseover="showTip(event, '536', 536)">
+          <code onmouseout="hideTip(event, '540', 540)" onmouseover="showTip(event, '540', 540)">
             toRowVector(x)
           </code>
-          <div class="tip" id="536">
+          <div class="tip" id="540">
             <strong>Signature:</strong> x:Matrix&lt;float&gt; -&gt; rowvec<br />
                                   </div>
         </td>
@@ -2173,10 +2253,10 @@ Warning: diagonal matrices can only be computed for square input matrices.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '537', 537)" onmouseover="showTip(event, '537', 537)">
+          <code onmouseout="hideTip(event, '541', 541)" onmouseover="showTip(event, '541', 541)">
             toScalar(x)
           </code>
-          <div class="tip" id="537">
+          <div class="tip" id="541">
             <strong>Signature:</strong> x:Matrix&lt;float&gt; -&gt; float<br />
                                   </div>
         </td>
@@ -2191,10 +2271,10 @@ Warning: diagonal matrices can only be computed for square input matrices.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '538', 538)" onmouseover="showTip(event, '538', 538)">
+          <code onmouseout="hideTip(event, '542', 542)" onmouseover="showTip(event, '542', 542)">
             toVector(x)
           </code>
-          <div class="tip" id="538">
+          <div class="tip" id="542">
             <strong>Signature:</strong> x:Matrix&lt;float&gt; -&gt; vector<br />
                                   </div>
         </td>
@@ -2209,10 +2289,10 @@ Warning: diagonal matrices can only be computed for square input matrices.</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '539', 539)" onmouseover="showTip(event, '539', 539)">
+          <code onmouseout="hideTip(event, '543', 543)" onmouseover="showTip(event, '543', 543)">
             trace(a)
           </code>
-          <div class="tip" id="539">
+          <div class="tip" id="543">
             <strong>Signature:</strong> a:matrix -&gt; float<br />
                                   </div>
         </td>
@@ -2230,10 +2310,10 @@ Only usable if matrices a is a square matrix (m*m).</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '540', 540)" onmouseover="showTip(event, '540', 540)">
+          <code onmouseout="hideTip(event, '544', 544)" onmouseover="showTip(event, '544', 544)">
             transpose(a)
           </code>
-          <div class="tip" id="540">
+          <div class="tip" id="544">
             <strong>Signature:</strong> a:matrix -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
@@ -2250,12 +2330,12 @@ Only usable if matrices a is a square matrix (m*m).</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '541', 541)" onmouseover="showTip(event, '541', 541)">
+          <code onmouseout="hideTip(event, '545', 545)" onmouseover="showTip(event, '545', 545)">
             wholeRegion(a)
           </code>
-          <div class="tip" id="541">
-            <strong>Signature:</strong> a:Matrix&lt;&#39;?10474&gt; -&gt; (int * int) * (int * int)<br />
-                          <strong>Type parameters:</strong> '?10474                      </div>
+          <div class="tip" id="545">
+            <strong>Signature:</strong> a:Matrix&lt;&#39;?10487&gt; -&gt; (int * int) * (int * int)<br />
+                          <strong>Type parameters:</strong> '?10487                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L410-410" class="github-link">
@@ -2268,12 +2348,12 @@ Only usable if matrices a is a square matrix (m*m).</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '542', 542)" onmouseover="showTip(event, '542', 542)">
+          <code onmouseout="hideTip(event, '546', 546)" onmouseover="showTip(event, '546', 546)">
             x
           </code>
-          <div class="tip" id="542">
-            <strong>Signature:</strong> (&#39;?10443 -&gt; &#39;?10444 -&gt; &#39;?10443) -&gt; &#39;?10443 -&gt; &#39;?10444 list -&gt; &#39;?10443<br />
-                          <strong>Type parameters:</strong> '?10443, '?10444                      </div>
+          <div class="tip" id="546">
+            <strong>Signature:</strong> (&#39;?10456 -&gt; &#39;?10457 -&gt; &#39;?10456) -&gt; &#39;?10456 -&gt; &#39;?10457 list -&gt; &#39;?10456<br />
+                          <strong>Type parameters:</strong> '?10456, '?10457                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Matrix.fs#L334-334" class="github-link">
@@ -2286,10 +2366,10 @@ Only usable if matrices a is a square matrix (m*m).</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '543', 543)" onmouseover="showTip(event, '543', 543)">
+          <code onmouseout="hideTip(event, '547', 547)" onmouseover="showTip(event, '547', 547)">
             zero m n
           </code>
-          <div class="tip" id="543">
+          <div class="tip" id="547">
             <strong>Signature:</strong> m:int -&gt; n:int -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
