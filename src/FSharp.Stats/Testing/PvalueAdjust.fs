@@ -2,10 +2,17 @@
 
 open FSharp.Stats
 
-module PvalueAdjust = 
+/// This module contains functions to adjust for multiple testing errors in statistical tests.
+module MultipleTesting = 
+
 
     /// Benjamini-Hochberg Correction (BH)
-    let Benjamini_Hochberg (rawp:seq<_*float>) =        
+    /// 'projection' should return a tuple of any identifier and the pValues as float, when applied to 'rawP'
+    /// This function applies the Benjamini-Hochberg multiple testing correcture and returns all False Discovery Rates to which the given p-values are still 
+    /// significant.
+    let benjaminiHochbergFDRBy (projection:'a -> 'b*float) (rawP:seq<'a>) = 
+
+        let pVals = rawP |> (Array.ofSeq >> Array.map projection) 
         // recursive function calculating cumulative minimum
         let rec cummin (pValues:List<_*float>) (nrPvalues:int) (i:int) (min:float) =      
             match pValues with
@@ -16,8 +23,8 @@ module PvalueAdjust =
                           let value = if(prd<=min) then prd else min
                           (fst(x),value) :: (cummin rest nrPvalues (i+1) value)//[(fst(x),value)] @ (cummin rest nrPvalues (i+1) value)
     
-        let rawpListMinusNan = rawp |> Seq.filter (fun (_,x) -> not (System.Double.IsNaN x)) |> Seq.toList
-        let rawpListNan = rawp |> Seq.filter (fun (_,x) -> (System.Double.IsNaN x)) |> Seq.toList
+        let rawpListMinusNan = pVals |> Seq.filter (fun (_,x) -> not (System.Double.IsNaN x)) |> Seq.toList
+        let rawpListNan = pVals |> Seq.filter (fun (_,x) -> (System.Double.IsNaN x)) |> Seq.toList
         let npval = Seq.length (rawpListMinusNan)
         //let npval = Seq.length rawp
         let sortedRawp =
@@ -26,18 +33,27 @@ module PvalueAdjust =
         let adjp = cummin sortedRawp npval 0 System.Double.PositiveInfinity
         adjp @ rawpListNan
 
-    
-    // Estimate the q-values for a given set of p-values. The q-value of a test measures the proportion of false positives incurred (called the false discovery rate) when that particular test is called significant. 
+
     // John D. Storey
     // http://dldcc-web.brc.bcm.edu/lilab/liguow/CGI/R/library/qvalue/html/qvalue.html
     // http://qvalue.princeton.edu/
+    /// Estimate the q-values for a given set of p-values. The q-value of a test measures the proportion of false positives incurred (called the false discovery rate) when that particular test is called significant. 
     module Qvalues = 
 
-        /// Estimates pi0 from given p-Values by Storeys bootstrap method
-        let pi0_BootstrapWithLambda (lambda:float[]) (p:float[])  =
+        //https://genomicsclass.github.io/book/pages/multiple_testing.html <- differt method to calculate pi0, than shown below
+        
+
+        /// Estimates pi0 from given p-Values by Storeys bootstrap .
+        /// pi0 is the value to which, one can find certain values of the distribution at random.
+        /// If this returns 0. lambda needs to be smaller.
+        /// Math Definition for lambda = [0,1) . Contains values from 0 to 1, but not 1.
+        let pi0BootstrapWithLambda (lambda:float[]) (pValues:float[])  =
+
+            // checks how many pVals are higher than a certain lambdaVal 'a' and gives those a score of 1 and otherwise one of 0.
+            // Then takes avg of those numbers and divides the avg by (1 - lambda 'a').
             let pi0 = Array.init lambda.Length ( fun i -> 
                 let tmp =
-                    p 
+                    pValues 
                     |> Array.averageBy (fun v -> if (v >= lambda.[i]) then 1. else 0. )
                 tmp / (1. - lambda.[i]) 
                 )
@@ -45,9 +61,13 @@ module PvalueAdjust =
 
             let rnd = System.Random()
 
+            // Takes random values from the pVal [] and creates a new arr of the same length of those random pVals.
+            // Then applies system of 'pi0' from above and uses the new created pi0 bootstrap [] to weight previous 
+            // iterations of this function (seen in the 'mse' of this scope).
+            // Repeated 100 times.
             let rec floop (counter:int) (result:float[]) =    
                 if counter > 0 then
-                    let pboot    = Array.sampleWithReplacement rnd p p.Length            
+                    let pboot    = Array.sampleWithReplacement rnd pValues pValues.Length            
                     let pi0boot = Array.init lambda.Length ( fun i -> 
                         let tmp = 
                             pboot
@@ -61,13 +81,17 @@ module PvalueAdjust =
                     result
 
             let mse = floop (100) (Array.zeroCreate (lambda.Length))    
+
+            // returns the value of the original pi0 arr, at the position of the smallest value found in the mse arr after 100 floop iterations.
             let tmp = pi0.[(mse |> Array.findIndex(fun v -> v = (Array.min mse)))]
             min (tmp) (1.0)
 
+
         /// Estimates pi0 from given p-Values by Storeys bootstrap method using default lambda's
-        let pi0_Bootstrap (p:float[]) = pi0_BootstrapWithLambda [|0.0 ..0.05..0.9|] p
-
-
+        /// pi0 is the value to which, one can find certain values of the distribution at random.
+        /// If this returns 0. default lambda needs to be smaller. One should use 'pi0BootstrapWithLambda' in this case.
+        let pi0Bootstrap (pValues: float []) = 
+            pi0BootstrapWithLambda [|0.0 ..0.05..0.9|] pValues
 
 //        let pValueOfQValue (qvalues:float[]) =
 //            // estimate of pi0 used to create the q-value that's the maximum q-value (or very, very close to it)
@@ -88,7 +112,12 @@ module PvalueAdjust =
         //            arr'.[i] <- arr'.[i-1]
         //    arr'
 
-        let private bindBy (objArr:float[]) (arr:float[]) =
+
+        /// When used for QValues.ofPValues(Robust) it iterates through the pValues in ascending order and compares their new QValues.
+        /// To do this it compares the QValues in the ascending order of the PValues (QValues are sorted by their related PValues so that the first QValue is the one which is related to the previously smalles PValue). 
+        /// Should the QValue related to the second PValue (QValue.[1]) be smaller the the QValue related to the smallest PValue (QValue.[0]) the later QValue is 
+        /// replaced by the first QValue (QValue.[1] <- (QValue.[0])). Should all following QValues be smaller than that QVal, all will be replaced by it.
+        let private bindBy (objArr:float []) (arr:float[]) =
             let arr' = Array.copy arr
             let objArr' = Array.copy objArr
             let index = Array.init arr.Length id
@@ -98,46 +127,47 @@ module PvalueAdjust =
                     arr'.[index.[i]] <- arr'.[index.[i-1]]
             arr'
                
-    
-        /// Calculates the robust version of the q-value. See Storey JD (2002) JRSS-B 64: 479-498.
-        let ofPValuesRobust (pi0:float) (pvalues:float[]) =
-            let m  = float pvalues.Length
+
+        /// Calculates q-values from given p-values and returns an array of qValues in the same order.
+        /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+        /// See Storey JD (2002) JRSS-B 64: 479-498.
+        let ofPValuesRobust (pi0:float) (pValues: float []) =
+
+            let m  = float pValues.Length
             let m0 = m * pi0
-            pvalues
+            pValues
+            // replaces all values with ints ordered by their size. The smallest value will get 1, 
+            // while the largest value of the arr will get arr.Length as new rank
             |> Rank.rankFirst
             |> Array.map float
             |> Array.mapi (fun i r -> 
-                let qval = 
-                    let p = pvalues.[i]
-                    p * m0 / (r * (1. - (1. - p)**m))
-                min qval 1.
+                let qVal = 
+                    let pVal = pValues.[i]
+                    pVal * m0 / (r * (1. - (1. - pVal)**m))
+                min qVal 1.
                 )
-            |> bindBy pvalues
+            |> bindBy pValues
 
 
-        /// Calculates q-values from given p-values.
-        let ofPValues (pi0:float) (pvalues:float[]) =        
-            let m0 = float pvalues.Length * pi0
-            pvalues
+        /// Calculates q-values from given p-values and returns an array of qValues in the same order.
+        /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+        let ofPValues (pi0:float) (pValues:float[]) =
+
+            let m0 = float pValues.Length * pi0
+            pValues
+            // replaces all values with ints ordered by their size. The smallest value will get 1, 
+            // while the largest value of the arr will get arr.Length as new rank
             |> Rank.rankFirst
             |> Array.map float
             |> Array.mapi (fun i r -> 
-                let qval = pvalues.[i] / r * m0 
-                min qval 1.
+                let qVal = 
+                    let pVal = pValues.[i]
+                    pVal / r * m0 
+                min qVal 1.
                 )            
-            |> bindBy pvalues
+            |> bindBy pValues
 
 
-
-
-
-//    
-//
-//
-//
-//
-//
-//
 //        let inline checkNonNull argName arg = 
 //            match box arg with 
 //            | null -> nullArg argName 
@@ -190,8 +220,3 @@ module PvalueAdjust =
 //        //
 //        //Chart.Point(Seq.zip pvalues qvalues ) |> Chart.ShowChart
 //        //   
-
-
-
-
-
