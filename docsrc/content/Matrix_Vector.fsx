@@ -18,8 +18,6 @@ open FSharp.Plotly
 #r "FSharp.Stats.dll"
 open FSharp.Stats
 
-Array.set
-
 let v = 
     vector [|2.0; 20.0; 1.|]
 
