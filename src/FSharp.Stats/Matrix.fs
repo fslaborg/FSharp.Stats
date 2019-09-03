@@ -15,154 +15,153 @@ open System.Diagnostics
 //type vector = Vector<float>
 //type rowvec = RowVector<float>
 
-module MRandom = 
+module MRandom =
     let randomGen = new System.Random()
-    let float f = randomGen.NextDouble() * f 
-
+    let float f = randomGen.NextDouble() * f
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Matrix = begin
-        
+
     module Generic = begin
 
         module MS = SpecializedGenericImpl
 
         // Accessors
-        let get (a:Matrix<_>) i j   = a.[i,j]
-        let set (a:Matrix<_>) i j x = a.[i,j] <- x              
+        let get (matrix:Matrix<_>) index1 index2 = matrix.[index1,index2]
+        let set (matrix:Matrix<_>) index1 index2 value = matrix.[index1,index2] <- value
         // Creation
-        let ofList xss = MS.listM  xss
-        let ofSeq xss  = MS.seqM  xss
-        let init m n f = MS.initM  m n f
-        let ofArray2D (arr: 'T[,])  : Matrix<'T> = MS.arrayM arr
-        let toArray2D (m:Matrix<_>) = Array2D.init m.NumRows m.NumCols (fun i j -> get m i j)
+        let ofList lists = MS.listM lists
+        let ofSeq sources  = MS.seqM sources
+        let init length1 length2 initializer = MS.initM  length1 length2 initializer
+        let ofArray2D (array: 'T[,])  : Matrix<'T> = MS.arrayM array
+        let toArray2D (matrix:Matrix<_>) = Array2D.init matrix.NumRows matrix.NumCols (fun i j -> get matrix i j)
         let toJaggedArray (m:Matrix<_>) = [|for i=0 to m.NumRows-1 do yield (Array.init m.NumCols (fun j -> get m i j))|]
-        let initNumeric m n f = MS.initNumericM m n f
-        let zero m n = MS.zeroM m n
+        let initNumeric length1 length2 initializer = MS.initNumericM length1 length2 initializer
+        let zeroCreate length1 length2 = MS.zeroM length1 length2
         let identity m = MS.identityM m
-        let create m n x = MS.constM m n x
-        let ofScalar x = MS.scalarM x
+        let create length1 length2 value = MS.constM length1 length2 value
+        let ofScalar scalar = MS.scalarM scalar
         let diag v = MS.diagM v
         let initDiagonal v = MS.diagM v
         let constDiag n x = MS.constDiagM n x
-          
+
         // Operators
-        /// Performs a element wise addition of matrices a and b (a+b).
+        /// Performs a element wise addition of matrices matrix1 and matrix2 (matrix1 + matrix2).
         /// Only usable if both matrices have the same dimensions.
-        let add a b = MS.addM a b
-        /// Performs a element wise substraction of matrices a and b (a-b).
+        let add matrix1 matrix2 = MS.addM matrix1 matrix2
+        /// Performs a element wise substraction of matrices matrix1 and matrix2 (matrix1 - matrix2).
         /// Only usable if both matrices have the same dimensions.
-        let sub a b = MS.subM a b
-        /// Performs a left sided matrix multiplication of a and b (a*b).
+        let sub matrix1 matrix2 = MS.subM matrix1 matrix2
+        /// Performs a left sided matrix multiplication of matrices matrix1 and matrix2 (matrix1 * matrix2).
         /// Only usable if both matrices have the same dimensions.
-        let mul a b = MS.mulM a b
-        /// Performs a matrix multiplication of the 1*n rowvector a and the m*n matrix b (a*b).
+        let mul matrix1 matrix2 = MS.mulM matrix1 matrix2
+        /// Performs a matrix multiplication of the 1*n rowVector and the m*n matrix (rowVector*matrix).
         /// Only usable if column number (n) of the vector equals the row number (m) of the matrix.
-        let mulRV a b = MS.mulRVM a b
-        /// Performs a matrix multiplication m*n matrix a and the m*1 vector b (a*b).
+        let mulRV rowVector matrix = MS.mulRVM rowVector matrix
+        /// Performs a matrix multiplication of a m*n matrix and the m*1 vector (matrix*vector).
         /// Only usable if column number (n) of the matrix equals the row number (m) of the vector.
-        let mulV a b = MS.mulMV a b
-        /// Performs a element wise multiplication of matrices a and b (a*b, Hadamard-Product).
+        let mulV matrix vector = MS.mulMV matrix vector
+        /// Performs a element wise multiplication of matrices matrix1 and matrix2 (matrix1 * matrix2, Hadamard-Product).
         /// Only usable if both matrices have the same dimensions.
-        let cptMul a b = MS.cptMulM a b
-        /// Performs a element wise comparison of matrices a and b always preserving the greater value.
+        let cptMul matrix1 matrix2 = MS.cptMulM matrix1 matrix2
+        /// Performs a element wise comparison of matrices matrix1 and matrix2 always preserving the greater value.
         /// Only usable if both matrices have the same dimensions.
-        let cptMax a b = MS.cptMaxM a b
-        /// Performs a element wise comparison of matrices a and b always preserving the smaller value.
+        let cptMax matrix1 matrix2 = MS.cptMaxM matrix1 matrix2
+        /// Performs a element wise comparison of matrices matrix1 and matrix2 always preserving the smaller value.
         /// Only usable if both matrices have the same dimensions.
-        let cptMin a b = MS.cptMinM a b
+        let cptMin matrix1 matrix2 = MS.cptMinM matrix1 matrix2
         /// Builds a new matrix where the elements are the result of multiplying every element of the given matrix with the given value
-        let scale a b = MS.scaleM a b
-        /// Performs a dot product of matrices a and b.
+        let scale value matrix = MS.scaleM value matrix
+        /// Performs a dot product of matrices matrix1 and matrix2.
         /// Only usable if both matrices have the same dimensions.
-        let dot a b = MS.dotM a b
-        /// Scales matrix a by element wise mulitplication with minus 1.
-        let neg a = MS.negM a        
-        /// Computes the trace of matrix a by summing elements of the diagonal.
-        /// Only usable if matrices a is a square matrix (m*m).
-        let trace a = MS.traceM a
-        /// Computes the sum all elements matrix elements.
-        let sum a = MS.sumM a
+        let dot matrix1 matrix2 = MS.dotM matrix1 matrix2
+        /// Scales the matrix by element wise mulitplication with minus 1.
+        let neg matrix = MS.negM matrix
+        /// Computes the trace of the matrix by summing elements of the diagonal.
+        /// Only usable if the matrix is a square matrix (m*m).
+        let trace matrix = MS.traceM matrix
+        /// Computes the sum of all matrix elements.
+        let sum matrix = MS.sumM matrix
         /// Computes the product of all matrix elements.
-        let prod a = MS.prodM a
+        let prod matrix = MS.prodM matrix
         ///Frobenius matrix norm
-        let norm a = MS.normM a
-        /// Returns the transpose of matrix a 
-        let transpose a = MS.transM a
-        /// Performs a element wise addition of matrices a and b (a+b).
-        /// Attention: the output overrides matrix a.
-        /// Only usable if both matrices have the same dimensions.        
-        let inplaceAdd a b = MS.inplaceAddM a b
-        /// Performs a element wise substraction of matrices a and b (a-b).
-        /// Attention: the output overrides matrix a.
+        let norm matrix = MS.normM matrix
+        /// Returns the transpose of the matrix.
+        let transpose matrix = MS.transM matrix
+        /// Performs an element wise addition of matrices matrix1 and matrix2 (matrix1 + matrix2).
+        /// Attention: the output overrides matrix1.
         /// Only usable if both matrices have the same dimensions.
-        let inplaceSub a b = MS.inplaceSubM a b
-        /// Iterates the given Matrix row wise and applies function f element wise.
+        let inplaceAdd matrix1 matrix2 = MS.inplaceAddM matrix1 matrix2
+        /// Performs an element wise substraction of matrices matrix1 and matrix2 (matrix1 - matrix2).
+        /// Attention: the output overrides matrix1.
+        /// Only usable if both matrices have the same dimensions.
+        let inplaceSub matrix1 matrix2 = MS.inplaceSubM matrix1 matrix2
+        /// Iterates the given Matrix row wise and applies the function predicate element wise.
         /// The iteration stops and returns true if an element satisfies the condition or false when the end of
         /// the matrix is reached.
-        let exists f a = MS.existsM  f a
-        /// Iterates the given Matrix row wise and applies function f element wise.
+        let exists predicate matrix = MS.existsM  predicate matrix
+        /// Iterates the given Matrix row wise and applies the function predicate element wise.
         /// The iteration stops and returns false if an element fails the condition or true when the end of
         /// the matrix is reached.
-        let forall f a = MS.forallM  f a
-        /// Iterates the given Matrix row wise and applies function f element wise.
+        let forall predicate matrix = MS.forallM  predicate matrix
+        /// Iterates the given Matrix row wise and applies the function predicate element wise.
         /// The iteration stops and returns true if an element satisfies the condition or false when the end of
         /// the matrix is reached.
-        let existsi f a = MS.existsiM  f a
-        /// Iterates the given Matrix row wise and applies function f element wise.
+        let existsi predicate matrix = MS.existsiM  predicate matrix
+        /// Iterates the given Matrix row wise and applies the function predicate element wise.
         /// The iteration stops and returns false if an element fails the condition or true when the end of
         /// the matrix is reached.
-        let foralli f a = MS.foralliM  f a
+        let foralli predicate matrix = MS.foralliM predicate matrix
         ///
-        let map f a = MS.mapM f a
+        let map mapping matrix = MS.mapM mapping matrix
         ///
-        let copy a = MS.copyM a
+        let copy matrix = MS.copyM matrix
         ///
-        let mapi f a = MS.mapiM f a
+        let mapi mapping matrix = MS.mapiM mapping matrix
         ///
         //TO_DO: refactor to take an Direction union case and use more descriptive name
         let getDiagN a n = MS.getDiagnM a n
         ///
-        let getDiag a = MS.getDiagnM a 0
+        let getDiag matrix = MS.getDiagnM matrix 0
         ///
-        let toDense a = MS.toDenseM a 
+        let toDense matrix = MS.toDenseM matrix
         ///
-        let initDense i j a = MS.initDenseM i j a 
+        let initDense length1 length2 source = MS.initDenseM length1 length2 source
         ///
-        let initSparse i j a = MS.initSparseM i j a 
+        let initSparse length1 length2 source = MS.initSparseM length1 length2 source
         ///
-        let fold f z a = MS.foldM f z a
+        let fold folder state matrix = MS.foldM folder state matrix
         ///
-        let foldi f z a = MS.foldiM f z a
-        ///  
-        let compare a b = MS.compareM LanguagePrimitives.GenericComparer a b
+        let foldi folder state matrix = MS.foldiM folder state matrix
         ///
-        let hash a = MS.hashM LanguagePrimitives.GenericEqualityComparer a
-        ///Returns row of index i of matrix a
-        let getRow a i = MS.getRowM a i
-        ///Replaces row of index j of matrix a with values of vector v, if vector length matches rowsize
-        let setRow (a:Matrix<_>) j (v:Vector<_>) = MS.setRowM a j v
-        ///Returns col of index j of matrix a
-        let getCol a j = MS.getColM a j  
-        ///Replaces column of index i of matrix a with values of vector v, if vector length matches columnsize
-        let setCol (a:Matrix<_>) i (v:Vector<_>) = MS.setColM a i v
+        let compare matrix1 matrix2 = MS.compareM LanguagePrimitives.GenericComparer matrix1 matrix2
         ///
-        let getCols a i1 i2 = MS.getColsM a (i1,i1+i2-1)
+        let hash matrix = MS.hashM LanguagePrimitives.GenericEqualityComparer matrix
+        ///Returns row of given index of a matrix
+        let getRow matrix index = MS.getRowM matrix index
+        ///Replaces row of given index of a matrix with values of a vector, if vector length matches rowsize
+        let setRow (matrix:Matrix<_>) index (vector:Vector<_>) = MS.setRowM matrix index vector
+        ///Returns col of given index of a matrix
+        let getCol matrix index = MS.getColM matrix index
+        ///Replaces column of given index of a matrix with values of a vector, if vector length matches columnsize
+        let setCol (matrix:Matrix<_>) index (vector:Vector<_>) = MS.setColM matrix index vector
         ///
-        let getRows a j1 j2 = MS.getRowsM a (j1,j1+j2-1)
+        let getCols matrix column1 column2 = MS.getColsM matrix (column1,column1+column2-1)
         ///
-        let getRegion a i1 j1 i2 j2 = MS.getRegionM a (i1,i1+i2-1) (j1,j1+j2-1)
-        ///    
-        let ofRowVector x = MS.rowvecM x
+        let getRows matrix row1 row2 = MS.getRowsM matrix (row1,row1+row2-1)
         ///
-        let ofVector x = MS.vectorM x
+        let getRegion matrix column1 row1 column2 row2 = MS.getRegionM matrix (column1,column1+column2-1) (row1,row1+row2-1)
         ///
-        let toVector x = MS.toVectorM x
+        let ofRowVector rowVector = MS.rowvecM rowVector
         ///
-        let toRowVector x = MS.toRowVectorM x
+        let ofVector vector = MS.vectorM vector
         ///
-        let toScalar x = MS.toScalarM x
-            
+        let toVector matrix = MS.toVectorM matrix
+        ///
+        let toRowVector matrix = MS.toRowVectorM matrix
+        ///
+        let toScalar matrix = MS.toScalarM matrix
+
         let inplace_assign f a    = MS.inplaceAssignM  f a
         let inplace_cptMul a b    = MS.inplaceCptMulM a b
         let inplace_scale a b     = MS.inplaceScaleM a b
@@ -184,15 +183,15 @@ module Matrix = begin
         let to_dense a            = toDense a
         let init_dense i j a      = initDense i j a
         let init_sparse i j a     = initSparse i j a
-        let nonzero_entries a     = MS.nonZeroEntriesM a 
-        
+        let nonzero_entries a     = MS.nonZeroEntriesM a
+
         // TM
-        /// Applies function f along row axis 
+        /// Applies function f along row axis
         let enumerateRowWise f (m:Matrix<'a>) =
-            seq [ 
-                for rowi=0 to m.NumRows-1 do 
+            seq [
+                for rowi=0 to m.NumRows-1 do
                 yield f (seq [for coli=0 to m.NumCols-1 do yield m.[rowi,coli]])
-            ]  
+            ]
 
         /// Maps every matrix row using the position dependant function
         let mapiRows (f: int -> RowVector<'a> -> 'b) (m:Matrix<'a>) =
@@ -201,15 +200,15 @@ module Matrix = begin
                 for rowi=0 to m.NumRows-1 do
                     yield f rowi (getRow m rowi)
             ]
-                
+
         // TM
-        /// Applies function f along colúmn axis 
+        /// Applies function f along colúmn axis
         let enumerateColumnWise f (m:Matrix<'a>) =
-            seq [ 
-                for coli=0 to m.NumCols-1 do 
+            seq [
+                for coli=0 to m.NumCols-1 do
                 yield f (seq [for rowi=0 to m.NumRows-1 do yield m.[rowi,coli]])
             ]
-  
+
         /// Maps every matrix column using the position dependant function
         let mapiCols (f: int -> Vector<'a> -> 'b) (m:Matrix<'a>) =
             seq [
@@ -220,15 +219,14 @@ module Matrix = begin
         /// Iterates the given Matrix row wise and places every element in a new vector with length n*m.
         let flattenRowWise (a: Matrix<'a>) =
             let tmp = FSharp.Stats.Vector.Generic.zeroCreate (a.NumRows*a.NumCols)
-            for m = 0 to a.NumRows-1 do 
-                for n = 0 to a.NumCols-1 do 
+            for m = 0 to a.NumRows-1 do
+                for n = 0 to a.NumCols-1 do
                     tmp.[m*a.NumCols+n] <- a.[m,n]
-            tmp 
+            tmp
 
         /// Iterates the given Matrix column wise and places every element in a new vector with length n*m.
-        let flattenColWise (a: Matrix<'a>) = 
+        let flattenColWise (a: Matrix<'a>) =
             a.Transpose |> flattenRowWise
-
 
     end
 
@@ -242,10 +240,10 @@ module Matrix = begin
 
     // Accessors
     let get (a:matrix) i j   = MG.get a i j
-    let set (a:matrix) i j x = MG.set a i j x    
+    let set (a:matrix) i j x = MG.set a i j x
     // Creation
     ///returns a dense matrix with m rows and n rows, applying the init function with the two indices as arguments
-    let init  m n f = DS.initDenseMatrixDS  m n f |> MS.dense 
+    let init  m n f = DS.initDenseMatrixDS  m n f |> MS.dense
     ///returns a dense matrix with the inner lists of the input jagged list as its rows
     let ofJaggedList     xss   = DS.listDenseMatrixDS    xss |> MS.dense
     ///returns a dense matrix with the inner lists of the input jagged list as its columns
@@ -259,12 +257,12 @@ module Matrix = begin
     ///returns a dense matrix with the inner lists of the input jagged list as its columns
     let ofJaggedColArray xss   = DS.colArrayDenseMatrixDS    xss |> MS.dense
     ///
-    let diag  (v:vector)   = MG.diag v 
+    let diag  (v:vector)   = MG.diag v
     ///
     //TO-DO: this should do something else as Matrix.diag. E.g. int -> (int -> float) -> Matrix<float>
-    let initDiagonal  (v:vector)   = MG.diag v 
+    let initDiagonal  (v:vector)   = MG.diag v
     ///
-    let constDiag  n x : matrix  = MG.constDiag n x 
+    let constDiag  n x : matrix  = MG.constDiag n x
     ///
     //TO-DO: maybe rename to constCreate
     let create  m n x  = DS.constDenseMatrixDS  m n x |> MS.dense
@@ -275,7 +273,7 @@ module Matrix = begin
     ///
     let toArray2D (m : matrix) = MG.toArray2D m
     ///
-    let toJaggedArray (m: matrix) = MG.toJaggedArray m 
+    let toJaggedArray (m: matrix) = MG.toJaggedArray m
     ///
     let getDiagN  (a:matrix) n = MG.getDiagN a n
     ///
@@ -313,7 +311,7 @@ module Matrix = begin
     /// Computes the trace of matrix a by summing elements of the diagonal.
     /// Only usable if matrices a is a square matrix (m*m).
     let trace (a:matrix) = MS.traceM a
-    /// Returns the transpose of matrix a 
+    /// Returns the transpose of matrix a
     let transpose (a:matrix) = MG.transpose a
     /// Iterates the given Matrix row wise and applies function f element wise.
     /// The iteration stops and returns false if an element fails the condition or true when the end of
@@ -347,18 +345,18 @@ module Matrix = begin
     /// Applies a function f row wise to each element of the matrix, threading an accumulator argument through the computation.
     /// The fold function takes the second argument, and applies the function f to it and the first element of the matrix.
     /// Then, it feeds this result into the function f along with the second element, and so on. It returns the final result.
-    /// If the input function is f and the elements are i0...iN, then this function computes f (... (f s i0) i1 ...) iN.   
+    /// If the input function is f and the elements are i0...iN, then this function computes f (... (f s i0) i1 ...) iN.
     /// The integers indicies passed to the function indicate row and column position (from 0) the of the element being transformed.
     let foldi f z (a:matrix) = MG.foldi f z a
     /// Transforms the matrix a to a dense matrix representation
-    let toDense (a:matrix) = MG.toDense a 
+    let toDense (a:matrix) = MG.toDense a
     /// Creates a dense matrix with i rows and j columns. All values are initialized to the value of a.
-    let initDense i j a : matrix = MG.initDense i j a     
+    let initDense i j a : matrix = MG.initDense i j a
     /// Creates a sparse matrix with i rows and j columns. All values are initialized to the value of a.
-    let initSparse i j a : matrix = MG.initSparse i j a 
+    let initSparse i j a : matrix = MG.initSparse i j a
     /// Iterates the m*n matrix a row wise and returns a list of tuples (mi,ni,v) containing non zero elements of a
-    /// and their row (m) and column (n) indicies. 
-    let nonzero_entries (a:matrix) = MG.nonzero_entries a 
+    /// and their row (m) and column (n) indicies.
+    let nonzero_entries (a:matrix) = MG.nonzero_entries a
     /// Creates a dense matrix with i rows and j columns. All values are initialized to yero (0.).
     let zero m n = DS.zeroDenseMatrixDS m n |> MS.dense
     /// Creates a dense identiy m*m matrix. A identity matrix is always squared and the elements are set to zero exept elements
@@ -367,10 +365,10 @@ module Matrix = begin
     /// [[1.;0.;0.]
     ///  [0.;1.;0.]
     ///  [0.;0.;1.]]
-    let identity m : matrix = MG.identity m      
+    let identity m : matrix = MG.identity m
     /// Creates a dense matrix with i rows and j columns. All values are initialized to one (1.).
     let ones m n = create m n 1.0
-    /// Returns row of index i of matrix a    
+    /// Returns row of index i of matrix a
     let getRow (a:matrix) i = MG.getRow a i
     /// Replaces row of index i of matrix a with values of vector v, if vector length matches rowsize
     let setRow (a:Matrix<_>) i (v:Vector<_>) = MG.setRow a i v
@@ -381,7 +379,7 @@ module Matrix = begin
     /// Accesses the m*n matrix a and returns a total of j2 Columns starting from column index j1. The Result is a new
     /// m*j2 matrix.
     /// Only usable if (j1+j2-1) does not exceed n.
-    let getCols (a:matrix) j1 j2 = MG.getCols a j1 j2 
+    let getCols (a:matrix) j1 j2 = MG.getCols a j1 j2
     /// Accesses the m*n matrix a and returns a total of i2 rows starting from row index i1. The Result is a new
     /// i2*n matrix.
     /// Only usable if (i1+i2-1) does not exceed m.
@@ -395,7 +393,7 @@ module Matrix = begin
                 if ic = c then
                     [true,acc;false,n - acc]
                 else loop ir (ic+1) (if f a.[ir,ic] then acc + 1 else acc)
-            else 
+            else
                 if ic = c then
                     loop (ir+1) 0 acc
                 else loop (ir+1) (ic+1) (if f a.[ir,ic] then acc + 1 else acc)
@@ -408,13 +406,13 @@ module Matrix = begin
     let rowRange (a:Matrix<_>) = (0,a.NumRows - 1)
     let colRange (a:Matrix<_>) = (0,a.NumCols - 1)
     let wholeRegion a = (colRange a, rowRange a)
-    let foldByRow f (z:Vector<'T>) (a:matrix) = 
+    let foldByRow f (z:Vector<'T>) (a:matrix) =
         colRange a |> GU.foldR (fun z j -> MS.mapiV (fun i z -> f z (get a i j)) z) z
-    let foldByCol f (z:RowVector<'T>) (a:matrix) = 
+    let foldByCol f (z:RowVector<'T>) (a:matrix) =
         rowRange a |> GU.foldR (fun z i -> MS.mapiRV (fun j z -> f z (get a i j)) z) z
-    let foldRow f (z:'T) (a:matrix) i = 
+    let foldRow f (z:'T) (a:matrix) i =
         colRange a |> GU.foldR (fun (z:'T) j -> f z (get a i j)) z
-    let foldCol f (z:'T) (a:matrix) j = 
+    let foldCol f (z:'T) (a:matrix) j =
         rowRange a |> GU.foldR (fun (z:'T) i -> f z (get a i j)) z
     let sum (a:matrix)  = MS.sumM a
     let prod (a:matrix)  = MS.prodM a
@@ -455,62 +453,59 @@ module Matrix = begin
     //----------------------------------------------------------------------------
     // Stats
 
-    /// Returns upper triangular Matrix by setting all values beneath the diagonal to Zero.  
+    /// Returns upper triangular Matrix by setting all values beneath the diagonal to Zero.
     /// Warning: triangular matrices can only be computed for square input matrices.
-    let getUpperTriangular (a:Matrix<float>) = 
-        let nA = a.NumCols 
+    let getUpperTriangular (a:Matrix<float>) =
+        let nA = a.NumCols
         let mA = a.NumRows
         if nA<>mA then invalidArg "a" "expected a square matrix";
         else
-        a  
-        |> mapi (fun n m x -> if n > m then 0. else x ) 
-    
+        a
+        |> mapi (fun n m x -> if n > m then 0. else x )
+
     /// Returns lower triangular Matrix by setting all values beneath the diagonal to Zero.
     /// Warning: triangular matrices can only be computed for square input matrices.
-    let getLowerTriangular (a:Matrix<float>)  = 
-        let nA = a.NumCols 
+    let getLowerTriangular (a:Matrix<float>)  =
+        let nA = a.NumCols
         let mA = a.NumRows
         if nA<>mA then invalidArg "a" "expected a square matrix";
         else
-        a  
-        |> mapi (fun n m x -> if n < m then 0. else x ) 
+        a
+        |> mapi (fun n m x -> if n < m then 0. else x )
 
     /// Returns diagonal matrix by setting all values beneath and above the diagonal to Zero.
     /// Warning: diagonal matrices can only be computed for square input matrices.
-    let toDiagonal (a:Matrix<float>) = 
+    let toDiagonal (a:Matrix<float>) =
         getDiag a
         |> diag
 
-    /// Computes the row wise sum of a Matrix 
-    let sumRows (a:matrix) = 
+    /// Computes the row wise sum of a Matrix
+    let sumRows (a:matrix) =
         a
         |> foldByRow (fun acc r -> acc + r ) (Vector.zeroCreate a.NumRows)
-        
-    
-    /// Computes the Column wise sum of a Matrix 
-    let sumColumns (a:matrix) = 
-        a.Transpose 
-        |> foldByRow (fun acc r -> acc + r ) (Vector.zeroCreate a.NumCols)
-        
 
-    /// Computes the row wise mean of a Matrix 
-    let meanRowWise (a:matrix) = 
+    /// Computes the Column wise sum of a Matrix
+    let sumColumns (a:matrix) =
+        a.Transpose
+        |> foldByRow (fun acc r -> acc + r ) (Vector.zeroCreate a.NumCols)
+
+    /// Computes the row wise mean of a Matrix
+    let meanRowWise (a:matrix) =
         a
         |> sumRows
         |> Vector.map (fun sum -> sum / (a.NumRows |> float))
-    
-    /// Computes the Column wise mean of a Matrix 
-    let meanColumnWise (a:matrix) = 
+
+    /// Computes the Column wise mean of a Matrix
+    let meanColumnWise (a:matrix) =
         a
         |> sumColumns
         |> Vector.map (fun sum -> sum / (a.NumRows |> float))
-    
 
     /// computes the column specific covariance matrix of a data matrix as described at:
     // http://stattrek.com/matrix-algebra/covariance-matrix.aspx
     let columnCovarianceMatrixOf df (dataMatrix:Matrix<float>) =
         /// Step 1:
-        /// contains the deviation scores for the data matrix 
+        /// contains the deviation scores for the data matrix
         let devMatrix =
             let ident = ones dataMatrix.NumRows dataMatrix.NumRows
             dataMatrix - (ident * dataMatrix |> map (fun elem -> elem / float dataMatrix.NumRows))
@@ -518,11 +513,11 @@ module Matrix = begin
         /// Compute devMatrix' * devMatrix, the k x k deviation sums of squares and cross products matrix for x.
         let devMTdevM =
             devMatrix.Transpose * devMatrix
-        /// Step 3: 
+        /// Step 3:
         /// Then, divide each term in the deviation sums of squares and cross product matrix by n to create the variance-covariance matrix. That is:
         devMTdevM |> map (fun elem -> elem / (float df))
 
-    /// computes the column specific population covariance matrix of a data matrix 
+    /// computes the column specific population covariance matrix of a data matrix
     let columnPopulationCovarianceMatrixOf (dataMatrix:Matrix<float>) =
         columnCovarianceMatrixOf dataMatrix.NumRows dataMatrix
 
@@ -530,38 +525,38 @@ module Matrix = begin
     let columnSampleCovarianceMatrixOf (dataMatrix:Matrix<float>) =
         columnCovarianceMatrixOf (dataMatrix.NumRows-1) dataMatrix
 
-    /// computes the row specific population covariance matrix of a data matrix 
+    /// computes the row specific population covariance matrix of a data matrix
     let rowPopulationCovarianceMatrixOf (dataMatrix:Matrix<float>) =
         columnCovarianceMatrixOf dataMatrix.Transpose.NumRows dataMatrix.Transpose
 
-    /// computes the row specific sample covariance matrix of a data matrix 
+    /// computes the row specific sample covariance matrix of a data matrix
     let rowSampleCovarianceMatrixOf (dataMatrix:Matrix<float>) =
         columnCovarianceMatrixOf (dataMatrix.Transpose.NumRows-1) dataMatrix.Transpose
     //----------------------------------------------------------------------------
 
-    /// Applies function f along row axis 
+    /// Applies function f along row axis
     let enumerateRowWise f (m:matrix) = Generic.enumerateRowWise f m
 
     /// Maps every matrix row using the position dependant function
     let mapiRows (f: int -> rowvec -> 'b) (m:matrix) = Generic.mapiRows f m
-                
-    /// Applies function f along column axis 
-    let enumerateColumnWise f (m:matrix) = Generic.enumerateColumnWise f m    
+
+    /// Applies function f along column axis
+    let enumerateColumnWise f (m:matrix) = Generic.enumerateColumnWise f m
 
     /// Maps every matrix column using the position dependant function
-    let mapiCols (f: int -> vector -> 'b) (m:matrix) = Generic.mapiCols f m    
+    let mapiCols (f: int -> vector -> 'b) (m:matrix) = Generic.mapiCols f m
 
     /// Iterates the given Matrix row wise and places every element in a new vector with length n*m.
     let flattenRowWise (a: matrix) = Generic.flattenRowWise a
-            
+
     /// Iterates the given Matrix column wise and places every element in a new vector with length n*m.
-    let flattenColWise (a: matrix) = Generic.flattenColWise a 
+    let flattenColWise (a: matrix) = Generic.flattenColWise a
 
     /// Removes a row at a given index
     let removeRowAt (index:int) (m:Matrix<'T>) : Matrix<'T> =
         let nRows,nCols = m.Dimensions
         //let nm = Matrix.Generic.zero (nRows-1) nCols
-        let nm = MG.zero (nRows-1) nCols
+        let nm = MG.zeroCreate (nRows-1) nCols
         let rec loop nRowI rowI =
             if rowI < 0 then
                 nm
@@ -569,17 +564,17 @@ module Matrix = begin
                 if rowI <> index then
                     for colI=0 to nCols-1 do
                         nm.[nRowI,colI] <- m.[rowI,colI]
-                    loop (nRowI-1) (rowI-1) 
+                    loop (nRowI-1) (rowI-1)
                 else
-                    loop (nRowI) (rowI-1) 
-    
+                    loop (nRowI) (rowI-1)
+
         loop (nRows-2) (nRows-1)
 
     /// Removes a column at a given index
     let removeColAt index (m:Matrix<_>) =
         let nRows,nCols = m.Dimensions
         //let nm = Matrix.Generic.zero nRows (nCols-1)
-        let nm = MG.zero nRows (nCols-1)
+        let nm = MG.zeroCreate nRows (nCols-1)
         let rec loop nColI colI =
             if nColI < 0 then
                 nm
@@ -587,10 +582,10 @@ module Matrix = begin
                 if colI <> index then
                     for rowI=0 to nRows-1 do
                         nm.[rowI,nColI] <- m.[rowI,colI]
-                    loop (nColI-1) (colI-1) 
+                    loop (nColI-1) (colI-1)
                 else
-                    loop (nColI) (colI-1) 
-    
+                    loop (nColI) (colI-1)
+
         loop (nRows-2) (nRows-1)
 
     /// Splits a matrix along row direction according to given indices. Returns (matrix including rows according to indices, rest)
@@ -599,54 +594,51 @@ module Matrix = begin
         let nRows,nCols = m.Dimensions
         //let nm  = Matrix.Generic.zero (nRows-indices.Length) nCols
         //let nmi = Matrix.Generic.zero indices.Length nCols
-        let nm  = MG.zero (nRows-indices.Length) nCols
-        let nmi = MG.zero indices.Length nCols
+        let nm  = MG.zeroCreate (nRows-indices.Length) nCols
+        let nmi = MG.zeroCreate indices.Length nCols
         indices |> Array.sortInPlace
         let rec loop nRowI nRowIi rowI =
             match rowI with
             | i as rowI when rowI < 0 -> nmi,nm
             | i as rowI when nRowIi >= 0 && rowI = indices.[nRowIi] ->
                 for colI=0 to nCols-1 do
-                    nmi.[nRowIi,colI] <- m.[rowI,colI]                
-                loop (nRowI) (nRowIi-1) (rowI-1)                       
+                    nmi.[nRowIi,colI] <- m.[rowI,colI]
+                loop (nRowI) (nRowIi-1) (rowI-1)
             | _ -> //i as rowI when rowI <> indices.[ii] ->
                 for colI=0 to nCols-1 do
                     nm.[nRowI,colI] <- m.[rowI,colI]
-                loop (nRowI-1) (nRowIi) (rowI-1) 
-    
-        loop (nRows-1-indices.Length) (indices.Length-1) (nRows-1)
+                loop (nRowI-1) (nRowIi) (rowI-1)
 
+        loop (nRows-1-indices.Length) (indices.Length-1) (nRows-1)
 
     /// Splits a matrix along column direction according to given indices. Returns (matrix including cols according to indices, rest)
     let splitCols (indices:int[]) (m:Matrix<_>) =
         let nRows,nCols = m.Dimensions
         //let nm  = Matrix.Generic.zero nRows (nCols-indices.Length)
-        //let nmi = Matrix.Generic.zero nRows indices.Length 
-        let nm  = MG.zero nRows (nCols-indices.Length)
-        let nmi = MG.zero nRows indices.Length 
+        //let nmi = Matrix.Generic.zero nRows indices.Length
+        let nm  = MG.zeroCreate nRows (nCols-indices.Length)
+        let nmi = MG.zeroCreate nRows indices.Length
         indices |> Array.sortInPlace
         let rec loop nColI nColIi colI =
             match colI with
             | i as colI when colI < 0 -> nmi,nm
             | i as colI when nColIi >= 0 && colI = indices.[nColIi] ->
                 for rowI=0 to nRows-1 do
-                    nmi.[rowI,nColIi] <- m.[rowI,colI]                
-                loop (nColI) (nColIi-1) (colI-1)                       
+                    nmi.[rowI,nColIi] <- m.[rowI,colI]
+                loop (nColI) (nColIi-1) (colI-1)
             | _ -> //i as rowI when rowI <> indices.[ii] ->
                 for rowI=0 to nRows-1 do
                     nm.[rowI,nColI] <- m.[rowI,colI]
-                loop (nColI-1) (nColIi) (colI-1) 
-    
+                loop (nColI-1) (nColIi) (colI-1)
+
         loop (nCols-1-indices.Length) (indices.Length-1) (nCols-1)
 
-
-            
 end
 
 [<AutoOpen>]
 module MatrixExtension =
 
-    type Matrix<'T> with 
+    type Matrix<'T> with
         member x.ToArray2()        = Matrix.Generic.toArray2D x
         member x.ToArray2D()        = Matrix.Generic.toArray2D x
 
@@ -657,7 +649,7 @@ module MatrixExtension =
 
         member x.NonZeroEntries    = Matrix.Generic.nonzero_entries x
         member x.ToScalar()        = Matrix.Generic.toScalar x
-        member x.ToRowVector()     = Matrix.Generic.toRowVector x               
+        member x.ToRowVector()     = Matrix.Generic.toRowVector x
         member x.ToVector()        = Matrix.Generic.toVector x
 
 #if FX_NO_DEBUG_DISPLAYS
@@ -680,11 +672,9 @@ module MatrixExtension =
 
         member x.Copy () = Matrix.Generic.copy x
 
-
 //    [<AutoOpen>]
-//    module MatrixTopLevelOperators = 
+//    module MatrixTopLevelOperators =
 //
 //        let matrix ll = Matrix.ofSeq ll
 //        let vector l  = Vector.ofSeq  l
 //        let rowvec l  = RowVector.ofSeq l
-
