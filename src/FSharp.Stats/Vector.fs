@@ -304,7 +304,15 @@ module Vector =
         let (mul,sumX,sumY) = loop 0 0. 0. 0.
         (mul - (sumX * sumY)/(float v1.Length)) / (float v1.Length - 1.) 
 
+    /// calculates the sample means with a given number of replicates present in the sequence
+    let getMeanOfReplicates rep (data:vector) =
+        Seq.getMeanOfReplicates rep data
+        |> of_seq 
 
+    /// calculates the sample standard deviations with a given number of replicates present in the sequence
+    let getStDevOfReplicates rep (data:vector) =
+        Seq.getStDevOfReplicates rep data
+        |> of_seq 
 
     /// Splits a vector according to given indices. Returns (vector including values according to indices, rest)
     let splitVector (indices:int[]) (v:Vector<_>) =
