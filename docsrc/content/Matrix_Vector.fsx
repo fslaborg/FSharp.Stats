@@ -26,27 +26,33 @@ let v =
 let rv = 
     rowvec [|2.0; 20.0; 1.|]
 
-(**Examples*)
+(*** include-value:rv ***)
 
+(***hide***)
+let exmp13 = v + 1.
+let exmp14 = rv + 1.
+
+(**Addition to every element of vector.*)
 v + 1.
 
 (*** include-value:exmp13 ***)
 
+(**Addition to every element of row vector.*)
 rv + 1.
 
 (*** include-value:exmp14 ***)
 
-(*** include-value:rv ***)
 
 (**
 <a name="Matrix"></a>
 
 ##Matrix
 
+###Creating Matrices with FSharp.Stats. 
+Matrices will also be printed with the FSharp.Stats.FSIPrinters.matrix function to get a nice console output.
 *)
 #r "FSharp.Stats.dll"
 open FSharp.Stats
-
 
 // http://fdatamining.blogspot.de/2010/03/matrix-and-linear-algebra-in-f-part-i-f.html
 // http://fdatamining.blogspot.de/search/label/linear%20algebra
@@ -56,21 +62,34 @@ let A =
              [ 1.0; 3.0; 1.0 ]
              [ 2.0; 9.0; 1.0 ] ]
 
-(*** include-value:A ***)
+(***hide***)
+let APrint =
+    FSharp.Stats.FSIPrinters.matrix A
+
+(*** include-value:APrint ***)
 
 let B = 
     matrix [ [ 10.0; 70.0; 20.0 ]
              [ 10.0; 30.0; 10.0 ]
              [ 20.0; 90.0; 10.0 ] ]
 
-(*** include-value:B ***)
+(***hide***)
+let BPrint =
+    FSharp.Stats.FSIPrinters.matrix B
 
+(*** include-value:BPrint ***)
+
+
+(**
+###Calculation Examples for Matrices
+*)
 
 (***hide***)
 let exmp1 =
     A
     |> Matrix.Generic.enumerateRowWise (Seq.sum)
 
+(**Get sum of each row.*)
 A
 |> Matrix.Generic.enumerateRowWise (Seq.sum)
 
@@ -81,62 +100,66 @@ let exmp2 =
     A
     |> Matrix.mapiCols (fun i r -> r)
 
+(**Create seq of vectors of matrix columns.*)
 A
 |> Matrix.mapiCols (fun i r -> r)
 
 (*** include-value:exmp2 ***)
 
 (***hide***)
-let exmp3 = A + B
-let exmp4 = A - B
-let exmp5 = A * B
-let exmp6 = A.*B
-let exmp7 = A * 2.0
-let exmp8 = 2.0 * A
-let exmp9 = -A
-let exmp10 = A * v
-let exmp11 = Matrix.dot A B
-let exmp12 = A + 1.
-let exmp13 = v + 1.
-let exmp14 = rv + 1.
+let exmp3 = A + B |> FSharp.Stats.FSIPrinters.matrix
+let exmp4 = A - B|> FSharp.Stats.FSIPrinters.matrix
+let exmp5 = A * B|> FSharp.Stats.FSIPrinters.matrix
+let exmp6 = A.*B|> FSharp.Stats.FSIPrinters.matrix
+let exmp7 = A * 2.0|> FSharp.Stats.FSIPrinters.matrix
+let exmp9 = -A|> FSharp.Stats.FSIPrinters.matrix
+let exmp10 = A * v 
+let exmp11 = Matrix.dot A B 
+let exmp12 = A + 1.|> FSharp.Stats.FSIPrinters.matrix
 
+
+(**Sum of two matrices.*)
 A + B
 
 (*** include-value:exmp3 ***)
 
+(**Difference between two matrices.*)
 A - B
 
 (*** include-value:exmp4 ***)
 
-A * B // matrix product
+(**Product of two matrices.*)
+A * B 
 
 (*** include-value:exmp5 ***)
 
-A .* B  // element-wise product
+(**Element-wise product of two matrices*)
+A .* B 
 
 (*** include-value:exmp6 ***)
 
-A * 2.0 // scalar product
+(**Scalar product of a matrix.*)
+A * 2.0 
+2.0 * A // also ok, gives same result
 
 (*** include-value:exmp7 ***)
 
-2.0 * A // this is also ok
-
-(*** include-value:exmp8 ***)
-
--A // negation of a matrix
+(**Negation of a matrix*)
+-A 
 
 (*** include-value:exmp9 ***)
 
-//  matrix-vector product
+(**Product of a matrix-vector.*)
 A * v
 
 (*** include-value:exmp10 ***)
 
+(**Dot product of two matrices.*)
 Matrix.dot A B
 
 (*** include-value:exmp11 ***)
 
+(**Addition to every element of matrix.*)
 A + 1.
 
 (*** include-value:exmp12 ***)
