@@ -28,6 +28,16 @@ let v =
 let rv = 
     rowvec [|2.0; 20.0; 1.|]
 
+(**Examples*)
+
+v + 1.
+
+(*** include-value:exmp13 ***)
+
+rv + 1.
+
+(*** include-value:exmp14 ***)
+
 (*** include-value:rv ***)
 
 (**
@@ -132,14 +142,6 @@ Matrix.dot A B
 A + 1.
 
 (*** include-value:exmp12 ***)
-
-v + 1.
-
-(*** include-value:exmp13 ***)
-
-rv + 1.
-
-(*** include-value:exmp14 ***)
 
 
 (***hide***)
