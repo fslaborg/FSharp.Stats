@@ -254,7 +254,7 @@ module TemporalClassification =
     let getWeighting (xVal:Vector<float>) (yVal:Vector<float>) (w_method:WeightingMethod) (numRep:int) =
         match w_method with
         | Equal ->
-            Matrix.diag(Vector.ones xVal.Length)
+            Matrix.diag(Vector.oneCreate xVal.Length)
         | VarRobust -> //Variance
             let Wtemp = Matrix.create xVal.Length xVal.Length 0.            
             let diagVec = 
@@ -566,10 +566,10 @@ module TemporalClassification =
                         Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
                         Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
                         if i = j - 1 then
-                            Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                            Matrix.setRow Ctemp (4*i-4) (Vector.zeroCreate Ctemp.NumCols)
                             Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector) //0
-                            Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
-                            Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                            Matrix.setRow Ctemp (4*i-2) (Vector.zeroCreate Ctemp.NumCols)
+                            Matrix.setRow Ctemp (4*i-1) (Vector.zeroCreate Ctemp.NumCols)
 
                     for i = j to (n-1) do 
                         let temp = 
@@ -597,10 +597,10 @@ module TemporalClassification =
                             Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
                             Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
                             if i = m - 1 then
-                                Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                Matrix.setRow Ctemp (4*i-4) (Vector.zeroCreate Ctemp.NumCols)
                                 Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
-                                Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
-                                Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                Matrix.setRow Ctemp (4*i-2) (Vector.zeroCreate Ctemp.NumCols)
+                                Matrix.setRow Ctemp (4*i-1) (Vector.zeroCreate Ctemp.NumCols)
                         for i = m to j-1 do
                             let temp =                
                                 (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
@@ -610,10 +610,10 @@ module TemporalClassification =
                             Matrix.setRow Ctemp (4*i-2) (- (temp - (B.Row (i-1) |> vector)))
                             Matrix.setRow Ctemp (4*i-1) (- (temp - (B.Row (i) |> vector)))
                             if i = j - 1 then
-                                Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                Matrix.setRow Ctemp (4*i-4) (Vector.zeroCreate Ctemp.NumCols)
                                 Matrix.setRow Ctemp (4*i-3) -(B.Row (i-1) |> vector)
-                                Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
-                                Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                Matrix.setRow Ctemp (4*i-2) (Vector.zeroCreate Ctemp.NumCols)
+                                Matrix.setRow Ctemp (4*i-1) (Vector.zeroCreate Ctemp.NumCols)
                         for i = j to n-1 do
                             let temp = 
                                 (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
@@ -641,10 +641,10 @@ module TemporalClassification =
                                 Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
                                 Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
                                 if i = m - 1 then
-                                    Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-4) (Vector.zeroCreate Ctemp.NumCols)
                                     Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
-                                    Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
-                                    Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-2) (Vector.zeroCreate Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-1) (Vector.zeroCreate Ctemp.NumCols)
                             for i = m to j-1 do
                                 let temp =                
                                     (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
@@ -654,10 +654,10 @@ module TemporalClassification =
                                 Matrix.setRow Ctemp (4*i-2) (- (temp - (B.Row (i-1) |> vector)))
                                 Matrix.setRow Ctemp (4*i-1) (- (temp - (B.Row (i) |> vector)))
                                 if i = j - 1 then
-                                    Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-4) (Vector.zeroCreate Ctemp.NumCols)
                                     Matrix.setRow Ctemp (4*i-3) -(B.Row (i-1) |> vector)
-                                    Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
-                                    Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-2) (Vector.zeroCreate Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-1) (Vector.zeroCreate Ctemp.NumCols)
                             for i = j to k-1 do
                                 let temp =                
                                     (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
@@ -667,10 +667,10 @@ module TemporalClassification =
                                 Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
                                 Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
                                 if i = k - 1 then //if i = j - 1 then
-                                    Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-4) (Vector.zeroCreate Ctemp.NumCols)
                                     Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector) 
-                                    Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
-                                    Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-2) (Vector.zeroCreate Ctemp.NumCols)
+                                    Matrix.setRow Ctemp (4*i-1) (Vector.zeroCreate Ctemp.NumCols)
                             for i = k to n-1 do
                                 let temp = 
                                     (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
@@ -699,10 +699,10 @@ module TemporalClassification =
                                     Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
                                     Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
                                     if i = m - 1 then
-                                        Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-4) (Vector.zeroCreate Ctemp.NumCols)
                                         Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector)
-                                        Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
-                                        Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-2) (Vector.zeroCreate Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-1) (Vector.zeroCreate Ctemp.NumCols)
                                 for i = m to j-1 do
                                     let temp =                
                                         (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
@@ -712,10 +712,10 @@ module TemporalClassification =
                                     Matrix.setRow Ctemp (4*i-2) (- (temp - (B.Row (i-1) |> vector)))
                                     Matrix.setRow Ctemp (4*i-1) (- (temp - (B.Row (i) |> vector)))
                                     if i = j - 1 then
-                                        Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-4) (Vector.zeroCreate Ctemp.NumCols)
                                         Matrix.setRow Ctemp (4*i-3) -(B.Row (i-1) |> vector)
-                                        Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
-                                        Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-2) (Vector.zeroCreate Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-1) (Vector.zeroCreate Ctemp.NumCols)
                                 for i = j to k-1 do
                                     let temp =                
                                         (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
@@ -725,10 +725,10 @@ module TemporalClassification =
                                     Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
                                     Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
                                     if i = k - 1 then //if i = j - 1 then
-                                        Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-4) (Vector.zeroCreate Ctemp.NumCols)
                                         Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector) 
-                                        Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
-                                        Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-2) (Vector.zeroCreate Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-1) (Vector.zeroCreate Ctemp.NumCols)
                                 for i = k to l-1 do
                                     let temp =                
                                         (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))
@@ -738,10 +738,10 @@ module TemporalClassification =
                                     Matrix.setRow Ctemp (4*i-2) (temp - (B.Row (i-1) |> vector))
                                     Matrix.setRow Ctemp (4*i-1) (temp - (B.Row (i) |> vector))
                                     if i = l - 1 then //if i = j - 1 then
-                                        Matrix.setRow Ctemp (4*i-4) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-4) (Vector.zeroCreate Ctemp.NumCols)
                                         Matrix.setRow Ctemp (4*i-3) (B.Row (i-1) |> vector) 
-                                        Matrix.setRow Ctemp (4*i-2) (Vector.zero Ctemp.NumCols)
-                                        Matrix.setRow Ctemp (4*i-1) (Vector.zero Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-2) (Vector.zeroCreate Ctemp.NumCols)
+                                        Matrix.setRow Ctemp (4*i-1) (Vector.zeroCreate Ctemp.NumCols)
                                 for i = l to n-1 do
                                     let temp = 
                                         (List.init (i-1) (fun x -> 0.))@((-3./h.[i-1])::(3./h.[i-1])::(List.init (n-i-1) (fun x -> 0.)))

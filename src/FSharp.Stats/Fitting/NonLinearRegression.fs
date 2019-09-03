@@ -59,7 +59,7 @@ module NonLinearRegression =
         let paramCount = paramVector.Length
         // populate Jacobian Matrix
         for i = 0 to xData.Length-1 do 
-            let gradient = Vector.zero paramCount
+            let gradient = Vector.zeroCreate paramCount
             model.GetGradientValue paramVector gradient xData.[i] |> ignore
             Matrix.setRow jacobian i gradient            
         jacobian
@@ -91,7 +91,7 @@ module NonLinearRegression =
         let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) (xData: float[]) (yData: float []) = 
             let paramsAtIteration = new ResizeArray<vector>()
             let initialParamGuess = Vector.ofArray solverOptions.InitialParamGuess
-            let residualVector = Vector.zero xData.Length
+            let residualVector = Vector.zeroCreate xData.Length
             let jacobian = Matrix.zero xData.Length solverOptions.InitialParamGuess.Length
             let initialValueRSS = getRSS model xData yData initialParamGuess  
             let rec loop jacobian residualVector currentParamGuess currentValueRSS (paramsAtIteration:ResizeArray<vector>) = 
@@ -123,7 +123,7 @@ module NonLinearRegression =
         let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (xData: float[]) (yData: float []) = 
             let paramsAtIteration = new ResizeArray<vector>()
             let initialParamGuess = Vector.ofArray solverOptions.InitialParamGuess
-            let residualVector = Vector.zero xData.Length
+            let residualVector = Vector.zeroCreate xData.Length
             let jacobian = Matrix.zero xData.Length solverOptions.InitialParamGuess.Length
             let initialValueRSS = getRSS model xData yData initialParamGuess  
             let rec loop lambda jacobian residualVector currentParamGuess currentValueRSS (paramsAtIteration:ResizeArray<vector>) = 

@@ -219,7 +219,7 @@ module Matrix = begin
 
         /// Iterates the given Matrix row wise and places every element in a new vector with length n*m.
         let flattenRowWise (a: Matrix<'a>) =
-            let tmp = FSharp.Stats.Vector.Generic.zero (a.NumRows*a.NumCols)
+            let tmp = FSharp.Stats.Vector.Generic.zeroCreate (a.NumRows*a.NumCols)
             for m = 0 to a.NumRows-1 do 
                 for n = 0 to a.NumCols-1 do 
                     tmp.[m*a.NumCols+n] <- a.[m,n]
@@ -484,13 +484,13 @@ module Matrix = begin
     /// Computes the row wise sum of a Matrix 
     let sumRows (a:matrix) = 
         a
-        |> foldByRow (fun acc r -> acc + r ) (Vector.zero a.NumRows)
+        |> foldByRow (fun acc r -> acc + r ) (Vector.zeroCreate a.NumRows)
         
     
     /// Computes the Column wise sum of a Matrix 
     let sumColumns (a:matrix) = 
         a.Transpose 
-        |> foldByRow (fun acc r -> acc + r ) (Vector.zero a.NumCols)
+        |> foldByRow (fun acc r -> acc + r ) (Vector.zeroCreate a.NumCols)
         
 
     /// Computes the row wise mean of a Matrix 
