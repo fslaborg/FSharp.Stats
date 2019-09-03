@@ -37,6 +37,8 @@ module Matrix = begin
         let toArray2D (matrix:Matrix<_>) = Array2D.init matrix.NumRows matrix.NumCols (fun i j -> get matrix i j)
         let toJaggedArray (m:Matrix<_>) = [|for i=0 to m.NumRows-1 do yield (Array.init m.NumCols (fun j -> get m i j))|]
         let initNumeric length1 length2 initializer = MS.initNumericM length1 length2 initializer
+        [<Obsolete("Do not use. Use zeroCreate instead.")>]
+        let zero length1 length2 = MS.zeroM length1 length2
         let zeroCreate length1 length2 = MS.zeroM length1 length2
         let identity m = MS.identityM m
         let create length1 length2 value = MS.constM length1 length2 value
@@ -162,71 +164,71 @@ module Matrix = begin
         ///
         let toScalar matrix = MS.toScalarM matrix
 
-        let inplace_assign f a    = MS.inplaceAssignM  f a
-        let inplace_cptMul a b    = MS.inplaceCptMulM a b
-        let inplace_scale a b     = MS.inplaceScaleM a b
-        let inplace_map f a      = MS.inplace_mapM f a
-        let inplace_mapi f a      = MS.inplace_mapiM f a
-        let of_rowvec x           = ofRowVector x
-        let of_vector x           = ofVector x
-        let to_vector x           = toVector x
-        let to_rowvec x           = toRowVector x
-        let to_scalar x           = toScalar x
-        let inplace_add a b       = inplaceAdd a b
-        let inplace_sub a b       = inplaceSub a b
-        let of_scalar   x         = ofScalar x
-        let of_list    xss        = ofList xss
-        let of_seq     xss        = ofSeq xss
-        let inline of_array2D arr = ofArray2D arr
-        let inline to_array2D m   = toArray2D m
-        let init_diagonal v       = initDiagonal v
-        let to_dense a            = toDense a
-        let init_dense i j a      = initDense i j a
-        let init_sparse i j a     = initSparse i j a
-        let nonzero_entries a     = MS.nonZeroEntriesM a
+        let inplace_assign f matrix            = MS.inplaceAssignM  f matrix
+        let inplace_cptMul matrix1 matrix2     = MS.inplaceCptMulM matrix1 matrix2
+        let inplace_scale value matrix         = MS.inplaceScaleM value matrix
+        let inplace_map mapping matrix         = MS.inplace_mapM mapping matrix
+        let inplace_mapi mapping matrix        = MS.inplace_mapiM mapping matrix
+        let of_rowvec rowVector                = ofRowVector rowVector
+        let of_vector vector                   = ofVector vector
+        let to_vector matrix                   = toVector matrix
+        let to_rowvec matrix                   = toRowVector matrix
+        let to_scalar matrix                   = toScalar matrix
+        let inplace_add matrix1 matrix2        = inplaceAdd matrix1 matrix2
+        let inplace_sub matrix1 matrix2        = inplaceSub matrix1 matrix2
+        let of_scalar scalar                   = ofScalar scalar
+        let of_list lists                      = ofList lists
+        let of_seq sources                     = ofSeq sources
+        let inline of_array2D arrays           = ofArray2D arrays
+        let inline to_array2D matrix           = toArray2D matrix
+        let init_diagonal vector               = initDiagonal vector
+        let to_dense matrix                    = toDense matrix
+        let init_dense length1 length2 source  = initDense length1 length2 source
+        let init_sparse length1 length2 source = initSparse length1 length2 source
+        let nonzero_entries matrix             = MS.nonZeroEntriesM matrix
 
         // TM
         /// Applies function f along row axis
-        let enumerateRowWise f (m:Matrix<'a>) =
+        let enumerateRowWise f (matrix:Matrix<'a>) =
             seq [
-                for rowi=0 to m.NumRows-1 do
-                yield f (seq [for coli=0 to m.NumCols-1 do yield m.[rowi,coli]])
+                for rowi=0 to matrix.NumRows-1 do
+                yield f (seq [for coli=0 to matrix.NumCols-1 do yield matrix.[rowi,coli]])
             ]
 
         /// Maps every matrix row using the position dependant function
-        let mapiRows (f: int -> RowVector<'a> -> 'b) (m:Matrix<'a>) =
+        let mapiRows (mapping: int -> RowVector<'a> -> 'b) (matrix:Matrix<'a>) =
 
             seq [
-                for rowi=0 to m.NumRows-1 do
-                    yield f rowi (getRow m rowi)
+                for rowi=0 to matrix.NumRows-1 do
+                    yield mapping rowi (getRow matrix rowi)
             ]
 
         // TM
         /// Applies function f along colúmn axis
-        let enumerateColumnWise f (m:Matrix<'a>) =
+        let enumerateColumnWise f (matrix:Matrix<'a>) =
             seq [
-                for coli=0 to m.NumCols-1 do
-                yield f (seq [for rowi=0 to m.NumRows-1 do yield m.[rowi,coli]])
+                for coli=0 to matrix.NumCols-1 do
+                yield f (seq [for rowi=0 to matrix.NumRows-1 do yield matrix.[rowi,coli]])
             ]
 
         /// Maps every matrix column using the position dependant function
-        let mapiCols (f: int -> Vector<'a> -> 'b) (m:Matrix<'a>) =
+        let mapiCols (mapping: int -> Vector<'a> -> 'b) (matrix:Matrix<'a>) =
             seq [
-                for coli=0 to m.NumCols-1 do
-                    yield f coli (getCol m coli)
+                for coli=0 to matrix.NumCols-1 do
+                    yield mapping coli (getCol matrix coli)
             ]
 
         /// Iterates the given Matrix row wise and places every element in a new vector with length n*m.
-        let flattenRowWise (a: Matrix<'a>) =
-            let tmp = FSharp.Stats.Vector.Generic.zeroCreate (a.NumRows*a.NumCols)
-            for m = 0 to a.NumRows-1 do
-                for n = 0 to a.NumCols-1 do
-                    tmp.[m*a.NumCols+n] <- a.[m,n]
+        let flattenRowWise (matrix: Matrix<'a>) =
+            let tmp = FSharp.Stats.Vector.Generic.zeroCreate (matrix.NumRows*matrix.NumCols)
+            for m = 0 to matrix.NumRows-1 do
+                for n = 0 to matrix.NumCols-1 do
+                    tmp.[m*matrix.NumCols+n] <- matrix.[m,n]
             tmp
 
         /// Iterates the given Matrix column wise and places every element in a new vector with length n*m.
-        let flattenColWise (a: Matrix<'a>) =
-            a.Transpose |> flattenRowWise
+        let flattenColWise (matrix: Matrix<'a>) =
+            matrix.Transpose |> flattenRowWise
 
     end
 
