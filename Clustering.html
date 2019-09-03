@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Clustering</title>
+    <title>Clustering
+</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="F# project for statistical computing"/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -34,6 +35,9 @@
       <div class="row">
         <div class="span9" id="main">
           
+<h1><a name="Clustering" class="anchor" href="#Clustering">Clustering</a></h1>
+<h2><a name="Iterative-Clustering" class="anchor" href="#Iterative-Clustering">Iterative Clustering</a></h2>
+<h3><a name="k-means-clustering" class="anchor" href="#k-means-clustering">k-means clustering</a></h3>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -137,6 +141,34 @@
 <span class="l"> 9: </span>
 <span class="l">10: </span>
 <span class="l">11: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 95)" onmouseover="showTip(event, 'fs53', 95)" class="id">kmeansResult</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs50', 96)" onmouseover="showTip(event, 'fs50', 96)" class="m">IterativeClustering</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 97)" onmouseover="showTip(event, 'fs54', 97)" class="id">kmeans</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs55', 98)" onmouseover="showTip(event, 'fs55', 98)" class="m">DistanceMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs56', 99)" onmouseover="showTip(event, 'fs56', 99)" class="id">euclidean</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs49', 100)" onmouseover="showTip(event, 'fs49', 100)" class="fn">randomInitFactory</span> 
+    <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs21', 101)" onmouseover="showTip(event, 'fs21', 101)" class="id">data</span> <span class="o">&lt;|</span> <span class="n">4</span>
+
+
+
+<span onmouseout="hideTip(event, 'fs28', 102)" onmouseover="showTip(event, 'fs28', 102)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs57', 103)" onmouseover="showTip(event, 'fs57', 103)" class="id">zip</span> <span onmouseout="hideTip(event, 'fs20', 104)" onmouseover="showTip(event, 'fs20', 104)" class="id">lable</span> <span onmouseout="hideTip(event, 'fs21', 105)" onmouseover="showTip(event, 'fs21', 105)" class="id">data</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 106)" onmouseover="showTip(event, 'fs28', 106)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs58', 107)" onmouseover="showTip(event, 'fs58', 107)" class="id">sortBy</span> <span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs59', 108)" onmouseover="showTip(event, 'fs59', 108)" class="id">l</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs60', 109)" onmouseover="showTip(event, 'fs60', 109)" class="id">dataPoint</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs59', 110)" onmouseover="showTip(event, 'fs59', 110)" class="id">l</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs61', 111)" onmouseover="showTip(event, 'fs61', 111)" class="fn">fst</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs53', 112)" onmouseover="showTip(event, 'fs53', 112)" class="fn">kmeansResult</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs62', 113)" onmouseover="showTip(event, 'fs62', 113)" class="id">Classifier</span> <span onmouseout="hideTip(event, 'fs60', 114)" onmouseover="showTip(event, 'fs60', 114)" class="id">dataPoint</span><span class="pn">)</span><span class="pn">)</span> 
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 115)" onmouseover="showTip(event, 'fs28', 115)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 116)" onmouseover="showTip(event, 'fs30', 116)" class="id">unzip</span>
+<span class="o">|&gt;</span> <span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs63', 117)" onmouseover="showTip(event, 'fs63', 117)" class="id">l</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs64', 118)" onmouseover="showTip(event, 'fs64', 118)" class="id">d</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs36', 119)" onmouseover="showTip(event, 'fs36', 119)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 120)" onmouseover="showTip(event, 'fs37', 120)" class="id">Heatmap</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs64', 121)" onmouseover="showTip(event, 'fs64', 121)" class="id">d</span><span class="pn">,</span><span class="id">ColNames</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs31', 122)" onmouseover="showTip(event, 'fs31', 122)" class="id">colnames</span><span class="pn">,</span><span class="id">RowNames</span><span class="o">=</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs63', 123)" onmouseover="showTip(event, 'fs63', 123)" class="id">l</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs22', 124)" onmouseover="showTip(event, 'fs22', 124)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 125)" onmouseover="showTip(event, 'fs38', 125)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs39', 126)" onmouseover="showTip(event, 'fs39', 126)" class="id">i</span> <span onmouseout="hideTip(event, 'fs40', 127)" onmouseover="showTip(event, 'fs40', 127)" class="id">s</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs41', 128)" onmouseover="showTip(event, 'fs41', 128)" class="fn">sprintf</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s"></span><span class="pf">%i</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs40', 129)" onmouseover="showTip(event, 'fs40', 129)" class="id">s</span> <span onmouseout="hideTip(event, 'fs39', 130)" onmouseover="showTip(event, 'fs39', 130)" class="id">i</span> <span class="pn">)</span><span class="pn">)</span><span class="pn">,</span><span class="id">Colorscale</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs32', 131)" onmouseover="showTip(event, 'fs32', 131)" class="id">colorscaleValue</span><span class="pn">,</span><span class="id">Showscale</span><span class="o">=</span><span class="k">true</span><span class="pn">)</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs36', 132)" onmouseover="showTip(event, 'fs36', 132)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 133)" onmouseover="showTip(event, 'fs43', 133)" class="id">withSize</span><span class="pn">(</span><span class="n">500.</span><span class="pn">,</span><span class="n">1100.</span><span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="Density-based-clustering" class="anchor" href="#Density-based-clustering">Density based clustering</a></h2>
+<h3><a name="DBSCAN" class="anchor" href="#DBSCAN">DBSCAN</a></h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
 <span class="l">12: </span>
 <span class="l">13: </span>
 <span class="l">14: </span>
@@ -173,40 +205,8 @@
 <span class="l">45: </span>
 <span class="l">46: </span>
 <span class="l">47: </span>
-<span class="l">48: </span>
-<span class="l">49: </span>
-<span class="l">50: </span>
-<span class="l">51: </span>
-<span class="l">52: </span>
-<span class="l">53: </span>
-<span class="l">54: </span>
-<span class="l">55: </span>
-<span class="l">56: </span>
-<span class="l">57: </span>
-<span class="l">58: </span>
-<span class="l">59: </span>
-<span class="l">60: </span>
-<span class="l">61: </span>
-<span class="l">62: </span>
-<span class="l">63: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 95)" onmouseover="showTip(event, 'fs53', 95)" class="id">kmeansResult</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs50', 96)" onmouseover="showTip(event, 'fs50', 96)" class="m">IterativeClustering</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 97)" onmouseover="showTip(event, 'fs54', 97)" class="id">kmeans</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs55', 98)" onmouseover="showTip(event, 'fs55', 98)" class="m">DistanceMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs56', 99)" onmouseover="showTip(event, 'fs56', 99)" class="id">euclidean</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs49', 100)" onmouseover="showTip(event, 'fs49', 100)" class="fn">randomInitFactory</span> 
-    <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs21', 101)" onmouseover="showTip(event, 'fs21', 101)" class="id">data</span> <span class="o">&lt;|</span> <span class="n">4</span>
-
-
-
-<span onmouseout="hideTip(event, 'fs28', 102)" onmouseover="showTip(event, 'fs28', 102)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs57', 103)" onmouseover="showTip(event, 'fs57', 103)" class="id">zip</span> <span onmouseout="hideTip(event, 'fs20', 104)" onmouseover="showTip(event, 'fs20', 104)" class="id">lable</span> <span onmouseout="hideTip(event, 'fs21', 105)" onmouseover="showTip(event, 'fs21', 105)" class="id">data</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 106)" onmouseover="showTip(event, 'fs28', 106)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs58', 107)" onmouseover="showTip(event, 'fs58', 107)" class="id">sortBy</span> <span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs59', 108)" onmouseover="showTip(event, 'fs59', 108)" class="id">l</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs60', 109)" onmouseover="showTip(event, 'fs60', 109)" class="id">dataPoint</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs59', 110)" onmouseover="showTip(event, 'fs59', 110)" class="id">l</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs61', 111)" onmouseover="showTip(event, 'fs61', 111)" class="fn">fst</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs53', 112)" onmouseover="showTip(event, 'fs53', 112)" class="fn">kmeansResult</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs62', 113)" onmouseover="showTip(event, 'fs62', 113)" class="id">Classifier</span> <span onmouseout="hideTip(event, 'fs60', 114)" onmouseover="showTip(event, 'fs60', 114)" class="id">dataPoint</span><span class="pn">)</span><span class="pn">)</span> 
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 115)" onmouseover="showTip(event, 'fs28', 115)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 116)" onmouseover="showTip(event, 'fs30', 116)" class="id">unzip</span>
-<span class="o">|&gt;</span> <span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs63', 117)" onmouseover="showTip(event, 'fs63', 117)" class="id">l</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs64', 118)" onmouseover="showTip(event, 'fs64', 118)" class="id">d</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs36', 119)" onmouseover="showTip(event, 'fs36', 119)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 120)" onmouseover="showTip(event, 'fs37', 120)" class="id">Heatmap</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs64', 121)" onmouseover="showTip(event, 'fs64', 121)" class="id">d</span><span class="pn">,</span><span class="id">ColNames</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs31', 122)" onmouseover="showTip(event, 'fs31', 122)" class="id">colnames</span><span class="pn">,</span><span class="id">RowNames</span><span class="o">=</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs63', 123)" onmouseover="showTip(event, 'fs63', 123)" class="id">l</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs22', 124)" onmouseover="showTip(event, 'fs22', 124)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 125)" onmouseover="showTip(event, 'fs38', 125)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs39', 126)" onmouseover="showTip(event, 'fs39', 126)" class="id">i</span> <span onmouseout="hideTip(event, 'fs40', 127)" onmouseover="showTip(event, 'fs40', 127)" class="id">s</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs41', 128)" onmouseover="showTip(event, 'fs41', 128)" class="fn">sprintf</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s"></span><span class="pf">%i</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs40', 129)" onmouseover="showTip(event, 'fs40', 129)" class="id">s</span> <span onmouseout="hideTip(event, 'fs39', 130)" onmouseover="showTip(event, 'fs39', 130)" class="id">i</span> <span class="pn">)</span><span class="pn">)</span><span class="pn">,</span><span class="id">Colorscale</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs32', 131)" onmouseover="showTip(event, 'fs32', 131)" class="id">colorscaleValue</span><span class="pn">,</span><span class="id">Showscale</span><span class="o">=</span><span class="k">true</span><span class="pn">)</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs36', 132)" onmouseover="showTip(event, 'fs36', 132)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 133)" onmouseover="showTip(event, 'fs43', 133)" class="id">withSize</span><span class="pn">(</span><span class="n">500.</span><span class="pn">,</span><span class="n">1100.</span><span class="pn">)</span>
-
-
-<span class="c">// ---------------</span>
-<span class="c">// DBSACN clustering</span>
-
-<span class="c">//four dimensional clustering with sepal length, petal length, sepal width and petal width</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">//four dimensional clustering with sepal length, petal length, sepal width and petal width</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs65', 134)" onmouseover="showTip(event, 'fs65', 134)" class="id">t</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs66', 135)" onmouseover="showTip(event, 'fs66', 135)" class="m">DbScan</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs67', 136)" onmouseover="showTip(event, 'fs67', 136)" class="id">compute</span> <span onmouseout="hideTip(event, 'fs55', 137)" onmouseover="showTip(event, 'fs55', 137)" class="m">DistanceMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs68', 138)" onmouseover="showTip(event, 'fs68', 138)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs69', 139)" onmouseover="showTip(event, 'fs69', 139)" class="id">euclideanNaN</span> <span class="n">5</span> <span class="n">1.0</span> <span onmouseout="hideTip(event, 'fs21', 140)" onmouseover="showTip(event, 'fs21', 140)" class="id">data</span>
 
 <span class="c">//extract petal length and petal width</span>
@@ -350,30 +350,23 @@
 </code></pre></td>
 </tr>
 </table>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs106', 417)" onmouseover="showTip(event, 'fs106', 417)" class="fn">create3dChart</span> <span onmouseout="hideTip(event, 'fs55', 418)" onmouseover="showTip(event, 'fs55', 418)" class="m">DistanceMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs68', 419)" onmouseover="showTip(event, 'fs68', 419)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs111', 420)" onmouseover="showTip(event, 'fs111', 420)" class="id">euclideanNaNSquared</span> <span class="n">20</span> <span class="pn">(</span><span class="n">0.7</span><span class="o">**</span><span class="n">2.</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs73', 421)" onmouseover="showTip(event, 'fs73', 421)" class="id">petW_petL_sepL</span> 
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs36', 422)" onmouseover="showTip(event, 'fs36', 422)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs104', 423)" onmouseover="showTip(event, 'fs104', 423)" class="id">withX_AxisStyle</span> <span class="s">&quot;Petal length&quot;</span>
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs36', 424)" onmouseover="showTip(event, 'fs36', 424)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs105', 425)" onmouseover="showTip(event, 'fs105', 425)" class="id">withY_AxisStyle</span> <span class="s">&quot;Petal width&quot;</span>
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs36', 426)" onmouseover="showTip(event, 'fs36', 426)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs112', 427)" onmouseover="showTip(event, 'fs112', 427)" class="id">withZ_AxisStyle</span> <span class="s">&quot;Sepal length&quot;</span>
-
-
-
-<span class="c">// ---------------</span>
-<span class="c">// Hierarchical clustering</span>
-<span class="c">//// fast #time</span>
-<span class="c">//let htmp = HierarchicalClustering.generate&#39; DistanceMetrics.euclidean Linker.wardLwLinker data</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="Hierarchical-clustering" class="anchor" href="#Hierarchical-clustering">Hierarchical clustering</a></h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">//let htmp = HierarchicalClustering.generate&#39; DistanceMetrics.euclidean Linker.wardLwLinker data</span>
 <span class="c">// slower</span>
 </code></pre></td>
 </tr>

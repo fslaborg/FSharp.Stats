@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Helpers - FSharp.Stats</title>
+    <title>MultipleTesting - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -37,19 +37,37 @@
 
 
 
-<h1>Helpers</h1>
+<h1>MultipleTesting</h1>
 <p>
-  <span>Namespace: FSharp.Stats</span><br />
-        <span>
-          Attributes:<br />
-[&lt;AutoOpen&gt;]<br />
-          
-      </span>
-</p>
+  <span>Namespace: FSharp.Stats.Testing</span><br />
+  </p>
 <div class="xmldoc">
+<p>This module contains functions to adjust for multiple testing errors in statistical tests.</p>
+
 </div>
 
 <!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered module-list">
+    <thead>
+      <tr><td>Module</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="module-name">
+            <a href="fsharp-stats-testing-multipletesting-qvalues.html">Qvalues</a>
+          </td>
+          <td class="xmldoc">
+          <p>Estimate the q-values for a given set of p-values. The q-value of a test measures the proportion of false positives incurred (called the false discovery rate) when that particular test is called significant.</p>
+
+
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
 
   <h3>Functions and values</h3>
   <table class="table table-bordered member-list">
@@ -60,103 +78,24 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '343', 343)" onmouseover="showTip(event, '343', 343)">
-            DenseMaxDisplay
+          <code onmouseout="hideTip(event, '1574', 1574)" onmouseover="showTip(event, '1574', 1574)">
+            benjaminiHochbergFDRBy projection rawP
           </code>
-          <div class="tip" id="343">
-            <strong>Signature:</strong> int<br />
-                                    <span>
-            <strong>Attributes:</strong><br />
-[&lt;Literal&gt;]<br />
-          </span>
-          </div>
+          <div class="tip" id="1574">
+            <strong>Signature:</strong> projection:(&#39;a -&gt; &#39;b * float) -&gt; rawP:seq&lt;&#39;a&gt; -&gt; (&#39;b * float) list<br />
+                          <strong>Type parameters:</strong> 'a, 'b                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L45-45" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PvalueAdjust.fs#L13-13" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
+          <p>Benjamini-Hochberg Correction (BH)
+'projection' should return a tuple of any identifier and the pValues as float, when applied to 'rawP'
+This function applies the Benjamini-Hochberg multiple testing correcture and returns all False Discovery Rates to which the given p-values are still
+significant.</p>
 
-          <code onmouseout="hideTip(event, '344', 344)" onmouseover="showTip(event, '344', 344)">
-            opsdata
-          </code>
-          <div class="tip" id="344">
-            <strong>Signature:</strong> INumeric&lt;&#39;T&gt; option<br />
-                          <strong>Type parameters:</strong> 'T                        <span>
-            <strong>Attributes:</strong><br />
-[&lt;RequiresExplicitTypeArguments&gt;]<br />
-          </span>
-          </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L42-42" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
 
-          <code onmouseout="hideTip(event, '345', 345)" onmouseover="showTip(event, '345', 345)">
-            sparseNotMutable()
-          </code>
-          <div class="tip" id="345">
-            <strong>Signature:</strong> unit -&gt; &#39;?11347<br />
-                          <strong>Type parameters:</strong> '?11347                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L39-39" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '346', 346)" onmouseover="showTip(event, '346', 346)">
-            sparseNYI()
-          </code>
-          <div class="tip" id="346">
-            <strong>Signature:</strong> unit -&gt; &#39;?11345<br />
-                          <strong>Type parameters:</strong> '?11345                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L38-38" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '347', 347)" onmouseover="showTip(event, '347', 347)">
-            VectorMaxDisplay
-          </code>
-          <div class="tip" id="347">
-            <strong>Signature:</strong> int<br />
-                                    <span>
-            <strong>Attributes:</strong><br />
-[&lt;Literal&gt;]<br />
-          </span>
-          </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L47-47" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
         </td>
       </tr>
     </tbody>

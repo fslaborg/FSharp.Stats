@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Helpers - FSharp.Stats</title>
+    <title>Qvalues - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -37,16 +37,14 @@
 
 
 
-<h1>Helpers</h1>
+<h1>Qvalues</h1>
 <p>
-  <span>Namespace: FSharp.Stats</span><br />
-        <span>
-          Attributes:<br />
-[&lt;AutoOpen&gt;]<br />
-          
-      </span>
-</p>
+  <span>Namespace: FSharp.Stats.Testing</span><br />
+  <span>Parent Module: <a href="fsharp-stats-testing-multipletesting.html">MultipleTesting</a></span>
+  </p>
 <div class="xmldoc">
+<p>Estimate the q-values for a given set of p-values. The q-value of a test measures the proportion of false positives incurred (called the false discovery rate) when that particular test is called significant.</p>
+
 </div>
 
 <!-- Render nested types and modules, if there are any -->
@@ -60,103 +58,89 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '343', 343)" onmouseover="showTip(event, '343', 343)">
-            DenseMaxDisplay
+          <code onmouseout="hideTip(event, '1575', 1575)" onmouseover="showTip(event, '1575', 1575)">
+            ofPValues pi0 pValues
           </code>
-          <div class="tip" id="343">
-            <strong>Signature:</strong> int<br />
-                                    <span>
-            <strong>Attributes:</strong><br />
-[&lt;Literal&gt;]<br />
-          </span>
-          </div>
+          <div class="tip" id="1575">
+            <strong>Signature:</strong> pi0:float -&gt; pValues:float [] -&gt; float []<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L45-45" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PvalueAdjust.fs#L154-154" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Calculates q-values from given p-values and returns an array of qValues in the same order.
+'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '344', 344)" onmouseover="showTip(event, '344', 344)">
-            opsdata
+          <code onmouseout="hideTip(event, '1576', 1576)" onmouseover="showTip(event, '1576', 1576)">
+            ofPValuesRobust pi0 pValues
           </code>
-          <div class="tip" id="344">
-            <strong>Signature:</strong> INumeric&lt;&#39;T&gt; option<br />
-                          <strong>Type parameters:</strong> 'T                        <span>
-            <strong>Attributes:</strong><br />
-[&lt;RequiresExplicitTypeArguments&gt;]<br />
-          </span>
-          </div>
+          <div class="tip" id="1576">
+            <strong>Signature:</strong> pi0:float -&gt; pValues:float [] -&gt; float []<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L42-42" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PvalueAdjust.fs#L134-134" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Calculates q-values from given p-values and returns an array of qValues in the same order.
+'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+See Storey JD (2002) JRSS-B 64: 479-498.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '345', 345)" onmouseover="showTip(event, '345', 345)">
-            sparseNotMutable()
+          <code onmouseout="hideTip(event, '1577', 1577)" onmouseover="showTip(event, '1577', 1577)">
+            pi0Bootstrap(pValues)
           </code>
-          <div class="tip" id="345">
-            <strong>Signature:</strong> unit -&gt; &#39;?11347<br />
-                          <strong>Type parameters:</strong> '?11347                      </div>
+          <div class="tip" id="1577">
+            <strong>Signature:</strong> pValues:float [] -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L39-39" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PvalueAdjust.fs#L93-93" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Estimates pi0 from given p-Values by Storeys bootstrap method using default lambda's
+pi0 is the value to which, one can find certain values of the distribution at random.
+If this returns 0. default lambda needs to be smaller. One should use 'pi0BootstrapWithLambda' in this case.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '346', 346)" onmouseover="showTip(event, '346', 346)">
-            sparseNYI()
+          <code onmouseout="hideTip(event, '1578', 1578)" onmouseover="showTip(event, '1578', 1578)">
+            pi0BootstrapWithLambda lambda pValues
           </code>
-          <div class="tip" id="346">
-            <strong>Signature:</strong> unit -&gt; &#39;?11345<br />
-                          <strong>Type parameters:</strong> '?11345                      </div>
+          <div class="tip" id="1578">
+            <strong>Signature:</strong> lambda:float [] -&gt; pValues:float [] -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L38-38" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PvalueAdjust.fs#L50-50" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
+          <p>Estimates pi0 from given p-Values by Storeys bootstrap .
+pi0 is the value to which, one can find certain values of the distribution at random.
+If this returns 0. lambda needs to be smaller.
+Math Definition for lambda = [0,1) . Contains values from 0 to 1, but not 1.</p>
 
-          <code onmouseout="hideTip(event, '347', 347)" onmouseover="showTip(event, '347', 347)">
-            VectorMaxDisplay
-          </code>
-          <div class="tip" id="347">
-            <strong>Signature:</strong> int<br />
-                                    <span>
-            <strong>Attributes:</strong><br />
-[&lt;Literal&gt;]<br />
-          </span>
-          </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L47-47" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
+
         </td>
       </tr>
     </tbody>
