@@ -76,7 +76,7 @@ module Rank =
     /// Ranks each entry of the given unsorted data array.
     /// Ties are replaced by their mean
     let inline rankAverage (data:array<_>) =    
-        let averageTies a b = float (b + a - 1) / float (b-a)
+        let averageTies a b = float ([(a + 1) .. b] |> List.sum) / float (b - a)
         rank averageTies float data
 
 
