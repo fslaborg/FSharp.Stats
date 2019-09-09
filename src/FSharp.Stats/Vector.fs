@@ -318,6 +318,11 @@ module Vector =
         Seq.getStDevOfReplicates rep data
         |> ofSeq 
 
+    /// calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence
+    let getCvOfReplicates rep (data:vector) =
+        Seq.getCvOfReplicates rep data
+        |> ofSeq 
+
     /// Splits a vector according to given indices. Returns (vector including values according to indices, rest)
     let splitVector (indices:int[]) (v:Vector<_>) =
         let len = v.Length
