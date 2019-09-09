@@ -128,6 +128,8 @@ module Vector =
     ///Returns length of vector
     let length (vector:vector) = VG.length vector
     ///Returns length of vector
+    let nRows (vector:vector) = VG.length vector
+    ///Returns length of vector
     [<Obsolete("Do not use. Use [length] instead.")>]
     let nrows (vector:vector) = VG.length vector
     ///Initiates vector of length count and fills it by applying initializer function on indices
