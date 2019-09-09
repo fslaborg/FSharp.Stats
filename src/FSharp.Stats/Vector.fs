@@ -44,6 +44,10 @@ module Vector =
         let zeroCreate count = OpsS.zeroV count
         ///Creates a vector of length count and fills it with ones
         let oneCreate count = OpsS.createNumericV count (fun ops _ -> ops.One)
+        [<Obsolete("Do not use. Use [zeroCreate] instead.")>]
+        let zero count = OpsS.zeroV count
+        [<Obsolete("Do not use. Use [oneCreate] instead.")>]
+        let ones count = OpsS.createNumericV count (fun ops _ -> ops.One)
         let ofScalar x = OpsS.scalarV x
         let add vector1 vector2 = OpsS.addV vector1 vector2
         let sub vector1 vector2 = OpsS.subV vector1 vector2
@@ -61,6 +65,10 @@ module Vector =
         let inplaceSub vector1 vector2 = OpsS.inplaceSubV vector1 vector2
         let inplaceCptMul vector1 vector2 = OpsS.inplaceCptMulV vector1 vector2
         let inplaceScale vector1 vector2 = OpsS.inplaceScaleV vector1 vector2
+        [<Obsolete("Do not use. Use [inplaceCptMul] instead.")>]
+        let inplace_cptMul v1 v2 = OpsS.inplaceCptMulV v1 v2
+        [<Obsolete("Do not use. Use [inplaceScale] instead.")>]
+        let inplace_scale v1 v2 = OpsS.inplaceScaleV v1 v2
 
 
         let exists predicate (vector:Vector<'T>) = OpsS.existsV  predicate vector
@@ -120,6 +128,7 @@ module Vector =
     ///Returns length of vector
     let length (vector:vector) = VG.length vector
     ///Returns length of vector
+    [<Obsolete("Do not use. Use [length] instead.")>]
     let nrows (vector:vector) = VG.length vector
     ///Initiates vector of length count and fills it by applying initializer function on indices
     let init count initializer = VecDS.createVecDS count initializer
@@ -196,6 +205,10 @@ module Vector =
     let zeroCreate count = create count 0.0
     ///Creates a vector of length count and fills it with ones
     let oneCreate count = create count 1.0
+    [<Obsolete("Do not use. Use [zeroCreate] instead.")>]
+    let zero count = create count 0.0
+    [<Obsolete("Do not use. Use [oneCreate] instead.")>]
+    let ones count = create count 1.0
     ///Sum of all elements of the vector
     let sum vector = VecDS.sumVecDS vector
     ///Product of all elements of the vector
