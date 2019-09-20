@@ -238,7 +238,7 @@ module Padding =
 
         
         ///Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).
-        let padRnd (data : float []) (borderpadding : int) =
+        let inline padRnd (data : 'a []) (borderpadding : int) =
             let rnd = System.Random()
             let n = data.Length
             ///adds 'borderpadding' number of random data points to the left
@@ -256,7 +256,7 @@ module Padding =
             [leftPadding;data;rightPadding] |> Array.concat
 
         ///Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).
-        let padZero (data : float []) (borderpadding : int) =
+        let inline padZero (data : 'a []) (borderpadding : int) =
             let padding = 
                 Array.zeroCreate borderpadding 
             [padding;data;padding] |> Array.concat
@@ -271,7 +271,7 @@ module Padding =
                 | Random
         
             /// padds artificial data points to the borders of the given Array2D. increment=1; n=borderpadding
-            let pad (data: float [,]) (borderpadding: int) (paddingMethod : Padding3DMethod) : float [,]=
+            let inline pad (data: 'a [,]) (borderpadding: int) (paddingMethod : Padding3DMethod) : float [,]=
                 //TODO: change data input from float to 'a
                 let rnd = System.Random()    
 
@@ -287,7 +287,7 @@ module Padding =
                                 | Zero -> 0.
                                 | _ -> float data.[rnd.Next(0,rowCount),rnd.Next(0,colCount)] 
                             else
-                                data.[rowI-borderpadding,colI-borderpadding]              
+                                float data.[rowI-borderpadding,colI-borderpadding]              
                         )
         
                 padArray2D

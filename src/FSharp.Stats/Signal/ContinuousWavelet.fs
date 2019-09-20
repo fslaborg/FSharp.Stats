@@ -70,7 +70,7 @@ module ContinuousWavelet =
             currentX,energycorrection correlationValue 
             )
 
-    let transformDefault (rawData : ('a * float) []) (wavelet: Wavelet.Ricker) =
+    let transformDefault (rawData : (float * float) []) (wavelet: Wavelet.Ricker) =
         let n = rawData.Length
         let spacing =
             [|1 .. n - 1|]
@@ -89,7 +89,7 @@ module ContinuousWavelet =
             Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.InternalPaddingMethod.LinearInterpolation Padding.HugeGapPaddingMethod.Random
         transform paddedData (-) paddingArea wavelet
 
-    let transformDefaultZero (rawData : ('a * float) []) (wavelet: Wavelet.Ricker) =
+    let transformDefaultZero (rawData : (float * float) []) (wavelet: Wavelet.Ricker) =
         let n = rawData.Length
         let spacing =
             [|1 .. n - 1|]
@@ -109,7 +109,7 @@ module ContinuousWavelet =
     module Discrete = 
         
         //performs a continuous wavelet transform on discrete data. (paddingNumber = borderpadding)
-        let transform (data: float []) (borderpadding: int) (wavelet: Wavelet.Ricker) =
+        let inline transform (data: 'a []) (borderpadding: int) (wavelet: Wavelet.Ricker) =
             let n = data.Length - borderpadding * 2
             let offset = wavelet.PaddingArea |> int
             Array.init n (fun i -> 
@@ -126,7 +126,7 @@ module ContinuousWavelet =
         module ThreeDimensional =
             
             //performs a continuous wavelet transform on discrete data. (paddingNumber = borderpadding)
-            let transform (data: float [,]) (borderpadding: int) (wavelet: Wavelet.Marr) =
+            let inline transform (data: 'a [,]) (borderpadding: int) (wavelet: Wavelet.Marr) =
                     let resolutionPixelfst = (Array2D.length1 data) - borderpadding * 2
                     let resolutionPixelsnd = (Array2D.length2 data) - borderpadding * 2
                     let offset = wavelet.PaddingArea |> ceil |> int
@@ -136,7 +136,7 @@ module ContinuousWavelet =
                         let rec loop acc' a b =
                             if a <= 2 * offset then
                                 if b <= 2 * offset then
-                                    let acc = acc' + ((wavelet.MarrValues).[a,b] * (data.[(indexX+(a-offset)),(indexY+(b-offset))] |> float))
+                                    let acc = acc' + ((wavelet.MarrValues).[a,b] * float (data.[(indexX+(a-offset)),(indexY+(b-offset))]))
                                     loop acc a (b + 1)
                                 else
                                     loop acc' (a + 1) 0
