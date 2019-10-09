@@ -27,22 +27,22 @@ module Matrix = begin
         module MS = SpecializedGenericImpl
 
         // Accessors
-        let get (matrix:Matrix<_>) index1 index2 = matrix.[index1,index2]
-        let set (matrix:Matrix<_>) index1 index2 value = matrix.[index1,index2] <- value
+        let get (matrix:Matrix<_>) indexRow indexCol = matrix.[indexRow,indexCol]
+        let set (matrix:Matrix<_>) indexRow indexCol value = matrix.[indexRow,indexCol] <- value
         // Creation
         let ofList lists = MS.listM lists
         let ofSeq sources  = MS.seqM sources
-        let init length1 length2 initializer = MS.initM  length1 length2 initializer
+        let init lengthRow lengthCol initializer = MS.initM  lengthRow lengthCol initializer
         let ofArray2D (array: 'T[,])  : Matrix<'T> = MS.arrayM array
         let sparseOfArray2D (array: 'T[,]) : Matrix<'T> = MS.arraySM array
         let toArray2D (matrix:Matrix<_>) = Array2D.init matrix.NumRows matrix.NumCols (fun i j -> get matrix i j)
         let toJaggedArray (m:Matrix<_>) = [|for i=0 to m.NumRows-1 do yield (Array.init m.NumCols (fun j -> get m i j))|]
-        let initNumeric length1 length2 initializer = MS.initNumericM length1 length2 initializer
+        let initNumeric lengthRow lengthCol initializer = MS.initNumericM lengthRow lengthCol initializer
         [<Obsolete("Do not use. Use zeroCreate instead.")>]
-        let zero length1 length2 = MS.zeroM length1 length2
-        let zeroCreate length1 length2 = MS.zeroM length1 length2
+        let zero lengthRow lengthCol = MS.zeroM lengthRow lengthCol
+        let zeroCreate lengthRow lengthCol = MS.zeroM lengthRow lengthCol
         let identity m = MS.identityM m
-        let create length1 length2 value = MS.constM length1 length2 value
+        let create lengthRow lengthCol value = MS.constM lengthRow lengthCol value
         let ofScalar scalar = MS.scalarM scalar
         let diag v = MS.diagM v
         let initDiagonal v = MS.diagM v
@@ -131,9 +131,9 @@ module Matrix = begin
         ///
         let toSparse matrix = MS.toSparseM matrix
         ///
-        let initDense length1 length2 source = MS.initDenseM length1 length2 source
+        let initDense lengthRow lengthCol source = MS.initDenseM lengthRow lengthCol source
         ///
-        let initSparse length1 length2 source = MS.initSparseM length1 length2 source
+        let initSparse lengthRow lengthCol source = MS.initSparseM lengthRow lengthCol source
         ///
         let fold folder state matrix = MS.foldM folder state matrix
         ///
@@ -167,30 +167,30 @@ module Matrix = begin
         ///
         let toScalar matrix = MS.toScalarM matrix
 
-        let inplace_assign f matrix            = MS.inplaceAssignM  f matrix
-        let inplace_cptMul matrix1 matrix2     = MS.inplaceCptMulM matrix1 matrix2
-        let inplace_scale value matrix         = MS.inplaceScaleM value matrix
-        let inplace_map mapping matrix         = MS.inplace_mapM mapping matrix
-        let inplace_mapi mapping matrix        = MS.inplace_mapiM mapping matrix
-        let of_rowvec rowVector                = ofRowVector rowVector
-        let of_vector vector                   = ofVector vector
-        let to_vector matrix                   = toVector matrix
-        let to_rowvec matrix                   = toRowVector matrix
-        let to_scalar matrix                   = toScalar matrix
-        let inplace_add matrix1 matrix2        = inplaceAdd matrix1 matrix2
-        let inplace_sub matrix1 matrix2        = inplaceSub matrix1 matrix2
-        let of_scalar scalar                   = ofScalar scalar
-        let of_list lists                      = ofList lists
-        let of_seq sources                     = ofSeq sources
-        let inline of_array2D arrays           = ofArray2D arrays
-        let inline sparse_of_array2D arrays    = sparseOfArray2D arrays
-        let inline to_array2D matrix           = toArray2D matrix
-        let init_diagonal vector               = initDiagonal vector
-        let to_dense matrix                    = toDense matrix
-        let to_sparse matrix                   = toSparse matrix
-        let init_dense length1 length2 source  = initDense length1 length2 source
-        let init_sparse length1 length2 source = initSparse length1 length2 source
-        let nonzero_entries matrix             = MS.nonZeroEntriesM matrix
+        let inplace_assign f matrix                = MS.inplaceAssignM  f matrix
+        let inplace_cptMul matrix1 matrix2         = MS.inplaceCptMulM matrix1 matrix2
+        let inplace_scale value matrix             = MS.inplaceScaleM value matrix
+        let inplace_map mapping matrix             = MS.inplace_mapM mapping matrix
+        let inplace_mapi mapping matrix            = MS.inplace_mapiM mapping matrix
+        let of_rowvec rowVector                    = ofRowVector rowVector
+        let of_vector vector                       = ofVector vector
+        let to_vector matrix                       = toVector matrix
+        let to_rowvec matrix                       = toRowVector matrix
+        let to_scalar matrix                       = toScalar matrix
+        let inplace_add matrix1 matrix2            = inplaceAdd matrix1 matrix2
+        let inplace_sub matrix1 matrix2            = inplaceSub matrix1 matrix2
+        let of_scalar scalar                       = ofScalar scalar
+        let of_list lists                          = ofList lists
+        let of_seq sources                         = ofSeq sources
+        let inline of_array2D arrays               = ofArray2D arrays
+        let inline sparse_of_array2D arrays        = sparseOfArray2D arrays
+        let inline to_array2D matrix               = toArray2D matrix
+        let init_diagonal vector                   = initDiagonal vector
+        let to_dense matrix                        = toDense matrix
+        let to_sparse matrix                       = toSparse matrix
+        let init_dense lengthRow lengthCol source  = initDense lengthRow lengthCol source
+        let init_sparse lengthRow lengthCol source = initSparse lengthRow lengthCol source
+        let nonzero_entries matrix                 = MS.nonZeroEntriesM matrix
 
         // TM
         /// Applies function f along row axis
