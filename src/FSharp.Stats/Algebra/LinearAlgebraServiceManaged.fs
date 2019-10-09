@@ -6,9 +6,10 @@ namespace FSharp.Stats.Algebra
 //open Microsoft.FSharp.Math
 //open Microsoft.FSharp.Math. Bindings.Internals.NativeUtilities
 open FSharp.Stats
-
+open DotNetExtensions
 /// This module is for internal use only.
 module LinearAlgebraManaged = 
+    open System
 
     //let a = 1.    
 
@@ -148,7 +149,6 @@ module LinearAlgebraManaged =
         (((*P.Length,*)Permutation.ofArray P),L + Matrix.identity nA,U)
         //(P, L + (Matrix.identity nA), U)
     
-
     /// Solves a system of linear equations, AX = B, with A LU factorized.
     let SolveLinearSystem (A:matrix) (b:vector) =
         let (n,m) = matrixDims A
@@ -192,10 +192,11 @@ module LinearAlgebraManaged =
             for k=i to m-1 do
                 A.[l,k] <- A.[l,k] - 2.0 * v.[l-i] * v'A.[k-i]
         v                                                              // Return reflection vector.
-            
-    let QR (A:matrix) =
+
+    /// QR factorization function for dense matrices
+    let QRDense (A:matrix) =
         let (n,m) = matrixDims A
-        let mutable Q = Matrix.identity n                                   // Keeps track of the orthogonal matrix.
+        let mutable Q = Matrix.identity n // Keeps track of the orthogonal matrix.
         let R = Matrix.copy A
 
         // This method will update the orhogonal transformation fast when given a reflection vector.
@@ -218,6 +219,179 @@ module LinearAlgebraManaged =
             let v = HouseholderTransform R i
             UpdateQ Q v
         Q,R
+
+    /// QR factorization function for sparse matrices, returns Q as a product of givens rotations and R as upper triangular
+    let QRSparse (A:SparseMatrix<float>) =
+
+        /// Copies the row of a Sparsematrix into a Sparsevector
+        let CopyRow (nnz:int) (offset:int) (A:SparseMatrix<float>) =
+            let sparseVector = ResizeArray<(int*float)>()
+            for i=nnz-1 downto 0 do
+                if(not (A.SparseValues.[i+offset] = 0.0)) then
+                    let entry = (A.SparseColumnValues.[i+offset], A.SparseValues.[i+offset])
+                    sparseVector.Insert(0, entry)
+            sparseVector
+        
+        /// Returns "value" with the sign of "sign"
+        let Copysign (value:float) (sign:float) =
+            if (sign >= 0.0) then
+                abs(value)
+            else // sign is negative
+                if(value < 0.0) then
+                    value
+                else
+                   value * -1.0
+
+        let Encode(c:float) (s:float) = 
+            if(abs(s) < c) then
+                s
+            else
+                Copysign (1.0/c) s
+
+        /// Apply the givens rotation on 2 Sparsevectors
+        let ApplyGivens (x : ResizeArray<(int*float)>) (y : ResizeArray<(int*float)>) = 
+            let a = snd x.Front
+            let b = snd y.Front
+    
+            let mutable c = -1.0
+            let mutable s = -1.0
+
+            if (b = 0.0) then
+              c <- 1.0
+              s <- 0.0
+            else
+                if (abs(b) > abs(a)) then
+                    let tau = -a / b
+                    s <- 1.0 / sqrt(1.0 + tau * tau)
+                    c <- s * tau
+                    if (c < 0.0) then 
+                        c <- -c
+                        s <- -s
+                else
+                    let tau = -b/a
+                    c <- 1.0 / sqrt(1.0 + tau * tau)
+                    s <- c * tau
+
+            // Rotate the start of each list
+            x.Front <- (fst x.Front, c * a - s * b)
+            y.PopFront |> ignore
+    
+            // Iterators
+            let mutable p = 0
+            let mutable q = 0
+            p <- p + 1 // Skip the first entry since we already handled it above
+    
+            while (p < x.Count && q < y.Count) do
+                if (fst x.[p] = fst y.[q]) then
+                    let xNew = c  * snd x.[p] - s * snd y.[q]
+                    let yNew = s *  snd x.[p] + c * snd y.[q]
+                    if (not (xNew = 0.0)) then
+                        x.[p] <- (fst x.[p], xNew)
+                        p <- p + 1
+                    else
+                        x.RemoveAt(p)
+                    if ( not (yNew = 0.0)) then
+                        y.[q] <- (fst y.[q], yNew)
+                        q <- q + 1
+                    else
+                        y.RemoveAt(q)
+                else if(fst x.[p] < fst y.[q]) then
+                    let k = fst x.[p]
+                    let xNew = c * snd x.[p]
+                    let yNew = s * snd x.[p]
+                    x.[p] <- (fst x.[p] , xNew)
+                    p <-p + 1
+                    y.Insert(q,(k, yNew))
+                    q <- q + 1
+                else
+                    let k = fst y.[q]
+                    let xNew= -s * snd y.[q]
+                    let yNew= c * snd y.[q]
+                    x.Insert(p,(k, xNew))
+                    p <- p + 1
+                    y.[q] <- (fst y.[q], yNew)
+                    q <- q + 1
+            if(p < x.Count) then
+                while(p < x.Count) do
+                    let k = fst x.[p]
+                    let xNew = c * snd x.[p]
+                    let yNew = s * snd x.[p]
+                    x.[p] <- (fst x.[p], xNew)
+                    p <- p + 1
+                    y.Insert(q,(k, yNew))
+                    q <- q + 1      
+            else if(q < y.Count) then
+                while(q < y.Count) do
+                    let k = fst y.[q]
+                    let xNew = -s * snd y.[q]
+                    let yNew = c * snd y.[q]
+                    x.Insert(p,(k, xNew))
+                    p <- p + 1
+                    y.[q] <- (fst y.[q], yNew)
+                    q <- q + 1
+
+            Encode c s
+        
+        // Run Sparse QR
+        let m = A.NumRows
+        let n = A.NumCols
+        let mutable Q = new ResizeArray<ResizeArray<(int*float)>>()
+        let mutable R = new ResizeArray<ResizeArray<(int*float)>>()
+   
+        for i = 0 to m - 1 do
+            Q.Add(ResizeArray<(int*float)>())
+            R.Add(ResizeArray<(int*float)>())
+
+        for a = 0 to m-1 do
+            let mutable row = CopyRow (A.SparseRowOffsets.[a+1] - A.SparseRowOffsets.[a]) A.SparseRowOffsets.[a] A
+            let mutable q = 0
+            while((not row.IsEmpty) && fst row.Front < a && fst row.Front < n) do
+                let j = fst row.Front
+
+                if(R.[j].IsEmpty || fst R.[j].Front > j) then
+                    let temp = new ResizeArray<(int*float)> (row)
+                    row <- new ResizeArray<(int*float)>(R.[a])
+                    R.[a] <- new ResizeArray<(int*float)>(temp)
+                    Q.[a].Insert(q, (j, 1.0))
+                    q <- q + 1
+                    ()
+                else
+                    let ret = ApplyGivens R.[j] row
+                    Q.[a].Insert(q, (j, ret))
+                    q <- q + 1
+                    ()
+            if (a < n) then
+                let temp = new ResizeArray<(int*float)> (row)
+                row <- new ResizeArray<(int*float)>(R.[a])
+                R.[a] <- new ResizeArray<(int*float)>(temp)
+                ()
+
+        let mutable x = 0
+
+        let RSeq = seq{ for row in R do
+                            for entry in row do
+                                yield(x, fst entry, snd entry)
+                            x <- x+1
+                      }
+                            
+
+        let ROut = Matrix.initSparse m n RSeq
+
+        x <- 0
+        let QSeq = seq{ for row in Q do
+                            for entry in row do
+                                yield(x, fst entry, snd entry)
+                            x <- x+1  
+                      }
+
+        let QOut = Matrix.initSparse m n QSeq
+        QOut, ROut
+
+    /// Matches the union type of the matrix and invokes the according QR factorization function
+    let QR (A:matrix) =
+        match A with
+            | SparseRepr A -> QRSparse(A)
+            | DenseRepr _ -> QRDense(A)
 
     let Hessenberg (A:matrix) =
         // REVIEW we can do with less copying here.
@@ -248,17 +422,53 @@ module LinearAlgebraManaged =
         Q,Matrix.init n m (fun i j -> if i = 0 then A.[i,j] else R.[i-1,j])
         
     let leastSquares A (b: vector) =
+
+        // Q.transpose * b for sparse Q
+        let MultiplyVectorWithTransposeGivensMatrix (q:SparseMatrix<float>, b:vector) =
+            let outVec = vector b
+            let m = q.NumRows
+            for i = 0 to m-1 do
+                for j = q.SparseRowOffsets.[i] to (q.SparseRowOffsets.[i+1] - 1) do
+                    let k = q.SparseColumnValues.[j]
+                    if(q.SparseValues.[j] = 1.0) then
+                        let temp = outVec.[i]
+                        outVec.[i] <- outVec.[k]
+                        outVec.[k] <- temp
+                    else
+                        let tau = q.SparseValues.[j]
+                        let mutable c = -1.0
+                        let mutable s = -1.0
+                        if(abs(tau) < 1.0) then
+                            s <- tau
+                            c <- sqrt(1.0-s*s)
+                        else
+                            c <- 1.0/tau
+                            s <- sqrt(1.0-c*c)
+                            if(c < 0.0) then
+                                c <- -c
+                                s <- -s
+                        let newxk = c * outVec.[k] - s * outVec.[i]
+                        outVec.[i] <- s * outVec.[k] + c * outVec.[i]
+                        outVec.[k] <- newxk
+            outVec
+    
         let (m,n) = matrixDims A
+        let Qm, R = QR A
+        let mutable Qtb = vector [||]
+
+        match Qm with
+            | DenseRepr _ ->
+                Qtb <- Qm.Transpose * b
+            | SparseRepr qm ->
+                Qtb <- MultiplyVectorWithTransposeGivensMatrix(qm, b)
+
         // Is this an overdetermined or underdetermined system?
         if m > n then
-            let qm,R = QR A
-            let Qtb = qm.Transpose * b
             SolveTriangularLinearSystem R.[0..n-1,0..n-1] Qtb.[0..n-1] false
         else
-            let qm,R = QR A
-            let Qtb = qm.Transpose * b
             let s = SolveTriangularLinearSystem R.[0..m-1,0..m-1] Qtb false
             Vector.init n (fun i -> if i < m then s.[i] else 0.0)
+       
 
     /// computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
     let hatMatrix (designMatrix: Matrix<float>) = 
@@ -285,7 +495,7 @@ module LinearAlgebraManaged =
                                         )
         leverage
         
-    
+
     /// Calculates the pseudo inverse of the matrix
     let pseudoInvers (matrix:Matrix<float>) =
         let (m,n) = matrixDims matrix
