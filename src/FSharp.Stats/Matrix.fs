@@ -183,9 +183,11 @@ module Matrix = begin
         let of_list lists                      = ofList lists
         let of_seq sources                     = ofSeq sources
         let inline of_array2D arrays           = ofArray2D arrays
+        let inline sparse_of_array2D arrays    = sparseOfArray2D arrays
         let inline to_array2D matrix           = toArray2D matrix
         let init_diagonal vector               = initDiagonal vector
         let to_dense matrix                    = toDense matrix
+        let to_sparse matrix                   = toSparse matrix
         let init_dense length1 length2 source  = initDense length1 length2 source
         let init_sparse length1 length2 source = initSparse length1 length2 source
         let nonzero_entries matrix             = MS.nonZeroEntriesM matrix
@@ -276,6 +278,8 @@ module Matrix = begin
     ///
     let ofArray2D arr : matrix = MG.ofArray2D arr
     ///
+    let sparseOfArray2D arr : matrix = MG.sparseOfArray2D arr
+    ///
     let toArray2D (m : matrix) = MG.toArray2D m
     ///
     let toJaggedArray (m: matrix) = MG.toJaggedArray m
@@ -355,6 +359,8 @@ module Matrix = begin
     let foldi f z (a:matrix) = MG.foldi f z a
     /// Transforms the matrix a to a dense matrix representation
     let toDense (a:matrix) = MG.toDense a
+    /// Transforms the matrix a to a sparse matrix representation
+    let toSparse (a:matrix) = MG.toSparse a
     /// Creates a dense matrix with i rows and j columns. All values are initialized to the value of a.
     let initDense i j a : matrix = MG.initDense i j a
     /// Creates a sparse matrix with i rows and j columns. All values are initialized to the value of a.
@@ -446,12 +452,14 @@ module Matrix = begin
     let to_rowvec x = toRowVector x
     let to_scalar x = toScalar x
     let inline of_array2D arr  = ofArray2D arr
+    let inline sparse_of_array2D arr = sparseOfArray2D arr
     let inline to_array2D m = toArray2D m
     let of_list    xss   = ofJaggedList xss
     let of_seq     xss   = ofJaggedSeq xss
     let init_diagonal v   = initDiagonal   v
     let of_scalar x     = ofScalar x
     let to_dense x = toDense x
+    let to_sparse x = toSparse x
     let init_dense i j a = initDense i j a
     let init_sparse i j a = initSparse i j a
 
