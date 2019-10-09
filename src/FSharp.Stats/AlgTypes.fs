@@ -285,6 +285,23 @@ namespace FSharp.Stats
               | _ -> raise (new System.NotSupportedException("The element type '"+(typeof<'T>.ToString())+"' carried by this vector or matrix does not support the INormFloat<_> operation (i.e. does not have a registered numeric association that supports this type)"))
 
         let mkDenseMatrixGU ops arr = DenseMatrix(ops,arr)
+        let mkSparseMatrixGU ops (arr: 'a[,]) =
+            let m = arr |> Array2D.length1
+            let n = arr |> Array2D.length2
+
+            let mutable nnz = 0
+            let  a  = FSharp.Collections.ResizeArray<'a>()
+            let  ja = FSharp.Collections.ResizeArray<int>()
+            let  ia = FSharp.Collections.ResizeArray<int>()
+            ia.Add(0)
+            for i = 0 to (m - 1) do
+                for j = 0 to (n - 1) do
+                    if ((Array2D.get arr i j) |> System.Convert.ToDouble) >= 0.000001 || ((Array2D.get arr i j)|> System.Convert.ToDouble) <= -0.000001 then
+                        a.Add((Array2D.get arr i j))
+                        ja.Add(j)
+                        nnz <- nnz + 1
+                ia.Add(nnz)
+            SparseMatrix(ops, a.ToArray(), ia.ToArray(), n, ja.ToArray())
         let mkRowVecGU ops arr = RowVector(ops, arr)
         let mkVecGU ops arr = Vector(ops,arr)
 
@@ -1373,6 +1390,7 @@ namespace FSharp.Stats
         let listRV   xss : RowVector<'T> = GU.listRowVecGU      opsdata<'T> xss
 
         let arrayM    xss : Matrix<'T>    = GU.mkDenseMatrixGU  opsdata<'T> (Array2D.copy xss) |> dense
+        let arraySM   xss : Matrix<'T>    = GU.mkSparseMatrixGU opsdata<'T> (Array2D.copy xss) |> sparse
         let arrayV    xss : Vector<'T>    = GU.mkVecGU          opsdata<'T> (Array.copy xss)
         let arrayRV   xss : RowVector<'T> = GU.mkRowVecGU       opsdata<'T> (Array.copy xss)
 
@@ -1821,6 +1839,27 @@ namespace FSharp.Stats
             match a with 
             | SparseRepr a -> GU.toDenseSparseMatrixGU a |> dense
             | DenseRepr _ -> a
+        let toSparseM (a: Matrix<'T>) =
+            match a with 
+            | SparseRepr _ -> a
+            | DenseRepr a ->
+                let m = a.NumRows
+                let n = a.NumCols
+
+                let mutable nnz = 0
+                let  ar = FSharp.Collections.ResizeArray<'T>()
+                let  ja = FSharp.Collections.ResizeArray<int>()
+                let  ia = FSharp.Collections.ResizeArray<int>()
+                ia.Add(0)
+
+                for i = 0 to (m - 1) do
+                    for j = 0 to (n - 1) do
+                        if (a.Item(i, j)|> System.Convert.ToDouble) >= 0.000001 || (a.Item(i, j)|> System.Convert.ToDouble) <= -0.000001 then
+                            ar.Add(a.Item(i, j))
+                            ja.Add(j)
+                            nnz <- nnz + 1
+                    ia.Add(nnz)
+                SparseRepr (SparseMatrix(opsdata<'T>, ar.ToArray(), ia.ToArray(), n, ja.ToArray()))
 
         let initSparseM i j x : Matrix<'T> = 
             let opsData = opsdata<'T> 
