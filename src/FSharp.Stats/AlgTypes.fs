@@ -286,22 +286,22 @@ namespace FSharp.Stats
 
         let mkDenseMatrixGU ops arr = DenseMatrix(ops,arr)
         let mkSparseMatrixGU ops (arr: 'a[,]) =
-            let m = arr |> Array2D.length1
-            let n = arr |> Array2D.length2
+            let length1 = arr |> Array2D.length1
+            let length2 = arr |> Array2D.length2
 
             let mutable nnz = 0
             let  a  = FSharp.Collections.ResizeArray<'a>()
             let  ja = FSharp.Collections.ResizeArray<int>()
             let  ia = FSharp.Collections.ResizeArray<int>()
             ia.Add(0)
-            for i = 0 to (m - 1) do
-                for j = 0 to (n - 1) do
+            for i = 0 to (length1 - 1) do
+                for j = 0 to (length2 - 1) do
                     if ((Array2D.get arr i j) |> System.Convert.ToDouble) >= 0.000001 || ((Array2D.get arr i j)|> System.Convert.ToDouble) <= -0.000001 then
                         a.Add((Array2D.get arr i j))
                         ja.Add(j)
                         nnz <- nnz + 1
                 ia.Add(nnz)
-            SparseMatrix(ops, a.ToArray(), ia.ToArray(), n, ja.ToArray())
+            SparseMatrix(ops, a.ToArray(), ia.ToArray(), length2, ja.ToArray())
         let mkRowVecGU ops arr = RowVector(ops, arr)
         let mkVecGU ops arr = Vector(ops,arr)
 
@@ -1843,8 +1843,8 @@ namespace FSharp.Stats
             match a with 
             | SparseRepr _ -> a
             | DenseRepr a ->
-                let m = a.NumRows
-                let n = a.NumCols
+                let length1 = a.NumRows
+                let length2 = a.NumCols
 
                 let mutable nnz = 0
                 let  ar = FSharp.Collections.ResizeArray<'T>()
@@ -1852,14 +1852,14 @@ namespace FSharp.Stats
                 let  ia = FSharp.Collections.ResizeArray<int>()
                 ia.Add(0)
 
-                for i = 0 to (m - 1) do
-                    for j = 0 to (n - 1) do
+                for i = 0 to (length1 - 1) do
+                    for j = 0 to (length2 - 1) do
                         if (a.Item(i, j)|> System.Convert.ToDouble) >= 0.000001 || (a.Item(i, j)|> System.Convert.ToDouble) <= -0.000001 then
                             ar.Add(a.Item(i, j))
                             ja.Add(j)
                             nnz <- nnz + 1
                     ia.Add(nnz)
-                SparseRepr (SparseMatrix(opsdata<'T>, ar.ToArray(), ia.ToArray(), n, ja.ToArray()))
+                SparseRepr (SparseMatrix(opsdata<'T>, ar.ToArray(), ia.ToArray(), length2, ja.ToArray()))
 
         let initSparseM i j x : Matrix<'T> = 
             let opsData = opsdata<'T> 
