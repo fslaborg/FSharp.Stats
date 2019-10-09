@@ -34,6 +34,7 @@ module Matrix = begin
         let ofSeq sources  = MS.seqM sources
         let init lengthRow lengthCol initializer = MS.initM  lengthRow lengthCol initializer
         let ofArray2D (array: 'T[,])  : Matrix<'T> = MS.arrayM array
+        ///Creates a sparse matrix based on the CSR format
         let sparseOfArray2D (array: 'T[,]) : Matrix<'T> = MS.arraySM array
         let toArray2D (matrix:Matrix<_>) = Array2D.init matrix.NumRows matrix.NumCols (fun i j -> get matrix i j)
         let toJaggedArray (m:Matrix<_>) = [|for i=0 to m.NumRows-1 do yield (Array.init m.NumCols (fun j -> get m i j))|]
@@ -128,7 +129,7 @@ module Matrix = begin
         let getDiag matrix = MS.getDiagnM matrix 0
         ///
         let toDense matrix = MS.toDenseM matrix
-        ///
+        ///Creates a sparse matrix based on the CSR format
         let toSparse matrix = MS.toSparseM matrix
         ///
         let initDense lengthRow lengthCol source = MS.initDenseM lengthRow lengthCol source
@@ -277,7 +278,7 @@ module Matrix = begin
     let ofScalar x     = DS.scalarDenseMatrixDS x |> MS.dense
     ///
     let ofArray2D arr : matrix = MG.ofArray2D arr
-    ///
+    ///Creates a sparse matrix based on the CSR format
     let sparseOfArray2D arr : matrix = MG.sparseOfArray2D arr
     ///
     let toArray2D (m : matrix) = MG.toArray2D m
