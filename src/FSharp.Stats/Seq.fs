@@ -758,8 +758,8 @@ module Seq =
         if ( Seq.length data ) % rep = 0 then
             data
             |> Seq.chunkBySize rep
-            |> Seq.map Seq.average
-        else failwithf "sequence length  is no multiple of replicate number"
+            |> Seq.map mean
+        else failwithf "sequence length is no multiple of replicate number"
        
     /// calculates the sample standard deviations with a given number of replicates present in the sequence
     let inline getStDevOfReplicates rep (data:seq<'a>) =
@@ -767,9 +767,15 @@ module Seq =
             data
             |> Seq.chunkBySize rep
             |> Seq.map stDev
-        else failwithf "sequence length  is no multiple of replicate number"
+        else failwithf "sequence length is no multiple of replicate number"
 
-
+    /// calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence
+    let inline getCvOfReplicates rep (data:seq<'a>) =
+        if ( Seq.length data ) % rep = 0 then
+            data
+            |> Seq.chunkBySize rep
+            |> Seq.map cv
+        else failwithf "sequence length is no multiple of replicate number"
 
 
 

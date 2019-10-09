@@ -44,6 +44,10 @@ module Vector =
         let zeroCreate count = OpsS.zeroV count
         ///Creates a vector of length count and fills it with ones
         let oneCreate count = OpsS.createNumericV count (fun ops _ -> ops.One)
+        [<Obsolete("Do not use. Use [zeroCreate] instead.")>]
+        let zero count = OpsS.zeroV count
+        [<Obsolete("Do not use. Use [oneCreate] instead.")>]
+        let ones count = OpsS.createNumericV count (fun ops _ -> ops.One)
         let ofScalar x = OpsS.scalarV x
         let add vector1 vector2 = OpsS.addV vector1 vector2
         let sub vector1 vector2 = OpsS.subV vector1 vector2
@@ -61,55 +65,75 @@ module Vector =
         let inplaceSub vector1 vector2 = OpsS.inplaceSubV vector1 vector2
         let inplaceCptMul vector1 vector2 = OpsS.inplaceCptMulV vector1 vector2
         let inplaceScale vector1 vector2 = OpsS.inplaceScaleV vector1 vector2
+        [<Obsolete("Do not use. Use [inplaceCptMul] instead.")>]
+        let inplace_cptMul v1 v2 = OpsS.inplaceCptMulV v1 v2
+        [<Obsolete("Do not use. Use [inplaceScale] instead.")>]
+        let inplace_scale v1 v2 = OpsS.inplaceScaleV v1 v2
 
 
-        let exists  predicate (vector:Vector<'T>) = OpsS.existsV  predicate vector
-        let forall  predicate (vector:Vector<'T>) = OpsS.forallV  predicate vector
-        let existsi  predicate (vector:Vector<'T>) = OpsS.existsiV  predicate vector
-        let foralli  predicate (vector:Vector<'T>) = OpsS.foralliV  predicate vector
-        let map  mapping vector = OpsS.mapV mapping vector 
-        let map2  mapping vector1 vector2 = OpsS.map2V mapping vector1 vector2
-        let map3  mapping vector1 vector2 vector3 = OpsS.map3V mapping vector1 vector2 vector3
+        let exists predicate (vector:Vector<'T>) = OpsS.existsV  predicate vector
+        let forall predicate (vector:Vector<'T>) = OpsS.forallV  predicate vector
+        let existsi predicate (vector:Vector<'T>) = OpsS.existsiV  predicate vector
+        let foralli predicate (vector:Vector<'T>) = OpsS.foralliV  predicate vector
+        let map mapping vector = OpsS.mapV mapping vector 
+        let map2 mapping vector1 vector2 = OpsS.map2V mapping vector1 vector2
+        let map3 mapping vector1 vector2 vector3 = OpsS.map3V mapping vector1 vector2 vector3
         let zip vector1 vector2 = OpsS.zipV vector1 vector2
         let unzip vector = OpsS.unzipV vector
         let mapi mapping vector = OpsS.mapiV mapping vector
         let copy vector = OpsS.copyV vector
-        let inplaceMap  f v = OpsS.inplace_mapV f v
-        let inplaceMapi  f v = OpsS.inplace_mapiV f v
-        let fold  (folder:'State -> 'T -> 'State) (state:'State) vector = OpsS.foldV folder state vector
+        let inplaceMap f v = OpsS.inplace_mapV f v
+        let inplaceMapi f v = OpsS.inplace_mapiV f v
+        [<Obsolete("Do not use. Use [inplaceMap] instead.")>]
+        let inplace_map  f a = OpsS.inplace_mapV f a
+        [<Obsolete("Do not use. Use [inplaceMapi] instead.")>]
+        let inplace_mapi  f a = OpsS.inplace_mapiV f a
+        let fold (folder:'State -> 'T -> 'State) (state:'State) vector = OpsS.foldV folder state vector
         let foldi (folder:int -> 'State -> 'T -> 'State) (state:'State) vector = OpsS.foldiV folder state vector
         let compare comparer vector = OpsS.compareV comparer vector
         let hash a = OpsS.hashV a
-        let inplaceAssign  f vector = OpsS.assignV f vector
+        let inplaceAssign f vector = OpsS.assignV f vector
+        [<Obsolete("Do not use. Use [inplaceAssign] instead.")>]
+        let inplace_assign f a = OpsS.assignV f a
         ///Sum of all elements of the vector a
-        let sum  (a:Vector<_>) = let ops = a.ElementOps in fold (fun x y -> ops.Add(x,y)) ops.Zero a
+        let sum (a:Vector<_>) = let ops = a.ElementOps in fold (fun x y -> ops.Add(x,y)) ops.Zero a
         let prod (a:Vector<_>) = let ops = a.ElementOps in fold (fun x y -> ops.Multiply(x,y)) ops.One a
 
         let norm (a:Vector<_>) = 
             let normOps = GenericImpl.getNormOps a.ElementOps 
             sqrt (fold (fun x y -> x + normOps.Norm(y)**2.0) 0.0 a)
 
-        //let ofList    xss  = ofList xss
-        //let ofSeq    xss   = ofSeq xss
-        //let ofArray arr    = ofArray arr
-        //let toArray v      = toArray v
-        //let ofScalar   x   = ofScalar x
-        //let inplaceAdd a b = inplaceAdd a b
-        //let inplaceSub a b = inplaceSub a b
+        [<Obsolete("Do not use. Use [ofList] instead.")>]
+        let of_list    xss  = ofList xss
+        [<Obsolete("Do not use. Use [ofSeq] instead.")>]
+        let of_seq    xss   = ofSeq xss
+        [<Obsolete("Do not use. Use [ofArr] instead.")>]
+        let of_array arr    = ofArray arr
+        [<Obsolete("Do not use. Use [toArr] instead.")>]
+        let to_array v      = toArray v
+        [<Obsolete("Do not use. Use [ofScalar] instead.")>]
+        let of_scalar   x   = ofScalar x
+        [<Obsolete("Do not use. Use [inplaceAdd] instead.")>]
+        let inplace_add a b = inplaceAdd a b
+        [<Obsolete("Do not use. Use [inplaceSub] instead.")>]
+        let inplace_sub a b = inplaceSub a b
 
     module VG = Generic
     module VecDS = DoubleImpl
     module VecGU = GenericImpl
     ///Returns the value of the vector at the given index 
-    let get (vector:vector) index   = VG.get vector index 
+    let get (vector:vector) index = VG.get vector index 
     ///Sets the value to the vector at the given index 
     let set (vector:vector) index value = VG.set vector index value
     ///Returns length of vector
-    let length (vector:vector)     = VG.length vector
+    let length (vector:vector) = VG.length vector
     ///Returns length of vector
-    let nrows (vector:vector)   = VG.length vector
+    let nRows (vector:vector) = VG.length vector
+    ///Returns length of vector
+    [<Obsolete("Do not use. Use [length] instead.")>]
+    let nrows (vector:vector) = VG.length vector
     ///Initiates vector of length count and fills it by applying initializer function on indices
-    let init  count   initializer = VecDS.createVecDS   count  initializer
+    let init count initializer = VecDS.createVecDS count initializer
     ///Creates vector with values of array
     let ofArray array : vector = VG.ofArray array
     ///Creates array with values of vector
@@ -117,7 +141,7 @@ module Vector =
 
     type range = int * int
     let countR ((a,b) : range)   = (b-a)+1
-    let idxR    ((a,_) : range) i = a+i
+    let idxR ((a,_) : range) i = a+i
     type rangef = float * float * float // start, skip, end
     let countRF ((a,d,b) : rangef)   = System.Convert.ToInt32((b-a)/d) + 1
     let countBy projection (vector:Vector<_>) =
@@ -133,70 +157,76 @@ module Vector =
     //let countRF ((a,d,b) : rangef)   = Float.to_int((b-a)/d) + 1
     let idxRF  ((a,d,b) : rangef) i = System.Math.Min (a + d * float(i),b)
 
-    let range n1 n2    = let r = (n1,n2)   in init (countR  r) (fun i -> float(idxR r i)) 
+    let range n1 n2 = let r = (n1,n2) in init (countR  r) (fun i -> float(idxR r i)) 
 
-    let rangef a b c  = let r = (a,b,c) in init (countRF r) (fun i -> idxRF r i)
+    let rangef a b c = let r = (a,b,c) in init (countRF r) (fun i -> idxRF r i)
     ///Creates vector with values of list 
-    let ofList    list    = VecDS.listVecDS    list
+    let ofList list = VecDS.listVecDS list
     ///Creates vector with values of sequence
-    let ofSeq    source    = VecDS.seqVecDS    source
+    let ofSeq source = VecDS.seqVecDS source
     ///Creates vector of length count and fills it with value 
-    let create  count   value  = VecDS.constVecDS  count   value
+    let create  count value  = VecDS.constVecDS count value
     ///Creates one dimensional vector of value
-    let ofScalar value     = VecDS.scalarVecDS value
+    let ofScalar value = VecDS.scalarVecDS value
     ///Builds a new vector whose elements are the results of adding the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
-    let add a b = VecDS.addVecDS   a b
-    ///Builds a new vector whose elements are the results of substracting the corresponding elements of vector b from vector a. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
-    let sub vector1 vector2 = VecDS.subVecDS   vector1 vector2
-    let mulRVV vector1 vector2 = VecDS.mulRowVecVecDS   vector1 vector2
-    let mulVRV vector1 vector2 = VecDS.mulVecRowVecDS   vector1 vector2
+    let add vector1 vector2 = VecDS.addVecDS vector1 vector2
+    ///Builds a new vector whose elements are the results of substracting the corresponding elements of vector1 from vector2. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    let sub vector1 vector2 = VecDS.subVecDS vector1 vector2
+    let mulRVV vector1 vector2 = VecDS.mulRowVecVecDS vector1 vector2
+    let mulVRV vector1 vector2 = VecDS.mulVecRowVecDS vector1 vector2
     ///Builds a new vector whose elements are the results of multiplying the corresponding elements of the given vectors. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
-    let cptMul vector1 vector2 = VecDS.cptMulVecDS   vector1 vector2
+    let cptMul vector1 vector2 = VecDS.cptMulVecDS vector1 vector2
     let cptMax vector1 vector2 = VecDS.cptMaxVecDS vector1 vector2
     let cptMin vector1 vector2 = VecDS.cptMinVecDS vector1 vector2
     ///Builds a new vector whose elements are the results of multiplying the given scalar with each of the elements of the vector.
-    let scale x v = VecDS.scaleVecDS   x v
+    let scale scalar vector = VecDS.scaleVecDS scalar vector
     ///Builds a new vector whose elements are the results of multiplying -1 with each of the elements of the vector.
-    let neg v  = VecDS.negVecDS v
+    let neg vector = VecDS.negVecDS vector
     ///Dot product of the two vectors
-    let dot v1 v2 = VecDS.dotVecDS v1 v2
-    let transpose  (vector:vector) = VG.transpose vector
-    let exists  predicate (vector:vector) = VG.exists predicate vector
-    let forall  predicate (vector:vector) = VG.forall predicate vector
-    let existsi  predicate (vector:vector) = VG.existsi predicate vector
-    let foralli  predicate (vector:vector) = VG.foralli predicate vector
+    let dot vector1 vector2 = VecDS.dotVecDS vector1 vector2
+    let transpose (vector:vector) = VG.transpose vector
+    let exists predicate (vector:vector) = VG.exists predicate vector
+    let forall predicate (vector:vector) = VG.forall predicate vector
+    let existsi predicate (vector:vector) = VG.existsi predicate vector
+    let foralli predicate (vector:vector) = VG.foralli predicate vector
     ///Builds a new vector whose elements are the results of applying the given function to each of the elements of the vector.
-    let map  mapping (vector:vector) = VG.map mapping vector
+    let map mapping (vector:vector) = VG.map mapping vector
     ///Builds a new vector whose elements are the results of applying the given function to the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
-    let map2  mapping (vector1:vector) (vector2:vector) = VG.map2 mapping vector1 vector2
+    let map2 mapping (vector1:vector) (vector2:vector) = VG.map2 mapping vector1 vector2
     ///Builds a new vector whose elements are the results of applying the given function to the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
-    let map3  mapping (vector1:vector) (vector2:vector) (vector3:vector) = VG.map3 mapping vector1 vector2 vector3
+    let map3 mapping (vector1:vector) (vector2:vector) (vector3:vector) = VG.map3 mapping vector1 vector2 vector3
     ///Builds a new vector that contains the elements of the given vector.
     let copy (vector:vector) = VG.copy vector
     ///Builds a new vector whose elements are the results of applying the given function to each of the elements of the vector and their corresponding index.
-    let mapi  mapping (vector:vector) : vector = VG.mapi mapping vector
+    let mapi mapping (vector:vector) : vector = VG.mapi mapping vector
     ///Applies a function to each element of the vector, threading an accumulator argument through the computation.
-    let fold  folder (state:'State) (vector:vector) = VG.fold folder state vector
+    let fold folder (state:'State) (vector:vector) = VG.fold folder state vector
     ///Applies a function to each element of the vector and their corresponding index, threading an accumulator argument through the computation.
-    let foldi  folder (state:'State) (vector:vector) = VG.foldi folder state vector
+    let foldi folder (state:'State) (vector:vector) = VG.foldi folder state vector
     ///Creates a vector of length count and fills it with zeros
     let zeroCreate count = create count 0.0
     ///Creates a vector of length count and fills it with ones
     let oneCreate count = create count 1.0
+    [<Obsolete("Do not use. Use [zeroCreate] instead.")>]
+    let zero count = create count 0.0
+    [<Obsolete("Do not use. Use [oneCreate] instead.")>]
+    let ones count = create count 1.0
     ///Sum of all elements of the vector
-    let sum v  = VecDS.sumVecDS v
+    let sum vector = VecDS.sumVecDS vector
     ///Product of all elements of the vector
-    let prod v   = fold      (fun x y -> x * y) 1.0 v
+    let prod vector = fold (fun x y -> x * y) 1.0 vector
     ///Euklidian norm of the vector
-    let norm  (v:vector) = sqrt (fold (fun x y -> x + y * y) 0.0 v) (* fixed *)
-    ///Builds a new vector whose elements are the results of exponentiating each of the elements of the vector with y.
-    let cptPow   y vector = map  (fun x -> x ** y) vector
-    ///Applies the given function to each of the indexes of the vector.
-    let inplaceAssign  f (v:vector) = VG.inplaceAssign f v
-    ///Applies the given function to each of the elements of the vector.
-    let inplaceMap f (v:vector) = VG.inplaceMap f v
-    ///Applies the given function to each of the elements of the vector and their corresponding index.
-    let inplaceMapi f (v:vector) = VG.inplaceMapi f v
+    let norm (vector:vector) = sqrt (fold (fun x y -> x + y * y) 0.0 vector) (* fixed *)
+    ///Builds a new vector whose elements are the results of exponentiating each of the elements of the vector with n.
+    let toThePower n vector = map (fun x -> x ** n) vector
+    [<Obsolete("Do not use. Use [toThePower] instead.")>]
+    let cptPow vector y = map (fun x -> x ** y) vector
+    ///Applies the given function to each of the indexes of the vector. No new vector is created.
+    let inplaceAssign f (vector:vector) = VG.inplaceAssign f vector
+    ///Applies the given function to each of the elements of the vector. No new vector is created.
+    let inplaceMap f (vector:vector) = VG.inplaceMap f vector
+    ///Applies the given function to each of the elements of the vector and their corresponding index. No new vector is created.
+    let inplaceMapi f (vector:vector) = VG.inplaceMapi f vector
     ///Add values of vector2 to values of vector1. Vector2 stays unchanged.
     let inplaceAdd vector1 vector2 = VecDS.inplaceAddVecDS vector1 vector2
     ///Substract values of vector2 from values of vector1. Vector2 stays unchanged.
@@ -205,19 +235,46 @@ module Vector =
     let inplaceCptMul vector1 vector2 = VecDS.inplaceCptMulVecDS vector1 vector2
     ///Multiply values of vector with scalar.
     let inplaceScale scalar vector = VecDS.inplaceScaleVecDS scalar vector
-    /////Builds vector from array
-    //let ofArray array   = ofArray array
-    /////Builds array from vector
-    //let toArray vector     = toArray vector
-    /////Builds vector from list
-    //let ofList    list  = ofList list
-    /////Builds vector from sequence
-    //let ofSeq    source   = ofSeq source
-    /////Builds one dimensional vector from scalar
-    //let ofScalar x    = ofScalar x
-
+    ///Applies the given function to each of the indexes of the vector.
     ///Builds vector of Length 1 from value x
     let singleton x = ofScalar x
+    [<Obsolete("Do not use. Use [inplaceAssign] instead.")>]
+    let inplace_assign  f (v:vector) = VG.inplaceAssign f v
+    ///Applies the given function to each of the elements of the vector.
+    [<Obsolete("Do not use. Use [inplaceMap] instead.")>]
+    let inplace_map f (v:vector) = VG.inplaceMap f v
+    ///Applies the given function to each of the elements of the vector and their corresponding index.
+    [<Obsolete("Do not use. Use [inplaceMapi] instead.")>]
+    let inplace_mapi f (v:vector) = VG.inplaceMapi f v
+    ///Add values of vector v2 to values of vector v1. Vector v2 stays unchanged
+    [<Obsolete("Do not use. Use [inplaceAdd] instead.")>]
+    let inplace_add v1 v2 = VecDS.inplaceAddVecDS v1 v2
+    ///Substract values of vector v2 from values of vector v1. Vector v2 stays unchanged
+    [<Obsolete("Do not use. Use [inplaceSub] instead.")>]
+    let inplace_sub v1 v2 = VecDS.inplaceSubVecDS v1 v2
+    ///Multiply values of vector v1 with values of vector v2. Vector v2 stays unchanged.
+    [<Obsolete("Do not use. Use [inplaceCptMul] instead.")>]
+    let inplace_cptMul v1 v2 = VecDS.inplaceCptMulVecDS v1 v2
+    ///Multiply values of vector v1 with scalar.
+    [<Obsolete("Do not use. Use [inplaceScale] instead.")>]
+    let inplace_scale x v = VecDS.inplaceScaleVecDS x v
+    ///Builds vector from array
+    [<Obsolete("Do not use. Use [ofArr] instead.")>]
+    let of_array arr   = ofArray arr
+    ///Builds array from vector
+    [<Obsolete("Do not use. Use [toArr] instead.")>]
+    let to_array v     = toArray v
+    ///Builds vector from list
+    [<Obsolete("Do not use. Use [ofList] instead.")>]
+    let of_list    xs  = ofList xs
+    ///Builds vector from sequence
+    [<Obsolete("Do not use. Use [ofSeq] instead.")>]
+    let of_seq    xs   = ofSeq xs
+    ///Builds one dimensional vector from scalar
+    [<Obsolete("Do not use. Use [ofScalar] instead.")>]
+    let of_scalar x    = ofScalar x
+
+
     
     //----------------------------------------------------------------------------
     // Stats
@@ -316,6 +373,11 @@ module Vector =
     /// calculates the sample standard deviations with a given number of replicates present in the sequence
     let getStDevOfReplicates rep (data:vector) =
         Seq.getStDevOfReplicates rep data
+        |> ofSeq 
+
+    /// calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence
+    let getCvOfReplicates rep (data:vector) =
+        Seq.getCvOfReplicates rep data
         |> ofSeq 
 
     /// Splits a vector according to given indices. Returns (vector including values according to indices, rest)
