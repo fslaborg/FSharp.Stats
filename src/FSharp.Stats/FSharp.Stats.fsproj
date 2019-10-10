@@ -18,7 +18,6 @@
     <EmbeddedResource Remove="Scripts\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DotNetExtensions.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />

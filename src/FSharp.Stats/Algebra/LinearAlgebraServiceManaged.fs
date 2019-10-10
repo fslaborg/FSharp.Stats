@@ -6,7 +6,6 @@ namespace FSharp.Stats.Algebra
 //open Microsoft.FSharp.Math
 //open Microsoft.FSharp.Math. Bindings.Internals.NativeUtilities
 open FSharp.Stats
-open DotNetExtensions
 /// This module is for internal use only.
 module LinearAlgebraManaged = 
     open System
@@ -250,8 +249,8 @@ module LinearAlgebraManaged =
 
         /// Apply the givens rotation on 2 Sparsevectors
         let ApplyGivens (x : ResizeArray<(int*float)>) (y : ResizeArray<(int*float)>) = 
-            let a = snd x.Front
-            let b = snd y.Front
+            let a = snd x.[0]
+            let b = snd y.[0]
     
             let mutable c = -1.0
             let mutable s = -1.0
@@ -273,8 +272,9 @@ module LinearAlgebraManaged =
                     s <- c * tau
 
             // Rotate the start of each list
-            x.Front <- (fst x.Front, c * a - s * b)
-            y.PopFront |> ignore
+            x.[0] <- (fst x.[0], c * a - s * b)
+            //was return first and remove after, is returned value ever needed?
+            y.RemoveAt 0
     
             // Iterators
             let mutable p = 0
@@ -345,10 +345,10 @@ module LinearAlgebraManaged =
         for a = 0 to m-1 do
             let mutable row = CopyRow (A.SparseRowOffsets.[a+1] - A.SparseRowOffsets.[a]) A.SparseRowOffsets.[a] A
             let mutable q = 0
-            while((not row.IsEmpty) && fst row.Front < a && fst row.Front < n) do
-                let j = fst row.Front
+            while((not (row.Count <= 0)) && fst row.[0] < a && fst row.[0] < n) do
+                let j = fst row.[0]
 
-                if(R.[j].IsEmpty || fst R.[j].Front > j) then
+                if((R.[j].Count <= 0) || fst R.[j].[0] > j) then
                     let temp = new ResizeArray<(int*float)> (row)
                     row <- new ResizeArray<(int*float)>(R.[a])
                     R.[a] <- new ResizeArray<(int*float)>(temp)
