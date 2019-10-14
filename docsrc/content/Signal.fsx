@@ -31,7 +31,7 @@ There are several padding methods:
 
 **Three regions can be defined where padding points could be introduced:**
 
- 1. In the beginning and end of the data set artificial data points have to be added to analyse the start- and end-regions of the data. 
+ 1. In the beginning and end of the data set artificial data points have to be added to analyse the start- and end-regions of the data. Therefore random data points are chosen from the original data set.
  
  2. If the data is not measured in discrete intervals, the region between two adjacent values have to be padded to ensure sufficient coverage for convolution.
  
@@ -55,6 +55,9 @@ let innerPadMethod = Padding.InternalPaddingMethod.LinearInterpolation
 ///take random data point y-values when huge gaps are between data points
 let hugeGapPadMethod = Padding.HugeGapPaddingMethod.Random
 
+///padd the start and end of the signal with random data points
+let borderPadMethod = Padding.BorderPaddingMethod.Random
+
 ///the maximal distance that is allowed between data points is the average spacing
 let minDistance = 
     Padding.HelperFunctions.getMedianSpacing data (-)
@@ -72,10 +75,10 @@ let borderpadding = 1000
 
 //get the paddedDataSet
 let paddedData =
-    //if a gap is greater than 1000. the InternalPaddingMethod is applied
-    Padding.pad data minDistance maxSpacing getDiffFu addXValue borderpadding innerPadMethod hugeGapPadMethod
+    //if a gap is greater than 10. the HugeGapPaddingMethod is applied
+    Padding.pad data minDistance maxSpacing getDiffFu addXValue borderpadding borderPadMethod innerPadMethod hugeGapPadMethod
 
-
+(***hide***)
 let paddedDataChart=
     let myYAxis() =
             Axis.LinearAxis.init(
@@ -94,6 +97,35 @@ let paddedDataChart=
 
 (*** include-value:paddedDataChart ***)
 
+
+(**
+Example for a linear interpolation as huge gap padding method
+
+*)
+
+//get the padded data
+let paddedDataLinear =
+    //if a gap is greater than 10. the LinearInterpolation padding method is applied
+    Padding.pad data minDistance maxSpacing getDiffFu addXValue borderpadding borderPadMethod innerPadMethod Padding.HugeGapPaddingMethod.LinearInterpolation
+
+(***hide***)
+let paddedDataLinearChart=
+    let myYAxis() =
+            Axis.LinearAxis.init(
+                Title="Temperature",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    let myXAxis() =
+            Axis.LinearAxis.init(
+                Title="Time",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    [
+    Chart.Point (paddedDataLinear,Name="paddedData")
+    Chart.Point (data,Name = "rawData") |> Chart.withMarkerStyle(4)
+    ]
+    |> Chart.Combine
+    |> Chart.withX_Axis (myXAxis())
+    |> Chart.withY_Axis (myYAxis())
+    |> Chart.withSize(900.,450.)
+
+(*** include-value:paddedDataLinearChart ***)
 
 (**
 
@@ -244,7 +276,7 @@ let defaultZeroTransform =
     rickerArrayDefault
     |> Array.map (ContinuousWavelet.transformDefaultZero data)
 
-//alternative presentation of the wavelet correlation coefficients as line charts
+(***hide***)
 let defaultZeroChart =
     let myYAxis() =
             Axis.LinearAxis.init(
@@ -267,7 +299,7 @@ let defaultZeroChart =
 
 (**
 - Because zeros are introduced, the adjacent signals are going to receive a high correlation!
-- In this example the correlation coefficients in general drop to the half intensity in respect to the default transform above because a zero value is introduced between every data point (minDistance = 0.5).
+- In this example the correlation coefficients in general drop to a reduced intensity because a zero values are introduced between every data point (minDistance = minimal spacing / 2.). So here a zero padding makes no sense. The Temperature wont drop to zero between two measurements.
 - s = scale
 - f = frequency [days]
 *)
