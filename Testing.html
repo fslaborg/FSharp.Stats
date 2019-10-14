@@ -36,7 +36,7 @@
         <div class="span9" id="main">
           
 <h1><a name="Statistical-testing" class="anchor" href="#Statistical-testing">Statistical testing</a></h1>
-<p>FSharp.Stats a provides hypothesis tests for different applications.
+<p>FSharp.Stats provides hypothesis tests for different applications.
 A hypothesis test is a statistical test that is used to determine whether there is enough evidence
 in a sample of data to infer that a certain condition is true for the entire population.
 A hypothesis test examines two opposing hypotheses about a population: the null hypothesis and the alternative hypothesis.
@@ -251,16 +251,21 @@ A hypothesis test examines two opposing hypotheses about a population: the null 
 </code></pre></td>
 </tr>
 </table>
-<p>Example from:  <a href="http://www.statstutor.ac.uk/resources/uploaded/paired-t-test.pdf.
-A">http://www.statstutor.ac.uk/resources/uploaded/paired-t-test.pdf.
-A</a> paired t-test is used to compare two population means where you have two samples in
+<p>Link to example can be found <a href="http://www.statstutor.ac.uk/resources/uploaded/paired-t-test.pdf">here</a>.
+A paired t-test is used to compare two population means where you have two samples in
 which observations in one sample can be paired with observations in the other sample.
-Examples of where this might occur are:
--   Before-and-after observations on the same subjects (e.g. students’ diagnostic test
+Examples of where this might occur are:</p>
+<ul>
+<li>
+Before-and-after observations on the same subjects (e.g. students’ diagnostic test
 results before and after a particular module or course).
--   A comparison of two different methods of measurement or two different treatments
+</li>
+<li>
+A comparison of two different methods of measurement or two different treatments
 where the measurements/treatments are applied to the same subjects (e.g. blood
-pressure measurements using a stethoscope and a dynamap).</p>
+pressure measurements using a stethoscope and a dynamap).
+</li>
+</ul>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -493,7 +498,7 @@ pressure measurements using a stethoscope and a dynamap).</p>
 <div class="tip" id="fs22">val data&#39; : float [] [] []</div>
 <div class="tip" id="fs23">val sample1 : vector</div>
 <div class="tip" id="fs24">Multiple items<br />module Vector<br /><br />from FSharp.Stats<br /><br />--------------------<br />type Vector&lt;&#39;T&gt; =<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;interface IStructuralEquatable<br />&#160;&#160;interface IStructuralComparable<br />&#160;&#160;interface IComparable<br />&#160;&#160;new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;override Equals : yobj:obj -&gt; bool<br />&#160;&#160;override GetHashCode : unit -&gt; int<br />&#160;&#160;member GetSlice : start:int option * finish:int option -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;member Permute : p:permutation -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;...<br /><br />--------------------<br />new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;</div>
-<div class="tip" id="fs25">val ofArray : arr:float [] -&gt; vector</div>
+<div class="tip" id="fs25">val ofArray : array:float [] -&gt; vector</div>
 <div class="tip" id="fs26">val sample2 : vector</div>
 <div class="tip" id="fs27">module TTest<br /><br />from FSharp.Stats.Testing</div>
 <div class="tip" id="fs28">val twoSample : assumeEqualVariances:bool -&gt; sample1:Vector&lt;float&gt; -&gt; sample2:Vector&lt;float&gt; -&gt; TestStatistics.TTestStatistics</div>

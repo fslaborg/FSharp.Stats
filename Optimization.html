@@ -286,7 +286,7 @@
 <div class="tip" id="fs52">val minimize : f:(Vector&lt;float&gt; -&gt; &#39;a) -&gt; f&#39;:(Vector&lt;float&gt; -&gt; vector) -&gt; xs:Vector&lt;float&gt; -&gt; float * Vector&lt;float&gt; * &#39;a (requires comparison)<br /><em><br /><br />&#160;gradient descent algorithm to minimize a given function and derivative</em></div>
 <div class="tip" id="fs53">val grad : f:(vector -&gt; float) -&gt; xs:vector -&gt; vector<br /><em><br /><br />&#160;Computes a numerical approximation to the derivative of a function</em></div>
 <div class="tip" id="fs54">Multiple items<br />module Vector<br /><br />from FSharp.Stats<br /><br />--------------------<br />type Vector&lt;&#39;T&gt; =<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;interface IStructuralEquatable<br />&#160;&#160;interface IStructuralComparable<br />&#160;&#160;interface IComparable<br />&#160;&#160;new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;override Equals : yobj:obj -&gt; bool<br />&#160;&#160;override GetHashCode : unit -&gt; int<br />&#160;&#160;member GetSlice : start:int option * finish:int option -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;member Permute : p:permutation -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;...<br /><br />--------------------<br />new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;</div>
-<div class="tip" id="fs55">val mapi : f:(int -&gt; float -&gt; float) -&gt; v:vector -&gt; vector</div>
+<div class="tip" id="fs55">val mapi : mapping:(int -&gt; float -&gt; float) -&gt; vector:vector -&gt; vector</div>
 <div class="tip" id="fs56">val xs&#39; : float * Vector&lt;float&gt; * float</div>
 
         </div>

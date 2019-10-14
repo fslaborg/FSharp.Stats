@@ -386,7 +386,7 @@
 <div class="tip" id="fs29">Multiple items<br />val matrix : ll:seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
 <div class="tip" id="fs30">val sumColumns : a:matrix -&gt; Vector&lt;float&gt;</div>
 <div class="tip" id="fs31">Multiple items<br />module Vector<br /><br />from FSharp.Stats<br /><br />--------------------<br />type Vector&lt;&#39;T&gt; =<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;interface IStructuralEquatable<br />&#160;&#160;interface IStructuralComparable<br />&#160;&#160;interface IComparable<br />&#160;&#160;new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;override Equals : yobj:obj -&gt; bool<br />&#160;&#160;override GetHashCode : unit -&gt; int<br />&#160;&#160;member GetSlice : start:int option * finish:int option -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;member Permute : p:permutation -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;...<br /><br />--------------------<br />new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;</div>
-<div class="tip" id="fs32">val map : f:(float -&gt; float) -&gt; v:vector -&gt; Vector&lt;float&gt;</div>
+<div class="tip" id="fs32">val map : mapping:(float -&gt; float) -&gt; vector:vector -&gt; Vector&lt;float&gt;</div>
 <div class="tip" id="fs33">val sum : float</div>
 <div class="tip" id="fs34">property Matrix.NumRows: int</div>
 <div class="tip" id="fs35">val toAdjustStandardize : data:Matrix&lt;float&gt; -&gt; matrix</div>
@@ -394,7 +394,7 @@
 <div class="tip" id="fs37">val colMeans : Vector&lt;float&gt;</div>
 <div class="tip" id="fs38">val colStDev : float []</div>
 <div class="tip" id="fs39">module Generic<br /><br />from FSharp.Stats.MatrixModule</div>
-<div class="tip" id="fs40">val enumerateColumnWise : f:(seq&lt;&#39;a&gt; -&gt; &#39;a0) -&gt; m:Matrix&lt;&#39;a&gt; -&gt; seq&lt;&#39;a0&gt;</div>
+<div class="tip" id="fs40">val enumerateColumnWise : f:(seq&lt;&#39;a&gt; -&gt; &#39;a0) -&gt; matrix:Matrix&lt;&#39;a&gt; -&gt; seq&lt;&#39;a0&gt;</div>
 <div class="tip" id="fs41">val stDevPopulation : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ) and member Sqrt)</div>
 <div class="tip" id="fs42">val toArray : source:seq&lt;&#39;T&gt; -&gt; &#39;T []</div>
 <div class="tip" id="fs43">val mapi : f:(int -&gt; int -&gt; float -&gt; float) -&gt; a:matrix -&gt; matrix</div>

@@ -38,399 +38,274 @@
 <h1><a name="Matrix-and-Vector" class="anchor" href="#Matrix-and-Vector">Matrix and Vector</a></h1>
 <a name="Vector"></a>
 <h2><a name="Vector" class="anchor" href="#Vector">Vector</a></h2>
-<a name="Matrix"></a>
-<h2><a name="Matrix" class="anchor" href="#Matrix">Matrix</a></h2>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">  1: </span>
-<span class="l">  2: </span>
-<span class="l">  3: </span>
-<span class="l">  4: </span>
-<span class="l">  5: </span>
-<span class="l">  6: </span>
-<span class="l">  7: </span>
-<span class="l">  8: </span>
-<span class="l">  9: </span>
-<span class="l"> 10: </span>
-<span class="l"> 11: </span>
-<span class="l"> 12: </span>
-<span class="l"> 13: </span>
-<span class="l"> 14: </span>
-<span class="l"> 15: </span>
-<span class="l"> 16: </span>
-<span class="l"> 17: </span>
-<span class="l"> 18: </span>
-<span class="l"> 19: </span>
-<span class="l"> 20: </span>
-<span class="l"> 21: </span>
-<span class="l"> 22: </span>
-<span class="l"> 23: </span>
-<span class="l"> 24: </span>
-<span class="l"> 25: </span>
-<span class="l"> 26: </span>
-<span class="l"> 27: </span>
-<span class="l"> 28: </span>
-<span class="l"> 29: </span>
-<span class="l"> 30: </span>
-<span class="l"> 31: </span>
-<span class="l"> 32: </span>
-<span class="l"> 33: </span>
-<span class="l"> 34: </span>
-<span class="l"> 35: </span>
-<span class="l"> 36: </span>
-<span class="l"> 37: </span>
-<span class="l"> 38: </span>
-<span class="l"> 39: </span>
-<span class="l"> 40: </span>
-<span class="l"> 41: </span>
-<span class="l"> 42: </span>
-<span class="l"> 43: </span>
-<span class="l"> 44: </span>
-<span class="l"> 45: </span>
-<span class="l"> 46: </span>
-<span class="l"> 47: </span>
-<span class="l"> 48: </span>
-<span class="l"> 49: </span>
-<span class="l"> 50: </span>
-<span class="l"> 51: </span>
-<span class="l"> 52: </span>
-<span class="l"> 53: </span>
-<span class="l"> 54: </span>
-<span class="l"> 55: </span>
-<span class="l"> 56: </span>
-<span class="l"> 57: </span>
-<span class="l"> 58: </span>
-<span class="l"> 59: </span>
-<span class="l"> 60: </span>
-<span class="l"> 61: </span>
-<span class="l"> 62: </span>
-<span class="l"> 63: </span>
-<span class="l"> 64: </span>
-<span class="l"> 65: </span>
-<span class="l"> 66: </span>
-<span class="l"> 67: </span>
-<span class="l"> 68: </span>
-<span class="l"> 69: </span>
-<span class="l"> 70: </span>
-<span class="l"> 71: </span>
-<span class="l"> 72: </span>
-<span class="l"> 73: </span>
-<span class="l"> 74: </span>
-<span class="l"> 75: </span>
-<span class="l"> 76: </span>
-<span class="l"> 77: </span>
-<span class="l"> 78: </span>
-<span class="l"> 79: </span>
-<span class="l"> 80: </span>
-<span class="l"> 81: </span>
-<span class="l"> 82: </span>
-<span class="l"> 83: </span>
-<span class="l"> 84: </span>
-<span class="l"> 85: </span>
-<span class="l"> 86: </span>
-<span class="l"> 87: </span>
-<span class="l"> 88: </span>
-<span class="l"> 89: </span>
-<span class="l"> 90: </span>
-<span class="l"> 91: </span>
-<span class="l"> 92: </span>
-<span class="l"> 93: </span>
-<span class="l"> 94: </span>
-<span class="l"> 95: </span>
-<span class="l"> 96: </span>
-<span class="l"> 97: </span>
-<span class="l"> 98: </span>
-<span class="l"> 99: </span>
-<span class="l">100: </span>
-<span class="l">101: </span>
-<span class="l">102: </span>
-<span class="l">103: </span>
-<span class="l">104: </span>
-<span class="l">105: </span>
-<span class="l">106: </span>
-<span class="l">107: </span>
-<span class="l">108: </span>
-<span class="l">109: </span>
-<span class="l">110: </span>
-<span class="l">111: </span>
-<span class="l">112: </span>
-<span class="l">113: </span>
-<span class="l">114: </span>
-<span class="l">115: </span>
-<span class="l">116: </span>
-<span class="l">117: </span>
-<span class="l">118: </span>
-<span class="l">119: </span>
-<span class="l">120: </span>
-<span class="l">121: </span>
-<span class="l">122: </span>
-<span class="l">123: </span>
-<span class="l">124: </span>
-<span class="l">125: </span>
-<span class="l">126: </span>
-<span class="l">127: </span>
-<span class="l">128: </span>
-<span class="l">129: </span>
-<span class="l">130: </span>
-<span class="l">131: </span>
-<span class="l">132: </span>
-<span class="l">133: </span>
-<span class="l">134: </span>
-<span class="l">135: </span>
-<span class="l">136: </span>
-<span class="l">137: </span>
-<span class="l">138: </span>
-<span class="l">139: </span>
-<span class="l">140: </span>
-<span class="l">141: </span>
-<span class="l">142: </span>
-<span class="l">143: </span>
-<span class="l">144: </span>
-<span class="l">145: </span>
-<span class="l">146: </span>
-<span class="l">147: </span>
-<span class="l">148: </span>
-<span class="l">149: </span>
-<span class="l">150: </span>
-<span class="l">151: </span>
-<span class="l">152: </span>
-<span class="l">153: </span>
-<span class="l">154: </span>
-<span class="l">155: </span>
-<span class="l">156: </span>
-<span class="l">157: </span>
-<span class="l">158: </span>
-<span class="l">159: </span>
-<span class="l">160: </span>
-<span class="l">161: </span>
-<span class="l">162: </span>
-<span class="l">163: </span>
-<span class="l">164: </span>
-<span class="l">165: </span>
-<span class="l">166: </span>
-<span class="l">167: </span>
-<span class="l">168: </span>
-<span class="l">169: </span>
-<span class="l">170: </span>
-<span class="l">171: </span>
-<span class="l">172: </span>
-<span class="l">173: </span>
-<span class="l">174: </span>
-<span class="l">175: </span>
-<span class="l">176: </span>
-<span class="l">177: </span>
-<span class="l">178: </span>
-<span class="l">179: </span>
-<span class="l">180: </span>
-<span class="l">181: </span>
-<span class="l">182: </span>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">//#r &quot;D:/Source/FSharp.Stats/bin/FSharp.Stats.dll&quot;</span>
-<span class="pp">#r</span> <span class="s">&quot;FSharp.Stats.dll&quot;</span>
-<span class="c">//open FSharp</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">Microsoft</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="id">FSharp</span><span class="pn">.</span><span class="id">Math</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 5)" onmouseover="showTip(event, 'fs1', 5)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs5', 6)" onmouseover="showTip(event, 'fs5', 6)" class="id">Stats</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 7)" onmouseover="showTip(event, 'fs1', 7)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs5', 8)" onmouseover="showTip(event, 'fs5', 8)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs6', 9)" onmouseover="showTip(event, 'fs6', 9)" class="id">Algebra</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="pp">#r</span> <span class="s">&quot;FSharp.Stats.dll&quot;</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 4)" onmouseover="showTip(event, 'fs3', 4)" class="id">Stats</span>
 
-
-
-<span class="c">// http://fdatamining.blogspot.de/2010/03/matrix-and-linear-algebra-in-f-part-i-f.html</span>
-<span class="c">// 1.9.7.8. </span>
-<span class="c">// http://fdatamining.blogspot.de/search/label/linear%20algebra</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 10)" onmouseover="showTip(event, 'fs7', 10)" class="id">A</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs8', 11)" onmouseover="showTip(event, 'fs8', 11)" class="fn">matrix</span> <span class="pn">[</span> <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span> <span class="n">7.0</span><span class="pn">;</span> <span class="n">2.0</span> <span class="pn">]</span>
-             <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span> <span class="n">3.0</span><span class="pn">;</span> <span class="n">1.0</span> <span class="pn">]</span>
-             <span class="pn">[</span> <span class="n">2.0</span><span class="pn">;</span> <span class="n">9.0</span><span class="pn">;</span> <span class="n">1.0</span> <span class="pn">]</span> <span class="pn">]</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 12)" onmouseover="showTip(event, 'fs9', 12)" class="id">B</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs8', 13)" onmouseover="showTip(event, 'fs8', 13)" class="fn">matrix</span> <span class="pn">[</span> <span class="pn">[</span> <span class="n">10.0</span><span class="pn">;</span> <span class="n">70.0</span><span class="pn">;</span> <span class="n">20.0</span> <span class="pn">]</span>
-             <span class="pn">[</span> <span class="n">10.0</span><span class="pn">;</span> <span class="n">30.0</span><span class="pn">;</span> <span class="n">10.0</span> <span class="pn">]</span>
-             <span class="pn">[</span> <span class="n">20.0</span><span class="pn">;</span> <span class="n">90.0</span><span class="pn">;</span> <span class="n">10.0</span> <span class="pn">]</span> <span class="pn">]</span>
-
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="id">v</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs11', 15)" onmouseover="showTip(event, 'fs11', 15)" class="fn">vector</span> <span class="pn">[|</span><span class="n">2.0</span><span class="pn">;</span> <span class="n">20.0</span><span class="pn">;</span> <span class="n">1.</span><span class="pn">|]</span>
-
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 16)" onmouseover="showTip(event, 'fs12', 16)" class="id">rv</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs13', 17)" onmouseover="showTip(event, 'fs13', 17)" class="fn">rowvec</span> <span class="pn">[|</span><span class="n">2.0</span><span class="pn">;</span> <span class="n">20.0</span><span class="pn">;</span> <span class="n">1.</span><span class="pn">|]</span>
-
-
-<span onmouseout="hideTip(event, 'fs7', 18)" onmouseover="showTip(event, 'fs7', 18)" class="id">A</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs14', 19)" onmouseover="showTip(event, 'fs14', 19)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 20)" onmouseover="showTip(event, 'fs15', 20)" class="m">Generic</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 21)" onmouseover="showTip(event, 'fs16', 21)" class="id">enumerateRowWise</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs17', 22)" onmouseover="showTip(event, 'fs17', 22)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 23)" onmouseover="showTip(event, 'fs18', 23)" class="id">sum</span><span class="pn">)</span>
-
-<span onmouseout="hideTip(event, 'fs7', 24)" onmouseover="showTip(event, 'fs7', 24)" class="id">A</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs14', 25)" onmouseover="showTip(event, 'fs14', 25)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 26)" onmouseover="showTip(event, 'fs19', 26)" class="id">mapiCols</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs20', 27)" onmouseover="showTip(event, 'fs20', 27)" class="id">i</span> <span onmouseout="hideTip(event, 'fs21', 28)" onmouseover="showTip(event, 'fs21', 28)" class="id">r</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs21', 29)" onmouseover="showTip(event, 'fs21', 29)" class="id">r</span><span class="pn">)</span>
-
-<span class="c">//let f x = x**2.</span>
-
-<span class="c">//&quot;2.;3.;&quot;.Split(&#39;;&#39;) </span>
-<span class="c">//|&gt; Array.filter (fun x -&gt; x &lt;&gt; &quot;&quot;) </span>
-<span class="c">//|&gt; Array.map float </span>
-<span class="c">//|&gt; Array.map f</span>
-
-
-
-<span onmouseout="hideTip(event, 'fs7', 30)" onmouseover="showTip(event, 'fs7', 30)" class="id">A</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs9', 31)" onmouseover="showTip(event, 'fs9', 31)" class="id">B</span>
-<span onmouseout="hideTip(event, 'fs7', 32)" onmouseover="showTip(event, 'fs7', 32)" class="id">A</span><span class="o">-</span><span onmouseout="hideTip(event, 'fs9', 33)" onmouseover="showTip(event, 'fs9', 33)" class="id">B</span>
-<span onmouseout="hideTip(event, 'fs7', 34)" onmouseover="showTip(event, 'fs7', 34)" class="id">A</span><span class="o">*</span><span onmouseout="hideTip(event, 'fs9', 35)" onmouseover="showTip(event, 'fs9', 35)" class="id">B</span> <span class="c">// matrix product</span>
-<span onmouseout="hideTip(event, 'fs7', 36)" onmouseover="showTip(event, 'fs7', 36)" class="id">A</span><span class="pn">.</span><span class="o">*</span><span onmouseout="hideTip(event, 'fs9', 37)" onmouseover="showTip(event, 'fs9', 37)" class="id">B</span>  <span class="c">// element-wise product</span>
-<span onmouseout="hideTip(event, 'fs7', 38)" onmouseover="showTip(event, 'fs7', 38)" class="id">A</span> <span class="o">*</span> <span class="n">2.0</span> <span class="c">// scalar product</span>
-<span class="n">2.0</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs7', 39)" onmouseover="showTip(event, 'fs7', 39)" class="id">A</span> <span class="c">// this is also ok</span>
-<span class="o">-</span><span onmouseout="hideTip(event, 'fs7', 40)" onmouseover="showTip(event, 'fs7', 40)" class="id">A</span> <span class="c">// negation of a matrix</span>
-
-<span class="c">//  matrix-vector product</span>
-<span onmouseout="hideTip(event, 'fs7', 41)" onmouseover="showTip(event, 'fs7', 41)" class="id">A</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs10', 42)" onmouseover="showTip(event, 'fs10', 42)" class="id">v</span>
-
-<span onmouseout="hideTip(event, 'fs14', 43)" onmouseover="showTip(event, 'fs14', 43)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 44)" onmouseover="showTip(event, 'fs22', 44)" class="id">dot</span> <span onmouseout="hideTip(event, 'fs7', 45)" onmouseover="showTip(event, 'fs7', 45)" class="id">A</span> <span onmouseout="hideTip(event, 'fs9', 46)" onmouseover="showTip(event, 'fs9', 46)" class="id">B</span>
-
-<span onmouseout="hideTip(event, 'fs7', 47)" onmouseover="showTip(event, 'fs7', 47)" class="id">A</span> <span class="o">+</span> <span class="n">1.</span>
-<span onmouseout="hideTip(event, 'fs10', 48)" onmouseover="showTip(event, 'fs10', 48)" class="id">v</span> <span class="o">+</span> <span class="n">1.</span>
-<span onmouseout="hideTip(event, 'fs12', 49)" onmouseover="showTip(event, 'fs12', 49)" class="id">rv</span> <span class="o">+</span> <span class="n">1.</span>
-
-<span class="c">//let () =</span>
-<span class="c">//    let assemblyProbeDirectory =  &quot;D:/Source/FSharp.Stats/lib&quot;</span>
-<span class="c">//    System.IO.Directory.SetCurrentDirectory(assemblyProbeDirectory)</span>
-
-
-
-
-
-<span class="c">//// Linear regression</span>
-<span class="c">//let cost theta X (y:vector) =</span>
-<span class="c">//    let tmp = Matrix.dot X theta </span>
-<span class="c">//    y</span>
-<span class="c">//    |&gt; Vector.fold (fun sum v -&gt; </span>
-<span class="c">//        let error = v - tmp</span>
-<span class="c">//        sum + (error * error) ) 0. </span>
-<span class="c">//    |&gt; (/) (float y.Length * 2.0)</span>
- 
-
-<span class="c">//let inline (.-) a b =</span>
-<span class="c">//    a |&gt; Matrix.map (fun x -&gt; x - b)    </span>
-
-<span class="c">//let estimateCoefficientsBySGD (X:matrix) y theta alpha = // rate nEpoch (data:array&lt;array&lt;&#39;a&gt;&gt;)</span>
-<span class="c">//    //let delta = Vector.create (X.NumCols) 1.</span>
-<span class="c">//    let cost&#39; = cost theta X y</span>
-<span class="c">//    let rec loop delta =</span>
-<span class="c">//        match (delta.Values|&gt; Array.maxBy abs &gt; 1e-6) with</span>
-<span class="c">//        | false -&gt; theta</span>
-<span class="c">//        | true -&gt; </span>
-<span class="c">//            let error = </span>
-<span class="c">//                let tmp = Matrix.dot X theta </span>
-<span class="c">//                y |&gt; Vector.map (fun v -&gt; v - y)</span>
-<span class="c">//            let delta&#39; = </span>
-<span class="c">//                Matrix.dot X.Transpose error </span>
-<span class="c">//                |&gt; (/) (float y.Length)</span>
- 
-<span class="c">//            let trial_theta = theta - alpha * delta</span>
-<span class="c">//            let trial_cost = cost trial_theta X y</span>
-<span class="c">//            loop delta&#39;</span>
-
-<span class="c">//    let rec wloop (theta:vector) (ttheta:vector) (tcost:vector) (pcost:vector) =</span>
-<span class="c">//        let ttheta&#39; = (theta + ttheta) / 2.</span>
-<span class="c">//        let tcost&#39;  = cost ttheta X y</span>
-       
-<span class="c">//    //while (np.max(np.abs(delta)) &gt; 1e-6) do</span>
-<span class="c">//    //    1.</span>
-
-
-
-
-<span class="c">//// F# Numerics Interface </span>
-<span class="c">//// http://fdatamining.blogspot.de/2010/03/f-inumerics-interface-and-matrix-class.html</span>
-
-
-<span class="c">//// Service Provider model pattern</span>
-<span class="c">//// </span>
-<span class="c">//// http://blog.ploeh.dk/2011/04/27/Providerisnotapattern/</span>
-<span class="c">//// http://blog.ploeh.dk/2011/04/27/Providerisnotapattern/</span>
-
-
-<span class="c">//open System.Runtime.InteropServices</span>
-
-<span class="c">//// [&lt;DllImport(&quot;C:/Program Files (x86)/Sho 2.1/bin/bin64/mkl.dll&quot;,EntryPoint=&quot;dgemm_&quot;)&gt;]</span>
-<span class="c">//[&lt;DllImport(&quot;D:\\libopenblas.dll&quot;,EntryPoint=&quot;dgemm_&quot;)&gt;]</span>
-<span class="c">//extern void dgemm_</span>
-<span class="c">//  ( char *transa, char *transb, </span>
-<span class="c">//    int *m, int *n, int *k, </span>
-<span class="c">//    double *alpha, double *a, int *lda, </span>
-<span class="c">//    double *b, int *ldb, double *beta, </span>
-<span class="c">//    double *c, int *ldc );</span>
-
-
-
-
-<span class="c">//#nowarn &quot;51&quot; </span>
-
-<span class="c">//open Microsoft.FSharp.NativeInterop</span>
-
-
-<span class="c">//let matmul_blas (a:float[,]) (b:float[,]) = </span>
-<span class="c">//    // Get dimensions of the input matrices</span>
-<span class="c">//    let m = Array2D.length1 a</span>
-<span class="c">//    let k = Array2D.length2 a</span>
-<span class="c">//    let n = Array2D.length2 b</span>
- 
-<span class="c">//    // Allocate array for the result</span>
-<span class="c">//    let c = Array2D.create n m 0.0</span>
-
-<span class="c">//    // Declare arguments for the call</span>
-<span class="c">//    let mutable arg_transa = &#39;t&#39;</span>
-<span class="c">//    let mutable arg_transb = &#39;t&#39;</span>
-<span class="c">//    let mutable arg_m = m</span>
-<span class="c">//    let mutable arg_n = n</span>
-<span class="c">//    let mutable arg_k = k</span>
-<span class="c">//    let mutable arg_alpha = 1.0</span>
-<span class="c">//    let mutable arg_ldk = k</span>
-<span class="c">//    let mutable arg_ldn = n</span>
-<span class="c">//    let mutable arg_beta = 1.0</span>
-<span class="c">//    let mutable arg_ldm = m</span>
-
-<span class="c">//    // Temporarily pin the arrays</span>
-<span class="c">//    use arg_a = PinnedArray2.of_array2D(a)</span>
-<span class="c">//    use arg_b = PinnedArray2.of_array2D(b)</span>
-<span class="c">//    use arg_c = PinnedArray2.of_array2D(c)</span>
-
-<span class="c">//    // Invoke the native routine</span>
-<span class="c">//    dgemm_( &amp;&amp;arg_transa, &amp;&amp;arg_transb,</span>
-<span class="c">//            &amp;&amp;arg_m, &amp;&amp;arg_n, &amp;&amp;arg_k,</span>
-<span class="c">//            &amp;&amp;arg_alpha, arg_a.Ptr, &amp;&amp;arg_ldk,</span>
-<span class="c">//            arg_b.Ptr, &amp;&amp;arg_ldn, &amp;&amp;arg_beta,</span>
-<span class="c">//            arg_c.Ptr, &amp;&amp;arg_ldm )</span>
-
-<span class="c">//    // Transpose the result to get m*n matrix </span>
-<span class="c">//    Array2D.init m n (fun i j -&gt; c.[j,i])</span>
-
-
-
-
-<span class="c">//matmul_blas (A.ToArray2D()) (B.ToArray2D())</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="id">v</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs5', 6)" onmouseover="showTip(event, 'fs5', 6)" class="fn">vector</span> <span class="pn">[|</span><span class="n">2.0</span><span class="pn">;</span> <span class="n">20.0</span><span class="pn">;</span> <span class="n">1.</span><span class="pn">|]</span>
 </code></pre></td>
 </tr>
 </table>
+<table class="pre"><tr><td><pre><code>vector [|2.0; 20.0; 1.0|]</code></pre></td></tr></table>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 7)" onmouseover="showTip(event, 'fs6', 7)" class="id">rv</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs7', 8)" onmouseover="showTip(event, 'fs7', 8)" class="fn">rowvec</span> <span class="pn">[|</span><span class="n">2.0</span><span class="pn">;</span> <span class="n">20.0</span><span class="pn">;</span> <span class="n">1.</span><span class="pn">|]</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>rowvec [|2.0; 20.0; 1.0|]</code></pre></td></tr></table>
+<p>Addition to every element of vector.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs4', 13)" onmouseover="showTip(event, 'fs4', 13)" class="id">v</span> <span class="o">+</span> <span class="n">1.</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>vector [|3.0; 21.0; 2.0|]</code></pre></td></tr></table>
+<p>Addition to every element of row vector.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs6', 14)" onmouseover="showTip(event, 'fs6', 14)" class="id">rv</span> <span class="o">+</span> <span class="n">1.</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>rowvec [|3.0; 21.0; 2.0|]</code></pre></td></tr></table>
+<a name="Matrix"></a>
+<h2><a name="Matrix" class="anchor" href="#Matrix">Matrix</a></h2>
+<h3><a name="Creating-Matrices-with-FSharp-Stats" class="anchor" href="#Creating-Matrices-with-FSharp-Stats">Creating Matrices with FSharp.Stats.</a></h3>
+<p>Matrices will also be printed with the FSharp.Stats.FSIPrinters.matrix function to get a nice console output.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="pp">#r</span> <span class="s">&quot;FSharp.Stats.dll&quot;</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 15)" onmouseover="showTip(event, 'fs1', 15)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 16)" onmouseover="showTip(event, 'fs3', 16)" class="id">Stats</span>
+
+<span class="c">// http://fdatamining.blogspot.de/2010/03/matrix-and-linear-algebra-in-f-part-i-f.html</span>
+<span class="c">// http://fdatamining.blogspot.de/search/label/linear%20algebra</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 17)" onmouseover="showTip(event, 'fs10', 17)" class="id">A</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="fn">matrix</span> <span class="pn">[</span> <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span> <span class="n">7.0</span><span class="pn">;</span> <span class="n">2.0</span> <span class="pn">]</span>
+             <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span> <span class="n">3.0</span><span class="pn">;</span> <span class="n">1.0</span> <span class="pn">]</span>
+             <span class="pn">[</span> <span class="n">2.0</span><span class="pn">;</span> <span class="n">9.0</span><span class="pn">;</span> <span class="n">1.0</span> <span class="pn">]</span> <span class="pn">]</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+               0         1         2 
+_____________________________________
+0     |    1.000     7.000     2.000
+1     |    1.000     3.000     1.000
+2     |    2.000     9.000     1.000
+"</code></pre></td></tr></table>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 25)" onmouseover="showTip(event, 'fs15', 25)" class="id">B</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs11', 26)" onmouseover="showTip(event, 'fs11', 26)" class="fn">matrix</span> <span class="pn">[</span> <span class="pn">[</span> <span class="n">10.0</span><span class="pn">;</span> <span class="n">70.0</span><span class="pn">;</span> <span class="n">20.0</span> <span class="pn">]</span>
+             <span class="pn">[</span> <span class="n">10.0</span><span class="pn">;</span> <span class="n">30.0</span><span class="pn">;</span> <span class="n">10.0</span> <span class="pn">]</span>
+             <span class="pn">[</span> <span class="n">20.0</span><span class="pn">;</span> <span class="n">90.0</span><span class="pn">;</span> <span class="n">10.0</span> <span class="pn">]</span> <span class="pn">]</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+               0         1         2 
+_____________________________________
+0     |   10.000    70.000    20.000
+1     |   10.000    30.000    10.000
+2     |   20.000    90.000    10.000
+"</code></pre></td></tr></table>
+<h3><a name="Calculation-Examples-for-Matrices" class="anchor" href="#Calculation-Examples-for-Matrices">Calculation Examples for Matrices</a></h3>
+<p>Get sum of each row.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs10', 40)" onmouseover="showTip(event, 'fs10', 40)" class="id">A</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs18', 41)" onmouseover="showTip(event, 'fs18', 41)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 42)" onmouseover="showTip(event, 'fs19', 42)" class="m">Generic</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 43)" onmouseover="showTip(event, 'fs20', 43)" class="id">enumerateRowWise</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs21', 44)" onmouseover="showTip(event, 'fs21', 44)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 45)" onmouseover="showTip(event, 'fs22', 45)" class="id">sum</span><span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>[10.0; 5.0; 12.0]</code></pre></td></tr></table>
+<p>Create seq of vectors of matrix columns.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs10', 53)" onmouseover="showTip(event, 'fs10', 53)" class="id">A</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs18', 54)" onmouseover="showTip(event, 'fs18', 54)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 55)" onmouseover="showTip(event, 'fs24', 55)" class="id">mapiCols</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs25', 56)" onmouseover="showTip(event, 'fs25', 56)" class="id">i</span> <span onmouseout="hideTip(event, 'fs26', 57)" onmouseover="showTip(event, 'fs26', 57)" class="id">r</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs26', 58)" onmouseover="showTip(event, 'fs26', 58)" class="id">r</span><span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>[vector [|1.0; 1.0; 2.0|]; vector [|7.0; 3.0; 9.0|]; vector [|2.0; 1.0; 1.0|]]</code></pre></td></tr></table>
+<p>Sum of two matrices.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs10', 113)" onmouseover="showTip(event, 'fs10', 113)" class="id">A</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs15', 114)" onmouseover="showTip(event, 'fs15', 114)" class="id">B</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+               0         1         2 
+_____________________________________
+0     |   11.000    77.000    22.000
+1     |   11.000    33.000    11.000
+2     |   22.000    99.000    11.000
+"</code></pre></td></tr></table>
+<p>Difference between two matrices.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs10', 115)" onmouseover="showTip(event, 'fs10', 115)" class="id">A</span> <span class="o">-</span> <span onmouseout="hideTip(event, 'fs15', 116)" onmouseover="showTip(event, 'fs15', 116)" class="id">B</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+               0         1         2 
+_____________________________________
+0     |    -9.00    -63.00    -18.00
+1     |    -9.00    -27.00     -9.00
+2     |   -18.00    -81.00     -9.00
+"</code></pre></td></tr></table>
+<p>Product of two matrices.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs10', 117)" onmouseover="showTip(event, 'fs10', 117)" class="id">A</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs15', 118)" onmouseover="showTip(event, 'fs15', 118)" class="id">B</span> 
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+               0         1         2 
+_____________________________________
+0     |  120.000   460.000   110.000
+1     |   60.000   250.000    60.000
+2     |  130.000   500.000   140.000
+"</code></pre></td></tr></table>
+<p>Element-wise product of two matrices</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs10', 119)" onmouseover="showTip(event, 'fs10', 119)" class="id">A</span> <span class="pn">.</span><span class="o">*</span> <span onmouseout="hideTip(event, 'fs15', 120)" onmouseover="showTip(event, 'fs15', 120)" class="id">B</span> 
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+               0         1         2 
+_____________________________________
+0     |   10.000   490.000    40.000
+1     |   10.000    90.000    10.000
+2     |   40.000   810.000    10.000
+"</code></pre></td></tr></table>
+<p>Scalar product of a matrix.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs10', 121)" onmouseover="showTip(event, 'fs10', 121)" class="id">A</span> <span class="o">*</span> <span class="n">2.0</span> 
+<span class="n">2.0</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs10', 122)" onmouseover="showTip(event, 'fs10', 122)" class="id">A</span> <span class="c">// also ok, gives same result</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+               0         1         2 
+_____________________________________
+0     |    2.000    14.000     4.000
+1     |    2.000     6.000     2.000
+2     |    4.000    18.000     2.000
+"</code></pre></td></tr></table>
+<p>Negation of a matrix</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">-</span><span onmouseout="hideTip(event, 'fs10', 123)" onmouseover="showTip(event, 'fs10', 123)" class="id">A</span> 
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+               0         1         2 
+_____________________________________
+0     |    -1.00     -7.00     -2.00
+1     |    -1.00     -3.00     -1.00
+2     |    -2.00     -9.00     -1.00
+"</code></pre></td></tr></table>
+<p>Product of a matrix-vector.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs10', 124)" onmouseover="showTip(event, 'fs10', 124)" class="id">A</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs4', 125)" onmouseover="showTip(event, 'fs4', 125)" class="id">v</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>vector [|144.0; 63.0; 185.0|]</code></pre></td></tr></table>
+<p>Dot product of two matrices.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs18', 126)" onmouseover="showTip(event, 'fs18', 126)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 127)" onmouseover="showTip(event, 'fs35', 127)" class="id">dot</span> <span onmouseout="hideTip(event, 'fs10', 128)" onmouseover="showTip(event, 'fs10', 128)" class="id">A</span> <span onmouseout="hideTip(event, 'fs15', 129)" onmouseover="showTip(event, 'fs15', 129)" class="id">B</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>1510.0</code></pre></td></tr></table>
+<p>Addition to every element of matrix.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs10', 130)" onmouseover="showTip(event, 'fs10', 130)" class="id">A</span> <span class="o">+</span> <span class="n">1.</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+               0         1         2 
+_____________________________________
+0     |    2.000     8.000     3.000
+1     |    2.000     4.000     2.000
+2     |    3.000    10.000     2.000
+"</code></pre></td></tr></table>
 
 <div class="tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
 <div class="tip" id="fs2">namespace FSharp.Plotly</div>
-<div class="tip" id="fs3">namespace Microsoft</div>
-<div class="tip" id="fs4">namespace Microsoft.FSharp</div>
-<div class="tip" id="fs5">namespace FSharp.Stats</div>
-<div class="tip" id="fs6">namespace FSharp.Stats.Algebra</div>
-<div class="tip" id="fs7">val A : Matrix&lt;float&gt;</div>
-<div class="tip" id="fs8">Multiple items<br />val matrix : ll:seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
-<div class="tip" id="fs9">val B : Matrix&lt;float&gt;</div>
-<div class="tip" id="fs10">val v : Vector&lt;float&gt;</div>
-<div class="tip" id="fs11">Multiple items<br />val vector : l:seq&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><br />--------------------<br />type vector = Vector&lt;float&gt;</div>
-<div class="tip" id="fs12">val rv : rowvec</div>
-<div class="tip" id="fs13">Multiple items<br />val rowvec : l:seq&lt;float&gt; -&gt; rowvec<br /><br />--------------------<br />type rowvec = RowVector&lt;float&gt;</div>
-<div class="tip" id="fs14">Multiple items<br />module Matrix<br /><br />from FSharp.Stats<br /><br />--------------------<br />type Matrix&lt;&#39;T&gt; =<br />&#160;&#160;| DenseRepr of DenseMatrix&lt;&#39;T&gt;<br />&#160;&#160;| SparseRepr of SparseMatrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IEnumerable<br />&#160;&#160;&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IStructuralEquatable<br />&#160;&#160;&#160;&#160;interface IStructuralComparable<br />&#160;&#160;&#160;&#160;interface IComparable<br />&#160;&#160;&#160;&#160;override Equals : yobj:obj -&gt; bool<br />&#160;&#160;&#160;&#160;override GetHashCode : unit -&gt; int<br />&#160;&#160;&#160;&#160;member GetSlice : start1:int option * finish1:int option * start2:int option * finish2:int option -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member PermuteColumns : p:permutation -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member PermuteRows : p:permutation -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;...</div>
-<div class="tip" id="fs15">module Generic<br /><br />from FSharp.Stats.MatrixModule</div>
-<div class="tip" id="fs16">val enumerateRowWise : f:(seq&lt;&#39;a&gt; -&gt; &#39;a0) -&gt; m:Matrix&lt;&#39;a&gt; -&gt; seq&lt;&#39;a0&gt;</div>
-<div class="tip" id="fs17">Multiple items<br />module Seq<br /><br />from FSharp.Stats<br /><br />--------------------<br />module Seq<br /><br />from FSharp.Plotly<br /><br />--------------------<br />module Seq<br /><br />from Microsoft.FSharp.Collections</div>
-<div class="tip" id="fs18">val sum : source:seq&lt;&#39;T&gt; -&gt; &#39;T (requires member ( + ) and member get_Zero)</div>
-<div class="tip" id="fs19">val mapiCols : f:(int -&gt; vector -&gt; &#39;b) -&gt; m:matrix -&gt; seq&lt;&#39;b&gt;</div>
-<div class="tip" id="fs20">val i : int</div>
-<div class="tip" id="fs21">val r : vector</div>
-<div class="tip" id="fs22">val dot : a:matrix -&gt; b:Matrix&lt;float&gt; -&gt; float</div>
+<div class="tip" id="fs3">namespace FSharp.Stats</div>
+<div class="tip" id="fs4">val v : Vector&lt;float&gt;</div>
+<div class="tip" id="fs5">Multiple items<br />val vector : l:seq&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><br />--------------------<br />type vector = Vector&lt;float&gt;</div>
+<div class="tip" id="fs6">val rv : rowvec</div>
+<div class="tip" id="fs7">Multiple items<br />val rowvec : l:seq&lt;float&gt; -&gt; rowvec<br /><br />--------------------<br />type rowvec = RowVector&lt;float&gt;</div>
+<div class="tip" id="fs8">val exmp13 : Vector&lt;float&gt;</div>
+<div class="tip" id="fs9">val exmp14 : RowVector&lt;float&gt;</div>
+<div class="tip" id="fs10">val A : Matrix&lt;float&gt;</div>
+<div class="tip" id="fs11">Multiple items<br />val matrix : ll:seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
+<div class="tip" id="fs12">val APrint : string</div>
+<div class="tip" id="fs13">module FSIPrinters<br /><br />from FSharp.Stats</div>
+<div class="tip" id="fs14">val matrix : mat:Matrix&lt;float&gt; -&gt; string</div>
+<div class="tip" id="fs15">val B : Matrix&lt;float&gt;</div>
+<div class="tip" id="fs16">val BPrint : string</div>
+<div class="tip" id="fs17">val exmp1 : seq&lt;float&gt;</div>
+<div class="tip" id="fs18">Multiple items<br />module Matrix<br /><br />from FSharp.Stats<br /><br />--------------------<br />type Matrix&lt;&#39;T&gt; =<br />&#160;&#160;| DenseRepr of DenseMatrix&lt;&#39;T&gt;<br />&#160;&#160;| SparseRepr of SparseMatrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IEnumerable<br />&#160;&#160;&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IStructuralEquatable<br />&#160;&#160;&#160;&#160;interface IStructuralComparable<br />&#160;&#160;&#160;&#160;interface IComparable<br />&#160;&#160;&#160;&#160;override Equals : yobj:obj -&gt; bool<br />&#160;&#160;&#160;&#160;override GetHashCode : unit -&gt; int<br />&#160;&#160;&#160;&#160;member GetSlice : start1:int option * finish1:int option * start2:int option * finish2:int option -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member PermuteColumns : p:permutation -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member PermuteRows : p:permutation -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;...</div>
+<div class="tip" id="fs19">module Generic<br /><br />from FSharp.Stats.MatrixModule</div>
+<div class="tip" id="fs20">val enumerateRowWise : f:(seq&lt;&#39;a&gt; -&gt; &#39;a0) -&gt; matrix:Matrix&lt;&#39;a&gt; -&gt; seq&lt;&#39;a0&gt;</div>
+<div class="tip" id="fs21">Multiple items<br />module Seq<br /><br />from FSharp.Stats<br /><br />--------------------<br />module Seq<br /><br />from FSharp.Plotly<br /><br />--------------------<br />module Seq<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs22">val sum : source:seq&lt;&#39;T&gt; -&gt; &#39;T (requires member ( + ) and member get_Zero)</div>
+<div class="tip" id="fs23">val exmp2 : seq&lt;vector&gt;</div>
+<div class="tip" id="fs24">val mapiCols : f:(int -&gt; vector -&gt; &#39;b) -&gt; m:matrix -&gt; seq&lt;&#39;b&gt;</div>
+<div class="tip" id="fs25">val i : int</div>
+<div class="tip" id="fs26">val r : vector</div>
+<div class="tip" id="fs27">val exmp3 : string</div>
+<div class="tip" id="fs28">val exmp4 : string</div>
+<div class="tip" id="fs29">val exmp5 : string</div>
+<div class="tip" id="fs30">val exmp6 : string</div>
+<div class="tip" id="fs31">val exmp7 : string</div>
+<div class="tip" id="fs32">val exmp9 : string</div>
+<div class="tip" id="fs33">val exmp10 : Vector&lt;float&gt;</div>
+<div class="tip" id="fs34">val exmp11 : float</div>
+<div class="tip" id="fs35">val dot : a:matrix -&gt; b:Matrix&lt;float&gt; -&gt; float</div>
+<div class="tip" id="fs36">val exmp12 : string</div>
 
         </div>
         <div class="span3">
