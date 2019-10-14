@@ -72,6 +72,7 @@ module ContinuousWavelet =
             currentX,energycorrection correlationValue 
             )
 
+    ///minDistance is half the median spacing; maxDistance is 10 times the median spacing; internal padding=linear interpolation; hugeGap padding=random
     let transformDefault (rawData : (float * float) []) (wavelet: Wavelet.Ricker) =
         let n = rawData.Length
         let spacing =
@@ -88,9 +89,10 @@ module ContinuousWavelet =
             |> ceil |> int 
 
         let paddedData = 
-            Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.InternalPaddingMethod.LinearInterpolation Padding.HugeGapPaddingMethod.Random
+            Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.BorderPaddingMethod.Random Padding.InternalPaddingMethod.LinearInterpolation Padding.HugeGapPaddingMethod.Random
         transform paddedData (-) paddingArea wavelet
 
+    ///minDistance is half the overall minimum spacing; maxDistance is infinity; internal padding=zero; hugeGap padding=zero (but redundant)
     let transformDefaultZero (rawData : (float * float) []) (wavelet: Wavelet.Ricker) =
         let n = rawData.Length
         let spacing =
@@ -98,14 +100,14 @@ module ContinuousWavelet =
             |> Array.map (fun idx -> fst rawData.[idx] - fst rawData.[idx - 1])
             |> Array.sort
         //the minimalDistance allowed is half the minimal overall interval
-        let minDistance = spacing.[0]
+        let minDistance = spacing.[0] / 2.
         //there is no maximal distance in a chromatogram
         let maxDistance = infinity
         let paddingArea = 
             (wavelet.PaddingArea / minDistance) + 1.
             |> ceil |> int 
         let paddedData = 
-            Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.InternalPaddingMethod.Zero Padding.HugeGapPaddingMethod.Zero
+            Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.BorderPaddingMethod.Zero Padding.InternalPaddingMethod.Zero Padding.HugeGapPaddingMethod.Zero
         transform paddedData (-) paddingArea wavelet
 
     module Discrete = 

@@ -60,6 +60,13 @@ module Padding =
             let addToXValueInt (a: int) (toAdd: float) =
                 a + (int toAdd)
 
+    //padds data point at signals start and end
+    type BorderPaddingMethod =
+        //inserts random data points taken from the original data set
+        | Random
+        //inserts 0.0 as y_Value
+        | Zero
+
     //padds data point in small gaps (e.g. a missing data point or small ranges with no data)
     type InternalPaddingMethod =
         //inserts random data points taken from the original data set
@@ -92,7 +99,7 @@ module Padding =
     ///default: internalPaddingMethod=LinearInterpolation; hugeGapPaddingMethod=Random (like in border cases)
     ///getDiff: get the difference in x_Values as float representation (if 'a is float then (-))
     ///addToXValue: function that adds a float to the x_Value (if 'a is float then (+))
-    let inline pad (data : ('a * float) []) (minDistance: float) (maxDistance : float) (getDiff: 'a -> 'a -> float) (addToXValue : 'a -> float -> 'a) (borderpadding : int) (internalPaddingMethod: InternalPaddingMethod) (hugeGapPaddingMethod: HugeGapPaddingMethod) =
+    let inline pad (data : ('a * float) []) (minDistance: float) (maxDistance : float) (getDiff: 'a -> 'a -> float) (addToXValue : 'a -> float -> 'a) (borderpadding : int) (borderPaddingMethod: BorderPaddingMethod) (internalPaddingMethod: InternalPaddingMethod) (hugeGapPaddingMethod: HugeGapPaddingMethod) =
         let rnd = System.Random()
         let n = data.Length
         ///minimal x_Value
@@ -101,17 +108,33 @@ module Padding =
         let maxX = data |> Array.last |> fst
         ///adds 'borderpadding' number of random data points to the left
         let leftPadding     = 
-            Array.init borderpadding (fun i -> 
-                let paddX = addToXValue minX (- (float i + 1.) * minDistance)
-                let paddY = snd data.[rnd.Next(0,n)] //n+1
-                paddX,paddY)
-                |> Array.rev
+            match borderPaddingMethod with
+            | BorderPaddingMethod.Random -> 
+                Array.init borderpadding (fun i -> 
+                    let paddX = addToXValue minX (- (float i + 1.) * minDistance)
+                    let paddY = snd data.[rnd.Next(0,n)]
+                    paddX,paddY)
+                    |> Array.rev
+            | BorderPaddingMethod.Zero -> 
+                Array.init borderpadding (fun i -> 
+                    let paddX = addToXValue minX (- (float i + 1.) * minDistance)
+                    let paddY = 0.
+                    paddX,paddY)
+                    |> Array.rev
         ///adds 'borderpadding' number of random data points to the rigth
         let rightPadding    = 
-            Array.init borderpadding (fun i -> 
-                let paddX = addToXValue maxX ((float i + 1.) * minDistance)
-                let paddY = snd data.[rnd.Next(0,n)] //n+1
-                paddX,paddY)
+            match borderPaddingMethod with
+            | BorderPaddingMethod.Random -> 
+                Array.init borderpadding (fun i -> 
+                    let paddX = addToXValue maxX ((float i + 1.) * minDistance)
+                    let paddY = snd data.[rnd.Next(0,n)]
+                    paddX,paddY)
+            | BorderPaddingMethod.Zero -> 
+                Array.init borderpadding (fun i -> 
+                    let paddX = addToXValue maxX ((float i + 1.) * minDistance)
+                    let paddY = 0.
+                    paddX,paddY)
+                    |> Array.rev
 
         let fillSpaceInBetween = 
             //interpolate the space between the two adjacent knots and add aditional points (number = (getDiff p1 p2 / minDistance) - 1)
