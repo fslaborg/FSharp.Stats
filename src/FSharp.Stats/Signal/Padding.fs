@@ -15,7 +15,7 @@ module Padding =
             let n = data.Length
             ///minimal x_Value
             let minX = data |> Array.head |> fst
-            ///minimal y_Value
+            ///maximal x_Value
             let maxX = data |> Array.last |> fst
             (getDiff maxX minX) / (float n)
 
@@ -29,6 +29,13 @@ module Padding =
                 |> Array.sort
                 |> fun intervals -> intervals.[int (n / 2) - 1]
             median
+        
+        ///minimum spacing of the data points
+        let inline getMinimumSpacing (data : ('a * float) []) (getDiff: 'a -> 'a -> float) = 
+            let n = data.Length
+            [|1 .. n - 1|]
+            |> Array.map (fun idx -> getDiff (fst data.[idx]) (fst data.[idx - 1]))
+            |> Array.min
 
         module Time =
 
