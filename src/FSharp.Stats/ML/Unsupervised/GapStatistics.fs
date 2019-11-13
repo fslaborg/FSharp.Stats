@@ -1,13 +1,11 @@
 namespace  BioFSharp.Stats.ML.Unsupervised
 
-open BioFSharp.Stats
-open FSharp.Care
-open FSharp.Care.Collections
+open FSharp.Stats
+open FSharpAux
 
 module ClusterNumber =
 
-    open BioFSharp.Stats.ML.Unsupervised.IterativeClustering
-    open BioFSharp.Stats.Descriptive
+    open FSharp.Stats.ML.Unsupervised.IterativeClustering
     
     /// Simple estimator for number of cluster (k) // can be used as the upper bound for other methods
     let k_ruleOfThumb observations = 
@@ -17,32 +15,30 @@ module ClusterNumber =
     /// Akaike Information Criterion (AIC)
     let calcAIC (bootstraps:int) (iClustering:int->KClusteringResult<float []>) maxK   =   
         let AICFromClusterResult (cr:KClusteringResult<'a []>) =
-            let rss = cr.ClosestDistances |> Array.sumBy snd
+            let rss = cr.ClosestDistances |> Array.sumBy (fun (fst,snd) -> snd * snd) //snd
             let k = cr.Centroids.Length
             let m = cr.ClosestDistances.Length
             rss + float (2 * m * k)
         [1..maxK]
         //|> PSeq.map (fun k ->
         |> Seq.map (fun k ->
-                        let aic' =
-                            [1..bootstraps]
-                            |> Seq.averageBy (fun _ ->
-                                let kmeansResult = iClustering k                            
-                                let aic = AICFromClusterResult kmeansResult
-                                aic)
-                        (k,aic')
-                        ) 
+            let aic' =
+                [1..bootstraps]
+                |> Seq.averageBy (fun _ ->
+                    let kmeansResult = iClustering k                            
+                    let aic = AICFromClusterResult kmeansResult
+                    aic)
+            (k,aic')
+            ) 
         |> Seq.toArray
         //|> PSeq.toArray
         //|> Array.sortBy fst
 
 
-module GapStatistics =
-    open MathNet.Numerics
-    open MathNet.Numerics.LinearAlgebra      
+module GapStatistics = 
     
-    open BioFSharp.Stats.ML
-    open BioFSharp.Stats.Descriptive
+    open FSharp.Stats.ML
+    open FSharp.Stats.ML.Unsupervised
 
 
 // An implementation of the gap statistic algorithm from Tibshirani, Walther, and Hastie's "Estimating the number of clusters in a data set via the gap statistic".
@@ -97,50 +93,48 @@ module GapStatistics =
         | _ ->
                 [1..maxK]
                 |> PSeq.map (fun k -> 
-                                let refDisp     =  referenceDispersion rndPointGenerator calcDispersion data bootstraps k 
-                                let disp        =  calcDispersion data k
+                    let refDisp     =  referenceDispersion rndPointGenerator calcDispersion data bootstraps k 
+                    let disp        =  calcDispersion data k
 
-                                let refDispMean = refDisp  |> StatisticalMeasure.mean 
-                                let refDispStd  = refDisp  |> StatisticalMeasure.stDev 
-                                (createGapStatisticResult k disp refDispMean refDispStd (refDispMean-disp)) ) 
+                    let refDispMean = refDisp  |> Seq.mean 
+                    let refDispStd  = refDisp  |> Seq.stDev 
+                    (createGapStatisticResult k disp refDispMean refDispStd (refDispMean-disp)) ) 
                 |> PSeq.toArray
                 |> Array.sortBy (fun c -> c.ClusterIndex)
         
 
     module PointGenerators =
-
+    
         // Generate uniform points within the range of `data`.
         let generate_uniform_points (rnd:System.Random) =        
             fun (data:array<float[]>) -> 
-                let generateUniform (s:StatisticalMeasure.Range) =
-                   s.Min + (rnd.NextDouble() * (s.Max - s.Min))
+                let generateUniform (s:Intervals.Interval<float>) =
+                   Intervals.getStart s + (rnd.NextDouble() * (Intervals.getRange s))
                                        
                 data
-                |> Array.map (fun item -> StatisticalMeasure.range (item),item)
-                |> Array.map (fun ((s:StatisticalMeasure.Range),data) -> 
+                |> Array.map (fun item -> Intervals.ofSeq item,item)
+                |> Array.map (fun (s,data) -> 
                     data 
                     |> Array.map (fun _ -> generateUniform s))
                       
         // Generate uniform points for an appropriate reference distribution data' that takes the original datashape into account.
         let generate_uniform_points_PCA (rnd:System.Random)  =                    
             fun (data:array<'a>) -> 
-                let generateUniform (s:StatisticalMeasure.Range) =
-                   s.Min + (rnd.NextDouble() * (s.Max - s.Min))
-
-                let matrix    = DenseMatrix.ofRowSeq data
+                let generateUniform (s:Intervals.Interval<float>) =
+                   (Intervals.getStart s) + (rnd.NextDouble() * (Intervals.getRange s))
+                   
+                let matrix    = matrix data
                 let adjCenter = PCA.toAdjustStandardize matrix
                 let comp      = PCA.compute adjCenter matrix 
                 let pcaResult = PCA.transform adjCenter comp matrix
                                        
                 let data' =          
                     PCA.revert adjCenter comp  pcaResult 
-                    |> Matrix.toRowSeq 
-                    |> Seq.map (fun v -> v.ToArray())
-                    |> Seq.toArray
+                    |> Matrix.toJaggedArray 
                    
                 data'
-                |> Array.map (fun item -> StatisticalMeasure.range (item),item)
-                |> Array.map (fun ((s:StatisticalMeasure.Range),data) -> 
+                |> Array.map (fun item -> Intervals.ofSeq item,item)
+                |> Array.map (fun (s,data) -> 
                     data 
                     |> Array.map (fun _ -> generateUniform s))    
 

@@ -31,7 +31,7 @@ There are several padding methods:
 
 **Three regions can be defined where padding points could be introduced:**
 
- 1. In the beginning and end of the data set artificial data points have to be added to analyse the start- and end-regions of the data. 
+ 1. In the beginning and end of the data set artificial data points have to be added to analyse the start- and end-regions of the data. Therefore random data points are chosen from the original data set.
  
  2. If the data is not measured in discrete intervals, the region between two adjacent values have to be padded to ensure sufficient coverage for convolution.
  
@@ -55,9 +55,12 @@ let innerPadMethod = Padding.InternalPaddingMethod.LinearInterpolation
 ///take random data point y-values when huge gaps are between data points
 let hugeGapPadMethod = Padding.HugeGapPaddingMethod.Random
 
-///the maximal distance that is allowed between data points is the average spacing
+///padd the start and end of the signal with random data points
+let borderPadMethod = Padding.BorderPaddingMethod.Random
+
+///the maximal distance that is allowed between data points is the minimum spacing divided by 2
 let minDistance = 
-    Padding.HelperFunctions.getMedianSpacing data (-)
+    (Padding.HelperFunctions.getMinimumSpacing data (-)) / 2.
 
 //maximal allowed gap between datapoints where internalPaddingMethod can be applied.
 //if internalPaddingMethod = hugeGapPaddingMethod, then it does not matter which value is chosen
@@ -72,10 +75,10 @@ let borderpadding = 1000
 
 //get the paddedDataSet
 let paddedData =
-    //if a gap is greater than 1000. the InternalPaddingMethod is applied
-    Padding.pad data minDistance maxSpacing getDiffFu addXValue borderpadding innerPadMethod hugeGapPadMethod
+    //if a gap is greater than 10. the HugeGapPaddingMethod is applied
+    Padding.pad data minDistance maxSpacing getDiffFu addXValue borderpadding borderPadMethod innerPadMethod hugeGapPadMethod
 
-
+(***hide***)
 let paddedDataChart=
     let myYAxis() =
             Axis.LinearAxis.init(
@@ -94,6 +97,33 @@ let paddedDataChart=
 
 (*** include-value:paddedDataChart ***)
 
+
+(**
+Example for a linear interpolation as huge gap padding method
+
+*)
+
+//get the padded data
+let paddedDataLinear =
+    //if a gap is greater than 10. the LinearInterpolation padding method is applied
+    Padding.pad data minDistance maxSpacing getDiffFu addXValue borderpadding borderPadMethod innerPadMethod Padding.HugeGapPaddingMethod.LinearInterpolation
+
+(***hide***)
+
+let axis() = Axis.LinearAxis.init(Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+let axisWithTitle title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+
+let paddedDataLinearChart=
+    [
+    Chart.Point (paddedDataLinear,Name="paddedData")
+    Chart.Point (data,Name = "rawData") |> Chart.withMarkerStyle(4)
+    ]
+    |> Chart.Combine
+    |> Chart.withX_Axis (axisWithTitle "Time")
+    |> Chart.withY_Axis (axisWithTitle "Temperature")
+    |> Chart.withSize(900.,450.)
+
+(*** include-value:paddedDataLinearChart ***)
 
 (**
 
@@ -118,6 +148,7 @@ For further information please visit [The Wavelet Tutorial](http://web.iitd.ac.i
 
 
 open FSharp.Stats
+open StyleParam
 
 ///Array containing wavelets of all scales that should be investigated. The propagated frequency corresponds to 4 * Ricker.Scale
 let rickerArray = 
@@ -131,8 +162,6 @@ let transformedData =
 
 ///combining the raw and transformed data in one chart
 let combinedChart =
-    let yAxis() =
-            Axis.LinearAxis.init(Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
     //CWT-chart
     let heatmap =
         let colNames = 
@@ -140,7 +169,6 @@ let combinedChart =
         transformedData
         |> JaggedArray.map snd
         |> fun x -> Chart.Heatmap(x,ColNames=colNames,Showscale=false)
-   
         |> Chart.withAxisAnchor(X=1)
         |> Chart.withAxisAnchor(Y=1)
 
@@ -152,15 +180,15 @@ let combinedChart =
 
     //combine the charts and add additional styling
     Chart.Combine([heatmap;rawChart])
-    |> Chart.withX_AxisStyle("Time",Side=StyleParam.Side.Bottom,Id=2,Showgrid=false)
-    |> Chart.withX_AxisStyle("", Side=StyleParam.Side.Top,Showgrid=false, Id=1,Overlaying=StyleParam.AxisAnchorId.X 2)
-    |> Chart.withY_AxisStyle("Temperature", MinMax=(-25.,30.), Side=StyleParam.Side.Left,Id=2)
+    |> Chart.withX_AxisStyle("Time",Side=Side.Bottom,Id=2,Showgrid=false)
+    |> Chart.withX_AxisStyle("", Side=Side.Top,Showgrid=false, Id=1,Overlaying=AxisAnchorId.X 2)
+    |> Chart.withY_AxisStyle("Temperature", MinMax=(-25.,30.), Side=Side.Left,Id=2)
     |> Chart.withY_AxisStyle(
-        "Correlation", MinMax=(0.,19.),Showgrid=false, Side=StyleParam.Side.Right,
-        Id=1,Overlaying=StyleParam.AxisAnchorId.Y 2)
+        "Correlation", MinMax=(0.,19.),Showgrid=false, Side=Side.Right,
+        Id=1,Overlaying=AxisAnchorId.Y 2)
     |> Chart.withLegend true
-    |> Chart.withX_Axis (yAxis())
-    |> Chart.withY_Axis (yAxis())
+    |> Chart.withX_Axis (axis())
+    |> Chart.withY_Axis (axis())
     //|> Chart.withSize(900.,700.)
     
 
@@ -213,12 +241,6 @@ let defaultTransform =
 
 //alternative presentation of the wavelet correlation coefficients as line charts
 let defaultChart =
-    let myYAxis() =
-            Axis.LinearAxis.init(
-                Title="Temperature and Correlation",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
-    let myXAxis() =
-            Axis.LinearAxis.init(
-                Title="Time",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
     let rawDataChart =
         [|Chart.Area(data,Name= "rawData")|]
     let cwtCharts =
@@ -228,8 +250,8 @@ let defaultChart =
 
     Array.append rawDataChart cwtCharts
     |> Chart.Combine
-    |> Chart.withY_Axis (myYAxis())
-    |> Chart.withX_Axis (myXAxis())
+    |> Chart.withY_Axis (axisWithTitle "Temperature and Correlation")
+    |> Chart.withX_Axis (axisWithTitle "Time")
     |> Chart.withTitle "default transform"
 
 (**
@@ -244,14 +266,8 @@ let defaultZeroTransform =
     rickerArrayDefault
     |> Array.map (ContinuousWavelet.transformDefaultZero data)
 
-//alternative presentation of the wavelet correlation coefficients as line charts
+(***hide***)
 let defaultZeroChart =
-    let myYAxis() =
-            Axis.LinearAxis.init(
-                Title="Temperature and Correlation",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
-    let myXAxis() =
-            Axis.LinearAxis.init(
-                Title="Time",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
     let rawDataChart =
         [|Chart.Area(data,Name= "rawData")|]
     let cwtCharts =
@@ -261,13 +277,13 @@ let defaultZeroChart =
 
     Array.append rawDataChart cwtCharts
     |> Chart.Combine
-    |> Chart.withY_Axis (myYAxis())
-    |> Chart.withX_Axis (myXAxis())
+    |> Chart.withY_Axis (axisWithTitle "Temperature and Correlation")
+    |> Chart.withX_Axis (axisWithTitle "Time")
     |> Chart.withTitle "default Zero transform"
 
 (**
 - Because zeros are introduced, the adjacent signals are going to receive a high correlation!
-- In this example the correlation coefficients in general drop to the half intensity in respect to the default transform above because a zero value is introduced between every data point (minDistance = 0.5).
+- In this example the correlation coefficients in general drop to a reduced intensity because a zero values are introduced between every data point (minDistance = minimal spacing / 2.). So here a zero padding makes no sense. The Temperature wont drop to zero between two measurements.
 - s = scale
 - f = frequency [days]
 *)

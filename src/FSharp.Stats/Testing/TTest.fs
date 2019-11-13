@@ -38,7 +38,7 @@ module TTest =
             // Unequal sample sizes, assume nothing about variance.
             noAssumtion (mean1,variance1,n1) (mean2,variance2,n2)      
 
-    /// Computes a t-test or a Welch test 
+    /// Computes a t-test or a Welch test (unequal variances)
     let twoSample (assumeEqualVariances:bool) sample1 sample2 =
         let s1Stats = Vector.stats sample1
         let s2Stats = Vector.stats sample2

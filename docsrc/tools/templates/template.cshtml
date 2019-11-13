@@ -13,7 +13,7 @@
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
     <link type="text/css" rel="stylesheet" href="@Root/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="@Root/styles/CSBStyles.css" /> <!--@Root-->
+    <link type="text/css" rel="stylesheet" href="@Root/style/CSBStyle.css" /> <!--@Root-->
     <script type="text/javascript" src="@Root/content/tips.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -55,12 +55,12 @@
                   @if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Summary.fsx"))
                   {
                   <ul class="nav nav-list">
-                      <li><a href="@Root/Summary.html#Mean">Mean</a></li>
-                      <li><a href="@Root/Summary.html#Median">Median</a></li>
-                      <li><a href="@Root/Summary.html#Std">Standard Deviation</a></li>
+                      <li><a href="@Root/Summary.html#Central Tendency">Central Tendency</a></li>
+                      <li><a href="@Root/Summary.html#Dispersion">Dispersion</a></li>
                   </ul>
                   }
               </li>
+              <li><a href="@Root/Clustering.html">Clustering</a></li>
               <li><a href="@Root/Correlation.html">Correlation</a></li>
               <li><a href="@Root/Covariance.html">Covariance</a></li>
               <li><a href="@Root/Rank.html">Rank</a></li>
@@ -113,12 +113,11 @@
               @if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Distributions.fsx"))
               {
               <ul class="nav nav-list">
-                  <li><a href="@Root/Distributions.html#Bandwidth">Bandwidth</a></li>
-                  <li><a href="@Root/Distributions.html#Frequency">Frequency</a></li>
-                  <li><a href="@Root/Distributions.html#Empirical">Empirical</a></li>
-                  <li><a href="@Root/Distributions.html#Distribution">Distribution</a></li>
                   <li><a href="@Root/Distributions.html#Continuous">Continuous</a></li>
                   <li><a href="@Root/Distributions.html#Discrete">Discrete</a></li>
+                  <li><a href="@Root/Distributions.html#Empirical">Empirical</a></li>
+                  <li><a href="@Root/Distributions.html#Bandwidth">Bandwidth</a></li>
+                  <li><a href="@Root/Distributions.html#Frequency">Frequency</a></li>
               </ul>
               }
               </li>
@@ -155,7 +154,8 @@
 				  <li><a href="@Root/Interpolation.html#Hermite-interpolation">Hermite interpolation</a></li>
               </ul>
               }
-              </li>
+			  </li>
+              <li><a href="@Root/Imputation.html">Imputation</a></li>
               <li><a href="@Root/Signal.html">Signal</a></li>
               @if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Signal.fsx"))
               {

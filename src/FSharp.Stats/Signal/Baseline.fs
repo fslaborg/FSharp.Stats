@@ -60,38 +60,35 @@ module Baseline =
 
         loop maxiter wInitial
 
+    /// Asymmetric Least Squares Smoothing using sparse Matrix
+    //  by P. Eilers and H. Boelens in 2005
+    let baselineAls' (maxiter:int) (lambda:int) (p:float) (data:float[]) =
+        let dMatrix' = 
+            let dMatrix =
+                (diff 2 (diag data.Length 1.))
+                |> Matrix.sparseOfArray2D
+            (10.**float lambda) * (dMatrix * dMatrix.Transpose)
+
+        let wInitial = Vector.create (data.Length) 1.
+        let y =  Vector.ofArray data 
+
+
+        let rec loop niter (w:Vector<float>) =
+            if niter < 1 then
+                let wMatrix = Matrix.toSparse (Matrix.diag w)
+                let zMatrix = wMatrix + dMatrix'
         
-//    /// Asymmetric Least Squares Smoothing using spares Matrix (slower but memory efficient)
-//    //  by P. Eilers and H. Boelens in 2005
-//    let baselineAls' (maxiter:int) (lambda:int) (p:float) (data:float[]) =
-//        let dMatrix' = 
-//            let dMatrix =
-//                (diff 2 (diag data.Length 1.))
-//                |> SparseMatrix. ofArray2
-//            (10.**float lambda) * (dMatrix * dMatrix.Transpose())
-//
-//        let wInitial = 
-//            Array.create (data.Length) 1.
-//            |> DenseVector.raw 
-//        let y =  DenseVector.raw data
-//    
-//
-//        let rec loop niter (w:Vector<float>) =
-//            if niter < 1 then
-//                let wMatrix = SparseMatrix.ofDiag w 
-//                let zMatrix = wMatrix + dMatrix'
-//            
-//                zMatrix.Solve(w .* y)
-//            else
-//                let wMatrix = SparseMatrix.ofDiag w 
-//                let zMatrix = wMatrix + dMatrix'
-//                let z = zMatrix.Solve(w .* y)
-//                // w = p * (y > z) + (1-p) * (y < z)
-//                let w' = Vector.map2 (fun yi zi -> if yi > zi then p else (1.-p)) y z
-//            
-//                loop (niter-1) w'
-//
-//        loop maxiter wInitial
+                FSharp.Stats.Algebra.LinearAlgebraManaged.leastSquares zMatrix (w .* y)
+            else
+                let wMatrix = Matrix.toSparse (Matrix.diag w)
+                let zMatrix = wMatrix + dMatrix'
+                let z = FSharp.Stats.Algebra.LinearAlgebraManaged.leastSquares zMatrix (w .* y)
+                // w = p * (y > z) + (1-p) * (y < z)
+                let w' = Vector.map2 (fun yi zi -> if yi > zi then p else (1.-p)) y z
+        
+                loop (niter-1) w'
+
+        loop maxiter wInitial
 
 
 

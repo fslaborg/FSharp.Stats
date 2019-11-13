@@ -59,7 +59,7 @@ module NonLinearRegression =
         let paramCount = paramVector.Length
         // populate Jacobian Matrix
         for i = 0 to xData.Length-1 do 
-            let gradient = Vector.zero paramCount
+            let gradient = Vector.zeroCreate paramCount
             model.GetGradientValue paramVector gradient xData.[i] |> ignore
             Matrix.setRow jacobian i gradient            
         jacobian
@@ -91,7 +91,7 @@ module NonLinearRegression =
         let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) (xData: float[]) (yData: float []) = 
             let paramsAtIteration = new ResizeArray<vector>()
             let initialParamGuess = Vector.ofArray solverOptions.InitialParamGuess
-            let residualVector = Vector.zero xData.Length
+            let residualVector = Vector.zeroCreate xData.Length
             let jacobian = Matrix.zero xData.Length solverOptions.InitialParamGuess.Length
             let initialValueRSS = getRSS model xData yData initialParamGuess  
             let rec loop jacobian residualVector currentParamGuess currentValueRSS (paramsAtIteration:ResizeArray<vector>) = 
@@ -123,7 +123,7 @@ module NonLinearRegression =
         let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (xData: float[]) (yData: float []) = 
             let paramsAtIteration = new ResizeArray<vector>()
             let initialParamGuess = Vector.ofArray solverOptions.InitialParamGuess
-            let residualVector = Vector.zero xData.Length
+            let residualVector = Vector.zeroCreate xData.Length
             let jacobian = Matrix.zero xData.Length solverOptions.InitialParamGuess.Length
             let initialValueRSS = getRSS model xData yData initialParamGuess  
             let rec loop lambda jacobian residualVector currentParamGuess currentValueRSS (paramsAtIteration:ResizeArray<vector>) = 
@@ -148,13 +148,95 @@ module NonLinearRegression =
                     loop lambda' jacobian' residualVector' currentParamGuess currentValueRSS paramsAtIteration
             loop lambdaInitial jacobian residualVector initialParamGuess initialValueRSS paramsAtIteration
 
-        /// Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
+        /// Returns a parameter vector as a possible solution for least square based nonlinear fitting of a given dataset (xData, yData) with a given 
         /// model function. 
         let estimatedParams (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (xData: float[]) (yData: float []) = 
             let estParams = estimatedParamsVerbose model solverOptions  lambdaInitial lambdaFactor xData yData
             estParams.[estParams.Count-1]
+    
 
+    /// This LevenbergMarquardt implementation supports the usage of box constrains. 
+    // To achieve this the parameters are mapped between internal and external parameters. 
+    // The mapping rules can be found at: https://lmfit.github.io/lmfit-py/bounds.html
+    module LevenbergMarquardtConstrained = 
+        
+        ///
+        let private validateBounds (lowerBound: vector) (upperBound: vector) (parameters: vector) =
+            try
+                if Vector.map3 (fun l u x -> if l <= x && u >= x then x else nan) lowerBound upperBound parameters |> Vector.exists nan.Equals then 
+                    failwith "initial parameters are not within Bounds"
+                else 
+                    ()
+            with 
+            | _ -> failwith "vector lengths differ"
+        
+        ///
+        let private toInternalParameters (lowerBound: vector) (upperBound: vector) (extParameters: vector) =
+            Vector.map3 (fun l u x -> 
+                Math.Asin((2.0 * (x - l) / (u - l)) - 1.0)
+            ) lowerBound upperBound extParameters
+        
+        ///
+        let private toExternalParameters (lowerBound: vector) (upperBound: vector) (intParameters: vector) =
+            Vector.map3 (fun l u x -> 
+                l + (u / 2.0 - l / 2.0) * (Math.Sin(x) + 1.0)
+            ) lowerBound upperBound intParameters
             
+        ///
+        let private calculateJacScaleFactors (lowerBound: vector) (upperBound: vector) (intParameters: vector) = 
+            Vector.map3 (fun l u x -> 
+                (u - l) / 2.0 * Math.Cos(x)
+            ) lowerBound upperBound intParameters
+        
+        ///
+        let private scaleJacobian (scaleFactors: vector) (jacobian:matrix) =
+            jacobian
+            |> Matrix.mapi (fun m n x -> x * scaleFactors.[m] * scaleFactors.[n])
+        
+        ///
+        let private scaleGradient (scaleFactors: vector) (gradient:vector) =
+            Vector.cptMul scaleFactors gradient
+        
+        /// Returns an collection of parameter vectors as a possible solution for least square based nonlinear fitting of a given dataset (xData, yData) with a given 
+        /// model function. 
+        let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (lowerBound: vector) (upperBound: vector) (xData: float[]) (yData: float []) = 
+            let paramsAtIteration = new ResizeArray<vector>()
+            let initialParamGuess = Vector.ofArray solverOptions.InitialParamGuess
+            validateBounds lowerBound upperBound initialParamGuess
+            let internalParamsGuess = toInternalParameters lowerBound upperBound initialParamGuess
+            let residualVector = Vector.zeroCreate xData.Length
+            let jacobian = Matrix.zero xData.Length solverOptions.InitialParamGuess.Length
+            let initialValueRSS = getRSS model xData yData initialParamGuess  
+            let rec loop lambda jacobian residualVector currentParamGuessExt currentParamGuessInt currentValueRSS (paramsAtIteration:ResizeArray<vector>) = 
+                let scaleFactors = calculateJacScaleFactors lowerBound upperBound currentParamGuessInt
+                let jacobian' = updateJacobianInplace model xData currentParamGuessExt jacobian 
+                let residualVector' = updateResidualVectorInPlace model xData yData currentParamGuessExt residualVector
+                let gradient = Matrix.mulV (jacobian'.Transpose) residualVector' |> scaleGradient scaleFactors
+                let hessian = jacobian'.Transpose * jacobian' |> scaleJacobian scaleFactors
+                let diagonal = Matrix.initDiagonal (Vector.map (fun x -> ((lambda)*x)) hessian.Diagonal)
+                let modHessian = (hessian + diagonal) 
+                let step = FSharp.Stats.Algebra.LinearAlgebra.SolveLinearSystem modHessian gradient
+                let newParamGuessInt = currentParamGuessInt - step
+                let newParamGuessExt = toExternalParameters lowerBound upperBound newParamGuessInt        
+                let newValueRSS = getRSS model xData yData newParamGuessExt
+                paramsAtIteration.Add(newParamGuessExt)     
+                if shouldTerminate currentValueRSS newValueRSS paramsAtIteration.Count currentParamGuessExt newParamGuessExt solverOptions then 
+                    paramsAtIteration
+                elif newValueRSS < currentValueRSS then
+                    let lambda' = lambda / lambdaFactor
+                    loop lambda' jacobian' residualVector' newParamGuessExt newParamGuessInt newValueRSS paramsAtIteration
+                else
+                    let lambda' = lambda * lambdaFactor
+                    loop lambda' jacobian' residualVector' currentParamGuessExt currentParamGuessInt currentValueRSS paramsAtIteration
+            loop lambdaInitial jacobian residualVector initialParamGuess internalParamsGuess initialValueRSS paramsAtIteration
+        
+        /// Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
+        /// model function. 
+        let estimatedParams (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (lowerBound: vector) (upperBound: vector) (xData: float[]) (yData: float []) = 
+            let estParams = estimatedParamsVerbose model solverOptions  lambdaInitial lambdaFactor (lowerBound: vector) (upperBound: vector) xData yData
+            estParams.[estParams.Count-1]
+        
+        
     module Table = 
         
     /////////////////////////

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net47</TargetFramework>
@@ -12,6 +12,9 @@
   <ItemGroup>
     <Compile Include="Generators.fs" />
     <Compile Include="Tests.fs" />
+    <Compile Include="Matrix.fs" />
+    <Compile Include="SpecialFunctions.fs" />
+    <Compile Include="ML.fs" />
     <Compile Include="RunTests.fs" />
     <None Include="paket.references" />
     <None Include="packages.config" />

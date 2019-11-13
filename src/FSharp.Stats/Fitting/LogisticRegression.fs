@@ -36,7 +36,7 @@ module LogisticRegression =
                 |> descent (iter - 1)
 
         let vars = dataset |> Seq.item 1 |> snd |> Vector.length
-        let weights = Vector.zero (vars+1) // 1 more weight for constant
+        let weights = Vector.zeroCreate (vars+1) // 1 more weight for constant
 
         descent passes weights
     
@@ -79,7 +79,7 @@ module LogisticRegression =
                     let coolerAlpha = max epsilon cooling * alpha
                     descent updatedWeights coolerAlpha
 
-            let weights = Vector.zero (2) // 1 more weight for constant
+            let weights = Vector.zeroCreate (2) // 1 more weight for constant
 
             descent weights alpha
 
@@ -121,7 +121,7 @@ module LogisticRegression =
                     let coolerAlpha = max epsilon cooling * alpha
                     descent updatedWeights coolerAlpha
             let vars = x_data.NumCols
-            let weights = Vector.zero (vars+1) // 1 more weight for constant
+            let weights = Vector.zeroCreate (vars+1) // 1 more weight for constant
 
             descent weights alpha
     

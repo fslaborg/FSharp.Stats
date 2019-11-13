@@ -15,7 +15,7 @@ module Padding =
             let n = data.Length
             ///minimal x_Value
             let minX = data |> Array.head |> fst
-            ///minimal y_Value
+            ///maximal x_Value
             let maxX = data |> Array.last |> fst
             (getDiff maxX minX) / (float n)
 
@@ -29,6 +29,13 @@ module Padding =
                 |> Array.sort
                 |> fun intervals -> intervals.[int (n / 2) - 1]
             median
+        
+        ///minimum spacing of the data points
+        let inline getMinimumSpacing (data : ('a * float) []) (getDiff: 'a -> 'a -> float) = 
+            let n = data.Length
+            [|1 .. n - 1|]
+            |> Array.map (fun idx -> getDiff (fst data.[idx]) (fst data.[idx - 1]))
+            |> Array.min
 
         module Time =
 
@@ -59,6 +66,13 @@ module Padding =
             ///addToXValue: adds toAdd to a
             let addToXValueInt (a: int) (toAdd: float) =
                 a + (int toAdd)
+
+    //padds data point at signals start and end
+    type BorderPaddingMethod =
+        //inserts random data points taken from the original data set
+        | Random
+        //inserts 0.0 as y_Value
+        | Zero
 
     //padds data point in small gaps (e.g. a missing data point or small ranges with no data)
     type InternalPaddingMethod =
@@ -92,7 +106,7 @@ module Padding =
     ///default: internalPaddingMethod=LinearInterpolation; hugeGapPaddingMethod=Random (like in border cases)
     ///getDiff: get the difference in x_Values as float representation (if 'a is float then (-))
     ///addToXValue: function that adds a float to the x_Value (if 'a is float then (+))
-    let inline pad (data : ('a * float) []) (minDistance: float) (maxDistance : float) (getDiff: 'a -> 'a -> float) (addToXValue : 'a -> float -> 'a) (borderpadding : int) (internalPaddingMethod: InternalPaddingMethod) (hugeGapPaddingMethod: HugeGapPaddingMethod) =
+    let inline pad (data : ('a * float) []) (minDistance: float) (maxDistance : float) (getDiff: 'a -> 'a -> float) (addToXValue : 'a -> float -> 'a) (borderpadding : int) (borderPaddingMethod: BorderPaddingMethod) (internalPaddingMethod: InternalPaddingMethod) (hugeGapPaddingMethod: HugeGapPaddingMethod) =
         let rnd = System.Random()
         let n = data.Length
         ///minimal x_Value
@@ -101,17 +115,33 @@ module Padding =
         let maxX = data |> Array.last |> fst
         ///adds 'borderpadding' number of random data points to the left
         let leftPadding     = 
-            Array.init borderpadding (fun i -> 
-                let paddX = addToXValue minX (- (float i + 1.) * minDistance)
-                let paddY = snd data.[rnd.Next(0,n)] //n+1
-                paddX,paddY)
-                |> Array.rev
+            match borderPaddingMethod with
+            | BorderPaddingMethod.Random -> 
+                Array.init borderpadding (fun i -> 
+                    let paddX = addToXValue minX (- (float i + 1.) * minDistance)
+                    let paddY = snd data.[rnd.Next(0,n)]
+                    paddX,paddY)
+                    |> Array.rev
+            | BorderPaddingMethod.Zero -> 
+                Array.init borderpadding (fun i -> 
+                    let paddX = addToXValue minX (- (float i + 1.) * minDistance)
+                    let paddY = 0.
+                    paddX,paddY)
+                    |> Array.rev
         ///adds 'borderpadding' number of random data points to the rigth
         let rightPadding    = 
-            Array.init borderpadding (fun i -> 
-                let paddX = addToXValue maxX ((float i + 1.) * minDistance)
-                let paddY = snd data.[rnd.Next(0,n)] //n+1
-                paddX,paddY)
+            match borderPaddingMethod with
+            | BorderPaddingMethod.Random -> 
+                Array.init borderpadding (fun i -> 
+                    let paddX = addToXValue maxX ((float i + 1.) * minDistance)
+                    let paddY = snd data.[rnd.Next(0,n)]
+                    paddX,paddY)
+            | BorderPaddingMethod.Zero -> 
+                Array.init borderpadding (fun i -> 
+                    let paddX = addToXValue maxX ((float i + 1.) * minDistance)
+                    let paddY = 0.
+                    paddX,paddY)
+                    |> Array.rev
 
         let fillSpaceInBetween = 
             //interpolate the space between the two adjacent knots and add aditional points (number = (getDiff p1 p2 / minDistance) - 1)
@@ -238,7 +268,7 @@ module Padding =
 
         
         ///Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).
-        let padRnd (data : float []) (borderpadding : int) =
+        let inline padRnd (data : 'a []) (borderpadding : int) =
             let rnd = System.Random()
             let n = data.Length
             ///adds 'borderpadding' number of random data points to the left
@@ -256,7 +286,7 @@ module Padding =
             [leftPadding;data;rightPadding] |> Array.concat
 
         ///Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).
-        let padZero (data : float []) (borderpadding : int) =
+        let inline padZero (data : 'a []) (borderpadding : int) =
             let padding = 
                 Array.zeroCreate borderpadding 
             [padding;data;padding] |> Array.concat
@@ -271,7 +301,7 @@ module Padding =
                 | Random
         
             /// padds artificial data points to the borders of the given Array2D. increment=1; n=borderpadding
-            let pad (data: float [,]) (borderpadding: int) (paddingMethod : Padding3DMethod) : float [,]=
+            let inline pad (data: 'a [,]) (borderpadding: int) (paddingMethod : Padding3DMethod) : float [,]=
                 //TODO: change data input from float to 'a
                 let rnd = System.Random()    
 
@@ -287,7 +317,7 @@ module Padding =
                                 | Zero -> 0.
                                 | _ -> float data.[rnd.Next(0,rowCount),rnd.Next(0,colCount)] 
                             else
-                                data.[rowI-borderpadding,colI-borderpadding]              
+                                float data.[rowI-borderpadding,colI-borderpadding]              
                         )
         
                 padArray2D

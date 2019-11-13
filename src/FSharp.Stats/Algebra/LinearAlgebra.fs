@@ -157,6 +157,15 @@ module LinearAlgebra =
         else
             LinearAlgebraManaged.SVD a
 
+    ///spectral norm of a matrix (for Frobenius norm use Matrix.norm)
+    let spectralNorm (a:Matrix<float>) =
+            //let maxEigenVal = LinearAlgebra.EigenValues mat |> Seq.max
+            let maxEigenVal = 
+                SVD (a * a.Transpose) 
+                |> fun (S,U,V') -> S 
+                |> Seq.max
+            maxEigenVal |> sqrt
+
     //(synonym: kernel) Returns an orthonormal basis for the null space of A. Ax = 0
     let nullspace (a:Matrix<float>)= 
         if HaveService() then 
@@ -172,7 +181,7 @@ module LinearAlgebra =
 
     ///Returns the thin Singular Value Decomposition of the input MxN matrix A 
     ///
-    ///A = U * SIGMA * V**T in the tuple (S, U, V**T), 
+    ///A = U * SIGMA * V**T in the tuple (S, U, V), 
     ///
     ///where S is an array containing the diagonal elements of SIGMA.
     ///The first min(M,N) columns of U and the first min(M,N) rows of V**T are returned in the arrays U and VT;

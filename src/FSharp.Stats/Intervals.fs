@@ -10,10 +10,42 @@ module Intervals =
     /// Creates closed interval [min,max] by given min and max
     let create min max =
         ClosedInterval (min, max)
-
+        
     /// Creates closed interval [min,max] by given start and size
     let ofSize min size =
         ClosedInterval (min, min + size)
+        
+    //(duplicated from Seq module due to circular dependency)
+    /// Creates closed interval of the given data based on its minimum and maximum 
+    let ofSeq (source:seq<_>) = 
+        use e = source.GetEnumerator()
+        let rec loop minimum maximum =
+            match e.MoveNext() with
+            | true  -> loop (min e.Current minimum) (max e.Current maximum)
+            | false -> create minimum maximum          
+        //Init by fist value
+        match e.MoveNext() with
+        | true  -> loop e.Current e.Current
+        | false -> Interval.Empty
+
+    //(duplicated from Seq module due to circular dependency)
+    /// Creates closed interval [min,max] of the given data based on the extreme values obtained by applying the projection function
+    let ofSeqBy projection (source:seq<_>) =
+        use e = source.GetEnumerator()
+        let rec loop minimum maximum minimumV maximumV =
+            match e.MoveNext() with
+            | true  -> 
+                let current = projection e.Current
+                let mmin,mminV = if current < minimum then current,e.Current else minimum,minimumV
+                let mmax,mmaxV = if current > maximum then current,e.Current else maximum,maximumV
+                loop mmin mmax mminV mmaxV
+            | false -> create minimumV maximumV          
+        //Init by fist value
+        match e.MoveNext() with
+        | true  -> 
+            let current = projection e.Current
+            loop current current e.Current e.Current
+        | false -> Interval.Empty
 
     /// Returns min and max value of Interval [min,max]
     let inline values (interval:Interval<'a>) =
@@ -36,6 +68,12 @@ module Intervals =
         | ClosedInterval (_,max) -> max
         | Empty -> zero / zero
 
+    /// Returns range of of Interval [min,max] (max - min)
+    let inline getRange (interval:Interval<'a>) =
+        let zero = LanguagePrimitives.GenericZero< 'a >
+        match interval with
+        | ClosedInterval (min,max) -> max - min
+        | Empty -> zero / zero
 
     /// Returns the size of an closed interval
     let inline trySize interval =

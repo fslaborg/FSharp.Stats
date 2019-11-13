@@ -35,7 +35,7 @@ module ContinuousWavelet =
     let inline transform (paddedData : ('a * float) []) (getDiff: 'a -> 'a -> float) (borderpadding : int) (wavelet: Wavelet.Ricker) =
         let n = paddedData.Length
         let rickerPadd = wavelet.PaddingArea
-
+        let stepSize = getDiff (fst paddedData.[1]) (fst paddedData.[0] )
         //for every point in the range of the original data perform a convolution with a wavelet and calculate
         //the correlation value at that particular time point
         [|borderpadding .. (n-borderpadding-1)|]
@@ -64,13 +64,16 @@ module ContinuousWavelet =
             let correlationValue = 
                 (rightSide 1 0.) + (leftSide -1 0.) + transformAtX
 
-            //adjusts the energy of the wavelet function to a same amount 
-            let energycorrection x = x / (Math.Sqrt (Math.Abs(wavelet.Scale)))
+            //adjusts the energy of the wavelet function to a same amount and incorporates the sepsize of the data
+            //if stepsize = 0.5 then every calculation value has to be divided by 0.5 to equalize the stepsize to 1.
+            let energycorrection x = 
+                x / (Math.Sqrt (Math.Abs(wavelet.Scale))) * stepSize
 
             currentX,energycorrection correlationValue 
             )
 
-    let transformDefault (rawData : ('a * float) []) (wavelet: Wavelet.Ricker) =
+    ///minDistance is half the median spacing; maxDistance is 10 times the median spacing; internal padding=linear interpolation; hugeGap padding=random
+    let transformDefault (rawData : (float * float) []) (wavelet: Wavelet.Ricker) =
         let n = rawData.Length
         let spacing =
             [|1 .. n - 1|]
@@ -86,61 +89,64 @@ module ContinuousWavelet =
             |> ceil |> int 
 
         let paddedData = 
-            Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.InternalPaddingMethod.LinearInterpolation Padding.HugeGapPaddingMethod.Random
+            Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.BorderPaddingMethod.Random Padding.InternalPaddingMethod.LinearInterpolation Padding.HugeGapPaddingMethod.Random
         transform paddedData (-) paddingArea wavelet
 
-    let transformDefaultZero (rawData : ('a * float) []) (wavelet: Wavelet.Ricker) =
+    ///minDistance is half the overall minimum spacing; maxDistance is infinity; internal padding=zero; hugeGap padding=zero (but redundant)
+    let transformDefaultZero (rawData : (float * float) []) (wavelet: Wavelet.Ricker) =
         let n = rawData.Length
         let spacing =
             [|1 .. n - 1|]
             |> Array.map (fun idx -> fst rawData.[idx] - fst rawData.[idx - 1])
             |> Array.sort
         //the minimalDistance allowed is half the minimal overall interval
-        let minDistance = spacing.[0]
+        let minDistance = spacing.[0] / 2.
         //there is no maximal distance in a chromatogram
         let maxDistance = infinity
         let paddingArea = 
             (wavelet.PaddingArea / minDistance) + 1.
             |> ceil |> int 
         let paddedData = 
-            Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.InternalPaddingMethod.Zero Padding.HugeGapPaddingMethod.Zero
+            Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.BorderPaddingMethod.Zero Padding.InternalPaddingMethod.Zero Padding.HugeGapPaddingMethod.Zero
         transform paddedData (-) paddingArea wavelet
 
     module Discrete = 
         
         //performs a continuous wavelet transform on discrete data. (paddingNumber = borderpadding)
-        let transform (data: float []) (borderpadding: int) (wavelet: Wavelet.Ricker) =
-            let n = data.Length - borderpadding * 2
+        let inline transform (paddedData: 'a []) (borderpadding: int) (wavelet: Wavelet.Ricker) =
+            let n = paddedData.Length - borderpadding * 2
             let offset = wavelet.PaddingArea |> int
             Array.init n (fun i -> 
                 let indexX = i + borderpadding
                 let rec loop acc a =
                     if a <= 2 * offset then
-                        let acc' = acc + ((wavelet.RickerValues).[a] * (data.[(indexX+(a-offset))] |> float))
-                        loop acc' a
+                        let acc' = acc + ((wavelet.RickerValues).[a] * (paddedData.[(indexX+(a-offset))] |> float))
+                        loop acc' (a + 1)
                     else
-                        acc
+                        //adjusts the energy of the wavelet function to an equal amount 
+                        acc / (Math.Sqrt (Math.Abs(wavelet.Scale)))
                 loop 0. 0
                 )
 
         module ThreeDimensional =
             
             //performs a continuous wavelet transform on discrete data. (paddingNumber = borderpadding)
-            let transform (data: float [,]) (borderpadding: int) (wavelet: Wavelet.Marr) =
-                    let resolutionPixelfst = (Array2D.length1 data) - borderpadding * 2
-                    let resolutionPixelsnd = (Array2D.length2 data) - borderpadding * 2
+            let inline transform (paddedData: 'a [,]) (borderpadding: int) (wavelet: Wavelet.Marr) =
+                    let resolutionPixelfst = (Array2D.length1 paddedData) - borderpadding * 2
+                    let resolutionPixelsnd = (Array2D.length2 paddedData) - borderpadding * 2
                     let offset = wavelet.PaddingArea |> ceil |> int
                     Array2D.init resolutionPixelfst resolutionPixelsnd (fun i j -> 
                         let indexX = i + borderpadding
                         let indexY = j + borderpadding
-                        let rec loop acc' a b =
+                        let rec loop acc a b =
                             if a <= 2 * offset then
                                 if b <= 2 * offset then
-                                    let acc = acc' + ((wavelet.MarrValues).[a,b] * (data.[(indexX+(a-offset)),(indexY+(b-offset))] |> float))
-                                    loop acc a (b + 1)
+                                    let acc' = acc + ((wavelet.MarrValues).[a,b] * float (paddedData.[(indexX+(a-offset)),(indexY+(b-offset))]))
+                                    loop acc' a (b + 1)
                                 else
-                                    loop acc' (a + 1) 0
-                            else acc'
+                                    loop acc (a + 1) 0
+                            else 
+                                acc / (Math.Sqrt (Math.Abs(wavelet.Scale)))
                         loop 0. 0 0
                         )
             

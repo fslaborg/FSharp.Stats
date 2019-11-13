@@ -6,6 +6,8 @@ namespace FSharp.Stats
 /// Operations module (automatically opened)
 [<AutoOpen>]
 module Ops =
+    open System
+    open System
 
     /// The constant pi = 3.141596...
     let pi = System.Math.PI
@@ -13,8 +15,11 @@ module Ops =
     ///// The constant pi = 3.141596...
     //let sqrt2pi = nan 
     
-    /// Float infinity.
+    /// Float positive infinity.
     let inf = System.Double.PositiveInfinity
+    
+    /// Float negative infinity.
+    let infNeg = System.Double.NegativeInfinity    
     
     ///// Float NaN.
     //let NaN = System.Double.NaN
@@ -33,6 +38,16 @@ module Ops =
     let inline isInf< ^T when ^T : 
         (static member IsInfinity : ^T -> bool)> (num:^T) :bool =
       (^T : (static member IsInfinity : ^T -> bool) (num))
+
+    /// Returs true if x is positive infinity (generics)
+    let inline isPosInf< ^T when ^T : 
+        (static member IsPositiveInfinity : ^T -> bool)> (num:^T) :bool =
+      (^T : (static member IsPositiveInfinity : ^T -> bool) (num))
+    
+    /// Returs true if x is positive infinity (generics)
+    let inline isNegInf< ^T when ^T : 
+        (static member IsNegativeInfinity : ^T -> bool)> (num:^T) :bool =
+      (^T : (static member IsNegativeInfinity : ^T -> bool) (num))
 
     /// Returns the reverted log2 (2^x)
     let revLog2 x = 2.**x

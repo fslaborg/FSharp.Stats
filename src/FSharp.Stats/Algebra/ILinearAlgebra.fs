@@ -57,7 +57,7 @@ type ILinearAlgebra =
     ///                 A * v(j) = lambda(j) * v(j)
     ///
     ///where lambda(j) is its eigenvalue.
-    abstract dsyevd_ : Matrix<float> -> Matrix<float> * double array
+    abstract dsyevd_ : Matrix<float> -> Matrix<float> * Vector<float>
 
     ////Eigen Value for a pair of general matrices
     //abstract dggev_ :
@@ -87,6 +87,8 @@ type ILinearAlgebra =
     ///uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
     abstract dgesdd_ : Matrix<float> -> double array * Matrix<float> * Matrix<float>
 
+    ///rrqr
+    //abstract dgejsv_ : Matrix<float> -> double array * Matrix<float> * Matrix<float>
 
     ///Returns the thin Singular Value Decomposition of the input MxN matrix A 
     ///
