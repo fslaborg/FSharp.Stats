@@ -451,7 +451,34 @@ module NonLinearRegression =
             MaximumIterations       = 10000
             InitialParamGuess       = [|Vm;n;k|]
             }
-    
+
+    /////////////////////////
+
+    /// Logistic function of the form "y = L/(1+e^(k(t-x)))"
+    let LogisticFunction = {
+        ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"|]
+        GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> parameterVector.[0] / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2]))))
+        GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue ->
+                            gradientVector.[0] <- 1. / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2])))
+                            gradientVector.[1] <- (parameterVector.[0] * (xValue-parameterVector.[2]) * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                            gradientVector.[2] <- (parameterVector.[0] * parameterVector.[1] * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                            gradientVector)
+        }
+
+    /// Logistic function of the form "y = L/(1+e^(k(t-x)))+N"
+    /// Modified version of the Logistic function model with a variable curve minimum.
+    let LogisticFunctionVarY = {
+        ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"; "N - curve minimum"|]
+        GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> 
+                            parameterVector.[0] / (1. + exp(-parameterVector.[1]*(xValue-parameterVector.[2]))) + parameterVector.[3])
+        GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue ->
+                            gradientVector.[0] <- 1. / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2])))
+                            gradientVector.[1] <- (parameterVector.[0] * (xValue-parameterVector.[2]) * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                            gradientVector.[2] <- (parameterVector.[0] * parameterVector.[1] * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                            gradientVector.[3] <- 1.
+                            gradientVector)
+        }
+
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
         //let hillModelWithFixedVm Vm = 
