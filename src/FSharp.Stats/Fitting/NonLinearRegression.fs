@@ -236,6 +236,76 @@ module NonLinearRegression =
             let estParams = estimatedParamsVerbose model solverOptions  lambdaInitial lambdaFactor (lowerBound: vector) (upperBound: vector) xData yData
             estParams.[estParams.Count-1]
         
+        /// Returns a parameter vector tupled with its residual sum of squares (RSS) as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given
+        /// model function.
+        let estimatedParamsWithRSS (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (lowerBound: vector) (upperBound: vector) (xData: float[]) (yData: float []) =
+            let estParams = estimatedParamsVerbose model solverOptions lambdaInitial lambdaFactor lowerBound upperBound xData yData
+            estParams
+            |> fun estParams ->
+                let paramGuess = Vector.ofArray solverOptions.InitialParamGuess
+                let rss = getRSS model xData yData paramGuess
+                estParams.[estParams.Count-1], rss
+
+        // Looks for the real point in a dataset that is closest to the given point
+        let private findClosestPoint (point: float) (data: float []) =
+            let distance =
+                data
+                |> Array.map (fun x ->
+                    abs (point - x)
+                )
+            let indexSmallest =
+                distance
+                |> Array.findIndex (fun x ->
+                    x = (distance |> Array.min)
+                )
+            data.[indexSmallest]
+
+        /// Returns an estimate for an initial parameter for the linear least square estimator for a given dataset (xData, yData).
+        /// The initial estimation is intended for a logistic function.
+        let initialParam (xData: float[]) (yData: float[]) =
+            let xRange = ((xData |> Array.max) - (xData |> Array.min))
+            let yRange = ((yData |> Array.max) - (yData |> Array.min))
+            let maxY = yData |> Array.max
+            let combined = Array.map2 (fun x y -> x,y) xData yData
+            // finds the point which is closest to the middle of the range on the y axis
+            let midX,midY =
+                let point = maxY - yRange / 2.
+                let middleYData = findClosestPoint point yData
+                Array.filter (fun (x,y) -> y = middleYData) combined
+                |> Array.averageBy fst, middleYData
+            // looks for the point where the descending functions slope begins to flatten
+            // for that the first point which is in the lowest percent of the y values is taken
+            let rightSlopeX,rightSlopeY =
+                combined
+                |> Array.filter (fun (x, y) -> (maxY - y) < 0.001 * yRange)
+                |> Array.head
+            // mirrors the x value of the right slope point through the x value of the middle point
+            // takes max y for y
+            let leftSlopeX, leftSlopeY =
+                let leftX = midX - (rightSlopeX - midX)
+                leftX, maxY
+            // slope = (y2 - y1)/(x2 - x1)
+            let slope =
+                ((rightSlopeY - leftSlopeY)/yRange) / ((rightSlopeX - leftSlopeX)/xRange)
+            let steepness = abs slope
+            [|maxY; steepness; midX|]
+
+        /// Returns an estimate for an initial parameter for the linear least square estimator for a given dataset (xData, yData).
+        /// The steepness is given as an array and not estimated. An initial estimate is returned for every given steepness.
+        /// The initial estimation is intended for a logistic function.
+        let initialParamsOverRange (xData: float[]) (yData: float[]) (steepnessRange: float []) =
+            // works the same as initialParam for mid point estimation
+            let yRange = abs ((yData |> Array.max) - (yData |> Array.min))
+            let maxY = yData |> Array.max
+            let combined = Array.map2 (fun x y -> x,y) xData yData
+            let midX,midY =
+                let point = maxY - yRange / 2.
+                let middleYData = findClosestPoint point yData
+                Array.filter (fun (x,y) -> y = middleYData) combined
+                |> Array.averageBy fst, middleYData
+            steepnessRange
+            |> Array.map (fun steepness -> [|maxY; steepness; midX|]
+            )
         
     module Table = 
         
