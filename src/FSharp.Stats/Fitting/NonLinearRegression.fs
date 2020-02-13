@@ -262,9 +262,26 @@ module NonLinearRegression =
 
         /// Returns an estimate for an initial parameter for the linear least square estimator for a given dataset (xData, yData).
         /// The initial estimation is intended for a logistic function.
-        let initialParam (xData: float[]) (yData: float[]) =
+        let initialParam (xData: float[]) (yData: float[]) (cutoffPercentage: float)=
             let xRange = ((xData |> Array.max) - (xData |> Array.min))
             let yRange = ((yData |> Array.max) - (yData |> Array.min))
+            let descending =
+                let toTake = 
+                    yData.Length
+                    |> float
+                    |> (*) 0.05
+                    |> ceil
+                    |> int
+                let beginnign = 
+                    yData
+                    |> Array.take toTake
+                    |> Array.average
+                let ending =
+                    yData
+                    |> Array.rev
+                    |> Array.take toTake
+                    |> Array.average
+                beginnign > ending
             let maxY = yData |> Array.max
             let combined = Array.map2 (fun x y -> x,y) xData yData
             // finds the point which is closest to the middle of the range on the y axis
@@ -275,18 +292,26 @@ module NonLinearRegression =
                 |> Array.averageBy fst, middleYData
             // looks for the point where the descending functions slope begins to flatten
             // for that the first point which is in the lowest percent of the y values is taken
-            let rightSlopeX,rightSlopeY =
+            let minSlopeX,minSlopeY =
                 combined
-                |> Array.filter (fun (x, y) -> (maxY - y) < 0.001 * yRange)
+                |> Array.filter (fun (x, y) -> y < cutoffPercentage * yRange)
+                |> Array.sortByDescending snd
                 |> Array.head
             // mirrors the x value of the right slope point through the x value of the middle point
             // takes max y for y
-            let leftSlopeX, leftSlopeY =
-                let leftX = midX - (rightSlopeX - midX)
-                leftX, maxY
+            let maxSlopeX, maxSlopeY =
+                if descending then
+                    let leftX = midX - abs (minSlopeX - abs midX)
+                    leftX, maxY
+                else
+                    let rightX = midX + abs (minSlopeX - abs midX)
+                    rightX, maxY
             // slope = (y2 - y1)/(x2 - x1)
             let slope =
-                ((rightSlopeY - leftSlopeY)/yRange) / ((rightSlopeX - leftSlopeX)/xRange)
+                if descending then
+                    ((minSlopeY - maxSlopeY)/yRange) / ((minSlopeX - maxSlopeX)/xRange)
+                else
+                    ((maxSlopeY - minSlopeY)/yRange) / ((maxSlopeX - minSlopeX)/xRange)
             let steepness = abs slope
             [|maxY; steepness; midX|]
 
@@ -304,8 +329,7 @@ module NonLinearRegression =
                 Array.filter (fun (x,y) -> y = middleYData) combined
                 |> Array.averageBy fst, middleYData
             steepnessRange
-            |> Array.map (fun steepness -> [|maxY; steepness; midX|]
-            )
+            |> Array.map (fun steepness -> [|maxY; steepness; midX|])
         
     module Table = 
         
@@ -525,29 +549,54 @@ module NonLinearRegression =
     /////////////////////////
 
     /// Logistic function of the form "y = L/(1+e^(k(t-x)))"
-    let LogisticFunction = {
-        ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"|]
-        GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> parameterVector.[0] / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2]))))
-        GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue ->
-                            gradientVector.[0] <- 1. / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2])))
-                            gradientVector.[1] <- (parameterVector.[0] * (xValue-parameterVector.[2]) * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
-                            gradientVector.[2] <- (parameterVector.[0] * parameterVector.[1] * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
-                            gradientVector)
-        }
+        let LogisticFunctionDescending = {
+            ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"|]
+            GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> parameterVector.[0] / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2]))))
+            GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue ->
+                                gradientVector.[0] <- 1. / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2])))
+                                gradientVector.[1] <- (parameterVector.[0] * (xValue-parameterVector.[2]) * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                                gradientVector.[2] <- (parameterVector.[0] * parameterVector.[1] * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                                gradientVector)
+            }
+
+    /// Logistic function of the form "y = L/(1+e^(-k(t-x)))"
+        let LogisticFunctionAscending = {
+            ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"|]
+            GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> parameterVector.[0] / (1. + exp(-parameterVector.[1]*(xValue-parameterVector.[2]))))
+            GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue ->
+                                gradientVector.[0] <- 1. / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2])))
+                                gradientVector.[1] <- (parameterVector.[0] * (xValue-parameterVector.[2]) * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                                gradientVector.[2] <- (parameterVector.[0] * parameterVector.[1] * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                                gradientVector)
+            }
 
     /// Logistic function of the form "y = L/(1+e^(k(t-x)))+N"
     /// Modified version of the Logistic function model with a variable curve minimum.
-    let LogisticFunctionVarY = {
-        ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"; "N - curve minimum"|]
-        GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> 
-                            parameterVector.[0] / (1. + exp(-parameterVector.[1]*(xValue-parameterVector.[2]))) + parameterVector.[3])
-        GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue ->
-                            gradientVector.[0] <- 1. / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2])))
-                            gradientVector.[1] <- (parameterVector.[0] * (xValue-parameterVector.[2]) * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
-                            gradientVector.[2] <- (parameterVector.[0] * parameterVector.[1] * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
-                            gradientVector.[3] <- 1.
-                            gradientVector)
-        }
+        let LogisticFunctionVarYDescending = {
+            ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"; "N - curve minimum"|]
+            GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> 
+                                parameterVector.[0] / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2]))) + parameterVector.[3])
+            GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue ->
+                                gradientVector.[0] <- 1. / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2])))
+                                gradientVector.[1] <- (parameterVector.[0] * (xValue-parameterVector.[2]) * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                                gradientVector.[2] <- (parameterVector.[0] * parameterVector.[1] * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                                gradientVector.[3] <- 1.
+                                gradientVector)
+            }
+
+    /// Logistic function of the form "y = L/(1+e^(-k(t-x)))+N"
+    /// Modified version of the Logistic function model with a variable curve minimum.
+        let LogisticFunctionVarYAscending = {
+            ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"; "N - curve minimum"|]
+            GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> 
+                                parameterVector.[0] / (1. + exp(-parameterVector.[1]*(xValue-parameterVector.[2]))) + parameterVector.[3])
+            GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue ->
+                                gradientVector.[0] <- 1. / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2])))
+                                gradientVector.[1] <- (parameterVector.[0] * (xValue-parameterVector.[2]) * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                                gradientVector.[2] <- (parameterVector.[0] * parameterVector.[1] * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                                gradientVector.[3] <- 1.
+                                gradientVector)
+            }
 
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
