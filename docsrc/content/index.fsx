@@ -39,6 +39,7 @@ you can then access the individual packages:
 - Install the dotnet tool fake cli by `dotnet tool install fake-cli -g` for global installation or `dotnet tool install fake-cli --tool-path yourtoolpath`
 - go to the project folder
 - use the console command `fake build`
+- to just build the binaries and save time use the console command `fake build -t buildbinaries`
 
 **Linux(Ubuntu, using Mono)**:
 
