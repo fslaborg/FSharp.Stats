@@ -73,9 +73,9 @@ module Impute =
                 |> Array.sortBy fst
                 |> Array.take k    
     
-            let euclNan = DistanceMetrics.euclidean
+            let euclNanSq = DistanceMetrics.euclideanNaNSquared
             let tmpArr =
-                kNearestFrom euclNan k (data |> Array.ofSeq) arr
+                kNearestFrom euclNanSq k (data |> Array.ofSeq) arr
                 |> Array.map snd
                 |> JaggedArray.transpose
                 |> Array.map Seq.mean

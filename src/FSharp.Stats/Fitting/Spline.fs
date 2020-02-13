@@ -23,7 +23,7 @@ module Spline =
         if l < 0. then failwith "smoothing parameter should be positive"
     /// Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts
     let smoothingSpline (data: (float*float) []) (basispts : float [])=
- 
+        //https://robjhyndman.com/etc5410/splines.pdf
         // Some preprocessing
         let xdata,ydata = data |> preprocess |> Array.unzip
         let ydata = vector ydata
