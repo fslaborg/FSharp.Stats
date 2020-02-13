@@ -176,21 +176,21 @@ module TemporalClassification =
         | x when con = 4 -> if mat = operator mat then Condition.De4 else Condition.In4
 
     type TempClassResult = {
-        //spline function values at knots
+        ///spline function values at knots
         TraceA   : vector
-        //spline second derivative values at knots
+        ///spline second derivative values at knots
         TraceC   : vector
-        //weighted error of a and y
+        ///weighted error of a and y
         Error    : float
-        //mGCV
+        ///mGCV
         GCV      : float
-        //used smoothing factor lambda
+        ///used smoothing factor lambda
         Lambda   : float
-        //used constraint matrix for shape determination
+        ///used constraint matrix for shape determination
         Ctemp    : float [,]
-        //AIC determined by SSE and the number of used extrema
+        ///AIC determined by SSE and the number of used extrema
         AICc     : float
-        //function, that returns the splines' value at a given x_value
+        ///function, that returns the splines' value at a given x_value
         SplineFunction  : (float -> float)}
     
     let createTempClassResult a c e gcv lambda ctemp aic splinefunction = {
@@ -1067,8 +1067,9 @@ module TemporalClassification =
             deriv i a.[i .. i+1] c.[i .. i+1] t
             )
     
-    //recalculates the polynomial coefficients of the given spline f(knot) and f''(knot)
-    let getcoefficients (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+    ///recalculates the polynomial coefficients of the given spline f(knot) and f''(knot)
+    ///[a1,b1,c1,d1,a2,b2...] (ax^3+bx^2...)
+    let getCoefficients (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
         let n = x.Length
         //Definiere Intervalle
         let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
@@ -1142,7 +1143,6 @@ module TemporalClassification =
         let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
         let deriv i (a:Vector<float>) (c:Vector<float>) xV=
             let tmpT = xV - x.[i] / h.[i]
-            printfn "%.3f\t%A\t%A" xV a c
             let pa = -1./6. * c.[0] + 1./6. * c.[1]
             let pb = 0.5 * c.[0] 
             let pc = -1./3. * c.[0] - 1./6. * c.[1] - a.[0] + a.[1]
@@ -1161,6 +1161,24 @@ module TemporalClassification =
             deriv i a.[i .. i+1] c.[i .. i+1] t
             )
         
+    ///returns a function that calculates the third derivative for a given xValue
+    let getTrdDerivative (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+        let n = x.Length
+        //define interval stepwidth
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+        let deriv i (a:Vector<float>) (c:Vector<float>) xV=
+            let pa = -1./6. * c.[0] + 1./6. * c.[1]
+            6. * pa
+        (fun t ->
+            let i =
+                if t = Seq.last x then 
+                    Seq.length x - 2
+                else
+                    x
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - t) > 0.)
+                    |> fun nextInterval -> nextInterval - 1
+            deriv i a.[i .. i+1] c.[i .. i+1] t
+            )
 
     ///gets indices of minima and maxima by brute force search
     let private investigateTrace pct (arr:float[]) =
@@ -1217,7 +1235,7 @@ module TemporalClassification =
 
     ///gets the observation values (x,y), the number of measured replicates and the weightingmethod and returns the spline result of the best fit
     let getBestFit xVal yVal repNumber weightingMethod = 
-        let yValMeans = calcMeanOfRep yVal repNumber |> normValues
+        let yValMeans = calcMeanOfRep yVal repNumber //|> normValues
         let weightingMatrix = (getWeighting xVal (yVal |> vector) weightingMethod repNumber)
         let (cl,fit) = getBestFitOfWeighting xVal yValMeans weightingMatrix 
         //let (mins,maxs) = investigateTrace 0.001 (fit.TraceA |> Seq.toArray)
