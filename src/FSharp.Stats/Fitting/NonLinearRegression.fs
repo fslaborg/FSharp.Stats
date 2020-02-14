@@ -549,6 +549,18 @@ module NonLinearRegression =
     /////////////////////////
 
     /// Logistic function of the form "y = L/(1+e^(k(t-x)))"
+        [<Obsolete"This function is deprecated. Use the ascending and descending versions instead.">]
+        let LogisticFunction = {
+            ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"|]
+            GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> parameterVector.[0] / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2]))))
+            GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) xValue ->
+                                gradientVector.[0] <- 1. / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2])))
+                                gradientVector.[1] <- (parameterVector.[0] * (xValue-parameterVector.[2]) * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                                gradientVector.[2] <- (parameterVector.[0] * parameterVector.[1] * exp(parameterVector.[1]*(xValue-parameterVector.[2])) ) / (exp(parameterVector.[1]*(xValue-parameterVector.[2])) + 1.)**2.
+                                gradientVector)
+            }
+
+    /// Logistic function of the form "y = L/(1+e^(k(t-x)))"
         let LogisticFunctionDescending = {
             ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"|]
             GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> parameterVector.[0] / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2]))))
