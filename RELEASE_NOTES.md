@@ -1,31 +1,50 @@
+#### 0.2.0 - Friday, February 14, 2020
+Additions, improvements and bugfixes in multiple namespaces. 
+The documentation has been extended.
+
+* **FSharp.Stats.Fitting** 
+    * Additional functionalities:
+	  * [Nonlinear regression models for logistic functions](https://github.com/CSBiology/FSharp.Stats/commit/b117d27d16ae3344979736a9a482f117f96da019)	  
+      * [Parameter estimation for constrained Levenberg Marquard solver](https://github.com/CSBiology/FSharp.Stats/commit/2a8c6d5b29ee8c9a86e8ebb755fed6e05421c251)
+
+* **FSharp.Stats.ML**
+    * [Namespace typo fix for GapStatistics](https://github.com/CSBiology/FSharp.Stats/commit/805b63014081c0b48aeed3ab1a0c3da877340ca9). Watch out if using older versions.
+    * Additional functionalities:
+      * [Imputation speed increase](https://github.com/CSBiology/FSharp.Stats/commit/43800844ef5c3e6798ece9a376c3f13c5f4f8804#diff-d0f16e69ed434add91a9c666cd09b556)
+
+* **FSharp.Stats.MSF**
+    * Additional functionalities:
+      * [Third derivative spline calculation](https://github.com/CSBiology/FSharp.Stats/commit/805b63014081c0b48aeed3ab1a0c3da877340ca9)
+
+
 #### 0.1.1 - Thursday, November 7, 2019
 Several bugfixes and additions to multiple namespaces. 
 The documentation and unit tests have been extended.
 
 * **FSharp.Stats** (core)
     * Additional functionalities:
-	  * [Sparse Matrix initialization] (https://github.com/CSBiology/FSharp.Stats/commit/94d2d3030a6c390a2a0947730c5feeea77b937b0) 
-	  * [Sparse Matrix multiplication] (https://github.com/CSBiology/FSharp.Stats/commit/0f908c5d0af7efc7919b658d8dc7778cd7369e15) replaced implementation to gain performance
-	  * [Sparse Matrix QR decomposition] (https://github.com/CSBiology/FSharp.Stats/commit/b098fe21d49a91ec49159ef015768563fa9887cb)
+	  * [Sparse Matrix initialization](https://github.com/CSBiology/FSharp.Stats/commit/94d2d3030a6c390a2a0947730c5feeea77b937b0) 
+	  * [Sparse Matrix multiplication](https://github.com/CSBiology/FSharp.Stats/commit/0f908c5d0af7efc7919b658d8dc7778cd7369e15) replaced implementation to gain performance
+	  * [Sparse Matrix QR decomposition](https://github.com/CSBiology/FSharp.Stats/commit/b098fe21d49a91ec49159ef015768563fa9887cb)
       * [Spectral matrix norm](https://github.com/CSBiology/FSharp.Stats/commit/7d27b03457b746d054a1fe81f57db66ccdb1b903)
-	  * [Generalized weighted pearson correlation] (https://github.com/CSBiology/FSharp.Stats/commit/33b449881a1884371416c34dcdd9335202d2a758)
+	  * [Generalized weighted pearson correlation](https://github.com/CSBiology/FSharp.Stats/commit/33b449881a1884371416c34dcdd9335202d2a758)
 	  
 * **FSharp.Stats.Fitting** 
     * Additional functionalities:
-	  * [Crossvalidation kFold] (https://github.com/CSBiology/FSharp.Stats/commit/4ef896b88636fe6161adfe76fbd0daebb5d54bf9)
-	  * [RidgeRegression] (https://github.com/CSBiology/FSharp.Stats/commit/7e66392bb126eaeaabe4453f3101648adeb531c4)
-	  * [Levenberg Marquardt implementation supporting box constrains] (https://github.com/CSBiology/FSharp.Stats/commit/5c1d95aa062bb14a9947cdffdd53f7d90a0f8e5a)
+	  * [Crossvalidation kFold](https://github.com/CSBiology/FSharp.Stats/commit/4ef896b88636fe6161adfe76fbd0daebb5d54bf9)
+	  * [RidgeRegression](https://github.com/CSBiology/FSharp.Stats/commit/7e66392bb126eaeaabe4453f3101648adeb531c4)
+	  * [Levenberg Marquardt implementation supporting box constrains](https://github.com/CSBiology/FSharp.Stats/commit/5c1d95aa062bb14a9947cdffdd53f7d90a0f8e5a)
 	  
 * **FSharp.Stats.Signal** 
     * Additional functionalities:
 	  * [Estimate optimal window width for savitzky golay filters](https://github.com/CSBiology/FSharp.Stats/commit/d1f7a7ef58ce3a82992a912e7c85a8f4b572f347)
-	  * [BaselineALS'] (https://github.com/CSBiology/FSharp.Stats/commit/30bfc3fcba531f7c834b708416915296ff4e3363) internal use of sparse matrices to increase performance
+	  * [BaselineALS'](https://github.com/CSBiology/FSharp.Stats/commit/30bfc3fcba531f7c834b708416915296ff4e3363) internal use of sparse matrices to increase performance
 		
 * **FSharp.Stats.ML** 
 	* Additional functionalities:
-	  * [Set similarity measures] (https://github.com/CSBiology/FSharp.Stats/commit/fd1ec1e9d135750db63a2589093da5bb89505e94) 
+	  * [Set similarity measures](https://github.com/CSBiology/FSharp.Stats/commit/fd1ec1e9d135750db63a2589093da5bb89505e94) 
 	  * [Energy landscape plot to SA](https://github.com/CSBiology/FSharp.Stats/commit/46daf7f44a3683cd7d16b900ce67ffce70392101)
-	  * [GapStatistics] (https://github.com/CSBiology/FSharp.Stats/commit/e02a2dfa5291868e547f2be4813887e6342320c4) assists cluster number optimization
+	  * [GapStatistics](https://github.com/CSBiology/FSharp.Stats/commit/e02a2dfa5291868e547f2be4813887e6342320c4) assists cluster number optimization
 
 
 #### 0.1.0 - Wednesday, July 3, 2019
