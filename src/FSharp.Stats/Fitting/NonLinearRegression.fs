@@ -262,6 +262,7 @@ module NonLinearRegression =
 
         /// Returns an estimate for an initial parameter for the linear least square estimator for a given dataset (xData, yData).
         /// The initial estimation is intended for a logistic function.
+        /// The returned parameters are the max y value, the steepness of the curve and the x value in the middle of the slope.
         let initialParam (xData: float[]) (yData: float[]) (cutoffPercentage: float)=
             let xRange = ((xData |> Array.max) - (xData |> Array.min))
             let yRange = ((yData |> Array.max) - (yData |> Array.min))
