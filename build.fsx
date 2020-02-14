@@ -376,8 +376,8 @@ Target.create "Docs" (fun _ ->
     Shell.rename "docsrc/content/release-notes.md" "docsrc/content/RELEASE_NOTES.md"
 
     File.delete "docsrc/content/license.md"
-    Shell.copyFile "docsrc/content/" "LICENSE.txt"
-    Shell.rename "docsrc/content/license.md" "docsrc/content/LICENSE.txt"
+    Shell.copyFile "docsrc/content/" "LICENSE"
+    Shell.rename "docsrc/content/license.md" "docsrc/content/LICENSE"
 
 
     DirectoryInfo.getSubDirectories (DirectoryInfo.ofPath templates)
