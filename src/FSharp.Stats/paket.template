@@ -1,30 +1,34 @@
-type file
+type project
 id FSharp.Stats
 title
     FSharp.Stats
 owners
-    Timo Mühlhaus
+    Timo Mühlhaus, Benedikt Venn
 authors 
-    Timo Mühlhaus
+    Timo Mühlhaus, Benedikt Venn, Lukas Weil, David Zimmer, F# open source contributors
 projectUrl
     https://github.com/CSBiology/FSharp.Stats
 iconUrl
-    https://raw.githubusercontent.com/CSBiology/FSharp.Stats/master/docs/files/img/logo.png
+    https://raw.githubusercontent.com/CSBiology/FSharp.Stats/master/docsrc/files/img/logo.png
 licenseUrl
-    https://github.com/CSBiology/FSharp.Stats/blob/master/LICENSE.txt
+    https://github.com/CSBiology/FSharp.Stats/blob/master/LICENSE
 requireLicenseAcceptance
     false
 language
     F#
 copyright
-    Copyright 2017
+    Copyright 2017-2020
 tags
     FSharp F# Statistics Mathematics Stats Math Numerics
 summary
-    F# project for statistical computing
+    Statistical computations in F#
 description
-    F# project for statistical computing
-
-files
-	../../bin/FSharp.Stats ==> lib
+    Statistical computations in F#
+#files
+#   ../../bin/FSharp.Stats ==> lib
+repositoryType
+    git
+repositoryUrl
+    https://github.com/CSBiology/FSharp.Stats
+include-pdbs true
 
