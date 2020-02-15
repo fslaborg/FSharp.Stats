@@ -1,5 +1,8 @@
 FSharp.Stats
 =========
+[![Gitter](https://badges.gitter.im/CSBiology/FSharp.Stats.svg)](https://gitter.im/CSBiology/FSharp.Stats?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Generic badge](https://img.shields.io/badge/Made%20with-FSharp-rgb(1,143,204).svg)](https://shields.io/)
+![GitHub contributors](https://img.shields.io/github/contributors/CSBiology/FSharp.Stats)
 
 FSharp.Stats is supposed to be a multipurpose project for statistical testing, linear algebra, machine learning, optimization, fitting and signal processing.
 

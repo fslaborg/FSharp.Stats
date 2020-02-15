@@ -1,4 +1,4 @@
-namespace  BioFSharp.Stats.ML.Unsupervised
+namespace FSharp.Stats.ML.Unsupervised
 
 open FSharp.Stats
 open FSharpAux

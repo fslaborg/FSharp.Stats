@@ -181,11 +181,13 @@ Common examples are:
 
  - exponential functions
 
-To fit such models to your data the `NonLinearRegression` module can be used. Two solver-methods are availiable to iteratively converge to a minimal least squares value.
+To fit such models to your data the `NonLinearRegression` module can be used. Three solver-methods are availiable to iteratively converge to a minimal least squares value.
 
  - GaussNewton
 
  - LevenbergMarquardt
+
+ - LevenbergMarquardtConstrained
 
 For solving a nonlinear problem the model function has to be converted to a `NonLinearRegression.Model` type consisting of 
 
@@ -276,6 +278,101 @@ let coefficientsExp = GaussNewton.estimatedParams model solverOptions x_DataN y_
 
 // 4. create fitting function
 let fittingFunction x = coefficientsExp.[0] * Math.Exp(coefficientsExp.[1] * x)
+
+(**
+###LevenbergMarquardtConstrained
+
+For nonlinear regression using the LevenbergMarquardtConstrained module, you have to follow similar steps as in the example shown above.
+In this example, a logistic function of the form `y = L/(1+e^(-k(t-x)))` should be fitted to growth data:
+
+*)
+open FSharp.Stats.Fitting.NonLinearRegression
+
+let x_Hours = [|0.; 19.5; 25.5; 30.; 43.; 48.5; 67.75|]
+
+let y_Count = [|0.0; 2510000.0; 4926400.0; 9802600.0; 14949400.0; 15598800.0; 16382000.0|]
+
+// 1. Choose a model
+// The model we need already exists in FSharp.Stats and can be taken from the "Table" module.
+let model' = Table.LogisticFunctionAscending
+
+// 2. Define the solver options
+// 2.1 Initial parameter guess
+// The solver needs an initial parameter guess. This can be done by the user or with an estimator function.
+// The cutoffPercentage says at which percentage of the y-Range the lower part of the slope is. 
+// Manual curation of parameter guesses can be performend in this step by editing the param array.
+let initialParamGuess' = LevenbergMarquardtConstrained.initialParam x_Hours y_Count 0.1
+
+// 2.2 Create the solver options
+let solverOptions' = Table.lineSolverOptions initialParamGuess'
+
+// 3. Estimate parameters for a possible solution based on residual sum of squares
+// Besides the solverOptions, an upper and lower bound for the parameters are required.
+// It is recommended to define them depending on the initial param guess
+let lowerBound =
+    initialParamGuess'
+    |> Array.map (fun param ->
+        // Initial paramters -20%
+        param - (abs param) * 0.2
+    )
+    |> vector
+
+let upperBound =
+    initialParamGuess'
+    |> Array.map (fun param ->
+        param + (abs param) * 0.2
+    )
+    |> vector
+
+let estParams =
+    LevenbergMarquardtConstrained.estimatedParams model' solverOptions' 0.001 10. lowerBound upperBound x_Hours y_Count
+
+// 3.1 Estimate multiple parameters and pick the one with the least residual sum of squares (RSS)
+// For a more "global" minimum. it is possible to estimate multiple possible parameters for different initial guesses.
+
+//3.1.1 Generation of parameters with varying steepnesses
+let multipleSolverOptions =
+    LevenbergMarquardtConstrained.initialParamsOverRange x_Hours y_Count [|0. .. 0.1 .. 2.|]
+    |> Array.map Table.lineSolverOptions
+
+let estParamsRSS =
+    multipleSolverOptions
+    |> Array.map (fun solvO ->
+        let lowerBound =
+            solvO.InitialParamGuess
+            |> Array.map (fun param -> param - (abs param) * 0.2)
+            |> vector
+        let upperBound =
+            solvO.InitialParamGuess
+            |> Array.map (fun param -> param + (abs param) * 0.2)
+            |> vector
+        LevenbergMarquardtConstrained.estimatedParamsWithRSS 
+            model' solvO 0.001 10. lowerBound upperBound x_Hours y_Count
+    )
+    |> Array.minBy snd
+    |> fst
+
+// The result is the same as for 'estParams', but tupled with the corresponding RSS, which can be taken
+// as a measure of quality for the estimate.
+
+// 4. Create fitting function
+let fittingFunction' = Table.LogisticFunctionAscending.GetFunctionValue estParamsRSS
+
+(*** hide ***)
+let fittedY = Array.zip [|1. .. 68.|] ([|1. .. 68.|] |> Array.map fittingFunction')
+
+let fittedLogisticFunc =
+    [
+    Chart.Point (Array.zip x_Hours y_Count)
+    |> Chart.withTraceName"Data Points"
+    Chart.Line fittedY
+    |> Chart.withTraceName "Fit"
+    ]
+    |> Chart.Combine
+    |> Chart.withY_AxisStyle "Cellcount"
+    |> Chart.withX_AxisStyle "Time"
+
+(*** include-value:fittedLogisticFunc ***)
 
 (**
 
