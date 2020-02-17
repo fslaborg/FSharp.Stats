@@ -37,51 +37,122 @@
           
 <h1><a name="Summary" class="anchor" href="#Summary">Summary</a></h1>
 <p>Short documentation of very basic statistical operations</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="pp">#r</span> <span class="s">@&quot;FSharp.Stats.dll&quot;</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">FSharp</span><span class="pn">.</span><span class="id">Stats</span>
-</code></pre></td>
-</tr>
-</table>
-<a name="Mean"></a>
-<h2><a name="Mean" class="anchor" href="#Mean">Mean</a></h2>
+<a name="Central Tendency"></a>
+<h2><a name="Central-Tendency" class="anchor" href="#Central-Tendency">Central Tendency</a></h2>
+<h3><a name="Mean" class="anchor" href="#Mean">Mean</a></h3>
 <p>"Mean" stands here for the arithmetic mean (also called average) is the sum of numbers in a collection divided by the count of those numbers.<br />
 The mean function is usually located in the module of the respective collection:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
-<span class="l">3: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">v</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">|]</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">mean</span> <span class="o">=</span> <span class="id">Vector</span><span class="pn">.</span><span class="id">mean</span> <span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="id">v</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">v</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="id">mean</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="m">Vector</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="id">mean</span> <span onmouseout="hideTip(event, 'fs3', 8)" onmouseover="showTip(event, 'fs3', 8)" class="id">v</span>
 </code></pre></td>
 </tr>
 </table>
-<a name="Median"></a>
-<h2><a name="Median" class="anchor" href="#Median">Median</a></h2>
+<table class="pre"><tr><td><pre><code>2.666666667</code></pre></td></tr></table>
+<h3><a name="Median" class="anchor" href="#Median">Median</a></h3>
 <p>If you sort the values of a collection by size, the median is the value in central position. Therefore there are as many bigger values as smaller values than the median in the collection.
 The median function is usually located in the module of the respective collection:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="id">arr</span> <span class="o">=</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">|]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 6)" onmouseover="showTip(event, 'fs5', 6)" class="id">median</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 7)" onmouseover="showTip(event, 'fs6', 7)" class="m">Array</span><span class="pn">.</span><span class="id">median</span> <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="id">arr</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 9)" onmouseover="showTip(event, 'fs8', 9)" class="id">arr</span> <span class="o">=</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 10)" onmouseover="showTip(event, 'fs9', 10)" class="id">median</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs10', 11)" onmouseover="showTip(event, 'fs10', 11)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 12)" onmouseover="showTip(event, 'fs11', 12)" class="id">median</span> <span onmouseout="hideTip(event, 'fs8', 13)" onmouseover="showTip(event, 'fs8', 13)" class="id">arr</span>
 </code></pre></td>
 </tr>
 </table>
-<a name="Std"></a>
-<h2><a name="Standard-Deviation" class="anchor" href="#Standard-Deviation">Standard Deviation</a></h2>
-<p>The standard deviation(std) is a measure of dispersion the values of a collection have. It has the same unit as the values of the collection.</p>
-<p>snippet coming soon</p>
+<table class="pre"><tr><td><pre><code>3.5</code></pre></td></tr></table>
+<h3><a name="Truncated-Trimmed-mean" class="anchor" href="#Truncated-Trimmed-mean">Truncated/Trimmed mean</a></h3>
+<p>Computes the truncated (trimmed) mean where a given percentage of the highest and lowest values are discarded. In total 2 times the given percentage are discarded.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 14)" onmouseover="showTip(event, 'fs12', 14)" class="id">seq</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs12', 15)" onmouseover="showTip(event, 'fs12', 15)" class="k">seq</span> <span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 16)" onmouseover="showTip(event, 'fs13', 16)" class="id">truMean</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs14', 17)" onmouseover="showTip(event, 'fs14', 17)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 18)" onmouseover="showTip(event, 'fs15', 18)" class="id">meanTruncated</span> <span class="n">0.2</span> <span onmouseout="hideTip(event, 'fs8', 19)" onmouseover="showTip(event, 'fs8', 19)" class="id">arr</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>3.5</code></pre></td></tr></table>
+<a name="Dispersion"></a>
+<h2><a name="Dispersion" class="anchor" href="#Dispersion">Dispersion</a></h2>
+<h3><a name="Variance-Standard-Deviation" class="anchor" href="#Variance-Standard-Deviation">Variance/Standard Deviation</a></h3>
+<p>The variance and standard deviation are measures of dispersion the values of a collection have. While the standard deviation has the same unit as the values of the collection the variance has the squared unit.
+If the full population is <strong>not</strong> given, the calculation lacks in one degree of freedom, so the Bessel corrected version of the calculation has to be used (results in higher values).</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 20)" onmouseover="showTip(event, 'fs16', 20)" class="id">data</span> <span class="o">=</span>          <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 21)" onmouseover="showTip(event, 'fs17', 21)" class="id">varSample</span> <span class="o">=</span>     <span onmouseout="hideTip(event, 'fs14', 22)" onmouseover="showTip(event, 'fs14', 22)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 23)" onmouseover="showTip(event, 'fs18', 23)" class="id">var</span> <span onmouseout="hideTip(event, 'fs16', 24)" onmouseover="showTip(event, 'fs16', 24)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 25)" onmouseover="showTip(event, 'fs19', 25)" class="id">varPopulation</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs14', 26)" onmouseover="showTip(event, 'fs14', 26)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 27)" onmouseover="showTip(event, 'fs20', 27)" class="id">varPopulation</span> <span onmouseout="hideTip(event, 'fs16', 28)" onmouseover="showTip(event, 'fs16', 28)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 29)" onmouseover="showTip(event, 'fs21', 29)" class="id">stdSample</span> <span class="o">=</span>     <span onmouseout="hideTip(event, 'fs14', 30)" onmouseover="showTip(event, 'fs14', 30)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 31)" onmouseover="showTip(event, 'fs22', 31)" class="id">stDev</span> <span onmouseout="hideTip(event, 'fs16', 32)" onmouseover="showTip(event, 'fs16', 32)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 33)" onmouseover="showTip(event, 'fs23', 33)" class="id">stdPopulation</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs14', 34)" onmouseover="showTip(event, 'fs14', 34)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 35)" onmouseover="showTip(event, 'fs24', 35)" class="id">stDevPopulation</span> <span onmouseout="hideTip(event, 'fs16', 36)" onmouseover="showTip(event, 'fs16', 36)" class="id">data</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+stdSample:     2.483
+stdPopulation: 2.267"</code></pre></td></tr></table>
+<h3><a name="Coefficient-of-variation" class="anchor" href="#Coefficient-of-variation">Coefficient of variation</a></h3>
+<p>The coefficient of variation is the mean-normalized standard deviation. It describes the ratio of the standard devation to the mean. It assists in comparing measurement variability
+with varying amplitudes. Use only if data is measured with a ratio scale (meaningful zero values and meaningful intervals).</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 41)" onmouseover="showTip(event, 'fs27', 41)" class="id">sample1</span> <span class="o">=</span>   <span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">6.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 42)" onmouseover="showTip(event, 'fs28', 42)" class="id">sample2</span> <span class="o">=</span>   <span class="pn">[</span><span class="n">13.</span><span class="pn">;</span><span class="n">41.</span><span class="pn">;</span><span class="n">29.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">;</span><span class="n">52.</span><span class="pn">;</span><span class="n">34.</span><span class="pn">;</span><span class="n">25.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 43)" onmouseover="showTip(event, 'fs29', 43)" class="id">cvSample1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs14', 44)" onmouseover="showTip(event, 'fs14', 44)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 45)" onmouseover="showTip(event, 'fs30', 45)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs27', 46)" onmouseover="showTip(event, 'fs27', 46)" class="id">sample1</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 47)" onmouseover="showTip(event, 'fs31', 47)" class="id">cvSample2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs14', 48)" onmouseover="showTip(event, 'fs14', 48)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 49)" onmouseover="showTip(event, 'fs30', 49)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs28', 50)" onmouseover="showTip(event, 'fs28', 50)" class="id">sample2</span>
 
-<div class="tip" id="fs1">namespace Microsoft.FSharp</div>
-<div class="tip" id="fs2">val v : obj</div>
-<div class="tip" id="fs3">val mean : obj</div>
-<div class="tip" id="fs4">val arr : float []</div>
-<div class="tip" id="fs5">val median : obj</div>
-<div class="tip" id="fs6">module Array<br /><br />from Microsoft.FSharp.Collections</div>
+<span class="c">//use if data is complete (whole population was measured)</span>
+<span class="c">//let cvPopulation = Seq.cvPopulation data</span>
+</code></pre></td>
+</tr>
+</table>
+<table class="pre"><tr><td><pre><code>"
+cvSample1: 0.548
+cvSample2: 0.531"</code></pre></td></tr></table>
+
+<div class="tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="tip" id="fs2">namespace FSharp.Stats</div>
+<div class="tip" id="fs3">val v : Vector&lt;float&gt;</div>
+<div class="tip" id="fs4">Multiple items<br />val vector : l:seq&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><br />--------------------<br />type vector = Vector&lt;float&gt;</div>
+<div class="tip" id="fs5">val mean : float</div>
+<div class="tip" id="fs6">Multiple items<br />module Vector<br /><br />from FSharp.Stats<br /><br />--------------------<br />type Vector&lt;&#39;T&gt; =<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;interface IStructuralEquatable<br />&#160;&#160;interface IStructuralComparable<br />&#160;&#160;interface IComparable<br />&#160;&#160;new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;override Equals : yobj:obj -&gt; bool<br />&#160;&#160;override GetHashCode : unit -&gt; int<br />&#160;&#160;member GetSlice : start:int option * finish:int option -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;member Permute : p:permutation -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;...<br /><br />--------------------<br />new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;</div>
+<div class="tip" id="fs7">val mean : items:Vector&lt;&#39;T&gt; -&gt; &#39;a (requires member ( / ))</div>
+<div class="tip" id="fs8">val arr : float []</div>
+<div class="tip" id="fs9">val median : float</div>
+<div class="tip" id="fs10">Multiple items<br />module Array<br /><br />from FSharp.Stats<br /><br />--------------------<br />module Array<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs11">val median : items:&#39;T array -&gt; &#39;T (requires member get_Zero and member get_One and comparison and member ( + ) and member ( / ) and member ( / ))</div>
+<div class="tip" id="fs12">Multiple items<br />val seq : seq&lt;float&gt;<br /><br />--------------------<br />type seq&lt;&#39;T&gt; = System.Collections.Generic.IEnumerable&lt;&#39;T&gt;</div>
+<div class="tip" id="fs13">val truMean : float</div>
+<div class="tip" id="fs14">Multiple items<br />module Seq<br /><br />from FSharp.Stats<br /><br />--------------------<br />module Seq<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs15">val meanTruncated : percent:float -&gt; data:seq&lt;&#39;T&gt; -&gt; &#39;U (requires comparison and member ( + ) and member get_Zero and member DivideByInt and member ( / ))</div>
+<div class="tip" id="fs16">val data : float []</div>
+<div class="tip" id="fs17">val varSample : float</div>
+<div class="tip" id="fs18">val var : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ))</div>
+<div class="tip" id="fs19">val varPopulation : float</div>
+<div class="tip" id="fs20">val varPopulation : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ))</div>
+<div class="tip" id="fs21">val stdSample : float</div>
+<div class="tip" id="fs22">val stDev : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ) and member Sqrt)</div>
+<div class="tip" id="fs23">val stdPopulation : float</div>
+<div class="tip" id="fs24">val stDevPopulation : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ) and member Sqrt)</div>
+<div class="tip" id="fs25">val printStd : string</div>
+<div class="tip" id="fs26">val sprintf : format:Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T</div>
+<div class="tip" id="fs27">val sample1 : float list</div>
+<div class="tip" id="fs28">val sample2 : float list</div>
+<div class="tip" id="fs29">val cvSample1 : float</div>
+<div class="tip" id="fs30">val cv : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member Sqrt and member ( + ) and member ( / ) and member ( / ))</div>
+<div class="tip" id="fs31">val cvSample2 : float</div>
+<div class="tip" id="fs32">val printCvS : string</div>
 
         </div>
         <div class="span3">
@@ -102,9 +173,8 @@ The median function is usually located in the module of the respective collectio
               <li>
                   <a href="/FSharp.Stats/Summary.html">Summary</a>
                   <ul class="nav nav-list">
-                      <li><a href="/FSharp.Stats/Summary.html#Mean">Mean</a></li>
-                      <li><a href="/FSharp.Stats/Summary.html#Median">Median</a></li>
-                      <li><a href="/FSharp.Stats/Summary.html#Std">Standard Deviation</a></li>
+                      <li><a href="/FSharp.Stats/Summary.html#Central Tendency">Central Tendency</a></li>
+                      <li><a href="/FSharp.Stats/Summary.html#Dispersion">Dispersion</a></li>
                   </ul>
               </li>
               <li><a href="/FSharp.Stats/Clustering.html">Clustering</a></li>
@@ -129,7 +199,8 @@ The median function is usually located in the module of the respective collectio
               <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
 			  </li>
               <li><a href="/FSharp.Stats/Interpolation.html">Interpolation</a></li>
-              </li>
+			  </li>
+              <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
               <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
               </li>
 			  <li><a href="/FSharp.Stats/TemporalClassification.html">Temporal Classification</a></li>

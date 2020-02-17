@@ -34,6 +34,119 @@
       <div class="row">
         <div class="span9" id="main">
           
+<h4><a name="0-2-1-beta-Monday-February-17-2020" class="anchor" href="#0-2-1-beta-Monday-February-17-2020">0.2.1-beta - Monday, February 17, 2020</a></h4>
+<p>First nuget pre-release package.</p>
+<p>Version bump to 0.2.1-beta.</p>
+<ul>
+<li>
+<strong>FSharp.Stats</strong>
+<ul>
+<li>no changes</li>
+</ul>
+</li>
+<li>
+<strong>FSharp.Stats.Lapack</strong>
+<ul>
+<li>no changes</li>
+</ul>
+</li>
+<li>
+<strong>FSharp.Stats.MSF</strong>
+<ul>
+<li>no changes</li>
+</ul>
+</li>
+</ul>
+<h4><a name="0-2-0-Friday-February-14-2020" class="anchor" href="#0-2-0-Friday-February-14-2020">0.2.0 - Friday, February 14, 2020</a></h4>
+<p>Additions, improvements and bugfixes in multiple namespaces.
+The documentation has been extended.</p>
+<ul>
+<li>
+<strong>FSharp.Stats.Fitting</strong>
+<ul>
+<li>Additional functionalities:</li>
+</ul>
+</li>
+<li>
+<a href="https://github.com/CSBiology/FSharp.Stats/commit/b117d27d16ae3344979736a9a482f117f96da019">Nonlinear regression models for logistic functions</a>
+<ul>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/2a8c6d5b29ee8c9a86e8ebb755fed6e05421c251">Parameter estimation for constrained Levenberg Marquard solver</a></p></li>
+</ul>
+</li>
+<li>
+<strong>FSharp.Stats.ML</strong>
+<ul>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/805b63014081c0b48aeed3ab1a0c3da877340ca9">Namespace typo fix for GapStatistics</a>. Watch out if using older versions.</li>
+<li>
+Additional functionalities:
+<ul>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/43800844ef5c3e6798ece9a376c3f13c5f4f8804#diff-d0f16e69ed434add91a9c666cd09b556">Imputation speed increase</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>FSharp.Stats.MSF</strong>
+<ul>
+<li>
+Additional functionalities:
+<ul>
+<li><a href="https://github.com/CSBiology/FSharp.Stats/commit/805b63014081c0b48aeed3ab1a0c3da877340ca9">Third derivative spline calculation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4><a name="0-1-1-Thursday-November-7-2019" class="anchor" href="#0-1-1-Thursday-November-7-2019">0.1.1 - Thursday, November 7, 2019</a></h4>
+<p>Several bugfixes and additions to multiple namespaces.
+The documentation and unit tests have been extended.</p>
+<ul>
+<li>
+<p><strong>FSharp.Stats</strong> (core)</p>
+<ul>
+<li>Additional functionalities:</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/94d2d3030a6c390a2a0947730c5feeea77b937b0">Sparse Matrix initialization</a></p></li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/0f908c5d0af7efc7919b658d8dc7778cd7369e15">Sparse Matrix multiplication</a> replaced implementation to gain performance</p></li>
+<li>
+<p><a href="https://github.com/CSBiology/FSharp.Stats/commit/b098fe21d49a91ec49159ef015768563fa9887cb">Sparse Matrix QR decomposition</a></p>
+<ul>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/7d27b03457b746d054a1fe81f57db66ccdb1b903">Spectral matrix norm</a></p></li>
+</ul>
+</li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/33b449881a1884371416c34dcdd9335202d2a758">Generalized weighted pearson correlation</a></p></li>
+<li>
+<p><strong>FSharp.Stats.Fitting</strong></p>
+<ul>
+<li>Additional functionalities:</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/4ef896b88636fe6161adfe76fbd0daebb5d54bf9">Crossvalidation kFold</a></p></li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/7e66392bb126eaeaabe4453f3101648adeb531c4">RidgeRegression</a></p></li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/5c1d95aa062bb14a9947cdffdd53f7d90a0f8e5a">Levenberg Marquardt implementation supporting box constrains</a></p></li>
+<li>
+<p><strong>FSharp.Stats.Signal</strong></p>
+<ul>
+<li>Additional functionalities:</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/d1f7a7ef58ce3a82992a912e7c85a8f4b572f347">Estimate optimal window width for savitzky golay filters</a></p></li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/30bfc3fcba531f7c834b708416915296ff4e3363">BaselineALS'</a> internal use of sparse matrices to increase performance</p></li>
+<li>
+<p><strong>FSharp.Stats.ML</strong></p>
+<ul>
+<li>
+<p>Additional functionalities:</p>
+<ul>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/fd1ec1e9d135750db63a2589093da5bb89505e94">Set similarity measures</a></p></li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/46daf7f44a3683cd7d16b900ce67ffce70392101">Energy landscape plot to SA</a></p></li>
+<li><p><a href="https://github.com/CSBiology/FSharp.Stats/commit/e02a2dfa5291868e547f2be4813887e6342320c4">GapStatistics</a> assists cluster number optimization</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h4><a name="0-1-0-Wednesday-July-3-2019" class="anchor" href="#0-1-0-Wednesday-July-3-2019">0.1.0 - Wednesday, July 3, 2019</a></h4>
 <p>Several bugfixes and additions to multiple namespaces:</p>
 <ul>
@@ -206,7 +319,8 @@ Bump version to 0.0.11
               <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
 			  </li>
               <li><a href="/FSharp.Stats/Interpolation.html">Interpolation</a></li>
-              </li>
+			  </li>
+              <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
               <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
               </li>
 			  <li><a href="/FSharp.Stats/TemporalClassification.html">Temporal Classification</a></li>

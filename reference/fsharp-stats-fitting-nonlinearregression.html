@@ -93,6 +93,16 @@
         </tr>
         <tr>
           <td class="module-name">
+            <a href="fsharp-stats-fitting-nonlinearregression-levenbergmarquardtconstrained.html">LevenbergMarquardtConstrained</a>
+          </td>
+          <td class="xmldoc">
+          <p>This LevenbergMarquardt implementation supports the usage of box constrains.</p>
+
+
+          </td>
+        </tr>
+        <tr>
+          <td class="module-name">
             <a href="fsharp-stats-fitting-nonlinearregression-table.html">Table</a>
           </td>
           <td class="xmldoc">
@@ -113,10 +123,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1342', 1342)" onmouseover="showTip(event, '1342', 1342)">
+          <code onmouseout="hideTip(event, '1345', 1345)" onmouseover="showTip(event, '1345', 1345)">
             createModel(...)
           </code>
-          <div class="tip" id="1342">
+          <div class="tip" id="1345">
             <strong>Signature:</strong> parameterNames:string [] -&gt; getFunctionValue:(Vector&lt;float&gt; -&gt; float -&gt; float) -&gt; getGradientValue:(Vector&lt;float&gt; -&gt; Vector&lt;float&gt; -&gt; float -&gt; Vector&lt;float&gt;) -&gt; Model<br />
                                   </div>
         </td>
@@ -131,10 +141,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1343', 1343)" onmouseover="showTip(event, '1343', 1343)">
+          <code onmouseout="hideTip(event, '1346', 1346)" onmouseover="showTip(event, '1346', 1346)">
             createSolverOption(...)
           </code>
-          <div class="tip" id="1343">
+          <div class="tip" id="1346">
             <strong>Signature:</strong> minimumDeltaValue:float -&gt; minimumDeltaParameters:float -&gt; maximumIterations:int -&gt; initialParamGuess:float [] -&gt; SolverOptions<br />
                                   </div>
         </td>
@@ -149,10 +159,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1344', 1344)" onmouseover="showTip(event, '1344', 1344)">
+          <code onmouseout="hideTip(event, '1347', 1347)" onmouseover="showTip(event, '1347', 1347)">
             getRSS model xData yData paramVector
           </code>
-          <div class="tip" id="1344">
+          <div class="tip" id="1347">
             <strong>Signature:</strong> model:Model -&gt; xData:float [] -&gt; yData:float [] -&gt; paramVector:Vector&lt;float&gt; -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
@@ -169,10 +179,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1345', 1345)" onmouseover="showTip(event, '1345', 1345)">
+          <code onmouseout="hideTip(event, '1348', 1348)" onmouseover="showTip(event, '1348', 1348)">
             shouldTerminate(...)
           </code>
-          <div class="tip" id="1345">
+          <div class="tip" id="1348">
             <strong>Signature:</strong> currentValueRSS:float -&gt; newValueRSS:float -&gt; iterationCount:int -&gt; currentParamGuess:Vector&lt;float&gt; -&gt; newParamGuess:Vector&lt;float&gt; -&gt; solverOptions:SolverOptions -&gt; bool<br />
                                   </div>
         </td>
@@ -189,10 +199,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1346', 1346)" onmouseover="showTip(event, '1346', 1346)">
+          <code onmouseout="hideTip(event, '1349', 1349)" onmouseover="showTip(event, '1349', 1349)">
             solverConverged solverOptions estParams
           </code>
-          <div class="tip" id="1346">
+          <div class="tip" id="1349">
             <strong>Signature:</strong> solverOptions:SolverOptions -&gt; estParams:ResizeArray&lt;vector&gt; -&gt; bool<br />
                                   </div>
         </td>
@@ -207,10 +217,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1347', 1347)" onmouseover="showTip(event, '1347', 1347)">
+          <code onmouseout="hideTip(event, '1350', 1350)" onmouseover="showTip(event, '1350', 1350)">
             standardErrorOfPrediction(...)
           </code>
-          <div class="tip" id="1347">
+          <div class="tip" id="1350">
             <strong>Signature:</strong> dOF:float -&gt; predicted:float [] -&gt; actual:float [] -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
@@ -225,10 +235,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1348', 1348)" onmouseover="showTip(event, '1348', 1348)">
+          <code onmouseout="hideTip(event, '1351', 1351)" onmouseover="showTip(event, '1351', 1351)">
             updateJacobianInplace(...)
           </code>
-          <div class="tip" id="1348">
+          <div class="tip" id="1351">
             <strong>Signature:</strong> model:Model -&gt; xData:float [] -&gt; paramVector:Vector&lt;float&gt; -&gt; jacobian:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
                                   </div>
         </td>
@@ -243,10 +253,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1349', 1349)" onmouseover="showTip(event, '1349', 1349)">
+          <code onmouseout="hideTip(event, '1352', 1352)" onmouseover="showTip(event, '1352', 1352)">
             updateResidualVectorInPlace(...)
           </code>
-          <div class="tip" id="1349">
+          <div class="tip" id="1352">
             <strong>Signature:</strong> model:Model -&gt; xData:float [] -&gt; yData:float [] -&gt; paramVector:Vector&lt;float&gt; -&gt; residualVector:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
@@ -304,7 +314,8 @@
               <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
 			  </li>
               <li><a href="/FSharp.Stats/Interpolation.html">Interpolation</a></li>
-              </li>
+			  </li>
+              <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
               <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
               </li>
 			  <li><a href="/FSharp.Stats/TemporalClassification.html">Temporal Classification</a></li>
