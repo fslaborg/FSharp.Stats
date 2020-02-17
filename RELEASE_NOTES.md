@@ -1,3 +1,17 @@
+#### 0.2.1-beta - Monday, February 17, 2020
+First nuget pre-release package.
+
+Version bump to 0.2.1-beta.
+
+* **FSharp.Stats** 
+  * no changes
+
+* **FSharp.Stats.Lapack**
+  * no changes
+
+* **FSharp.Stats.MSF**
+  * no changes
+
 #### 0.2.0 - Friday, February 14, 2020
 Additions, improvements and bugfixes in multiple namespaces. 
 The documentation has been extended.
