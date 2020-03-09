@@ -95,15 +95,16 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
         match maxK with
         | 0 -> failwith "maxK must be 1 or greater"
         | _ ->
-                [1..maxK]
-                |> PSeq.map (fun k -> 
+                [|1..maxK|]
+                //|> PSeq.map //Multi threading with System.Random number generator may eventually lead to zero-loop
+                |> Array.map (fun k -> 
                     let refDisp     =  referenceDispersion rndPointGenerator calcDispersion data bootstraps k 
                     let disp        =  calcDispersion data k    
                     
                     let refDispMean = refDisp  |> Seq.mean 
                     let refDispStd  = refDisp  |> Seq.stDev 
                     (createGapStatisticResult k disp refDispMean refDispStd (refDispMean-disp)) ) 
-                |> PSeq.toArray
+                //|> PSeq.toArray
                 |> Array.sortBy (fun c -> c.ClusterIndex)
 
 
