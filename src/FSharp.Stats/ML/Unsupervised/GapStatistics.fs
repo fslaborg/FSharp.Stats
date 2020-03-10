@@ -84,11 +84,12 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
 
     // Calculate dispersion of reference data' clustered into k clusters.
     let referenceDispersion (rndPointGenerator:GenericPointGenerator<'a>) (calcDispersion:GenericClusterDispersion<'a>) (data:array<'a>) (bootstraps:int) k = 
+        let referenceDataSets = Array.init bootstraps (fun x -> rndPointGenerator data)
         [|1..bootstraps|]
-        |> Array.map (fun bIndex ->
-            data
-            |> rndPointGenerator 
+        |> PSeq.map (fun bIndex -> 
+            referenceDataSets.[bIndex-1]
             |> fun data -> calcDispersion data k )
+        |> PSeq.toArray
 
     // Calculates gap statistic of a dataset for clusternumbers from 1 to maxK.
     let calculate (rndPointGenerator:GenericPointGenerator<'a>) (bootstraps:int) (calcDispersion:GenericClusterDispersion<'a>) maxK (data:array<'a>) =
@@ -96,9 +97,10 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
         | 0 -> failwith "maxK must be 1 or greater"
         | _ ->
                 [|1..maxK|]
-                //|> PSeq.map //Multi threading with System.Random number generator may eventually lead to zero-loop
+                //|> PSeq.map (fun k -> //Multi threading with System.Random number generator may eventually lead to zero-loop //Fix to do: referenceDataset generation once prior to the loop? 
                 |> Array.map (fun k -> 
-                    let refDisp     =  referenceDispersion rndPointGenerator calcDispersion data bootstraps k 
+                    printfn "iteration k = %i" k
+                    let refDisp     =  referenceDispersion rndPointGenerator calcDispersion data bootstraps k
                     let disp        =  calcDispersion data k    
                     
                     let refDispMean = refDisp  |> Seq.mean 
@@ -111,7 +113,7 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
     module PointGenerators =
     
         // Generate uniform points within the range of `data`.
-        let generate_uniform_points (rnd:System.Random) =        
+        let generate_uniform_points (rnd:System.Random) =   
             fun (data:array<float[]>) -> 
                 let min = matrix data |> Matrix.mapiCols (fun i x -> Seq.min x) |> Array.ofSeq
                 let max = matrix data |> Matrix.mapiCols (fun i x -> Seq.max x) |> Array.ofSeq
