@@ -3,13 +3,16 @@
 // it to define helpers that you do not want to show in the documentation.
 #I "../../bin/FSharp.Stats/netstandard2.0"
 #r "../../packages/formatting/FSharp.Plotly/lib/netstandard2.0/Fsharp.Plotly.dll"
+#r "../../packages/FSharpAux/lib/netstandard2.0/FSharpAux.dll"
 #r "netstandard"
 open FSharp.Plotly
 
 #r "FSharp.Stats.dll"
 open FSharp.Stats
+open FSharpAux
 
-let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
+let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
 
 (**
 #Clustering
@@ -59,9 +62,9 @@ open FSharp.Stats.ML.Unsupervised.HierarchicalClustering
 // Kmeans clustering
 
 // For random cluster inititalization use randomInitFactory:
-let rng = new System.Random()
+let rnd = new System.Random()
 let randomInitFactory : IterativeClustering.CentroidsFactory<float []> = 
-    IterativeClustering.randomCentroids<float []> rng
+    IterativeClustering.randomCentroids<float []> rnd
 
 //let cvmaxFactory : IterativeClustering.CentroidsFactory<float []> = 
 //    IterativeClustering.intitCVMAX
@@ -134,7 +137,7 @@ let create2dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
     [chartNoise;chartCluster]
     |> Chart.Combine
     |> Chart.withTitle chartname
-    |> Chart.withX_Axis (axis "Petal width")
+    |> Chart.withX_Axis (axis "Petal width") 
     |> Chart.withY_Axis (axis "Petal length")
     
 let clusteredChart = create2dChart DistanceMetrics.Array.euclidean 20 0.5 petL_petW
@@ -221,4 +224,110 @@ let hierClusteredData =
 
 
 
+(**
 
+#Determining the optimal number of clusters
+
+##GapStatistics
+
+Publication reference: 'Estimating the number of clusters in a data set via the gap statistic'; J. R. Statist. Soc. B (2001); Tibshirani, Walther, and Hastie
+
+Gap statistics allows to determine the optimal cluster number by comparing the cluster dispersion (intra-cluster variation) of a reference dataset to the original data cluster dispersion.
+For each k both dispersions are calculated, while for the reference dataset multiple iterations are performed for each k. The difference of the log(dispersionOriginal) and the log(dispersionReference) is called 'gap'.
+The maximal gap points to the optimal cluster number. 
+
+Two ways to generate a reference data set are implemented.
+
+ - a uniform coverage within the range of the original data set
+  
+ - a PCA based point coverage, that considers the density/shape of the original data
+
+*)
+
+(*** hide ***)
+let gapStatisticsData = 
+    System.IO.File.ReadAllLines(__SOURCE_DIRECTORY__ + "/data/gapStatisticsData.txt")
+    |> Array.map (fun x ->
+        let tmp = x.Split '\t'
+        tmp |> Array.map float)
+
+let gapDataChart = 
+    [
+    gapStatisticsData|> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "original" |> Chart.withX_Axis (axisRange "" (-4.,10.)) |> Chart.withY_Axis (axisRange "" (-2.5,9.))
+    (GapStatistics.PointGenerators.generate_uniform_points rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "uniform" |> Chart.withX_Axis (axisRange "" (-4.,10.)) |> Chart.withY_Axis (axisRange "" (-2.5,9.))
+    (GapStatistics.PointGenerators.generate_uniform_points_PCA rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "uniform PCA" |> Chart.withX_Axis (axisRange "" (-4.,10.)) |> Chart.withY_Axis (axisRange "" (-2.5,9.))
+    ]
+    |> Chart.Stack 3
+    |> Chart.withSize(800.,400.)
+(*** include-value:gapDataChart ***)
+(**
+The log(dispersionReference) should decrease with rising k, but - if clusters are presend in the data - should be greater than the log(dispersionOriginal). 
+
+*)
+open GapStatistics
+
+//create gap statistics
+let gaps =
+    GapStatistics.calculate
+        (PointGenerators.generate_uniform_points_PCA rnd)      //uniform point distribution
+        500                                                    //number of bootstraps samples 
+        ClusterDispersionMetric.logDispersionKMeans_initRandom //dispersion metric of clustering algorithm
+        10                                                     //maximal number of allowed clusters
+        gapStatisticsData                                      //float [] [] data of coordinates
+
+//number of clusters        
+let k        = gaps |> Array.map (fun x -> x.ClusterIndex)
+//log(dispersion) of the original data (with rising k)
+let disp     = gaps |> Array.map (fun x -> x.Dispersion)
+//log(dispersion) of the reference data (with rising k)
+let disp_ref = gaps |> Array.map (fun x -> x.ReferenceDispersion)
+//log(dispersionRef) - log(dispersionOriginal)
+let gap      = gaps |> Array.map (fun x -> x.Gaps)
+//standard deviation of reference data set dispersion
+let std      = gaps |> Array.map (fun x -> x.RefDispersion_StDev)
+
+let gapStatisticsChart =
+    let dispersions =
+        [
+        Chart.Line (k,disp)    |> Chart.withTraceName "disp"
+        Chart.Line (k,disp_ref)|> Chart.withTraceName "disp_ref" |> Chart.withYErrorStyle(std)
+        ]
+        |> Chart.Combine 
+        |> Chart.withX_Axis (axisRange "" (0.,11.)) 
+        |> Chart.withY_Axis (axis "log(disp)")
+    let gaps = 
+        Chart.Line (k,gap)|> Chart.withTraceName "gaps"
+        |> Chart.withX_Axis (axisRange "k" (0.,11.)) 
+        |> Chart.withY_Axis (axis "gaps")
+    [dispersions; gaps]
+    |> Chart.Stack 1
+
+(*** include-value:gapStatisticsChart ***)
+
+(**
+The maximal gap points to the optimal cluster number with the following condition:
+
+ - kopt = smallest k such that Gap(k)>= Gap(k+1)-sk+1
+
+ - where sk = std * sqrt(1+1/bootstraps)
+
+*)
+
+//calculate s(k) out of std(k) and the number of performed iterations for the refernce data set
+let s_k   = std |> Array.map (fun sd -> sd * sqrt(1. + 1./500.)) //bootstraps = 500 
+
+let gapChart =
+    Chart.Line (k,gap)
+    |> Chart.withYErrorStyle(s_k)
+    |> Chart.withX_Axis (axisRange "k" (0.,11.)) 
+    |> Chart.withY_Axis (axisRange "gap" (-0.5,2.)) 
+    
+(*** include-value:gapChart ***)
+
+//choose k_opt = smallest k such that Gap(k)>= Gap(k+1)-sk+1, where sk = sdk * sqrt(1+1/bootstraps)
+let k_opt = 
+    Array.init (gap.Length - 2) (fun i -> gap.[i] >= gap.[i+1] - s_k.[i+1])
+    |> Array.findIndex id
+    |> fun x -> sprintf "The optimal cluster number is: %i" (x + 1)
+    
+(*** include-value:k_opt ***)
