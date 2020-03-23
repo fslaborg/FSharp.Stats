@@ -228,9 +228,143 @@ let hierClusteredData =
 
 #Determining the optimal number of clusters
 
+##Rule of thumb
+
+The rule of thumb is a very crude cluster number estimation only based on the number of data points.
+
+Reference: 'Review on Determining of Cluster in K-means Clustering'; Kodinariya et al; January 2013
+
+*)
+
+//optimal k for iris data set by using rule-of-thumb
+let ruleOfThumb = ClusterNumber.k_ruleOfThumb data
+
+(*** include-value:ruleOfThumb ***)
+
+(**
+
+
+##Elbow criterion
+
+The elbow criterion is a visual method to determine the optimal cluster number. The cluster dispersion is measured as the sum of all average (squared) euclidean distance of each point to its associated centroid.
+The point at wich the dispersion drops drastically and further increase in k does not lead to a strong decrease in dispersion is the optimal k.
+
+Reference: 'Review on Determining of Cluster in K-means Clustering'; Kodinariya et al; January 2013
+
+*)
+open IterativeClustering
+open DistanceMetrics
+
+let kElbow = 10
+
+let iterations = 10 
+
+let dispersionOfK = 
+    [|1..kElbow|]
+    |> Array.map (fun k -> 
+        let (dispersion,std) = 
+            [|1..iterations|]
+            |> Array.map (fun i -> 
+                kmeans euclideanNaNSquared (randomCentroids rnd) data k
+                |> DispersionOfClusterResult)
+            |> fun dispersions -> 
+                Seq.mean dispersions, Seq.stDev dispersions
+        k,dispersion,std
+        )
+
+let elbowChart = 
+    Chart.Line (dispersionOfK |> Array.map (fun (k,dispersion,std) -> k,dispersion))
+    |> Chart.withYErrorStyle (dispersionOfK |> Array.map (fun (k,dispersion,std) -> std))
+    |> Chart.withX_Axis (axis "k")
+    |> Chart.withY_Axis (axis "dispersion")
+    |> Chart.withTitle "Iris data set dispersion"
+
+
+(*** include-value:elbowChart ***)
+
+(**
+#AIC
+
+[Reference](https://nlp.stanford.edu/IR-book/html/htmledition/cluster-cardinality-in-k-means-1.html)
+
+The Akaike information criterion (AIC) balances the information gain (with raising k) against parameter necessarity (number of k).
+The k that minimizes the AIC is assumed to be the optimal one. 
+
+*)
+
+
+let aicBootstraps = 10
+
+//optimal k for iris data set by using aic
+let (aicK,aicMeans,aicStd) =
+    //perform 10 iterations and take the mean and standard deviation of the aic
+    let aic = 
+        [|1..aicBootstraps|]
+        |> Array.map (fun b -> ClusterNumber.calcAIC 10 (kmeans euclideanNaNSquared (randomCentroids rnd) data) 15)
+    aic
+    |> Array.map (fun iteration -> Array.map snd iteration)
+    |> JaggedArray.transpose
+    |> Array.mapi (fun i aics -> 
+        i+1,Seq.mean aics,Seq.stDev aics)
+    |> Array.unzip3
+
+let aicChart = 
+    Chart.Line (aicK,aicMeans)
+    |> Chart.withX_Axis (axis "k")
+    |> Chart.withY_Axis (axis "AIC")
+    |> Chart.withYErrorStyle aicStd
+
+(*** include-value:aicChart ***)
+
+(**
+##Silhouette coefficient
+
+The silhouette index ranges from -1 to 1, where -1 indicates a missclassified point, and 1 indicates a perfect fit.
+It can be calculated for every point by comparing the mean intra cluster distance with the nearest mean inter cluster distance.
+The mean of all indices can be visualized, where a maximal value indicates the optimal k.
+
+Reference: 'Review on Determining of Cluster in K-means Clustering'; Kodinariya et al; January 2013
+
+*)
+
+let silhouetteData = 
+    System.IO.File.ReadAllLines(__SOURCE_DIRECTORY__ + "/data/silhouetteIndexData.txt")
+    |> Array.map (fun x -> 
+        let tmp = x.Split '\t'
+        [|float tmp.[0]; float tmp.[1]|])
+
+let sI = 
+    ML.Unsupervised.ClusterNumber.silhouetteIndex 
+        50              // number of bootstraps 
+        (kmeans euclideanNaNSquared (randomCentroids rnd) silhouetteData) 
+        silhouetteData  // input data
+        15              // maximal number of allowed k
+
+let rawDataChart =
+    silhouetteData 
+    |> Array.map (fun x -> x.[0],x.[1])
+    |> Chart.Point
+
+let silhouetteIndicesChart =
+    Chart.Line (sI |> Array.map (fun x -> x.ClusterNumber,x.SilhouetteIndex))
+    |> Chart.withYErrorStyle (sI |> Array.map (fun x -> x.SilhouetteIndexStDev))
+
+(*** hide ***)
+
+let combinedSilhouette =
+    [
+    rawDataChart |> Chart.withX_Axis (axis "") |> Chart.withY_Axis (axis "") |> Chart.withTraceName "raw data"
+    silhouetteIndicesChart |> Chart.withX_Axis (axis "k") |> Chart.withY_Axis (axis "silhouette index") |> Chart.withTraceName "silhouette"
+    ]
+    |> Chart.Stack (2,0.1)
+
+(*** include-value:combinedSilhouette ***)
+
+(**
+
 ##GapStatistics
 
-Publication reference: 'Estimating the number of clusters in a data set via the gap statistic'; J. R. Statist. Soc. B (2001); Tibshirani, Walther, and Hastie
+Reference: 'Estimating the number of clusters in a data set via the gap statistic'; J. R. Statist. Soc. B (2001); Tibshirani, Walther, and Hastie
 
 Gap statistics allows to determine the optimal cluster number by comparing the cluster dispersion (intra-cluster variation) of a reference dataset to the original data cluster dispersion.
 For each k both dispersions are calculated, while for the reference dataset multiple iterations are performed for each k. The difference of the log(dispersionOriginal) and the log(dispersionReference) is called 'gap'.
@@ -270,7 +404,7 @@ open GapStatistics
 let gaps =
     GapStatistics.calculate
         (PointGenerators.generate_uniform_points_PCA rnd)      //uniform point distribution
-        500                                                    //number of bootstraps samples 
+        100// no gain above 500                                //number of bootstraps samples 
         ClusterDispersionMetric.logDispersionKMeans_initRandom //dispersion metric of clustering algorithm
         10                                                     //maximal number of allowed clusters
         gapStatisticsData                                      //float [] [] data of coordinates
