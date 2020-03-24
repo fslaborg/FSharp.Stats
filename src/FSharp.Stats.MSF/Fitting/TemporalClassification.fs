@@ -1528,7 +1528,30 @@ module TemporalClassification =
         let (cl,fit) = getBestFitOfWeighting xVal yValMeans weightingMatrix minimizer
         fit
 
-
+    ///gets the observation values (x,y), and the replicates standard deviation and weightingmethod and returns the spline result of the best fit
+    let getBestFitOfStd (xVal:Vector<float>) (yVal:Vector<float>) (stdVal:Vector<float>) weightingMethod minimizer= 
+        let weightingMatrix = 
+            //(getWeighting xVal (yVal |> vector) weightingMethod repNumber)
+            let weigths =   
+                match weightingMethod with
+                | WeightingMethod.Equal ->
+                    Vector.init xVal.Length (fun x -> 1.)
+                | WeightingMethod.StandardDeviation -> 
+                    Vector.init xVal.Length (fun i -> 1. / stdVal.[i])
+                | WeightingMethod.StandardDeviationSqrt -> 
+                    Vector.init xVal.Length (fun i -> sqrt (1. / stdVal.[i]))                   
+                | WeightingMethod.StandardDeviationAdj -> 
+                    let w = Vector.init xVal.Length (fun i -> sqrt ( 1. / (stdVal.[i] / yVal.[i]) ))
+                    let mean = Seq.mean w
+                    w |> Vector.map (fun e -> e / mean)
+                | WeightingMethod.StandardDeviationAdjSqrt -> 
+                    let w = Vector.init xVal.Length (fun i -> sqrt( sqrt ( 1. / (stdVal.[i] / yVal.[i]))))
+                    let mean = Seq.mean w
+                    w |> Vector.map (fun e -> e / mean)
+                | _ -> failwithf "not implemented yet"
+            Matrix.init xVal.Length xVal.Length (fun i j -> if i=j then weigths.[i] else 0.)
+        let (cl,fit) = getBestFitOfWeighting xVal yVal weightingMatrix minimizer
+        fit
 
 
 
