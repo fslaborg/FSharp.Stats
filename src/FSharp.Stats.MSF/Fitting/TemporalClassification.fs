@@ -15,6 +15,11 @@ module TemporalClassification =
     open FSharp.Stats
     open FSharp.Stats.Optimization
 
+    let roundToNext (xVal:float) (xVals:seq<float>) =
+        xVals 
+        |> Seq.minBy (fun xI -> Math.Abs (xI - xVal))
+
+    /// gives smoothing spline function
     let initEvalAt (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
 
         let n = x.Length
@@ -38,6 +43,43 @@ module TemporalClassification =
         let calcS (h:Vector<float>) (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (i:int) (t:float) =
             a.[i] * (calcF1 h x i t) + a.[i+1] * (calcF2 h x i t) + c.[i] * (calcF3 h x i t) + c.[i+1] * (calcF4 h x i t)
 
+        //function: a * ((y - t) / h) + b * (t - x) / h + c * ((((y - t) / h)^3.0 - ((y - t) / h) ) * (h^2.0) / 6.0  )+ d * ((((t - x) / h)^3.0 - ((t - x) / h) ) * (h^2.0) / 6.0) where b = a.[i+1] ...
+        let evalAt =  calcS h x a c 
+        
+        (fun t ->
+            let i = 
+                match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
+                | Some x -> x 
+                | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
+            evalAt i t
+            )
+
+    /// fst derivative at amplitudes a and curvatures c with x values x
+    let initEvalFstDerivativeAt (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+
+        let n = x.Length
+
+        //define interval stepwidths
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+
+        let calcF1 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+            (pown h.[i] 2) * (3. * (pown (t-x.[i]) 2) / (pown h.[i] 3) - (1. / h.[i]))
+            |> fun x -> x / 6.
+
+        let calcF2 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+            (pown h.[i] 2) * ((1./h.[i]) - ((3. * (pown (x.[i+1] - t) 2)/pown h.[i] 3))) 
+            |> fun x -> x / 6.
+
+        let calcF3 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+            1. / h.[i]
+
+        let calcF4 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+            1. / h.[i]
+
+        // helper function for fst derivative
+        let calcS (h:Vector<float>) (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (i:int) (t:float) =
+            c.[i+1] * (calcF1 h x i t) + c.[i] * (calcF2 h x i t) + a.[i+1] * (calcF3 h x i t) - a.[i] * (calcF4 h x i t)
+
         let evalAt =  calcS h x a c 
     
         (fun t ->
@@ -47,56 +89,236 @@ module TemporalClassification =
                 | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
             evalAt i t
             )
+    
+    type Extremum = {
+        ///1:Maximum; -1:Minimum
+        Indicator : int
+        ///xValue of extremum
+        Xvalue    : float
+        }
+    let createExtremum indicator xValue = {Indicator = indicator; Xvalue = xValue}
 
-    //calculates extrema with (type,x_value) where type is +1 for maxima and -1 for minima
+    /// calculates extrema present in the given smoothing spline
     let getExtrema (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+        let n = x.Length 
+        //define interval stepwidths
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )  
+        // helper function for identification of roots in first derivative
+        let calcS (h:Vector<float>) (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (i:int) (t:float) =      
+            let f1 = (c.[i] * x.[i+1] - c.[i+1] * x.[i]) / (c.[i] - c.[i+1])
+            let f2 = sqrt 2. / (c.[i] - c.[i+1])
+            let root = 
+                let s1 = 0.5*c.[i]**2.*x.[i+1]**2.
+                let s2 = -c.[i]*c.[i+1]*x.[i+1]*x.[i]
+                let s3 = -1./6. * c.[i] * (6.*a.[i]-6.*a.[i+1]-c.[i]*h.[i]**2. + 3. *c.[i]*x.[i+1]**2. + c.[i+1]*h.[i]**2. - 3.* c.[i+1]*x.[i]**2.)
+                let s4 = 0.5 * c.[i+1]**2. * x.[i]**2.
+                let s5 = 1./6. * c.[i+1] * (6.*a.[i]-6.*a.[i+1]-c.[i]*h.[i]**2. + 3. *c.[i]*x.[i+1]**2. + c.[i+1]*h.[i]**2. - 3.* c.[i+1]*x.[i]**2.)
+                (s1 + s2 + s3 + s4 + s5)
+            if root < 0. then 
+                []
+            else 
+                [
+                    f1 - f2 * sqrt root
+                    f1 + f2 * sqrt root
+                ]
+    
+        let evalAt = calcS h x a c 
+        
+        // calculate amplitude of second derivative in interval i at xValue t
+        let calcSndDeriv (i:int) (t:float) =
+            c.[i+1] * (t - x.[i]) / h.[i] + c.[i] * (x.[i+1] - t) / h.[i]
+        
+        let sigBigger a b = a > (b+0.0000001)
+        
+        let splineFunction = initEvalAt x a c
+
+        x.[0.. Seq.length x - 2]
+        |> Seq.map 
+                (fun t ->
+                    let i = 
+                        match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
+                        | Some x -> x 
+                        | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
+                    //get an open interval of the current signal interval
+                    let interval = Intervals.create (x.[i]-0.0000001) (x.[i+1]+0.0000001)
+                    let secondDerivative t = calcSndDeriv i t
+                    //calculate roots of fst derivative and check snd derivative
+                    let extrema = 
+                        evalAt i t
+                        |> List.filter (fun x -> Intervals.liesInInterval x interval)
+                        |> List.choose (fun xAtS0 -> 
+                            let s1 = secondDerivative xAtS0
+                            match s1 with
+                                | w when round 5 s1 = 0. -> 
+                                    if round 1 (xAtS0-0.05) <= Seq.head x  || round 1 (xAtS0+0.05) >= Seq.last x then 
+                                        None
+                                    else 
+                                        let yAtX = splineFunction xAtS0
+                                        let yAtpX = splineFunction (xAtS0 - 0.05)
+                                        let yAtaX = splineFunction (xAtS0 + 0.05)
+                                        if   sigBigger yAtX yAtpX && sigBigger yAtX yAtaX then Some (createExtremum  1 xAtS0) //(1.,xAtS0)
+                                        elif sigBigger yAtpX yAtX && sigBigger yAtaX yAtX then Some (createExtremum -1 xAtS0) //(-1.,xAtS0)
+                                        else None//real saddle point
+                                | w when s1 < 0. -> Some (createExtremum 1 xAtS0) //(1.,xAtS0)
+                                | _ -> Some (createExtremum -1 xAtS0)//(-1.,xAtS0)
+                            )
+                    extrema
+                    //|> List.filter (fun (i,xv) -> i <> 0.)
+                    )
+                |> List.concat
+                |> List.sortBy (fun ex -> ex.Xvalue)
+                |> List.map (fun ex -> {ex with Xvalue = round 2 (roundToNext ex.Xvalue x)})
+                |> List.distinct
+
+    /// second derivative at amplitudes a and curvatures c with x values x
+    let initEvalSndDerivativeAt (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+
         let n = x.Length
+
         //define interval stepwidths
         let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
 
+        let calcF1 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+            (t - x.[i]) / h.[i]
+
+        let calcF2 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+            (x.[i+1] - t) / h.[i]
+
+        // helper function s(i) for smoothing spline 
+        let calcS (h:Vector<float>) (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (i:int) (t:float) =
+            c.[i+1] * (calcF1 h x i t) + c.[i] * (calcF2 h x i t)
+
+        let evalAt =  calcS h x a c 
+
+        (fun t ->
+            let i = 
+                match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
+                | Some x -> x 
+                | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
+            evalAt i t
+            )
+    /// trd derivative at amplitudes a and curvatures c with x values x  
+    let initEvalTrdDerivativeAt (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+
+        let n = x.Length
+
+        //define interval stepwidths
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+
+        // helper function s(i) for smoothing spline 
+        let calcS (h:Vector<float>) (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (i:int) (t:float) =
+            (c.[i+1] - c.[i]) / h.[i]
+
+        let evalAt =  calcS h x a c 
+        
+        (fun t ->
+            let i = 
+                match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
+                | Some x -> x 
+                | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
+            evalAt i t
+            )
+
+    //let initEvalAtFstDerivativ (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+    //    let n = x.Length
+    //    //define interval stepwidths
+    //    let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+    //    // helper functions f(i,1-4)(t) for smoothing spline
+    //    let calcF1 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) = (x.[i+1] - t) / h.[i]
+    //    let calcF2 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) = (t - x.[i]) / h.[i]
+    //    let calcF3 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+    //        (3. * (calcF1 h x i t) ** 2.0 * (calcF1 h x i t) - (calcF1 h x i t) ) * (h.[i]**2.0) / 6.0
+    //    let calcF4 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
+    //        ((calcF2 h x i t)**3.0 - (calcF2 h x i t) ) * (h.[i]**2.0) / 6.0 
+    //    let calcS (h:Vector<float>) (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (i:int) (t:float) =
+    //        a.[i] * (calcF1 h x i t) + a.[i+1] * (calcF2 h x i t) + c.[i] * (calcF3 h x i t) + c.[i+1] * (calcF4 h x i t)
+    //    let evalAt =  calcS h x a c 
+    //    (fun t ->
+    //        let i = 
+    //            match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
+    //            | Some x -> x 
+    //            | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
+    //        evalAt i t
+    //        )
+    
+    [<Obsolete("Only applicable at equal x spacing. Use getExtrema instead")>]
+    //calculates extrema with (type,x_value) where type is +1 for maxima and -1 for minima
+    let getExtrema_equalSpacing (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+        let n = x.Length
+        //define interval stepwidths
+        let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
+        let splineFunction = initEvalAt x a c
+        let sigBigger a b = a > (b+0.0000001)
         let searchExtrema i (a:Vector<float>) (c:Vector<float>) =
             //checks, if a polynomial coefficient vanishes 
             let isZero (coeff: float) =
-                let tolerance = 0.00001
+                let tolerance = 0.0000001
                 if (Math.Abs coeff) <= tolerance then 0. else coeff
+            //search space in which extrema belong to the actual interval spline (if outside the bounds, the extremum is not present in global spline)
             let (lower,upper) = 0.,1.
+            //coefficients for spline as: ax^3+bx^2+cx+d (d not used in extremum calculation)
             let aCoeff = -1./6. * c.[0] + 1./6. * c.[1]                 |> isZero
             let bCoeff = 0.5 * c.[0]                                    |> isZero
             let cCoeff = -1./3. * c.[0] - 1./6. * c.[1] - a.[0] + a.[1] |> isZero
-
+            
+            //coefficients for first derivative 3ax^2+2bx+c
             let aCoeff' = 3. * aCoeff
             let bCoeff' = 2. * bCoeff
             let cCoeff' = cCoeff
 
+            //coefficients for snd derivative 6ax+2b
             let aCoeff'' = 2. * aCoeff'
             let bCoeff'' = bCoeff'
 
             let findFstDeriv_Zero =
-                let root = (pown bCoeff' 2) - 4. * aCoeff' * cCoeff'
+                //apply abc formula to calculate extreme points (but the term within the root should not be negative) --> test
+                //if inflection point, root is sometimes -0.0000000000001 because term in root is zero! [0..4] [|3.54049285; 8.761635241; 9.805863719; 9.685956812; 9.086422279|] [|0.0; -6.265370869; -2.428723889e-11; -0.7194414397; 0.0|]
+                let root = 
+                    (pown bCoeff' 2) - 4. * aCoeff' * cCoeff'
+                    |> round 6
+                
                 if root < 0. then [] 
-                else 
-                    let result1 = (- bCoeff' + sqrt(root)) / (2. * aCoeff')
-                    let result2 = (- bCoeff' - sqrt(root)) / (2. * aCoeff')
-                    if result1 = result2 then
-                        [result1]
-                    else [result1;result2]
+                else
+                    //https://people.csail.mit.edu/bkph/articles/Quadratics.pdf
+                    if bCoeff' >= 0. then
+                        let x1 = (- bCoeff' - sqrt(root)) / (2. * aCoeff')
+                        let x2 = (2. * cCoeff') / (- bCoeff' - sqrt(root))
+                        [x1;x2]
+                    else
+                        let x1 = (2. * cCoeff') / (- bCoeff' + sqrt(root))
+                        let x2 = (- bCoeff' + sqrt(root)) / (2. * aCoeff')
+                        [x1;x2]
 
             let slope0 =    
                 //check wether the extremum is inside the interval [0,1] (hermite basis interval)
-                findFstDeriv_Zero |> List.filter (fun x -> x >= lower && x <= upper)
+                findFstDeriv_Zero |> List.filter (fun x -> round 1 (x+0.05) >= lower && round 1 (x-0.05) <= upper)
 
             slope0
-            |> List.map (fun xValNorm -> 
+            |> List.choose (fun xValNorm -> 
                 //recalculate the true xValue outside the normed interval [0,1]
                 let xVal = h.[i] * xValNorm + x.[i]
-                let getSndDerivative =
-                    aCoeff'' * xValNorm + bCoeff''
-                match getSndDerivative with
-                | getSndDerivative when getSndDerivative = 0. -> (0.,0.)
-                | getSndDerivative when getSndDerivative < 0. -> (1.,xVal)
-                | _                                           -> (-1.,xVal)
-                )
-            |> List.filter (fun v -> v <> (0.,0.))
+                let roundXVal = round 2 xVal
+                if roundXVal = Seq.last x || roundXVal = Seq.head x then 
+                    None//(0.,0.)
+                else 
+                    let sndDerivative = aCoeff'' * xValNorm + bCoeff''
+                    match sndDerivative with
+                    | s when (round 3 sndDerivative) = 0. -> 
+                        if round 1 (xVal-0.05) <= Seq.head x  || round 1 (xVal+0.05) >= Seq.last x then 
+                            None//(0.,0.)
+                        else 
+                            let yAtX = splineFunction xVal
+                            //printfn "yAtX: %f" yAtX
+                            let yAtpX = splineFunction (xVal - 0.1)
+                            let yAtaX = splineFunction (xVal + 0.1)
+                            //printfn "yPx: %f yx: %f yAx: %f" yAtpX yAtX yAtaX
+                            if sigBigger yAtX yAtpX && sigBigger yAtX yAtaX then Some (1.,xVal)
+                            elif sigBigger yAtpX yAtX && sigBigger yAtaX yAtX then Some (-1.,xVal)
+                            else None//(0.,0.) //real saddle point
+                    | s when sndDerivative < 0. -> Some (1.,xVal)
+                    | _                         -> Some (-1.,xVal)
+                    )
+            //filter items, where not only the first, but also the second derivative is 0 at the specified x Value
 
         x.[ .. x.Length-2]
         |> Array.ofSeq
@@ -112,7 +334,8 @@ module TemporalClassification =
             )
         |> Array.filter (fun x -> x <> [])
         |> List.concat
-        |> List.distinctBy (fun (indicator,xVal) -> round 2 xVal )
+        |> List.distinctBy (fun (indicator,xVal) -> roundToNext xVal x) //round necessary when root is small and f'(x)=0 at 1.02 and 1.04 because of floating point issues in the root (must be 0)
+        //possibility to ignore exrema if max and min are present within 0.2 x Values
 
     type Condition =
         | In0 //monotonically increasing
@@ -131,22 +354,39 @@ module TemporalClassification =
         let extrema = getExtrema x a c
         let extremaCount = extrema.Length
         let n = a.Length
-        if extremaCount = 0 then
+        match extremaCount with
+        | extremaCount when extremaCount = 0 -> 
             if a.[0] < a.[n-1] then In0
             else De0
-        elif extremaCount = 1 then
-            if fst extrema.[0] = 1. then In1
+        | extremaCount when extremaCount = 1 -> 
+            if extrema.[0].Indicator = 1 then In1
             else De1
-        elif extremaCount = 2 then
-            if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In2
+        | extremaCount when extremaCount = 2 -> 
+            if extrema.[0].Indicator = 1 && extrema.[1].Indicator = -1 then In2
             else De2
-        elif extremaCount = 3 then
-            if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In3
+        | extremaCount when extremaCount = 3 ->
+            if extrema.[0].Indicator = 1 && extrema.[1].Indicator = -1 then In3
             else De3
-        elif extremaCount = 4 then
-            if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In4
+        | extremaCount when extremaCount = 4 ->
+            if extrema.[0].Indicator = 1 && extrema.[1].Indicator = -1 then In4
             else De4
-        else Complex
+        | _ -> Complex
+        //if extremaCount = 0 then
+        //    if a.[0] < a.[n-1] then In0
+        //    else De0
+        //elif extremaCount = 1 then
+        //    if fst extrema.[0] = 1. then In1
+        //    else De1
+        //elif extremaCount = 2 then
+        //    if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In2
+        //    else De2
+        //elif extremaCount = 3 then
+        //    if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In3
+        //    else De3
+        //elif extremaCount = 4 then
+        //    if fst extrema.[0] = 1. && fst extrema.[1] = -1. then In4
+        //    else De4
+        //else Complex
 
     //check the spline for the predefined condition
     let checkshape (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (con:Condition)=
@@ -155,15 +395,15 @@ module TemporalClassification =
         let n = a.Length
         match con with
         | In0       -> extremaCount = 0 && a.[0] <= a.[n-1]
-        | In1       -> extremaCount = 1 && (fst extrema.[0]) = 1.
-        | In2       -> extremaCount = 2 && (fst extrema.[0]) = 1. && (fst extrema.[1]) = -1.
-        | In3       -> extremaCount = 3 && (fst extrema.[0]) = 1.
-        | In4       -> extremaCount = 4 && (fst extrema.[0]) = 1. && (fst extrema.[1]) = -1.
+        | In1       -> extremaCount = 1 && extrema.[0].Indicator = 1
+        | In2       -> extremaCount = 2 && extrema.[0].Indicator = 1 && extrema.[1].Indicator = -1
+        | In3       -> extremaCount = 3 && extrema.[0].Indicator = 1
+        | In4       -> extremaCount = 4 && extrema.[0].Indicator = 1 && extrema.[1].Indicator = -1
         | De0       -> extremaCount = 0 && a.[0] >= a.[n-1]
-        | De1       -> extremaCount = 1 && (fst extrema.[0]) = -1.
-        | De2       -> extremaCount = 2 && (fst extrema.[0]) = -1. && (fst extrema.[1]) = 1.
-        | De3       -> extremaCount = 3 && (fst extrema.[0]) = -1.
-        | De4       -> extremaCount = 4 && (fst extrema.[0]) = -1. && (fst extrema.[1]) = 1.
+        | De1       -> extremaCount = 1 && extrema.[0].Indicator = -1
+        | De2       -> extremaCount = 2 && extrema.[0].Indicator = -1 && extrema.[1].Indicator = 1
+        | De3       -> extremaCount = 3 && extrema.[0].Indicator = -1
+        | De4       -> extremaCount = 4 && extrema.[0].Indicator = -1 && extrema.[1].Indicator = 1
         | Complex   -> true
 
     let mapCondition (operator:Matrix<float> -> matrix) con =
@@ -231,23 +471,23 @@ module TemporalClassification =
 
     let normValues (yVal:Vector<float>) =
         let yMean = yVal |> Seq.mean
-        let std   = yVal |> Seq.stDev
+        let std   = yVal |> Seq.stDevPopulation
         yVal |> Vector.map (fun x -> (x - yMean) / std) 
        
     type WeightingMethod =
-        //weight: 1
+        /// weight: 1
         | Equal
-        //weight: minmax((1/stDev),Wmin)
+        /// weight: minmax((1/stDev),Wmin)
         | VarRobust//Variance
-        //max 0. (log(1./|Seq.cvPopulation g|),2.))
+        /// max 0. (log(1./|Seq.cvPopulation g|),2.))
         | CV
-        //weight: (1/stDev)
+        /// weight: (1/stDev)
         | StandardDeviation
-        //weight: sqrt(1/stDev)
+        /// weight: sqrt(1/stDev)
         | StandardDeviationSqrt
-        //weight: sqrt(1/(stDev/mean))
+        /// weight: sqrt(1/(stDev/mean))
         | StandardDeviationAdj
-        //weight: sqrt(sqrt(1/(stDev/mean)))
+        /// weight: sqrt(sqrt(1/(stDev/mean)))
         | StandardDeviationAdjSqrt
         
     ///creates a weighting matrix out of the x-, and y-Values, the given weighting method and the number of measured replicates.
@@ -1011,37 +1251,64 @@ module TemporalClassification =
     let splineDecreasing (x:Vector<float>) (y:Vector<float>) (W:Matrix<float>) con = 
         spline (~+) x y W con
 
+    type Minimizer = 
+        | GCV
+        | AICc
+
     ///returns the best fit of the observation x,-and y-values and a given weightingMatrix
-    let getBestFitOfWeighting x_values y_values wMat= 
+    let getBestFitOfWeighting x_values y_values wMat minimizer = 
         let getinitialestimate = getInitialEstimateOfWXY wMat (vector y_values) x_values
-        let initialSelectionCriterion = getinitialestimate.AICc
-        
         //monotone splines
-        let fst1 =(In0,splineIncreasing x_values (vector y_values) wMat 0) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.04) x.Lambda x.Ctemp x.AICc x.SplineFunction)
-        let fst2 =(De0,splineDecreasing x_values (vector y_values) wMat 0) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.04) x.Lambda x.Ctemp x.AICc x.SplineFunction)
-        let bestfst = [fst1;fst2] |> List.minBy (fun (cl,x) -> x.AICc)                                                                
+        let fst1 =(In0,splineIncreasing x_values (vector y_values) wMat 0) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result 
+        let fst2 =(De0,splineDecreasing x_values (vector y_values) wMat 0) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result 
+
         //splines with one extremum
-        let snd1 =(In1,splineIncreasing x_values (vector y_values) wMat 1) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.06) x.Lambda x.Ctemp x.AICc x.SplineFunction)
-        let snd2 =(De1,splineDecreasing x_values (vector y_values) wMat 1) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.06) x.Lambda x.Ctemp x.AICc x.SplineFunction)
-        let bestsnd = [snd1;snd2] |> List.minBy (fun (cl,x) -> x.AICc)                                                               
-        //splines with two extrema                                                                                                                                             
-        let trd1 =(In2,splineIncreasing x_values (vector y_values) wMat 2) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.AICc x.SplineFunction)
-        let trd2 =(De2,splineDecreasing x_values (vector y_values) wMat 2) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.AICc x.SplineFunction)
-        let besttrd = [trd1;trd2] |> List.minBy (fun (cl,x) -> x.AICc)
+        let snd1 =(In1,splineIncreasing x_values (vector y_values) wMat 1) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result 
+        let snd2 =(De1,splineDecreasing x_values (vector y_values) wMat 1) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result 
+
+        //splines with two extrema                                                                                                              
+        let trd1 =(In2,splineIncreasing x_values (vector y_values) wMat 2) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result 
+        let trd2 =(De2,splineDecreasing x_values (vector y_values) wMat 2) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result 
+
         //splines with three extremum
-        let qua1 =(In3,splineIncreasing x_values (vector y_values) wMat 3) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.06) x.Lambda x.Ctemp x.AICc x.SplineFunction)
-        let qua2 =(De3,splineDecreasing x_values (vector y_values) wMat 3) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.06) x.Lambda x.Ctemp x.AICc x.SplineFunction)
-        let bestqua = [qua1;qua2] |> List.minBy (fun (cl,x) -> x.AICc)                                                               
-        //splines with four extrema                                                                                                                                             
-        let qui1 =(In4,splineIncreasing x_values (vector y_values) wMat 4) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.AICc x.SplineFunction)
-        let qui2 =(De4,splineDecreasing x_values (vector y_values) wMat 4) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result //(cl, createTempClassResultSimple x.TraceA x.TraceC x.Error (x.GCV*1.08) x.Lambda x.Ctemp x.AICc x.SplineFunction)
-        let bestqui = [qui1;qui2] |> List.minBy (fun (cl,x) -> x.AICc)
+        let qua1 =(In3,splineIncreasing x_values (vector y_values) wMat 3) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result 
+        let qua2 =(De3,splineDecreasing x_values (vector y_values) wMat 3) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result 
 
-        //selection of optimal shape possibility by model selection via AICc 
-        [bestfst;bestsnd;besttrd;bestqua;bestqui]
-        |> List.minBy (fun (cl,result) -> result.AICc)
-        |> fun (cl,result) -> if result.AICc < initialSelectionCriterion then (cl,result) else Complex,result        
+        //splines with four extrema                                                                                                             
+        let qui1 =(In4,splineIncreasing x_values (vector y_values) wMat 4) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result 
+        let qui2 =(De4,splineDecreasing x_values (vector y_values) wMat 4) |> fun (shapeClass,(constraintMatrices,result)) -> shapeClass,result 
 
+        match minimizer with
+        | Minimizer.AICc -> 
+            let initialSelectionCriterion = getinitialestimate.AICc
+        
+            let bestfst = [fst1;fst2] |> List.minBy (fun (cl,x) -> x.AICc)                                                                
+            let bestsnd = [snd1;snd2] |> List.minBy (fun (cl,x) -> x.AICc)                                                               
+            let besttrd = [trd1;trd2] |> List.minBy (fun (cl,x) -> x.AICc)
+            let bestqua = [qua1;qua2] |> List.minBy (fun (cl,x) -> x.AICc)                                                               
+            let bestqui = [qui1;qui2] |> List.minBy (fun (cl,x) -> x.AICc)
+
+            //selection of optimal shape possibility by model selection via AICc 
+            [bestfst;bestsnd;besttrd;bestqua;bestqui]
+            |> List.indexed 
+            |> List.minBy (fun (i,(cl,result)) -> 1.05**(float i) * result.AICc)
+            |> fun (i,(cl,result)) -> if result.AICc < initialSelectionCriterion then (cl,result) else Complex,result        
+        | Minimizer.GCV -> 
+            let initialSelectionCriterion = getinitialestimate.GCV             
+            let bestfst = [fst1;fst2] |> List.minBy (fun (cl,x) -> x.GCV)                                                                
+            let bestsnd = [snd1;snd2] |> List.minBy (fun (cl,x) -> x.GCV)                                                               
+            let besttrd = [trd1;trd2] |> List.minBy (fun (cl,x) -> x.GCV)
+            let bestqua = [qua1;qua2] |> List.minBy (fun (cl,x) -> x.GCV)                                                               
+            let bestqui = [qui1;qui2] |> List.minBy (fun (cl,x) -> x.GCV)
+
+            //selection of optimal shape possibility by model selection via AICc 
+            [bestfst;bestsnd;besttrd;bestqua;bestqui]
+            |> List.indexed 
+            |> List.minBy (fun (i,(cl,result)) -> 1.05**(float i) * result.GCV)
+            |> fun (i,(cl,result)) -> if result.GCV < initialSelectionCriterion then (cl,result) else Complex,result        
+             
+
+    [<Obsolete("Only applicable at equal x spacing. Use initEvalAt instead")>]
     //same as initEvalAt, but with recalculated polynomial coefficients
     let initFunctionWithCoefficients (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =  
         let n = x.Length
@@ -1049,7 +1316,7 @@ module TemporalClassification =
         let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
 
         let deriv i (a:Vector<float>) (c:Vector<float>) xV=
-            let tmpT = xV - x.[i] / h.[i]
+            let tmpT = (xV - x.[i]) / h.[i]
             let pa = -1./6. * c.[0] + 1./6. * c.[1]
             let pb = 0.5 * c.[0] 
             let pc = -1./3. * c.[0] - 1./6. * c.[1] - a.[0] + a.[1]
@@ -1067,8 +1334,23 @@ module TemporalClassification =
             deriv i a.[i .. i+1] c.[i .. i+1] t
             )
     
+    (*
+    How to determine coefficients?
+    f(x)    =ax^3+bx^2+cx+d //traceA
+    f'(x)   =3ax^2+2bx+c
+    f''(x)  =6ax+2b         //traceC
+    - at knots x is 0 or 1 (begin and end of interval)
+    - c0 = 2b
+    - c1 = 6a+2b
+    - a0 = d
+    - a1 = a+b+c+d
+    solve system by substitution and you get the coefficients for this interval
+    *)
+
+
     ///recalculates the polynomial coefficients of the given spline f(knot) and f''(knot)
     ///[a1,b1,c1,d1,a2,b2...] (ax^3+bx^2...)
+    [<Obsolete("Only applicable at equal x spacing!")>]
     let getCoefficients (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
         let n = x.Length
         //Definiere Intervalle
@@ -1093,13 +1375,14 @@ module TemporalClassification =
             )
         |> List.concat
 
+    [<Obsolete("Only applicable at equal x spacing. Use initEvalSndDerivativeAt instead")>]
     ///returns a function that calculates the second derivative for a given xValue
     let getSndDerivative (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
         let n = x.Length
         //define interval stepwidth
         let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
         let deriv i (a:Vector<float>) (c:Vector<float>) xV=
-            let tmpT = xV - x.[i] / h.[i]
+            let tmpT = (xV - x.[i]) / h.[i] 
             let pa = -1./6. * c.[0] + 1./6. * c.[1]
             let pb = 0.5 * c.[0] 
             //let pc = -1./3. * c.[0] - 1./6. * c.[1] - a.[0] + a.[1]
@@ -1116,40 +1399,44 @@ module TemporalClassification =
             deriv i a.[i .. i+1] c.[i .. i+1] t
             )
 
-    let getSndDerivativeSquared (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+
+    [<Obsolete("Only applicable at equal x spacing. Use initEvalAt instead")>]
+    ///returns a function that calculates the first derivative for a given xValue
+    let getSignalFunction (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
         let n = x.Length
         //define interval stepwidth
         let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
         let deriv i (a:Vector<float>) (c:Vector<float>) xV=
-            let tmpT = xV - x.[i] / h.[i]
+            let tmpT = (xV - x.[i]) / h.[i]
             let pa = -1./6. * c.[0] + 1./6. * c.[1]
             let pb = 0.5 * c.[0] 
-            pown (6. * pa * tmpT + 2. * pb) 2       
+            let pc = -1./3. * c.[0] - 1./6. * c.[1] - a.[0] + a.[1]
+            let pd = a.[0]
+            pa * tmpT**3. + pb * tmpT**2. + pc * tmpT + pd
         (fun t ->
             let i =
                 if t = Seq.last x then 
                     Seq.length x - 2
                 else
                     x
-                    |> Seq.findIndex(fun x_Knot -> (x_Knot - t) > 0.)
+                    |> Seq.findIndex(fun x_Knot -> (x_Knot - t) > 0.) 
                     |> fun nextInterval -> nextInterval - 1
             deriv i a.[i .. i+1] c.[i .. i+1] t
             )
-
+    
+    [<Obsolete("Only applicable at equal x spacing. Use initEvalFstDerivativeAt instead")>]
     ///returns a function that calculates the first derivative for a given xValue
     let getFstDerivative (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
         let n = x.Length
         //define interval stepwidth
         let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
         let deriv i (a:Vector<float>) (c:Vector<float>) xV=
-            let tmpT = xV - x.[i] / h.[i]
+            let tmpT = (xV - x.[i]) / h.[i]
             let pa = -1./6. * c.[0] + 1./6. * c.[1]
             let pb = 0.5 * c.[0] 
             let pc = -1./3. * c.[0] - 1./6. * c.[1] - a.[0] + a.[1]
             //let pd = a.[0]
             3. * pa * tmpT**2. + 2. * pb * tmpT + pc
-
-
         (fun t ->
             let i =
                 if t = Seq.last x then 
@@ -1160,7 +1447,8 @@ module TemporalClassification =
                     |> fun nextInterval -> nextInterval - 1
             deriv i a.[i .. i+1] c.[i .. i+1] t
             )
-        
+
+    [<Obsolete("Only applicable at equal x spacing. Use initEvalTrdDerivativeAt instead")>]    
     ///returns a function that calculates the third derivative for a given xValue
     let getTrdDerivative (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
         let n = x.Length
@@ -1234,25 +1522,12 @@ module TemporalClassification =
         loop 1 [] []
 
     ///gets the observation values (x,y), the number of measured replicates and the weightingmethod and returns the spline result of the best fit
-    let getBestFit xVal yVal repNumber weightingMethod = 
+    let getBestFit xVal yVal repNumber weightingMethod minimizer = 
         let yValMeans = calcMeanOfRep yVal repNumber //|> normValues
         let weightingMatrix = (getWeighting xVal (yVal |> vector) weightingMethod repNumber)
-        let (cl,fit) = getBestFitOfWeighting xVal yValMeans weightingMatrix 
-        //let (mins,maxs) = investigateTrace 0.001 (fit.TraceA |> Seq.toArray)
-        //let clNew = 
-        //    if mins = [] then
-        //        if maxs = [] then 
-        //            if fit.TraceA.[0] < fit.TraceA.[fit.TraceA.Length - 1] then 1
-        //            else -1
-        //        else 2
-        //    else  
-        //        if maxs = [] then -2
-        //        else 
-        //            if maxs.[0] < mins.[0] then 3
-        //            else -3
-                    
-        //createHermiteResult fit.TraceA fit.TraceC fit.Error fit.GCV fit.Lambda mins maxs clNew fit.Ctemp fit.AICc
+        let (cl,fit) = getBestFitOfWeighting xVal yValMeans weightingMatrix minimizer
         fit
+
 
 
 
