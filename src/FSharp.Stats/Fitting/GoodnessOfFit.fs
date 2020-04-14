@@ -7,14 +7,14 @@ we estimate the relationship of one variable with another by expressing one in t
 *)
 module GoodnessOfFit =    
     open FSharp.Stats
-  
+    open System
     /// Three sum of squares 
     type SumOfSquares = {
-        /// Regression sum of squares (SSR - explained) 
+        /// Regression sum of squares (SSR: explained); Sum((yFit-yMean)**2.)
         Regression : float
-        /// Error sum of squares (SSE - unexplained)
+        /// Error sum of squares (SSE: unexplained); residual sum of squares; Sum((y-yFit)**2.)
         Error      : float        
-        /// Total sum of squares (SST - total)
+        /// Total sum of squares (SST: total); Sum((y-yMean)**2.)
         Total      : float        
         SSxx       : float
         SSxy       : float
@@ -46,28 +46,49 @@ module GoodnessOfFit =
 
     /// Standard deviation of y(x) 
     // Square root of variance s2y,x
+    [<Obsolete("Use [standardErrorEstimate] instead")>]
     let stDevY (sumOfSquares:SumOfSquares) =
         sumOfSquares.Error / (sumOfSquares.Count - 2.) |> sqrt
 
+    /// Standard error if the estimate 
+    /// Square root of variance s2y,x
+    let standardErrorEstimate (sumOfSquares:SumOfSquares) =
+        sumOfSquares.Error / (sumOfSquares.Count - 2.) |> sqrt
+     
     /// Standard deviation of slope (beta)    
+    [<Obsolete("Use [standardErrorSlope] instead")>]
     let stDevSlope (sumOfSquares:SumOfSquares) =
         ( sumOfSquares.Error / (sumOfSquares.Count - 2.) ) / sumOfSquares.SSxx
+        |> sqrt
+
+    /// Standard error of slope (beta)    
+    let standardErrorSlope (sumOfSquares:SumOfSquares) =
+        (sumOfSquares.Error / (sumOfSquares.Count - 2.)) / sumOfSquares.SSxx 
+        |> sqrt
 
     /// Standard deviation of intercept (alpha)
+    [<Obsolete("Use [standardErrorIntercept] instead")>]
     let stDevIntercept (sumOfSquares:SumOfSquares) =
+        let s2yx = sumOfSquares.Error / (sumOfSquares.Count - 2.) 
+        let mx2  = sumOfSquares.MeanX*sumOfSquares.MeanX
+        s2yx * ((1./sumOfSquares.Count) + (mx2/sumOfSquares.SSxx))
+        |> sqrt
+
+    /// Standard error of intercept (alpha)
+    let standardErrorIntercept (sumOfSquares:SumOfSquares) =
          let s2yx = sumOfSquares.Error / (sumOfSquares.Count - 2.) 
          let mx2  = sumOfSquares.MeanX*sumOfSquares.MeanX
          s2yx * ((1./sumOfSquares.Count) + (mx2/sumOfSquares.SSxx))
-        
+         |> sqrt
 
     let ttestSlope slope (sumOfSquares:SumOfSquares) =
-        let sb = stDevSlope sumOfSquares |> sqrt
+        let sb = standardErrorSlope sumOfSquares
         let statistic =  slope / sb 
         let TTest = Testing.TestStatistics.createTTest statistic (sumOfSquares.Count - 2.)
         TTest
 
     let ttestIntercept intercept (sumOfSquares:SumOfSquares) =
-        let si = stDevIntercept sumOfSquares |> sqrt
+        let si = standardErrorIntercept sumOfSquares
         let statistic =  intercept / si 
         let TTest = Testing.TestStatistics.createTTest statistic (sumOfSquares.Count - 2.)
         TTest
@@ -118,26 +139,29 @@ module GoodnessOfFit =
         n * log (sse/n) + k * log (n) 
     
     /// Calculates the residuals
-    let getResiduals (fitFunc:float -> float)  (x_data : Vector<float>) (y_data : Vector<float>) = 
+    let getResiduals (fitFunc:float -> float) (x_data : Vector<float>) (y_data : Vector<float>) = 
         Seq.map2 (fun x y -> let y_estimated = fitFunc x
                              (y - y_estimated) ) x_data y_data
 
     /// Calculates SSE: sum of squares of errors
-    /// also: unexplained sum of squares    
-    let calculateSSE (fitFunc:float -> float)  (x_data : Vector<float>) (y_data : Vector<float>) = 
+    /// also: unexplained sum of squares; residual sum of squares   
+    let calculateSSE (fitFunc:float -> float) (x_data : Vector<float>) (y_data : Vector<float>) = 
         Seq.map2 (fun x y -> let y_estimated = fitFunc x
                              (y - y_estimated) * (y - y_estimated) ) x_data y_data
         |> Seq.sum
 
-
-    /// Calculates SST: sum of squares total
-    /// also: total sum of squares
-    let calculateSST (fitFunc:float -> float)  (x_data : Vector<float>) (y_data : Vector<float>) = 
+    /// Calculates SSR: sum of squares regression.
+    /// also: explained sum of squares
+    let calculateSSR (fitFunc:float -> float) (x_data : Vector<float>) (y_data : Vector<float>) = 
         let meanY = Seq.mean y_data
-        x_data |> Vector.map (fun x -> let y_estimated = fitFunc x
-                                       (y_estimated - meanY) * (y_estimated - meanY) )
-        |> Seq.sum
+        y_data |> Seq.mapi (fun i y -> (fitFunc x_data.[i] - meanY)**2.) |> Seq.sum
 
+    /// Calculates SST: sum of squares total.
+    /// also: total sum of squares
+    let calculateSST (y_data : Vector<float>) = 
+        let meanY = Seq.mean y_data
+        y_data 
+        |> Seq.sumBy (fun y -> pown (y - meanY) 2)
 
     /// explained = total - unexplained
 
@@ -183,7 +207,7 @@ module GoodnessOfFit =
     module OrdinaryLeastSquares =
 
         module Linear =
-
+            
             module RTO = 
                 /// 
                 let calculateANOVA (coef : float) x y =                
@@ -196,7 +220,7 @@ module GoodnessOfFit =
                         raise (System.ArgumentException("Coefficient has to be [a;b]!"))
                     let fitFunction x = coef.[0] + coef.[1] * x 
                     calculateANOVA 1 fitFunction x_data y_data 
-
+                
         module Polynomial = 
 
             //http://www.wolframalpha.com/input/?i=Vandermonde%20matrix&lk=1&a=ClashPrefs_%2aMathWorld.VandermondeMatrix-
