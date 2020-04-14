@@ -207,7 +207,7 @@ module GoodnessOfFit =
     module OrdinaryLeastSquares =
 
         module Linear =
-            
+            open LinearRegression.OrdinaryLeastSquares.Linear
             module RTO = 
                 /// 
                 let calculateANOVA (coef : float) x y =                
@@ -221,6 +221,53 @@ module GoodnessOfFit =
                     let fitFunction x = coef.[0] + coef.[1] * x 
                     calculateANOVA 1 fitFunction x_data y_data 
                 
+                ///returns a function, that reports the confidence y_intercept for a given x value
+                let calculateConfidenceBandError (x_data : Vector<float>) (y_data : Vector<float>) confidenceLevel = 
+                    if x_data.Length <> y_data.Length then
+                        raise (System.ArgumentException("vector x and y have to be the same size!"))
+                    let n = float x_data.Length
+                    let df = n - 2.
+                    let coefficients = Univariable.coefficient x_data y_data
+                    let fitFunction = Univariable.fit coefficients 
+                    let meanX = Seq.mean x_data
+                    let SseOfX = 
+                        x_data 
+                        |> Seq.sumBy (fun xV -> pown (xV - meanX) 2) 
+                    let standardErrorOfTheEstimate = 
+                        calculateSSE fitFunction x_data y_data       
+                        |> fun x -> sqrt (x / (n-2.))
+                    let criticalT = Distributions.Continuous.getCriticalTValue df (1. - confidenceLevel) Distributions.Continuous.TwoTailed
+                    //additional x values should be added here
+                    (fun xValue -> 
+                        let stdevOfY = 
+                            standardErrorOfTheEstimate * sqrt(1. / n + pown (xValue - meanX) 2 / SseOfX)
+                        criticalT * stdevOfY
+                        )
+                
+                //returns a function, that reports the prediction y_intercept for a given x value
+                let calculatePredictionBandError (x_data : Vector<float>) (y_data : Vector<float>) confidenceLevel = 
+                    if x_data.Length <> y_data.Length then
+                        raise (System.ArgumentException("vector x and y have to be the same size!"))
+                    let n = float x_data.Length
+                    let df = n - 2.
+                    let coefficients = Univariable.coefficient x_data y_data
+                    let fitFunction = Univariable.fit coefficients 
+                    let meanX = Seq.mean x_data
+                    let SseOfX = 
+                        x_data 
+                        |> Seq.sumBy (fun xV -> pown (xV - meanX) 2) 
+                    let standardErrorOfTheEstimate = 
+                        calculateSSE fitFunction x_data y_data       
+                        |> fun x -> sqrt (x / (n-2.))
+                    let criticalT = Distributions.Continuous.getCriticalTValue df (1. - confidenceLevel) Distributions.Continuous.TwoTailed
+                    //additional x values should be added here
+                    (fun xValue -> 
+                        let stdevOfY =
+                            standardErrorOfTheEstimate * sqrt(1. + 1. / n + pown (xValue - meanX) 2 / SseOfX)
+                        criticalT * stdevOfY
+                        )
+
+
         module Polynomial = 
 
             //http://www.wolframalpha.com/input/?i=Vandermonde%20matrix&lk=1&a=ClashPrefs_%2aMathWorld.VandermondeMatrix-
