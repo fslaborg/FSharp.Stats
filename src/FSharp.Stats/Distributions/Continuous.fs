@@ -9,6 +9,10 @@ open FSharp.Stats.Ops
 [<CompilationRepresentationAttribute(CompilationRepresentationFlags.ModuleSuffix)>]
 module Continuous = 
     
+    type Tails =
+        | OneTailed
+        | TwoTailed
+
     open FSharp.Stats.SpecialFunctions
 
     // ######
@@ -586,6 +590,19 @@ module Continuous =
             member d.CDF x             = StudentT.CDF mu tau dof x         
         }   
 
+    let getCriticalTValue df significanceLevel tailed =
+        let cdf t = 
+            let alpha =
+                match tailed with
+                | Tails.OneTailed -> significanceLevel
+                | Tails.TwoTailed -> significanceLevel / 2.
+            studentT 0. 1. df
+            |> fun d -> alpha - d.CDF t
+        Optimization.Bisection.tryFindRoot cdf 0.0000001 -1000. 0. 10000
+        |> fun tValue -> 
+            match tValue with
+                | None -> failwithf "Critical t value could not be determined (increase maxIterations or decrease lower bound)."
+                | Some t -> Math.Abs t
 
 // ######
 // F-distribution or Fisher–Snedecor distribution
