@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Goodness of fit
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="F# project for statistical computing"/>
+    <meta name="author" content="Timo Mühlhaus"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
+    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
+    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+<h1><a name="Goodness-of-fit" class="anchor" href="#Goodness-of-fit">Goodness of fit</a></h1>
+<h2><a name="Linear-regression-report" class="anchor" href="#Linear-regression-report">Linear regression report</a></h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+<span class="l">39: </span>
+<span class="l">40: </span>
+<span class="l">41: </span>
+<span class="l">42: </span>
+<span class="l">43: </span>
+<span class="l">44: </span>
+<span class="l">45: </span>
+<span class="l">46: </span>
+<span class="l">47: </span>
+<span class="l">48: </span>
+<span class="l">49: </span>
+<span class="l">50: </span>
+<span class="l">51: </span>
+<span class="l">52: </span>
+<span class="l">53: </span>
+<span class="l">54: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 19)" onmouseover="showTip(event, 'fs1', 19)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 20)" onmouseover="showTip(event, 'fs13', 20)" class="id">Stats</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 21)" onmouseover="showTip(event, 'fs1', 21)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 22)" onmouseover="showTip(event, 'fs13', 22)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 23)" onmouseover="showTip(event, 'fs14', 23)" class="id">Fitting</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs15', 24)" onmouseover="showTip(event, 'fs15', 24)" class="id">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 25)" onmouseover="showTip(event, 'fs16', 25)" class="id">OrdinaryLeastSquares</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs17', 26)" onmouseover="showTip(event, 'fs17', 26)" class="id">GoodnessOfFit</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 27)" onmouseover="showTip(event, 'fs18', 27)" class="id">OrdinaryLeastSquares</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 28)" onmouseover="showTip(event, 'fs19', 28)" class="id">Linear</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 29)" onmouseover="showTip(event, 'fs20', 29)" class="id">Univariable</span>
+
+<span class="c">//data sorted by x values</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 30)" onmouseover="showTip(event, 'fs21', 30)" class="id">x</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 31)" onmouseover="showTip(event, 'fs22', 31)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span> <span class="o">..</span> <span class="n">10.</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 32)" onmouseover="showTip(event, 'fs23', 32)" class="id">y</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 33)" onmouseover="showTip(event, 'fs22', 33)" class="fn">vector</span> <span class="pn">[|</span><span class="n">4.</span><span class="pn">;</span><span class="n">10.</span><span class="pn">;</span><span class="n">9.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">30.</span><span class="pn">|]</span>
+
+<span class="c">///linear regression line fitting function</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 34)" onmouseover="showTip(event, 'fs24', 34)" class="id">coefficients</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 35)" onmouseover="showTip(event, 'fs25', 35)" class="m">Linear</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 36)" onmouseover="showTip(event, 'fs26', 36)" class="m">Univariable</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 37)" onmouseover="showTip(event, 'fs27', 37)" class="id">coefficient</span> <span onmouseout="hideTip(event, 'fs21', 38)" onmouseover="showTip(event, 'fs21', 38)" class="id">x</span> <span onmouseout="hideTip(event, 'fs23', 39)" onmouseover="showTip(event, 'fs23', 39)" class="id">y</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 40)" onmouseover="showTip(event, 'fs28', 40)" class="fn">fitFunc</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 41)" onmouseover="showTip(event, 'fs25', 41)" class="m">Linear</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 42)" onmouseover="showTip(event, 'fs26', 42)" class="m">Univariable</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs29', 43)" onmouseover="showTip(event, 'fs29', 43)" class="id">fit</span> <span onmouseout="hideTip(event, 'fs24', 44)" onmouseover="showTip(event, 'fs24', 44)" class="id">coefficients</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 45)" onmouseover="showTip(event, 'fs30', 45)" class="id">fittedValues</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs21', 46)" onmouseover="showTip(event, 'fs21', 46)" class="id">x</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs31', 47)" onmouseover="showTip(event, 'fs31', 47)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 48)" onmouseover="showTip(event, 'fs32', 48)" class="id">map</span> <span onmouseout="hideTip(event, 'fs28', 49)" onmouseover="showTip(event, 'fs28', 49)" class="fn">fitFunc</span>
+
+
+<span class="c">//In the following some quality/interval/significance values are computed:</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 50)" onmouseover="showTip(event, 'fs33', 50)" class="id">sos</span>         <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 51)" onmouseover="showTip(event, 'fs17', 51)" class="m">GoodnessOfFit</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 52)" onmouseover="showTip(event, 'fs34', 52)" class="id">calculateSumOfSquares</span> <span onmouseout="hideTip(event, 'fs28', 53)" onmouseover="showTip(event, 'fs28', 53)" class="fn">fitFunc</span> <span onmouseout="hideTip(event, 'fs21', 54)" onmouseover="showTip(event, 'fs21', 54)" class="id">x</span> <span onmouseout="hideTip(event, 'fs23', 55)" onmouseover="showTip(event, 'fs23', 55)" class="id">y</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 56)" onmouseover="showTip(event, 'fs35', 56)" class="id">n</span>           <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 57)" onmouseover="showTip(event, 'fs33', 57)" class="id">sos</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 58)" onmouseover="showTip(event, 'fs36', 58)" class="id">Count</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 59)" onmouseover="showTip(event, 'fs37', 59)" class="id">meanX</span>       <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 60)" onmouseover="showTip(event, 'fs33', 60)" class="id">sos</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 61)" onmouseover="showTip(event, 'fs38', 61)" class="id">MeanX</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 62)" onmouseover="showTip(event, 'fs39', 62)" class="id">meanY</span>       <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 63)" onmouseover="showTip(event, 'fs33', 63)" class="id">sos</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 64)" onmouseover="showTip(event, 'fs40', 64)" class="id">MeanY</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 65)" onmouseover="showTip(event, 'fs41', 65)" class="id">slope</span>       <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 66)" onmouseover="showTip(event, 'fs24', 66)" class="id">coefficients</span><span class="pn">.</span><span class="pn">[</span><span class="n">1</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs42', 67)" onmouseover="showTip(event, 'fs42', 67)" class="id">intercept</span>   <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 68)" onmouseover="showTip(event, 'fs24', 68)" class="id">coefficients</span><span class="pn">.</span><span class="pn">[</span><span class="n">0</span><span class="pn">]</span>
+<span class="c">//coefficient of determination</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs43', 69)" onmouseover="showTip(event, 'fs43', 69)" class="id">r_sq</span>        <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 70)" onmouseover="showTip(event, 'fs17', 70)" class="m">GoodnessOfFit</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 71)" onmouseover="showTip(event, 'fs44', 71)" class="id">calculateDeterminationFromValue</span> <span onmouseout="hideTip(event, 'fs23', 72)" onmouseover="showTip(event, 'fs23', 72)" class="id">y</span> <span onmouseout="hideTip(event, 'fs30', 73)" onmouseover="showTip(event, 'fs30', 73)" class="id">fittedValues</span>
+<span class="c">//adjusted coefficient of determination; variable=number of coefficints (excluding intercept)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 74)" onmouseover="showTip(event, 'fs45', 74)" class="id">r_sq_adj</span>    <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 75)" onmouseover="showTip(event, 'fs17', 75)" class="m">GoodnessOfFit</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs46', 76)" onmouseover="showTip(event, 'fs46', 76)" class="id">calculateDeterminationAdj</span> <span onmouseout="hideTip(event, 'fs23', 77)" onmouseover="showTip(event, 'fs23', 77)" class="id">y</span> <span onmouseout="hideTip(event, 'fs30', 78)" onmouseover="showTip(event, 'fs30', 78)" class="id">fittedValues</span> <span class="n">1</span>
+<span class="c">//pearson correlation coefficient</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs47', 79)" onmouseover="showTip(event, 'fs47', 79)" class="id">r</span>           <span class="o">=</span> <span onmouseout="hideTip(event, 'fs48', 80)" onmouseover="showTip(event, 'fs48', 80)" class="fn">sqrt</span> <span onmouseout="hideTip(event, 'fs43', 81)" onmouseover="showTip(event, 'fs43', 81)" class="id">r_sq</span>
+<span class="c">//total sum of squares</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs49', 82)" onmouseover="showTip(event, 'fs49', 82)" class="id">ssTotal</span>     <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 83)" onmouseover="showTip(event, 'fs33', 83)" class="id">sos</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 84)" onmouseover="showTip(event, 'fs50', 84)" class="id">Total</span>
+<span class="c">//regression sum of squares</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs51', 85)" onmouseover="showTip(event, 'fs51', 85)" class="id">ssReg</span>       <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 86)" onmouseover="showTip(event, 'fs33', 86)" class="id">sos</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 87)" onmouseover="showTip(event, 'fs52', 87)" class="id">Regression</span>
+<span class="c">//residual sum of squares</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 88)" onmouseover="showTip(event, 'fs53', 88)" class="id">ssResidual</span>  <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 89)" onmouseover="showTip(event, 'fs33', 89)" class="id">sos</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 90)" onmouseover="showTip(event, 'fs54', 90)" class="id">Error</span>
+<span class="c">//sum of squares xx</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs55', 91)" onmouseover="showTip(event, 'fs55', 91)" class="id">ssxx</span>        <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 92)" onmouseover="showTip(event, 'fs33', 92)" class="id">sos</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs56', 93)" onmouseover="showTip(event, 'fs56', 93)" class="id">SSxx</span>
+<span class="c">//sum of products xy</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs57', 94)" onmouseover="showTip(event, 'fs57', 94)" class="id">ssxy</span>        <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 95)" onmouseover="showTip(event, 'fs33', 95)" class="id">sos</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs58', 96)" onmouseover="showTip(event, 'fs58', 96)" class="id">SSxy</span>
+<span class="c">//standard error of the regression slope</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs59', 97)" onmouseover="showTip(event, 'fs59', 97)" class="id">stdErrSlope</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 98)" onmouseover="showTip(event, 'fs17', 98)" class="m">GoodnessOfFit</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs60', 99)" onmouseover="showTip(event, 'fs60', 99)" class="id">standardErrorSlope</span> <span onmouseout="hideTip(event, 'fs33', 100)" onmouseover="showTip(event, 'fs33', 100)" class="id">sos</span> 
+<span class="c">//standard error of the regression intercept</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs61', 101)" onmouseover="showTip(event, 'fs61', 101)" class="id">stdErrIntercept</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 102)" onmouseover="showTip(event, 'fs17', 102)" class="m">GoodnessOfFit</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs62', 103)" onmouseover="showTip(event, 'fs62', 103)" class="id">standardErrorIntercept</span> <span onmouseout="hideTip(event, 'fs33', 104)" onmouseover="showTip(event, 'fs33', 104)" class="id">sos</span> 
+<span class="c">//standard error of the estimate (S)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs63', 105)" onmouseover="showTip(event, 'fs63', 105)" class="id">stdErrEstimate</span>  <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 106)" onmouseover="showTip(event, 'fs17', 106)" class="m">GoodnessOfFit</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 107)" onmouseover="showTip(event, 'fs64', 107)" class="id">standardErrorEstimate</span> <span onmouseout="hideTip(event, 'fs33', 108)" onmouseover="showTip(event, 'fs33', 108)" class="id">sos</span> 
+<span class="c">//confidence intervals (df = n-#coefficients; a=5%)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs65', 109)" onmouseover="showTip(event, 'fs65', 109)" class="id">criticalT</span>   <span class="o">=</span> <span onmouseout="hideTip(event, 'fs66', 110)" onmouseover="showTip(event, 'fs66', 110)" class="fn">Distributions</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs67', 111)" onmouseover="showTip(event, 'fs67', 111)" class="m">Continuous</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs68', 112)" onmouseover="showTip(event, 'fs68', 112)" class="id">getCriticalTValue</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs35', 113)" onmouseover="showTip(event, 'fs35', 113)" class="id">n</span> <span class="o">-</span> <span class="n">2.</span><span class="pn">)</span> <span class="n">0.05</span> <span onmouseout="hideTip(event, 'fs66', 114)" onmouseover="showTip(event, 'fs66', 114)" class="uc">Distributions</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs67', 115)" onmouseover="showTip(event, 'fs67', 115)" class="m">Continuous</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs69', 116)" onmouseover="showTip(event, 'fs69', 116)" class="id">TwoTailed</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs70', 117)" onmouseover="showTip(event, 'fs70', 117)" class="id">lowerS</span>      <span class="o">=</span> <span onmouseout="hideTip(event, 'fs41', 118)" onmouseover="showTip(event, 'fs41', 118)" class="id">slope</span> <span class="o">-</span> <span onmouseout="hideTip(event, 'fs65', 119)" onmouseover="showTip(event, 'fs65', 119)" class="id">criticalT</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs59', 120)" onmouseover="showTip(event, 'fs59', 120)" class="id">stdErrSlope</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs71', 121)" onmouseover="showTip(event, 'fs71', 121)" class="id">upperS</span>      <span class="o">=</span> <span onmouseout="hideTip(event, 'fs41', 122)" onmouseover="showTip(event, 'fs41', 122)" class="id">slope</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs65', 123)" onmouseover="showTip(event, 'fs65', 123)" class="id">criticalT</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs59', 124)" onmouseover="showTip(event, 'fs59', 124)" class="id">stdErrSlope</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs72', 125)" onmouseover="showTip(event, 'fs72', 125)" class="id">lowerI</span>      <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 126)" onmouseover="showTip(event, 'fs42', 126)" class="id">intercept</span> <span class="o">-</span> <span onmouseout="hideTip(event, 'fs65', 127)" onmouseover="showTip(event, 'fs65', 127)" class="id">criticalT</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs61', 128)" onmouseover="showTip(event, 'fs61', 128)" class="id">stdErrIntercept</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs73', 129)" onmouseover="showTip(event, 'fs73', 129)" class="id">upperI</span>      <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 130)" onmouseover="showTip(event, 'fs42', 130)" class="id">intercept</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs65', 131)" onmouseover="showTip(event, 'fs65', 131)" class="id">criticalT</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs61', 132)" onmouseover="showTip(event, 'fs61', 132)" class="id">stdErrIntercept</span>
+<span class="c">//significance tests</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs74', 133)" onmouseover="showTip(event, 'fs74', 133)" class="id">testSlope</span>   <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 134)" onmouseover="showTip(event, 'fs17', 134)" class="m">GoodnessOfFit</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs75', 135)" onmouseover="showTip(event, 'fs75', 135)" class="id">ttestSlope</span> <span onmouseout="hideTip(event, 'fs41', 136)" onmouseover="showTip(event, 'fs41', 136)" class="id">slope</span> <span onmouseout="hideTip(event, 'fs33', 137)" onmouseover="showTip(event, 'fs33', 137)" class="id">sos</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs76', 138)" onmouseover="showTip(event, 'fs76', 138)" class="id">testInterc</span>  <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 139)" onmouseover="showTip(event, 'fs17', 139)" class="m">GoodnessOfFit</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs77', 140)" onmouseover="showTip(event, 'fs77', 140)" class="id">ttestIntercept</span> <span onmouseout="hideTip(event, 'fs42', 141)" onmouseover="showTip(event, 'fs42', 141)" class="id">intercept</span> <span onmouseout="hideTip(event, 'fs33', 142)" onmouseover="showTip(event, 'fs33', 142)" class="id">sos</span>
+</code></pre></td>
+</tr>
+</table>
+<div id="6241e4c1-2ab8-4237-a79f-79750a790db6" style="width: 700px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+  <script>
+    var data = [{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.0,10.0,9.0,7.0,13.0,17.0,16.0,23.0,15.0,30.0],"mode":"markers","marker":{},"name":"raw"},{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.3090909090909051,6.5515151515151482,8.7939393939393913,11.036363636363635,13.278787878787879,15.521212121212121,17.763636363636365,20.006060606060608,22.24848484848485,24.4909090909091],"mode":"lines","marker":{},"name":"fit"}];
+    var layout = {"xaxis":{"title":"","ticks":"inside","mirror":"all","showline":true,"showgrid":false,"zeroline":false},"yaxis":{"title":"","ticks":"inside","mirror":"all","showline":true,"showgrid":false,"zeroline":false}};
+    var config = {};
+    Plotly.newPlot('6241e4c1-2ab8-4237-a79f-79750a790db6', data, layout, config);
+  </script>
+<div id="a80b2f72-4b34-496c-aab4-f49550a20222" style="width: 700px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+  <script>
+    var data = [{"type":"table","header":{"values":["<b>ParameterName</b>","Value","StandardError (SE Coeff)"],"fill":{"color":"#deebf7"}},"cells":{"values":[["n","meanX","meanY","slope","intercept","<b>Goodness of fit</b>","SS_total","SS_regression","SS_redidual","r (pearson cor. coef.","r_squared","r_squared_adj","SE Estimate","<b>95% Confidence interval</b>","slope","intercept","<b>significances</b>","slope p Value","intercept p Value"],["10","5.500","14.400","2.242","2.067","","540.400","414.848","125.552","0.876","0.768","0.739","3.962","<b>min</b>","1.237","-4.174","","0.001","0.467"],["-","-","-","0.436","2.706","","","","","","","","","<b>max</b>","3.248","8.307","","",""]],"align":["left","center"],"fill":{"color":["#deebf7","white","white"]}}}];
+    var layout = {"title":"Regression report"};
+    var config = {};
+    Plotly.newPlot('a80b2f72-4b34-496c-aab4-f49550a20222', data, layout, config);
+  </script>
+<h2><a name="Confidence-bands" class="anchor" href="#Confidence-bands">Confidence bands</a></h2>
+<p>A confidence band shows the uncertainty of an curve estimate. It widens towards the periphery.</p>
+<p>A prediction band shows the uncertainty of a value of a new data point.</p>
+<p>In both cases homoscedasticity is assumed.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+<span class="l">39: </span>
+<span class="l">40: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">//data sorted by x values</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs101', 229)" onmouseover="showTip(event, 'fs101', 229)" class="id">x_Data</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 230)" onmouseover="showTip(event, 'fs22', 230)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span> <span class="o">..</span> <span class="n">10.</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs102', 231)" onmouseover="showTip(event, 'fs102', 231)" class="id">y_Data</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 232)" onmouseover="showTip(event, 'fs22', 232)" class="fn">vector</span> <span class="pn">[|</span><span class="n">4.</span><span class="pn">;</span><span class="n">10.</span><span class="pn">;</span><span class="n">9.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">30.</span><span class="pn">|]</span>
+<span class="c">//let x_Data = vector [|1.47;1.50;1.52;1.55;1.57;1.60;1.63;1.65;1.68;1.70;1.73;1.75;1.78;1.80;1.83|]</span>
+<span class="c">//let y_Data = vector [|52.21;53.12;54.48;55.84;57.20;58.57;59.93;61.29;63.11;64.47;66.28;68.10;69.92;72.19;74.46|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs103', 233)" onmouseover="showTip(event, 'fs103', 233)" class="id">values</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 234)" onmouseover="showTip(event, 'fs31', 234)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs104', 235)" onmouseover="showTip(event, 'fs104', 235)" class="id">zip</span> <span onmouseout="hideTip(event, 'fs101', 236)" onmouseover="showTip(event, 'fs101', 236)" class="id">x_Data</span> <span onmouseout="hideTip(event, 'fs102', 237)" onmouseover="showTip(event, 'fs102', 237)" class="id">y_Data</span>
+
+<span class="c">///linear regression line fitting function</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs105', 238)" onmouseover="showTip(event, 'fs105', 238)" class="id">coeffs</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 239)" onmouseover="showTip(event, 'fs25', 239)" class="m">Linear</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 240)" onmouseover="showTip(event, 'fs26', 240)" class="m">Univariable</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 241)" onmouseover="showTip(event, 'fs27', 241)" class="id">coefficient</span> <span onmouseout="hideTip(event, 'fs101', 242)" onmouseover="showTip(event, 'fs101', 242)" class="id">x_Data</span> <span onmouseout="hideTip(event, 'fs102', 243)" onmouseover="showTip(event, 'fs102', 243)" class="id">y_Data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs106', 244)" onmouseover="showTip(event, 'fs106', 244)" class="fn">fit</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 245)" onmouseover="showTip(event, 'fs25', 245)" class="m">Linear</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 246)" onmouseover="showTip(event, 'fs26', 246)" class="m">Univariable</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs29', 247)" onmouseover="showTip(event, 'fs29', 247)" class="id">fit</span> <span onmouseout="hideTip(event, 'fs105', 248)" onmouseover="showTip(event, 'fs105', 248)" class="id">coeffs</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs107', 249)" onmouseover="showTip(event, 'fs107', 249)" class="id">fitValues</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs101', 250)" onmouseover="showTip(event, 'fs101', 250)" class="id">x_Data</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs31', 251)" onmouseover="showTip(event, 'fs31', 251)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 252)" onmouseover="showTip(event, 'fs32', 252)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs108', 253)" onmouseover="showTip(event, 'fs108', 253)" class="id">xi</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs108', 254)" onmouseover="showTip(event, 'fs108', 254)" class="id">xi</span><span class="pn">,</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs106', 255)" onmouseover="showTip(event, 'fs106', 255)" class="fn">fit</span> <span onmouseout="hideTip(event, 'fs108', 256)" onmouseover="showTip(event, 'fs108', 256)" class="id">xi</span><span class="pn">)</span><span class="pn">)</span>
+
+<span class="c">///calculate confidence band errors for every x value</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs109', 257)" onmouseover="showTip(event, 'fs109', 257)" class="id">confidence</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs101', 258)" onmouseover="showTip(event, 'fs101', 258)" class="id">x_Data</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs110', 259)" onmouseover="showTip(event, 'fs110', 259)" class="m">Vector</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs111', 260)" onmouseover="showTip(event, 'fs111', 260)" class="id">map</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs112', 261)" onmouseover="showTip(event, 'fs112', 261)" class="fn">calculateConfidenceBandError</span> <span onmouseout="hideTip(event, 'fs101', 262)" onmouseover="showTip(event, 'fs101', 262)" class="id">x_Data</span> <span onmouseout="hideTip(event, 'fs102', 263)" onmouseover="showTip(event, 'fs102', 263)" class="id">y_Data</span> <span class="n">0.95</span><span class="pn">)</span>
+
+<span class="c">///lower and upper bounds of the 95% confidence band sorted according to x values</span>
+<span class="k">let</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs113', 264)" onmouseover="showTip(event, 'fs113', 264)" class="id">lower</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs114', 265)" onmouseover="showTip(event, 'fs114', 265)" class="id">upper</span><span class="pn">)</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs101', 266)" onmouseover="showTip(event, 'fs101', 266)" class="id">x_Data</span> 
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs31', 267)" onmouseover="showTip(event, 'fs31', 267)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs83', 268)" onmouseover="showTip(event, 'fs83', 268)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs84', 269)" onmouseover="showTip(event, 'fs84', 269)" class="id">i</span> <span onmouseout="hideTip(event, 'fs108', 270)" onmouseover="showTip(event, 'fs108', 270)" class="id">xi</span> <span class="k">-&gt;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs106', 271)" onmouseover="showTip(event, 'fs106', 271)" class="fn">fit</span> <span onmouseout="hideTip(event, 'fs108', 272)" onmouseover="showTip(event, 'fs108', 272)" class="id">xi</span><span class="pn">)</span> <span class="o">-</span> <span onmouseout="hideTip(event, 'fs109', 273)" onmouseover="showTip(event, 'fs109', 273)" class="id">confidence</span><span class="pn">.</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs84', 274)" onmouseover="showTip(event, 'fs84', 274)" class="id">i</span><span class="pn">]</span><span class="pn">,</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs106', 275)" onmouseover="showTip(event, 'fs106', 275)" class="fn">fit</span> <span onmouseout="hideTip(event, 'fs108', 276)" onmouseover="showTip(event, 'fs108', 276)" class="id">xi</span><span class="pn">)</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs109', 277)" onmouseover="showTip(event, 'fs109', 277)" class="id">confidence</span><span class="pn">.</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs84', 278)" onmouseover="showTip(event, 'fs84', 278)" class="id">i</span><span class="pn">]</span><span class="pn">)</span> 
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs31', 279)" onmouseover="showTip(event, 'fs31', 279)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs115', 280)" onmouseover="showTip(event, 'fs115', 280)" class="id">unzip</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs116', 281)" onmouseover="showTip(event, 'fs116', 281)" class="id">rangePlot</span> <span class="o">=</span> 
+    <span class="pn">[</span>
+    <span onmouseout="hideTip(event, 'fs79', 282)" onmouseover="showTip(event, 'fs79', 282)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs117', 283)" onmouseover="showTip(event, 'fs117', 283)" class="id">Range</span> <span class="pn">(</span>
+        <span onmouseout="hideTip(event, 'fs107', 284)" onmouseover="showTip(event, 'fs107', 284)" class="id">fitValues</span><span class="pn">,</span>
+        <span onmouseout="hideTip(event, 'fs113', 285)" onmouseover="showTip(event, 'fs113', 285)" class="id">lower</span><span class="pn">,</span>
+        <span onmouseout="hideTip(event, 'fs114', 286)" onmouseover="showTip(event, 'fs114', 286)" class="id">upper</span><span class="pn">,</span>
+        <span class="id">mode</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 287)" onmouseover="showTip(event, 'fs4', 287)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs118', 288)" onmouseover="showTip(event, 'fs118', 288)" class="rt">Mode</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs119', 289)" onmouseover="showTip(event, 'fs119', 289)" class="id">Lines</span><span class="pn">,</span>
+        <span class="id">Color</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs120', 290)" onmouseover="showTip(event, 'fs120', 290)" class="m">Colors</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs121', 291)" onmouseover="showTip(event, 'fs121', 291)" class="id">toWebColor</span> <span onmouseout="hideTip(event, 'fs120', 292)" onmouseover="showTip(event, 'fs120', 292)" class="m">Colors</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs122', 293)" onmouseover="showTip(event, 'fs122', 293)" class="m">Table</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs123', 294)" onmouseover="showTip(event, 'fs123', 294)" class="m">Office</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs124', 295)" onmouseover="showTip(event, 'fs124', 295)" class="id">blue</span><span class="pn">,</span>
+        <span class="id">RangeColor</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs120', 296)" onmouseover="showTip(event, 'fs120', 296)" class="m">Colors</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs121', 297)" onmouseover="showTip(event, 'fs121', 297)" class="id">toWebColor</span> <span onmouseout="hideTip(event, 'fs120', 298)" onmouseover="showTip(event, 'fs120', 298)" class="m">Colors</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs122', 299)" onmouseover="showTip(event, 'fs122', 299)" class="m">Table</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs123', 300)" onmouseover="showTip(event, 'fs123', 300)" class="m">Office</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs125', 301)" onmouseover="showTip(event, 'fs125', 301)" class="id">lightBlue</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 302)" onmouseover="showTip(event, 'fs79', 302)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs81', 303)" onmouseover="showTip(event, 'fs81', 303)" class="id">withTraceName</span> <span class="s">&quot;CI95&quot;</span>
+    <span onmouseout="hideTip(event, 'fs79', 304)" onmouseover="showTip(event, 'fs79', 304)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs80', 305)" onmouseover="showTip(event, 'fs80', 305)" class="id">Point</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs103', 306)" onmouseover="showTip(event, 'fs103', 306)" class="id">values</span><span class="pn">,</span><span class="id">Color</span><span class="o">=</span><span class="s">&quot;#000000&quot;</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 307)" onmouseover="showTip(event, 'fs79', 307)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs81', 308)" onmouseover="showTip(event, 'fs81', 308)" class="id">withTraceName</span> <span class="s">&quot;raw&quot;</span>
+    <span class="pn">]</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 309)" onmouseover="showTip(event, 'fs79', 309)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs86', 310)" onmouseover="showTip(event, 'fs86', 310)" class="id">Combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 311)" onmouseover="showTip(event, 'fs79', 311)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs88', 312)" onmouseover="showTip(event, 'fs88', 312)" class="id">withY_Axis</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs5', 313)" onmouseover="showTip(event, 'fs5', 313)" class="fn">myAxis</span> <span class="s">&quot;&quot;</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 314)" onmouseover="showTip(event, 'fs79', 314)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs87', 315)" onmouseover="showTip(event, 'fs87', 315)" class="id">withX_Axis</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs5', 316)" onmouseover="showTip(event, 'fs5', 316)" class="fn">myAxis</span> <span class="s">&quot;&quot;</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 317)" onmouseover="showTip(event, 'fs79', 317)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs100', 318)" onmouseover="showTip(event, 'fs100', 318)" class="id">withTitle</span> <span class="s">&quot;Confidence band 95%&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<div id="5d60461c-49aa-4723-838b-eda41f1923ce" style="width: 700px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+  <script>
+    var data = [{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[9.6784361891663355,11.105334867266798,12.623799437562855,14.295432611883115,16.211087642440738,18.45351188486498,21.022705339155845,23.835920649684073,26.8023045642365,29.860254370984528],"mode":"lines","fillcolor":"#BDD7EE","showlegend":false,"line":{"width":0},"marker":{"color":"#BDD7EE"},"name":"CI95"},{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[-1.0602543709845254,1.9976954357634993,4.9640793503159264,7.7772946608441558,10.346488115135019,12.588912357559261,14.504567388116886,16.176200562437142,17.6946651327332,19.121563810833671],"mode":"lines","fill":"tonexty","fillcolor":"#BDD7EE","showlegend":false,"line":{"width":0},"marker":{"color":"#BDD7EE"},"name":"CI95_1"},{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.3090909090909051,6.5515151515151482,8.7939393939393913,11.036363636363635,13.278787878787879,15.521212121212121,17.763636363636365,20.006060606060608,22.24848484848485,24.4909090909091],"mode":"lines","fillcolor":"#41719C","line":{"width":{},"color":"#41719C"},"marker":{"color":"#41719C"},"name":"CI95_2"},{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.0,10.0,9.0,7.0,13.0,17.0,16.0,23.0,15.0,30.0],"mode":"markers","marker":{"color":"#000000"},"name":"raw"}];
+    var layout = {"yaxis":{"title":"","ticks":"inside","mirror":"all","showline":true,"showgrid":false,"zeroline":false},"xaxis":{"title":"","ticks":"inside","mirror":"all","showline":true,"showgrid":false,"zeroline":false},"title":"Confidence band 95%"};
+    var config = {};
+    Plotly.newPlot('5d60461c-49aa-4723-838b-eda41f1923ce', data, layout, config);
+  </script>
+<p>The confidence band calculation is not limited to the original x values. To get a smooth confidence band, introduce additional x values in small steps.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs126', 319)" onmouseover="showTip(event, 'fs126', 319)" class="id">newXValues</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs22', 320)" onmouseover="showTip(event, 'fs22', 320)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span> <span class="o">..</span> <span class="n">0.5</span> <span class="o">..</span> <span class="n">11.</span><span class="pn">|]</span>
+
+<span class="c">///calculate confidence band errors for every x value</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs127', 321)" onmouseover="showTip(event, 'fs127', 321)" class="id">newConfidence</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs126', 322)" onmouseover="showTip(event, 'fs126', 322)" class="id">newXValues</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs110', 323)" onmouseover="showTip(event, 'fs110', 323)" class="m">Vector</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs111', 324)" onmouseover="showTip(event, 'fs111', 324)" class="id">map</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs112', 325)" onmouseover="showTip(event, 'fs112', 325)" class="fn">calculateConfidenceBandError</span> <span onmouseout="hideTip(event, 'fs101', 326)" onmouseover="showTip(event, 'fs101', 326)" class="id">x_Data</span> <span onmouseout="hideTip(event, 'fs102', 327)" onmouseover="showTip(event, 'fs102', 327)" class="id">y_Data</span> <span class="n">0.95</span><span class="pn">)</span>
+
+<span class="c">///lower and upper bounds of the 95% confidence band sorted according to x values</span>
+<span class="k">let</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs128', 328)" onmouseover="showTip(event, 'fs128', 328)" class="id">newLower</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs129', 329)" onmouseover="showTip(event, 'fs129', 329)" class="id">newUpper</span><span class="pn">)</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs126', 330)" onmouseover="showTip(event, 'fs126', 330)" class="id">newXValues</span> 
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs31', 331)" onmouseover="showTip(event, 'fs31', 331)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs83', 332)" onmouseover="showTip(event, 'fs83', 332)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs84', 333)" onmouseover="showTip(event, 'fs84', 333)" class="id">i</span> <span onmouseout="hideTip(event, 'fs108', 334)" onmouseover="showTip(event, 'fs108', 334)" class="id">xi</span> <span class="k">-&gt;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs106', 335)" onmouseover="showTip(event, 'fs106', 335)" class="fn">fit</span> <span onmouseout="hideTip(event, 'fs108', 336)" onmouseover="showTip(event, 'fs108', 336)" class="id">xi</span><span class="pn">)</span> <span class="o">-</span> <span onmouseout="hideTip(event, 'fs127', 337)" onmouseover="showTip(event, 'fs127', 337)" class="id">newConfidence</span><span class="pn">.</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs84', 338)" onmouseover="showTip(event, 'fs84', 338)" class="id">i</span><span class="pn">]</span><span class="pn">,</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs106', 339)" onmouseover="showTip(event, 'fs106', 339)" class="fn">fit</span> <span onmouseout="hideTip(event, 'fs108', 340)" onmouseover="showTip(event, 'fs108', 340)" class="id">xi</span><span class="pn">)</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs127', 341)" onmouseover="showTip(event, 'fs127', 341)" class="id">newConfidence</span><span class="pn">.</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs84', 342)" onmouseover="showTip(event, 'fs84', 342)" class="id">i</span><span class="pn">]</span><span class="pn">)</span> 
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs31', 343)" onmouseover="showTip(event, 'fs31', 343)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs115', 344)" onmouseover="showTip(event, 'fs115', 344)" class="id">unzip</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs130', 345)" onmouseover="showTip(event, 'fs130', 345)" class="id">linePlot</span> <span class="o">=</span>
+    <span class="pn">[</span>
+    <span onmouseout="hideTip(event, 'fs79', 346)" onmouseover="showTip(event, 'fs79', 346)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs80', 347)" onmouseover="showTip(event, 'fs80', 347)" class="id">Point</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs101', 348)" onmouseover="showTip(event, 'fs101', 348)" class="id">x_Data</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs102', 349)" onmouseover="showTip(event, 'fs102', 349)" class="id">y_Data</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 350)" onmouseover="showTip(event, 'fs79', 350)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs81', 351)" onmouseover="showTip(event, 'fs81', 351)" class="id">withTraceName</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs94', 352)" onmouseover="showTip(event, 'fs94', 352)" class="fn">sprintf</span> <span class="s">&quot;</span><span class="pf">%.2f</span><span class="s">+</span><span class="pf">%.4f</span><span class="s">x&quot;</span> <span onmouseout="hideTip(event, 'fs105', 353)" onmouseover="showTip(event, 'fs105', 353)" class="id">coeffs</span><span class="pn">.</span><span class="pn">[</span><span class="n">0</span><span class="pn">]</span> <span onmouseout="hideTip(event, 'fs105', 354)" onmouseover="showTip(event, 'fs105', 354)" class="id">coeffs</span><span class="pn">.</span><span class="pn">[</span><span class="n">1</span><span class="pn">]</span><span class="pn">)</span>
+    <span onmouseout="hideTip(event, 'fs79', 355)" onmouseover="showTip(event, 'fs79', 355)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs82', 356)" onmouseover="showTip(event, 'fs82', 356)" class="id">Line</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs107', 357)" onmouseover="showTip(event, 'fs107', 357)" class="id">fitValues</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 358)" onmouseover="showTip(event, 'fs79', 358)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs81', 359)" onmouseover="showTip(event, 'fs81', 359)" class="id">withTraceName</span> <span class="s">&quot;linear regression&quot;</span>
+    <span onmouseout="hideTip(event, 'fs79', 360)" onmouseover="showTip(event, 'fs79', 360)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs82', 361)" onmouseover="showTip(event, 'fs82', 361)" class="id">Line</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs126', 362)" onmouseover="showTip(event, 'fs126', 362)" class="id">newXValues</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs128', 363)" onmouseover="showTip(event, 'fs128', 363)" class="id">newLower</span><span class="pn">,</span><span class="id">Color</span><span class="o">=</span> <span class="s">&quot;#C1C1C1&quot;</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 364)" onmouseover="showTip(event, 'fs79', 364)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs131', 365)" onmouseover="showTip(event, 'fs131', 365)" class="id">withLineStyle</span><span class="pn">(</span><span class="id">Dash</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs4', 366)" onmouseover="showTip(event, 'fs4', 366)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs132', 367)" onmouseover="showTip(event, 'fs132', 367)" class="rt">DrawingStyle</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs133', 368)" onmouseover="showTip(event, 'fs133', 368)" class="id">Dash</span><span class="pn">)</span><span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 369)" onmouseover="showTip(event, 'fs79', 369)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs81', 370)" onmouseover="showTip(event, 'fs81', 370)" class="id">withTraceName</span> <span class="s">&quot;lower&quot;</span>
+    <span onmouseout="hideTip(event, 'fs79', 371)" onmouseover="showTip(event, 'fs79', 371)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs82', 372)" onmouseover="showTip(event, 'fs82', 372)" class="id">Line</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs126', 373)" onmouseover="showTip(event, 'fs126', 373)" class="id">newXValues</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs129', 374)" onmouseover="showTip(event, 'fs129', 374)" class="id">newUpper</span><span class="pn">,</span><span class="id">Color</span><span class="o">=</span> <span class="s">&quot;#C1C1C1&quot;</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 375)" onmouseover="showTip(event, 'fs79', 375)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs131', 376)" onmouseover="showTip(event, 'fs131', 376)" class="id">withLineStyle</span><span class="pn">(</span><span class="id">Dash</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs4', 377)" onmouseover="showTip(event, 'fs4', 377)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs132', 378)" onmouseover="showTip(event, 'fs132', 378)" class="rt">DrawingStyle</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs133', 379)" onmouseover="showTip(event, 'fs133', 379)" class="id">Dash</span><span class="pn">)</span><span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 380)" onmouseover="showTip(event, 'fs79', 380)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs81', 381)" onmouseover="showTip(event, 'fs81', 381)" class="id">withTraceName</span> <span class="s">&quot;upper&quot;</span>
+    <span class="pn">]</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 382)" onmouseover="showTip(event, 'fs79', 382)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs86', 383)" onmouseover="showTip(event, 'fs86', 383)" class="id">Combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 384)" onmouseover="showTip(event, 'fs79', 384)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs87', 385)" onmouseover="showTip(event, 'fs87', 385)" class="id">withX_Axis</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs5', 386)" onmouseover="showTip(event, 'fs5', 386)" class="fn">myAxis</span> <span class="s">&quot;&quot;</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 387)" onmouseover="showTip(event, 'fs79', 387)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs88', 388)" onmouseover="showTip(event, 'fs88', 388)" class="id">withY_Axis</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs5', 389)" onmouseover="showTip(event, 'fs5', 389)" class="fn">myAxis</span> <span class="s">&quot;&quot;</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 390)" onmouseover="showTip(event, 'fs79', 390)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs100', 391)" onmouseover="showTip(event, 'fs100', 391)" class="id">withTitle</span> <span class="s">&quot;Confidence band 95%&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<div id="ad9e4b53-20d2-4743-a8f2-95b95c6d46c8" style="width: 700px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+  <script>
+    var data = [{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.0,10.0,9.0,7.0,13.0,17.0,16.0,23.0,15.0,30.0],"mode":"markers","marker":{},"name":"2.07+2.2424x"},{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.3090909090909051,6.5515151515151482,8.7939393939393913,11.036363636363635,13.278787878787879,15.521212121212121,17.763636363636365,20.006060606060608,22.24848484848485,24.4909090909091],"mode":"lines","marker":{},"name":"linear regression"},{"type":"scatter","x":[1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0],"y":[-1.0602543709845254,0.47745760724478181,1.9976954357634993,3.4954485660515227,4.9640793503159264,6.3949546903902643,7.7772946608441558,9.0986441368711137,10.346488115135019,11.511144116002107,12.588912357559261,13.583492621719602,14.504567388116886,15.36465166008724,16.176200562437142,16.949994020596986,17.6946651327332,18.416851546638732,19.121563810833671,19.812565465389717,20.492691366913288],"mode":"lines","marker":{"color":"#C1C1C1"},"line":{"dash":"dash"},"name":"lower"},{"type":"scatter","x":[1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0],"y":[9.6784361891663355,10.383148453361271,11.105334867266798,11.850005979403019,12.623799437562855,13.435348339912764,14.295432611883115,15.216507378280399,16.211087642440738,17.288855883997893,18.45351188486498,19.701355863128889,21.022705339155845,22.40504530960974,23.835920649684073,25.304551433948479,26.8023045642365,28.322542392755217,29.860254370984528,31.411676958852716,32.973975299753391],"mode":"lines","marker":{"color":"#C1C1C1"},"line":{"dash":"dash"},"name":"upper"}];
+    var layout = {"xaxis":{"title":"","ticks":"inside","mirror":"all","showline":true,"showgrid":false,"zeroline":false},"yaxis":{"title":"","ticks":"inside","mirror":"all","showline":true,"showgrid":false,"zeroline":false},"title":"Confidence band 95%"};
+    var config = {};
+    Plotly.newPlot('ad9e4b53-20d2-4743-a8f2-95b95c6d46c8', data, layout, config);
+  </script>
+<h2><a name="Prediction-bands" class="anchor" href="#Prediction-bands">Prediction bands</a></h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs134', 392)" onmouseover="showTip(event, 'fs134', 392)" class="id">predictionXValues</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 393)" onmouseover="showTip(event, 'fs22', 393)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span> <span class="o">..</span> <span class="n">0.5</span> <span class="o">..</span> <span class="n">15.</span><span class="pn">|]</span>
+<span class="c">///calculate preditcion band errors for every x value</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs135', 394)" onmouseover="showTip(event, 'fs135', 394)" class="id">prediction</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs134', 395)" onmouseover="showTip(event, 'fs134', 395)" class="id">predictionXValues</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs110', 396)" onmouseover="showTip(event, 'fs110', 396)" class="m">Vector</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs111', 397)" onmouseover="showTip(event, 'fs111', 397)" class="id">map</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs136', 398)" onmouseover="showTip(event, 'fs136', 398)" class="fn">calculatePredictionBandError</span> <span onmouseout="hideTip(event, 'fs101', 399)" onmouseover="showTip(event, 'fs101', 399)" class="id">x_Data</span> <span onmouseout="hideTip(event, 'fs102', 400)" onmouseover="showTip(event, 'fs102', 400)" class="id">y_Data</span> <span class="n">0.95</span><span class="pn">)</span>
+
+<span class="c">///lower and upper bounds of the 95% prediction band sorted according to x values</span>
+<span class="k">let</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs137', 401)" onmouseover="showTip(event, 'fs137', 401)" class="id">pLower</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs138', 402)" onmouseover="showTip(event, 'fs138', 402)" class="id">pUpper</span><span class="pn">)</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs134', 403)" onmouseover="showTip(event, 'fs134', 403)" class="id">predictionXValues</span> 
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs31', 404)" onmouseover="showTip(event, 'fs31', 404)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs83', 405)" onmouseover="showTip(event, 'fs83', 405)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs84', 406)" onmouseover="showTip(event, 'fs84', 406)" class="id">i</span> <span onmouseout="hideTip(event, 'fs108', 407)" onmouseover="showTip(event, 'fs108', 407)" class="id">xi</span> <span class="k">-&gt;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs106', 408)" onmouseover="showTip(event, 'fs106', 408)" class="fn">fit</span> <span onmouseout="hideTip(event, 'fs108', 409)" onmouseover="showTip(event, 'fs108', 409)" class="id">xi</span><span class="pn">)</span> <span class="o">-</span> <span onmouseout="hideTip(event, 'fs135', 410)" onmouseover="showTip(event, 'fs135', 410)" class="id">prediction</span><span class="pn">.</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs84', 411)" onmouseover="showTip(event, 'fs84', 411)" class="id">i</span><span class="pn">]</span><span class="pn">,</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs106', 412)" onmouseover="showTip(event, 'fs106', 412)" class="fn">fit</span> <span onmouseout="hideTip(event, 'fs108', 413)" onmouseover="showTip(event, 'fs108', 413)" class="id">xi</span><span class="pn">)</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs135', 414)" onmouseover="showTip(event, 'fs135', 414)" class="id">prediction</span><span class="pn">.</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs84', 415)" onmouseover="showTip(event, 'fs84', 415)" class="id">i</span><span class="pn">]</span><span class="pn">)</span> 
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs31', 416)" onmouseover="showTip(event, 'fs31', 416)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs115', 417)" onmouseover="showTip(event, 'fs115', 417)" class="id">unzip</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs139', 418)" onmouseover="showTip(event, 'fs139', 418)" class="id">predictionPlot</span> <span class="o">=</span>
+    <span class="pn">[</span>
+    <span onmouseout="hideTip(event, 'fs79', 419)" onmouseover="showTip(event, 'fs79', 419)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs80', 420)" onmouseover="showTip(event, 'fs80', 420)" class="id">Point</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs101', 421)" onmouseover="showTip(event, 'fs101', 421)" class="id">x_Data</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs102', 422)" onmouseover="showTip(event, 'fs102', 422)" class="id">y_Data</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 423)" onmouseover="showTip(event, 'fs79', 423)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs81', 424)" onmouseover="showTip(event, 'fs81', 424)" class="id">withTraceName</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs94', 425)" onmouseover="showTip(event, 'fs94', 425)" class="fn">sprintf</span> <span class="s">&quot;</span><span class="pf">%.2f</span><span class="s">+</span><span class="pf">%.4f</span><span class="s">x&quot;</span> <span onmouseout="hideTip(event, 'fs105', 426)" onmouseover="showTip(event, 'fs105', 426)" class="id">coeffs</span><span class="pn">.</span><span class="pn">[</span><span class="n">0</span><span class="pn">]</span> <span onmouseout="hideTip(event, 'fs105', 427)" onmouseover="showTip(event, 'fs105', 427)" class="id">coeffs</span><span class="pn">.</span><span class="pn">[</span><span class="n">1</span><span class="pn">]</span><span class="pn">)</span>
+    <span onmouseout="hideTip(event, 'fs79', 428)" onmouseover="showTip(event, 'fs79', 428)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs82', 429)" onmouseover="showTip(event, 'fs82', 429)" class="id">Line</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs107', 430)" onmouseover="showTip(event, 'fs107', 430)" class="id">fitValues</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 431)" onmouseover="showTip(event, 'fs79', 431)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs81', 432)" onmouseover="showTip(event, 'fs81', 432)" class="id">withTraceName</span> <span class="s">&quot;linear regression&quot;</span>
+    <span onmouseout="hideTip(event, 'fs79', 433)" onmouseover="showTip(event, 'fs79', 433)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs82', 434)" onmouseover="showTip(event, 'fs82', 434)" class="id">Line</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs134', 435)" onmouseover="showTip(event, 'fs134', 435)" class="id">predictionXValues</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs137', 436)" onmouseover="showTip(event, 'fs137', 436)" class="id">pLower</span><span class="pn">,</span><span class="id">Color</span><span class="o">=</span> <span class="s">&quot;#C1C1C1&quot;</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 437)" onmouseover="showTip(event, 'fs79', 437)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs131', 438)" onmouseover="showTip(event, 'fs131', 438)" class="id">withLineStyle</span><span class="pn">(</span><span class="id">Dash</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs4', 439)" onmouseover="showTip(event, 'fs4', 439)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs132', 440)" onmouseover="showTip(event, 'fs132', 440)" class="rt">DrawingStyle</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs133', 441)" onmouseover="showTip(event, 'fs133', 441)" class="id">Dash</span><span class="pn">)</span><span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 442)" onmouseover="showTip(event, 'fs79', 442)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs81', 443)" onmouseover="showTip(event, 'fs81', 443)" class="id">withTraceName</span> <span class="s">&quot;pLower&quot;</span>
+    <span onmouseout="hideTip(event, 'fs79', 444)" onmouseover="showTip(event, 'fs79', 444)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs82', 445)" onmouseover="showTip(event, 'fs82', 445)" class="id">Line</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs134', 446)" onmouseover="showTip(event, 'fs134', 446)" class="id">predictionXValues</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs138', 447)" onmouseover="showTip(event, 'fs138', 447)" class="id">pUpper</span><span class="pn">,</span><span class="id">Color</span><span class="o">=</span> <span class="s">&quot;#C1C1C1&quot;</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 448)" onmouseover="showTip(event, 'fs79', 448)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs131', 449)" onmouseover="showTip(event, 'fs131', 449)" class="id">withLineStyle</span><span class="pn">(</span><span class="id">Dash</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs4', 450)" onmouseover="showTip(event, 'fs4', 450)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs132', 451)" onmouseover="showTip(event, 'fs132', 451)" class="rt">DrawingStyle</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs133', 452)" onmouseover="showTip(event, 'fs133', 452)" class="id">Dash</span><span class="pn">)</span><span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 453)" onmouseover="showTip(event, 'fs79', 453)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs81', 454)" onmouseover="showTip(event, 'fs81', 454)" class="id">withTraceName</span> <span class="s">&quot;pUpper&quot;</span>
+    <span class="pn">]</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 455)" onmouseover="showTip(event, 'fs79', 455)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs86', 456)" onmouseover="showTip(event, 'fs86', 456)" class="id">Combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 457)" onmouseover="showTip(event, 'fs79', 457)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs87', 458)" onmouseover="showTip(event, 'fs87', 458)" class="id">withX_Axis</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs5', 459)" onmouseover="showTip(event, 'fs5', 459)" class="fn">myAxis</span> <span class="s">&quot;&quot;</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 460)" onmouseover="showTip(event, 'fs79', 460)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs88', 461)" onmouseover="showTip(event, 'fs88', 461)" class="id">withY_Axis</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs5', 462)" onmouseover="showTip(event, 'fs5', 462)" class="fn">myAxis</span> <span class="s">&quot;&quot;</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs79', 463)" onmouseover="showTip(event, 'fs79', 463)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs100', 464)" onmouseover="showTip(event, 'fs100', 464)" class="id">withTitle</span> <span class="s">&quot;Prediction band&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<div id="45d64ae2-755c-47a6-a2c3-8b8f94314d8a" style="width: 700px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+  <script>
+    var data = [{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.0,10.0,9.0,7.0,13.0,17.0,16.0,23.0,15.0,30.0],"mode":"markers","marker":{},"name":"2.07+2.2424x"},{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.3090909090909051,6.5515151515151482,8.7939393939393913,11.036363636363635,13.278787878787879,15.521212121212121,17.763636363636365,20.006060606060608,22.24848484848485,24.4909090909091],"mode":"lines","marker":{},"name":"linear regression"},{"type":"scatter","x":[1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0],"y":[-6.2873590587879953,-4.9613070937249848,-3.6559408091373831,-2.3723979419397452,-1.1117514521770975,0.12502031735075825,1.3370639826625474,2.5236800842129181,3.684348599235836,4.8187489593685253,5.9267728416600782,7.0085285690614061,8.0643367099352776,9.0947172870477342,10.100369759944119,11.082147512605717,12.041028887832319,12.978086845668964,13.894459123030199,14.791320407904422,15.669857598369413,16.531248770162808,17.376646082294585,18.20716253941503,19.023862311923587,19.827754184014132,20.619787640937098,21.40085110135562,22.171771831018752],"mode":"lines","marker":{"color":"#C1C1C1"},"line":{"dash":"dash"},"name":"pLower"},{"type":"scatter","x":[1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0],"y":[14.905540876969805,15.821913154331037,16.758971112167679,17.717852487394286,18.699630240055882,19.705282712952268,20.735663290064721,21.791471430938593,22.873227158339922,23.981251040631477,25.115651400764165,26.276319915787084,27.462936017337455,28.674979682649244,29.911751452177096,31.172397941939749,32.455940809137381,33.761307093724987,35.087359058787996,36.432922016338011,37.796809068297271,39.177842138928114,40.574869069220583,41.986776854524386,43.412501324440065,44.851033694773768,46.301424480275038,47.762785262280765,49.234288775041883],"mode":"lines","marker":{"color":"#C1C1C1"},"line":{"dash":"dash"},"name":"pUpper"}];
+    var layout = {"xaxis":{"title":"","ticks":"inside","mirror":"all","showline":true,"showgrid":false,"zeroline":false},"yaxis":{"title":"","ticks":"inside","mirror":"all","showline":true,"showgrid":false,"zeroline":false},"title":"Prediction band"};
+    var config = {};
+    Plotly.newPlot('45d64ae2-755c-47a6-a2c3-8b8f94314d8a', data, layout, config);
+  </script>
+
+<div class="tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="tip" id="fs2">namespace FSharp.Plotly</div>
+<div class="tip" id="fs3">module Axis<br /><br />from FSharp.Plotly</div>
+<div class="tip" id="fs4">module StyleParam<br /><br />from FSharp.Plotly</div>
+<div class="tip" id="fs5">val myAxis : title:&#39;a -&gt; LinearAxis</div>
+<div class="tip" id="fs6">val title : &#39;a</div>
+<div class="tip" id="fs7">Multiple items<br />type LinearAxis =<br />&#160;&#160;inherit DynamicObj<br />&#160;&#160;new : unit -&gt; LinearAxis<br />&#160;&#160;static member init : ?AxisType:AxisType * ?Title:&#39;a * ?Titlefont:Font * ?Autorange:AutoRange * ?Rangemode:RangeMode * ?Range:Range * ?Fixedrange:&#39;b * ?Tickmode:TickMode * ?nTicks:&#39;c * ?Tick0:&#39;d * ?dTick:&#39;e * ?Tickvals:&#39;f * ?Ticktext:&#39;g * ?Ticks:TickOptions * ?Mirror:Mirror * ?Ticklen:&#39;h * ?Tickwidth:&#39;i * ?Tickcolor:&#39;j * ?Showticklabels:&#39;k * ?Tickfont:Font * ?Tickangle:&#39;l * ?Tickprefix:&#39;m * ?Showtickprefix:ShowTickOption * ?Ticksuffix:&#39;q * ?Showticksuffix:ShowTickOption * ?Showexponent:ShowExponent * ?Exponentformat:ExponentFormat * ?Tickformat:&#39;r * ?Hoverformat:&#39;s * ?Showline:&#39;t * ?Linecolor:&#39;a1 * ?Linewidth:&#39;a2 * ?Showgrid:&#39;a3 * ?Gridcolor:&#39;a4 * ?Gridwidth:&#39;a5 * ?Zeroline:&#39;a6 * ?Zerolinecolor:&#39;a7 * ?Zerolinewidth:&#39;a8 * ?Anchor:AxisAnchorId * ?Side:Side * ?Overlaying:AxisAnchorId * ?Domain:Range * ?Position:float * ?IsSubplotObj:&#39;a9 * ?Tickvalssrc:&#39;a10 * ?Ticktextsrc:&#39;a11 * ?Showspikes:&#39;a12 * ?Spikesides:&#39;a13 * ?Spikethickness:&#39;a14 * ?Spikecolor:&#39;a15 * ?Showbackground:&#39;a16 * ?Backgroundcolor:&#39;a17 * ?Showaxeslabels:&#39;a18 -&gt; LinearAxis<br />&#160;&#160;static member style : ?AxisType:AxisType * ?Title:&#39;b * ?Titlefont:Font * ?Autorange:AutoRange * ?Rangemode:RangeMode * ?Range:Range * ?Fixedrange:&#39;c * ?Tickmode:TickMode * ?nTicks:&#39;d * ?Tick0:&#39;e * ?dTick:&#39;f * ?Tickvals:&#39;g * ?Ticktext:&#39;h * ?Ticks:TickOptions * ?Mirror:Mirror * ?Ticklen:&#39;i * ?Tickwidth:&#39;j * ?Tickcolor:&#39;k * ?Showticklabels:&#39;l * ?Tickfont:Font * ?Tickangle:&#39;m * ?Tickprefix:&#39;n * ?Showtickprefix:ShowTickOption * ?Ticksuffix:&#39;o * ?Showticksuffix:ShowTickOption * ?Showexponent:ShowExponent * ?Exponentformat:ExponentFormat * ?Tickformat:&#39;p * ?Hoverformat:&#39;q * ?Showline:&#39;r * ?Linecolor:&#39;s * ?Linewidth:&#39;t * ?Showgrid:&#39;a1 * ?Gridcolor:&#39;a2 * ?Gridwidth:&#39;a3 * ?Zeroline:&#39;a4 * ?Zerolinecolor:&#39;a5 * ?Zerolinewidth:&#39;a6 * ?Anchor:AxisAnchorId * ?Side:Side * ?Overlaying:AxisAnchorId * ?Domain:Range * ?Position:float * ?IsSubplotObj:&#39;a7 * ?Tickvalssrc:&#39;a8 * ?Ticktextsrc:&#39;a9 * ?Showspikes:&#39;a10 * ?Spikesides:&#39;a11 * ?Spikethickness:&#39;a12 * ?Spikecolor:&#39;a13 * ?Showbackground:&#39;a14 * ?Backgroundcolor:&#39;a15 * ?Showaxeslabels:&#39;a16 -&gt; (LinearAxis -&gt; LinearAxis)<br /><br />--------------------<br />new : unit -&gt; LinearAxis</div>
+<div class="tip" id="fs8">static member LinearAxis.init : ?AxisType:AxisType * ?Title:&#39;a * ?Titlefont:Font * ?Autorange:AutoRange * ?Rangemode:RangeMode * ?Range:Range * ?Fixedrange:&#39;b * ?Tickmode:TickMode * ?nTicks:&#39;c * ?Tick0:&#39;d * ?dTick:&#39;e * ?Tickvals:&#39;f * ?Ticktext:&#39;g * ?Ticks:TickOptions * ?Mirror:Mirror * ?Ticklen:&#39;h * ?Tickwidth:&#39;i * ?Tickcolor:&#39;j * ?Showticklabels:&#39;k * ?Tickfont:Font * ?Tickangle:&#39;l * ?Tickprefix:&#39;m * ?Showtickprefix:ShowTickOption * ?Ticksuffix:&#39;q * ?Showticksuffix:ShowTickOption * ?Showexponent:ShowExponent * ?Exponentformat:ExponentFormat * ?Tickformat:&#39;r * ?Hoverformat:&#39;s * ?Showline:&#39;t * ?Linecolor:&#39;a1 * ?Linewidth:&#39;a2 * ?Showgrid:&#39;a3 * ?Gridcolor:&#39;a4 * ?Gridwidth:&#39;a5 * ?Zeroline:&#39;a6 * ?Zerolinecolor:&#39;a7 * ?Zerolinewidth:&#39;a8 * ?Anchor:AxisAnchorId * ?Side:Side * ?Overlaying:AxisAnchorId * ?Domain:Range * ?Position:float * ?IsSubplotObj:&#39;a9 * ?Tickvalssrc:&#39;a10 * ?Ticktextsrc:&#39;a11 * ?Showspikes:&#39;a12 * ?Spikesides:&#39;a13 * ?Spikethickness:&#39;a14 * ?Spikecolor:&#39;a15 * ?Showbackground:&#39;a16 * ?Backgroundcolor:&#39;a17 * ?Showaxeslabels:&#39;a18 -&gt; LinearAxis</div>
+<div class="tip" id="fs9">type Mirror =<br />&#160;&#160;| True<br />&#160;&#160;| Ticks<br />&#160;&#160;| False<br />&#160;&#160;| All<br />&#160;&#160;| AllTicks<br />&#160;&#160;&#160;&#160;static member convert : (Mirror -&gt; obj)<br />&#160;&#160;&#160;&#160;static member toString : (Mirror -&gt; string)</div>
+<div class="tip" id="fs10">union case Mirror.All: Mirror</div>
+<div class="tip" id="fs11">type TickOptions =<br />&#160;&#160;| Outside<br />&#160;&#160;| Inside<br />&#160;&#160;| Empty<br />&#160;&#160;&#160;&#160;static member convert : (TickOptions -&gt; obj)<br />&#160;&#160;&#160;&#160;static member toString : (TickOptions -&gt; string)</div>
+<div class="tip" id="fs12">union case TickOptions.Inside: TickOptions</div>
+<div class="tip" id="fs13">namespace FSharp.Stats</div>
+<div class="tip" id="fs14">namespace FSharp.Stats.Fitting</div>
+<div class="tip" id="fs15">module LinearRegression<br /><br />from FSharp.Stats.Fitting</div>
+<div class="tip" id="fs16">module OrdinaryLeastSquares<br /><br />from FSharp.Stats.Fitting.LinearRegression</div>
+<div class="tip" id="fs17">module GoodnessOfFit<br /><br />from FSharp.Stats.Fitting</div>
+<div class="tip" id="fs18">module OrdinaryLeastSquares<br /><br />from FSharp.Stats.Fitting.GoodnessOfFit</div>
+<div class="tip" id="fs19">module Linear<br /><br />from FSharp.Stats.Fitting.GoodnessOfFit.OrdinaryLeastSquares</div>
+<div class="tip" id="fs20">module Univariable<br /><br />from FSharp.Stats.Fitting.GoodnessOfFit.OrdinaryLeastSquares.Linear</div>
+<div class="tip" id="fs21">val x : Vector&lt;float&gt;</div>
+<div class="tip" id="fs22">Multiple items<br />val vector : l:seq&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><br />--------------------<br />type vector = Vector&lt;float&gt;</div>
+<div class="tip" id="fs23">val y : Vector&lt;float&gt;</div>
+<div class="tip" id="fs24">val coefficients : Vector&lt;float&gt;<br /><em><br /><br />linear regression line fitting function</em></div>
+<div class="tip" id="fs25">module Linear<br /><br />from FSharp.Stats.Fitting.LinearRegression.OrdinaryLeastSquares</div>
+<div class="tip" id="fs26">module Univariable<br /><br />from FSharp.Stats.Fitting.LinearRegression.OrdinaryLeastSquares.Linear</div>
+<div class="tip" id="fs27">val coefficient : x_data:Vector&lt;float&gt; -&gt; y_data:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;</div>
+<div class="tip" id="fs28">val fitFunc : (float -&gt; float)</div>
+<div class="tip" id="fs29">val fit : coef:Vector&lt;float&gt; -&gt; x:float -&gt; float</div>
+<div class="tip" id="fs30">val fittedValues : seq&lt;float&gt;</div>
+<div class="tip" id="fs31">Multiple items<br />module Seq<br /><br />from FSharp.Stats<br /><br />--------------------<br />module Seq<br /><br />from FSharp.Plotly<br /><br />--------------------<br />module Seq<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs32">val map : mapping:(&#39;T -&gt; &#39;U) -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;U&gt;</div>
+<div class="tip" id="fs33">val sos : GoodnessOfFit.SumOfSquares</div>
+<div class="tip" id="fs34">val calculateSumOfSquares : fitFunc:(float -&gt; float) -&gt; x_data:seq&lt;float&gt; -&gt; y_data:seq&lt;float&gt; -&gt; GoodnessOfFit.SumOfSquares</div>
+<div class="tip" id="fs35">val n : float</div>
+<div class="tip" id="fs36">GoodnessOfFit.SumOfSquares.Count: float</div>
+<div class="tip" id="fs37">val meanX : float</div>
+<div class="tip" id="fs38">GoodnessOfFit.SumOfSquares.MeanX: float</div>
+<div class="tip" id="fs39">val meanY : float</div>
+<div class="tip" id="fs40">GoodnessOfFit.SumOfSquares.MeanY: float</div>
+<div class="tip" id="fs41">val slope : float</div>
+<div class="tip" id="fs42">val intercept : float</div>
+<div class="tip" id="fs43">val r_sq : float</div>
+<div class="tip" id="fs44">val calculateDeterminationFromValue : actual:seq&lt;float&gt; -&gt; expected:seq&lt;float&gt; -&gt; float</div>
+<div class="tip" id="fs45">val r_sq_adj : float</div>
+<div class="tip" id="fs46">val calculateDeterminationAdj : actual:seq&lt;float&gt; -&gt; expected:seq&lt;float&gt; -&gt; variables:int -&gt; float</div>
+<div class="tip" id="fs47">val r : float</div>
+<div class="tip" id="fs48">val sqrt : value:&#39;T -&gt; &#39;U (requires member Sqrt)</div>
+<div class="tip" id="fs49">val ssTotal : float</div>
+<div class="tip" id="fs50">GoodnessOfFit.SumOfSquares.Total: float</div>
+<div class="tip" id="fs51">val ssReg : float</div>
+<div class="tip" id="fs52">GoodnessOfFit.SumOfSquares.Regression: float</div>
+<div class="tip" id="fs53">val ssResidual : float</div>
+<div class="tip" id="fs54">GoodnessOfFit.SumOfSquares.Error: float</div>
+<div class="tip" id="fs55">val ssxx : float</div>
+<div class="tip" id="fs56">GoodnessOfFit.SumOfSquares.SSxx: float</div>
+<div class="tip" id="fs57">val ssxy : float</div>
+<div class="tip" id="fs58">GoodnessOfFit.SumOfSquares.SSxy: float</div>
+<div class="tip" id="fs59">val stdErrSlope : float</div>
+<div class="tip" id="fs60">val standardErrorSlope : sumOfSquares:GoodnessOfFit.SumOfSquares -&gt; float</div>
+<div class="tip" id="fs61">val stdErrIntercept : float</div>
+<div class="tip" id="fs62">val standardErrorIntercept : sumOfSquares:GoodnessOfFit.SumOfSquares -&gt; float</div>
+<div class="tip" id="fs63">val stdErrEstimate : float</div>
+<div class="tip" id="fs64">val standardErrorEstimate : sumOfSquares:GoodnessOfFit.SumOfSquares -&gt; float</div>
+<div class="tip" id="fs65">val criticalT : float</div>
+<div class="tip" id="fs66">namespace FSharp.Stats.Distributions</div>
+<div class="tip" id="fs67">module Continuous<br /><br />from FSharp.Stats.Distributions</div>
+<div class="tip" id="fs68">val getCriticalTValue : df:float -&gt; significanceLevel:float -&gt; tailed:Distributions.Continuous.Tails -&gt; float</div>
+<div class="tip" id="fs69">union case Distributions.Continuous.Tails.TwoTailed: Distributions.Continuous.Tails</div>
+<div class="tip" id="fs70">val lowerS : float</div>
+<div class="tip" id="fs71">val upperS : float</div>
+<div class="tip" id="fs72">val lowerI : float</div>
+<div class="tip" id="fs73">val upperI : float</div>
+<div class="tip" id="fs74">val testSlope : Testing.TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs75">val ttestSlope : slope:float -&gt; sumOfSquares:GoodnessOfFit.SumOfSquares -&gt; Testing.TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs76">val testInterc : Testing.TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs77">val ttestIntercept : intercept:float -&gt; sumOfSquares:GoodnessOfFit.SumOfSquares -&gt; Testing.TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs78">val chart : GenericChart.GenericChart</div>
+<div class="tip" id="fs79">type Chart =<br />&#160;&#160;static member Area : xy:seq&lt;#IConvertible * #IConvertible&gt; * ?Name:string * ?ShowMarkers:bool * ?Showlegend:bool * ?MarkerSymbol:Symbol * ?Color:&#39;a2 * ?Opacity:float * ?Labels:seq&lt;#IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font * ?Dash:DrawingStyle * ?Width:&#39;a4 -&gt; GenericChart<br />&#160;&#160;static member Area : x:seq&lt;#IConvertible&gt; * y:seq&lt;#IConvertible&gt; * ?Name:string * ?ShowMarkers:bool * ?Showlegend:bool * ?MarkerSymbol:Symbol * ?Color:&#39;a2 * ?Opacity:float * ?Labels:seq&lt;#IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font * ?Dash:DrawingStyle * ?Width:&#39;a4 -&gt; GenericChart<br />&#160;&#160;static member Bar : keysvalues:seq&lt;#IConvertible * #IConvertible&gt; * ?Name:string * ?Showlegend:bool * ?Color:&#39;a2 * ?Opacity:float * ?Labels:seq&lt;#IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font * ?Marker:Marker -&gt; GenericChart<br />&#160;&#160;static member Bar : keys:seq&lt;#IConvertible&gt; * values:seq&lt;#IConvertible&gt; * ?Name:string * ?Showlegend:bool * ?Color:&#39;a2 * ?Opacity:float * ?Labels:seq&lt;#IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font * ?Marker:Marker -&gt; GenericChart<br />&#160;&#160;static member BoxPlot : xy:seq&lt;&#39;a0 * &#39;a1&gt; * ?Name:string * ?Showlegend:bool * ?Color:&#39;a2 * ?Fillcolor:&#39;a3 * ?Opacity:float * ?Whiskerwidth:&#39;a4 * ?Boxpoints:Boxpoints * ?Boxmean:BoxMean * ?Jitter:&#39;a5 * ?Pointpos:&#39;a6 * ?Orientation:Orientation -&gt; GenericChart<br />&#160;&#160;static member BoxPlot : ?x:&#39;a0 * ?y:&#39;a1 * ?Name:string * ?Showlegend:bool * ?Color:&#39;a2 * ?Fillcolor:&#39;a3 * ?Opacity:float * ?Whiskerwidth:&#39;a4 * ?Boxpoints:Boxpoints * ?Boxmean:BoxMean * ?Jitter:&#39;a5 * ?Pointpos:&#39;a6 * ?Orientation:Orientation -&gt; GenericChart<br />&#160;&#160;static member Bubble : xysizes:seq&lt;#IConvertible * #IConvertible * #IConvertible&gt; * ?Name:string * ?Showlegend:bool * ?MarkerSymbol:Symbol * ?Color:&#39;a3 * ?Opacity:float * ?Labels:seq&lt;#IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font -&gt; GenericChart<br />&#160;&#160;static member Bubble : x:seq&lt;#IConvertible&gt; * y:seq&lt;#IConvertible&gt; * sizes:seq&lt;#IConvertible&gt; * ?Name:string * ?Showlegend:bool * ?MarkerSymbol:Symbol * ?Color:&#39;a3 * ?Opacity:float * ?Labels:seq&lt;#IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font -&gt; GenericChart<br />&#160;&#160;static member ChoroplethMap : locations:seq&lt;string&gt; * z:seq&lt;#IConvertible&gt; * ?Text:seq&lt;#IConvertible&gt; * ?Locationmode:LocationFormat * ?Autocolorscale:bool * ?Colorscale:Colorscale * ?Colorbar:&#39;a2 * ?Marker:Marker * ?Zmin:&#39;a3 * ?Zmax:&#39;a4 -&gt; GenericChart<br />&#160;&#160;static member Column : keysvalues:seq&lt;#IConvertible * #IConvertible&gt; * ?Name:string * ?Showlegend:bool * ?Color:&#39;a2 * ?Opacity:float * ?Labels:seq&lt;#IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font * ?Marker:Marker -&gt; GenericChart<br />&#160;&#160;...</div>
+<div class="tip" id="fs80">static member Chart.Point : xy:seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?Name:string * ?Showlegend:bool * ?MarkerSymbol:Symbol * ?Color:&#39;c * ?Opacity:float * ?Labels:seq&lt;#System.IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font -&gt; GenericChart.GenericChart<br />static member Chart.Point : x:seq&lt;#System.IConvertible&gt; * y:seq&lt;#System.IConvertible&gt; * ?Name:string * ?Showlegend:bool * ?MarkerSymbol:Symbol * ?Color:&#39;c * ?Opacity:float * ?Labels:seq&lt;#System.IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font -&gt; GenericChart.GenericChart</div>
+<div class="tip" id="fs81">static member Chart.withTraceName : ?Name:string * ?Showlegend:bool * ?Legendgroup:string * ?Visible:Visible -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="tip" id="fs82">static member Chart.Line : xy:seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?Name:string * ?ShowMarkers:bool * ?Showlegend:bool * ?MarkerSymbol:Symbol * ?Color:&#39;c * ?Opacity:float * ?Labels:seq&lt;#System.IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font * ?Dash:&#39;e * ?Width:&#39;f -&gt; GenericChart.GenericChart<br />static member Chart.Line : x:seq&lt;#System.IConvertible&gt; * y:seq&lt;#System.IConvertible&gt; * ?Name:string * ?ShowMarkers:bool * ?Showlegend:bool * ?MarkerSymbol:Symbol * ?Color:&#39;c * ?Opacity:float * ?Labels:seq&lt;#System.IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font * ?Dash:&#39;e * ?Width:&#39;f -&gt; GenericChart.GenericChart</div>
+<div class="tip" id="fs83">val mapi : mapping:(int -&gt; &#39;T -&gt; &#39;U) -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;U&gt;</div>
+<div class="tip" id="fs84">val i : int</div>
+<div class="tip" id="fs85">val y : float</div>
+<div class="tip" id="fs86">static member Chart.Combine : gCharts:seq&lt;GenericChart.GenericChart&gt; -&gt; GenericChart.GenericChart</div>
+<div class="tip" id="fs87">static member Chart.withX_Axis : xAxis:LinearAxis * ?Id:int -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="tip" id="fs88">static member Chart.withY_Axis : yAxis:LinearAxis * ?Id:int -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="tip" id="fs89">val outputTable : GenericChart.GenericChart</div>
+<div class="tip" id="fs90">val header : string list</div>
+<div class="tip" id="fs91">val rows : string list list</div>
+<div class="tip" id="fs92">val print : (float -&gt; string)</div>
+<div class="tip" id="fs93">val f : float</div>
+<div class="tip" id="fs94">val sprintf : format:Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T</div>
+<div class="tip" id="fs95">Testing.TestStatistics.TTestStatistics.PValue: float</div>
+<div class="tip" id="fs96">static member Chart.Table : headerValues:seq&lt;#seq&lt;&#39;b&gt;&gt; * cellValues:seq&lt;#seq&lt;&#39;d&gt;&gt; * ?AlignHeader:seq&lt;HorizontalAlign&gt; * ?AlignCells:seq&lt;HorizontalAlign&gt; * ?ColumnWidth:seq&lt;int&gt; * ?ColumnOrder:seq&lt;int&gt; * ?ColorHeader:&#39;e * ?ColorCells:&#39;f * ?FontHeader:Font * ?FontCells:Font * ?HeightHeader:&#39;g * ?HeightCells:&#39;h * ?LineHeader:Line * ?LineCells:Line -&gt; GenericChart.GenericChart (requires &#39;b :&gt; System.IConvertible and &#39;d :&gt; System.IConvertible)</div>
+<div class="tip" id="fs97">type HorizontalAlign =<br />&#160;&#160;| Left<br />&#160;&#160;| Center<br />&#160;&#160;| Right<br />&#160;&#160;&#160;&#160;static member convert : (HorizontalAlign -&gt; obj)<br />&#160;&#160;&#160;&#160;static member toString : (HorizontalAlign -&gt; string)</div>
+<div class="tip" id="fs98">union case HorizontalAlign.Left: HorizontalAlign</div>
+<div class="tip" id="fs99">union case HorizontalAlign.Center: HorizontalAlign</div>
+<div class="tip" id="fs100">static member Chart.withTitle : title:string * ?Titlefont:Font -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="tip" id="fs101">val x_Data : Vector&lt;float&gt;</div>
+<div class="tip" id="fs102">val y_Data : Vector&lt;float&gt;</div>
+<div class="tip" id="fs103">val values : seq&lt;float * float&gt;</div>
+<div class="tip" id="fs104">val zip : source1:seq&lt;&#39;T1&gt; -&gt; source2:seq&lt;&#39;T2&gt; -&gt; seq&lt;&#39;T1 * &#39;T2&gt;</div>
+<div class="tip" id="fs105">val coeffs : Vector&lt;float&gt;<br /><em><br /><br />linear regression line fitting function</em></div>
+<div class="tip" id="fs106">val fit : (float -&gt; float)</div>
+<div class="tip" id="fs107">val fitValues : seq&lt;float * float&gt;</div>
+<div class="tip" id="fs108">val xi : float</div>
+<div class="tip" id="fs109">val confidence : Vector&lt;float&gt;<br /><em><br /><br />calculate confidence band errors for every x value</em></div>
+<div class="tip" id="fs110">Multiple items<br />module Vector<br /><br />from FSharp.Stats<br /><br />--------------------<br />type Vector&lt;&#39;T&gt; =<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;interface IStructuralEquatable<br />&#160;&#160;interface IStructuralComparable<br />&#160;&#160;interface IComparable<br />&#160;&#160;new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;override Equals : yobj:obj -&gt; bool<br />&#160;&#160;override GetHashCode : unit -&gt; int<br />&#160;&#160;member GetSlice : start:int option * finish:int option -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;member Permute : p:permutation -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;...<br /><br />--------------------<br />new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;</div>
+<div class="tip" id="fs111">val map : mapping:(float -&gt; float) -&gt; vector:vector -&gt; Vector&lt;float&gt;</div>
+<div class="tip" id="fs112">val calculateConfidenceBandError : x_data:Vector&lt;float&gt; -&gt; y_data:Vector&lt;float&gt; -&gt; confidenceLevel:float -&gt; (float -&gt; float)</div>
+<div class="tip" id="fs113">val lower : seq&lt;float&gt;<br /><em><br /><br />lower and upper bounds of the 95% confidence band sorted according to x values</em></div>
+<div class="tip" id="fs114">val upper : seq&lt;float&gt;<br /><em><br /><br />lower and upper bounds of the 95% confidence band sorted according to x values</em></div>
+<div class="tip" id="fs115">val unzip : input:seq&lt;&#39;a * &#39;b&gt; -&gt; seq&lt;&#39;a&gt; * seq&lt;&#39;b&gt;</div>
+<div class="tip" id="fs116">val rangePlot : GenericChart.GenericChart</div>
+<div class="tip" id="fs117">static member Chart.Range : xy:seq&lt;#System.IConvertible * #System.IConvertible&gt; * upper:seq&lt;#System.IConvertible&gt; * lower:seq&lt;#System.IConvertible&gt; * mode:Mode * ?Name:string * ?ShowMarkers:bool * ?Showlegend:bool * ?Color:string * ?RangeColor:string * ?Labels:seq&lt;#System.IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font -&gt; GenericChart.GenericChart<br />static member Chart.Range : x:seq&lt;#System.IConvertible&gt; * y:seq&lt;#System.IConvertible&gt; * upper:seq&lt;#System.IConvertible&gt; * lower:seq&lt;#System.IConvertible&gt; * mode:Mode * ?Name:string * ?ShowMarkers:bool * ?Showlegend:bool * ?Color:string * ?RangeColor:string * ?Labels:seq&lt;#System.IConvertible&gt; * ?TextPosition:TextPosition * ?TextFont:Font -&gt; GenericChart.GenericChart</div>
+<div class="tip" id="fs118">type Mode =<br />&#160;&#160;| None<br />&#160;&#160;| Lines<br />&#160;&#160;| Lines_Markers<br />&#160;&#160;| Lines_Text<br />&#160;&#160;| Lines_Markers_Text<br />&#160;&#160;| Markers<br />&#160;&#160;| Markers_Text<br />&#160;&#160;| Text<br />&#160;&#160;&#160;&#160;static member convert : (Mode -&gt; obj)<br />&#160;&#160;&#160;&#160;static member toString : (Mode -&gt; string)</div>
+<div class="tip" id="fs119">union case Mode.Lines: Mode</div>
+<div class="tip" id="fs120">module Colors<br /><br />from FSharp.Plotly</div>
+<div class="tip" id="fs121">val toWebColor : c:Colors.Color -&gt; string</div>
+<div class="tip" id="fs122">module Table<br /><br />from FSharp.Plotly.Colors</div>
+<div class="tip" id="fs123">module Office<br /><br />from FSharp.Plotly.Colors.Table</div>
+<div class="tip" id="fs124">val blue : Colors.Color</div>
+<div class="tip" id="fs125">val lightBlue : Colors.Color</div>
+<div class="tip" id="fs126">val newXValues : Vector&lt;float&gt;</div>
+<div class="tip" id="fs127">val newConfidence : Vector&lt;float&gt;<br /><em><br /><br />calculate confidence band errors for every x value</em></div>
+<div class="tip" id="fs128">val newLower : seq&lt;float&gt;<br /><em><br /><br />lower and upper bounds of the 95% confidence band sorted according to x values</em></div>
+<div class="tip" id="fs129">val newUpper : seq&lt;float&gt;<br /><em><br /><br />lower and upper bounds of the 95% confidence band sorted according to x values</em></div>
+<div class="tip" id="fs130">val linePlot : GenericChart.GenericChart</div>
+<div class="tip" id="fs131">static member Chart.withLineStyle : ?Width:&#39;a * ?Color:&#39;b * ?Shape:Shape * ?Dash:DrawingStyle * ?Smoothing:&#39;c * ?Colorscale:Colorscale -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="tip" id="fs132">type DrawingStyle =<br />&#160;&#160;| Solid<br />&#160;&#160;| Dash<br />&#160;&#160;| Dot<br />&#160;&#160;| DashDot<br />&#160;&#160;| User of int<br />&#160;&#160;&#160;&#160;static member convert : (DrawingStyle -&gt; obj)<br />&#160;&#160;&#160;&#160;static member toString : (DrawingStyle -&gt; string)</div>
+<div class="tip" id="fs133">union case DrawingStyle.Dash: DrawingStyle</div>
+<div class="tip" id="fs134">val predictionXValues : Vector&lt;float&gt;</div>
+<div class="tip" id="fs135">val prediction : Vector&lt;float&gt;<br /><em><br /><br />calculate preditcion band errors for every x value</em></div>
+<div class="tip" id="fs136">val calculatePredictionBandError : x_data:Vector&lt;float&gt; -&gt; y_data:Vector&lt;float&gt; -&gt; confidenceLevel:float -&gt; (float -&gt; float)</div>
+<div class="tip" id="fs137">val pLower : seq&lt;float&gt;<br /><em><br /><br />lower and upper bounds of the 95% prediction band sorted according to x values</em></div>
+<div class="tip" id="fs138">val pUpper : seq&lt;float&gt;<br /><em><br /><br />lower and upper bounds of the 95% prediction band sorted according to x values</em></div>
+<div class="tip" id="fs139">val predictionPlot : GenericChart.GenericChart</div>
+
+        </div>
+        <div class="span3">
+          <img src="/FSharp.Stats/img/logo.svg" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+              <li class="nav-header">FSharp.Stats</li>
+              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
+              <li class="divider"></li>
+              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
+              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
+              <li><a href="/FSharp.Stats/license.html">License</a></li>
+              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
+
+              <li class="nav-header">Getting started</li>
+              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
+
+              <li class="nav-header">Basic</li>
+              <li>
+                  <a href="/FSharp.Stats/Summary.html">Summary</a>
+              </li>
+              <li><a href="/FSharp.Stats/Clustering.html">Clustering</a></li>
+              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
+              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
+              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
+              </li>
+              <li class="divider"></li>
+              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
+              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
+              <li><a href="/FSharp.Stats/Optimization.html">Optimization</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/GoodnessOfFit.html">Goodness of fit</a></li>
+              <li><a href="/FSharp.Stats/Interpolation.html">Interpolation</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
+              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
+              </li>
+              <li><a href="/FSharp.Stats/TemporalClassification.html">Temporal Classification</a></li>
+
+
+              <li class="nav-header">Documentation</li>
+              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>
