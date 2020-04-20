@@ -161,9 +161,9 @@ module Matrix = begin
         let ofRowVector rowVector = MS.rowvecM rowVector
         ///
         let ofVector vector = MS.vectorM vector
-        ///
+        /// takes the first column of the matrix as vector
         let toVector matrix = MS.toVectorM matrix
-        ///
+        /// takes the first row of the matrix as rowvector
         let toRowVector matrix = MS.toRowVectorM matrix
         ///
         let toScalar matrix = MS.toScalarM matrix
