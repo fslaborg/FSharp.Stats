@@ -151,3 +151,44 @@ module CrossValidation =
             )
         |> List.average    
 
+    /// Computes a repeated shuffel-and-split cross validation
+    /// p: percentage of training set size from original size,
+    /// iterations: number of random subset creation,
+    /// xData: rowwise x-coordinate matrix,
+    /// yData: yData vector
+    /// fit: x and y data lead to function that maps a xData row vector to a y-coordinate,
+    /// error: defines the error of the fitted y-coordinate and the actual y-coordinate,
+    /// getStDev: function that calculates the standard deviation from a seq<^T>. (Seq.stDev)
+    let inline shuffelAndSplit< ^T when ^T : (static member ( + ) : ^T * ^T -> ^T) 
+                    and  ^T : (static member DivideByInt : ^T*int -> ^T) 
+                    and  ^T : (static member Zero : ^T)>
+            p (iterations: int) (xData:Matrix< ^T >) (yData:Vector< ^T >)
+                (fit: Matrix< ^T > -> Vector< ^T > -> RowVector< ^T > -> ^T)
+                (error: ^T -> ^T -> ^T) 
+                (getStDev: seq< ^T > -> ^T) =
+        let n = xData.NumRows
+        // size of training data set
+        let m = float n * p |> ceil |> int
+        [1..iterations]
+        |> Seq.map (fun _ -> 
+            let chunkIndices =
+                [|0 .. n-1|]
+                |> FSharp.Stats.Array.shuffleFisherYates
+                |> Array.take m
+            let xTest,xTrain =
+                xData
+                |> Matrix.splitRows chunkIndices
+            let yTest,yTrain =
+                yData
+                |> Vector.splitVector chunkIndices
+            xTest
+            |> Matrix.Generic.mapiRows (fun i xSingle -> 
+                let preds = fit xTrain yTrain xSingle
+                let error = error preds yTest.[i]
+                error
+                )    
+            |> Seq.average
+            )
+        |> Array.ofSeq
+        |> fun errorSeq -> 
+            createCrossValidationResult (Seq.average errorSeq) (getStDev errorSeq)
