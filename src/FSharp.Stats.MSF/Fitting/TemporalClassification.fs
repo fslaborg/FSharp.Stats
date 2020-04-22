@@ -691,6 +691,25 @@ module TemporalClassification =
         
             getInitialEstimate (Matrix.ofArray2D D) (Matrix.ofArray2D H) W n y xVal
 
+        ///calculates an unconstrained smoothing spline
+        let getUnconstrainedSpline (xVal:Vector<float>) (yVal:Vector<float>) =
+            let W = Matrix.diag (Vector.oneCreate xVal.Length)
+            let n = yVal |> Seq.length
+    
+            let h = Array.init (n-1) (fun i -> xVal.[i+1] - xVal.[i] )
+            let H = Array2D.zeroCreate (n-2) n
+            let D = Array2D.zeroCreate (n-2) (n-2)
+            for i = 1 to (n-2) do
+                H.[i-1,i-1] <-  1.0/h.[i-1]
+                H.[i-1,i]   <- -( (1.0/h.[i-1]) + (1.0/h.[i]) )
+                H.[i-1,i+1] <-  1.0/h.[i]
+                D.[i-1,i-1] <-  (h.[i-1] + h.[i]) / 3.0
+            for i = 1 to (n-3) do
+                D.[i-1,i]   <- h.[i]/6.0
+                D.[i,i-1] <- h.[i]/6.0        
+    
+            getInitialEstimate (Matrix.ofArray2D D) (Matrix.ofArray2D H) W n yVal xVal
+
         ///calculates the generalized cross validation(GCV), and the modified GCV for small sample sizes: (mGCV,GCV)
         let getGCV (C:Matrix<float>) (D:Matrix<float>) (H:Matrix<float>) (W:Matrix<float>) (n:int) (y:vector) (a:vector) (lambda:float) =
             //identify inequality constraints where C*a<=[0]
