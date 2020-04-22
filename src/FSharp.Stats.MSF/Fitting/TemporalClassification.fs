@@ -186,7 +186,6 @@ module TemporalClassification =
             
         /// gives smoothing spline function
         let initEvalAt (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
-
             let n = x.Length
 
             //define interval stepwidths
@@ -214,14 +213,13 @@ module TemporalClassification =
             (fun t ->
                 let i = 
                     match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
-                    | Some x -> x 
+                    | Some z -> if t = Seq.last x then h.Length-1 else z //the last supported x Value can be processed by the f_i-1
                     | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
                 evalAt i t
                 )
 
         /// fst derivative at amplitudes a and curvatures c with x values x
         let initEvalFstDerivativeAt (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
-
             let n = x.Length
 
             //define interval stepwidths
@@ -250,14 +248,13 @@ module TemporalClassification =
             (fun t ->
                 let i = 
                     match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
-                    | Some x -> x 
+                    | Some z -> if t = Seq.last x then h.Length-1 else z 
                     | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
                 evalAt i t
                 )
 
         /// second derivative at amplitudes a and curvatures c with x values x
         let initEvalSndDerivativeAt (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
-
             let n = x.Length
 
             //define interval stepwidths
@@ -278,14 +275,13 @@ module TemporalClassification =
             (fun t ->
                 let i = 
                     match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
-                    | Some x -> x 
+                    | Some z -> if t = Seq.last x then h.Length-1 else z 
                     | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
                 evalAt i t
                 )
 
         /// trd derivative at amplitudes a and curvatures c with x values x  
         let initEvalTrdDerivativeAt (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
-
             let n = x.Length
 
             //define interval stepwidths
@@ -300,7 +296,7 @@ module TemporalClassification =
             (fun t ->
                 let i = 
                     match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
-                    | Some x -> x 
+                    | Some z -> if t = Seq.last x then h.Length-1 else z 
                     | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
                 evalAt i t
                 )
@@ -372,28 +368,7 @@ module TemporalClassification =
                     |> List.map (fun ex -> {ex with Xvalue = Aux.roundToNext ex.Xvalue x})
                     |> List.distinct
 
-        //let initEvalAtFstDerivativ (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
-        //    let n = x.Length
-        //    //define interval stepwidths
-        //    let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
-        //    // helper functions f(i,1-4)(t) for smoothing spline
-        //    let calcF1 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) = (x.[i+1] - t) / h.[i]
-        //    let calcF2 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) = (t - x.[i]) / h.[i]
-        //    let calcF3 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
-        //        (3. * (calcF1 h x i t) ** 2.0 * (calcF1 h x i t) - (calcF1 h x i t) ) * (h.[i]**2.0) / 6.0
-        //    let calcF4 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
-        //        ((calcF2 h x i t)**3.0 - (calcF2 h x i t) ) * (h.[i]**2.0) / 6.0 
-        //    let calcS (h:Vector<float>) (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (i:int) (t:float) =
-        //        a.[i] * (calcF1 h x i t) + a.[i+1] * (calcF2 h x i t) + c.[i] * (calcF3 h x i t) + c.[i+1] * (calcF4 h x i t)
-        //    let evalAt =  calcS h x a c 
-        //    (fun t ->
-        //        let i = 
-        //            match Array.tryFindIndexBack (fun xs -> xs <= t) (x.InternalValues) with 
-        //            | Some x -> x 
-        //            | None   -> failwith "The x-value is not part of the section used to estimate the spline coefficients, thus a monotone function progression can not be guaranteed"
-        //        evalAt i t
-        //        )
-    
+   
         [<Obsolete("Only applicable at equal x spacing. Use getExtrema instead")>]
         //calculates extrema with (type,x_value) where type is +1 for maxima and -1 for minima
         let getExtrema_equalSpacing (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
@@ -1535,71 +1510,39 @@ module TemporalClassification =
                 idx
             idx 
 
-        ///geturns a function, that gives the corresponding spline function and approximates the areas outside of x by linear interpolation of the border knots and the next value of stepwidth difference
-        let initEvalAtWithLinearInterpol (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (stepwidth:float)=
-            //stepwidth defines range in that interpolation is calculated (xVal.[0] + stepwidth) and (xVal.last - stepwidth)
-            let n = x.Length
-
-            //Definiere Intervalle
-            let h = Vector.init (n-1) (fun i -> x.[i+1] - x.[i] )
-
-            // Hilfsfunktionen F{i,1-4}(t) für SmoothSpline
-            let calcF1 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
-                (x.[i+1] - t) / h.[i]
-
-            let calcF2 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
-                (t - x.[i]) / h.[i]
-
-            let calcF3 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
-                ((calcF1 h x i t)**3.0 - (calcF1 h x i t) ) * (h.[i]**2.0) / 6.0
-
-            let calcF4 (h:Vector<float>) (x:Vector<float>) (i:int) (t:float) =
-                ((calcF2 h x i t)**3.0 - (calcF2 h x i t) ) * (h.[i]**2.0) / 6.0
-
-            // Hilfsfunktion S{i} für SmoothSpline 
-            let calcS (h:Vector<float>) (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) (i:int) (t:float) =
-                a.[i] * (calcF1 h x i t) + a.[i+1] * (calcF2 h x i t) + c.[i] * (calcF3 h x i t) + c.[i+1] * (calcF4 h x i t)
-
-            let evalAt =  calcS h x a c 
-
+        ///geturns a function, that gives the corresponding spline function and approximates the areas outside of x by linear interpolation of the border knots and their fst derivative
+        let initEvalAtWithLinearInterpol (x:Vector<float>) (a:Vector<float>) (c:Vector<float>) =
+            let splineFunction  = initEvalAt x a c
+            let splineFunction' = initEvalFstDerivativeAt x a c
             let linearInterPolLowerBorder t =
-                let halfDeltaLeftMostKnotAdjacentKnot = (x.InternalValues.[1] - x.InternalValues.[0]) / 2.
-                let halfDeltaLeftMostKnotAdjacentKnot = stepwidth
-                //let halfDeltaLeftMostKnotAdjacentKnot = x.InternalValues.[0] + stepwidth
-                let yValHalfSegment = evalAt 0 (halfDeltaLeftMostKnotAdjacentKnot + x.InternalValues.[0])
-                let yAtLeftMostKnot = evalAt 0 x.InternalValues.[0]
-                let m = (yValHalfSegment - yAtLeftMostKnot ) / halfDeltaLeftMostKnotAdjacentKnot
+                let yAtLeftMostKnot = splineFunction x.[0]
+                let m = splineFunction' x.[0]
                 let b = yAtLeftMostKnot - m * x.InternalValues.[0]
                 m * t + b
-
             let linearInterPolUpperBorder t =
-                //let halfDeltaRightMostKnotAdjacentKnot = (x.InternalValues.[x.InternalValues.Length-1] - x.InternalValues.[x.InternalValues.Length-2]) / 2.
-                let halfDeltaRightMostKnotAdjacentKnot = stepwidth
-                let yValHalfSegment = evalAt (x.InternalValues.Length-2) (x.InternalValues.[x.InternalValues.Length-1] - halfDeltaRightMostKnotAdjacentKnot)
-                let yAtRightMostKnot = evalAt (x.InternalValues.Length-2) x.InternalValues.[x.InternalValues.Length-1]
-                let m = (yAtRightMostKnot - yValHalfSegment) / halfDeltaRightMostKnotAdjacentKnot
+                let yAtRightMostKnot = splineFunction (Seq.last x)
+                let m = splineFunction' (Seq.last x)
                 let b = yAtRightMostKnot - (m * x.InternalValues.[x.InternalValues.Length-1])
-                m * t + b
-            
+                m * t + b           
             (fun t ->
                     match leftSegmentIdx x.InternalValues t with 
                     | idx when idx < 0 -> 
                         linearInterPolLowerBorder t 
                     | idx when idx > (x.InternalValues.Length-2) -> 
                         linearInterPolUpperBorder t
-                    | idx -> evalAt idx t 
-               
+                    | idx -> initEvalAt x a c t 
                 )    
 
     module Classification =
 
-        let getClassification xValues traceA traceC linearThreshold = 
+        let getClassification xValues traceA traceC linearThreshold sensitivity = 
             let extrema = Fitting.getExtrema xValues traceA traceC
         
             // if the absolute maximal change of the signal is below the threshold, the signal is assumed constant
             if Seq.max traceA - Seq.min traceA < linearThreshold then //0.05
                 "constant"
             else
+                let signalFu   = Fitting.initEvalAt xValues traceA traceC 
                 let fstDerivFu = Fitting.initEvalFstDerivativeAt xValues traceA traceC 
                 let sndDerivFu = Fitting.initEvalSndDerivativeAt xValues traceA traceC
             
@@ -1610,7 +1553,7 @@ module TemporalClassification =
                     // if the result is lower than 2. a plateau is assumed
                     let plateau = 
                         let fstDer =
-                            [(Seq.head xValues) + 0.01 .. 0.001 .. (Seq.last xValues) - 0.01]
+                            [(Seq.head xValues) + 0.01 .. 0.01 .. (Seq.last xValues) - 0.01]
                             |> List.map fstDerivFu
                         let stdOfFstDerivative = Seq.stDevPopulation fstDer
                         let closestToZero = 
@@ -1622,9 +1565,18 @@ module TemporalClassification =
                     if not plateau then
                         if traceA.[0] < (Seq.last traceA) then "I" else "D"
                     else
-                        let sndDerivativeValues = 
-                            [(Seq.head xValues) + 0.01 .. 0.01 .. (Seq.last xValues) - 0.01]
-                            |> List.map (fun xVal -> xVal,sndDerivFu xVal)
+                        //get Array of secondderivatives with reasonably spacing (xValues and halfsteps)
+                        let sndDerivativeValues =
+                            [0..xValues.Length-2]
+                            |> List.map (fun x -> 
+                                let xValA = xValues.[x]
+                                let xValB = (xValues.[x] + xValues.[x+1]) / 2.
+                                [
+                                xValA,sndDerivFu xValA
+                                xValB,sndDerivFu xValB
+                                ]
+                                )
+                            |> List.concat
                         let pseudoExtrema =
                             let processPseudoExtrema (pseudoExtrema :(float*float) list) =
                                 pseudoExtrema
@@ -1632,18 +1584,49 @@ module TemporalClassification =
                                 |> List.filter (fun (a,b) -> a <> 0.) 
                                 // round to nearest xValue and afterwards round the xValue to 2 decimals for printing
                                 |> List.map (fun (xVal,yVal) -> round 2 (Aux.roundToNext xVal xValues))
+                            //let startFstDerivative = Core.Operators.sign (fstDerivFu xValues.[1])
+                            let startSndDerivative = Core.Operators.sign (sndDerivFu xValues.[1])
                             
                             // walk through second derivative and identify all local extrema
                             let rec loop sign pMa pMi accMa accMi i = 
                                 if i = sndDerivativeValues.Length - 1 then 
-                                    if sign = 1 then  
-                                        let pseudoMaxima = pMa::accMa |> processPseudoExtrema
-                                        let pseudoMinima = accMi      |> processPseudoExtrema
-                                        sprintf "%A,%A" pseudoMaxima pseudoMinima                                                                       
-                                    else                                                                                                                
-                                        let pseudoMaxima = accMa      |> processPseudoExtrema
-                                        let pseudoMinima = pMi::accMi |> processPseudoExtrema
-                                        sprintf "%A,%A" pseudoMaxima pseudoMinima
+                                    // add last potential PseudoExtremum to respective list
+                                    // first true PseudoExtremum indicates direction
+                                    let (maFin,miFin) =
+                                        if sign = 1 then  
+                                            let pseudoMaxima = pMa::accMa |> processPseudoExtrema
+                                            let pseudoMinima = accMi      |> processPseudoExtrema
+                                            pseudoMaxima,pseudoMinima
+                                        else                                                                                                                
+                                            let pseudoMaxima = accMa      |> processPseudoExtrema
+                                            let pseudoMinima = pMi::accMi |> processPseudoExtrema
+                                            pseudoMaxima,pseudoMinima
+                                    
+                                    // if every pseudo extremum is below the sensitivity threshold classify by "I" and "D"
+                                    if maFin = [] && miFin = [] then
+                                        ""
+                                    //if sensitivity is maximal, take all local extrema for sub classification
+                                    elif sensitivity = 1. then
+                                        sprintf "%A,%A" maFin miFin
+                                    else 
+                                        // only one kind of pseudo maximum is reasonable in monoton signals. 
+                                        let firstPseudoMaximum = if maFin = [] then infinity else maFin.[0]
+                                    
+                                        let firstPseudoMinimum = if miFin = [] then infinity else miFin.[0]
+                                        
+                                        let firstPseudoExtremum = min firstPseudoMaximum firstPseudoMinimum
+                                        
+                                        let slopeAtFstPseudoExtremum = fstDerivFu firstPseudoExtremum
+
+                                        if firstPseudoMaximum < firstPseudoMinimum then 
+                                            //sprintf "%A,%A" maFin []  
+                                            if Core.Operators.sign slopeAtFstPseudoExtremum = -1 then 
+                                                sprintf "%A,%A" maFin []    
+                                            else sprintf "%A,%A" [] miFin 
+                                        else 
+                                            if Core.Operators.sign slopeAtFstPseudoExtremum = 1 then 
+                                                sprintf "%A,%A" [] miFin   
+                                            else sprintf "%A,%A" maFin [] 
                                 else 
                                     let (_,prevY)   = sndDerivativeValues.[i-1] 
                                     let (tmpX,tmpY) = sndDerivativeValues.[i] 
@@ -1661,26 +1644,40 @@ module TemporalClassification =
 
                                     // update potential minimum
                                     let newPMi = 
+                                        let maxIntensityByMaxCurvature =
+                                            let maximalAmplitudeDifference = (traceA |> Seq.max) - (traceA |> Seq.min)
+                                            let maximalCurvature = traceC |> Seq.map Math.Abs |> Seq.max
+                                            maximalAmplitudeDifference/maximalCurvature
+                                        let curvatureBySlope = Math.Abs(tmpY / fstDerivFu tmpX) 
+                                        //if curv = 0 and slope = 0 then ratio is high and pseudomaxima are valid, even if there is none
+                                        let reasonableCurvature = Math.Abs(tmpY) > 0.00001
                                         // amplitude minimum, sign remains negative, pMi amplitude should be greater than current amplitude, absolute amplitude must by greater than threshold (0.05)
-                                        if prevY > tmpY && tmpY < nextY && newSign = -1 && (snd pMi) > tmpY && Math.Abs(tmpY) > 0.05
+                                        if reasonableCurvature && prevY > tmpY && tmpY < nextY && newSign = -1 && (snd pMi) > tmpY && curvatureBySlope > 10.*(1.-sensitivity) //Math.Abs(tmpY) > (10.*(1.-sensitivity)**10.) //0.05 //sensitivity
                                             then (tmpX,tmpY) 
                                         else 
                                             if signChange then (0.,0.) else pMi
                                 
                                     // update potential maximum
                                     let newPMa = 
+                                        
+                                        let curvatureBySlope = Math.Abs(tmpY / fstDerivFu tmpX) 
+                                        //if curv = 0 and slope = 0 then ratio is big and pseudomaxima are valid, even if there is none
+                                        let reasonableCurvature = Math.Abs(tmpY) > 0.00001
                                         // amplitude maximum, sign remains positive, pMa amplitude should be lower than current amplitude, absolute amplitude must by greater than threshold (0.05)
-                                        if prevY < tmpY && tmpY > nextY && newSign =  1 && (snd pMa) < tmpY && Math.Abs(tmpY) > 0.05
+                                        if reasonableCurvature && prevY < tmpY && tmpY > nextY && newSign =  1 && (snd pMa) < tmpY && curvatureBySlope > 10.*(1.-sensitivity) //Math.Abs(tmpY) > (10.*(1.-sensitivity)**10.) //0.05 //sensitivity
                                             then (tmpX,tmpY) 
                                         else
                                             if signChange then (0.,0.) else pMa
 
                                     loop newSign newPMa newPMi newAccMa newAccMi (i+1)
-        
-                            loop (Core.Operators.sign ((Seq.head xValues) + 0.01)) (0.,0.) (0.,0.) [] [] 1
+                            loop startSndDerivative (0.,0.) (0.,0.) [] [] 1
+                        
+
                         // add the general descriptor, if trace is in- or decreasing
-                        if traceA.[0] > Seq.last traceA then "D" + pseudoExtrema
-                        else "I" + pseudoExtrema
+                        let pseudoExtremaDescriptor = 
+                            if pseudoExtrema = "[],[]" then "" else pseudoExtrema
+                        if traceA.[0] > Seq.last traceA then "D" + pseudoExtremaDescriptor
+                        else "I" + pseudoExtremaDescriptor
                 else 
                     extrema 
                     |> List.map (fun ex -> {ex with Xvalue = Aux.roundToNext ex.Xvalue xValues})
