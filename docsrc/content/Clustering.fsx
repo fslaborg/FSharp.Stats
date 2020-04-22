@@ -85,6 +85,15 @@ let clusteredIrisData =
 
 (*** include-value:clusteredIrisData ***)
 
+// To get the best kMeans clustering result in terms of the average squared distance of each point
+// to its centroid, perform the clustering b times and minimize the dispersion.
+let getBestkMeansClustering data k bootstraps =
+    [1..bootstraps]
+    |> List.mapi (fun i x -> 
+        IterativeClustering.kmeans <| DistanceMetrics.euclidean <| randomInitFactory <| data <| k
+        )
+    |> List.minBy (fun clusteringResult -> IterativeClustering.DispersionOfClusterResult clusteringResult)
+
 (**
 ##Density based clustering
 

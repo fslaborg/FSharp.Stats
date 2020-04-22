@@ -35,10 +35,8 @@ open FSharp.Stats
 open FSharp.Stats.Fitting
 open LinearRegression.OrdinaryLeastSquares
 
-let xV = vector [1. .. 10.]
+let xV = vector [1. .. 10.]                            
 let yV = vector [1.;20.;51.;40.;37.;6.;-10.;-5.;0.;10.]
-//let xV = vector [1. .. 20.]
-//let yV = vector [1.;18.;20.;45.;51.;45.;40.;35.;37.;20.;6.;-2.;-10.;-4.;-5.;0.4;0.;9.;10.;18.]
 
 // the fitting function fits a polynomial of order 'order' to the training data set (xTrain and yTrain) and applies it to xTest
 let getFitFuncPolynomial xTrain yTrain (xTest:RowVector<float>) order = 
@@ -138,7 +136,7 @@ let loocvSmoothingSpline (x_Data:Vector<float>) (y_Data:Vector<float>) lambda =
 
 // smoothing parameter = lambda = regularization parameter
 let lambdasToCheck = [|1. .. 15.|] |> Array.map (fun i -> 0.0001 * i**3.)
-Seq.last lambdasToCheck
+
 let errorSpline = 
     lambdasToCheck 
     |> Array.map (fun lambda -> 
