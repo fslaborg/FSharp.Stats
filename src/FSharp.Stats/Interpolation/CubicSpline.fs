@@ -365,6 +365,34 @@ module CubicSpline =
                 coefficients.[4 * intervalNumber + 3]                   //d            
             y_Value
 
+        ///fits a cubic spline fit even outside of the interval defined in x_Values by linear interpolation of slope given by border knots
+        let fitWithLinearPrediction (coefficients: Vector<float>) (x_Values: Vector<float>) x =
+            let sortedX = x_Values |> Seq.sort
+            let xHead = x_Values |> Seq.head
+            let xLast = x_Values |> Seq.last
+            let intercept intervalNumber x = 
+                coefficients.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
+                coefficients.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
+                coefficients.[4 * intervalNumber + 2] * x          +    //c*x
+                coefficients.[4 * intervalNumber + 3]                   //d           
+            let slope intervalNumber x= 
+                3. * coefficients.[4 * intervalNumber + 0] * (pown x 2) +   //3a*x²
+                2. * coefficients.[4 * intervalNumber + 1] * x +            //2b*x
+                coefficients.[4 * intervalNumber + 2]                       //c
+
+            if x >= Seq.last sortedX then 
+                let intervalNr = Seq.length sortedX - 2
+                let diffX = x - xLast
+                let y = intercept intervalNr xLast + diffX * (slope intervalNr xLast)
+                y
+            elif x < Seq.head sortedX then 
+                let intervalNr = 0
+                let diffX = x - xHead
+                let y = intercept intervalNr xHead + diffX * (slope intervalNr xHead)
+                y
+            else
+                fit coefficients x_Values x
+
         let private getDerivative order (coefficients: Vector<float>) (x_Values: Vector<float>) x =
             let sortedX = x_Values |> Seq.sort
             let intervalNumber =

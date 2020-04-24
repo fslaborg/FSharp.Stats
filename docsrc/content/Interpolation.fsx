@@ -6,7 +6,12 @@
 #r "../../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
 #r @"../../lib/Formatting/FSharp.Plotly.dll"
 open FSharp.Plotly
+open FSharp.Plotly.Axis
+open FSharp.Plotly.StyleParam
 
+let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let myAxisRange title range = LinearAxis.init(Title=title,Range=Range.MinMax range,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
 
 (**
 
@@ -20,10 +25,8 @@ The least squares approach is not sufficient to converge to an interpolating pol
 *)
 
 open FSharp.Stats
-open FSharp.Stats.Fitting.LinearRegression
-open FSharp.Plotly
 
-let x_data = vector [|1. .. 6.|]
+let x_data = vector [|1.;2.;3.;4.;5.;6.|]
 let y_data = vector [|4.;7.;9.;8.;7.;9.;|]
 
 //Polynomial interpolation
@@ -47,6 +50,7 @@ let interpolPol =
 let chartPol = 
     [rawChart;interpolPol] 
     |> Chart.Combine
+    |> styleChart "" ""
 
 (*** include-value:chartPol ***)
 
@@ -82,35 +86,42 @@ In general piecewise cubic splines only are defined within the region defined by
 
 open FSharp.Plotly
 open FSharp.Stats.Interpolation
-open FSharp.Stats.Fitting.LinearRegression
 
-let x_Data = vector [1.;2.;3.;4.;5.;6.]
+let x_Data = vector [1.;2.;3.;4.;5.5;6.]
 let y_Data = vector [1.;8.;6.;3.;7.;1.]
 
 //calculates the spline coefficients for a natural spline
 let coeffSpline = 
     CubicSpline.Simple.coefficients CubicSpline.Simple.BoundaryCondition.Natural x_Data y_Data
-//splines are only defined within the region defined in x_Data
+//cubic interpolating splines are only defined within the region defined in x_Data
 let fit  x = 
     CubicSpline.Simple.fit coeffSpline x_Data x
-//to fit x_Values that are out of the region defined in x_Data you have to force it (Caution!).
+//to fit x_Values that are out of the region defined in x_Data you have to force it 
+//(Caution! Coefficients of border intervals are used).
 let fitForce x = 
     CubicSpline.Simple.fitForce coeffSpline x_Data x
+//fits the interpolation spline with linear prediction at borderknots
+let fitIntPo x = 
+    CubicSpline.Simple.fitWithLinearPrediction coeffSpline x_Data x
 
 //to compare the spline fit with an interpolating polynomial:
 let coeffPolynomial = 
     Interpolation.Polynomial.coefficients x_Data y_Data
 let fitPol x = 
     Interpolation.Polynomial.fit coeffPolynomial x
-
+    
 let splineChart =
     [
-    Chart.Point(x_Data,y_Data)                                           |> Chart.withTraceName "raw data"
-    [1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitPol x)    |> Chart.Line |> Chart.withTraceName "fitPolynomial"
-    [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitForce x) |> Chart.Line |> Chart.withTraceName "fitSplineForce"
-    [1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x)       |> Chart.Line |> Chart.withTraceName "fitSpline"
+    Chart.Point(x_Data,y_Data)                                          |> Chart.withTraceName "raw data"
+    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitPol x)   |> Chart.Line |> Chart.withTraceName "fitPolynomial"
+    [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitForce x) |> Chart.Line |> Chart.withLineStyle(Dash=DrawingStyle.Dash) |> Chart.withTraceName "fitSplineForce"
+    [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitIntPo x) |> Chart.Line |> Chart.withLineStyle(Dash=DrawingStyle.Dash) |> Chart.withTraceName "fitSplineLinPred"
+    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x)      |> Chart.Line |> Chart.withTraceName "fitSpline"
     ]
     |> Chart.Combine
+    |> Chart.withTitle "Interpolation methods"
+    |> Chart.withY_Axis (myAxisRange "" (-10.,10.))
+    |> Chart.withX_Axis (myAxis "" )
 
 (*** include-value:splineChart ***)
 
@@ -125,6 +136,8 @@ let derivativeChart =
     [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getThirdDerivative  coeffSpline x_Data x) |> Chart.Point |> Chart.withTraceName "trd derivative"
     ]
     |> Chart.Combine
+    |> Chart.withTitle "Cubic spline derivatives"
+    |> styleChart "" ""
 
 
 (*** include-value:derivativeChart ***)
@@ -175,5 +188,6 @@ let splineComparison =
     [0. .. 82.] |> List.map (fun x -> x,funPolInterpol x  ) |> Chart.Line  |> Chart.withTraceName "polynomial"
     ]
     |> Chart.Combine
+    |> styleChart "" ""
 
 (*** include-value:splineComparison ***)
