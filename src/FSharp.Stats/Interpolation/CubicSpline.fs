@@ -473,10 +473,7 @@ module CubicSpline =
                 let rec loop i acc =
                     if i = x_Data.Length - 1 then
                         let s1 = (3. * (y_Data.[i] - y_Data.[i-1])) / (2. * (x_Data.[i] - x_Data.[i-1]))
-                        let s2 = 
-                            let s21 = (y_Data.[i-1] - y_Data.[i]) / (x_Data.[i-1] - x_Data.[i])
-                            let s22 = (y_Data.[i-1] - y_Data.[i-2]) / (x_Data.[i-1] - x_Data.[i-2])
-                            (s21 + s22) / 4.
+                        let s2 = calcSlope (i-1) / 2.
                         let tmp = s1 - s2
                         (tmp::acc) |> List.rev
                     else 
