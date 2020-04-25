@@ -63,7 +63,7 @@ module LinearRegression =
                 let fit (coef: float) (x:float) =            
                     coef * x
 
-            module Univariable =
+            module Univariable =    
                 /// Calculates the coefficients for linear regression
                 /// in the form of [|intercept; slope;|]
                 let coefficient (x_data : Vector<float>) (y_data : Vector<float>) =
@@ -72,7 +72,14 @@ module LinearRegression =
                     let N = x_data.Length
                     let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else x_data.[m] )
                     Algebra.LinearAlgebra.LeastSquares X y_data
-                    
+
+                /// Calculates the coefficients for linear regression through a specified point (xC,yC) 
+                let coefficientConstrained (x_data : Vector<float>) (y_data : Vector<float>) ((xC,yC): float*float) =
+                    let x_transformed = x_data |> Vector.map (fun x -> x - xC)
+                    let y_transformed = y_data |> Vector.map (fun y -> y - yC)
+                    let slope = RTO.coefficientOfVector x_transformed y_transformed
+                    [|- xC * slope - yC;slope|]
+
                 /// Fit to x
                 let fit (coef : Vector<float>) (x:float) =
                     if coef.Length <> 2 then
