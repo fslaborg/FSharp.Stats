@@ -242,3 +242,52 @@ let predictionPlot =
 
 
 (*** include-value:predictionPlot ***)
+
+
+(**
+##Cook's distance
+
+Leverage: Leverage describes the potential impact of data points regarding their regression line. Points that show a great dependent-variable-distance to all other points, have a 
+higher potential to distort the regression line coefficients (high-leverage points).
+
+Cooks distance (D) is a measure to describe the influence of each data point to the regression line.
+If D is low, the influence is low, while a high D indicates an 'influencial observation' that is worth taking a closer look.
+Cooks distance is a mixture of the residual sum of squares at the particular point and its leverage.
+
+A linear threshold is arbitrarily defined by either 1, 4/n, or 3*mean(D).
+Because outliers have a strong influence to D of all other points as well, the thresholds should not be applied without checking the issues by eye.
+
+*)
+
+open LinearRegression.OrdinaryLeastSquares.Linear
+
+let xD = vector [|1. .. 10.|]
+let yD = vector [|4.;6.;9.;7.;13.;17.;16.;23.;14.;26.|]
+
+let cooksDistance = Univariable.cooksDistance xD yD
+
+let nD         = float xD.Length
+let meanCook   = Seq.mean cooksDistance
+let threshold1 = 1.
+let threshold2 = 4. / nD
+let threshold3 = 3. * meanCook
+
+(*** hide ***)
+let cook = 
+    [
+    Chart.Column (Seq.zip xD cooksDistance) |> Chart.withTraceName "cook's distance"
+    Chart.Line([0.5,threshold1;10.5,threshold1])|> Chart.withLineStyle(Dash=DrawingStyle.Dash)|> Chart.withTraceName "t=1"
+    Chart.Line([0.5,threshold2;10.5,threshold2])|> Chart.withLineStyle(Dash=DrawingStyle.Dash)|> Chart.withTraceName "t=4/n"
+    Chart.Line([0.5,threshold3;10.5,threshold3])|> Chart.withLineStyle(Dash=DrawingStyle.Dash)|> Chart.withTraceName "t=3*mean(D)"
+    ]
+    |> Chart.Combine
+    |> Chart.withX_Axis(myAxis "x")
+    |> Chart.withY_Axis(myAxis "cook's distance")
+    |> fun l -> Chart.Stack 1 [(Chart.Point(xD,yD) |> Chart.withTraceName "raw");l]
+    |> Chart.withX_Axis(myAxis "")
+    |> Chart.withY_Axis(myAxis "")
+    |> Chart.withTitle "Cook's distance"
+    |> Chart.withSize (650.,650.)
+
+(*** include-value: cook ***)
+
