@@ -47,7 +47,22 @@
 <!-- Render nested types and modules, if there are any -->
   <h2>Nested types and modules</h2>
   <div>
-      <table class="table table-bordered module-list">
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-fitting-crossvalidation-crossvalidationresult-1.html">CrossValidationResult<'a></a>
+          </td>
+          <td class="xmldoc">
+          
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered module-list">
     <thead>
       <tr><td>Module</td><td>Description</td></tr>
     </thead>
@@ -75,14 +90,14 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '1296', 1296)" onmouseover="showTip(event, '1296', 1296)">
-            kFold k iterations xData yData fit error
+            createCrossValidationResult(...)
           </code>
           <div class="tip" id="1296">
-            <strong>Signature:</strong> k:int -&gt; iterations:int -&gt; xData:Matrix&lt;^T&gt; -&gt; yData:Vector&lt;^T&gt; -&gt; fit:(Matrix&lt;^T&gt; -&gt; Vector&lt;^T&gt; -&gt; Matrix&lt;^T&gt; -&gt; Vector&lt;^T&gt;) -&gt; error:(Vector&lt;^T&gt; -&gt; Vector&lt;^T&gt; -&gt; ^T) -&gt; ^T<br />
-                          <strong>Type parameters:</strong> ^T                      </div>
+            <strong>Signature:</strong> error:&#39;?9110 -&gt; errorStDev:&#39;?9110 -&gt; CrossValidationResult&lt;&#39;?9110&gt;<br />
+                          <strong>Type parameters:</strong> '?9110                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/CrossValidation.fs#L63-63" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/CrossValidation.fs#L32-32" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -93,14 +108,119 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '1297', 1297)" onmouseover="showTip(event, '1297', 1297)">
-            kFoldParallel(...)
+            gcv yAtKnots fittedYAtKnots
           </code>
           <div class="tip" id="1297">
-            <strong>Signature:</strong> k:int -&gt; iterations:int -&gt; degreeOfParallelism:int -&gt; xData:Matrix&lt;^T&gt; -&gt; yData:Vector&lt;^T&gt; -&gt; fit:(Matrix&lt;^T&gt; -&gt; Vector&lt;^T&gt; -&gt; Matrix&lt;^T&gt; -&gt; Vector&lt;^T&gt;) -&gt; error:(Vector&lt;^T&gt; -&gt; Vector&lt;^T&gt; -&gt; ^T) -&gt; ^T<br />
+            <strong>Signature:</strong> yAtKnots:Vector&lt;float&gt; -&gt; fittedYAtKnots:Vector&lt;float&gt; -&gt; float&lt;MeasureOne&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/CrossValidation.fs#L197-197" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1298', 1298)" onmouseover="showTip(event, '1298', 1298)">
+            kFold k xData yData fit error
+          </code>
+          <div class="tip" id="1298">
+            <strong>Signature:</strong> k:int -&gt; xData:Matrix&lt;^T&gt; -&gt; yData:Vector&lt;^T&gt; -&gt; fit:(Matrix&lt;^T&gt; -&gt; Vector&lt;^T&gt; -&gt; RowVector&lt;^T&gt; -&gt; ^T) -&gt; error:(^T -&gt; ^T -&gt; ^T) -&gt; ^T<br />
                           <strong>Type parameters:</strong> ^T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/CrossValidation.fs#L29-29" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/CrossValidation.fs#L121-121" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Computes a k fold cross-validation,
+k: training set size (and number of iterations),
+xData: rowwise x-coordinate matrix,
+yData: yData vector
+fit: x and y data lead to function that maps a rowwise matrix of xCoordinates to a y-coordinate,
+error: defines the error of the fitted y-coordinate and the actual y-coordinate</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1299', 1299)" onmouseover="showTip(event, '1299', 1299)">
+            kFoldParallel(...)
+          </code>
+          <div class="tip" id="1299">
+            <strong>Signature:</strong> k:int -&gt; iterations:int -&gt; degreeOfParallelism:int -&gt; xData:Matrix&lt;^T&gt; -&gt; yData:Vector&lt;^T&gt; -&gt; fit:(Matrix&lt;^T&gt; -&gt; Vector&lt;^T&gt; -&gt; Matrix&lt;^T&gt; -&gt; Vector&lt;^T&gt;) -&gt; error:(Vector&lt;^T&gt; -&gt; Vector&lt;^T&gt; -&gt; ^T) -&gt; ^T<br />
+                          <strong>Type parameters:</strong> ^T                        <span>
+            <strong>Attributes:</strong><br />
+[&lt;Obsolete(&quot;Use CrossValidation.kFold instead&quot;)&gt;]<br />
+          </span>
+          </div>
+        </td>
+        <td class="xmldoc">
+              <div class="alert alert-warning">
+              <strong>WARNING: </strong> This API is obsolete
+              <p>Use CrossValidation.kFold instead</p>
+              </div> 
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/CrossValidation.fs#L36-36" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1300', 1300)" onmouseover="showTip(event, '1300', 1300)">
+            loocv xData yData fitFunc error
+          </code>
+          <div class="tip" id="1300">
+            <strong>Signature:</strong> xData:Matrix&lt;^T&gt; -&gt; yData:Vector&lt;^T&gt; -&gt; fitFunc:(Matrix&lt;^T&gt; -&gt; Vector&lt;^T&gt; -&gt; RowVector&lt;^T&gt; -&gt; ^T) -&gt; error:(^T -&gt; ^T -&gt; ^T) -&gt; ^T<br />
+                          <strong>Type parameters:</strong> ^T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/CrossValidation.fs#L132-132" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1301', 1301)" onmouseover="showTip(event, '1301', 1301)">
+            repeatedKFold(...)
+          </code>
+          <div class="tip" id="1301">
+            <strong>Signature:</strong> k:int -&gt; iterations:int -&gt; xData:Matrix&lt;^T&gt; -&gt; yData:Vector&lt;^T&gt; -&gt; fit:(Matrix&lt;^T&gt; -&gt; Vector&lt;^T&gt; -&gt; RowVector&lt;^T&gt; -&gt; ^T) -&gt; error:(^T -&gt; ^T -&gt; ^T) -&gt; getStDev:(seq&lt;^T&gt; -&gt; ^T) -&gt; CrossValidationResult&lt;^T&gt;<br />
+                          <strong>Type parameters:</strong> ^T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/CrossValidation.fs#L76-76" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1302', 1302)" onmouseover="showTip(event, '1302', 1302)">
+            shuffelAndSplit(...)
+          </code>
+          <div class="tip" id="1302">
+            <strong>Signature:</strong> p:float -&gt; iterations:int -&gt; xData:Matrix&lt;^T&gt; -&gt; yData:Vector&lt;^T&gt; -&gt; fit:(Matrix&lt;^T&gt; -&gt; Vector&lt;^T&gt; -&gt; RowVector&lt;^T&gt; -&gt; ^T) -&gt; error:(^T -&gt; ^T -&gt; ^T) -&gt; getStDev:(seq&lt;^T&gt; -&gt; ^T) -&gt; CrossValidationResult&lt;^T&gt;<br />
+                          <strong>Type parameters:</strong> ^T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/CrossValidation.fs#L162-162" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

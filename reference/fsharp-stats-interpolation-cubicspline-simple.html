@@ -90,10 +90,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1440', 1440)" onmouseover="showTip(event, '1440', 1440)">
+          <code onmouseout="hideTip(event, '1448', 1448)" onmouseover="showTip(event, '1448', 1448)">
             coefficients(...)
           </code>
-          <div class="tip" id="1440">
+          <div class="tip" id="1448">
             <strong>Signature:</strong> boundaryCondition:BoundaryCondition -&gt; x_Values:Vector&lt;float&gt; -&gt; y_Values:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
@@ -111,10 +111,10 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1441', 1441)" onmouseover="showTip(event, '1441', 1441)">
+          <code onmouseout="hideTip(event, '1449', 1449)" onmouseover="showTip(event, '1449', 1449)">
             fit coefficients x_Values x
           </code>
-          <div class="tip" id="1441">
+          <div class="tip" id="1449">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
                                   </div>
         </td>
@@ -131,10 +131,10 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1442', 1442)" onmouseover="showTip(event, '1442', 1442)">
+          <code onmouseout="hideTip(event, '1450', 1450)" onmouseover="showTip(event, '1450', 1450)">
             fitForce coefficients x_Values x
           </code>
-          <div class="tip" id="1442">
+          <div class="tip" id="1450">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
                                   </div>
         </td>
@@ -151,15 +151,35 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1443', 1443)" onmouseover="showTip(event, '1443', 1443)">
+          <code onmouseout="hideTip(event, '1451', 1451)" onmouseover="showTip(event, '1451', 1451)">
+            fitWithLinearPrediction(...)
+          </code>
+          <div class="tip" id="1451">
+            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L369-369" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>fits a cubic spline fit even outside of the interval defined in x_Values by linear interpolation of slope given by border knots</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1452', 1452)" onmouseover="showTip(event, '1452', 1452)">
             getFirstDerivative(...)
           </code>
-          <div class="tip" id="1443">
+          <div class="tip" id="1452">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L397-397" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L425-425" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -169,15 +189,15 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1444', 1444)" onmouseover="showTip(event, '1444', 1444)">
+          <code onmouseout="hideTip(event, '1453', 1453)" onmouseover="showTip(event, '1453', 1453)">
             getSecondDerivative(...)
           </code>
-          <div class="tip" id="1444">
+          <div class="tip" id="1453">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L400-400" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L428-428" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -187,15 +207,15 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1445', 1445)" onmouseover="showTip(event, '1445', 1445)">
+          <code onmouseout="hideTip(event, '1454', 1454)" onmouseover="showTip(event, '1454', 1454)">
             getThirdDerivative(...)
           </code>
-          <div class="tip" id="1445">
+          <div class="tip" id="1454">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L403-403" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L431-431" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

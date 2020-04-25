@@ -55,10 +55,31 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1388', 1388)" onmouseover="showTip(event, '1388', 1388)">
+          <code onmouseout="hideTip(event, '1394', 1394)" onmouseover="showTip(event, '1394', 1394)">
+            linearSpline data basispts
+          </code>
+          <div class="tip" id="1394">
+            <strong>Signature:</strong> data:(float * float) [] -&gt; basispts:float [] -&gt; Matrix&lt;float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/Spline.fs#L75-75" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>A linear spline is formed by connecting linear segments, that meet at the knots defined as basispts.
+This is how the slope of the fitted function changes at each knot.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1395', 1395)" onmouseover="showTip(event, '1395', 1395)">
             smoothingSpline data basispts
           </code>
-          <div class="tip" id="1388">
+          <div class="tip" id="1395">
             <strong>Signature:</strong> data:(float * float) [] -&gt; basispts:float [] -&gt; float -&gt; float -&gt; float<br />
                                   </div>
         </td>
@@ -67,7 +88,8 @@
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts</p>
+          <p>Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts.
+The resulting function takes lambda (regularization parameter) and a x_Value as input.</p>
 
 
         </td>
