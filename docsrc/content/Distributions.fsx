@@ -373,10 +373,6 @@ let plotEmpirical =
 
 (*** include-value:plotEmpirical ***)
 
-
-
-
-
 (**
 ###Density estimation
 
@@ -388,6 +384,107 @@ let xy = KernelDensity.estimate KernelDensity.Kernel.gaussian 1.0 nv
 
 Chart.SplineArea xy
   
+(**
+
+<a name="Distance"></a>
+
+##Distance
+
+In this example we will calculate the Wasserstein Metric between 3 distributions. One can imagine this metric as the amount of work needed to move the area (pile of dirt) of one distribution to the area of the other. That's why it's also called Earth Movers Distance.
+
+
+*)
+
+let distribution1 = 
+    let normal = Continuous.normal 300. 15.
+    Array.init 1000 (fun _ -> normal.Sample())
+let distribution2 =
+    let normal = Continuous.normal 350. 20.
+    Array.init 500 (fun _ -> normal.Sample())
+let distribution3 =
+    let normal = Continuous.normal 500. 20.
+    Array.init 1000 (fun _ -> normal.Sample())
+
+let pilesOfDirt =
+    [
+    Chart.Histogram(distribution1,Name = "Distribution1")
+    Chart.Histogram(distribution2,Name = "Distribution2")
+    Chart.Histogram(distribution3,Name = "Distribution3")
+    ]
+    |> Chart.Combine
+
+(*** include-value:pilesOfDirt ***)
+
+let distance1and2 = Distance.OneDimensional.wassersteinDistance distribution1 distribution2
+
+(*** include-value:distance1and2 ***)
+
+let distance1and3 = Distance.OneDimensional.wassersteinDistance distribution1 distribution3
+
+(*** include-value:distance1and3 ***)
+
+
+(*** hide ***)
+let distributions = 
+    [|distribution1;distribution2;distribution3|]
+
+let mapColor min max value = 
+    let proportionR = 
+        ((255. - 200.) * (value - min) / (max - min))
+        |> int
+        |> fun x -> 255 - x
+        
+    let proportionG = 
+        ((255. - 200.) * (value - min) / (max - min))
+        |> int
+        |> fun x -> 255 - x
+    let proportionB = 
+        ((255. - 200.) * (value - min) / (max - min))
+        |> int
+        |> fun x -> 255 - x
+    Colors.fromRgb proportionR proportionG proportionB
+    |> Colors.toWebColor
+
+let distancesTable =
+    let headerColors = ["white";"#1f77b4";"#ff7f0e";"#2ca02c"]
+    let distances = 
+        distributions
+        |> Array.map (fun x ->
+            distributions
+            |> Array.map (fun y ->
+                Distance.OneDimensional.wassersteinDistance x y
+                |> (sprintf "%.2f")
+            )
+        )
+        |> Array.transpose 
+        |> Array.append [|[|"Distribution1";"Distribution2";"Distribution3"|]|]
+        |> Array.transpose 
+    let cellColors = 
+        distances
+        |> Array.mapi (fun i a ->
+            a
+            |> Array.mapi (fun j v -> 
+                if j = 0 then 
+                    if i = 0 then "#1f77b4"
+                    elif i = 1 then "#ff7f0e"
+                    else "#2ca02c"
+                else 
+                    mapColor 0. 200. (float v)
+            )
+        )
+        |> Array.transpose
+ 
+    Chart.Table(
+        ["";"Distribution1";"Distribution2";"Distribution3"],         
+        distances,
+        ColorHeader = headerColors,
+        ColorCells = cellColors)
+
+(*** include-value:distancesTable ***)
+
+(**
+As expected the distance between Distribution 1 and 2 is the lowest 
+*)
 
 (**
 <a name="Bandwidth"></a>
