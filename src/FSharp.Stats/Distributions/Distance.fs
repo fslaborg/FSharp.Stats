@@ -25,12 +25,9 @@ module Distance =
 
         /// For value x, find index of the smallest value in sorted array which is larger than it
         let private getCDFIndices (values : float []) x =
-        Array.findIndex (fun e -> e > x) values
-
-        /// Returns an array representing the cumulative sum beginning from the start of the array up to each element
-        let private cumulativeSum (values : float []) =
-        Array.scan (+) 0. values
-        |> Array.tail
+            match Array.tryFindIndex (fun e -> e > x) values with
+            | Some x -> x
+            | None -> values.Length
 
         /// Returns the index mapping required to sort the values from small to large
         let private getSortedIndices (values : float []) =
@@ -66,9 +63,8 @@ module Distance =
                 |> Array.map (getCDFIndices sorted)
             let cumulativeWeights = 
                 weights
-                |> sortByIndices sortIndices 
-                |> cumulativeSum
-                |> Array.append [|0.|]
+                |> sortByIndices sortIndices               
+                |> Array.scan (+) 0. // Returns an array representing the cumulative sum beginning from the start of the array up to each element
             sortByIndices cdfIndices cumulativeWeights
             |> Array.map (fun x -> x / cumulativeWeights.[len])
 
