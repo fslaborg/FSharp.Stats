@@ -33,12 +33,8 @@ module Distance =
 
         /// Returns an array representing the cumulative sum beginning from the start of the array up to each element
         let private cumulativeSum (values : float []) =
-            values
-            |> Array.mapFold (fun acc v -> 
-                                let s = acc + v
-                                s,s
-            ) 0.
-            |> fst
+        Array.scan (+) 0. values
+        |> Array.tail
 
         /// Returns the index mapping required to sort the values from small to large
         let private getSortedIndices (values : float []) =
