@@ -25,11 +25,7 @@ module Distance =
 
         /// For value x, find index of the smallest value in sorted array which is larger than it
         let private getCDFIndices (values : float []) x =
-            let rec searcher i =
-                if (i = values.Length) || x < values.[i]  then i 
-                else
-                    searcher (i+1)
-            searcher 0
+        Array.findIndex (fun e -> e > x) values
 
         /// Returns an array representing the cumulative sum beginning from the start of the array up to each element
         let private cumulativeSum (values : float []) =
