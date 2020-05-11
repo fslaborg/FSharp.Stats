@@ -76,17 +76,13 @@ module Distance =
             | 1 ->
                 (xCDFs,yCDFs,deltas)
                 |||> Array.map3 (fun xCDF yCDF delta ->
-                    xCDF - yCDF
-                    |> abs
-                    |> (*) delta   
+                    delta * (abs (xCDF - yCDF))
                 )
                 |> Array.sum
             | 2 ->
                 (xCDFs,yCDFs,deltas)
                 |||> Array.map3 (fun xCDF yCDF delta ->
-                    xCDF - yCDF
-                    |> square
-                    |> (*) delta   
+                    delta * (square (xCDF - yCDF))
                 )
                 |> Array.sum
                 |> sqrt
@@ -94,11 +90,10 @@ module Distance =
                 let p = float p
                 let pow x = Math.Pow(x,p)
                 let root x = Math.Pow(x,(1. / p))
+
                 (xCDFs,yCDFs,deltas)
                 |||> Array.map3 (fun xCDF yCDF delta ->
-                    xCDF - yCDF
-                    |> pow
-                    |> (*) delta   
+                    delta * (pow (xCDF - yCDF))
                 )
                 |> Array.sum
                 |> root
