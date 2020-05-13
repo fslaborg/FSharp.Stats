@@ -14,6 +14,7 @@
     <Compile Include="Tests.fs" />
     <Compile Include="Matrix.fs" />
     <Compile Include="SpecialFunctions.fs" />
+    <Compile Include="Distributions.fs" />
     <Compile Include="ML.fs" />
     <Compile Include="RunTests.fs" />
     <None Include="paket.references" />

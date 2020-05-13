@@ -392,7 +392,7 @@ Chart.SplineArea xy
 
 In this example we will calculate the Wasserstein Metric between 3 distributions. One can imagine this metric as the amount of work needed to move the area (pile of dirt) of one distribution to the area of the other. That's why it's also called Earth Movers Distance.
 
-
+Be aware that this distance measure is dependant on the actual absolute vales of the distributions.
 *)
 
 let distribution1 = 
