@@ -14,6 +14,9 @@ module RunTests =
         Tests.runTestsWithArgs defaultConfig args SpecialFunctionsTests.testGammaFunctions |> ignore
         Tests.runTestsWithArgs defaultConfig args SpecialFunctionsTests.testBetaFunctions  |> ignore
         
+        //=========================== Distributions =========================================================
+        Tests.runTestsWithArgs defaultConfig args DistributionsTests.testDistanceFunctions |> ignore
+
         //================================== ML =================================================================
         //SimilarityMetrics
         Tests.runTestsWithArgs defaultConfig args MLTests.SimilarityMetrics.jaccardIndexTests           |> ignore
