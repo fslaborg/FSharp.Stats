@@ -54,7 +54,7 @@ NormC: Sample independently 10 values from the normal distribution and calculate
 open FSharp.Stats
 open FSharp.Stats.Distributions
 
-// Creates a normal distribution with µ = 500 and tau = 20 
+// Creates a normal distribution with Âµ = 500 and tau = 20 
 let normal = Continuous.normal 500. 20.
 
 // NormA: What is the probability of bread weights to be equal or lower than 470 g?
@@ -392,7 +392,7 @@ Chart.SplineArea xy
 
 In this example we will calculate the Wasserstein Metric between 3 distributions. One can imagine this metric as the amount of work needed to move the area (pile of dirt) of one distribution to the area of the other. That's why it's also called Earth Movers Distance.
 
-Be aware that this distance measure is dependant on the actual absolute vales of the distributions.
+Be aware that this distance measure is dependent on the actual absolute values of the distributions.
 *)
 
 let distribution1 = 
