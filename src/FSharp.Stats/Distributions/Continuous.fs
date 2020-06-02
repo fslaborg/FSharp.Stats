@@ -157,34 +157,34 @@ module Continuous =
 
 
 // ######
-// (Gaus)- Normal distribution
+// (Gaussian)- Normal distribution
 // ######
 
 
     // Normal distribution helper functions.
-    let normalCheckParam mu tau = if System.Double.IsNaN(mu) || tau < 0.0 then failwith "Normal distribution should be parametrized by tau > 0.0."
+    let normalCheckParam mu sigma = if System.Double.IsNaN(mu) || sigma < 0.0 then failwith "Normal distribution should be parametrized by sigma > 0.0."
     
     /// Normal distribution.
     type Normal =
         /// Computes the mean.
-        static member Mean mu tau =
-            normalCheckParam mu tau
+        static member Mean mu sigma =
+            normalCheckParam mu sigma
             mu
 
         /// Computes the variance.
-        static member Variance mu tau =
-            normalCheckParam mu tau
-            tau*tau
+        static member Variance mu sigma =
+            normalCheckParam mu sigma
+            sigma*sigma
 
         /// Computes the standard deviation.
-        static member StandardDeviation mu tau =
-            normalCheckParam mu tau
-            tau
+        static member StandardDeviation mu sigma =
+            normalCheckParam mu sigma
+            sigma
 
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-        static member Sample mu tau =
+        static member Sample mu sigma =
             // Source: fsmathtools
-            normalCheckParam mu tau
+            normalCheckParam mu sigma
             let mutable v1 = 2.0 * Random.rndgen.NextFloat() - 1.0
             let mutable v2 = 2.0 * Random.rndgen.NextFloat() - 1.0
             let mutable r = v1 * v1 + v2 * v2
@@ -193,46 +193,46 @@ module Continuous =
                 v2 <- 2.0 * Random.rndgen.NextFloat() - 1.0
                 r <- v1 * v1 + v2 * v2
             let fac = sqrt(-2.0*(log r)/r)
-            (tau * v1 * fac + mu)
+            (sigma * v1 * fac + mu)
             //failwith "Not implemented yet."
 
         /// Computes the probability density function.
-        static member PDF mu tau x =
-            normalCheckParam mu tau
-            (exp (-0.5 * (x-mu)*(x-mu) / (tau*tau))) / (sqrt (2.0 * Ops.pi * (tau*tau)))
+        static member PDF mu sigma x =
+            normalCheckParam mu sigma
+            (exp (-0.5 * (x-mu)*(x-mu) / (sigma*sigma))) / (sqrt (2.0 * Ops.pi * (sigma*sigma)))
 
         /// Computes the cumulative distribution function.
-        static member CDF mu tau x =
-            normalCheckParam mu tau            
-            0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((x - mu)/(tau*(sqrt 2.0))))
+        static member CDF mu sigma x =
+            normalCheckParam mu sigma            
+            0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((x - mu)/(sigma*(sqrt 2.0))))
 
         /// Returns the support of the exponential distribution: [0, Positive Infinity).
-        static member Support mu tau =
-            normalCheckParam mu tau
+        static member Support mu sigma =
+            normalCheckParam mu sigma
             (System.Double.NegativeInfinity, System.Double.PositiveInfinity)
 
         /// Initializes a Normal distribution        
-        static member init mu tau =
+        static member init mu sigma =
             { new Distribution<float,float> with
-                member d.Mean              = Normal.Mean mu tau
-                member d.StandardDeviation = Normal.StandardDeviation mu tau
-                member d.Variance          = Normal.Variance mu tau
-                //member d.CoVariance        = Normal.CoVariance  mu tau
-                member d.Sample ()         = Normal.Sample mu tau
-                member d.PDF x             = Normal.PDF mu tau x      
-                member d.CDF x             = Normal.CDF mu tau x         
+                member d.Mean              = Normal.Mean mu sigma
+                member d.StandardDeviation = Normal.StandardDeviation mu sigma
+                member d.Variance          = Normal.Variance mu sigma
+                //member d.CoVariance        = Normal.CoVariance  mu sigma
+                member d.Sample ()         = Normal.Sample mu sigma
+                member d.PDF x             = Normal.PDF mu sigma x      
+                member d.CDF x             = Normal.CDF mu sigma x         
             }
 
         /// Estimates the Normal distribution parameters from sample data with maximum-likelihood.
         static member Estimate samples =
             let s   = Seq.stats samples
             let mu  = SummaryStats.mean s
-            let tau = SummaryStats.stDev s
+            let sigma = SummaryStats.stDev s
             
-            Normal.init mu tau
+            Normal.init mu sigma
 
     /// Initializes a Normal distribution        
-    let normal mu tau = Normal.init mu tau
+    let normal mu sigma = Normal.init mu sigma
 
 
 // ######
