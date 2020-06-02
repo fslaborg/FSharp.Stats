@@ -96,10 +96,7 @@ let coeffSpline =
 //cubic interpolating splines are only defined within the region defined in x_Data
 let fit  x = 
     CubicSpline.Simple.fit coeffSpline x_Data x
-//to fit x_Values that are out of the region defined in x_Data you have to force it 
-//(Caution! Coefficients of border intervals are used).
-let fitForce x = 
-    CubicSpline.Simple.fitForce coeffSpline x_Data x
+//to fit x_Values that are out of the region defined in x_Data
 //fits the interpolation spline with linear prediction at borderknots
 let fitIntPo x = 
     CubicSpline.Simple.fitWithLinearPrediction coeffSpline x_Data x
@@ -109,14 +106,17 @@ let coeffPolynomial =
     Interpolation.Polynomial.coefficients x_Data y_Data
 let fitPol x = 
     Interpolation.Polynomial.fit coeffPolynomial x
-    
+//A linear spline draws straight lines to interpolate all data
+let coeffLinearSpline = Interpolation.LinearSpline.initInterpolate (Array.ofSeq x_Data) (Array.ofSeq y_Data)
+let fitLinSp = Interpolation.LinearSpline.interpolate coeffLinearSpline
+
 let splineChart =
     [
-    Chart.Point(x_Data,y_Data)                                          |> Chart.withTraceName "raw data"
+    Chart.Point(x_Data,y_Data)                                           |> Chart.withTraceName "raw data"
     [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitPol x)   |> Chart.Line |> Chart.withTraceName "fitPolynomial"
-    [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitForce x) |> Chart.Line |> Chart.withLineStyle(Dash=DrawingStyle.Dash) |> Chart.withTraceName "fitSplineForce"
     [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitIntPo x) |> Chart.Line |> Chart.withLineStyle(Dash=DrawingStyle.Dash) |> Chart.withTraceName "fitSplineLinPred"
     [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x)      |> Chart.Line |> Chart.withTraceName "fitSpline"
+    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitLinSp x) |> Chart.Line |> Chart.withTraceName "fitLinearSpline"
     ]
     |> Chart.Combine
     |> Chart.withTitle "Interpolation methods"

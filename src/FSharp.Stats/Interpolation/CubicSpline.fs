@@ -347,6 +347,7 @@ module CubicSpline =
             y_Value
 
         ///forces a spline fit even outside of the interval defined in x_Values
+        [<Obsolete("Coefficients of squared and cubic term are not valid outside x-value support. Use fitWithLinearPrediction instead.")>]
         let fitForce (coefficients: Vector<float>) (x_Values: Vector<float>) x =
             let sortedX = x_Values |> Seq.sort
             let intervalNumber =
