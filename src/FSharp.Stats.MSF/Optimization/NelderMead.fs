@@ -110,6 +110,7 @@ module NelderMead =
             variable
             
         solver.SetBounds(variableIndex, Rational.op_Implicit lower, Rational.op_Implicit upper)
+        //lower values represent higher priorities (docs.microsoft IGoal.Priority Property)
         solver.AddGoal(variableIndex,0, true)  |> ignore
         
         let mutable cValue : float = nan

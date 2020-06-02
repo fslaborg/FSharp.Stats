@@ -97,7 +97,7 @@ let outputTable =
         ["<b>Goodness of fit</b>";"";               ""]
         ["SS_total";        print ssTotal;          ""]
         ["SS_regression";   print ssReg;            ""]
-        ["SS_redidual";     print ssResidual;       ""]
+        ["SS_residual";     print ssResidual;       ""]
         ["r (pearson cor. coef.";               print r;                ""]
         ["r_squared";       print r_sq;             ""]      
         ["r_squared_adj";   print r_sq_adj;         ""]
