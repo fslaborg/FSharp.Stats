@@ -46,14 +46,46 @@ module ClusterNumber =
         SilhouetteIndexStDev= std
         }
 
-    let silhouetteIndex (bootstraps:int) (iClustering:int -> KClusteringResult<float []>) (data:float [] []) maxk =
-        //ToDo: change input to generic clustering result
-        //silhouetteIndex (bootstraps:int) (iClustering:int -> float [] [] []) (data:float [] []) maxk =
+    /// Calculates the silhouette score for a clustered data set where the coordinates of each data point is given as float [].
+    /// The index ranges from -1 (bad clustering result) to 1 (perfekt clustering result)
+    let silhouetteIndex (clusteredData:float [] [] []) =
         let averageDistance (item: float []) (cluster:float[][]) =
             cluster 
             |> Array.averageBy (fun j -> ML.DistanceMetrics.Array.euclideanNaNSquared item j)
 
-        [|2..maxk|]
+        let silhouetteIndex_k = 
+            clusteredData
+            |> Array.mapi (fun i cluster -> 
+                let externalPoints = 
+                    clusteredData 
+                    |> Array.indexed 
+                    |> Array.filter (fun (j,cl) -> j <> i) 
+                    |> Array.map snd
+                cluster
+                |> Array.map (fun point ->  
+                    let clustersize = float cluster.Length
+                    let intraCluster = 
+                        averageDistance point cluster  
+                        //correction for datapoint itself sum/(n-1) not sum/n
+                        |> fun intra -> intra * clustersize / (max 1. (clustersize - 1.)) //max ensures correct result at singletons
+                    let interCluster = 
+                        //filters out cluster of current point to get interCluster distance
+                        externalPoints
+                        |> Array.map (averageDistance point)
+                        |> Array.min //defines the neighboring cluster
+                    (interCluster - intraCluster) / (max interCluster intraCluster))
+                |> fun tmp -> tmp.Length,Seq.mean tmp) 
+            |> fun silhouetteIndices -> 
+                let count = Array.sumBy fst silhouetteIndices
+                silhouetteIndices
+                |> Array.sumBy (fun (n,sI) -> (float n) * sI)
+                |> fun sISum -> sISum / float count
+        silhouetteIndex_k
+        
+    /// The silhouette index can be used to determine the optimal cluster number in k means clustering.
+    /// bootstraps indicates the number the k means clustering is performed for each k and maxK indicated the maximal cluster number.
+    let silhouetteIndexKMeans (bootstraps:int) (iClustering:int -> KClusteringResult<float []>) (data:float [] []) maxK =
+        [|2..maxK|]
         |> Array.map (fun k ->
             printfn "iteration k = %i" k
             [|1..bootstraps|]
@@ -67,38 +99,14 @@ module ClusterNumber =
                     |> Array.map (fun (index,cluster) -> 
                         cluster 
                         |> Array.map (fun ((index,centroid),data) -> data))
-                let silhouetteIndex_k = 
-                    clusteredData
-                    |> Array.mapi (fun i cluster -> 
-                        let externalPoints = 
-                            clusteredData 
-                            |> Array.indexed 
-                            |> Array.filter (fun (j,cl) -> j <> i) 
-                            |> Array.map snd
-                        cluster
-                        |> Array.map (fun point ->  
-                            let clustersize = float cluster.Length
-                            let intraCluster = 
-                                averageDistance point cluster  
-                                //correction for datapoint itself sum/(n-1) not sum/n
-                                |> fun intra -> intra * clustersize / (max 1. (clustersize - 1.)) //max ensures correct result at singletons
-                            let interCluster = 
-                                //filters out cluster of current point to get interCluster distance
-                                externalPoints
-                                |> Array.map (averageDistance point)
-                                |> Array.min //defines the neighboring cluster
-                            (interCluster - intraCluster) / (max interCluster intraCluster))
-                        |> fun tmp -> tmp.Length,Seq.mean tmp) 
-                    |> fun silhouetteIndices -> 
-                        let count = Array.sumBy fst silhouetteIndices
-                        silhouetteIndices
-                        |> Array.sumBy (fun (n,sI) -> (float n) * sI)
-                        |> fun sISum -> sISum / float count
-                silhouetteIndex_k
+                silhouetteIndex clusteredData
             )
             |> PSeq.toArray
             |> fun x -> createSilhouetteResult k (Seq.mean x) (Seq.stDev x)
         )
+
+
+     
 
 module GapStatistics = 
     

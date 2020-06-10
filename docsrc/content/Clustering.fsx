@@ -336,6 +336,10 @@ Reference: 'Review on Determining of Cluster in K-means Clustering'; Kodinariya 
 
 *)
 
+
+// The following example expects the raw data to be clustered by k means clustering.
+// If you already have clustered data use the 'silhouetteIndex' function instead.
+
 let silhouetteData = 
     System.IO.File.ReadAllLines(__SOURCE_DIRECTORY__ + "/data/silhouetteIndexData.txt")
     |> Array.map (fun x -> 
@@ -343,7 +347,7 @@ let silhouetteData =
         [|float tmp.[0]; float tmp.[1]|])
 
 let sI = 
-    ML.Unsupervised.ClusterNumber.silhouetteIndex 
+    ML.Unsupervised.ClusterNumber.silhouetteIndexKMeans 
         50              // number of bootstraps 
         (kmeans euclideanNaNSquared (randomCentroids rnd) silhouetteData) 
         silhouetteData  // input data
