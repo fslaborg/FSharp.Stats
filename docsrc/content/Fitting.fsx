@@ -283,7 +283,7 @@ let fittingFunction x = coefficientsExp.[0] * Math.Exp(coefficientsExp.[1] * x)
 ###LevenbergMarquardtConstrained
 
 For nonlinear regression using the LevenbergMarquardtConstrained module, you have to follow similar steps as in the example shown above.
-In this example, a logistic function of the form `y = L/(1+e^(-k(t-x)))` should be fitted to growth data:
+In this example, a logistic function of the form `y = L/(1+e^(-k(t-x)))` should be fitted to count data:
 
 *)
 open FSharp.Stats.Fitting.NonLinearRegression
@@ -369,7 +369,7 @@ let fittedLogisticFunc =
     |> Chart.withTraceName "Fit"
     ]
     |> Chart.Combine
-    |> Chart.withY_AxisStyle "Cellcount"
+    |> Chart.withY_AxisStyle "Count"
     |> Chart.withX_AxisStyle "Time"
 
 (*** include-value:fittedLogisticFunc ***)
