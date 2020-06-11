@@ -74,10 +74,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1500', 1500)" onmouseover="showTip(event, '1500', 1500)">
+          <code onmouseout="hideTip(event, '1511', 1511)" onmouseover="showTip(event, '1511', 1511)">
             calcAIC bootstraps iClustering maxK
           </code>
-          <div class="tip" id="1500">
+          <div class="tip" id="1511">
             <strong>Signature:</strong> bootstraps:int -&gt; iClustering:(int -&gt; KClusteringResult&lt;float []&gt;) -&gt; maxK:int -&gt; (int * float) []<br />
                                   </div>
         </td>
@@ -94,12 +94,12 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1501', 1501)" onmouseover="showTip(event, '1501', 1501)">
+          <code onmouseout="hideTip(event, '1512', 1512)" onmouseover="showTip(event, '1512', 1512)">
             k_ruleOfThumb(observations)
           </code>
-          <div class="tip" id="1501">
-            <strong>Signature:</strong> observations:seq&lt;&#39;?8598&gt; -&gt; float<br />
-                          <strong>Type parameters:</strong> '?8598                      </div>
+          <div class="tip" id="1512">
+            <strong>Signature:</strong> observations:seq&lt;&#39;?8601&gt; -&gt; float<br />
+                          <strong>Type parameters:</strong> '?8601                      </div>
         </td>
         <td class="xmldoc">
                       <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/GapStatistics.fs#L11-11" class="github-link">
@@ -114,19 +114,43 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1502', 1502)" onmouseover="showTip(event, '1502', 1502)">
-            silhouetteIndex(...)
+          <code onmouseout="hideTip(event, '1513', 1513)" onmouseover="showTip(event, '1513', 1513)">
+            silhouetteIndex(clusteredData)
           </code>
-          <div class="tip" id="1502">
-            <strong>Signature:</strong> bootstraps:int -&gt; iClustering:(int -&gt; KClusteringResult&lt;float []&gt;) -&gt; data:float [] [] -&gt; maxk:int -&gt; SilhouetteResult []<br />
+          <div class="tip" id="1513">
+            <strong>Signature:</strong> clusteredData:float [] [] [] -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/GapStatistics.fs#L49-49" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/GapStatistics.fs#L51-51" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Calculates the silhouette score for a clustered data set where the coordinates of each data point is given as float [].
+The index ranges from -1 (bad clustering result) to 1 (perfekt clustering result)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '1514', 1514)" onmouseover="showTip(event, '1514', 1514)">
+            silhouetteIndexKMeans(...)
+          </code>
+          <div class="tip" id="1514">
+            <strong>Signature:</strong> bootstraps:int -&gt; iClustering:(int -&gt; KClusteringResult&lt;float []&gt;) -&gt; data:float [] [] -&gt; maxK:int -&gt; SilhouetteResult []<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/GapStatistics.fs#L87-87" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>The silhouette index can be used to determine the optimal cluster number in k means clustering.
+bootstraps indicates the number the k means clustering is performed for each k and maxK indicated the maximal cluster number.</p>
+
+
         </td>
       </tr>
     </tbody>
@@ -154,6 +178,7 @@
               <li><a href="/FSharp.Stats/Clustering.html">Clustering</a></li>
               <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
               <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/CrossValidation.html">Cross validation</a></li>
               <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
               <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
               <li class="divider"></li>
@@ -178,6 +203,8 @@
               <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
               <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
               </li>
+              <li class="nav-header">Special Issues</li>
+              <li><a href="/FSharp.Stats/GrowthCurve.html">Growth Curve</a></li>
               <li><a href="/FSharp.Stats/TemporalClassification.html">Temporal Classification</a></li>
 
 

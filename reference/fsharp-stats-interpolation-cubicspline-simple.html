@@ -90,10 +90,10 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1448', 1448)" onmouseover="showTip(event, '1448', 1448)">
+          <code onmouseout="hideTip(event, '1459', 1459)" onmouseover="showTip(event, '1459', 1459)">
             coefficients(...)
           </code>
-          <div class="tip" id="1448">
+          <div class="tip" id="1459">
             <strong>Signature:</strong> boundaryCondition:BoundaryCondition -&gt; x_Values:Vector&lt;float&gt; -&gt; y_Values:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
@@ -111,10 +111,10 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1449', 1449)" onmouseover="showTip(event, '1449', 1449)">
+          <code onmouseout="hideTip(event, '1460', 1460)" onmouseover="showTip(event, '1460', 1460)">
             fit coefficients x_Values x
           </code>
-          <div class="tip" id="1449">
+          <div class="tip" id="1460">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
                                   </div>
         </td>
@@ -131,15 +131,23 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1450', 1450)" onmouseover="showTip(event, '1450', 1450)">
+          <code onmouseout="hideTip(event, '1461', 1461)" onmouseover="showTip(event, '1461', 1461)">
             fitForce coefficients x_Values x
           </code>
-          <div class="tip" id="1450">
+          <div class="tip" id="1461">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
-                                  </div>
+                                    <span>
+            <strong>Attributes:</strong><br />
+[&lt;Obsolete(&quot;Coefficients of squared and cubic term are not valid outside x-value support. Use fitWithLinearPrediction instead.&quot;)&gt;]<br />
+          </span>
+          </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L350-350" class="github-link">
+              <div class="alert alert-warning">
+              <strong>WARNING: </strong> This API is obsolete
+              <p>Coefficients of squared and cubic term are not valid outside x-value support. Use fitWithLinearPrediction instead.</p>
+              </div> 
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L351-351" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -151,15 +159,15 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1451', 1451)" onmouseover="showTip(event, '1451', 1451)">
+          <code onmouseout="hideTip(event, '1462', 1462)" onmouseover="showTip(event, '1462', 1462)">
             fitWithLinearPrediction(...)
           </code>
-          <div class="tip" id="1451">
+          <div class="tip" id="1462">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L369-369" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L370-370" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -171,15 +179,15 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1452', 1452)" onmouseover="showTip(event, '1452', 1452)">
+          <code onmouseout="hideTip(event, '1463', 1463)" onmouseover="showTip(event, '1463', 1463)">
             getFirstDerivative(...)
           </code>
-          <div class="tip" id="1452">
+          <div class="tip" id="1463">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L425-425" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L426-426" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -189,15 +197,15 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1453', 1453)" onmouseover="showTip(event, '1453', 1453)">
+          <code onmouseout="hideTip(event, '1464', 1464)" onmouseover="showTip(event, '1464', 1464)">
             getSecondDerivative(...)
           </code>
-          <div class="tip" id="1453">
+          <div class="tip" id="1464">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L428-428" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L429-429" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -207,15 +215,15 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1454', 1454)" onmouseover="showTip(event, '1454', 1454)">
+          <code onmouseout="hideTip(event, '1465', 1465)" onmouseover="showTip(event, '1465', 1465)">
             getThirdDerivative(...)
           </code>
-          <div class="tip" id="1454">
+          <div class="tip" id="1465">
             <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L431-431" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L432-432" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -247,6 +255,7 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
               <li><a href="/FSharp.Stats/Clustering.html">Clustering</a></li>
               <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
               <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/CrossValidation.html">Cross validation</a></li>
               <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
               <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
               <li class="divider"></li>
@@ -271,6 +280,8 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
               <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
               <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
               </li>
+              <li class="nav-header">Special Issues</li>
+              <li><a href="/FSharp.Stats/GrowthCurve.html">Growth Curve</a></li>
               <li><a href="/FSharp.Stats/TemporalClassification.html">Temporal Classification</a></li>
 
 

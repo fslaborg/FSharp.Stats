@@ -556,8 +556,8 @@
 <div class="tip" id="fs73">val init : count:int -&gt; initializer:(int -&gt; float) -&gt; Vector&lt;float&gt;</div>
 <div class="tip" id="fs74">namespace FSharp.Stats.Distributions</div>
 <div class="tip" id="fs75">module Continuous<br /><br />from FSharp.Stats.Distributions</div>
-<div class="tip" id="fs76">type Normal =<br />&#160;&#160;static member CDF : mu:float -&gt; tau:float -&gt; x:float -&gt; float<br />&#160;&#160;static member Estimate : samples:seq&lt;float&gt; -&gt; Distribution&lt;float,float&gt;<br />&#160;&#160;static member Mean : mu:float -&gt; tau:float -&gt; float<br />&#160;&#160;static member PDF : mu:float -&gt; tau:float -&gt; x:float -&gt; float<br />&#160;&#160;static member Sample : mu:float -&gt; tau:float -&gt; float<br />&#160;&#160;static member StandardDeviation : mu:float -&gt; tau:float -&gt; float<br />&#160;&#160;static member Support : mu:float -&gt; tau:float -&gt; float * float<br />&#160;&#160;static member Variance : mu:float -&gt; tau:float -&gt; float<br />&#160;&#160;static member init : mu:float -&gt; tau:float -&gt; Distribution&lt;float,float&gt;</div>
-<div class="tip" id="fs77">static member Distributions.Continuous.Normal.Sample : mu:float -&gt; tau:float -&gt; float</div>
+<div class="tip" id="fs76">type Normal =<br />&#160;&#160;static member CDF : mu:float -&gt; sigma:float -&gt; x:float -&gt; float<br />&#160;&#160;static member Estimate : samples:seq&lt;float&gt; -&gt; Distribution&lt;float,float&gt;<br />&#160;&#160;static member Mean : mu:float -&gt; sigma:float -&gt; float<br />&#160;&#160;static member PDF : mu:float -&gt; sigma:float -&gt; x:float -&gt; float<br />&#160;&#160;static member Sample : mu:float -&gt; sigma:float -&gt; float<br />&#160;&#160;static member StandardDeviation : mu:float -&gt; sigma:float -&gt; float<br />&#160;&#160;static member Support : mu:float -&gt; sigma:float -&gt; float * float<br />&#160;&#160;static member Variance : mu:float -&gt; sigma:float -&gt; float<br />&#160;&#160;static member init : mu:float -&gt; sigma:float -&gt; Distribution&lt;float,float&gt;</div>
+<div class="tip" id="fs77">static member Distributions.Continuous.Normal.Sample : mu:float -&gt; sigma:float -&gt; float</div>
 <div class="tip" id="fs78">val stDevPopulation : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ) and member Sqrt)</div>
 <div class="tip" id="fs79">module Bandwidth<br /><br />from FSharp.Stats.Distributions</div>
 <div class="tip" id="fs80">val nrd0 : x:float [] -&gt; float</div>
@@ -652,6 +652,7 @@
               <li><a href="/FSharp.Stats/Clustering.html">Clustering</a></li>
               <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
               <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
+              <li><a href="/FSharp.Stats/CrossValidation.html">Cross validation</a></li>
               <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
               <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
               <li class="divider"></li>
@@ -676,6 +677,8 @@
               <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
               <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
               </li>
+              <li class="nav-header">Special Issues</li>
+              <li><a href="/FSharp.Stats/GrowthCurve.html">Growth Curve</a></li>
               <li><a href="/FSharp.Stats/TemporalClassification.html">Temporal Classification</a></li>
 
 
