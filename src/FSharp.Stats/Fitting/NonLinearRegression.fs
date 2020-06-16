@@ -610,27 +610,48 @@ module NonLinearRegression =
                                 gradientVector.[3] <- 1.
                                 gradientVector)
             }
+        
+        module GrowthModels =
 
-        //Gibson et al., Predicting microbial growth [...], Int. Journal of Food Microbiology, 1988
-        /// The gompertz function describes the log cell count at time point t.
-        //inflection always at y = 0.36 * (upper asymptote - lower asymptote)
-        let gompertz =
-            {
-            ParameterNames= [|"A: lower asymptote";"B: relative growth rate";"C: upper - lower asypmtote (yRange)";"M: x value of inflection point"|]
-            GetFunctionValue = 
-                (fun (parameterVector:Vector<float>) t -> 
-                    parameterVector.[0] + parameterVector.[2] * Math.Exp(-Math.Exp(-parameterVector.[1] * (t-parameterVector.[3]))))
-            GetGradientValue = (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
-                                let a = parameterVector.[0]
-                                let b = parameterVector.[1]
-                                let c = parameterVector.[2]
-                                let m = parameterVector.[3]
-                                gradientVector.[0] <- 1.
-                                gradientVector.[1] <- c * (t - m) * Math.Exp(- Math.Exp(- b * (t - m)) - b * (t - m))
-                                gradientVector.[2] <- Math.Exp(-Math.Exp(- b * (t - m)))
-                                gradientVector.[3] <- -b * c * Math.Exp(-Math.Exp(- b * (t - m)) - b * (t - m))
-                                gradientVector)
-            }
+            //Gibson et al., Predicting microbial growth [...], Int. Journal of Food Microbiology, 1988
+            /// The gompertz function describes the log cell count at time point t.
+            //inflection always at y = 0.36 * (upper asymptote - lower asymptote)
+            let gompertz =
+                {
+                ParameterNames= [|"A: lower asymptote";"B: relative growth rate";"C: upper - lower asypmtote (yRange)";"M: x value of inflection point"|]
+                GetFunctionValue = 
+                    (fun (parameterVector:Vector<float>) t -> 
+                        parameterVector.[0] + parameterVector.[2] * Math.Exp(-Math.Exp(-parameterVector.[1] * (t-parameterVector.[3]))))
+                GetGradientValue = 
+                    (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                        let a = parameterVector.[0]
+                        let b = parameterVector.[1]
+                        let c = parameterVector.[2]
+                        let m = parameterVector.[3]
+                        gradientVector.[0] <- 1.
+                        gradientVector.[1] <- c * (t - m) * Math.Exp(- Math.Exp(- b * (t - m)) - b * (t - m))
+                        gradientVector.[2] <- Math.Exp(-Math.Exp(- b * (t - m)))
+                        gradientVector.[3] <- -b * c * Math.Exp(-Math.Exp(- b * (t - m)) - b * (t - m))
+                        gradientVector)
+                }
+
+            /// determines the solver options for cell count growth data (must be in log space). For untransformed data use 'id' as transform.
+            let getSolverOptionsGompertz (xData :float []) (yDataLog :float []) expectedGenerationTime (usedLogTransform: float -> float) =
+                // lower asymptote
+                let a = Seq.min yDataLog
+                // upper asymptote - lower asymptote (y range)
+                let c = (Seq.max yDataLog) - a
+                // relative growth rate
+                let b = usedLogTransform 2. * Math.E / (expectedGenerationTime * c)
+                // time point of inflection (in gompertz model at f(x)=36% of the y range)
+                let m = 
+                    let yAtInflection = a + c * 0.36
+                    Seq.zip xData yDataLog
+                    |> Seq.minBy (fun (xValue,yValue) ->
+                        Math.Abs (yValue - yAtInflection)
+                    )
+                    |> fst
+                createSolverOption 0.001 0.001 10000 [|a;b;c;m|]
 
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
