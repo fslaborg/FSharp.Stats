@@ -370,6 +370,9 @@ module Seq =
    
 
 
+    /// Computes the standard error of the mean (SEM) with bessel corrected sample standard deviation    
+    let inline sem (items:seq<'T>) : 'U  =
+        stDev items / sqrt (float (Seq.length items))
 
 
 
