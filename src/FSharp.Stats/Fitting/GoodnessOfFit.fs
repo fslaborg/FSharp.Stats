@@ -203,7 +203,7 @@ module GoodnessOfFit =
         [| Testing.Anova.createAnovaVariationSource dfR MSR FTest.PValue Testing.Anova.VariationSource.Regression FTest.Statistic (sst-sse); 
            Testing.Anova.createAnovaVariationSource dfE MSE nan          Testing.Anova.VariationSource.Residual   nan sse;
            Testing.Anova.createAnovaVariationSource dfT MST nan          Testing.Anova.VariationSource.Total      nan sst;|]
-       
+
     module OrdinaryLeastSquares =
 
         module Linear =
@@ -278,9 +278,10 @@ module GoodnessOfFit =
             let calculateANOVA (order) (coef : Vector<float>) (x_data) (y_data) = 
                 let fitFunction x = Vector.dot coef (vandermondeRow order x)
                 calculateANOVA order fitFunction x_data y_data 
-
+            
+            [<Obsolete("Use Fitting.CrossValidation instead")>]
             module CrossValidation =
-
+                
                 ///calculates LeaveOneOutCrossValidation
                 let loocv (x_Data:Vector<float>) (y_Data:Vector<float>) order =
                     [0..x_Data.Length-1]
