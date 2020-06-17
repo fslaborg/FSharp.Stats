@@ -204,7 +204,7 @@ module Seq =
     // ##### ##### ##### ##### #####
     // Median 
     /// Sample Median
-    let inline median (items:seq<'T>) : 'U  =
+    let inline median (items:seq<'T>) =
         // TODO
         items |> Seq.toArray |> Array.median
         //raise (new System.NotImplementedException())
@@ -371,7 +371,7 @@ module Seq =
 
 
     /// Computes the standard error of the mean (SEM) with bessel corrected sample standard deviation    
-    let inline sem (items:seq<'T>) : 'U  =
+    let inline sem (items:seq<'T>) =
         stDev items / sqrt (float (Seq.length items))
 
 

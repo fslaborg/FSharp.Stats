@@ -42,11 +42,13 @@ module Correlation =
     module Seq = 
         /// Pearson correlation 
         let inline pearson (seq1:seq<'T>) (seq2:seq<'T>) : float =
-            use e = seq1.GetEnumerator()
-            use e2 = seq2.GetEnumerator()
-            let zero = LanguagePrimitives.GenericZero< 'T > 
-            let one = LanguagePrimitives.GenericOne<'T> 
-            let rec loop n (sumX: 'T) (sumY: 'T) (sumXY: 'T) (sumXX: 'T) (sumYY: 'T) = 
+            let seq1' = seq1 |> Seq.map float
+            let seq2' = seq2 |> Seq.map float
+            use e = seq1'.GetEnumerator()
+            use e2 = seq2'.GetEnumerator()
+            let zero = float (LanguagePrimitives.GenericZero<'T>)
+            let one = float (LanguagePrimitives.GenericOne<'T>)
+            let rec loop n sumX sumY sumXY sumXX sumYY = 
                 match (e.MoveNext() && e2.MoveNext()) with
                     | true  -> 
                         loop (n + one) (sumX + e.Current) (sumY + e2.Current) (sumXY + (e.Current * e2.Current)) (sumXX + (e.Current * e.Current)) (sumYY + (e2.Current * e2.Current))
