@@ -680,6 +680,31 @@ module NonLinearRegression =
                         gradientVector)
                 }
 
+        /// weibull growth model; if d=1 then it is a simple exponential growth model
+        let weibull =
+            {
+            ParameterNames= [|"lower asymptote";"upper asymptote";"growth rate";"d (influences inflection x)"|]
+            GetFunctionValue = 
+                (fun (parameterVector:Vector<float>) t -> 
+                    let b = parameterVector.[0]
+                    let l = parameterVector.[1]
+                    let k = parameterVector.[2]
+                    let d = parameterVector.[3]
+                    l - (l-b)*Math.Exp(-((k*t)**d)))
+            GetGradientValue = 
+                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                    let b = parameterVector.[0]
+                    let l = parameterVector.[1]
+                    let k = parameterVector.[2]
+                    let d = parameterVector.[3]
+                    gradientVector.[0] <- Math.Exp(-((k*t)**d))
+                    gradientVector.[1] <- 1. - Math.Exp(-((k*t)**d))
+                    gradientVector.[2] <- 
+                        (d*(l-b)*(t*k)**d*Math.Exp(-((t*k)**d))) / k
+                    gradientVector.[3] <- 
+                        (l-b)*(t*k)**d*log(k*t)*Math.Exp(-((k*t)**d))
+                    gradientVector)
+            }
 
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
