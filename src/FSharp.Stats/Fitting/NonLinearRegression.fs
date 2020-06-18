@@ -652,6 +652,34 @@ module NonLinearRegression =
                     )
                     |> fst
                 createSolverOption 0.001 0.001 10000 [|a;b;c;m|]
+            
+            /// 4 parameter richards curve with minimum at 0; d <> 1
+            let richards =
+                {
+                ParameterNames= [|"upper asymptote";"growth rate";"inflection point x";"d (influences inflection y)"|]
+                GetFunctionValue = 
+                    (fun (parameterVector:Vector<float>) t -> 
+                        let l = parameterVector.[0]
+                        let k = parameterVector.[1]
+                        let y = parameterVector.[2]
+                        let d = parameterVector.[3]
+                        l * (1. + (d - 1.) * Math.Exp(- k * (t - y)))**(1. / (1. - d)))
+                GetGradientValue = 
+                    (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                        let l = parameterVector.[0]
+                        let k = parameterVector.[1]
+                        let y = parameterVector.[2]
+                        let d = parameterVector.[3]
+                        gradientVector.[0] <- (1. + (d - 1.) * Math.Exp(- k * (t - y)))**(1. / (1. - d))
+                        gradientVector.[1] <- 
+                            -(l*(y - t)*(((d-1.)*Math.Exp(-(t-y)*k)+1.)**(1./(1.-d))))/(Math.Exp((t-y)*k)+d-1.)
+                        gradientVector.[2] <- 
+                            -(k*l*((d-1.)*Math.Exp(-k*(t-y))+1.)**(1./(1.-d)))/(Math.Exp((t-y)*k)+d-1.)
+                        gradientVector.[3] <- 
+                            l*(Math.Exp(-k*(t-y))/((Math.Exp(-k*(t-y))*(d-1.)+1.)*(1.-d)) + (log(Math.Exp(-k*(t-y))*(d-1.)+1.))/(pown (1. - d) 2))*(Math.Exp(-k*(t-y))*(d-1.)+1.)**(1./(1.-d))
+                        gradientVector)
+                }
+
 
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
