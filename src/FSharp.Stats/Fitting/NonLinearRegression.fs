@@ -732,6 +732,27 @@ module NonLinearRegression =
                     gradientVector)
             }
 
+        /// exponential growth model
+        let exponential =
+            {
+            ParameterNames= [|"lower asymptote";"upper asymptote";"growth rate"|]
+            GetFunctionValue = 
+                (fun (parameterVector:Vector<float>) t -> 
+                    let b = parameterVector.[0]
+                    let l = parameterVector.[1]
+                    let k = parameterVector.[2]
+                    l - (l-b)*Math.Exp(-k*t))
+            GetGradientValue = 
+                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                    let b = parameterVector.[0]
+                    let l = parameterVector.[1]
+                    let k = parameterVector.[2]
+                    gradientVector.[0] <- Math.Exp(-k*t)
+                    gradientVector.[1] <- 1. - Math.Exp(-k*t)
+                    gradientVector.[2] <- 
+                        (l-b)*t*Math.Exp(-t*k)
+                    gradientVector)
+            }
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
         //let hillModelWithFixedVm Vm = 
