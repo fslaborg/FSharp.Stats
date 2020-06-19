@@ -753,6 +753,33 @@ module NonLinearRegression =
                         (l-b)*t*Math.Exp(-t*k)
                     gradientVector)
             }
+
+        /// 4 parameter Morgan-Mercer-Flodin growth model 
+        let morganMercerFlodin =
+            {
+            ParameterNames= [|"size at t=0";"upper asymptote";"growth rate";"d (influences inflection point)" |]
+            GetFunctionValue = 
+                (fun (parameterVector:Vector<float>) t -> 
+                    let b = parameterVector.[0]
+                    let l = parameterVector.[1]
+                    let k = parameterVector.[2]
+                    let d = parameterVector.[3]
+                    l - (l-b)/(1.+(k*t)**d))
+            GetGradientValue = 
+                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                    let b = parameterVector.[0]
+                    let l = parameterVector.[1]
+                    let k = parameterVector.[2]
+                    let d = parameterVector.[3]
+                    gradientVector.[0] <- 1./((k*t)**d+1.)
+                    gradientVector.[1] <- 1. - 1./((k*t)**d+1.)
+                    gradientVector.[2] <- 
+                        (d*(l-b)*(t*k)**d)/(k*((t*k)**d+1.)**2.)
+                    gradientVector.[3] <- 
+                        ((l-b)*(k*t)**d*log(k*t))/((k*t)**d+1.)**2.
+                    gradientVector)
+                            }
+
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
         //let hillModelWithFixedVm Vm = 
