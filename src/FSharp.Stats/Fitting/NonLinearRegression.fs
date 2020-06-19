@@ -706,6 +706,32 @@ module NonLinearRegression =
                     gradientVector)
             }
 
+        /// stable growth model similar to weibull model
+        let janoschek =
+            {
+            ParameterNames= [|"lower asymptote";"upper asymptote";"growth rate";"d (influences inflection x)"|]
+            GetFunctionValue = 
+                (fun (parameterVector:Vector<float>) t -> 
+                    let b = parameterVector.[0]
+                    let l = parameterVector.[1]
+                    let k = parameterVector.[2]
+                    let d = parameterVector.[3]
+                    l - (l-b)*Math.Exp(-(k*t**d)))
+            GetGradientValue = 
+                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                    let b = parameterVector.[0]
+                    let l = parameterVector.[1]
+                    let k = parameterVector.[2]
+                    let d = parameterVector.[3]
+                    gradientVector.[0] <- Math.Exp(-(k*t**d))
+                    gradientVector.[1] <- 1. - Math.Exp(-(k*t**d))
+                    gradientVector.[2] <- 
+                        (l-b)*t**d*Math.Exp(-(t**d*k))
+                    gradientVector.[3] <- 
+                        k*(l-b)*t**d*log(t)*Math.Exp(-(k*t**d))
+                    gradientVector)
+            }
+
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
         //let hillModelWithFixedVm Vm = 
