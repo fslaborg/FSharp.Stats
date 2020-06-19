@@ -811,6 +811,26 @@ module NonLinearRegression =
                     gradientVector)
             }
 
+        /// 3 parameter von Bertalanffy growth model
+        let vonBertalanffy =
+            {
+            ParameterNames= [|"upper asymtote";"growth rate";"t0" |]
+            GetFunctionValue = 
+                (fun (parameterVector:Vector<float>) t -> 
+                    let l = parameterVector.[0]
+                    let k = parameterVector.[1]
+                    let t0 = parameterVector.[2]
+                    l*(1. - Math.Exp(-k*(t-t0))))
+            GetGradientValue = 
+                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                    let l = parameterVector.[0]
+                    let k = parameterVector.[1]
+                    let t0 = parameterVector.[2]
+                    gradientVector.[0] <- 1. - Math.Exp(-k*(t-t0))
+                    gradientVector.[1] <- -l*(t0-t)*Math.Exp(-(t-t0)*k)
+                    gradientVector.[2] <- -k*l*Math.Exp(-k*(t-t0))
+                    gradientVector)
+            }
 
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
