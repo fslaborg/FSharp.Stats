@@ -780,6 +780,38 @@ module NonLinearRegression =
                     gradientVector)
                             }
 
+        /// 3 parameter verhulst logistic model with lower asymptote=0
+        let verhulst = LogisticFunctionAscending
+
+        /// 4 parameter verhulst model with variably lowers asymptote
+        let verhulst4Param =
+            {
+            ParameterNames= [|"upper asymptote";"inflection point value (x)";"steepness";"lower asymptote"|]
+            GetFunctionValue = 
+                (fun (parameterVector:Vector<float>) t -> 
+                    let lmax = parameterVector.[0]
+                    let k    = parameterVector.[1]
+                    let d    = parameterVector.[2]
+                    let lmin = parameterVector.[3]
+                    lmin + (lmax-lmin)/(1. + Math.Exp((k-t)/d)))
+            GetGradientValue = 
+                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                    let lmax = parameterVector.[0]
+                    let k    = parameterVector.[1]
+                    let d    = parameterVector.[2]
+                    let lmin = parameterVector.[3]
+                    let exp = Math.Exp((k-t)/d)
+                    gradientVector.[0] <- 1./(exp+1.)
+                    gradientVector.[1] <- 
+                        -((lmax-lmin)+exp)/(d*(exp + 1.)**2.)
+                    gradientVector.[2] <- 
+                        ((k-t)*(lmax-lmin)*exp)/(d**2.*(exp + 1.)**2.)
+                    gradientVector.[3] <- 
+                        1. - 1./(exp + 1.)
+                    gradientVector)
+            }
+
+
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
         //let hillModelWithFixedVm Vm = 
