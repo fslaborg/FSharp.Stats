@@ -20,9 +20,14 @@ let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_A
 
 ##Modelling
 
+Growth and other physiological parameters like size/weight/length can be modeled as as function of time.
+Several growth curve models have been proposed. Some of them are covered in this documentation.
+
+In the following example the four parameter gompertz function is applied to cell count data (Gibson et al., 1988).
+
 For growth curve analysis the cell count data must be considered in log space. The exponential phase (log phase) then becomes linear.
-After modelling, all growth parameters (maximal cell count, lag phase duration, and growth rate) can be derived from the model, so there is no
-need for manual labelling of the growth phases.
+After modeling, all growth parameters (maximal cell count, lag phase duration, and growth rate) can be derived from the model, so there is no
+need for manual labelling of separate growth phases.
 
 </br>
 
@@ -30,9 +35,8 @@ need for manual labelling of the growth phases.
 
 </br>
 
-Several growth curve models have been proposed. The classic Verhulst logistic regression is covered in the 'Fitting' documentation.
-In the following example the four parameter gompertz function is applied to the growth 
-data (Gibson et al., 1988).
+If specific parameters should be constrained to the users choice (like upper or lower asymptote), a constrained version of the 
+Levenberg-Marquardt solver can be used (`LevenbergMarquardtConstrained`)! Accordingly minimal and maximal parameter vectors must be provided.
 
 *)
 
@@ -43,15 +47,12 @@ let time = [|0. .. 0.5 .. 8.|]
 
 let cellCount =
     [|
-    17000000.;16500000.;11000000.;14000000.;
-    27000000.;40000000.;120000000.;300000000.;
-    450000000.;1200000000.;2700000000.;
-    5000000000.;8000000000.;11700000000.;
-    12000000000.;13000000000.;12800000000.
+    17000000.;16500000.;11000000.;14000000.;27000000.;40000000.;120000000.;
+    300000000.;450000000.;1200000000.;2700000000.;5000000000.;
+    8000000000.;11700000000.;12000000000.;13000000000.;12800000000.
     |]
 
 let cellCountLn = cellCount |> Array.map log
-
 
 (*** hide ***)
 
@@ -72,9 +73,11 @@ let growthChart =
 
 (**
 
-The gompertz model is fitted using the Levenberg Marquardt solver. Initial parameters are guessed from the original data.
-The expected generation time has to be approximated as initial guess. For parameter interpretation the applied log transform is important.
-The log function used to transform the count data has to be provided.
+The Gompertz model is fitted using the Levenberg Marquardt solver. Initial parameters are estimated from the original data.
+The expected generation time has to be approximated as initial guess. 
+
+For parameter interpretation the applied log transform is important and must be provided.
+If other parameters than cell count (e.g. size or length) should be analyzed, use `id` as value transform.
 
 Gompertz parameters:
 
@@ -85,7 +88,6 @@ Gompertz parameters:
   - C: upper asymtote - lower asymptote
 
   - M: time point of inflection (maximal growth rate)
-
 
 *)
 
@@ -112,33 +114,37 @@ let solverOptions (xData :float []) (yDataLog :float []) expectedGenerationTime 
 // By solving the nonlinear fitting problem, the optimal model parameters are determined
 let gompertzParams =
     LevenbergMarquardt.estimatedParams
-        Table.gompertz
+        Table.GrowthModels.gompertz
         (solverOptions time cellCountLn 1. log)
         0.1
         10.
         time
         cellCountLn
 
-let fittingFunction = Table.gompertz.GetFunctionValue gompertzParams
+let fittingFunction = 
+    Table.GrowthModels.gompertz.GetFunctionValue gompertzParams
 
 (*** hide ***)
 let chartLogR =
     Chart.Point(time,cellCountLn)
     |> Chart.withTraceName "log count"
     
-let fittedValues =
+let fittedValuesGompertz =
+    /// The parameter were determined locally for saving time during build processes
+    //let f = Table.GrowthModels.gompertz.GetFunctionValue (vector [|16.46850199; 0.7014917539; 7.274139441; 3.3947717|])
     [time.[0] .. 0.1 .. Seq.last time]
     |> Seq.map (fun x -> 
         x,fittingFunction x
         ) 
     |> Chart.Line
+    |> Chart.withTraceName "gompertz"
 
-let fittedChart = 
-    [chartLogR;fittedValues]
+let fittedChartGompertz = 
+    [chartLogR;fittedValuesGompertz]
     |> Chart.Combine
     |> styleChart "time (h)" "ln(cells/ml)"
 
-(*** include-value:fittedChart ***)
+(*** include-value:fittedChartGompertz ***)
 
 (**
 
@@ -151,16 +157,502 @@ The four parameter Gompertz model allows the determination of generation times f
 
 *)
 
-
 let generationtime (parametervector:vector) (logTransform:float -> float) =
     logTransform 2. * Math.E / (parametervector.[1] * parametervector.[2])
 
 let lag (parametervector:vector) =
     (parametervector.[3] - 1.) / parametervector.[1]
 
-let g = sprintf "The generation time is: %.1f min" (60. * (generationtime gompertzParams log))
+let g = sprintf "The generation time (Gompertz) is: %.1f min" (60. * (generationtime gompertzParams log))
 let l = sprintf "The lag phase duration is %.2f h" (lag gompertzParams)
 
 
 (*** include-value:g ***)
 (*** include-value:l ***)
+
+(**
+#Other models
+
+In the following other growth models are applied to the given data set:
+
+  - Richards
+
+  - Weibull
+
+  - Janoschek
+
+  - Exponential
+
+  - Verhulst
+
+  - Morgan-Mercer-Flodin
+
+  - von Bertalanffy
+
+To determine the generation time, the slope at the inflection point must be calculated. 
+As explained above, the generation time can be calculated by: logx(2)/(slope at inflection) where x ist the used
+log transform.
+
+[Choose a appropriate growth model according to your needs.](http://www.pisces-conservation.com/growthhelp/index.html)
+
+For an overview please scroll down to see a combined diagram of all growth models.
+
+##Richards curve
+
+Parameters:
+
+- l: upper asymptote
+
+- k: growth rate
+
+- y: inflection point (x value)
+
+- d: influences the inflection point on the y axis
+
+*)
+
+let richardsParams() =
+    LevenbergMarquardt.estimatedParams
+        Table.GrowthModels.richards
+        (createSolverOption 0.001 0.001 10000 [|23.;1.;3.4;2.|])
+        0.1
+        10.
+        time
+        cellCountLn
+
+let fittingFunctionRichards() = 
+    Table.GrowthModels.richards.GetFunctionValue (richardsParams())
+
+(*** hide ***)
+
+let generationtimeRichards (richardParameters:vector) =
+    let l = richardParameters.[0]
+    let k = richardParameters.[1]
+    let y = richardParameters.[2] //x value of inflection point
+    let d = richardParameters.[3]
+    let gradientFunctionRichards t =
+        (k*l*((d-1.)*Math.Exp(-k*(t-y))+1.)**(1./(1.-d)))/(Math.Exp(k*(t-y))+d-1.)
+    let maximalSlope =
+        gradientFunctionRichards y
+    log(2.) / maximalSlope
+
+let fittedValuesRichards =
+    /// The parameter were determined locally for saving time during build processes
+    let f =  Table.GrowthModels.richards.GetFunctionValue (vector [|23.25211263; 7.053516315; 5.646889803; 111.0132522|])
+    [time.[0] .. 0.1 .. Seq.last time]
+    |> Seq.map (fun x -> 
+        x,f x
+        ) 
+    |> Chart.Line
+
+let fittedChartRichards = 
+    fittedValuesRichards
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "richards"
+
+let fittedChartRichardsS = 
+    [chartLogR;fittedValuesRichards]
+    |> Chart.Combine
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "richards"
+
+let generationRichards = sprintf "The generation time (Richards) is: %.1f min" (generationtimeRichards (vector [|23.25211263; 7.053516315; 5.646889803; 111.0132522|]) * 60.)
+
+(*** include-value:fittedChartRichardsS ***)
+(*** include-value:generationRichards ***)
+
+(**
+##Weibull
+
+Parameters:
+
+- b: lower asymptote
+
+- l: upper asymptote
+
+- k: growth rate
+
+- d: influences the inflection point position
+
+*)
+
+let weibullParams() =
+    LevenbergMarquardt.estimatedParams
+        Table.GrowthModels.weibull
+        (createSolverOption 0.001 0.001 10000 [|15.;25.;1.;5.|])
+        0.1
+        10.
+        time
+        cellCountLn
+
+let fittingFunctionWeibull() = 
+    Table.GrowthModels.weibull.GetFunctionValue (weibullParams())
+
+(*** hide ***)
+
+let generationtimeWeibull (weibullParameters:vector) =
+    let b = weibullParameters.[0]
+    let l = weibullParameters.[1]
+    let k = weibullParameters.[2]
+    let d = weibullParameters.[3]
+    let gradientFunctionWeibull t =
+        (d*(l-b)*(k*t)**d*Math.Exp(-((k*t)**d)))/t
+    let inflectionPointXValue =
+        (1./k)*((d-1.)/d)**(1./d)
+    let maximalSlope =
+        gradientFunctionWeibull inflectionPointXValue
+    log(2.) / maximalSlope
+
+let fittedValuesWeibull =
+    /// The parameter were determined locally for saving time during build processes
+    let f =  Table.GrowthModels.weibull.GetFunctionValue (vector [|16.40632433; 23.35537293; 0.2277752116; 2.900806071|])
+    [time.[0] .. 0.1 .. Seq.last time]
+    |> Seq.map (fun x -> 
+        x,f x
+        ) 
+    |> Chart.Line
+
+let fittedChartWeibull = 
+    fittedValuesWeibull
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "weibull"
+
+let fittedChartWeibullS = 
+    [chartLogR;fittedValuesWeibull]
+    |> Chart.Combine
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "weibull"
+
+let generationWeibull = 
+    sprintf "The generation time (Weibull) is: %.1f min" (generationtimeWeibull (vector [|16.40632433; 23.35537293; 0.2277752116; 2.900806071|]) * 60.)   
+
+(*** include-value:fittedChartWeibullS ***)
+(*** include-value:generationWeibull ***)
+
+(**
+##Janoschek
+
+Parameters:
+
+- b: lower asymptote
+
+- l: upper asymptote
+
+- k: growth rate
+
+- d: influences the inflection point position on the x axis
+
+*)
+
+let janoschekParams() =
+    LevenbergMarquardt.estimatedParams
+        Table.GrowthModels.janoschek
+        (createSolverOption 0.001 0.001 10000 [|15.;25.;1.;5.|])
+        0.1
+        10.
+        time
+        cellCountLn
+
+let fittingFunctionJanoschek() = 
+    Table.GrowthModels.janoschek.GetFunctionValue (janoschekParams())
+
+(*** hide ***)
+
+let generationtimeJanoschek (janoschekParameters:vector) =
+    let b = janoschekParameters.[0]
+    let l = janoschekParameters.[1]
+    let k = janoschekParameters.[2]
+    let d = janoschekParameters.[3]
+    let gradientFunctionJanoschek t =
+        d*k*(l-b)*t**(d-1.)*Math.Exp(-k*t**d)
+    //Chart to estimate point of maximal slope (inflection point)
+    let slopeChart() =
+        [time.[0] .. 0.1 .. 8.] |> List.map (fun x -> x, gradientFunctionJanoschek x) |> Chart.Line
+    let inflectionPointXValue =
+        3.795
+    let maximalSlope =
+        gradientFunctionJanoschek inflectionPointXValue
+    log(2.) / maximalSlope
+    
+let fittedValuesJanoschek =
+    /// The parameter were determined locally for saving time during build processes
+    let f =  Table.GrowthModels.janoschek.GetFunctionValue (vector [|16.40633962; 23.35535182; 0.01368422994; 2.900857027|])
+    [time.[0] .. 0.1 .. Seq.last time]
+    |> Seq.map (fun x -> 
+        x,f x
+        ) 
+    |> Chart.Line
+
+let fittedChartJanoschek = 
+    fittedValuesJanoschek
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "janoschek"
+
+let fittedChartJanoschekS = 
+    [chartLogR;fittedChartJanoschek]
+    |> Chart.Combine
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "janoschek"
+
+let generationJanoschek = 
+    sprintf "The generation time (Janoschek) is: %.1f min" (generationtimeJanoschek (vector [|16.40633962; 23.35535182; 0.01368422994; 2.900857027|]) * 60.)
+
+(*** include-value:fittedChartJanoschekS ***)
+(*** include-value:generationJanoschek ***)
+
+(**
+##Exponential
+
+The exponential model of course can not be applied to the lag phase.
+
+
+Parameters:
+
+- b: lower asymptote
+
+- l: upper asymptote
+
+- k: growth rate
+
+*)
+
+let exponentialParams() =
+    LevenbergMarquardt.estimatedParams
+        Table.GrowthModels.exponential
+        (createSolverOption 0.001 0.001 10000 [|15.;25.;0.5|])
+        0.1
+        10.
+        time.[6..]
+        cellCountLn.[6..]
+
+let fittingFunctionExponential() = 
+    Table.GrowthModels.exponential.GetFunctionValue (exponentialParams())
+
+(*** hide ***)
+
+let generationtimeExponential (expParameters:vector) =
+    let b = expParameters.[0]
+    let l = expParameters.[1]
+    let k = expParameters.[2]
+    let gradientFunctionExponential t =
+        k*(l-b)*Math.Exp(-k*t)
+    let maximalSlope =
+        gradientFunctionExponential time.[6]
+    log(2.) / maximalSlope
+
+let fittedValuesExp =
+    /// The parameter were determined locally for saving time during build processes
+    let f =  Table.GrowthModels.exponential.GetFunctionValue (vector [|4.813988967; 24.39950361; 0.3939132175|])
+    [3.0 .. 0.1 .. Seq.last time]
+    |> Seq.map (fun x -> 
+        x,f x
+        ) 
+    |> Chart.Line
+
+let fittedChartExp = 
+    fittedValuesExp
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "exponential"
+
+let fittedChartExpS = 
+    [chartLogR;fittedChartExp]
+    |> Chart.Combine
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "exponential"
+
+let generationExponential = 
+    sprintf "The generation time (Exp) is: %.1f min" (generationtimeExponential (vector [|4.813988967; 24.39950361; 0.3939132175|]) * 60.)
+    
+(*** include-value:fittedChartExpS ***)
+(*** include-value:generationExponential ***)
+
+(**
+##Verhulst
+
+The verhulst growth model is a logistic function with a lower asymptote fixed at y=0. A 4 parameter version allows 
+the lower asymtote to vary from 0.
+
+Note: symmetric with inflection point at 50 % of y axis range
+
+Parameters:
+
+
+- l: upper asymptote
+
+- k: x value at inflection point
+
+- d: steepness
+
+- b: lower asymptote
+
+
+To apply the 3 parameter verhulst model with a fixed lower asymptote = 0 use the 'verhulst' model instead of 'verhulst4Param'.
+*)
+
+let verhulstParams() =
+    LevenbergMarquardt.estimatedParams
+        Table.GrowthModels.verhulst4Param
+        (createSolverOption 0.001 0.001 10000 [|25.;3.5;1.;15.|])
+        0.1
+        10.
+        time
+        cellCountLn
+
+let fittingFunctionVerhulst() = 
+    Table.GrowthModels.exponential.GetFunctionValue (verhulstParams())
+
+(*** hide ***)
+
+let generationtimeVerhulst (verhulstParameters:vector) =
+    let lmax = verhulstParameters.[0]
+    let k    = verhulstParameters.[1]
+    let d    = verhulstParameters.[2]
+    let lmin = verhulstParameters.[3]
+    let gradientFunctionVerhulst t =
+        ((lmax-lmin)*Math.Exp((k-t)/d))/(d*(Math.Exp((k-t)/d)+1.)**2.)
+    let maximalSlope =
+        gradientFunctionVerhulst k
+    log(2.) / maximalSlope
+
+let fittedValuesVerhulst =
+    /// The parameter were determined locally for saving time during build processes
+    let f =  Table.GrowthModels.verhulst4Param.GetFunctionValue (vector [|23.39504328; 3.577488116; 1.072136278; 15.77380824|])
+    [time.[0] .. 0.1 .. Seq.last time]
+    |> Seq.map (fun x -> 
+        x,f x
+        ) 
+    |> Chart.Line
+
+let fittedChartVerhulst = 
+    fittedValuesVerhulst
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "verhulst"
+
+let fittedChartVerhulstS = 
+    [chartLogR;fittedChartVerhulst]
+    |> Chart.Combine
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "verhulst"
+
+let generationVerhulst = 
+    sprintf "The generation time (Verhulst) is: %.1f min" (generationtimeVerhulst (vector [|23.39504328; 3.577488116; 1.072136278; 15.77380824|]) * 60.)
+    
+(*** include-value:fittedChartVerhulstS ***)
+(*** include-value:generationVerhulst ***)
+
+(**
+##Morgan-Mercer-Flodin
+
+
+Parameters:
+
+- b: count at t0
+
+- l: upper asymptote
+
+- k: growth rate
+
+- d: influences the inflection point position
+
+*)
+
+let morganMercerFlodinParams() =
+    LevenbergMarquardt.estimatedParams
+        Table.GrowthModels.morganMercerFlodin
+        (createSolverOption 0.001 0.001 10000 [|15.;25.;0.2;3.|])
+        0.1
+        10.
+        time
+        cellCountLn
+
+let fittingFunctionMMF() = 
+    Table.GrowthModels.morganMercerFlodin.GetFunctionValue (morganMercerFlodinParams())
+
+(*** hide ***)
+
+let generationtimeMmf (mmfParameters:vector) =
+    let b = mmfParameters.[0]
+    let l = mmfParameters.[1]
+    let k = mmfParameters.[2]
+    let d = mmfParameters.[3]
+    let gradientFunctionMmf t =
+        (d*(l-b)*(k*t)**d)/(t*((k*t)**d+1.)**2.)
+    //Chart to estimate point of maximal slope (inflection point)
+    let slopeChart() =
+        [time.[0] .. 0.1 .. 8.] |> List.map (fun x -> x, gradientFunctionMmf x) |> Chart.Line
+    let inflectionPointXValue =
+        3.45
+    let maximalSlope =
+        gradientFunctionMmf inflectionPointXValue
+    log(2.) / maximalSlope
+
+let fittedValuesMMF =
+    /// The parameter were determined locally for saving time during build processes
+    let f =  Table.GrowthModels.morganMercerFlodin.GetFunctionValue (vector [|16.46099291; 24.00147463; 0.2500698772; 3.741048641|])
+    [time.[0] .. 0.1 .. Seq.last time]
+    |> Seq.map (fun x -> 
+        x,f x
+        ) 
+    |> Chart.Line
+
+let fittedChartMMF = 
+    fittedValuesMMF
+    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceName "morganMercerFlodin"
+
+let combinedChart =
+    [
+    chartLogR               |> Chart.withTraceName "log count"
+    fittedValuesGompertz    |> Chart.withTraceName "Gompertz"
+    fittedValuesRichards    |> Chart.withTraceName "Richards"
+    fittedValuesWeibull     |> Chart.withTraceName "Weibull"
+    fittedValuesJanoschek   |> Chart.withTraceName "Janoschek"
+    fittedValuesExp         |> Chart.withTraceName "Exponential"
+    fittedValuesVerhulst    |> Chart.withTraceName "Verhulst"
+    fittedValuesMMF         |> Chart.withTraceName "MorganMercerFlodin"
+    ]
+    |> Chart.Combine
+    |> styleChart "time (h)" "ln(cells/ml)"
+
+let generationMmf = 
+    sprintf "The generation time (MMF) is: %.1f min" (generationtimeMmf (vector [|16.46099291; 24.00147463; 0.2500698772; 3.741048641|]) * 60.)
+
+let generationTimeTable =
+    let header = ["<b>Model</b>";"<b>Generation time (min)"]
+    let rows = 
+        [
+        ["Gompertz";    sprintf "%.1f" (60. * (generationtime gompertzParams log))]    
+        ["Richards";    sprintf "%.1f" (generationtimeRichards (vector [|23.25211263; 7.053516315; 5.646889803; 111.0132522|]) * 60.)]       
+        ["Weibull";     sprintf "%.1f" (generationtimeWeibull (vector [|16.40632433; 23.35537293; 0.2277752116; 2.900806071|]) * 60.)  ]       
+        ["Janoschek";   sprintf "%.1f" (generationtimeJanoschek (vector [|16.40633962; 23.35535182; 0.01368422994; 2.900857027|]) * 60.)]    
+        ["Exponential"; sprintf "%.1f" (generationtimeExponential (vector [|4.813988967; 24.39950361; 0.3939132175|]) * 60.)]
+        ["Verhulst";    sprintf "%.1f" (generationtimeVerhulst (vector [|23.39504328; 3.577488116; 1.072136278; 15.77380824|]) * 60.)] 
+        ["MMF";         sprintf "%.1f" (generationtimeMmf (vector [|16.46099291; 24.00147463; 0.2500698772; 3.741048641|]) * 60.)] 
+        ]
+    
+    Chart.Table(
+        header, 
+        rows,
+        ColorHeader = "#45546a",
+        ColorCells = ["#deebf7";"lightgrey"],
+        FontHeader = Font.init(Color="white")
+        )
+
+(*** include-value:combinedChart ***)
+(*** include-value:generationMmf ***)
+(*** include-value:generationTimeTable ***)
+
+(**
+##von Bertalanffy
+
+Since this model expects a x axis crossing of the data it can not be applied to the given data.
+
+Parameters:
+
+ - l: upper asymptote
+
+ - k: growth rate
+
+ - t0: x axis crossing
+
+*)
