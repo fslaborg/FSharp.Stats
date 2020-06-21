@@ -680,157 +680,157 @@ module NonLinearRegression =
                         gradientVector)
                 }
 
-        /// weibull growth model; if d=1 then it is a simple exponential growth model
-        let weibull =
-            {
-            ParameterNames= [|"lower asymptote";"upper asymptote";"growth rate";"d (influences inflection x)"|]
-            GetFunctionValue = 
-                (fun (parameterVector:Vector<float>) t -> 
-                    let b = parameterVector.[0]
-                    let l = parameterVector.[1]
-                    let k = parameterVector.[2]
-                    let d = parameterVector.[3]
-                    l - (l-b)*Math.Exp(-((k*t)**d)))
-            GetGradientValue = 
-                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
-                    let b = parameterVector.[0]
-                    let l = parameterVector.[1]
-                    let k = parameterVector.[2]
-                    let d = parameterVector.[3]
-                    gradientVector.[0] <- Math.Exp(-((k*t)**d))
-                    gradientVector.[1] <- 1. - Math.Exp(-((k*t)**d))
-                    gradientVector.[2] <- 
-                        (d*(l-b)*(t*k)**d*Math.Exp(-((t*k)**d))) / k
-                    gradientVector.[3] <- 
-                        (l-b)*(t*k)**d*log(k*t)*Math.Exp(-((k*t)**d))
-                    gradientVector)
-            }
+            /// weibull growth model; if d=1 then it is a simple exponential growth model
+            let weibull =
+                {
+                ParameterNames= [|"lower asymptote";"upper asymptote";"growth rate";"d (influences inflection x)"|]
+                GetFunctionValue = 
+                    (fun (parameterVector:Vector<float>) t -> 
+                        let b = parameterVector.[0]
+                        let l = parameterVector.[1]
+                        let k = parameterVector.[2]
+                        let d = parameterVector.[3]
+                        l - (l-b)*Math.Exp(-((k*t)**d)))
+                GetGradientValue = 
+                    (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                        let b = parameterVector.[0]
+                        let l = parameterVector.[1]
+                        let k = parameterVector.[2]
+                        let d = parameterVector.[3]
+                        gradientVector.[0] <- Math.Exp(-((k*t)**d))
+                        gradientVector.[1] <- 1. - Math.Exp(-((k*t)**d))
+                        gradientVector.[2] <- 
+                            (d*(l-b)*(t*k)**d*Math.Exp(-((t*k)**d))) / k
+                        gradientVector.[3] <- 
+                            (l-b)*(t*k)**d*log(k*t)*Math.Exp(-((k*t)**d))
+                        gradientVector)
+                }
 
-        /// stable growth model similar to weibull model
-        let janoschek =
-            {
-            ParameterNames= [|"lower asymptote";"upper asymptote";"growth rate";"d (influences inflection x)"|]
-            GetFunctionValue = 
-                (fun (parameterVector:Vector<float>) t -> 
-                    let b = parameterVector.[0]
-                    let l = parameterVector.[1]
-                    let k = parameterVector.[2]
-                    let d = parameterVector.[3]
-                    l - (l-b)*Math.Exp(-(k*t**d)))
-            GetGradientValue = 
-                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
-                    let b = parameterVector.[0]
-                    let l = parameterVector.[1]
-                    let k = parameterVector.[2]
-                    let d = parameterVector.[3]
-                    gradientVector.[0] <- Math.Exp(-(k*t**d))
-                    gradientVector.[1] <- 1. - Math.Exp(-(k*t**d))
-                    gradientVector.[2] <- 
-                        (l-b)*t**d*Math.Exp(-(t**d*k))
-                    gradientVector.[3] <- 
-                        k*(l-b)*t**d*log(t)*Math.Exp(-(k*t**d))
-                    gradientVector)
-            }
+            /// stable growth model similar to weibull model
+            let janoschek =
+                {
+                ParameterNames= [|"lower asymptote";"upper asymptote";"growth rate";"d (influences inflection x)"|]
+                GetFunctionValue = 
+                    (fun (parameterVector:Vector<float>) t -> 
+                        let b = parameterVector.[0]
+                        let l = parameterVector.[1]
+                        let k = parameterVector.[2]
+                        let d = parameterVector.[3]
+                        l - (l-b)*Math.Exp(-(k*t**d)))
+                GetGradientValue = 
+                    (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                        let b = parameterVector.[0]
+                        let l = parameterVector.[1]
+                        let k = parameterVector.[2]
+                        let d = parameterVector.[3]
+                        gradientVector.[0] <- Math.Exp(-(k*t**d))
+                        gradientVector.[1] <- 1. - Math.Exp(-(k*t**d))
+                        gradientVector.[2] <- 
+                            (l-b)*t**d*Math.Exp(-(t**d*k))
+                        gradientVector.[3] <- 
+                            k*(l-b)*t**d*log(t)*Math.Exp(-(k*t**d))
+                        gradientVector)
+                }
 
-        /// exponential growth model
-        let exponential =
-            {
-            ParameterNames= [|"lower asymptote";"upper asymptote";"growth rate"|]
-            GetFunctionValue = 
-                (fun (parameterVector:Vector<float>) t -> 
-                    let b = parameterVector.[0]
-                    let l = parameterVector.[1]
-                    let k = parameterVector.[2]
-                    l - (l-b)*Math.Exp(-k*t))
-            GetGradientValue = 
-                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
-                    let b = parameterVector.[0]
-                    let l = parameterVector.[1]
-                    let k = parameterVector.[2]
-                    gradientVector.[0] <- Math.Exp(-k*t)
-                    gradientVector.[1] <- 1. - Math.Exp(-k*t)
-                    gradientVector.[2] <- 
-                        (l-b)*t*Math.Exp(-t*k)
-                    gradientVector)
-            }
+            /// exponential growth model
+            let exponential =
+                {
+                ParameterNames= [|"lower asymptote";"upper asymptote";"growth rate"|]
+                GetFunctionValue = 
+                    (fun (parameterVector:Vector<float>) t -> 
+                        let b = parameterVector.[0]
+                        let l = parameterVector.[1]
+                        let k = parameterVector.[2]
+                        l - (l-b)*Math.Exp(-k*t))
+                GetGradientValue = 
+                    (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                        let b = parameterVector.[0]
+                        let l = parameterVector.[1]
+                        let k = parameterVector.[2]
+                        gradientVector.[0] <- Math.Exp(-k*t)
+                        gradientVector.[1] <- 1. - Math.Exp(-k*t)
+                        gradientVector.[2] <- 
+                            (l-b)*t*Math.Exp(-t*k)
+                        gradientVector)
+                }
 
-        /// 4 parameter Morgan-Mercer-Flodin growth model 
-        let morganMercerFlodin =
-            {
-            ParameterNames= [|"size at t=0";"upper asymptote";"growth rate";"d (influences inflection point)" |]
-            GetFunctionValue = 
-                (fun (parameterVector:Vector<float>) t -> 
-                    let b = parameterVector.[0]
-                    let l = parameterVector.[1]
-                    let k = parameterVector.[2]
-                    let d = parameterVector.[3]
-                    l - (l-b)/(1.+(k*t)**d))
-            GetGradientValue = 
-                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
-                    let b = parameterVector.[0]
-                    let l = parameterVector.[1]
-                    let k = parameterVector.[2]
-                    let d = parameterVector.[3]
-                    gradientVector.[0] <- 1./((k*t)**d+1.)
-                    gradientVector.[1] <- 1. - 1./((k*t)**d+1.)
-                    gradientVector.[2] <- 
-                        (d*(l-b)*(t*k)**d)/(k*((t*k)**d+1.)**2.)
-                    gradientVector.[3] <- 
-                        ((l-b)*(k*t)**d*log(k*t))/((k*t)**d+1.)**2.
-                    gradientVector)
-                            }
+            /// 4 parameter Morgan-Mercer-Flodin growth model 
+            let morganMercerFlodin =
+                {
+                ParameterNames= [|"size at t=0";"upper asymptote";"growth rate";"d (influences inflection point)" |]
+                GetFunctionValue = 
+                    (fun (parameterVector:Vector<float>) t -> 
+                        let b = parameterVector.[0]
+                        let l = parameterVector.[1]
+                        let k = parameterVector.[2]
+                        let d = parameterVector.[3]
+                        l - (l-b)/(1.+(k*t)**d))
+                GetGradientValue = 
+                    (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                        let b = parameterVector.[0]
+                        let l = parameterVector.[1]
+                        let k = parameterVector.[2]
+                        let d = parameterVector.[3]
+                        gradientVector.[0] <- 1./((k*t)**d+1.)
+                        gradientVector.[1] <- 1. - 1./((k*t)**d+1.)
+                        gradientVector.[2] <- 
+                            (d*(l-b)*(t*k)**d)/(k*((t*k)**d+1.)**2.)
+                        gradientVector.[3] <- 
+                            ((l-b)*(k*t)**d*log(k*t))/((k*t)**d+1.)**2.
+                        gradientVector)
+                                }
 
-        /// 3 parameter verhulst logistic model with lower asymptote=0
-        let verhulst = LogisticFunctionAscending
+            /// 3 parameter verhulst logistic model with lower asymptote=0
+            let verhulst = LogisticFunctionAscending
 
-        /// 4 parameter verhulst model with variably lowers asymptote
-        let verhulst4Param =
-            {
-            ParameterNames= [|"upper asymptote";"inflection point value (x)";"steepness";"lower asymptote"|]
-            GetFunctionValue = 
-                (fun (parameterVector:Vector<float>) t -> 
-                    let lmax = parameterVector.[0]
-                    let k    = parameterVector.[1]
-                    let d    = parameterVector.[2]
-                    let lmin = parameterVector.[3]
-                    lmin + (lmax-lmin)/(1. + Math.Exp((k-t)/d)))
-            GetGradientValue = 
-                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
-                    let lmax = parameterVector.[0]
-                    let k    = parameterVector.[1]
-                    let d    = parameterVector.[2]
-                    let lmin = parameterVector.[3]
-                    let exp = Math.Exp((k-t)/d)
-                    gradientVector.[0] <- 1./(exp+1.)
-                    gradientVector.[1] <- 
-                        -((lmax-lmin)+exp)/(d*(exp + 1.)**2.)
-                    gradientVector.[2] <- 
-                        ((k-t)*(lmax-lmin)*exp)/(d**2.*(exp + 1.)**2.)
-                    gradientVector.[3] <- 
-                        1. - 1./(exp + 1.)
-                    gradientVector)
-            }
+            /// 4 parameter verhulst model with variably lowers asymptote
+            let verhulst4Param =
+                {
+                ParameterNames= [|"upper asymptote";"inflection point value (x)";"steepness";"lower asymptote"|]
+                GetFunctionValue = 
+                    (fun (parameterVector:Vector<float>) t -> 
+                        let lmax = parameterVector.[0]
+                        let k    = parameterVector.[1]
+                        let d    = parameterVector.[2]
+                        let lmin = parameterVector.[3]
+                        lmin + (lmax-lmin)/(1. + Math.Exp((k-t)/d)))
+                GetGradientValue = 
+                    (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                        let lmax = parameterVector.[0]
+                        let k    = parameterVector.[1]
+                        let d    = parameterVector.[2]
+                        let lmin = parameterVector.[3]
+                        let exp = Math.Exp((k-t)/d)
+                        gradientVector.[0] <- 1./(exp+1.)
+                        gradientVector.[1] <- 
+                            -((lmax-lmin)+exp)/(d*(exp + 1.)**2.)
+                        gradientVector.[2] <- 
+                            ((k-t)*(lmax-lmin)*exp)/(d**2.*(exp + 1.)**2.)
+                        gradientVector.[3] <- 
+                            1. - 1./(exp + 1.)
+                        gradientVector)
+                }
 
-        /// 3 parameter von Bertalanffy growth model
-        let vonBertalanffy =
-            {
-            ParameterNames= [|"upper asymtote";"growth rate";"t0" |]
-            GetFunctionValue = 
-                (fun (parameterVector:Vector<float>) t -> 
-                    let l = parameterVector.[0]
-                    let k = parameterVector.[1]
-                    let t0 = parameterVector.[2]
-                    l*(1. - Math.Exp(-k*(t-t0))))
-            GetGradientValue = 
-                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
-                    let l = parameterVector.[0]
-                    let k = parameterVector.[1]
-                    let t0 = parameterVector.[2]
-                    gradientVector.[0] <- 1. - Math.Exp(-k*(t-t0))
-                    gradientVector.[1] <- -l*(t0-t)*Math.Exp(-(t-t0)*k)
-                    gradientVector.[2] <- -k*l*Math.Exp(-k*(t-t0))
-                    gradientVector)
-            }
+            /// 3 parameter von Bertalanffy growth model
+            let vonBertalanffy =
+                {
+                ParameterNames= [|"upper asymtote";"growth rate";"t0" |]
+                GetFunctionValue = 
+                    (fun (parameterVector:Vector<float>) t -> 
+                        let l = parameterVector.[0]
+                        let k = parameterVector.[1]
+                        let t0 = parameterVector.[2]
+                        l*(1. - Math.Exp(-k*(t-t0))))
+                GetGradientValue = 
+                    (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                        let l = parameterVector.[0]
+                        let k = parameterVector.[1]
+                        let t0 = parameterVector.[2]
+                        gradientVector.[0] <- 1. - Math.Exp(-k*(t-t0))
+                        gradientVector.[1] <- -l*(t0-t)*Math.Exp(-(t-t0)*k)
+                        gradientVector.[2] <- -k*l*Math.Exp(-k*(t-t0))
+                        gradientVector)
+                }
 
         //fails because n and k become negative during the optimization iterations
         //add borders to GaussNewton (default -Infinity - Infinity)
