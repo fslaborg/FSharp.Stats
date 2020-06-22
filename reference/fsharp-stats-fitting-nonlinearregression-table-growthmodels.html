@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>InPlace - FSharp.Stats</title>
+    <title>GrowthModels - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -35,14 +35,12 @@
         <div class="span9" id="main">
           
 
-<h1>InPlace</h1>
+<h1>GrowthModels</h1>
 <p>
-  <span>Namespace: FSharp.Stats</span><br />
-  <span>Parent Module: <a href="fsharp-stats-quantile.html">Quantile</a></span>
+  <span>Namespace: FSharp.Stats.Fitting</span><br />
+  <span>Parent Module: <a href="fsharp-stats-fitting-nonlinearregression-table.html">Table</a></span>
   </p>
 <div class="xmldoc">
-<p>! Works inplace and can thus causes the data array to be reordered</p>
-
 </div>
 
 <!-- Render nested types and modules, if there are any -->
@@ -55,172 +53,190 @@
     <tbody>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '725', 725)" onmouseover="showTip(event, '725', 725)">
-            californiaInPLace q data
+          <code onmouseout="hideTip(event, '1401', 1401)" onmouseover="showTip(event, '1401', 1401)">
+            exponential
           </code>
-          <div class="tip" id="725">
-            <strong>Signature:</strong> q:float&lt;MeasureOne&gt; -&gt; data:float array -&gt; float<br />
+          <div class="tip" id="1401">
+            <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L77-77" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L736-736" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Estimates the q-th quantile from the unsorted data array. (in place)</p>
+          <p>exponential growth model</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '726', 726)" onmouseover="showTip(event, '726', 726)">
-            computeInplace q data
+          <code onmouseout="hideTip(event, '1402', 1402)" onmouseover="showTip(event, '1402', 1402)">
+            getSolverOptionsGompertz(...)
           </code>
-          <div class="tip" id="726">
-            <strong>Signature:</strong> q:float -&gt; data:float array -&gt; float<br />
+          <div class="tip" id="1402">
+            <strong>Signature:</strong> xData:float [] -&gt; yDataLog:float [] -&gt; expectedGenerationTime:float -&gt; usedLogTransform:(float -&gt; float) -&gt; SolverOptions<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L27-27" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L639-639" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Estimates the q-th quantile from the unsorted data array. (in place)
-Approximately median-unbiased regardless of the sample distribution.</p>
+          <p>determines the solver options for cell count growth data (must be in log space). For untransformed data use 'id' as transform.</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '727', 727)" onmouseover="showTip(event, '727', 727)">
-            empiricalInvCdfAverageInPLace q data
+          <code onmouseout="hideTip(event, '1403', 1403)" onmouseover="showTip(event, '1403', 1403)">
+            gompertz
           </code>
-          <div class="tip" id="727">
-            <strong>Signature:</strong> q:float&lt;MeasureOne&gt; -&gt; data:float array -&gt; float<br />
+          <div class="tip" id="1403">
+            <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L55-55" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L619-619" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Estimates the q-th quantile from the unsorted data array. (in place)</p>
+          <p>The gompertz function describes the log cell count at time point t.</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '728', 728)" onmouseover="showTip(event, '728', 728)">
-            empiricalInvCdfInPLace q data
+          <code onmouseout="hideTip(event, '1404', 1404)" onmouseover="showTip(event, '1404', 1404)">
+            janoschek
           </code>
-          <div class="tip" id="728">
-            <strong>Signature:</strong> q:float&lt;MeasureOne&gt; -&gt; data:float array -&gt; float<br />
+          <div class="tip" id="1404">
+            <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L45-45" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L710-710" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Estimates the q-th quantile from the unsorted data array. (in place)</p>
+          <p>stable growth model similar to weibull model</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '729', 729)" onmouseover="showTip(event, '729', 729)">
-            hazenInPLace q data
+          <code onmouseout="hideTip(event, '1405', 1405)" onmouseover="showTip(event, '1405', 1405)">
+            morganMercerFlodin
           </code>
-          <div class="tip" id="729">
-            <strong>Signature:</strong> q:float&lt;MeasureOne&gt; -&gt; data:float array -&gt; float<br />
+          <div class="tip" id="1405">
+            <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L89-89" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L758-758" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Estimates the q-th quantile from the unsorted data array. (in place)</p>
+          <p>4 parameter Morgan-Mercer-Flodin growth model</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '730', 730)" onmouseover="showTip(event, '730', 730)">
-            modeInPLace q data
+          <code onmouseout="hideTip(event, '1406', 1406)" onmouseover="showTip(event, '1406', 1406)">
+            richards
           </code>
-          <div class="tip" id="730">
-            <strong>Signature:</strong> q:float&lt;MeasureOne&gt; -&gt; data:float array -&gt; float<br />
+          <div class="tip" id="1406">
+            <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L113-113" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L657-657" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Estimates the q-th quantile from the unsorted data array. (in place)</p>
+          <p>4 parameter richards curve with minimum at 0; d <> 1</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '731', 731)" onmouseover="showTip(event, '731', 731)">
-            nearestInPLace q data
+          <code onmouseout="hideTip(event, '1407', 1407)" onmouseover="showTip(event, '1407', 1407)">
+            verhulst
           </code>
-          <div class="tip" id="731">
-            <strong>Signature:</strong> q:float&lt;MeasureOne&gt; -&gt; data:float array -&gt; float<br />
+          <div class="tip" id="1407">
+            <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L67-67" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L784-784" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Estimates the q-th quantile from the unsorted data array. (in place)</p>
+          <p>3 parameter verhulst logistic model with lower asymptote=0</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '732', 732)" onmouseover="showTip(event, '732', 732)">
-            nistInPLace q data
+          <code onmouseout="hideTip(event, '1408', 1408)" onmouseover="showTip(event, '1408', 1408)">
+            verhulst4Param
           </code>
-          <div class="tip" id="732">
-            <strong>Signature:</strong> q:float&lt;MeasureOne&gt; -&gt; data:float array -&gt; float<br />
+          <div class="tip" id="1408">
+            <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L101-101" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L787-787" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Estimates the q-th quantile from the unsorted data array. (in place)</p>
+          <p>4 parameter verhulst model with variably lowers asymptote</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '733', 733)" onmouseover="showTip(event, '733', 733)">
-            normalInPLace q data
+          <code onmouseout="hideTip(event, '1409', 1409)" onmouseover="showTip(event, '1409', 1409)">
+            vonBertalanffy
           </code>
-          <div class="tip" id="733">
-            <strong>Signature:</strong> q:float&lt;MeasureOne&gt; -&gt; data:float array -&gt; float<br />
+          <div class="tip" id="1409">
+            <strong>Signature:</strong> Model<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L125-125" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L815-815" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Estimates the q-th quantile from the unsorted data array. (in place)</p>
+          <p>3 parameter von Bertalanffy growth model</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1410', 1410)" onmouseover="showTip(event, '1410', 1410)">
+            weibull
+          </code>
+          <div class="tip" id="1410">
+            <strong>Signature:</strong> Model<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/NonLinearRegression.fs#L684-684" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>weibull growth model; if d=1 then it is a simple exponential growth model</p>
 
 
         </td>
