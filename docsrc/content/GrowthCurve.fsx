@@ -71,8 +71,19 @@ let growthChart =
 (*** include-value:growthChart ***)
 
 (**
+##Manual phase selection
+
 If growth phases are labeled manually, the exponential phase can be fitted with a regression line. 
 
+To determine the generation time, it is necessary to find the time interval it takes to double the count data.
+When a log<sub>2</sub> transform is used, a doubling of the original counts is achieved, when the log value moves 1 unit.
+Keeping that in mind, the slope can be used to calculate the time it takes for the log<sub>2</sub> data to increase 1 unit.
+
+  - slope * generation time = 1
+
+  - generation time = 1/slope
+
+If a different log transform was used, the correction factor for the numerator is log<sub>x</sub>(2).
 *)
 
 
@@ -115,6 +126,7 @@ let generationTimeManual = sprintf "The generation time (manual selection) is: %
 
 (**
 
+##Gompertz model
 
 In the following example the four parameter gompertz function is applied to cell count data (Gibson et al., 1988).
 
