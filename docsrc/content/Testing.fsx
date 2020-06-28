@@ -30,8 +30,12 @@ let dataOneWay =
     |]
 
 let contrastMatrix = 
-    [| [|1.0;-1.0;0.0;0.0;|] ; [|1.0;0.0;-1.0;0.0;|] ; [|1.0;0.;0.0;-1.0;|] ; 
-    [|0.0;1.0;-1.0;0.0;|]    ; [|0.0;1.0;0.0;-1.0;|] ;
+    [| 
+    [|1.0;-1.0;0.0;0.0;|]
+    [|1.0;0.0;-1.0;0.0;|]
+    [|1.0;0.0;0.0;-1.0;|]
+    [|0.0;1.0;-1.0;0.0;|]
+    [|0.0;1.0;0.0;-1.0;|]
     [|0.0;0.0;1.0;-1.0;|]
     |]
 
@@ -116,18 +120,72 @@ Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
 (**
 <a name="TTest"></a>
 ##T-Test
-Standard example for using the two sample T-Test.
+
+By using a t test a difference of means can be tested. There are different kinds of t test designs implemented in FSharp.Stats.
+
+1. One sample t test:
+
+  - Is the population mean equal to the value of H0?
+
+  - e.g. “Is my grade different from the distribution mean?”
+  
+2. Two sample t test with equal variances:
+
+  - Prerequisite: equal variances
+  
+  - Is the mean of Population A equal to the mean of Population B?
+  
+  - 2.1 unpaired t test:
+
+    - e.g.: Does the cell size differ between wildtype and mutant?
+
+  - 2.2 paired t test:
+
+    - Bsp.: Does the medication influence the blood pressure? Measurement of the same persons before and after medication.
+
+3. Two sample t test with unequal variances
+  
+  - Welch test (unpaired)
+  
+
+
+Case 1: One sample t test
+*)
+
+let sampleA = vector [|4.5; 5.1; 4.8; 4.4; 5.0|]
+
+// calculates a one sample t test with a given sample and the fixed value the sample should be compared with
+let oneSampleTTest = TTest.oneSample sampleA 5.
+
+(*
+    The test returns no significant p value:
+    oneSampleTTest.PValue = 0.1533
 *)
 
 
+(**
+Case 2: Two sample t test with equal variances (unpaired)
 
-let sample1 = [|-0.2268419965; -0.3772357485|] |> FSharp.Stats.Vector.ofArray
-let sample2 = [|-0.6076633409; -0.1781469665|] |> FSharp.Stats.Vector.ofArray
+A standard two sample t test expects the samples to be taken from populations with equal standard deviations.
+Violations of this requirement result in an inflated false positive rate.
 
-Testing.TTest.twoSample false sample1 sample2
+*)
+
+let sample1 = vector [|4.9;5.0;6.7;4.8;5.2|]
+let sample2 = vector [|3.9;4.9;3.8;4.5;4.5|]
+
+let twoSampleTTest = TTest.twoSample true sample1 sample2
+
+(*
+    The test returns a significant p value:
+    twoSampleTTest.PValue = 0.0396
+*)
+
 
 (**
-Link to example can be found [here](http://www.statstutor.ac.uk/resources/uploaded/paired-t-test.pdf).
+Case 3: Two sample t test with equal variances (paired)
+
+
 A paired t-test is used to compare two population means where you have two samples in
 which observations in one sample can be paired with observations in the other sample.
 Examples of where this might occur are:
@@ -143,7 +201,34 @@ Examples of where this might occur are:
 let sampleP1 = vector [18.;21.;16.;22.;19.;24.;17.;21.;23.;18.;14.;16.;16.;19.;18.;20.;12.;22.;15.;17.;]
 let sampleP2 = vector [22.;25.;17.;24.;16.;29.;20.;23.;19.;20.;15.;15.;18.;26.;18.;24.;18.;25.;19.;16.;]
 
-Testing.TTest.twoSamplePaired sampleP1 sampleP2
+let paired = TTest.twoSamplePaired sampleP1 sampleP2
+
+(*
+    The test returns a significant p value:
+    paired.PValue = 0.00439
+*)
+
+
+(**
+Case 4: Two sample t test with unequal variances (Welch test)
+
+If you are unsure about the nature of the underlying population, you may ask if the theoretical population distributions 
+you want to compare do have the same standard deviations. 
+
+If not the welch test can serve as a appropriate hypothesis test for mean differences.
+
+*)
+
+
+let sampleW1 = vector [0.8;0.9;1.0;1.1;1.2]
+let sampleW2 = vector [0.8;1.1;1.3;1.5;2.0]
+
+let welch = TTest.twoSample false sampleW1 sampleW2
+
+(*
+    The test returns a not significant p value:
+    welch.PValue = 0.1725626595
+*)
 
 (**
 <a name="ChiSquareTest"></a>
@@ -153,7 +238,7 @@ Testing.TTest.twoSamplePaired sampleP1 sampleP2
 <a name="PostHoc"></a>
 ##PostHoc
 
-This test uses the data shown for Anova.
+This test uses the data shown for ANOVA.
 *)
 
 
@@ -193,35 +278,79 @@ Testing.PostHoc.hays contrastMatrixDmg dmg
 
 Anova.oneWayAnova dmg
 
+(**
+###Tukey HSD 
 
-//TukeyHSD contrastMatrixDmg dmg 
-// https://brownmath.com/stat/anova1.htm
+Tukeys honestly significant difference (HSD) can be used to inspect a significant ANOVA result for underlying causes.
+Using this post hoc test you can determine which of the means differ significantly from each other.
 
-let dsd = 
+Task: It should be tested if one or more means of samples taken from different mutants differ from each other.
+
+*)
+
+
+// Example values from: https://brownmath.com/stat/anova1.htm
+let hsdExample = 
     [|
-     //[|7.;4.;6.;8.;6.;6.;2.;9.|];
-     //[|5.;5.;3.;4.;4.;7.;2.;2.|];
-     //[|2.;4.;7.;1.;2.;1.;5.;5.|] ; 
-        [|64.; 72.; 68.; 77.; 56.; 95.;|] ;
-        [|78.; 91.; 97.; 82.; 85.; 77.;|] ;
-        [|75.; 93.; 78.; 71.; 63.; 76.;|] ;
-        [|55.; 66.; 49.; 64.; 70.; 68.;|] ;   
+        [|64.; 72.; 68.; 77.; 56.; 95.;|] // sample of mutant/drug/factor 1 
+        [|78.; 91.; 97.; 82.; 85.; 77.;|] // sample of mutant/drug/factor 2 
+        [|75.; 93.; 78.; 71.; 63.; 76.;|] // sample of mutant/drug/factor 3 
+        [|55.; 66.; 49.; 64.; 70.; 68.;|] // sample of mutant/drug/factor 4    
     |]
 
-let contrastMatrixDsd = contrastMatrix //used in docs for "Anova"
 
-Anova.oneWayAnova dsd
+let anovaResult = Anova.oneWayAnova hsdExample
 
-tukeyHSD contrastMatrixDsd dsd 
+(*
+    anovaResult.Factor.Statistic = 5.41
+    The factor statistic indicates how much more variability there is between the the samples 
+    than within the samples.
+    anovaResult.Factor.PValue = 0.0069
+    A significant p value in the factor field indicates that one or more means differ from each other
+*)
 
+(**
+If and only if the ANOVA p value is below the alpha level (e.g. 0.05) you can go for further analysis with post hoc tests.
+For tukey HSD calculations you need a contrast matrix, that defines the groups you want to compare for 
+more detailed information.
+
+Every contrast has as many entries as you have groups (samples). The groups, that should be compared are labeled with -0.5 or 0.5 respectively.
+
+*)
+
+// In this contrast matrix every possible scenario is covered.
+let contrastMatrixHSD = 
+    [| 
+    [|1.;-1.; 0.; 0.;|] // sample 1 is compared to sample 2
+    [|1.; 0.;-1.; 0.;|] // sample 1 is compared to sample 3
+    [|1.; 0.; 0.;-1.;|] 
+    [|0.; 1.;-1.; 0.;|]
+    [|0.; 1.; 0.;-1.;|]
+    [|0.; 0.; 1.;-1.;|] // sample 3 is compared to sample 4
+    |]
+
+let hsdResult = tukeyHSD contrastMatrixHSD hsdExample 
+
+(*
+    For every generated contrast array an output p value is calculated.
+    e.g.
+    hsdResult.[0].Significance = 0.0364
+    hsdResult.[1].Significance = 0.4983 
+    hsdResult.[2].Significance = 0.1001
+    hsdResult.[3].Significance = 0.1364
+    hsdResult.[4].Significance = 0.0008
+    hsdResult.[5].Significance = 0.0255
+*)
+
+(**
+###Fisher Hotelling
+
+*)
 
 let d1 = [159.;179.;100.;45.;384.;230.;100.;320.;80.;220.;320.;210.;]
 let d2 = [14.4;15.2;11.3;2.5;22.7;14.9;1.41;15.81;4.19;15.39;17.25;9.52; ]
     
-
 Testing.FisherHotelling.test d1 d2
-
-//Testing.Hays contrastMatrix 
 
 (**
 <a name="PvalueAdjust"></a>
