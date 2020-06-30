@@ -52,10 +52,29 @@
     <tbody>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1412', 1412)" onmouseover="showTip(event, '1412', 1412)">
+          <code onmouseout="hideTip(event, '1413', 1413)" onmouseover="showTip(event, '1413', 1413)">
+            linearSpline data basispts
+          </code>
+          <div class="tip" id="1413">
+            <strong>Signature:</strong> data:(float * float) [] -&gt; basispts:float [] -&gt; Matrix&lt;float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/Spline.fs#L123-123" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Our actualy smoothing spline</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1414', 1414)" onmouseover="showTip(event, '1414', 1414)">
             smoothingSpline data basispts
           </code>
-          <div class="tip" id="1412">
+          <div class="tip" id="1414">
             <strong>Signature:</strong> data:(float * float) [] -&gt; basispts:float [] -&gt; float -&gt; float -&gt; float<br />
                                   </div>
         </td>
@@ -66,6 +85,26 @@
             </a>
           <p>Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts.
 The resulting function takes lambda (regularization parameter) and a x_Value as input.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1415', 1415)" onmouseover="showTip(event, '1415', 1415)">
+            smoothingSplineLin data basispts
+          </code>
+          <div class="tip" id="1415">
+            <strong>Signature:</strong> data:(float * float) [] -&gt; basispts:float [] -&gt; float -&gt; float -&gt; float<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/Spline.fs#L74-74" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>A linear spline is formed by connecting linear segments, that meet at the knots defined as basispts.
+This is how the slope of the fitted function changes at each knot.</p>
 
 
         </td>

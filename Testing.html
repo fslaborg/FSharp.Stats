@@ -138,6 +138,10 @@ A hypothesis test examines two opposing hypotheses about a population: the null 
 <span class="l">92: </span>
 <span class="l">93: </span>
 <span class="l">94: </span>
+<span class="l">95: </span>
+<span class="l">96: </span>
+<span class="l">97: </span>
+<span class="l">98: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">Stats</span>
 <span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 5)" onmouseover="showTip(event, 'fs3', 5)" class="id">Testing</span>
@@ -152,8 +156,12 @@ A hypothesis test examines two opposing hypotheses about a population: the null 
     <span class="pn">|]</span>
 
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="id">contrastMatrix</span> <span class="o">=</span> 
-    <span class="pn">[|</span> <span class="pn">[|</span><span class="n">1.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span> <span class="pn">[|</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span> <span class="pn">[|</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span> 
-    <span class="pn">[|</span><span class="n">0.0</span><span class="pn">;</span><span class="n">1.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="pn">|]</span>    <span class="pn">;</span> <span class="pn">[|</span><span class="n">0.0</span><span class="pn">;</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span>
+    <span class="pn">[|</span> 
+    <span class="pn">[|</span><span class="n">1.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="pn">|]</span>
+    <span class="pn">[|</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="pn">|]</span>
+    <span class="pn">[|</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="pn">|]</span>
+    <span class="pn">[|</span><span class="n">0.0</span><span class="pn">;</span><span class="n">1.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="pn">|]</span>
+    <span class="pn">[|</span><span class="n">0.0</span><span class="pn">;</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="pn">|]</span>
     <span class="pn">[|</span><span class="n">0.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="n">1.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="pn">|]</span>
     <span class="pn">|]</span>
 
@@ -238,21 +246,91 @@ A hypothesis test examines two opposing hypotheses about a population: the null 
 </table>
 <a name="TTest"></a>
 <h2><a name="T-Test" class="anchor" href="#T-Test">T-Test</a></h2>
-<p>Standard example for using the two sample T-Test.</p>
+<p>By using a t test a difference of means can be tested. There are different kinds of t test designs implemented in FSharp.Stats.</p>
+<ol>
+<li>
+<p>One sample t test:</p>
+<ul>
+<li>Is the population mean equal to the value of H0?</li>
+<li>e.g. “Is my grade different from the distribution mean?”</li>
+</ul>
+</li>
+<li>
+<p>Two sample t test with equal variances:</p>
+<ul>
+<li>Prerequisite: equal variances</li>
+<li>Is the mean of Population A equal to the mean of Population B?</li>
+<li>
+<p>2.1 unpaired t test:</p>
+<ul>
+<li>e.g.: Does the cell size differ between wildtype and mutant?</li>
+</ul>
+</li>
+<li>
+<p>2.2 paired t test:</p>
+<ul>
+<li>Bsp.: Does the medication influence the blood pressure? Measurement of the same persons before and after medication.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Two sample t test with unequal variances</p>
+<ul>
+<li>Welch test (unpaired)</li>
+</ul>
+</li>
+</ol>
+<p>Case 1: One sample t test</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
 <span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 59)" onmouseover="showTip(event, 'fs23', 59)" class="id">sample1</span> <span class="o">=</span> <span class="pn">[|</span><span class="o">-</span><span class="n">0.2268419965</span><span class="pn">;</span> <span class="o">-</span><span class="n">0.3772357485</span><span class="pn">|]</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs1', 60)" onmouseover="showTip(event, 'fs1', 60)" class="fn">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 61)" onmouseover="showTip(event, 'fs2', 61)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 62)" onmouseover="showTip(event, 'fs24', 62)" class="m">Vector</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs25', 63)" onmouseover="showTip(event, 'fs25', 63)" class="id">ofArray</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 64)" onmouseover="showTip(event, 'fs26', 64)" class="id">sample2</span> <span class="o">=</span> <span class="pn">[|</span><span class="o">-</span><span class="n">0.6076633409</span><span class="pn">;</span> <span class="o">-</span><span class="n">0.1781469665</span><span class="pn">|]</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs1', 65)" onmouseover="showTip(event, 'fs1', 65)" class="fn">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 66)" onmouseover="showTip(event, 'fs2', 66)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 67)" onmouseover="showTip(event, 'fs24', 67)" class="m">Vector</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs25', 68)" onmouseover="showTip(event, 'fs25', 68)" class="id">ofArray</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 59)" onmouseover="showTip(event, 'fs23', 59)" class="id">sampleA</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 60)" onmouseover="showTip(event, 'fs24', 60)" class="fn">vector</span> <span class="pn">[|</span><span class="n">4.5</span><span class="pn">;</span> <span class="n">5.1</span><span class="pn">;</span> <span class="n">4.8</span><span class="pn">;</span> <span class="n">4.4</span><span class="pn">;</span> <span class="n">5.0</span><span class="pn">|]</span>
 
-<span onmouseout="hideTip(event, 'fs3', 69)" onmouseover="showTip(event, 'fs3', 69)" class="fn">Testing</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 70)" onmouseover="showTip(event, 'fs27', 70)" class="m">TTest</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 71)" onmouseover="showTip(event, 'fs28', 71)" class="id">twoSample</span> <span class="k">false</span> <span onmouseout="hideTip(event, 'fs23', 72)" onmouseover="showTip(event, 'fs23', 72)" class="id">sample1</span> <span onmouseout="hideTip(event, 'fs26', 73)" onmouseover="showTip(event, 'fs26', 73)" class="id">sample2</span>
+<span class="c">// calculates a one sample t test with a given sample and the fixed value the sample should be compared with</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 61)" onmouseover="showTip(event, 'fs25', 61)" class="id">oneSampleTTest</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs26', 62)" onmouseover="showTip(event, 'fs26', 62)" class="m">TTest</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 63)" onmouseover="showTip(event, 'fs27', 63)" class="id">oneSample</span> <span onmouseout="hideTip(event, 'fs23', 64)" onmouseover="showTip(event, 'fs23', 64)" class="id">sampleA</span> <span class="n">5.</span>
+
+<span class="c">(*</span>
+<span class="c">    The test returns no significant p value:</span>
+<span class="c">    oneSampleTTest.PValue = 0.1533</span>
+<span class="c">*)</span>
 </code></pre></td>
 </tr>
 </table>
-<p>Link to example can be found <a href="http://www.statstutor.ac.uk/resources/uploaded/paired-t-test.pdf">here</a>.
-A paired t-test is used to compare two population means where you have two samples in
+<p>Case 2: Two sample t test with equal variances (unpaired)</p>
+<p>A standard two sample t test expects the samples to be taken from populations with equal standard deviations.
+Violations of this requirement result in an inflated false positive rate.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 65)" onmouseover="showTip(event, 'fs28', 65)" class="id">sample1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 66)" onmouseover="showTip(event, 'fs24', 66)" class="fn">vector</span> <span class="pn">[|</span><span class="n">4.9</span><span class="pn">;</span><span class="n">5.0</span><span class="pn">;</span><span class="n">6.7</span><span class="pn">;</span><span class="n">4.8</span><span class="pn">;</span><span class="n">5.2</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 67)" onmouseover="showTip(event, 'fs29', 67)" class="id">sample2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 68)" onmouseover="showTip(event, 'fs24', 68)" class="fn">vector</span> <span class="pn">[|</span><span class="n">3.9</span><span class="pn">;</span><span class="n">4.9</span><span class="pn">;</span><span class="n">3.8</span><span class="pn">;</span><span class="n">4.5</span><span class="pn">;</span><span class="n">4.5</span><span class="pn">|]</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 69)" onmouseover="showTip(event, 'fs30', 69)" class="id">twoSampleTTest</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs26', 70)" onmouseover="showTip(event, 'fs26', 70)" class="m">TTest</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 71)" onmouseover="showTip(event, 'fs31', 71)" class="id">twoSample</span> <span class="k">true</span> <span onmouseout="hideTip(event, 'fs28', 72)" onmouseover="showTip(event, 'fs28', 72)" class="id">sample1</span> <span onmouseout="hideTip(event, 'fs29', 73)" onmouseover="showTip(event, 'fs29', 73)" class="id">sample2</span>
+
+<span class="c">(*</span>
+<span class="c">    The test returns a significant p value:</span>
+<span class="c">    twoSampleTTest.PValue = 0.0396</span>
+<span class="c">*)</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Case 3: Two sample t test with equal variances (paired)</p>
+<p>A paired t-test is used to compare two population means where you have two samples in
 which observations in one sample can be paired with observations in the other sample.
 Examples of where this might occur are:</p>
 <ul>
@@ -270,11 +348,47 @@ pressure measurements using a stethoscope and a dynamap).
 <span class="l">2: </span>
 <span class="l">3: </span>
 <span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 74)" onmouseover="showTip(event, 'fs29', 74)" class="id">sampleP1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs30', 75)" onmouseover="showTip(event, 'fs30', 75)" class="fn">vector</span> <span class="pn">[</span><span class="n">18.</span><span class="pn">;</span><span class="n">21.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">22.</span><span class="pn">;</span><span class="n">19.</span><span class="pn">;</span><span class="n">24.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">21.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">18.</span><span class="pn">;</span><span class="n">14.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">19.</span><span class="pn">;</span><span class="n">18.</span><span class="pn">;</span><span class="n">20.</span><span class="pn">;</span><span class="n">12.</span><span class="pn">;</span><span class="n">22.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 76)" onmouseover="showTip(event, 'fs31', 76)" class="id">sampleP2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs30', 77)" onmouseover="showTip(event, 'fs30', 77)" class="fn">vector</span> <span class="pn">[</span><span class="n">22.</span><span class="pn">;</span><span class="n">25.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">24.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">29.</span><span class="pn">;</span><span class="n">20.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">19.</span><span class="pn">;</span><span class="n">20.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">18.</span><span class="pn">;</span><span class="n">26.</span><span class="pn">;</span><span class="n">18.</span><span class="pn">;</span><span class="n">24.</span><span class="pn">;</span><span class="n">18.</span><span class="pn">;</span><span class="n">25.</span><span class="pn">;</span><span class="n">19.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="pn">]</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 74)" onmouseover="showTip(event, 'fs32', 74)" class="id">sampleP1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 75)" onmouseover="showTip(event, 'fs24', 75)" class="fn">vector</span> <span class="pn">[</span><span class="n">18.</span><span class="pn">;</span><span class="n">21.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">22.</span><span class="pn">;</span><span class="n">19.</span><span class="pn">;</span><span class="n">24.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">21.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">18.</span><span class="pn">;</span><span class="n">14.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">19.</span><span class="pn">;</span><span class="n">18.</span><span class="pn">;</span><span class="n">20.</span><span class="pn">;</span><span class="n">12.</span><span class="pn">;</span><span class="n">22.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 76)" onmouseover="showTip(event, 'fs33', 76)" class="id">sampleP2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 77)" onmouseover="showTip(event, 'fs24', 77)" class="fn">vector</span> <span class="pn">[</span><span class="n">22.</span><span class="pn">;</span><span class="n">25.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">24.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">29.</span><span class="pn">;</span><span class="n">20.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">19.</span><span class="pn">;</span><span class="n">20.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">18.</span><span class="pn">;</span><span class="n">26.</span><span class="pn">;</span><span class="n">18.</span><span class="pn">;</span><span class="n">24.</span><span class="pn">;</span><span class="n">18.</span><span class="pn">;</span><span class="n">25.</span><span class="pn">;</span><span class="n">19.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="pn">]</span>
 
-<span onmouseout="hideTip(event, 'fs3', 78)" onmouseover="showTip(event, 'fs3', 78)" class="fn">Testing</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 79)" onmouseover="showTip(event, 'fs27', 79)" class="m">TTest</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 80)" onmouseover="showTip(event, 'fs32', 80)" class="id">twoSamplePaired</span> <span onmouseout="hideTip(event, 'fs29', 81)" onmouseover="showTip(event, 'fs29', 81)" class="id">sampleP1</span> <span onmouseout="hideTip(event, 'fs31', 82)" onmouseover="showTip(event, 'fs31', 82)" class="id">sampleP2</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs34', 78)" onmouseover="showTip(event, 'fs34', 78)" class="id">paired</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs26', 79)" onmouseover="showTip(event, 'fs26', 79)" class="m">TTest</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 80)" onmouseover="showTip(event, 'fs35', 80)" class="id">twoSamplePaired</span> <span onmouseout="hideTip(event, 'fs32', 81)" onmouseover="showTip(event, 'fs32', 81)" class="id">sampleP1</span> <span onmouseout="hideTip(event, 'fs33', 82)" onmouseover="showTip(event, 'fs33', 82)" class="id">sampleP2</span>
+
+<span class="c">(*</span>
+<span class="c">    The test returns a significant p value:</span>
+<span class="c">    paired.PValue = 0.00439</span>
+<span class="c">*)</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Case 4: Two sample t test with unequal variances (Welch test)</p>
+<p>If you are unsure about the nature of the underlying population, you may ask if the theoretical population distributions
+you want to compare do have the same standard deviations.</p>
+<p>If not the welch test can serve as a appropriate hypothesis test for mean differences.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 83)" onmouseover="showTip(event, 'fs36', 83)" class="id">sampleW1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 84)" onmouseover="showTip(event, 'fs24', 84)" class="fn">vector</span> <span class="pn">[</span><span class="n">0.8</span><span class="pn">;</span><span class="n">0.9</span><span class="pn">;</span><span class="n">1.0</span><span class="pn">;</span><span class="n">1.1</span><span class="pn">;</span><span class="n">1.2</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 85)" onmouseover="showTip(event, 'fs37', 85)" class="id">sampleW2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 86)" onmouseover="showTip(event, 'fs24', 86)" class="fn">vector</span> <span class="pn">[</span><span class="n">0.8</span><span class="pn">;</span><span class="n">1.1</span><span class="pn">;</span><span class="n">1.3</span><span class="pn">;</span><span class="n">1.5</span><span class="pn">;</span><span class="n">2.0</span><span class="pn">]</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs38', 87)" onmouseover="showTip(event, 'fs38', 87)" class="id">welch</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs26', 88)" onmouseover="showTip(event, 'fs26', 88)" class="m">TTest</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 89)" onmouseover="showTip(event, 'fs31', 89)" class="id">twoSample</span> <span class="k">false</span> <span onmouseout="hideTip(event, 'fs36', 90)" onmouseover="showTip(event, 'fs36', 90)" class="id">sampleW1</span> <span onmouseout="hideTip(event, 'fs37', 91)" onmouseover="showTip(event, 'fs37', 91)" class="id">sampleW2</span>
+
+<span class="c">(*</span>
+<span class="c">    The test returns a not significant p value:</span>
+<span class="c">    welch.PValue = 0.1725626595</span>
+<span class="c">*)</span>
 </code></pre></td>
 </tr>
 </table>
@@ -284,7 +398,7 @@ pressure measurements using a stethoscope and a dynamap).
 <h2><a name="Bartlett" class="anchor" href="#Bartlett">Bartlett</a></h2>
 <a name="PostHoc"></a>
 <h2><a name="PostHoc" class="anchor" href="#PostHoc">PostHoc</a></h2>
-<p>This test uses the data shown for Anova.</p>
+<p>This test uses the data shown for ANOVA.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -320,40 +434,10 @@ pressure measurements using a stethoscope and a dynamap).
 <span class="l">33: </span>
 <span class="l">34: </span>
 <span class="l">35: </span>
-<span class="l">36: </span>
-<span class="l">37: </span>
-<span class="l">38: </span>
-<span class="l">39: </span>
-<span class="l">40: </span>
-<span class="l">41: </span>
-<span class="l">42: </span>
-<span class="l">43: </span>
-<span class="l">44: </span>
-<span class="l">45: </span>
-<span class="l">46: </span>
-<span class="l">47: </span>
-<span class="l">48: </span>
-<span class="l">49: </span>
-<span class="l">50: </span>
-<span class="l">51: </span>
-<span class="l">52: </span>
-<span class="l">53: </span>
-<span class="l">54: </span>
-<span class="l">55: </span>
-<span class="l">56: </span>
-<span class="l">57: </span>
-<span class="l">58: </span>
-<span class="l">59: </span>
-<span class="l">60: </span>
-<span class="l">61: </span>
-<span class="l">62: </span>
-<span class="l">63: </span>
-<span class="l">64: </span>
-<span class="l">65: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs33', 83)" onmouseover="showTip(event, 'fs33', 83)" class="id">PostHoc</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs39', 92)" onmouseover="showTip(event, 'fs39', 92)" class="id">PostHoc</span>
 
-<span onmouseout="hideTip(event, 'fs3', 84)" onmouseover="showTip(event, 'fs3', 84)" class="fn">Testing</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 85)" onmouseover="showTip(event, 'fs33', 85)" class="m">PostHoc</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 86)" onmouseover="showTip(event, 'fs34', 86)" class="id">hays</span> <span onmouseout="hideTip(event, 'fs5', 87)" onmouseover="showTip(event, 'fs5', 87)" class="id">contrastMatrix</span> <span onmouseout="hideTip(event, 'fs4', 88)" onmouseover="showTip(event, 'fs4', 88)" class="id">dataOneWay</span> 
+<span onmouseout="hideTip(event, 'fs3', 93)" onmouseover="showTip(event, 'fs3', 93)" class="fn">Testing</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 94)" onmouseover="showTip(event, 'fs39', 94)" class="m">PostHoc</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 95)" onmouseover="showTip(event, 'fs40', 95)" class="id">hays</span> <span onmouseout="hideTip(event, 'fs5', 96)" onmouseover="showTip(event, 'fs5', 96)" class="id">contrastMatrix</span> <span onmouseout="hideTip(event, 'fs4', 97)" onmouseover="showTip(event, 'fs4', 97)" class="id">dataOneWay</span> 
 
 
 <span class="c">//let m1 = Seq.mean dataOneWay.[0]</span>
@@ -368,14 +452,14 @@ pressure measurements using a stethoscope and a dynamap).
 <span class="c">//d / (3.926003843 * (1./5. + 1./5.))</span>
 
 <span class="c">// http://www.statisticslectures.com/topics/posthoconewayanova/</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 89)" onmouseover="showTip(event, 'fs35', 89)" class="id">dmg</span> <span class="o">=</span> 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 98)" onmouseover="showTip(event, 'fs41', 98)" class="id">dmg</span> <span class="o">=</span> 
     <span class="pn">[|</span>
      <span class="pn">[|</span><span class="n">9.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">;</span><span class="n">9.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">;</span><span class="pn">|]</span><span class="pn">;</span>
      <span class="pn">[|</span><span class="n">7.</span><span class="pn">;</span><span class="n">6.</span><span class="pn">;</span><span class="n">6.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">6.</span><span class="pn">;</span><span class="pn">|]</span><span class="pn">;</span>
      <span class="pn">[|</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span> 
     <span class="pn">|]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 90)" onmouseover="showTip(event, 'fs36', 90)" class="id">contrastMatrixDmg</span> <span class="o">=</span> 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs42', 99)" onmouseover="showTip(event, 'fs42', 99)" class="id">contrastMatrixDmg</span> <span class="o">=</span> 
     <span class="pn">[|</span> 
      <span class="pn">[|</span><span class="n">1.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span> 
      <span class="pn">[|</span><span class="n">1.0</span><span class="pn">;</span><span class="n">0.0</span><span class="pn">;</span><span class="o">-</span><span class="n">1.0</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span> 
@@ -383,39 +467,122 @@ pressure measurements using a stethoscope and a dynamap).
     <span class="pn">|]</span>
 
 
-<span onmouseout="hideTip(event, 'fs3', 91)" onmouseover="showTip(event, 'fs3', 91)" class="fn">Testing</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 92)" onmouseover="showTip(event, 'fs33', 92)" class="m">PostHoc</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 93)" onmouseover="showTip(event, 'fs34', 93)" class="id">hays</span> <span onmouseout="hideTip(event, 'fs36', 94)" onmouseover="showTip(event, 'fs36', 94)" class="id">contrastMatrixDmg</span> <span onmouseout="hideTip(event, 'fs35', 95)" onmouseover="showTip(event, 'fs35', 95)" class="id">dmg</span> 
+<span onmouseout="hideTip(event, 'fs3', 100)" onmouseover="showTip(event, 'fs3', 100)" class="fn">Testing</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 101)" onmouseover="showTip(event, 'fs39', 101)" class="m">PostHoc</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 102)" onmouseover="showTip(event, 'fs40', 102)" class="id">hays</span> <span onmouseout="hideTip(event, 'fs42', 103)" onmouseover="showTip(event, 'fs42', 103)" class="id">contrastMatrixDmg</span> <span onmouseout="hideTip(event, 'fs41', 104)" onmouseover="showTip(event, 'fs41', 104)" class="id">dmg</span> 
 
-<span onmouseout="hideTip(event, 'fs6', 96)" onmouseover="showTip(event, 'fs6', 96)" class="m">Anova</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 97)" onmouseover="showTip(event, 'fs7', 97)" class="id">oneWayAnova</span> <span onmouseout="hideTip(event, 'fs35', 98)" onmouseover="showTip(event, 'fs35', 98)" class="id">dmg</span>
-
-
-<span class="c">//TukeyHSD contrastMatrixDmg dmg </span>
-<span class="c">// https://brownmath.com/stat/anova1.htm</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 99)" onmouseover="showTip(event, 'fs37', 99)" class="id">dsd</span> <span class="o">=</span> 
+<span onmouseout="hideTip(event, 'fs6', 105)" onmouseover="showTip(event, 'fs6', 105)" class="m">Anova</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 106)" onmouseover="showTip(event, 'fs7', 106)" class="id">oneWayAnova</span> <span onmouseout="hideTip(event, 'fs41', 107)" onmouseover="showTip(event, 'fs41', 107)" class="id">dmg</span>
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Tukey-HSD" class="anchor" href="#Tukey-HSD">Tukey HSD</a></h3>
+<p>Tukeys honestly significant difference (HSD) can be used to inspect a significant ANOVA result for underlying causes.
+Using this post hoc test you can determine which of the means differ significantly from each other.</p>
+<p>Task: It should be tested if one or more means of samples taken from different mutants differ from each other.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// Example values from: https://brownmath.com/stat/anova1.htm</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs43', 108)" onmouseover="showTip(event, 'fs43', 108)" class="id">hsdExample</span> <span class="o">=</span> 
     <span class="pn">[|</span>
-     <span class="c">//[|7.;4.;6.;8.;6.;6.;2.;9.|];</span>
-     <span class="c">//[|5.;5.;3.;4.;4.;7.;2.;2.|];</span>
-     <span class="c">//[|2.;4.;7.;1.;2.;1.;5.;5.|] ; </span>
-        <span class="pn">[|</span><span class="n">64.</span><span class="pn">;</span> <span class="n">72.</span><span class="pn">;</span> <span class="n">68.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span> <span class="n">56.</span><span class="pn">;</span> <span class="n">95.</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span>
-        <span class="pn">[|</span><span class="n">78.</span><span class="pn">;</span> <span class="n">91.</span><span class="pn">;</span> <span class="n">97.</span><span class="pn">;</span> <span class="n">82.</span><span class="pn">;</span> <span class="n">85.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span>
-        <span class="pn">[|</span><span class="n">75.</span><span class="pn">;</span> <span class="n">93.</span><span class="pn">;</span> <span class="n">78.</span><span class="pn">;</span> <span class="n">71.</span><span class="pn">;</span> <span class="n">63.</span><span class="pn">;</span> <span class="n">76.</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span>
-        <span class="pn">[|</span><span class="n">55.</span><span class="pn">;</span> <span class="n">66.</span><span class="pn">;</span> <span class="n">49.</span><span class="pn">;</span> <span class="n">64.</span><span class="pn">;</span> <span class="n">70.</span><span class="pn">;</span> <span class="n">68.</span><span class="pn">;</span><span class="pn">|]</span> <span class="pn">;</span>   
+        <span class="pn">[|</span><span class="n">64.</span><span class="pn">;</span> <span class="n">72.</span><span class="pn">;</span> <span class="n">68.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span> <span class="n">56.</span><span class="pn">;</span> <span class="n">95.</span><span class="pn">;</span><span class="pn">|]</span> <span class="c">// sample of mutant/drug/factor 1 </span>
+        <span class="pn">[|</span><span class="n">78.</span><span class="pn">;</span> <span class="n">91.</span><span class="pn">;</span> <span class="n">97.</span><span class="pn">;</span> <span class="n">82.</span><span class="pn">;</span> <span class="n">85.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span><span class="pn">|]</span> <span class="c">// sample of mutant/drug/factor 2 </span>
+        <span class="pn">[|</span><span class="n">75.</span><span class="pn">;</span> <span class="n">93.</span><span class="pn">;</span> <span class="n">78.</span><span class="pn">;</span> <span class="n">71.</span><span class="pn">;</span> <span class="n">63.</span><span class="pn">;</span> <span class="n">76.</span><span class="pn">;</span><span class="pn">|]</span> <span class="c">// sample of mutant/drug/factor 3 </span>
+        <span class="pn">[|</span><span class="n">55.</span><span class="pn">;</span> <span class="n">66.</span><span class="pn">;</span> <span class="n">49.</span><span class="pn">;</span> <span class="n">64.</span><span class="pn">;</span> <span class="n">70.</span><span class="pn">;</span> <span class="n">68.</span><span class="pn">;</span><span class="pn">|]</span> <span class="c">// sample of mutant/drug/factor 4    </span>
     <span class="pn">|]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs38', 100)" onmouseover="showTip(event, 'fs38', 100)" class="id">contrastMatrixDsd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 101)" onmouseover="showTip(event, 'fs5', 101)" class="id">contrastMatrix</span> <span class="c">//used in docs for &quot;Anova&quot;</span>
 
-<span onmouseout="hideTip(event, 'fs6', 102)" onmouseover="showTip(event, 'fs6', 102)" class="m">Anova</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 103)" onmouseover="showTip(event, 'fs7', 103)" class="id">oneWayAnova</span> <span onmouseout="hideTip(event, 'fs37', 104)" onmouseover="showTip(event, 'fs37', 104)" class="id">dsd</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 109)" onmouseover="showTip(event, 'fs44', 109)" class="id">anovaResult</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 110)" onmouseover="showTip(event, 'fs6', 110)" class="m">Anova</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 111)" onmouseover="showTip(event, 'fs7', 111)" class="id">oneWayAnova</span> <span onmouseout="hideTip(event, 'fs43', 112)" onmouseover="showTip(event, 'fs43', 112)" class="id">hsdExample</span>
 
-<span onmouseout="hideTip(event, 'fs39', 105)" onmouseover="showTip(event, 'fs39', 105)" class="fn">tukeyHSD</span> <span onmouseout="hideTip(event, 'fs38', 106)" onmouseover="showTip(event, 'fs38', 106)" class="id">contrastMatrixDsd</span> <span onmouseout="hideTip(event, 'fs37', 107)" onmouseover="showTip(event, 'fs37', 107)" class="id">dsd</span> 
+<span class="c">(*</span>
+<span class="c">    anovaResult.Factor.Statistic = 5.41</span>
+<span class="c">    The factor statistic indicates how much more variability there is between the the samples </span>
+<span class="c">    than within the samples.</span>
+<span class="c">    anovaResult.Factor.PValue = 0.0069</span>
+<span class="c">    A significant p value in the factor field indicates that one or more means differ from each other</span>
+<span class="c">*)</span>
+</code></pre></td>
+</tr>
+</table>
+<p>If and only if the ANOVA p value is below the alpha level (e.g. 0.05) you can go for further analysis with post hoc tests.
+For tukey HSD calculations you need a contrast matrix, that defines the groups you want to compare for
+more detailed information.</p>
+<p>Every contrast has as many entries as you have groups (samples). The groups, that should be compared are labeled with -1 or 1 respectively.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// In this contrast matrix every possible scenario is covered.</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 113)" onmouseover="showTip(event, 'fs45', 113)" class="id">contrastMatrixHSD</span> <span class="o">=</span> 
+    <span class="pn">[|</span> 
+    <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="o">-</span><span class="n">1.</span><span class="pn">;</span> <span class="n">0.</span><span class="pn">;</span> <span class="n">0.</span><span class="pn">;</span><span class="pn">|]</span> <span class="c">// sample 1 is compared to sample 2</span>
+    <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span> <span class="n">0.</span><span class="pn">;</span><span class="o">-</span><span class="n">1.</span><span class="pn">;</span> <span class="n">0.</span><span class="pn">;</span><span class="pn">|]</span> <span class="c">// sample 1 is compared to sample 3</span>
+    <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span> <span class="n">0.</span><span class="pn">;</span> <span class="n">0.</span><span class="pn">;</span><span class="o">-</span><span class="n">1.</span><span class="pn">;</span><span class="pn">|]</span> 
+    <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span> <span class="n">1.</span><span class="pn">;</span><span class="o">-</span><span class="n">1.</span><span class="pn">;</span> <span class="n">0.</span><span class="pn">;</span><span class="pn">|]</span>
+    <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span> <span class="n">1.</span><span class="pn">;</span> <span class="n">0.</span><span class="pn">;</span><span class="o">-</span><span class="n">1.</span><span class="pn">;</span><span class="pn">|]</span>
+    <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span> <span class="n">0.</span><span class="pn">;</span> <span class="n">1.</span><span class="pn">;</span><span class="o">-</span><span class="n">1.</span><span class="pn">;</span><span class="pn">|]</span> <span class="c">// sample 3 is compared to sample 4</span>
+    <span class="pn">|]</span>
 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 114)" onmouseover="showTip(event, 'fs46', 114)" class="id">hsdResult</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs47', 115)" onmouseover="showTip(event, 'fs47', 115)" class="fn">tukeyHSD</span> <span onmouseout="hideTip(event, 'fs45', 116)" onmouseover="showTip(event, 'fs45', 116)" class="id">contrastMatrixHSD</span> <span onmouseout="hideTip(event, 'fs43', 117)" onmouseover="showTip(event, 'fs43', 117)" class="id">hsdExample</span> 
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 108)" onmouseover="showTip(event, 'fs40', 108)" class="id">d1</span> <span class="o">=</span> <span class="pn">[</span><span class="n">159.</span><span class="pn">;</span><span class="n">179.</span><span class="pn">;</span><span class="n">100.</span><span class="pn">;</span><span class="n">45.</span><span class="pn">;</span><span class="n">384.</span><span class="pn">;</span><span class="n">230.</span><span class="pn">;</span><span class="n">100.</span><span class="pn">;</span><span class="n">320.</span><span class="pn">;</span><span class="n">80.</span><span class="pn">;</span><span class="n">220.</span><span class="pn">;</span><span class="n">320.</span><span class="pn">;</span><span class="n">210.</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 109)" onmouseover="showTip(event, 'fs41', 109)" class="id">d2</span> <span class="o">=</span> <span class="pn">[</span><span class="n">14.4</span><span class="pn">;</span><span class="n">15.2</span><span class="pn">;</span><span class="n">11.3</span><span class="pn">;</span><span class="n">2.5</span><span class="pn">;</span><span class="n">22.7</span><span class="pn">;</span><span class="n">14.9</span><span class="pn">;</span><span class="n">1.41</span><span class="pn">;</span><span class="n">15.81</span><span class="pn">;</span><span class="n">4.19</span><span class="pn">;</span><span class="n">15.39</span><span class="pn">;</span><span class="n">17.25</span><span class="pn">;</span><span class="n">9.52</span><span class="pn">;</span> <span class="pn">]</span>
+<span class="c">(*</span>
+<span class="c">    For every generated contrast array an output p value is calculated.</span>
+<span class="c">    e.g.</span>
+<span class="c">    hsdResult.[0].Significance = 0.0364</span>
+<span class="c">    hsdResult.[1].Significance = 0.4983 </span>
+<span class="c">    hsdResult.[2].Significance = 0.1001</span>
+<span class="c">    hsdResult.[3].Significance = 0.1364</span>
+<span class="c">    hsdResult.[4].Significance = 0.0008</span>
+<span class="c">    hsdResult.[5].Significance = 0.0255</span>
+<span class="c">*)</span>
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Fisher-Hotelling" class="anchor" href="#Fisher-Hotelling">Fisher Hotelling</a></h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs48', 118)" onmouseover="showTip(event, 'fs48', 118)" class="id">d1</span> <span class="o">=</span> <span class="pn">[</span><span class="n">159.</span><span class="pn">;</span><span class="n">179.</span><span class="pn">;</span><span class="n">100.</span><span class="pn">;</span><span class="n">45.</span><span class="pn">;</span><span class="n">384.</span><span class="pn">;</span><span class="n">230.</span><span class="pn">;</span><span class="n">100.</span><span class="pn">;</span><span class="n">320.</span><span class="pn">;</span><span class="n">80.</span><span class="pn">;</span><span class="n">220.</span><span class="pn">;</span><span class="n">320.</span><span class="pn">;</span><span class="n">210.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs49', 119)" onmouseover="showTip(event, 'fs49', 119)" class="id">d2</span> <span class="o">=</span> <span class="pn">[</span><span class="n">14.4</span><span class="pn">;</span><span class="n">15.2</span><span class="pn">;</span><span class="n">11.3</span><span class="pn">;</span><span class="n">2.5</span><span class="pn">;</span><span class="n">22.7</span><span class="pn">;</span><span class="n">14.9</span><span class="pn">;</span><span class="n">1.41</span><span class="pn">;</span><span class="n">15.81</span><span class="pn">;</span><span class="n">4.19</span><span class="pn">;</span><span class="n">15.39</span><span class="pn">;</span><span class="n">17.25</span><span class="pn">;</span><span class="n">9.52</span><span class="pn">;</span> <span class="pn">]</span>
     
-
-<span onmouseout="hideTip(event, 'fs3', 110)" onmouseover="showTip(event, 'fs3', 110)" class="fn">Testing</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 111)" onmouseover="showTip(event, 'fs42', 111)" class="m">FisherHotelling</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 112)" onmouseover="showTip(event, 'fs43', 112)" class="id">test</span> <span onmouseout="hideTip(event, 'fs40', 113)" onmouseover="showTip(event, 'fs40', 113)" class="id">d1</span> <span onmouseout="hideTip(event, 'fs41', 114)" onmouseover="showTip(event, 'fs41', 114)" class="id">d2</span>
-
-<span class="c">//Testing.Hays contrastMatrix </span>
+<span onmouseout="hideTip(event, 'fs3', 120)" onmouseover="showTip(event, 'fs3', 120)" class="fn">Testing</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 121)" onmouseover="showTip(event, 'fs50', 121)" class="m">FisherHotelling</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 122)" onmouseover="showTip(event, 'fs51', 122)" class="id">test</span> <span onmouseout="hideTip(event, 'fs48', 123)" onmouseover="showTip(event, 'fs48', 123)" class="id">d1</span> <span onmouseout="hideTip(event, 'fs49', 124)" onmouseover="showTip(event, 'fs49', 124)" class="id">d2</span>
 </code></pre></td>
 </tr>
 </table>
@@ -442,7 +609,7 @@ pressure measurements using a stethoscope and a dynamap).
 <span class="l">18: </span>
 <span class="l">19: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 115)" onmouseover="showTip(event, 'fs44', 115)" class="id">pValues</span> <span class="o">=</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs52', 125)" onmouseover="showTip(event, 'fs52', 125)" class="id">pValues</span> <span class="o">=</span>
     <span class="pn">[|</span>
         <span class="n">0.000002</span><span class="pn">;</span><span class="n">0.000048</span><span class="pn">;</span><span class="n">0.000096</span><span class="pn">;</span><span class="n">0.000096</span><span class="pn">;</span><span class="n">0.000351</span><span class="pn">;</span><span class="n">0.000368</span><span class="pn">;</span><span class="n">0.000368</span><span class="pn">;</span><span class="n">0.000371</span><span class="pn">;</span><span class="n">0.000383</span><span class="pn">;</span><span class="n">0.000383</span><span class="pn">;</span><span class="n">0.000705</span><span class="pn">;</span><span class="n">0.000705</span><span class="pn">;</span><span class="n">0.000705</span><span class="pn">;</span><span class="n">0.000705</span><span class="pn">;</span><span class="n">0.000739</span><span class="pn">;</span><span class="n">0.00101</span><span class="pn">;</span><span class="n">0.001234</span><span class="pn">;</span><span class="n">0.001509</span><span class="pn">;</span><span class="n">0.001509</span><span class="pn">;</span><span class="n">0.001509</span><span class="pn">;</span><span class="n">0.001509</span><span class="pn">;</span><span class="n">0.001686</span><span class="pn">;</span><span class="n">0.001686</span><span class="pn">;</span><span class="n">0.001964</span><span class="pn">;</span><span class="n">0.001964</span><span class="pn">;</span><span class="n">0.001964</span><span class="pn">;</span><span class="n">0.001964</span><span class="pn">;</span><span class="n">0.001964</span><span class="pn">;</span><span class="n">0.001964</span><span class="pn">;</span><span class="n">0.001964</span><span class="pn">;</span><span class="n">0.002057</span><span class="pn">;</span><span class="n">0.002295</span><span class="pn">;</span><span class="n">0.002662</span><span class="pn">;</span><span class="n">0.002662</span>
         <span class="pn">;</span><span class="n">0.002662</span><span class="pn">;</span><span class="n">0.002662</span><span class="pn">;</span><span class="n">0.002662</span><span class="pn">;</span><span class="n">0.002662</span><span class="pn">;</span><span class="n">0.002662</span><span class="pn">;</span><span class="n">0.002672</span><span class="pn">;</span><span class="n">0.002714</span><span class="pn">;</span><span class="n">0.002922</span><span class="pn">;</span><span class="n">0.00348</span><span class="pn">;</span><span class="n">0.004066</span><span class="pn">;</span><span class="n">0.004176</span><span class="pn">;</span><span class="n">0.004176</span><span class="pn">;</span><span class="n">0.004562</span><span class="pn">;</span><span class="n">0.004562</span><span class="pn">;</span><span class="n">0.005848</span><span class="pn">;</span><span class="n">0.005848</span><span class="pn">;</span><span class="n">0.006277</span><span class="pn">;</span><span class="n">0.007024</span><span class="pn">;</span><span class="n">0.007614</span><span class="pn">;</span><span class="n">0.007614</span><span class="pn">;</span><span class="n">0.007614</span><span class="pn">;</span><span class="n">0.007614</span><span class="pn">;</span><span class="n">0.007614</span><span class="pn">;</span><span class="n">0.00979</span><span class="pn">;</span><span class="n">0.01049</span><span class="pn">;</span><span class="n">0.01049</span><span class="pn">;</span><span class="n">0.012498</span><span class="pn">;</span><span class="n">0.012498</span><span class="pn">;</span><span class="n">0.012498</span><span class="pn">;</span><span class="n">0.017908</span><span class="pn">;</span><span class="n">0.018822</span><span class="pn">;</span><span class="n">0.019003</span><span class="pn">;</span><span class="n">0.019003</span><span class="pn">;</span><span class="n">0.019003</span>
@@ -450,17 +617,17 @@ pressure measurements using a stethoscope and a dynamap).
         <span class="pn">;</span><span class="n">0.063031</span><span class="pn">;</span><span class="n">0.063031</span><span class="pn">;</span><span class="n">0.065316</span><span class="pn">;</span><span class="n">0.065316</span><span class="pn">;</span><span class="n">0.066751</span><span class="pn">;</span><span class="n">0.067688</span><span class="pn">;</span><span class="n">0.069676</span><span class="pn">;</span><span class="n">0.073043</span><span class="pn">;</span><span class="n">0.078139</span><span class="pn">;</span><span class="n">0.078594</span><span class="pn">;</span><span class="n">0.078594</span><span class="pn">;</span><span class="n">0.095867</span><span class="pn">;</span><span class="n">0.098913</span><span class="pn">;</span><span class="n">0.102606</span><span class="pn">;</span><span class="n">0.102606</span><span class="pn">;</span><span class="n">0.102606</span><span class="pn">;</span><span class="n">0.107444</span><span class="pn">;</span><span class="n">0.116213</span><span class="pn">;</span><span class="n">0.126098</span><span class="pn">;</span><span class="n">0.135099</span><span class="pn">;</span><span class="n">0.135099</span><span class="pn">;</span><span class="n">0.159786</span><span class="pn">;</span><span class="n">0.179654</span><span class="pn">;</span><span class="n">0.199372</span><span class="pn">;</span><span class="n">0.203542</span><span class="pn">;</span><span class="n">0.203542</span><span class="pn">;</span><span class="n">0.211249</span><span class="pn">;</span><span class="n">0.211968</span><span class="pn">;</span><span class="n">0.226611</span><span class="pn">;</span><span class="n">0.228287</span><span class="pn">;</span><span class="n">0.238719</span><span class="pn">;</span><span class="n">0.247204</span><span class="pn">;</span><span class="n">0.263942</span>
         <span class="pn">;</span><span class="n">0.263942</span><span class="pn">;</span><span class="n">0.289175</span><span class="pn">;</span><span class="n">0.306064</span><span class="pn">;</span><span class="n">0.330191</span><span class="pn">;</span><span class="n">0.330191</span><span class="pn">;</span><span class="n">0.340904</span><span class="pn">;</span><span class="n">0.343869</span><span class="pn">;</span><span class="n">0.350009</span><span class="pn">;</span><span class="n">0.355614</span><span class="pn">;</span><span class="n">0.355614</span><span class="pn">;</span><span class="n">0.359354</span><span class="pn">;</span><span class="n">0.386018</span><span class="pn">;</span><span class="n">0.386018</span><span class="pn">;</span><span class="n">0.434486</span><span class="pn">;</span><span class="n">0.438791</span><span class="pn">;</span><span class="n">0.464694</span><span class="pn">;</span><span class="n">0.471015</span><span class="pn">;</span><span class="n">0.4715</span><span class="pn">;</span><span class="n">0.479307</span><span class="pn">;</span><span class="n">0.490157</span><span class="pn">;</span><span class="n">0.505652</span><span class="pn">;</span><span class="n">0.539465</span><span class="pn">;</span><span class="n">0.539465</span><span class="pn">;</span><span class="n">0.558338</span><span class="pn">;</span><span class="n">0.558338</span><span class="pn">;</span><span class="n">0.601991</span><span class="pn">;</span><span class="n">0.61052</span><span class="pn">;</span><span class="n">0.634365</span><span class="pn">;</span><span class="n">0.637835</span><span class="pn">;</span><span class="n">0.677506</span><span class="pn">;</span><span class="n">0.678222</span><span class="pn">;</span><span class="n">0.727881</span><span class="pn">;</span><span class="n">0.748533</span>
         <span class="pn">;</span><span class="n">0.753718</span><span class="pn">;</span><span class="n">0.758701</span><span class="pn">;</span><span class="n">0.810979</span><span class="pn">;</span><span class="n">0.838771</span><span class="pn">;</span><span class="n">0.854833</span><span class="pn">;</span><span class="n">0.872159</span><span class="pn">;</span><span class="n">0.878727</span><span class="pn">;</span><span class="n">0.890621</span><span class="pn">;</span><span class="n">0.916361</span><span class="pn">;</span><span class="n">0.954779</span><span class="pn">;</span><span class="n">0.98181</span><span class="pn">;</span><span class="n">0.985365</span><span class="pn">;</span><span class="n">0.986261</span><span class="pn">;</span><span class="n">0.98958</span><span class="pn">;</span><span class="n">0.99861</span><span class="pn">;</span><span class="n">0.99861</span><span class="pn">;</span><span class="n">0.999602</span><span class="pn">;</span><span class="n">0.999895</span>
-    <span class="pn">|]</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 116)" onmouseover="showTip(event, 'fs45', 116)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs46', 117)" onmouseover="showTip(event, 'fs46', 117)" class="id">sort</span>
+    <span class="pn">|]</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs53', 126)" onmouseover="showTip(event, 'fs53', 126)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 127)" onmouseover="showTip(event, 'fs54', 127)" class="id">sort</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs47', 118)" onmouseover="showTip(event, 'fs47', 118)" class="id">pi0</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs44', 119)" onmouseover="showTip(event, 'fs44', 119)" class="id">pValues</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs48', 120)" onmouseover="showTip(event, 'fs48', 120)" class="m">MultipleTesting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 121)" onmouseover="showTip(event, 'fs49', 121)" class="m">Qvalues</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 122)" onmouseover="showTip(event, 'fs50', 122)" class="id">pi0Bootstrap</span> 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs55', 128)" onmouseover="showTip(event, 'fs55', 128)" class="id">pi0</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs52', 129)" onmouseover="showTip(event, 'fs52', 129)" class="id">pValues</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs56', 130)" onmouseover="showTip(event, 'fs56', 130)" class="m">MultipleTesting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs57', 131)" onmouseover="showTip(event, 'fs57', 131)" class="m">Qvalues</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs58', 132)" onmouseover="showTip(event, 'fs58', 132)" class="id">pi0Bootstrap</span> 
 
-<span onmouseout="hideTip(event, 'fs44', 123)" onmouseover="showTip(event, 'fs44', 123)" class="id">pValues</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs48', 124)" onmouseover="showTip(event, 'fs48', 124)" class="m">MultipleTesting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 125)" onmouseover="showTip(event, 'fs49', 125)" class="m">Qvalues</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 126)" onmouseover="showTip(event, 'fs51', 126)" class="id">ofPValues</span> <span onmouseout="hideTip(event, 'fs47', 127)" onmouseover="showTip(event, 'fs47', 127)" class="id">pi0</span>
+<span onmouseout="hideTip(event, 'fs52', 133)" onmouseover="showTip(event, 'fs52', 133)" class="id">pValues</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs56', 134)" onmouseover="showTip(event, 'fs56', 134)" class="m">MultipleTesting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs57', 135)" onmouseover="showTip(event, 'fs57', 135)" class="m">Qvalues</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs59', 136)" onmouseover="showTip(event, 'fs59', 136)" class="id">ofPValues</span> <span onmouseout="hideTip(event, 'fs55', 137)" onmouseover="showTip(event, 'fs55', 137)" class="id">pi0</span>
 
-<span onmouseout="hideTip(event, 'fs44', 128)" onmouseover="showTip(event, 'fs44', 128)" class="id">pValues</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs48', 129)" onmouseover="showTip(event, 'fs48', 129)" class="m">MultipleTesting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 130)" onmouseover="showTip(event, 'fs49', 130)" class="m">Qvalues</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 131)" onmouseover="showTip(event, 'fs52', 131)" class="id">ofPValuesRobust</span> <span onmouseout="hideTip(event, 'fs47', 132)" onmouseover="showTip(event, 'fs47', 132)" class="id">pi0</span> 
+<span onmouseout="hideTip(event, 'fs52', 138)" onmouseover="showTip(event, 'fs52', 138)" class="id">pValues</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs56', 139)" onmouseover="showTip(event, 'fs56', 139)" class="m">MultipleTesting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs57', 140)" onmouseover="showTip(event, 'fs57', 140)" class="m">Qvalues</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs60', 141)" onmouseover="showTip(event, 'fs60', 141)" class="id">ofPValuesRobust</span> <span onmouseout="hideTip(event, 'fs55', 142)" onmouseover="showTip(event, 'fs55', 142)" class="id">pi0</span> 
 </code></pre></td>
 </tr>
 </table>
@@ -468,8 +635,8 @@ pressure measurements using a stethoscope and a dynamap).
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs48', 133)" onmouseover="showTip(event, 'fs48', 133)" class="m">MultipleTesting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 134)" onmouseover="showTip(event, 'fs53', 134)" class="id">benjaminiHochbergFDRBy</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs54', 135)" onmouseover="showTip(event, 'fs54', 135)" class="id">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs54', 136)" onmouseover="showTip(event, 'fs54', 136)" class="id">x</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs54', 137)" onmouseover="showTip(event, 'fs54', 137)" class="id">x</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs44', 138)" onmouseover="showTip(event, 'fs44', 138)" class="id">pValues</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs55', 139)" onmouseover="showTip(event, 'fs55', 139)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs56', 140)" onmouseover="showTip(event, 'fs56', 140)" class="id">rev</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs56', 143)" onmouseover="showTip(event, 'fs56', 143)" class="m">MultipleTesting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs61', 144)" onmouseover="showTip(event, 'fs61', 144)" class="id">benjaminiHochbergFDRBy</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs62', 145)" onmouseover="showTip(event, 'fs62', 145)" class="id">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs62', 146)" onmouseover="showTip(event, 'fs62', 146)" class="id">x</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs62', 147)" onmouseover="showTip(event, 'fs62', 147)" class="id">x</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs52', 148)" onmouseover="showTip(event, 'fs52', 148)" class="id">pValues</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs63', 149)" onmouseover="showTip(event, 'fs63', 149)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 150)" onmouseover="showTip(event, 'fs64', 150)" class="id">rev</span>
 </code></pre></td>
 </tr>
 </table>
@@ -496,40 +663,48 @@ pressure measurements using a stethoscope and a dynamap).
 <div class="tip" id="fs20">type TwoWayAnovaModel =<br />&#160;&#160;| Fixed<br />&#160;&#160;| Mixed<br />&#160;&#160;| Random</div>
 <div class="tip" id="fs21">union case Anova.TwoWayAnovaModel.Mixed: Anova.TwoWayAnovaModel</div>
 <div class="tip" id="fs22">val data&#39; : float [] [] []</div>
-<div class="tip" id="fs23">val sample1 : vector</div>
-<div class="tip" id="fs24">Multiple items<br />module Vector<br /><br />from FSharp.Stats<br /><br />--------------------<br />type Vector&lt;&#39;T&gt; =<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;interface IStructuralEquatable<br />&#160;&#160;interface IStructuralComparable<br />&#160;&#160;interface IComparable<br />&#160;&#160;new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;override Equals : yobj:obj -&gt; bool<br />&#160;&#160;override GetHashCode : unit -&gt; int<br />&#160;&#160;member GetSlice : start:int option * finish:int option -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;member Permute : p:permutation -&gt; Vector&lt;&#39;T&gt;<br />&#160;&#160;...<br /><br />--------------------<br />new : opsV:INumeric&lt;&#39;T&gt; option * arrV:&#39;T array -&gt; Vector&lt;&#39;T&gt;</div>
-<div class="tip" id="fs25">val ofArray : array:float [] -&gt; vector</div>
-<div class="tip" id="fs26">val sample2 : vector</div>
-<div class="tip" id="fs27">module TTest<br /><br />from FSharp.Stats.Testing</div>
-<div class="tip" id="fs28">val twoSample : assumeEqualVariances:bool -&gt; sample1:Vector&lt;float&gt; -&gt; sample2:Vector&lt;float&gt; -&gt; TestStatistics.TTestStatistics</div>
-<div class="tip" id="fs29">val sampleP1 : Vector&lt;float&gt;</div>
-<div class="tip" id="fs30">Multiple items<br />val vector : l:seq&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><br />--------------------<br />type vector = Vector&lt;float&gt;</div>
-<div class="tip" id="fs31">val sampleP2 : Vector&lt;float&gt;</div>
-<div class="tip" id="fs32">val twoSamplePaired : sample1:Vector&lt;float&gt; -&gt; sample2:Vector&lt;float&gt; -&gt; TestStatistics.TTestStatistics</div>
-<div class="tip" id="fs33">module PostHoc<br /><br />from FSharp.Stats.Testing</div>
-<div class="tip" id="fs34">val hays : contrastMatrix:float [] [] -&gt; data:float [] [] -&gt; Contrast []</div>
-<div class="tip" id="fs35">val dmg : float [] []</div>
-<div class="tip" id="fs36">val contrastMatrixDmg : float [] []</div>
-<div class="tip" id="fs37">val dsd : float [] []</div>
-<div class="tip" id="fs38">val contrastMatrixDsd : float [] []</div>
-<div class="tip" id="fs39">val tukeyHSD : contrastMatrix:float [] [] -&gt; data:float [] [] -&gt; Contrast []</div>
-<div class="tip" id="fs40">val d1 : float list</div>
-<div class="tip" id="fs41">val d2 : float list</div>
-<div class="tip" id="fs42">module FisherHotelling<br /><br />from FSharp.Stats.Testing</div>
-<div class="tip" id="fs43">val test : dataA:seq&lt;float&gt; -&gt; dataB:seq&lt;float&gt; -&gt; FisherHotelling.HotellingStatistics</div>
-<div class="tip" id="fs44">val pValues : float []</div>
-<div class="tip" id="fs45">Multiple items<br />module Array<br /><br />from FSharp.Stats<br /><br />--------------------<br />module Array<br /><br />from Microsoft.FSharp.Collections</div>
-<div class="tip" id="fs46">val sort : array:&#39;T [] -&gt; &#39;T [] (requires comparison)</div>
-<div class="tip" id="fs47">val pi0 : float</div>
-<div class="tip" id="fs48">module MultipleTesting<br /><br />from FSharp.Stats.Testing</div>
-<div class="tip" id="fs49">module Qvalues<br /><br />from FSharp.Stats.Testing.MultipleTesting</div>
-<div class="tip" id="fs50">val pi0Bootstrap : pValues:float [] -&gt; float</div>
-<div class="tip" id="fs51">val ofPValues : pi0:float -&gt; pValues:float [] -&gt; float []</div>
-<div class="tip" id="fs52">val ofPValuesRobust : pi0:float -&gt; pValues:float [] -&gt; float []</div>
-<div class="tip" id="fs53">val benjaminiHochbergFDRBy : projection:(&#39;a -&gt; &#39;b * float) -&gt; rawP:seq&lt;&#39;a&gt; -&gt; (&#39;b * float) list</div>
-<div class="tip" id="fs54">val x : float</div>
-<div class="tip" id="fs55">Multiple items<br />module List<br /><br />from FSharp.Stats<br /><br />--------------------<br />module List<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type List&lt;&#39;T&gt; =<br />&#160;&#160;| ( [] )<br />&#160;&#160;| ( :: ) of Head: &#39;T * Tail: &#39;T list<br />&#160;&#160;&#160;&#160;interface IReadOnlyList&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IReadOnlyCollection&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IEnumerable<br />&#160;&#160;&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member GetSlice : startIndex:int option * endIndex:int option -&gt; &#39;T list<br />&#160;&#160;&#160;&#160;member Head : &#39;T<br />&#160;&#160;&#160;&#160;member IsEmpty : bool<br />&#160;&#160;&#160;&#160;member Item : index:int -&gt; &#39;T with get<br />&#160;&#160;&#160;&#160;member Length : int<br />&#160;&#160;&#160;&#160;member Tail : &#39;T list<br />&#160;&#160;&#160;&#160;...</div>
-<div class="tip" id="fs56">val rev : list:&#39;T list -&gt; &#39;T list</div>
+<div class="tip" id="fs23">val sampleA : Vector&lt;float&gt;</div>
+<div class="tip" id="fs24">Multiple items<br />val vector : l:seq&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><br />--------------------<br />type vector = Vector&lt;float&gt;</div>
+<div class="tip" id="fs25">val oneSampleTTest : TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs26">module TTest<br /><br />from FSharp.Stats.Testing</div>
+<div class="tip" id="fs27">val oneSample : sample1:Vector&lt;float&gt; -&gt; mu:float -&gt; TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs28">val sample1 : Vector&lt;float&gt;</div>
+<div class="tip" id="fs29">val sample2 : Vector&lt;float&gt;</div>
+<div class="tip" id="fs30">val twoSampleTTest : TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs31">val twoSample : assumeEqualVariances:bool -&gt; sample1:Vector&lt;float&gt; -&gt; sample2:Vector&lt;float&gt; -&gt; TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs32">val sampleP1 : Vector&lt;float&gt;</div>
+<div class="tip" id="fs33">val sampleP2 : Vector&lt;float&gt;</div>
+<div class="tip" id="fs34">val paired : TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs35">val twoSamplePaired : sample1:Vector&lt;float&gt; -&gt; sample2:Vector&lt;float&gt; -&gt; TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs36">val sampleW1 : Vector&lt;float&gt;</div>
+<div class="tip" id="fs37">val sampleW2 : Vector&lt;float&gt;</div>
+<div class="tip" id="fs38">val welch : TestStatistics.TTestStatistics</div>
+<div class="tip" id="fs39">module PostHoc<br /><br />from FSharp.Stats.Testing</div>
+<div class="tip" id="fs40">val hays : contrastMatrix:float [] [] -&gt; data:float [] [] -&gt; Contrast []</div>
+<div class="tip" id="fs41">val dmg : float [] []</div>
+<div class="tip" id="fs42">val contrastMatrixDmg : float [] []</div>
+<div class="tip" id="fs43">val hsdExample : float [] []</div>
+<div class="tip" id="fs44">val anovaResult : Anova.OneWayAnovaVariationSources</div>
+<div class="tip" id="fs45">val contrastMatrixHSD : float [] []</div>
+<div class="tip" id="fs46">val hsdResult : Contrast []</div>
+<div class="tip" id="fs47">val tukeyHSD : contrastMatrix:float [] [] -&gt; data:float [] [] -&gt; Contrast []</div>
+<div class="tip" id="fs48">val d1 : float list</div>
+<div class="tip" id="fs49">val d2 : float list</div>
+<div class="tip" id="fs50">module FisherHotelling<br /><br />from FSharp.Stats.Testing</div>
+<div class="tip" id="fs51">val test : dataA:seq&lt;float&gt; -&gt; dataB:seq&lt;float&gt; -&gt; FisherHotelling.HotellingStatistics</div>
+<div class="tip" id="fs52">val pValues : float []</div>
+<div class="tip" id="fs53">Multiple items<br />module Array<br /><br />from FSharp.Stats<br /><br />--------------------<br />module Array<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs54">val sort : array:&#39;T [] -&gt; &#39;T [] (requires comparison)</div>
+<div class="tip" id="fs55">val pi0 : float</div>
+<div class="tip" id="fs56">module MultipleTesting<br /><br />from FSharp.Stats.Testing</div>
+<div class="tip" id="fs57">module Qvalues<br /><br />from FSharp.Stats.Testing.MultipleTesting</div>
+<div class="tip" id="fs58">val pi0Bootstrap : pValues:float [] -&gt; float</div>
+<div class="tip" id="fs59">val ofPValues : pi0:float -&gt; pValues:float [] -&gt; float []</div>
+<div class="tip" id="fs60">val ofPValuesRobust : pi0:float -&gt; pValues:float [] -&gt; float []</div>
+<div class="tip" id="fs61">val benjaminiHochbergFDRBy : projection:(&#39;a -&gt; &#39;b * float) -&gt; rawP:seq&lt;&#39;a&gt; -&gt; (&#39;b * float) list</div>
+<div class="tip" id="fs62">val x : float</div>
+<div class="tip" id="fs63">Multiple items<br />module List<br /><br />from FSharp.Stats<br /><br />--------------------<br />module List<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type List&lt;&#39;T&gt; =<br />&#160;&#160;| ( [] )<br />&#160;&#160;| ( :: ) of Head: &#39;T * Tail: &#39;T list<br />&#160;&#160;&#160;&#160;interface IReadOnlyList&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IReadOnlyCollection&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IEnumerable<br />&#160;&#160;&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member GetSlice : startIndex:int option * endIndex:int option -&gt; &#39;T list<br />&#160;&#160;&#160;&#160;member Head : &#39;T<br />&#160;&#160;&#160;&#160;member IsEmpty : bool<br />&#160;&#160;&#160;&#160;member Item : index:int -&gt; &#39;T with get<br />&#160;&#160;&#160;&#160;member Length : int<br />&#160;&#160;&#160;&#160;member Tail : &#39;T list<br />&#160;&#160;&#160;&#160;...</div>
+<div class="tip" id="fs64">val rev : list:&#39;T list -&gt; &#39;T list</div>
 
         </div>
         <div class="span3">
