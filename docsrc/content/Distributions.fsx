@@ -229,8 +229,8 @@ let hypB = 1. - hyper.CDF 2.
 // Output: 0.01864 = 1.86 %
 
 // HypC: What is the probability that you have a maximum of 3 right ones? 
-let hypC = binomial.CDF 3.
-// Output: 0.6474 = 64.74 %
+let hypC = hyper.CDF 3.
+// Output: 0.99901 = 99.90 %
 
 (***hide***)
 let plotHyper =
@@ -263,21 +263,24 @@ PoB: What is the probability that the lightning strikes less than 2 times?
 
 PoC: What is the probability that the lightning strikes more than 7 times?
 *)
-
+(*** do-not-eval ***)
 // Creates a poisson distribution with lambda=  .
 let poisson = Discrete.poisson 5.5
 
 // PoA: What is the probability that the lightning strikes exactly 3 times?
-let poA = hyper.PDF 3
-// Output: 0.01765 = 1.77 %
+let poA = poisson.PDF 3
+// Output: 0.11332 = 11.33 %
 
-// PoB: What is the probability that the lightning strikes less than 2 times?
-let poB = hyper.CDF 2.
-// Output: 0.98136 = 98.14 %
-
+// PoB: What is the probability that the lightning strikes less or equal to 2 times?
+let poB = 
+    // CDF not implemented yet
+    //poisson.CDF 2.
+    [0 .. 2] |> List.sumBy (poisson.PDF)
+    // Output: 0.088376 = 8.84 %
+    
 // PoC: What is the probability that the lightning strikes more than 7 times?
-let poC = 1. -  binomial.CDF 6.
-// Output: 0.025827 = 2.58 %
+let poC = 1. -  poisson.CDF 6.
+// Output: Not implemented yet. Manual addition necessary
 
 (***hide***)
 let plotPo =

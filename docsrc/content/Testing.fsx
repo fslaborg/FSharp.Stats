@@ -314,7 +314,7 @@ If and only if the ANOVA p value is below the alpha level (e.g. 0.05) you can go
 For tukey HSD calculations you need a contrast matrix, that defines the groups you want to compare for 
 more detailed information.
 
-Every contrast has as many entries as you have groups (samples). The groups, that should be compared are labeled with -0.5 or 0.5 respectively.
+Every contrast has as many entries as you have groups (samples). The groups, that should be compared are labeled with -1 or 1 respectively.
 
 *)
 
