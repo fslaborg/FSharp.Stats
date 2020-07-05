@@ -89,9 +89,49 @@
       <tr>
         <td class="member-name">
           <code onmouseout="hideTip(event, '1689', 1689)" onmouseover="showTip(event, '1689', 1689)">
-            hays contrastMatrix data
+            dunnett contrastMatrix data
           </code>
           <div class="tip" id="1689">
+            <strong>Signature:</strong> contrastMatrix:float [] [] -&gt; data:float [] [] -&gt; bool []<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L153-153" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Dunnetts post hoc test compares groups to one control group (multiple-to-one comparison).
+Returns if the groups defined in the contrast differ significantly (a=0.05; already multi comparison corrected)</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1690', 1690)" onmouseover="showTip(event, '1690', 1690)">
+            fishersLSD contrastMatrix data
+          </code>
+          <div class="tip" id="1690">
+            <strong>Signature:</strong> contrastMatrix:float [] [] -&gt; data:float [] [] -&gt; Contrast []<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L109-109" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Fishers LSD. Sequential t tests but the variance is estimated from all samples. Not multiple testing corrected!
+Apply Benjamini-Hochberg method afterwards.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1691', 1691)" onmouseover="showTip(event, '1691', 1691)">
+            hays contrastMatrix data
+          </code>
+          <div class="tip" id="1691">
             <strong>Signature:</strong> contrastMatrix:float [] [] -&gt; data:float [] [] -&gt; Contrast []<br />
                                   </div>
         </td>
@@ -105,10 +145,10 @@
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1690', 1690)" onmouseover="showTip(event, '1690', 1690)">
+          <code onmouseout="hideTip(event, '1692', 1692)" onmouseover="showTip(event, '1692', 1692)">
             tukeyHSD contrastMatrix data
           </code>
-          <div class="tip" id="1690">
+          <div class="tip" id="1692">
             <strong>Signature:</strong> contrastMatrix:float [] [] -&gt; data:float [] [] -&gt; Contrast []<br />
                                   </div>
         </td>
