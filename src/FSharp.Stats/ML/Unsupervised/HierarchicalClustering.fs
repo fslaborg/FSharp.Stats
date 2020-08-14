@@ -141,7 +141,24 @@ module HierarchicalClustering =
         let rec loop cluster =
             match cluster with
             | Node (id,dist,num,c1,c2) when dist < distanceCutoff ->
-                Leaf (0,0, List.append (aggregate c1) (aggregate c2))
+                Leaf (id,num, List.append (aggregate c1) (aggregate c2))
+            | Node (id,dist,num,c1,c2) ->
+                Node (id,dist,num,loop c1,loop c2)
+            | Leaf (id,x,name) -> Leaf (id,x,[name])
+        loop cluster
+    
+
+    /// Aggregates the subbranches of a node to leafs, if the predicate function taking the distance and the number of subLeafs returns true
+    let aggregateClusterBy (predicate : float -> int -> bool) (cluster: Cluster<'T>) =
+        let rec aggregate cluster =
+            match cluster with
+            | Node (id,dist,num,c1,c2) ->
+                List.append (aggregate c1) (aggregate c2)
+            | Leaf (id,x,name) -> [name]
+        let rec loop cluster =
+            match cluster with
+            | Node (id,dist,num,c1,c2) when predicate dist num ->
+                Leaf (id,num, List.append (aggregate c1) (aggregate c2))
             | Node (id,dist,num,c1,c2) ->
                 Node (id,dist,num,loop c1,loop c2)
             | Leaf (id,x,name) -> Leaf (id,x,[name])
