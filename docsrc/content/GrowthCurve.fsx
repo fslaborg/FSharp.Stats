@@ -228,6 +228,7 @@ let l = sprintf "The lag phase duration is %.2f h" (lag gompertzParams)
 (*** include-value:l ***)
 
 (**
+
 #Other models
 
 In the following other growth models are applied to the given data set:
@@ -253,6 +254,7 @@ log transform.
 [Choose a appropriate growth model according to your needs.](http://www.pisces-conservation.com/growthhelp/index.html)
 
 For an overview please scroll down to see a combined diagram of all growth models.
+
 
 ##Richards curve
 
@@ -321,6 +323,7 @@ let generationRichards = sprintf "The generation time (Richards) is: %.1f min" (
 (*** include-value:generationRichards ***)
 
 (**
+
 ##Weibull
 
 Parameters:
@@ -392,6 +395,7 @@ let generationWeibull =
 (*** include-value:generationWeibull ***)
 
 (**
+
 ##Janoschek
 
 Parameters:
@@ -465,6 +469,7 @@ let generationJanoschek =
 (*** include-value:generationJanoschek ***)
 
 (**
+
 ##Exponential
 
 The exponential model of course can not be applied to the lag phase.
@@ -533,6 +538,7 @@ let generationExponential =
 (*** include-value:generationExponential ***)
 
 (**
+
 ##Verhulst
 
 The verhulst growth model is a logistic function with a lower asymptote fixed at y=0. A 4 parameter version allows 
@@ -567,7 +573,7 @@ let verhulstParams =
         cellCountLn
 
 let fittingFunctionVerhulst() = 
-    Table.GrowthModels.exponential.GetFunctionValue verhulstParams
+    Table.GrowthModels.verhulst.GetFunctionValue verhulstParams
 
 (*** hide ***)
 
@@ -609,6 +615,7 @@ let generationVerhulst =
 (*** include-value:generationVerhulst ***)
 
 (**
+
 ##Morgan-Mercer-Flodin
 
 
@@ -728,3 +735,131 @@ Parameters:
  - t0: x axis crossing
 
 *)
+
+(**
+
+##Model examples
+
+*)
+
+(*** hide ***)
+let explGompertz (model:Model) coefs = 
+    let ff = model.GetFunctionValue coefs
+    [0. .. 0.1 .. 10.]
+    |> List.map (fun x -> x,ff x)
+    |> Chart.Line
+    |> styleChart "" ""
+    |> Chart.withTraceName (sprintf "%A" coefs)
+
+let gom =
+    [
+        explGompertz Table.GrowthModels.gompertz (vector [5.; 0.7; 10.; 2.])
+        explGompertz Table.GrowthModels.gompertz (vector [7.; 0.7; 12.; 3.])
+        explGompertz Table.GrowthModels.gompertz (vector [5.; 0.8; 10.; 3.])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "Gompertz"
+
+(*** include-value:gom ***)
+
+(*** hide ***)
+
+let rich =
+    [
+        explGompertz Table.GrowthModels.richards (vector [20.; 7.; 5.; 5.])
+        explGompertz Table.GrowthModels.richards (vector [20.; 5.; 5.; 10.])
+        explGompertz Table.GrowthModels.richards (vector [15.; 7.; 5.; 15.])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "Richards"
+
+(*** include-value:rich ***)
+
+(*** hide ***)
+
+let wei =
+    [
+        explGompertz Table.GrowthModels.weibull (vector [7.; 20.; 0.2; 3.])
+        explGompertz Table.GrowthModels.weibull (vector [7.; 20.; 0.3; 5.])
+        explGompertz Table.GrowthModels.weibull (vector [7.; 15.; 0.2; 3.])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "Weibull"
+
+(*** include-value:wei ***)
+
+
+(*** hide ***)
+let jan =
+    [
+        explGompertz Table.GrowthModels.janoschek (vector [7.; 20.; 0.02; 3.])
+        explGompertz Table.GrowthModels.janoschek (vector [7.; 20.; 0.03; 15.])
+        explGompertz Table.GrowthModels.janoschek (vector [7.; 15.; 0.02; 3.])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "Janoschek"
+
+(*** include-value:jan ***)
+
+(*** hide ***)
+
+let exp =
+    [
+        explGompertz Table.GrowthModels.exponential (vector [7.; 20.; 1.])
+        explGompertz Table.GrowthModels.exponential (vector [7.; 20.; 2.])
+        explGompertz Table.GrowthModels.exponential (vector [7.; 15.; 3.])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "Exponential"
+
+(*** include-value:exp ***)
+
+(*** hide ***)
+let ver =
+    [
+        explGompertz Table.GrowthModels.verhulst (vector [20.; 3.; 1.2])
+        explGompertz Table.GrowthModels.verhulst (vector [20.; 4.; 0.7])
+        explGompertz Table.GrowthModels.verhulst (vector [15.; 6.; 3.2])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "Verhulst"
+
+(*** include-value:ver ***)
+
+(*** hide ***)
+let ver4 =
+    [
+        explGompertz Table.GrowthModels.verhulst4Param (vector [20.; 3.; 1.0; 10.])
+        explGompertz Table.GrowthModels.verhulst4Param (vector [20.; 4.; 1.5; 10.])
+        explGompertz Table.GrowthModels.verhulst4Param (vector [15.; 6.; 1.0; 10.])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "Verhulst 4 Param"
+
+(*** include-value:ver4 ***)
+
+(*** hide ***)
+
+let mmf =
+    [
+        explGompertz Table.GrowthModels.morganMercerFlodin (vector [  8.; 20.; 0.2 ; 3.0;])
+        explGompertz Table.GrowthModels.morganMercerFlodin (vector [ 10.; 20.; 0.25; 4.0;])
+        explGompertz Table.GrowthModels.morganMercerFlodin (vector [ 10.; 15.; 0.3; 3.0;])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "MMF"
+
+(*** include-value:mmf ***)
+
+(*** hide ***)
+
+let vonB =
+    [
+        explGompertz Table.GrowthModels.vonBertalanffy (vector [ 20.; 0.2 ; 3.0;])
+        explGompertz Table.GrowthModels.vonBertalanffy (vector [ 20.; 0.25; 4.0;])
+        explGompertz Table.GrowthModels.vonBertalanffy (vector [ 15.; 0.3 ; 3.0;])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "vonBertalanffy"
+
+(*** include-value:vonB ***)

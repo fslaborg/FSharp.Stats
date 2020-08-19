@@ -75,7 +75,7 @@ let kmeansResult =
 
 let clusteredIrisData =
     Array.zip lable data
-    |> Array.sortBy (fun (l,dataPoint) -> l,fst (kmeansResult.Classifier dataPoint)) 
+    |> Array.sortBy (fun (l,dataPoint) -> fst (kmeansResult.Classifier dataPoint)) 
     |> Array.unzip
     |> fun (l,d) -> 
         let labels = l |> Seq.mapi (fun i x -> x + string i)
@@ -214,7 +214,7 @@ let clusteredChart3D = create3dChart DistanceMetrics.Array.euclideanNaNSquared 2
 let htmp = 
     HierarchicalClustering.generate DistanceMetrics.euclidean Linker.wardLwLinker data
     |> HierarchicalClustering.flattenHClust
-    
+
 let hlable =    
     htmp
     |> Seq.map (fun c -> lable.[HierarchicalClustering.getClusterId c])

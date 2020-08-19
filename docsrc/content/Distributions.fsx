@@ -263,10 +263,10 @@ PoB: What is the probability that the lightning strikes less than 2 times?
 
 PoC: What is the probability that the lightning strikes more than 7 times?
 *)
-(*** do-not-eval ***)
 // Creates a poisson distribution with lambda=  .
 let poisson = Discrete.poisson 5.5
 
+(*** do-not-eval ***)
 // PoA: What is the probability that the lightning strikes exactly 3 times?
 let poA = poisson.PDF 3
 // Output: 0.11332 = 11.33 %
@@ -275,7 +275,7 @@ let poA = poisson.PDF 3
 let poB = 
     // CDF not implemented yet
     //poisson.CDF 2.
-    [0 .. 2] |> List.sumBy (poisson.PDF)
+    [0 .. 2] |> List.sumBy poisson.PDF
     // Output: 0.088376 = 8.84 %
     
 // PoC: What is the probability that the lightning strikes more than 7 times?
