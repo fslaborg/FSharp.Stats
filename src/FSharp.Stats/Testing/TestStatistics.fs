@@ -41,13 +41,15 @@ module TestStatistics =
         Statistic            : float
         DegreesOfFreedom1    : float
         DegreesOfFreedom2    : float
-        PValue               : float            
+        PValue               : float 
+        PValueTwoTailed      : float            
     }
 
     let createFTest statistic dof1 dof2 =
         let cdf  =  Distributions.Continuous.F.CDF dof1 dof2 statistic            
-        //let pvalue = 1. - cdf
-        {Statistic=statistic; DegreesOfFreedom1=dof1; DegreesOfFreedom2=dof2; PValue=cdf;}
+        let pvalue = 1. - cdf
+        let pvalueTwoTailed = pvalue * 2.
+        {Statistic=statistic; DegreesOfFreedom1=dof1; DegreesOfFreedom2=dof2; PValue=pvalue; PValueTwoTailed = pvalueTwoTailed}
 
 
     /// <summary>

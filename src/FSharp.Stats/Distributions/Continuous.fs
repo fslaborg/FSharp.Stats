@@ -660,10 +660,15 @@ module Continuous =
         static member CDF dof1 dof2 x =
             fCheckParam dof1 dof2
             if (x <= 0.) then
-                1.
+                //1.
+                0.
             else
-                let u = dof2 / (dof2 + dof1 * x)
-                Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
+                //equals 1 - cdf(x)
+                //let u = dof2 / (dof2 + dof1 * x)
+                //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
+                //equals cdf(x)
+                let u = (dof1 * x) / (dof2 + dof1 * x) 
+                Beta.lowerIncomplete (dof1 * 0.5) (dof2 * 0.5) u
 
         // /// Computes the inverse of the cumulative distribution function.
         // static member InvCDF dof1 dof2 p =
