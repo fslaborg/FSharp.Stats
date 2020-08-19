@@ -4,6 +4,16 @@
 #I "../../bin/FSharp.Stats/net47"
 #r @"FSharp.Stats.dll"
 #r "netstandard.dll"
+#r @"../../lib/Formatting/FSharp.Plotly.dll"
+
+open FSharp.Plotly
+open FSharp.Plotly.Axis
+open FSharp.Plotly.StyleParam
+
+let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
+let myAxisRange title range = LinearAxis.init(Title=title,Range=Range.MinMax range,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
+let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
+let styleChartRange x y rx ry chart = chart |> Chart.withX_Axis (myAxisRange x rx) |> Chart.withY_Axis (myAxisRange y ry)
 
 (**
 #Statistical testing
@@ -26,7 +36,7 @@ let dataOneWay =
     [|0.28551035; 0.338524035; 0.088313218; 0.205930807; 0.363240102;|];
     [|0.52173913; 0.763358779; 0.32546786; 0.425305688; 0.378071834; |];
     [|0.989119683; 1.192718142; 0.788288288; 0.549176236; 0.544588155;|];
-    [|1.26705653; 1.625320787; 1.266108976; 1.154187629; 1.268498943; 1.069518717;|];
+    [|1.26705653; 1.625320787; 1.266108976; 1.154187629; 1.268498943;|]// 1.069518717;|];
     |]
 
 let contrastMatrix = 
@@ -39,7 +49,17 @@ let contrastMatrix =
     [|0.0;0.0;1.0;-1.0;|]
     |]
 
-Anova.oneWayAnova dataOneWay
+let oneWayResult = Anova.oneWayAnova dataOneWay
+
+(*** include-value:oneWayResult ***)
+
+(*
+anovaResult.Factor.Statistic = 27.758
+The factor statistic indicates how much more variability there is between the the samples 
+than within the samples.
+anovaResult.Factor.PValue = 1.406712119e-06
+A strong significant p value in the factor field indicates that one or more means differ from each other
+*)
 
 // https://www.wessa.net/rwasp_Two%20Factor%20ANOVA.wasp
 
@@ -121,7 +141,7 @@ Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
 <a name="TTest"></a>
 ##T-Test
 
-By using a t test a difference of means can be tested. There are different kinds of t test designs implemented in FSharp.Stats.
+By using a t test a difference of means can be evaluated. There are different kinds of t test designs implemented in FSharp.Stats.
 
 1. One sample t test:
 
@@ -149,7 +169,8 @@ By using a t test a difference of means can be tested. There are different kinds
   
 
 
-Case 1: One sample t test
+*Case 1: One sample t test*
+
 *)
 
 let sampleA = vector [|4.5; 5.1; 4.8; 4.4; 5.0|]
@@ -164,7 +185,8 @@ let oneSampleTTest = TTest.oneSample sampleA 5.
 
 
 (**
-Case 2: Two sample t test with equal variances (unpaired)
+
+*Case 2: Two sample t test with equal variances (unpaired)*
 
 A standard two sample t test expects the samples to be taken from populations with equal standard deviations.
 Violations of this requirement result in an inflated false positive rate.
@@ -183,7 +205,8 @@ let twoSampleTTest = TTest.twoSample true sample1 sample2
 
 
 (**
-Case 3: Two sample t test with equal variances (paired)
+
+*Case 3: Two sample t test with equal variances (paired)*
 
 
 A paired t-test is used to compare two population means where you have two samples in
@@ -210,7 +233,8 @@ let paired = TTest.twoSamplePaired sampleP1 sampleP2
 
 
 (**
-Case 4: Two sample t test with unequal variances (Welch test)
+
+*Case 4: Two sample t test with unequal variances (Welch test)*
 
 If you are unsure about the nature of the underlying population, you may ask if the theoretical population distributions 
 you want to compare do have the same standard deviations. 
@@ -238,11 +262,61 @@ let welch = TTest.twoSample false sampleW1 sampleW2
 <a name="PostHoc"></a>
 ##PostHoc
 
-This test uses the data shown for ANOVA.
+ANOVA provides the user with a global statement if samples differ from each other. It does not provide detailed information regarding
+differences of the single samples.
+
+If the H</sub>0</sub> hypothesis is neglected (so significant differences are assumed), a post hoc test (multiple comparison test) allows the pairwise comparison of the 
+individual groups.
+
+Reference: What is the proper way to apply the multiple comparison test?, Sangseok Lee and Dong Kyu Lee, 2018
+
+###Fisher's LSD
+
+The most simple method is Fisher's least significant difference (Fisher's LSD). It calculates Student's t tests for all pairwise comparisons. But instead of 
+estimating the variance for each sample separately it takes all groups into account. Violations of the homogeneity of variances reduce the test power.
+Since no correction for multiple comparisons is performed, the resulting p values must be corrected (for example with Benjamini-Hochberg method).
+
+
 *)
-
-
 open PostHoc
+
+let lsd = Testing.PostHoc.fishersLSD contrastMatrix dataOneWay
+
+// For multi comparison correction, the p values are adjusted by the Benjamini-Hochberg approach
+let (index,pValue,pValueAdj) = 
+    lsd
+    |> Testing.MultipleTesting.benjaminiHochbergFDRBy (fun x -> x,x.Significance)
+    |> List.sortBy (fun (x,_) -> x.Index)
+    |> List.map (fun (x,pValAdj) -> x.Index, x.Significance, pValAdj)
+    |> List.unzip3
+
+(*** hide ***)
+
+let lsd_Corrected =
+    let header = ["<b>Contrast index</b>";"<b>p Value</b>";"<b>p Value adj</b>"]
+    let rows = 
+        [
+            [sprintf "%i" index.[0];sprintf "%.6f" pValue.[0];sprintf "%.6f" pValueAdj.[0];]    
+            [sprintf "%i" index.[1];sprintf "%.6f" pValue.[1];sprintf "%.6f" pValueAdj.[1];]    
+            [sprintf "%i" index.[2];sprintf "%.6f" pValue.[2];sprintf "%.6f" pValueAdj.[2];]       
+            [sprintf "%i" index.[3];sprintf "%.6f" pValue.[3];sprintf "%.6f" pValueAdj.[3];]       
+            [sprintf "%i" index.[4];sprintf "%.6f" pValue.[4];sprintf "%.6f" pValueAdj.[4];]    
+            [sprintf "%i" index.[5];sprintf "%.6f" pValue.[5];sprintf "%.6f" pValueAdj.[5];]
+        ]
+    
+    Chart.Table(
+        header, 
+        rows,
+        ColorHeader = "#45546a",
+        ColorCells = ["#deebf7";"lightgrey"],
+        FontHeader = Font.init(Color="white")
+        )
+
+(*** include-value:lsd_Corrected ***)
+
+(**
+###Hays
+*)
 
 Testing.PostHoc.hays contrastMatrix dataOneWay 
 
@@ -282,7 +356,24 @@ Anova.oneWayAnova dmg
 ###Tukey HSD 
 
 Tukeys honestly significant difference (HSD) can be used to inspect a significant ANOVA result for underlying causes.
+
+_Important note: Various discussions question the application of Tukeys HSD only to significant ANOVA results (Anova-protected post-hoc test), since Tukeys HSD already controls for multiple testing._
+_Inform yourself prior to using an post hoc test appropriate to your experimental design._
+
 Using this post hoc test you can determine which of the means differ significantly from each other.
+In the classis Tukeys HSD approach, the population variances are pooled for a more robust estimation (especially with small sample sizes). If the population variances
+differ, Tukeys HSD is not appropriate. 
+
+The implemented Tukey-Kramer-Method can be applied on unequal sample sizes and estimates the variance based on the meas to compare.
+The Tukey-Kramer method can be used as stand-alone method for comparing multiple means.
+
+A comparison of ANOVA and Tukey-Kramer-HSD with simulations for the robustness of normality-violations of the data can be found in:
+
+_Robustness of the ANOVA and Tukey-Kramer Statistical Tests, Wade C. Driscoll, Computers ind. Engng Vol 31, No. 1/2, pp. 265 - 268, 1996_
+
+
+Multiple-to-one comparisons can alternatively performed with Dunnet's test, which was designed for performing k-1 tests, while Tukeys
+HSD performs k((k-1)/2) tests.
 
 Task: It should be tested if one or more means of samples taken from different mutants differ from each other.
 
@@ -301,6 +392,7 @@ let hsdExample =
 
 let anovaResult = Anova.oneWayAnova hsdExample
 
+
 (*
     anovaResult.Factor.Statistic = 5.41
     The factor statistic indicates how much more variability there is between the the samples 
@@ -310,11 +402,10 @@ let anovaResult = Anova.oneWayAnova hsdExample
 *)
 
 (**
-If and only if the ANOVA p value is below the alpha level (e.g. 0.05) you can go for further analysis with post hoc tests.
 For tukey HSD calculations you need a contrast matrix, that defines the groups you want to compare for 
 more detailed information.
 
-Every contrast has as many entries as you have groups (samples). The groups, that should be compared are labeled with -1 or 1 respectively.
+Every contrast has as many entries as there are groups (samples). The groups, that should be compared are labeled with -1 or 1 respectively.
 
 *)
 
@@ -329,10 +420,38 @@ let contrastMatrixHSD =
     [|0.; 0.; 1.;-1.;|] // sample 3 is compared to sample 4
     |]
 
-let hsdResult = tukeyHSD contrastMatrixHSD hsdExample 
+
+let hsdExample' = 
+    [|
+        [|0.0571;0.0813;0.0831;0.0976;0.0817;0.0859;0.0735;0.0659;0.0923;0.0836;|] 
+        [|0.0873;0.0662;0.0672;0.0819;0.0749;0.0649;0.0835;0.0725;|] 
+        [|0.0974;0.1352;0.0817;0.1016;0.0968;0.1064;0.105;|] 
+        [|0.1033;0.0915;0.0781;0.0685;0.0677;0.0697;0.0764;0.0689;|]    
+        [|0.0703;0.1026;0.0956;0.0973;0.1039;0.1045;|]
+    |]
+
+let contrastMatrixHSD' = 
+    [| 
+    [|1.;-1.; 0.; 0.; 0.;|] // sample 1 is compared to sample 2
+    [|1.; 0.;-1.; 0.; 0.;|] // sample 1 is compared to sample 3
+    [|1.; 0.; 0.;-1.; 0.;|] 
+    [|1.; 0.; 0.; 0.;-1.;|] 
+    [|0.; 1.;-1.; 0.; 0.;|]
+    [|0.; 1.; 0.;-1.; 0.;|]
+    [|0.; 1.; 0.; 0.;-1.;|]
+    [|0.; 0.; 1.;-1.; 0.;|] // sample 3 is compared to sample 4
+    [|0.; 0.; 1.; 0.;-1.;|] // sample 3 is compared to sample 4
+    [|0.; 0.; 0.; 1.;-1.;|] // sample 3 is compared to sample 4
+    |]
+
+let hsdResult = tukeyHSD contrastMatrixHSD' hsdExample' 
+
+tukeyHSD contrastMatrix dataOneWay
+
+
 
 (*
-    For every generated contrast array an output p value is calculated.
+    For every generated contrast an output p value is calculated.
     e.g.
     hsdResult.[0].Significance = 0.0364
     hsdResult.[1].Significance = 0.4983 
@@ -342,7 +461,19 @@ let hsdResult = tukeyHSD contrastMatrixHSD hsdExample
     hsdResult.[5].Significance = 0.0255
 *)
 
+TTest.twoSample true (vector hsdExample'.[0]) (vector hsdExample'.[1]) //0.07290  //0.0661  
+TTest.twoSample true (vector hsdExample'.[0]) (vector hsdExample'.[2]) //0.56924  //0.5681  
+TTest.twoSample true (vector hsdExample'.[0]) (vector hsdExample'.[3]) //0.15523  //0.1491  
+TTest.twoSample true (vector hsdExample'.[1]) (vector hsdExample'.[2]) //0.11167  //0.1099  
+TTest.twoSample true (vector hsdExample'.[1]) (vector hsdExample'.[3]) //0.00055  //0.00055 
+TTest.twoSample true (vector hsdExample'.[2]) (vector hsdExample'.[3]) //0.02419  //0.02357 
+
 (**
+###Dunnetts test
+
+When there is one control group which should be compared with all treatment-groups, you can use Dunnett's test. It is a multiple-to-one post hoc test
+that has a higher power than Tukey's HSD since fewer comparisons have to be performed.
+
 ###Fisher Hotelling
 
 *)
@@ -357,37 +488,95 @@ Testing.FisherHotelling.test d1 d2
 
 ##Multiple Testing
 
-### Q Value
+When conducting multiple hypothesis test the &alpha;-error accumulates. This is because the p value just describes the probability for 
+a false positive for one single test. If you perform 10 t-test at an &alpha; level of 0.05, the probability of getting a significant result by chance
+is 40.1% [ (1-(1-&alpha;)<sup>k</sup> ].
+
+*)
+(*** hide ***)
+
+let aErrorAcc = 
+    [1. .. 100.]
+    |> List.map (fun x -> x,(1. - 0.95**x))
+    |> Chart.Line
+    |> styleChart "number of tests (k)" "probability of at least one false positive test"
+
+(*** include-value:aErrorAcc ***)
+
+(**
+
+To compensate this inflation, several multiple testing corrections were published. 
+The most conservative method is the Bonferroni correction, where the used &alpha; level is divided by the number of performed tests.
+
+A modern correction approach is the Benjamini-Hochberg method also known as FDR (false discovery rate).
+
 *)
 
 
+(**
+### Benjamini-Hochberg
+
+*)
 let pValues =
     [|
-        0.000002;0.000048;0.000096;0.000096;0.000351;0.000368;0.000368;0.000371;0.000383;0.000383;0.000705;0.000705;0.000705;0.000705;0.000739;0.00101;0.001234;0.001509;0.001509;0.001509;0.001509;0.001686;0.001686;0.001964;0.001964;0.001964;0.001964;0.001964;0.001964;0.001964;0.002057;0.002295;0.002662;0.002662
-        ;0.002662;0.002662;0.002662;0.002662;0.002662;0.002672;0.002714;0.002922;0.00348;0.004066;0.004176;0.004176;0.004562;0.004562;0.005848;0.005848;0.006277;0.007024;0.007614;0.007614;0.007614;0.007614;0.007614;0.00979;0.01049;0.01049;0.012498;0.012498;0.012498;0.017908;0.018822;0.019003;0.019003;0.019003
-        ;0.020234;0.02038;0.021317;0.023282;0.026069;0.026773;0.027255;0.027255;0.027255;0.027255;0.0274;0.030338;0.03128;0.034516;0.034516;0.037267;0.037267;0.040359;0.042706;0.043506;0.04513;0.04513;0.047135;0.049261;0.049261;0.049261;0.049261;0.049333;0.050457;0.052112;0.052476;0.060504;0.063031;0.063031
-        ;0.063031;0.063031;0.065316;0.065316;0.066751;0.067688;0.069676;0.073043;0.078139;0.078594;0.078594;0.095867;0.098913;0.102606;0.102606;0.102606;0.107444;0.116213;0.126098;0.135099;0.135099;0.159786;0.179654;0.199372;0.203542;0.203542;0.211249;0.211968;0.226611;0.228287;0.238719;0.247204;0.263942
-        ;0.263942;0.289175;0.306064;0.330191;0.330191;0.340904;0.343869;0.350009;0.355614;0.355614;0.359354;0.386018;0.386018;0.434486;0.438791;0.464694;0.471015;0.4715;0.479307;0.490157;0.505652;0.539465;0.539465;0.558338;0.558338;0.601991;0.61052;0.634365;0.637835;0.677506;0.678222;0.727881;0.748533
-        ;0.753718;0.758701;0.810979;0.838771;0.854833;0.872159;0.878727;0.890621;0.916361;0.954779;0.98181;0.985365;0.986261;0.98958;0.99861;0.99861;0.999602;0.999895
+        0.000002;0.000048;0.000096;0.000096;0.000351;0.000368;0.000368;0.000371;0.000383;0.000383;0.000705;0.000705;0.000705;0.000705;0.000739;0.00101;0.001234;0.001509;0.001509;0.001509;0.001509;0.001686;0.001686;0.001964;0.001964;0.001964;0.001964;0.001964;0.001964;0.001964;0.002057;0.002295;0.002662;0.002662;
+        0.002662;0.002662;0.002662;0.002662;0.002662;0.002672;0.002714;0.002922;0.00348;0.004066;0.004176;0.004176;0.004562;0.004562;0.005848;0.005848;0.006277;0.007024;0.007614;0.007614;0.007614;0.007614;0.007614;0.00979;0.01049;0.01049;0.012498;0.012498;0.012498;0.017908;0.018822;0.019003;0.019003;0.019003;
+        0.020234;0.02038;0.021317;0.023282;0.026069;0.026773;0.027255;0.027255;0.027255;0.027255;0.0274;0.030338;0.03128;0.034516;0.034516;0.037267;0.037267;0.040359;0.042706;0.043506;0.04513;0.04513;0.047135;0.049261;0.049261;0.049261;0.049261;0.049333;0.050457;0.052112;0.052476;0.060504;0.063031;0.063031;
+        0.063031;0.063031;0.065316;0.065316;0.066751;0.067688;0.069676;0.073043;0.078139;0.078594;0.078594;0.095867;0.098913;0.102606;0.102606;0.102606;0.107444;0.116213;0.126098;0.135099;0.135099;0.159786;0.179654;0.199372;0.203542;0.203542;0.211249;0.211968;0.226611;0.228287;0.238719;0.247204;0.263942;
+        0.263942;0.289175;0.306064;0.330191;0.330191;0.340904;0.343869;0.350009;0.355614;0.355614;0.359354;0.386018;0.386018;0.434486;0.438791;0.464694;0.471015;0.4715;0.479307;0.490157;0.505652;0.539465;0.539465;0.558338;0.558338;0.601991;0.61052;0.634365;0.637835;0.677506;0.678222;0.727881;0.748533;
+        0.753718;0.758701;0.810979;0.838771;0.854833;0.872159;0.878727;0.890621;0.916361;0.954779;0.98181;0.985365;0.986261;0.98958;0.99861;0.99861;0.999602;0.999895
     |] |> Array.sort
 
+let pValsAdj =
+    MultipleTesting.benjaminiHochbergFDRBy (fun x -> x,x) pValues
+    |> List.rev
+
+(*** hide ***)
+let bhValues =
+    [
+        Chart.Line(pValues,pValues,Name="diagonal")
+        Chart.Line(pValsAdj,Name="adj")
+    ]
+    |> Chart.Combine
+    |> styleChartRange "pValue" "BH corrected pValue" (0.,1.) (0.,1.)
+
+(*** include-value:bhValues ***)
+
+
+(**
+
+### Q Value
+
+*)
 let pi0 = 
     pValues
     |> MultipleTesting.Qvalues.pi0Bootstrap 
 
-pValues
-|> MultipleTesting.Qvalues.ofPValues pi0
+let qValues = 
+    pValues
+    |> MultipleTesting.Qvalues.ofPValues pi0
 
-pValues
-|> MultipleTesting.Qvalues.ofPValuesRobust pi0 
+let qValuesRob =
+    pValues
+    |> MultipleTesting.Qvalues.ofPValuesRobust pi0 
 
-(**
-### Benajmini-Hochberg
+(*** hide ***)
+let qChart =    
+    [
+        Chart.Line(pValues,qValues,Name="qValue")
+        Chart.Line(pValues,qValuesRob,Name="qValueRobust")
+    ]
+    |> Chart.Combine
+    |> styleChartRange "pValues" "qValues" (0.,1.) (0.,1.)
 
-*)
+let qHisto =
+    [
+        Chart.Histogram(pValues,Xbins=Bins.init(0.,1.,0.05),Name="pValues",HistNorm=HistNorm.Density)
+        Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",Dash=DrawingStyle.Dash)
+    ]
+    |> Chart.Combine
+    |> styleChart "p value" "density"
 
-MultipleTesting.benjaminiHochbergFDRBy (fun x -> x,x) pValues
-|> List.rev
-
-
+(*** include-value:qChart ***)
+(*** include-value:qHisto ***)
 
