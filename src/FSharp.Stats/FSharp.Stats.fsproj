@@ -96,6 +96,7 @@
     <Compile Include="Testing\TestStatistics.fs" />
     <Compile Include="Testing\Anova.fs" />
     <Compile Include="Testing\TTest.fs" />
+    <Compile Include="Testing\FTest.fs" />
     <Compile Include="Testing\ChiSquareTest.fs" />
     <Compile Include="Testing\Bartlett.fs" />
     <Compile Include="Testing\PostHoc.fs" />
