@@ -257,19 +257,18 @@ let welch = TTest.twoSample false sampleW1 sampleW2
 (**
 <a name = "FTest"></a>
 ##F-Test
-The F-test is a method to determine if the variances of two samples are homogeneous. 
-Also, ANOVA (analysis of variance) is based on the F-test and is used for the comparison of more than two samples.  
-ANOVA can detect if there is a difference in variances between samples, without pre-specifying which samples should be compared. 
-Knowing if your variances are equal (H<sub>0</sub> is true) helps to decide which test should be done next. 
+The F-test is a method to determine if the variances of two samples are homogeneous.
+Also, ANOVA (analysis of variance) is based on the F-test and is used for the comparison of more than two samples.
+Knowing if your variances are equal (H<sub>0</sub> is true) helps to decide which test should be performed next.
 To determine if your variances are in fact equal you can perform a F-test. 
 
-Prerequisite : 
+Prerequisites: 
 
-  -   samples are normally distributed 
+  -   population distributions are normally distributed 
 
   -   samples are independent
 
-Possible further tests :
+Possible further tests:
 
   -   two sample t-test with equal variances
 
@@ -278,26 +277,32 @@ Possible further tests :
   -   ...
 
 Note that there is no information about the direction of variance difference.
-In this implemented test the larger variance is always the numerator, therefor the comparison to F<sub>df1,df2,1-(alpha/2)</sub> is used for a two sided test. 
+In this implemented test the larger variance is always the numerator, therefore the comparison to F<sub>df1,df2,1-(alpha/2)</sub> is used for a two sided test. 
 
 _Important note: The effectiveness of a preliminary test of variances is discussed. 
-The F-test is extremely sensitive to normality-violations, and even if the samples follow a normal distribution, it does not detect many situations where a t-test should be avoided. 
+The F-test is extremely sensitive to normality-violations, and even if the samples follow a normal distribution, it often does not detect situations where a t-test should be avoided. 
 Conditions for the Effectiveness of a Preliminary Test of Variance , C. and E. Markowski, The American Statistician, Vol 44. No. 4, 11/1990_
 
+References:
 
+  - Jürgen Bortz & Christof Schuster, Statistik für Human- und Sozialwissenschaftler (2010) Chapter 8.6
+
+  - Ronald Ley, F curves have two tails but the F test is a one-tailed two-tailed test (1979)
+  
 *F-Test from data*
 *)
 
 let sampleFA = vector [|5.0; 6.0; 5.8; 5.7|] 
 let sampleFB = vector [|3.5; 3.7; 4.0; 3.3; 3.6|]
+
 // comparison of sample variances 
-let fTestFromData = FTest.testVariancesFromData sampleFA sampleFB
+let fTestFromData = FTest.testVariances sampleFA sampleFB
 (* 
     { Statistic = 2.823383085
     DegreesOfFreedom1 = 3.0
     DegreesOfFreedom2 = 4.0
     PValue = 0.1708599931 }
-    Using a significance level of 5% the sample variances do differ significantly.
+    Using a significance level of 0.05 the sample variances do differ significantly.
 *)
 (** 
 *F-Test from given parameters*
@@ -305,6 +310,7 @@ let fTestFromData = FTest.testVariancesFromData sampleFA sampleFB
 // sample properties are given as (variance,degree of freedom) 
 let sampleF1 = (0.1, 15.)
 let sampleF2 = (0.05, 7.)
+
 // comparison of sample variances 
 let fTestFromParameters = FTest.testVariancesFromVarAndDof sampleF1 sampleF2
 (*
@@ -312,7 +318,7 @@ let fTestFromParameters = FTest.testVariancesFromVarAndDof sampleF1 sampleF2
     DegreesOfFreedom1 = 15.0
     DegreesOfFreedom2 = 7.0
     PValue = 0.17963663 }
-    Using a significance level of 5% the sample variances do differ significantly.
+    Using a significance level of 0.05 the sample variances do differ significantly.
 *)
 
 
