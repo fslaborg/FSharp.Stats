@@ -4,8 +4,8 @@ module FTest =
 
     open FSharp.Stats
 
-    /// F-Test to compare two variances from data.
-    let testVariancesFromData (data1:Vector<float>) (data2:Vector<float>) = 
+    /// F-test to compare two variances from data.
+    let testVariances (data1:Vector<float>) (data2:Vector<float>) = 
         if data1.Length = 0 || data2.Length = 0 then failwithf "Data cannot be empty."
         let var1 = Seq.var data1
         let var2 = Seq.var data2
@@ -18,7 +18,7 @@ module FTest =
             let statistic = var2 / var1
             Testing.TestStatistics.createFTest statistic df2 df1
 
-    /// F-Test to compare two variances from given parameters.
+    /// F-test to compare two variances from given parameters.
     let testVariancesFromVarAndDof (var1:float,df1:float) (var2:float,df2:float)  =
         if df1 = 0. || df2 = 0. then failwithf "Degrees of freedom cannot be zero."
         if var1 > var2 then 
