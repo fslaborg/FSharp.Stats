@@ -79,6 +79,7 @@
     <Compile Include="Signal\FFT.fs" />
     <Compile Include="Signal\Wavelet.fs" />
     <Compile Include="Signal\ContinuousWavelet.fs" />
+    <Compile Include="Signal\Outliers.fs" />
     <Compile Include="Signal\Baseline.fs" />
     <Compile Include="Signal\Filtering.fs" />
     <Compile Include="Signal\Convolution.fs" />

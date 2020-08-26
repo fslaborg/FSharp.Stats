@@ -21,6 +21,13 @@ module DefiniteIntegral =
         
         h * loop 0. 0.
 
+    let integratePSeq (methode:IntegrationMethod) f a b steps =
+        let h = (b - a ) / steps
+        [0. .. steps - 1.]
+        |> FSharpAux.PSeq.sumBy (fun i ->
+            methode f (a+i*h) h
+            )
+        |> fun x -> h * x
 
 // let f' (x:float) = x * x * x 
 // integrate simpson f' 0. 1. 100.
