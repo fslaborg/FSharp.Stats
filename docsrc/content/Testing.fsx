@@ -280,16 +280,19 @@ Note that there is no information about the direction of variance difference.
 In this implemented test the larger variance is always the numerator, therefore the comparison to F<sub>df1,df2,1-(alpha/2)</sub> is used for a two sided test. 
 
 _Important note: The effectiveness of a preliminary test of variances is discussed. 
-The F-test is extremely sensitive to normality-violations, and even if the samples follow a normal distribution, it often does not detect situations where a t-test should be avoided. 
-Conditions for the Effectiveness of a Preliminary Test of Variance , C. and E. Markowski, The American Statistician, Vol 44. No. 4, 11/1990_
+The F-test is extremely sensitive to normality-violations, and even if the samples follow a normal distribution, it often does not detect situations where a t-test should be avoided._ 
 
 References:
 
   - Jürgen Bortz & Christof Schuster, Statistik für Human- und Sozialwissenschaftler (2010) Chapter 8.6
 
-  - Ronald Ley, F curves have two tails but the F test is a one-tailed two-tailed test (1979)
+  - Markowski, Conditions for the Effectiveness of a Preliminary Test of Variance (1990)
+
+  - Shlomo S. Sawilowsky, The Probable Difference Between Two Means When σ<sub>1</sub><sup>2</sup>≠σ<sub>2</sub><sup>2</sup> (2002)
+
+  - Ronald Ley, F curves have two tails but the F test is a one-tailed two-tailed test (1979) + Reviewer comments
   
-*F-Test from data*
+*F-Test from data:*
 *)
 
 let sampleFA = vector [|5.0; 6.0; 5.8; 5.7|] 
@@ -305,7 +308,7 @@ let fTestFromData = FTest.testVariances sampleFA sampleFB
     Using a significance level of 0.05 the sample variances do differ significantly.
 *)
 (** 
-*F-Test from given parameters*
+*F-Test from given parameters:*
 *)
 // sample properties are given as (variance,degree of freedom) 
 let sampleF1 = (0.1, 15.)
@@ -333,7 +336,7 @@ let fTestFromParameters = FTest.testVariancesFromVarAndDof sampleF1 sampleF2
 ANOVA provides the user with a global statement if samples differ from each other. It does not provide detailed information regarding
 differences of the single samples.
 
-If the H</sub>0</sub> hypothesis is neglected (so significant differences are assumed), a post hoc test (multiple comparison test) allows the pairwise comparison of the 
+If the H<sub>0</sub> hypothesis is neglected (so significant differences are assumed), a post hoc test (multiple comparison test) allows the pairwise comparison of the 
 individual groups.
 
 Reference: What is the proper way to apply the multiple comparison test?, Sangseok Lee and Dong Kyu Lee, 2018
