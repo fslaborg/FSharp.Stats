@@ -8,10 +8,104 @@
 
 open FSharp.Plotly
 open FSharp.Collections
+
+open FSharp.Plotly.Axis
+open FSharp.Plotly.StyleParam
+let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
+let myAxisRange name range = LinearAxis.init(Title=name,Range=StyleParam.Range.MinMax(range), Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true)
+let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
+let styleChartRangeY x y mi ma chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxisRange y (mi,ma))
+
+
 (**
 
 #Signal
 
+<a name="Outliers"></a>
+
+##Outliers
+
+###Tukey's fences
+
+A common approach for outlier detection is Tukey's fences-method. It determines the interquartile range (IQR) of the 
+data and adds a fraction of it to the third quartile (Q3) or substracts it from the first quartile (Q1) respectively. 
+A often used fraction of the IQR is k=1.5 for outliers and k=3 for points 'far out'.
+
+In the generation of box plots the same method determines the whiskers and outliers of a sample.
+
+Reference:
+
+  - Tukey, JW. Exploratory data analysis. Addison-Wesely, 1977
+ 
+ 
+*)
+open FSharp.Stats
+
+let sampleO1 = [|45.;42.;45.5;43.;47.;51.;34.;45.;44.;46.;48.;37.;46.;|]
+
+let outlierBordersO1 = Signal.Outliers.tukey 1.5 sampleO1
+
+let lowerBorderO1 = Intervals.getStart outlierBordersO1
+// result: 37.16667
+
+let upperBorderO1 = Intervals.getEnd outlierBordersO1
+// result: 51.83333
+
+(*** hide ***)
+
+let (inside,outside) =
+    sampleO1 
+    |> Array.partition (fun x -> Intervals.liesInInterval x outlierBordersO1)
+
+let tukeyOutlierChart =
+    [
+        Chart.Point(inside |> Seq.map (fun x -> 1,x),"sample")
+        Chart.Point(outside |> Seq.map (fun x -> 1,x),"outliers")
+    ]
+    |> Chart.Combine
+    |> Chart.withShapes(
+        [
+            Shape.init(ShapeType.Line,0.5,1.5,lowerBorderO1,lowerBorderO1,Line=Line.init(Dash=DrawingStyle.Dash,Color="grey"))
+            Shape.init(ShapeType.Line,0.5,1.5,upperBorderO1,upperBorderO1,Line=Line.init(Dash=DrawingStyle.Dash,Color="grey"))
+        ]
+        )
+    |> styleChartRangeY "" "" 30. 60.
+    |> Chart.withTitle "Tukey's fences outlier borders"
+   
+(*** include-value:tukeyOutlierChart ***)
+
+
+(**
+<a name="Filtering"></a>
+
+##Filtering
+
+Savitzgy-Golay description is coming soon.
+
+*)
+
+open FSharp.Stats
+
+// Savitzky-Golay low-pass filtering
+let t  = [|-4. ..(8.0/500.).. 4.|]
+let dy  = t |> Array.map (fun t -> (-t**2.) + (Distributions.Continuous.Normal.Sample 0. 0.5) )
+let dy' = t |> Array.map (fun t -> (-t**2.))
+
+let dysg = Signal.Filtering.savitzky_golay  31 4 0 1 dy
+
+let savitzgyChart =
+    [
+        Chart.Point(t, dy, Name="data with noise");
+        Chart.Point(t, dy', Name="data without noise");
+        Chart.Point(t, dysg, Name="data sg");
+    ]
+    |> Chart.Combine
+    |> styleChart "" ""
+
+(*** include-value:savitzgyChart***)
+
+
+(**
 
 <a name="Padding"></a>
 
@@ -406,44 +500,10 @@ The FFT analysis converts a signal from its original domain (often time or space
 //Chart.Line(x,y') |> Chart.Show
 
 
+
 (**
 <a name="Baseline"></a>
 
 ##Baseline
 
-<a name="Filtering"></a>
-
-##Filtering
-
-
-Savitzgy-Golay description is coming soon.
-
 *)
-
-
-
-
-open FSharp.Stats
-
-// Savitzky-Golay low-pass filtering
-let t  = [|-4. ..(8.0/500.).. 4.|]
-let dy  = t |> Array.map (fun t -> (-t**2.) + (Distributions.Continuous.Normal.Sample 0. 0.5) )
-let dy' = t |> Array.map (fun t -> (-t**2.))
-
-let dysg = Signal.Filtering.savitzky_golay  31 4 0 1 dy
-
-let savitzgyChart =
-    [
-        Chart.Point(t, dy, Name="data with noise");
-        Chart.Point(t, dy', Name="data without noise");
-        Chart.Point(t, dysg, Name="data sg");
-    ]
-    |> Chart.Combine
-
-(*** include-value:savitzgyChart***)
-
-
-
-
-
-
