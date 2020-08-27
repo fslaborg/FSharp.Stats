@@ -20,8 +20,8 @@ group Formatting
 source https://nuget.org/api/v2
 source https://ci.appveyor.com/nuget/fsharp-formatting
 
-nuget FSharp.Formatting prerelease
-nuget FSharp.Formatting.CommandTool prerelease
+nuget FSharp.Formatting = 4.0.1
+nuget FSharp.Formatting.CommandTool = 4.0.1
 
 nuget FSharp.Plotly
 
