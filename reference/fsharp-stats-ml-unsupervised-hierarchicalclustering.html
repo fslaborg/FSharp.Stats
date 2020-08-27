@@ -57,7 +57,9 @@
             <a href="fsharp-stats-ml-unsupervised-hierarchicalclustering-cluster-1.html">Cluster<'T></a>
           </td>
           <td class="xmldoc">
-          
+          <p>Binary distance tree</p>
+
+
           </td>
         </tr>
         <tr>
@@ -100,49 +102,91 @@
     <tbody>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1533', 1533)" onmouseover="showTip(event, '1533', 1533)">
+          <code onmouseout="hideTip(event, '1536', 1536)" onmouseover="showTip(event, '1536', 1536)">
+            aggregateClusterBy predicate cluster
+          </code>
+          <div class="tip" id="1536">
+            <strong>Signature:</strong> predicate:(float -&gt; int -&gt; bool) -&gt; cluster:Cluster&lt;&#39;T&gt; -&gt; Cluster&lt;&#39;T list&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L152-152" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Aggregates the subbranches of a node to leafs, if the predicate function taking the distance and the number of subLeafs returns true</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1537', 1537)" onmouseover="showTip(event, '1537', 1537)">
+            aggregateClusterByDistance(...)
+          </code>
+          <div class="tip" id="1537">
+            <strong>Signature:</strong> distanceCutoff:float -&gt; cluster:Cluster&lt;&#39;T&gt; -&gt; Cluster&lt;&#39;T list&gt;<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L135-135" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Aggregates the subbranches of a node to leafs, if the distance between them is smaller than the given distanceCutoff</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1538', 1538)" onmouseover="showTip(event, '1538', 1538)">
             createCluster id dist left right
           </code>
-          <div class="tip" id="1533">
+          <div class="tip" id="1538">
             <strong>Signature:</strong> id:int -&gt; dist:float -&gt; left:Cluster&lt;&#39;T&gt; -&gt; right:Cluster&lt;&#39;T&gt; -&gt; Cluster&lt;&#39;T&gt;<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L103-103" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L104-104" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Create a cluster Node containing the two given subbranches</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1534', 1534)" onmouseover="showTip(event, '1534', 1534)">
+          <code onmouseout="hideTip(event, '1539', 1539)" onmouseover="showTip(event, '1539', 1539)">
             createClusterValue id value
           </code>
-          <div class="tip" id="1534">
+          <div class="tip" id="1539">
             <strong>Signature:</strong> id:int -&gt; value:&#39;T -&gt; Cluster&lt;&#39;T&gt;<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L107-107" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L109-109" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Create a cluster Leaf</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1535', 1535)" onmouseover="showTip(event, '1535', 1535)">
+          <code onmouseout="hideTip(event, '1540', 1540)" onmouseover="showTip(event, '1540', 1540)">
             cutHClust desiredNumber clusterTree
           </code>
-          <div class="tip" id="1535">
+          <div class="tip" id="1540">
             <strong>Signature:</strong> desiredNumber:int -&gt; clusterTree:Cluster&lt;&#39;T&gt; -&gt; Cluster&lt;&#39;T&gt; list list<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L332-332" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L388-388" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -154,15 +198,15 @@ If the desired number is odd the function cut the cluster with maximal distance<
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1536', 1536)" onmouseover="showTip(event, '1536', 1536)">
+          <code onmouseout="hideTip(event, '1541', 1541)" onmouseover="showTip(event, '1541', 1541)">
             flattenHClust(clusterTree)
           </code>
-          <div class="tip" id="1536">
+          <div class="tip" id="1541">
             <strong>Signature:</strong> clusterTree:Cluster&lt;&#39;T&gt; -&gt; Cluster&lt;&#39;T&gt; list<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L319-319" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L375-375" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -173,15 +217,15 @@ If the desired number is odd the function cut the cluster with maximal distance<
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1537', 1537)" onmouseover="showTip(event, '1537', 1537)">
+          <code onmouseout="hideTip(event, '1542', 1542)" onmouseover="showTip(event, '1542', 1542)">
             generate distance linker data
           </code>
-          <div class="tip" id="1537">
+          <div class="tip" id="1542">
             <strong>Signature:</strong> distance:Distance&lt;&#39;T&gt; -&gt; linker:LancWilliamsLinker -&gt; data:seq&lt;&#39;T&gt; -&gt; Cluster&lt;&#39;T&gt;<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L167-167" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L223-223" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -192,15 +236,15 @@ If the desired number is odd the function cut the cluster with maximal distance<
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1538', 1538)" onmouseover="showTip(event, '1538', 1538)">
+          <code onmouseout="hideTip(event, '1543', 1543)" onmouseover="showTip(event, '1543', 1543)">
             getClusterId(c)
           </code>
-          <div class="tip" id="1538">
+          <div class="tip" id="1543">
             <strong>Signature:</strong> c:Cluster&lt;&#39;T&gt; -&gt; int<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L86-86" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L87-87" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -209,34 +253,91 @@ If the desired number is odd the function cut the cluster with maximal distance<
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1539', 1539)" onmouseover="showTip(event, '1539', 1539)">
+          <code onmouseout="hideTip(event, '1544', 1544)" onmouseover="showTip(event, '1544', 1544)">
             getClusterMemberLabels(cluster)
           </code>
-          <div class="tip" id="1539">
+          <div class="tip" id="1544">
             <strong>Signature:</strong> cluster:Cluster&lt;&#39;a&gt; -&gt; int list list<br />
                           <strong>Type parameters:</strong> 'a                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L310-310" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L366-366" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Returns</p>
+          <p>Returns a list of all IDs in the cluster</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1540', 1540)" onmouseover="showTip(event, '1540', 1540)">
+          <code onmouseout="hideTip(event, '1545', 1545)" onmouseover="showTip(event, '1545', 1545)">
+            getDistancesOfCluster(cluster)
+          </code>
+          <div class="tip" id="1545">
+            <strong>Signature:</strong> cluster:Cluster&lt;&#39;T&gt; -&gt; float list<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L113-113" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Returns a list of the distances between the subclusters</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1546', 1546)" onmouseover="showTip(event, '1546', 1546)">
+            getLeafsOfCluster(cluster)
+          </code>
+          <div class="tip" id="1546">
+            <strong>Signature:</strong> cluster:Cluster&lt;&#39;T&gt; -&gt; &#39;T list<br />
+                          <strong>Type parameters:</strong> 'T                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L124-124" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Returns a list of the leaf names</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1547', 1547)" onmouseover="showTip(event, '1547', 1547)">
+            mapClusterLeaftags mapF cluster
+          </code>
+          <div class="tip" id="1547">
+            <strong>Signature:</strong> mapF:(&#39;T -&gt; &#39;U) -&gt; cluster:Cluster&lt;&#39;T&gt; -&gt; Cluster&lt;&#39;U&gt;<br />
+                          <strong>Type parameters:</strong> 'T, 'U                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L168-168" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Maps the tags of the leafs of the cluster by applying a given mapping function</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1548', 1548)" onmouseover="showTip(event, '1548', 1548)">
             printHClust(clusterTree)
           </code>
-          <div class="tip" id="1540">
+          <div class="tip" id="1548">
             <strong>Signature:</strong> clusterTree:Cluster&lt;&#39;T&gt; -&gt; seq&lt;string&gt;<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L359-359" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L415-415" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -247,15 +348,15 @@ If the desired number is odd the function cut the cluster with maximal distance<
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1541', 1541)" onmouseover="showTip(event, '1541', 1541)">
+          <code onmouseout="hideTip(event, '1549', 1549)" onmouseover="showTip(event, '1549', 1549)">
             tryGetLeafValue(c)
           </code>
-          <div class="tip" id="1541">
+          <div class="tip" id="1549">
             <strong>Signature:</strong> c:Cluster&lt;&#39;T&gt; -&gt; &#39;T option<br />
                           <strong>Type parameters:</strong> 'T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L91-91" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/HierarchicalClustering.fs#L92-92" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

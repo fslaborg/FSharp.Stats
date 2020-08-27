@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Bartlett - FSharp.Stats</title>
+    <title>FTest - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -35,7 +35,7 @@
         <div class="span9" id="main">
           
 
-<h1>Bartlett</h1>
+<h1>FTest</h1>
 <p>
   <span>Namespace: FSharp.Stats.Testing</span><br />
   </p>
@@ -52,20 +52,38 @@
     <tbody>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1685', 1685)" onmouseover="showTip(event, '1685', 1685)">
-            compute(samples)
+          <code onmouseout="hideTip(event, '1687', 1687)" onmouseover="showTip(event, '1687', 1687)">
+            testVariances data1 data2
           </code>
-          <div class="tip" id="1685">
-            <strong>Signature:</strong> samples:seq&lt;&#39;?8984&gt; -&gt; ChiSquareStatistics<br />
-                          <strong>Type parameters:</strong> '?8984                      </div>
+          <div class="tip" id="1687">
+            <strong>Signature:</strong> data1:Vector&lt;float&gt; -&gt; data2:Vector&lt;float&gt; -&gt; FTestStatistics<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/Bartlett.fs#L9-9" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/FTest.fs#L8-8" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Bartlett's test for equality of variances
-Tests the null hypothesis that all group variances are equal</p>
+          <p>F-test to compare two variances from data.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1688', 1688)" onmouseover="showTip(event, '1688', 1688)">
+            testVariancesFromVarAndDof(...)
+          </code>
+          <div class="tip" id="1688">
+            <strong>Signature:</strong> (var1:float * df1:float) -&gt; (var2:float * df2:float) -&gt; FTestStatistics<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/FTest.fs#L22-22" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>F-test to compare two variances from given parameters.</p>
 
 
         </td>

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Bartlett - FSharp.Stats</title>
+    <title>Outliers - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -35,9 +35,9 @@
         <div class="span9" id="main">
           
 
-<h1>Bartlett</h1>
+<h1>Outliers</h1>
 <p>
-  <span>Namespace: FSharp.Stats.Testing</span><br />
+  <span>Namespace: FSharp.Stats.Signal</span><br />
   </p>
 <div class="xmldoc">
 </div>
@@ -52,20 +52,20 @@
     <tbody>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1685', 1685)" onmouseover="showTip(event, '1685', 1685)">
-            compute(samples)
+          <code onmouseout="hideTip(event, '1621', 1621)" onmouseover="showTip(event, '1621', 1621)">
+            tukey k d
           </code>
-          <div class="tip" id="1685">
-            <strong>Signature:</strong> samples:seq&lt;&#39;?8984&gt; -&gt; ChiSquareStatistics<br />
-                          <strong>Type parameters:</strong> '?8984                      </div>
+          <div class="tip" id="1621">
+            <strong>Signature:</strong> k:float -&gt; d:float [] -&gt; Interval&lt;float&gt;<br />
+                                  </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/Bartlett.fs#L9-9" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L9-9" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Bartlett's test for equality of variances
-Tests the null hypothesis that all group variances are equal</p>
+          <p>Tukey's fences based on interquartile range. c defines the magnitude of interquartile range that is added/subtracted to Q3 and Q1 respectively.
+Commonly c is 1.5 for outliers and 3 for points 'far out' (Tukey 1977).</p>
 
 
         </td>

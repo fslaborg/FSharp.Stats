@@ -140,6 +140,18 @@ ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages
         </tr>
         <tr>
           <td class="type-name">
+            <a href="fsharp-stats-distributions-continuousmodule-studentizedrange.html">StudentizedRange</a>
+          </td>
+          <td class="xmldoc">
+          <p>studentized range distribution. Used in Tukey's HSD post hoc test.
+method from: QUANTILES FROM THE MAXIMUM STUDENTIZED RANGE DISTRIBUTION, Ferreira, Rev. Mat. Estat., v.25, n.1, p.117-135, 2007
+table from: Tables of range and studentized range, Harter, 1960</p>
+
+
+          </td>
+        </tr>
+        <tr>
+          <td class="type-name">
             <a href="fsharp-stats-distributions-continuousmodule-tails.html">Tails</a>
           </td>
           <td class="xmldoc">
@@ -268,7 +280,7 @@ ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L683-683" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L777-777" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -287,7 +299,7 @@ ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L615-615" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L704-704" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -357,7 +369,7 @@ ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L780-780" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L874-874" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -376,7 +388,7 @@ ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L701-701" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L795-795" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -422,9 +434,49 @@ ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages
       <tr>
         <td class="member-name">
           <code onmouseout="hideTip(event, '1245', 1245)" onmouseover="showTip(event, '1245', 1245)">
-            studentT mu tau dof
+            studentizedRange(...)
           </code>
           <div class="tip" id="1245">
+            <strong>Signature:</strong> r:float -&gt; v:float -&gt; c:float -&gt; accuracy:float&lt;MeasureOne&gt; -&gt; computeParallel:bool -&gt; Distribution&lt;float,float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L685-685" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Initializes a studentized range distribution<br />
+Accuracy defines the number of steps within the integration (Recommended: 1000 to 10,000).
+q:qValue r:sampleSize v:df c:1.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1246', 1246)" onmouseover="showTip(event, '1246', 1246)">
+            studentizedRangeCheckParam q r v
+          </code>
+          <div class="tip" id="1246">
+            <strong>Signature:</strong> q:float -&gt; r:float -&gt; v:float -&gt; unit<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L615-615" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Studentized range distribution helper functions.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1247', 1247)" onmouseover="showTip(event, '1247', 1247)">
+            studentT mu tau dof
+          </code>
+          <div class="tip" id="1247">
             <strong>Signature:</strong> mu:float -&gt; tau:float&lt;MeasureOne&gt; -&gt; dof:float -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
@@ -440,10 +492,10 @@ ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1246', 1246)" onmouseover="showTip(event, '1246', 1246)">
+          <code onmouseout="hideTip(event, '1248', 1248)" onmouseover="showTip(event, '1248', 1248)">
             studentTCheckParam mu tau dof
           </code>
-          <div class="tip" id="1246">
+          <div class="tip" id="1248">
             <strong>Signature:</strong> mu:float -&gt; tau:float&lt;MeasureOne&gt; -&gt; dof:float -&gt; unit<br />
                                   </div>
         </td>
@@ -457,10 +509,10 @@ ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1247', 1247)" onmouseover="showTip(event, '1247', 1247)">
+          <code onmouseout="hideTip(event, '1249', 1249)" onmouseover="showTip(event, '1249', 1249)">
             uniform min max
           </code>
-          <div class="tip" id="1247">
+          <div class="tip" id="1249">
             <strong>Signature:</strong> min:float -&gt; max:float -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
@@ -476,10 +528,10 @@ ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1248', 1248)" onmouseover="showTip(event, '1248', 1248)">
+          <code onmouseout="hideTip(event, '1250', 1250)" onmouseover="showTip(event, '1250', 1250)">
             uniformCheckParam min max
           </code>
-          <div class="tip" id="1248">
+          <div class="tip" id="1250">
             <strong>Signature:</strong> min:float -&gt; max:float -&gt; unit<br />
                                   </div>
         </td>
