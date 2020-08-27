@@ -10,6 +10,7 @@ module MultipleTesting =
     /// 'projection' should return a tuple of any identifier and the pValues as float, when applied to 'rawP'
     /// This function applies the Benjamini-Hochberg multiple testing correcture and returns all False Discovery Rates to which the given p-values are still 
     /// significant.
+    /// Note: corrected pValues are not sorted in original order!
     let benjaminiHochbergFDRBy (projection:'a -> 'b*float) (rawP:seq<'a>) = 
 
         let pVals = rawP |> (Array.ofSeq >> Array.map projection) 
@@ -32,6 +33,19 @@ module MultipleTesting =
             |> List.sortWith(fun (_,x) (_,y) -> if (x) > (y) then -1 else 1)                           
         let adjp = cummin sortedRawp npval 0 System.Double.PositiveInfinity
         adjp @ rawpListNan
+
+
+    /// Benjamini-Hochberg Correction (BH)
+    /// This function applies the Benjamini-Hochberg multiple testing correcture and returns all False Discovery Rates to which the given p-values are still 
+    /// significant.
+    let benjaminiHochbergFDR (rawPValues:seq<float>) =
+        let pValsIndexed =
+            rawPValues
+            |> Seq.indexed
+        benjaminiHochbergFDRBy id pValsIndexed
+        |> List.sortBy fst
+        |> List.map snd
+        |> Seq.ofList
 
 
     // John D. Storey
