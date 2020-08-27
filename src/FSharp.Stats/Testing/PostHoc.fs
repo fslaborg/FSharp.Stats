@@ -6,13 +6,14 @@ module PostHoc =
 
     open TestStatistics
         
-    type Contrast = { Index            : int;                      
-                      L                : float;
-                      DegreesOfFreedom : float;
-                      MeanSquares      : float;
-                      Significance     : float;                      
-                      Statistic        : float;
-                      SumOfSquares     : float;
+    type Contrast = { Index            : int    
+                      /// group mean difference
+                      L                : float
+                      DegreesOfFreedom : float
+                      MeanSquares      : float
+                      Significance     : float                      
+                      Statistic        : float
+                      SumOfSquares     : float
                       }
     
     let createContrast index l degreesOfFreedom meanSquares significance statistic sumOfSquares =
@@ -64,12 +65,11 @@ module PostHoc =
     /// Tukey-Kramer approach
     let tukeyHSD (contrastMatrix:float[][]) (data:float[][]) =
 
-        let calcStats (msw:float) (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =        
+        let calcStats (msw:float) (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =   
             let l           =  Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast 
             let denominator = (Array.map2 (fun a n -> (abs a) * (msw / (float n))) contrast sampleSizes) |> Array.sum
-            //printfn "msw: %f d: %f" msw (denominator)
             ((l / (sqrt (denominator))),l)
-        
+                
         // Sample sizes
         let sizes = data |> Array.map (fun x -> x.Length)
         let totalSize = sizes |> Array.sum
@@ -98,3 +98,55 @@ module PostHoc =
                                 createContrast i l Db MSw TTest.PValue TTest.Statistic Sw
                                       
                     ) stats
+
+    /// Fisher's LSD. Sequential t tests with the variance estimated from all samples instead of the individual groups.
+    /// Not multiple testing corrected! Apply e.g. Benjamini-Hochberg method afterwards.
+    let fishersLSD (contrastMatrix:float[][]) (data:float[][]) =
+
+        let calcStats (msw:float) (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =        
+            // Sum of means, that are taken into account by the current contrast (scaled by contrast values)
+            // if -1 and 1 than l is the difference of the sample means, that should be compared
+            let meanDiff    =  Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast 
+            // MS_errorWithin * (1/n_i + 1/n_j)
+            let stError = (Array.map2 (fun a n -> (abs a) * (msw / (float n))) contrast sampleSizes) |> Array.sum
+            // returns the t statistic
+            (meanDiff / (sqrt stError)),meanDiff
+            
+        // Sample sizes
+        let sizes = data |> Array.map (fun x -> x.Length)
+        let totalSize = sizes |> Array.sum
+        let groupCount = data.Length
+
+        // Degrees of freedom
+        let db = float(groupCount - 1)
+        let dw = float(totalSize - groupCount)
+        let dt = groupCount * totalSize - 1
+
+        // Step 1. Calculate the mean within each group
+        let sampleMeans = data |> Array.map Seq.mean        
+
+        // Step 2. Calculate the "within-group" sum of squares
+        let ssw = 
+            data
+            |> Array.mapi (fun i group -> 
+                group 
+                |> Array.sumBy (fun elem -> 
+                    pown (elem - sampleMeans.[i]) 2
+                    )
+                ) 
+            |> Array.sum
+        // within-group mean square or MSerror
+        let msw = ssw / dw 
+
+        // Step 3. 
+        let stats = contrastMatrix |> Array.map (fun ar -> calcStats msw sizes sampleMeans ar)
+
+        // Step 4. Calculate the F statistic per contrast
+        stats
+        |> Array.mapi (fun i (tValue,meanDiff)  ->
+            if nan.Equals(tValue) then
+                createContrast i meanDiff db msw nan nan ssw  
+            else
+                let tTest = createTTest tValue dw
+                createContrast i meanDiff db msw tTest.PValue tTest.Statistic ssw 
+            ) 
