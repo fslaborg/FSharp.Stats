@@ -73,7 +73,7 @@ module Continuous =
             if dof = 0. then 
                 if x > 0. then 1.
                 else 0.
-            else Gamma.lowerIncomplete (dof/2.0) (x*x/2.0)
+            else (Gamma.lowerIncomplete (dof /2.0) (x/2.0) )/ (Gamma.gamma (dof/2.0))
 
         /// Returns the support of the exponential distribution: [0, Positive Infinity).
         static member Support dof =
