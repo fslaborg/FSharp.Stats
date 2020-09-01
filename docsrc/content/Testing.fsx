@@ -310,6 +310,7 @@ let fTestFromData = FTest.testVariances sampleFA sampleFB
 (** 
 *F-Test from given parameters:*
 *)
+
 // sample properties are given as (variance,degree of freedom) 
 let sampleF1 = (0.1, 15.)
 let sampleF2 = (0.05, 7.)

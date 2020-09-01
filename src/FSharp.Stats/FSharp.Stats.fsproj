@@ -106,6 +106,7 @@
     <Compile Include="Testing\SAM.fs" />
     <Compile Include="Testing\FisherHotelling.fs" />
     <Compile Include="Testing\RMT.fs" />
+    <Compile Include="HTest.fs" />
     <!-- Fitting -->
     <Compile Include="Fitting\CrossValidation.fs" />
     <Compile Include="Fitting\LinearRegression.fs" />
