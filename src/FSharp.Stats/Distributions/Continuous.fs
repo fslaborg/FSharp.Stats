@@ -49,16 +49,13 @@ module Continuous =
             if x < 0.0 || dof < 1. then
                 0.0
             else
-                let k = float dof * 0.5
-                let x = x * 0.5
-                if dof = 2. then
-                    exp (-1. * x)
-                else
-                    let pValue = SpecialFunctions.Gamma.lowerIncomplete k x // incGamma -> gamma lower incomplete
-                    if (isNan pValue) || (isInf pValue) ||  (pValue <= 1e-8) then
-                        1e-14
-                    else
-                        1.- pValue / (SpecialFunctions.Gamma.gamma k)  
+                let gammaF = Gamma.gamma (dof/2.)
+                let k = 2.**(dof/2.)
+                let fraction = (1./((k)*gammaF))
+                let ex1 = (x**((dof/2.)-1.))
+                let ex2 = exp(-x/2.)
+                let pdffunction = fraction*(ex1*ex2)
+                pdffunction 
 
         /// Computes the logarithm of probability density function.
         static member PDFLn dof x = 
@@ -73,7 +70,7 @@ module Continuous =
             if dof = 0. then 
                 if x > 0. then 1.
                 else 0.
-            else (Gamma.lowerIncomplete (dof /2.0) (x/2.0) )/ (Gamma.gamma (dof/2.0))
+            else Gamma.lowerIncomplete (dof/2.) (x/2.)
 
         /// Returns the support of the exponential distribution: [0, Positive Infinity).
         static member Support dof =

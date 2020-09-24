@@ -14,18 +14,6 @@ let myAxisRange title range = LinearAxis.init(Title=title,Range=Range.MinMax ran
 let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
 let styleChartRange x y rx ry chart = chart |> Chart.withX_Axis (myAxisRange x rx) |> Chart.withY_Axis (myAxisRange y ry)
 
-(**
-#Statistical testing
-FSharp.Stats provides hypothesis tests for different applications.
-A hypothesis test is a statistical test that is used to determine whether there is enough evidence 
-in a sample of data to infer that a certain condition is true for the entire population. 
-A hypothesis test examines two opposing hypotheses about a population: the null hypothesis and the alternative hypothesis.
-<a name="TestStatistics"></a>
-##Test Statistics
-<a name="Anova"></a>
-##Anova
-*)
-
 open FSharp.Stats
 open FSharp.Stats.Testing
 
@@ -57,3 +45,18 @@ let groupC = seq {18.;30.;34.;40.;44.}
 let samples = seq{groupA;groupB;groupC}
 
 // calculation of p-Value
+HTest.createHTest samples 
+
+(*
+        { Statistic = 6.72
+        DegreesOfFreedom = 2.0
+        PValueLeft = 0.9652647411
+        PValueRight = 0.03473525894
+        PValue = 0.06947051789 }
+*)
+// PValueRight equals the alpha level 
+
+(**
+The implemented H-test is testing for double values in the data. 
+Double values lead to ties in the ranking, and are corrected by using a correction factor. 
+*)

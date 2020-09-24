@@ -6,7 +6,7 @@ module HTest =
     open FSharp.Stats
     // H-test / one-way ANOVA of ranks 
     // input : seq{seq<float>} 
-    let htest (samples : seq<#seq<float>>) = 
+    let createHTest (samples : seq<#seq<float>>) = 
         // calculating n for each group 
         let n = Seq.map Seq.length samples |> Seq.map float  
     
