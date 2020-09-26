@@ -9,6 +9,7 @@ module RunTests =
     let main args =
         //================================ Matrix ===============================================================
         Tests.runTestsWithArgs defaultConfig args MatrixTests.testFloatImplementationDense |> ignore
+        Tests.runTestsWithArgs defaultConfig args VectorTests.testCovariance |> ignore
 
         //=========================== Special Functions =========================================================
         Tests.runTestsWithArgs defaultConfig args SpecialFunctionsTests.testGammaFunctions |> ignore
