@@ -2,6 +2,7 @@
 open Expecto
 
 module DistributionsTests =
+    open System
     open FSharp.Stats.Distributions
     open Distance.OneDimensional
     [<Tests>]
@@ -25,4 +26,32 @@ module DistributionsTests =
                 let yWeights =  [|7.6; 8.8|]
                 let distance = energyDistanceWeighted xs ys xWeights yWeights
                 Expect.floatClose Accuracy.high distance 0.88003340976158217 "Should be equal (double precision)"
+        ]
+
+    [<Tests>]
+    let testChiSquared =
+        //TestCases from Williams RBG, Introduction to Statistics for Geographers and Earth Scientist, 1984, DOI 10.1007/978-1-349-06815-9 p 333
+        testList "Distributions.ChiSquared" [
+            testCase "CDF.testCase1" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 20. 12.443)
+                Expect.isTrue (Math.Round(testCase,3) = 0.900) "Should be equal"
+            testCase "CDF.testCase12" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 3. 1.424)
+                Expect.isTrue (Math.Round(testCase,3) = 0.700) "Should be equal"
+            testCase "CDF.testCase13" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 100. 67.327)
+                Expect.isTrue (Math.Round(testCase,3) = 0.995) "Should be equal"
+            testCase "CDF.testCase14" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 100. 129.561)
+                Expect.isTrue (Math.Round(testCase,3) = 0.025) "Should be equal"
+        //TestCases from https://www.analyticscalculators.com/calculator.aspx?id=63
+            testCase "PDF.testCase1" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 2. 4.7
+                Expect.floatClose Accuracy.low testCase 0.04768458 "Should be equal"
+            testCase "PDF.testCase2" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 20.0 4.7
+                Expect.floatClose Accuracy.low testCase 0.00028723 "Should be equal"
+            testCase "PDF.testCase3" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 100. 80.
+                Expect.floatClose Accuracy.low testCase 0.01106689 "Should be equal"
         ]
