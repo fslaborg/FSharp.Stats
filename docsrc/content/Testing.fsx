@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../bin/FSharp.Stats/net47"
+#I "../../bin/FSharp.Stats/netstandard2.0"
 #r @"FSharp.Stats.dll"
 #r "netstandard.dll"
 #r @"../../lib/Formatting/FSharp.Plotly.dll"
@@ -326,13 +326,18 @@ let fTestFromParameters = FTest.testVariancesFromVarAndDof sampleF1 sampleF2
 *)
 
 (** 
-##H-Test
-The H test is also known as Kruskal-Wallis one-way analysis-of-variance-by-ranks and is the nonparametric equivalent of one-way ANOVA. 
-It is a non-parametric test for comparing the means of more than two independent samples (equal or different sample size), and therefor is an extension of Wilcoxon-Mann-Whitney two sample test.
+##H Test
+The H test is also known as Kruskal-Wallis one-way analysis-of-variance-by-ranks and is the non-parametric equivalent of one-way ANOVA. 
+It is a non-parametric test for comparing the means of more than two independent samples (equal or different sample size), and therefore is an extension of Wilcoxon-Mann-Whitney two sample test.
 Testing with H test gives information whether the samples are from the same distribution.
-A benefit of the H-test is that it does not require normal distribution of the samples.
-The downside is that there is no information which samples are different from each other, or how many differences occur. For further investigation a Post Hoc test is recommended. 
-The distribution of the H test statistic is approximated by chi-square distribution with degrees of freedom - 1. 
+
+A benefit of the H test is that it does not require normal distribution of the samples.
+The downside is that there is no information which samples are different from each other, or how many differences occur. For further investigation a post hoc test is recommended. 
+
+The distribution of the H test statistic is approximated by chi-square distribution with degrees of freedom = sample count - 1. 
+
+The implemented H-test is testing for duplicate values in the data. 
+Duplicates lead to ties in the ranking, and are corrected by using a correction factor. 
 
 Prerequisites:
 
@@ -342,37 +347,26 @@ Prerequisites:
 
   - nominal scale, ordinal scale, ratio scale or interval scale data
 
-
 References:
 
   - E. Ostertagová,  Methodology and Application of the Kruskal-Wallis Test (2014)
 
   - Y. Chan, RP Walmsley, Learning and understanding the Kruskal-Wallis one-way analysis-of-variance-by-ranks test for differences among three or more independent groups (1997)
 
-*H-test*
 *)
 
-// input : seq{seq<float>} 
-let groupA = seq {23.;41.;54.;66.;78.} 
-let groupB = seq {45.;55.;60.;70.;72.}
-let groupC = seq {18.;30.;34.;40.;44.} 
-let samples = seq{groupA;groupB;groupC}
+let groupA = [44.;44.;54.;32.;21.;28.]
+let groupB = [70.;77.;48.;64.;71.;75.]
+let groupC = [80.;76.;34.;80.;73.;80.] 
+let samples = [groupA;groupB;groupC]
 
-// calculation of p-Value
-HTest.createHTest samples 
+// calculation of the H test 
+let hResult = HTest.createHTest samples 
 
-(*
-        { Statistic = 6.72
-        DegreesOfFreedom = 2.0
-        PValueLeft = 0.9652647411
-        PValueRight = 0.03473525894
-        PValue = 0.06947051789 }
-*)
-// PValueRight equals the alpha level 
+(*** include-value:hResult ***)
 
 (**
-The implemented H-test is testing for double values in the data. 
-Double values lead to ties in the ranking, and are corrected by using a correction factor. 
+_PValueRight is significant at a alpha level of 0.05_
 *)
 
 
