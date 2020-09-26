@@ -347,7 +347,7 @@ module Vector =
     let inline covPopulation (v1:vector) (v2:vector) = 
         if v1.Length <> v2.Length then failwith "Vectors need to have the same length." 
         let rec loop n sumMul sumX sumY = 
-            if n = v1.Length-1 then
+            if n = v1.Length then
                 sumMul,sumX,sumY 
             else 
                 loop (n+1) (sumMul + (v1.[n]*v2.[n])) (sumX+v1.[n]) (sumY+v2.[n]) 
@@ -358,7 +358,7 @@ module Vector =
     let inline cov (v1:vector) (v2:vector) = 
         if v1.Length <> v2.Length then failwith "Vectors need to have the same length." 
         let rec loop n sumMul sumX sumY = 
-            if n = v1.Length-1 then
+            if n = v1.Length then
                 sumMul,sumX,sumY 
             else 
                 loop (n+1) (sumMul + (v1.[n]*v2.[n])) (sumX+v1.[n]) (sumY+v2.[n]) 
