@@ -18,6 +18,7 @@ module RunTests =
         //=========================== Distributions =========================================================
         Tests.runTestsWithArgs defaultConfig args DistributionsTests.testDistanceFunctions |> ignore
         Tests.runTestsWithArgs defaultConfig args DistributionsTests.testChiSquared        |> ignore
+        Tests.runTestsWithArgs defaultConfig args DistributionsTests.testStudentizedRange  |> ignore
 
         //================================== ML =================================================================
         //SimilarityMetrics

@@ -55,3 +55,21 @@ module DistributionsTests =
                 let testCase = Continuous.ChiSquared.PDF 100. 80.
                 Expect.floatClose Accuracy.low testCase 0.01106689 "Should be equal"
         ]
+
+    [<Tests>]
+    let testStudentizedRange =
+        //TestCases from Lawal B, Applied Statistical Methods in Agriculture, Health and Life Sciences, DOI 10.1007/978-3-319-05555-8, 2014
+        testList "Distributions.studentizedRange" [
+            testCase "CDF.testCase_0.95_1" <| fun () ->
+                let testCase = 1. - (Continuous.StudentizedRange.CDF 3.46 2. 6. 1. None true)
+                Expect.isTrue (Math.Round(testCase,4) = 0.05) "Should be equal"
+            testCase "CDF.testCase_0.95_2" <| fun () ->
+                let testCase = 1. - (Continuous.StudentizedRange.CDF 2.83 2. 60. 1. None true)
+                Expect.isTrue (Math.Round(testCase,3) = 0.05) "Should be equal"
+            testCase "CDF.testCase_0.95_3" <| fun () ->
+                let testCase = 1. - (Continuous.StudentizedRange.CDF 7.59 20. 6. 1. None true)
+                Expect.isTrue (Math.Round(testCase,3) = 0.05) "Should be equal"
+            testCase "CDF.testCase_0.95_4" <| fun () ->
+                let testCase = 1. - (Continuous.StudentizedRange.CDF 5.24 20. 60. 1. None true)
+                Expect.isTrue (Math.Round(testCase,3) = 0.05) "Should be equal"            
+        ]
