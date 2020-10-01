@@ -64,19 +64,26 @@ module PostHoc =
     // https://brownmath.com/stat/anova1.htm
     /// Tukey-Kramer approach
     let tukeyHSD (contrastMatrix:float[][]) (data:float[][]) =
-
+        
         let calcStats (msw:float) (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =   
-            let l           =  Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast 
+            // Sum of means, that are taken into account by the current contrast (scaled by contrast values)
+            // if -1 and 1 than l is the difference of the sample means, that should be compared
+            let l =  
+                Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast 
+                |> System.Math.Abs
+            // MS_error/n_i + MS_error/n_j
             let denominator = (Array.map2 (fun a n -> (abs a) * (msw / (float n))) contrast sampleSizes) |> Array.sum
-            ((l / (sqrt (denominator))),l)
-                
+            //returns the q statistic for studentized range table
+            ((l / (sqrt (denominator/2.))),l)
+            
         // Sample sizes
         let sizes = data |> Array.map (fun x -> x.Length)
         let totalSize = sizes |> Array.sum
-        let groupCount = data.Length
+        let groupCount = data.Length //k or r in studentized range distribution
+        
         // Degrees of freedom
         let Db = float(groupCount - 1)
-        let Dw = float(totalSize - groupCount)
+        let Dw = float(totalSize - groupCount) //v in studentized range distribution
         let Dt = groupCount * totalSize - 1
 
         // Step 1. Calculate the mean within each group
@@ -89,13 +96,14 @@ module PostHoc =
         // Step 3. 
         let stats = contrastMatrix |> Array.map (fun ar -> calcStats MSw sizes sampleMeans ar)
     
-        // Step 4. Calculate the F statistic per contrast
-        Array.mapi  (fun i (tValue,l)  ->
-                            if nan.Equals(tValue) then
-                                createContrast i l Db MSw nan nan Sw  
+        // Step 4. Calculate the q statistic per contrast
+        Array.mapi  (fun i (qValue,l)  ->
+                            if nan.Equals(qValue) then
+                                createContrast i l Dw MSw nan nan Sw  
                             else
-                                let TTest = createTTest tValue Dw
-                                createContrast i l Db MSw TTest.PValue TTest.Statistic Sw
+                                let significance = 
+                                    1. - Distributions.Continuous.StudentizedRange.CDF qValue (float groupCount) Dw 1. None true
+                                createContrast i l Db MSw significance qValue Sw
                                       
                     ) stats
 

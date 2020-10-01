@@ -40,7 +40,7 @@ module Correlation =
     /// Contains correlation functions optimized for sequences
     [<AutoOpen>]
     module Seq = 
-        /// Pearson correlation 
+        /// Calculates the pearson correlation of two samples. Homoscedasticity must be assumed.
         let inline pearson (seq1:seq<'T>) (seq2:seq<'T>) : float =
             let seq1' = seq1 |> Seq.map float
             let seq2' = seq2 |> Seq.map float

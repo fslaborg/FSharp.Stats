@@ -647,6 +647,8 @@ module Continuous =
         /// q:qValue r:number of treatments v:df (n-r) c:1.
         /// Integration can be performed in parallel using PSeq
         static member CDF q r v c accuracy computeParallel =
+            // An alternative (not implemented) algorithm makes use of t statistic to approximate q quite accurate: 
+            // An accurate, non-iterativeapproximation for studentizedrange quantiles John R. Gleason ,Computational Statistics & Data Analysis 31 (1999) 147           
             let _accuracy   = defaultArg accuracy 2000.
     
             studentizedRangeCheckParam q r v
@@ -675,7 +677,7 @@ module Continuous =
                     if not (Precision.almostEqualNorm bordercase (10.**(-20.))) then 
                         printfn "Warning: Integral in q distribution F(q) does not end at y=0 but at y=%.12f. Extend border [0,50]!" bordercase
                 if computeParallel then DefiniteIntegral.integratePSeq DefiniteIntegral.midRect com 0. 50. _accuracy           
-                else DefiniteIntegral.integrate DefiniteIntegral.midRect com 0. 50. _accuracy           
+                else DefiniteIntegral.integrate DefiniteIntegral.midRect com 0. 50. _accuracy
             f q r v c
 
             //Lawal B, Applied Statistical Methods in Agriculture, Health and Life Sciences, DOI 10.1007/978-3-319-05555-8, 2014
