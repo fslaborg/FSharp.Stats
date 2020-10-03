@@ -23,121 +23,6 @@ in a sample of data to infer that a certain condition is true for the entire pop
 A hypothesis test examines two opposing hypotheses about a population: the null hypothesis and the alternative hypothesis.
 <a name="TestStatistics"></a>
 ##Test Statistics
-<a name="Anova"></a>
-##Anova
-*)
-
-open FSharp.Stats
-open FSharp.Stats.Testing
-
-// http://astatsa.com/OneWay_Anova_with_TukeyHSD/
-let dataOneWay =
-    [|
-    [|0.28551035; 0.338524035; 0.088313218; 0.205930807; 0.363240102;|];
-    [|0.52173913; 0.763358779; 0.32546786; 0.425305688; 0.378071834; |];
-    [|0.989119683; 1.192718142; 0.788288288; 0.549176236; 0.544588155;|];
-    [|1.26705653; 1.625320787; 1.266108976; 1.154187629; 1.268498943;|]// 1.069518717;|];
-    |]
-
-let contrastMatrix = 
-    [| 
-    [|1.0;-1.0;0.0;0.0;|]
-    [|1.0;0.0;-1.0;0.0;|]
-    [|1.0;0.0;0.0;-1.0;|]
-    [|0.0;1.0;-1.0;0.0;|]
-    [|0.0;1.0;0.0;-1.0;|]
-    [|0.0;0.0;1.0;-1.0;|]
-    |]
-
-let oneWayResult = Anova.oneWayAnova dataOneWay
-
-(*** include-value:oneWayResult ***)
-
-(*
-anovaResult.Factor.Statistic = 27.758
-The factor statistic indicates how much more variability there is between the the samples 
-than within the samples.
-anovaResult.Factor.PValue = 1.406712119e-06
-A strong significant p value in the factor field indicates that one or more means differ from each other
-*)
-
-// https://www.wessa.net/rwasp_Two%20Factor%20ANOVA.wasp
-
-let data =
-    [
-        (0.28, 'A', 'M');
-        (0.95, 'A', 'M');
-        (0.96, 'A', 'M');
-        (0.97, 'A', 'M');
-        (0.40, 'A', 'M');
-        (0.18, 'A', 'M');
-        (0.12, 'A', 'M');
-        (0.62, 'A', 'M');
-        (1.81, 'A', 'F');
-        (1.51, 'A', 'F');
-        (1.41, 'A', 'F');
-        (1.39, 'A', 'F');
-        (1.20, 'A', 'F');
-        (1.55, 'A', 'F');
-        (1.48, 'A', 'F');
-        (1.25, 'A', 'F');
-        (0.95, 'B', 'M');
-        (1.33, 'B', 'M');
-        (0.92, 'B', 'M');
-        (0.85, 'B', 'M');
-        (1.06, 'B', 'M');
-        (0.69, 'B', 'M');
-        (0.70, 'B', 'M');
-        (0.79, 'B', 'M');
-        (2.93, 'B', 'F');
-        (3.24, 'B', 'F');
-        (3.42, 'B', 'F');
-        (2.79, 'B', 'F');
-        (2.54, 'B', 'F');
-        (3.28, 'B', 'F');
-        (2.80, 'B', 'F');
-        (3.40, 'B', 'F');
-    ]
-    //f1
-    |> Seq.groupBy (fun (v,f1,f2) -> f1)
-    //f2
-    |> Seq.map (fun (k,vls) -> 
-        vls 
-        |> Seq.groupBy (fun (v,f1,f2) -> f2)
-        |> Seq.map (fun (k,vls') -> vls' |> Seq.map (fun (v,f1,f2) -> v) |> Seq.toArray)
-        |> Seq.toArray
-        ) 
-    |> Seq.toArray
-    
-
-Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data
-
-
-// http://statweb.stanford.edu/~susan/courses/s141/exanova.pdf
-// http://scistatcalc.blogspot.de/2013/11/two-factor-anova-test-calculator.html#
-
-let data' =
-    [|
-      // super
-        // cold super
-      [|[|4.;5.;6.;5.;|];
-        // warm super
-        [|7.;9.;8.;12.;|];
-        // hot super
-        [|10.;12.;11.;9.; |]|];
-      // best 
-        // cold best
-      [|[|6.;6.;4.;4.;|];
-        // warm best
-        [|13.;15.;12.;12.;|];
-        // hot best
-        [|12.;13.;10.;13.;|]|]
-    |]
-
-Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
-
-
-(**
 <a name="TTest"></a>
 ##T-Test
 
@@ -172,6 +57,9 @@ By using a t test a difference of means can be evaluated. There are different ki
 *Case 1: One sample t test*
 
 *)
+
+open FSharp.Stats
+open FSharp.Stats.Testing
 
 let sampleA = vector [|4.5; 5.1; 4.8; 4.4; 5.0|]
 
@@ -253,6 +141,118 @@ let welch = TTest.twoSample false sampleW1 sampleW2
     The test returns a not significant p value:
     welch.PValue = 0.1725626595
 *)
+
+(**
+<a name="Anova"></a>
+##Anova
+*)
+
+
+let dataOneWay =
+    [|
+    [|0.28551035; 0.338524035; 0.088313218; 0.205930807; 0.363240102;|];
+    [|0.52173913; 0.763358779; 0.32546786; 0.425305688; 0.378071834; |];
+    [|0.989119683; 1.192718142; 0.788288288; 0.549176236; 0.544588155;|];
+    [|1.26705653; 1.625320787; 1.266108976; 1.154187629; 1.268498943; 1.069518717;|];
+    |]
+
+let contrastMatrix = 
+    [| 
+    [|1.0;-1.0;0.0;0.0;|]
+    [|1.0;0.0;-1.0;0.0;|]
+    [|1.0;0.0;0.0;-1.0;|]
+    [|0.0;1.0;-1.0;0.0;|]
+    [|0.0;1.0;0.0;-1.0;|]
+    [|0.0;0.0;1.0;-1.0;|]
+    |]
+
+let oneWayResult = Anova.oneWayAnova dataOneWay
+
+(*** include-value:oneWayResult ***)
+
+(*
+anovaResult.Factor.Statistic = 27.758
+The factor statistic indicates how much more variability there is between the the samples 
+than within the samples.
+anovaResult.Factor.PValue = 1.406712119e-06
+A strong significant p value in the factor field indicates that one or more means differ from each other
+*)
+// http://astatsa.com/OneWay_Anova_with_TukeyHSD/
+// https://www.wessa.net/rwasp_Two%20Factor%20ANOVA.wasp
+
+let data =
+    [
+        (0.28, 'A', 'M');
+        (0.95, 'A', 'M');
+        (0.96, 'A', 'M');
+        (0.97, 'A', 'M');
+        (0.40, 'A', 'M');
+        (0.18, 'A', 'M');
+        (0.12, 'A', 'M');
+        (0.62, 'A', 'M');
+        (1.81, 'A', 'F');
+        (1.51, 'A', 'F');
+        (1.41, 'A', 'F');
+        (1.39, 'A', 'F');
+        (1.20, 'A', 'F');
+        (1.55, 'A', 'F');
+        (1.48, 'A', 'F');
+        (1.25, 'A', 'F');
+        (0.95, 'B', 'M');
+        (1.33, 'B', 'M');
+        (0.92, 'B', 'M');
+        (0.85, 'B', 'M');
+        (1.06, 'B', 'M');
+        (0.69, 'B', 'M');
+        (0.70, 'B', 'M');
+        (0.79, 'B', 'M');
+        (2.93, 'B', 'F');
+        (3.24, 'B', 'F');
+        (3.42, 'B', 'F');
+        (2.79, 'B', 'F');
+        (2.54, 'B', 'F');
+        (3.28, 'B', 'F');
+        (2.80, 'B', 'F');
+        (3.40, 'B', 'F');
+    ]
+    //f1
+    |> Seq.groupBy (fun (v,f1,f2) -> f1)
+    //f2
+    |> Seq.map (fun (k,vls) -> 
+        vls 
+        |> Seq.groupBy (fun (v,f1,f2) -> f2)
+        |> Seq.map (fun (k,vls') -> vls' |> Seq.map (fun (v,f1,f2) -> v) |> Seq.toArray)
+        |> Seq.toArray
+        ) 
+    |> Seq.toArray
+    
+
+Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data
+
+
+// http://statweb.stanford.edu/~susan/courses/s141/exanova.pdf
+// http://scistatcalc.blogspot.de/2013/11/two-factor-anova-test-calculator.html#
+
+let data' =
+    [|
+      // super
+        // cold super
+      [|[|4.;5.;6.;5.;|];
+        // warm super
+        [|7.;9.;8.;12.;|];
+        // hot super
+        [|10.;12.;11.;9.; |]|];
+      // best 
+        // cold best
+      [|[|6.;6.;4.;4.;|];
+        // warm best
+        [|13.;15.;12.;12.;|];
+        // hot best
+        [|12.;13.;10.;13.;|]|]
+    |]
+
+Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
+
 
 (**
 <a name = "FTest"></a>
@@ -536,35 +536,18 @@ let contrastMatrixHSD =
     [|0.; 0.; 1.;-1.;|] // sample 3 is compared to sample 4
     |]
 
+let hsdResult = tukeyHSD contrastMatrixHSD hsdExample 
 
-let hsdExample' = 
-    [|
-        [|0.0571;0.0813;0.0831;0.0976;0.0817;0.0859;0.0735;0.0659;0.0923;0.0836;|] 
-        [|0.0873;0.0662;0.0672;0.0819;0.0749;0.0649;0.0835;0.0725;|] 
-        [|0.0974;0.1352;0.0817;0.1016;0.0968;0.1064;0.105;|] 
-        [|0.1033;0.0915;0.0781;0.0685;0.0677;0.0697;0.0764;0.0689;|]    
-        [|0.0703;0.1026;0.0956;0.0973;0.1039;0.1045;|]
-    |]
+(*** hide ***)
+let tukeySignificance = 
+    hsdResult
+    |> Array.map (fun x -> 
+        sprintf "%5i\t%6f\t%f\t%f" x.Index x.L x.Statistic x.Significance)
+    |> fun x -> 
+        Array.append [|"index\tmeanDiff\tqStatistic\tpValue"|] x
+        |> String.concat "\n"
 
-let contrastMatrixHSD' = 
-    [| 
-    [|1.;-1.; 0.; 0.; 0.;|] // sample 1 is compared to sample 2
-    [|1.; 0.;-1.; 0.; 0.;|] // sample 1 is compared to sample 3
-    [|1.; 0.; 0.;-1.; 0.;|] 
-    [|1.; 0.; 0.; 0.;-1.;|] 
-    [|0.; 1.;-1.; 0.; 0.;|]
-    [|0.; 1.; 0.;-1.; 0.;|]
-    [|0.; 1.; 0.; 0.;-1.;|]
-    [|0.; 0.; 1.;-1.; 0.;|] // sample 3 is compared to sample 4
-    [|0.; 0.; 1.; 0.;-1.;|] // sample 3 is compared to sample 4
-    [|0.; 0.; 0.; 1.;-1.;|] // sample 3 is compared to sample 4
-    |]
-
-let hsdResult = tukeyHSD contrastMatrixHSD' hsdExample' 
-
-tukeyHSD contrastMatrix dataOneWay
-
-
+(*** include-value:tukeySignificance ***)
 
 (*
     For every generated contrast an output p value is calculated.
@@ -577,12 +560,12 @@ tukeyHSD contrastMatrix dataOneWay
     hsdResult.[5].Significance = 0.0255
 *)
 
-TTest.twoSample true (vector hsdExample'.[0]) (vector hsdExample'.[1]) //0.07290  //0.0661  
-TTest.twoSample true (vector hsdExample'.[0]) (vector hsdExample'.[2]) //0.56924  //0.5681  
-TTest.twoSample true (vector hsdExample'.[0]) (vector hsdExample'.[3]) //0.15523  //0.1491  
-TTest.twoSample true (vector hsdExample'.[1]) (vector hsdExample'.[2]) //0.11167  //0.1099  
-TTest.twoSample true (vector hsdExample'.[1]) (vector hsdExample'.[3]) //0.00055  //0.00055 
-TTest.twoSample true (vector hsdExample'.[2]) (vector hsdExample'.[3]) //0.02419  //0.02357 
+//TTest.twoSample true (vector hsdExample.[0]) (vector hsdExample.[1])
+//TTest.twoSample true (vector hsdExample.[0]) (vector hsdExample.[2])
+//TTest.twoSample true (vector hsdExample.[0]) (vector hsdExample.[3])
+//TTest.twoSample true (vector hsdExample.[1]) (vector hsdExample.[2])
+//TTest.twoSample true (vector hsdExample.[1]) (vector hsdExample.[3])
+//TTest.twoSample true (vector hsdExample.[2]) (vector hsdExample.[3])
 
 (**
 ###Dunnetts test
