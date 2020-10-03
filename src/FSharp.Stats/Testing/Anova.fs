@@ -84,7 +84,10 @@ module Anova =
         // Step 1. Calculate the mean within each group
         let means = samples |> Seq.map (fun x -> Seq.mean(x))
         // Step 2. Calculate the overall mean
-        let totalMean = Seq.mean(means)
+        let totalMean = 
+            Seq.map2 (fun y n -> y * float n) means sizes
+            |> Seq.sum
+            |> fun x -> x / float totalSize
         // Step 3. Calculate the "between-group" sum of squares        
         let Sb = Seq.map2 (fun v size -> ((v - totalMean)**2.0) * float(size)) means sizes |> Seq.sum
         // Step 4. Calculate the "within-group" sum of squares
