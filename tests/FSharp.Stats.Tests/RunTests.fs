@@ -15,10 +15,13 @@ module RunTests =
         Tests.runTestsWithArgs defaultConfig args SpecialFunctionsTests.testGammaFunctions |> ignore
         Tests.runTestsWithArgs defaultConfig args SpecialFunctionsTests.testBetaFunctions  |> ignore
         
-        //=========================== Distributions =========================================================
+        //============================= Distributions ===========================================================
         Tests.runTestsWithArgs defaultConfig args DistributionsTests.testDistanceFunctions |> ignore
         Tests.runTestsWithArgs defaultConfig args DistributionsTests.testChiSquared        |> ignore
         Tests.runTestsWithArgs defaultConfig args DistributionsTests.testStudentizedRange  |> ignore
+
+        //================================ Testing ==============================================================
+        Tests.runTestsWithArgs defaultConfig args TestingTests.testPostHoc |> ignore
 
         //================================== ML =================================================================
         //SimilarityMetrics

@@ -36,7 +36,6 @@ module SpecialFunctionsTests =
 
             testCase "test_gammaincinf" <| fun () ->
                 let gam = Gamma.lowerIncomplete 0.5 Ops.inf
-                printfn "%f" gam
                 Expect.equal gam 1.0 "Should be equal"
 
             testCase "test_gammaincupper" <| fun () ->
@@ -48,10 +47,8 @@ module SpecialFunctionsTests =
                 let gam = Gamma.upperIncomplete -1. 1.
                 Expect.isTrue (nan.Equals(gam)) "IsNan"
 
-
             testCase "test_gammaincupperinf" <| fun () ->
                 let gam = Gamma.upperIncomplete 0.5 Ops.inf
-                printfn "%f" gam
                 Expect.equal gam 1.0 "Should be equal"
 
         ]    
