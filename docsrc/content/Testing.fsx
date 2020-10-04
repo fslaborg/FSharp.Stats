@@ -367,6 +367,8 @@ let hResult = HTest.createHTest samples
 
 (**
 _PValueRight is significant at a alpha level of 0.05_
+
+A suitable post hoc test for H tests is Dunn's test.
 *)
 
 

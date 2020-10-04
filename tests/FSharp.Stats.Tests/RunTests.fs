@@ -22,6 +22,7 @@ module RunTests =
 
         //================================ Testing ==============================================================
         Tests.runTestsWithArgs defaultConfig args TestingTests.testPostHoc |> ignore
+        Tests.runTestsWithArgs defaultConfig args TestingTests.hTest |> ignore
 
         //================================== ML =================================================================
         //SimilarityMetrics
