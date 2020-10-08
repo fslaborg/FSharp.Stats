@@ -62,7 +62,36 @@ module TestingTests =
         testList "Testing.HTest" [
             testCase "createHTest" <| fun () -> 
                 Expect.isTrue (0.03781 = Math.Round(hResult.PValueRight,5)) "pValue should be equal."
-                Expect.isTrue (6.5502  = Math.Round(hResult.Statistic,4)) "pValue should be equal."
+                Expect.isTrue (6.5502  = Math.Round(hResult.Statistic,4)) "statistic should be equal."
                 
         ]
 
+    let chiSquared = 
+        // ChiSquared https://www.graphpad.com/quickcalcs/chisquared2/
+        // example from R
+        // obs <- c(315, 101, 108, 32)
+        // exp <- c(0.5625, 0.1875, 0.1875, 0.0625) 
+        // chisq.test(obs, p = exp)
+        let testCase1 =
+            let expected = [312.75;104.25;104.25;34.75]
+            let observed = [315.;101.;108.;32.]
+            let df = expected.Length - 1
+            ChiSquareTest.compute df expected observed
+
+        //obs <- c(315, 101, 80, 32, 50)
+        //exp <- c(0.5625, 0.1875, 0.0875, 0.0625,0.1) 
+        //chisq.test(obs, p = exp)
+        let testCase2 =
+            let expected = [325.125;108.375;50.575;36.125;57.8]
+            let observed = [315.;101.;80.;32.;50.] 
+            let df = expected.Length - 1
+            ChiSquareTest.compute df expected observed
+        
+        testList "Testing.ChiSquaredTest" [
+            testCase "compute" <| fun () -> 
+                Expect.isTrue (0.9254 = Math.Round(testCase1.PValueRight,4)) "pValue should be equal."
+                Expect.isTrue (0.4700 = Math.Round(testCase1.Statistic,4)) "statistic should be equal."
+                Expect.isTrue (0.000638 = Math.Round(testCase2.PValueRight,6)) "pValue should be equal."
+                Expect.isTrue (19.461 = Math.Round(testCase2.Statistic,3)) "statistic should be equal."
+            
+        ]

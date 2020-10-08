@@ -9,7 +9,7 @@ module RunTests =
     let main args =
         //================================ Matrix ===============================================================
         Tests.runTestsWithArgs defaultConfig args MatrixTests.testFloatImplementationDense |> ignore
-        Tests.runTestsWithArgs defaultConfig args VectorTests.testCovariance |> ignore
+        Tests.runTestsWithArgs defaultConfig args VectorTests.testCovariance               |> ignore
 
         //=========================== Special Functions =========================================================
         Tests.runTestsWithArgs defaultConfig args SpecialFunctionsTests.testGammaFunctions |> ignore
@@ -22,7 +22,8 @@ module RunTests =
 
         //================================ Testing ==============================================================
         Tests.runTestsWithArgs defaultConfig args TestingTests.testPostHoc |> ignore
-        Tests.runTestsWithArgs defaultConfig args TestingTests.hTest |> ignore
+        Tests.runTestsWithArgs defaultConfig args TestingTests.hTest       |> ignore
+        Tests.runTestsWithArgs defaultConfig args TestingTests.chiSquared  |> ignore
 
         //================================== ML =================================================================
         //SimilarityMetrics
