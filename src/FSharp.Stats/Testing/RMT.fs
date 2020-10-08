@@ -2,7 +2,8 @@ namespace FSharp.Stats.Testing
 
 
 module RMT =
-
+    // implementation from:
+    // Luo et al., Constructing gene co-expression networks and predicting functions of unknown genes by random matrix theory. BMC Bioinformatics 8, 299 (2007).
     open FSharp.Stats
 
     let private spectralUnfolding egvalues =  
@@ -63,7 +64,7 @@ module RMT =
         chiSquared
 
         
-    ///Computes the critical Threshold for which the NNSD of the matrix significantly abides from the Wigner-Surmise
+    /// Computes the critical Threshold for which the NNSD of the matrix significantly abides from the Wigner-Surmise
     /// bwQuantile uses % data to calculate a more robust histogram //0.9 0.01 0.05
     /// to reduce the search space for the threshold you can restrict the range to [leftBorder,rightBorder]
     let computeWithInterval (bwQuantile : float) accuracy (sigCriterion : float) (m:float[,]) (leftBorder,rightBorder)=
@@ -76,13 +77,13 @@ module RMT =
                 |> computeChiSquared bwQuantile
 
             if right - left > accuracy then 
-                if chi.PValue <= sigCriterion  then
+                if chi.PValueRight <= sigCriterion  then
                     // jump left
                     stepSearch chi left thr
                 else
                     stepSearch previousChi thr right
             else
-                if chi.PValue <= sigCriterion  then
+                if chi.PValueRight <= sigCriterion  then
                     thr,chi
                 else 
                     right,previousChi

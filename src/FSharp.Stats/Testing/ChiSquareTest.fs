@@ -33,11 +33,17 @@
 /// 
 module ChiSquareTest =
 
+    open System
     open FSharp.Stats
 
     /// Computes the Chi-Square test
-    // n data points -> degrees of freedom = n - 1
+    /// n data points -> degrees of freedom = n - 1 
     let compute (degreesOfFreedom:int) (expected:seq<float>) (observed:seq<float>) =
+        //let chechParams =
+        //    if expected |> Seq.exists (fun x -> abs x < 5.) then printfn "Warning: A value less than 5 is present in expected values. Results may not be correct!"
+        //    let sumEx = Seq.sum expected
+        //    let sumOb = Seq.sum observed
+        //    if Math.Round(sumEx,1) <> Math.Round(sumOb,1) then printfn "Warning: The sum of observed values does not match the sum of expected values. SumEx: %.3f SumOb: %.3f" sumEx sumOb
         let chi2 =
             Seq.zip observed expected
             |> Seq.fold (fun acc (obs,exp) -> 
