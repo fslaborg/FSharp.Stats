@@ -61,11 +61,11 @@ module Filtering =
         ///             
         let correlate_valid (x:Vector<float>) (y:Vector<float>) =
             if x.Length >= y.Length then 
-                vector [Vector.dot x y]
+                [|Vector.dot x y|]
             else
                 let n = x.Length
-                vector [ for i=1 to y.Length-n do
-                            yield Vector.dot x y.[i..i+n-1] ]
+                [|for i=1 to y.Length-n do
+                        yield Vector.dot x y.[i..i+n-1] |]
 
 
         if window_size % 2 <> 1 || window_size < 1 then
@@ -110,10 +110,11 @@ module Filtering =
             windowWidthToTest'
             |> Array.map (fun w ->
                           let smoothedY = filterF w signalOfInterest
-                          let noise = smoothedY - (signalOfInterest')
+                          let noise = (vector smoothedY) - (signalOfInterest')
                           w, Correlation.Vector.autoCorrelation 1 noise
                          )
             |> Array.minBy (fun (w,ac) -> (ac - noiseAutoCorr) |> abs ) 
             |> fst
         optimizedWindowWidth          
 
+        
