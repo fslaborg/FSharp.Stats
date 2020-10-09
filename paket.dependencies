@@ -3,11 +3,11 @@ strategy: max
 
 source https://nuget.org/api/v2
 
-nuget FSharp.Core
+nuget FSharp.Core >= 4.7.2
 nuget Argu
 
-nuget FSharpAux
-nuget FSharpAux.IO
+nuget FSharpAux >= 1.0.0
+nuget FSharpAux.IO >= 1.0.0
 
 nuget Expecto
 nuget Expecto.BenchmarkDotNet
