@@ -10,7 +10,7 @@ open FSharp.Plotly
 Basic stats
 =========================
 
-**)
+*)
 #r "FSharp.Stats.dll"
 open FSharp.Stats
 
@@ -40,7 +40,7 @@ let rTv =
 // Mean 28.6
 (**
 $ \sum_{i=1}^{10} t_i $
-**)
+*)
 let mTv = 
     [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
     |> Seq.meanBy float
@@ -195,7 +195,7 @@ Array.quickSelect 1 d
 
 Quantile.mode 0.8  d
 
-(*** do-not-eval ***)
+(*** hide ***)
 let pointChart = Chart.Point( y, x)
 (*** include-value:pointChart ***)
 

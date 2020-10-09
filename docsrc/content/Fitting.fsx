@@ -6,7 +6,10 @@
 #r "../../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
 #r @"../../lib/Formatting/FSharp.Plotly.dll"
 open FSharp.Plotly
-
+open FSharp.Plotly.Axis
+open FSharp.Plotly.StyleParam
+let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let styleChart xt yt c = c |> Chart.withX_Axis (myAxis xt) |> Chart.withY_Axis (myAxis yt)
 
 (**
 
@@ -77,6 +80,7 @@ let fittingRTO =
 let simpleLinearChart =
     [rawChart;fittingLS;fittingRTO;fittingRobust;] 
     |> Chart.Combine
+    |> styleChart "" ""
 
 (*** include-value:simpleLinearChart ***)
 
@@ -165,6 +169,7 @@ let fittingPolW =
 let polRegressionChart =
     [rawChartP;fittingPol;fittingPolW] 
     |> Chart.Combine
+    |> styleChart "" ""
 
 (*** include-value:polRegressionChart ***)
 
@@ -369,8 +374,7 @@ let fittedLogisticFunc =
     |> Chart.withTraceName "Fit"
     ]
     |> Chart.Combine
-    |> Chart.withY_AxisStyle "Count"
-    |> Chart.withX_AxisStyle "Time"
+    |> styleChart "Time" "Count"
 
 (*** include-value:fittedLogisticFunc ***)
 
@@ -430,6 +434,7 @@ let smoothingSplines =
     fit 1.
     ]
     |> Chart.Combine
+    |> styleChart "" ""
 
 (*** include-value:smoothingSplines ***)
 

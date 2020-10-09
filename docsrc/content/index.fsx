@@ -6,6 +6,12 @@
 #r "../../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
 #r "../../packages/formatting/FSharp.Plotly/lib/netstandard2.0/Fsharp.Plotly.dll"
 
+open FSharp.Plotly
+open FSharp.Plotly.Axis
+open FSharp.Plotly.StyleParam
+let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let styleChart xt yt c = c |> Chart.withX_Axis (myAxis xt) |> Chart.withY_Axis (myAxis yt)
+
 (**
 FSharp.Stats
 ======================
@@ -155,6 +161,7 @@ let combinedChart =
     let rawChart = Chart.Point(x_Data,y_Data)
     [rawChart;interpolChart;regressionChart]
     |> Chart.Combine
+    |> styleChart "" ""
 (**
 The resulting interpolating and regression polynomials are plotted below using [FSharp.Plotly](https://github.com/muehlhaus/FSharp.Plotly).
 

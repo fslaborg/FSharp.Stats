@@ -260,8 +260,11 @@ let reportBestFit =
 
 (*** include-value:reportBestFit ***)
 
+(**
+Subclassifaction returns pseudoextrema (plateaus and spots of little slope)
+*)
 
 let classification =
-    TemporalClassification.Classification.getClassification x_Values bestFit.TraceA bestFit.TraceC 0.05
+    TemporalClassification.Classification.getClassification x_Values bestFit.TraceA bestFit.TraceC 0.05 1.
 
 (*** include-value:classification ***)
