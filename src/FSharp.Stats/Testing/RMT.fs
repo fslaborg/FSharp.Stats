@@ -31,10 +31,10 @@ module RMT =
         |> Seq.windowed 2
         |> Seq.map (fun a -> a.[1] - a.[0])
 
-    let computeChiSquared (bwQuantile : float)  (m:float[,]) =
+    let computeChiSquared (bwQuantile : float)  (m:Matrix<float>) =
                 
         let unfoldedEgv = 
-            FSharp.Stats.Algebra.LinearAlgebra.EigenSpectrumWhenSymmetric (Matrix.ofArray2D m)
+            FSharp.Stats.Algebra.LinearAlgebra.EigenSpectrumWhenSymmetric m
             |> fun (eigenvectors,eigenvalues) -> 
                 let spUnfold =
                     eigenvalues 
@@ -67,13 +67,13 @@ module RMT =
     /// Computes the critical Threshold for which the NNSD of the matrix significantly abides from the Wigner-Surmise
     /// bwQuantile uses % data to calculate a more robust histogram //0.9 0.01 0.05
     /// to reduce the search space for the threshold you can restrict the range to [leftBorder,rightBorder]
-    let computeWithInterval (bwQuantile : float) accuracy (sigCriterion : float) (m:float[,]) (leftBorder,rightBorder)=
+    let computeWithInterval (bwQuantile : float) accuracy (sigCriterion : float) (m:Matrix<float>) (leftBorder,rightBorder) =
 
         let rec stepSearch previousChi left right =
             let thr = (left + right) / 2.
             let chi =
                 m
-                |> Array2D.map (fun v -> if abs v > thr then v else 0.)
+                |> Matrix.map (fun v -> if abs v > thr then v else 0.)
                 |> computeChiSquared bwQuantile
 
             if right - left > accuracy then 
@@ -93,7 +93,7 @@ module RMT =
 
     ///Computes the critical Threshold for which the NNSD of the matrix significantly abides from the Wigner-Surmise
     /// bwQuantile uses % data to calculate a more robust histogram //0.9 0.01 0.05
-    let compute (bwQuantile : float) accuracy (sigCriterion : float) (m:float[,]) =
+    let compute (bwQuantile : float) accuracy (sigCriterion : float) (m:Matrix<float>) =
         computeWithInterval bwQuantile accuracy sigCriterion m (0.,1.)
                 
             
