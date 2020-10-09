@@ -283,6 +283,20 @@ Target.create "NuGet" (fun _ ->
             ReleaseNotes = String.toLines release.Notes})
 )
 
+Target.create "PackPrerelease" (fun _ ->
+    printfn "Please enter pre-release package suffix"
+    let suffix = System.Console.ReadLine()
+    let prereleaseTag = (sprintf "%s-%s" release.NugetVersion suffix)
+    if promptYesNo (sprintf "package tag will be %s OK?" prereleaseTag ) then
+        Paket.pack(fun p ->
+            { p with
+                ToolPath = paketPath
+                OutputPath = "bin"
+                Version = prereleaseTag
+                ReleaseNotes = String.toLines release.Notes})
+    else failwith "packPrerelease aborted"
+)
+
 Target.create "PublishNuget" (fun _ ->
     Paket.push(fun p ->
         { p with
