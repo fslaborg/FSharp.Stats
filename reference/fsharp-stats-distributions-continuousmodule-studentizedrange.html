@@ -42,9 +42,9 @@
         <span>Parent Module: <a href="fsharp-stats-distributions-continuousmodule.html">Continuous</a></span><br />
     </p>
 <div class="xmldoc">
-<p>studentized range distribution. Used in Tukey's HSD post hoc test.
+<p>Studentized range (q) distribution. Used in Tukey's HSD post hoc test.
 method from: QUANTILES FROM THE MAXIMUM STUDENTIZED RANGE DISTRIBUTION, Ferreira, Rev. Mat. Estat., v.25, n.1, p.117-135, 2007
-table from: Tables of range and studentized range, Harter, 1960</p>
+table from: Tables of range and studentized range, Harter, 1960 and Lawal B, Applied Statistical Methods in Agriculture, Health and Life Sciences, DOI 10.1007/978-3-319-05555-8, 2014</p>
 
 </div>
   <h3>Static members</h3>
@@ -55,36 +55,37 @@ table from: Tables of range and studentized range, Harter, 1960</p>
     <tbody>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2215', 2215)" onmouseover="showTip(event, '2215', 2215)">
+          <code onmouseout="hideTip(event, '2218', 2218)" onmouseover="showTip(event, '2218', 2218)">
             StudentizedRange.CDF(...)
           </code>
-          <div class="tip" id="2215">
-            <strong>Signature:</strong> q:float -&gt; r:float -&gt; v:float -&gt; c:float -&gt; accuracy:float&lt;MeasureOne&gt; -&gt; computeParallel:bool -&gt; float<br />
+          <div class="tip" id="2218">
+            <strong>Signature:</strong> q:float -&gt; r:float -&gt; v:float -&gt; c:float -&gt; (accuracy:float&lt;MeasureOne&gt; option) -&gt; computeParallel:bool -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L651-651" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L649-649" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
           <p>Computes the cumulative density function.
-Accuracy defines the number of steps within the integration (Recommended: 1000 to 10,000).
-q:qValue r:sampleSize v:df c:1.</p>
+Accuracy defines the number of steps within the integration (Recommended: 1k-10k, default: 2k). pValue accuracy is minimum 3 digits for v&gt;3 at pValue=0.05.
+q:qValue r:number of treatments v:df (n-r) c:1.
+Integration can be performed in parallel using PSeq</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2216', 2216)" onmouseover="showTip(event, '2216', 2216)">
+          <code onmouseout="hideTip(event, '2219', 2219)" onmouseover="showTip(event, '2219', 2219)">
             StudentizedRange.Mean
           </code>
-          <div class="tip" id="2216">
+          <div class="tip" id="2219">
             <strong>Signature:</strong> float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L628-628" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L625-625" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -96,15 +97,15 @@ q:qValue r:sampleSize v:df c:1.</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2217', 2217)" onmouseover="showTip(event, '2217', 2217)">
+          <code onmouseout="hideTip(event, '2220', 2220)" onmouseover="showTip(event, '2220', 2220)">
             StudentizedRange.PDF
           </code>
-          <div class="tip" id="2217">
+          <div class="tip" id="2220">
             <strong>Signature:</strong> float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L645-645" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L642-642" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -116,15 +117,15 @@ q:qValue r:sampleSize v:df c:1.</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2218', 2218)" onmouseover="showTip(event, '2218', 2218)">
+          <code onmouseout="hideTip(event, '2221', 2221)" onmouseover="showTip(event, '2221', 2221)">
             StudentizedRange.Sample()
           </code>
-          <div class="tip" id="2218">
-            <strong>Signature:</strong> unit -&gt; &#39;?9302<br />
-                          <strong>Type parameters:</strong> '?9302                      </div>
+          <div class="tip" id="2221">
+            <strong>Signature:</strong> unit -&gt; &#39;?9307<br />
+                          <strong>Type parameters:</strong> '?9307                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L641-641" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L638-638" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -135,15 +136,15 @@ q:qValue r:sampleSize v:df c:1.</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2219', 2219)" onmouseover="showTip(event, '2219', 2219)">
+          <code onmouseout="hideTip(event, '2222', 2222)" onmouseover="showTip(event, '2222', 2222)">
             StudentizedRange.StandardDeviation
           </code>
-          <div class="tip" id="2219">
+          <div class="tip" id="2222">
             <strong>Signature:</strong> float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L636-636" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L633-633" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -155,15 +156,15 @@ q:qValue r:sampleSize v:df c:1.</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2220', 2220)" onmouseover="showTip(event, '2220', 2220)">
+          <code onmouseout="hideTip(event, '2223', 2223)" onmouseover="showTip(event, '2223', 2223)">
             StudentizedRange.Variance
           </code>
-          <div class="tip" id="2220">
+          <div class="tip" id="2223">
             <strong>Signature:</strong> float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L632-632" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L629-629" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
