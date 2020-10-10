@@ -87,3 +87,33 @@ module DistributionsTests =
                 let testCase = Continuous.StudentizedRange.CDF 11. 4. 36. 1. None false
                 Expect.floatClose Accuracy.medium testCase 1. "Should be equal"         
         ]
+
+    let testChi =
+        // TestCases from R: library(chi) function: dchi(x, dof)
+        testList "Distributions.chi" [
+            testCase "PDF.testCase_1" <| fun () ->
+                let testCase = Continuous.Chi.PDF 1. 1.
+                Expect.floatClose Accuracy.medium 0.4839414 testCase "Should be equal" 
+            testCase "PDF.testCase_2" <| fun () ->
+                let testCase = Continuous.Chi.PDF 1. 8.
+                Expect.floatClose Accuracy.veryHigh  1.010454e-14 testCase "Should be equal" 
+            testCase "PDF.testCase_3" <| fun () ->
+                let testCase = Continuous.Chi.PDF 8. 1.
+                Expect.floatClose Accuracy.medium 0.01263606 testCase "Should be equal" 
+            testCase "PDF.testCase_4" <| fun () ->
+                let testCase = Continuous.Chi.PDF 8. 8.
+                Expect.floatClose Accuracy.veryHigh 5.533058e-10 testCase "Should be equal" 
+            // TestCases from R: library(chi) function: pchi(x, dof)
+            testCase "CDF.testCase_1" <| fun () ->
+                let testCase = Continuous.Chi.CDF 1. 1.
+                Expect.floatClose Accuracy.medium testCase 0.6826895 "Should be equal"
+            testCase "CDF.testCase_2" <| fun () ->
+                let testCase = Continuous.Chi.CDF 12. 5.
+                Expect.floatClose Accuracy.medium testCase 0.9851771 "Should be equal"
+            testCase "CDF.testCase_3" <| fun () ->
+                let testCase = Continuous.Chi.CDF 8. 1.
+                Expect.floatClose Accuracy.medium testCase 0.001751623 "Should be equal"
+            testCase "CDF.testCase_4" <| fun () ->
+                let testCase = Continuous.Chi.CDF 80. 8.
+                Expect.floatClose Accuracy.medium testCase 0.09560282 "Should be equal"         
+        ]
