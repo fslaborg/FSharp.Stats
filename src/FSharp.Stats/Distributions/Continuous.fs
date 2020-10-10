@@ -90,6 +90,72 @@ module Continuous =
             member d.CDF x             = ChiSquared.CDF dof  x         
         }    
 
+    // ######
+    // ChiSquared distribution
+    // ######
+
+
+    // ChiSquared distribution helper functions.
+    let chiCheckParam dof = if System.Double.IsNaN(dof)  || dof < 0. then failwith "Chi distribution should be parametrized by degrees of Freedom in [0,inf)."
+
+    /// Chi distribution.
+    type Chi =
+        /// Computes the mean.
+        static member Mean dof =
+            chiCheckParam dof
+            sqrt 2. * ((Gamma.gamma ((dof + 1.) / 2.))/(Gamma.gamma (dof / 2.)))
+        /// Computes the variance.
+        static member Variance dof =
+            chiCheckParam dof
+            let mean = sqrt 2. * ((Gamma.gamma ((dof + 1.) / 2.))/(Gamma.gamma (dof / 2.)))
+            dof - pown mean 2
+        /// Computes the standard deviation.
+        static member StandardDeviation dof =
+            chiCheckParam dof
+            let mean = sqrt 2. * ((Gamma.gamma ((dof + 1.) / 2.))/(Gamma.gamma (dof / 2.)))
+            let var = dof - pown mean 2
+            sqrt var
+        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        static member Sample dof =
+            chiCheckParam dof
+            //rndgen.NextFloat() * (max - min) + min
+            nan
+        /// Computes the probability density function.
+        static member PDF dof x =
+            chiCheckParam dof
+            if x < 0.0 || dof < 1. then
+                0.0
+            else
+                let gammaF = Gamma.gamma (dof/2.)
+                let k = 2.**(dof/2. - 1.)
+                let fraction = 1./((k)*gammaF)
+                let ex1 = x**(dof-1.)
+                let ex2 = exp(-(x**2.)/2.)
+                let pdffunction = fraction*(ex1*ex2)
+                pdffunction 
+        /// Computes the cumulative distribution function.
+        static member CDF dof x =
+            chiCheckParam dof
+            if dof = 0. then 
+                if x > 0. then 1.
+                else 0.
+            else Gamma.lowerIncomplete (dof / 2.) ((x**2.) /2.)
+        /// Returns the support of the exponential distribution: [0, Positive Infinity).
+        static member Support dof =
+            chiCheckParam dof
+            (0., System.Double.PositiveInfinity)
+
+
+    /// Initializes a Chi distribution        
+    let chi dof =
+        { new Distribution<float,float> with
+            member d.Mean              = Chi.Mean dof
+            member d.StandardDeviation = Chi.StandardDeviation dof 
+            member d.Variance          = Chi.Variance dof
+            member d.Sample ()         = Chi.Sample dof
+            member d.PDF x             = Chi.PDF dof x           
+            member d.CDF x             = Chi.CDF dof  x         
+        }    
 
 // ######
 // Uniform distribution
