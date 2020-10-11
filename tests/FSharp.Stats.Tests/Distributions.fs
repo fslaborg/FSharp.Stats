@@ -3,6 +3,7 @@ open Expecto
 
 module DistributionsTests =
     open System
+    open FSharp.Stats
     open FSharp.Stats.Distributions
     open Distance.OneDimensional
     [<Tests>]
@@ -116,4 +117,34 @@ module DistributionsTests =
             testCase "CDF.testCase_4" <| fun () ->
                 let testCase = Continuous.Chi.CDF 80. 8.
                 Expect.floatClose Accuracy.medium testCase 0.09560282 "Should be equal"         
+        ]
+
+    let testMultivariateNormal =
+        let mvn = Continuous.multivariateNormal (vector [0.;0.;0.;0.;0.]) (Matrix.identity 5)
+        let pdfs=
+            [|
+                [0.537667139546100;3.578396939725760;-0.124144348216312;0.488893770311789;-1.068870458168032]
+                [0.318765239858981;0.725404224946106;0.671497133608080;0.293871467096658;0.325190539456195]
+                [-0.433592022305684;0.714742903826096;0.717238651328838;0.888395631757642;1.370298540095228]
+            |]
+            |> Array.map (fun v -> 
+                mvn.PDF (vector v)
+                )
+        // TestCases from Matlab: 
+        (*
+        mu = zeros(1,5);
+        Sigma = eye(5);
+        rng('default')  % For reproducibility
+        X = mvnrnd(mu,Sigma,8)
+        y = mvnpdf(X)
+        *)
+        testList "Distributions.multivariateNormal" [
+            testCase "PDF.testCase_1" <| fun () ->
+                Expect.floatClose Accuracy.veryHigh 0.000007209186311 pdfs.[0] "Should be equal" 
+            testCase "PDF.testCase_2" <| fun () ->
+                let testCase = Continuous.Chi.PDF 1. 8.
+                Expect.floatClose Accuracy.veryHigh  0.005352921388597 pdfs.[1] "Should be equal" 
+            testCase "PDF.testCase_3" <| fun () ->
+                let testCase = Continuous.Chi.PDF 8. 1.
+                Expect.floatClose Accuracy.veryHigh 0.001451989663439 pdfs.[2] "Should be equal"        
         ]
