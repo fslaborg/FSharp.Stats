@@ -12,7 +12,7 @@ module HTest =
         // calculating n for each group 
         let n = Seq.map (Seq.length >> float) samples  
     
-        if Seq.exists (fun x -> x <= 5.) n then failwithf "H test based on chi squared distribution is only valid for sample sizes > 5"
+        if Seq.exists (fun x -> x <= 5.) n then failwithf "H test based on chi squared distribution is only valid for sample sizes > 5. Tables for these cases are not yet implemented."
 
         // preparing samples for ranking and calculating samplesize 
         let allElements = 

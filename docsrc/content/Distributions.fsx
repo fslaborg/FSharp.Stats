@@ -100,6 +100,43 @@ let plotNormalCDF =
 (*** include-value:plotNormalCDF ***)
 
 (**
+### Multivariate normal distribution
+
+Multivariate normal distributions are initialized with a mean vector and a covariance matrix.
+*)
+
+let mvn = Continuous.multivariateNormal (vector [-1.;5.]) (matrix [[0.5;1.];[0.25;1.2]])
+let axisXRange = [-5. .. 0.5 .. 5.]
+let axisYRange = [ 0. .. 0.5 .. 10.]
+
+// probability density function 
+let mvnPdfs =
+    axisYRange |> List.map (fun y -> 
+        axisXRange
+        |> List.map (fun x -> 
+            mvn.PDF (vector [x;y])
+            )
+        )
+
+let mvnSamples = 
+    Array.init 1000 (fun _ -> mvn.Sample())
+
+(*** hide ***)
+let ch1 = Chart.Surface(mvnPdfs,axisXRange,axisYRange)
+
+let ch2 = 
+    mvnSamples
+    |> Array.map (fun t -> t.[0],t.[1])
+    |> Array.unzip
+    |> fun (x,y) -> Chart.Scatter3d(x,y,Array.init x.Length (fun _ -> Random.rndgen.NextFloat() / 3.),StyleParam.Mode.Markers)
+
+let mvnChart = 
+    [ch1;ch2]
+    |> Chart.Combine
+    |> Chart.withTitle "Bivariate normal distribution with sampling"
+
+(*** include-value:mvnChart ***)
+(**
 
 ###Students t distribution
 
