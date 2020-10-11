@@ -51,3 +51,11 @@ module Random =
     let SetSampleGenerator rg = rndgen <- rg
     /// Returns the random number generator used for sampling.
     let GetSampleGenerator () = rndgen
+
+    /// random number sampling method for pairs of independent, standard, normally distributed random numbers
+    let boxMullerTransform() =
+        let (u1,u2) = rndgen.NextFloat(),rndgen.NextFloat()
+        let z0 = sqrt(-2. * log u1) * cos (2. * pi * u2)
+        let z1 = sqrt(-2. * log u1) * sin (2. * pi * u2)
+        z0,z1
+        
