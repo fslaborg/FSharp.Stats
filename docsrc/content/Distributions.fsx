@@ -67,10 +67,10 @@ let normB = 1. - (normal.CDF 505.)
 
 // NormC: Sample independently 10 values from the normal distribution and calculate their mean.
 let normC = 
-    Seq.init 100 (fun _ -> normal.Sample())
+    Seq.init 10 (fun _ -> normal.Sample())
     |> Seq.mean
-// Output: 497.85 g
 
+(*** include-value:normC ***)
 (***hide***)
 let plotNormal =
     let xAxis() = LinearAxis.init(Title="x",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
@@ -106,8 +106,8 @@ Multivariate normal distributions are initialized with a mean vector and a covar
 *)
 
 let mvn = Continuous.multivariateNormal (vector [-1.;5.]) (matrix [[0.5;1.];[0.25;1.2]])
-let axisXRange = [-5. .. 0.5 .. 5.]
-let axisYRange = [ 0. .. 0.5 .. 10.]
+let axisXRange = [-5. .. 0.2 .. 5.]
+let axisYRange = [ 0. .. 0.2 .. 10.]
 
 // probability density function 
 let mvnPdfs =

@@ -171,10 +171,10 @@ let oneWayResult = Anova.oneWayAnova dataOneWay
 (*** include-value:oneWayResult ***)
 
 (*
-anovaResult.Factor.Statistic = 27.758
+anovaResult.Factor.Statistic = 27.594
 The factor statistic indicates how much more variability there is between the the samples 
 than within the samples.
-anovaResult.Factor.PValue = 1.406712119e-06
+anovaResult.Factor.PValue = 9.257958872e-07
 A strong significant p value in the factor field indicates that one or more means differ from each other
 *)
 // http://astatsa.com/OneWay_Anova_with_TukeyHSD/
