@@ -84,11 +84,11 @@ your machine is to either clone the repository and build the binaries yourself o
 </code></pre></td>
 </tr>
 </table>
-<table class="pre"><tr><td><pre><code>[|24.74505434; 25.03736836; 24.97154456; 25.21401569; 24.86760095; 24.99789691;
-  25.11231129; 25.12615456; 25.17815301; 24.82218388; 24.8946156; 24.90575041;
-  24.9517041; 24.80876442; 25.02978985; 25.08886469; 24.90613674; 25.15391122;
-  24.83343058; 25.03554266; 25.00080977; 25.06522544; 24.90247671; 25.03391893;
-  24.96498726; 25.2199195; 25.02452547; 25.1175389; 24.8685881; 25.01983917|]</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>[|25.04318976; 25.00630592; 25.02110994; 24.91402402; 25.12435326; 25.05204635;
+  25.0388256; 25.06459066; 25.13032568; 24.90620671; 25.15853236; 25.20678206;
+  25.01737264; 25.03495383; 24.87782203; 24.97376369; 25.08226063; 24.92516841;
+  25.13760273; 25.15373599; 24.9517048; 24.91553524; 24.86379209; 24.88747198;
+  25.08398211; 25.08418808; 24.95919474; 24.934504; 25.15208473; 24.8797884|]</code></pre></td></tr></table>
 <h3><a name="Basic-descriptive-statistics" class="anchor" href="#Basic-descriptive-statistics">Basic descriptive statistics</a></h3>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
@@ -98,7 +98,7 @@ your machine is to either clone the repository and build the binaries yourself o
 </code></pre></td>
 </tr>
 </table>
-<table class="pre"><tr><td><pre><code>24.99662077</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>25.01937395</code></pre></td></tr></table>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
@@ -107,7 +107,7 @@ your machine is to either clone the repository and build the binaries yourself o
 </code></pre></td>
 </tr>
 </table>
-<table class="pre"><tr><td><pre><code>0.1242708501</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.09938439243</code></pre></td></tr></table>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -118,7 +118,7 @@ your machine is to either clone the repository and build the binaries yourself o
 </code></pre></td>
 </tr>
 </table>
-<table class="pre"><tr><td><pre><code>0.004971506001</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.003972297334</code></pre></td></tr></table>
 <h3><a name="Vectors-Matrices-and-linear-algebra" class="anchor" href="#Vectors-Matrices-and-linear-algebra">Vectors, Matrices and linear algebra</a></h3>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
@@ -157,12 +157,12 @@ your machine is to either clone the repository and build the binaries yourself o
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 67)" onmouseover="showTip(event, 'fs1', 67)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 68)" onmouseover="showTip(event, 'fs2', 68)" class="id">Plotly</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 69)" onmouseover="showTip(event, 'fs44', 69)" class="id">x_Data</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs37', 70)" onmouseover="showTip(event, 'fs37', 70)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span> <span class="o">..</span> <span class="n">10.</span><span class="pn">|]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 71)" onmouseover="showTip(event, 'fs45', 71)" class="id">y_Data</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs37', 72)" onmouseover="showTip(event, 'fs37', 72)" class="fn">vector</span> <span class="pn">[|</span><span class="n">4.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">9.</span><span class="pn">;</span><span class="n">12.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">30.</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 69)" onmouseover="showTip(event, 'fs44', 69)" class="id">xData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs37', 70)" onmouseover="showTip(event, 'fs37', 70)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span> <span class="o">..</span> <span class="n">10.</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 71)" onmouseover="showTip(event, 'fs45', 71)" class="id">yData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs37', 72)" onmouseover="showTip(event, 'fs37', 72)" class="fn">vector</span> <span class="pn">[|</span><span class="n">4.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">9.</span><span class="pn">;</span><span class="n">12.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">30.</span><span class="pn">|]</span>
 
 <span class="c">// get coefficients of interpolating polynomial</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 73)" onmouseover="showTip(event, 'fs46', 73)" class="id">interpolatingCoefficients</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs47', 74)" onmouseover="showTip(event, 'fs47', 74)" class="fn">Interpolation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs48', 75)" onmouseover="showTip(event, 'fs48', 75)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 76)" onmouseover="showTip(event, 'fs49', 76)" class="id">coefficients</span> <span onmouseout="hideTip(event, 'fs44', 77)" onmouseover="showTip(event, 'fs44', 77)" class="id">x_Data</span> <span onmouseout="hideTip(event, 'fs45', 78)" onmouseover="showTip(event, 'fs45', 78)" class="id">y_Data</span>
+    <span onmouseout="hideTip(event, 'fs47', 74)" onmouseover="showTip(event, 'fs47', 74)" class="fn">Interpolation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs48', 75)" onmouseover="showTip(event, 'fs48', 75)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 76)" onmouseover="showTip(event, 'fs49', 76)" class="id">coefficients</span> <span onmouseout="hideTip(event, 'fs44', 77)" onmouseover="showTip(event, 'fs44', 77)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs45', 78)" onmouseover="showTip(event, 'fs45', 78)" class="id">yData</span>
 
 <span class="c">// get fitting function of interpolating polynomial</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs50', 79)" onmouseover="showTip(event, 'fs50', 79)" class="fn">interpolFitFunc</span> <span class="o">=</span> 
@@ -181,7 +181,7 @@ your machine is to either clone the repository and build the binaries yourself o
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// get coefficients of 3rd order regression polynomial</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs58', 95)" onmouseover="showTip(event, 'fs58', 95)" class="id">regressionCoefficients</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs59', 96)" onmouseover="showTip(event, 'fs59', 96)" class="fn">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs60', 97)" onmouseover="showTip(event, 'fs60', 97)" class="m">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs61', 98)" onmouseover="showTip(event, 'fs61', 98)" class="m">OrdinaryLeastSquares</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs62', 99)" onmouseover="showTip(event, 'fs62', 99)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs63', 100)" onmouseover="showTip(event, 'fs63', 100)" class="id">coefficient</span> <span class="n">3</span> <span onmouseout="hideTip(event, 'fs44', 101)" onmouseover="showTip(event, 'fs44', 101)" class="id">x_Data</span> <span onmouseout="hideTip(event, 'fs45', 102)" onmouseover="showTip(event, 'fs45', 102)" class="id">y_Data</span>
+    <span onmouseout="hideTip(event, 'fs59', 96)" onmouseover="showTip(event, 'fs59', 96)" class="fn">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs60', 97)" onmouseover="showTip(event, 'fs60', 97)" class="m">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs61', 98)" onmouseover="showTip(event, 'fs61', 98)" class="m">OrdinaryLeastSquares</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs62', 99)" onmouseover="showTip(event, 'fs62', 99)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs63', 100)" onmouseover="showTip(event, 'fs63', 100)" class="id">coefficient</span> <span class="n">3</span> <span onmouseout="hideTip(event, 'fs44', 101)" onmouseover="showTip(event, 'fs44', 101)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs45', 102)" onmouseover="showTip(event, 'fs45', 102)" class="id">yData</span>
     
 <span class="c">// get fitting function of 3rd order regression polynomial</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs64', 103)" onmouseover="showTip(event, 'fs64', 103)" class="fn">regressionFitFunc</span> <span class="o">=</span> 
@@ -190,12 +190,12 @@ your machine is to either clone the repository and build the binaries yourself o
 </tr>
 </table>
 <p>The resulting interpolating and regression polynomials are plotted below using <a href="https://github.com/muehlhaus/FSharp.Plotly">FSharp.Plotly</a>.</p>
-<div id="e517dba1-2709-42a9-a781-d0c40152e2e9" style="width: 700px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="eff79d5f-e7b7-455e-aa7d-3791d11536d6" style="width: 700px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
   <script>
     var data = [{"type":"scatter","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.0,7.0,9.0,12.0,15.0,17.0,16.0,23.0,5.0,30.0],"mode":"markers","marker":{}},{"type":"scatter","x":[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7000000000000002,1.8,1.9,2.0,2.1,2.2,2.3,2.4000000000000004,2.5,2.6,2.7,2.8,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5,3.6,3.7,3.8000000000000003,3.9000000000000004,4.0,4.1,4.2,4.3000000000000007,4.4,4.5,4.6,4.7,4.8000000000000007,4.9,5.0,5.1000000000000005,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.8000000000000007,5.9,6.0,6.1000000000000005,6.2,6.3000000000000007,6.4,6.5,6.6000000000000005,6.7,6.8000000000000007,6.9,7.0,7.1000000000000005,7.2,7.3000000000000007,7.4,7.5,7.6000000000000005,7.7,7.8000000000000007,7.9,8.0,8.1000000000000014,8.2,8.3,8.4,8.5,8.6000000000000014,8.7,8.8,8.9,9.0,9.1,9.2000000000000011,9.3,9.4,9.5,9.6,9.7000000000000011,9.8,9.9,10.0],"y":[4.0000000000000009,9.6775064721563329,12.653219225718779,13.75671890177262,13.633243955273898,12.77432250979497,11.544644300783702,10.205497566308734,8.93507799031007,7.8459595133501532,6.9999999998698206,6.42093838892843,6.1049240574641432,6.0292036910343665,6.1591759870777114,6.4540100096550734,6.8710089726980925,7.3688876507776051,7.9101185023215645,8.4624889403935839,8.9999999999311591,9.503224928489665,9.959234969522889,10.361188813081526,10.707671859104721,11.001861572164998,11.250585804686779,11.463332027729962,11.65125693426279,11.826237869816509,11.99999999984226,12.183346040407116,12.385508761437677,12.613640317522254,12.872446771072987,13.163970947132157,13.487521996702753,13.839745747247207,14.214826086318453,14.604804251938276,15.000000000008185,15.389516175080644,15.761806233636889,16.105282754741893,16.408943923290281,16.662994384843842,16.859436748995904,16.992610359531682,17.05965475859557,17.0608765366851,17.000000000274667,16.88428428221232,16.724492185723648,16.534699174324487,16.331934515514149,16.135650635002094,15.967021260876209,15.848073914166889,15.800667750590947,15.845333673809364,16.000000000283762,16.278633811831241,16.689835417710128,17.235431126406183,17.90911774727283,18.695220947440248,19.567638733045897,20.489050961172325,21.410485862812493,22.271345113927964,23.000000000494765,23.515082714991877,23.727608730230713,23.544078661798267,22.870720819686539,21.6190490736044,19.712924365827348,17.097322550602257,13.749025895434897,9.6894708055187948,5.0000000005820766,-0.16021656058728695,-5.5333110782084987,-10.738599672098644,-15.244901069090702,-18.338958740700036,-19.089614644530229,-16.307363767409697,-8.498899353435263,6.1837612008675933,30.000000001396984],"mode":"lines","name":"interpol polynomial","marker":{}},{"type":"scatter","x":[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7000000000000002,1.8,1.9,2.0,2.1,2.2,2.3,2.4000000000000004,2.5,2.6,2.7,2.8,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5,3.6,3.7,3.8000000000000003,3.9000000000000004,4.0,4.1,4.2,4.3000000000000007,4.4,4.5,4.6,4.7,4.8000000000000007,4.9,5.0,5.1000000000000005,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.8000000000000007,5.9,6.0,6.1000000000000005,6.2,6.3000000000000007,6.4,6.5,6.6000000000000005,6.7,6.8000000000000007,6.9,7.0,7.1000000000000005,7.2,7.3000000000000007,7.4,7.5,7.6000000000000005,7.7,7.8000000000000007,7.9,8.0,8.1000000000000014,8.2,8.3,8.4,8.5,8.6000000000000014,8.7,8.8,8.9,9.0,9.1,9.2000000000000011,9.3,9.4,9.5,9.6,9.7000000000000011,9.8,9.9,10.0],"y":[2.4223776223746518,3.079641025638399,3.7109743589720567,4.3169393939374023,4.8980979020962,5.45501165501023,5.9882424242412622,6.498351981351064,6.9859020979014108,7.4514545454540748,7.8955710955708254,8.3188135198134372,8.7217435897436832,9.1049230769233276,9.4689137529141512,9.814277389277926,10.141575757576415,10.451370629371397,10.744223776224642,11.020696969697926,11.281351981353014,11.52675058275168,11.757454545455701,11.974025641026845,12.177025641026882,12.367016317017589,12.544559440560732,12.71021678321809,12.864550116551424,13.00812121212252,13.141491841493135,13.265223776225053,13.37987878788004,13.486018648019876,13.584205128206317,13.675000000001146,13.758965034966135,13.836662004663053,13.908652680653672,13.97549883449976,14.037762237763115,14.096004662005464,14.150787878788615,14.202673659674321,14.252223776224362,14.300000000000511,14.346564102564535,14.392477855478216,14.438303030303306,14.484601398601598,14.531934731934847,14.580864801864838,14.631953379953327,14.685762237762116,14.742853146852941,14.803787878787599,14.869128205127851,14.939435897435477,15.01527272727223,15.097200466199919,15.185780885780275,15.281575757575069,15.385146853146125,15.497055944055163,15.617864801863988,15.748135198134342,15.888428904428004,16.039307692306771,16.2013333333324,16.375067599066639,16.561072261071295,16.759909090908131,16.972139860138903,17.198326340325387,17.439030303029384,17.694813519812634,17.966237762236929,18.253864801864005,18.558256410255687,18.879974358973698,19.219580419579842,19.577636363635861,19.954703962703576,20.351344988344721,20.768121212121073,21.205594405594411,21.664326340326497,22.144878787879108,22.647813519813994,23.173692307693003,23.723076923077841],"mode":"lines","name":"regression polynomial","marker":{}}];
     var layout = {"xaxis":{"title":"","ticks":"inside","mirror":"all","showline":true,"showgrid":false,"zeroline":false},"yaxis":{"title":"","ticks":"inside","mirror":"all","showline":true,"showgrid":false,"zeroline":false}};
     var config = {};
-    Plotly.newPlot('e517dba1-2709-42a9-a781-d0c40152e2e9', data, layout, config);
+    Plotly.newPlot('eff79d5f-e7b7-455e-aa7d-3791d11536d6', data, layout, config);
   </script>
 <h2><a name="Samples-amp-documentation" class="anchor" href="#Samples-amp-documentation">Samples &amp; documentation</a></h2>
 <p>The library comes with comprehensible documentation.
@@ -260,12 +260,12 @@ redistribution for both commercial and non-commercial purposes. For more informa
 <div class="tip" id="fs41">namespace FSharp.Stats.Algebra</div>
 <div class="tip" id="fs42">module LinearAlgebra<br /><br />from FSharp.Stats.Algebra</div>
 <div class="tip" id="fs43">val SolveLinearSystem : A:matrix -&gt; b:vector -&gt; Vector&lt;float&gt;</div>
-<div class="tip" id="fs44">val x_Data : Vector&lt;float&gt;</div>
-<div class="tip" id="fs45">val y_Data : Vector&lt;float&gt;</div>
+<div class="tip" id="fs44">val xData : Vector&lt;float&gt;</div>
+<div class="tip" id="fs45">val yData : Vector&lt;float&gt;</div>
 <div class="tip" id="fs46">val interpolatingCoefficients : Vector&lt;float&gt;</div>
 <div class="tip" id="fs47">namespace FSharp.Stats.Interpolation</div>
 <div class="tip" id="fs48">module Polynomial<br /><br />from FSharp.Stats.Interpolation</div>
-<div class="tip" id="fs49">val coefficients : x_Data:Vector&lt;float&gt; -&gt; y_Data:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;</div>
+<div class="tip" id="fs49">val coefficients : xData:Vector&lt;float&gt; -&gt; yData:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;</div>
 <div class="tip" id="fs50">val interpolFitFunc : (float -&gt; float)</div>
 <div class="tip" id="fs51">val fit : coef:Vector&lt;float&gt; -&gt; x:float -&gt; float</div>
 <div class="tip" id="fs52">val interpolChart : GenericChart.GenericChart</div>
@@ -279,7 +279,7 @@ redistribution for both commercial and non-commercial purposes. For more informa
 <div class="tip" id="fs60">module LinearRegression<br /><br />from FSharp.Stats.Fitting</div>
 <div class="tip" id="fs61">module OrdinaryLeastSquares<br /><br />from FSharp.Stats.Fitting.LinearRegression</div>
 <div class="tip" id="fs62">module Polynomial<br /><br />from FSharp.Stats.Fitting.LinearRegression.OrdinaryLeastSquares</div>
-<div class="tip" id="fs63">val coefficient : order:int -&gt; x_data:Vector&lt;float&gt; -&gt; y_data:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;</div>
+<div class="tip" id="fs63">val coefficient : order:int -&gt; xData:Vector&lt;float&gt; -&gt; yData:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;</div>
 <div class="tip" id="fs64">val regressionFitFunc : (float -&gt; float)</div>
 <div class="tip" id="fs65">val fit : order:int -&gt; coef:Vector&lt;float&gt; -&gt; x:float -&gt; float</div>
 <div class="tip" id="fs66">val regressionChart : GenericChart.GenericChart</div>

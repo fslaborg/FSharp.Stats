@@ -67,6 +67,16 @@
         </tr>
         <tr>
           <td class="type-name">
+            <a href="fsharp-stats-distributions-continuousmodule-chi.html">Chi</a>
+          </td>
+          <td class="xmldoc">
+          <p>Chi distribution.</p>
+
+
+          </td>
+        </tr>
+        <tr>
+          <td class="type-name">
             <a href="fsharp-stats-distributions-continuousmodule-chisquared.html">ChiSquared</a>
           </td>
           <td class="xmldoc">
@@ -114,6 +124,16 @@ ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages
           </td>
           <td class="xmldoc">
           <p>Log-Normal distribution.</p>
+
+
+          </td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="fsharp-stats-distributions-continuousmodule-multivariatenormal.html">MultivariateNormal</a>
+          </td>
+          <td class="xmldoc">
+          <p>multivariate normal distribution.</p>
 
 
           </td>
@@ -181,15 +201,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
     <tbody>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1231', 1231)" onmouseover="showTip(event, '1231', 1231)">
+          <code onmouseout="hideTip(event, '1239', 1239)" onmouseover="showTip(event, '1239', 1239)">
             beta alpha beta
           </code>
-          <div class="tip" id="1231">
+          <div class="tip" id="1239">
             <strong>Signature:</strong> alpha:float&lt;MeasureOne&gt; -&gt; beta:float&lt;MeasureOne&gt; -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L445-445" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L511-511" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -200,10 +220,46 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1232', 1232)" onmouseover="showTip(event, '1232', 1232)">
+          <code onmouseout="hideTip(event, '1240', 1240)" onmouseover="showTip(event, '1240', 1240)">
+            chi(dof)
+          </code>
+          <div class="tip" id="1240">
+            <strong>Signature:</strong> dof:float -&gt; Distribution&lt;float,float&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L150-150" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Initializes a Chi distribution</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1241', 1241)" onmouseover="showTip(event, '1241', 1241)">
+            chiCheckParam(dof)
+          </code>
+          <div class="tip" id="1241">
+            <strong>Signature:</strong> dof:float -&gt; unit<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L99-99" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1242', 1242)" onmouseover="showTip(event, '1242', 1242)">
             chiSquared(dof)
           </code>
-          <div class="tip" id="1232">
+          <div class="tip" id="1242">
             <strong>Signature:</strong> dof:float -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
@@ -219,10 +275,10 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1233', 1233)" onmouseover="showTip(event, '1233', 1233)">
+          <code onmouseout="hideTip(event, '1243', 1243)" onmouseover="showTip(event, '1243', 1243)">
             chiSquaredCheckParam(dof)
           </code>
-          <div class="tip" id="1233">
+          <div class="tip" id="1243">
             <strong>Signature:</strong> dof:float -&gt; unit<br />
                                   </div>
         </td>
@@ -236,15 +292,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1234', 1234)" onmouseover="showTip(event, '1234', 1234)">
+          <code onmouseout="hideTip(event, '1244', 1244)" onmouseover="showTip(event, '1244', 1244)">
             expCheckParam(lambda)
           </code>
-          <div class="tip" id="1234">
+          <div class="tip" id="1244">
             <strong>Signature:</strong> lambda:float&lt;MeasureOne&gt; -&gt; unit<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L241-241" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L307-307" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -253,15 +309,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1235', 1235)" onmouseover="showTip(event, '1235', 1235)">
+          <code onmouseout="hideTip(event, '1245', 1245)" onmouseover="showTip(event, '1245', 1245)">
             exponential(lambda)
           </code>
-          <div class="tip" id="1235">
+          <div class="tip" id="1245">
             <strong>Signature:</strong> lambda:float&lt;MeasureOne&gt; -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L290-290" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L356-356" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -272,15 +328,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1236', 1236)" onmouseover="showTip(event, '1236', 1236)">
+          <code onmouseout="hideTip(event, '1246', 1246)" onmouseover="showTip(event, '1246', 1246)">
             f dof1 dof2
           </code>
-          <div class="tip" id="1236">
+          <div class="tip" id="1246">
             <strong>Signature:</strong> dof1:float&lt;MeasureOne&gt; -&gt; dof2:float&lt;MeasureOne&gt; -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L793-793" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L859-859" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -291,15 +347,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1237', 1237)" onmouseover="showTip(event, '1237', 1237)">
+          <code onmouseout="hideTip(event, '1247', 1247)" onmouseover="showTip(event, '1247', 1247)">
             fCheckParam dof1 dof2
           </code>
-          <div class="tip" id="1237">
+          <div class="tip" id="1247">
             <strong>Signature:</strong> dof1:float&lt;MeasureOne&gt; -&gt; dof2:float&lt;MeasureOne&gt; -&gt; unit<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L720-720" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L786-786" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -308,15 +364,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1238', 1238)" onmouseover="showTip(event, '1238', 1238)">
+          <code onmouseout="hideTip(event, '1248', 1248)" onmouseover="showTip(event, '1248', 1248)">
             gamma alpha beta
           </code>
-          <div class="tip" id="1238">
+          <div class="tip" id="1248">
             <strong>Signature:</strong> alpha:float&lt;MeasureOne&gt; -&gt; beta:float&lt;MeasureOne&gt; -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L383-383" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L449-449" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -327,15 +383,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1239', 1239)" onmouseover="showTip(event, '1239', 1239)">
+          <code onmouseout="hideTip(event, '1249', 1249)" onmouseover="showTip(event, '1249', 1249)">
             gammaCheckParam alpha beta
           </code>
-          <div class="tip" id="1239">
+          <div class="tip" id="1249">
             <strong>Signature:</strong> alpha:float&lt;MeasureOne&gt; -&gt; beta:float&lt;MeasureOne&gt; -&gt; unit<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L308-308" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L374-374" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -344,15 +400,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1240', 1240)" onmouseover="showTip(event, '1240', 1240)">
+          <code onmouseout="hideTip(event, '1250', 1250)" onmouseover="showTip(event, '1250', 1250)">
             getCriticalTValue(...)
           </code>
-          <div class="tip" id="1240">
+          <div class="tip" id="1250">
             <strong>Signature:</strong> df:float -&gt; significanceLevel:float&lt;MeasureOne&gt; -&gt; tailed:Tails -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L590-590" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L656-656" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -361,15 +417,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1241', 1241)" onmouseover="showTip(event, '1241', 1241)">
+          <code onmouseout="hideTip(event, '1251', 1251)" onmouseover="showTip(event, '1251', 1251)">
             logNormal mu tau
           </code>
-          <div class="tip" id="1241">
+          <div class="tip" id="1251">
             <strong>Signature:</strong> mu:float -&gt; tau:float&lt;MeasureOne&gt; -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L890-890" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L956-956" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -380,15 +436,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1242', 1242)" onmouseover="showTip(event, '1242', 1242)">
+          <code onmouseout="hideTip(event, '1252', 1252)" onmouseover="showTip(event, '1252', 1252)">
             logNormalCheckParam mu tau
           </code>
-          <div class="tip" id="1242">
+          <div class="tip" id="1252">
             <strong>Signature:</strong> mu:float -&gt; tau:float&lt;MeasureOne&gt; -&gt; unit<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L811-811" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L877-877" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -397,15 +453,51 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1243', 1243)" onmouseover="showTip(event, '1243', 1243)">
+          <code onmouseout="hideTip(event, '1253', 1253)" onmouseover="showTip(event, '1253', 1253)">
+            multivariateNormal mu sigma
+          </code>
+          <div class="tip" id="1253">
+            <strong>Signature:</strong> mu:vector -&gt; sigma:matrix -&gt; Distribution&lt;vector,vector&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L1013-1013" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Initializes a multivariate normal distribution with mean mu and covariance matrix sigma</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1254', 1254)" onmouseover="showTip(event, '1254', 1254)">
+            multivariateNormalCheckParam mu sigma
+          </code>
+          <div class="tip" id="1254">
+            <strong>Signature:</strong> mu:vector -&gt; sigma:matrix -&gt; unit<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L964-964" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '1255', 1255)" onmouseover="showTip(event, '1255', 1255)">
             normal mu sigma
           </code>
-          <div class="tip" id="1243">
+          <div class="tip" id="1255">
             <strong>Signature:</strong> mu:float -&gt; sigma:float&lt;MeasureOne&gt; -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L232-232" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L298-298" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -416,15 +508,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1244', 1244)" onmouseover="showTip(event, '1244', 1244)">
+          <code onmouseout="hideTip(event, '1256', 1256)" onmouseover="showTip(event, '1256', 1256)">
             normalCheckParam mu sigma
           </code>
-          <div class="tip" id="1244">
+          <div class="tip" id="1256">
             <strong>Signature:</strong> mu:float -&gt; sigma:float&lt;MeasureOne&gt; -&gt; unit<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L162-162" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L228-228" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -433,15 +525,15 @@ table from: Tables of range and studentized range, Harter, 1960 and Lawal B, App
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1245', 1245)" onmouseover="showTip(event, '1245', 1245)">
+          <code onmouseout="hideTip(event, '1257', 1257)" onmouseover="showTip(event, '1257', 1257)">
             studentizedRange(...)
           </code>
-          <div class="tip" id="1245">
+          <div class="tip" id="1257">
             <strong>Signature:</strong> r:float -&gt; v:float -&gt; c:float -&gt; accuracy:float&lt;MeasureOne&gt; option -&gt; computeParallel:bool -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L701-701" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L767-767" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -455,15 +547,15 @@ Integration can be performed in parallel using PSeq</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1246', 1246)" onmouseover="showTip(event, '1246', 1246)">
+          <code onmouseout="hideTip(event, '1258', 1258)" onmouseover="showTip(event, '1258', 1258)">
             studentizedRangeCheckParam q r v
           </code>
-          <div class="tip" id="1246">
+          <div class="tip" id="1258">
             <strong>Signature:</strong> q:float -&gt; r:float -&gt; v:float -&gt; unit<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L612-612" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L678-678" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -474,15 +566,15 @@ Integration can be performed in parallel using PSeq</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1247', 1247)" onmouseover="showTip(event, '1247', 1247)">
+          <code onmouseout="hideTip(event, '1259', 1259)" onmouseover="showTip(event, '1259', 1259)">
             studentT mu tau dof
           </code>
-          <div class="tip" id="1247">
+          <div class="tip" id="1259">
             <strong>Signature:</strong> mu:float -&gt; tau:float&lt;MeasureOne&gt; -&gt; dof:float -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L579-579" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L645-645" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -493,15 +585,15 @@ Integration can be performed in parallel using PSeq</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1248', 1248)" onmouseover="showTip(event, '1248', 1248)">
+          <code onmouseout="hideTip(event, '1260', 1260)" onmouseover="showTip(event, '1260', 1260)">
             studentTCheckParam mu tau dof
           </code>
-          <div class="tip" id="1248">
+          <div class="tip" id="1260">
             <strong>Signature:</strong> mu:float -&gt; tau:float&lt;MeasureOne&gt; -&gt; dof:float -&gt; unit<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L528-528" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L594-594" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -510,15 +602,15 @@ Integration can be performed in parallel using PSeq</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1249', 1249)" onmouseover="showTip(event, '1249', 1249)">
+          <code onmouseout="hideTip(event, '1261', 1261)" onmouseover="showTip(event, '1261', 1261)">
             uniform min max
           </code>
-          <div class="tip" id="1249">
+          <div class="tip" id="1261">
             <strong>Signature:</strong> min:float -&gt; max:float -&gt; Distribution&lt;float,float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L144-144" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L210-210" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -529,15 +621,15 @@ Integration can be performed in parallel using PSeq</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1250', 1250)" onmouseover="showTip(event, '1250', 1250)">
+          <code onmouseout="hideTip(event, '1262', 1262)" onmouseover="showTip(event, '1262', 1262)">
             uniformCheckParam min max
           </code>
-          <div class="tip" id="1250">
+          <div class="tip" id="1262">
             <strong>Signature:</strong> min:float -&gt; max:float -&gt; unit<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L100-100" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L166-166" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

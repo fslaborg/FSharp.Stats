@@ -87,11 +87,11 @@
     <tbody>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1472', 1472)" onmouseover="showTip(event, '1472', 1472)">
+          <code onmouseout="hideTip(event, '1484', 1484)" onmouseover="showTip(event, '1484', 1484)">
             coefficients(...)
           </code>
-          <div class="tip" id="1472">
-            <strong>Signature:</strong> boundaryCondition:BoundaryCondition -&gt; x_Values:Vector&lt;float&gt; -&gt; y_Values:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
+          <div class="tip" id="1484">
+            <strong>Signature:</strong> boundaryCondition:BoundaryCondition -&gt; xValues:Vector&lt;float&gt; -&gt; yValues:Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
@@ -107,11 +107,11 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1473', 1473)" onmouseover="showTip(event, '1473', 1473)">
-            fit coefficients x_Values x
+          <code onmouseout="hideTip(event, '1485', 1485)" onmouseover="showTip(event, '1485', 1485)">
+            fit coefficients xValues x
           </code>
-          <div class="tip" id="1473">
-            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
+          <div class="tip" id="1485">
+            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; xValues:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
@@ -119,18 +119,18 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>Fits a cubic spline with given coefficients. Only defined within the range of the given x_Values</p>
+          <p>Fits a cubic spline with given coefficients. Only defined within the range of the given xValues</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1474', 1474)" onmouseover="showTip(event, '1474', 1474)">
-            fitForce coefficients x_Values x
+          <code onmouseout="hideTip(event, '1486', 1486)" onmouseover="showTip(event, '1486', 1486)">
+            fitForce coefficients xValues x
           </code>
-          <div class="tip" id="1474">
-            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
+          <div class="tip" id="1486">
+            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; xValues:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
                                     <span>
             <strong>Attributes:</strong><br />
 [&lt;Obsolete(&quot;Coefficients of squared and cubic term are not valid outside x-value support. Use fitWithLinearPrediction instead.&quot;)&gt;]<br />
@@ -146,18 +146,18 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>forces a spline fit even outside of the interval defined in x_Values</p>
+          <p>forces a spline fit even outside of the interval defined in xValues</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1475', 1475)" onmouseover="showTip(event, '1475', 1475)">
+          <code onmouseout="hideTip(event, '1487', 1487)" onmouseover="showTip(event, '1487', 1487)">
             fitWithLinearPrediction(...)
           </code>
-          <div class="tip" id="1475">
-            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
+          <div class="tip" id="1487">
+            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; xValues:Vector&lt;float&gt; -&gt; x:float -&gt; float<br />
                                   </div>
         </td>
         <td class="xmldoc">
@@ -165,22 +165,22 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          <p>fits a cubic spline fit even outside of the interval defined in x_Values by linear interpolation of slope given by border knots</p>
+          <p>fits a cubic spline fit even outside of the interval defined in xValues by linear interpolation of slope given by border knots</p>
 
 
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1476', 1476)" onmouseover="showTip(event, '1476', 1476)">
+          <code onmouseout="hideTip(event, '1488', 1488)" onmouseover="showTip(event, '1488', 1488)">
             getFirstDerivative(...)
           </code>
-          <div class="tip" id="1476">
-            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
+          <div class="tip" id="1488">
+            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; xValues:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L426-426" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L428-428" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -189,15 +189,15 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1477', 1477)" onmouseover="showTip(event, '1477', 1477)">
+          <code onmouseout="hideTip(event, '1489', 1489)" onmouseover="showTip(event, '1489', 1489)">
             getSecondDerivative(...)
           </code>
-          <div class="tip" id="1477">
-            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
+          <div class="tip" id="1489">
+            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; xValues:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L429-429" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L431-431" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -206,15 +206,15 @@ where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)</p>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1478', 1478)" onmouseover="showTip(event, '1478', 1478)">
+          <code onmouseout="hideTip(event, '1490', 1490)" onmouseover="showTip(event, '1490', 1490)">
             getThirdDerivative(...)
           </code>
-          <div class="tip" id="1478">
-            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; x_Values:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
+          <div class="tip" id="1490">
+            <strong>Signature:</strong> coefficients:Vector&lt;float&gt; -&gt; xValues:Vector&lt;float&gt; -&gt; x:float -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L432-432" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/CubicSpline.fs#L434-434" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

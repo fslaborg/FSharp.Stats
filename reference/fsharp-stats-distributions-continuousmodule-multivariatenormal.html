@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>HugeGapPaddingMethod - FSharp.Stats</title>
+    <title>MultivariateNormal - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -35,103 +35,153 @@
         <div class="span9" id="main">
           
 
-<h1>HugeGapPaddingMethod</h1>
+<h1>MultivariateNormal</h1>
 <p>
 
-    <span>Namespace: FSharp.Stats.Signal</span><br />
-        <span>Parent Module: <a href="fsharp-stats-signal-padding.html">Padding</a></span><br />
+    <span>Namespace: FSharp.Stats.Distributions</span><br />
+        <span>Parent Module: <a href="fsharp-stats-distributions-continuousmodule.html">Continuous</a></span><br />
     </p>
 <div class="xmldoc">
+<p>multivariate normal distribution.</p>
+
 </div>
-  <h3>Union Cases</h3>
+  <h3>Static members</h3>
   <table class="table table-bordered member-list">
     <thead>
-      <tr><td>Union Case</td><td>Description</td></tr>
+      <tr><td>Static member</td><td>Description</td></tr>
     </thead>
     <tbody>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2417', 2417)" onmouseover="showTip(event, '2417', 2417)">
-            Delete
+          <code onmouseout="hideTip(event, '2227', 2227)" onmouseover="showTip(event, '2227', 2227)">
+            MultivariateNormal.CDF mu sigma x
           </code>
-          <div class="tip" id="2417">
-            <strong>Signature:</strong> <br />
-                                  </div>
+          <div class="tip" id="2227">
+            <strong>Signature:</strong> mu:vector -&gt; sigma:matrix -&gt; x:vector -&gt; &#39;?9358<br />
+                          <strong>Type parameters:</strong> '?9358                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L97-97" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L998-998" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Computes the cumulative distribution function.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2418', 2418)" onmouseover="showTip(event, '2418', 2418)">
-            LinearInterpolation
+          <code onmouseout="hideTip(event, '2228', 2228)" onmouseover="showTip(event, '2228', 2228)">
+            MultivariateNormal.init mu sigma
           </code>
-          <div class="tip" id="2418">
-            <strong>Signature:</strong> <br />
+          <div class="tip" id="2228">
+            <strong>Signature:</strong> mu:vector -&gt; sigma:matrix -&gt; Distribution&lt;vector,vector&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L101-101" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L1002-1002" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Initializes a multivariate normal distribution with mean mu and covariance matrix sigma</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2419', 2419)" onmouseover="showTip(event, '2419', 2419)">
-            NaN
+          <code onmouseout="hideTip(event, '2229', 2229)" onmouseover="showTip(event, '2229', 2229)">
+            MultivariateNormal.Mean mu sigma
           </code>
-          <div class="tip" id="2419">
-            <strong>Signature:</strong> <br />
+          <div class="tip" id="2229">
+            <strong>Signature:</strong> mu:vector -&gt; sigma:matrix -&gt; vector<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L95-95" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L970-970" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Computes the mean.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2420', 2420)" onmouseover="showTip(event, '2420', 2420)">
-            Random
+          <code onmouseout="hideTip(event, '2230', 2230)" onmouseover="showTip(event, '2230', 2230)">
+            MultivariateNormal.PDF mu sigma x
           </code>
-          <div class="tip" id="2420">
-            <strong>Signature:</strong> <br />
+          <div class="tip" id="2230">
+            <strong>Signature:</strong> mu:vector -&gt; sigma:matrix -&gt; x:vector -&gt; float&lt;MeasureOne&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L93-93" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L992-992" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Computes the probability density function.</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '2421', 2421)" onmouseover="showTip(event, '2421', 2421)">
-            Zero
+          <code onmouseout="hideTip(event, '2231', 2231)" onmouseover="showTip(event, '2231', 2231)">
+            MultivariateNormal.Sample mu sigma
           </code>
-          <div class="tip" id="2421">
-            <strong>Signature:</strong> <br />
+          <div class="tip" id="2231">
+            <strong>Signature:</strong> mu:vector -&gt; sigma:matrix -&gt; Vector&lt;float&gt;<br />
                                   </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L99-99" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L984-984" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Produces a random sample using the current random number generator (from GetSampleGenerator()).</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '2232', 2232)" onmouseover="showTip(event, '2232', 2232)">
+            MultivariateNormal.StandardDeviation(...)
+          </code>
+          <div class="tip" id="2232">
+            <strong>Signature:</strong> mu:vector -&gt; sigma:matrix -&gt; &#39;?9354<br />
+                          <strong>Type parameters:</strong> '?9354                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L979-979" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Computes the standard deviation.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+          <code onmouseout="hideTip(event, '2233', 2233)" onmouseover="showTip(event, '2233', 2233)">
+            MultivariateNormal.Variance mu sigma
+          </code>
+          <div class="tip" id="2233">
+            <strong>Signature:</strong> mu:vector -&gt; sigma:matrix -&gt; &#39;?9352<br />
+                          <strong>Type parameters:</strong> '?9352                      </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Continuous.fs#L974-974" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Computes the variance.</p>
+
+
         </td>
       </tr>
     </tbody>
