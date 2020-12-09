@@ -104,10 +104,10 @@ let getBestkMeansClustering data k bootstraps =
 let t = DbScan.compute DistanceMetrics.Array.euclideanNaN 5 1.0 data
 
 //extract petal length and petal width
-let petL_petW      = data |> Array.map (fun x -> [|x.[2];x.[3]|])
+let petLpetW      = data |> Array.map (fun x -> [|x.[2];x.[3]|])
 
 //extract petal width, petal length and sepal length  
-let petW_petL_sepL = data |> Array.map (fun x -> [|x.[3];x.[2];x.[0]|])
+let petWpetLsepL = data |> Array.map (fun x -> [|x.[3];x.[2];x.[0]|])
 
 //to create a chart with two dimensional data use the following function
 let create2dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float) (input:seq<#seq<'a>>) =  
@@ -149,7 +149,7 @@ let create2dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
     |> Chart.withX_Axis (axis "Petal width") 
     |> Chart.withY_Axis (axis "Petal length")
     
-let clusteredChart = create2dChart DistanceMetrics.Array.euclidean 20 0.5 petL_petW
+let clusteredChart = create2dChart DistanceMetrics.Array.euclidean 20 0.5 petLpetW
 
 (*** include-value:clusteredChart ***)
 
@@ -197,7 +197,7 @@ let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
 
 
 //for faster computation you can use the squaredEuclidean distance and set your eps to its square
-let clusteredChart3D = create3dChart DistanceMetrics.Array.euclideanNaNSquared 20 (0.7**2.) petW_petL_sepL 
+let clusteredChart3D = create3dChart DistanceMetrics.Array.euclideanNaNSquared 20 (0.7**2.) petWpetLsepL 
 
 (*** include-value:clusteredChart3D ***)
 
@@ -246,7 +246,7 @@ Reference: 'Review on Determining of Cluster in K-means Clustering'; Kodinariya 
 *)
 
 //optimal k for iris data set by using rule-of-thumb
-let ruleOfThumb = ClusterNumber.k_ruleOfThumb data
+let ruleOfThumb = ClusterNumber.kRuleOfThumb data
 
 (*** include-value:ruleOfThumb ***)
 
@@ -401,8 +401,8 @@ let gapStatisticsData =
 let gapDataChart = 
     [
     gapStatisticsData|> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "original" |> Chart.withX_Axis (axisRange "" (-4.,10.)) |> Chart.withY_Axis (axisRange "" (-2.5,9.))
-    (GapStatistics.PointGenerators.generate_uniform_points rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "uniform" |> Chart.withX_Axis (axisRange "" (-4.,10.)) |> Chart.withY_Axis (axisRange "" (-2.5,9.))
-    (GapStatistics.PointGenerators.generate_uniform_points_PCA rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "uniform PCA" |> Chart.withX_Axis (axisRange "" (-4.,10.)) |> Chart.withY_Axis (axisRange "" (-2.5,9.))
+    (GapStatistics.PointGenerators.generateUniformPoints rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "uniform" |> Chart.withX_Axis (axisRange "" (-4.,10.)) |> Chart.withY_Axis (axisRange "" (-2.5,9.))
+    (GapStatistics.PointGenerators.generateUniformPointsPCA rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "uniform PCA" |> Chart.withX_Axis (axisRange "" (-4.,10.)) |> Chart.withY_Axis (axisRange "" (-2.5,9.))
     ]
     |> Chart.Stack 3
     |> Chart.withSize(800.,400.)
@@ -416,9 +416,9 @@ open GapStatistics
 //create gap statistics
 let gaps =
     GapStatistics.calculate
-        (PointGenerators.generate_uniform_points_PCA rnd)      //uniform point distribution
+        (PointGenerators.generateUniformPointsPCA rnd)      //uniform point distribution
         100// no gain above 500                                //number of bootstraps samples 
-        ClusterDispersionMetric.logDispersionKMeans_initRandom //dispersion metric of clustering algorithm
+        ClusterDispersionMetric.logDispersionKMeansInitRandom //dispersion metric of clustering algorithm
         10                                                     //maximal number of allowed clusters
         gapStatisticsData                                      //float [] [] data of coordinates
 
@@ -427,17 +427,17 @@ let k        = gaps |> Array.map (fun x -> x.ClusterIndex)
 //log(dispersion) of the original data (with rising k)
 let disp     = gaps |> Array.map (fun x -> x.Dispersion)
 //log(dispersion) of the reference data (with rising k)
-let disp_ref = gaps |> Array.map (fun x -> x.ReferenceDispersion)
+let dispRef = gaps |> Array.map (fun x -> x.ReferenceDispersion)
 //log(dispersionRef) - log(dispersionOriginal)
 let gap      = gaps |> Array.map (fun x -> x.Gaps)
 //standard deviation of reference data set dispersion
-let std      = gaps |> Array.map (fun x -> x.RefDispersion_StDev)
+let std      = gaps |> Array.map (fun x -> x.RefDispersionStDev)
 
 let gapStatisticsChart =
     let dispersions =
         [
         Chart.Line (k,disp)    |> Chart.withTraceName "disp"
-        Chart.Line (k,disp_ref)|> Chart.withTraceName "disp_ref" |> Chart.withYErrorStyle(std)
+        Chart.Line (k,dispRef)|> Chart.withTraceName "dispRef" |> Chart.withYErrorStyle(std)
         ]
         |> Chart.Combine 
         |> Chart.withX_Axis (axisRange "" (0.,11.)) 
@@ -461,20 +461,20 @@ The maximal gap points to the optimal cluster number with the following conditio
 *)
 
 //calculate s(k) out of std(k) and the number of performed iterations for the refernce data set
-let s_k   = std |> Array.map (fun sd -> sd * sqrt(1. + 1./500.)) //bootstraps = 500 
+let sK   = std |> Array.map (fun sd -> sd * sqrt(1. + 1./500.)) //bootstraps = 500 
 
 let gapChart =
     Chart.Line (k,gap)
-    |> Chart.withYErrorStyle(s_k)
+    |> Chart.withYErrorStyle(sK)
     |> Chart.withX_Axis (axisRange "k" (0.,11.)) 
     |> Chart.withY_Axis (axisRange "gap" (-0.5,2.)) 
     
 (*** include-value:gapChart ***)
 
-//choose k_opt = smallest k such that Gap(k)>= Gap(k+1)-sk+1, where sk = sdk * sqrt(1+1/bootstraps)
-let k_opt = 
-    Array.init (gap.Length - 2) (fun i -> gap.[i] >= gap.[i+1] - s_k.[i+1])
+//choose kOpt = smallest k such that Gap(k)>= Gap(k+1)-sk+1, where sk = sdk * sqrt(1+1/bootstraps)
+let kOpt = 
+    Array.init (gap.Length - 2) (fun i -> gap.[i] >= gap.[i+1] - sK.[i+1])
     |> Array.findIndex id
     |> fun x -> sprintf "The optimal cluster number is: %i" (x + 1)
     
-(*** include-value:k_opt ***)
+(*** include-value:kOpt ***)

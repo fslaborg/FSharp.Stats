@@ -42,11 +42,11 @@ let meanY       = sos.MeanY
 let slope       = coefficients.[1]
 let intercept   = coefficients.[0]
 //coefficient of determination
-let r_sq        = GoodnessOfFit.calculateDeterminationFromValue y fittedValues
+let rSq        = GoodnessOfFit.calculateDeterminationFromValue y fittedValues
 //adjusted coefficient of determination; variable=number of coefficints (excluding intercept)
-let r_sq_adj    = GoodnessOfFit.calculateDeterminationAdj y fittedValues 1
+let rSqAdj    = GoodnessOfFit.calculateDeterminationAdj y fittedValues 1
 //pearson correlation coefficient
-let r           = sqrt r_sq
+let r           = sqrt rSq
 //total sum of squares
 let ssTotal     = sos.Total
 //regression sum of squares
@@ -99,8 +99,8 @@ let outputTable =
         ["SS_regression";   print ssReg;            ""]
         ["SS_residual";     print ssResidual;       ""]
         ["r (pearson cor. coef.";               print r;                ""]
-        ["r_squared";       print r_sq;             ""]      
-        ["r_squared_adj";   print r_sq_adj;         ""]
+        ["r_squared";       print rSq;             ""]      
+        ["r_squared_adj";   print rSqAdj;         ""]
         ["SE Estimate";     print stdErrEstimate;   ""]   
         ["<b>95% Confidence interval</b>";"<b>min</b>";    "<b>max</b>"]
         ["slope";           print lowerS;           print upperS]
@@ -135,26 +135,26 @@ In both cases homoscedasticity is assumed.
 
 
 //data sorted by x values
-let x_Data = vector [|1. .. 10.|]
-let y_Data = vector [|4.;10.;9.;7.;13.;17.;16.;23.;15.;30.|]
-//let x_Data = vector [|1.47;1.50;1.52;1.55;1.57;1.60;1.63;1.65;1.68;1.70;1.73;1.75;1.78;1.80;1.83|]
-//let y_Data = vector [|52.21;53.12;54.48;55.84;57.20;58.57;59.93;61.29;63.11;64.47;66.28;68.10;69.92;72.19;74.46|]
-let values = Seq.zip x_Data y_Data
+let xData = vector [|1. .. 10.|]
+let yData = vector [|4.;10.;9.;7.;13.;17.;16.;23.;15.;30.|]
+//let xData = vector [|1.47;1.50;1.52;1.55;1.57;1.60;1.63;1.65;1.68;1.70;1.73;1.75;1.78;1.80;1.83|]
+//let yData = vector [|52.21;53.12;54.48;55.84;57.20;58.57;59.93;61.29;63.11;64.47;66.28;68.10;69.92;72.19;74.46|]
+let values = Seq.zip xData yData
 
 ///linear regression line fitting function
-let coeffs = Linear.Univariable.coefficient x_Data y_Data
+let coeffs = Linear.Univariable.coefficient xData yData
 let fit = Linear.Univariable.fit coeffs
 
-let fitValues = x_Data |> Seq.map (fun xi -> xi,(fit xi))
+let fitValues = xData |> Seq.map (fun xi -> xi,(fit xi))
 
 ///calculate confidence band errors for every x value
 let confidence = 
-    x_Data
-    |> Vector.map (calculateConfidenceBandError x_Data y_Data 0.95)
+    xData
+    |> Vector.map (calculateConfidenceBandError xData yData 0.95)
 
 ///lower and upper bounds of the 95% confidence band sorted according to x values
 let (lower,upper) = 
-    x_Data 
+    xData 
     |> Seq.mapi (fun i xi -> (fit xi) - confidence.[i],(fit xi) + confidence.[i]) 
     |> Seq.unzip
 
@@ -188,7 +188,7 @@ let newXValues =
 ///calculate confidence band errors for every x value
 let newConfidence = 
     newXValues
-    |> Vector.map (calculateConfidenceBandError x_Data y_Data 0.95)
+    |> Vector.map (calculateConfidenceBandError xData yData 0.95)
 
 ///lower and upper bounds of the 95% confidence band sorted according to x values
 let (newLower,newUpper) = 
@@ -198,7 +198,7 @@ let (newLower,newUpper) =
 
 let linePlot =
     [
-    Chart.Point(x_Data,y_Data) |> Chart.withTraceName (sprintf "%.2f+%.4fx" coeffs.[0] coeffs.[1])
+    Chart.Point(xData,yData) |> Chart.withTraceName (sprintf "%.2f+%.4fx" coeffs.[0] coeffs.[1])
     Chart.Line(fitValues) |> Chart.withTraceName "linear regression"
     Chart.Line(newXValues,newLower,Color= "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "lower"
     Chart.Line(newXValues,newUpper,Color= "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "upper"
@@ -220,7 +220,7 @@ let predictionXValues = vector [|1. .. 0.5 .. 15.|]
 ///calculate preditcion band errors for every x value
 let prediction = 
     predictionXValues
-    |> Vector.map (calculatePredictionBandError x_Data y_Data 0.95)
+    |> Vector.map (calculatePredictionBandError xData yData 0.95)
 
 ///lower and upper bounds of the 95% prediction band sorted according to x values
 let (pLower,pUpper) = 
@@ -230,7 +230,7 @@ let (pLower,pUpper) =
 
 let predictionPlot =
     [
-    Chart.Point(x_Data,y_Data) |> Chart.withTraceName (sprintf "%.2f+%.4fx" coeffs.[0] coeffs.[1])
+    Chart.Point(xData,yData) |> Chart.withTraceName (sprintf "%.2f+%.4fx" coeffs.[0] coeffs.[1])
     Chart.Line(fitValues) |> Chart.withTraceName "linear regression"
     Chart.Line(predictionXValues,pLower,Color= "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "pLower"
     Chart.Line(predictionXValues,pUpper,Color= "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "pUpper"

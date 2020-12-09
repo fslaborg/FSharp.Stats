@@ -1,5 +1,6 @@
 namespace FSharp.Stats.ML.Unsupervised
 
+open System
 open FSharp.Stats
 open FSharpAux
 
@@ -8,9 +9,12 @@ module ClusterNumber =
     open FSharp.Stats.ML.Unsupervised.IterativeClustering
     
     /// Simple estimator for number of cluster (k) // can be used as the upper bound for other methods
-    let k_ruleOfThumb observations = 
+    let kRuleOfThumb observations = 
         let ruleOfThumb (n:int) = sqrt (float n / 2.)
         ruleOfThumb (Seq.length observations)
+
+    [<Obsolete("Do not use. Use [kRuleOfThumb] instead.")>]
+    let k_ruleOfThumb observations = kRuleOfThumb observations
 
     /// Akaike Information Criterion (AIC)
     let calcAIC (bootstraps:int) (iClustering:int->KClusteringResult<float []>) maxK   =   
@@ -53,7 +57,7 @@ module ClusterNumber =
             cluster 
             |> Array.averageBy (fun j -> ML.DistanceMetrics.Array.euclideanNaNSquared item j)
 
-        let silhouetteIndex_k = 
+        let silhouetteIndexK = 
             clusteredData
             |> Array.mapi (fun i cluster -> 
                 let externalPoints = 
@@ -80,7 +84,7 @@ module ClusterNumber =
                 silhouetteIndices
                 |> Array.sumBy (fun (n,sI) -> (float n) * sI)
                 |> fun sISum -> sISum / float count
-        silhouetteIndex_k
+        silhouetteIndexK
         
     /// The silhouette index can be used to determine the optimal cluster number in k means clustering.
     /// bootstraps indicates the number the k means clustering is performed for each k and maxK indicated the maximal cluster number.
@@ -141,13 +145,13 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
         ClusterIndex        : int;
         Dispersion          : float;
         ReferenceDispersion : float;
-        RefDispersion_StDev : float;
+        RefDispersionStDev : float;
         Gaps                : float;
         }
 
     //Creates a gap statistic result.
-    let createGapStatisticResult clusterIndex dispersion referenceDispersion refDispersion_StDev gaps =                
-        { ClusterIndex = clusterIndex; Dispersion = dispersion; ReferenceDispersion = referenceDispersion;  RefDispersion_StDev = refDispersion_StDev; Gaps = gaps }
+    let createGapStatisticResult clusterIndex dispersion referenceDispersion refDispersionStDev gaps =                
+        { ClusterIndex = clusterIndex; Dispersion = dispersion; ReferenceDispersion = referenceDispersion;  RefDispersionStDev = refDispersionStDev; Gaps = gaps }
 
 
     /// Not used.
@@ -185,8 +189,8 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
 
     module PointGenerators =
     
-        // Generate uniform points within the range of `data`.
-        let generate_uniform_points (rnd:System.Random) =   
+        /// Generate uniform points within the range of `data`.
+        let generateUniformPoints (rnd:System.Random) =   
             fun (data:array<float[]>) -> 
                 let min = matrix data |> Matrix.mapiCols (fun i x -> Seq.min x) |> Array.ofSeq
                 let max = matrix data |> Matrix.mapiCols (fun i x -> Seq.max x) |> Array.ofSeq
@@ -199,9 +203,11 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
       
                 Array.init data.Length (fun x -> generateUniform ())
 
-                      
+        [<Obsolete("Do not use. Use generateUniformPoints instead.")>]
+        let generate_uniform_points (rnd:System.Random) = generateUniformPoints rnd
+            
         // Generate uniform points for an appropriate reference distribution data' that takes the original data shape into account (from Tibshirani, Walther and Hastie 2001).
-        let generate_uniform_points_PCA (rnd:System.Random)  =                    
+        let generateUniformPointsPCA (rnd:System.Random) =                    
             fun (data:array<float[]>) -> 
                 //fun (data:array<'a>) -> 
                 //let generateUniform (s:Intervals.Interval<float>) =
@@ -234,7 +240,9 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
                 (Matrix.ofJaggedArray generateUniformSVD) * (Matrix.ofArray2D vt)  
                 |> Matrix.toJaggedArray
 
-    
+        [<Obsolete("Do not use. Use generateUniformPointsPCA instead.")>]
+        let generate_uniform_points_PCA (rnd:System.Random) = generateUniformPointsPCA rnd
+
     module ClusterDispersionMetric =
         
         //[<Obsolete("Do not use. Use [logDispersionKMeans_initRandom] instead.")>]
@@ -252,7 +260,7 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
         //log is nonlinear transformation, so it has to be performed in the last step
 
         // Calculates the log clustering dispersion as defined in (from Tibshirani, Walther and Hastie 2001)
-        let logDispersionKMeans_initRandom = 
+        let logDispersionKMeansInitRandom = 
             let rnd = System.Random()
             let aggregator = IterativeClustering.avgCentroid
             let factory = IterativeClustering.randomCentroids rnd 
@@ -274,7 +282,9 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
                 |> log
                 )
 
-        
+        [<Obsolete("Do not use. Use logDispersionKMeansInitRandom instead.")>]
+        let logDispersionKMeans_initRandom = logDispersionKMeansInitRandom
+
         ////[<Obsolete("Do not use. Use [logDispersionKMeans_initCvMax] instead.")>]
         //// Calculate log(sum_i(within-cluster_i sum of squares around cluster_i mean)) of kmeans clustering result.
         //let logDispersionKMeans_initCvMax_old = 
@@ -287,7 +297,7 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
         //                                                                  ldist*ldist) )
 
         // Calculate log(sum_i(within-cluster_i sum of squares around cluster_i mean)) of kmeans clustering result.
-        let logDispersionKMeans_initCvMax = 
+        let logDispersionKMeansInitCvMax = 
             let aggregator = IterativeClustering.avgCentroid
             let factory = IterativeClustering.intitCVMAX 
             let clusterDispersion (cluster:float[][]) =
@@ -307,3 +317,6 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
                 |> Array.sumBy (fun (n,d) -> 1./(2.* float n) * d)
                 |> log
                 )
+
+        [<Obsolete("Do not use. Use logDispersionKMeansInitCvMax instead.")>]
+        let logDispersionKMeans_initCvMax = logDispersionKMeansInitCvMax

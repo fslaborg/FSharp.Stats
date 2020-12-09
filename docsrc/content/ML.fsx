@@ -81,7 +81,7 @@ toAdjustStandardize irisFeaturesMatrix
 let s,u,vt = FSharp.Stats.Algebra.LinearAlgebra.SVD  ( toAdjustStandardize irisFeaturesMatrix )
 let v = vt.Transpose |> Matrix.map (fun v -> v)
 
-let principal_components = u * s 
+let principalComponents = u * s 
 (*** hide ***)
 let vChart = Chart.Point(Seq.zip (Matrix.getCol v 0) (Matrix.getCol v 1))
 

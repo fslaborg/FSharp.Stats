@@ -408,11 +408,11 @@ module NonLinearRegression =
             createModel parameterNames getFunctionValues getGradientValues
 
         ///Takes the result of the linearization as initialGuessParams
-        let expSolverOptions (x_data:float []) (y_data:float [])= 
+        let expSolverOptions (xData:float []) (yData:float [])= 
             //gets the linear representation of the problem and solves it by simple linear regression
             let initialParamGuess =
-                let y_ln = y_data |> Array.map (fun x -> Math.Log(x)) |> vector
-                let linearReg = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient (vector x_data) y_ln
+                let yLn = yData |> Array.map (fun x -> Math.Log(x)) |> vector
+                let linearReg = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient (vector xData) yLn
                 let a = exp linearReg.[0]
                 let b = linearReg.[1]
                 [|a;b|]

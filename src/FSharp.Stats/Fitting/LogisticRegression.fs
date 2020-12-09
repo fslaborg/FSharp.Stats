@@ -57,11 +57,11 @@ module LogisticRegression =
     module Univariable = 
 
         /// Calculates the weights for logistic regression.
-        let coefficient epsilon alpha (x_data : Vector<float>) (y_data : Vector<float>) =
-            if x_data.Length <> y_data.Length then
+        let coefficient epsilon alpha (xData : Vector<float>) (yData : Vector<float>) =
+            if xData.Length <> yData.Length then
                 raise (System.ArgumentException("vector x and y have to be the same size!"))
 
-            let len = x_data.Length
+            let len = xData.Length
             let cooling = 0.9
             let rng = new Random()
             let indices = Seq.initInfinite(fun _ -> rng.Next(len))
@@ -71,7 +71,7 @@ module LogisticRegression =
                     indices
                     |> Seq.take len
                     |> Seq.fold (fun w i -> 
-                        let (label, observ) = y_data.[i], Vector.singleton x_data.[i]
+                        let (label, observ) = yData.[i], Vector.singleton xData.[i]
                         update alpha w observ label) curWeights
                 if changeRate curWeights updatedWeights <= epsilon
                 then updatedWeights
@@ -88,22 +88,22 @@ module LogisticRegression =
         let fit (coef: Vector<float>) x= 
             predict coef (Vector.singleton x)
 
-        let estimateAlpha epsilon (x_data : Vector<float>) (y_data : Vector<float>) = 
+        let estimateAlpha epsilon (xData : Vector<float>) (yData : Vector<float>) = 
             let fR2 alpha = 
-                let weight = coefficient epsilon alpha x_data y_data
+                let weight = coefficient epsilon alpha xData yData
                 let f = fit weight
-                let r2 = GoodnessOfFit.calculateSSE f x_data y_data
+                let r2 = GoodnessOfFit.calculateSSE f xData yData
                 r2
             Optimization.Brent.minimizeWith fR2 0. 1. 0.001 100
 
     module Multivariable = 
 
         /// Calculates the weights for logistic regression.
-        let coefficient epsilon alpha (x_data : Matrix<float>) (y_data : Vector<float>) =
-            if (x_data.NumRows) <> y_data.Length then
+        let coefficient epsilon alpha (xData : Matrix<float>) (yData : Vector<float>) =
+            if (xData.NumRows) <> yData.Length then
                 raise (System.ArgumentException("columns of matrix x and vector y have to be the same size!"))
 
-            let len = x_data.NumRows
+            let len = xData.NumRows
             let cooling = 0.9
             let rng = new Random()
             let indices = Seq.initInfinite(fun _ -> rng.Next(len))
@@ -113,14 +113,14 @@ module LogisticRegression =
                     indices
                     |> Seq.take len
                     |> Seq.fold (fun w i -> 
-                        let (label, observ) = y_data.[i], vector (Matrix.getRow x_data i)
+                        let (label, observ) = yData.[i], vector (Matrix.getRow xData i)
                         update alpha w observ label) curWeights
                 if changeRate curWeights updatedWeights <= epsilon
                 then updatedWeights
                 else 
                     let coolerAlpha = max epsilon cooling * alpha
                     descent updatedWeights coolerAlpha
-            let vars = x_data.NumCols
+            let vars = xData.NumCols
             let weights = Vector.zeroCreate (vars+1) // 1 more weight for constant
 
             descent weights alpha
@@ -133,10 +133,10 @@ module LogisticRegression =
         let fit (coef: Vector<float>) (x:Vector<float>)= 
             predict coef x
 
-        //let estimateAlpha epsilon (x_data : Matrix<float>) (y_data : Vector<float>) = 
+        //let estimateAlpha epsilon (xData : Matrix<float>) (yData : Vector<float>) = 
         //    let fR2 alpha = 
-        //        let weight = coefficient epsilon alpha x_data y_data
+        //        let weight = coefficient epsilon alpha xData yData
         //        let f = fitFunc weight
-        //        let r2 = GoodnessOfFit.calculateSSE f x_data y_data
+        //        let r2 = GoodnessOfFit.calculateSSE f xData yData
         //        r2
         //    Optimization.Brent.minimizeWith fR2 0. 1. 0.001 100

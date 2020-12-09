@@ -12,9 +12,9 @@ module Wavelet =
         Scale       : float
         ///half of the width of the wavelet
         PaddingArea : float
-        ///x_value of minimum y_value
+        ///x value of minimum y value
         MinimumPosX : float
-        ///function that takes a x_value and gives the corresponding y_value
+        ///function that takes a x value and gives the corresponding y value
         RickerFun   : (float -> float)
         ///ricker function values for discrete wavelet transform 
         RickerValues: float []
@@ -64,10 +64,10 @@ module Wavelet =
             let facC = exp(-(squareX + squareY)/(2. * squareS))
             facA * facB * facC
 
-        let functionValuesMarr scale xy_values = 
-            xy_values
+        let functionValuesMarr scale xyValues = 
+            xyValues
             |> Array.map (fun y -> 
-                xy_values
+                xyValues
                 |> Array.map (fun x -> 
                     functionMarr x y scale
                     )

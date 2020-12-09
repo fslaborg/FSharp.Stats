@@ -66,18 +66,18 @@ module LinearRegression =
             module Univariable =    
                 /// Calculates the coefficients for linear regression
                 /// in the form of [|intercept; slope;|]
-                let coefficient (x_data : Vector<float>) (y_data : Vector<float>) =
-                    if x_data.Length <> y_data.Length then
+                let coefficient (xData : Vector<float>) (yData : Vector<float>) =
+                    if xData.Length <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
-                    let N = x_data.Length
-                    let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else x_data.[m] )
-                    Algebra.LinearAlgebra.LeastSquares X y_data
+                    let N = xData.Length
+                    let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else xData.[m] )
+                    Algebra.LinearAlgebra.LeastSquares X yData
 
                 /// Calculates the coefficients for linear regression through a specified point (xC,yC) 
-                let coefficientConstrained (x_data : Vector<float>) (y_data : Vector<float>) ((xC,yC): float*float) =
-                    let x_transformed = x_data |> Vector.map (fun x -> x - xC)
-                    let y_transformed = y_data |> Vector.map (fun y -> y - yC)
-                    let slope = RTO.coefficientOfVector x_transformed y_transformed
+                let coefficientConstrained (xData : Vector<float>) (yData : Vector<float>) ((xC,yC): float*float) =
+                    let xTransformed = xData |> Vector.map (fun x -> x - xC)
+                    let yTransformed = yData |> Vector.map (fun y -> y - yC)
+                    let slope = RTO.coefficientOfVector xTransformed yTransformed
                     [|- xC * slope - yC;slope|]
 
                 /// Fit to x
@@ -88,16 +88,16 @@ module LinearRegression =
         
                 /// Fits a model (y(x) = b + m * x) to the data and returns the cooks distance for every data pair present in the
                 /// input collections as an estimator for the influence of each data point in coefficient estimation.  
-                let cooksDistance (x_data : Vector<float>) (y_data : Vector<float>) =
-                    if x_data.Length <> y_data.Length then
+                let cooksDistance (xData : Vector<float>) (yData : Vector<float>) =
+                    if xData.Length <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
-                    let N = x_data.Length
-                    let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else x_data.[m] )
-                    let coeffs = Algebra.LinearAlgebra.LeastSquares X y_data
+                    let N = xData.Length
+                    let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else xData.[m] )
+                    let coeffs = Algebra.LinearAlgebra.LeastSquares X yData
                     let leverages = Algebra.LinearAlgebra.leverage X
-                    let yPred = Vector.map (fit coeffs) x_data
-                    let squaredDeviations = Vector.map2 (fun y yPr -> (y - yPr) ** 2.)  yPred y_data 
-                    let MSE = squaredDeviations |> Vector.sum |> fun sumOfSquares -> sumOfSquares / (float x_data.Length)         
+                    let yPred = Vector.map (fit coeffs) xData
+                    let squaredDeviations = Vector.map2 (fun y yPr -> (y - yPr) ** 2.)  yPred yData 
+                    let MSE = squaredDeviations |> Vector.sum |> fun sumOfSquares -> sumOfSquares / (float xData.Length)         
                     // compute cooksDistance for every Point in the dataSet
                     squaredDeviations 
                     |> FSharp.Stats.Vector.mapi (fun i squaredDev -> 
@@ -109,13 +109,13 @@ module LinearRegression =
             module Multivariable =           
                 /// Calculates the coefficients for linear regression
                 /// in the form of [|intercept; slope;|]
-                let coefficients (x_data : Matrix<float>) (y_data : Vector<float>) =
-                    if x_data.NumRows <> y_data.Length then
+                let coefficients (xData : Matrix<float>) (yData : Vector<float>) =
+                    if xData.NumRows <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
-                    let m = x_data.NumRows
-                    let n = x_data.NumCols
-                    let X = Matrix.init m (n+1) (fun m n ->  if n = 0 then 1. else x_data.[m,n-1] )
-                    Algebra.LinearAlgebra.LeastSquares X y_data
+                    let m = xData.NumRows
+                    let n = xData.NumCols
+                    let X = Matrix.init m (n+1) (fun m n ->  if n = 0 then 1. else xData.[m,n-1] )
+                    Algebra.LinearAlgebra.LeastSquares X yData
                     
                 /// Fit to x
                 let fit (coef : Vector<float>) (x:Vector<float>) =
@@ -124,18 +124,18 @@ module LinearRegression =
             
             module RidgeRegression =           
 
-                let coefficients lambda (x_data : Matrix<float>) (y_data : Vector<float>) =
-                    if x_data.NumRows <> y_data.Length then
+                let coefficients lambda (xData : Matrix<float>) (yData : Vector<float>) =
+                    if xData.NumRows <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
-                    let m = x_data.NumRows
-                    let n = x_data.NumCols
-                    let X = Matrix.init m (n+1) (fun m n ->  if n = 0 then 1. else x_data.[m,n-1] )
+                    let m = xData.NumRows
+                    let n = xData.NumCols
+                    let X = Matrix.init m (n+1) (fun m n ->  if n = 0 then 1. else xData.[m,n-1] )
                     
                     let lambdaIdentity = lambda * Matrix.identity n
                     let sumDot = X.Transpose * X + lambdaIdentity
                     let theInverse = Algebra.LinearAlgebra.Inverse sumDot
                     let inverseXt = theInverse * X.Transpose
-                    let w = inverseXt * y_data
+                    let w = inverseXt * yData
  
                     w
 
@@ -157,46 +157,46 @@ module LinearRegression =
                 //Matrix. ofRowVector (vector [ for i = 0 to (vec.Count - 1) do yield (vandermondeRow order vec.[i]) ])
             
             /// Calculates the coefficients for polynomial regression
-            let coefficient order (x_data : Vector<float>) (y_data : Vector<float>) =
-                if x_data.Length <> y_data.Length then
+            let coefficient order (xData : Vector<float>) (yData : Vector<float>) =
+                if xData.Length <> yData.Length then
                     raise (System.ArgumentException("vector x and y have to be the same size!"))
-                let N = x_data.Length
-                let A = vandermondeMatrix order x_data
+                let N = xData.Length
+                let A = vandermondeMatrix order xData
                 // Least Squares of |y=A(x)*c| 
                 //  tr(A)*y = tr(A)*A*c
                 //  inv(tr(A)*A)*tr(A)*y = c        
                 let AtA = A.Transpose * A
-                let Aty = A.Transpose * y_data
+                let Aty = A.Transpose * yData
                 Algebra.LinearAlgebra.LeastSquares AtA Aty        
 
             /// Calculates the coefficients for polynomial regression with given weighting
-            let coefficientsWithWeighting order (weighting : Vector<float>) (x_data : Vector<float>) (y_data : Vector<float>) = 
-                if x_data.Length <> y_data.Length || x_data.Length <> weighting.Length then
+            let coefficientsWithWeighting order (weighting : Vector<float>) (xData : Vector<float>) (yData : Vector<float>) = 
+                if xData.Length <> yData.Length || xData.Length <> weighting.Length then
                     raise (System.ArgumentException("vector x,y and weighting have to be the same size!"))
                 let A = 
                     let includeWeighting weighting order =
                         Matrix.init (order + 1) (order + 1) (fun i j -> 
-                                                                Vector.map2 (fun x w -> w * (pown x (i + j))) x_data weighting 
+                                                                Vector.map2 (fun x w -> w * (pown x (i + j))) xData weighting 
                                                                 |> Vector.sum
                                                             )
                     includeWeighting weighting order
                 let b = 
                     Vector.init (order + 1) (fun i -> 
-                                                Vector.map3 (fun x y w -> w * (pown x i) * y) x_data y_data weighting 
+                                                Vector.map3 (fun x y w -> w * (pown x i) * y) xData yData weighting 
                                                 |> Vector.sum
                                             )
                 Algebra.LinearAlgebra.SolveLinearSystem A b   
 
             /////takes vector of data with n>1 replicates and gives a vector of weightings based on the variance in measurements ( 1/var(i..j) )
             /////only apply if y > 0 !
-            //let getWeightingOfVariance numberOfReplicates (y_Data:Vector<float>) =
+            //let getWeightingOfVariance numberOfReplicates (yData:Vector<float>) =
             //    let var =
-            //        if y_Data.Length % numberOfReplicates = 0 then
-            //            let length = y_Data.Length / numberOfReplicates
-            //            let variance = vector [for i = 0 to length-1 do yield y_Data.[i * numberOfReplicates .. (i + 1) * numberOfReplicates - 1] |> Seq.var]
+            //        if yData.Length % numberOfReplicates = 0 then
+            //            let length = yData.Length / numberOfReplicates
+            //            let variance = vector [for i = 0 to length-1 do yield yData.[i * numberOfReplicates .. (i + 1) * numberOfReplicates - 1] |> Seq.var]
             //            variance
             //        else raise (System.ArgumentException("data length no multiple of replicate number!")) 
-            //    Vector.init (y_Data.Length / numberOfReplicates) (fun i -> 1. / var.[i])
+            //    Vector.init (yData.Length / numberOfReplicates) (fun i -> 1. / var.[i])
                         
             /// Fit to x
             let fit (order) (coef : Vector<float>) (x:float) =            
@@ -218,16 +218,16 @@ module LinearRegression =
                 
             /// Fits a polynomial model of user defined order to the data and returns the cooks distance for every data pair present in the
             /// input collections as an estimator for the influence of each data point in coefficient estimation.  
-            let cooksDistance order (x_data : Vector<float>) (y_data : Vector<float>) =
-                if x_data.Length <> y_data.Length then
+            let cooksDistance order (xData : Vector<float>) (yData : Vector<float>) =
+                if xData.Length <> yData.Length then
                     raise (System.ArgumentException("vector x and y have to be the same size!"))
-                let N = x_data.Length
-                let A = vandermondeMatrix order x_data
-                let coeffs = Algebra.LinearAlgebra.LeastSquares A y_data
+                let N = xData.Length
+                let A = vandermondeMatrix order xData
+                let coeffs = Algebra.LinearAlgebra.LeastSquares A yData
                 let leverages = Algebra.LinearAlgebra.leverage A
-                let yPred = Vector.map (fit order coeffs) x_data
-                let squaredDeviations = Vector.map2 (fun y yPr -> (y - yPr) ** 2.)  yPred y_data 
-                let MSE = squaredDeviations |> Vector.sum |> fun sumOfSquares -> sumOfSquares / (float x_data.Length)         
+                let yPred = Vector.map (fit order coeffs) xData
+                let squaredDeviations = Vector.map2 (fun y yPr -> (y - yPr) ** 2.)  yPred yData 
+                let MSE = squaredDeviations |> Vector.sum |> fun sumOfSquares -> sumOfSquares / (float xData.Length)         
                 // compute cooksDistance for every Point in the dataSet
                 squaredDeviations 
                 |> FSharp.Stats.Vector.mapi (fun i squaredDev -> 
@@ -248,10 +248,10 @@ module LinearRegression =
 
             //(http://195.134.76.37/applets/AppletTheil/Appl_Theil2.html)
             ///Calculates theil's incomplete method in the form of [|intercept; slope;|]
-            let theilEstimator (x_Values: Vector<float>) (y_Values: Vector<float>)= 
-                //sort data in ascending order (x_value)
+            let theilEstimator (xData: Vector<float>) (yData: Vector<float>)= 
+                //sort data in ascending order (xData)
                 let data =
-                    Array.zip (Vector.toArray x_Values) (Vector.toArray y_Values)
+                    Array.zip (Vector.toArray xData) (Vector.toArray yData)
                     |> Array.sortBy fst
                 
                 //low/high group. (If n is odd, the middle value is ignored)
@@ -283,15 +283,15 @@ module LinearRegression =
 
 
             ///Calculates the robust Theil-Sen estimator for linear regression in the form of [|intercept; slope;|]
-            let theilSenEstimator (x_Values: Vector<float>) (y_Values: Vector<float>) =
-                let xLength = x_Values.Length
+            let theilSenEstimator (xData: Vector<float>) (yData: Vector<float>) =
+                let xLength = xData.Length
 
                 let indicesOfUniqueOccurences =
                     let rec loop acc i =
                         if i < xLength then 
-                            let tmp = x_Values.[i]
+                            let tmp = xData.[i]
                             let occurences =
-                                x_Values
+                                xData
                                 |> Seq.filter (fun xT -> tmp = xT)
                             if Seq.length occurences > 1 
                                 then loop acc (i+1)
@@ -304,8 +304,8 @@ module LinearRegression =
                     |> List.map (fun i -> data.[i])
                     |> vector
 
-                let filteredXData = isolateUnique x_Values
-                let filteredYData = isolateUnique y_Values
+                let filteredXData = isolateUnique xData
+                let filteredYData = isolateUnique yData
                 theilEstimator filteredXData filteredYData
 
 

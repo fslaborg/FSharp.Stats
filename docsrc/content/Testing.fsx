@@ -410,7 +410,7 @@ let (index,pValue,pValueAdj) =
 
 (*** hide ***)
 
-let lsd_Corrected =
+let lsdCorrected =
     let header = ["<b>Contrast index</b>";"<b>p Value</b>";"<b>p Value adj</b>"]
     let rows = 
         [
@@ -430,7 +430,7 @@ let lsd_Corrected =
         FontHeader = Font.init(Color="white")
         )
 
-(*** include-value:lsd_Corrected ***)
+(*** include-value:lsdCorrected ***)
 
 (**
 ###Hays

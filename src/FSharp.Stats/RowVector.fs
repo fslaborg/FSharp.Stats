@@ -35,10 +35,13 @@ module RowVector =
         let ofArray a        = OpsS.arrayRV a
         let ofSeq a          = OpsS.seqRV a
         let toArray m        = Array.init (length m) (get m)
-
+        [<Obsolete("Use ofList instead.")>]
         let of_list a        = ofList a
+        [<Obsolete("Use ofArray instead.")>]
         let of_array a       = ofArray a
+        [<Obsolete("Use ofSeq instead.")>]
         let of_seq a         = ofSeq a
+        [<Obsolete("Use toArray instead.")>]
         let to_array m       = toArray m
 
 
@@ -58,10 +61,14 @@ module RowVector =
     let ofSeq x : rowvec       = RVG.ofSeq x
     let transpose x : vector     = RVG.transpose x
     let copy x : rowvec          = RVG.copy x
-
+    
+    [<Obsolete("Use ofList instead.")>]
     let of_list x    = ofList x
+    [<Obsolete("Use ofSeq instead.")>]
     let of_seq x     = ofSeq x
+    [<Obsolete("Use ofArray instead.")>]
     let of_array arr = ofArray arr
+    [<Obsolete("Use toArray instead.")>]
     let to_array m   = toArray m
 
 

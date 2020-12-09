@@ -94,7 +94,7 @@ module Bandwidth =
     /// Least squares cross-validation of bandwidth (unbiased)
     let uLSCV (data:float[]) (numberOfBins:option<int>) =
         // <- bandwidth counts 
-        let band_ucv_bin (h:float) (n:int) (nbin:int) (d:float) (x:int[]) =
+        let bandUcvBin (h:float) (n:int) (nbin:int) (d:float) (x:int[]) =
             let nn = float n
             let sum = [0..nbin-1] |> Seq.sumBy (fun i -> let delta = (float(i) * d / h)**2.
                                                          let term  = exp(-delta / 4.) - sqrt(8.0) * exp(-delta / 2.)                                                 
@@ -124,7 +124,7 @@ module Bandwidth =
                         tmpCnt.[iij] <- tmpCnt.[iij]  + 1
                   tmpCnt  
 
-        let bandUCV (value:float) = band_ucv_bin (value) (data.Length) (nb) (d) (cnt)
+        let bandUCV (value:float) = bandUcvBin (value) (data.Length) (nb) (d) (cnt)
         
         match FSharp.Stats.Rootfinding.Brent.tryFindRootWith 1e-8 100 bandUCV lower upper with 
         | Some x -> x

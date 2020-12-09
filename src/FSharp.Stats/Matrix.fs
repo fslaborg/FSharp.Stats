@@ -168,30 +168,54 @@ module Matrix = begin
         ///
         let toScalar matrix = MS.toScalarM matrix
 
+        
+
         let inplace_assign f matrix                = MS.inplaceAssignM  f matrix
         let inplace_cptMul matrix1 matrix2         = MS.inplaceCptMulM matrix1 matrix2
         let inplace_scale value matrix             = MS.inplaceScaleM value matrix
         let inplace_map mapping matrix             = MS.inplace_mapM mapping matrix
         let inplace_mapi mapping matrix            = MS.inplace_mapiM mapping matrix
+        
+        [<Obsolete("Use ofRowVector instead")>]
         let of_rowvec rowVector                    = ofRowVector rowVector
+        [<Obsolete("Use ofVector instead")>]
         let of_vector vector                       = ofVector vector
+        [<Obsolete("Use toVector instead")>]
         let to_vector matrix                       = toVector matrix
+        [<Obsolete("Use toRowVector instead")>]
         let to_rowvec matrix                       = toRowVector matrix
+        [<Obsolete("Use toScalar instead")>]
         let to_scalar matrix                       = toScalar matrix
+        [<Obsolete("Use inplaceAdd instead")>]
         let inplace_add matrix1 matrix2            = inplaceAdd matrix1 matrix2
+        [<Obsolete("Use inplaceSub instead")>]
         let inplace_sub matrix1 matrix2            = inplaceSub matrix1 matrix2
+        [<Obsolete("Use ofScalar instead")>]
         let of_scalar scalar                       = ofScalar scalar
+        [<Obsolete("Use ofList instead")>]
         let of_list lists                          = ofList lists
+        [<Obsolete("Use ofSeq instead")>]
         let of_seq sources                         = ofSeq sources
+        [<Obsolete("Use ofArray2D instead")>]
         let inline of_array2D arrays               = ofArray2D arrays
+        [<Obsolete("Use sparseOfArray2D instead")>]
         let inline sparse_of_array2D arrays        = sparseOfArray2D arrays
+        [<Obsolete("Use toArray2D instead")>]
         let inline to_array2D matrix               = toArray2D matrix
+        [<Obsolete("Use initDiagonal instead")>]
         let init_diagonal vector                   = initDiagonal vector
+        [<Obsolete("Use toDense instead")>]
         let to_dense matrix                        = toDense matrix
+        [<Obsolete("Use toSparse instead")>]
         let to_sparse matrix                       = toSparse matrix
+        [<Obsolete("Use initDense instead")>]
         let init_dense lengthRow lengthCol source  = initDense lengthRow lengthCol source
+        [<Obsolete("Use initSparse instead")>]
         let init_sparse lengthRow lengthCol source = initSparse lengthRow lengthCol source
-        let nonzero_entries matrix                 = MS.nonZeroEntriesM matrix
+        let nonzeroEntries matrix                 = MS.nonZeroEntriesM matrix
+        [<Obsolete("Use nonzeroEntries instead")>]
+        let nonzero_entries matrix                 = nonzeroEntries matrix
+
 
         // TM
         /// Applies function f along row axis
@@ -368,7 +392,7 @@ module Matrix = begin
     let initSparse i j a : matrix = MG.initSparse i j a
     /// Iterates the m*n matrix a row wise and returns a list of tuples (mi,ni,v) containing non zero elements of a
     /// and their row (m) and column (n) indicies.
-    let nonzero_entries (a:matrix) = MG.nonzero_entries a
+    let nonzero_entries (a:matrix) = MG.nonzeroEntries a
     /// Creates a dense matrix with i rows and j columns. All values are initialized to yero (0.).
     let zero m n = DS.zeroDenseMatrixDS m n |> MS.dense
     /// Creates a dense identiy m*m matrix. A identity matrix is always squared and the elements are set to zero exept elements
@@ -445,23 +469,41 @@ module Matrix = begin
     let inplace_mapi  f (a:matrix) = MG.inplace_mapi f a
     let inplace_cptMul (a:matrix) b = MS.inplaceCptMulM a b
     let inplace_scale  a (b:matrix) = MS.inplaceScaleM a b
+    [<Obsolete("Use inplaceAdd instead")>]
     let inplace_add  a b = inplaceAdd a b
+    [<Obsolete("Use inplaceSub instead")>]
     let inplace_sub  a b = inplaceSub a b
+    [<Obsolete("Use ofRowVector instead")>]
     let of_rowvec x = ofRowVector x
+    [<Obsolete("Use ofVector instead")>]
     let of_vector x = ofVector x
+    [<Obsolete("Use toVector instead")>]
     let to_vector x = toVector x
+    [<Obsolete("Use toRowVector instead")>]
     let to_rowvec x = toRowVector x
+    [<Obsolete("Use toScalar instead")>]
     let to_scalar x = toScalar x
+    [<Obsolete("Use ofArray2D instead")>]
     let inline of_array2D arr  = ofArray2D arr
+    [<Obsolete("Use sparseOfArray2D instead")>]
     let inline sparse_of_array2D arr = sparseOfArray2D arr
+    [<Obsolete("Use toArray2D instead")>]
     let inline to_array2D m = toArray2D m
+    [<Obsolete("Use ofJaggedList instead")>]
     let of_list    xss   = ofJaggedList xss
+    [<Obsolete("Use ofJaggedSeq instead")>]
     let of_seq     xss   = ofJaggedSeq xss
+    [<Obsolete("Use initDiagonal instead")>]
     let init_diagonal v   = initDiagonal   v
+    [<Obsolete("Use ofScalar instead")>]
     let of_scalar x     = ofScalar x
+    [<Obsolete("Use toDense instead")>]
     let to_dense x = toDense x
+    [<Obsolete("Use toSparse instead")>]
     let to_sparse x = toSparse x
+    [<Obsolete("Use initDense instead")>]
     let init_dense i j a = initDense i j a
+    [<Obsolete("Use initSparse instead")>]
     let init_sparse i j a = initSparse i j a
 
     //----------------------------------------------------------------------------
@@ -661,7 +703,7 @@ module MatrixExtension =
         [<DebuggerBrowsable(DebuggerBrowsableState.Collapsed)>]
 #endif
 
-        member x.NonZeroEntries    = Matrix.Generic.nonzero_entries x
+        member x.NonZeroEntries    = Matrix.Generic.nonzeroEntries x
         member x.ToScalar()        = Matrix.Generic.toScalar x
         member x.ToRowVector()     = Matrix.Generic.toRowVector x
         member x.ToVector()        = Matrix.Generic.toVector x

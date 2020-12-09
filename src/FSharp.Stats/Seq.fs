@@ -737,10 +737,10 @@ module Seq =
             | true  -> 
                 let current  = e.Current
                 let delta    = current - m1               
-                let delta_n  = (delta / n)
-                //let delta_n2 = delta_n * delta_n
-                let m1'    = m1 + delta_n            
-                let m2' = m2 + delta * delta_n * (n-one)
+                let deltaN  = (delta / n)
+                //let delta_n2 = deltaN * deltaN
+                let m1'    = m1 + deltaN            
+                let m2' = m2 + delta * deltaN * (n-one)
                 loop (n + one) (min current minimum) (max current maximum) m1' m2'
 
             | false -> SummaryStats.createSummaryStats (n-one) m1 m2 minimum maximum

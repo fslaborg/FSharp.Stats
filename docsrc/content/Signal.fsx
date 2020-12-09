@@ -91,7 +91,7 @@ let t  = [|-4. ..(8.0/500.).. 4.|]
 let dy  = t |> Array.map (fun t -> (-t**2.) + (Distributions.Continuous.Normal.Sample 0. 0.5) )
 let dy' = t |> Array.map (fun t -> (-t**2.))
 
-let dysg = Signal.Filtering.savitzky_golay  31 4 0 1 dy
+let dysg = Signal.Filtering.savitzkyGolay  31 4 0 1 dy
 
 let savitzgyChart =
     [

@@ -120,12 +120,12 @@ let vecX = FSharp.Stats.Algebra.LinearAlgebra.SolveLinearSystem matA vecB
 
 open FSharp.Plotly
 
-let x_Data = vector [|1. .. 10.|]
-let y_Data = vector [|4.;7.;9.;12.;15.;17.;16.;23.;5.;30.|]
+let xData = vector [|1. .. 10.|]
+let yData = vector [|4.;7.;9.;12.;15.;17.;16.;23.;5.;30.|]
 
 // get coefficients of interpolating polynomial
 let interpolatingCoefficients = 
-    Interpolation.Polynomial.coefficients x_Data y_Data
+    Interpolation.Polynomial.coefficients xData yData
 
 // get fitting function of interpolating polynomial
 let interpolFitFunc = 
@@ -144,7 +144,7 @@ let interpolChart =
 
 // get coefficients of 3rd order regression polynomial
 let regressionCoefficients = 
-    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.coefficient 3 x_Data y_Data
+    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.coefficient 3 xData yData
     
 // get fitting function of 3rd order regression polynomial
 let regressionFitFunc = 
@@ -158,7 +158,7 @@ let regressionChart =
     |> fun data -> Chart.Line(data,"regression polynomial")
 
 let combinedChart =
-    let rawChart = Chart.Point(x_Data,y_Data)
+    let rawChart = Chart.Point(xData,yData)
     [rawChart;interpolChart;regressionChart]
     |> Chart.Combine
     |> styleChart "" ""

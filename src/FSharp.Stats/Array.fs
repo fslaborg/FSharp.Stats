@@ -30,13 +30,13 @@ module Array =
     /// Function works in place and returns the index of the pivote element (using Lomuto's partitioning algorithm)
     let inline partitionSortInPlace left right (items:array<'T>) =   
         let random = Random.rndgen
-        let pivot_index = left + random.NextInt() % (right - left + 1)
-        let pivot = items.[pivot_index]
+        let pivotIndex = left + random.NextInt() % (right - left + 1)
+        let pivot = items.[pivotIndex]
         if isNan pivot then
-            ~~~pivot_index
+            ~~~pivotIndex
         else
-            swapInPlace pivot_index right items // swap random pivot to right.
-            let pivot_index' = right;
+            swapInPlace pivotIndex right items // swap random pivot to right.
+            let pivotIndex' = right;
             // https://stackoverflow.com/questions/22080055/quickselect-algorithm-fails-with-duplicated-elements
             //let mutable i = left - 1
 
@@ -63,7 +63,7 @@ module Array =
             if i < -1 then
                 i
             else
-                swapInPlace (i + 1) pivot_index' items // swap back the pivot
+                swapInPlace (i + 1) pivotIndex' items // swap back the pivot
                 i + 1
 
     /// Finds the kth smallest element in an unordered array (note that k is ONE-based)

@@ -45,16 +45,16 @@ let getFitFuncPolynomial xTrain yTrain (xTest:RowVector<float>) order =
     let fit     = Polynomial.fit order coeffs (xTest.[0])
     fit
 
-// the error is calculated as the squared difference of fitted and original y_value
+// the error is calculated as the squared difference of fitted and original y value
 let error (f1:float) f2 = pown (f1 - f2) 2
 
 /// Leave-one-out cross validation. Returns the mean squared error of each leave-out at the 
 /// specific polynomial order. Minimize for model selection.
-let loocvPolynomial (x_Data:Vector<float>) (y_Data:Vector<float>) order =
-    let x_DataMat = Matrix.ofVector x_Data
+let loocvPolynomial (xData:Vector<float>) (yData:Vector<float>) order =
+    let xDataMat = Matrix.ofVector xData
     let getFitFuncPol xTrain yTrain (xTest:RowVector<float>) = 
         getFitFuncPolynomial xTrain yTrain xTest order
-    let meanSquaredError = CrossValidation.loocv x_DataMat y_Data getFitFuncPol error
+    let meanSquaredError = CrossValidation.loocv xDataMat yData getFitFuncPol error
     
     meanSquaredError
 
@@ -118,7 +118,7 @@ let getFitFuncSpline xDat yDat (xDatTrain: RowVector<float>) lambda =
     //Spline.smoothingSpline zippedData (xDat |> Array.ofSeq) lambda xValTest
     //else nan
 
-// the error is calculated as the squared difference of fitted and original y_value
+// the error is calculated as the squared difference of fitted and original y value
 let errorSpl (f1:float) f2 = 
     /// if xValue is outside of support area of the fitted model (some smoothing spline algorithms), the error should report 0.
     //if nan.Equals f1 then 0.
@@ -127,12 +127,12 @@ let errorSpl (f1:float) f2 =
 
 /// Leave-one-out cross validation. Returns the mean squared error of each leave-out at the 
 /// specific regularization parameter (lambda). Minimize the (MSE) for model selection.
-let loocvSmoothingSpline (x_Data:Vector<float>) (y_Data:Vector<float>) lambda =
-    let x_DataMat = Matrix.ofVector x_Data
+let loocvSmoothingSpline (xData:Vector<float>) (yData:Vector<float>) lambda =
+    let xDataMat = Matrix.ofVector xData
     let getFitFuncSpl xDat yDat (xDatTrain: RowVector<float>) =
         getFitFuncSpline xDat yDat xDatTrain lambda
     
-    CrossValidation.loocv x_DataMat y_Data getFitFuncSpl errorSpl
+    CrossValidation.loocv xDataMat yData getFitFuncSpl errorSpl
 
 // smoothing parameter = lambda = regularization parameter
 let lambdasToCheck = [|1. .. 15.|] |> Array.map (fun i -> 0.0001 * i**3.)
@@ -195,7 +195,7 @@ let repeatedKFoldPolynomial k (xData: Vector<float>) (yData: Vector<float>) orde
     CrossValidation.repeatedKFold k 10 xDataMat yData getFitFuncPol error Seq.stDev
 
 //creates an output for 10 iterations where defined 20 % of the data set are taken as testing data set
-let kf_polynomial order = repeatedKFoldPolynomial 5 xV yV order
+let kfPolynomial order = repeatedKFoldPolynomial 5 xV yV order
 
 
 
@@ -209,7 +209,7 @@ let repeatedKFoldSpline k (xData: Vector<float>) (yData: Vector<float>) lambda =
     CrossValidation.repeatedKFold k 10 xDataMat yData getFitFuncSpl errorSpl Seq.stDev
 
 //creates an output for 10 iterations where defined 20 % of the data set are taken as testing data set
-let kf_spline lambda = repeatedKFoldSpline 5 xV yV lambda
+let kfSpline lambda = repeatedKFoldSpline 5 xV yV lambda
 
 (**
 The given data set is small and therefore the mean errors show a high variability
@@ -222,7 +222,7 @@ let kfp =
         ordersToCheck 
         |> Array.map (fun order -> 
             //basisPoints define, where the knots of the spline are located
-            let error = kf_polynomial order
+            let error = kfPolynomial order
             (order,error.Error),error.ErrorStDev)
         |> Array.unzip
 
@@ -231,14 +231,14 @@ let kfp =
     |> Chart.withX_Axis (myAxis "order") 
     |> Chart.withY_Axis (myLogAxis "mean error")
     |> Chart.withYErrorStyle (snd errorSplinekf)
-    |> Chart.withTitle "kfold_polynomial error"
+    |> Chart.withTitle "kfoldPolynomial error"
 
 let kfs = 
     let errorSplinekf = 
         lambdasToCheck 
         |> Array.map (fun lambda -> 
             //basisPoints define, where the knots of the spline are located
-            let error = kf_spline lambda
+            let error = kfSpline lambda
             (lambda,error.Error),error.ErrorStDev)
         |> Array.unzip
 
@@ -247,7 +247,7 @@ let kfs =
     |> Chart.withX_Axis (myAxis "lambda") 
     |> Chart.withY_Axis (myAxis "mean error")
     |> Chart.withYErrorStyle (snd errorSplinekf)
-    |> Chart.withTitle "kfold_spline error"
+    |> Chart.withTitle "kfoldSpline error"
 
 
 (*** include-value: kfp***)
@@ -273,7 +273,7 @@ let shuffleAndSplitPolynomial p iterations (xData: Vector<float>) (yData: Vector
    CrossValidation.shuffelAndSplit p iterations xDataMat yData getFitFuncPol error Seq.stDev
 
 //creates an output for 5 iterations where random 20 % of the data set are taken as testing data set
-let sas_polynomial order = shuffleAndSplitPolynomial 0.2 5 xV yV order
+let sasPolynomial order = shuffleAndSplitPolynomial 0.2 5 xV yV order
 
 let shuffleAndSplitSpline p iterations (xData: Vector<float>) (yData: Vector<float>) lambda =
     let xDataMat = xData |> Matrix.ofVector
@@ -284,7 +284,7 @@ let shuffleAndSplitSpline p iterations (xData: Vector<float>) (yData: Vector<flo
     CrossValidation.shuffelAndSplit p iterations xDataMat yData getFitFuncSpl errorSpl Seq.stDev
 
 //creates an output for 5 iterations where random 20 % of the data set are taken as testing data set
-let sas_spline lambda = shuffleAndSplitSpline 0.2 5 xV yV lambda
+let sasSpline lambda = shuffleAndSplitSpline 0.2 5 xV yV lambda
 
 
 (**
@@ -296,7 +296,7 @@ let sasp =
         ordersToCheck 
         |> Array.map (fun order -> 
             //basisPoints define, where the knots of the spline are located
-            let error = sas_polynomial order
+            let error = sasPolynomial order
             (order,error.Error),error.ErrorStDev)
         |> Array.unzip
 
@@ -312,7 +312,7 @@ let sass =
         lambdasToCheck 
         |> Array.map (fun lambda -> 
             //basisPoints define, where the knots of the spline are located
-            let error = sas_spline lambda
+            let error = sasSpline lambda
             (lambda,error.Error),error.ErrorStDev)
         |> Array.unzip
 

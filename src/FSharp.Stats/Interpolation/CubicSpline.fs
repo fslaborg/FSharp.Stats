@@ -151,22 +151,22 @@ module CubicSpline =
             ///f' at first and last knot are set by user
             | Clamped
               
-        ///computes all coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
-        ///where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)
-        let coefficients (boundaryCondition: BoundaryCondition) (x_Values: Vector<float>) (y_Values: Vector<float>) =
+        /// computes all coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
+        /// where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)
+        let coefficients (boundaryCondition: BoundaryCondition) (xValues: Vector<float>) (yValues: Vector<float>) =
             //f(x)   = ax³+bx²+cx+d
             //f'(x)  = 3ax²+2bx+c
             //f''(x) = 6ax+2b
 
             let (xVal,yVal) =
                 let indices =
-                    x_Values
+                    xValues
                     |> Seq.indexed
                     |> Seq.sortBy snd
                     |> Seq.map fst
-                let sortedX_Values = indices |> Seq.map (fun i -> x_Values.[i]) |> vector
-                let sortedY_Values = indices |> Seq.map (fun i -> y_Values.[i]) |> vector
-                sortedX_Values,sortedY_Values
+                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
+                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
+                sortedXValues,sortedYValues
 
             let intervalNumber = xVal.Length - 1
 
@@ -323,9 +323,9 @@ module CubicSpline =
 
             Algebra.LinearAlgebra.SolveLinearSystem A b 
         
-        ///Fits a cubic spline with given coefficients. Only defined within the range of the given x_Values
-        let fit (coefficients: Vector<float>) (x_Values: Vector<float>) x =
-            let sortedX = x_Values |> Seq.sort
+        ///Fits a cubic spline with given coefficients. Only defined within the range of the given xValues
+        let fit (coefficients: Vector<float>) (xValues: Vector<float>) x =
+            let sortedX = xValues |> Seq.sort
             let intervalNumber =
                 
                 if x > Seq.last sortedX || x < Seq.head sortedX then 
@@ -335,21 +335,21 @@ module CubicSpline =
                     Seq.length sortedX - 2
                 else
                     sortedX
-                    |> Seq.findIndex(fun x_Knot -> (x_Knot - x) > 0.)
+                    |> Seq.findIndex(fun xKnot -> (xKnot - x) > 0.)
                     |> fun nextInterval -> nextInterval - 1
             
-            let y_Value = 
+            let yValue = 
                 coefficients.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
                 coefficients.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
                 coefficients.[4 * intervalNumber + 2] * x          +    //c*x
                 coefficients.[4 * intervalNumber + 3]                   //d
             
-            y_Value
+            yValue
 
-        ///forces a spline fit even outside of the interval defined in x_Values
+        ///forces a spline fit even outside of the interval defined in xValues
         [<Obsolete("Coefficients of squared and cubic term are not valid outside x-value support. Use fitWithLinearPrediction instead.")>]
-        let fitForce (coefficients: Vector<float>) (x_Values: Vector<float>) x =
-            let sortedX = x_Values |> Seq.sort
+        let fitForce (coefficients: Vector<float>) (xValues: Vector<float>) x =
+            let sortedX = xValues |> Seq.sort
             let intervalNumber =
                 if x >= Seq.last sortedX then 
                     Seq.length sortedX - 2
@@ -357,25 +357,27 @@ module CubicSpline =
                     0
                 else
                     sortedX
-                    |> Seq.findIndex(fun x_Knot -> (x_Knot - x) > 0.)
+                    |> Seq.findIndex(fun xKnot -> (xKnot - x) > 0.)
                     |> fun nextInterval -> nextInterval - 1            
-            let y_Value = 
+            let yValue = 
                 coefficients.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
                 coefficients.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
                 coefficients.[4 * intervalNumber + 2] * x          +    //c*x
                 coefficients.[4 * intervalNumber + 3]                   //d            
-            y_Value
+            yValue
 
-        ///fits a cubic spline fit even outside of the interval defined in x_Values by linear interpolation of slope given by border knots
-        let fitWithLinearPrediction (coefficients: Vector<float>) (x_Values: Vector<float>) x =
-            let sortedX = x_Values |> Seq.sort
-            let xHead = x_Values |> Seq.head
-            let xLast = x_Values |> Seq.last
+        ///fits a cubic spline fit even outside of the interval defined in xValues by linear interpolation of slope given by border knots
+        let fitWithLinearPrediction (coefficients: Vector<float>) (xValues: Vector<float>) x =
+            let sortedX = xValues |> Seq.sort
+            let xHead = xValues |> Seq.head
+            let xLast = xValues |> Seq.last
+            
             let intercept intervalNumber x = 
                 coefficients.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
                 coefficients.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
                 coefficients.[4 * intervalNumber + 2] * x          +    //c*x
                 coefficients.[4 * intervalNumber + 3]                   //d           
+            
             let slope intervalNumber x= 
                 3. * coefficients.[4 * intervalNumber + 0] * (pown x 2) +   //3a*x²
                 2. * coefficients.[4 * intervalNumber + 1] * x +            //2b*x
@@ -392,10 +394,10 @@ module CubicSpline =
                 let y = intercept intervalNr xHead + diffX * (slope intervalNr xHead)
                 y
             else
-                fit coefficients x_Values x
+                fit coefficients xValues x
 
-        let private getDerivative order (coefficients: Vector<float>) (x_Values: Vector<float>) x =
-            let sortedX = x_Values |> Seq.sort
+        let private getDerivative order (coefficients: Vector<float>) (xValues: Vector<float>) x =
+            let sortedX = xValues |> Seq.sort
             let intervalNumber =
                 if x >= Seq.last sortedX then 
                     Seq.length sortedX - 2
@@ -403,7 +405,7 @@ module CubicSpline =
                     0
                 else
                     sortedX
-                    |> Seq.findIndex(fun x_Knot -> (x_Knot - x) > 0.)
+                    |> Seq.findIndex(fun xKnot -> (xKnot - x) > 0.)
                     |> fun nextInterval -> nextInterval - 1            
             match order with
             | d when d = 1 ->
@@ -423,21 +425,21 @@ module CubicSpline =
                 thirdDerivative
             | _ -> failwithf "for cubic splines no derivative > 3 is defined"
 
-        let getFirstDerivative (coefficients: Vector<float>) (x_Values: Vector<float>) x =
-            getDerivative 1 coefficients x_Values x
+        let getFirstDerivative (coefficients: Vector<float>) (xValues: Vector<float>) x =
+            getDerivative 1 coefficients xValues x
 
-        let getSecondDerivative (coefficients: Vector<float>) (x_Values: Vector<float>) x =
-            getDerivative 2 coefficients x_Values x    
+        let getSecondDerivative (coefficients: Vector<float>) (xValues: Vector<float>) x =
+            getDerivative 2 coefficients xValues x    
         
-        let getThirdDerivative (coefficients: Vector<float>) (x_Values: Vector<float>) x =
-            getDerivative 3 coefficients x_Values x
+        let getThirdDerivative (coefficients: Vector<float>) (xValues: Vector<float>) x =
+            getDerivative 3 coefficients xValues x
 
         module Hermite =
 
-            ///calculates a function to interpolate between the datapoints with given slopes (y_Data').
+            ///calculates a function to interpolate between the datapoints with given slopes (yData').
             ///the data has to be sorted ascending
-            let cubicHermite (x_Data: Vector<float>) (y_Data: Vector<float>) (y_Data': Vector<float>) =
-                let n = x_Data.Length
+            let cubicHermite (xData: Vector<float>) (yData: Vector<float>) (yData': Vector<float>) =
+                let n = xData.Length
 
                 let phi0 t tAdd1 x =
                     let tmp = (x - t) / (tAdd1 - t)
@@ -460,60 +462,60 @@ module CubicSpline =
                     a * b 
 
                 let calculate index x =
-                    let ph0 = y_Data.[index]    * phi0 x_Data.[index] x_Data.[index+1] x
-                    let ph1 = y_Data.[index+1]  * phi1 x_Data.[index] x_Data.[index+1] x
-                    let ps0 = y_Data'.[index]   * psi0 x_Data.[index] x_Data.[index+1] x
-                    let ps1 = y_Data'.[index+1] * psi1 x_Data.[index] x_Data.[index+1] x
+                    let ph0 = yData.[index]    * phi0 xData.[index] xData.[index+1] x
+                    let ph1 = yData.[index+1]  * phi1 xData.[index] xData.[index+1] x
+                    let ps0 = yData'.[index]   * psi0 xData.[index] xData.[index+1] x
+                    let ps1 = yData'.[index+1] * psi1 xData.[index] xData.[index+1] x
                     ph0 + ph1 + ps0 + ps1
 
 
                 (fun t ->
-                    if t = Seq.last x_Data then 
-                        Seq.last y_Data
+                    if t = Seq.last xData then 
+                        Seq.last yData
                     else                 
                         let i = 
-                            match Array.tryFindIndexBack (fun xs -> xs <= t) (x_Data |> Vector.toArray) with 
+                            match Array.tryFindIndexBack (fun xs -> xs <= t) (xData |> Vector.toArray) with 
                             | Some x -> x 
-                            | None   -> failwith "The given x_Value is out of the range defined in x_Data"
+                            | None   -> failwith "The given xValue is out of the range defined in xData"
                         calculate i t
                     )              
         
 
             ///calculates the slopes by averaging the slopes of neighbouring tangents
-            let getSimpleSlopes (x_Data: Vector<float>) (y_Data: Vector<float>) = 
-                Vector.init x_Data.Length (fun i ->
+            let getSimpleSlopes (xData: Vector<float>) (yData: Vector<float>) = 
+                Vector.init xData.Length (fun i ->
                     if i = 0 then
-                        (y_Data.[i] - y_Data.[i+1]) / (x_Data.[i] - x_Data.[i+1])
-                    elif i = x_Data.Length - 1 then 
-                        (y_Data.[i] - y_Data.[i-1]) / (x_Data.[i] - x_Data.[i-1])
+                        (yData.[i] - yData.[i+1]) / (xData.[i] - xData.[i+1])
+                    elif i = xData.Length - 1 then 
+                        (yData.[i] - yData.[i-1]) / (xData.[i] - xData.[i-1])
                     else 
-                        let s1 = (y_Data.[i] - y_Data.[i+1]) / (x_Data.[i] - x_Data.[i+1])
-                        let s2 = (y_Data.[i] - y_Data.[i-1]) / (x_Data.[i] - x_Data.[i-1])
+                        let s1 = (yData.[i] - yData.[i+1]) / (xData.[i] - xData.[i+1])
+                        let s2 = (yData.[i] - yData.[i-1]) / (xData.[i] - xData.[i-1])
                         (s1 + s2) / 2.
                                           )
 
             ///if the knots are monotone in/decreasing, the spline also is monotone (http://www.korf.co.uk/spline.pdf)
-            let getSlopesTryMonotonicity (x_Data: Vector<float>) (y_Data: Vector<float>) =
+            let getSlopesTryMonotonicity (xData: Vector<float>) (yData: Vector<float>) =
                 let calcSlope i =
-                    let s1 = (x_Data.[i+1] - x_Data.[i]) / (y_Data.[i+1] - y_Data.[i])
-                    let s2 = (x_Data.[i] - x_Data.[i-1]) / (y_Data.[i] - y_Data.[i-1])
+                    let s1 = (xData.[i+1] - xData.[i]) / (yData.[i+1] - yData.[i])
+                    let s2 = (xData.[i] - xData.[i-1]) / (yData.[i] - yData.[i-1])
                     2. / (s1 + s2)
 
                 let rec loop i acc =
-                    if i = x_Data.Length - 1 then
-                        let s1 = (3. * (y_Data.[i] - y_Data.[i-1])) / (2. * (x_Data.[i] - x_Data.[i-1]))
+                    if i = xData.Length - 1 then
+                        let s1 = (3. * (yData.[i] - yData.[i-1])) / (2. * (xData.[i] - xData.[i-1]))
                         let s2 = calcSlope (i-1) / 2.
                         let tmp = s1 - s2
                         (tmp::acc) |> List.rev
                     else 
                         let tmp = calcSlope i
-                        if ((y_Data.[i] - y_Data.[i-1]) * (y_Data.[i+1] - y_Data.[i])) <= 0. then 
+                        if ((yData.[i] - yData.[i-1]) * (yData.[i+1] - yData.[i])) <= 0. then 
                             loop (i+1) (0.::acc)
                         else 
                             loop (i+1) (tmp::acc)
 
                 let slopeAtFstKnot = 
-                    let s1 = (3. * (y_Data.[1] - y_Data.[0])) / (2. * (x_Data.[1] - x_Data.[0]))
+                    let s1 = (3. * (yData.[1] - yData.[0])) / (2. * (xData.[1] - xData.[0]))
                     let s2 = calcSlope 1 / 2.
                     let slope = s1 - s2
                     slope
