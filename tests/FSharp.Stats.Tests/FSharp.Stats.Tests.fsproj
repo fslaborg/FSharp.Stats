@@ -17,6 +17,7 @@
     <Compile Include="Distributions.fs" />
     <Compile Include="Testing.fs" />
     <Compile Include="ML.fs" />
+    <Compile Include="Correlation.fs" />
     <Compile Include="RunTests.fs" />
     <None Include="paket.references" />
     <None Include="packages.config" />

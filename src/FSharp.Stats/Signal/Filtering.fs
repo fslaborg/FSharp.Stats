@@ -122,6 +122,5 @@ module Filtering =
             |> fst
         optimizedWindowWidth          
 
-    let kk = savitzky_golay
 
         

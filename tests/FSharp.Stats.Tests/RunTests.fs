@@ -21,7 +21,10 @@ module RunTests =
         Tests.runTestsWithArgs defaultConfig args DistributionsTests.testChiSquared        |> ignore
         Tests.runTestsWithArgs defaultConfig args DistributionsTests.testStudentizedRange  |> ignore
         Tests.runTestsWithArgs defaultConfig args DistributionsTests.testMultivariateNormal|> ignore
-        
+
+        //=============================== Correlation ===========================================================
+        Tests.runTestsWithArgs defaultConfig args CorrelationTests.testKendallCorrelation |> ignore
+
         //================================ Testing ==============================================================
         Tests.runTestsWithArgs defaultConfig args TestingTests.testPostHoc |> ignore
         Tests.runTestsWithArgs defaultConfig args TestingTests.hTest       |> ignore
