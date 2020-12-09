@@ -97,7 +97,7 @@ module Filtering =
     
         correlateValid m.Transpose y
 
-    [<Obsolete("Do not use. Use savitzkyGolay instead")>]
+    [<Obsolete("Use savitzkyGolay instead.")>]
     let savitzky_golay (windowSize:int) (order:int) deriv rate (data:float[]) =
         savitzkyGolay windowSize order deriv rate data
 

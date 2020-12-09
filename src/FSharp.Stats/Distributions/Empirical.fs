@@ -120,7 +120,7 @@ module Empirical =
         x
 
     /// Chooses a random element from this PMF
-    [<Obsolete("Use 'Empirical.sample' instead")>]
+    [<Obsolete("Use sampleFrom instead.")>]
     let random pmf = 
         sampleFrom pmf
     

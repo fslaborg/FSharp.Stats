@@ -86,9 +86,9 @@ namespace FSharp.Stats
             mkRect (System.Double.Parse(s,numStyle,fmtProvider),0.0)
         let ofString s = fmtOfString NumberStyles.Any CultureInfo.InvariantCulture s
         
-        [<Obsolete("Use fmtOfString instead")>]
+        [<Obsolete("Use fmtOfString instead.")>]
         let fmt_of_string numstyle fmtprovider (s:string) = fmtOfString numstyle fmtprovider s
-        [<Obsolete("Use ofString instead")>]
+        [<Obsolete("Use ofString instead.")>]
         let of_string s = ofString s
 
         // ik.(r + i.th) = -k.th + i.k.r

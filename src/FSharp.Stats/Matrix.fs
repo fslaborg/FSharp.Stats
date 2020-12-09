@@ -39,7 +39,7 @@ module Matrix = begin
         let toArray2D (matrix:Matrix<_>) = Array2D.init matrix.NumRows matrix.NumCols (fun i j -> get matrix i j)
         let toJaggedArray (m:Matrix<_>) = [|for i=0 to m.NumRows-1 do yield (Array.init m.NumCols (fun j -> get m i j))|]
         let initNumeric lengthRow lengthCol initializer = MS.initNumericM lengthRow lengthCol initializer
-        [<Obsolete("Do not use. Use zeroCreate instead.")>]
+        [<Obsolete("Use zeroCreate instead.")>]
         let zero lengthRow lengthCol = MS.zeroM lengthRow lengthCol
         let zeroCreate lengthRow lengthCol = MS.zeroM lengthRow lengthCol
         let identity m = MS.identityM m
@@ -176,44 +176,44 @@ module Matrix = begin
         let inplace_map mapping matrix             = MS.inplace_mapM mapping matrix
         let inplace_mapi mapping matrix            = MS.inplace_mapiM mapping matrix
         
-        [<Obsolete("Use ofRowVector instead")>]
+        [<Obsolete("Use ofRowVector instead.")>]
         let of_rowvec rowVector                    = ofRowVector rowVector
-        [<Obsolete("Use ofVector instead")>]
+        [<Obsolete("Use ofVector instead.")>]
         let of_vector vector                       = ofVector vector
-        [<Obsolete("Use toVector instead")>]
+        [<Obsolete("Use toVector instead.")>]
         let to_vector matrix                       = toVector matrix
-        [<Obsolete("Use toRowVector instead")>]
+        [<Obsolete("Use toRowVector instead.")>]
         let to_rowvec matrix                       = toRowVector matrix
-        [<Obsolete("Use toScalar instead")>]
+        [<Obsolete("Use toScalar instead.")>]
         let to_scalar matrix                       = toScalar matrix
-        [<Obsolete("Use inplaceAdd instead")>]
+        [<Obsolete("Use inplaceAdd instead.")>]
         let inplace_add matrix1 matrix2            = inplaceAdd matrix1 matrix2
-        [<Obsolete("Use inplaceSub instead")>]
+        [<Obsolete("Use inplaceSub instead.")>]
         let inplace_sub matrix1 matrix2            = inplaceSub matrix1 matrix2
-        [<Obsolete("Use ofScalar instead")>]
+        [<Obsolete("Use ofScalar instead.")>]
         let of_scalar scalar                       = ofScalar scalar
-        [<Obsolete("Use ofList instead")>]
+        [<Obsolete("Use ofList instead.")>]
         let of_list lists                          = ofList lists
-        [<Obsolete("Use ofSeq instead")>]
+        [<Obsolete("Use ofSeq instead.")>]
         let of_seq sources                         = ofSeq sources
-        [<Obsolete("Use ofArray2D instead")>]
+        [<Obsolete("Use ofArray2D instead.")>]
         let inline of_array2D arrays               = ofArray2D arrays
-        [<Obsolete("Use sparseOfArray2D instead")>]
+        [<Obsolete("Use sparseOfArray2D instead.")>]
         let inline sparse_of_array2D arrays        = sparseOfArray2D arrays
-        [<Obsolete("Use toArray2D instead")>]
+        [<Obsolete("Use toArray2D instead.")>]
         let inline to_array2D matrix               = toArray2D matrix
-        [<Obsolete("Use initDiagonal instead")>]
+        [<Obsolete("Use initDiagonal instead.")>]
         let init_diagonal vector                   = initDiagonal vector
-        [<Obsolete("Use toDense instead")>]
+        [<Obsolete("Use toDense instead.")>]
         let to_dense matrix                        = toDense matrix
-        [<Obsolete("Use toSparse instead")>]
+        [<Obsolete("Use toSparse instead.")>]
         let to_sparse matrix                       = toSparse matrix
-        [<Obsolete("Use initDense instead")>]
+        [<Obsolete("Use initDense instead.")>]
         let init_dense lengthRow lengthCol source  = initDense lengthRow lengthCol source
-        [<Obsolete("Use initSparse instead")>]
+        [<Obsolete("Use initSparse instead.")>]
         let init_sparse lengthRow lengthCol source = initSparse lengthRow lengthCol source
         let nonzeroEntries matrix                 = MS.nonZeroEntriesM matrix
-        [<Obsolete("Use nonzeroEntries instead")>]
+        [<Obsolete("Use nonzeroEntries instead.")>]
         let nonzero_entries matrix                 = nonzeroEntries matrix
 
 
@@ -469,41 +469,41 @@ module Matrix = begin
     let inplace_mapi  f (a:matrix) = MG.inplace_mapi f a
     let inplace_cptMul (a:matrix) b = MS.inplaceCptMulM a b
     let inplace_scale  a (b:matrix) = MS.inplaceScaleM a b
-    [<Obsolete("Use inplaceAdd instead")>]
+    [<Obsolete("Use inplaceAdd instead.")>]
     let inplace_add  a b = inplaceAdd a b
-    [<Obsolete("Use inplaceSub instead")>]
+    [<Obsolete("Use inplaceSub instead.")>]
     let inplace_sub  a b = inplaceSub a b
-    [<Obsolete("Use ofRowVector instead")>]
+    [<Obsolete("Use ofRowVector instead.")>]
     let of_rowvec x = ofRowVector x
-    [<Obsolete("Use ofVector instead")>]
+    [<Obsolete("Use ofVector instead.")>]
     let of_vector x = ofVector x
-    [<Obsolete("Use toVector instead")>]
+    [<Obsolete("Use toVector instead.")>]
     let to_vector x = toVector x
-    [<Obsolete("Use toRowVector instead")>]
+    [<Obsolete("Use toRowVector instead.")>]
     let to_rowvec x = toRowVector x
-    [<Obsolete("Use toScalar instead")>]
+    [<Obsolete("Use toScalar instead.")>]
     let to_scalar x = toScalar x
-    [<Obsolete("Use ofArray2D instead")>]
+    [<Obsolete("Use ofArray2D instead.")>]
     let inline of_array2D arr  = ofArray2D arr
-    [<Obsolete("Use sparseOfArray2D instead")>]
+    [<Obsolete("Use sparseOfArray2D instead.")>]
     let inline sparse_of_array2D arr = sparseOfArray2D arr
-    [<Obsolete("Use toArray2D instead")>]
+    [<Obsolete("Use toArray2D instead.")>]
     let inline to_array2D m = toArray2D m
-    [<Obsolete("Use ofJaggedList instead")>]
+    [<Obsolete("Use ofJaggedList instead.")>]
     let of_list    xss   = ofJaggedList xss
-    [<Obsolete("Use ofJaggedSeq instead")>]
+    [<Obsolete("Use ofJaggedSeq instead.")>]
     let of_seq     xss   = ofJaggedSeq xss
-    [<Obsolete("Use initDiagonal instead")>]
+    [<Obsolete("Use initDiagonal instead.")>]
     let init_diagonal v   = initDiagonal   v
-    [<Obsolete("Use ofScalar instead")>]
+    [<Obsolete("Use ofScalar instead.")>]
     let of_scalar x     = ofScalar x
-    [<Obsolete("Use toDense instead")>]
+    [<Obsolete("Use toDense instead.")>]
     let to_dense x = toDense x
-    [<Obsolete("Use toSparse instead")>]
+    [<Obsolete("Use toSparse instead.")>]
     let to_sparse x = toSparse x
-    [<Obsolete("Use initDense instead")>]
+    [<Obsolete("Use initDense instead.")>]
     let init_dense i j a = initDense i j a
-    [<Obsolete("Use initSparse instead")>]
+    [<Obsolete("Use initSparse instead.")>]
     let init_sparse i j a = initSparse i j a
 
     //----------------------------------------------------------------------------

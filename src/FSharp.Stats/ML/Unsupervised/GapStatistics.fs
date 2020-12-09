@@ -13,7 +13,7 @@ module ClusterNumber =
         let ruleOfThumb (n:int) = sqrt (float n / 2.)
         ruleOfThumb (Seq.length observations)
 
-    [<Obsolete("Do not use. Use [kRuleOfThumb] instead.")>]
+    [<Obsolete("Use kRuleOfThumb instead.")>]
     let k_ruleOfThumb observations = kRuleOfThumb observations
 
     /// Akaike Information Criterion (AIC)
@@ -203,7 +203,7 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
       
                 Array.init data.Length (fun x -> generateUniform ())
 
-        [<Obsolete("Do not use. Use generateUniformPoints instead.")>]
+        [<Obsolete("Use generateUniformPoints instead.")>]
         let generate_uniform_points (rnd:System.Random) = generateUniformPoints rnd
             
         // Generate uniform points for an appropriate reference distribution data' that takes the original data shape into account (from Tibshirani, Walther and Hastie 2001).
@@ -240,7 +240,7 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
                 (Matrix.ofJaggedArray generateUniformSVD) * (Matrix.ofArray2D vt)  
                 |> Matrix.toJaggedArray
 
-        [<Obsolete("Do not use. Use generateUniformPointsPCA instead.")>]
+        [<Obsolete("Use generateUniformPointsPCA instead.")>]
         let generate_uniform_points_PCA (rnd:System.Random) = generateUniformPointsPCA rnd
 
     module ClusterDispersionMetric =
@@ -282,10 +282,10 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
                 |> log
                 )
 
-        [<Obsolete("Do not use. Use logDispersionKMeansInitRandom instead.")>]
+        [<Obsolete("Use logDispersionKMeansInitRandom instead.")>]
         let logDispersionKMeans_initRandom = logDispersionKMeansInitRandom
 
-        ////[<Obsolete("Do not use. Use [logDispersionKMeans_initCvMax] instead.")>]
+        ////[<Obsolete("Use [logDispersionKMeans_initCvMax] instead.")>]
         //// Calculate log(sum_i(within-cluster_i sum of squares around cluster_i mean)) of kmeans clustering result.
         //let logDispersionKMeans_initCvMax_old = 
         //    let aggregator = IterativeClustering.avgCentroid
@@ -318,5 +318,5 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
                 |> log
                 )
 
-        [<Obsolete("Do not use. Use logDispersionKMeansInitCvMax instead.")>]
+        [<Obsolete("Use logDispersionKMeansInitCvMax instead.")>]
         let logDispersionKMeans_initCvMax = logDispersionKMeansInitCvMax

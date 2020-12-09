@@ -27,14 +27,14 @@ module Permutation =
 
     let ofArray (arr:_[]) = arr |> Array.copy |> ofFreshArray
 
-    [<Obsolete("Use Permutation.ofArray instead")>]
+    [<Obsolete("Use ofArray instead.")>]
     let of_array (arr:_[]) = ofArray arr
 
     let ofPairs  (mappings: seq<int * int>) = 
       let p = dict mappings 
       (fun k -> if p.ContainsKey k then p.[k] else k)
     
-    [<Obsolete("Use Permutation.ofPairs instead")>]
+    [<Obsolete("Use ofPairs instead.")>]
     let of_pairs  (mappings: seq<int * int>) =  ofPairs mappings
 
     let swap (n:int) (m:int) = 

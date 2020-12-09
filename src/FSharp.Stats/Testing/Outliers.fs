@@ -2,7 +2,7 @@
 
 open System
 
-[<Obsolete("Use [Signal.Outliers] instead.")>]
+[<Obsolete("Use Signal.Outliers instead.")>]
 module Outliers =
     open FSharp.Stats
 

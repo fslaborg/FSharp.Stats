@@ -120,9 +120,9 @@ namespace FSharp.Stats
         let ofBigInt z = BigRationalLarge.RationalZ(z,OneI )
         let ofInt n    = BigRationalLarge.Rational(n,1)
         
-        [<Obsolete("Use ofBigInt instead")>]
+        [<Obsolete("Use ofBigInt instead.")>]
         let of_bigint   z = ofBigInt z
-        [<Obsolete("Use ofInt instead")>]
+        [<Obsolete("Use ofInt instead.")>]
         let of_int n = ofInt n
        
         // integer part

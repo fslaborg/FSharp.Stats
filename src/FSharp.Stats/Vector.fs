@@ -44,9 +44,9 @@ module Vector =
         let zeroCreate count = OpsS.zeroV count
         ///Creates a vector of length count and fills it with ones
         let oneCreate count = OpsS.createNumericV count (fun ops _ -> ops.One)
-        [<Obsolete("Do not use. Use [zeroCreate] instead.")>]
+        [<Obsolete("Use zeroCreate instead.")>]
         let zero count = OpsS.zeroV count
-        [<Obsolete("Do not use. Use [oneCreate] instead.")>]
+        [<Obsolete("Use oneCreate instead.")>]
         let ones count = OpsS.createNumericV count (fun ops _ -> ops.One)
         let ofScalar x = OpsS.scalarV x
         let add vector1 vector2 = OpsS.addV vector1 vector2
@@ -65,9 +65,9 @@ module Vector =
         let inplaceSub vector1 vector2 = OpsS.inplaceSubV vector1 vector2
         let inplaceCptMul vector1 vector2 = OpsS.inplaceCptMulV vector1 vector2
         let inplaceScale vector1 vector2 = OpsS.inplaceScaleV vector1 vector2
-        [<Obsolete("Do not use. Use [inplaceCptMul] instead.")>]
+        [<Obsolete("Use inplaceCptMul instead.")>]
         let inplace_cptMul v1 v2 = OpsS.inplaceCptMulV v1 v2
-        [<Obsolete("Do not use. Use [inplaceScale] instead.")>]
+        [<Obsolete("Use inplaceScale instead.")>]
         let inplace_scale v1 v2 = OpsS.inplaceScaleV v1 v2
 
 
@@ -84,16 +84,16 @@ module Vector =
         let copy vector = OpsS.copyV vector
         let inplaceMap f v = OpsS.inplace_mapV f v
         let inplaceMapi f v = OpsS.inplace_mapiV f v
-        [<Obsolete("Do not use. Use [inplaceMap] instead.")>]
+        [<Obsolete("Use inplaceMap instead.")>]
         let inplace_map  f a = OpsS.inplace_mapV f a
-        [<Obsolete("Do not use. Use [inplaceMapi] instead.")>]
+        [<Obsolete("Use inplaceMapi instead.")>]
         let inplace_mapi  f a = OpsS.inplace_mapiV f a
         let fold (folder:'State -> 'T -> 'State) (state:'State) vector = OpsS.foldV folder state vector
         let foldi (folder:int -> 'State -> 'T -> 'State) (state:'State) vector = OpsS.foldiV folder state vector
         let compare comparer vector = OpsS.compareV comparer vector
         let hash a = OpsS.hashV a
         let inplaceAssign f vector = OpsS.assignV f vector
-        [<Obsolete("Do not use. Use [inplaceAssign] instead.")>]
+        [<Obsolete("Use inplaceAssign instead.")>]
         let inplace_assign f a = OpsS.assignV f a
         ///Sum of all elements of the vector a
         let sum (a:Vector<_>) = let ops = a.ElementOps in fold (fun x y -> ops.Add(x,y)) ops.Zero a
@@ -103,19 +103,19 @@ module Vector =
             let normOps = GenericImpl.getNormOps a.ElementOps 
             sqrt (fold (fun x y -> x + normOps.Norm(y)**2.0) 0.0 a)
 
-        [<Obsolete("Do not use. Use [ofList] instead.")>]
-        let of_list    xss  = ofList xss
-        [<Obsolete("Do not use. Use [ofSeq] instead.")>]
-        let of_seq    xss   = ofSeq xss
-        [<Obsolete("Do not use. Use [ofArr] instead.")>]
+        [<Obsolete("Use ofList instead.")>]
+        let of_list xss     = ofList xss
+        [<Obsolete("Use ofSeq instead.")>]
+        let of_seq xss      = ofSeq xss
+        [<Obsolete("Use ofArr instead.")>]
         let of_array arr    = ofArray arr
-        [<Obsolete("Do not use. Use [toArr] instead.")>]
+        [<Obsolete("Use toArr instead.")>]
         let to_array v      = toArray v
-        [<Obsolete("Do not use. Use [ofScalar] instead.")>]
-        let of_scalar   x   = ofScalar x
-        [<Obsolete("Do not use. Use [inplaceAdd] instead.")>]
+        [<Obsolete("Use ofScalar instead.")>]
+        let of_scalar x     = ofScalar x
+        [<Obsolete("Use inplaceAdd instead.")>]
         let inplace_add a b = inplaceAdd a b
-        [<Obsolete("Do not use. Use [inplaceSub] instead.")>]
+        [<Obsolete("Use inplaceSub instead.")>]
         let inplace_sub a b = inplaceSub a b
 
     module VG = Generic
@@ -130,7 +130,7 @@ module Vector =
     ///Returns length of vector
     let nRows (vector:vector) = VG.length vector
     ///Returns length of vector
-    [<Obsolete("Do not use. Use [length] instead.")>]
+    [<Obsolete("Use length instead.")>]
     let nrows (vector:vector) = VG.length vector
     ///Initiates vector of length count and fills it by applying initializer function on indices
     let init count initializer = VecDS.createVecDS count initializer
@@ -207,9 +207,9 @@ module Vector =
     let zeroCreate count = create count 0.0
     ///Creates a vector of length count and fills it with ones
     let oneCreate count = create count 1.0
-    [<Obsolete("Do not use. Use [zeroCreate] instead.")>]
+    [<Obsolete("Use zeroCreate instead.")>]
     let zero count = create count 0.0
-    [<Obsolete("Do not use. Use [oneCreate] instead.")>]
+    [<Obsolete("Use oneCreate instead.")>]
     let ones count = create count 1.0
     ///Sum of all elements of the vector
     let sum vector = VecDS.sumVecDS vector
@@ -219,7 +219,7 @@ module Vector =
     let norm (vector:vector) = sqrt (fold (fun x y -> x + y * y) 0.0 vector) (* fixed *)
     ///Builds a new vector whose elements are the results of exponentiating each of the elements of the vector with n.
     let toThePower n vector = map (fun x -> x ** n) vector
-    [<Obsolete("Do not use. Use [toThePower] instead.")>]
+    [<Obsolete("Use toThePower instead.")>]
     let cptPow vector y = map (fun x -> x ** y) vector
     ///Applies the given function to each of the indexes of the vector. No new vector is created.
     let inplaceAssign f (vector:vector) = VG.inplaceAssign f vector
@@ -238,40 +238,40 @@ module Vector =
     ///Applies the given function to each of the indexes of the vector.
     ///Builds vector of Length 1 from value x
     let singleton x = ofScalar x
-    [<Obsolete("Do not use. Use [inplaceAssign] instead.")>]
+    [<Obsolete("Use inplaceAssign instead.")>]
     let inplace_assign  f (v:vector) = VG.inplaceAssign f v
     ///Applies the given function to each of the elements of the vector.
-    [<Obsolete("Do not use. Use [inplaceMap] instead.")>]
+    [<Obsolete("Use inplaceMap instead.")>]
     let inplace_map f (v:vector) = VG.inplaceMap f v
     ///Applies the given function to each of the elements of the vector and their corresponding index.
-    [<Obsolete("Do not use. Use [inplaceMapi] instead.")>]
+    [<Obsolete("Use inplaceMapi instead.")>]
     let inplace_mapi f (v:vector) = VG.inplaceMapi f v
     ///Add values of vector v2 to values of vector v1. Vector v2 stays unchanged
-    [<Obsolete("Do not use. Use [inplaceAdd] instead.")>]
+    [<Obsolete("Use inplaceAdd instead.")>]
     let inplace_add v1 v2 = VecDS.inplaceAddVecDS v1 v2
     ///Substract values of vector v2 from values of vector v1. Vector v2 stays unchanged
-    [<Obsolete("Do not use. Use [inplaceSub] instead.")>]
+    [<Obsolete("Use inplaceSub instead.")>]
     let inplace_sub v1 v2 = VecDS.inplaceSubVecDS v1 v2
     ///Multiply values of vector v1 with values of vector v2. Vector v2 stays unchanged.
-    [<Obsolete("Do not use. Use [inplaceCptMul] instead.")>]
+    [<Obsolete("Use inplaceCptMul instead.")>]
     let inplace_cptMul v1 v2 = VecDS.inplaceCptMulVecDS v1 v2
     ///Multiply values of vector v1 with scalar.
-    [<Obsolete("Do not use. Use [inplaceScale] instead.")>]
+    [<Obsolete("Use inplaceScale instead.")>]
     let inplace_scale x v = VecDS.inplaceScaleVecDS x v
     ///Builds vector from array
-    [<Obsolete("Do not use. Use [ofArr] instead.")>]
+    [<Obsolete("Use ofArr instead.")>]
     let of_array arr   = ofArray arr
     ///Builds array from vector
-    [<Obsolete("Do not use. Use [toArr] instead.")>]
+    [<Obsolete("Use toArr instead.")>]
     let to_array v     = toArray v
     ///Builds vector from list
-    [<Obsolete("Do not use. Use [ofList] instead.")>]
+    [<Obsolete("Use ofList instead.")>]
     let of_list    xs  = ofList xs
     ///Builds vector from sequence
-    [<Obsolete("Do not use. Use [ofSeq] instead.")>]
+    [<Obsolete("Use ofSeq instead.")>]
     let of_seq    xs   = ofSeq xs
     ///Builds one dimensional vector from scalar
-    [<Obsolete("Do not use. Use [ofScalar] instead.")>]
+    [<Obsolete("Use ofScalar instead.")>]
     let of_scalar x    = ofScalar x
 
 

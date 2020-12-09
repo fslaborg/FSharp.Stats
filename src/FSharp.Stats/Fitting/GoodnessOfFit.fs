@@ -46,7 +46,7 @@ module GoodnessOfFit =
 
     /// Standard deviation of y(x) 
     // Square root of variance s2y,x
-    [<Obsolete("Use [standardErrorEstimate] instead")>]
+    [<Obsolete("Use standardErrorEstimate instead.")>]
     let stDevY (sumOfSquares:SumOfSquares) =
         sumOfSquares.Error / (sumOfSquares.Count - 2.) |> sqrt
 
@@ -56,7 +56,7 @@ module GoodnessOfFit =
         sumOfSquares.Error / (sumOfSquares.Count - 2.) |> sqrt
      
     /// Standard deviation of slope (beta)    
-    [<Obsolete("Use [standardErrorSlope] instead")>]
+    [<Obsolete("Use standardErrorSlope instead.")>]
     let stDevSlope (sumOfSquares:SumOfSquares) =
         ( sumOfSquares.Error / (sumOfSquares.Count - 2.) ) / sumOfSquares.SSxx
         |> sqrt
@@ -67,7 +67,7 @@ module GoodnessOfFit =
         |> sqrt
 
     /// Standard deviation of intercept (alpha)
-    [<Obsolete("Use [standardErrorIntercept] instead")>]
+    [<Obsolete("Use standardErrorIntercept instead.")>]
     let stDevIntercept (sumOfSquares:SumOfSquares) =
         let s2yx = sumOfSquares.Error / (sumOfSquares.Count - 2.) 
         let mx2  = sumOfSquares.MeanX*sumOfSquares.MeanX

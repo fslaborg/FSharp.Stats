@@ -550,7 +550,7 @@ module NonLinearRegression =
     /////////////////////////
 
     /// Logistic function of the form "y = L/(1+e^(k(t-x)))"
-        [<Obsolete"Use the ascending and descending versions instead.">]
+        [<Obsolete("Use the ascending and descending versions instead.")>]
         let LogisticFunction = {
             ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"|]
             GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> parameterVector.[0] / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2]))))
