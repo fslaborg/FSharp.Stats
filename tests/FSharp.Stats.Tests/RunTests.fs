@@ -24,12 +24,14 @@ module RunTests =
 
         //=============================== Correlation ===========================================================
         Tests.runTestsWithArgs defaultConfig args CorrelationTests.testKendallCorrelation |> ignore
-
+        Tests.runTestsWithArgs defaultConfig args CorrelationTests.testPearsonCorrelation |> ignore
+        
         //================================ Testing ==============================================================
         Tests.runTestsWithArgs defaultConfig args TestingTests.testPostHoc |> ignore
         Tests.runTestsWithArgs defaultConfig args TestingTests.hTest       |> ignore
         Tests.runTestsWithArgs defaultConfig args TestingTests.chiSquared  |> ignore
-
+        Tests.runTestsWithArgs defaultConfig args TestingTests.pearson     |> ignore
+        
         //================================== ML =================================================================
         //SimilarityMetrics
         Tests.runTestsWithArgs defaultConfig args MLTests.SimilarityMetrics.jaccardIndexTests           |> ignore

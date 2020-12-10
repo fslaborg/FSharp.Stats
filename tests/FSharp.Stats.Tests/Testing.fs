@@ -95,3 +95,22 @@ module TestingTests =
                 Expect.isTrue (19.461 = Math.Round(testCase2.Statistic,3)) "statistic should be equal."
             
         ]
+
+    let pearson = 
+        // examples from R
+        // cor.test(x,y)
+        let testCase1 =
+            let seq1 = [44.4; 45.9; 41.9; 53.3; 44.7; 44.1; 50.7; 45.2; 60.1;]
+            let seq2 = [ 2.6;  3.1;  2.5;  5.0;  3.6;  4.0;  5.2;  2.8;  3.8;]
+            Correlation.testPearson seq1 seq2
+
+        let testCase2 =
+            let seq1 = [312.7; 104.2; 104.; 34.7]
+            let seq2 = [315.5; 101.3; 108.; 32.2]
+            Correlation.testPearson seq1 seq2
+        
+        testList "Testing.Correlation" [
+            testCase "testPearson" <| fun () -> 
+                Expect.isTrue (0.108173054 = Math.Round(testCase1.PValue,9)) "pValue should be equal"
+                Expect.isTrue (0.000294627 = Math.Round(testCase2.PValue,9)) "pValue should be equal"
+        ]
