@@ -75,6 +75,7 @@
     <Compile Include="Interpolation\CubicSpline.fs" />
     <Compile Include="Interpolation\Approximation.fs" />
     <!-- Signal -->
+    <Compile Include="Signal\Normalization.fs" />
     <Compile Include="Signal\Padding.fs" />
     <Compile Include="Signal\FFT.fs" />
     <Compile Include="Signal\Wavelet.fs" />
@@ -94,8 +95,10 @@
     <Compile Include="Distributions\Distance.fs" />
     <Compile Include="Distributions\KernelDensity.fs" />
     <!-- Testing -->
+    <Compile Include="Testing\Tables.fs" />
     <Compile Include="Testing\TestStatistics.fs" />
     <Compile Include="Testing\Anova.fs" />
+    <Compile Include="Testing\Correlation.fs" />
     <Compile Include="Testing\TTest.fs" />
     <Compile Include="Testing\FTest.fs" />
     <Compile Include="Testing\HTest.fs" />
