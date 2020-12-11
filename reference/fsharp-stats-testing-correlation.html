@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>KernelDensity - FSharp.Stats</title>
+    <title>Correlation - FSharp.Stats</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="Timo Mühlhaus"/>
@@ -35,50 +35,14 @@
         <div class="span9" id="main">
           
 
-<h1>KernelDensity</h1>
+<h1>Correlation</h1>
 <p>
-  <span>Namespace: FSharp.Stats.Distributions</span><br />
+  <span>Namespace: FSharp.Stats.Testing</span><br />
   </p>
 <div class="xmldoc">
-<p>Module to perform Kernel density estimation</p>
-
 </div>
 
 <!-- Render nested types and modules, if there are any -->
-  <h2>Nested types and modules</h2>
-  <div>
-      <table class="table table-bordered type-list">
-    <thead>
-      <tr><td>Type</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td class="type-name">
-            <a href="fsharp-stats-distributions-kerneldensity-densitykernel.html">DensityKernel</a>
-          </td>
-          <td class="xmldoc">
-          
-          </td>
-        </tr>
-    </tbody>
-  </table>
-  <table class="table table-bordered module-list">
-    <thead>
-      <tr><td>Module</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td class="module-name">
-            <a href="fsharp-stats-distributions-kerneldensity-kernel.html">Kernel</a>
-          </td>
-          <td class="xmldoc">
-          
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  </div>
 
   <h3>Functions and values</h3>
   <table class="table table-bordered member-list">
@@ -88,70 +52,78 @@
     <tbody>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1308', 1308)" onmouseover="showTip(event, '1308', 1308)">
-            estimate kernel bandwidth data
+          <code onmouseout="hideTip(event, '1659', 1659)" onmouseover="showTip(event, '1659', 1659)">
+            testKendallByPermutation(...)
           </code>
-          <div class="tip" id="1308">
-            <strong>Signature:</strong> kernel:DensityKernel -&gt; bandwidth:float&lt;MeasureOne&gt; -&gt; data:float&lt;MeasureOne&gt; array -&gt; (float * float) []<br />
-                                  </div>
+          <div class="tip" id="1659">
+            <strong>Signature:</strong> seq1:&#39;a [] -&gt; seq2:&#39;a [] -&gt; permutations:int -&gt; float<br />
+                          <strong>Type parameters:</strong> 'a                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/KernelDensity.fs#L145-145" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/Correlation.fs#L43-43" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Calculates a two tailed permutation test p value for kendall correlation coefficient</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1309', 1309)" onmouseover="showTip(event, '1309', 1309)">
-            estimateWith(...)
+          <code onmouseout="hideTip(event, '1660', 1660)" onmouseover="showTip(event, '1660', 1660)">
+            testPearson seq1 seq2
           </code>
-          <div class="tip" id="1309">
-            <strong>Signature:</strong> _cut:&#39;?9142 -&gt; _from:float&lt;MeasureOne&gt; -&gt; _to:float&lt;MeasureOne&gt; -&gt; n:int -&gt; weights:float [] -&gt; kernel:DensityKernel -&gt; bandwidth:float&lt;MeasureOne&gt; -&gt; data:seq&lt;float&gt; -&gt; (float * float) []<br />
-                          <strong>Type parameters:</strong> '?9142                      </div>
+          <div class="tip" id="1660">
+            <strong>Signature:</strong> seq1:seq&lt;^T&gt; -&gt; seq2:seq&lt;^T&gt; -&gt; TTestStatistics<br />
+                          <strong>Type parameters:</strong> ^T                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/KernelDensity.fs#L85-85" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/Correlation.fs#L9-9" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>A correlation significance is obtained by usage of students t-distribution</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1310', 1310)" onmouseover="showTip(event, '1310', 1310)">
-            estimateWithRange(...)
+          <code onmouseout="hideTip(event, '1661', 1661)" onmouseover="showTip(event, '1661', 1661)">
+            testPearsonByPermutation(...)
           </code>
-          <div class="tip" id="1310">
-            <strong>Signature:</strong> kernel:DensityKernel -&gt; _from:float&lt;MeasureOne&gt; -&gt; _to:float&lt;MeasureOne&gt; -&gt; bandwidth:float&lt;MeasureOne&gt; -&gt; data:float array -&gt; (float * float) []<br />
-                                  </div>
+          <div class="tip" id="1661">
+            <strong>Signature:</strong> seq1:^a [] -&gt; seq2:^a [] -&gt; permutations:int -&gt; float<br />
+                          <strong>Type parameters:</strong> ^a                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/KernelDensity.fs#L140-140" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/Correlation.fs#L47-47" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Calculates a two tailed permutation test p value for pearson correlation coefficient</p>
+
+
         </td>
       </tr>
       <tr>
         <td class="member-name">
-          <code onmouseout="hideTip(event, '1311', 1311)" onmouseover="showTip(event, '1311', 1311)">
-            estimateWithWeight(...)
+          <code onmouseout="hideTip(event, '1662', 1662)" onmouseover="showTip(event, '1662', 1662)">
+            testSpearmanByPermutation(...)
           </code>
-          <div class="tip" id="1311">
-            <strong>Signature:</strong> weights:float [] -&gt; kernel:DensityKernel -&gt; bandwidth:float&lt;MeasureOne&gt; -&gt; data:float&lt;MeasureOne&gt; array -&gt; (float * float) []<br />
-                                  </div>
+          <div class="tip" id="1662">
+            <strong>Signature:</strong> seq1:&#39;a [] -&gt; seq2:&#39;a [] -&gt; permutations:int -&gt; float<br />
+                          <strong>Type parameters:</strong> 'a                      </div>
         </td>
         <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/KernelDensity.fs#L135-135" class="github-link">
+                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/Correlation.fs#L39-39" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
-          
+          <p>Calculates a two tailed permutation test p value for spearman correlation coefficient</p>
+
+
         </td>
       </tr>
     </tbody>
