@@ -21,20 +21,16 @@ FSharp.Stats is supposed to be a multipurpose project for statistical testing, l
 Installation
 ------------
 
-FSharp.Stats is currently on the way to its 1.0.0 release. When this process is done, we will provide a nuget package at [nuget.org](https://www.nuget.org/). However, currently the way to get FSharp.Stats running on 
-your machine is to either clone the repository and build the binaries yourself or download the prerelease packages from our [nuget branch](https://github.com/CSBiology/FSharp.Stats/tree/nuget).
+**From Nuget.org:**
 
-**Using prerelease packages from the nuget branch:**
+You can get the prerelease versions of all FSharp.Stats packages from nuget:
 
-If you are using paket, add the following line to your `paket.dependencies` file:
+<pre>
+dotnet add package FSharp.Stats --version 0.3.0-beta
+paket add FSharp.Stats --version 0.3.0-beta
+</pre>
 
-`git https://github.com/CSBiology/FSharp.Stats.git nuget Packages: /`
-
-you can then access the individual packages:
-
-`nuget FSharp.Stats`
-
-`nuget FSharp.Stats.MSF`
+All associated packages can be found [here](https://www.nuget.org/packages/FSharp.Stats/)
 
 
 **To build the binaries yourself:**
