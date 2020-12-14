@@ -31,7 +31,7 @@ module Correlation =
             correlationMeasure seq1 shuffled
         
         Array.init permutations (fun _ -> shuffledR())
-        |> Array.filter (fun x -> Math.Abs(x) > Math.Abs(pearson))
+        |> Array.filter (fun x -> Math.Abs(x) >= Math.Abs(pearson))
         |> Array.length
         |> fun countOfMoreExtreme -> float countOfMoreExtreme / float permutations
 
