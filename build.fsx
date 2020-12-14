@@ -134,14 +134,14 @@ let testAssemblies = "tests/**/bin" </> configuration </> "**" </> "*Tests.exe"
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
-let gitOwner = "CSBiology"
+let gitOwner = "fslaborg"
 let gitHome = sprintf "%s/%s" "https://github.com" gitOwner
 
 // The name of the project on GitHub
 let gitName = "FSharp.Stats"
 
 // The url for the raw files hosted
-let gitRaw = Environment.environVarOrDefault "gitRaw" "https://raw.githubusercontent.com/CSBiology"
+let gitRaw = Environment.environVarOrDefault "gitRaw" "https://raw.githubusercontent.com/fslaborg"
 
 let website = "/FSharp.Stats"
 
@@ -344,19 +344,11 @@ Target.create "ReferenceDocs" (fun _ ->
         let manuallyAdded =
             referenceBinaries
             |> List.map (fun b -> bin @@ b)
-
         let conventionBased =
             DirectoryInfo.getSubDirectories <| DirectoryInfo bin
             |> Array.collect (fun d ->
                 let name, dInfo =
-                    let net45Bin =
-                        DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
-                    let net47Bin =
-                        DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))
-                    if net45Bin.Length > 0 then
-                        d.Name, net45Bin.[0]
-                    else
-                        d.Name, net47Bin.[0]
+                    d.Name,(DirectoryInfo.getSubDirectories d).[0]
 
                 dInfo.GetFiles()
                 |> Array.filter (fun x ->
