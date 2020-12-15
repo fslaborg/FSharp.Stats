@@ -23,31 +23,22 @@ Installation
 
 **From Nuget.org:**
 
-You can get the prerelease versions of all FSharp.Stats packages from nuget:
-
-<pre>
-dotnet add package FSharp.Stats --version 0.3.0-beta
-paket add FSharp.Stats --version 0.3.0-beta
-</pre>
-
-All associated packages can be found [here](https://www.nuget.org/packages/FSharp.Stats/)
-
+You can get all FSharp.Stats packages from nuget at https://www.nuget.org/packages/FSharp.Stats/.
 
 **To build the binaries yourself:**
 
 **Windows**:
 
 - Install [.Net Core SDK](https://www.microsoft.com/net/download)
-- Install the dotnet tool fake cli by `dotnet tool install fake-cli -g` for global installation or `dotnet tool install fake-cli --tool-path yourtoolpath`
-- go to the project folder
-- use the console command `fake build`
-- to just build the binaries and save time use the console command `fake build -t buildbinaries`
+- navigate to project folder
+- use the console command `./build.cmd`
 
 **Linux(Ubuntu, using Mono)**:
 
 - Install [.Net Core SDK](https://www.microsoft.com/net/download/linux-package-manager/ubuntu14-04/sdk-current)
-- go to the project folder
-- use the console command `dotnet fake build --target Linux`
+- navigate to project folder
+- make the script executable with `chmod +x ./build.sh`
+- use the console command `./build.sh`
 
 </br>
 
