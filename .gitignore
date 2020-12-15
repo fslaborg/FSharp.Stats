@@ -188,3 +188,5 @@ docsrc/tools/FSharp.Formatting.svclog
 docs/
 /temp
 
+/codeCov.xml
+/tests/FSharp.Stats.Tests/coverage.xml
