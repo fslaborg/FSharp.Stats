@@ -1,4 +1,23 @@
-#### 0.3.0 - tbd
+#### 0.4.0 - Tuesday. December 15, 2020
+The documentation and unit tests have been extended.
+
+
+* **FSharp.Stats** 
+  * [Modernization of build and CI chains](https://github.com/fslaborg/FSharp.Stats/commit/413194017492aa6a3f60d055bbb4e2a34c739afe)
+  * Additional functionalities:
+    * [Chi Distribution](https://github.com/fslaborg/FSharp.Stats/commit/3ff9571375d03592fda3649a172a69e326664de9)
+    * [Box Muller transform](https://github.com/fslaborg/FSharp.Stats/commit/50f5cc00fbc735a6adc4fd45df07ee0f72831a18)
+    * [Multivariate normal distribution](https://github.com/fslaborg/FSharp.Stats/commit/eaa85712006c514e3484a7d1a793c548ef094ee4)
+    * [zTransform](https://github.com/fslaborg/FSharp.Stats/commit/775112b918525bc58453873e7ee6ed6af9d4b723)
+    * [Statistical correlation testing](https://github.com/fslaborg/FSharp.Stats/commit/1e9dc4a47c650cc41a45a0408a72dbd2458521b0)
+
+* **FSharp.Stats.Lapack**
+  * [detachment of FSharp.Stats.Lapack project from FSharp.Stats](https://github.com/fslaborg/FSharp.Stats/commit/90c9551b978f46270ecac374b424a28575227ae4)
+
+* **FSharp.Stats.MSF**
+  * [detachment of FSharp.Stats.MSF project from FSharp.Stats](https://github.com/fslaborg/FSharp.Stats/commit/90c9551b978f46270ecac374b424a28575227ae4)
+
+#### 0.3.0-beta - Friday, October 9, 2020
 Several bugfixes and additions to multiple namespaces. 
 The documentation and unit tests have been extended.
 
