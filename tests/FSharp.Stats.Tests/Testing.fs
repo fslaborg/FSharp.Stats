@@ -3,6 +3,8 @@ open Expecto
 open System
 open FSharp.Stats.Testing
     
+(*
+// Test ommitted due to extremely long runtime of CodeCov.
 [<Tests>]
 let testPostHocTests =
     //Tests taken from:
@@ -44,6 +46,7 @@ let testPostHocTests =
             Expect.floatClose Accuracy.low rpval.[3] pValues.[3] "p values should be equal."
             Expect.floatClose Accuracy.low rpval.[4] pValues.[4] "p values should be equal."
     ]
+*)
 
 
 [<Tests>]

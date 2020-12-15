@@ -17,7 +17,7 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.distanceFunctionsTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.chiTests               |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.chiSquaredTests        |> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.studentizedRangeTests  |> ignore
+    //Tests.runTestsWithCLIArgs [] argv DistributionsTests.studentizedRangeTests  |> ignore //Test ommitted due to extremely long runtime of CodeCov.
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.multivariateNormalTests|> ignore
     
     //=============================== Correlation ===========================================================
