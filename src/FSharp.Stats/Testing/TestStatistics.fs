@@ -41,13 +41,15 @@ module TestStatistics =
         Statistic            : float
         DegreesOfFreedom1    : float
         DegreesOfFreedom2    : float
-        PValue               : float            
+        PValue               : float 
+        PValueTwoTailed      : float            
     }
 
     let createFTest statistic dof1 dof2 =
         let cdf  =  Distributions.Continuous.F.CDF dof1 dof2 statistic            
-        //let pvalue = 1. - cdf
-        {Statistic=statistic; DegreesOfFreedom1=dof1; DegreesOfFreedom2=dof2; PValue=cdf;}
+        let pvalue = 1. - cdf
+        let pvalueTwoTailed = pvalue * 2.
+        {Statistic=statistic; DegreesOfFreedom1=dof1; DegreesOfFreedom2=dof2; PValue=pvalue; PValueTwoTailed = pvalueTwoTailed}
 
 
     /// <summary>
@@ -63,8 +65,11 @@ module TestStatistics =
     type ChiSquareStatistics = {
         Statistic            : float
         DegreesOfFreedom     : float
+        /// one tailed/sided chiSquare pValue
         PValueLeft           : float
+        /// one tailed/sided chiSquare pValue (default)
         PValueRight          : float
+        /// two tailed/sided chiSquare pValue
         PValue               : float            
     }
 
@@ -72,6 +77,6 @@ module TestStatistics =
     let createChiSquare statistic dof =
         let cdf  = Distributions.Continuous.ChiSquared.CDF dof statistic
         let pvalue = if statistic > 0. then 1. - cdf else cdf
-        {Statistic=statistic; DegreesOfFreedom=dof; PValueLeft=1. - pvalue; PValueRight=pvalue; PValue=pvalue*2.;}
+        {Statistic = statistic; DegreesOfFreedom = dof; PValueLeft = 1. - pvalue; PValueRight = pvalue; PValue = pvalue * 2.}
 
 

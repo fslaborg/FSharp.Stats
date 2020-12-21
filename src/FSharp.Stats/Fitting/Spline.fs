@@ -5,32 +5,33 @@ module Spline =
 
     open FSharp.Stats
     open FSharp.Stats.Algebra
-    open FSharp.Stats.Algebra.LinearAlgebra
 
     /// Some preprocessing of the input data
     let private preprocess (data : (float*float) []) =
         if Array.length data < 3 then failwith "Too little input points"
         data 
         |> Seq.sortBy fst
-        |> Seq.distinctBy fst
         |> Array.ofSeq
           
     let private preprocessBasis (data : float []) =
        if Array.length data < 3 then failwith "Too little input points"
-       data |> Seq.sort |> Seq.distinct |> Array.ofSeq
+       data |> Array.distinct |> Array.sort 
  
     let private checkSmoothingParameter l =
         if l < 0. then failwith "smoothing parameter should be positive"
-    /// Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts
+    
+    /// Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts.
+    /// The resulting function takes lambda (regularization parameter) and a x_Value as input. 
     let smoothingSpline (data: (float*float) []) (basispts : float [])=
         //https://robjhyndman.com/etc5410/splines.pdf
         // Some preprocessing
+        let basistmp = preprocessBasis basispts
         let xdata,ydata = data |> preprocess |> Array.unzip
         let ydata = vector ydata
         let n = Array.length xdata
-        let n' = Array.length basispts
-        let xm = basispts.[n'-2]
-        let xn = basispts.[n'-1]
+        let n' = Array.length basistmp
+        let xm = basistmp.[n'-2]
+        let xn = basistmp.[n'-1]
      
         // Construct the basis functions
         let basis : (float -> float) [] =
@@ -39,7 +40,7 @@ module Spline =
             [|  yield fun _ -> 1.
                 yield id;
                 for i in 0 .. n' - 3 do
-                    let xi = basispts.[i]
+                    let xi = basistmp.[i]
                     yield fun x -> (f x xi - f x xn)/(xn-xi) - (f x xm - f x xn)/(xn-xm)
                     |]
  

@@ -21,7 +21,7 @@ module IterativeClustering =
     type KClusteringResult<'a> = {
         /// Centroids with index and data
         Centroids        : (int * 'a) array
-        /// Classifier function returns cluster index and data point
+        /// Classifier function returns cluster index and centroid
         Classifier       : 'a -> int * 'a        
         /// Indices and Distances to closest centroid
         ClosestDistances : (int * float) array
@@ -170,6 +170,7 @@ module IterativeClustering =
         let classifier = fun datapoint -> 
             lCentroids 
             |> Array.minBy (fun centroid -> dist (snd centroid) datapoint)
+            //|> fun (centroidnumber,centroidcoordinates) -> centroidnumber,datapoint
         createKClusteringResult lCentroids classifier closestDistances dist        
 
     

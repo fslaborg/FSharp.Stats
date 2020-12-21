@@ -1,3 +1,79 @@
+#### 0.4.0 - Tuesday. December 15, 2020
+The documentation and unit tests have been extended.
+
+
+* **FSharp.Stats** 
+  * [Modernization of build and CI chains](https://github.com/fslaborg/FSharp.Stats/commit/413194017492aa6a3f60d055bbb4e2a34c739afe)
+  * Additional functionalities:
+    * [Chi Distribution](https://github.com/fslaborg/FSharp.Stats/commit/3ff9571375d03592fda3649a172a69e326664de9)
+    * [Box Muller transform](https://github.com/fslaborg/FSharp.Stats/commit/50f5cc00fbc735a6adc4fd45df07ee0f72831a18)
+    * [Multivariate normal distribution](https://github.com/fslaborg/FSharp.Stats/commit/eaa85712006c514e3484a7d1a793c548ef094ee4)
+    * [zTransform](https://github.com/fslaborg/FSharp.Stats/commit/775112b918525bc58453873e7ee6ed6af9d4b723)
+    * [Statistical correlation testing](https://github.com/fslaborg/FSharp.Stats/commit/1e9dc4a47c650cc41a45a0408a72dbd2458521b0)
+
+* **FSharp.Stats.Lapack**
+  * [detachment of FSharp.Stats.Lapack project from FSharp.Stats](https://github.com/fslaborg/FSharp.Stats/commit/90c9551b978f46270ecac374b424a28575227ae4)
+
+* **FSharp.Stats.MSF**
+  * [detachment of FSharp.Stats.MSF project from FSharp.Stats](https://github.com/fslaborg/FSharp.Stats/commit/90c9551b978f46270ecac374b424a28575227ae4)
+
+#### 0.3.0-beta - Friday, October 9, 2020
+Several bugfixes and additions to multiple namespaces. 
+The documentation and unit tests have been extended.
+
+Version bump to 0.3.0
+
+* **FSharp.Stats** 
+  * [Improvement of gap statistics performance](https://github.com/CSBiology/FSharp.Stats/commit/14471ea04e393386227f3f295657d8f69d636609)
+  * Bug fixes:
+    * [Random number generator bug in GapStatistics ](https://github.com/CSBiology/FSharp.Stats/commit/f74f0cfeec832a0c0524e79122c233fa28cf71e0)
+    * [Slope calculation for monoton spline](https://github.com/CSBiology/FSharp.Stats/commit/1043d250a8156c3070698bea5df27e06092b1ee3)
+    * [F distribution CDF](https://github.com/CSBiology/FSharp.Stats/commit/fbacbef509a7a31a116e4fda359a6565791ddec0)
+    * [Chi square CDF](https://github.com/CSBiology/FSharp.Stats/commit/09e5fcf93f21e5d1a456ce536afe3e9d4fa5dae3)
+    * [Covariance calculation](https://github.com/CSBiology/FSharp.Stats/commit/8b7b7305e87850bcd4cd9894549923663e31fbed)
+    * [Tukey's HSD](https://github.com/CSBiology/FSharp.Stats/commit/2edac073b647f872734be44bc231c81a979ad109)
+    * [Covariance calculation](https://github.com/CSBiology/FSharp.Stats/commit/8b7b7305e87850bcd4cd9894549923663e31fbed)
+  * Additional functionalities:
+    * [Silhouette index for cluster number determination](https://github.com/CSBiology/FSharp.Stats/commit/839297bd1bf97164717e1450867dfe72ee9a6fd9)
+    * [Extend range support for hypergeometric distribution](https://github.com/CSBiology/FSharp.Stats/commit/cf369847677683a19caef559d9d0663cee73955d)
+    * [getCriticalTValue function](https://github.com/CSBiology/FSharp.Stats/commit/d9eda45ba15d2af444ac915c5b096a22a3662d1d)
+    * [Confidence and prediction bands for simple linear regression](https://github.com/CSBiology/FSharp.Stats/commit/e547a997b5fb5588b23a9276eb277b8c688ace86)
+    * [Shuffle and split cross validation](https://github.com/CSBiology/FSharp.Stats/commit/9b173338b78820f4383b7d52af2d6c88dd9b0744)
+    * [Generic version of leave one out cross validation](https://github.com/CSBiology/FSharp.Stats/commit/9366eff19d974bd37e9011ac8ae168eae7300ce3)
+    * [Constrained simple linear regression](https://github.com/CSBiology/FSharp.Stats/commit/16b96283bd6b4915b98d958d0e2d63eb2ff1524c)
+    * [Distribution distance metrices](https://github.com/CSBiology/FSharp.Stats/commit/abeedd0fba02fff27e60286c0632a2d96e9c2b18)
+    * [Confidence intervals](https://github.com/CSBiology/FSharp.Stats/commit/b2017c0015aca533551fdfc9528db2bf20687f75)
+    * [SEM (Standard error of the mean)](https://github.com/CSBiology/FSharp.Stats/commit/afb3352c4c13ef7fffa7b7a3cdfc7004b451d245)
+    * [Growth curve fitting](https://github.com/CSBiology/FSharp.Stats/issues/63)
+    * [One sample t test](https://github.com/CSBiology/FSharp.Stats/commit/18c80ec9006d2c4dc6bd2674d74e78aa8ffa9acc)
+    * [Hierarchical clustering aggregation](https://github.com/CSBiology/FSharp.Stats/commit/ee3e485b0a3f3457123eccd917a28e1eb212547a)
+    * [F test](https://github.com/CSBiology/FSharp.Stats/commit/02962581401c6139ddce07042596cd4b9e86b61e)
+    * [Fishers LSD](https://github.com/CSBiology/FSharp.Stats/commit/ce00f676e7b07691f05c51e009b60ba76e5f39e7)
+    * [H test](https://github.com/CSBiology/FSharp.Stats/commit/8fc3c5f407377dc7ef7c5c319f4e5fc86dd47818)
+    * [Studentized range distribution](https://github.com/CSBiology/FSharp.Stats/commit/fecadc67b6cb1d64b2b269bd4b860ebe65505447)
+
+* **FSharp.Stats.Lapack**
+  * no changes
+
+* **FSharp.Stats.MSF**
+  * [Modularization of temporal classification module](https://github.com/CSBiology/FSharp.Stats/commit/5a479e3089c19dd7f4c4222675c5b0e8b4d4ff45)
+  * Additional functionalities:
+    * [xSpacing independent derivative determination with cubic splines](https://github.com/CSBiology/FSharp.Stats/commit/17ce2dc8c268a0b2d0e28272f6070acfccfa7226)
+
+#### 0.2.1-beta - Monday, February 17, 2020
+First nuget pre-release package.
+
+Version bump to 0.2.1-beta.
+
+* **FSharp.Stats** 
+  * no changes
+
+* **FSharp.Stats.Lapack**
+  * no changes
+
+* **FSharp.Stats.MSF**
+  * no changes
+
 #### 0.2.0 - Friday, February 14, 2020
 Additions, improvements and bugfixes in multiple namespaces. 
 The documentation has been extended.

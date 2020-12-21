@@ -188,8 +188,10 @@ module Discrete =
         /// Computes the probability density function at k, i.e. P(K = k)
         static member PDF  N K n k =
             hypergeoCheckParam N K n
-            (SpecialFunctions.Binomial.coeffcient K k) * (SpecialFunctions.Binomial.coeffcient (N-K) (n-k)) / (SpecialFunctions.Binomial.coeffcient N n)
-
+            //(SpecialFunctions.Binomial.coeffcient K k) * (SpecialFunctions.Binomial.coeffcient (N-K) (n-k)) / (SpecialFunctions.Binomial.coeffcient N n)
+            if (N-K)<(n-k) then 0. 
+            else
+                exp ((SpecialFunctions.Binomial.coeffcientLn K k) + (SpecialFunctions.Binomial.coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial.coeffcientLn N n)
 
         /// Computes the cumulative distribution function at x, i.e. P(X <= x).
         static member CDF N K n (x:float) =

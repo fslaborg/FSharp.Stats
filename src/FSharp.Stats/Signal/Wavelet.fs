@@ -8,19 +8,19 @@ module Wavelet =
 
     ///Ricker, or Mexican hat wavelet
     type Ricker = {
-        //the scale of the wavelet
+        ///the scale of the wavelet
         Scale       : float
-        //half of the width of the wavelet
+        ///half of the width of the wavelet
         PaddingArea : float
-        //x_value of minimum y_value
+        ///x value of minimum y value
         MinimumPosX : float
-        //function that takes a x_value and gives the corresponding y_value
+        ///function that takes a x value and gives the corresponding y value
         RickerFun   : (float -> float)
-        //ricker function values for discrete wavelet transform 
+        ///ricker function values for discrete wavelet transform 
         RickerValues: float []
         }
 
-    //creation function for Ricker
+    ///creation function for Ricker
     let createRicker scale =  
         let rickerFun x = 
             let xx = pown x 2
@@ -43,17 +43,17 @@ module Wavelet =
 
     ///3D-wavelet
     type Marr =  {
-        //scale of the wavelet
+        ///scale of the wavelet
         Scale           : float  
-        //distance to where the wavelet functions cross the xy-axis-plane
+        ///distance to where the wavelet functions cross the xy-axis-plane
         Radius          : float 
-        //half of the width of the wavelet
+        ///half of the width of the wavelet
         PaddingArea     : float      
-        //function that takes a x- and y-value and gives the corresponding z-value
+        ///function that takes a x- and y-value and gives the corresponding z-value
         MarrValues      : float [,]
                         }
     
-    //creation function for Marr
+    ///creation function for Marr
     let createMarr (radius : float) = 
         let functionMarr x (y : float) s = 
             let squareX = pown x 2
@@ -64,10 +64,10 @@ module Wavelet =
             let facC = exp(-(squareX + squareY)/(2. * squareS))
             facA * facB * facC
 
-        let functionValuesMarr scale xy_values = 
-            xy_values
+        let functionValuesMarr scale xyValues = 
+            xyValues
             |> Array.map (fun y -> 
-                xy_values
+                xyValues
                 |> Array.map (fun x -> 
                     functionMarr x y scale
                     )

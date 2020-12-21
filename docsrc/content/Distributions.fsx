@@ -54,7 +54,7 @@ NormC: Sample independently 10 values from the normal distribution and calculate
 open FSharp.Stats
 open FSharp.Stats.Distributions
 
-// Creates a normal distribution with µ = 500 and tau = 20 
+// Creates a normal distribution with Âµ = 500 and tau = 20 
 let normal = Continuous.normal 500. 20.
 
 // NormA: What is the probability of bread weights to be equal or lower than 470 g?
@@ -67,10 +67,10 @@ let normB = 1. - (normal.CDF 505.)
 
 // NormC: Sample independently 10 values from the normal distribution and calculate their mean.
 let normC = 
-    Seq.init 100 (fun _ -> normal.Sample())
+    Seq.init 10 (fun _ -> normal.Sample())
     |> Seq.mean
-// Output: 497.85 g
 
+(*** include-value:normC ***)
 (***hide***)
 let plotNormal =
     let xAxis() = LinearAxis.init(Title="x",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
@@ -99,6 +99,43 @@ let plotNormalCDF =
 
 (*** include-value:plotNormalCDF ***)
 
+(**
+### Multivariate normal distribution
+
+Multivariate normal distributions are initialized with a mean vector and a covariance matrix.
+*)
+
+let mvn = Continuous.multivariateNormal (vector [-1.;5.]) (matrix [[0.5;1.];[0.25;1.2]])
+let axisXRange = [-5. .. 0.2 .. 5.]
+let axisYRange = [ 0. .. 0.2 .. 10.]
+
+// probability density function 
+let mvnPdfs =
+    axisYRange |> List.map (fun y -> 
+        axisXRange
+        |> List.map (fun x -> 
+            mvn.PDF (vector [x;y])
+            )
+        )
+
+let mvnSamples = 
+    Array.init 1000 (fun _ -> mvn.Sample())
+
+(*** hide ***)
+let ch1 = Chart.Surface(mvnPdfs,axisXRange,axisYRange)
+
+let ch2 = 
+    mvnSamples
+    |> Array.map (fun t -> t.[0],t.[1])
+    |> Array.unzip
+    |> fun (x,y) -> Chart.Scatter3d(x,y,Array.init x.Length (fun _ -> Random.rndgen.NextFloat() / 3.),StyleParam.Mode.Markers)
+
+let mvnChart = 
+    [ch1;ch2]
+    |> Chart.Combine
+    |> Chart.withTitle "Bivariate normal distribution with sampling"
+
+(*** include-value:mvnChart ***)
 (**
 
 ###Students t distribution
@@ -229,8 +266,8 @@ let hypB = 1. - hyper.CDF 2.
 // Output: 0.01864 = 1.86 %
 
 // HypC: What is the probability that you have a maximum of 3 right ones? 
-let hypC = binomial.CDF 3.
-// Output: 0.6474 = 64.74 %
+let hypC = hyper.CDF 3.
+// Output: 0.99901 = 99.90 %
 
 (***hide***)
 let plotHyper =
@@ -263,21 +300,24 @@ PoB: What is the probability that the lightning strikes less than 2 times?
 
 PoC: What is the probability that the lightning strikes more than 7 times?
 *)
-
 // Creates a poisson distribution with lambda=  .
 let poisson = Discrete.poisson 5.5
 
+(*** do-not-eval ***)
 // PoA: What is the probability that the lightning strikes exactly 3 times?
-let poA = hyper.PDF 3
-// Output: 0.01765 = 1.77 %
+let poA = poisson.PDF 3
+// Output: 0.11332 = 11.33 %
 
-// PoB: What is the probability that the lightning strikes less than 2 times?
-let poB = hyper.CDF 2.
-// Output: 0.98136 = 98.14 %
-
+// PoB: What is the probability that the lightning strikes less or equal to 2 times?
+let poB = 
+    // CDF not implemented yet
+    //poisson.CDF 2.
+    [0 .. 2] |> List.sumBy poisson.PDF
+    // Output: 0.088376 = 8.84 %
+    
 // PoC: What is the probability that the lightning strikes more than 7 times?
-let poC = 1. -  binomial.CDF 6.
-// Output: 0.025827 = 2.58 %
+let poC = 1. -  poisson.CDF 6.
+// Output: Not implemented yet. Manual addition necessary
 
 (***hide***)
 let plotPo =
@@ -373,10 +413,6 @@ let plotEmpirical =
 
 (*** include-value:plotEmpirical ***)
 
-
-
-
-
 (**
 ###Density estimation
 
@@ -388,6 +424,107 @@ let xy = KernelDensity.estimate KernelDensity.Kernel.gaussian 1.0 nv
 
 Chart.SplineArea xy
   
+(**
+
+<a name="Distance"></a>
+
+##Distance
+
+In this example we will calculate the Wasserstein Metric between 3 distributions. One can imagine this metric as the amount of work needed to move the area (pile of dirt) of one distribution to the area of the other. That's why it's also called Earth Movers Distance.
+
+Be aware that this distance measure is dependent on the actual absolute values of the distributions.
+*)
+
+let distribution1 = 
+    let normal = Continuous.normal 300. 15.
+    Array.init 1000 (fun _ -> normal.Sample())
+let distribution2 =
+    let normal = Continuous.normal 350. 20.
+    Array.init 500 (fun _ -> normal.Sample())
+let distribution3 =
+    let normal = Continuous.normal 500. 20.
+    Array.init 1000 (fun _ -> normal.Sample())
+
+let pilesOfDirt =
+    [
+    Chart.Histogram(distribution1,Name = "Distribution1")
+    Chart.Histogram(distribution2,Name = "Distribution2")
+    Chart.Histogram(distribution3,Name = "Distribution3")
+    ]
+    |> Chart.Combine
+
+(*** include-value:pilesOfDirt ***)
+
+let distance1and2 = Distance.OneDimensional.wassersteinDistance distribution1 distribution2
+
+(*** include-value:distance1and2 ***)
+
+let distance1and3 = Distance.OneDimensional.wassersteinDistance distribution1 distribution3
+
+(*** include-value:distance1and3 ***)
+
+
+(*** hide ***)
+let distributions = 
+    [|distribution1;distribution2;distribution3|]
+
+let mapColor min max value = 
+    let proportionR = 
+        ((255. - 200.) * (value - min) / (max - min))
+        |> int
+        |> fun x -> 255 - x
+        
+    let proportionG = 
+        ((255. - 200.) * (value - min) / (max - min))
+        |> int
+        |> fun x -> 255 - x
+    let proportionB = 
+        ((255. - 200.) * (value - min) / (max - min))
+        |> int
+        |> fun x -> 255 - x
+    Colors.fromRgb proportionR proportionG proportionB
+    |> Colors.toWebColor
+
+let distancesTable =
+    let headerColors = ["white";"#1f77b4";"#ff7f0e";"#2ca02c"]
+    let distances = 
+        distributions
+        |> Array.map (fun x ->
+            distributions
+            |> Array.map (fun y ->
+                Distance.OneDimensional.wassersteinDistance x y
+                |> (sprintf "%.2f")
+            )
+        )
+        |> Array.transpose 
+        |> Array.append [|[|"Distribution1";"Distribution2";"Distribution3"|]|]
+        |> Array.transpose 
+    let cellColors = 
+        distances
+        |> Array.mapi (fun i a ->
+            a
+            |> Array.mapi (fun j v -> 
+                if j = 0 then 
+                    if i = 0 then "#1f77b4"
+                    elif i = 1 then "#ff7f0e"
+                    else "#2ca02c"
+                else 
+                    mapColor 0. 200. (float v)
+            )
+        )
+        |> Array.transpose
+ 
+    Chart.Table(
+        ["";"Distribution1";"Distribution2";"Distribution3"],         
+        distances,
+        ColorHeader = headerColors,
+        ColorCells = cellColors)
+
+(*** include-value:distancesTable ***)
+
+(**
+As expected the distance between Distribution 1 and 2 is the lowest 
+*)
 
 (**
 <a name="Bandwidth"></a>

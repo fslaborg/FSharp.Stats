@@ -35,7 +35,7 @@ module FFT =
 
 
     // FFT Helper function
-    let private fft_aux (a : Complex array) n j sign m = 
+    let private fftAux (a : Complex array) n j sign m = 
         let w = 
             let t = pi * float (sign * m) / float j 
             Complex.Create (cos t, sin t)
@@ -48,14 +48,13 @@ module FFT =
             i <- i + 2*j
 
 
-
     let private fftPow2 sign a =
         let n = Array.length a
         bitrev a
         let mutable j = 1
         while j < n do
             for m = 0 to j - 1 do
-                fft_aux a n j sign m
+                fftAux a n j sign m
             j <- 2 * j
 
 

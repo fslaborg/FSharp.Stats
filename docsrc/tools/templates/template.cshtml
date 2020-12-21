@@ -36,7 +36,7 @@
           @RenderBody()
         </div>
         <div class="span3">
-          <img src="@Root/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <img src="@Root/img/logo.svg" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
               <li class="nav-header">@Properties["project-name"]</li>
               <li><a href="@Root/index.html">Home page</a></li>
@@ -63,6 +63,7 @@
               <li><a href="@Root/Clustering.html">Clustering</a></li>
               <li><a href="@Root/Correlation.html">Correlation</a></li>
               <li><a href="@Root/Covariance.html">Covariance</a></li>
+              <li><a href="@Root/CrossValidation.html">Cross validation</a></li>
               <li><a href="@Root/Rank.html">Rank</a></li>
               <li><a href="@Root/Quantile.html">Quantile</a></li>
               <li class="divider"></li>
@@ -98,16 +99,6 @@
                   <li><a href="@Root/Differentiation.html#TwoPointDifferentiation">Two-Point Differentiation</a></li>
               </ul>
               }
-              <li><a href="@Root/Optimization.html">Optimization</a></li>
-              @if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Optimization.fsx"))
-              {
-              <ul class="nav nav-list">
-                  <li><a href="@Root/Optimization.html#GradientDescent">GradientDescent</a></li>
-                  <li><a href="@Root/Optimization.html#LP">LP</a></li>
-                  <li><a href="@Root/Optimization.html#QP">QP</a></li>
-                  <li><a href="@Root/Optimization.html#QuasiNewton">QuasiNewton</a></li>
-              </ul>
-              }
               </li>
               <li><a href="@Root/Distributions.html">Distributions</a></li>
               @if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Distributions.fsx"))
@@ -126,8 +117,9 @@
               {
               <ul class="nav nav-list">
                   <li><a href="@Root/Testing.html#TestStatistics">Test Statistics</a></li>
-                  <li><a href="@Root/Testing.html#Anova">Anova</a></li>
                   <li><a href="@Root/Testing.html#TTest">T-Test</a></li>
+                  <li><a href="@Root/Testing.html#Anova">Anova</a></li>
+                  <li><a href="@Root/Testing.html#FTest">F-Test</a></li>
                   <li><a href="@Root/Testing.html#ChiSquareTest">Chi-Squared Test</a></li>
                   <li><a href="@Root/Testing.html#Bartlett">Bartlett</a></li>
                   <li><a href="@Root/Testing.html#PostHoc">PostHoc</a></li>
@@ -141,34 +133,37 @@
               <ul class="nav nav-list">
                   <li><a href="@Root/Fitting.html#Linear-Regression">Linear Regression</a></li>
                   <li><a href="@Root/Fitting.html#Polynomial-Regression">Polynomial Regression</a></li>
-				  <li><a href="@Root/Fitting.html#Nonlinear-Regression">Nonlinear Regression</a></li>
+                  <li><a href="@Root/Fitting.html#Nonlinear-Regression">Nonlinear Regression</a></li>
               </ul>
               }
-			  </li>
+              </li>
+              <li><a href="@Root/GoodnessOfFit.html">Goodness of fit</a></li>
               <li><a href="@Root/Interpolation.html">Interpolation</a></li>
               @if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Interpolation.fsx"))
               {
               <ul class="nav nav-list">
                   <li><a href="@Root/Interpolation.html#Polynomial-Interpolation">Polynomial Interpolation</a></li>
                   <li><a href="@Root/Interpolation.html#Cubic-interpolating-Spline">Cubic interpolating Spline</a></li>
-				  <li><a href="@Root/Interpolation.html#Hermite-interpolation">Hermite interpolation</a></li>
+                  <li><a href="@Root/Interpolation.html#Hermite-interpolation">Hermite interpolation</a></li>
               </ul>
               }
-			  </li>
+              </li>
               <li><a href="@Root/Imputation.html">Imputation</a></li>
               <li><a href="@Root/Signal.html">Signal</a></li>
               @if (Properties.Dictionary.ContainsKey("page-source") && Properties["page-source"].ToString().EndsWith("Signal.fsx"))
               {
               <ul class="nav nav-list">
+                  <li><a href="@Root/Signal.html#Outliers">Outliers</a></li>
+                  <li><a href="@Root/Signal.html#Filtering">Filtering</a></li>
                   <li><a href="@Root/Signal.html#Padding">Padding</a></li>
                   <li><a href="@Root/Signal.html#Wavelet">Wavelet</a></li>
                   <li><a href="@Root/Signal.html#ContinuousWavelet">Continuous Wavelet</a></li>
                   <li><a href="@Root/Signal.html#Baseline">Baseline</a></li>
-                  <li><a href="@Root/Signal.html#Filtering">Filtering</a></li>
               </ul>
               }
               </li>
-			  <li><a href="@Root/TemporalClassification.html">Temporal Classification</a></li>
+              <li class="nav-header">Special Issues</li>
+              <li><a href="@Root/GrowthCurve.html">Growth Curve</a></li>
 
 
               <li class="nav-header">Documentation</li>

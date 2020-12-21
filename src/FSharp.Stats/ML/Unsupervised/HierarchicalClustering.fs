@@ -76,10 +76,11 @@ module HierarchicalClustering =
 
 
     // ######################        
-    // Cluster
+    /// Binary distance tree
     type Cluster<'T> = 
-        //------- ID * distance * leafCount * cluster left * cluster right
+        ///ID * distance * leafCount * cluster left * cluster right
         | Node of int * float * int * Cluster<'T> * Cluster<'T>
+        ///ID * leafCount * Tag
         | Leaf of int * int * 'T
 
     // Returns cluster Id
@@ -99,23 +100,78 @@ module HierarchicalClustering =
         | Cluster.Node(id,_,mc,_,_) -> mc   
         | Cluster.Leaf(id,mc,_)     -> mc
     
-
+    /// Create a cluster Node containing the two given subbranches
     let createCluster<'T> (id:int) (dist:float) (left:Cluster<'T>) (right:Cluster<'T>) =        
         let leaveCount = getClusterMemberCount left + getClusterMemberCount right
         Cluster.Node(id, dist, leaveCount, left, right)
 
+    /// Create a cluster Leaf
     let createClusterValue (id:int) (value:'T) =
         Cluster.Leaf(id,1,value)
 
+    ///Returns a list of the distances between the subclusters
+    let getDistancesOfCluster (cluster: Cluster<'T>) =
+        let rec loop l cluster=
+            match cluster with
+            | Node (_,dist,_,c1,c2) ->
+                dist :: l
+                |> List.append (loop [] c1)
+                |> List.append (loop [] c2)
+            | _ -> l
+        loop [] cluster
 
+    ///Returns a list of the leaf names
+    let getLeafsOfCluster (cluster: Cluster<'T>) =
+        let rec loop l cluster=
+            match cluster with
+            | Node (_,dist,_,c1,c2) ->
+                l
+                |> List.append (loop [] c1)
+                |> List.append (loop [] c2)
+            | Leaf (_,_,l) -> [l]
+        loop [] cluster
 
+    /// Aggregates the subbranches of a node to leafs, if the distance between them is smaller than the given distanceCutoff
+    let aggregateClusterByDistance distanceCutoff (cluster: Cluster<'T>) =
+        let rec aggregate cluster =
+            match cluster with
+            | Node (id,dist,num,c1,c2) ->
+                List.append (aggregate c1) (aggregate c2)
+            | Leaf (id,x,name) -> [name]
+        let rec loop cluster =
+            match cluster with
+            | Node (id,dist,num,c1,c2) when dist < distanceCutoff ->
+                Leaf (id,num, List.append (aggregate c1) (aggregate c2))
+            | Node (id,dist,num,c1,c2) ->
+                Node (id,dist,num,loop c1,loop c2)
+            | Leaf (id,x,name) -> Leaf (id,x,[name])
+        loop cluster
+    
 
+    /// Aggregates the subbranches of a node to leafs, if the predicate function taking the distance and the number of subLeafs returns true
+    let aggregateClusterBy (predicate : float -> int -> bool) (cluster: Cluster<'T>) =
+        let rec aggregate cluster =
+            match cluster with
+            | Node (id,dist,num,c1,c2) ->
+                List.append (aggregate c1) (aggregate c2)
+            | Leaf (id,x,name) -> [name]
+        let rec loop cluster =
+            match cluster with
+            | Node (id,dist,num,c1,c2) when predicate dist num ->
+                Leaf (id,num, List.append (aggregate c1) (aggregate c2))
+            | Node (id,dist,num,c1,c2) ->
+                Node (id,dist,num,loop c1,loop c2)
+            | Leaf (id,x,name) -> Leaf (id,x,[name])
+        loop cluster
 
-
-
-
-
-
+    /// Maps the tags of the leafs of the cluster by applying a given mapping function
+    let mapClusterLeaftags (mapF : 'T -> 'U) (cluster: Cluster<'T>) =
+        let rec loop cluster =
+            match cluster with
+            | Node (id,dist,num,c1,c2) ->
+                Node (id,dist,num,loop c1,loop c2)
+            | Leaf (id,x,name) -> Leaf (id,x, mapF name)
+        loop cluster
 
     /// Class for chaching already calculated distances to speed up cluster build
     type DistanceCaching<'T>
@@ -306,7 +362,7 @@ module HierarchicalClustering =
 
 
 
-    /// Returns 
+    /// Returns a list of all IDs in the cluster
     let getClusterMemberLabels (cluster:Cluster<'a>) =
         let rec loop cluster (acc:int list) =
             match cluster with

@@ -9,6 +9,10 @@ open FSharp.Stats.Ops
 [<CompilationRepresentationAttribute(CompilationRepresentationFlags.ModuleSuffix)>]
 module Continuous = 
     
+    type Tails =
+        | OneTailed
+        | TwoTailed
+
     open FSharp.Stats.SpecialFunctions
 
     // ######
@@ -45,16 +49,13 @@ module Continuous =
             if x < 0.0 || dof < 1. then
                 0.0
             else
-                let k = float dof * 0.5
-                let x = x * 0.5
-                if dof = 2. then
-                    exp (-1. * x)
-                else
-                    let pValue = SpecialFunctions.Gamma.lowerIncomplete k x // incGamma -> gamma lower incomplete
-                    if (isNan pValue) || (isInf pValue) ||  (pValue <= 1e-8) then
-                        1e-14
-                    else
-                        1.- pValue / (SpecialFunctions.Gamma.gamma k)  
+                let gammaF = Gamma.gamma (dof/2.)
+                let k = 2.**(dof/2.)
+                let fraction = (1./((k)*gammaF))
+                let ex1 = (x**((dof/2.)-1.))
+                let ex2 = exp(-x/2.)
+                let pdffunction = fraction*(ex1*ex2)
+                pdffunction 
 
         /// Computes the logarithm of probability density function.
         static member PDFLn dof x = 
@@ -69,7 +70,7 @@ module Continuous =
             if dof = 0. then 
                 if x > 0. then 1.
                 else 0.
-            else Gamma.lowerIncomplete (dof/2.0) (x*x/2.0)
+            else Gamma.lowerIncomplete (dof/2.) (x/2.)
 
         /// Returns the support of the exponential distribution: [0, Positive Infinity).
         static member Support dof =
@@ -89,6 +90,72 @@ module Continuous =
             member d.CDF x             = ChiSquared.CDF dof  x         
         }    
 
+    // ######
+    // ChiSquared distribution
+    // ######
+
+
+    // ChiSquared distribution helper functions.
+    let chiCheckParam dof = if System.Double.IsNaN(dof)  || dof < 0. then failwith "Chi distribution should be parametrized by degrees of Freedom in [0,inf)."
+
+    /// Chi distribution.
+    type Chi =
+        /// Computes the mean.
+        static member Mean dof =
+            chiCheckParam dof
+            sqrt 2. * ((Gamma.gamma ((dof + 1.) / 2.))/(Gamma.gamma (dof / 2.)))
+        /// Computes the variance.
+        static member Variance dof =
+            chiCheckParam dof
+            let mean = sqrt 2. * ((Gamma.gamma ((dof + 1.) / 2.))/(Gamma.gamma (dof / 2.)))
+            dof - pown mean 2
+        /// Computes the standard deviation.
+        static member StandardDeviation dof =
+            chiCheckParam dof
+            let mean = sqrt 2. * ((Gamma.gamma ((dof + 1.) / 2.))/(Gamma.gamma (dof / 2.)))
+            let var = dof - pown mean 2
+            sqrt var
+        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        static member Sample dof =
+            chiCheckParam dof
+            //rndgen.NextFloat() * (max - min) + min
+            nan
+        /// Computes the probability density function.
+        static member PDF dof x =
+            chiCheckParam dof
+            if x < 0.0 || dof < 1. then
+                0.0
+            else
+                let gammaF = Gamma.gamma (dof/2.)
+                let k = 2.**(dof/2. - 1.)
+                let fraction = 1./((k)*gammaF)
+                let ex1 = x**(dof-1.)
+                let ex2 = exp(-(x**2.)/2.)
+                let pdffunction = fraction*(ex1*ex2)
+                pdffunction 
+        /// Computes the cumulative distribution function.
+        static member CDF dof x =
+            chiCheckParam dof
+            if dof = 0. then 
+                if x > 0. then 1.
+                else 0.
+            else Gamma.lowerIncomplete (dof / 2.) ((x**2.) /2.)
+        /// Returns the support of the exponential distribution: [0, Positive Infinity).
+        static member Support dof =
+            chiCheckParam dof
+            (0., System.Double.PositiveInfinity)
+
+
+    /// Initializes a Chi distribution        
+    let chi dof =
+        { new Distribution<float,float> with
+            member d.Mean              = Chi.Mean dof
+            member d.StandardDeviation = Chi.StandardDeviation dof 
+            member d.Variance          = Chi.Variance dof
+            member d.Sample ()         = Chi.Sample dof
+            member d.PDF x             = Chi.PDF dof x           
+            member d.CDF x             = Chi.CDF dof  x         
+        }    
 
 // ######
 // Uniform distribution
@@ -153,34 +220,34 @@ module Continuous =
 
 
 // ######
-// (Gaus)- Normal distribution
+// (Gaussian)- Normal distribution
 // ######
 
 
     // Normal distribution helper functions.
-    let normalCheckParam mu tau = if System.Double.IsNaN(mu) || tau < 0.0 then failwith "Normal distribution should be parametrized by tau > 0.0."
+    let normalCheckParam mu sigma = if System.Double.IsNaN(mu) || sigma < 0.0 then failwith "Normal distribution should be parametrized by sigma > 0.0."
     
     /// Normal distribution.
     type Normal =
         /// Computes the mean.
-        static member Mean mu tau =
-            normalCheckParam mu tau
+        static member Mean mu sigma =
+            normalCheckParam mu sigma
             mu
 
         /// Computes the variance.
-        static member Variance mu tau =
-            normalCheckParam mu tau
-            tau*tau
+        static member Variance mu sigma =
+            normalCheckParam mu sigma
+            sigma*sigma
 
         /// Computes the standard deviation.
-        static member StandardDeviation mu tau =
-            normalCheckParam mu tau
-            tau
+        static member StandardDeviation mu sigma =
+            normalCheckParam mu sigma
+            sigma
 
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-        static member Sample mu tau =
+        static member Sample mu sigma =
             // Source: fsmathtools
-            normalCheckParam mu tau
+            normalCheckParam mu sigma
             let mutable v1 = 2.0 * Random.rndgen.NextFloat() - 1.0
             let mutable v2 = 2.0 * Random.rndgen.NextFloat() - 1.0
             let mutable r = v1 * v1 + v2 * v2
@@ -189,46 +256,46 @@ module Continuous =
                 v2 <- 2.0 * Random.rndgen.NextFloat() - 1.0
                 r <- v1 * v1 + v2 * v2
             let fac = sqrt(-2.0*(log r)/r)
-            (tau * v1 * fac + mu)
+            (sigma * v1 * fac + mu)
             //failwith "Not implemented yet."
 
         /// Computes the probability density function.
-        static member PDF mu tau x =
-            normalCheckParam mu tau
-            (exp (-0.5 * (x-mu)*(x-mu) / (tau*tau))) / (sqrt (2.0 * Ops.pi * (tau*tau)))
+        static member PDF mu sigma x =
+            normalCheckParam mu sigma
+            (exp (-0.5 * (x-mu)*(x-mu) / (sigma*sigma))) / (sqrt (2.0 * Ops.pi * (sigma*sigma)))
 
         /// Computes the cumulative distribution function.
-        static member CDF mu tau x =
-            normalCheckParam mu tau            
-            0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((x - mu)/(tau*(sqrt 2.0))))
+        static member CDF mu sigma x =
+            normalCheckParam mu sigma            
+            0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((x - mu)/(sigma*(sqrt 2.0))))
 
         /// Returns the support of the exponential distribution: [0, Positive Infinity).
-        static member Support mu tau =
-            normalCheckParam mu tau
+        static member Support mu sigma =
+            normalCheckParam mu sigma
             (System.Double.NegativeInfinity, System.Double.PositiveInfinity)
 
         /// Initializes a Normal distribution        
-        static member init mu tau =
+        static member init mu sigma =
             { new Distribution<float,float> with
-                member d.Mean              = Normal.Mean mu tau
-                member d.StandardDeviation = Normal.StandardDeviation mu tau
-                member d.Variance          = Normal.Variance mu tau
-                //member d.CoVariance        = Normal.CoVariance  mu tau
-                member d.Sample ()         = Normal.Sample mu tau
-                member d.PDF x             = Normal.PDF mu tau x      
-                member d.CDF x             = Normal.CDF mu tau x         
+                member d.Mean              = Normal.Mean mu sigma
+                member d.StandardDeviation = Normal.StandardDeviation mu sigma
+                member d.Variance          = Normal.Variance mu sigma
+                //member d.CoVariance        = Normal.CoVariance  mu sigma
+                member d.Sample ()         = Normal.Sample mu sigma
+                member d.PDF x             = Normal.PDF mu sigma x      
+                member d.CDF x             = Normal.CDF mu sigma x         
             }
 
         /// Estimates the Normal distribution parameters from sample data with maximum-likelihood.
         static member Estimate samples =
             let s   = Seq.stats samples
             let mu  = SummaryStats.mean s
-            let tau = SummaryStats.stDev s
+            let sigma = SummaryStats.stDev s
             
-            Normal.init mu tau
+            Normal.init mu sigma
 
     /// Initializes a Normal distribution        
-    let normal mu tau = Normal.init mu tau
+    let normal mu sigma = Normal.init mu sigma
 
 
 // ######
@@ -340,7 +407,7 @@ module Continuous =
                     1.0
             let d = a - 1.0 / 3.0
             let c = 1.0 / sqrt(9.0 * d)
-            let rec gamma_sample () =
+            let rec gammaSample () =
                 let mutable x = Normal.Sample 0.0 1.0
                 let mutable v = 1.0 + c * x
                 while v <= 0.0 do
@@ -353,8 +420,8 @@ module Continuous =
                     d * v
                 elif (log u) < 0.5 * x + d * (1.0 - v + (log v)) then
                     d * v
-                else gamma_sample()
-            alphafix * gamma_sample() / beta
+                else gammaSample()
+            alphafix * gammaSample() / beta
             //failwith "Not implemented yet."
         
         /// Computes the probability density function.
@@ -586,7 +653,128 @@ module Continuous =
             member d.CDF x             = StudentT.CDF mu tau dof x         
         }   
 
+    let getCriticalTValue df significanceLevel tailed =
+        let cdf t = 
+            let alpha =
+                match tailed with
+                | Tails.OneTailed -> significanceLevel
+                | Tails.TwoTailed -> significanceLevel / 2.
+            studentT 0. 1. df
+            |> fun d -> alpha - d.CDF t
+        Optimization.Bisection.tryFindRoot cdf 0.0000001 -1000. 0. 10000
+        |> fun tValue -> 
+            match tValue with
+                | None -> failwithf "Critical t value could not be determined (increase maxIterations or decrease lower bound)."
+                | Some t -> Math.Abs t
 
+// ######
+// Studentized range (q) distribution
+// ------------------------------
+// ######
+
+    open FSharp.Stats.Integration
+
+    /// Studentized range distribution helper functions.
+    let studentizedRangeCheckParam q r v = 
+        if  System.Double.IsNaN(q) || 
+            System.Double.IsNaN(r) || 
+            System.Double.IsNaN(v) ||
+            r < 1.0 || 
+            v < 1.0 
+            then failwith "Studentized range distribution should be parametrized by r and v > 1.0."
+    
+    /// Studentized range (q) distribution. Used in Tukey's HSD post hoc test.
+    /// method from: QUANTILES FROM THE MAXIMUM STUDENTIZED RANGE DISTRIBUTION, Ferreira, Rev. Mat. Estat., v.25, n.1, p.117-135, 2007
+    /// table from: Tables of range and studentized range, Harter, 1960 and Lawal B, Applied Statistical Methods in Agriculture, Health and Life Sciences, DOI 10.1007/978-3-319-05555-8, 2014
+    type StudentizedRange =
+        /// Computes the mean.
+        static member Mean =
+            failwithf "Not implemented yet"
+
+        /// Computes the variance.
+        static member Variance =
+            failwithf "Not implemented yet"
+
+        /// Computes the standard deviation.
+        static member StandardDeviation =
+            failwithf "Not implemented yet"
+            
+
+        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        static member Sample() =
+            failwithf "Not implemented yet"
+
+        /// Computes the probability density function.
+        static member PDF =
+            failwithf "Not implemented yet"
+
+        /// Computes the cumulative density function.
+        /// Accuracy defines the number of steps within the integration (Recommended: 1k-10k, default: 2k). pValue accuracy is minimum 3 digits for v>3 at pValue=0.05.
+        /// q:qValue r:number of treatments v:df (n-r) c:1.
+        /// Integration can be performed in parallel using PSeq
+        static member CDF q r v c accuracy computeParallel =
+            // An alternative (not implemented) algorithm makes use of t statistic to approximate q quite accurate: 
+            // An accurate, non-iterativeapproximation for studentizedrange quantiles John R. Gleason ,Computational Statistics & Data Analysis 31 (1999) 147           
+            let accuracy   = defaultArg accuracy 2000.
+    
+            studentizedRangeCheckParam q r v
+            let normal = normal 0. 1.
+    
+            let h q r =
+                let integrateInner y = 
+                    let normalPDF = normal.PDF y
+                    let normalCDF = (normal.CDF y - normal.CDF (y - q))**(r - 1.)
+                    normalPDF * normalCDF
+                if  not (Precision.almostEqualNorm (integrateInner -20.) (10.**(-20.))) || 
+                    not (Precision.almostEqualNorm (integrateInner  20.) (10.**(-20.))) 
+                    then printfn "Warning: Integral in q distribution H(q) does not start/end at y=0. Extend borders [-20,20]!"
+                if computeParallel then r * DefiniteIntegral.integratePSeq DefiniteIntegral.midRect integrateInner -20. 20. accuracy
+                else r * DefiniteIntegral.integrate DefiniteIntegral.midRect integrateInner -20. 20. accuracy
+    
+            let f q r v c =
+                let partH u = (h (q * sqrt u) r) ** c
+                let gammapart = 2.**(v/2.)*SpecialFunctions.Gamma.gamma (v/2.)
+                let sndQuotient u = 
+                    let a = v**(v/2.)*Math.Exp((-u * v)/2.)*u**(v/2. - 1.)
+                    a / gammapart
+                let com u = partH u * sndQuotient u
+                let check =
+                    let bordercase = com 50.
+                    if not (Precision.almostEqualNorm bordercase (10.**(-20.))) then 
+                        printfn "Warning: Integral in q distribution F(q) does not end at y=0 but at y=%.12f. Extend border [0,50]!" bordercase
+                if computeParallel then DefiniteIntegral.integratePSeq DefiniteIntegral.midRect com 0. 50. accuracy           
+                else DefiniteIntegral.integrate DefiniteIntegral.midRect com 0. 50. accuracy
+            f q r v c
+
+            //Lawal B, Applied Statistical Methods in Agriculture, Health and Life Sciences, DOI 10.1007/978-3-319-05555-8, 2014
+            //StudentizedRange.CDF 18.   2.  1. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9473 (2k accuracy) 0.9459 (1k accuracy)
+            //StudentizedRange.CDF 59.6 20.  1. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9618 (2k accuracy) 0.9459 (1k accuracy)
+            //StudentizedRange.CDF 6.08  2.  2. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9507 (2k accuracy) 0.9521 (1k accuracy)
+            //StudentizedRange.CDF 16.8 20.  2. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9503 (2k accuracy) 0.9481 (1k accuracy)
+            //StudentizedRange.CDF 4.5   2.  3. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9501 (2k accuracy) 0.9505 (1k accuracy)
+            //StudentizedRange.CDF 11.2 20.  3. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9495 (2k accuracy) 0.9495 (1k accuracy)
+            //StudentizedRange.CDF 3.93  2.  4. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9501 (2k accuracy) 0.9901 (1k accuracy)
+            //StudentizedRange.CDF 9.23 20.  4. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9499 (2k accuracy) 0.9901 (1k accuracy)
+            //StudentizedRange.CDF 3.64  2.  5. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9502 (2k accuracy)        (1k accuracy)
+            //StudentizedRange.CDF 8.21 20.  5. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9500 (2k accuracy)        (1k accuracy)
+            //StudentizedRange.CDF 3.46  2.  6. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9500 (2k accuracy)        (1k accuracy)
+            //StudentizedRange.CDF 7.59 20.  6. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9501 (2k accuracy)        (1k accuracy)
+    
+    /// Initializes a studentized range distribution.     
+    /// Accuracy defines the number of steps within the CDF integration (Recommended: 1k-10k, default: 2k). pValue accuracy is minimum 3 digits for v>3.
+    /// q:qValue r:number of treatments v:df (n-r) c:1.   
+    /// Integration can be performed in parallel using PSeq
+    let studentizedRange r v c accuracy computeParallel =
+        { new Distribution<float,float> with
+            member d.Mean              = StudentizedRange.Mean
+            member d.StandardDeviation = StudentizedRange.StandardDeviation
+            member d.Variance          = StudentizedRange.Variance
+            member d.Sample ()         = StudentizedRange.Sample()
+            member d.PDF x             = StudentizedRange.PDF      
+            member d.CDF q             = StudentizedRange.CDF q r v c accuracy computeParallel
+        }   
+
+    
 // ######
 // F-distribution or Fisher–Snedecor distribution
 // ----------------------------------------------
@@ -643,10 +831,15 @@ module Continuous =
         static member CDF dof1 dof2 x =
             fCheckParam dof1 dof2
             if (x <= 0.) then
-                1.
+                //1.
+                0.
             else
-                let u = dof2 / (dof2 + dof1 * x)
-                Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
+                //equals 1 - cdf(x)
+                //let u = dof2 / (dof2 + dof1 * x)
+                //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
+                //equals cdf(x)
+                let u = (dof1 * x) / (dof2 + dof1 * x) 
+                Beta.lowerIncomplete (dof1 * 0.5) (dof2 * 0.5) u
 
         // /// Computes the inverse of the cumulative distribution function.
         // static member InvCDF dof1 dof2 p =
@@ -762,6 +955,62 @@ module Continuous =
     /// Initializes a Normal distribution        
     let logNormal mu tau = LogNormal.init mu tau
 
+
+// ######
+// Multivariate normal distribution
+// ######
+
+    // multivariate normal distribution helper functions.
+    let multivariateNormalCheckParam (mu:vector) (sigma:matrix) =
+        if false then failwith "Multivariate normal distribution should be parametrized by "
+    
+    /// multivariate normal distribution.
+    type MultivariateNormal =
+        /// Computes the mean.
+        static member Mean (mu:vector) (sigma:matrix) =
+            multivariateNormalCheckParam mu sigma
+            mu
+        /// Computes the variance.
+        static member Variance (mu:vector) (sigma:matrix) =
+            multivariateNormalCheckParam mu sigma
+            //sigma*sigma
+            failwith "Not implemented yet."
+        /// Computes the standard deviation.
+        static member StandardDeviation (mu:vector) (sigma:matrix) =
+            multivariateNormalCheckParam mu sigma
+            //sigma 
+            failwith "Not implemented yet."
+        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        static member Sample (mu:vector) (sigma:matrix) =
+            if Vector.length mu = 2 then 
+                let a = Algebra.LinearAlgebra.Cholesky sigma
+                let z = Random.boxMullerTransform() |> fun (a,b) -> vector [a;b]
+                mu + a*z
+            else failwith "Not implemented yet."
+
+        /// Computes the probability density function.
+        static member PDF (mu:vector) (sigma:matrix) (x:vector) =
+            multivariateNormalCheckParam mu sigma
+            let k = Seq.length mu |> float
+            let ex = Math.Exp(-0.5 * (x - mu).Transpose * (Algebra.LinearAlgebra.Inverse sigma) * (x-mu))
+            (2.*Math.PI)**(-k/2.) * (Algebra.LinearAlgebra.Determinant sigma ** (-0.5)) * ex
+        /// Computes the cumulative distribution function.
+        static member CDF (mu:vector) (sigma:matrix) (x:vector) =
+            failwith "Not implemented yet."
+
+        /// Initializes a multivariate normal distribution with mean mu and covariance matrix sigma       
+        static member init (mu:vector) (sigma:matrix) =
+            { new Distribution<vector,vector> with
+                member d.Mean              = MultivariateNormal.Mean mu sigma
+                member d.StandardDeviation = MultivariateNormal.StandardDeviation mu sigma
+                member d.Variance          = MultivariateNormal.Variance mu sigma
+                member d.Sample ()         = MultivariateNormal.Sample mu sigma
+                member d.PDF x             = MultivariateNormal.PDF mu sigma x      
+                member d.CDF x             = MultivariateNormal.CDF mu sigma x         
+            }
+
+    /// Initializes a multivariate normal distribution with mean mu and covariance matrix sigma          
+    let multivariateNormal mu sigma = MultivariateNormal.init mu sigma
 
 // ######
 // ... distribution 

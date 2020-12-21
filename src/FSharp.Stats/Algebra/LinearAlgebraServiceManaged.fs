@@ -94,12 +94,12 @@ module LinearAlgebraManaged =
            * lres_ij depends on lres_ik and lres_jk (and maybe lres_ii) for k<i
            *)
           let psum = sumfR (fun k -> lres.[i,k] * lres.[j,k]) (0,j-1)
-          let a_ij = a.[i,j]
+          let aij = a.[i,j]
           if i=j then
-            let t = (a_ij - psum)
+            let t = (aij - psum)
             if t >= 0.0 then lres.[i,i] <- (System.Math.Sqrt t) else invalidArg "Matrix" "choleskyFactor: not symmetric postive definite"
           else
-            lres.[i,j] <- ((a_ij - psum) / lres.[j,j])
+            lres.[i,j] <- ((aij - psum) / lres.[j,j])
         done
         done;
         // if not (isLowerTriangular lres) then failwith "choleskyFactor: not lower triangular result";

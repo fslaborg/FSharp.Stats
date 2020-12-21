@@ -40,13 +40,15 @@ module Correlation =
     /// Contains correlation functions optimized for sequences
     [<AutoOpen>]
     module Seq = 
-        /// Pearson correlation 
+        /// Calculates the pearson correlation of two samples. Homoscedasticity must be assumed.
         let inline pearson (seq1:seq<'T>) (seq2:seq<'T>) : float =
-            use e = seq1.GetEnumerator()
-            use e2 = seq2.GetEnumerator()
-            let zero = LanguagePrimitives.GenericZero< 'T > 
-            let one = LanguagePrimitives.GenericOne<'T> 
-            let rec loop n (sumX: 'T) (sumY: 'T) (sumXY: 'T) (sumXX: 'T) (sumYY: 'T) = 
+            let seq1' = seq1 |> Seq.map float
+            let seq2' = seq2 |> Seq.map float
+            use e = seq1'.GetEnumerator()
+            use e2 = seq2'.GetEnumerator()
+            let zero = float (LanguagePrimitives.GenericZero<'T>)
+            let one = float (LanguagePrimitives.GenericOne<'T>)
+            let rec loop n sumX sumY sumXY sumXX sumYY = 
                 match (e.MoveNext() && e2.MoveNext()) with
                     | true  -> 
                         loop (n + one) (sumX + e.Current) (sumY + e2.Current) (sumXY + (e.Current * e2.Current)) (sumXX + (e.Current * e.Current)) (sumYY + (e2.Current * e2.Current))
@@ -73,26 +75,26 @@ module Correlation =
             if Seq.length seq1 <> Seq.length seq2 || Seq.length seq2 <> Seq.length weights then failwithf "input arguments are not the same length"
             let zero = LanguagePrimitives.GenericZero< 'T > 
             let one = LanguagePrimitives.GenericOne<'T> 
-            let weightedMean x_Val w_Val = 
-                let a = Seq.fold2 (fun acc xi wi -> acc + (xi * wi)) zero x_Val w_Val |> float
-                let b = Seq.sum w_Val|> float
+            let weightedMean xVal wVal = 
+                let a = Seq.fold2 (fun acc xi wi -> acc + (xi * wi)) zero xVal wVal |> float
+                let b = Seq.sum wVal|> float
                 a / b
-            let weightedCoVariance x_Val y_Val w_Val = 
-                let weightedMeanXW = weightedMean x_Val w_Val
-                let weightedMeanYW = weightedMean y_Val w_Val
+            let weightedCoVariance xVal yVal wVal = 
+                let weightedMeanXW = weightedMean xVal wVal
+                let weightedMeanYW = weightedMean yVal wVal
                 let a = 
                     Seq.map3 (fun xi yi wi -> 
                         (float wi) * ((float xi) - weightedMeanXW) * ((float yi) - weightedMeanYW)
-                            ) x_Val y_Val w_Val
+                            ) xVal yVal wVal
                     |> Seq.sum
                 let b = 
-                    Seq.sum w_Val 
+                    Seq.sum wVal 
                     |> float
                 a / b
-            let weightedCorrelation x_Val y_Val w_Val =
-                let a = weightedCoVariance x_Val y_Val w_Val
+            let weightedCorrelation xVal yVal wVal =
+                let a = weightedCoVariance xVal yVal wVal
                 let b = 
-                    (weightedCoVariance x_Val x_Val w_Val) * (weightedCoVariance y_Val y_Val w_Val)
+                    (weightedCoVariance xVal xVal wVal) * (weightedCoVariance yVal yVal wVal)
                     |> sqrt
                 a / b          
             weightedCorrelation seq1 seq2 weights

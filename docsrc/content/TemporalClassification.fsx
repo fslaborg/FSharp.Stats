@@ -49,8 +49,8 @@ open FSharp.Stats.Fitting
 FSharp.Stats.ServiceLocator.setEnvironmentPathVariable (__SOURCE_DIRECTORY__ + @"..\..\lib")
 FSharp.Stats.Algebra.LinearAlgebra.Service()
 
-//defining the x_values
-let x_Values = vector [0. .. 7.]
+//defining the x values
+let xValues = vector [0. .. 7.]
 
 //defining function values
 let replicate1 = [| 159.30; 446.07; 858.34; 799.95; 1126.07;  826.56;  950.01; 2844.94;|]
@@ -58,8 +58,8 @@ let replicate2 = [| 198.60; 535.39; 697.22; 847.68;  769.67; 1009.07; 1118.19; 2
 let replicate3 = [| 170.90; 474.36;1012.73; 194.19;  709.53;  756.68; 1108.56; 2732.82;|]
 
 //merge the replicates
-let y_Values = 
-    Array.init x_Values.Length (fun i -> [|replicate1.[i];replicate2.[i];replicate3.[i]|])
+let yValues = 
+    Array.init xValues.Length (fun i -> [|replicate1.[i];replicate2.[i];replicate3.[i]|])
     |> Array.concat
     |> vector
 
@@ -67,15 +67,15 @@ let y_Values =
 let rawDataChart =   
     //calculates the means and standard deviations of the three replicates and plots it as line
     let line =
-        TemporalClassification.calcMeanOfRep y_Values 3
+        Seq.getMeanOfReplicates 3 yValues
         |> Seq.indexed
         |> Chart.Line
         |> Chart.withTraceName (sprintf "means")
-        |> Chart.withYErrorStyle(Array=TemporalClassification.calcStDevOfRep y_Values 3)
+        |> Chart.withYErrorStyle(Array=Seq.getStDevOfReplicates 3 yValues)
 
     //plots all measurements as points 
     let points =
-        y_Values
+        yValues
         |> Seq.mapi (fun i x -> float (i-i%3) / 3.,x)
         |> Array.ofSeq
         |> fun d -> Chart.Line(d,Name="measurements",ShowMarkers=true)
@@ -99,10 +99,10 @@ The spline takes the variance of the measured replicates in account. If there is
 a lower weight to these points as their importance in the shape determination should be decreased.
 
 *)
-let weightingMethod = TemporalClassification.WeightingMethod.StandardDeviationAdj
+let weightingMethod = TemporalClassification.Fitting.WeightingMethod.StandardDeviationAdj
 
 //calculate the points weighting according to the specified weightingmethod
-let weighting = TemporalClassification.getWeighting x_Values y_Values weightingMethod 3
+let weighting = TemporalClassification.Fitting.getWeighting xValues yValues weightingMethod 3
 
 let weightingColumnChart = 
     Matrix.getDiag weighting
@@ -121,7 +121,8 @@ let weightingColumnChart =
 let splineChart =
 
     let means = 
-        TemporalClassification.calcMeanOfRep y_Values 3
+        Seq.getMeanOfReplicates 3 yValues
+        |> vector
 
     //plot the means of the replicates as gray dots
     let origPoints = 
@@ -133,24 +134,24 @@ let splineChart =
     //defines a function that gives the unconstrained spline value for a given x value
     //the AICc is reported as model selection criterion
     let unconstrainedSpline = 
-        TemporalClassification.getInitialEstimateOfWXY weighting means x_Values
+        TemporalClassification.Fitting.getInitialEstimateOfWeighting weighting means xValues
         |> fun result -> result.AICc,result.SplineFunction
 
     //defines a function that gives the constrained spline value for a given x value
     //Constraint: One minimum
     //the AICc is reported as model selection criterion
     let monotoneSpline = 
-        TemporalClassification.splineIncreasing x_Values means weighting 0
+        TemporalClassification.Fitting.splineIncreasing xValues means weighting 0
         |> fun (constraintMatrices,result) -> result.AICc,result.SplineFunction
 
     //defines a function that gives the constrained spline value for a given x value
     //Constraint: A maximum, then a minimum
     //the AICc is reported as model selection criterion
     let maxMinSpline = 
-        TemporalClassification.splineIncreasing x_Values means weighting 2  
+        TemporalClassification.Fitting.splineIncreasing xValues means weighting 2  
         |> fun (constraintMatrices,result) -> result.AICc,result.SplineFunction
 
-    //defines the x_Values, the functions should be fitted with
+    //defines the x values, the functions should be fitted with
     let xVec = [0.01 .. 0.01 .. 6.99]          
     
     let monotoneSplineChart =
@@ -193,16 +194,52 @@ As an example the Extrema of the red spline above are specified:
 
 ///fits a spline with two extrema present, where the first one is a maximum
 let minMaxSpline = 
-    TemporalClassification.splineIncreasing x_Values (TemporalClassification.calcMeanOfRep y_Values 3) weighting 2  
+    TemporalClassification.Fitting.splineIncreasing xValues (vector (Seq.getMeanOfReplicates 3 yValues)) weighting 2  
     |> fun (constraintMatrices,result) -> result
 
 //returns a list of tuples that describe extrema. The first item defines if the extremum
 //is a maximum (1) or minimum (-1) and the second item defines the corresponding x value.
 let isolateExtrema = 
-    TemporalClassification.getExtrema x_Values minMaxSpline.TraceA minMaxSpline.TraceC
-    |> fun extrema -> sprintf "Location of extrema are: %A" extrema
+    TemporalClassification.Fitting.getExtrema xValues minMaxSpline.TraceA minMaxSpline.TraceC
+    |> fun extrema -> sprintf "Location of extrema are: %A" (TemporalClassification.Fitting.extremaToString extrema)
 
 (*** include-value:isolateExtrema ***)
+
+(**
+
+*)
+
+// helper snipplet for visualization of function derivatives
+let plotAll (xVec:Vector<float>) traceA traceC = 
+    
+    let iterateOverX (fu: float -> float) chartName =
+        [xVec.[0] + 0.001 .. 0.01 .. Seq.last xVec - 0.001] 
+        |> List.map (fun x -> x,fu x) 
+        |> Chart.Line 
+        |> Chart.withTraceName chartName
+    
+    let originalSignal = 
+        let fu = TemporalClassification.Fitting.initEvalAt xVec traceA traceC
+        iterateOverX fu "signal"
+    let fstDerivative = 
+        let fu = TemporalClassification.Fitting.initEvalFstDerivativeAt xVec traceA traceC
+        iterateOverX fu "fst deriv"
+    let sndDerivative = 
+        let fu = TemporalClassification.Fitting.initEvalSndDerivativeAt xVec traceA traceC
+        iterateOverX fu "snd deriv"
+    let trdDerivative = 
+        let fu = TemporalClassification.Fitting.initEvalTrdDerivativeAt xVec traceA traceC
+        iterateOverX fu "trd deriv"
+    [
+    originalSignal |> Chart.withX_Axis (myAxis()) |> Chart.withY_Axis (myAxis())
+    [fstDerivative;sndDerivative;trdDerivative]|> Chart.Combine |> Chart.withX_Axis (myAxis()) |> Chart.withY_Axis (myAxis())
+    ]
+    |> Chart.Stack 1
+
+let derivativeChart = plotAll xValues minMaxSpline.TraceA minMaxSpline.TraceC
+
+(*** include-value:derivativeChart ***)
+
 
 (**
 To classify a signal according to its shape, a specially tailored function can be used. In this case the extrema list is empty because the 
@@ -211,11 +248,23 @@ best spline is monotonically and since the parentClass is In0 the spline is mono
 
 //returns the shape class that matches the given case best. (constraints for 2 extrema are investigated)
 let bestFit = 
-    TemporalClassification.getBestFit x_Values y_Values 3 weightingMethod
+    TemporalClassification.Fitting.getBestFit xValues yValues 3 weightingMethod TemporalClassification.Fitting.Minimizer.AICc
+
+let reportBestFit =
+    bestFit
     |> fun spline ->
-        let parentShape = TemporalClassification.getParentShape x_Values spline.TraceA spline.TraceC
-        let extrema     = TemporalClassification.getExtrema x_Values spline.TraceA spline.TraceC
+        let parentShape = TemporalClassification.Fitting.getParentShape xValues spline.TraceA spline.TraceC
+        let extrema     = TemporalClassification.Fitting.getExtrema xValues spline.TraceA spline.TraceC
         sprintf "ParentShape: %A\nLocation of extrema are: %A" parentShape extrema
 
 
-(*** include-value:bestFit ***)
+(*** include-value:reportBestFit ***)
+
+(**
+Subclassifaction returns pseudoextrema (plateaus and spots of little slope)
+*)
+
+let classification =
+    TemporalClassification.Classification.getClassification xValues bestFit.TraceA bestFit.TraceC 0.05 1.
+
+(*** include-value:classification ***)

@@ -1,14 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.757
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{63297B98-5CED-492C-A5B7-A5B4F73CF142}"
-	ProjectSection(SolutionItems) = preProject
-		paket.dependencies = paket.dependencies
-		paket.lock = paket.lock
-		paket.references = paket.references
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docsrc", "docsrc", "{A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats", "src\FSharp.Stats\FSharp.Stats.fsproj", "{FAAFA66E-170B-4DA5-AA21-69A429CBE646}"
@@ -33,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D
 		docsrc\content\CrossValidation.fsx = docsrc\content\CrossValidation.fsx
 		docsrc\content\Distributions.fsx = docsrc\content\Distributions.fsx
 		docsrc\content\Fitting.fsx = docsrc\content\Fitting.fsx
+		docsrc\content\GoodnessOfFit.fsx = docsrc\content\GoodnessOfFit.fsx
+		docsrc\content\GrowthCurve.fsx = docsrc\content\GrowthCurve.fsx
 		docsrc\content\Imputation.fsx = docsrc\content\Imputation.fsx
 		docsrc\content\index.fsx = docsrc\content\index.fsx
 		docsrc\content\Integration.fsx = docsrc\content\Integration.fsx
@@ -41,14 +36,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D
 		docsrc\content\LinearAlgebra.fsx = docsrc\content\LinearAlgebra.fsx
 		docsrc\content\Matrix_Vector.fsx = docsrc\content\Matrix_Vector.fsx
 		docsrc\content\ML.fsx = docsrc\content\ML.fsx
-		docsrc\content\Optimization.fsx = docsrc\content\Optimization.fsx
 		docsrc\content\Quantile.fsx = docsrc\content\Quantile.fsx
 		docsrc\content\Rank.fsx = docsrc\content\Rank.fsx
 		docsrc\content\release-notes.md = docsrc\content\release-notes.md
 		docsrc\content\Signal.fsx = docsrc\content\Signal.fsx
 		docsrc\content\SpecialFunctions.fsx = docsrc\content\SpecialFunctions.fsx
 		docsrc\content\Summary.fsx = docsrc\content\Summary.fsx
-		docsrc\content\TemporalClassification.fsx = docsrc\content\TemporalClassification.fsx
 		docsrc\content\Testing.fsx = docsrc\content\Testing.fsx
 		docsrc\content\tutorial.fsx = docsrc\content\tutorial.fsx
 	EndProjectSection
@@ -69,17 +62,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{078A9C52-DDC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{7C6D08E7-3EAC-4335-8F4B-252C193C27C9}"
 	ProjectSection(SolutionItems) = preProject
-		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
 		build.cmd = build.cmd
 		build.fsx = build.fsx
-		build.proj = build.proj
 		build.sh = build.sh
 	EndProjectSection
-EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.MSF", "src\FSharp.Stats.MSF\FSharp.Stats.MSF.fsproj", "{71B30A14-8023-4D0F-97A8-EAF99952C479}"
-EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.Lapack", "src\FSharp.Stats.Lapack\FSharp.Stats.Lapack.fsproj", "{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,14 +82,6 @@ Global
 		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71B30A14-8023-4D0F-97A8-EAF99952C479}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BDE4FF6-CAA9-4E53-ABEC-CEA8306DBFB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

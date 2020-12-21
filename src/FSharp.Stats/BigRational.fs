@@ -117,8 +117,13 @@ namespace FSharp.Stats
         let lte   (Q(ap,aq)) (Q(bp,bq)) = BigInteger.(<=) (ap * bq,bp * aq)
         let gte   (Q(ap,aq)) (Q(bp,bq)) = BigInteger.(>=) (ap * bq,bp * aq)
 
-        let of_bigint   z = BigRationalLarge.RationalZ(z,OneI )
-        let of_int n = BigRationalLarge.Rational(n,1)
+        let ofBigInt z = BigRationalLarge.RationalZ(z,OneI )
+        let ofInt n    = BigRationalLarge.Rational(n,1)
+        
+        [<Obsolete("Use ofBigInt instead.")>]
+        let of_bigint   z = ofBigInt z
+        [<Obsolete("Use ofInt instead.")>]
+        let of_int n = ofInt n
        
         // integer part
         let integer (Q(p,q)) =
@@ -143,29 +148,29 @@ namespace FSharp.Stats
             match n1,n2 with
             | Z z ,Z zz -> Z (z + zz)
             | Q q ,Q qq -> Q (q + qq)
-            | Z z ,Q qq -> Q (BigRationalLarge.of_bigint z + qq)
-            | Q q ,Z zz -> Q (q  + BigRationalLarge.of_bigint zz)
+            | Z z ,Q qq -> Q (BigRationalLarge.ofBigInt z + qq)
+            | Q q ,Z zz -> Q (q  + BigRationalLarge.ofBigInt zz)
 
         static member ( * )(n1,n2) = 
             match n1,n2 with
             | Z z ,Z zz -> Z (z * zz)
             | Q q ,Q qq -> Q (q * qq)
-            | Z z ,Q qq -> Q (BigRationalLarge.of_bigint z * qq)
-            | Q q ,Z zz -> Q (q  * BigRationalLarge.of_bigint zz)
+            | Z z ,Q qq -> Q (BigRationalLarge.ofBigInt z * qq)
+            | Q q ,Z zz -> Q (q  * BigRationalLarge.ofBigInt zz)
 
         static member ( - )(n1,n2) = 
             match n1,n2 with
             | Z z ,Z zz -> Z (z - zz)
             | Q q ,Q qq -> Q (q - qq)
-            | Z z ,Q qq -> Q (BigRationalLarge.of_bigint z - qq)
-            | Q q ,Z zz -> Q (q  - BigRationalLarge.of_bigint zz)
+            | Z z ,Q qq -> Q (BigRationalLarge.ofBigInt z - qq)
+            | Q q ,Z zz -> Q (q  - BigRationalLarge.ofBigInt zz)
 
         static member ( / )(n1,n2) = 
             match n1,n2 with
             | Z z ,Z zz -> Q (BigRationalLarge.RationalZ(z,zz))
             | Q q ,Q qq -> Q (q / qq)
-            | Z z ,Q qq -> Q (BigRationalLarge.of_bigint z / qq)
-            | Q q ,Z zz -> Q (q  / BigRationalLarge.of_bigint zz)
+            | Z z ,Q qq -> Q (BigRationalLarge.ofBigInt z / qq)
+            | Q q ,Z zz -> Q (q  / BigRationalLarge.ofBigInt zz)
 
         static member ( ~- )(n1) = 
             match n1 with
@@ -208,34 +213,34 @@ namespace FSharp.Stats
             match n,nn with
             | Z z ,Z zz -> BigInteger.(=) (z,zz)
             | Q q ,Q qq -> (BigRationalLarge.equal q qq)
-            | Z z ,Q qq -> (BigRationalLarge.equal (BigRationalLarge.of_bigint z) qq)
-            | Q q ,Z zz -> (BigRationalLarge.equal q (BigRationalLarge.of_bigint zz))
+            | Z z ,Q qq -> (BigRationalLarge.equal (BigRationalLarge.ofBigInt z) qq)
+            | Q q ,Z zz -> (BigRationalLarge.equal q (BigRationalLarge.ofBigInt zz))
         static member op_Inequality (n,nn) = not (BigRational.op_Equality(n,nn))
     
         static member op_LessThan (n,nn) = 
             match n,nn with
             | Z z ,Z zz -> BigInteger.(<) (z,zz)
             | Q q ,Q qq -> (BigRationalLarge.lt q qq)
-            | Z z ,Q qq -> (BigRationalLarge.lt (BigRationalLarge.of_bigint z) qq)
-            | Q q ,Z zz -> (BigRationalLarge.lt q (BigRationalLarge.of_bigint zz))
+            | Z z ,Q qq -> (BigRationalLarge.lt (BigRationalLarge.ofBigInt z) qq)
+            | Q q ,Z zz -> (BigRationalLarge.lt q (BigRationalLarge.ofBigInt zz))
         static member op_GreaterThan (n,nn) = 
             match n,nn with
             | Z z ,Z zz -> BigInteger.(>) (z,zz)
             | Q q ,Q qq -> (BigRationalLarge.gt q qq)
-            | Z z ,Q qq -> (BigRationalLarge.gt (BigRationalLarge.of_bigint z) qq)
-            | Q q ,Z zz -> (BigRationalLarge.gt q (BigRationalLarge.of_bigint zz))
+            | Z z ,Q qq -> (BigRationalLarge.gt (BigRationalLarge.ofBigInt z) qq)
+            | Q q ,Z zz -> (BigRationalLarge.gt q (BigRationalLarge.ofBigInt zz))
         static member op_LessThanOrEqual (n,nn) = 
             match n,nn with
             | Z z ,Z zz -> BigInteger.(<=) (z,zz)
             | Q q ,Q qq -> (BigRationalLarge.lte q qq)
-            | Z z ,Q qq -> (BigRationalLarge.lte (BigRationalLarge.of_bigint z) qq)
-            | Q q ,Z zz -> (BigRationalLarge.lte q (BigRationalLarge.of_bigint zz))
+            | Z z ,Q qq -> (BigRationalLarge.lte (BigRationalLarge.ofBigInt z) qq)
+            | Q q ,Z zz -> (BigRationalLarge.lte q (BigRationalLarge.ofBigInt zz))
         static member op_GreaterThanOrEqual (n,nn) = 
             match n,nn with
             | Z z ,Z zz -> BigInteger.(>=) (z,zz)
             | Q q ,Q qq -> (BigRationalLarge.gte q qq)
-            | Z z ,Q qq -> (BigRationalLarge.gte (BigRationalLarge.of_bigint z) qq)
-            | Q q ,Z zz -> (BigRationalLarge.gte q (BigRationalLarge.of_bigint zz))
+            | Z z ,Q qq -> (BigRationalLarge.gte (BigRationalLarge.ofBigInt z) qq)
+            | Q q ,Z zz -> (BigRationalLarge.gte q (BigRationalLarge.ofBigInt zz))
         
 
         member n.IsNegative = 

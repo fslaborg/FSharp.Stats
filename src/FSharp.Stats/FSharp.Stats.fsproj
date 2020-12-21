@@ -1,24 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net45;net47;netstandard2.0</TargetFrameworks>
-    <RootNamespace>FSharp.Stats</RootNamespace>
-    <AssemblyName>FSharp.Stats</AssemblyName>
-    <Name>FSharp.Stats</Name>
-    <OutputType>Library</OutputType>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <!-- Optional: Include PDB in the built .nupkg -->
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <IncludeSymbols>true</IncludeSymbols>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="ServiceLocator.fs" />
@@ -50,9 +47,9 @@
     <Compile Include="SpecialFunctions\Erf.fs" />
     <Compile Include="SpecialFunctions\Logistic.fs" />
     <Compile Include="SpecialFunctions\Binomial.fs" />
+    <!-- Algebra -->
     <Compile Include="Algebra\EVD.fs" />
     <Compile Include="Algebra\SVD.fs" />
-    <!-- Algebra -->
     <Compile Include="Algebra\NativeArray.fs" />
     <Compile Include="Algebra\NativeArrayExtensions.fs" />
     <Compile Include="Algebra\NativeUtilities.fs" />
@@ -75,10 +72,12 @@
     <Compile Include="Interpolation\CubicSpline.fs" />
     <Compile Include="Interpolation\Approximation.fs" />
     <!-- Signal -->
+    <Compile Include="Signal\Normalization.fs" />
     <Compile Include="Signal\Padding.fs" />
     <Compile Include="Signal\FFT.fs" />
     <Compile Include="Signal\Wavelet.fs" />
     <Compile Include="Signal\ContinuousWavelet.fs" />
+    <Compile Include="Signal\Outliers.fs" />
     <Compile Include="Signal\Baseline.fs" />
     <Compile Include="Signal\Filtering.fs" />
     <Compile Include="Signal\Convolution.fs" />
@@ -90,11 +89,16 @@
     <Compile Include="Distributions\Distribution.fs" />
     <Compile Include="Distributions\Continuous.fs" />
     <Compile Include="Distributions\Discrete.fs" />
+    <Compile Include="Distributions\Distance.fs" />
     <Compile Include="Distributions\KernelDensity.fs" />
     <!-- Testing -->
+    <Compile Include="Testing\Tables.fs" />
     <Compile Include="Testing\TestStatistics.fs" />
     <Compile Include="Testing\Anova.fs" />
+    <Compile Include="Testing\Correlation.fs" />
     <Compile Include="Testing\TTest.fs" />
+    <Compile Include="Testing\FTest.fs" />
+    <Compile Include="Testing\HTest.fs" />
     <Compile Include="Testing\ChiSquareTest.fs" />
     <Compile Include="Testing\Bartlett.fs" />
     <Compile Include="Testing\PostHoc.fs" />
@@ -103,8 +107,8 @@
     <Compile Include="Testing\SAM.fs" />
     <Compile Include="Testing\FisherHotelling.fs" />
     <Compile Include="Testing\RMT.fs" />
-    <Compile Include="Fitting\CrossValidation.fs" />
     <!-- Fitting -->
+    <Compile Include="Fitting\CrossValidation.fs" />
     <Compile Include="Fitting\LinearRegression.fs" />
     <Compile Include="Fitting\NonLinearRegression.fs" />
     <Compile Include="Fitting\GoodnessOfFit.fs" />
@@ -124,8 +128,14 @@
     <Compile Include="ML\Unsupervised\GapStatistics.fs" />
     <!-- MISC -->
     <Compile Include="FSIPrinters.fs" />
-    <None Include="paket.references" />
-    <None Include="paket.template" />
+    <Compile Include="ConfidenceInterval.fs" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <Content Include="../../lib/*.dll" PackagePath="netlib_LAPACK"></Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharpAux" Version="1.0.0" />
+    <PackageReference Include="FSharpAux.IO" Version="1.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+  </ItemGroup>
 </Project>

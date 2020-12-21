@@ -7,14 +7,14 @@ we estimate the relationship of one variable with another by expressing one in t
 *)
 module GoodnessOfFit =    
     open FSharp.Stats
-  
+    open System
     /// Three sum of squares 
     type SumOfSquares = {
-        /// Regression sum of squares (SSR - explained) 
+        /// Regression sum of squares (SSR: explained); Sum((yFit-yMean)**2.)
         Regression : float
-        /// Error sum of squares (SSE - unexplained)
+        /// Error sum of squares (SSE: unexplained); residual sum of squares; Sum((y-yFit)**2.)
         Error      : float        
-        /// Total sum of squares (SST - total)
+        /// Total sum of squares (SST: total); Sum((y-yMean)**2.)
         Total      : float        
         SSxx       : float
         SSxy       : float
@@ -29,11 +29,11 @@ module GoodnessOfFit =
         {Regression=ssr; Error=sse; Total=sst; SSxx=ssxx; SSxy=ssxy; MeanX = meanX;MeanY =meanY; Count=count}
               
     ///  
-    let calculateSumOfSquares (fitFunc:float -> float)  (x_data : seq<float>) (y_data : seq<float>) = 
-        let meanX = Seq.mean x_data
-        let meanY = Seq.mean y_data
+    let calculateSumOfSquares (fitFunc:float -> float)  (xData : seq<float>) (yData : seq<float>) = 
+        let meanX = Seq.mean xData
+        let meanY = Seq.mean yData
         let count,sst,sse,ssxx,ssxy =
-            Seq.zip x_data y_data
+            Seq.zip xData yData
             |> Seq.fold (fun (counter,stateSST,stateSSE,stateSSxx,stateSSxy) (x,y) -> 
                                            let exY   = fitFunc x
                                            let dSSe  = exY - y
@@ -46,28 +46,49 @@ module GoodnessOfFit =
 
     /// Standard deviation of y(x) 
     // Square root of variance s2y,x
+    [<Obsolete("Use standardErrorEstimate instead.")>]
     let stDevY (sumOfSquares:SumOfSquares) =
         sumOfSquares.Error / (sumOfSquares.Count - 2.) |> sqrt
 
+    /// Standard error if the estimate 
+    /// Square root of variance s2y,x
+    let standardErrorEstimate (sumOfSquares:SumOfSquares) =
+        sumOfSquares.Error / (sumOfSquares.Count - 2.) |> sqrt
+     
     /// Standard deviation of slope (beta)    
+    [<Obsolete("Use standardErrorSlope instead.")>]
     let stDevSlope (sumOfSquares:SumOfSquares) =
         ( sumOfSquares.Error / (sumOfSquares.Count - 2.) ) / sumOfSquares.SSxx
+        |> sqrt
+
+    /// Standard error of slope (beta)    
+    let standardErrorSlope (sumOfSquares:SumOfSquares) =
+        (sumOfSquares.Error / (sumOfSquares.Count - 2.)) / sumOfSquares.SSxx 
+        |> sqrt
 
     /// Standard deviation of intercept (alpha)
+    [<Obsolete("Use standardErrorIntercept instead.")>]
     let stDevIntercept (sumOfSquares:SumOfSquares) =
+        let s2yx = sumOfSquares.Error / (sumOfSquares.Count - 2.) 
+        let mx2  = sumOfSquares.MeanX*sumOfSquares.MeanX
+        s2yx * ((1./sumOfSquares.Count) + (mx2/sumOfSquares.SSxx))
+        |> sqrt
+
+    /// Standard error of intercept (alpha)
+    let standardErrorIntercept (sumOfSquares:SumOfSquares) =
          let s2yx = sumOfSquares.Error / (sumOfSquares.Count - 2.) 
          let mx2  = sumOfSquares.MeanX*sumOfSquares.MeanX
          s2yx * ((1./sumOfSquares.Count) + (mx2/sumOfSquares.SSxx))
-        
+         |> sqrt
 
     let ttestSlope slope (sumOfSquares:SumOfSquares) =
-        let sb = stDevSlope sumOfSquares |> sqrt
+        let sb = standardErrorSlope sumOfSquares
         let statistic =  slope / sb 
         let TTest = Testing.TestStatistics.createTTest statistic (sumOfSquares.Count - 2.)
         TTest
 
     let ttestIntercept intercept (sumOfSquares:SumOfSquares) =
-        let si = stDevIntercept sumOfSquares |> sqrt
+        let si = standardErrorIntercept sumOfSquares
         let statistic =  intercept / si 
         let TTest = Testing.TestStatistics.createTTest statistic (sumOfSquares.Count - 2.)
         TTest
@@ -118,33 +139,36 @@ module GoodnessOfFit =
         n * log (sse/n) + k * log (n) 
     
     /// Calculates the residuals
-    let getResiduals (fitFunc:float -> float)  (x_data : Vector<float>) (y_data : Vector<float>) = 
-        Seq.map2 (fun x y -> let y_estimated = fitFunc x
-                             (y - y_estimated) ) x_data y_data
+    let getResiduals (fitFunc:float -> float) (xData : Vector<float>) (yData : Vector<float>) = 
+        Seq.map2 (fun x y -> let yEstimated = fitFunc x
+                             (y - yEstimated) ) xData yData
 
     /// Calculates SSE: sum of squares of errors
-    /// also: unexplained sum of squares    
-    let calculateSSE (fitFunc:float -> float)  (x_data : Vector<float>) (y_data : Vector<float>) = 
-        Seq.map2 (fun x y -> let y_estimated = fitFunc x
-                             (y - y_estimated) * (y - y_estimated) ) x_data y_data
+    /// also: unexplained sum of squares; residual sum of squares   
+    let calculateSSE (fitFunc:float -> float) (xData : Vector<float>) (yData : Vector<float>) = 
+        Seq.map2 (fun x y -> let yEstimated = fitFunc x
+                             (y - yEstimated) * (y - yEstimated) ) xData yData
         |> Seq.sum
 
+    /// Calculates SSR: sum of squares regression.
+    /// also: explained sum of squares
+    let calculateSSR (fitFunc:float -> float) (xData : Vector<float>) (yData : Vector<float>) = 
+        let meanY = Seq.mean yData
+        yData |> Seq.mapi (fun i y -> (fitFunc xData.[i] - meanY)**2.) |> Seq.sum
 
-    /// Calculates SST: sum of squares total
+    /// Calculates SST: sum of squares total.
     /// also: total sum of squares
-    let calculateSST (fitFunc:float -> float)  (x_data : Vector<float>) (y_data : Vector<float>) = 
-        let meanY = Seq.mean y_data
-        x_data |> Vector.map (fun x -> let y_estimated = fitFunc x
-                                       (y_estimated - meanY) * (y_estimated - meanY) )
-        |> Seq.sum
-
+    let calculateSST (yData : Vector<float>) = 
+        let meanY = Seq.mean yData
+        yData 
+        |> Seq.sumBy (fun y -> pown (y - meanY) 2)
 
     /// explained = total - unexplained
 
-    let calculateANOVA (order:int) (fitFunc:float -> float)  (x_data : Vector<float>) (y_data : Vector<float>) = 
-        let meanY = Seq.mean y_data
+    let calculateANOVA (order:int) (fitFunc:float -> float)  (xData : Vector<float>) (yData : Vector<float>) = 
+        let meanY = Seq.mean yData
         let sst,sse =
-            Seq.zip x_data y_data
+            Seq.zip xData yData
             |> Seq.fold (fun (stateSST,stateSSE) (x,a) -> 
                                            let ex    = fitFunc x
                                            let dSSe = ex - a
@@ -152,20 +176,20 @@ module GoodnessOfFit =
                                            (stateSST + dSSt*dSSt,stateSSE + dSSe*dSSe)
                         ) (0.,0.)
 //        let sst,sse =                                     
-//            Seq.zip x_data y_data
-//            |> Seq.fold (fun (accT,accE) (x,y) -> let y_estimated = fitFunc x
-//                                                  let ssTotal = (y_estimated - meanY) * (y_estimated - meanY) 
-//                                                  let ssError = (y - y_estimated) * (y - y_estimated)
+//            Seq.zip xData yData
+//            |> Seq.fold (fun (accT,accE) (x,y) -> let yEstimated = fitFunc x
+//                                                  let ssTotal = (yEstimated - meanY) * (yEstimated - meanY) 
+//                                                  let ssError = (y - yEstimated) * (y - yEstimated)
 //                                                  (accT + ssTotal,accE + ssError)
 //                                                  ) (0.,0.)
         
         let dfR = float order
         let MSR = (sst-sse) / dfR
         
-        let dfE = float (x_data.Length - order - 1)
+        let dfE = float (xData.Length - order - 1)
         let MSE = sse / dfE
 
-        let dfT = float (x_data.Length - 1)
+        let dfT = float (xData.Length - 1)
         let MST = sst / dfT
         // MS regression / MS Residual
         let FTest = 
@@ -179,11 +203,11 @@ module GoodnessOfFit =
         [| Testing.Anova.createAnovaVariationSource dfR MSR FTest.PValue Testing.Anova.VariationSource.Regression FTest.Statistic (sst-sse); 
            Testing.Anova.createAnovaVariationSource dfE MSE nan          Testing.Anova.VariationSource.Residual   nan sse;
            Testing.Anova.createAnovaVariationSource dfT MST nan          Testing.Anova.VariationSource.Total      nan sst;|]
-       
+
     module OrdinaryLeastSquares =
 
         module Linear =
-
+            open LinearRegression.OrdinaryLeastSquares.Linear
             module RTO = 
                 /// 
                 let calculateANOVA (coef : float) x y =                
@@ -191,11 +215,58 @@ module GoodnessOfFit =
 
             module Univariable = 
 
-                let calculateANOVA (coef : Vector<float>) (x_data) (y_data) =
+                let calculateANOVA (coef : Vector<float>) (xData) (yData) =
                     if coef.Length <> 2 then
                         raise (System.ArgumentException("Coefficient has to be [a;b]!"))
                     let fitFunction x = coef.[0] + coef.[1] * x 
-                    calculateANOVA 1 fitFunction x_data y_data 
+                    calculateANOVA 1 fitFunction xData yData 
+                
+                ///returns a function, that reports the confidence y_intercept for a given x value
+                let calculateConfidenceBandError (xData : Vector<float>) (yData : Vector<float>) confidenceLevel = 
+                    if xData.Length <> yData.Length then
+                        raise (System.ArgumentException("vector x and y have to be the same size!"))
+                    let n = float xData.Length
+                    let df = n - 2.
+                    let coefficients = Univariable.coefficient xData yData
+                    let fitFunction = Univariable.fit coefficients 
+                    let meanX = Seq.mean xData
+                    let SseOfX = 
+                        xData 
+                        |> Seq.sumBy (fun xV -> pown (xV - meanX) 2) 
+                    let standardErrorOfTheEstimate = 
+                        calculateSSE fitFunction xData yData       
+                        |> fun x -> sqrt (x / (n-2.))
+                    let criticalT = Distributions.Continuous.getCriticalTValue df (1. - confidenceLevel) Distributions.Continuous.TwoTailed
+                    //additional x values should be added here
+                    (fun xValue -> 
+                        let stdevOfY = 
+                            standardErrorOfTheEstimate * sqrt(1. / n + pown (xValue - meanX) 2 / SseOfX)
+                        criticalT * stdevOfY
+                        )
+                
+                //returns a function, that reports the prediction y_intercept for a given x value
+                let calculatePredictionBandError (xData : Vector<float>) (yData : Vector<float>) confidenceLevel = 
+                    if xData.Length <> yData.Length then
+                        raise (System.ArgumentException("vector x and y have to be the same size!"))
+                    let n = float xData.Length
+                    let df = n - 2.
+                    let coefficients = Univariable.coefficient xData yData
+                    let fitFunction = Univariable.fit coefficients 
+                    let meanX = Seq.mean xData
+                    let SseOfX = 
+                        xData 
+                        |> Seq.sumBy (fun xV -> pown (xV - meanX) 2) 
+                    let standardErrorOfTheEstimate = 
+                        calculateSSE fitFunction xData yData       
+                        |> fun x -> sqrt (x / (n-2.))
+                    let criticalT = Distributions.Continuous.getCriticalTValue df (1. - confidenceLevel) Distributions.Continuous.TwoTailed
+                    //additional x values should be added here
+                    (fun xValue -> 
+                        let stdevOfY =
+                            standardErrorOfTheEstimate * sqrt(1. + 1. / n + pown (xValue - meanX) 2 / SseOfX)
+                        criticalT * stdevOfY
+                        )
+
 
         module Polynomial = 
 
@@ -204,46 +275,47 @@ module GoodnessOfFit =
                 //DenseVector.OfEnumerable (seq { for i = 0 to order do yield x**(float i) })
                 Vector.init (order+1) (fun i -> pown x i)        
 
-            let calculateANOVA (order) (coef : Vector<float>) (x_data) (y_data) = 
+            let calculateANOVA (order) (coef : Vector<float>) (xData) (yData) = 
                 let fitFunction x = Vector.dot coef (vandermondeRow order x)
-                calculateANOVA order fitFunction x_data y_data 
-
+                calculateANOVA order fitFunction xData yData 
+            
+            [<Obsolete("Use Fitting.CrossValidation instead")>]
             module CrossValidation =
-
+                
                 ///calculates LeaveOneOutCrossValidation
-                let loocv (x_Data:Vector<float>) (y_Data:Vector<float>) order =
-                    [0..x_Data.Length-1]
+                let loocv (xData:Vector<float>) (yData:Vector<float>) order =
+                    [0..xData.Length-1]
                     |> List.map (fun x ->
                                     let xTmp = 
-                                        x_Data
+                                        xData
                                         |> Seq.toList
                                         |> fun xDat -> xDat.[..x-1]@xDat.[x+1..]
                                         |> vector
                                     let yTmp = 
-                                        y_Data
+                                        yData
                                         |> Seq.toList
                                         |> fun yDat -> yDat.[..x-1]@yDat.[x+1..]
                                         |> vector
                                     let coefTmp = LinearRegression.OrdinaryLeastSquares.Polynomial.coefficient order xTmp yTmp
                                     let error = 
-                                        let yFit = LinearRegression.OrdinaryLeastSquares.Polynomial.fit order coefTmp (float x_Data.[x])
-                                        pown (yFit - y_Data.[x]) 2 
+                                        let yFit = LinearRegression.OrdinaryLeastSquares.Polynomial.fit order coefTmp (float xData.[x])
+                                        pown (yFit - yData.[x]) 2 
                                     error
                                 )
                     |> List.sum
-                    |> fun x -> x/(float x_Data.Length)
+                    |> fun x -> x/(float xData.Length)
 
                 ///k-fold cross validation
                 ///Calculates the average SSE of given data, the order used to fit the polynomial and the subset you want to leave out (k).
                 ///Consider to choose k that n%k=0 for equally bin sizes.
-                let kfcv (x_Data:Vector<float>) (y_Data:Vector<float>) order k =
+                let kfcv (xData:Vector<float>) (yData:Vector<float>) order k =
                     let zippedData =    
-                        Seq.zip x_Data y_Data 
+                        Seq.zip xData yData 
                         |> Array.ofSeq
                     //how many items have to be in a group
-                    let itemsPerGroup = (float x_Data.Length / (float k)) |> int
-                    //let over = x_Data.Length%int itemsPerGroup
-                    let n = x_Data.Length
+                    let itemsPerGroup = (float xData.Length / (float k)) |> int
+                    //let over = xData.Length%int itemsPerGroup
+                    let n = xData.Length
                     let rnd = System.Random()
                     //generate k-1 subsets of the original data (without replacement)
                     let chunks =

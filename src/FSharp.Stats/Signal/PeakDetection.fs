@@ -350,9 +350,9 @@ module PeakDetection =
         ///    
         let getPeaks snr polOrder ws xData yData = 
             ///
-            let smoothedYData = Filtering.savitzky_golay ws polOrder 0 1 yData |> Array.ofSeq
+            let smoothedYData = Filtering.savitzkyGolay ws polOrder 0 1 yData |> Array.ofSeq
             ///
-            let negSndDev = Filtering.savitzky_golay ws polOrder 2 1 smoothedYData |> Array.ofSeq |> Array.map ((*) -1.)  
+            let negSndDev = Filtering.savitzkyGolay ws polOrder 2 1 smoothedYData |> Array.ofSeq |> Array.map ((*) -1.)  
             ///
             let labeledDataTmp = labelPeaks 0. 0. (xData |> Array.ofSeq) negSndDev 
             ///

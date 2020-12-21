@@ -2,6 +2,7 @@
 
 /// Represents a probability mass function (map from values to probabilities).
 module Empirical =
+    open System
 
     ///// probability mass function    
     //let create bandwidth data =        
@@ -108,7 +109,7 @@ module Empirical =
 
 
     /// Chooses a random element from this PMF
-    let random (pmf:Map<float,float>) = 
+    let sampleFrom (pmf:Map<float,float>) = 
         if pmf.Count <= 0 then raise (System.Exception("Pmf contains no values") )  
         let target = FSharp.Stats.Random.rndgen.NextFloat()
         //pmf |> Seq.map (fun kv -> (kv.Key,kv.Value)) |> Seq.scan (fun state (k,v) -> (k, v + snd state)) (0.,0.)
@@ -117,8 +118,11 @@ module Empirical =
             |> Seq.scan (fun state kv -> (kv.Key, kv.Value + snd state)) (0.,0.)
             |> Seq.find (fun (x,y) -> y >= target)
         x
-        
 
+    /// Chooses a random element from this PMF
+    [<Obsolete("Use sampleFrom instead.")>]
+    let random pmf = 
+        sampleFrom pmf
     
     /// Computes the mean of a PMF
     let mean (pmf:Map<float,float>) =
@@ -162,11 +166,6 @@ module Empirical =
                 else
                     ((k + 1.) * bandwidth) - halfBw, count)
             |> Seq.sortBy fst
-        let area =
-            tmp
-            |> Seq.pairwise 
-            |> Seq.fold (fun acc ((x0,y0),(x1,y1)) ->                         
-                            acc + (abs (x1 - x0)) * ((y0 + y1) / 2.)) 0.
         tmp    
-        |> Seq.map (fun (a,b) -> (a,b / area))
         |> Map.ofSeq
+        |> normalize

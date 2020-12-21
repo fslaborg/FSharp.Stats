@@ -204,7 +204,7 @@ module Seq =
     // ##### ##### ##### ##### #####
     // Median 
     /// Sample Median
-    let inline median (items:seq<'T>) : 'U  =
+    let inline median (items:seq<'T>) =
         // TODO
         items |> Seq.toArray |> Array.median
         //raise (new System.NotImplementedException())
@@ -370,6 +370,9 @@ module Seq =
    
 
 
+    /// Computes the standard error of the mean (SEM) with bessel corrected sample standard deviation    
+    let inline sem (items:seq<'T>) =
+        stDev items / sqrt (float (Seq.length items))
 
 
 
@@ -734,10 +737,10 @@ module Seq =
             | true  -> 
                 let current  = e.Current
                 let delta    = current - m1               
-                let delta_n  = (delta / n)
-                //let delta_n2 = delta_n * delta_n
-                let m1'    = m1 + delta_n            
-                let m2' = m2 + delta * delta_n * (n-one)
+                let deltaN  = (delta / n)
+                //let delta_n2 = deltaN * deltaN
+                let m1'    = m1 + deltaN            
+                let m2' = m2 + delta * deltaN * (n-one)
                 loop (n + one) (min current minimum) (max current maximum) m1' m2'
 
             | false -> SummaryStats.createSummaryStats (n-one) m1 m2 minimum maximum

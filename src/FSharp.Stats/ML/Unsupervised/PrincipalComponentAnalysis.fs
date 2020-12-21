@@ -4,9 +4,9 @@ open FSharp.Stats
 
 
 (** Problems:
-    - How to calculates Loadings/Correlation of Components
-    - Matrix Adjustment: Doas standartisation has to be performend wtih the whole matix or orignal matrix if
-      suplemenal variables are includet at transformation.
+    - How to calculate Loadings/Correlation of Components 
+    - Matrix Adjustment: Does standardisation has to be performend with the whole matrix or original matrix if
+      supplemental variables are included at transformation.
     
      *)
 

@@ -3,6 +3,8 @@
 //namespace Microsoft.FSharp.Math // old namespace
 namespace FSharp.Stats
 
+open System
+
 type Permutation = int -> int
 
 type permutation = int -> int
@@ -25,12 +27,14 @@ module Permutation =
 
     let ofArray (arr:_[]) = arr |> Array.copy |> ofFreshArray
 
+    [<Obsolete("Use ofArray instead.")>]
     let of_array (arr:_[]) = ofArray arr
 
     let ofPairs  (mappings: seq<int * int>) = 
       let p = dict mappings 
       (fun k -> if p.ContainsKey k then p.[k] else k)
-
+    
+    [<Obsolete("Use ofPairs instead.")>]
     let of_pairs  (mappings: seq<int * int>) =  ofPairs mappings
 
     let swap (n:int) (m:int) = 

@@ -6,6 +6,12 @@
 #r "../../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
 #r "../../packages/formatting/FSharp.Plotly/lib/netstandard2.0/Fsharp.Plotly.dll"
 
+open FSharp.Plotly
+open FSharp.Plotly.Axis
+open FSharp.Plotly.StyleParam
+let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let styleChart xt yt c = c |> Chart.withX_Axis (myAxis xt) |> Chart.withY_Axis (myAxis yt)
+
 (**
 FSharp.Stats
 ======================
@@ -15,37 +21,24 @@ FSharp.Stats is supposed to be a multipurpose project for statistical testing, l
 Installation
 ------------
 
-FSharp.Stats is currently on the way to its 1.0.0 release. When this process is done, we will provide a nuget package at [nuget.org](https://www.nuget.org/). However, currently the way to get FSharp.Stats running on 
-your machine is to either clone the repository and build the binaries yourself or download the prerelease packages from our [nuget branch](https://github.com/CSBiology/FSharp.Stats/tree/nuget).
+**From Nuget.org:**
 
-**Using prerelease packages from the nuget branch:**
-
-If you are using paket, add the following line to your `paket.dependencies` file:
-
-`git https://github.com/CSBiology/FSharp.Stats.git nuget Packages: /`
-
-you can then access the individual packages:
-
-`nuget FSharp.Stats`
-
-`nuget FSharp.Stats.MSF`
-
+You can get all FSharp.Stats packages from nuget at https://www.nuget.org/packages/FSharp.Stats/.
 
 **To build the binaries yourself:**
 
 **Windows**:
 
 - Install [.Net Core SDK](https://www.microsoft.com/net/download)
-- Install the dotnet tool fake cli by `dotnet tool install fake-cli -g` for global installation or `dotnet tool install fake-cli --tool-path yourtoolpath`
-- go to the project folder
-- use the console command `fake build`
-- to just build the binaries and save time use the console command `fake build -t buildbinaries`
+- navigate to project folder
+- use the console command `./build.cmd`
 
 **Linux(Ubuntu, using Mono)**:
 
 - Install [.Net Core SDK](https://www.microsoft.com/net/download/linux-package-manager/ubuntu14-04/sdk-current)
-- go to the project folder
-- use the console command `dotnet fake build --target Linux`
+- navigate to project folder
+- make the script executable with `chmod +x ./build.sh`
+- use the console command `./build.sh`
 
 </br>
 
@@ -114,12 +107,12 @@ let vecX = FSharp.Stats.Algebra.LinearAlgebra.SolveLinearSystem matA vecB
 
 open FSharp.Plotly
 
-let x_Data = vector [|1. .. 10.|]
-let y_Data = vector [|4.;7.;9.;12.;15.;17.;16.;23.;5.;30.|]
+let xData = vector [|1. .. 10.|]
+let yData = vector [|4.;7.;9.;12.;15.;17.;16.;23.;5.;30.|]
 
 // get coefficients of interpolating polynomial
 let interpolatingCoefficients = 
-    Interpolation.Polynomial.coefficients x_Data y_Data
+    Interpolation.Polynomial.coefficients xData yData
 
 // get fitting function of interpolating polynomial
 let interpolFitFunc = 
@@ -138,7 +131,7 @@ let interpolChart =
 
 // get coefficients of 3rd order regression polynomial
 let regressionCoefficients = 
-    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.coefficient 3 x_Data y_Data
+    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.coefficient 3 xData yData
     
 // get fitting function of 3rd order regression polynomial
 let regressionFitFunc = 
@@ -152,9 +145,10 @@ let regressionChart =
     |> fun data -> Chart.Line(data,"regression polynomial")
 
 let combinedChart =
-    let rawChart = Chart.Point(x_Data,y_Data)
+    let rawChart = Chart.Point(xData,yData)
     [rawChart;interpolChart;regressionChart]
     |> Chart.Combine
+    |> styleChart "" ""
 (**
 The resulting interpolating and regression polynomials are plotted below using [FSharp.Plotly](https://github.com/muehlhaus/FSharp.Plotly).
 

@@ -5,11 +5,16 @@
 #r "../../packages/formatting/FSharp.Plotly/lib/netstandard2.0/Fsharp.Plotly.dll"
 #r "netstandard"
 open FSharp.Plotly
+open FSharp.Plotly.Axis
+open FSharp.Plotly.StyleParam
+let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+
+
 (**
-Basic stats
+ML
 =========================
 
-**)
+*)
 #r "FSharp.Stats.dll"
 open FSharp.Stats
 
@@ -72,14 +77,16 @@ let toAdjustStandardize (data:Matrix<float>) =
     
     
 toAdjustStandardize irisFeaturesMatrix
-(*** do-not-eval ***)
+
 let s,u,vt = FSharp.Stats.Algebra.LinearAlgebra.SVD  ( toAdjustStandardize irisFeaturesMatrix )
 let v = vt.Transpose |> Matrix.map (fun v -> v)
 
-let principal_components = u * s 
+let principalComponents = u * s 
+(*** hide ***)
+let vChart = Chart.Point(Seq.zip (Matrix.getCol v 0) (Matrix.getCol v 1))
 
-Chart.Point(Seq.zip (Matrix.getCol v 0) (Matrix.getCol v 1))
-|> Chart.Show
+
+(*** include-value:vChart ***)
 
 (**
 BioFSharp ML module 
@@ -132,41 +139,43 @@ let plotScoresColoredByGrouping (transformedData : Matrix<float>)
     //       |> Chart.withMarkerStyle(Size = 15))
     |> Chart.Combine    
 
-plotLoadingsColoredByGrouping irisPCA 
-    [ "Sepal length"; "Sepal width"; "Petal length"; "Petal width" ] 
-    (fun x -> x) 1 2
-//|> Chart.Show
+let loadingPlot =
+    plotLoadingsColoredByGrouping irisPCA 
+        [ "Sepal length"; "Sepal width"; "Petal length"; "Petal width" ] 
+        (fun x -> x) 1 2
 
 
-plotScoresColoredByGrouping irisDataPCA irisLables (fun x -> x) 1 3
-//|> Chart.Show   
+let scorePlot =
+    plotScoresColoredByGrouping irisDataPCA irisLables (fun x -> x) 1 3
+ 
+(*** include-value:loadingPlot ***)
+(*** include-value:scorePlot ***)
 
-
-
+(*** hide ***)
 // ---------------
-// Kmeans clustering
-// For random cluster inititalization use randomInitFactory:
-let rng = new System.Random()
-let randomInitFactory : IterativeClustering.CentroidsFactory<float []> = 
-    IterativeClustering.randomCentroids<float []> rng
-let cvmaxFactory : IterativeClustering.CentroidsFactory<float []> = 
-    IterativeClustering.intitCVMAX
-let kmeansResult = 
-    IterativeClustering.kmeans <| DistanceMetrics.euclidean <| cvmaxFactory 
-    <| (Matrix.toJaggedArrayRowWise irisFeaturesMatrix) <| 3
+//// Kmeans clustering
+//// For random cluster inititalization use randomInitFactory:
+//let rng = new System.Random()
+//let randomInitFactory : IterativeClustering.CentroidsFactory<float []> = 
+//    IterativeClustering.randomCentroids<float []> rng
+//let cvmaxFactory : IterativeClustering.CentroidsFactory<float []> = 
+//    IterativeClustering.intitCVMAX
+//let kmeansResult = 
+//    IterativeClustering.kmeans <| DistanceMetrics.euclidean <| cvmaxFactory 
+//    <| (Matrix.toJaggedArrayRowWise irisFeaturesMatrix) <| 3
 
-let chartsOfClassifiedData = 
-    Matrix.toJaggedArrayRowWise irisFeaturesMatrix
-    |> Seq.groupBy (fun dataPoint -> fst (kmeansResult.Classifier dataPoint))
-    |> Seq.sortBy fst
-    |> Seq.map (fun (key, values) -> 
-           values
-           |> Seq.map 
-                  (fun v -> 
-                  Chart.Line v 
-                  |> Chart.WithStyling
-                         (Color = System.Drawing.Color.Silver, BorderWidth = 1))
-           |> Chart.Combine
-           |> Chart.WithTitle(key.ToString()))
-    |> Chart.Rows
-    |> Chart.ShowChart
+//let chartsOfClassifiedData = 
+//    Matrix.toJaggedArrayRowWise irisFeaturesMatrix
+//    |> Seq.groupBy (fun dataPoint -> fst (kmeansResult.Classifier dataPoint))
+//    |> Seq.sortBy fst
+//    |> Seq.map (fun (key, values) -> 
+//           values
+//           |> Seq.map 
+//                  (fun v -> 
+//                  Chart.Line v 
+//                  |> Chart.WithStyling
+//                         (Color = System.Drawing.Color.Silver, BorderWidth = 1))
+//           |> Chart.Combine
+//           |> Chart.WithTitle(key.ToString()))
+//    |> Chart.Rows
+//    |> Chart.ShowChart

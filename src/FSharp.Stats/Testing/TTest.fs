@@ -48,18 +48,24 @@ module TTest =
 
         twoSampleFromMeanAndVar assumeEqualVariances (s1Stats.Mean,v1,s1Stats.N) (s2Stats.Mean,v2,s2Stats.N)
 
+    //// Computes a one sample t-test used to compare a population mean with a given value (mu).
+    let oneSample (sample1:Vector<float>) mu =
+        let n = float sample1.Length 
+        let sampleMean = Seq.mean sample1
+        let sampleStDev = Seq.stDev sample1
+        let statistic = (sampleMean - mu) / (sampleStDev / (sqrt n))
+        TestStatistics.createTTest statistic (n - 1.)  
+
+    //// Computes a one sample t-test used to compare a population mean with a given value (mu).
+    let oneSampleFromMeanAndStDev (mean,stDev,n) mu =
+        let statistic = (mean - mu) / (stDev / (sqrt n))
+        TestStatistics.createTTest statistic (n - 1.)  
 
     //// Computes a paired t-test used to compare two population means where you have two samples in
     /// which observations in one sample can be paired with observations in the other sample.
     let twoSamplePaired (sample1:Vector<float>) (sample2:Vector<float>) =                
-        let deltas = Vector.map2 (fun a b -> b - a) sample1 sample2
-        // Vector.map2 takes shorter of both
-        let n = float deltas.Length
-        
-        let deltasStats = Vector.stats deltas
-        let mean = SummaryStats.mean deltasStats
-        let std = SummaryStats.stDev deltasStats
+        let deltas = Vector.map2 (fun a b -> b - a) sample1 sample2          
+        oneSample deltas 0.
 
-        let standardError = std / sqrt n
-        let statistic = mean / standardError
-        TestStatistics.createTTest statistic (n - 1.)            
+
+        
