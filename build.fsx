@@ -161,7 +161,7 @@ let copyBinaries = BuildTask.create "CopyBinaries" [clean; build] {
     |>  Seq.iter (fun (fromDir, toDir) -> Shell.copyDir toDir fromDir (fun _ -> true))
 }
 
-let pack = BuildTask.create "Pack" [clean; build.IfNeeded] {
+let pack = BuildTask.create "Pack" [clean; build] {
     if promptYesNo (sprintf "creating stable package with version %i.%i.%i OK?" stableVersion.Major stableVersion.Minor stableVersion.Patch ) then
         !! "src/**/*.*proj"
         |> Seq.iter (Fake.DotNet.DotNet.pack (fun p ->
@@ -191,7 +191,7 @@ let pack = BuildTask.create "Pack" [clean; build.IfNeeded] {
     else failwith "aborted"
 }
 
-let packPrerelease = BuildTask.create "PackPrerelease" [clean; build.IfNeeded] {
+let packPrerelease = BuildTask.create "PackPrerelease" [clean; build] {
     !! "src/**/*.*proj"
     |> Seq.iter (Fake.DotNet.DotNet.pack (fun p ->
         printfn "Please enter pre-release package suffix"
