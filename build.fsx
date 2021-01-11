@@ -175,7 +175,7 @@ let pack = BuildTask.create "Pack" [clean; build] {
                         "Description",          description
                         "PackageLicenseUrl",    licenseUrl
                         "PackageProjectUrl",    projectUrl
-                        "IconUrl",              iconUrl
+                        "PackageIconUrl",       iconUrl
                         "PackageTags",          tags
                         "PackageReleaseNotes",  releaseNotes
                         "RepositoryUrl",        repositoryUrl
@@ -209,7 +209,7 @@ let packPrerelease = BuildTask.create "PackPrerelease" [clean; build] {
                             "Description",          description
                             "PackageLicenseUrl",    licenseUrl
                             "PackageProjectUrl",    projectUrl
-                            "IconUrl",              iconUrl
+                            "PackageIconUrl",       iconUrl
                             "PackageTags",          tags
                             "PackageReleaseNotes",  releaseNotes
                             "RepositoryUrl",        repositoryUrl
