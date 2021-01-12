@@ -123,7 +123,7 @@ let owners          = "fslaborg, Timo Muehlhaus"
 let description     = "F#-first linear algebra, machine learning, fitting, signal processing, and statistical testing."
 let licenseUrl      = "https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE"
 let projectUrl      = "https://github.com/fslaborg/FSharp.Stats"
-let iconUrl         = "https://fslab.org/FSharp.Stats/img/logo.svg"
+let iconUrl         = "http://raw.githubusercontent.com/fslaborg/FSharp.Stats/developer/docsrc/files/img/logo.png"
 let tags            = "F# FSharp dotnet data-science linear-algebra machine-learning fitting signal-processing statistical-testing"
 let releaseNotes    = (release.Notes |> String.concat "\r\n")
 let repositoryUrl   = "https://github.com/fslaborg/FSharp.Stats"
@@ -175,7 +175,7 @@ let pack = BuildTask.create "Pack" [clean; build] {
                         "Description",          description
                         "PackageLicenseUrl",    licenseUrl
                         "PackageProjectUrl",    projectUrl
-                        "IconUrl",              iconUrl
+                        "PackageIconUrl",       iconUrl
                         "PackageTags",          tags
                         "PackageReleaseNotes",  releaseNotes
                         "RepositoryUrl",        repositoryUrl
@@ -209,7 +209,7 @@ let packPrerelease = BuildTask.create "PackPrerelease" [clean; build] {
                             "Description",          description
                             "PackageLicenseUrl",    licenseUrl
                             "PackageProjectUrl",    projectUrl
-                            "IconUrl",              iconUrl
+                            "PackageIconUrl",       iconUrl
                             "PackageTags",          tags
                             "PackageReleaseNotes",  releaseNotes
                             "RepositoryUrl",        repositoryUrl
