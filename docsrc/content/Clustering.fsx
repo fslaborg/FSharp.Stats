@@ -17,9 +17,11 @@ let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Ran
 (**
 #Clustering
 
-##Iterative Clustering
 
-###k-means clustering
+For demonstration of several clustering methods, the classic iris data set is used, which consists of 150 records, each of which contains four measurements and a species identifier.
+Since the species identifier occur several times (_Iris-irginica_, _Iris-versicolor_, and _Iris-setosa_), the first step is to generate unique labels:
+
+  - The data is shuffled and an index is appended to the data label, such that each label is unique.
 *)
 
 open FSharp.Stats
@@ -34,12 +36,14 @@ let fromFileWithSep (separator:char) (filePath) =
                 yield words }
 
                 
-let lable,data =
+let lables,data =
     fromFileWithSep ',' (__SOURCE_DIRECTORY__ + "/data/irisData.csv")
     |> Seq.skip 1
     |> Seq.map (fun arr -> arr.[4], [| float arr.[0]; float arr.[1]; float arr.[2]; float arr.[3]; |])
     |> Seq.toArray
+    |> fun x -> Array.init 3 (fun _ -> x) |> Array.concat
     |> Array.shuffleFisherYates
+    |> Array.mapi (fun i (lable,data) -> sprintf "%s_%i" lable i, data)
     |> Array.unzip
    
 (*** hide ***)
@@ -49,14 +53,25 @@ let colorscaleValue =
     StyleParam.Colorscale.Electric //Custom [(0.0,"#3D9970");(1.0,"#001f3f")]
     
 let dataChart = 
-    Chart.Heatmap(data,ColNames=colnames,RowNames=(lable |> Seq.mapi (fun i s -> sprintf "%s%i" s i )),Colorscale=colorscaleValue,Showscale=true)
+    Chart.Heatmap(data,ColNames=colnames,RowNames=lables,Colorscale=colorscaleValue,Showscale=true)
     |> Chart.withMarginSize(Left=250.)
     |> Chart.withTitle "raw iris data"
 (*** include-value:dataChart ***)
 
+
+(**
+##Iterative Clustering
+
+###k-means clustering
+
+In k-means clustering a cluster number has to be specified prior to clustering the data. K centroids are randomly chosen.
+After all data points are assigned to their nearest centroid, the algorithm iteratively approaches a centroid position configuration,
+that minimizes the dispersion of every of the k clusters.
+For cluster number determination see below (Determining the optimal number of clusters).
+*)
+
 open FSharp.Stats.ML
 open FSharp.Stats.ML.Unsupervised
-open FSharp.Stats.ML.Unsupervised.HierarchicalClustering
 
 
 // Kmeans clustering
@@ -74,11 +89,10 @@ let kmeansResult =
     <| data <| 4
 
 let clusteredIrisData =
-    Array.zip lable data
+    Array.zip lables data
     |> Array.sortBy (fun (l,dataPoint) -> fst (kmeansResult.Classifier dataPoint)) 
     |> Array.unzip
-    |> fun (l,d) -> 
-        let labels = l |> Seq.mapi (fun i x -> x + string i)
+    |> fun (labels,d) -> 
         Chart.Heatmap(d,ColNames=colnames,RowNames=labels,Colorscale=colorscaleValue,Showscale=true)
         |> Chart.withMarginSize(Left=250.)
         |> Chart.withTitle "clustered iris data (k-means clustering)"
@@ -204,34 +218,81 @@ let clusteredChart3D = create3dChart DistanceMetrics.Array.euclideanNaNSquared 2
 (**
 ##Hierarchical clustering
 
-
+Hierarchical clustering results in a tree structure, that has a single cluster (node) on its
+root and recursevely splits up into clusters of elements that are more similar to each other than to elements
+of other clusters. For generating multiple cluster results with different number of clusters, the clustering 
+has to performed only once. Subsequently a threshold can be determined which will result in the desired number of clusters.
 
 *)
 
-//let htmp = HierarchicalClustering.generate' DistanceMetrics.euclidean Linker.wardLwLinker data
-// slower
+open FSharp.Stats.ML.Unsupervised.HierarchicalClustering
+#time
 
-let htmp = 
-    HierarchicalClustering.generate DistanceMetrics.euclidean Linker.wardLwLinker data
+// calculates the clustering and reports a single root cluster (node), 
+// that may recursively contains further nodes
+let clusterResultH = 
+    HierarchicalClustering.generate DistanceMetrics.euclideanNaNSquared Linker.wardLwLinker data true
+    |> fun w -> 1.
+
+let clusterResultH = 
+    HierarchicalClustering.generateFloat DistanceMetrics.euclideanNaNSquared Linker.wardLwLinker data
+    |> fun w -> 1.
+
+
+euclideanNaNSquared 11:00 14:00 
+// If a desired cluster number is specified, the following function cuts the cluster according
+// to the depth, that results in the respective number of clusters (here 3). Only leaves are reported.
+let threeClustersH = HierarchicalClustering.cutHClust 3 clusterResultH
+
+(**
+
+Every cluster leaf contains its raw values and an index that 
+indicates the position of the respective data point in the raw data.
+The index can be retrieved from leaves by HierarchicalClustering.getClusterId.
+*)
+
+let inspectThreeClusters =
+    threeClustersH
+    |> List.map (fun cluster -> 
+        cluster
+        |> List.map (fun leaf -> 
+            lables.[HierarchicalClustering.getClusterId leaf]
+            )
+        )
+    |> fun clusteredLabels -> 
+        sprintf "Detailed information for %i clusters is given:" clusteredLabels.Length,clusteredLabels
+
+(*** include-value:inspectThreeClusters ***)
+
+
+// To recursevely flatten the cluster tree into leaves only, use flattenHClust.
+// A leaf list is reported, that does not contain any cluster membership, 
+// but is sorted by the clustering result.
+let hLeaves = 
+    clusterResultH
     |> HierarchicalClustering.flattenHClust
 
-let hlable =    
-    htmp
-    |> Seq.map (fun c -> lable.[HierarchicalClustering.getClusterId c])
+// takes the sorted cluster result and reports a tuple of lable and data value.
+let dataSortedByClustering =    
+    hLeaves
+    |> Seq.choose (fun c -> 
+        let lable  = lables.[HierarchicalClustering.getClusterId c]
+        let values = HierarchicalClustering.tryGetLeafValue c
+        match values with
+        | None -> None
+        | Some x -> Some (lable,x)
+        )
 
-let hdata =    
-    htmp
-    |> Seq.choose (fun c -> HierarchicalClustering.tryGetLeafValue c)
 
-
-let hierClusteredData = 
-    let labels = hlable |> Seq.mapi (fun i s -> sprintf "%s%i" s i)
-    Chart.Heatmap(hdata,ColNames=colnames,RowNames=labels,Colorscale=colorscaleValue,Showscale=true)
+let hierClusteredDataHeatmap = 
+    let (hlable,hdata) =
+        dataSortedByClustering
+        |> Seq.unzip
+    Chart.Heatmap(hdata,ColNames=colnames,RowNames=hlable,Colorscale=colorscaleValue,Showscale=true)
     |> Chart.withMarginSize(Left=250.)
-    |> Chart.withTitle "clustered iris data (hierarchical Clustering)"
-(*** include-value:hierClusteredData ***)
+    |> Chart.withTitle "Clustered iris data (hierarchical clustering)"
 
-
+(*** include-value:hierClusteredDataHeatmap ***)
 
 (**
 
