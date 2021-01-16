@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
@@ -11,6 +11,20 @@
     <IncludeSymbols>true</IncludeSymbols>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Authors>Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors</Authors>
+    <Title>FSharp.Stats</Title>
+    <Owners>fslaborg, Timo Muehlhaus</Owners>
+    <Description>F#-first linear algebra, machine learning, fitting, signal processing, and statistical testing.</Description>
+    <PackageLicenseUrl>https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/fslaborg/FSharp.Stats</PackageProjectUrl>
+    <PackageIconUrl>http://raw.githubusercontent.com/fslaborg/FSharp.Stats/developer/docsrc/files/img/logo.png</PackageIconUrl>
+    <PackageTags>F# FSharp dotnet data-science linear-algebra machine-learning fitting signal-processing statistical-testing</PackageTags>
+    <RepositoryUrl>https://github.com/fslaborg/FSharp.Stats</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <FsDocsLicenseLink>https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE</FsDocsLicenseLink>
+    <FsDocsReleaseNotesLink>https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md</FsDocsReleaseNotesLink>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\**" />
