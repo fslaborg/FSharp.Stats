@@ -1,8 +1,15 @@
 (*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use 
-// it to define helpers that you do not want to show in the documentation.
+
+(*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-alpha5"
+#r "nuget: Plotly.NET, 2.0.0-beta3"
+
+(*** condition: ipynb ***)
+#if IPYNB
+#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-beta3"
+#r "nuget: FSharp.Stats"
+#endif // IPYNB
 
 open Plotly.NET
 open Plotly.NET.Axis

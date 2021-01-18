@@ -1,8 +1,23 @@
 (*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use 
-// it to define helpers that you do not want to show in the documentation.
+
+(*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-alpha5"
+#r "nuget: Plotly.NET, 2.0.0-beta3"
+
+(*** condition: ipynb ***)
+#if IPYNB
+#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-beta3"
+#r "nuget: FSharp.Stats"
+#endif // IPYNB
+
+
+(** 
+
+#Covariance
+
+_Summary:_ This tutorial explains how to investigate the covariance of two samples with FSharp.Stats
+*)
 
 open Plotly.NET
 open Plotly.NET.Axis
@@ -22,10 +37,9 @@ let sampleB = Vector.init 50 (fun x -> float (x + error()))
 let sampleBHigh = sampleB |> Vector.map (fun x -> 200. + x)
 let sampleC = Vector.init 50 (fun x -> 100. - float (x + 3 * error()))
 let sampleD = Vector.init 50 (fun x -> 100. + float (10 * error()))
-    
-(** 
 
-#Covariance
+
+(**
 
 The covariance of two samples describes the relationship of both variables. If one variable 
 tends to be high if its pair is high also, the covariance is positive. If on variable is low while its pair is high
@@ -48,9 +62,6 @@ References:
 
 *)
 
-    
-(*** hide ***)
-
 let sampleChart =
     [
         Chart.Point(sampleA,sampleB,"AB")
@@ -62,11 +73,14 @@ let sampleChart =
     |> styleChart "x" "y"
     |> Chart.withTitle "test cases for covariance calculation"
 
+(*** condition: ipynb ***)
+#if IPYNB
+sampleChart
+#endif // IPYNB
 
 (***hide***)
 sampleChart |> GenericChart.toChartHTML
 (***include-it-raw***)
-(***)
 
 let covAB     = FSharp.Stats.Vector.cov sampleA sampleB
 let covAC     = FSharp.Stats.Vector.cov sampleA sampleC
@@ -96,4 +110,8 @@ AB+(red)    cov: %.2f    covPopulation: %.2f   pearson: %.3f"""
         covABHigh  covPopABHigh pearsonABHigh
 
 (*** include-value:covs ***)
+
+(***hide***)
+sampleChart |> GenericChart.toChartHTML
+(***include-it-raw***)
 
