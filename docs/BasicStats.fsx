@@ -1,12 +1,21 @@
 (*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use 
-// it to define helpers that you do not want to show in the documentation.
+
+(*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-alpha5"
+#r "nuget: Newtonsoft.JSON"
+#r "nuget: Plotly.NET, 2.0.0-beta3"
+
+(*** condition: ipynb ***)
+#if IPYNB
+#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-beta3"
+#r "nuget: FSharp.Stats"
+#endif // IPYNB
 
 open Plotly.NET
 open Plotly.NET.Axis
 open Plotly.NET.StyleParam
+
 (**
 Basic stats
 =========================
@@ -195,10 +204,22 @@ Array.quickSelect 1 d
 
 Quantile.mode 0.8  d
 
-(*** hide ***)
 let pointChart = Chart.Point( y, x)
+
+(**b*)
+
+(*** condition: ipynb ***)
+#if IPYNB
+pointChart
+#endif // IPYNB
+
+(*** hide ***)
 pointChart |> GenericChart.toChartHTML
 (***include-it-raw***)
+
+
+(**a*)
+
 let v = 
     vector [|2.0; 20.0; 1.|]
 

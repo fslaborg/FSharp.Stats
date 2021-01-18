@@ -1,8 +1,15 @@
 (*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use 
-// it to define helpers that you do not want to show in the documentation.
+
+(*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-alpha5"
+#r "nuget: Plotly.NET, 2.0.0-beta3"
+
+(*** condition: ipynb ***)
+#if IPYNB
+#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-beta3"
+#r "nuget: FSharp.Stats"
+#endif // IPYNB
 
 open Plotly.NET
 open Plotly.NET.Axis
@@ -428,6 +435,11 @@ let lsdCorrected =
         FontHeader = Font.init(Color="white")
         )
 
+(*** condition: ipynb ***)
+#if IPYNB
+lsdCorrected
+#endif // IPYNB
+
 (***hide***)
 lsdCorrected |> GenericChart.toChartHTML
 (***include-it-raw***)
@@ -602,6 +614,11 @@ let aErrorAcc =
     |> Chart.Line
     |> styleChart "number of tests (k)" "probability of at least one false positive test"
 
+(*** condition: ipynb ***)
+#if IPYNB
+aErrorAcc
+#endif // IPYNB
+
 (***hide***)
 aErrorAcc |> GenericChart.toChartHTML
 (***include-it-raw***)
@@ -643,6 +660,11 @@ let bhValues =
     |> Chart.Combine
     |> styleChartRange "pValue" "BH corrected pValue" (0.,1.) (0.,1.)
 
+(*** condition: ipynb ***)
+#if IPYNB
+bhValues
+#endif // IPYNB
+
 (***hide***)
 bhValues |> GenericChart.toChartHTML
 (***include-it-raw***)
@@ -681,9 +703,20 @@ let qHisto =
     |> Chart.Combine
     |> styleChart "p value" "density"
 
+(*** condition: ipynb ***)
+#if IPYNB
+qChart
+#endif // IPYNB
+
 (***hide***)
 qChart |> GenericChart.toChartHTML
 (***include-it-raw***)
+
+(*** condition: ipynb ***)
+#if IPYNB
+qHisto
+#endif // IPYNB
+
 (***hide***)
 qHisto |> GenericChart.toChartHTML
 (***include-it-raw***)

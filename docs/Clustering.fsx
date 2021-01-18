@@ -1,18 +1,22 @@
 (*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use 
-// it to define helpers that you do not want to show in the documentation.
+
+(*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-alpha5"
+#r "nuget: Newtonsoft.JSON"
+#r "nuget: Plotly.NET, 2.0.0-beta3"
 #r "nuget: FSharpAux, 1.0.0"
+
+(*** condition: ipynb ***)
+#if IPYNB
+#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-beta3"
+#r "nuget: FSharpAux, 1.0.0"
+#r "nuget: FSharp.Stats"
+#endif // IPYNB
 
 open Plotly.NET
 open Plotly.NET.Axis
 open Plotly.NET.StyleParam
-open FSharp.Stats
-open FSharpAux
-
-let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
-let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
 
 (**
 # Clustering
@@ -25,7 +29,6 @@ each of which contains four measurements and a species identifier. Since the spe
 *)
 
 open FSharp.Stats
-open Plotly.NET
 
 let fromFileWithSep (separator:char) (filePath) =     
     // The function is implemented using a sequence expression
@@ -45,7 +48,10 @@ let lables,data =
     |> Array.mapi (fun i (lable,data) -> sprintf "%s_%i" lable i, data)
     |> Array.unzip
    
-(*** hide ***)
+(**
+let's visualize the clustering result with Plotly.NET:
+*)
+
 let colnames = ["Sepal length";"Sepal width";"Petal length";"Petal width"]
 
 let colorscaleValue = 
@@ -56,6 +62,12 @@ let dataChart =
     |> Chart.withMarginSize(Left=250.)
     |> Chart.withTitle "raw iris data"
 
+(*** condition: ipynb ***)
+#if IPYNB
+dataChart
+#endif // IPYNB
+
+(***hide***)
 dataChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
@@ -101,9 +113,15 @@ let clusteredIrisData =
         |> Chart.withMarginSize(Left=250.)
         |> Chart.withTitle "clustered iris data (k-means clustering)"
 
+(*** condition: ipynb ***)
+#if IPYNB
+clusteredIrisData
+#endif // IPYNB
+
 (***hide***)
 clusteredIrisData |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 // To get the best kMeans clustering result in terms of the average squared distance of each point
 // to its centroid, perform the clustering b times and minimize the dispersion.
 let getBestkMeansClustering data k bootstraps =
@@ -129,10 +147,14 @@ let petLpetW      = data |> Array.map (fun x -> [|x.[2];x.[3]|])
 let petWpetLsepL = data |> Array.map (fun x -> [|x.[3];x.[2];x.[0]|])
 
 //to create a chart with two dimensional data use the following function
-let create2dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float) (input:seq<#seq<'a>>) =  
-    if (input |> Seq.head |> Seq.length) <> 2 then failwithf "create2dChart only can handle 2 coordinates"
+let dbscanPlot =  
+
+    let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
+    let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+
+    if (petLpetW |> Seq.head |> Seq.length) <> 2 then failwithf "create2dChart only can handle 2 coordinates"
     
-    let result = DbScan.compute dfu minPts eps input
+    let result = DbScan.compute DistanceMetrics.Array.euclidean 20 0.5 petLpetW
     
     let chartCluster = 
         if result.Clusterlist |> Seq.length > 0 then      
@@ -160,7 +182,7 @@ let create2dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
         let clusterCount  = result.Clusterlist |> Seq.length
         let clPtsCount    = result.Clusterlist |> Seq.sumBy Seq.length
         sprintf "eps:%.1f minPts:%i pts:%i cluster:%i noisePts:%i" 
-            eps minPts (noiseCount + clPtsCount) clusterCount noiseCount 
+            0.5 20 (noiseCount + clPtsCount) clusterCount noiseCount 
 
     [chartNoise;chartCluster]
     |> Chart.Combine
@@ -168,14 +190,20 @@ let create2dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
     |> Chart.withX_Axis (axis "Petal width") 
     |> Chart.withY_Axis (axis "Petal length")
     
-let clusteredChart = create2dChart DistanceMetrics.Array.euclidean 20 0.5 petLpetW
+(*** condition: ipynb ***)
+#if IPYNB
+dbscanPlot
+#endif // IPYNB
 
 (***hide***)
-clusteredChart |> GenericChart.toChartHTML
+dbscanPlot |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 //to create a chart with three dimensional data use the following function
 let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float) (input:seq<#seq<'a>>) =   
+    let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
+    let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    
     if (input |> Seq.head |> Seq.length) <> 3 then failwithf "create3dChart only can handle 3 coordinates"
     
     let result = DbScan.compute dfu minPts eps input
@@ -219,6 +247,11 @@ let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
 
 //for faster computation you can use the squaredEuclidean distance and set your eps to its square
 let clusteredChart3D = create3dChart DistanceMetrics.Array.euclideanNaNSquared 20 (0.7**2.) petWpetLsepL 
+
+(*** condition: ipynb ***)
+#if IPYNB
+clusteredChart3D
+#endif // IPYNB
 
 (***hide***)
 clusteredChart3D |> GenericChart.toChartHTML
@@ -346,6 +379,10 @@ let dispersionOfK =
         )
 
 let elbowChart = 
+
+    let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
+    let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+
     Chart.Line (dispersionOfK |> Array.map (fun (k,dispersion,std) -> k,dispersion))
     |> Chart.withYErrorStyle (dispersionOfK |> Array.map (fun (k,dispersion,std) -> std))
     |> Chart.withX_Axis (axis "k")
@@ -383,6 +420,9 @@ let (aicK,aicMeans,aicStd) =
     |> Array.unzip3
 
 let aicChart = 
+    let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
+    let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    
     Chart.Line (aicK,aicMeans)
     |> Chart.withX_Axis (axis "k")
     |> Chart.withY_Axis (axis "AIC")
@@ -431,6 +471,10 @@ let silhouetteIndicesChart =
 (*** hide ***)
 
 let combinedSilhouette =
+
+    let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
+    let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+
     [
     rawDataChart |> Chart.withX_Axis (axis "") |> Chart.withY_Axis (axis "") |> Chart.withTraceName "raw data"
     silhouetteIndicesChart |> Chart.withX_Axis (axis "k") |> Chart.withY_Axis (axis "silhouette index") |> Chart.withTraceName "silhouette"
@@ -466,6 +510,9 @@ let gapStatisticsData =
         tmp |> Array.map float)
 
 let gapDataChart = 
+    let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
+    let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    
     [
     gapStatisticsData|> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "original" |> Chart.withX_Axis (axisRange "" (-4.,10.)) |> Chart.withY_Axis (axisRange "" (-2.5,9.))
     (GapStatistics.PointGenerators.generateUniformPoints rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "uniform" |> Chart.withX_Axis (axisRange "" (-4.,10.)) |> Chart.withY_Axis (axisRange "" (-2.5,9.))
@@ -504,6 +551,10 @@ let gap      = gaps |> Array.map (fun x -> x.Gaps)
 let std      = gaps |> Array.map (fun x -> x.RefDispersionStDev)
 
 let gapStatisticsChart =
+
+    let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
+    let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    
     let dispersions =
         [
         Chart.Line (k,disp)    |> Chart.withTraceName "disp"
@@ -535,6 +586,10 @@ The maximal gap points to the optimal cluster number with the following conditio
 let sK   = std |> Array.map (fun sd -> sd * sqrt(1. + 1./500.)) //bootstraps = 500 
 
 let gapChart =
+
+    let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
+    let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
+    
     Chart.Line (k,gap)
     |> Chart.withYErrorStyle(sK)
     |> Chart.withX_Axis (axisRange "k" (0.,11.)) 
