@@ -153,11 +153,11 @@ let packPrerelease = BuildTask.create "PackPrerelease" [clean; build] {
 // --------------------------------------------------------------------------------------
 // generate the docs
 let buildDocs = BuildTask.create "BuildDocs" [build; copyBinaries] {
-    runDotNet "fsdocs build --eval --property Configuration=Release" "./"
+    runDotNet "fsdocs build --eval --property --clean --strict Configuration=Release" "./"
 }
 
 let watchDocs = BuildTask.create "WatchDocs" [build; copyBinaries] {
-   runDotNet "fsdocs watch --eval --property Configuration=Release" "./"
+   runDotNet "fsdocs watch --eval --clean --property Configuration=Release" "./"
 }
 
 let releaseDocs =  BuildTask.create "ReleaseDocs" [buildDocs] {
