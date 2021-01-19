@@ -15,6 +15,8 @@
 
 # Growth curve
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=GrowthCurve.ipynb)
+
 _Summary:_ this tutorial demonstrates variou way to model growth curves, a commong task in any (micro)biological lab
 
 ### Table of contents

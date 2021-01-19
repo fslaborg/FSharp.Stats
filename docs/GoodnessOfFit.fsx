@@ -15,6 +15,8 @@
 
 # Fit quality
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=GoodnessOfFit.ipynb)
+
 _Summary:_ this tutorial shows how to assess fit quality with FSharp.Stats
 
 ### Table of contents

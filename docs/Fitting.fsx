@@ -15,6 +15,8 @@
 
 # Fitting
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Fitting.ipynb)
+
 _Summary:_ this tutorial will walk through several ways of fitting data with FSharp.Stats.
 
 ### Table of contents

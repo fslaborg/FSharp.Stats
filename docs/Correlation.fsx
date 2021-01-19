@@ -15,6 +15,8 @@
 
 # Correlation
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Correlation.ipynb)
+
 _Summary_: This tutorial demonstrates how to autocorrelate a signal in FSharp.Stats
 
 ### Table of contents

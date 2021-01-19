@@ -18,13 +18,13 @@ let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptio
 let styleChart xt yt c = c |> Chart.withX_Axis (myAxis xt) |> Chart.withY_Axis (myAxis yt)
 
 (**
-FSharp.Stats
-======================
+# FSharp.Stats
 
-FSharp.Stats is supposed to be a multipurpose project for statistical testing, linear algebra, machine learning, optimization, fitting and signal processing.
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=index.ipynb)
 
-Installation
-------------
+FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, optimization, fitting and signal processing.
+
+## Installation
 
 **From Nuget.org:**
 
@@ -45,12 +45,9 @@ You can get all FSharp.Stats packages from nuget at https://www.nuget.org/packag
 - make the script executable with `chmod +x ./build.sh`
 - use the console command `./build.sh`
 
-</br>
-
 ---
 
-Example
--------
+## Example
 
 The following examples show how easy it is to start working with FSharp.Stats.
 

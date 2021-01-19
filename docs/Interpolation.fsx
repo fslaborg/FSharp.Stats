@@ -15,6 +15,8 @@
 
 # Interpolation
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Interpolation.ipynb)
+
 _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.Stats
 
 ### Table of contents

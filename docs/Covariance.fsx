@@ -16,6 +16,9 @@
 
 #Covariance
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Covariance
+.ipynb)
+
 _Summary:_ This tutorial explains how to investigate the covariance of two samples with FSharp.Stats
 
 Lets first define some sample data:

@@ -2,26 +2,20 @@
 
 (*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta3"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta3"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-
 (**
-#Matrix and Vector
+# Matrix and Vector
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Matrix_Vector.ipynb)
 
-<a name="Vector"></a>
+_Summary:_ this tutorial demonstrates some of the functionality for matrices and vectors provided by FSharp.Stats.
 
-##Vector
+## Vector
 *)
 open FSharp.Stats
 
@@ -51,11 +45,10 @@ rv + 1.
 
 
 (**
-<a name="Matrix"></a>
 
-##Matrix
+## Matrix
 
-###Creating Matrices with FSharp.Stats. 
+### Creating Matrices with FSharp.Stats. 
 Matrices will also be printed with the FSharp.Stats.FSIPrinters.matrix function to get a nice console output.
 *)
 open FSharp.Stats
@@ -87,7 +80,7 @@ let BPrint =
 
 
 (**
-###Calculation Examples for Matrices
+### Calculation Examples for Matrices
 *)
 
 (***hide***)

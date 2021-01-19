@@ -15,6 +15,8 @@
 
 # Signal
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Signal.ipynb)
+
 _Summary:_ this tutorial demonstrates multiple ways of signal processing with FSharp.Stats.
 
 ### Table of contents
