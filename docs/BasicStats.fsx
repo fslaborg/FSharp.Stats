@@ -195,30 +195,12 @@ $s_N = \sqrt{\frac{1}{N} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2}$
 
 are measures of dispersion the values of a collection have. While the standard deviation has the same unit as the values of the collection the variance has the squared unit. 
 
-`var` and stDev are available as sequence (and other collections) extensions, as well as `varBy` and `stDevBy`, 
+`varPopulation` and `stDevPopulation` are available as sequence (and other collections) extensions, as well as `varPopulationBy` and `stDevPopulationBy`, 
 which take an additional converter function:
+
 *)
 
 let data = [|1.;3.;5.;4.;2.;8.|]
-
-let varSample = Seq.var data
-
-(***include-value:varSample***)
-
-let stdSample = Seq.stDev data
-
-(***include-value:stdSample***)
-
-(**
-If the full population is **not** given, the calculation lacks in one degree of freedom, so the Bessel corrected version of the calculation has to be used (results in higher values):
-
-$s^2 = \frac{1}{N - 1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2$ for the unbiased variance estimation, and
-
-$s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2}$ for the corrected standard deviation.
-
-`varPopulation` and `stDevPopulation` are available as sequence (and other collections) extensions, as well as `varPopulationBy` and `stDevPopulationBy`, 
-which take an additional converter function:
-*)
 
 let varPopulation = Seq.varPopulation data
 
@@ -227,6 +209,26 @@ let varPopulation = Seq.varPopulation data
 let stdPopulation = Seq.stDevPopulation data
 
 (***include-value:stdPopulation***)
+
+
+(**
+If the full population is **not** given, the calculation lacks in one degree of freedom, so the Bessel corrected version of the calculation has to be used (results in higher values):
+
+$s^2 = \frac{1}{N - 1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2$ for the unbiased variance estimation, and
+
+$s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2}$ for the corrected standard deviation.
+
+`var` and `stDev` are available as sequence (and other collections) extensions, as well as `varBy` and `stDevBy`, 
+which take an additional converter function:
+*)
+
+let varSample = Seq.var data
+
+(***include-value:varSample***)
+
+let stdSample = Seq.stDev data
+
+(***include-value:stdSample***)
 
 (**
 ### Coefficient of variation
