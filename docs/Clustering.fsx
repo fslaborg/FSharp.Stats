@@ -9,7 +9,7 @@
 (*** condition: ipynb ***)
 #if IPYNB
 #r "nuget: Plotly.NET, 2.0.0-beta3"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta3"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-alpha5"
 #r "nuget: FSharpAux, 1.0.0"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
