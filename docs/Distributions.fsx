@@ -11,13 +11,26 @@
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-
 (**
-#Probability Distributions
+# Probability Distributions
 
+_Summary:_ this tutorial shows how to use the various types of probability distributions in FSharp.Stats.
+
+### Table of contents
+
+- [Continuous](#Continuous)
+    - [Normal distribution](#Normal-distribution)
+    - [Multivariate normal distribution](#Multivariate-normal-distribution)
+- [Discrete](#Discrete)
+    - [Binomial distribution](#Binomial-distribution)
+    - [Hypergerometric distribution](#Hypergerometric-distribution)
+    - [Poisson distribution](#Poisson-distribution)
+    - [Gamma distribution](#Gamma-distribution)
+- [Empirical](#Empirical)
+- [Density estimation](#Density-estimation)
+- [Distance](#Distance)
+- [](#)
+- [](#)
 
 FSharp.Stats provides a wide range of probability distributions. Given the
 distribution parameters they can be used to investigate their statistical properties
@@ -26,14 +39,9 @@ or to sample non-uniform random numbers.
 For every distribution the probability density function (PDF) and cumulative probability function (CDF) can be accessed.
 By using the PDF you can access the probability for exacty X=k success states. The CDF is used when the cumulative probabilities of X<=k is required.
 
+## Continuous
 
-
-
-<a name="Continuous"></a>
-
-##Continuous
-
-###Normal distribution
+### Normal distribution
 
 The normal or Gaussian distribution is a very common continuous probability distribution.
 Due to the central limit theorem, randomly sampled means of a random and independent distribution tend to approximate a normal distribution
@@ -77,11 +85,14 @@ let normC =
     |> Seq.mean
 
 (*** include-value:normC ***)
-(***hide***)
+
+open Plotly.NET
+
+//some axis styling
+let xAxis() = Axis.LinearAxis.init(Title="x",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true)
+let yAxis() = Axis.LinearAxis.init(Title="p(X=k)",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true)
+
 let plotNormal =
-    let xAxis() = LinearAxis.init(Title="x",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-    let yAxis() = LinearAxis.init(Title="p(X=k)",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-  
     [400. .. 600.]
     |> List.map (fun x -> x,normal.PDF x)
     |> Chart.Area
@@ -89,14 +100,17 @@ let plotNormal =
     |> Chart.withY_Axis(yAxis())
     |> Chart.withTitle "N(500,20) PDF"
 
+(*** condition: ipynb ***)
+#if IPYNB
+plotNormal
+#endif // IPYNB
+
 (***hide***)
 plotNormal |> GenericChart.toChartHTML
 (***include-it-raw***)
-(***hide***)
+
 let plotNormalCDF =
-    let xAxis() = LinearAxis.init(Title="x",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-    let yAxis() = LinearAxis.init(Title="cdf(x)",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-  
+
     [400. .. 600.]
     |> List.map (fun x -> x,normal.CDF x)
     |> Chart.Area
@@ -104,10 +118,15 @@ let plotNormalCDF =
     |> Chart.withY_Axis(yAxis())
     |> Chart.withTitle "N(500,20) CDF"
 
+(*** condition: ipynb ***)
+#if IPYNB
+plotNormalCDF
+#endif // IPYNB
 
 (***hide***)
 plotNormalCDF |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
 ### Multivariate normal distribution
 
@@ -130,20 +149,24 @@ let mvnPdfs =
 let mvnSamples = 
     Array.init 1000 (fun _ -> mvn.Sample())
 
-(*** hide ***)
-let ch1 = Chart.Surface(mvnPdfs,axisXRange,axisYRange)
+let surface = Chart.Surface(mvnPdfs,axisXRange,axisYRange)
 
-let ch2 = 
+let samples = 
     mvnSamples
     |> Array.map (fun t -> t.[0],t.[1])
     |> Array.unzip
     |> fun (x,y) -> Chart.Scatter3d(x,y,Array.init x.Length (fun _ -> Random.rndgen.NextFloat() / 3.),StyleParam.Mode.Markers)
 
 let mvnChart = 
-    [ch1;ch2]
+    [surface;samples]
     |> Chart.Combine
     |> Chart.withTitle "Bivariate normal distribution with sampling"
 
+
+(*** condition: ipynb ***)
+#if IPYNB
+mvnChart
+#endif // IPYNB
 
 (***hide***)
 mvnChart |> GenericChart.toChartHTML
@@ -168,28 +191,28 @@ let cdfStudentT mu tau dof =
     |> List.map (Continuous.StudentT.CDF  mu tau dof)
     |> List.zip xStudentT
 
-(***hide***)
+
 let v =
-    let xAxis() = LinearAxis.init(Title="x",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-    let yAxis() = LinearAxis.init(Title="p(x)",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-  
     studentTParams
     |> List.map (fun (mu,tau,dof) -> Chart.Spline(pdfStudentT mu tau dof,Name=sprintf "mu=%.1f tau=%.1f dof=%.1f" mu tau dof,ShowMarkers=false))
     |> Chart.Combine
     |> Chart.withX_Axis(xAxis())
     |> Chart.withY_Axis(yAxis())
 
+(*** condition: ipynb ***)
+#if IPYNB
+v
+#endif // IPYNB
+
 (***hide***)
 v |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
 
+## Discrete
 
-<a name="Discrete"></a>
-
-##Discrete
-
-###Binomial distribution
+### Binomial distribution
 
 The binomial distribution describes the probability, that under a given success probability and 
 a given number of draws an event occurs exactly k times (with replacement). 
@@ -227,11 +250,7 @@ let binoB = binomial.CDF 5.
 let binoC = 1. - (binomial.CDF 4.)
 // Output: 0.1755 = 17.55 %
 
-(***hide***)
 let plotBinomial =
-    let xAxis() = LinearAxis.init(Title="number of successes",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-    let yAxis() = LinearAxis.init(Title="p(X=k)",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-  
     [0..30]
     |> List.map (fun x -> x,binomial.PDF x)
     |> Chart.Column
@@ -239,11 +258,17 @@ let plotBinomial =
     |> Chart.withY_Axis(yAxis())
     |> Chart.withTitle "B(30,0.1)"
 
+(*** condition: ipynb ***)
+#if IPYNB
+v
+#endif // IPYNB
+
 (***hide***)
 plotBinomial |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
-###Hypergerometric distribution
+### Hypergerometric distribution
 
 The hypergeometric distribution describes the probability, that under a given number of success and failure events and 
 a given number of draws an event occurs exactly k times (without replacement). 
@@ -284,23 +309,24 @@ let hypC = hyper.CDF 3.
 
 (***hide***)
 let plotHyper =
-    let xAxis() = LinearAxis.init(Title="number of successes",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-    let yAxis() = LinearAxis.init(Title="p(X=k)",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-  
     [0..6]
     |> List.map (fun x -> x,hyper.PDF x)
     |> Chart.Column
     |> Chart.withX_Axis(xAxis())
     |> Chart.withY_Axis(yAxis())
-    //|> Chart.withSize(600.,400.)
     |> Chart.withTitle "Hyp(6,6,43)"
+
+(*** condition: ipynb ***)
+#if IPYNB
+plotHyper
+#endif // IPYNB
 
 (***hide***)
 plotHyper |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
-###Poisson distribution
+### Poisson distribution
 
 The poisson distribution describes, what the probability for a number of events is, occuring in a certain time, area, or volume.
 
@@ -333,11 +359,7 @@ let poB =
 let poC = 1. -  poisson.CDF 6.
 // Output: Not implemented yet. Manual addition necessary
 
-(***hide***)
 let plotPo =
-    let xAxis() = LinearAxis.init(Title="number of successes",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-    let yAxis() = LinearAxis.init(Title="p(X=k)",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-  
     [0..20]
     |> List.map (fun x -> x,poisson.PDF x)
     |> Chart.Column
@@ -346,13 +368,17 @@ let plotPo =
     //|> Chart.withSize(600.,400.)
     |> Chart.withTitle "Po(5.5)"
 
+(*** condition: ipynb ***)
+#if IPYNB
+plotPo
+#endif // IPYNB
 
 (***hide***)
 plotPo |> GenericChart.toChartHTML
 (***include-it-raw***)
-(**
-###Gamma distribution
 
+(**
+### Gamma distribution
 *)
 
 let gammaParams = [(1.,2.);(2.,2.);(3.,2.);(5.,1.);(9.0,0.5);(7.5,1.);(0.5,1.);]
@@ -363,16 +389,17 @@ let pdfGamma a b =
     |> List.map (Continuous.Gamma.PDF a b)
     |> List.zip xgamma
 
-
 let gammaPlot =
-    let xAxis() = LinearAxis.init(Title="x",Range=Range.MinMax(0.,20.),Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-    let yAxis() = LinearAxis.init(Title="p(x)",Range=Range.MinMax(0.,0.5),Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-  
     gammaParams
     |> List.map (fun (a,b) -> Chart.Point(pdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
     |> Chart.Combine
     |> Chart.withX_Axis(xAxis())
     |> Chart.withY_Axis(yAxis())
+
+(*** condition: ipynb ***)
+#if IPYNB
+gammaPlot
+#endif // IPYNB
 
 (***hide***)
 gammaPlot |> GenericChart.toChartHTML
@@ -383,15 +410,17 @@ let cdfGamma a b =
     |> List.map (Continuous.Gamma.CDF a b)
     |> List.zip xgamma
 
-(***hide***)
 let gammaCDFPlot=
-    let xAxis() = LinearAxis.init(Title="x",Range=Range.MinMax(0.,20.),Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-    let yAxis() = LinearAxis.init(Title="p(x)",Range=Range.MinMax(0.,1.),Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
     gammaParams
     |> List.map (fun (a,b) -> Chart.Spline(cdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
     |> Chart.Combine
     |> Chart.withX_Axis(xAxis())
     |> Chart.withY_Axis(yAxis())
+
+(*** condition: ipynb ***)
+#if IPYNB
+gammaCDFPlot
+#endif // IPYNB
 
 (***hide***)
 gammaCDFPlot |> GenericChart.toChartHTML
@@ -399,13 +428,10 @@ gammaCDFPlot |> GenericChart.toChartHTML
 
 (**
 
-<a name="Empirical"></a>
-
-##Empirical
+## Empirical
 
 You can create empirically derived distributions and sample randomly from these.
 In this example 100,000 samples from a student t distribution 
-
 
 *)
 
@@ -420,34 +446,46 @@ let empiricalDistribution =
 
 (***hide***)
 let plotEmpirical =    
-    let xAxis() = LinearAxis.init(Title="x",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-    let yAxis() = LinearAxis.init(Title="p(X=k)",Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true)
-  
     empiricalDistribution
     |> Empirical.getZip
     |> Chart.Column
     |> Chart.withX_Axis(xAxis())
     |> Chart.withY_Axis(yAxis())
 
+(*** condition: ipynb ***)
+#if IPYNB
+plotEmpirical
+#endif // IPYNB
+
 (***hide***)
 plotEmpirical |> GenericChart.toChartHTML
 (***include-it-raw***)
-(**
-###Density estimation
 
+(**
+## Density estimation
 *)
 
 let nv = Array.init 1000 (fun _ -> Distributions.Continuous.Normal.Sample 5. 2.)
 
 let xy = KernelDensity.estimate KernelDensity.Kernel.gaussian 1.0 nv
 
-Chart.SplineArea xy
-  
+let kernelChart = 
+    Chart.SplineArea xy
+    |> Chart.withX_Axis(xAxis())
+    |> Chart.withY_Axis(yAxis())
+ 
+(*** condition: ipynb ***)
+#if IPYNB
+kernelChart
+#endif // IPYNB
+
+(***hide***)
+kernelChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
 (**
 
-<a name="Distance"></a>
-
-##Distance
+## Distance
 
 In this example we will calculate the Wasserstein Metric between 3 distributions. One can imagine this metric as the amount of work needed to move the area (pile of dirt) of one distribution to the area of the other. That's why it's also called Earth Movers Distance.
 
@@ -471,6 +509,12 @@ let pilesOfDirt =
     Chart.Histogram(distribution3,Name = "Distribution3")
     ]
     |> Chart.Combine
+
+(*** condition: ipynb ***)
+#if IPYNB
+pilesOfDirt
+#endif // IPYNB
+
 (***hide***)
 pilesOfDirt |> GenericChart.toChartHTML
 (***include-it-raw***)
@@ -482,7 +526,10 @@ let distance1and2 = Distance.OneDimensional.wassersteinDistance distribution1 di
 let distance1and3 = Distance.OneDimensional.wassersteinDistance distribution1 distribution3
 (***include-value: distance1and3 ***)
 
-(*** hide ***)
+(**
+As expected the distance between Distribution 1 and 2 is the lowest:
+*)
+
 let distributions = 
     [|distribution1;distribution2;distribution3|]
 
@@ -491,7 +538,6 @@ let mapColor min max value =
         ((255. - 200.) * (value - min) / (max - min))
         |> int
         |> fun x -> 255 - x
-        
     let proportionG = 
         ((255. - 200.) * (value - min) / (max - min))
         |> int
@@ -538,20 +584,11 @@ let distancesTable =
         ColorHeader = headerColors,
         ColorCells = cellColors)
 
+(*** condition: ipynb ***)
+#if IPYNB
+distancesTable
+#endif // IPYNB
+
 (***hide***)
 distancesTable |> GenericChart.toChartHTML
 (***include-it-raw***)
-
-(**
-As expected the distance between Distribution 1 and 2 is the lowest 
-*)
-
-(**
-<a name="Bandwidth"></a>
-
-##Bandwidth
-
-<a name="Frequency"></a>
-
-##Frequency
-*)

@@ -9044,7 +9044,8 @@ em {
   color: #c6ffdd; }
 
 #fsdocs-content span.fn {
-  color: #d2c572; }
+  color: white;
+}
 
 /* active pattern */
 #fsdocs-content span.pat {

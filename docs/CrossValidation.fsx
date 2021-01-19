@@ -83,8 +83,13 @@ let chartOrderOpt =
     |> Chart.withX_Axis (myAxis "x")
     |> Chart.withY_Axis (myAxis "y")
 
+(*** condition: ipynb ***)
+#if IPYNB
+chartOrderOpt
+#endif // IPYNB
+
 (***hide***)
-chartOrderOpt |> GenericChart.toChartHTML
+chartOrderOpt |> GenericChart.toChartHTML 
 (***include-it-raw***)
 
 (**
@@ -121,6 +126,11 @@ let chartPol =
     |> Chart.withTitle "leave one out cross validation (polynomial)"
     
 let result = sprintf "The minimal error is obtained by order=%i" (errorPol |> Seq.minBy snd |> fst)
+
+(*** condition: ipynb ***)
+#if IPYNB
+chartPol
+#endif // IPYNB
 
 (***hide***)
 chartPol |> GenericChart.toChartHTML
@@ -164,6 +174,11 @@ let chartSpline =
     |> Chart.withY_Axis (myAxis "y")
     |> Chart.withTitle "smoothing splines"
 
+(*** condition: ipynb ***)
+#if IPYNB
+chartSpline
+#endif // IPYNB
+
 (***hide***)
 chartSpline |> GenericChart.toChartHTML
 (***include-it-raw***)
@@ -206,6 +221,11 @@ let chartSplineError =
     |> Chart.withTitle "leave one out cross validation (smoothing spline)"
     
 let resultSpline = sprintf "The minimal error is obtained by lambda=%f" (errorSpline |> Seq.minBy snd |> fst)
+
+(*** condition: ipynb ***)
+#if IPYNB
+chartSplineError
+#endif // IPYNB
 
 (***hide***)
 chartSplineError |> GenericChart.toChartHTML
@@ -268,6 +288,11 @@ let kfp =
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "kfoldPolynomial error"
 
+(*** condition: ipynb ***)
+#if IPYNB
+kfp
+#endif // IPYNB
+
 (***hide***)
 kfp |> GenericChart.toChartHTML
 (***include-it-raw***)
@@ -287,6 +312,11 @@ let kfs =
     |> Chart.withY_Axis (myAxis "mean error")
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "kfoldSpline error"
+
+(*** condition: ipynb ***)
+#if IPYNB
+kfs
+#endif // IPYNB
 
 (***hide***)
 kfs |> GenericChart.toChartHTML
@@ -347,6 +377,11 @@ let sasp =
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "shuffle_and_split polynomial error"
 
+(*** condition: ipynb ***)
+#if IPYNB
+sasp
+#endif // IPYNB
+
 (***hide***)
 sasp |> GenericChart.toChartHTML
 (***include-it-raw***)
@@ -366,6 +401,11 @@ let sass =
     |> Chart.withY_Axis (myAxis "mean error")
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "shuffle_and_split spline error"
+
+(*** condition: ipynb ***)
+#if IPYNB
+sass
+#endif // IPYNB
 
 (***hide***)
 sass |> GenericChart.toChartHTML
