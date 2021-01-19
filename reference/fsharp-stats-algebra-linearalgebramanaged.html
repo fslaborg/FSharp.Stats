@@ -1,657 +1,2334 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <title>LinearAlgebraManaged - FSharp.Stats</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content=""/>
-    <meta name="author" content="Timo Mühlhaus"/>
 
-    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+<head>
+    <meta charset="utf-8">
+    <title>LinearAlgebraManaged (FSharp.Stats)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <link rel="shortcut icon" type="image/x-icon" href="https://github.com/fslaborg/FSharp.Stats//img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
 
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
-    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <div class="container">
-      <div class="masthead">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="http://fsharp.org">fsharp.org</a></li>
-          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
-        </ul>
-        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
-      </div>
-      <hr />
-      <div class="row">
-        <div class="span9" id="main">
-          
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head> 
 
-<h1>LinearAlgebraManaged</h1>
-<p>
-  <span>Namespace: FSharp.Stats.Algebra</span><br />
+<body>
+    <div class="columns is-fullheight m-0">
+        <div id="fsdocs-menu" class="column is-2 is-paddingless">
+            <aside class="menu">
+                <div class="container is-paddingless is-marginless has-background-dark">
+                    <a href="https://github.com/fslaborg/FSharp.Stats/">
+                        <figure class="image is-128x128 container">
+                            <img src="https://github.com/fslaborg/FSharp.Stats/img/logo.png">
+                        </figure>
+                    </a>
+                    <h2 class="title has-text-centered has-text-white pb-4">FSharp.Stats</h2>
+                </div>
+                <div class="content">
+                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+                    <div id="header">
+                        <div class="searchbox" id="fsdocs-searchbox">
+                            <label for="search-by">
+                                <i class="fas fa-search"></i>
+                            </label>
+                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
+                            <span data-search-clear="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END SEARCH BOX: this adds support for the search box -->
+                    <ul class="navbar-nav">
+                        <li class="nav-header">Links</li>
+                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
+                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
+                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
+                        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-10 is-paddingless">
+            <div class="section pt-4">
+                <div class="container" id="fsdocs-content">
+                    <div>
+  <h1>
+    LinearAlgebraManaged Module
+  </h1>
+  <p>
+    Namespace: 
+    <a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-algebra.html">
+      FSharp.Stats.Algebra
+    </a>
   </p>
-<div class="xmldoc">
-<p>This module is for internal use only.</p>
-
-</div>
-
-<!-- Render nested types and modules, if there are any -->
-  <h2>Nested types and modules</h2>
-  <div>
-      <table class="table table-bordered type-list">
-    <thead>
-      <tr><td>Type</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td class="type-name">
-            <a href="fsharp-stats-algebra-linearalgebramanaged-range.html">range</a>
-          </td>
-          <td class="xmldoc">
-          
-          </td>
-        </tr>
-    </tbody>
-  </table>
+  <p>
+    Assembly: FSharp.Stats.dll
+  </p>
+  <div class="fsdocs-xmldoc">
+    
+ This module is for internal use only.
 
   </div>
+  <div>
+    <h3>
+      Types
+    </h3>
+    <table class="table outer-list fsdocs-entity-list">
+      <thead>
+        <tr>
+          <td>
+            Type
+          </td>
+          <td>
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-entity-name">
+            <p>
+              <a name="range">
+                <a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-algebra-linearalgebramanaged-range.html">
+                  range
+                </a>
+              </a>
+            </p>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L74-74" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3>
+      Functions and values
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Function or value
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1150', 1150)" onmouseover="showTip(event, '1150', 1150)">
+                <p>
+                  <a id="Cholesky">
+                    <a href="#Cholesky">
+                      <code><span>Cholesky&#32;<span>a</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1150">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Cholesky&#32;<span>a</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        a
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L83-83" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  a
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1151', 1151)" onmouseover="showTip(event, '1151', 1151)">
+                <p>
+                  <a id="Condition">
+                    <a href="#Condition">
+                      <code><span>Condition&#32;<span>A</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1151">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Condition&#32;<span>A</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'b</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L33-33" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>'b</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1152', 1152)" onmouseover="showTip(event, '1152', 1152)">
+                <p>
+                  <a id="EigenSpectrum">
+                    <a href="#EigenSpectrum">
+                      <code><span>EigenSpectrum&#32;<span>A</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1152">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>EigenSpectrum&#32;<span>A</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'b</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L32-32" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>'b</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1153', 1153)" onmouseover="showTip(event, '1153', 1153)">
+                <p>
+                  <a id="Hessenberg">
+                    <a href="#Hessenberg">
+                      <code><span>Hessenberg&#32;<span>A</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1153">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Hessenberg&#32;<span>A</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L396-396" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1154', 1154)" onmouseover="showTip(event, '1154', 1154)">
+                <p>
+                  <a id="HouseholderTransform">
+                    <a href="#HouseholderTransform">
+                      <code><span>HouseholderTransform&#32;<span>A&#32;i</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1154">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>HouseholderTransform&#32;<span>A&#32;i</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        i
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L179-179" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ This method computes and performs a Householder reflection. It will change the
+ input matrix and return the reflection vector.
 
-  <h3>Functions and values</h3>
-  <table class="table table-bordered member-list">
-    <thead>
-      <tr><td>Function or value</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1197', 1197)" onmouseover="showTip(event, '1197', 1197)">
-            Cholesky(a)
-          </code>
-          <div class="tip" id="1197">
-            <strong>Signature:</strong> a:matrix -&gt; Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L83-83" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1198', 1198)" onmouseover="showTip(event, '1198', 1198)">
-            Condition(A)
-          </code>
-          <div class="tip" id="1198">
-            <strong>Signature:</strong> A:&#39;?9901 -&gt; &#39;?9902<br />
-                          <strong>Type parameters:</strong> '?9901, '?9902                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L33-33" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1199', 1199)" onmouseover="showTip(event, '1199', 1199)">
-            EigenSpectrum(A)
-          </code>
-          <div class="tip" id="1199">
-            <strong>Signature:</strong> A:&#39;?9898 -&gt; &#39;?9899<br />
-                          <strong>Type parameters:</strong> '?9898, '?9899                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L32-32" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1200', 1200)" onmouseover="showTip(event, '1200', 1200)">
-            eigenvalues(m)
-          </code>
-          <div class="tip" id="1200">
-            <strong>Signature:</strong> m:&#39;c -&gt; &#39;d<br />
-                          <strong>Type parameters:</strong> 'c, 'd                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L36-36" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1201', 1201)" onmouseover="showTip(event, '1201', 1201)">
-            eigenvectors(m)
-          </code>
-          <div class="tip" id="1201">
-            <strong>Signature:</strong> m:&#39;c -&gt; &#39;d<br />
-                          <strong>Type parameters:</strong> 'c, 'd                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L35-35" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1202', 1202)" onmouseover="showTip(event, '1202', 1202)">
-            hatMatrix(designMatrix)
-          </code>
-          <div class="tip" id="1202">
-            <strong>Signature:</strong> designMatrix:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L474-474" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  i
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1155', 1155)" onmouseover="showTip(event, '1155', 1155)">
+                <p>
+                  <a id="Inverse">
+                    <a href="#Inverse">
+                      <code><span>Inverse&#32;<span>A</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1155">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Inverse&#32;<span>A</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L165-165" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1156', 1156)" onmouseover="showTip(event, '1156', 1156)">
+                <p>
+                  <a id="LU">
+                    <a href="#LU">
+                      <code><span>LU&#32;<span>A</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1156">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>LU&#32;<span>A</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>(<span>int&#32;->&#32;int</span>)</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L111-111" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ For a matrix A, the LU factorization is a pair of lower triangular matrix L and upper triangular matrix U so that A = L*U.
+ The pivot function encode a permutation operation such for a matrix P P*A = L*U.
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>(<span>int&#32;->&#32;int</span>)</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1157', 1157)" onmouseover="showTip(event, '1157', 1157)">
+                <p>
+                  <a id="NYI">
+                    <a href="#NYI">
+                      <code><span>NYI&#32;<span>()</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1157">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>NYI&#32;<span>()</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        ()
+                      </b>
+                      :
+                      <code>unit</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'a</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L17-17" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ()
+                </span>
+                :
+                <code>unit</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1158', 1158)" onmouseover="showTip(event, '1158', 1158)">
+                <p>
+                  <a id="QR">
+                    <a href="#QR">
+                      <code><span>QR&#32;<span>A</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1158">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>QR&#32;<span>A</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L391-391" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Matches the union type of the matrix and invokes the according QR factorization function
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1203', 1203)" onmouseover="showTip(event, '1203', 1203)">
-            Hessenberg(A)
-          </code>
-          <div class="tip" id="1203">
-            <strong>Signature:</strong> A:matrix -&gt; matrix * Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L396-396" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1204', 1204)" onmouseover="showTip(event, '1204', 1204)">
-            HouseholderTransform A i
-          </code>
-          <div class="tip" id="1204">
-            <strong>Signature:</strong> A:matrix -&gt; i:int -&gt; Vector&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L179-179" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>This method computes and performs a Householder reflection. It will change the
-input matrix and return the reflection vector.</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1159', 1159)" onmouseover="showTip(event, '1159', 1159)">
+                <p>
+                  <a id="QRDense">
+                    <a href="#QRDense">
+                      <code><span>QRDense&#32;<span>A</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1159">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>QRDense&#32;<span>A</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L196-196" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ QR factorization function for dense matrices
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1160', 1160)" onmouseover="showTip(event, '1160', 1160)">
+                <p>
+                  <a id="QRSparse">
+                    <a href="#QRSparse">
+                      <code><span>QRSparse&#32;<span>A</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1160">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>QRSparse&#32;<span>A</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-sparsematrix-1.html">SparseMatrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L223-223" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ QR factorization function for sparse matrices, returns Q as a product of givens rotations and R as upper triangular
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1205', 1205)" onmouseover="showTip(event, '1205', 1205)">
-            Inverse(A)
-          </code>
-          <div class="tip" id="1205">
-            <strong>Signature:</strong> A:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L165-165" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1206', 1206)" onmouseover="showTip(event, '1206', 1206)">
-            leastSquares A b
-          </code>
-          <div class="tip" id="1206">
-            <strong>Signature:</strong> A:Matrix&lt;float&gt; -&gt; b:vector -&gt; Vector&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L424-424" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1207', 1207)" onmouseover="showTip(event, '1207', 1207)">
-            leverage(designMatrix)
-          </code>
-          <div class="tip" id="1207">
-            <strong>Signature:</strong> designMatrix:Matrix&lt;float&gt; -&gt; vector<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L487-487" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>computes the leverage directly by QR decomposition of the designmatrix used in ordinary least squares approaches
-and computing of the diagnonal entries of the Hat matrix, known as the leverages of the regressors</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-sparsematrix-1.html">SparseMatrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1161', 1161)" onmouseover="showTip(event, '1161', 1161)">
+                <p>
+                  <a id="SVD">
+                    <a href="#SVD">
+                      <code><span>SVD&#32;<span>a</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1161">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>SVD&#32;<span>a</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        a
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a>&#32;*&#32;<a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L21-21" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  a
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a>&#32;*&#32;<a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1162', 1162)" onmouseover="showTip(event, '1162', 1162)">
+                <p>
+                  <a id="SolveLinearSystem">
+                    <a href="#SolveLinearSystem">
+                      <code><span>SolveLinearSystem&#32;<span>A&#32;b</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1162">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>SolveLinearSystem&#32;<span>A&#32;b</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        b
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L152-152" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Solves a system of linear equations, AX = B, with A LU factorized.
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  b
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1163', 1163)" onmouseover="showTip(event, '1163', 1163)">
+                <p>
+                  <a id="SolveLinearSystems">
+                    <a href="#SolveLinearSystems">
+                      <code><span>SolveLinearSystems&#32;<span>A&#32;B</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1163">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>SolveLinearSystems&#32;<span>A&#32;B</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        B
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L159-159" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Solves a system of linear equations, Ax = b, with A LU factorized.        
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1208', 1208)" onmouseover="showTip(event, '1208', 1208)">
-            leverageBy(hatMatrix)
-          </code>
-          <div class="tip" id="1208">
-            <strong>Signature:</strong> hatMatrix:Matrix&lt;float&gt; -&gt; Vector&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L482-482" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>computes the leverages of every dataPoint of a dataSet given by the diagonal of the hat matrix.</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  B
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1164', 1164)" onmouseover="showTip(event, '1164', 1164)">
+                <p>
+                  <a id="SolveTriangularLinearSystem">
+                    <a href="#SolveTriangularLinearSystem">
+                      <code><span>SolveTriangularLinearSystem&#32;<span>K&#32;v&#32;isLower</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1164">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>SolveTriangularLinearSystem&#32;<span>K&#32;v&#32;isLower</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        K
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        isLower
+                      </b>
+                      :
+                      <code>bool</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L72-72" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  K
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  isLower
+                </span>
+                :
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1165', 1165)" onmouseover="showTip(event, '1165', 1165)">
+                <p>
+                  <a id="SolveTriangularLinearSystems">
+                    <a href="#SolveTriangularLinearSystems">
+                      <code><span>SolveTriangularLinearSystems&#32;<span>K&#32;B&#32;isLower</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1165">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>SolveTriangularLinearSystems&#32;<span>K&#32;B&#32;isLower</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        K
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        B
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        isLower
+                      </b>
+                      :
+                      <code>bool</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L40-40" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  K
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  B
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  isLower
+                </span>
+                :
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1166', 1166)" onmouseover="showTip(event, '1166', 1166)">
+                <p>
+                  <a id="eigenvalues">
+                    <a href="#eigenvalues">
+                      <code><span>eigenvalues&#32;<span>m</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1166">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>eigenvalues&#32;<span>m</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        m
+                      </b>
+                      :
+                      <code>'c</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'d</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L36-36" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m
+                </span>
+                :
+                <code>'c</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>'d</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1167', 1167)" onmouseover="showTip(event, '1167', 1167)">
+                <p>
+                  <a id="eigenvectors">
+                    <a href="#eigenvectors">
+                      <code><span>eigenvectors&#32;<span>m</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1167">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>eigenvectors&#32;<span>m</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        m
+                      </b>
+                      :
+                      <code>'c</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'d</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L35-35" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m
+                </span>
+                :
+                <code>'c</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>'d</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1168', 1168)" onmouseover="showTip(event, '1168', 1168)">
+                <p>
+                  <a id="hatMatrix">
+                    <a href="#hatMatrix">
+                      <code><span>hatMatrix&#32;<span>designMatrix</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1168">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>hatMatrix&#32;<span>designMatrix</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        designMatrix
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L474-474" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  designMatrix
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1169', 1169)" onmouseover="showTip(event, '1169', 1169)">
+                <p>
+                  <a id="leastSquares">
+                    <a href="#leastSquares">
+                      <code><span>leastSquares&#32;<span>A&#32;b</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1169">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>leastSquares&#32;<span>A&#32;b</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        A
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        b
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L424-424" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  A
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  b
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1170', 1170)" onmouseover="showTip(event, '1170', 1170)">
+                <p>
+                  <a id="leverage">
+                    <a href="#leverage">
+                      <code><span>leverage&#32;<span>designMatrix</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1170">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>leverage&#32;<span>designMatrix</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        designMatrix
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L487-487" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ computes the leverage directly by QR decomposition of the designmatrix used in ordinary least squares approaches
+ and computing of the diagnonal entries of the Hat matrix, known as the leverages of the regressors
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1209', 1209)" onmouseover="showTip(event, '1209', 1209)">
-            LU(A)
-          </code>
-          <div class="tip" id="1209">
-            <strong>Signature:</strong> A:Matrix&lt;float&gt; -&gt; (int -&gt; int) * Matrix&lt;float&gt; * Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L111-111" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>For a matrix A, the LU factorization is a pair of lower triangular matrix L and upper triangular matrix U so that A = L<em>U.
-The pivot function encode a permutation operation such for a matrix P P</em>A = L*U.</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  designMatrix
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1171', 1171)" onmouseover="showTip(event, '1171', 1171)">
+                <p>
+                  <a id="leverageBy">
+                    <a href="#leverageBy">
+                      <code><span>leverageBy&#32;<span>hatMatrix</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1171">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>leverageBy&#32;<span>hatMatrix</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        hatMatrix
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L482-482" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ computes the leverages of every dataPoint of a dataSet given by the diagonal of the hat matrix. 
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  hatMatrix
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1172', 1172)" onmouseover="showTip(event, '1172', 1172)">
+                <p>
+                  <a id="pseudoInvers">
+                    <a href="#pseudoInvers">
+                      <code><span>pseudoInvers&#32;<span>matrix</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1172">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pseudoInvers&#32;<span>matrix</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        matrix
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L500-500" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the pseudo inverse of the matrix
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1210', 1210)" onmouseover="showTip(event, '1210', 1210)">
-            NYI()
-          </code>
-          <div class="tip" id="1210">
-            <strong>Signature:</strong> unit -&gt; &#39;?9894<br />
-                          <strong>Type parameters:</strong> '?9894                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L17-17" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1211', 1211)" onmouseover="showTip(event, '1211', 1211)">
-            pseudoInvers(matrix)
-          </code>
-          <div class="tip" id="1211">
-            <strong>Signature:</strong> matrix:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L500-500" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Calculates the pseudo inverse of the matrix</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  matrix
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1173', 1173)" onmouseover="showTip(event, '1173', 1173)">
+                <p>
+                  <a id="sign">
+                    <a href="#sign">
+                      <code><span>sign&#32;<span>f</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1173">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>sign&#32;<span>f</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L175-175" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Computes the sign of a floating point number.
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1174', 1174)" onmouseover="showTip(event, '1174', 1174)">
+                <p>
+                  <a id="sumfR">
+                    <a href="#sumfR">
+                      <code><span>sumfR&#32;<span>f&#32;<span>(<span>arg2,&#32;arg3</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1174">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>sumfR&#32;<span>f&#32;<span>(<span>arg2,&#32;arg3</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>int&#32;->&#32;<span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        arg1
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        arg2
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L76-76" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>int&#32;->&#32;<span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arg1
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arg2
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1175', 1175)" onmouseover="showTip(event, '1175', 1175)">
+                <p>
+                  <a id="symmetricEigenspectrum">
+                    <a href="#symmetricEigenspectrum">
+                      <code><span>symmetricEigenspectrum&#32;<span>a</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1175">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>symmetricEigenspectrum&#32;<span>a</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        a
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L27-27" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  a
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1176', 1176)" onmouseover="showTip(event, '1176', 1176)">
+                <p>
+                  <a id="symmetricEigenvalues">
+                    <a href="#symmetricEigenvalues">
+                      <code><span>symmetricEigenvalues&#32;<span>a</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1176">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>symmetricEigenvalues&#32;<span>a</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        a
+                      </b>
+                      :
+                      <code>'c</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'d</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L37-37" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  a
+                </span>
+                :
+                <code>'c</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>'d</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1177', 1177)" onmouseover="showTip(event, '1177', 1177)">
+                <p>
+                  <a id="symmetricEigenvectors">
+                    <a href="#symmetricEigenvectors">
+                      <code><span>symmetricEigenvectors&#32;<span>a</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1177">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>symmetricEigenvectors&#32;<span>a</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        a
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'b</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L38-38" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  a
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>'b</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1178', 1178)" onmouseover="showTip(event, '1178', 1178)">
+                <p>
+                  <a id="unitV">
+                    <a href="#unitV">
+                      <code><span>unitV&#32;<span>k</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1178">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>unitV&#32;<span>k</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        k
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L172-172" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Generates a unit vector [1 0 .. 0 ].
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1212', 1212)" onmouseover="showTip(event, '1212', 1212)">
-            QR(A)
-          </code>
-          <div class="tip" id="1212">
-            <strong>Signature:</strong> A:matrix -&gt; matrix * matrix<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L391-391" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Matches the union type of the matrix and invokes the according QR factorization function</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1213', 1213)" onmouseover="showTip(event, '1213', 1213)">
-            QRDense(A)
-          </code>
-          <div class="tip" id="1213">
-            <strong>Signature:</strong> A:matrix -&gt; matrix * Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L196-196" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>QR factorization function for dense matrices</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1214', 1214)" onmouseover="showTip(event, '1214', 1214)">
-            QRSparse(A)
-          </code>
-          <div class="tip" id="1214">
-            <strong>Signature:</strong> A:SparseMatrix&lt;float&gt; -&gt; matrix * matrix<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L223-223" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>QR factorization function for sparse matrices, returns Q as a product of givens rotations and R as upper triangular</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1215', 1215)" onmouseover="showTip(event, '1215', 1215)">
-            sign(f)
-          </code>
-          <div class="tip" id="1215">
-            <strong>Signature:</strong> f:float -&gt; float<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L175-175" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the sign of a floating point number.</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1216', 1216)" onmouseover="showTip(event, '1216', 1216)">
-            SolveLinearSystem A b
-          </code>
-          <div class="tip" id="1216">
-            <strong>Signature:</strong> A:matrix -&gt; b:vector -&gt; Vector&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L152-152" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Solves a system of linear equations, AX = B, with A LU factorized.</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1217', 1217)" onmouseover="showTip(event, '1217', 1217)">
-            SolveLinearSystems A B
-          </code>
-          <div class="tip" id="1217">
-            <strong>Signature:</strong> A:matrix -&gt; B:matrix -&gt; Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L159-159" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Solves a system of linear equations, Ax = b, with A LU factorized.</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1218', 1218)" onmouseover="showTip(event, '1218', 1218)">
-            SolveTriangularLinearSystem K v isLower
-          </code>
-          <div class="tip" id="1218">
-            <strong>Signature:</strong> K:Matrix&lt;float&gt; -&gt; v:Vector&lt;float&gt; -&gt; isLower:bool -&gt; Vector&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L72-72" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1219', 1219)" onmouseover="showTip(event, '1219', 1219)">
-            SolveTriangularLinearSystems K B isLower
-          </code>
-          <div class="tip" id="1219">
-            <strong>Signature:</strong> K:Matrix&lt;float&gt; -&gt; B:Matrix&lt;float&gt; -&gt; isLower:bool -&gt; Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L40-40" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1220', 1220)" onmouseover="showTip(event, '1220', 1220)">
-            sumfR f (arg2, arg3)
-          </code>
-          <div class="tip" id="1220">
-            <strong>Signature:</strong> f:(int -&gt; float&lt;MeasureOne&gt;) -&gt; (int * int) -&gt; float&lt;MeasureOne&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L76-76" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1221', 1221)" onmouseover="showTip(event, '1221', 1221)">
-            SVD(a)
-          </code>
-          <div class="tip" id="1221">
-            <strong>Signature:</strong> a:matrix -&gt; vector * matrix * matrix<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L21-21" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1222', 1222)" onmouseover="showTip(event, '1222', 1222)">
-            symmetricEigenspectrum(a)
-          </code>
-          <div class="tip" id="1222">
-            <strong>Signature:</strong> a:matrix -&gt; matrix * Vector&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L27-27" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1223', 1223)" onmouseover="showTip(event, '1223', 1223)">
-            symmetricEigenvalues(a)
-          </code>
-          <div class="tip" id="1223">
-            <strong>Signature:</strong> a:&#39;c -&gt; &#39;d<br />
-                          <strong>Type parameters:</strong> 'c, 'd                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L37-37" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1224', 1224)" onmouseover="showTip(event, '1224', 1224)">
-            symmetricEigenvectors(a)
-          </code>
-          <div class="tip" id="1224">
-            <strong>Signature:</strong> a:&#39;a -&gt; &#39;b<br />
-                          <strong>Type parameters:</strong> 'a, 'b                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L38-38" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1225', 1225)" onmouseover="showTip(event, '1225', 1225)">
-            unitV(k)
-          </code>
-          <div class="tip" id="1225">
-            <strong>Signature:</strong> k:int -&gt; Vector&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebraServiceManaged.fs#L172-172" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Generates a unit vector [1 0 .. 0 ].</p>
-
-
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  k
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+                </div>
+            </div>
         </div>
-        <div class="span3">
-          <img src="/FSharp.Stats/img/logo.svg" alt="F# Project" style="width:150px;margin:10px" />  
-          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-              <li class="nav-header">FSharp.Stats</li>
-              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-              <li class="divider"></li>
-              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-              <li><a href="/FSharp.Stats/license.html">License</a></li>
-              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
-
-              <li class="nav-header">Getting started</li>
-              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-
-              <li class="nav-header">Basic</li>
-              <li>
-                  <a href="/FSharp.Stats/Summary.html">Summary</a>
-              </li>
-              <li><a href="/FSharp.Stats/Clustering.html">Clustering</a></li>
-              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-              <li><a href="/FSharp.Stats/CrossValidation.html">Cross validation</a></li>
-              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
-              <li class="divider"></li>
-              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-              </li>
-              <li class="divider"></li>
-              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
-              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/GoodnessOfFit.html">Goodness of fit</a></li>
-              <li><a href="/FSharp.Stats/Interpolation.html">Interpolation</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
-              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-              </li>
-              <li class="nav-header">Special Issues</li>
-              <li><a href="/FSharp.Stats/GrowthCurve.html">Growth Curve</a></li>
-
-
-              <li class="nav-header">Documentation</li>
-              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
-          </ul>
-        </div>
-      </div>
+        
     </div>
-    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
-  </body>
-  </html>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://github.com/fslaborg/FSharp.Stats/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+</body>
+
+</html>

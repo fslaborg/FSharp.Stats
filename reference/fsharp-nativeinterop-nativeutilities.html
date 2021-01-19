@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>NativeUtilities (FSharp.Stats)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <link rel="shortcut icon" type="image/x-icon" href="https://github.com/fslaborg/FSharp.Stats//img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
+
+    <link type="text/css" rel="stylesheet" href="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head> 
+
+<body>
+    <div class="columns is-fullheight m-0">
+        <div id="fsdocs-menu" class="column is-2 is-paddingless">
+            <aside class="menu">
+                <div class="container is-paddingless is-marginless has-background-dark">
+                    <a href="https://github.com/fslaborg/FSharp.Stats/">
+                        <figure class="image is-128x128 container">
+                            <img src="https://github.com/fslaborg/FSharp.Stats/img/logo.png">
+                        </figure>
+                    </a>
+                    <h2 class="title has-text-centered has-text-white pb-4">FSharp.Stats</h2>
+                </div>
+                <div class="content">
+                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+                    <div id="header">
+                        <div class="searchbox" id="fsdocs-searchbox">
+                            <label for="search-by">
+                                <i class="fas fa-search"></i>
+                            </label>
+                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
+                            <span data-search-clear="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END SEARCH BOX: this adds support for the search box -->
+                    <ul class="navbar-nav">
+                        <li class="nav-header">Links</li>
+                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
+                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
+                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
+                        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-10 is-paddingless">
+            <div class="section pt-4">
+                <div class="container" id="fsdocs-content">
+                    <div>
+  <h1>
+    NativeUtilities Module
+  </h1>
+  <p>
+    Namespace: 
+    <a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop.html">
+      FSharp.NativeInterop
+    </a>
+  </p>
+  <p>
+    Assembly: FSharp.Stats.dll
+  </p>
+  <div class="fsdocs-xmldoc">
+    
+  </div>
+  <div>
+    <h3>
+      Functions and values
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Function or value
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '8', 8)" onmouseover="showTip(event, '8', 8)">
+                <p>
+                  <a id="assertDimensions">
+                    <a href="#assertDimensions">
+                      <code><span>assertDimensions&#32;<span>functionName&#32;<span>(<span>aName,&#32;bName</span>)</span>&#32;<span>(<span>a,&#32;b</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="8">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>assertDimensions&#32;<span>functionName&#32;<span>(<span>aName,&#32;bName</span>)</span>&#32;<span>(<span>a,&#32;b</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        functionName
+                      </b>
+                      :
+                      <code>string</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        aName
+                      </b>
+                      :
+                      <code>string</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        bName
+                      </b>
+                      :
+                      <code>string</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        a
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        b
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L42-42" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  functionName
+                </span>
+                :
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  aName
+                </span>
+                :
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  bName
+                </span>
+                :
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  a
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  b
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '9', 9)" onmouseover="showTip(event, '9', 9)">
+                <p>
+                  <a id="freeA">
+                    <a href="#freeA">
+                      <code><span>freeA&#32;<span>pA</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="9">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>freeA&#32;<span>pA</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        pA
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L26-26" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pA
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '10', 10)" onmouseover="showTip(event, '10', 10)">
+                <p>
+                  <a id="freeA2">
+                    <a href="#freeA2">
+                      <code><span>freeA2&#32;<span>a</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="10">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>freeA2&#32;<span>a</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        a
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L28-28" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  a
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '11', 11)" onmouseover="showTip(event, '11', 11)">
+                <p>
+                  <a id="freeAA">
+                    <a href="#freeAA">
+                      <code><span>freeAA&#32;<span><span>(<span>pA,&#32;pB</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="11">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>freeAA&#32;<span><span>(<span>pA,&#32;pB</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        pA
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        pB
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L32-32" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pA
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pB
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '12', 12)" onmouseover="showTip(event, '12', 12)">
+                <p>
+                  <a id="freeM">
+                    <a href="#freeM">
+                      <code><span>freeM&#32;<span>pA</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="12">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>freeM&#32;<span>pA</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        pA
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L24-24" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pA
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '13', 13)" onmouseover="showTip(event, '13', 13)">
+                <p>
+                  <a id="freeMM">
+                    <a href="#freeMM">
+                      <code><span>freeMM&#32;<span><span>(<span>pA,&#32;pB</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="13">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>freeMM&#32;<span><span>(<span>pA,&#32;pB</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        pA
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        pB
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L33-33" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pA
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pB
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '14', 14)" onmouseover="showTip(event, '14', 14)">
+                <p>
+                  <a id="freeMMM">
+                    <a href="#freeMMM">
+                      <code><span>freeMMM&#32;<span><span>(<span>pA,&#32;pB,&#32;pC</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="14">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>freeMMM&#32;<span><span>(<span>pA,&#32;pB,&#32;pC</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        pA
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        pB
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        pC
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L34-34" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pA
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pB
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pC
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '15', 15)" onmouseover="showTip(event, '15', 15)">
+                <p>
+                  <a id="freeMV">
+                    <a href="#freeMV">
+                      <code><span>freeMV&#32;<span><span>(<span>pA,&#32;pB</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="15">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>freeMV&#32;<span><span>(<span>pA,&#32;pB</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        pA
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        pB
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L30-30" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pA
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pB
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '16', 16)" onmouseover="showTip(event, '16', 16)">
+                <p>
+                  <a id="freeMVV">
+                    <a href="#freeMVV">
+                      <code><span>freeMVV&#32;<span><span>(<span>pA,&#32;pB,&#32;pC</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="16">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>freeMVV&#32;<span><span>(<span>pA,&#32;pB,&#32;pC</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        pA
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        pB
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        pC
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L35-35" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pA
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pB
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pC
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '17', 17)" onmouseover="showTip(event, '17', 17)">
+                <p>
+                  <a id="freeV">
+                    <a href="#freeV">
+                      <code><span>freeV&#32;<span>pA</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="17">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>freeV&#32;<span>pA</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        pA
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L25-25" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pA
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '18', 18)" onmouseover="showTip(event, '18', 18)">
+                <p>
+                  <a id="freeVV">
+                    <a href="#freeVV">
+                      <code><span>freeVV&#32;<span><span>(<span>pA,&#32;pB</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="18">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>freeVV&#32;<span><span>(<span>pA,&#32;pB</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        pA
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        pB
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L31-31" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pA
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  pB
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '19', 19)" onmouseover="showTip(event, '19', 19)">
+                <p>
+                  <a id="matrixDim1">
+                    <a href="#matrixDim1">
+                      <code><span>matrixDim1&#32;<span>m</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="19">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>matrixDim1&#32;<span>m</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        m
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>int</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L38-38" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '20', 20)" onmouseover="showTip(event, '20', 20)">
+                <p>
+                  <a id="matrixDim2">
+                    <a href="#matrixDim2">
+                      <code><span>matrixDim2&#32;<span>m</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="20">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>matrixDim2&#32;<span>m</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        m
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>int</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L39-39" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '21', 21)" onmouseover="showTip(event, '21', 21)">
+                <p>
+                  <a id="matrixDims">
+                    <a href="#matrixDims">
+                      <code><span>matrixDims&#32;<span>m</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="21">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>matrixDims&#32;<span>m</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        m
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>int&#32;*&#32;int</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L37-37" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span>int&#32;*&#32;int</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '22', 22)" onmouseover="showTip(event, '22', 22)">
+                <p>
+                  <a id="nativeArray_as_CMatrix_colvec">
+                    <a href="#nativeArray_as_CMatrix_colvec">
+                      <code><span>nativeArray_as_CMatrix_colvec&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="22">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>nativeArray_as_CMatrix_colvec&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-nativearray-1.html">NativeArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-cmatrix-1.html">CMatrix</a>&lt;'T&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L10-10" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-nativearray-1.html">NativeArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-cmatrix-1.html">CMatrix</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '23', 23)" onmouseover="showTip(event, '23', 23)">
+                <p>
+                  <a id="nativeArray_as_FortranMatrix_colvec">
+                    <a href="#nativeArray_as_FortranMatrix_colvec">
+                      <code><span>nativeArray_as_FortranMatrix_colvec&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="23">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>nativeArray_as_FortranMatrix_colvec&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-nativearray-1.html">NativeArray</a>&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-fortranmatrix-1.html">FortranMatrix</a>&lt;'T&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L11-11" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-nativearray-1.html">NativeArray</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-fortranmatrix-1.html">FortranMatrix</a>&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '24', 24)" onmouseover="showTip(event, '24', 24)">
+                <p>
+                  <a id="pinA">
+                    <a href="#pinA">
+                      <code><span>pinA&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="24">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pinA&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span>'a[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'a&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L14-14" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span>'a[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '25', 25)" onmouseover="showTip(event, '25', 25)">
+                <p>
+                  <a id="pinA2">
+                    <a href="#pinA2">
+                      <code><span>pinA2&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="25">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pinA2&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span>'a[,]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L16-16" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span>'a[,]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '26', 26)" onmouseover="showTip(event, '26', 26)">
+                <p>
+                  <a id="pinAA">
+                    <a href="#pinAA">
+                      <code><span>pinAA&#32;<span>v1&#32;v2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="26">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pinAA&#32;<span>v1&#32;v2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        v1
+                      </b>
+                      :
+                      <code><span>'a[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v2
+                      </b>
+                      :
+                      <code><span>'b[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'b&gt;</span></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L20-20" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v1
+                </span>
+                :
+                <code><span>'a[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v2
+                </span>
+                :
+                <code><span>'b[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'b&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '27', 27)" onmouseover="showTip(event, '27', 27)">
+                <p>
+                  <a id="pinM">
+                    <a href="#pinM">
+                      <code><span>pinM&#32;<span>m</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="27">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pinM&#32;<span>m</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        m
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L12-12" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '28', 28)" onmouseover="showTip(event, '28', 28)">
+                <p>
+                  <a id="pinMM">
+                    <a href="#pinMM">
+                      <code><span>pinMM&#32;<span>m1&#32;m2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="28">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pinMM&#32;<span>m1&#32;m2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        m1
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        m2
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'b&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'b&gt;</span></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L22-22" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m1
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m2
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'b&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '29', 29)" onmouseover="showTip(event, '29', 29)">
+                <p>
+                  <a id="pinMMM">
+                    <a href="#pinMMM">
+                      <code><span>pinMMM&#32;<span>m1&#32;m2&#32;m3</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="29">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pinMMM&#32;<span>m1&#32;m2&#32;m3</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        m1
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        m2
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'b&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        m3
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'c&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'b&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'c&gt;</span></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L23-23" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m1
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m2
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m3
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'c&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'b&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'c&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '30', 30)" onmouseover="showTip(event, '30', 30)">
+                <p>
+                  <a id="pinMV">
+                    <a href="#pinMV">
+                      <code><span>pinMV&#32;<span>m1&#32;v2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="30">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pinMV&#32;<span>m1&#32;v2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        m1
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v2
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'b&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'b&gt;</span></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L18-18" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m1
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v2
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'b&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '31', 31)" onmouseover="showTip(event, '31', 31)">
+                <p>
+                  <a id="pinMVV">
+                    <a href="#pinMVV">
+                      <code><span>pinMVV&#32;<span>m1&#32;v2&#32;m3</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="31">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pinMVV&#32;<span>m1&#32;v2&#32;m3</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        m1
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v2
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'b&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        m3
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'c&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'b&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'c&gt;</span></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L21-21" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m1
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v2
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  m3
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'c&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray2-1.html">PinnedArray2</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'b&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'c&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '32', 32)" onmouseover="showTip(event, '32', 32)">
+                <p>
+                  <a id="pinV">
+                    <a href="#pinV">
+                      <code><span>pinV&#32;<span>v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="32">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pinV&#32;<span>v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'a&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L13-13" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '33', 33)" onmouseover="showTip(event, '33', 33)">
+                <p>
+                  <a id="pinVV">
+                    <a href="#pinVV">
+                      <code><span>pinVV&#32;<span>v1&#32;v2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="33">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pinVV&#32;<span>v1&#32;v2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        v1
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        v2
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'b&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'b&gt;</span></span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L19-19" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v1
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v2
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'a&gt;</span>&#32;*&#32;<span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-nativeinterop-pinnedarray-1.html">PinnedArray</a>&lt;'b&gt;</span></span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '34', 34)" onmouseover="showTip(event, '34', 34)">
+                <p>
+                  <a id="vectorDim">
+                    <a href="#vectorDim">
+                      <code><span>vectorDim&#32;<span>v</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="34">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>vectorDim&#32;<span>v</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        v
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>int</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/NativeUtilities.fs#L40-40" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  v
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://github.com/fslaborg/FSharp.Stats/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+</body>
+
+</html>

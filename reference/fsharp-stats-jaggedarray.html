@@ -1,578 +1,2103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <title>JaggedArray - FSharp.Stats</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content=""/>
-    <meta name="author" content="Timo Mühlhaus"/>
 
-    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+<head>
+    <meta charset="utf-8">
+    <title>JaggedArray (FSharp.Stats)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <link rel="shortcut icon" type="image/x-icon" href="https://github.com/fslaborg/FSharp.Stats//img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
 
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
-    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <div class="container">
-      <div class="masthead">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="http://fsharp.org">fsharp.org</a></li>
-          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
-        </ul>
-        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
-      </div>
-      <hr />
-      <div class="row">
-        <div class="span9" id="main">
-          
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head> 
 
-<h1>JaggedArray</h1>
-<p>
-  <span>Namespace: FSharp.Stats</span><br />
-        <span>
-          Attributes:<br />
-[&lt;AutoOpen&gt;]<br />
-          
-      </span>
-</p>
-<div class="xmldoc">
+<body>
+    <div class="columns is-fullheight m-0">
+        <div id="fsdocs-menu" class="column is-2 is-paddingless">
+            <aside class="menu">
+                <div class="container is-paddingless is-marginless has-background-dark">
+                    <a href="https://github.com/fslaborg/FSharp.Stats/">
+                        <figure class="image is-128x128 container">
+                            <img src="https://github.com/fslaborg/FSharp.Stats/img/logo.png">
+                        </figure>
+                    </a>
+                    <h2 class="title has-text-centered has-text-white pb-4">FSharp.Stats</h2>
+                </div>
+                <div class="content">
+                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+                    <div id="header">
+                        <div class="searchbox" id="fsdocs-searchbox">
+                            <label for="search-by">
+                                <i class="fas fa-search"></i>
+                            </label>
+                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
+                            <span data-search-clear="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END SEARCH BOX: this adds support for the search box -->
+                    <ul class="navbar-nav">
+                        <li class="nav-header">Links</li>
+                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
+                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
+                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
+                        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-10 is-paddingless">
+            <div class="section pt-4">
+                <div class="container" id="fsdocs-content">
+                    <div>
+  <h1>
+    JaggedArray Module
+  </h1>
+  <p>
+    Namespace: 
+    <a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats.html">
+      FSharp.Stats
+    </a>
+  </p>
+  <p>
+    Assembly: FSharp.Stats.dll
+  </p>
+  <div class="fsdocs-xmldoc">
+    
+  </div>
+  <div>
+    <h3>
+      Functions and values
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Function or value
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '411', 411)" onmouseover="showTip(event, '411', 411)">
+                <p>
+                  <a id="copy">
+                    <a href="#copy">
+                      <code><span>copy&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="411">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>copy&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'b[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'b[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L16-16" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Copies the jagged array
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'b[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'b[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '412', 412)" onmouseover="showTip(event, '412', 412)">
+                <p>
+                  <a id="fold">
+                    <a href="#fold">
+                      <code><span>fold&#32;<span>innerFolder&#32;outerFolder&#32;innerState&#32;outerState&#32;jArray</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="412">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>fold&#32;<span>innerFolder&#32;outerFolder&#32;innerState&#32;outerState&#32;jArray</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        innerFolder
+                      </b>
+                      :
+                      <code><span>'State1&#32;->&#32;'T&#32;->&#32;'State1</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        outerFolder
+                      </b>
+                      :
+                      <code><span>'State2&#32;->&#32;'State1&#32;->&#32;'State2</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        innerState
+                      </b>
+                      :
+                      <code>'State1</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        outerState
+                      </b>
+                      :
+                      <code>'State2</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'State2</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L95-95" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+Applies a function to each element of the inner arrays of the jagged array, threading an accumulator argument through the computation. 
+A second function is the applied to each result of the predeceding computation, again passing an accumulater through the computation 
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  innerFolder
+                </span>
+                :
+                <code><span>'State1&#32;->&#32;'T&#32;->&#32;'State1</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  outerFolder
+                </span>
+                :
+                <code><span>'State2&#32;->&#32;'State1&#32;->&#32;'State2</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  innerState
+                </span>
+                :
+                <code>'State1</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  outerState
+                </span>
+                :
+                <code>'State2</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>'State2</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '413', 413)" onmouseover="showTip(event, '413', 413)">
+                <p>
+                  <a id="init">
+                    <a href="#init">
+                      <code><span>init&#32;<span>rowN&#32;colN&#32;f</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="413">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>init&#32;<span>rowN&#32;colN&#32;f</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        rowN
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        colN
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>int&#32;->&#32;int&#32;->&#32;'a</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'a[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L7-7" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Creates an jagged array with the given dimensions and a generator function to compute the elements
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  rowN
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  colN
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>int&#32;->&#32;int&#32;->&#32;'a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'a[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '414', 414)" onmouseover="showTip(event, '414', 414)">
+                <p>
+                  <a id="innerChoose">
+                    <a href="#innerChoose">
+                      <code><span>innerChoose&#32;<span>chooser&#32;jArray</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="414">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>innerChoose&#32;<span>chooser&#32;jArray</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        chooser
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;<span>'U&#32;option</span></span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'U[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L106-106" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+Applies the given function to each element in the inner arrays of the jagged array. Returns the jagged array whose inner arrays are comprised of the results x for each element where the function returns Some(x)
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  chooser
+                </span>
+                :
+                <code><span>'T&#32;->&#32;<span>'U&#32;option</span></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'U[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '415', 415)" onmouseover="showTip(event, '415', 415)">
+                <p>
+                  <a id="innerFilter">
+                    <a href="#innerFilter">
+                      <code><span>innerFilter&#32;<span>predicate&#32;jArray</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="415">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>innerFilter&#32;<span>predicate&#32;jArray</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        predicate
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;bool</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L101-101" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+Returns a new jagged array whose inner arrays only contain the elements for which the given predicate returns true
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  predicate
+                </span>
+                :
+                <code><span>'T&#32;->&#32;bool</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '416', 416)" onmouseover="showTip(event, '416', 416)">
+                <p>
+                  <a id="innerFold">
+                    <a href="#innerFold">
+                      <code><span>innerFold&#32;<span>folder&#32;state&#32;jArray</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="416">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>innerFold&#32;<span>folder&#32;state&#32;jArray</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        folder
+                      </b>
+                      :
+                      <code><span>'State&#32;->&#32;'T&#32;->&#32;'State</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        state
+                      </b>
+                      :
+                      <code>'State</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>'State[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L89-89" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+Applies a function to each element of the inner arrays of the jagged array, threading an accumulator argument through the computation.
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  folder
+                </span>
+                :
+                <code><span>'State&#32;->&#32;'T&#32;->&#32;'State</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  state
+                </span>
+                :
+                <code>'State</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span>'State[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '417', 417)" onmouseover="showTip(event, '417', 417)">
+                <p>
+                  <a id="map">
+                    <a href="#map">
+                      <code><span>map&#32;<span>mapping&#32;jArray</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="417">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>map&#32;<span>mapping&#32;jArray</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        mapping
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;'U</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'U[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L68-68" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Builds a new jagged array whose inner arrays are the results of applying the given function to each of their elements.
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  mapping
+                </span>
+                :
+                <code><span>'T&#32;->&#32;'U</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'U[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '418', 418)" onmouseover="showTip(event, '418', 418)">
+                <p>
+                  <a id="map2">
+                    <a href="#map2">
+                      <code><span>map2&#32;<span>mapping&#32;jArray1&#32;jArray2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="418">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>map2&#32;<span>mapping&#32;jArray1&#32;jArray2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        mapping
+                      </b>
+                      :
+                      <code><span>'T1&#32;->&#32;'T2&#32;->&#32;'U</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray1
+                      </b>
+                      :
+                      <code><span><span>'T1[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray2
+                      </b>
+                      :
+                      <code><span><span>'T2[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'U[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L74-74" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Builds a new jagged array whose inner arrays are the results of applying the given function to the corresponding elements of the inner arrays of the two jagged arrays pairwise. 
+ All corresponding inner arrays must be of the same length, otherwise ArgumentException is raised.
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  mapping
+                </span>
+                :
+                <code><span>'T1&#32;->&#32;'T2&#32;->&#32;'U</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray1
+                </span>
+                :
+                <code><span><span>'T1[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray2
+                </span>
+                :
+                <code><span><span>'T2[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'U[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '419', 419)" onmouseover="showTip(event, '419', 419)">
+                <p>
+                  <a id="map3">
+                    <a href="#map3">
+                      <code><span>map3&#32;<span>mapping&#32;jArray1&#32;jArray2&#32;jArray3</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="419">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>map3&#32;<span>mapping&#32;jArray1&#32;jArray2&#32;jArray3</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        mapping
+                      </b>
+                      :
+                      <code><span>'T1&#32;->&#32;'T2&#32;->&#32;'T3&#32;->&#32;'U</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray1
+                      </b>
+                      :
+                      <code><span><span>'T1[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray2
+                      </b>
+                      :
+                      <code><span><span>'T2[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray3
+                      </b>
+                      :
+                      <code><span><span>'T3[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'U[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L80-80" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Builds a new jagged array whose inner arrays are the results of applying the given function to the corresponding elements of the inner arrays of the tree jagged arrays triplewise. 
+ All corresponding inner arrays must be of the same length, otherwise ArgumentException is raised.
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  mapping
+                </span>
+                :
+                <code><span>'T1&#32;->&#32;'T2&#32;->&#32;'T3&#32;->&#32;'U</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray1
+                </span>
+                :
+                <code><span><span>'T1[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray2
+                </span>
+                :
+                <code><span><span>'T2[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray3
+                </span>
+                :
+                <code><span><span>'T3[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'U[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '420', 420)" onmouseover="showTip(event, '420', 420)">
+                <p>
+                  <a id="mapi">
+                    <a href="#mapi">
+                      <code><span>mapi&#32;<span>mapping&#32;jArray</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="420">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>mapi&#32;<span>mapping&#32;jArray</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        mapping
+                      </b>
+                      :
+                      <code><span>int&#32;->&#32;'T&#32;->&#32;'U</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        jArray
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'U[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L84-84" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+Builds a new jagged array whose inner arrays are the results of applying the given function to each of their elements. The integer index passed to the function indicates the index of element in the inner array being transformed.
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  mapping
+                </span>
+                :
+                <code><span>int&#32;->&#32;'T&#32;->&#32;'U</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  jArray
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'U[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '421', 421)" onmouseover="showTip(event, '421', 421)">
+                <p>
+                  <a id="ofArray2D">
+                    <a href="#ofArray2D">
+                      <code><span>ofArray2D&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="421">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>ofArray2D&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span>'T[,]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L39-39" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Converts a jagged array into an Array2D
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span>'T[,]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '422', 422)" onmouseover="showTip(event, '422', 422)">
+                <p>
+                  <a id="ofJaggedList">
+                    <a href="#ofJaggedList">
+                      <code><span>ofJaggedList&#32;<span>data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="422">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>ofJaggedList&#32;<span>data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span><span>'T&#32;list</span>&#32;list</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L45-45" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Converts a jagged list into a jagged array
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span><span>'T&#32;list</span>&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '423', 423)" onmouseover="showTip(event, '423', 423)">
+                <p>
+                  <a id="ofJaggedSeq">
+                    <a href="#ofJaggedSeq">
+                      <code><span>ofJaggedSeq&#32;<span>data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="423">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>ofJaggedSeq&#32;<span>data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span>seq&lt;'b&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L57-57" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Converts a jagged Seq into a jagged array
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span>seq&lt;'b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '424', 424)" onmouseover="showTip(event, '424', 424)">
+                <p>
+                  <a id="shuffle">
+                    <a href="#shuffle">
+                      <code><span>shuffle&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="424">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>shuffle&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L213-213" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Shuffels a jagged array (method: Fisher-Yates)
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '425', 425)" onmouseover="showTip(event, '425', 425)">
+                <p>
+                  <a id="shuffleColumnWise">
+                    <a href="#shuffleColumnWise">
+                      <code><span>shuffleColumnWise&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="425">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>shuffleColumnWise&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L171-171" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Shuffles each column of a jagged array separately (method: Fisher-Yates)
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '426', 426)" onmouseover="showTip(event, '426', 426)">
+                <p>
+                  <a id="shuffleColumnWiseInPlace">
+                    <a href="#shuffleColumnWiseInPlace">
+                      <code><span>shuffleColumnWiseInPlace&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="426">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>shuffleColumnWiseInPlace&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L112-112" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Shuffles each column of a jagged array separately (method: Fisher-Yates) in place
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '427', 427)" onmouseover="showTip(event, '427', 427)">
+                <p>
+                  <a id="shuffleInPlace">
+                    <a href="#shuffleInPlace">
+                      <code><span>shuffleInPlace&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="427">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>shuffleInPlace&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L152-152" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Shuffels a jagged array (method: Fisher-Yates) in place
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '428', 428)" onmouseover="showTip(event, '428', 428)">
+                <p>
+                  <a id="shuffleRowWise">
+                    <a href="#shuffleRowWise">
+                      <code><span>shuffleRowWise&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="428">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>shuffleRowWise&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L192-192" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Shuffles each row of a jagged array separately (method: Fisher-Yates)
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '429', 429)" onmouseover="showTip(event, '429', 429)">
+                <p>
+                  <a id="shuffleRowWiseInPlace">
+                    <a href="#shuffleRowWiseInPlace">
+                      <code><span>shuffleRowWiseInPlace&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="429">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>shuffleRowWiseInPlace&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L132-132" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Shuffles each row of a jagged array separately (method: Fisher-Yates) in place
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '430', 430)" onmouseover="showTip(event, '430', 430)">
+                <p>
+                  <a id="toArray2D">
+                    <a href="#toArray2D">
+                      <code><span>toArray2D&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="430">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>toArray2D&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>'T[,]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L30-30" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Converts from an Array2D into an jagged array
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span>'T[,]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '431', 431)" onmouseover="showTip(event, '431', 431)">
+                <p>
+                  <a id="toJaggedList">
+                    <a href="#toJaggedList">
+                      <code><span>toJaggedList&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="431">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>toJaggedList&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T&#32;list</span>&#32;list</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L51-51" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Converts a jagged array into a jagged list
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T&#32;list</span>&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '432', 432)" onmouseover="showTip(event, '432', 432)">
+                <p>
+                  <a id="toJaggedSeq">
+                    <a href="#toJaggedSeq">
+                      <code><span>toJaggedSeq&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="432">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>toJaggedSeq&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>seq&lt;<span>seq&lt;'T&gt;</span>&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L63-63" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Converts a jagged array into a jagged seq
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span>seq&lt;<span>seq&lt;'T&gt;</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '433', 433)" onmouseover="showTip(event, '433', 433)">
+                <p>
+                  <a id="transpose">
+                    <a href="#transpose">
+                      <code><span>transpose&#32;<span>arr</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="433">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>transpose&#32;<span>arr</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        arr
+                      </b>
+                      :
+                      <code><span><span>'T[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'T[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L22-22" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Transposes a jagged array
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  arr
+                </span>
+                :
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'T[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '434', 434)" onmouseover="showTip(event, '434', 434)">
+                <p>
+                  <a id="zeroCreate">
+                    <a href="#zeroCreate">
+                      <code><span>zeroCreate&#32;<span>rowN&#32;colN</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="434">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>zeroCreate&#32;<span>rowN&#32;colN</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        rowN
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        colN
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>'a[]</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L12-12" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Creates an jagged array where the entries are initially the default value Unchecked.defaultof
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  rowN
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  colN
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><span>'a[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
 </div>
-
-<!-- Render nested types and modules, if there are any -->
-
-  <h3>Functions and values</h3>
-  <table class="table table-bordered member-list">
-    <thead>
-      <tr><td>Function or value</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '380', 380)" onmouseover="showTip(event, '380', 380)">
-            copy(arr)
-          </code>
-          <div class="tip" id="380">
-            <strong>Signature:</strong> arr:&#39;b [] [] -&gt; &#39;b [] []<br />
-                          <strong>Type parameters:</strong> 'b                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L16-16" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Copies the jagged array</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '381', 381)" onmouseover="showTip(event, '381', 381)">
-            fold(...)
-          </code>
-          <div class="tip" id="381">
-            <strong>Signature:</strong> innerFolder:(&#39;State1 -&gt; &#39;T -&gt; &#39;State1) -&gt; outerFolder:(&#39;State2 -&gt; &#39;State1 -&gt; &#39;State2) -&gt; innerState:&#39;State1 -&gt; outerState:&#39;State2 -&gt; jArray:&#39;T [] [] -&gt; &#39;State2<br />
-                          <strong>Type parameters:</strong> 'State1, 'T, 'State2                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L95-95" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Applies a function to each element of the inner arrays of the jagged array, threading an accumulator argument through the computation.
-A second function is the applied to each result of the predeceding computation, again passing an accumulater through the computation</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '382', 382)" onmouseover="showTip(event, '382', 382)">
-            init rowN colN f
-          </code>
-          <div class="tip" id="382">
-            <strong>Signature:</strong> rowN:int -&gt; colN:int -&gt; f:(int -&gt; int -&gt; &#39;?10815) -&gt; &#39;?10815 [] []<br />
-                          <strong>Type parameters:</strong> '?10815                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L7-7" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Creates an jagged array with the given dimensions and a generator function to compute the elements</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '383', 383)" onmouseover="showTip(event, '383', 383)">
-            innerChoose chooser jArray
-          </code>
-          <div class="tip" id="383">
-            <strong>Signature:</strong> chooser:(&#39;T -&gt; &#39;U option) -&gt; jArray:&#39;T [] [] -&gt; &#39;U [] []<br />
-                          <strong>Type parameters:</strong> 'T, 'U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L106-106" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Applies the given function to each element in the inner arrays of the jagged array. Returns the jagged array whose inner arrays are comprised of the results x for each element where the function returns Some(x)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '384', 384)" onmouseover="showTip(event, '384', 384)">
-            innerFilter predicate jArray
-          </code>
-          <div class="tip" id="384">
-            <strong>Signature:</strong> predicate:(&#39;T -&gt; bool) -&gt; jArray:&#39;T [] [] -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L101-101" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Returns a new jagged array whose inner arrays only contain the elements for which the given predicate returns true</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '385', 385)" onmouseover="showTip(event, '385', 385)">
-            innerFold folder state jArray
-          </code>
-          <div class="tip" id="385">
-            <strong>Signature:</strong> folder:(&#39;State -&gt; &#39;T -&gt; &#39;State) -&gt; state:&#39;State -&gt; jArray:&#39;T [] [] -&gt; &#39;State []<br />
-                          <strong>Type parameters:</strong> 'State, 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L89-89" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Applies a function to each element of the inner arrays of the jagged array, threading an accumulator argument through the computation.</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '386', 386)" onmouseover="showTip(event, '386', 386)">
-            map mapping jArray
-          </code>
-          <div class="tip" id="386">
-            <strong>Signature:</strong> mapping:(&#39;T -&gt; &#39;U) -&gt; jArray:&#39;T [] [] -&gt; &#39;U [] []<br />
-                          <strong>Type parameters:</strong> 'T, 'U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L68-68" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Builds a new jagged array whose inner arrays are the results of applying the given function to each of their elements.</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '387', 387)" onmouseover="showTip(event, '387', 387)">
-            map2 mapping jArray1 jArray2
-          </code>
-          <div class="tip" id="387">
-            <strong>Signature:</strong> mapping:(&#39;T1 -&gt; &#39;T2 -&gt; &#39;U) -&gt; jArray1:&#39;T1 [] [] -&gt; jArray2:&#39;T2 [] [] -&gt; &#39;U [] []<br />
-                          <strong>Type parameters:</strong> 'T1, 'T2, 'U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L74-74" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Builds a new jagged array whose inner arrays are the results of applying the given function to the corresponding elements of the inner arrays of the two jagged arrays pairwise.
-All corresponding inner arrays must be of the same length, otherwise ArgumentException is raised.</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '388', 388)" onmouseover="showTip(event, '388', 388)">
-            map3 mapping jArray1 jArray2 jArray3
-          </code>
-          <div class="tip" id="388">
-            <strong>Signature:</strong> mapping:(&#39;T1 -&gt; &#39;T2 -&gt; &#39;T3 -&gt; &#39;U) -&gt; jArray1:&#39;T1 [] [] -&gt; jArray2:&#39;T2 [] [] -&gt; jArray3:&#39;T3 [] [] -&gt; &#39;U [] []<br />
-                          <strong>Type parameters:</strong> 'T1, 'T2, 'T3, 'U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L80-80" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Builds a new jagged array whose inner arrays are the results of applying the given function to the corresponding elements of the inner arrays of the tree jagged arrays triplewise.
-All corresponding inner arrays must be of the same length, otherwise ArgumentException is raised.</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '389', 389)" onmouseover="showTip(event, '389', 389)">
-            mapi mapping jArray
-          </code>
-          <div class="tip" id="389">
-            <strong>Signature:</strong> mapping:(int -&gt; &#39;T -&gt; &#39;U) -&gt; jArray:&#39;T [] [] -&gt; &#39;U [] []<br />
-                          <strong>Type parameters:</strong> 'T, 'U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L84-84" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Builds a new jagged array whose inner arrays are the results of applying the given function to each of their elements. The integer index passed to the function indicates the index of element in the inner array being transformed.</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '390', 390)" onmouseover="showTip(event, '390', 390)">
-            ofArray2D(arr)
-          </code>
-          <div class="tip" id="390">
-            <strong>Signature:</strong> arr:&#39;T [,] -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L39-39" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Converts a jagged array into an Array2D</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '391', 391)" onmouseover="showTip(event, '391', 391)">
-            ofJaggedList(data)
-          </code>
-          <div class="tip" id="391">
-            <strong>Signature:</strong> data:&#39;T list list -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L45-45" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Converts a jagged list into a jagged array</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '392', 392)" onmouseover="showTip(event, '392', 392)">
-            ofJaggedSeq(data)
-          </code>
-          <div class="tip" id="392">
-            <strong>Signature:</strong> data:seq&lt;&#39;b&gt; -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'b, 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L57-57" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Converts a jagged Seq into a jagged array</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '393', 393)" onmouseover="showTip(event, '393', 393)">
-            shuffle(arr)
-          </code>
-          <div class="tip" id="393">
-            <strong>Signature:</strong> arr:&#39;T [] [] -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L213-213" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Shuffels a jagged array (method: Fisher-Yates)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '394', 394)" onmouseover="showTip(event, '394', 394)">
-            shuffleColumnWise(arr)
-          </code>
-          <div class="tip" id="394">
-            <strong>Signature:</strong> arr:&#39;T [] [] -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L171-171" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Shuffles each column of a jagged array separately (method: Fisher-Yates)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '395', 395)" onmouseover="showTip(event, '395', 395)">
-            shuffleColumnWiseInPlace(arr)
-          </code>
-          <div class="tip" id="395">
-            <strong>Signature:</strong> arr:&#39;T [] [] -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L112-112" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Shuffles each column of a jagged array separately (method: Fisher-Yates) in place</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '396', 396)" onmouseover="showTip(event, '396', 396)">
-            shuffleInPlace(arr)
-          </code>
-          <div class="tip" id="396">
-            <strong>Signature:</strong> arr:&#39;T [] [] -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L152-152" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Shuffels a jagged array (method: Fisher-Yates) in place</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '397', 397)" onmouseover="showTip(event, '397', 397)">
-            shuffleRowWise(arr)
-          </code>
-          <div class="tip" id="397">
-            <strong>Signature:</strong> arr:&#39;T [] [] -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L192-192" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Shuffles each row of a jagged array separately (method: Fisher-Yates)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '398', 398)" onmouseover="showTip(event, '398', 398)">
-            shuffleRowWiseInPlace(arr)
-          </code>
-          <div class="tip" id="398">
-            <strong>Signature:</strong> arr:&#39;T [] [] -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L132-132" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Shuffles each row of a jagged array separately (method: Fisher-Yates) in place</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '399', 399)" onmouseover="showTip(event, '399', 399)">
-            toArray2D(arr)
-          </code>
-          <div class="tip" id="399">
-            <strong>Signature:</strong> arr:&#39;T [] [] -&gt; &#39;T [,]<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L30-30" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Converts from an Array2D into an jagged array</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '400', 400)" onmouseover="showTip(event, '400', 400)">
-            toJaggedList(arr)
-          </code>
-          <div class="tip" id="400">
-            <strong>Signature:</strong> arr:&#39;T [] [] -&gt; &#39;T list list<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L51-51" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Converts a jagged array into a jagged list</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '401', 401)" onmouseover="showTip(event, '401', 401)">
-            toJaggedSeq(arr)
-          </code>
-          <div class="tip" id="401">
-            <strong>Signature:</strong> arr:&#39;T [] [] -&gt; seq&lt;seq&lt;&#39;T&gt;&gt;<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L63-63" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Converts a jagged array into a jagged seq</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '402', 402)" onmouseover="showTip(event, '402', 402)">
-            transpose(arr)
-          </code>
-          <div class="tip" id="402">
-            <strong>Signature:</strong> arr:&#39;T [] [] -&gt; &#39;T [] []<br />
-                          <strong>Type parameters:</strong> 'T                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L22-22" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Transposes a jagged array</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '403', 403)" onmouseover="showTip(event, '403', 403)">
-            zeroCreate rowN colN
-          </code>
-          <div class="tip" id="403">
-            <strong>Signature:</strong> rowN:int -&gt; colN:int -&gt; &#39;?10817 [] []<br />
-                          <strong>Type parameters:</strong> '?10817                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L12-12" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Creates an jagged array where the entries are initially the default value Unchecked.defaultof</p>
-
-
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+                </div>
+            </div>
         </div>
-        <div class="span3">
-          <img src="/FSharp.Stats/img/logo.svg" alt="F# Project" style="width:150px;margin:10px" />  
-          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-              <li class="nav-header">FSharp.Stats</li>
-              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-              <li class="divider"></li>
-              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-              <li><a href="/FSharp.Stats/license.html">License</a></li>
-              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
-
-              <li class="nav-header">Getting started</li>
-              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-
-              <li class="nav-header">Basic</li>
-              <li>
-                  <a href="/FSharp.Stats/Summary.html">Summary</a>
-              </li>
-              <li><a href="/FSharp.Stats/Clustering.html">Clustering</a></li>
-              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-              <li><a href="/FSharp.Stats/CrossValidation.html">Cross validation</a></li>
-              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
-              <li class="divider"></li>
-              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-              </li>
-              <li class="divider"></li>
-              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
-              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/GoodnessOfFit.html">Goodness of fit</a></li>
-              <li><a href="/FSharp.Stats/Interpolation.html">Interpolation</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
-              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-              </li>
-              <li class="nav-header">Special Issues</li>
-              <li><a href="/FSharp.Stats/GrowthCurve.html">Growth Curve</a></li>
-
-
-              <li class="nav-header">Documentation</li>
-              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
-          </ul>
-        </div>
-      </div>
+        
     </div>
-    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
-  </body>
-  </html>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://github.com/fslaborg/FSharp.Stats/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+</body>
+
+</html>

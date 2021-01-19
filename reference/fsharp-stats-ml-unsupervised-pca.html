@@ -1,405 +1,1322 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <title>PCA - FSharp.Stats</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content=""/>
-    <meta name="author" content="Timo Mühlhaus"/>
 
-    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+<head>
+    <meta charset="utf-8">
+    <title>PCA (FSharp.Stats)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <link rel="shortcut icon" type="image/x-icon" href="https://github.com/fslaborg/FSharp.Stats//img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
 
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
-    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <div class="container">
-      <div class="masthead">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="http://fsharp.org">fsharp.org</a></li>
-          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
-        </ul>
-        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
-      </div>
-      <hr />
-      <div class="row">
-        <div class="span9" id="main">
-          
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head> 
 
-<h1>PCA</h1>
-<p>
-  <span>Namespace: FSharp.Stats.ML.Unsupervised</span><br />
+<body>
+    <div class="columns is-fullheight m-0">
+        <div id="fsdocs-menu" class="column is-2 is-paddingless">
+            <aside class="menu">
+                <div class="container is-paddingless is-marginless has-background-dark">
+                    <a href="https://github.com/fslaborg/FSharp.Stats/">
+                        <figure class="image is-128x128 container">
+                            <img src="https://github.com/fslaborg/FSharp.Stats/img/logo.png">
+                        </figure>
+                    </a>
+                    <h2 class="title has-text-centered has-text-white pb-4">FSharp.Stats</h2>
+                </div>
+                <div class="content">
+                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+                    <div id="header">
+                        <div class="searchbox" id="fsdocs-searchbox">
+                            <label for="search-by">
+                                <i class="fas fa-search"></i>
+                            </label>
+                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
+                            <span data-search-clear="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END SEARCH BOX: this adds support for the search box -->
+                    <ul class="navbar-nav">
+                        <li class="nav-header">Links</li>
+                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
+                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
+                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
+                        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-10 is-paddingless">
+            <div class="section pt-4">
+                <div class="container" id="fsdocs-content">
+                    <div>
+  <h1>
+    PCA Module
+  </h1>
+  <p>
+    Namespace: 
+    <a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised.html">
+      FSharp.Stats.ML.Unsupervised
+    </a>
   </p>
-<div class="xmldoc">
-<p>Principle component analysis</p>
-
-</div>
-
-<!-- Render nested types and modules, if there are any -->
-  <h2>Nested types and modules</h2>
-  <div>
-      <table class="table table-bordered type-list">
-    <thead>
-      <tr><td>Type</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td class="type-name">
-            <a href="fsharp-stats-ml-unsupervised-pca-adjustmentdirection.html">AdjustmentDirection</a>
-          </td>
-          <td class="xmldoc">
-          
-          </td>
-        </tr>
-        <tr>
-          <td class="type-name">
-            <a href="fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a>
-          </td>
-          <td class="xmldoc">
-          <p>AdjustmentFactorygiven,given a dataset,</p>
-
-
-          </td>
-        </tr>
-        <tr>
-          <td class="type-name">
-            <a href="fsharp-stats-ml-unsupervised-pca-component.html">Component</a>
-          </td>
-          <td class="xmldoc">
-          <p>Represents a principle component</p>
-
-
-          </td>
-        </tr>
-    </tbody>
-  </table>
+  <p>
+    Assembly: FSharp.Stats.dll
+  </p>
+  <div class="fsdocs-xmldoc">
+    
+ Principle component analysis 
 
   </div>
+  <div>
+    <h3>
+      Types
+    </h3>
+    <table class="table outer-list fsdocs-entity-list">
+      <thead>
+        <tr>
+          <td>
+            Type
+          </td>
+          <td>
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-entity-name">
+            <p>
+              <a name="AdjustmentDirection">
+                <a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentdirection.html">
+                  AdjustmentDirection
+                </a>
+              </a>
+            </p>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L31-31" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-entity-name">
+            <p>
+              <a name="AdjustmentFactory">
+                <a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">
+                  AdjustmentFactory
+                </a>
+              </a>
+            </p>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L37-37" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ AdjustmentFactorygiven,given a dataset, 
 
-  <h3>Functions and values</h3>
-  <table class="table table-bordered member-list">
-    <thead>
-      <tr><td>Function or value</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1550', 1550)" onmouseover="showTip(event, '1550', 1550)">
-            compute adj dataMatrix
-          </code>
-          <div class="tip" id="1550">
-            <strong>Signature:</strong> adj:AdjustmentFactory -&gt; dataMatrix:Matrix&lt;float&gt; -&gt; Component []<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L187-187" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes a principal componant analysis</p>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-entity-name">
+            <p>
+              <a name="Component">
+                <a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">
+                  Component
+                </a>
+              </a>
+            </p>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L17-17" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Represents a principle component 
 
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3>
+      Functions and values
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Function or value
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1488', 1488)" onmouseover="showTip(event, '1488', 1488)">
+                <p>
+                  <a id="compute">
+                    <a href="#compute">
+                      <code><span>compute&#32;<span>adj&#32;dataMatrix</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1488">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>compute&#32;<span>adj&#32;dataMatrix</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        adj
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dataMatrix
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L187-187" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Computes a principal componant analysis
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1551', 1551)" onmouseover="showTip(event, '1551', 1551)">
-            computeOfMatrix(dataMatrix)
-          </code>
-          <div class="tip" id="1551">
-            <strong>Signature:</strong> dataMatrix:Matrix&lt;float&gt; -&gt; Component []<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L165-165" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes a principal componant analysis of a given covariance matrix
-!Attention: Matrix needs to be centered before</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  adj
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dataMatrix
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1489', 1489)" onmouseover="showTip(event, '1489', 1489)">
+                <p>
+                  <a id="computeOfMatrix">
+                    <a href="#computeOfMatrix">
+                      <code><span>computeOfMatrix&#32;<span>dataMatrix</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1489">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>computeOfMatrix&#32;<span>dataMatrix</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        dataMatrix
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L165-165" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Computes a principal componant analysis of a given covariance matrix
+ !Attention: Matrix needs to be centered before
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dataMatrix
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1490', 1490)" onmouseover="showTip(event, '1490', 1490)">
+                <p>
+                  <a id="createComponent">
+                    <a href="#createComponent">
+                      <code><span>createComponent&#32;<span>eigenVector&#32;eigenValue&#32;loadings&#32;proportion&#32;cumulativeProportion&#32;index</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1490">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>createComponent&#32;<span>eigenVector&#32;eigenValue&#32;loadings&#32;proportion&#32;cumulativeProportion&#32;index</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        eigenVector
+                      </b>
+                      :
+                      <code><span>float[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        eigenValue
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        loadings
+                      </b>
+                      :
+                      <code><span>float[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        proportion
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        cumulativeProportion
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        index
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L115-115" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Creates a principle component type
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1552', 1552)" onmouseover="showTip(event, '1552', 1552)">
-            createComponent(...)
-          </code>
-          <div class="tip" id="1552">
-            <strong>Signature:</strong> eigenVector:float [] -&gt; eigenValue:float -&gt; loadings:float [] -&gt; proportion:float -&gt; cumulativeProportion:float -&gt; index:int -&gt; Component<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L115-115" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Creates a principle component type</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  eigenVector
+                </span>
+                :
+                <code><span>float[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  eigenValue
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  loadings
+                </span>
+                :
+                <code><span>float[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  proportion
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  cumulativeProportion
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  index
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1491', 1491)" onmouseover="showTip(event, '1491', 1491)">
+                <p>
+                  <a id="getCommunality">
+                    <a href="#getCommunality">
+                      <code><span>getCommunality&#32;<span>components</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1491">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>getCommunality&#32;<span>components</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        components
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L204-204" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Returns communality
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  components
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1492', 1492)" onmouseover="showTip(event, '1492', 1492)">
+                <p>
+                  <a id="getFeatureMatrixOfComponents">
+                    <a href="#getFeatureMatrixOfComponents">
+                      <code><span>getFeatureMatrixOfComponents&#32;<span>components</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1492">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>getFeatureMatrixOfComponents&#32;<span>components</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        components
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L196-196" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Returns feature matrix (eigenvector matrix) from components
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1553', 1553)" onmouseover="showTip(event, '1553', 1553)">
-            getCommunality(components)
-          </code>
-          <div class="tip" id="1553">
-            <strong>Signature:</strong> components:Component [] -&gt; Vector&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L204-204" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Returns communality</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  components
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1493', 1493)" onmouseover="showTip(event, '1493', 1493)">
+                <p>
+                  <a id="revert">
+                    <a href="#revert">
+                      <code><span>revert&#32;<span>adj&#32;components&#32;dataMatrix</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1493">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>revert&#32;<span>adj&#32;components&#32;dataMatrix</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        adj
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        components
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dataMatrix
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L226-226" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Reverts a set of projected data into it's original form. Complete reverse
+   transformation is only possible if all components are present, and, if the
+   data has been standardized, the original standard deviation and means of
+   the original matrix are known.
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  adj
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  components
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dataMatrix
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1494', 1494)" onmouseover="showTip(event, '1494', 1494)">
+                <p>
+                  <a id="toAdjustCenter">
+                    <a href="#toAdjustCenter">
+                      <code><span>toAdjustCenter&#32;<span>data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1494">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>toAdjustCenter&#32;<span>data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L40-40" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Returns an AdjustmentFactory which centers the data
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1554', 1554)" onmouseover="showTip(event, '1554', 1554)">
-            getFeatureMatrixOfComponents(components)
-          </code>
-          <div class="tip" id="1554">
-            <strong>Signature:</strong> components:Component [] -&gt; Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L196-196" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Returns feature matrix (eigenvector matrix) from components</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1495', 1495)" onmouseover="showTip(event, '1495', 1495)">
+                <p>
+                  <a id="toAdjustCorrelation">
+                    <a href="#toAdjustCorrelation">
+                      <code><span>toAdjustCorrelation&#32;<span>data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1495">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>toAdjustCorrelation&#32;<span>data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L89-89" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Returns an AdjustmentFactory which centers and standardize the data
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1496', 1496)" onmouseover="showTip(event, '1496', 1496)">
+                <p>
+                  <a id="toAdjustCovariance">
+                    <a href="#toAdjustCovariance">
+                      <code><span>toAdjustCovariance&#32;<span>data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1496">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>toAdjustCovariance&#32;<span>data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L52-52" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Returns an AdjustmentFactory as covariance matrix
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1555', 1555)" onmouseover="showTip(event, '1555', 1555)">
-            revert adj components dataMatrix
-          </code>
-          <div class="tip" id="1555">
-            <strong>Signature:</strong> adj:AdjustmentFactory -&gt; components:Component [] -&gt; dataMatrix:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L226-226" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Reverts a set of projected data into it's original form. Complete reverse
-transformation is only possible if all components are present, and, if the
-data has been standardized, the original standard deviation and means of
-the original matrix are known.</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1497', 1497)" onmouseover="showTip(event, '1497', 1497)">
+                <p>
+                  <a id="toAdjustStandardize">
+                    <a href="#toAdjustStandardize">
+                      <code><span>toAdjustStandardize&#32;<span>data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1497">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>toAdjustStandardize&#32;<span>data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L64-64" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Returns an AdjustmentFactory which centers and standardize the data
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1498', 1498)" onmouseover="showTip(event, '1498', 1498)">
+                <p>
+                  <a id="transform">
+                    <a href="#transform">
+                      <code><span>transform&#32;<span>adj&#32;components&#32;dataMatrix</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1498">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>transform&#32;<span>adj&#32;components&#32;dataMatrix</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        adj
+                      </b>
+                      :
+                      <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        components
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dataMatrix
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L215-215" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Projects a given matrix into principal component space (projections or factor scores)
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1556', 1556)" onmouseover="showTip(event, '1556', 1556)">
-            toAdjustCenter(data)
-          </code>
-          <div class="tip" id="1556">
-            <strong>Signature:</strong> data:Matrix&lt;float&gt; -&gt; AdjustmentFactory<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L40-40" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Returns an AdjustmentFactory which centers the data</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  adj
+                </span>
+                :
+                <code><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-adjustmentfactory.html">AdjustmentFactory</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  components
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dataMatrix
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1499', 1499)" onmouseover="showTip(event, '1499', 1499)">
+                <p>
+                  <a id="zipScores">
+                    <a href="#zipScores">
+                      <code><span>zipScores&#32;<span>componentIndex1&#32;componentIndex2&#32;transformedDataMatrix</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1499">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>zipScores&#32;<span>componentIndex1&#32;componentIndex2&#32;transformedDataMatrix</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        componentIndex1
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        componentIndex2
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        transformedDataMatrix
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>seq&lt;<span>float&#32;*&#32;float</span>&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L261-261" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  componentIndex1
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  componentIndex2
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  transformedDataMatrix
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span>seq&lt;<span>float&#32;*&#32;float</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1500', 1500)" onmouseover="showTip(event, '1500', 1500)">
+                <p>
+                  <a id="zipScree">
+                    <a href="#zipScree">
+                      <code><span>zipScree&#32;<span>components</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1500">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>zipScree&#32;<span>components</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        components
+                      </b>
+                      :
+                      <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>seq&lt;<span>float&#32;*&#32;float</span>&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L258-258" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Returns xy-coordinates for scree plot in a tuple (component number vs. EigenValue)    
+ Scree plot: represents the ability of PCs to explain de variation in data
 
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1557', 1557)" onmouseover="showTip(event, '1557', 1557)">
-            toAdjustCorrelation(data)
-          </code>
-          <div class="tip" id="1557">
-            <strong>Signature:</strong> data:Matrix&lt;float&gt; -&gt; AdjustmentFactory<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L89-89" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Returns an AdjustmentFactory which centers and standardize the data</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1558', 1558)" onmouseover="showTip(event, '1558', 1558)">
-            toAdjustCovariance(data)
-          </code>
-          <div class="tip" id="1558">
-            <strong>Signature:</strong> data:Matrix&lt;float&gt; -&gt; AdjustmentFactory<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L52-52" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Returns an AdjustmentFactory as covariance matrix</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1559', 1559)" onmouseover="showTip(event, '1559', 1559)">
-            toAdjustStandardize(data)
-          </code>
-          <div class="tip" id="1559">
-            <strong>Signature:</strong> data:Matrix&lt;float&gt; -&gt; AdjustmentFactory<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L64-64" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Returns an AdjustmentFactory which centers and standardize the data</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1560', 1560)" onmouseover="showTip(event, '1560', 1560)">
-            transform adj components dataMatrix
-          </code>
-          <div class="tip" id="1560">
-            <strong>Signature:</strong> adj:AdjustmentFactory -&gt; components:Component [] -&gt; dataMatrix:Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L215-215" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Projects a given matrix into principal component space (projections or factor scores)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1561', 1561)" onmouseover="showTip(event, '1561', 1561)">
-            zipScores(...)
-          </code>
-          <div class="tip" id="1561">
-            <strong>Signature:</strong> componentIndex1:int -&gt; componentIndex2:&#39;?8559 -&gt; transformedDataMatrix:Matrix&lt;float&gt; -&gt; seq&lt;float * float&gt;<br />
-                          <strong>Type parameters:</strong> '?8559                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L261-261" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '1562', 1562)" onmouseover="showTip(event, '1562', 1562)">
-            zipScree(components)
-          </code>
-          <div class="tip" id="1562">
-            <strong>Signature:</strong> components:Component [] -&gt; seq&lt;float * float&gt;<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/ML/Unsupervised/PrincipalComponentAnalysis.fs#L258-258" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Returns xy-coordinates for scree plot in a tuple (component number vs. EigenValue)<br />
-Scree plot: represents the ability of PCs to explain de variation in data</p>
-
-
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  components
+                </span>
+                :
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-ml-unsupervised-pca-component.html">Component</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span>seq&lt;<span>float&#32;*&#32;float</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+                </div>
+            </div>
         </div>
-        <div class="span3">
-          <img src="/FSharp.Stats/img/logo.svg" alt="F# Project" style="width:150px;margin:10px" />  
-          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-              <li class="nav-header">FSharp.Stats</li>
-              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-              <li class="divider"></li>
-              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-              <li><a href="/FSharp.Stats/license.html">License</a></li>
-              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
-
-              <li class="nav-header">Getting started</li>
-              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-
-              <li class="nav-header">Basic</li>
-              <li>
-                  <a href="/FSharp.Stats/Summary.html">Summary</a>
-              </li>
-              <li><a href="/FSharp.Stats/Clustering.html">Clustering</a></li>
-              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-              <li><a href="/FSharp.Stats/CrossValidation.html">Cross validation</a></li>
-              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
-              <li class="divider"></li>
-              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-              </li>
-              <li class="divider"></li>
-              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
-              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/GoodnessOfFit.html">Goodness of fit</a></li>
-              <li><a href="/FSharp.Stats/Interpolation.html">Interpolation</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
-              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-              </li>
-              <li class="nav-header">Special Issues</li>
-              <li><a href="/FSharp.Stats/GrowthCurve.html">Growth Curve</a></li>
-
-
-              <li class="nav-header">Documentation</li>
-              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
-          </ul>
-        </div>
-      </div>
+        
     </div>
-    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
-  </body>
-  </html>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://github.com/fslaborg/FSharp.Stats/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+</body>
+
+</html>

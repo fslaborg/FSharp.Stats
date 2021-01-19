@@ -1,689 +1,2785 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <title>Seq - FSharp.Stats</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content=""/>
-    <meta name="author" content="Timo Mühlhaus"/>
 
-    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+<head>
+    <meta charset="utf-8">
+    <title>Seq (FSharp.Stats)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <link rel="shortcut icon" type="image/x-icon" href="https://github.com/fslaborg/FSharp.Stats//img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
 
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/content/style.css" />
-    <link type="text/css" rel="stylesheet" href="/FSharp.Stats/style/CSBStyle.css" /> <!--/FSharp.Stats-->
-    <script type="text/javascript" src="/FSharp.Stats/content/tips.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <div class="container">
-      <div class="masthead">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="http://fsharp.org">fsharp.org</a></li>
-          <li><a href="https://github.com/CSBiology/FSharp.Stats">github page</a></li>
-        </ul>
-        <h3 class="muted"><a href="/FSharp.Stats/index.html">FSharp.Stats</a></h3>
-      </div>
-      <hr />
-      <div class="row">
-        <div class="span9" id="main">
-          
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head> 
 
-<h1>Seq</h1>
-<p>
-  <span>Namespace: FSharp.Stats</span><br />
-        <span>
-          Attributes:<br />
-[&lt;AutoOpen&gt;]<br />
-          
-      </span>
-</p>
-<div class="xmldoc">
-<p>Module to compute common statistical measure</p>
-
-</div>
-
-<!-- Render nested types and modules, if there are any -->
-  <h2>Nested types and modules</h2>
-  <div>
-      <table class="table table-bordered module-list">
-    <thead>
-      <tr><td>Module</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td class="module-name">
-            <a href="fsharp-stats-seq-utilityfunctions.html">UtilityFunctions</a>
-          </td>
-          <td class="xmldoc">
-          <p>A module which implements helper functions to provide special statistical measures</p>
-
-
-          </td>
-        </tr>
-    </tbody>
-  </table>
+<body>
+    <div class="columns is-fullheight m-0">
+        <div id="fsdocs-menu" class="column is-2 is-paddingless">
+            <aside class="menu">
+                <div class="container is-paddingless is-marginless has-background-dark">
+                    <a href="https://github.com/fslaborg/FSharp.Stats/">
+                        <figure class="image is-128x128 container">
+                            <img src="https://github.com/fslaborg/FSharp.Stats/img/logo.png">
+                        </figure>
+                    </a>
+                    <h2 class="title has-text-centered has-text-white pb-4">FSharp.Stats</h2>
+                </div>
+                <div class="content">
+                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+                    <div id="header">
+                        <div class="searchbox" id="fsdocs-searchbox">
+                            <label for="search-by">
+                                <i class="fas fa-search"></i>
+                            </label>
+                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
+                            <span data-search-clear="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END SEARCH BOX: this adds support for the search box -->
+                    <ul class="navbar-nav">
+                        <li class="nav-header">Links</li>
+                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
+                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
+                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
+                        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-10 is-paddingless">
+            <div class="section pt-4">
+                <div class="container" id="fsdocs-content">
+                    <div>
+  <h1>
+    Seq Module
+  </h1>
+  <p>
+    Namespace: 
+    <a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats.html">
+      FSharp.Stats
+    </a>
+  </p>
+  <p>
+    Assembly: FSharp.Stats.dll
+  </p>
+  <div class="fsdocs-xmldoc">
+    
+ Module to compute common statistical measure
 
   </div>
+  <div>
+    <h3>
+      Nested modules
+    </h3>
+    <table class="table outer-list fsdocs-entity-list">
+      <thead>
+        <tr>
+          <td>
+            Modules
+          </td>
+          <td>
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-entity-name">
+            <p>
+              <a name="UtilityFunctions">
+                <a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-seq-utilityfunctions.html">
+                  UtilityFunctions
+                </a>
+              </a>
+            </p>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L808-808" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ A module which implements helper functions to provide special statistical measures
 
-  <h3>Functions and values</h3>
-  <table class="table table-bordered member-list">
-    <thead>
-      <tr><td>Function or value</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '799', 799)" onmouseover="showTip(event, '799', 799)">
-            cv(items)
-          </code>
-          <div class="tip" id="799">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^a, ^b                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L395-395" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the Coefficient of Variation of a sample (Bessel's correction by N-1)</p>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3>
+      Functions and values
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Function or value
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '782', 782)" onmouseover="showTip(event, '782', 782)">
+                <p>
+                  <a id="cv">
+                    <a href="#cv">
+                      <code><span>cv&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="782">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>cv&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  Coefficient of Variation of a sample (Bessel's correction by N-1)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L395-395" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the Coefficient of Variation of a sample (Bessel's correction by N-1)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Coefficient of Variation of a sample (Bessel's correction by N-1)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '783', 783)" onmouseover="showTip(event, '783', 783)">
+                <p>
+                  <a id="cvBy">
+                    <a href="#cvBy">
+                      <code><span>cvBy&#32;<span>f&#32;items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="783">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>cvBy&#32;<span>f&#32;items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                       - 
+                      A function applied to transform each element of the sequence.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  Coefficient of Variation of a sample (Bessel's correction by N-1)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L423-423" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the Coefficient of Variation of a sample (Bessel's correction by N-1)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Coefficient of Variation of a sample (Bessel's correction by N-1)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '784', 784)" onmouseover="showTip(event, '784', 784)">
+                <p>
+                  <a id="cvPopulation">
+                    <a href="#cvPopulation">
+                      <code><span>cvPopulation&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="784">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>cvPopulation&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  Coefficient of Variation of the population
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L452-452" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the Coefficient of Variation of the population (population standard deviation)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Coefficient of Variation of the population
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '785', 785)" onmouseover="showTip(event, '785', 785)">
+                <p>
+                  <a id="cvPopulationBy">
+                    <a href="#cvPopulationBy">
+                      <code><span>cvPopulationBy&#32;<span>f&#32;items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="785">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>cvPopulationBy&#32;<span>f&#32;items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                       - 
+                      A function applied to transform each element of the sequence.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  Coefficient of Variation of the population
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L480-480" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the Coefficient of Variation of the population (population standard deviation)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Coefficient of Variation of the population
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '786', 786)" onmouseover="showTip(event, '786', 786)">
+                <p>
+                  <a id="getCvOfReplicates">
+                    <a href="#getCvOfReplicates">
+                      <code><span>getCvOfReplicates&#32;<span>rep&#32;data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="786">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>getCvOfReplicates&#32;<span>rep&#32;data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        rep
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span>seq&lt;^a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>seq&lt;^a0&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L776-776" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  rep
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span>seq&lt;^a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span>seq&lt;^a0&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '787', 787)" onmouseover="showTip(event, '787', 787)">
+                <p>
+                  <a id="getMeanOfReplicates">
+                    <a href="#getMeanOfReplicates">
+                      <code><span>getMeanOfReplicates&#32;<span>rep&#32;data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="787">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>getMeanOfReplicates&#32;<span>rep&#32;data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        rep
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span>seq&lt;^a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>seq&lt;^a0&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L760-760" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ calculates the sample means with a given number of replicates present in the sequence
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '800', 800)" onmouseover="showTip(event, '800', 800)">
-            cvBy f items
-          </code>
-          <div class="tip" id="800">
-            <strong>Signature:</strong> f:(&#39;T -&gt; ^?11005) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^?11005, ^U, ^?11007, ^?11008                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L423-423" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the Coefficient of Variation of a sample (Bessel's correction by N-1)</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  rep
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span>seq&lt;^a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span>seq&lt;^a0&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '788', 788)" onmouseover="showTip(event, '788', 788)">
+                <p>
+                  <a id="getStDevOfReplicates">
+                    <a href="#getStDevOfReplicates">
+                      <code><span>getStDevOfReplicates&#32;<span>rep&#32;data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="788">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>getStDevOfReplicates&#32;<span>rep&#32;data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        rep
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span>seq&lt;^a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>seq&lt;^c&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L768-768" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ calculates the sample standard deviations with a given number of replicates present in the sequence
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  rep
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span>seq&lt;^a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span>seq&lt;^c&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '789', 789)" onmouseover="showTip(event, '789', 789)">
+                <p>
+                  <a id="mean">
+                    <a href="#mean">
+                      <code><span>mean&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="789">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>mean&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  population mean (Normalized by N)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L47-47" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the population mean (Normalized by N)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns default value if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  population mean (Normalized by N)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '790', 790)" onmouseover="showTip(event, '790', 790)">
+                <p>
+                  <a id="meanBy">
+                    <a href="#meanBy">
+                      <code><span>meanBy&#32;<span>f&#32;items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="790">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>meanBy&#32;<span>f&#32;items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^U</span></code>
+                       - 
+                      A function applied to transform each element of the sequence.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  population mean (Normalized by N)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L65-65" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the population mean (Normalized by N)s
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^U</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  population mean (Normalized by N)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '791', 791)" onmouseover="showTip(event, '791', 791)">
+                <p>
+                  <a id="meanGeometric">
+                    <a href="#meanGeometric">
+                      <code><span>meanGeometric&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="791">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>meanGeometric&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  gemetric mean
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L119-119" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes gemetric mean
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  gemetric mean
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '792', 792)" onmouseover="showTip(event, '792', 792)">
+                <p>
+                  <a id="meanGeometricBy">
+                    <a href="#meanGeometricBy">
+                      <code><span>meanGeometricBy&#32;<span>f&#32;items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="792">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>meanGeometricBy&#32;<span>f&#32;items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                       - 
+                      A function applied to transform each element of the sequence.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  gemetric mean
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L138-138" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes gemetric mean
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  gemetric mean
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '793', 793)" onmouseover="showTip(event, '793', 793)">
+                <p>
+                  <a id="meanHarmonic">
+                    <a href="#meanHarmonic">
+                      <code><span>meanHarmonic&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="793">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>meanHarmonic&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  harmonic mean
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L82-82" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes harmonic mean
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  harmonic mean
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '794', 794)" onmouseover="showTip(event, '794', 794)">
+                <p>
+                  <a id="meanHarmonicBy">
+                    <a href="#meanHarmonicBy">
+                      <code><span>meanHarmonicBy&#32;<span>f&#32;items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="794">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>meanHarmonicBy&#32;<span>f&#32;items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^U</span></code>
+                       - 
+                      A function applied to transform each element of the sequence.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  harmonic mean
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L101-101" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes harmonic mean
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^U</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  harmonic mean
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '795', 795)" onmouseover="showTip(event, '795', 795)">
+                <p>
+                  <a id="meanTruncated">
+                    <a href="#meanTruncated">
+                      <code><span>meanTruncated&#32;<span>percent&#32;data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="795">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>meanTruncated&#32;<span>percent&#32;data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        percent
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  truncated (trimmed) mean
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L163-163" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the truncated (trimmed) mean where x percent of the highest, and x percent of the lowest values are discarded (total 2x)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  percent
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  truncated (trimmed) mean
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '796', 796)" onmouseover="showTip(event, '796', 796)">
+                <p>
+                  <a id="meanTruncatedBy">
+                    <a href="#meanTruncatedBy">
+                      <code><span>meanTruncatedBy&#32;<span>f&#32;percent&#32;data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="796">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>meanTruncatedBy&#32;<span>f&#32;percent&#32;data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^U</span></code>
+                       - 
+                      A function applied to transform each element of the sequence.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        percent
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  truncated (trimmed) mean
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L186-186" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the truncated (trimmed) mean
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^U</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  percent
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  truncated (trimmed) mean
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '797', 797)" onmouseover="showTip(event, '797', 797)">
+                <p>
+                  <a id="median">
+                    <a href="#median">
+                      <code><span>median&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="797">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>median&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^T</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L207-207" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Sample Median
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '801', 801)" onmouseover="showTip(event, '801', 801)">
-            cvPopulation(items)
-          </code>
-          <div class="tip" id="801">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^?11012, ^?11013                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L452-452" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the Coefficient of Variation of the population (population standard deviation)</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^T</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '798', 798)" onmouseover="showTip(event, '798', 798)">
+                <p>
+                  <a id="medianAbsoluteDev">
+                    <a href="#medianAbsoluteDev">
+                      <code><span>medianAbsoluteDev&#32;<span>data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="798">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>medianAbsoluteDev&#32;<span>data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span>seq&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L697-697" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Median absolute deviation (MAD)
 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span>seq&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '799', 799)" onmouseover="showTip(event, '799', 799)">
+                <p>
+                  <a id="range">
+                    <a href="#range">
+                      <code><span>range&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="799">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>range&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-intervals-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L8-8" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-intervals-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '800', 800)" onmouseover="showTip(event, '800', 800)">
+                <p>
+                  <a id="rangeBy">
+                    <a href="#rangeBy">
+                      <code><span>rangeBy&#32;<span>f&#32;items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="800">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>rangeBy&#32;<span>f&#32;items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'a&#32;->&#32;'b</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-intervals-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L20-20" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'a&#32;->&#32;'b</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-intervals-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '801', 801)" onmouseover="showTip(event, '801', 801)">
+                <p>
+                  <a id="sem">
+                    <a href="#sem">
+                      <code><span>sem&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="801">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>sem&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L374-374" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Computes the standard error of the mean (SEM) with bessel corrected sample standard deviation    
 
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '802', 802)" onmouseover="showTip(event, '802', 802)">
-            cvPopulationBy f items
-          </code>
-          <div class="tip" id="802">
-            <strong>Signature:</strong> f:(&#39;T -&gt; ^?11016) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^?11016, ^U, ^?11018, ^?11019                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L480-480" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the Coefficient of Variation of the population (population standard deviation)</p>
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '802', 802)" onmouseover="showTip(event, '802', 802)">
+                <p>
+                  <a id="stDev">
+                    <a href="#stDev">
+                      <code><span>stDev&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="802">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>stDev&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  standard deviation of a sample (Bessel's correction by N-1)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L333-333" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the sample standard deviation
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  standard deviation of a sample (Bessel's correction by N-1)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '803', 803)" onmouseover="showTip(event, '803', 803)">
+                <p>
+                  <a id="stDevBy">
+                    <a href="#stDevBy">
+                      <code><span>stDevBy&#32;<span>f&#32;items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="803">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>stDevBy&#32;<span>f&#32;items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                       - 
+                      A function applied to transform each element of the sequence.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  standard deviation of a sample (Bessel's correction by N-1)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L345-345" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the sample standard deviation
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  standard deviation of a sample (Bessel's correction by N-1)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '804', 804)" onmouseover="showTip(event, '804', 804)">
+                <p>
+                  <a id="stDevPopulation">
+                    <a href="#stDevPopulation">
+                      <code><span>stDevPopulation&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="804">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>stDevPopulation&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  population standard deviation (denominator = N)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L356-356" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the population standard deviation (denominator = N)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  population standard deviation (denominator = N)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '805', 805)" onmouseover="showTip(event, '805', 805)">
+                <p>
+                  <a id="stDevPopulationBy">
+                    <a href="#stDevPopulationBy">
+                      <code><span>stDevPopulationBy&#32;<span>f&#32;items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="805">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>stDevPopulationBy&#32;<span>f&#32;items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                       - 
+                      A function applied to transform each element of the sequence.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  population standard deviation (denominator = N)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L368-368" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the population standard deviation (denominator = N)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  population standard deviation (denominator = N)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '806', 806)" onmouseover="showTip(event, '806', 806)">
+                <p>
+                  <a id="stats">
+                    <a href="#stats">
+                      <code><span>stats&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="806">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>stats&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-summarystats-summarystats-1.html">SummaryStats</a>&lt;^T&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L730-730" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Returns SummeryStats of deq with N, mean, sum-of-squares, minimum and maximum
 
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '803', 803)" onmouseover="showTip(event, '803', 803)">
-            getCvOfReplicates rep data
-          </code>
-          <div class="tip" id="803">
-            <strong>Signature:</strong> rep:int -&gt; data:seq&lt;^a&gt; -&gt; seq&lt;^a&gt;<br />
-                          <strong>Type parameters:</strong> ^a, ^a, ^b, ^c                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L776-776" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '804', 804)" onmouseover="showTip(event, '804', 804)">
-            getMeanOfReplicates rep data
-          </code>
-          <div class="tip" id="804">
-            <strong>Signature:</strong> rep:int -&gt; data:seq&lt;^a&gt; -&gt; seq&lt;^a&gt;<br />
-                          <strong>Type parameters:</strong> ^a, ^a                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L760-760" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>calculates the sample means with a given number of replicates present in the sequence</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '805', 805)" onmouseover="showTip(event, '805', 805)">
-            getStDevOfReplicates rep data
-          </code>
-          <div class="tip" id="805">
-            <strong>Signature:</strong> rep:int -&gt; data:seq&lt;^a&gt; -&gt; seq&lt;^c&gt;<br />
-                          <strong>Type parameters:</strong> ^a, ^a, ^b, ^c                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L768-768" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>calculates the sample standard deviations with a given number of replicates present in the sequence</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '806', 806)" onmouseover="showTip(event, '806', 806)">
-            mean(items)
-          </code>
-          <div class="tip" id="806">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L47-47" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the population mean (Normalized by N)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '807', 807)" onmouseover="showTip(event, '807', 807)">
-            meanBy f items
-          </code>
-          <div class="tip" id="807">
-            <strong>Signature:</strong> f:(&#39;T -&gt; ^U) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L65-65" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the population mean (Normalized by N)s</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '808', 808)" onmouseover="showTip(event, '808', 808)">
-            meanGeometric(items)
-          </code>
-          <div class="tip" id="808">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L119-119" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes gemetric mean</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '809', 809)" onmouseover="showTip(event, '809', 809)">
-            meanGeometricBy f items
-          </code>
-          <div class="tip" id="809">
-            <strong>Signature:</strong> f:(&#39;T -&gt; ^?10943) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^?10943, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L138-138" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes gemetric mean</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '810', 810)" onmouseover="showTip(event, '810', 810)">
-            meanHarmonic(items)
-          </code>
-          <div class="tip" id="810">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^?10934                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L82-82" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes harmonic mean</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '811', 811)" onmouseover="showTip(event, '811', 811)">
-            meanHarmonicBy f items
-          </code>
-          <div class="tip" id="811">
-            <strong>Signature:</strong> f:(&#39;T -&gt; ^U) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L101-101" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes harmonic mean</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '812', 812)" onmouseover="showTip(event, '812', 812)">
-            meanTruncated percent data
-          </code>
-          <div class="tip" id="812">
-            <strong>Signature:</strong> percent:float -&gt; data:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L163-163" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the truncated (trimmed) mean where x percent of the highest, and x percent of the lowest values are discarded (total 2x)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '813', 813)" onmouseover="showTip(event, '813', 813)">
-            meanTruncatedBy f percent data
-          </code>
-          <div class="tip" id="813">
-            <strong>Signature:</strong> f:(&#39;T -&gt; ^U) -&gt; percent:float -&gt; data:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L186-186" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the truncated (trimmed) mean</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '814', 814)" onmouseover="showTip(event, '814', 814)">
-            median(items)
-          </code>
-          <div class="tip" id="814">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^T<br />
-                          <strong>Type parameters:</strong> ^T, ^a                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L207-207" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Sample Median</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '815', 815)" onmouseover="showTip(event, '815', 815)">
-            medianAbsoluteDev(data)
-          </code>
-          <div class="tip" id="815">
-            <strong>Signature:</strong> data:seq&lt;float&gt; -&gt; float<br />
-                                  </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L697-697" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Median absolute deviation (MAD)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '816', 816)" onmouseover="showTip(event, '816', 816)">
-            range(items)
-          </code>
-          <div class="tip" id="816">
-            <strong>Signature:</strong> items:seq&lt;&#39;a&gt; -&gt; Interval&lt;&#39;a&gt;<br />
-                          <strong>Type parameters:</strong> 'a                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L8-8" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '817', 817)" onmouseover="showTip(event, '817', 817)">
-            rangeBy f items
-          </code>
-          <div class="tip" id="817">
-            <strong>Signature:</strong> f:(&#39;?10923 -&gt; &#39;?10924) -&gt; items:seq&lt;&#39;?10923&gt; -&gt; Interval&lt;&#39;?10923&gt;<br />
-                          <strong>Type parameters:</strong> '?10923, '?10924                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L20-20" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '818', 818)" onmouseover="showTip(event, '818', 818)">
-            sem(items)
-          </code>
-          <div class="tip" id="818">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; float<br />
-                          <strong>Type parameters:</strong> ^T, ^?10996, ^?10997                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L374-374" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the standard error of the mean (SEM) with bessel corrected sample standard deviation</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '819', 819)" onmouseover="showTip(event, '819', 819)">
-            stats(items)
-          </code>
-          <div class="tip" id="819">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; SummaryStats&lt;^T&gt;<br />
-                          <strong>Type parameters:</strong> ^T, ^a, ^b                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L730-730" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Returns SummeryStats of deq with N, mean, sum-of-squares, minimum and maximum</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '820', 820)" onmouseover="showTip(event, '820', 820)">
-            stDev(items)
-          </code>
-          <div class="tip" id="820">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^a, ^b, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L333-333" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the sample standard deviation</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '821', 821)" onmouseover="showTip(event, '821', 821)">
-            stDevBy f items
-          </code>
-          <div class="tip" id="821">
-            <strong>Signature:</strong> f:(&#39;T -&gt; ^?10979) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^?10979, ^?10980, ^?10981, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L345-345" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the sample standard deviation</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '822', 822)" onmouseover="showTip(event, '822', 822)">
-            stDevPopulation(items)
-          </code>
-          <div class="tip" id="822">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^a, ^b, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L356-356" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the population standard deviation (denominator = N)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '823', 823)" onmouseover="showTip(event, '823', 823)">
-            stDevPopulationBy f items
-          </code>
-          <div class="tip" id="823">
-            <strong>Signature:</strong> f:(&#39;T -&gt; ^?10990) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^?10990, ^?10991, ^?10992, ^U                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L368-368" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the population standard deviation (denominator = N)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '824', 824)" onmouseover="showTip(event, '824', 824)">
-            var(items)
-          </code>
-          <div class="tip" id="824">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^a                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L224-224" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the sample variance (Bessel's correction by N-1)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '825', 825)" onmouseover="showTip(event, '825', 825)">
-            varBy f items
-          </code>
-          <div class="tip" id="825">
-            <strong>Signature:</strong> f:(&#39;T -&gt; ^?10960) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^?10960, ^U, ^?10962                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L251-251" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes the sample variance (Bessel's correction by N-1)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '826', 826)" onmouseover="showTip(event, '826', 826)">
-            varPopulation(items)
-          </code>
-          <div class="tip" id="826">
-            <strong>Signature:</strong> items:seq&lt;^T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> ^T, ^U, ^a                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L278-278" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes variance of the given values (denominator N)</p>
-
-
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-          <code onmouseout="hideTip(event, '827', 827)" onmouseover="showTip(event, '827', 827)">
-            varPopulationBy f items
-          </code>
-          <div class="tip" id="827">
-            <strong>Signature:</strong> f:(&#39;T -&gt; ^?10969) -&gt; items:seq&lt;&#39;T&gt; -&gt; ^U<br />
-                          <strong>Type parameters:</strong> 'T, ^?10969, ^U, ^?10971                      </div>
-        </td>
-        <td class="xmldoc">
-                      <a href="https://github.com/CSBiology/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L305-305" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          <p>Computes variance of the given values (denominator N)</p>
-
-
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://github.com/fslaborg/FSharp.Stats/reference/fsharp-stats-summarystats-summarystats-1.html">SummaryStats</a>&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '807', 807)" onmouseover="showTip(event, '807', 807)">
+                <p>
+                  <a id="var">
+                    <a href="#var">
+                      <code><span>var&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="807">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>var&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  variance of a sample (Bessel's correction by N-1)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L224-224" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the sample variance (Bessel's correction by N-1)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  variance of a sample (Bessel's correction by N-1)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '808', 808)" onmouseover="showTip(event, '808', 808)">
+                <p>
+                  <a id="varBy">
+                    <a href="#varBy">
+                      <code><span>varBy&#32;<span>f&#32;items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="808">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>varBy&#32;<span>f&#32;items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                       - 
+                      A function applied to transform each element of the sequence.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  variance of a sample (Bessel's correction by N-1)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L251-251" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the sample variance (Bessel's correction by N-1)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  variance of a sample (Bessel's correction by N-1)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '809', 809)" onmouseover="showTip(event, '809', 809)">
+                <p>
+                  <a id="varPopulation">
+                    <a href="#varPopulation">
+                      <code><span>varPopulation&#32;<span>items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="809">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>varPopulation&#32;<span>items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  population variance estimator (denominator N)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L278-278" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes variance of the given values (denominator N)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;^T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  population variance estimator (denominator N)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '810', 810)" onmouseover="showTip(event, '810', 810)">
+                <p>
+                  <a id="varPopulationBy">
+                    <a href="#varPopulationBy">
+                      <code><span>varPopulationBy&#32;<span>f&#32;items</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="810">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>varPopulationBy&#32;<span>f&#32;items</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                       - 
+                      A function applied to transform each element of the sequence.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        items
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  population variance estimator (denominator N)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L305-305" class="fsdocs-source-link">
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://github.com/fslaborg/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes variance of the given values (denominator N)
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  items
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  population variance estimator (denominator N)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+                </div>
+            </div>
         </div>
-        <div class="span3">
-          <img src="/FSharp.Stats/img/logo.svg" alt="F# Project" style="width:150px;margin:10px" />  
-          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
-              <li class="nav-header">FSharp.Stats</li>
-              <li><a href="/FSharp.Stats/index.html">Home page</a></li>
-              <li class="divider"></li>
-              <li><a href="http://nuget.org/packages/FSharp.Stats">Get Library via NuGet</a></li>
-              <li><a href="https://github.com/CSBiology/FSharp.Stats">Source Code on GitHub</a></li>
-              <li><a href="/FSharp.Stats/license.html">License</a></li>
-              <li><a href="/FSharp.Stats/release-notes.html">Release Notes</a></li>
-
-              <li class="nav-header">Getting started</li>
-              <li><a href="/FSharp.Stats/tutorial.html">Sample tutorial</a></li>
-
-              <li class="nav-header">Basic</li>
-              <li>
-                  <a href="/FSharp.Stats/Summary.html">Summary</a>
-              </li>
-              <li><a href="/FSharp.Stats/Clustering.html">Clustering</a></li>
-              <li><a href="/FSharp.Stats/Correlation.html">Correlation</a></li>
-              <li><a href="/FSharp.Stats/Covariance.html">Covariance</a></li>
-              <li><a href="/FSharp.Stats/CrossValidation.html">Cross validation</a></li>
-              <li><a href="/FSharp.Stats/Rank.html">Rank</a></li>
-              <li><a href="/FSharp.Stats/Quantile.html">Quantile</a></li>
-              <li class="divider"></li>
-              <li><a href="/FSharp.Stats/Matrix_Vector.html">Matrix and Vector</a></li>
-              </li>
-              <li class="divider"></li>
-              <li><a href="/FSharp.Stats/SpecialFunctions.html">Special Functions</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/LinearAlgebra.html">Linear Algebra</a></li>
-              <li><a href="/FSharp.Stats/Integration.html">Integration</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Distributions.html">Distributions</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Testing.html">Testing</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Fitting.html">Fitting</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/GoodnessOfFit.html">Goodness of fit</a></li>
-              <li><a href="/FSharp.Stats/Interpolation.html">Interpolation</a></li>
-              </li>
-              <li><a href="/FSharp.Stats/Imputation.html">Imputation</a></li>
-              <li><a href="/FSharp.Stats/Signal.html">Signal</a></li>
-              </li>
-              <li class="nav-header">Special Issues</li>
-              <li><a href="/FSharp.Stats/GrowthCurve.html">Growth Curve</a></li>
-
-
-              <li class="nav-header">Documentation</li>
-              <li><a href="/FSharp.Stats/reference/index.html">API Reference</a></li>
-          </ul>
-        </div>
-      </div>
+        
     </div>
-    <a href="https://github.com/CSBiology/FSharp.Stats"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
-  </body>
-  </html>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://github.com/fslaborg/FSharp.Stats/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://github.com/fslaborg/FSharp.Stats/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+</body>
+
+</html>
