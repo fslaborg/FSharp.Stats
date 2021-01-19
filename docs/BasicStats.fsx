@@ -19,6 +19,8 @@ open Plotly.NET.StyleParam
 (**
 # Basics
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=BasicStats.ipynb)
+
 _Summary:_ this tutorial gives an overview over how to do some of the basic statistical mesaurements with FShrp.Stats.
 
 ### Table of contents

@@ -14,6 +14,8 @@
 (**
 # Integration
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Integration.ipynb)
+
 ## Differentiation
 
 Numerical differentiation is used to estimate the derivative of a mathematical function using values of the function and perhaps other knowledge about the function.

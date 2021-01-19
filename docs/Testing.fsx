@@ -15,6 +15,8 @@
 
 # Statistical testing
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Testing.ipynb)
+
 _Summary:_ this tutorial explains how to perform various statistical tests with FSharp.Stats.
 
 ### Table of contents
