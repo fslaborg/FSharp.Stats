@@ -359,6 +359,8 @@ let poB =
 let poC = 1. -  poisson.CDF 6.
 // Output: Not implemented yet. Manual addition necessary
 
+(** *)
+
 let plotPo =
     [0..20]
     |> List.map (fun x -> x,poisson.PDF x)
