@@ -7,7 +7,7 @@
 (*** condition: ipynb ***)
 #if IPYNB
 #r "nuget: Plotly.NET, 2.0.0-beta3"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta3"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-alpha5"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -22,7 +22,7 @@ let styleChart xt yt c = c |> Chart.withX_Axis (myAxis xt) |> Chart.withY_Axis (
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=index.ipynb)
 
-FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, optimization, fitting and signal processing.
+FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.
 
 ## Installation
 
