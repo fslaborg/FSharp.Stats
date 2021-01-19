@@ -11,23 +11,27 @@
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-
-let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let myLogAxis title = LinearAxis.init(AxisType.Log,Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let myAxisRange title range = LinearAxis.init(Title=title,Range=Range.MinMax range,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-
 (**
-#Cross validation
-##Leave-one-out cross validation (LOOCV)
+# Cross validation
+
+_Summary:_ this tutorial demonstrates how to perform several types of cross validtion with FSharp.Stats.
+
+### Table of contents
+
+ - [Leave-one-out cross validation (LOOCV)](#Leave-one-out-cross-validation-LOOCV)
+    - [Procedure](#Procedure)
+    - [Polynomial loocv](#Polynomial-loocv)
+    - [Smoothing spline loocv](#Smoothing-spline-loocv)
+ - [k fold cross validation](#k-fold-cross-validation)
+ - [Shuffle and split cross validation](#Shuffle-and-split-cross-validation)
+
+## Leave-one-out cross validation (LOOCV)
 
 When fitting a data set it often comes down to the selection of the optimal fitting parameter(s).
 A method to determine these is given by the leave-one-out cross validation (LOOCV). Thereby, the data set ist fitted with a
 given parameter range (smoothing strength, polynomial order etc.) in order to select the best. 
 
-###Procedure
+### Procedure
 In each iteration, one data point is excluded from the fitting procedure. The coefficients are determined 
 based on the remaining (n-1) data points. The difference of the excluded point with its corresponding fitted point is measured. 
 In a two-dimensional problem it is the y-intercept of f(xi) and the y_orig at xi.
@@ -35,7 +39,9 @@ In a two-dimensional problem it is the y-intercept of f(xi) and the y_orig at xi
 After every data point was excluded once, the average (squared) distance is calculated and assigned to the corresponding fitting parameter (polynomial order or smoothing strength).
 The parameter of the model that shows the minimal average error is the best under the given assumptions. It shows the best compromise between over- and underfitting respectively.
 
-###Polynomial loocv
+### Polynomial loocv
+
+let's first create some polynomial fits to cross validate:
 *)
 open FSharp.Stats
 open FSharp.Stats.Fitting
@@ -50,6 +56,40 @@ let getFitFuncPolynomial xTrain yTrain (xTest:RowVector<float>) order =
     let coeffs  = Polynomial.coefficient order xDat yTrain
     let fit     = Polynomial.fit order coeffs (xTest.[0])
     fit
+
+open Plotly.NET
+
+//Some axis styling
+let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let myLogAxis title = Axis.LinearAxis.init(StyleParam.AxisType.Log,Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
+
+let rawchart() = 
+    Chart.Point (xV,yV) 
+    |> Chart.withTraceName "raw data"
+
+let chartOrderOpt = 
+    [1 .. 2 .. 10]
+    |> List.map (fun order -> 
+        let coeffs = Polynomial.coefficient order xV yV
+        let fit = Polynomial.fit order coeffs
+        [1. .. 0.2 .. 10.]
+        |> List.map (fun x -> x,fit x)
+        |> Chart.Line
+        |> Chart.withTraceName (sprintf "order=%i" order)
+        )
+    |> fun x -> Chart.Combine (rawchart()::x)
+    |> Chart.withTitle "polynomial fits"
+    |> Chart.withX_Axis (myAxis "x")
+    |> Chart.withY_Axis (myAxis "y")
+
+(***hide***)
+chartOrderOpt |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+And then crossvalidate across the polynomial orders:
+*)
 
 // the error is calculated as the squared difference of fitted and original y value
 let error (f1:float) f2 = pown (f1 - f2) 2
@@ -73,26 +113,6 @@ let errorPol =
         let error = loocvPolynomial xV yV order
         order,error)
 
-(*** hide ***)
-let rawchart() = 
-    Chart.Point (xV,yV) 
-    |> Chart.withTraceName "raw data"
-
-let chartOrderOpt = 
-    [1 .. 2 .. 10]
-    |> List.map (fun order -> 
-        let coeffs = Polynomial.coefficient order xV yV
-        let fit = Polynomial.fit order coeffs
-        [1. .. 0.2 .. 10.]
-        |> List.map (fun x -> x,fit x)
-        |> Chart.Line
-        |> Chart.withTraceName (sprintf "order=%i" order)
-        )
-    |> fun x -> Chart.Combine (rawchart()::x)
-    |> Chart.withTitle "polynomial fits"
-    |> Chart.withX_Axis (myAxis "x")
-    |> Chart.withY_Axis (myAxis "y")
-
 let chartPol = 
     errorPol 
     |> Chart.Line 
@@ -103,14 +123,16 @@ let chartPol =
 let result = sprintf "The minimal error is obtained by order=%i" (errorPol |> Seq.minBy snd |> fst)
 
 (***hide***)
-chartOrderOpt |> GenericChart.toChartHTML
-(***include-it-raw***)
 chartPol |> GenericChart.toChartHTML
 (***include-it-raw***)
 (*** include-value:result ***)
+
 (**
-###Smoothing spline loocv
+### Smoothing spline loocv
 A smoothing spline is a non-parametric fitting procedure, fitting cubic polynomials in each interval given by the basis points.
+
+let's first create some smoothing splines to cross validate:
+
 *)
 
 // the fitting function fits a polynomial of order 'order' to the training data set (xTrain and yTrain) and applies it to xTest
@@ -119,12 +141,36 @@ let getFitFuncSpline xDat yDat (xDatTrain: RowVector<float>) lambda =
     let zippedData = Seq.zip xDatVec yDat |> Array.ofSeq
     let xValTest = xDatTrain.[0]
     Spline.smoothingSpline zippedData (xDat |> Array.ofSeq) lambda xValTest
+
     /// in loocv the border points are chosen so that the support range of the training data set does not cover the test point.
     /// if splines are used, that are not defined outside the border points use the following:
     //let xDatSupport = Intervals.create (xDatVec |> Seq.min) (xDatVec |> Seq.max)
     //if Intervals.liesInInterval xValTest xDatSupport then 
     //Spline.smoothingSpline zippedData (xDat |> Array.ofSeq) lambda xValTest
     //else nan
+
+let chartSpline = 
+    [0.0002;0.002;0.0216;0.2;2.;20.]
+    |> List.map (fun lambda -> 
+        let fit = Spline.smoothingSpline (Seq.zip xV yV |> Array.ofSeq) (Array.ofSeq xV) lambda
+        [1. .. 0.2 .. 10.]
+        |> List.map (fun x -> x,fit x)
+        |> Chart.Line
+        |> Chart.withTraceName (sprintf "l=%.4f" lambda)
+        )
+    |> fun x -> 
+        Chart.Combine (rawchart()::x)
+    |> Chart.withX_Axis (myAxis "x") 
+    |> Chart.withY_Axis (myAxis "y")
+    |> Chart.withTitle "smoothing splines"
+
+(***hide***)
+chartSpline |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+And then crossvalidate across different lambda values:
+*)
 
 // the error is calculated as the squared difference of fitted and original y value
 let errorSpl (f1:float) f2 = 
@@ -152,40 +198,22 @@ let errorSpline =
         let error = loocvSmoothingSpline xV yV lambda
         lambda,error)
 
-(*** hide ***)
 let chartSplineError = 
     errorSpline 
     |> Chart.Line 
     |> Chart.withX_Axis (myAxis "lambda") 
     |> Chart.withY_Axis (myAxis "mean error")
     |> Chart.withTitle "leave one out cross validation (smoothing spline)"
-
-let chartSpline = 
-    [0.0002;0.002;0.0216;0.2;2.;20.]
-    |> List.map (fun lambda -> 
-        let fit = Spline.smoothingSpline (Seq.zip xV yV |> Array.ofSeq) (Array.ofSeq xV) lambda
-        [1. .. 0.2 .. 10.]
-        |> List.map (fun x -> x,fit x)
-        |> Chart.Line
-        |> Chart.withTraceName (sprintf "l=%.4f" lambda)
-        )
-    |> fun x -> 
-        Chart.Combine (rawchart()::x)
-    |> Chart.withX_Axis (myAxis "x") 
-    |> Chart.withY_Axis (myAxis "y")
-    |> Chart.withTitle "smoothing splines"
     
 let resultSpline = sprintf "The minimal error is obtained by lambda=%f" (errorSpline |> Seq.minBy snd |> fst)
 
-
 (***hide***)
-chartSpline |> GenericChart.toChartHTML
-(***include-it-raw***)
 chartSplineError |> GenericChart.toChartHTML
 (***include-it-raw***)
 (*** include-value:resultSpline ***)
+
 (**
-##k fold cross validation
+## k fold cross validation
 
 The k fold cross validation (kfcv) is a generalized form of the loocv. Rather than excluding every data point seperately, kfcv
 allows the exclusion of data chunks with a defined fraction of the data points. When using k=10, the data ist split up into 10 chunks of sub data sets each 
@@ -208,8 +236,6 @@ let repeatedKFoldPolynomial k (xData: Vector<float>) (yData: Vector<float>) orde
 //creates an output for 10 iterations where defined 20 % of the data set are taken as testing data set
 let kfPolynomial order = repeatedKFoldPolynomial 5 xV yV order
 
-
-
 //repeated k fold cross validation for smoothing splines
 let repeatedKFoldSpline k (xData: Vector<float>) (yData: Vector<float>) lambda =
     let xDataMat = xData |> Matrix.ofVector
@@ -225,8 +251,6 @@ let kfSpline lambda = repeatedKFoldSpline 5 xV yV lambda
 (**
 The given data set is small and therefore the mean errors show a high variability
 *)
-
-(*** hide ***)
 
 let kfp = 
     let errorSplinekf = 
@@ -244,6 +268,10 @@ let kfp =
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "kfoldPolynomial error"
 
+(***hide***)
+kfp |> GenericChart.toChartHTML
+(***include-it-raw***)
+
 let kfs = 
     let errorSplinekf = 
         lambdasToCheck 
@@ -260,14 +288,12 @@ let kfs =
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "kfoldSpline error"
 
-
 (***hide***)
-kfp |> GenericChart.toChartHTML
-(***include-it-raw***)
 kfs |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
-##Shuffle and split cross validation
+## Shuffle and split cross validation
 
 The shuffle and split cross validation (sap) is a modified kfcv version. As in kfcv, sap
 allows the exclusion of data chunks with a defined fraction of the data points. When using p=0.3, 30% of the data are taken as testing data set 
@@ -304,7 +330,7 @@ let sasSpline lambda = shuffleAndSplitSpline 0.2 5 xV yV lambda
 (**
 The given data set is small and therefore the mean errors show a high variability
 *)
-(*** hide ***)
+
 let sasp = 
     let errorSplinekf = 
         ordersToCheck 
@@ -320,6 +346,10 @@ let sasp =
     |> Chart.withY_Axis (myLogAxis "mean error")
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "shuffle_and_split polynomial error"
+
+(***hide***)
+sasp |> GenericChart.toChartHTML
+(***include-it-raw***)
 
 let sass = 
     let errorSplinekf = 
@@ -338,7 +368,5 @@ let sass =
     |> Chart.withTitle "shuffle_and_split spline error"
 
 (***hide***)
-sasp |> GenericChart.toChartHTML
-(***include-it-raw***)
 sass |> GenericChart.toChartHTML
 (***include-it-raw***)
