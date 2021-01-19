@@ -11,11 +11,6 @@
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-open FSharp.Stats
-
 (**
 # Integration
 
@@ -23,14 +18,13 @@ open FSharp.Stats
 
 Numerical differentiation is used to estimate the derivative of a mathematical function using values of the function and perhaps other knowledge about the function.
 
-<a name="ThreePointDifferentiation"></a>
-
 ### Three-Point Differentiation
 FSharp.Stats implements a three point differentiation method. This method takes a set of values and their function values. For a given value xT of the set, one defines three other points which should be considered to calculate the differential at xT.
 Here follows a small snippet.
 
 First, we create our data. In this case our function is f(x) = x ^ 3.
 *)
+open FSharp.Stats
 
 // x data
 let xs = Array.init 100 (fun x -> float x / 8.)
@@ -51,20 +45,27 @@ let y's =
 We compare the resulting values with the values of the known differential f'(x) = 3x^2, here called g(x)
 *)
 
+open Plotly.NET
 
-// TODO: Include task 
-[
-Chart.Point(xs,ys,Name = "f(x)")
-Chart.Point(y's,Name = "f'(x)")
-Chart.Point(Array.map (fun x -> x,(x ** 2.) * 3.) xs,Name = "g(x)")
-]
-|> Chart.Combine
+let comparisonChart = 
+    [
+    Chart.Point(xs,ys,Name = "f(x)")
+    Chart.Point(y's,Name = "f'(x)")
+    Chart.Point(Array.map (fun x -> x,(x ** 2.) * 3.) xs,Name = "g(x)")
+    ]
+    |> Chart.Combine
+
+(*** condition: ipynb ***)
+#if IPYNB
+comparisonChart
+#endif // IPYNB
+
+(***hide***)
+comparisonChart |> GenericChart.toChartHTML
+(***include-it-raw***)
 
 (**
-<a name="TwoPointDifferentiation"></a>
-
 ### Two-Point Differentiation
-
 
 To calculate the approximation for the derivative, a Two-Point Differentiation calculates the difference of f(x) at x and f(x) at x+h and correlates it to h. 
 This will give better approximations the smaller h is. 

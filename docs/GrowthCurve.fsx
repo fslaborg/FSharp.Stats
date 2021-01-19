@@ -11,22 +11,35 @@
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let myAxisRange title range = LinearAxis.init(Title=title,Range=Range.MinMax range,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
-
 (**
 
-#Growth curve
+# Growth curve
 
-##Modelling
+_Summary:_ this tutorial demonstrates variou way to model growth curves, a commong task in any (micro)biological lab
+
+### Table of contents
+
+ - [Modelling](#Modelling)
+ - [Manual phase selection](#Manual-phase-selection)
+ - [Gompertz model](#Gompertz-model)
+ - [Generation time calculation](#Generation-time-calculation)
+ - [Other models](#Other-models)
+    - [Richards curve](#Richards-curve)
+    - [Weibull](#Weibull)
+    - [Janoschek](#Janoschek)
+    - [Exponential](#Exponential)
+    - [Verhulst](#Verhulst)
+    - [Morgan-Mercer-Flodin](#Morgan-Mercer-Flodin)
+    - [von Bertalanffy](#von-Bertalanffy)
+ - [Comparison between all models](Comparison-between-all-models)
+    - [Fit function](#Fit-function)
+    - [Generation time](#Generation-time)
+ - [Model examples](#Model-examples)
+
+## Modelling
 
 Growth and other physiological parameters like size/weight/length can be modeled as as function of time.
 Several growth curve models have been proposed. Some of them are covered in this documentation.
-
 
 For growth curve analysis the cell count data must be considered in log space. The exponential phase (log phase) then becomes linear.
 After modeling, all growth parameters (maximal cell count, lag phase duration, and growth rate) can be derived from the model, so there is no
@@ -42,6 +55,7 @@ If specific parameters should be constrained to the users choice (like upper or 
 Levenberg-Marquardt solver can be used (`LevenbergMarquardtConstrained`)! Accordingly minimal and maximal parameter vectors must be provided.
 
 *)
+
 open System
 open FSharp.Stats
 open FSharp.Stats.Fitting.NonLinearRegression
@@ -57,7 +71,11 @@ let cellCount =
 
 let cellCountLn = cellCount |> Array.map log
 
-(*** hide ***)
+open Plotly.NET
+
+//some axis styling
+let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
 
 let chartOrig = 
     Chart.Point(time,cellCount)
@@ -72,12 +90,17 @@ let chartLog =
 let growthChart = 
     [chartOrig;chartLog]|> Chart.Stack 1
 
+(*** condition: ipynb ***)
+#if IPYNB
+growthChart
+#endif // IPYNB
+
 (***hide***)
 growthChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
-##Manual phase selection
+## Manual phase selection
 
 If growth phases are labeled manually, the exponential phase can be fitted with a regression line. 
 
@@ -103,6 +126,7 @@ let logPhaseY = vector cellCountLn.[3..11]
 let regressionCoeffs =
     Fitting.LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient logPhaseX logPhaseY
 
+(**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
 // The generation time is calculated by dividing log_x 2. by the regression line slope. 
 // The log transform must match the used data transform. 
@@ -110,11 +134,10 @@ let slope = regressionCoeffs.[1]
 let generationTime = log(2.) / slope
 
 
-(*** hide ***)
-
 let fittedValues = 
     let f = Fitting.LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fit (vector [|14.03859475; 1.515073487|])
     logPhaseX |> Seq.map (fun x -> x,f x)
+
 let chartLinearRegression =
     [
     Chart.Point(time,cellCountLn)    |> Chart.withTraceName "log counts"
@@ -125,16 +148,20 @@ let chartLinearRegression =
 
 let generationTimeManual = sprintf "The generation time (manual selection) is: %.1f min" ((log(2.)/1.5150)* 60.)
 
+(*** condition: ipynb ***)
+#if IPYNB
+chartLinearRegression
+#endif // IPYNB
+
 (***hide***)
 chartLinearRegression |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (*** include-value:generationTimeManual ***)
 
-
 (**
 
-##Gompertz model
+## Gompertz model
 
 In the following example the four parameter gompertz function is applied to cell count data (Gibson et al., 1988).
 
@@ -189,10 +216,6 @@ let gompertzParams =
 let fittingFunction = 
     Table.GrowthModels.gompertz.GetFunctionValue gompertzParams
 
-(*** hide ***)
-let chartLogR =
-    Chart.Point(time,cellCountLn)
-    |> Chart.withTraceName "log count"
     
 let fittedValuesGompertz =
     /// The parameter were determined locally for saving time during build processes
@@ -205,9 +228,18 @@ let fittedValuesGompertz =
     |> Chart.withTraceName "gompertz"
 
 let fittedChartGompertz = 
-    [chartLogR;fittedValuesGompertz]
+    [
+        Chart.Point(time,cellCountLn)
+        |> Chart.withTraceName "log count"
+        fittedValuesGompertz
+    ]
     |> Chart.Combine
     |> styleChart "time (h)" "ln(cells/ml)"
+
+(*** condition: ipynb ***)
+#if IPYNB
+fittedChartGompertz
+#endif // IPYNB
 
 (***hide***)
 fittedChartGompertz |> GenericChart.toChartHTML
@@ -215,7 +247,7 @@ fittedChartGompertz |> GenericChart.toChartHTML
 
 (**
 
-##Generation time calculation
+## Generation time calculation
 
 The generation time can be calculated by dividing log(2) by the slope of the inflection point. The used log transform must
 match the used log transform applied to the count data.
@@ -233,13 +265,12 @@ let lag (parametervector:vector) =
 let g = sprintf "The generation time (Gompertz) is: %.1f min" (60. * (generationtime gompertzParams log))
 let l = sprintf "The lag phase duration is %.2f h" (lag gompertzParams)
 
-
 (*** include-value:g ***)
 (*** include-value:l ***)
 
 (**
 
-#Other models
+## Other models
 
 In the following other growth models are applied to the given data set:
 
@@ -266,7 +297,7 @@ log transform.
 For an overview please scroll down to see a combined diagram of all growth models.
 
 
-##Richards curve
+### Richards curve
 
 Parameters:
 
@@ -294,7 +325,7 @@ let richardsParams =
 let fittingFunctionRichards = 
     Table.GrowthModels.richards.GetFunctionValue richardsParams
 
-(*** hide ***)
+(**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
 let generationtimeRichards (richardParameters:vector) =
     let l = richardParameters.[0]
@@ -322,12 +353,21 @@ let fittedChartRichards =
     |> Chart.withTraceName "richards"
 
 let fittedChartRichardsS = 
-    [chartLogR;fittedValuesRichards]
+    [
+        Chart.Point(time,cellCountLn)
+        |> Chart.withTraceName "log count"
+        fittedValuesRichards
+    ]
     |> Chart.Combine
     |> styleChart "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "richards"
+    |> Chart.withTitle "richards"
 
 let generationRichards = sprintf "The generation time (Richards) is: %.1f min" (generationtimeRichards (vector [|23.25211263; 7.053516315; 5.646889803; 111.0132522|]) * 60.)
+
+(*** condition: ipynb ***)
+#if IPYNB
+fittedChartRichardsS
+#endif // IPYNB
 
 (***hide***)
 fittedChartRichardsS |> GenericChart.toChartHTML
@@ -336,7 +376,7 @@ fittedChartRichardsS |> GenericChart.toChartHTML
 
 (**
 
-##Weibull
+### Weibull
 
 Parameters:
 
@@ -364,8 +404,7 @@ let weibullParams =
 let fittingFunctionWeibull = 
     Table.GrowthModels.weibull.GetFunctionValue weibullParams
 
-
-(*** hide ***)
+(**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
 let generationtimeWeibull (weibullParameters:vector) =
     let b = weibullParameters.[0]
@@ -395,13 +434,22 @@ let fittedChartWeibull =
     |> Chart.withTraceName "weibull"
 
 let fittedChartWeibullS = 
-    [chartLogR;fittedValuesWeibull]
+    [
+        Chart.Point(time,cellCountLn)
+        |> Chart.withTraceName "log count"
+        fittedValuesWeibull
+    ]
     |> Chart.Combine
     |> styleChart "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "weibull"
+    |> Chart.withTitle "weibull"
 
 let generationWeibull = 
     sprintf "The generation time (Weibull) is: %.1f min" (generationtimeWeibull (vector [|16.40632433; 23.35537293; 0.2277752116; 2.900806071|]) * 60.)   
+
+(*** condition: ipynb ***)
+#if IPYNB
+fittedChartWeibullS
+#endif // IPYNB
 
 (***hide***)
 fittedChartWeibullS |> GenericChart.toChartHTML
@@ -410,7 +458,7 @@ fittedChartWeibullS |> GenericChart.toChartHTML
 
 (**
 
-##Janoschek
+### Janoschek
 
 Parameters:
 
@@ -438,7 +486,7 @@ let janoschekParams =
 let fittingFunctionJanoschek = 
     Table.GrowthModels.janoschek.GetFunctionValue janoschekParams
 
-(*** hide ***)
+(**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
 let generationtimeJanoschek (janoschekParameters:vector) =
     let b = janoschekParameters.[0]
@@ -471,13 +519,22 @@ let fittedChartJanoschek =
     |> Chart.withTraceName "janoschek"
 
 let fittedChartJanoschekS = 
-    [chartLogR;fittedChartJanoschek]
+    [
+        Chart.Point(time,cellCountLn)
+        |> Chart.withTraceName "log count"
+        fittedChartJanoschek
+    ]
     |> Chart.Combine
     |> styleChart "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "janoschek"
+    |> Chart.withTitle "janoschek"
 
 let generationJanoschek = 
     sprintf "The generation time (Janoschek) is: %.1f min" (generationtimeJanoschek (vector [|16.40633962; 23.35535182; 0.01368422994; 2.900857027|]) * 60.)
+
+(*** condition: ipynb ***)
+#if IPYNB
+fittedChartJanoschekS
+#endif // IPYNB
 
 (***hide***)
 fittedChartJanoschekS |> GenericChart.toChartHTML
@@ -486,10 +543,9 @@ fittedChartJanoschekS |> GenericChart.toChartHTML
 
 (**
 
-##Exponential
+### Exponential
 
 The exponential model of course can not be applied to the lag phase.
-
 
 Parameters:
 
@@ -502,7 +558,6 @@ Parameters:
 *)
 
 (*** do-not-eval ***)
-
 let exponentialParams =
     LevenbergMarquardt.estimatedParams
         Table.GrowthModels.exponential
@@ -515,7 +570,7 @@ let exponentialParams =
 let fittingFunctionExponential = 
     Table.GrowthModels.exponential.GetFunctionValue exponentialParams
 
-(*** hide ***)
+(**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
 let generationtimeExponential (expParameters:vector) =
     let b = expParameters.[0]
@@ -542,14 +597,23 @@ let fittedChartExp =
     |> Chart.withTraceName "exponential"
 
 let fittedChartExpS = 
-    [chartLogR;fittedChartExp]
+    [
+        Chart.Point(time,cellCountLn)
+        |> Chart.withTraceName "log count"
+        fittedChartExp
+    ]
     |> Chart.Combine
     |> styleChart "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "exponential"
+    |> Chart.withTitle "exponential"
 
 let generationExponential = 
     sprintf "The generation time (Exp) is: %.1f min" (generationtimeExponential (vector [|4.813988967; 24.39950361; 0.3939132175|]) * 60.)
     
+(*** condition: ipynb ***)
+#if IPYNB
+fittedChartExpS
+#endif // IPYNB
+
 (***hide***)
 fittedChartExpS |> GenericChart.toChartHTML
 (***include-it-raw***)
@@ -557,7 +621,7 @@ fittedChartExpS |> GenericChart.toChartHTML
 
 (**
 
-##Verhulst
+## Verhulst
 
 The verhulst growth model is a logistic function with a lower asymptote fixed at y=0. A 4 parameter version allows 
 the lower asymtote to vary from 0.
@@ -593,7 +657,7 @@ let verhulstParams =
 let fittingFunctionVerhulst() = 
     Table.GrowthModels.verhulst.GetFunctionValue verhulstParams
 
-(*** hide ***)
+(**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
 let generationtimeVerhulst (verhulstParameters:vector) =
     let lmax = verhulstParameters.[0]
@@ -621,13 +685,22 @@ let fittedChartVerhulst =
     |> Chart.withTraceName "verhulst"
 
 let fittedChartVerhulstS = 
-    [chartLogR;fittedChartVerhulst]
+    [
+        Chart.Point(time,cellCountLn)
+        |> Chart.withTraceName "log count"
+        fittedChartVerhulst
+    ]
     |> Chart.Combine
     |> styleChart "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "verhulst"
+    |> Chart.withTitle "verhulst"
 
 let generationVerhulst = 
     sprintf "The generation time (Verhulst) is: %.1f min" (generationtimeVerhulst (vector [|23.39504328; 3.577488116; 1.072136278; 15.77380824|]) * 60.)
+
+(*** condition: ipynb ***)
+#if IPYNB
+fittedChartVerhulstS
+#endif // IPYNB
 
 (***hide***)
 fittedChartVerhulstS |> GenericChart.toChartHTML
@@ -636,8 +709,7 @@ fittedChartVerhulstS |> GenericChart.toChartHTML
 
 (**
 
-##Morgan-Mercer-Flodin
-
+## Morgan-Mercer-Flodin
 
 Parameters:
 
@@ -665,7 +737,7 @@ let morganMercerFlodinParams =
 let fittingFunctionMMF() = 
     Table.GrowthModels.morganMercerFlodin.GetFunctionValue morganMercerFlodinParams
 
-(*** hide ***)
+(**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
 let generationtimeMmf (mmfParameters:vector) =
     let b = mmfParameters.[0]
@@ -683,6 +755,9 @@ let generationtimeMmf (mmfParameters:vector) =
         gradientFunctionMmf inflectionPointXValue
     log(2.) / maximalSlope
 
+let generationMmf = 
+    sprintf "The generation time (MMF) is: %.1f min" (generationtimeMmf (vector [|16.46099291; 24.00147463; 0.2500698772; 3.741048641|]) * 60.)
+
 let fittedValuesMMF =
     /// The parameter were determined locally for saving time during build processes
     let f =  Table.GrowthModels.morganMercerFlodin.GetFunctionValue (vector [|16.46099291; 24.00147463; 0.2500698772; 3.741048641|])
@@ -693,27 +768,73 @@ let fittedValuesMMF =
     |> Chart.Line
 
 let fittedChartMMF = 
-    fittedValuesMMF
+    [
+        Chart.Point(time,cellCountLn)
+        |> Chart.withTraceName "log count"
+        fittedValuesMMF |> Chart.withTraceName "morganMercerFlodin"
+    ]
+    |> Chart.Combine
     |> styleChart "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "morganMercerFlodin"
+    |> Chart.withTitle "morganMercerFlodin"
 
+(*** condition: ipynb ***)
+#if IPYNB
+fittedChartMMF
+#endif // IPYNB
+
+(***hide***)
+fittedChartMMF |> GenericChart.toChartHTML
+(***include-it-raw***)
+(*** include-value:generationMmf ***)
+
+(**
+## von Bertalanffy
+
+Since this model expects a x axis crossing of the data it can not be applied to the given data.
+
+Parameters:
+
+ - l: upper asymptote
+
+ - k: growth rate
+
+ - t0: x axis crossing
+
+*)
+
+(**
+## Comparison between all models
+
+### Fit function
+*)
 let combinedChart =
     [
-    chartLogR               |> Chart.withTraceName "log count"
-    Chart.Line(fittedValues)|> Chart.withTraceName "regression line"
-    fittedValuesGompertz    |> Chart.withTraceName "Gompertz"
-    fittedValuesRichards    |> Chart.withTraceName "Richards"
-    fittedValuesWeibull     |> Chart.withTraceName "Weibull"
-    fittedValuesJanoschek   |> Chart.withTraceName "Janoschek"
-    fittedValuesExp         |> Chart.withTraceName "Exponential"
-    fittedValuesVerhulst    |> Chart.withTraceName "Verhulst"
-    fittedValuesMMF         |> Chart.withTraceName "MorganMercerFlodin"
+        
+        Chart.Point(time,cellCountLn) |> Chart.withTraceName "log count"
+        Chart.Line(fittedValues)|> Chart.withTraceName "regression line"
+        fittedValuesGompertz    |> Chart.withTraceName "Gompertz"
+        fittedValuesRichards    |> Chart.withTraceName "Richards"
+        fittedValuesWeibull     |> Chart.withTraceName "Weibull"
+        fittedValuesJanoschek   |> Chart.withTraceName "Janoschek"
+        fittedValuesExp         |> Chart.withTraceName "Exponential"
+        fittedValuesVerhulst    |> Chart.withTraceName "Verhulst"
+        fittedValuesMMF         |> Chart.withTraceName "MorganMercerFlodin"
     ]
     |> Chart.Combine
     |> styleChart "time (h)" "ln(cells/ml)"
 
-let generationMmf = 
-    sprintf "The generation time (MMF) is: %.1f min" (generationtimeMmf (vector [|16.46099291; 24.00147463; 0.2500698772; 3.741048641|]) * 60.)
+(*** condition: ipynb ***)
+#if IPYNB
+combinedChart
+#endif // IPYNB
+
+(***hide***)
+combinedChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+### Generation time
+*)
 
 let generationTimeTable =
     let header = ["<b>Model</b>";"<b>Generation time (min)"]
@@ -738,31 +859,12 @@ let generationTimeTable =
         )
 
 (***hide***)
-combinedChart |> GenericChart.toChartHTML
-(***include-it-raw***)
-(*** include-value:generationMmf ***)
-(***hide***)
 generationTimeTable |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
-##von Bertalanffy
 
-Since this model expects a x axis crossing of the data it can not be applied to the given data.
-
-Parameters:
-
- - l: upper asymptote
-
- - k: growth rate
-
- - t0: x axis crossing
-
-*)
-
-(**
-
-##Model examples
+## Model examples
 
 *)
 
@@ -783,6 +885,7 @@ let gom =
     ]
     |> Chart.Combine
     |> Chart.withTitle "Gompertz"
+
 
 (***hide***)
 gom |> GenericChart.toChartHTML

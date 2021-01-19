@@ -11,26 +11,26 @@
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-open FSharp.Collections
-
-let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
-let myAxisRange name range = LinearAxis.init(Title=name,Range=StyleParam.Range.MinMax(range), Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true)
-let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
-let styleChartRangeY x y mi ma chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxisRange y (mi,ma))
-
-
 (**
 
-#Signal
+# Signal
 
-<a name="Outliers"></a>
+_Summary:_ this tutorial demonstrates multiple ways of signal processing with FSharp.Stats.
 
-##Outliers
+### Table of contents
 
-###Tukey's fences
+ - [Outliers](#Outliers)
+    - [Tukey's fences](#Tukey-s-fences)
+ - [Filtering](#Filtering)
+ - [Padding](#Padding)
+ - [Wavelet](#Wavelet)
+    - [Continuous Wavelet](#Continuous-Wavelet)
+    - [Continuous Wavelet 3D](#Continuous-Wavelet-3D)
+ - [Fast Fourier transform](#Fast-Fourier-transform)
+
+## Outliers
+
+### Tukey's fences
 
 A common approach for outlier detection is Tukey's fences-method. It determines the interquartile range (IQR) of the 
 data and adds a fraction of it to the third quartile (Q3) or substracts it from the first quartile (Q1) respectively. 
@@ -41,10 +41,10 @@ In the generation of box plots the same method determines the whiskers and outli
 Reference:
 
   - Tukey, JW. Exploratory data analysis. Addison-Wesely, 1977
- 
- 
+
 *)
 open FSharp.Stats
+open FSharp.Collections
 
 let sampleO1 = [|45.;42.;45.5;43.;47.;51.;34.;45.;44.;46.;48.;37.;46.;|]
 
@@ -56,7 +56,13 @@ let lowerBorderO1 = Intervals.getStart outlierBordersO1
 let upperBorderO1 = Intervals.getEnd outlierBordersO1
 // result: 51.83333
 
-(*** hide ***)
+open Plotly.NET
+
+//some axis styling
+let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
+let myAxisRange name range = Axis.LinearAxis.init(Title=name,Range=StyleParam.Range.MinMax(range), Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true)
+let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
+let styleChartRangeY x y mi ma chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxisRange y (mi,ma))
 
 let (inside,outside) =
     sampleO1 
@@ -70,8 +76,8 @@ let tukeyOutlierChart =
     |> Chart.Combine
     |> Chart.withShapes(
         [
-            Shape.init(ShapeType.Line,0.5,1.5,lowerBorderO1,lowerBorderO1,Line=Line.init(Dash=DrawingStyle.Dash,Color="grey"))
-            Shape.init(ShapeType.Line,0.5,1.5,upperBorderO1,upperBorderO1,Line=Line.init(Dash=DrawingStyle.Dash,Color="grey"))
+            Shape.init(StyleParam.ShapeType.Line,0.5,1.5,lowerBorderO1,lowerBorderO1,Line=Line.init(Dash=StyleParam.DrawingStyle.Dash,Color="grey"))
+            Shape.init(StyleParam.ShapeType.Line,0.5,1.5,upperBorderO1,upperBorderO1,Line=Line.init(Dash=StyleParam.DrawingStyle.Dash,Color="grey"))
         ]
         )
     |> styleChartRangeY "" "" 30. 60.
@@ -86,11 +92,9 @@ tukeyOutlierChart
 tukeyOutlierChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
-
 (**
-<a name="Filtering"></a>
 
-##Filtering
+## Filtering
 
 Savitzgy-Golay description is coming soon.
 
@@ -124,8 +128,6 @@ savitzgyChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
-
-<a name="Padding"></a>
 
 ## Padding
 
@@ -190,7 +192,6 @@ let paddedData =
     //if a gap is greater than 10. the HugeGapPaddingMethod is applied
     Padding.pad data minDistance maxSpacing getDiffFu addXValue borderpadding borderPadMethod innerPadMethod hugeGapPadMethod
 
-(***hide***)
 let paddedDataChart=
     let myYAxis() =
             Axis.LinearAxis.init(
@@ -207,22 +208,23 @@ let paddedDataChart=
     |> Chart.withY_Axis (myYAxis())
     |> Chart.withSize(900.,450.)
 
+(*** condition: ipynb ***)
+#if IPYNB
+paddedDataChart
+#endif // IPYNB
+
 (***hide***)
 paddedDataChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
-
 (**
 Example for a linear interpolation as huge gap padding method
-
 *)
 
 //get the padded data
 let paddedDataLinear =
     //if a gap is greater than 10. the LinearInterpolation padding method is applied
     Padding.pad data minDistance maxSpacing getDiffFu addXValue borderpadding borderPadMethod innerPadMethod Padding.HugeGapPaddingMethod.LinearInterpolation
-
-(***hide***)
 
 let axis() = Axis.LinearAxis.init(Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
 let axisWithTitle title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true)
@@ -237,19 +239,20 @@ let paddedDataLinearChart=
     |> Chart.withY_Axis (axisWithTitle "Temperature")
     |> Chart.withSize(900.,450.)
 
+(*** condition: ipynb ***)
+#if IPYNB
+paddedDataLinearChart
+#endif // IPYNB
+
 (***hide***)
 paddedDataLinearChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
 
-<a name="Wavelet"></a>
+## Wavelet
 
-#Wavelet
-
-<a name="ContinuousWavelet"></a>
-
-##Continuous Wavelet
+### Continuous Wavelet
 
 The Continuous Wavelet Transform (CWT) is a multiresolution analysis method to gain insights into frequency components of a signal with simultaneous 
 temporal classification. Wavelet in this context stands for small wave and describes a window function which is convoluted with the original signal at 
@@ -261,7 +264,6 @@ properties of time resolution and frequency resolution (Heisenberg's uncertainty
 
 For further information please visit [The Wavelet Tutorial](http://web.iitd.ac.in/~sumeet/WaveletTutorial.pdf).
 *)
-
 
 open FSharp.Stats
 open StyleParam
@@ -308,13 +310,14 @@ let combinedChart =
     //|> Chart.withSize(900.,700.)
     
 
+(*** condition: ipynb ***)
+#if IPYNB
+combinedChart
+#endif // IPYNB
+
 (***hide***)
 combinedChart |> GenericChart.toChartHTML
 (***include-it-raw***)
-
-
-
-
 
 
 (**
@@ -345,7 +348,6 @@ Because in most cases default parameters are sufficient to transform the data, t
 
  - hugeGapPadding: Zero (redundant)
 
-
 *)
 
 //used wavelets
@@ -372,6 +374,15 @@ let defaultChart =
     |> Chart.withX_Axis (axisWithTitle "Time")
     |> Chart.withTitle "default transform"
 
+(*** condition: ipynb ***)
+#if IPYNB
+defaultChart
+#endif // IPYNB
+
+(***hide***)
+defaultChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
 (**
 - Because random y-values are introduced, small wavelets are going to receive a high correlation in big gaps!
 - s = scale
@@ -384,7 +395,6 @@ let defaultZeroTransform =
     rickerArrayDefault
     |> Array.map (ContinuousWavelet.transformDefaultZero data)
 
-(***hide***)
 let defaultZeroChart =
     let rawDataChart =
         [|Chart.Area(data,Name= "rawData")|]
@@ -399,6 +409,7 @@ let defaultZeroChart =
     |> Chart.withX_Axis (axisWithTitle "Time")
     |> Chart.withTitle "default Zero transform"
 
+
 (**
 - Because zeros are introduced, the adjacent signals are going to receive a high correlation!
 - In this example the correlation coefficients in general drop to a reduced intensity because a zero values are introduced between every data point (minDistance = minimal spacing / 2.). So here a zero padding makes no sense. The Temperature wont drop to zero between two measurements.
@@ -406,11 +417,18 @@ let defaultZeroChart =
 - f = frequency [days]
 *)
 
-(*** include-value:defaultZeroChart ***)
+(*** condition: ipynb ***)
+#if IPYNB
+defaultZeroChart
+#endif // IPYNB
+
+(***hide***)
+defaultZeroChart |> GenericChart.toChartHTML
+(***include-it-raw***)
 
 (**
 
-##Continuous Wavelet 3D
+### Continuous Wavelet 3D
 
 When dealing with three dimensional data a three dimensional wavelet has to be used for signal convolution. Here the Marr wavelet (3D mexican hat wavlet) is used for analysis.
 Common cases are:
@@ -418,7 +436,6 @@ Common cases are:
 - (microscopic) images
 
 - micro arrays
-
 
 *)
 
@@ -447,7 +464,6 @@ let paddedData2D =
 let marrWavelet = 
     Wavelet.createMarr 3.
 
-
 let transformedData2D =
     ContinuousWavelet.Discrete.ThreeDimensional.transform paddedData2D padding marrWavelet
 
@@ -461,13 +477,16 @@ let combined2DChart =
     [data2DChart;chartHeatmap]
     |> Chart.Stack 2
 
-(*** include-value:combined2DChart***)
+(*** condition: ipynb ***)
+#if IPYNB
+combined2DChart
+#endif // IPYNB
 
-
+(***hide***)
+combined2DChart |> GenericChart.toChartHTML
+(***include-it-raw***)
 
 (**
-
-<a name="FFT"></a>
 
 ## Fast Fourier transform
 
@@ -475,59 +494,45 @@ The FFT analysis converts a signal from its original domain (often time or space
 
 *)
 
-//open FSharp.Stats 
+open FSharp.Stats 
 
-//// Fast fourier transform
+// Fast fourier transform
 
-//// Sampling frequency   
-//let fs = 1000  
-//// Sampling period      
-//let tp = 1. / float fs
-//// Length of signal
-//let l = 1500;            
+// Sampling frequency   
+let fs = 1000  
+// Sampling period      
+let tp = 1. / float fs
+// Length of signal
+let l = 1500;            
 
-//// Time vector
-//let t = Array.init (l-1) (fun x -> float x * tp)       
+// Time vector
+let time = Array.init (l-1) (fun x -> float x * tp)       
 
-//let pi = System.Math.PI
+let pi = System.Math.PI
 
-//let signal t = 0.7 * sin (2.*pi*50.*t) + sin (2.*pi*120.*t)
-//let y = t |> Array.map signal
+let signal t = 0.7 * sin (2.*pi*50.*t) + sin (2.*pi*120.*t)
+let timeSignal = time |> Array.map signal
 
-//let y' = 
-//    Signal.FFT.inverseInPlace (
-//        y 
-//        |> Array.map (fun v ->  Complex.Create (v, 0.) )) 
-//    |> Array.map (fun c -> c.RealPart)
+let fft = 
+    Signal.FFT.inverseInPlace (
+        timeSignal 
+        |> Array.map (fun v ->  Complex.Create (v, 0.) )) 
+    |> Array.map (fun c -> c.RealPart)
 
+let fftChart = 
+    [
+        Chart.Line(time,timeSignal) |> Chart.withTraceName "signal"
+        Chart.Line(time,fft) |> Chart.withTraceName "fft"
+    ]
+    |> Chart.Combine
+    |> Chart.withX_Axis (axis())
+    |> Chart.withY_Axis (axis())
 
-//[
-//    Chart.Line(t,y)
-//    Chart.Line(t,y')
-//]
-//|> Chart.Combine
-//|> Chart.Show
+(*** condition: ipynb ***)
+#if IPYNB
+fftChart
+#endif // IPYNB
 
-
-//Chart.Line(t,y') |> Chart.Show
-
-//let x = [|0. .. 0.1 .. 10.|]
-//let f t = 5. + 2. * cos (2.*pi*t-90.) + 3.* cos (4.*pi*t)
-//let y = x |> Array.map fA
-//let y' = Signal.FFT.inverseInPlace (
-//    y 
-//    |> Array.map (fun v ->  Complex.Create (v, 0.) )) 
-//    |> Array.map (fun c -> c.RealPart)
-
-//Chart.Line(x,x |> Array.map f) |> Chart.Show
-
-//Chart.Line(x,y') |> Chart.Show
-
-
-
-(**
-<a name="Baseline"></a>
-
-##Baseline
-
-*)
+(***hide***)
+fftChart |> GenericChart.toChartHTML
+(***include-it-raw***)

@@ -14,18 +14,13 @@
 open Plotly.NET
 open Plotly.NET.Axis
 open Plotly.NET.StyleParam
+
 (**
-#Linear Algebra
+# Linear Algebra
 *)
 
 open FSharp.Stats
 open FSharp.Stats.Algebra
-
-// Consider a system of linear equation writen in matrix form
-//   x1 +   x2 -   x3 =  4.
-//   x1 - 2.x2 - 3.x3 = -6.
-// 2.x1 + 3.x2 +   x3 =  7.
-// -> AX = B
 
 let A = 
     matrix [ [ 1.0;  1.0; -1.0 ]
@@ -37,49 +32,19 @@ let B =
              [ -6.0; ]
              [  7.0; ] ]
 
+(**
 
+## Using unmanaged optimized linear algebra functions
+
+**Attention**: These bindings are highly incomplete and will most likely be dropped for something like MKL.NET. [See issue#](https://github.com/fslaborg/FSharp.Stats/issues/91)
+
+the native libraries are contained in the nuget package at the `netlib_LAPACK` path. Include that one instead of the `/../../lib` pth used here.
+
+*)
 
 ServiceLocator.setEnvironmentPathVariable (__SOURCE_DIRECTORY__ + "/../../lib") //"D:/Source/FSharp.Stats/lib"
 
 LinearAlgebra.Service()
 
-LinearAlgebra.SVD A
-
-
-
-// Let A = LU (LU - decomposition) and substitute into AX = B
-// Solve LUX = B for X to solve the system.
-// Let UX = Y 
-// LY = B and UX = Y
-// First solve LY = B for Y and then solve UX = Y for X.
-
-let P,L,U = Algebra.LinearAlgebraManaged.LU A
-
-
-open FSharp.Stats.Algebra
-open FSharp.Stats.Algebra.LinearAlgebraManaged
-
-//let SolveLinearSystemsByQR (A:matrix) (B:matrix) =
-//    let (n,m) = A.Dimensions
-//    //if n <> m then invalidArg "Matrix" "Matrix must be square." 
-//    let q,r = QR A
-//    let y = q.Transpose * B
-//    (SolveTriangularLinearSystems r y true)
-
-
-//let A = 
-//    matrix [ [ 2.0; 1.0; 1.0 ]
-//             [ 1.0; 3.0; 2.0 ]
-//             [ 1.0; 0.0; 0.0 ] ]
-
-
-
-//let B = 
-//    matrix [ [ 4.0; ]
-//             [ 5.0; ]
-//             [ 6.0; ] ]
-
-//// [  6.  15. -23.]
-//SolveLinearSystems A B
-
-
+let svdRes = LinearAlgebra.SVD A
+(***include-value:svdRes***)

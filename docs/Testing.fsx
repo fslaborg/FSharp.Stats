@@ -11,25 +11,39 @@
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-
-let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
-let myAxisRange title range = LinearAxis.init(Title=title,Range=Range.MinMax range,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
-let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
-let styleChartRange x y rx ry chart = chart |> Chart.withX_Axis (myAxisRange x rx) |> Chart.withY_Axis (myAxisRange y ry)
-
 (**
-#Statistical testing
+
+# Statistical testing
+
+_Summary:_ this tutorial explains how to perform various statistical tests with FSharp.Stats.
+
+### Table of contents
+
+ - [Test Statistics](#Test-Statistics)
+    - [T-Test](#T-Test)
+    - [Anova](#Anova)
+    - [F-Test](#F-Test)
+    - [H Test](#H-Test)
+    - [Chi-Squared Test](#Chi-Squared-Test)
+    - [Bartlett](#Bartlett)
+ - [PostHoc](#PostHoc)
+    - [Fisher's LSD](#Fisher-s-LSD)
+    - [Hays](#Hays)
+    - [Tukey HSD](#Tukey-HSD)
+    - [Dunnetts test](#Dunnetts-test)
+    - [Fisher Hotelling](#Fisher-Hotelling)
+- [Multiple testing](#Multiple-testing)
+    - [Benjamini-Hochberg](#Benjamini-Hochberg)
+    - [Q Value](#Q-Value)
+
 FSharp.Stats provides hypothesis tests for different applications.
 A hypothesis test is a statistical test that is used to determine whether there is enough evidence 
 in a sample of data to infer that a certain condition is true for the entire population. 
 A hypothesis test examines two opposing hypotheses about a population: the null hypothesis and the alternative hypothesis.
-<a name="TestStatistics"></a>
-##Test Statistics
-<a name="TTest"></a>
-##T-Test
+
+## Test Statistics
+
+### T-Test
 
 By using a t test a difference of means can be evaluated. There are different kinds of t test designs implemented in FSharp.Stats.
 
@@ -148,10 +162,8 @@ let welch = TTest.twoSample false sampleW1 sampleW2
 *)
 
 (**
-<a name="Anova"></a>
-##Anova
+### Anova
 *)
-
 
 let dataOneWay =
     [|
@@ -234,7 +246,6 @@ let data =
 
 Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data
 
-
 // http://statweb.stanford.edu/~susan/courses/s141/exanova.pdf
 // http://scistatcalc.blogspot.de/2013/11/two-factor-anova-test-calculator.html#
 
@@ -258,10 +269,10 @@ let data' =
 
 Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed data'
 
-
 (**
-<a name = "FTest"></a>
-##F-Test
+
+### F-Test
+
 The F-test is a method to determine if the variances of two samples are homogeneous.
 Also, ANOVA (analysis of variance) is based on the F-test and is used for the comparison of more than two samples.
 Knowing if your variances are equal (H<sub>0</sub> is true) helps to decide which test should be performed next.
@@ -311,8 +322,7 @@ let fTestFromData = FTest.testVariances sampleFA sampleFB
     DegreesOfFreedom2 = 4.0
     PValue = 0.1708599931 }
     Using a significance level of 0.05 the sample variances do differ significantly.
-*)
-(** 
+
 *F-Test from given parameters:*
 *)
 
@@ -322,16 +332,14 @@ let sampleF2 = (0.05, 7.)
 
 // comparison of sample variances 
 let fTestFromParameters = FTest.testVariancesFromVarAndDof sampleF1 sampleF2
-(*
-    { Statistic = 2.0
-    DegreesOfFreedom1 = 15.0
-    DegreesOfFreedom2 = 7.0
-    PValue = 0.17963663 }
-    Using a significance level of 0.05 the sample variances do differ significantly.
-*)
 
-(** 
-##H Test
+(***include-value:fTestFromParameters***)
+
+(**
+Using a significance level of 0.05 the sample variances do differ significantly.
+
+### H Test
+
 The H test is also known as Kruskal-Wallis one-way analysis-of-variance-by-ranks and is the non-parametric equivalent of one-way ANOVA. 
 It is a non-parametric test for comparing the means of more than two independent samples (equal or different sample size), and therefore is an extension of Wilcoxon-Mann-Whitney two sample test.
 Testing with H test gives information whether the samples are from the same distribution.
@@ -376,14 +384,16 @@ _PValueRight is significant at a alpha level of 0.05_
 A suitable post hoc test for H tests is Dunn's test.
 *)
 
-
 (**
-<a name="ChiSquareTest"></a>
-##Chi-Squared Test
-<a name="Bartlett"></a>
-##Bartlett
-<a name="PostHoc"></a>
-##PostHoc
+### Chi-Squared Test
+
+WIP
+
+### Bartlett
+
+WIP
+
+## PostHoc
 
 ANOVA provides the user with a global statement if samples differ from each other. It does not provide detailed information regarding
 differences of the single samples.
@@ -393,12 +403,11 @@ individual groups.
 
 Reference: What is the proper way to apply the multiple comparison test?, Sangseok Lee and Dong Kyu Lee, 2018
 
-###Fisher's LSD
+### Fisher's LSD
 
 The most simple method is Fisher's least significant difference (Fisher's LSD). It calculates Student's t tests for all pairwise comparisons. But instead of 
 estimating the variance for each sample separately it takes all groups into account. Violations of the homogeneity of variances reduce the test power.
 Since no correction for multiple comparisons is performed, the resulting p values must be corrected (for example with Benjamini-Hochberg method).
-
 
 *)
 open PostHoc
@@ -413,7 +422,13 @@ let (index,pValue,pValueAdj) =
     |> List.map (fun (x,pValAdj) -> x.Index, x.Significance, pValAdj)
     |> List.unzip3
 
-(*** hide ***)
+open Plotly.NET
+
+//some axis styling
+let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
+let myAxisRange name range = Axis.LinearAxis.init(Title=name,Range=StyleParam.Range.MinMax(range), Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true)
+let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
+let styleChartRange x y rx ry chart = chart |> Chart.withX_Axis (myAxisRange x rx) |> Chart.withY_Axis (myAxisRange y ry)
 
 let lsdCorrected =
     let header = ["<b>Contrast index</b>";"<b>p Value</b>";"<b>p Value adj</b>"]
@@ -445,7 +460,7 @@ lsdCorrected |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
-###Hays
+### Hays
 *)
 
 Testing.PostHoc.hays contrastMatrix dataOneWay 
@@ -483,7 +498,7 @@ Testing.PostHoc.hays contrastMatrixDmg dmg
 Anova.oneWayAnova dmg
 
 (**
-###Tukey HSD 
+### Tukey HSD 
 
 Tukeys honestly significant difference (HSD) can be used to inspect a significant ANOVA result for underlying causes.
 
@@ -509,7 +524,6 @@ Task: It should be tested if one or more means of samples taken from different m
 
 *)
 
-
 // Example values from: https://brownmath.com/stat/anova1.htm
 let hsdExample = 
     [|
@@ -519,9 +533,7 @@ let hsdExample =
         [|55.; 66.; 49.; 64.; 70.; 68.;|] // sample of mutant/drug/factor 4    
     |]
 
-
 let anovaResult = Anova.oneWayAnova hsdExample
-
 
 (*
     anovaResult.Factor.Statistic = 5.41
@@ -582,12 +594,12 @@ let tukeySignificance =
 //TTest.twoSample true (vector hsdExample.[2]) (vector hsdExample.[3])
 
 (**
-###Dunnetts test
+### Dunnetts test
 
 When there is one control group which should be compared with all treatment-groups, you can use Dunnett's test. It is a multiple-to-one post hoc test
 that has a higher power than Tukey's HSD since fewer comparisons have to be performed.
 
-###Fisher Hotelling
+### Fisher Hotelling
 
 *)
 
@@ -597,16 +609,14 @@ let d2 = [14.4;15.2;11.3;2.5;22.7;14.9;1.41;15.81;4.19;15.39;17.25;9.52; ]
 Testing.FisherHotelling.test d1 d2
 
 (**
-<a name="PvalueAdjust"></a>
 
-##Multiple Testing
+## Multiple testing
 
 When conducting multiple hypothesis test the &alpha;-error accumulates. This is because the p value just describes the probability for 
 a false positive for one single test. If you perform 10 t-test at an &alpha; level of 0.05, the probability of getting a significant result by chance
 is 40.1% [ (1-(1-&alpha;)<sup>k</sup> ].
 
 *)
-(*** hide ***)
 
 let aErrorAcc = 
     [1. .. 100.]
@@ -630,11 +640,7 @@ The most conservative method is the Bonferroni correction, where the used &alpha
 
 A modern correction approach is the Benjamini-Hochberg method also known as FDR (false discovery rate).
 
-*)
-
-
-(**
-### Benjamini-Hochberg
+### Benjamini-Hochberg 
 
 *)
 let pValues =
@@ -651,7 +657,6 @@ let pValsAdj =
     MultipleTesting.benjaminiHochbergFDRBy (fun x -> x,x) pValues
     |> List.rev
 
-(*** hide ***)
 let bhValues =
     [
         Chart.Line(pValues,pValues,Name="diagonal")
@@ -686,7 +691,6 @@ let qValuesRob =
     pValues
     |> MultipleTesting.Qvalues.ofPValuesRobust pi0 
 
-(*** hide ***)
 let qChart =    
     [
         Chart.Line(pValues,qValues,Name="qValue")
@@ -697,8 +701,8 @@ let qChart =
 
 let qHisto =
     [
-        Chart.Histogram(pValues,Xbins=Bins.init(0.,1.,0.05),Name="pValues",HistNorm=HistNorm.Density)
-        Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",Dash=DrawingStyle.Dash)
+        Chart.Histogram(pValues,Xbins=Bins.init(0.,1.,0.05),Name="pValues",HistNorm=StyleParam.HistNorm.Density)
+        Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",Dash=StyleParam.DrawingStyle.Dash)
     ]
     |> Chart.Combine
     |> styleChart "p value" "density"
@@ -720,4 +724,3 @@ qHisto
 (***hide***)
 qHisto |> GenericChart.toChartHTML
 (***include-it-raw***)
-

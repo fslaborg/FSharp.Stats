@@ -11,18 +11,22 @@
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-
-
 (**
 
-#Goodness of fit
+# Fit quality
 
-##Linear regression report
+_Summary:_ this tutorial shows how to assess fit quality with FSharp.Stats
 
+### Table of contents
+
+ - [Linear regression report](#Linear-regression-report)
+ - [Confidence bands](#Confidence-bands)
+ - [Prediction bands](#Prediction-bands)
+ - [Cook's distance](#Cook-s-distance)
+
+## Linear regression report
+
+Consider this simple linear regression:
 *)
 open FSharp.Stats
 open FSharp.Stats.Fitting
@@ -39,6 +43,31 @@ let fitFunc = Linear.Univariable.fit coefficients
 
 let fittedValues = x |> Seq.map fitFunc
 
+open Plotly.NET
+
+let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+
+let chart =
+    [
+    Chart.Point(x,y) |> Chart.withTraceName "raw"
+    Chart.Line(fittedValues|> Seq.mapi (fun i y -> x.[i],y)) |> Chart.withTraceName "fit"
+    ]
+    |> Chart.Combine
+    |> Chart.withX_Axis(myAxis "")
+    |> Chart.withY_Axis(myAxis "")
+
+(*** condition: ipynb ***)
+#if IPYNB
+chart
+#endif // IPYNB
+
+(***hide***)
+chart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+Various quality parameters can be accessed via the `GoodnessOfFit` module:
+*)
 
 //In the following some quality/interval/significance values are computed:
 let sos         = GoodnessOfFit.calculateSumOfSquares fitFunc x y
@@ -79,16 +108,6 @@ let upperI      = intercept + criticalT * stdErrIntercept
 let testSlope   = GoodnessOfFit.ttestSlope slope sos
 let testInterc  = GoodnessOfFit.ttestIntercept intercept sos
 
-(***hide***)
-
-let chart =
-    [
-    Chart.Point(x,y) |> Chart.withTraceName "raw"
-    Chart.Line(fittedValues|> Seq.mapi (fun i y -> x.[i],y)) |> Chart.withTraceName "fit"
-    ]
-    |> Chart.Combine
-    |> Chart.withX_Axis(myAxis "")
-    |> Chart.withY_Axis(myAxis "")
   
 let outputTable = 
     let header = ["<b>ParameterName</b>";"Value";"StandardError (SE Coeff)"]
@@ -120,19 +139,22 @@ let outputTable =
         rows, 
         ColorHeader = "#deebf7",
         ColorCells  = ["#deebf7";"white";"white"],
-        AlignCells  = [HorizontalAlign.Left;HorizontalAlign.Center]
+        AlignCells  = [StyleParam.HorizontalAlign.Left;StyleParam.HorizontalAlign.Center]
         )
     |> Chart.withTitle "Regression report"
     
-(***hide***)
-chart |> GenericChart.toChartHTML
-(***include-it-raw***)
+
+(*** condition: ipynb ***)
+#if IPYNB
+outputTable
+#endif // IPYNB
+
 (***hide***)
 outputTable |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
-##Confidence bands
+## Confidence bands
 
 A confidence band shows the uncertainty of an curve estimate. It widens towards the periphery. 
 
@@ -140,9 +162,7 @@ A prediction band shows the uncertainty of a value of a new data point.
 
 In both cases homoscedasticity is assumed.
 
-
 *)
-
 
 //data sorted by x values
 let xData = vector [|1. .. 10.|]
@@ -185,10 +205,14 @@ let rangePlot =
     |> Chart.withX_Axis (myAxis "")
     |> Chart.withTitle "Confidence band 95%"
 
+(*** condition: ipynb ***)
+#if IPYNB
+rangePlot
+#endif // IPYNB
+
 (***hide***)
 rangePlot |> GenericChart.toChartHTML
 (***include-it-raw***)
-
 
 (**
 The confidence band calculation is not limited to the original x values. To get a smooth confidence band, introduce additional x values in small steps.
@@ -220,13 +244,18 @@ let linePlot =
     |> Chart.withY_Axis(myAxis "")
     |> Chart.withTitle "Confidence band 95%"
 
+(*** condition: ipynb ***)
+#if IPYNB
+rangePlot
+#endif // IPYNB
+
 (***hide***)
 linePlot |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
 
-##Prediction bands
+## Prediction bands
 
 *)
 
@@ -261,7 +290,7 @@ predictionPlot |> GenericChart.toChartHTML
 
 
 (**
-##Cook's distance
+## Cook's distance
 
 Leverage: Leverage describes the potential impact of data points regarding their regression line. Points that show a great dependent-variable-distance to all other points, have a 
 higher potential to distort the regression line coefficients (high-leverage points).
@@ -288,13 +317,12 @@ let threshold1 = 1.
 let threshold2 = 4. / nD
 let threshold3 = 3. * meanCook
 
-(*** hide ***)
 let cook = 
     [
     Chart.Column (Seq.zip xD cooksDistance) |> Chart.withTraceName "cook's distance"
-    Chart.Line([0.5,threshold1;10.5,threshold1])|> Chart.withLineStyle(Dash=DrawingStyle.Dash)|> Chart.withTraceName "t=1"
-    Chart.Line([0.5,threshold2;10.5,threshold2])|> Chart.withLineStyle(Dash=DrawingStyle.Dash)|> Chart.withTraceName "t=4/n"
-    Chart.Line([0.5,threshold3;10.5,threshold3])|> Chart.withLineStyle(Dash=DrawingStyle.Dash)|> Chart.withTraceName "t=3*mean(D)"
+    Chart.Line([0.5,threshold1;10.5,threshold1])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "t=1"
+    Chart.Line([0.5,threshold2;10.5,threshold2])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "t=4/n"
+    Chart.Line([0.5,threshold3;10.5,threshold3])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "t=3*mean(D)"
     ]
     |> Chart.Combine
     |> Chart.withX_Axis(myAxis "x")
@@ -304,6 +332,11 @@ let cook =
     |> Chart.withY_Axis(myAxis "")
     |> Chart.withTitle "Cook's distance"
     |> Chart.withSize (650.,650.)
+
+(*** condition: ipynb ***)
+#if IPYNB
+cook
+#endif // IPYNB
 
 (***hide***)
 cook |> GenericChart.toChartHTML
