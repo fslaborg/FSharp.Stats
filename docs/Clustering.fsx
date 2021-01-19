@@ -14,12 +14,25 @@
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-
 (**
 # Clustering
+
+_Summary:_ this tutorial demonstrates several clustering methods in FSharp.Stats and how to visualize the results with Plotly.NET.
+
+### Table of contents
+
+ - [Iterative Clustering](#Iterative-Clustering)
+    - [k-means clustering](k-means-clustering)
+ - [Density based clustering](#Density-based-clustering)
+    - [DBSCAN](#DBSCAN)
+ - [Hierarchical clustering](#Hierarchical-clustering)
+ - [Determining the optimal number of clusters](#Determining-the-optimal-number-of-clusters)
+    - [Rule of thumb](#Rule-of-thumb)
+    - [Elbow criterion](#Elbow-criterion)
+    - [AIC](#AIC)
+    - [Silhouette coefficient](#Silhouette-coefficient)
+    - [GapStatistics](#GapStatistics)
+
 For demonstration of several clustering methods, the classic iris data set is used, which consists of 150 records, 
 each of which contains four measurements and a species identifier. Since the species identifier occur several times 
 (Iris-irginica, Iris-versicolor, and Iris-setosa), the first step is to generate unique labels:
@@ -49,8 +62,10 @@ let lables,data =
     |> Array.unzip
    
 (**
-let's visualize the clustering result with Plotly.NET:
+let's first take a look at the dataset with Plotly.NET:
 *)
+
+open Plotly.NET
 
 let colnames = ["Sepal length";"Sepal width";"Petal length";"Petal width"]
 
@@ -88,7 +103,6 @@ number of clusters).
 open FSharp.Stats.ML
 open FSharp.Stats.ML.Unsupervised
 open FSharp.Stats.ML.Unsupervised.HierarchicalClustering
-
 
 // Kmeans clustering
 
@@ -132,9 +146,9 @@ let getBestkMeansClustering data k bootstraps =
     |> List.minBy (fun clusteringResult -> IterativeClustering.DispersionOfClusterResult clusteringResult)
 
 (**
-##Density based clustering
+## Density based clustering
 
-###DBSCAN
+### DBSCAN
 
 *)
 //four dimensional clustering with sepal length, petal length, sepal width and petal width
@@ -145,6 +159,9 @@ let petLpetW      = data |> Array.map (fun x -> [|x.[2];x.[3]|])
 
 //extract petal width, petal length and sepal length  
 let petWpetLsepL = data |> Array.map (fun x -> [|x.[3];x.[2];x.[0]|])
+
+let axis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
+let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
 
 //to create a chart with two dimensional data use the following function
 let dbscanPlot =  
@@ -190,6 +207,7 @@ let dbscanPlot =
     |> Chart.withX_Axis (axis "Petal width") 
     |> Chart.withY_Axis (axis "Petal length")
     
+
 (*** condition: ipynb ***)
 #if IPYNB
 dbscanPlot
@@ -243,15 +261,8 @@ let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
     |> Chart.withY_Axis (axis "Petal length")
     |> Chart.withZ_Axis (axis "Sepal length")
         
-
-
 //for faster computation you can use the squaredEuclidean distance and set your eps to its square
 let clusteredChart3D = create3dChart DistanceMetrics.Array.euclideanNaNSquared 20 (0.7**2.) petWpetLsepL 
-
-(*** condition: ipynb ***)
-#if IPYNB
-clusteredChart3D
-#endif // IPYNB
 
 (***hide***)
 clusteredChart3D |> GenericChart.toChartHTML
@@ -326,15 +337,20 @@ let hierClusteredDataHeatmap =
     |> Chart.withMarginSize(Left=250.)
     |> Chart.withTitle "Clustered iris data (hierarchical clustering)"
 
+(*** condition: ipynb ***)
+#if IPYNB
+hierClusteredDataHeatmap
+#endif // IPYNB
+
 (***hide***)
 hierClusteredDataHeatmap |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
 
-#Determining the optimal number of clusters
+# Determining the optimal number of clusters
 
-##Rule of thumb
+## Rule of thumb
 
 The rule of thumb is a very crude cluster number estimation only based on the number of data points.
 
@@ -350,7 +366,7 @@ let ruleOfThumb = ClusterNumber.kRuleOfThumb data
 (**
 
 
-##Elbow criterion
+## Elbow criterion
 
 The elbow criterion is a visual method to determine the optimal cluster number. The cluster dispersion is measured as the sum of all average (squared) euclidean distance of each point to its associated centroid.
 The point at wich the dispersion drops drastically and further increase in k does not lead to a strong decrease in dispersion is the optimal k.
@@ -389,12 +405,17 @@ let elbowChart =
     |> Chart.withY_Axis (axis "dispersion")
     |> Chart.withTitle "Iris data set dispersion"
 
+(*** condition: ipynb ***)
+#if IPYNB
+hierClusteredDataHeatmap
+#endif // IPYNB
 
 (***hide***)
 elbowChart |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
-#AIC
+# AIC
 
 [Reference](https://nlp.stanford.edu/IR-book/html/htmledition/cluster-cardinality-in-k-means-1.html)
 
@@ -402,7 +423,6 @@ The Akaike information criterion (AIC) balances the information gain (with raisi
 The k that minimizes the AIC is assumed to be the optimal one. 
 
 *)
-
 
 let aicBootstraps = 10
 
@@ -428,11 +448,17 @@ let aicChart =
     |> Chart.withY_Axis (axis "AIC")
     |> Chart.withYErrorStyle aicStd
 
+(*** condition: ipynb ***)
+#if IPYNB
+aicChart
+#endif // IPYNB
+
 (***hide***)
 aicChart |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
-##Silhouette coefficient
+## Silhouette coefficient
 
 The silhouette index ranges from -1 to 1, where -1 indicates a missclassified point, and 1 indicates a perfect fit.
 It can be calculated for every point by comparing the mean intra cluster distance with the nearest mean inter cluster distance.
@@ -441,7 +467,6 @@ The mean of all indices can be visualized, where a maximal value indicates the o
 Reference: 'Review on Determining of Cluster in K-means Clustering'; Kodinariya et al; January 2013
 
 *)
-
 
 // The following example expects the raw data to be clustered by k means clustering.
 // If you already have clustered data use the 'silhouetteIndex' function instead.
@@ -468,8 +493,6 @@ let silhouetteIndicesChart =
     Chart.Line (sI |> Array.map (fun x -> x.ClusterNumber,x.SilhouetteIndex))
     |> Chart.withYErrorStyle (sI |> Array.map (fun x -> x.SilhouetteIndexStDev))
 
-(*** hide ***)
-
 let combinedSilhouette =
 
     let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
@@ -481,12 +504,18 @@ let combinedSilhouette =
     ]
     |> Chart.Stack (2,0.1)
 
+(*** condition: ipynb ***)
+#if IPYNB
+combinedSilhouette
+#endif // IPYNB
+
 (***hide***)
 combinedSilhouette |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
 
-##GapStatistics
+## GapStatistics
 
 Reference: 'Estimating the number of clusters in a data set via the gap statistic'; J. R. Statist. Soc. B (2001); Tibshirani, Walther, and Hastie
 
@@ -502,7 +531,7 @@ Two ways to generate a reference data set are implemented.
 
 *)
 
-(*** hide ***)
+
 let gapStatisticsData = 
     System.IO.File.ReadAllLines(__SOURCE_DIRECTORY__ + "/data/gapStatisticsData.txt")
     |> Array.map (fun x ->
@@ -521,9 +550,15 @@ let gapDataChart =
     |> Chart.Stack 3
     |> Chart.withSize(800.,400.)
     
+(*** condition: ipynb ***)
+#if IPYNB
+gapDataChart
+#endif // IPYNB
+
 (***hide***)
 gapDataChart |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
 The log(dispersionReference) should decrease with rising k, but - if clusters are presend in the data - should be greater than the log(dispersionOriginal). 
 
@@ -570,9 +605,15 @@ let gapStatisticsChart =
     [dispersions; gaps]
     |> Chart.Stack 1
 
+(*** condition: ipynb ***)
+#if IPYNB
+gapStatisticsChart
+#endif // IPYNB
+
 (***hide***)
 gapStatisticsChart |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
 The maximal gap points to the optimal cluster number with the following condition:
 
@@ -587,9 +628,6 @@ let sK   = std |> Array.map (fun sd -> sd * sqrt(1. + 1./500.)) //bootstraps = 5
 
 let gapChart =
 
-    let axis title= Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showline=true,Showgrid=true)
-    let axisRange title range= Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax(range),Mirror=StyleParam.Mirror.All,Showgrid=false,Ticks=StyleParam.TickOptions.Inside,Showline=true)
-    
     Chart.Line (k,gap)
     |> Chart.withYErrorStyle(sK)
     |> Chart.withX_Axis (axisRange "k" (0.,11.)) 
@@ -598,6 +636,7 @@ let gapChart =
 (***hide***)
 gapChart |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 //choose kOpt = smallest k such that Gap(k)>= Gap(k+1)-sk+1, where sk = sdk * sqrt(1+1/bootstraps)
 let kOpt = 
     Array.init (gap.Length - 2) (fun i -> gap.[i] >= gap.[i+1] - sK.[i+1])
