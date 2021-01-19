@@ -17,261 +17,238 @@ open Plotly.NET.Axis
 open Plotly.NET.StyleParam
 
 (**
-Basic stats
-=========================
+# Basics
 
+_Summary:_ this tutorial gives an overview over how to do some of the basic statistical mesaurements with FShrp.Stats.
+
+### Table of contents
+
+ - [Central tendency](#Central-tendency)
+    - [Mean](#Mean)
+    - [Truncated mean](#Truncated-mean)
+    - [Median](#Median)
+    - [Harmonic mean](#Harmonic-mean)
+    - [Geometric mean](#Geometric-mean)
+ - [Dispersion](#Dispersion)
+    - [Range](#Range)
+    - [Variance and Standard Deviation](#Variance-and-standard-deviation)
+    - [Coefficient of variation](#Coefficient-of-variation)
+
+## Central tendency
+
+A [central tendency](https://en.wikipedia.org/wiki/Central_tendency) (or measure of central tendency) is a central or typical value for a probability distribution.
+It may also be called a center or location of the distribution. Colloquially, measures of central tendency are often called averages.
+
+### Mean
+
+For a data set, the arithmetic [mean](https://en.wikipedia.org/wiki/Mean), also called the expected value or average, 
+is the central value of a discrete set of numbers: specifically, 
+the sum of the values divided by the number of values:
+
+$\bar{x} = \frac{1}{n}\left (\sum_{i=1}^n{x_i}\right ) = \frac{x_1+x_2+\cdots +x_n}{n}$
+
+`mean` is available as a Sequence (and other collections) extension, as well as `meanBy`, 
+which takes an additional converter function:
 *)
 open FSharp.Stats
 
-(*** hide ***)
-//let a = 
-//    [|
-//        0.841788;0.726692;0.892715;0.645022;
-//        0.282855;0.000000;0.000000;0.727865;
-//        0.000000;0.744897;0.507446;0.980313;
-//        0.910520;0.000000;0.812722;
-//    |] 
-//Chart.Point (a|> Array.sort ,[|1..15|] |> Array.map (fun k -> Array.quickSelect k a))
-//|> Chart.Show
-//a |> Array.median
-//Array.quickSelect 5 a
-
-
-
-
-
-// Range min to max
-let rTv = 
-    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
-    |> Seq.rangeBy float
-
-
-// Mean 28.6
-(**
-$ \sum_{i=1}^{10} t_i $
-*)
-let mTv = 
+let mean1 = 
     [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
     |> Seq.meanBy float
 
+(***include-value:mean1***)
 
-// Harmonic mean 10.01109
-let hmTv = 
+let mean2 = 
+    [10.; 2.; 19.; 24.; 6.; 23.; 47.; 24.; 54.; 77.;]
+    |> Seq.mean
+
+(***include-value:mean2***)
+
+(**
+### Truncated mean
+
+Computes the truncated (trimmed) mean where a given percentage of the highest and lowest values are discarded. 
+In total 2 times the given percentage are discarded:
+
+`meanTruncated` is available as a Sequence (and other collections) extension, as well as `meanTruncatedBy`, 
+which takes an additional converter function:
+*)
+
+let truncMean1 = 
+    [10.; 2.; 19.; 24.; 6.; 23.; 47.; 24.; 54.; 77.;]
+    |> Seq.meanTruncated 0.2
+
+(***include-value:truncMean1***)
+
+let truncMean2 = 
+    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
+    |> Seq.meanTruncatedBy float 0.2
+
+(***include-value:truncMean2***)
+
+(**
+### Median
+
+The [median](https://en.wikipedia.org/wiki/Median) is a value separating the higher half from the lower half of a data sample, a population, or a probability distribution. 
+For a data set, it may be thought of as "the middle" value: if you sort the values of a collection by size, the median is the value in central position. 
+Therefore there are as many bigger values as smaller values than the median in the collection.
+If there is an even number of observations, then there is no single middle value; the median is then usually defined to be the mean of the two middle values.
+
+`median` is available as a equence (and other collections) extension:
+*)
+
+let median1 = 
+    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
+    |> Seq.median
+
+(***include-value:median1***)
+
+(**
+### Harmonic mean
+
+The [harmonic mean](https://en.wikipedia.org/w/index.php?title=Harmonic_mean&action=edit&section=1) can be expressed as the reciprocal of the arithmetic mean of the reciprocals of the given set of observations.
+It is typically appropriate for situations when the average of rates is desired.
+
+$H = \frac{n}{\frac1{x_1} + \frac1{x_2} + \cdots + \frac1{x_n}} = \frac{n}{\sum\limits_{i=1}^n \frac1{x_i}} = \left(\frac{\sum\limits_{i=1}^n x_i^{-1}}{n}\right)^{-1}.$
+
+`meanHarmonic` is available as a equence (and other collections) extension, as well as `meanHarmonicBy`, 
+which takes an additional converter function:
+*)
+
+let harmonicMean1 = 
+    [10.; 2.; 19.; 24.; 6.; 23.; 47.; 24.; 54.; 77.;]
+    |> Seq.meanHarmonic
+
+(***include-value:harmonicMean1***)
+
+let harmonicMean2 = 
     [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
     |> Seq.meanHarmonicBy float
 
+(***include-value:harmonicMean2***)
 
-// Geometric mean 18.92809
-let gmTv = 
+(**
+
+### Geometric mean
+
+The [geometric mean](https://en.wikipedia.org/wiki/Geometric_mean) indicates the central tendency or typical value of 
+a set of numbers by using the product of their values (as opposed to the arithmetic mean which uses their sum). 
+The geometric mean is defined as the nth root of the product of n numbers:
+
+$\left(\prod_{i=1}^n x_i\right)^\frac{1}{n} = \sqrt[n]{x_1 x_2 \cdots x_n}$
+
+`meanGeometric` is available as a sequence (and other collections) extension, as well as `meanGeometricBy`, 
+which takes an additional converter function:
+
+*)
+
+let geometricMean1 = 
+    [10.; 2.; 19.; 24.; 6.; 23.; 47.; 24.; 54.; 77.;]
+    |> Seq.meanGeometric
+
+(***include-value:geometricMean1***)
+
+let geometricMean2 = 
     [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
     |> Seq.meanGeometricBy float 
  
+(***include-value:geometricMean2***)
 
+(**
+## Dispersion
 
-// sample standard deviation n-1  23.70279
-let stdevTv =
+[Dispersion](https://en.wikipedia.org/wiki/Statistical_dispersion) (also called variability, scatter, or spread) is the extent to which a distribution 
+is stretched or squeezed.
+
+### Range
+
+The [range](https://en.wikipedia.org/wiki/Range_(statistics)) of a set of data is the difference between the largest and smallest values.
+
+`range` is available as a sequence (and other collections) extension, as well as `rangeBy`, 
+which takes an additional converter function:
+
+_Note:_ instead of returning the absolute difference between max and min value, these functions return an interval with these values as boundaries.
+***)
+
+let range1 = 
+    [10.; 2.; 19.; 24.; 6.; 23.; 47.; 24.; 54.; 77.;]
+    |> Seq.rangeBy float
+
+(***include-value:range1***)
+
+let range2 = 
     [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
-    |> Seq.stDevBy float
-    
+    |> Seq.rangeBy float
 
-// population standard deviation n  
-let stdevPopTv =
-    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
-    |> Seq.stDevPopulationBy float
+(***include-value:range1***)
 
+(**
+### Variance and Standard Deviation
 
-// Coefficient of Variation 0.0783
-let cvTv =
-    [5.; 5.5; 4.9; 4.85; 5.25; 5.05; 6.0;] 
-    |> Seq.cv(*By float*)
+The [variance](https://en.wikipedia.org/wiki/Variance)
 
-type RunningStats<'T> = {
-    N : int
-    M1 : 'T
-    M2 : 'T
-    M3 : 'T
-    M4 : 'T
-}
+$s_N^2 = \frac{1}{N} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2$
 
-let createRunningStats n m1 m2 m3 m4 =
-    {N=n;M1=m1;M2=m2;M3=m3;M4=m4}
+and the [standard deviation](https://en.wikipedia.org/wiki/Standard_deviation)
 
+$s_N = \sqrt{\frac{1}{N} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2}$
 
-let inline ofSeq (items:seq<'T>) : RunningStats< 'U >  =
-    use e = items.GetEnumerator()
-    let zero  = LanguagePrimitives.GenericZero< 'U > 
-    //let one   = LanguagePrimitives.GenericOne< 'U > 
-                
-    let rec loop n (m1:'U) (m2:'U) (m3:'U) (m4:'U) =
-        match e.MoveNext() with
-        | true  -> 
+are measures of dispersion the values of a collection have. While the standard deviation has the same unit as the values of the collection the variance has the squared unit. 
 
-            let n' = n + 1
-            let delta  = e.Current - m1       
-            let delta_n  = LanguagePrimitives.DivideByInt< 'U > delta n'                       
-            let m1'    = m1 + delta_n
+`var` and stDev are available as sequence (and other collections) extensions, as well as `varBy` and `stDevBy`, 
+which take an additional converter function:
+*)
 
-            let delta2   = e.Current - m1'
-            let term1    = delta * delta2            
-            let delta_n2 = delta_n * delta_n
+let data = [|1.;3.;5.;4.;2.;8.|]
 
-            let m2' = m2 + term1//delta * delta2
+let varSample = Seq.var data
 
-            let n'       = n + 1
-            let delta    = e.Current - m1
-            let delta_n  = LanguagePrimitives.DivideByInt< 'U > delta n'
-            let delta_n2 = delta_n * delta_n
-            
+(***include-value:varSample***)
 
-            let m1' = m1 + delta_n
-            let m4' = m4 + (Ops.multByInt32 (term1 * delta_n2) (n'*n' - 3*n' + 3)) + (Ops.multByInt32 (delta_n2 * m2) 6) - (Ops.multByInt32 (delta_n * m3) 4)
-            let m3' = m3 + (Ops.multByInt32 (term1 * m2) (n' - 2)) - (Ops.multByInt32 (delta_n * m2) 3 )
-//                let m4' = m4 + (term1 * delta_n2 * (n'*n' - 3*n' + 3) + 6 * delta_n2 * m2 - 4 * delta_n * m3)
-//                let m3' = m3 + (term1 * delta_n * (n' - 2) - 3 * delta_n * m2)
-            
+let stdSample = Seq.stDev data
 
-            printfn "m2: %f" m2'
+(***include-value:stdSample***)
 
-            loop (n + 1) m1' m2' m3' m4' 
-        | false -> 
-            if (n > 1) then 
-                createRunningStats n m1 m2 m3 m4 
-            else
-                let nanU = zero / zero
-                createRunningStats n nanU nanU nanU nanU
-    loop 0 zero zero zero zero
+(**
+If the full population is **not** given, the calculation lacks in one degree of freedom, so the Bessel corrected version of the calculation has to be used (results in higher values):
 
-let inline var (rStats:RunningStats<'T>) = 
-    LanguagePrimitives.DivideByInt rStats.M2 (rStats.N-1)
+$s^2 = \frac{1}{N - 1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2$ for the unbiased variance estimation, and
 
-let stdevTv' =
-    [10; 2; 19; 24; 6; 23; 47; 24; 54; 77;]
-    |> Seq.map float
-    |> ofSeq
-    |> var
-    
+$s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2}$ for the corrected standard deviation.
 
-let med = 
-    [|1.2; 1.2; nan; 24.; 6.; 23.4; 47.; 24.; 54.; nan;|]
-    |> Array.median
+`varPopulation` and `stDevPopulation` are available as sequence (and other collections) extensions, as well as `varPopulationBy` and `stDevPopulationBy`, 
+which take an additional converter function:
+*)
 
-//System.Math.Pow
+let varPopulation = Seq.varPopulation data
 
-let nv = Vector.init 10000 (fun _ -> Distributions.Continuous.Normal.Sample 0. 4.0)
+(***include-value:varPopulation***)
 
-nv |> Seq.stDevPopulation
+let stdPopulation = Seq.stDevPopulation data
 
-Distributions.Bandwidth.nrd0 nv.Values
-(*** do-not-eval ***)
-Quantile.interQuantileRange Quantile.nist nv.Values
+(***include-value:stdPopulation***)
 
-let x = [0.1 .. 0.01 .. 1.0] 
-let d = [|0.05;0.5;0.9|]
+(**
+### Coefficient of variation
 
-let y = 
-    x 
-    |> List.map (fun q -> Quantile.OfSorted.mode q  d )
-    
+The coefficient of variation is the mean-normalized standard deviation:
 
-let inline divByInt a b =
-    LanguagePrimitives.DivideByInt a b
+$\widehat{c_{\rm v}} = \frac{s}{\bar{x}}$
 
+It describes the ratio of the standard devation to the mean. It assists in comparing measurement variability
+with varying amplitudes. Use only if data is measured with a ratio scale (meaningful zero values and meaningful intervals).
 
-//divByInt 6 5
+`cv` is available as a sequence (and other collections) extension, as well as `cvBy`, 
+which takes an additional converter function:
 
-let firstNumber=5000
-let secondeNumber=37
+*)
+let sample1 =   [1.;4.;2.;6.;5.;3.;2.;]
+let sample2 =   [13.;41.;29.;8.;52.;34.;25.;]
 
-let inline decimalResult (a:'t) = 
-    let ops = GlobalAssociations.TryGetNumericAssociation<'t>()
-    ops.Value.Add(a,secondeNumber)
-    
+let cvSample1 = Seq.cv sample1
 
-//type System.Int32 with
-//    member this.DivideByInt a b = LanguagePrimitives.DivideByInt (float a) / b 
+(***include-value:cvSample1***)
 
-//System.Int32()
+let cvSample2 = Seq.cv sample2
 
-let q = 0.5
-let h = (float 3) * q + 0.5
-
-(*** do-not-eval ***)
-Array.quickSelectInPlace (int (ceil (h-0.5))) d
-
-x |> List.map (fun q -> (float 3 * q + 1.) |> int)
-
-Array.quickSelect 1 d
-
-Quantile.mode 0.8  d
-
-let pointChart = Chart.Point( y, x)
-
-(**b*)
-
-(*** condition: ipynb ***)
-#if IPYNB
-pointChart
-#endif // IPYNB
-
-(*** hide ***)
-pointChart |> GenericChart.toChartHTML
-(***include-it-raw***)
-
-
-(**a*)
-
-let v = 
-    vector [|2.0; 20.0; 1.|]
-
-Vector.interval nv
-
-
-Vector.median nv
-
-Vector.stats nv
-
-Array.median [|2.0; 20.0; 1.|]
-
-let inline stDevPopulationOfMean mean (items:seq<'T>) : 'U  =
-    use e = items.GetEnumerator()
-    let rec loop n (acc) =
-        match e.MoveNext() with
-        | true  -> loop (n + 1) (acc + ((e.Current - mean) * (e.Current - mean)))
-        | false -> if (n > 1) then sqrt(LanguagePrimitives.DivideByInt< 'U > acc (n )) else Unchecked.defaultof< 'U >            
-    loop 0 LanguagePrimitives.GenericZero< 'U > 
-
-let m1 = Seq.mean [1.;2.;3.;4.;]
-let stDevPop = stDevPopulationOfMean m1 [1.;2.;3.;4.;]
-
-let stDevPop' = Seq.stDevPopulation [1.;2.;3.;4.;]
-
-(GlobalAssociations.ht.[typeof<float>])
-
-let inline stDevPopulation (items:seq<'T>) : 'U  =
-    use e = items.GetEnumerator()
-    let zero = LanguagePrimitives.GenericZero< 'U > 
-    let one = LanguagePrimitives.GenericOne< 'U >
-    let rec loop n m1 m2 =
-        match e.MoveNext() with
-        | true  ->                         
-            let delta  = e.Current - m1                                   
-            let m1'    = m1 + (delta / n)
-            let delta2   = e.Current - m1'
-            let m2' = m2 + delta * delta2
-            loop (n + one) m1' m2'
-        | false -> if (LanguagePrimitives.GenericGreaterThan n one) then sqrt(m2 / (n-one)) else (zero / zero)
-    loop one zero zero
-    
-
-stDevPopulation [1.;2.;3.;4.;]
-
-let zero = LanguagePrimitives.GenericZero< float > 
-let one = LanguagePrimitives.GenericOne< float >
-
-(zero / zero)
-
-LanguagePrimitives.GenericGreaterThan 2. 1.
-
-
-
-// https://msdn.microsoft.com/en-us/library/aa302371.aspx
+(***include-value:cvSample2***)
