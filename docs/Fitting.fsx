@@ -11,24 +11,33 @@
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let styleChart xt yt c = c |> Chart.withX_Axis (myAxis xt) |> Chart.withY_Axis (myAxis yt)
-
 (**
 
-#Fitting
-##Linear Regression
+# Fitting
+
+_Summary:_ this tutorial will walk through several ways of fitting data with FSharp.Stats.
+
+### Table of contents
+ - [Linear Regression](#Linear-Regression)
+    - [Simple Linear Regression](#Simple-Linear-Regression)
+        - [Univariable](#Univariable)
+        - [Multivariable](#Multivariable)
+ - [Polynomial Regression](#Polynomial-Regression)
+ - [Nonlinear Regression](#Nonlinear-Regression)
+ - [LevenbergMarquardtConstrained](#LevenbergMarquardtConstrained)
+ - [Smoothing spline](#Smoothing-spline)
+
+## Linear Regression
 
 In Linear Regression a linear system of equations is generated. The coefficients obtained by the solution to this equation 
 system minimize the squared distances from the regression curve to the data points. These distances are also known as residuals (or least squares).
 
-###Simple Linear Regression
+### Simple Linear Regression
 
 Simple linear regression aims to fit a straight regression line to the data. While the least squares approach efficiently minimizes the sum of squared residuals it is prone to outliers. 
 An alternative is a robust simple linear regression like Theil's incomplete method or the Theil-Sen estimator, that are outlier resistant.
+
+#### Univariable
 
 *)
 
@@ -55,6 +64,12 @@ let coefficientsLinearRTO =
     OrdinaryLeastSquares.Linear.RTO.coefficientOfVector xData yData 
 let fittingFunctionLinearRTO x = 
     OrdinaryLeastSquares.Linear.RTO.fit coefficientsLinearRTO x
+
+open Plotly.NET
+
+//some axis styling
+let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let styleChart xt yt c = c |> Chart.withX_Axis (myAxis xt) |> Chart.withY_Axis (myAxis yt)
 
 
 let rawChart = 
@@ -87,9 +102,18 @@ let simpleLinearChart =
     |> Chart.Combine
     |> styleChart "" ""
 
+(*** condition: ipynb ***)
+#if IPYNB
+simpleLinearChart
+#endif // IPYNB
+
 (***hide***)
 simpleLinearChart |> GenericChart.toChartHTML
 (***include-it-raw***)
+
+(**
+#### Multivariable
+*)
 
 //Multivariate simple linear regression
 let xVectorMulti =
@@ -116,10 +140,9 @@ let coefficientsMV =
 let fittingFunctionMV x = 
     OrdinaryLeastSquares.Linear.Multivariable.fit coefficientsMV x
 
-
 (**
 
-###Polynomial Regression
+### Polynomial Regression
 
 In polynomial regression a higher degree (d > 1) polynomial is fitted to the data. The coefficients are chosen that the sum of squared residuals is minimized.
 
@@ -177,13 +200,18 @@ let polRegressionChart =
     |> Chart.Combine
     |> styleChart "" ""
 
+(*** condition: ipynb ***)
+#if IPYNB
+polRegressionChart
+#endif // IPYNB
+
 (***hide***)
 polRegressionChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 
 (**
-##Nonlinear Regression
+## Nonlinear Regression
 
 Nonlinear Regression is used if a known model should to be fitted to the data that cannot be represented in a linear system of equations. 
 Common examples are: 
@@ -219,7 +247,6 @@ open FSharp.Stats.Fitting
 open FSharp.Stats.Fitting.LinearRegression
 open FSharp.Stats.Fitting.NonLinearRegression
 
-
 let xDataN = [|1.;2.; 3.; 4.|]
 let yDataN = [|5.;14.;65.;100.|]
 
@@ -251,8 +278,6 @@ let getGradientValues =
 // 1.4 create the model
 let model = createModel parameterNames getFunctionValue getGradientValues
 
-
-
 // 2. define the solver options
 // 2.1 define the stepwidth of the x value change
 let deltaX = 0.0001
@@ -283,17 +308,40 @@ let solverOptions =
     let guess = initialParamGuess xDataN yDataN
     NonLinearRegression.createSolverOption 0.0001 0.0001 1000 guess
 
-
 // 3. get coefficients
 let coefficientsExp = GaussNewton.estimatedParams model solverOptions xDataN yDataN
 //val coefficients = vector [|5.68867298; 0.7263428835|]
 
-
 // 4. create fitting function
 let fittingFunction x = coefficientsExp.[0] * Math.Exp(coefficientsExp.[1] * x)
 
+let rawChartNLR = 
+    Chart.Point(xDataN,yDataN)
+    |> Chart.withTraceName "raw data"
+
+let fittingNLR = 
+    let fit = 
+        [|1. .. 0.1 .. 10.|] 
+        |> Array.map (fun x -> x,fittingFunction x)
+    Chart.Line(fit)
+    |> Chart.withTraceName "NLR"
+
+let NLRChart =
+    [rawChartNLR;fittingNLR] 
+    |> Chart.Combine
+    |> styleChart "" ""
+
+(*** condition: ipynb ***)
+#if IPYNB
+NLRChart
+#endif // IPYNB
+
+(***hide***)
+NLRChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
 (**
-###LevenbergMarquardtConstrained
+### LevenbergMarquardtConstrained
 
 For nonlinear regression using the LevenbergMarquardtConstrained module, you have to follow similar steps as in the example shown above.
 In this example, a logistic function of the form `y = L/(1+e^(-k(t-x)))` should be fitted to count data:
@@ -371,7 +419,6 @@ let estParamsRSS =
 // 4. Create fitting function
 let fittingFunction' = Table.LogisticFunctionAscending.GetFunctionValue estParamsRSS
 
-(*** hide ***)
 let fittedY = Array.zip [|1. .. 68.|] ([|1. .. 68.|] |> Array.map fittingFunction')
 
 let fittedLogisticFunc =
@@ -384,13 +431,18 @@ let fittedLogisticFunc =
     |> Chart.Combine
     |> styleChart "Time" "Count"
 
+(*** condition: ipynb ***)
+#if IPYNB
+fittedLogisticFunc
+#endif // IPYNB
+
 (***hide***)
 fittedLogisticFunc |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
 
-##Smoothing spline
+## Smoothing spline
 
 A smoothing spline aims to minimize a function consisting of two error terms: 
 
@@ -445,6 +497,11 @@ let smoothingSplines =
     ]
     |> Chart.Combine
     |> styleChart "" ""
+
+(*** condition: ipynb ***)
+#if IPYNB
+smoothingSplines
+#endif // IPYNB
 
 (***hide***)
 smoothingSplines |> GenericChart.toChartHTML
