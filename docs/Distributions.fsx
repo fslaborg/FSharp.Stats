@@ -29,8 +29,6 @@ _Summary:_ this tutorial shows how to use the various types of probability distr
 - [Empirical](#Empirical)
 - [Density estimation](#Density-estimation)
 - [Distance](#Distance)
-- [](#)
-- [](#)
 
 FSharp.Stats provides a wide range of probability distributions. Given the
 distribution parameters they can be used to investigate their statistical properties
