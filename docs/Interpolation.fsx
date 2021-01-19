@@ -11,19 +11,19 @@
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
-
-let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let myAxisRange title range = LinearAxis.init(Title=title,Range=Range.MinMax range,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
-
 (**
 
-#Interpolation
+# Interpolation
 
-##Polynomial Interpolation
+_Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.Stats
+
+### Table of contents
+
+- [Polynomial interpolation](#Polynomial-interpolation)
+- [Cubic interpolating Spline](#Cubic-interpolating-Spline)
+- [Hermite interpolation](#Hermite-interpolation)
+
+## Polynomial Interpolation
 
 Here a polynomial is fitted to the data. In general a polynomial with degree = dataPointNumber - 1 has sufficient flexibility to interpolate all data points.
 The least squares approach is not sufficient to converge to an interpolating polynomial! A degree other than n-1 results in a regression polynomial.
@@ -43,6 +43,14 @@ let coefficients =
 let interpolFunction x = 
     Interpolation.Polynomial.fit coefficients x
 
+
+open Plotly.NET
+
+//some axis styling
+let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let myAxisRange title range = Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax range,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
+let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
+
 let rawChart = 
     Chart.Point(xData,yData)
     |> Chart.withTraceName "raw data"
@@ -58,11 +66,17 @@ let chartPol =
     |> Chart.Combine
     |> styleChart "" ""
 
+(*** condition: ipynb ***)
+#if IPYNB
+chartPol
+#endif // IPYNB
+
 (***hide***)
 chartPol |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
-##Cubic interpolating Spline
+## Cubic interpolating Spline
 
 Splines are flexible strips of wood, that were used by shipbuilders to draw smooth shapes. In graphics and mathematics a piecewise cubic polynomial (order = 3) is called spline.
 The curvature (second derivative) of a cubic polynomial is proportional to its tense energy and in spline theory the curvature is minimized. Therefore the resulting function is very smooth.
@@ -121,7 +135,7 @@ let splineChart =
     [
     Chart.Point(xValues,yValues)                                           |> Chart.withTraceName "raw data"
     [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitPol x)   |> Chart.Line |> Chart.withTraceName "fitPolynomial"
-    [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitIntPo x) |> Chart.Line |> Chart.withLineStyle(Dash=DrawingStyle.Dash) |> Chart.withTraceName "fitSplineLinPred"
+    [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitIntPo x) |> Chart.Line |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash) |> Chart.withTraceName "fitSplineLinPred"
     [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x)      |> Chart.Line |> Chart.withTraceName "fitSpline"
     [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitLinSp x) |> Chart.Line |> Chart.withTraceName "fitLinearSpline"
     ]
@@ -129,6 +143,11 @@ let splineChart =
     |> Chart.withTitle "Interpolation methods"
     |> Chart.withY_Axis (myAxisRange "" (-10.,10.))
     |> Chart.withX_Axis (myAxis "" )
+
+(*** condition: ipynb ***)
+#if IPYNB
+splineChart
+#endif // IPYNB
 
 (***hide***)
 splineChart |> GenericChart.toChartHTML
@@ -138,18 +157,24 @@ splineChart |> GenericChart.toChartHTML
 //The cubic spline interpolation is continuous in f, f', and  f''.
 let derivativeChart =
     [
-    Chart.Point(xValues,yValues) |> Chart.withTraceName "raw data"
-    [1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x) |> Chart.Line  |> Chart.withTraceName "spline fit"
-    [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getFirstDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "fst derivative"
-    [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getSecondDerivative coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "snd derivative"
-    [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getThirdDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "trd derivative"
+        Chart.Point(xValues,yValues) |> Chart.withTraceName "raw data"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x) |> Chart.Line  |> Chart.withTraceName "spline fit"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getFirstDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "fst derivative"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getSecondDerivative coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "snd derivative"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getThirdDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "trd derivative"
     ]
     |> Chart.Combine
     |> Chart.withTitle "Cubic spline derivatives"
     |> styleChart "" ""
 
+(*** condition: ipynb ***)
+#if IPYNB
+derivativeChart
+#endif // IPYNB
 
-(*** include-value:derivativeChart ***)
+(***hide***)
+derivativeChart |> GenericChart.toChartHTML
+(***include-it-raw***)
 
 (**
 ## Hermite interpolation
@@ -198,6 +223,11 @@ let splineComparison =
     ]
     |> Chart.Combine
     |> styleChart "" ""
+
+(*** condition: ipynb ***)
+#if IPYNB
+splineComparison
+#endif // IPYNB
 
 (***hide***)
 splineComparison |> GenericChart.toChartHTML
