@@ -34,7 +34,7 @@ let fromFileWithSep (separator:char) (filePath) =
                 yield words }
 
                 
-let lable,data =
+let label,data =
     fromFileWithSep ',' (__SOURCE_DIRECTORY__ + "/data/irisData.csv")
     |> Seq.skip 1
     |> Seq.map (fun arr -> arr.[4], [| float arr.[0]; float arr.[1]; float arr.[2]; float arr.[3]; |])
@@ -49,7 +49,7 @@ let colorscaleValue =
     StyleParam.Colorscale.Electric //Custom [(0.0,"#3D9970");(1.0,"#001f3f")]
     
 let dataChart = 
-    Chart.Heatmap(data,ColNames=colnames,RowNames=(lable |> Seq.mapi (fun i s -> sprintf "%s%i" s i )),Colorscale=colorscaleValue,Showscale=true)
+    Chart.Heatmap(data,ColNames=colnames,RowNames=(label |> Seq.mapi (fun i s -> sprintf "%s%i" s i )),Colorscale=colorscaleValue,Showscale=true)
     |> Chart.withMarginSize(Left=250.)
     |> Chart.withTitle "raw iris data"
 (*** include-value:dataChart ***)
@@ -74,7 +74,7 @@ let kmeansResult =
     <| data <| 4
 
 let clusteredIrisData =
-    Array.zip lable data
+    Array.zip label data
     |> Array.sortBy (fun (l,dataPoint) -> fst (kmeansResult.Classifier dataPoint)) 
     |> Array.unzip
     |> fun (l,d) -> 
@@ -215,9 +215,9 @@ let htmp =
     HierarchicalClustering.generate DistanceMetrics.euclidean Linker.wardLwLinker data
     |> HierarchicalClustering.flattenHClust
 
-let hlable =    
+let hlabel =    
     htmp
-    |> Seq.map (fun c -> lable.[HierarchicalClustering.getClusterId c])
+    |> Seq.map (fun c -> label.[HierarchicalClustering.getClusterId c])
 
 let hdata =    
     htmp
@@ -225,7 +225,7 @@ let hdata =
 
 
 let hierClusteredData = 
-    let labels = hlable |> Seq.mapi (fun i s -> sprintf "%s%i" s i)
+    let labels = hlabel |> Seq.mapi (fun i s -> sprintf "%s%i" s i)
     Chart.Heatmap(hdata,ColNames=colnames,RowNames=labels,Colorscale=colorscaleValue,Showscale=true)
     |> Chart.withMarginSize(Left=250.)
     |> Chart.withTitle "clustered iris data (hierarchical Clustering)"
