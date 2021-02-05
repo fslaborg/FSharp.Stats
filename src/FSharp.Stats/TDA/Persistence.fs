@@ -1,8 +1,8 @@
-﻿namespace FSharp.Stats
+﻿namespace FSharp.Stats.TDA
 
 open System
 
-module TDA =
+module Persistence =
 
     let paddData rawData = 
         let rnd = System.Random(5)

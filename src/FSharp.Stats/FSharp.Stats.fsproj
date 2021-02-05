@@ -127,7 +127,9 @@
     <Compile Include="ML\Unsupervised\DbScan.fs" />
     <Compile Include="ML\Unsupervised\GapStatistics.fs" />
     <!-- TDA -->
+    <Compile Include="TDA\BinaryTree.fs" />
     <Compile Include="TDA\Persistence.fs" />
+    <Compile Include="TDA\Distances.fs" />
     <!-- MISC -->
     <Compile Include="FSIPrinters.fs" />
     <Compile Include="ConfidenceInterval.fs" />
