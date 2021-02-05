@@ -2,15 +2,13 @@ module TreeEdit.AlignmentDistance
 
 open TreeEdit.BinaryTree
 
-let editCost_combinatorial x y = if x=y then 0. else 3.
-
-let delCost_combinatorial x = 1
-
-let editCost_diff (x:float) (y:float) = abs (x-y)
-
-let delCost_diff (x:float) = x
-
-let rec alignmentDist_forest (F1:BinaryTree<'lt>) (F2:BinaryTree<'lt>) (editCost:'lt->'lt->float) (delCost:'lt->float) (MT:System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>) (MF:System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>) = 
+// computes alignment distance between two ordered forests F1 and F2 and the corresponding matching
+// writes result to memoization tables MT (for subtrees) and MF (for subforests)
+// relabel costs and deletion/insertion costs are given as functions editCost and delCost
+let rec alignmentDist_forest (F1:BinaryTree<'lt>) (F2:BinaryTree<'lt>)
+                             (editCost:'lt->'lt->float) (delCost:'lt->float)
+                             (MT:System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>)
+                             (MF:System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>) = 
     let succ,res = MF.TryGetValue((F1,F2))
     if succ then res else
     match (F1,F2) with
@@ -70,7 +68,13 @@ let rec alignmentDist_forest (F1:BinaryTree<'lt>) (F2:BinaryTree<'lt>) (editCost
         MF.Add((F1,F2),res)
         res
 
-and alignmentDist_tree (T1:BinaryTree<'lt>) (T2:BinaryTree<'lt>) (editCost:'lt->'lt->float) (delCost:'lt->float) (MT:System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>) (MF:System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>) = 
+// computes alignment distance between two binary trees T1 and T2 and the corresponding matching
+// writes result to memoization tables MT (for subtrees) and MF (for subforests)
+// relabel costs and deletion/insertion costs are given as functions editCost and delCost
+and alignmentDist_tree (T1:BinaryTree<'lt>) (T2:BinaryTree<'lt>)
+                       (editCost:'lt->'lt->float) (delCost:'lt->float)
+                       (MT:System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>)
+                       (MF:System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>) = 
     let succ,res = MT.TryGetValue((T1,T2))
     if succ then res else
     match (T1,T2) with
@@ -119,7 +123,11 @@ and alignmentDist_tree (T1:BinaryTree<'lt>) (T2:BinaryTree<'lt>) (editCost:'lt->
         MT.Add((T1,T2),res)
         res
 
+// wrapper function that returns alignment distance and corresponding matching of two binary trees T1 and T2 as a pair
+// relabel costs and deletion/insertion costs are given as functions editCost and delCost
 let alignmentDist (T1:BinaryTree<'lt>) (T2:BinaryTree<'lt>) (editCost:'lt->'lt->float) (delCost:'lt->float) =
-    let memoizationTable_tree = new System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>()
-    let memoizationTable_forest = new System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>()
-    alignmentDist_tree T1 T2 editCost delCost memoizationTable_tree memoizationTable_forest//,traceMatching [T1] [T2] memoizationTable
+    let memoizationTable_tree =
+        new System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>()
+    let memoizationTable_forest =
+        new System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>()
+    alignmentDist_tree T1 T2 editCost delCost memoizationTable_tree memoizationTable_forest

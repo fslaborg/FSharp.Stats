@@ -2,9 +2,16 @@ module TreeEdit.GeneralEditDistance
 
 open TreeEdit.BinaryTree
 
-let rec editDist_forest (F1:List<BinaryTree<'lt>>) (F2:List<BinaryTree<'lt>>) (editCost:'lt->'lt->float) (delCost:'lt->float) (M:System.Collections.Generic.Dictionary<List<BinaryTree<'lt>>*List<BinaryTree<'lt>>,float*List<int*int>>) = 
+// computes edit distance between two ordered forests F1 and F2 and the corresponding matching
+// writes result to memoization table M
+// relabel costs and deletion/insertion costs are given as functions editCost and delCost
+let rec editDist_forest (F1:List<BinaryTree<'lt>>) (F2:List<BinaryTree<'lt>>)
+                        (editCost:'lt->'lt->float) (delCost:'lt->float)
+                        (M:System.Collections.Generic.Dictionary<List<BinaryTree<'lt>>*List<BinaryTree<'lt>>,float*List<int*int>>) =
+    // if result already in memoization table, return immediately
     let succ,res = M.TryGetValue((F1,F2))
     if succ then res else
+    // otherwise recurse and compute result
     match (F1,F2) with
     // base cases
     | ([],[]) -> 
@@ -43,6 +50,10 @@ let rec editDist_forest (F1:List<BinaryTree<'lt>>) (F2:List<BinaryTree<'lt>>) (e
         M.Add((F1,F2),res)
         res
 
-let editDist (T1:BinaryTree<'lt>) (T2:BinaryTree<'lt>) (editCost:'lt->'lt->float) (delCost:'lt->float) =
-    let memoizationTable = new System.Collections.Generic.Dictionary<List<BinaryTree<'lt>>*List<BinaryTree<'lt>>,float*List<int*int>>()
+// wrapper function that returns edit distance and corresponding matching of two binary trees T1 and T2 as a pair
+// relabel costs and deletion/insertion costs are given as functions editCost and delCost
+let editDist (T1:BinaryTree<'lt>) (T2:BinaryTree<'lt>)
+             (editCost:'lt->'lt->float) (delCost:'lt->float) =
+    let memoizationTable =
+        new System.Collections.Generic.Dictionary<List<BinaryTree<'lt>>*List<BinaryTree<'lt>>,float*List<int*int>>()
     editDist_forest [T1] [T2] editCost delCost memoizationTable
