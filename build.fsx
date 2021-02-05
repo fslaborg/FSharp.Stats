@@ -191,7 +191,7 @@ let runTestsWithCodeCov = BuildTask.create "RunTestsWithCodeCov" [clean; build; 
                     standardParams with
                         Properties = [
                             "AltCover","true"
-                            "AltCoverCobertura","../../codeCov.xml"
+                            "AltCoverLcovReport","../../codeCov.txt"
                             "AltCoverForce","true"
                         ]
                 };

@@ -194,3 +194,4 @@ docsrc/tools/FSharp.Formatting.svclog
 /tests/FSharp.Stats.Tests/coverage.xml
 
 .ionide
+/codeCov.txt
