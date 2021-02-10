@@ -241,12 +241,8 @@ module Persistence =
                 let keptExtremum = 
                     if simplifiedExtremum = snd pair then fst pair else snd pair
 
-                // iterate over segmentation and change values of for simplified regions
-                segmentation
-                |> Array.iteri (fun i _ -> 
-                    if segmentationSimpl.[i] = simplifiedExtremum then 
-                        segmentationSimpl.[i] <- segmentationSimpl.[keptExtremum]
-                    )
+                // change segmentation value of for simplified vertex (rest of region follows later)
+                segmentationSimpl.[simplifiedExtremum] <- keptExtremum
                 // remove simplified node from neighbors of kept node
                 let tmpR1 = (List.filter (fun x -> x <> simplifiedExtremum) neighborMap.[keptExtremum])
                 neighborMap <- neighborMap |> Map.add keptExtremum tmpR1     
@@ -255,6 +251,16 @@ module Persistence =
                 if neighborMap.[keptExtremum].Length = 2 then prune (int keptExtremum)
                 loopList tail
         loopList persistencePairs
+
+        // propagate segmentation changes to whole segments (by flattening tree-like reference structure in array)
+        let rec recurseSegSimplification i =
+            match segmentationSimpl.[i] with 
+            | segi when segi=i -> i
+            | _ -> 
+                let segi = recurseSegSimplification (segmentationSimpl.[i])
+                segmentationSimpl.[i] <- segi
+                segi
+        segmentationSimpl <- Array.map recurseSegSimplification segmentationSimpl
     
         // set of edges in simplified merge tree
         let mutable mergeTreePairsSimplSet :Set<(int*int)> = Set.ofList []
