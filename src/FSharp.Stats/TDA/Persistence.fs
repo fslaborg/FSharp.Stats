@@ -4,39 +4,51 @@ open System
 
 module Persistence =
 
+    // adds zeroes at front and end of data to ensure local minima at both ends
+    // and therefore "real" maxima at the original borders
     let paddData rawData = 
-        let rnd = System.Random(5)
-        let tmp = rawData |> Array.map (fun x -> if x = 0. then rnd.NextDouble()/100000. else x)
-        Array.append (Array.append [|0.|] tmp) [|0.|]
+        Array.append (Array.append [|0.|] rawData) [|0.|]
 
+    // union function for naive union-find data structure based on an array
     let union a b (uf:int []) = uf.[int b] <- a
 
+    // find function for naive union-find data structure based on an array
     let rec find a (uf:int[]) =
         let atmp = if a<0 then uf.Length + int a else a
         if uf.[int atmp] = atmp then
             atmp
         else 
-            find uf.[int atmp] uf
+            find uf.[int atmp] uf 
 
-    let indexsingle (da:'a[]) k = if k<0 then da.Length + k else k 
-
-    let computePPMT data direction =
+    // function that computes for data array:
+    //   persistence pairs as list of index pairs
+    //   merge tree as list of edges represented by index pairs
+    //   segmentation array assigning to each point its corresponding maximum
+    let computePPMT (data:float[]) direction =
         let reverse = direction = "split"
-        let smaller a b = 
-            if reverse then 
-                a>b 
-            else 
-                a < b
+        
+        // comparison functions for data points with simulation of simplicity
+        let compare i j =
+            let a = if i<0 || i>(data.Length-1) then nan else data.[i]
+            let b = if j<0 || j>(data.Length-1) then nan else data.[j]
+            if a=b then
+                let res = i-j
+                if reverse then res*(-1) else res
+            else
+                let res = if a<b then -1 else 1
+                if reverse then res*(-1) else res
+        let smaller i j=
+            compare i j < 0
+
+        // order points depending on direction (ascending for join tree, descending for split tree)
         let orderedPoints = 
             data
             |> Array.indexed
-            |> Array.sortBy snd
             |> Array.map fst
-            |> fun x -> 
-                if reverse then 
-                    x |> Array.toList |> List.rev |> Array.ofList
-                else x
+            |> Array.sortWith compare
 
+        // initiate union-find data structures for merge tree and persistence pair segments
+        // (no initial values, they are defined on creation of segments)
         let ufpP = Array.create data.Length -1
         let ufmT = Array.create data.Length -1
 
@@ -44,42 +56,67 @@ module Persistence =
         let mutable mergeTreePairs      = []
         let mutable segmentation :int []= Array.zeroCreate data.Length
 
+        // sweep over ordered points and
+        // for each point determine type and track segments
         orderedPoints
-        |> Array.iter (fun i -> 
+        |> Array.iter (fun i ->
             let va = data.[i]
-            let ln = if i = 0 then nan else data.[i-1]
-            let rn = if i = data.Length - 1 then nan else data.[i+1]
-         
-            if (smaller va ln && smaller va rn) || (nan.Equals ln && smaller va rn) || (smaller va ln && nan.Equals rn) then    
+            let leftVal = if i = 0 then nan else data.[i-1]
+            let rightVal = if i = data.Length - 1 then nan else data.[i+1]
+            let leftIdx = i-1
+            let rightIdx = i+1
+        
+            // if both neighbors larger, i is local minimum
+            if (smaller i leftIdx && smaller i rightIdx) ||
+               (nan.Equals leftVal && smaller i rightIdx) ||
+               (smaller i leftIdx && nan.Equals rightVal) then
+                // a new segment is created, atm it only consists of i
                 ufpP.[i] <- i
                 ufmT.[i] <- i
                 segmentation.[i] <- ufpP.[i]
-            elif not (nan.Equals ln) && not (nan.Equals rn) && smaller va rn && smaller ln va then
+            // if i not at border, right neighbor larger and left one smaller, i is a regular point
+            elif not (nan.Equals leftVal) && not (nan.Equals rightVal) && smaller i rightIdx && smaller leftIdx i then
+                // add i to segment of left neighbor (smaller one)
                 ufpP.[i] <- find (i-1) ufpP
                 ufmT.[i] <- find (i-1) ufmT
                 segmentation.[i] <- ufpP.[i]
-            elif not (nan.Equals ln) && not (nan.Equals rn) && smaller rn va && smaller va ln then
+            // if i not at border, left neighbor larger and right one smaller, i is a regular point
+            elif not (nan.Equals leftVal) && not (nan.Equals rightVal) && smaller rightIdx i && smaller i leftIdx then
+                // add i to segment of right neighbor (smaller one)
                 ufpP.[i] <- find (i+1) ufpP
                 ufmT.[i] <- find (i+1) ufmT
                 segmentation.[i] <- ufpP.[i]
+            // otherwise i is a local maximum
             else
-                if nan.Equals ln then   
+                // case for i at the left border
+                if nan.Equals leftVal then
+                    // i belongs to segment of right neighbor and this segment "disappears"
                     ufpP.[i] <- find (i+1) ufpP
                     ufmT.[i] <- find (i+1) ufmT
                     segmentation.[i] <- ufpP.[i]
-                elif nan.Equals rn then
+                // case for i at the right border
+                elif nan.Equals rightVal then
+                    // i belongs to segment of left neighbor and
+                    // nothing else happens this segment "disappears"
                     ufpP.[i] <- find (i-1) ufpP
                     ufmT.[i] <- find (i-1) ufmT
-                    segmentation.[i] <- ufpP.[i]        
+                    segmentation.[i] <- ufpP.[i]
+                // general case, the maximum corresponds to a merge point of two segments
                 else
+                    // for the merge tree:
+                    //   add pair from i to the starting points of both old segments (representing inner edge)
+                    //   start a new segment (representing inner edge)
                     ufmT.[i] <- i
                     mergeTreePairs <- (int(find(i+1) ufmT),i)::mergeTreePairs
                     mergeTreePairs <- (int(find(i-1) ufmT),i)::mergeTreePairs
-                    let le = find (i-1) ufpP
-                    let re = find (i+1) ufpP
                     union i (find (i-1) ufmT) ufmT
                     union i (find (i+1) ufmT) ufmT
-                    if smaller data.[int le] data.[int re] then 
+                    // for persistence pairs:
+                    //   add pair from i to starting point of "newer" segment
+                    //   add i to segmentation of "older" segment
+                    let le = find (i-1) ufpP
+                    let re = find (i+1) ufpP
+                    if smaller (int le) (int re) then 
                         persistencePairs <- (int(find (i+1) ufpP),i)::persistencePairs
                         segmentation.[i] <- int (find (i-1) ufpP)
                         union le re ufpP
@@ -89,9 +126,11 @@ module Persistence =
                         union re le ufpP 
             )
 
+        // add last persistence pair from global maximum to -infinity
         persistencePairs <- (int(find orderedPoints.[orderedPoints.Length - 1] ufpP),-1)::persistencePairs
 
-        let ss = 
+        // sort persistence pairs by persistence
+        let pP_sorted = 
             persistencePairs
             |> List.sortBy (fun p -> 
                 if snd p > 0 then 
@@ -99,129 +138,152 @@ module Persistence =
                     |> Math.Abs
                 else infinity
                 )
+        persistencePairs <- pP_sorted
 
-        persistencePairs <- ss
+        // add last edge from global minimum to -infinity to merge tree (edge to root)
         mergeTreePairs <- ((int(find (orderedPoints.[orderedPoints.Length - 1]) ufmT),-1))::mergeTreePairs     
     
         persistencePairs,mergeTreePairs |> List.rev,segmentation
 
-
+    // function that simplifies data array based on persistence threshold
     let simplifyData (data:float[]) (persistencePairs:(int*int)list) threshold =
-        let sysFloatMin = 2.2250738585072014e-308
         let dataSimpl = Array.copy data
     
-        let rec loop i =
-        
-            let pair = persistencePairs.[i]
-            if snd pair < 0 then 
-                loop (i+1)
-            else 
-                let v1 = data.[indexsingle data (fst pair)]
-                let v2 = data.[indexsingle data (snd pair)]
-                if v2-v1>threshold then ()
-                else
-                    let rec innerloopA i =
-                        if data.[indexsingle data (fst pair)] < data.[indexsingle data (snd pair + i)] then 
-                            let offset = float (Math.Abs(fst pair - (snd pair + 1))) * sysFloatMin
-                            dataSimpl.[indexsingle data (snd pair + i)] <- data.[indexsingle data (fst pair)] - offset
-                            innerloopA (i+1)
-                        else ()
-                    innerloopA 0
-                    let rec innerloopB i =
-                        if data.[indexsingle data (fst pair)] < data.[indexsingle data (snd pair - i)] then 
-                            let offset = float (Math.Abs(fst pair - (snd pair - 1))) * sysFloatMin
-                            dataSimpl.[indexsingle data (snd pair - i)] <- data.[indexsingle data (fst pair)] - offset
-                            innerloopA (i+1)
-                        else ()
-                    innerloopB 0
-        loop 0
+        // iterate over sorted persistence pairs
+        let rec loopList ppList =
+            match ppList with
+            | [] -> ()
+            | pair::tail -> 
+                // if root pair, ignore
+                if snd pair < 0 then 
+                    loopList tail
+                else 
+                    let v1 = data.[fst pair]
+                    let v2 = data.[snd pair]
+                    // if persistence over threshold, stop iteration (following pairs are also larger due to sorting)
+                    if v2-v1>threshold then ()
+                    // otherwise, cut peak to level of corresponding saddle/merge point
+                    else
+                        // from maximum (second entry), move to the right and flatten until value lower than saddle
+                        let rec innerloopA i =
+                            if data.[fst pair] < data.[snd pair + i] then 
+                                dataSimpl.[snd pair + i] <- data.[fst pair]
+                                innerloopA (i+1)
+                            else ()
+                        let dummy = innerloopA 0
+                        // from maximum (second entry), move to the left and flatten until value lower than saddle
+                        let rec innerloopB i =
+                            if data.[fst pair] < data.[snd pair - i] then 
+                                dataSimpl.[snd pair - i] <- data.[fst pair]
+                                innerloopB (i+1)
+                            else ()
+                        let dummy = innerloopB 0
+                        // continue with next pair
+                        loopList tail
+
+        loopList persistencePairs
+
         dataSimpl   
 
-
-    let simplifyMergeTreeAndSeg (data:float []) mergeTreePairs (persistencePairs:(int*int)[]) segmentation threshold direction =
+    // function that simplifies merge tree and segmentation based on persistence threshold
+    let simplifyMergeTreeAndSeg (data:float []) (mergeTreePairs:(int*int)list) (persistencePairs:(int*int)list) segmentation threshold direction =
     
         let split = direction = "split"
 
         let mutable segmentationSimpl = Array.copy segmentation
         let mutable mergeTreePairsSimpl :(int*int)list= []
-    
-        let mutable mapOfDic = [] |> Map.ofSeq
 
+        // build neighbor map that contains the list of neighbors for each vertex in merge tree
+        let mutable neighborMap = [] |> Map.ofSeq
         mergeTreePairs
-        |> Array.iter (fun edge ->
-            let tmpA = if Map.containsKey (fst edge) mapOfDic then mapOfDic.[fst edge] else []
-            let tmpB = if Map.containsKey (snd edge) mapOfDic then mapOfDic.[snd edge] else []
-            mapOfDic <- mapOfDic |> Map.add (fst edge) ((snd edge)::tmpA)
-            mapOfDic <- mapOfDic |> Map.add (snd edge) ((fst edge)::tmpB)
+        |> List.iter (fun edge ->
+            let tmpA = if Map.containsKey (fst edge) neighborMap then neighborMap.[fst edge] else []
+            let tmpB = if Map.containsKey (snd edge) neighborMap then neighborMap.[snd edge] else []
+            neighborMap <- neighborMap |> Map.add (fst edge) ((snd edge)::tmpA)
+            neighborMap <- neighborMap |> Map.add (snd edge) ((fst edge)::tmpB)
             )
 
+        // function for pruning nodes of degree 2
         let prune vID = 
-            let n1 = mapOfDic.[vID].[0]
-            let n2 = mapOfDic.[vID].[1]
-            let tmpR1 = List.append (List.filter (fun x -> x <> vID) mapOfDic.[n1]) [n2]
-            let tmpR2 = List.append (List.filter (fun x -> x <> vID) mapOfDic.[n2]) [n1]
-            mapOfDic <- mapOfDic |> Map.remove n1 |> Map.add n1 tmpR1
-            mapOfDic <- mapOfDic |> Map.remove n2 |> Map.add n2 tmpR2
-            mapOfDic <- mapOfDic |> Map.add vID []
+            // get both remaining neighbors of vID
+            let n1 = neighborMap.[vID].[0]
+            let n2 = neighborMap.[vID].[1]
+            // remove vID from neighbor lists of n1 and n2 and add new neighbor respectively
+            let tmpR1 = List.append (List.filter (fun x -> x <> vID) neighborMap.[n1]) [n2]
+            let tmpR2 = List.append (List.filter (fun x -> x <> vID) neighborMap.[n2]) [n1]
+            // update neighborMap
+            neighborMap <- neighborMap |> Map.remove n1 |> Map.add n1 tmpR1
+            neighborMap <- neighborMap |> Map.remove n2 |> Map.add n2 tmpR2
+            neighborMap <- neighborMap |> Map.add vID []
 
-        mapOfDic <- mapOfDic |> Map.map (fun k v -> v |> List.rev)
+        neighborMap <- neighborMap |> Map.map (fun k v -> v |> List.rev)
 
-        let rec loop i =
-            if i = persistencePairs.Length - 1 then 
-                () 
-            else
-            let pair = persistencePairs.[i]
+        // iterate over sorted persistence pairs
+        let rec loopList ppList =
+            match ppList with
+            | [] -> ()
+            | pair::tail ->
+            // if root, ignore pair
             if fst pair < 0 || snd pair < 0 then 
-                loop (i+1)
+                loopList tail
             else 
-            
-                let v1 = data.[indexsingle data (fst pair)]
-                let v2 = data.[indexsingle data (snd pair)]
-                if Math.Abs(v1-v2) > threshold then 
-                    ()
-                else
-                    let simplifiedExtremum = 
-                        if v1<v2 then 
-                            if not split then 
-                                fst pair
-                            else snd pair
-                        else    
-                            if split then 
-                                fst pair 
-                            else snd pair
-                    let keptExtremum = 
-                        if simplifiedExtremum = snd pair then fst pair else snd pair
+            let v1 = data.[fst pair]
+            let v2 = data.[snd pair]
+            // if persistence over threshold, stop iteration (following pairs are also larger due to sorting)
+            if Math.Abs(v1-v2) > threshold then 
+                ()
+            else
+                // determine which vertex is inner node (kept) and which leave (simplified)
+                let simplifiedExtremum = 
+                    if (v1<v2 && not split) || (v1>v2 && split)
+                    then fst pair
+                    else snd pair
+                let keptExtremum = 
+                    if simplifiedExtremum = snd pair then fst pair else snd pair
 
-                    segmentation
-                    |> Array.iteri (fun i _ -> 
-                        if segmentationSimpl.[indexsingle segmentationSimpl i] = simplifiedExtremum then 
-                            segmentationSimpl.[indexsingle segmentationSimpl i] <- segmentationSimpl.[indexsingle segmentationSimpl keptExtremum]
-                        )
-                    let tmpR1 = (List.filter (fun x -> x <> simplifiedExtremum) mapOfDic.[keptExtremum])
-                    mapOfDic <- mapOfDic |> Map.add keptExtremum tmpR1     
-                    mapOfDic <- mapOfDic |> Map.add simplifiedExtremum []
-                    if mapOfDic.[keptExtremum].Length = 2 then prune (int keptExtremum)
-                    loop (i+1)
-        loop 0
+                // iterate over segmentation and change values of for simplified regions
+                segmentation
+                |> Array.iteri (fun i _ -> 
+                    if segmentationSimpl.[i] = simplifiedExtremum then 
+                        segmentationSimpl.[i] <- segmentationSimpl.[keptExtremum]
+                    )
+                // remove simplified node from neighbors of kept node
+                let tmpR1 = (List.filter (fun x -> x <> simplifiedExtremum) neighborMap.[keptExtremum])
+                neighborMap <- neighborMap |> Map.add keptExtremum tmpR1     
+                neighborMap <- neighborMap |> Map.add simplifiedExtremum []
+                // prune kept node if necessary (i.e. if degree 2)
+                if neighborMap.[keptExtremum].Length = 2 then prune (int keptExtremum)
+                loopList tail
+        loopList persistencePairs
     
-        let mutable mergeTreePirsSimplSet :( int*int) list = []
-    
-        let mapOfDicList = mapOfDic |> Map.toList |> List.rev 
+        // set of edges in simplified merge tree
+        let mutable mergeTreePairsSimplSet :Set<(int*int)> = Set.ofList []
+        // for all vertex-neighbor- pairs, add pair to edge set 
+        let mapOfDicList = neighborMap |> Map.toList |> List.rev 
         mapOfDicList
+        // for each vertex v
         |> List.iter (fun (v,neighbors) -> 
+            // for each neigbor n of v
             neighbors
-            |> List.iter (fun n -> 
-                if mergeTreePirsSimplSet |> List.contains (v,n) || mergeTreePirsSimplSet |> List.contains (n,v) then 
+            |> List.iter (fun n ->
+                // if edge already in set, ignore
+                if mergeTreePairsSimplSet |> Set.contains (v,n) || mergeTreePairsSimplSet |> Set.contains (n,v) then 
                     ()
                 else 
-                    mergeTreePirsSimplSet <- (v,n)::mergeTreePirsSimplSet
+                    let newPair =
+                        // determine direction of pair based on tree type/direction
+                        if v=(-1) then (n,v)
+                        elif n=(-1) then (v,n)
+                        elif split then
+                            if data.[v]>data.[n] then (v,n) else (n,v)
+                        else
+                            if data.[v]>data.[n] then (n,v) else (v,n)
+                    // add pair to edge set
+                    mergeTreePairsSimplSet <- Set.add newPair mergeTreePairsSimplSet
                 )
             )
-        mergeTreePirsSimplSet
-        |> List.iteri (fun i p -> 
-            let p = if fst p = -1 then (snd p,fst p) else p
-            mergeTreePairsSimpl <- p::mergeTreePairsSimpl
-            )
+        // convert edge set to edge list
+        mergeTreePairsSimpl <- Set.toList mergeTreePairsSimplSet
 
         mergeTreePairsSimpl,segmentationSimpl
  
