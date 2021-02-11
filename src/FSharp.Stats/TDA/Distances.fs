@@ -233,7 +233,7 @@ module StringEditDistance =
             M.Add((s1,s2),v)
             v
 
-    // computes the matching as an array of id-pairs from memoization table
+    // computes the matching as an list of id-pairs from memoization table
     // relabel costs and deletion/insertion costs are given as functions editCost and delCost
     let rec traceMatching (s1:List<'lt>) (p1:int) (s2:List<'lt>) (p2:int)
                           (editCost:'lt->'lt->float) (delCost:'lt->float)

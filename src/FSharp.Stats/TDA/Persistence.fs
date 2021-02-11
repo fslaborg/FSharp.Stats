@@ -146,8 +146,22 @@ module Persistence =
         persistencePairs,mergeTreePairs |> List.rev,segmentation
 
     // function that simplifies data array based on persistence threshold
-    let simplifyData (data:float[]) (persistencePairs:(int*int)list) threshold =
+    let simplifyData (data:float[]) (persistencePairs:(int*int)list) threshold  direction=
         let dataSimpl = Array.copy data
+        let reverse = direction = "split"
+        
+        // comparison functions for data points with simulation of simplicity
+        let compare i j =
+            let a = if i<0 || i>(data.Length-1) then nan else data.[i]
+            let b = if j<0 || j>(data.Length-1) then nan else data.[j]
+            if a=b then
+                let res = i-j
+                if reverse then res*(-1) else res
+            else
+                let res = if a<b then -1 else 1
+                if reverse then res*(-1) else res
+        let smaller i j=
+            compare i j < 0
     
         // iterate over sorted persistence pairs
         let rec loopList ppList =
@@ -161,20 +175,20 @@ module Persistence =
                     let v1 = data.[fst pair]
                     let v2 = data.[snd pair]
                     // if persistence over threshold, stop iteration (following pairs are also larger due to sorting)
-                    if v2-v1>threshold then ()
+                    if (Math.Abs (v2-v1))>threshold then ()
                     // otherwise, cut peak to level of corresponding saddle/merge point
                     else
                         // from maximum (second entry), move to the right and flatten until value lower than saddle
                         let rec innerloopA i =
-                            if data.[fst pair] < data.[snd pair + i] then 
-                                dataSimpl.[snd pair + i] <- data.[fst pair]
+                            if smaller (fst pair + i) (snd pair) then 
+                                dataSimpl.[fst pair + i] <- data.[snd pair]
                                 innerloopA (i+1)
                             else ()
                         let dummy = innerloopA 0
                         // from maximum (second entry), move to the left and flatten until value lower than saddle
                         let rec innerloopB i =
-                            if data.[fst pair] < data.[snd pair - i] then 
-                                dataSimpl.[snd pair - i] <- data.[fst pair]
+                            if smaller (fst pair - i) (snd pair) then 
+                                dataSimpl.[fst pair - i] <- data.[snd pair]
                                 innerloopB (i+1)
                             else ()
                         let dummy = innerloopB 0
