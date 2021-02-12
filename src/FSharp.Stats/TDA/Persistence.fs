@@ -54,7 +54,8 @@ module Persistence =
 
         let mutable persistencePairs    = [] 
         let mutable mergeTreePairs      = []
-        let mutable segmentation :int []= Array.zeroCreate data.Length
+        let mutable segmentation_pp :int []= Array.zeroCreate data.Length
+        let mutable segmentation_mt :int []= Array.zeroCreate data.Length
 
         // sweep over ordered points and
         // for each point determine type and track segments
@@ -73,19 +74,22 @@ module Persistence =
                 // a new segment is created, atm it only consists of i
                 ufpP.[i] <- i
                 ufmT.[i] <- i
-                segmentation.[i] <- ufpP.[i]
+                segmentation_pp.[i] <- ufpP.[i]
+                segmentation_mt.[i] <- ufmT.[i]
             // if i not at border, right neighbor larger and left one smaller, i is a regular point
             elif not (nan.Equals leftVal) && not (nan.Equals rightVal) && smaller i rightIdx && smaller leftIdx i then
                 // add i to segment of left neighbor (smaller one)
                 ufpP.[i] <- find (i-1) ufpP
                 ufmT.[i] <- find (i-1) ufmT
-                segmentation.[i] <- ufpP.[i]
+                segmentation_pp.[i] <- ufpP.[i]
+                segmentation_mt.[i] <- ufmT.[i]
             // if i not at border, left neighbor larger and right one smaller, i is a regular point
             elif not (nan.Equals leftVal) && not (nan.Equals rightVal) && smaller rightIdx i && smaller i leftIdx then
                 // add i to segment of right neighbor (smaller one)
                 ufpP.[i] <- find (i+1) ufpP
                 ufmT.[i] <- find (i+1) ufmT
-                segmentation.[i] <- ufpP.[i]
+                segmentation_pp.[i] <- ufpP.[i]
+                segmentation_mt.[i] <- ufmT.[i]
             // otherwise i is a local maximum
             else
                 // case for i at the left border
@@ -93,14 +97,16 @@ module Persistence =
                     // i belongs to segment of right neighbor and this segment "disappears"
                     ufpP.[i] <- find (i+1) ufpP
                     ufmT.[i] <- find (i+1) ufmT
-                    segmentation.[i] <- ufpP.[i]
+                    segmentation_pp.[i] <- ufpP.[i]
+                    segmentation_mt.[i] <- ufmT.[i]
                 // case for i at the right border
                 elif nan.Equals rightVal then
                     // i belongs to segment of left neighbor and
                     // nothing else happens this segment "disappears"
                     ufpP.[i] <- find (i-1) ufpP
                     ufmT.[i] <- find (i-1) ufmT
-                    segmentation.[i] <- ufpP.[i]
+                    segmentation_pp.[i] <- ufpP.[i]
+                    segmentation_mt.[i] <- ufmT.[i]
                 // general case, the maximum corresponds to a merge point of two segments
                 else
                     // for the merge tree:
@@ -109,6 +115,7 @@ module Persistence =
                     ufmT.[i] <- i
                     mergeTreePairs <- (int(find(i+1) ufmT),i)::mergeTreePairs
                     mergeTreePairs <- (int(find(i-1) ufmT),i)::mergeTreePairs
+                    segmentation_mt.[i] <- ufmT.[i]
                     union i (find (i-1) ufmT) ufmT
                     union i (find (i+1) ufmT) ufmT
                     // for persistence pairs:
@@ -118,11 +125,11 @@ module Persistence =
                     let re = find (i+1) ufpP
                     if smaller (int le) (int re) then 
                         persistencePairs <- (int(find (i+1) ufpP),i)::persistencePairs
-                        segmentation.[i] <- int (find (i-1) ufpP)
+                        segmentation_pp.[i] <- int (find (i-1) ufpP)
                         union le re ufpP
                     else 
                         persistencePairs <- (int(find(i-1) ufpP),i)::persistencePairs
-                        segmentation.[i] <- int (find (i+1) ufpP)
+                        segmentation_pp.[i] <- int (find (i+1) ufpP)
                         union re le ufpP 
             )
 
@@ -143,10 +150,10 @@ module Persistence =
         // add last edge from global minimum to -infinity to merge tree (edge to root)
         mergeTreePairs <- ((int(find (orderedPoints.[orderedPoints.Length - 1]) ufmT),-1))::mergeTreePairs     
     
-        persistencePairs,mergeTreePairs |> List.rev,segmentation
+        persistencePairs,mergeTreePairs |> List.rev,segmentation_pp,segmentation_mt
 
     // function that simplifies data array based on persistence threshold
-    let simplifyData (data:float[]) (persistencePairs:(int*int)list) threshold  direction=
+    let simplifyData (data:float[]) (persistencePairs:(int*int)list) threshold  direction =
         let dataSimpl = Array.copy data
         let reverse = direction = "split"
         
@@ -180,18 +187,24 @@ module Persistence =
                     else
                         // from maximum (second entry), move to the right and flatten until value lower than saddle
                         let rec innerloopA i =
-                            if smaller (fst pair + i) (snd pair) then 
+                            if fst pair + i >= data.Length then
+                                ()
+                            elif smaller (fst pair + i) (snd pair) then
                                 dataSimpl.[fst pair + i] <- data.[snd pair]
                                 innerloopA (i+1)
-                            else ()
-                        let dummy = innerloopA 0
+                            else
+                                ()
+                        innerloopA 0
                         // from maximum (second entry), move to the left and flatten until value lower than saddle
                         let rec innerloopB i =
-                            if smaller (fst pair - i) (snd pair) then 
+                            if fst pair - i < 0 then
+                                ()
+                            elif smaller (fst pair - i) (snd pair) then
                                 dataSimpl.[fst pair - i] <- data.[snd pair]
                                 innerloopB (i+1)
-                            else ()
-                        let dummy = innerloopB 0
+                            else
+                                ()
+                        innerloopB 0
                         // continue with next pair
                         loopList tail
 
@@ -200,12 +213,25 @@ module Persistence =
         dataSimpl   
 
     // function that simplifies merge tree and segmentation based on persistence threshold
-    let simplifyMergeTreeAndSeg (data:float []) (mergeTreePairs:(int*int)list) (persistencePairs:(int*int)list) segmentation threshold direction =
+    let simplifyMergeTreeAndSeg (data:float []) (mergeTreePairs:(int*int)list) (persistencePairs:(int*int)list) ppSegmentation mtSegmentation threshold direction =
     
         let split = direction = "split"
+        
+        // comparison functions for data points with simulation of simplicity
+        let compare i j =
+            let a = if i<0 || i>(data.Length-1) then nan else data.[i]
+            let b = if j<0 || j>(data.Length-1) then nan else data.[j]
+            if a=b then
+                let res = i-j
+                if split then res*(-1) else res
+            else
+                let res = if a<b then -1 else 1
+                if split then res*(-1) else res
+        let smaller i j=
+            compare i j < 0
 
-        let mutable segmentationSimpl = Array.copy segmentation
-        let mutable mergeTreePairsSimpl :(int*int)list= []
+        let mutable ppSegmentationSimpl = Array.copy ppSegmentation
+        let mutable mtSegmentationSimpl = Array.copy mtSegmentation
 
         // build neighbor map that contains the list of neighbors for each vertex in merge tree
         let mutable neighborMap = [] |> Map.ofSeq
@@ -249,32 +275,37 @@ module Persistence =
             else
                 // determine which vertex is inner node (kept) and which leave (simplified)
                 let simplifiedExtremum = 
-                    if (v1<v2 && not split) || (v1>v2 && split)
-                    then fst pair
-                    else snd pair
+                    if smaller (fst pair) (snd pair) then fst pair else snd pair
                 let keptExtremum = 
                     if simplifiedExtremum = snd pair then fst pair else snd pair
 
                 // change segmentation value of for simplified vertex (rest of region follows later)
-                segmentationSimpl.[simplifiedExtremum] <- keptExtremum
+                ppSegmentationSimpl.[simplifiedExtremum] <- ppSegmentationSimpl.[keptExtremum]
+                mtSegmentationSimpl.[simplifiedExtremum] <- mtSegmentationSimpl.[keptExtremum]
                 // remove simplified node from neighbors of kept node
                 let tmpR1 = (List.filter (fun x -> x <> simplifiedExtremum) neighborMap.[keptExtremum])
                 neighborMap <- neighborMap |> Map.add keptExtremum tmpR1     
                 neighborMap <- neighborMap |> Map.add simplifiedExtremum []
                 // prune kept node if necessary (i.e. if degree 2)
-                if neighborMap.[keptExtremum].Length = 2 then prune (int keptExtremum)
+                if neighborMap.[keptExtremum].Length = 2 then
+                    let smallerNeighbor =
+                        if smaller (neighborMap.[keptExtremum]).[0] (neighborMap.[keptExtremum]).[1]
+                        then (neighborMap.[keptExtremum]).[0] else (neighborMap.[keptExtremum]).[1]
+                    mtSegmentationSimpl.[keptExtremum] <- mtSegmentationSimpl.[smallerNeighbor]
+                    prune (int keptExtremum)
                 loopList tail
         loopList persistencePairs
 
         // propagate segmentation changes to whole segments (by flattening tree-like reference structure in array)
-        let rec recurseSegSimplification i =
-            match segmentationSimpl.[i] with 
+        let rec recurseSegSimplification (seg:int array) i =
+            match seg.[i] with 
             | segi when segi=i -> i
             | _ -> 
-                let segi = recurseSegSimplification (segmentationSimpl.[i])
-                segmentationSimpl.[i] <- segi
+                let segi = recurseSegSimplification seg (seg.[i])
+                seg.[i] <- segi
                 segi
-        segmentationSimpl <- Array.map recurseSegSimplification segmentationSimpl
+        ppSegmentationSimpl <- Array.map (recurseSegSimplification ppSegmentationSimpl) ppSegmentationSimpl
+        mtSegmentationSimpl <- Array.map (recurseSegSimplification mtSegmentationSimpl) mtSegmentationSimpl
     
         // set of edges in simplified merge tree
         let mutable mergeTreePairsSimplSet :Set<(int*int)> = Set.ofList []
@@ -303,9 +334,10 @@ module Persistence =
                 )
             )
         // convert edge set to edge list
-        mergeTreePairsSimpl <- Set.toList mergeTreePairsSimplSet
+        
+        let mergeTreePairsSimpl = Set.toList mergeTreePairsSimplSet
 
-        mergeTreePairsSimpl,segmentationSimpl
+        mergeTreePairsSimpl,ppSegmentationSimpl,mtSegmentationSimpl
  
 
     //let plotPersistenceDiagram' (data:float []) persistencePairs = 
