@@ -22,10 +22,10 @@ let sequenceTests =
             Expect.floatClose Accuracy.high covPop 347.92 "Should be equal (double precision)"
         testCase "cov of decimals" <| fun () ->
             let cov = Seq.cov xd yd
-            Expect.equal cov 434.90m "Should be equal (double precision)"
+            Expect.equal cov 434.90m "Should be equal (decimal)"
         testCase "covPopulation of decimals" <| fun () ->
             let covPop = Seq.covPopulation xd yd
-            Expect.equal covPop 347.92m "Should be equal (double precision)"
+            Expect.equal covPop 347.92m "Should be equal (decimal)"
 
     ]
 
