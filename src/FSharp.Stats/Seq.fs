@@ -207,8 +207,98 @@ module Seq =
     // Median 
     /// Sample Median
     let inline median (items:seq<'T>) =
+        let swapInPlace left right (items:array<'T>) =
+            let tmp = items.[left]
+            items.[left]  <- items.[right]
+            items.[right] <- tmp
+        let inline partitionSortInPlace left right (items:array<'T>) =   
+            let random = Random.rndgen
+            let pivotIndex = left + random.NextInt() % (right - left + 1)
+            let pivot = items.[pivotIndex]
+            if isNan pivot then
+                ~~~pivotIndex
+            else
+                swapInPlace pivotIndex right items // swap random pivot to right.
+                let pivotIndex' = right;
+                // https://stackoverflow.com/questions/22080055/quickselect-algorithm-fails-with-duplicated-elements
+                //let mutable i = left - 1
+
+                //for j = left to right - 1 do    
+                //    if (arr.[j] <= pivot) then    
+                //        i <- i + 1
+                //        swapInPlace i j arr
+                let rec loop i j =
+                    if j <  right then 
+                        let v = items.[j]
+                        if isNan v then   // true if nan
+                            loop (~~~j) right // break beacause nan                    
+                        else
+                            if (v <= pivot) then        
+                                let i' = i + 1
+                                swapInPlace i' j items            
+                                loop i' (j+1)
+                            else
+                                loop i (j+1)
+                    else
+                        i
+
+                let i = loop (left - 1) left
+                if i < -1 then
+                    i
+                else
+                    swapInPlace (i + 1) pivotIndex' items // swap back the pivot
+                    i + 1
+        let inline median (items:array<'T>) =
+
+            let zero = LanguagePrimitives.GenericZero< 'T > 
+            let one = LanguagePrimitives.GenericOne< 'T > 
+
+            // returns max element of array from index to right index
+            let rec max cMax index rigthIndex (input:array<'T>) =
+                if index <= rigthIndex then
+                    let current = input.[index]
+                    if cMax < current then
+                        max current (index+1) rigthIndex input
+                    else
+                        max cMax (index+1) rigthIndex input
+                else
+                    cMax
+
+
+            // Returns a tuple of two items whose mean is the median by quickSelect algorithm
+            let rec medianQuickSelect (items:array<'T>) left right k =
+
+                // get pivot position  
+                let pivotIndex = partitionSortInPlace left right items 
+                if pivotIndex >= 0 then
+                    // if pivot is less than k, select from the right part  
+                    if (pivotIndex < k) then             
+                        medianQuickSelect items (pivotIndex + 1) right k
+                    // if pivot is greater than k, select from the left side  
+                    elif (pivotIndex > k) then
+                        medianQuickSelect items left (pivotIndex - 1) k
+                    // if equal, return the value
+                    else 
+                        let n = items.Length
+                        if n % 2 = 0 then
+                            (max (items.[pivotIndex-1]) 0 (pivotIndex-1) items,items.[pivotIndex])
+                        else
+                            (items.[pivotIndex],items.[pivotIndex])
+                else
+                    (zero/zero,zero/zero)
+
+            
+            if items.Length > 0 then
+                let items' = Array.copy items
+                let n = items'.Length
+                let mid = n / 2    
+                let m1,m2 = medianQuickSelect items' 0 (items'.Length - 1) (mid)
+                (m1 + m2) / (one + one)
+
+            else
+                zero / zero    
         // TODO
-        items |> Seq.toArray |> Array.median
+        items |> Seq.toArray |> median
         //raise (new System.NotImplementedException())
 
         
@@ -765,10 +855,10 @@ module Seq =
     /// Median absolute deviation (MAD)
     let medianAbsoluteDev (data:seq<float>) =        
         let data' = data |> Seq.toArray
-        let m' = Array.median data'
+        let m' = median data'
         data' 
         |> Array.map (fun x -> abs ( x - m' ))
-        |> Array.median
+        |> median
         
 
 
