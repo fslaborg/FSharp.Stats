@@ -511,7 +511,7 @@ module Seq =
     let inline covPopulation (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
         let v1 = seq1 |> OpsS.seqV
         let v2 = seq2 |> OpsS.seqV
-        if v1.Length <> v2.Length then failwith "Sequences need to have the same length."
+        if v1.Length <> v2.Length then failwith "Inputs need to have the same length."
         let zero = LanguagePrimitives.GenericZero<'U>
         let div = LanguagePrimitives.DivideByInt<'U>
         let rec loop n sumMul sumX sumY = 
@@ -545,7 +545,7 @@ module Seq =
     let inline cov (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
         let v1 = seq1 |> OpsS.seqV
         let v2 = seq2 |> OpsS.seqV
-        if v1.Length <> v2.Length then failwith "Vectors need to have the same length."
+        if v1.Length <> v2.Length then failwith "Inputs need to have the same length."
         let zero = LanguagePrimitives.GenericZero<'U>
         let div = LanguagePrimitives.DivideByInt<'U>
         let rec loop n sumMul sumX sumY = 

@@ -344,26 +344,12 @@ module Vector =
 
 
     /// Returns an estimator of the population covariance of two random variables v1 and v2 
-    let inline covPopulation (v1:vector) (v2:vector) = 
-        if v1.Length <> v2.Length then failwith "Vectors need to have the same length." 
-        let rec loop n sumMul sumX sumY = 
-            if n = v1.Length then
-                sumMul,sumX,sumY 
-            else 
-                loop (n+1) (sumMul + (v1.[n]*v2.[n])) (sumX+v1.[n]) (sumY+v2.[n]) 
-        let (mul,sumX,sumY) = loop 0 0. 0. 0.
-        (mul - (sumX * sumY) / (float v1.Length) )/(float v1.Length) 
+    let covPopulation (v1:vector) (v2:vector) = 
+        Seq.covPopulation v1 v2
 
     /// Returns the sample covariance of two random variables v1 and v2. (Bessel's correction by N-1) 
-    let inline cov (v1:vector) (v2:vector) = 
-        if v1.Length <> v2.Length then failwith "Vectors need to have the same length." 
-        let rec loop n sumMul sumX sumY = 
-            if n = v1.Length then
-                sumMul,sumX,sumY 
-            else 
-                loop (n+1) (sumMul + (v1.[n]*v2.[n])) (sumX+v1.[n]) (sumY+v2.[n]) 
-        let (mul,sumX,sumY) = loop 0 0. 0. 0.
-        (mul - (sumX * sumY)/(float v1.Length)) / (float v1.Length - 1.) 
+    let cov (v1:vector) (v2:vector) = 
+        Seq.cov v1 v2
 
     /// calculates the sample means with a given number of replicates present in the sequence
     let getMeanOfReplicates rep (data:vector) =
