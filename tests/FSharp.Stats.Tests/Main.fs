@@ -24,6 +24,11 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv CorrelationTests.kendallCorrelationTests |> ignore
     Tests.runTestsWithCLIArgs [] argv CorrelationTests.pearsonCorrelationTests |> ignore
     
+    //=============================== Covariance ============================================================
+    Tests.runTestsWithCLIArgs [] argv CovarianceTests.sequenceTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv CovarianceTests.listTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv CovarianceTests.arrayTests |> ignore
+    
     //================================ Testing ==============================================================
     //Tests.runTestsWithCLIArgs [] argv TestingTests.testPostHocTests |> ignore 
     Tests.runTestsWithCLIArgs [] argv TestingTests.hTestTests       |> ignore
