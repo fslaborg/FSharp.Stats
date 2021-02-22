@@ -29,6 +29,7 @@ let sequenceTests =
 
     ]
 
+[<Tests>]
 let listTests =
     let x = [5.;12.;18.;-23.;45.]
     let y = [2.;8.;18.;-20.;28.]
@@ -41,6 +42,7 @@ let listTests =
             Expect.floatClose Accuracy.high covPop 347.92 "Should be equal (double precision)"
     ]
 
+[<Tests>]
 let arrayTests =
     let x = [| 5.;12.;18.;-23.;45. |]
     let y = [| 2.;8.;18.;-20.;28. |]
