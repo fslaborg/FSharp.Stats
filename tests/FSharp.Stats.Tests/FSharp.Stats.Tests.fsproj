@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Include="Correlation.fs" />
+    <Compile Include="Covariance.fs" />
     <Compile Include="Distributions.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="Matrix.fs" />

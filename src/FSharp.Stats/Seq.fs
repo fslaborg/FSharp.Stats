@@ -5,6 +5,8 @@ namespace FSharp.Stats
 [<AutoOpen>]
 module Seq = 
 
+    module OpsS = SpecializedGenericImpl
+
     let range (items:seq<_>) =
         use e = items.GetEnumerator()
         let rec loop (minimum) (maximum) =
@@ -205,8 +207,98 @@ module Seq =
     // Median 
     /// Sample Median
     let inline median (items:seq<'T>) =
+        let swapInPlace left right (items:array<'T>) =
+            let tmp = items.[left]
+            items.[left]  <- items.[right]
+            items.[right] <- tmp
+        let inline partitionSortInPlace left right (items:array<'T>) =   
+            let random = Random.rndgen
+            let pivotIndex = left + random.NextInt() % (right - left + 1)
+            let pivot = items.[pivotIndex]
+            if isNan pivot then
+                ~~~pivotIndex
+            else
+                swapInPlace pivotIndex right items // swap random pivot to right.
+                let pivotIndex' = right;
+                // https://stackoverflow.com/questions/22080055/quickselect-algorithm-fails-with-duplicated-elements
+                //let mutable i = left - 1
+
+                //for j = left to right - 1 do    
+                //    if (arr.[j] <= pivot) then    
+                //        i <- i + 1
+                //        swapInPlace i j arr
+                let rec loop i j =
+                    if j <  right then 
+                        let v = items.[j]
+                        if isNan v then   // true if nan
+                            loop (~~~j) right // break beacause nan                    
+                        else
+                            if (v <= pivot) then        
+                                let i' = i + 1
+                                swapInPlace i' j items            
+                                loop i' (j+1)
+                            else
+                                loop i (j+1)
+                    else
+                        i
+
+                let i = loop (left - 1) left
+                if i < -1 then
+                    i
+                else
+                    swapInPlace (i + 1) pivotIndex' items // swap back the pivot
+                    i + 1
+        let inline median (items:array<'T>) =
+
+            let zero = LanguagePrimitives.GenericZero< 'T > 
+            let one = LanguagePrimitives.GenericOne< 'T > 
+
+            // returns max element of array from index to right index
+            let rec max cMax index rigthIndex (input:array<'T>) =
+                if index <= rigthIndex then
+                    let current = input.[index]
+                    if cMax < current then
+                        max current (index+1) rigthIndex input
+                    else
+                        max cMax (index+1) rigthIndex input
+                else
+                    cMax
+
+
+            // Returns a tuple of two items whose mean is the median by quickSelect algorithm
+            let rec medianQuickSelect (items:array<'T>) left right k =
+
+                // get pivot position  
+                let pivotIndex = partitionSortInPlace left right items 
+                if pivotIndex >= 0 then
+                    // if pivot is less than k, select from the right part  
+                    if (pivotIndex < k) then             
+                        medianQuickSelect items (pivotIndex + 1) right k
+                    // if pivot is greater than k, select from the left side  
+                    elif (pivotIndex > k) then
+                        medianQuickSelect items left (pivotIndex - 1) k
+                    // if equal, return the value
+                    else 
+                        let n = items.Length
+                        if n % 2 = 0 then
+                            (max (items.[pivotIndex-1]) 0 (pivotIndex-1) items,items.[pivotIndex])
+                        else
+                            (items.[pivotIndex],items.[pivotIndex])
+                else
+                    (zero/zero,zero/zero)
+
+            
+            if items.Length > 0 then
+                let items' = Array.copy items
+                let n = items'.Length
+                let mid = n / 2    
+                let m1,m2 = medianQuickSelect items' 0 (items'.Length - 1) (mid)
+                (m1 + m2) / (one + one)
+
+            else
+                zero / zero    
         // TODO
-        items |> Seq.toArray |> Array.median
+        items |> Seq.toArray |> median
         //raise (new System.NotImplementedException())
 
         
@@ -497,6 +589,73 @@ module Seq =
                 else (zero / zero)
         loop 0 zero zero 
 
+ 
+    /// <summary>
+    ///   Computes the population covariance of two random variables
+    /// </summary>
+    ///    
+    /// <param name="seq1">The first input sequence.</param>
+    /// <param name="seq2">The second input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>population covariance estimator (denominator N)</returns> 
+    let inline covPopulation (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
+        let v1 = seq1 |> OpsS.seqV
+        let v2 = seq2 |> OpsS.seqV
+        if v1.Length <> v2.Length then failwith "Inputs need to have the same length."
+        let zero = LanguagePrimitives.GenericZero<'U>
+        let div = LanguagePrimitives.DivideByInt<'U>
+        let rec loop n sumMul sumX sumY = 
+            if n = v1.Length then
+                sumMul,sumX,sumY 
+            else 
+                loop (n+1) (sumMul + (v1.[n]*v2.[n])) (sumX+v1.[n]) (sumY+v2.[n]) 
+        let (mul,sumX,sumY) = loop 0 zero zero zero
+        div (mul - (div (sumX * sumY) v1.Length)) v1.Length 
+
+    /// <summary>
+    ///   Computes the population covariance of two random variables generated by applying the function to each input sequence.
+    /// </summary>
+    ///    
+    /// <param name="f">A function applied to transform each element of each input sequence.</param>
+    /// <param name="seq1">The first input sequence.</param>
+    /// <param name="seq2">The second input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>population covariance estimator (denominator N)</returns> 
+    let inline covPopulationBy f (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
+        covPopulation (seq1 |> Seq.map f) (seq2 |> Seq.map f)
+
+    /// <summary>
+    ///   Computes the sample covariance of two random variables
+    /// </summary>
+    ///    
+    /// <param name="seq1">The first input sequence.</param>
+    /// <param name="seq2">The second input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>sample covariance estimator (Bessel's correction by N-1)</returns> 
+    let inline cov (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
+        let v1 = seq1 |> OpsS.seqV
+        let v2 = seq2 |> OpsS.seqV
+        if v1.Length <> v2.Length then failwith "Inputs need to have the same length."
+        let zero = LanguagePrimitives.GenericZero<'U>
+        let div = LanguagePrimitives.DivideByInt<'U>
+        let rec loop n sumMul sumX sumY = 
+            if n = v1.Length then
+                sumMul,sumX,sumY 
+            else 
+                loop (n+1) (sumMul + (v1.[n]*v2.[n])) (sumX+v1.[n]) (sumY+v2.[n]) 
+        let (mul,sumX,sumY) = loop 0 zero zero zero
+        div (mul - (div (sumX * sumY) v1.Length)) (v1.Length - 1) 
+
+    /// <summary>
+    ///   Computes the sample covariance of two random variables generated by applying the function to each input sequence.
+    /// </summary>
+    ///    
+    /// <param name="seq1">The first input sequence.</param>
+    /// <param name="seq2">The second input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>sample covariance estimator (Bessel's correction by N-1)</returns>
+    let inline covBy f (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
+        cov (seq1 |> Seq.map f) (seq2 |> Seq.map f)
 
 //    // #endregion standard deviation, variance and coefficient of variation
 //    
@@ -696,10 +855,10 @@ module Seq =
     /// Median absolute deviation (MAD)
     let medianAbsoluteDev (data:seq<float>) =        
         let data' = data |> Seq.toArray
-        let m' = Array.median data'
+        let m' = median data'
         data' 
         |> Array.map (fun x -> abs ( x - m' ))
-        |> Array.median
+        |> median
         
 
 
