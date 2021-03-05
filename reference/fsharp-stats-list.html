@@ -107,7 +107,469 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '469', 469)" onmouseover="showTip(event, '469', 469)">
+              <code onmouseout="hideTip(event, '473', 473)" onmouseover="showTip(event, '473', 473)">
+                <p>
+                  <a id="cov">
+                    <a href="#cov">
+                      <code><span>cov&#32;<span>list1&#32;list2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="473">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>cov&#32;<span>list1&#32;list2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        list1
+                      </b>
+                      :
+                      <code><span>^T&#32;list</span></code>
+                       - 
+                      The first input list.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        list2
+                      </b>
+                      :
+                      <code><span>^T&#32;list</span></code>
+                       - 
+                      The second input list.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  sample covariance estimator (Bessel's correction by N-1)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L108-108" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the sample covariance of two random variables
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  list1
+                </span>
+                :
+                <code><span>^T&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The first input list.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  list2
+                </span>
+                :
+                <code><span>^T&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The second input list.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  sample covariance estimator (Bessel's correction by N-1)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '474', 474)" onmouseover="showTip(event, '474', 474)">
+                <p>
+                  <a id="covBy">
+                    <a href="#covBy">
+                      <code><span>covBy&#32;<span>f&#32;list1&#32;list2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="474">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>covBy&#32;<span>f&#32;list1&#32;list2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        list1
+                      </b>
+                      :
+                      <code><span>'T&#32;list</span></code>
+                       - 
+                      The first input list.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        list2
+                      </b>
+                      :
+                      <code><span>'T&#32;list</span></code>
+                       - 
+                      The second input list.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  sample covariance estimator (Bessel's correction by N-1)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L119-119" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the sample covariance of two random variables generated by applying the function to each input list.
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  list1
+                </span>
+                :
+                <code><span>'T&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The first input list.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  list2
+                </span>
+                :
+                <code><span>'T&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The second input list.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  sample covariance estimator (Bessel's correction by N-1)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '475', 475)" onmouseover="showTip(event, '475', 475)">
+                <p>
+                  <a id="covPopulation">
+                    <a href="#covPopulation">
+                      <code><span>covPopulation&#32;<span>list1&#32;list2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="475">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>covPopulation&#32;<span>list1&#32;list2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        list1
+                      </b>
+                      :
+                      <code><span>^T&#32;list</span></code>
+                       - 
+                      The first input list.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        list2
+                      </b>
+                      :
+                      <code><span>^T&#32;list</span></code>
+                       - 
+                      The second input list.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  population covariance estimator (denominator N)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L85-85" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the population covariance of two random variables
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  list1
+                </span>
+                :
+                <code><span>^T&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The first input list.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  list2
+                </span>
+                :
+                <code><span>^T&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The second input list.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  population covariance estimator (denominator N)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '476', 476)" onmouseover="showTip(event, '476', 476)">
+                <p>
+                  <a id="covPopulationBy">
+                    <a href="#covPopulationBy">
+                      <code><span>covPopulationBy&#32;<span>f&#32;list1&#32;list2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="476">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>covPopulationBy&#32;<span>f&#32;list1&#32;list2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                       - 
+                      A function applied to transform each element of each input list.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        list1
+                      </b>
+                      :
+                      <code><span>'T&#32;list</span></code>
+                       - 
+                      The first input list.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        list2
+                      </b>
+                      :
+                      <code><span>'T&#32;list</span></code>
+                       - 
+                      The second input list.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  population covariance estimator (denominator N)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L97-97" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the population covariance of two random variables generated by applying the function to each input list.
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of each input list.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  list1
+                </span>
+                :
+                <code><span>'T&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The first input list.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  list2
+                </span>
+                :
+                <code><span>'T&#32;list</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The second input list.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  population covariance estimator (denominator N)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '477', 477)" onmouseover="showTip(event, '477', 477)">
                 <p>
                   <a id="mean">
                     <a href="#mean">
@@ -116,7 +578,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="469">
+              <div class="fsdocs-tip" id="477">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>mean&#32;<span>items</span></span></code>
@@ -177,7 +639,7 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '470', 470)" onmouseover="showTip(event, '470', 470)">
+              <code onmouseout="hideTip(event, '478', 478)" onmouseover="showTip(event, '478', 478)">
                 <p>
                   <a id="median">
                     <a href="#median">
@@ -186,7 +648,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="470">
+              <div class="fsdocs-tip" id="478">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>median&#32;<span>xs</span></span></code>
@@ -248,7 +710,7 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '471', 471)" onmouseover="showTip(event, '471', 471)">
+              <code onmouseout="hideTip(event, '479', 479)" onmouseover="showTip(event, '479', 479)">
                 <p>
                   <a id="range">
                     <a href="#range">
@@ -257,7 +719,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="471">
+              <div class="fsdocs-tip" id="479">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>range&#32;<span>items</span></span></code>

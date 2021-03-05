@@ -172,7 +172,7 @@
                 <div class="container" id="fsdocs-content">
                     <h1><a name="Basics" class="anchor" href="#Basics">Basics</a></h1>
 <p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=BasicStats.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
-<p><em>Summary:</em> this tutorial gives an overview over how to do some of the basic statistical mesaurements with FShrp.Stats.</p>
+<p><em>Summary:</em> this tutorial gives an overview over how to do some of the basic statistical measurements with FSharp.Stats.</p>
 <h3><a name="Table-of-contents" class="anchor" href="#Table-of-contents">Table of contents</a></h3>
 <ul>
 <li>
@@ -234,7 +234,7 @@ which takes an additional converter function:</p>
 <h3><a name="Median" class="anchor" href="#Median">Median</a></h3>
 <p>The <a href="https://en.wikipedia.org/wiki/Median">median</a> is a value separating the higher half from the lower half of a data sample, a population, or a probability distribution.
 For a data set, it may be thought of as "the middle" value: if you sort the values of a collection by size, the median is the value in central position.
-Therefore there are as many bigger values as smaller values than the median in the collection.
+Therefore, there are as many bigger values as smaller values than the median in the collection.
 If there is an even number of observations, then there is no single middle value; the median is then usually defined to be the mean of the two middle values.</p>
 <p><code>median</code> is available as a equence (and other collections) extension:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 25)" onmouseover="showTip(event, 'fs17', 25)" class="id">median1</span> <span class="o">=</span> 
@@ -246,7 +246,7 @@ If there is an even number of observations, then there is no single middle value
 <p>The <a href="https://en.wikipedia.org/w/index.php?title=Harmonic_mean&amp;action=edit&amp;section=1">harmonic mean</a> can be expressed as the reciprocal of the arithmetic mean of the reciprocals of the given set of observations.
 It is typically appropriate for situations when the average of rates is desired.</p>
 <p><span class="math">\(H = \frac{n}{\frac1{x_1} + \frac1{x_2} + \cdots + \frac1{x_n}} = \frac{n}{\sum\limits_{i=1}^n \frac1{x_i}} = \left(\frac{\sum\limits_{i=1}^n x_i^{-1}}{n}\right)^{-1}.\)</span></p>
-<p><code>meanHarmonic</code> is available as a equence (and other collections) extension, as well as <code>meanHarmonicBy</code>,
+<p><code>meanHarmonic</code> is available as a sequence (and other collections) extension, as well as <code>meanHarmonicBy</code>,
 which takes an additional converter function:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 28)" onmouseover="showTip(event, 'fs19', 28)" class="id">harmonicMean1</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10.</span><span class="pn">;</span> <span class="n">2.</span><span class="pn">;</span> <span class="n">19.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">6.</span><span class="pn">;</span> <span class="n">23.</span><span class="pn">;</span> <span class="n">47.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">54.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span><span class="pn">]</span>
@@ -325,7 +325,7 @@ which take an additional converter function:</p>
 <h3><a name="Coefficient-of-variation" class="anchor" href="#Coefficient-of-variation">Coefficient of variation</a></h3>
 <p>The coefficient of variation is the mean-normalized standard deviation:</p>
 <p><span class="math">\(\widehat{c_{\rm v}} = \frac{s}{\bar{x}}\)</span></p>
-<p>It describes the ratio of the standard devation to the mean. It assists in comparing measurement variability
+<p>It describes the ratio of the standard deviation to the mean. It assists in comparing measurement variability
 with varying amplitudes. Use only if data is measured with a ratio scale (meaningful zero values and meaningful intervals).</p>
 <p><code>cv</code> is available as a sequence (and other collections) extension, as well as <code>cvBy</code>,
 which takes an additional converter function:</p>
@@ -359,7 +359,7 @@ which takes an additional converter function:</p>
 <div class="fsdocs-tip" id="fs15">val truncMean2 : float</div>
 <div class="fsdocs-tip" id="fs16">val meanTruncatedBy : f:(&#39;T -&gt; &#39;U) -&gt; percent:float -&gt; data:seq&lt;&#39;T&gt; -&gt; &#39;U (requires comparison and member get_Zero and member ( + ) and member DivideByInt and member ( / ))</div>
 <div class="fsdocs-tip" id="fs17">val median1 : int</div>
-<div class="fsdocs-tip" id="fs18">val median : items:seq&lt;&#39;T&gt; -&gt; &#39;T (requires member get_Zero and member get_One and comparison and member ( + ) and member ( / ) and member ( / ))</div>
+<div class="fsdocs-tip" id="fs18">val median : items:seq&lt;&#39;T&gt; -&gt; &#39;T (requires comparison and member get_Zero and member get_One and member ( + ) and member ( / ) and member ( / ))</div>
 <div class="fsdocs-tip" id="fs19">val harmonicMean1 : float</div>
 <div class="fsdocs-tip" id="fs20">val meanHarmonic : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( / ) and member get_Zero and member get_One and member ( + ) and comparison and member ( / ) and member ( + ))</div>
 <div class="fsdocs-tip" id="fs21">val harmonicMean2 : float</div>

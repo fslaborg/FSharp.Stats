@@ -8971,11 +8971,11 @@ em {
   display: block; }
 
 #fsdocs-menu::-webkit-scrollbar {
-  width: 6px; }
+  width: 1px; }
 
 #fsdocs-menu::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: #A00975; }
+  background-color: #200117; }
 
 #fsdocs-content table.pre::-webkit-scrollbar-track,
 #fsdocs-content pre.fssnip ::-webkit-scrollbar-track,

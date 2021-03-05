@@ -109,6 +109,468 @@
             <div>
               <code onmouseout="hideTip(event, '36', 36)" onmouseover="showTip(event, '36', 36)">
                 <p>
+                  <a id="cov">
+                    <a href="#cov">
+                      <code><span>cov&#32;<span>array1&#32;array2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="36">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>cov&#32;<span>array1&#32;array2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        array1
+                      </b>
+                      :
+                      <code><span>^T&#32;array</span></code>
+                       - 
+                      The first input array.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        array2
+                      </b>
+                      :
+                      <code><span>^T&#32;array</span></code>
+                       - 
+                      The second input array.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  sample covariance estimator (Bessel's correction by N-1)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L373-373" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the sample covariance of two random variables
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  array1
+                </span>
+                :
+                <code><span>^T&#32;array</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The first input array.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  array2
+                </span>
+                :
+                <code><span>^T&#32;array</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The second input array.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  sample covariance estimator (Bessel's correction by N-1)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '37', 37)" onmouseover="showTip(event, '37', 37)">
+                <p>
+                  <a id="covBy">
+                    <a href="#covBy">
+                      <code><span>covBy&#32;<span>f&#32;array1&#32;array2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="37">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>covBy&#32;<span>f&#32;array1&#32;array2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        array1
+                      </b>
+                      :
+                      <code><span>'T&#32;array</span></code>
+                       - 
+                      The first input array.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        array2
+                      </b>
+                      :
+                      <code><span>'T&#32;array</span></code>
+                       - 
+                      The second input array.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  sample covariance estimator (Bessel's correction by N-1)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L384-384" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the sample covariance of two random variables generated by applying the function to each input list.
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  array1
+                </span>
+                :
+                <code><span>'T&#32;array</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The first input array.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  array2
+                </span>
+                :
+                <code><span>'T&#32;array</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The second input array.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  sample covariance estimator (Bessel's correction by N-1)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '38', 38)" onmouseover="showTip(event, '38', 38)">
+                <p>
+                  <a id="covPopulation">
+                    <a href="#covPopulation">
+                      <code><span>covPopulation&#32;<span>array1&#32;array2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="38">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>covPopulation&#32;<span>array1&#32;array2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        array1
+                      </b>
+                      :
+                      <code><span>^T&#32;array</span></code>
+                       - 
+                      The first input array.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        array2
+                      </b>
+                      :
+                      <code><span>^T&#32;array</span></code>
+                       - 
+                      The second input array.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  population covariance estimator (denominator N)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L350-350" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the population covariance of two random variables
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  array1
+                </span>
+                :
+                <code><span>^T&#32;array</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The first input array.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  array2
+                </span>
+                :
+                <code><span>^T&#32;array</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The second input array.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  population covariance estimator (denominator N)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '39', 39)" onmouseover="showTip(event, '39', 39)">
+                <p>
+                  <a id="covPopulationBy">
+                    <a href="#covPopulationBy">
+                      <code><span>covPopulationBy&#32;<span>f&#32;array1&#32;array2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="39">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>covPopulationBy&#32;<span>f&#32;array1&#32;array2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;^a</span></code>
+                       - 
+                      A function applied to transform each element of each input list.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        array1
+                      </b>
+                      :
+                      <code><span>'T&#32;array</span></code>
+                       - 
+                      The first input array.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        array2
+                      </b>
+                      :
+                      <code><span>'T&#32;array</span></code>
+                       - 
+                      The second input array.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^U</code>
+                  </span>
+                  population covariance estimator (denominator N)
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L362-362" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+   Computes the population covariance of two random variables generated by applying the function to each input array.
+ 
+            </p>
+            <p class="fsdocs-remarks">
+              Returns NaN if data is empty or if any entry is NaN.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;^a</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of each input list.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  array1
+                </span>
+                :
+                <code><span>'T&#32;array</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The first input array.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  array2
+                </span>
+                :
+                <code><span>'T&#32;array</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The second input array.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>^U</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  population covariance estimator (denominator N)
+                </p>
+              </dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '40', 40)" onmouseover="showTip(event, '40', 40)">
+                <p>
                   <a id="median">
                     <a href="#median">
                       <code><span>median&#32;<span>items</span></span></code>
@@ -116,7 +578,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="36">
+              <div class="fsdocs-tip" id="40">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>median&#32;<span>items</span></span></code>
@@ -178,7 +640,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '37', 37)" onmouseover="showTip(event, '37', 37)">
+              <code onmouseout="hideTip(event, '41', 41)" onmouseover="showTip(event, '41', 41)">
                 <p>
                   <a id="medianAbsoluteDev">
                     <a href="#medianAbsoluteDev">
@@ -187,7 +649,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="37">
+              <div class="fsdocs-tip" id="41">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>medianAbsoluteDev&#32;<span>data</span></span></code>
@@ -248,7 +710,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '38', 38)" onmouseover="showTip(event, '38', 38)">
+              <code onmouseout="hideTip(event, '42', 42)" onmouseover="showTip(event, '42', 42)">
                 <p>
                   <a id="partitionSortInPlace">
                     <a href="#partitionSortInPlace">
@@ -257,7 +719,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="38">
+              <div class="fsdocs-tip" id="42">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>partitionSortInPlace&#32;<span>left&#32;right&#32;items</span></span></code>
@@ -351,7 +813,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '39', 39)" onmouseover="showTip(event, '39', 39)">
+              <code onmouseout="hideTip(event, '43', 43)" onmouseover="showTip(event, '43', 43)">
                 <p>
                   <a id="quickSelect">
                     <a href="#quickSelect">
@@ -360,7 +822,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="39">
+              <div class="fsdocs-tip" id="43">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>quickSelect&#32;<span>k&#32;items</span></span></code>
@@ -437,7 +899,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '40', 40)" onmouseover="showTip(event, '40', 40)">
+              <code onmouseout="hideTip(event, '44', 44)" onmouseover="showTip(event, '44', 44)">
                 <p>
                   <a id="quickSelectInPlace">
                     <a href="#quickSelectInPlace">
@@ -446,7 +908,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="40">
+              <div class="fsdocs-tip" id="44">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>quickSelectInPlace&#32;<span>k&#32;items</span></span></code>
@@ -524,7 +986,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '41', 41)" onmouseover="showTip(event, '41', 41)">
+              <code onmouseout="hideTip(event, '45', 45)" onmouseover="showTip(event, '45', 45)">
                 <p>
                   <a id="quickSelectInPlaceWith">
                     <a href="#quickSelectInPlaceWith">
@@ -533,7 +995,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="41">
+              <div class="fsdocs-tip" id="45">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>quickSelectInPlaceWith&#32;<span>left&#32;right&#32;k&#32;arr</span></span></code>
@@ -643,7 +1105,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '42', 42)" onmouseover="showTip(event, '42', 42)">
+              <code onmouseout="hideTip(event, '46', 46)" onmouseover="showTip(event, '46', 46)">
                 <p>
                   <a id="range">
                     <a href="#range">
@@ -652,7 +1114,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="42">
+              <div class="fsdocs-tip" id="46">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>range&#32;<span>a</span></span></code>
@@ -711,7 +1173,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '43', 43)" onmouseover="showTip(event, '43', 43)">
+              <code onmouseout="hideTip(event, '47', 47)" onmouseover="showTip(event, '47', 47)">
                 <p>
                   <a id="sampleWithOutReplacement">
                     <a href="#sampleWithOutReplacement">
@@ -720,7 +1182,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="43">
+              <div class="fsdocs-tip" id="47">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>sampleWithOutReplacement&#32;<span>rnd&#32;source&#32;k</span></span></code>
@@ -813,7 +1275,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '44', 44)" onmouseover="showTip(event, '44', 44)">
+              <code onmouseout="hideTip(event, '48', 48)" onmouseover="showTip(event, '48', 48)">
                 <p>
                   <a id="sampleWithReplacement">
                     <a href="#sampleWithReplacement">
@@ -822,7 +1284,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="44">
+              <div class="fsdocs-tip" id="48">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>sampleWithReplacement&#32;<span>rnd&#32;source&#32;k</span></span></code>
@@ -915,7 +1377,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '45', 45)" onmouseover="showTip(event, '45', 45)">
+              <code onmouseout="hideTip(event, '49', 49)" onmouseover="showTip(event, '49', 49)">
                 <p>
                   <a id="seqInit">
                     <a href="#seqInit">
@@ -924,7 +1386,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="45">
+              <div class="fsdocs-tip" id="49">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>seqInit&#32;<span>from&#32;tto&#32;length</span></span></code>
@@ -1017,7 +1479,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '46', 46)" onmouseover="showTip(event, '46', 46)">
+              <code onmouseout="hideTip(event, '50', 50)" onmouseover="showTip(event, '50', 50)">
                 <p>
                   <a id="shuffleFisherYates">
                     <a href="#shuffleFisherYates">
@@ -1026,7 +1488,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="46">
+              <div class="fsdocs-tip" id="50">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>shuffleFisherYates&#32;<span>arr</span></span></code>
@@ -1087,7 +1549,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '47', 47)" onmouseover="showTip(event, '47', 47)">
+              <code onmouseout="hideTip(event, '51', 51)" onmouseover="showTip(event, '51', 51)">
                 <p>
                   <a id="shuffleFisherYatesInPlace">
                     <a href="#shuffleFisherYatesInPlace">
@@ -1096,7 +1558,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="47">
+              <div class="fsdocs-tip" id="51">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>shuffleFisherYatesInPlace&#32;<span>arr</span></span></code>
@@ -1157,7 +1619,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '48', 48)" onmouseover="showTip(event, '48', 48)">
+              <code onmouseout="hideTip(event, '52', 52)" onmouseover="showTip(event, '52', 52)">
                 <p>
                   <a id="sort2InPlaceByKeys">
                     <a href="#sort2InPlaceByKeys">
@@ -1166,7 +1628,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="48">
+              <div class="fsdocs-tip" id="52">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>sort2InPlaceByKeys&#32;<span>from&#32;count&#32;keys&#32;items</span></span></code>
@@ -1259,7 +1721,7 @@ Old partitionSortInPlace fails with dublicates
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '49', 49)" onmouseover="showTip(event, '49', 49)">
+              <code onmouseout="hideTip(event, '53', 53)" onmouseover="showTip(event, '53', 53)">
                 <p>
                   <a id="swapInPlace">
                     <a href="#swapInPlace">
@@ -1268,7 +1730,7 @@ Old partitionSortInPlace fails with dublicates
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="49">
+              <div class="fsdocs-tip" id="53">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>swapInPlace&#32;<span>left&#32;right&#32;items</span></span></code>
