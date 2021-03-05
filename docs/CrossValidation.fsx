@@ -16,7 +16,7 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=CrossValidation.ipynb)
 
-_Summary:_ this tutorial demonstrates how to perform several types of cross validtion with FSharp.Stats.
+_Summary:_ this tutorial demonstrates how to perform several types of cross validation with FSharp.Stats.
 
 ### Table of contents
 
@@ -30,7 +30,7 @@ _Summary:_ this tutorial demonstrates how to perform several types of cross vali
 ## Leave-one-out cross validation (LOOCV)
 
 When fitting a data set it often comes down to the selection of the optimal fitting parameter(s).
-A method to determine these is given by the leave-one-out cross validation (LOOCV). Thereby, the data set ist fitted with a
+A method to determine these is given by the leave-one-out cross validation (LOOCV). Thereby, the data set is fitted with a
 given parameter range (smoothing strength, polynomial order etc.) in order to select the best. 
 
 ### Procedure
@@ -237,8 +237,8 @@ chartSplineError |> GenericChart.toChartHTML
 (**
 ## k fold cross validation
 
-The k fold cross validation (kfcv) is a generalized form of the loocv. Rather than excluding every data point seperately, kfcv
-allows the exclusion of data chunks with a defined fraction of the data points. When using k=10, the data ist split up into 10 chunks of sub data sets each 
+The k fold cross validation (kfcv) is a generalized form of the loocv. Rather than excluding every data point separately, kfcv
+allows the exclusion of data chunks with a defined fraction of the data points. When using k=10, the data is split up into 10 chunks of sub data sets each 
 containing 10% of the data set. 
 
 In each loop one chunk is excluded (test data), while the other 9 chunks serve as training data. After 10 (k) loops every single point was evaluated as test data set once
@@ -360,7 +360,7 @@ let sasSpline lambda = shuffleAndSplitSpline 0.2 5 xV yV lambda
 
 
 (**
-The given data set is small and therefore the mean errors show a high variability
+The given data set is small and therefore the mean errors show a high variability.
 *)
 
 let sasp = 

@@ -21,7 +21,7 @@ open Plotly.NET.StyleParam
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=BasicStats.ipynb)
 
-_Summary:_ this tutorial gives an overview over how to do some of the basic statistical mesaurements with FSharp.Stats.
+_Summary:_ this tutorial gives an overview over how to do some of the basic statistical measurements with FSharp.Stats.
 
 ### Table of contents
 
@@ -93,7 +93,7 @@ let truncMean2 =
 
 The [median](https://en.wikipedia.org/wiki/Median) is a value separating the higher half from the lower half of a data sample, a population, or a probability distribution. 
 For a data set, it may be thought of as "the middle" value: if you sort the values of a collection by size, the median is the value in central position. 
-Therefore there are as many bigger values as smaller values than the median in the collection.
+Therefore, there are as many bigger values as smaller values than the median in the collection.
 If there is an even number of observations, then there is no single middle value; the median is then usually defined to be the mean of the two middle values.
 
 `median` is available as a equence (and other collections) extension:
@@ -113,7 +113,7 @@ It is typically appropriate for situations when the average of rates is desired.
 
 $H = \frac{n}{\frac1{x_1} + \frac1{x_2} + \cdots + \frac1{x_n}} = \frac{n}{\sum\limits_{i=1}^n \frac1{x_i}} = \left(\frac{\sum\limits_{i=1}^n x_i^{-1}}{n}\right)^{-1}.$
 
-`meanHarmonic` is available as a equence (and other collections) extension, as well as `meanHarmonicBy`, 
+`meanHarmonic` is available as a sequence (and other collections) extension, as well as `meanHarmonicBy`, 
 which takes an additional converter function:
 *)
 
@@ -239,7 +239,7 @@ The coefficient of variation is the mean-normalized standard deviation:
 
 $\widehat{c_{\rm v}} = \frac{s}{\bar{x}}$
 
-It describes the ratio of the standard devation to the mean. It assists in comparing measurement variability
+It describes the ratio of the standard deviation to the mean. It assists in comparing measurement variability
 with varying amplitudes. Use only if data is measured with a ratio scale (meaningful zero values and meaningful intervals).
 
 `cv` is available as a sequence (and other collections) extension, as well as `cvBy`, 

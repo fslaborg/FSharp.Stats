@@ -37,7 +37,7 @@ distribution parameters they can be used to investigate their statistical proper
 or to sample non-uniform random numbers.
 
 For every distribution the probability density function (PDF) and cumulative probability function (CDF) can be accessed.
-By using the PDF you can access the probability for exacty X=k success states. The CDF is used when the cumulative probabilities of X<=k is required.
+By using the PDF you can access the probability for exactly X=k success states. The CDF is used when the cumulative probabilities of X<=k is required.
 
 ## Continuous
 
@@ -54,7 +54,7 @@ It is defined by two parameters N(mu,tau):
 
   - tau = standard deviation
 
-Example: The distribution of bread weights of a local manufacturer follow a normal distribution with mean 500 g and a standard
+Example: The distribution of bread weights of a local manufacturer follows a normal distribution with mean 500 g and a standard
 deviation of 20 g.
 
 NormA: What is the probability of bread weights to be lower than 470 g?
@@ -328,7 +328,7 @@ plotHyper |> GenericChart.toChartHTML
 (**
 ### Poisson distribution
 
-The poisson distribution describes, what the probability for a number of events is, occuring in a certain time, area, or volume.
+The poisson distribution describes what the probability for a number of events is, occurring in a certain time, area, or volume.
 
 It is defined by just one parameters Po(lambda) where lambda is the average rate.
 

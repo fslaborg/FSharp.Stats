@@ -37,7 +37,7 @@ _Summary:_ this tutorial demonstrates several clustering methods in FSharp.Stats
 
 For demonstration of several clustering methods, the classic iris data set is used, which consists of 150 records, 
 each of which contains four measurements and a species identifier. Since the species identifier occur several times 
-(Iris-irginica, Iris-versicolor, and Iris-setosa), the first step is to generate unique labels:
+(Iris-virginica, Iris-versicolor, and Iris-setosa), the first step is to generate unique labels:
 
   - The data is shuffled and an index is appended to the data label, such that each label is unique. 
 
@@ -274,7 +274,7 @@ clusteredChart3D |> GenericChart.toChartHTML
 ## Hierarchical clustering
 
 
-Hierarchical clustering results in a tree structure, that has a single cluster (node) on its root and recursevely 
+Hierarchical clustering results in a tree structure, that has a single cluster (node) on its root and recursively 
 splits up into clusters of elements that are more similar to each other than to elements of other clusters. 
 For generating multiple cluster results with different number of clusters, the clustering has to performed only once. 
 Subsequently a threshold can be determined which will result in the desired number of clusters.
@@ -371,7 +371,7 @@ let ruleOfThumb = ClusterNumber.kRuleOfThumb data
 ## Elbow criterion
 
 The elbow criterion is a visual method to determine the optimal cluster number. The cluster dispersion is measured as the sum of all average (squared) euclidean distance of each point to its associated centroid.
-The point at wich the dispersion drops drastically and further increase in k does not lead to a strong decrease in dispersion is the optimal k.
+The point at which the dispersion drops drastically and further increase in k does not lead to a strong decrease in dispersion is the optimal k.
 
 Reference: 'Review on Determining of Cluster in K-means Clustering'; Kodinariya et al; January 2013
 
@@ -421,7 +421,7 @@ elbowChart |> GenericChart.toChartHTML
 
 [Reference](https://nlp.stanford.edu/IR-book/html/htmledition/cluster-cardinality-in-k-means-1.html)
 
-The Akaike information criterion (AIC) balances the information gain (with raising k) against parameter necessarity (number of k).
+The Akaike information criterion (AIC) balances the information gain (with raising k) against parameter necessity (number of k).
 The k that minimizes the AIC is assumed to be the optimal one. 
 
 *)
@@ -462,7 +462,7 @@ aicChart |> GenericChart.toChartHTML
 (**
 ## Silhouette coefficient
 
-The silhouette index ranges from -1 to 1, where -1 indicates a missclassified point, and 1 indicates a perfect fit.
+The silhouette index ranges from -1 to 1, where -1 indicates a misclassified point, and 1 indicates a perfect fit.
 It can be calculated for every point by comparing the mean intra cluster distance with the nearest mean inter cluster distance.
 The mean of all indices can be visualized, where a maximal value indicates the optimal k.
 
@@ -562,7 +562,7 @@ gapDataChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
-The log(dispersionReference) should decrease with rising k, but - if clusters are presend in the data - should be greater than the log(dispersionOriginal). 
+The log(dispersionReference) should decrease with rising k, but - if clusters are present in the data - should be greater than the log(dispersionOriginal). 
 
 *)
 open GapStatistics

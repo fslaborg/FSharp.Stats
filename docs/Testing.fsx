@@ -67,7 +67,7 @@ By using a t test a difference of means can be evaluated. There are different ki
 
   - 2.2 paired t test:
 
-    - Bsp.: Does the medication influence the blood pressure? Measurement of the same persons before and after medication.
+    - e.g.: Does the medication influence the blood pressure? Measurement of the same persons before and after medication.
 
 3. Two sample t test with unequal variances
   
@@ -148,7 +148,7 @@ let paired = TTest.twoSamplePaired sampleP1 sampleP2
 If you are unsure about the nature of the underlying population, you may ask if the theoretical population distributions 
 you want to compare do have the same standard deviations. 
 
-If not the welch test can serve as a appropriate hypothesis test for mean differences.
+If not the welch test can serve as an appropriate hypothesis test for mean differences.
 
 *)
 
@@ -407,7 +407,7 @@ Reference: What is the proper way to apply the multiple comparison test?, Sangse
 
 ### Fisher's LSD
 
-The most simple method is Fisher's least significant difference (Fisher's LSD). It calculates Student's t tests for all pairwise comparisons. But instead of 
+The simplest method is Fisher's least significant difference (Fisher's LSD). It calculates Student's t tests for all pairwise comparisons. But instead of 
 estimating the variance for each sample separately it takes all groups into account. Violations of the homogeneity of variances reduce the test power.
 Since no correction for multiple comparisons is performed, the resulting p values must be corrected (for example with Benjamini-Hochberg method).
 
@@ -511,7 +511,7 @@ Using this post hoc test you can determine which of the means differ significant
 In the classis Tukeys HSD approach, the population variances are pooled for a more robust estimation (especially with small sample sizes). If the population variances
 differ, Tukeys HSD is not appropriate. 
 
-The implemented Tukey-Kramer-Method can be applied on unequal sample sizes and estimates the variance based on the meas to compare.
+The implemented Tukey-Kramer-Method can be applied on unequal sample sizes and estimates the variance based on the means to compare.
 The Tukey-Kramer method can be used as stand-alone method for comparing multiple means.
 
 A comparison of ANOVA and Tukey-Kramer-HSD with simulations for the robustness of normality-violations of the data can be found in:
@@ -549,7 +549,7 @@ let anovaResult = Anova.oneWayAnova hsdExample
 For tukey HSD calculations you need a contrast matrix, that defines the groups you want to compare for 
 more detailed information.
 
-Every contrast has as many entries as there are groups (samples). The groups, that should be compared are labeled with -1 or 1 respectively.
+Every contrast has as many entries as there are groups (samples). The groups, that should be compared are labelled with -1 or 1 respectively.
 
 *)
 

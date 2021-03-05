@@ -215,7 +215,7 @@ polRegressionChart |> GenericChart.toChartHTML
 (**
 ## Nonlinear Regression
 
-Nonlinear Regression is used if a known model should to be fitted to the data that cannot be represented in a linear system of equations. 
+Nonlinear Regression is used if a known model should be fitted to the data that cannot be represented in a linear system of equations. 
 Common examples are: 
 
  - gaussian functions
@@ -224,7 +224,7 @@ Common examples are:
 
  - exponential functions
 
-To fit such models to your data the `NonLinearRegression` module can be used. Three solver-methods are availiable to iteratively converge to a minimal least squares value.
+To fit such models to your data the `NonLinearRegression` module can be used. Three solver-methods are available to iteratively converge to a minimal least squares value.
 
  - GaussNewton
 
@@ -363,7 +363,7 @@ let model' = Table.LogisticFunctionAscending
 // 2.1 Initial parameter guess
 // The solver needs an initial parameter guess. This can be done by the user or with an estimator function.
 // The cutoffPercentage says at which percentage of the y-Range the lower part of the slope is. 
-// Manual curation of parameter guesses can be performend in this step by editing the param array.
+// Manual curation of parameter guesses can be performed in this step by editing the param array.
 let initialParamGuess' = LevenbergMarquardtConstrained.initialParam xHours yCount 0.1
 
 // 2.2 Create the solver options
@@ -460,7 +460,7 @@ A smoothing parameter (lambda) mediates between the two error terms.
 
  - E = error1 + (lambda * error2)
 
-    - If lambda = 0, the the resulting curve minimizes the sum of squared residuals and results in an interpolating curve.
+    - If lambda = 0, the resulting curve minimizes the sum of squared residuals and results in an interpolating curve.
 
     - If lambda = infinity, the resulting curve is punished by the smoothness measurement and results in a straight regression line.
 

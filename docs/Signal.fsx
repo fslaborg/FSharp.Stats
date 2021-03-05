@@ -35,8 +35,8 @@ _Summary:_ this tutorial demonstrates multiple ways of signal processing with FS
 ### Tukey's fences
 
 A common approach for outlier detection is Tukey's fences-method. It determines the interquartile range (IQR) of the 
-data and adds a fraction of it to the third quartile (Q3) or substracts it from the first quartile (Q1) respectively. 
-A often used fraction of the IQR is k=1.5 for outliers and k=3 for points 'far out'.
+data and adds a fraction of it to the third quartile (Q3) or subtracts it from the first quartile (Q1) respectively. 
+An often-used fraction of the IQR is k=1.5 for outliers and k=3 for points 'far out'.
 
 In the generation of box plots the same method determines the whiskers and outliers of a sample.
 
@@ -138,16 +138,16 @@ There are several padding methods:
 
  - **Zero**: Data points with y-value=zero are introduced. This often is useful when analyzing spectra with sparse data because areas without any data measured are assumed to have zero intensity.
 
- - **Random**: When the baseline of the measured signal is nonzero like in chromatogramms, it is necessary to insert data points with random y-values taken from the original data set.
+ - **Random**: When the baseline of the measured signal is nonzero like in chromatograms, it is necessary to insert data points with random y-values taken from the original data set.
 
  - **Delete**: No datapoints are inserted.
 
- - **Linear interpolation**: When a linear relationship is assumed in the range betwen two adjacent data points, the padding points should lie on the straight line between those points.
+ - **Linear interpolation**: When a linear relationship is assumed in the range between two adjacent data points, the padding points should lie on the straight line between those points.
 
 
 **Three regions can be defined where padding points could be introduced:**
 
- 1. In the beginning and end of the data set artificial data points have to be added to analyse the start- and end-regions of the data. Therefore random data points are chosen from the original data set.
+ 1. In the beginning and end of the data set artificial data points have to be added to analyse the start- and end-regions of the data. Therefore, random data points are chosen from the original data set.
  
  2. If the data is not measured in discrete intervals, the region between two adjacent values have to be padded to ensure sufficient coverage for convolution.
  
@@ -342,7 +342,7 @@ Because in most cases default parameters are sufficient to transform the data, t
 
  - padding is chosen in an automated manner based on the used wavelet  
 
- - minDistance: smallest occuring spacing
+ - minDistance: smallest occurring spacing
 
  - maxDistance: Infinity
 
@@ -432,7 +432,7 @@ defaultZeroChart |> GenericChart.toChartHTML
 
 ### Continuous Wavelet 3D
 
-When dealing with three dimensional data a three dimensional wavelet has to be used for signal convolution. Here the Marr wavelet (3D mexican hat wavlet) is used for analysis.
+When dealing with three dimensional data a three dimensional wavelet has to be used for signal convolution. Here the Marr wavelet (3D mexican hat wavelet) is used for analysis.
 Common cases are:
 
 - (microscopic) images

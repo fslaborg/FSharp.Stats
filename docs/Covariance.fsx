@@ -65,7 +65,7 @@ $\operatorname{cov}(X, Y) = \operatorname{E}{\big[(X - \operatorname{E}[X])(Y - 
 
 _Note: The amplitude of covariance does not correlate with the slope, neither it correlates with the spread of the data points from the regression line._
 
-A standardized measure for how well the data lie on the regression line is given by correlation analyis. The pearson correlation coefficient
+A standardized measure for how well the data lie on the regression line is given by correlation analysis. The pearson correlation coefficient
 is defined as 
 
 $\rho_{X,Y}= \frac{\operatorname{cov}(X,Y)}{\sigma_X \sigma_Y}$

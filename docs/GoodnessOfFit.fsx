@@ -298,7 +298,7 @@ Leverage: Leverage describes the potential impact of data points regarding their
 higher potential to distort the regression line coefficients (high-leverage points).
 
 Cooks distance (D) is a measure to describe the influence of each data point to the regression line.
-If D is low, the influence is low, while a high D indicates an 'influencial observation' that is worth taking a closer look.
+If D is low, the influence is low, while a high D indicates an 'influential observation' that is worth taking a closer look.
 Cooks distance is a mixture of the residual sum of squares at the particular point and its leverage.
 
 A linear threshold is arbitrarily defined by either 1, 4/n, or 3*mean(D).

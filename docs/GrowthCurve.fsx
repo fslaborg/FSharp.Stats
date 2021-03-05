@@ -40,7 +40,7 @@ _Summary:_ this tutorial demonstrates variou way to model growth curves, a commo
 
 ## Modelling
 
-Growth and other physiological parameters like size/weight/length can be modeled as as function of time.
+Growth and other physiological parameters like size/weight/length can be modeled as function of time.
 Several growth curve models have been proposed. Some of them are covered in this documentation.
 
 For growth curve analysis the cell count data must be considered in log space. The exponential phase (log phase) then becomes linear.
@@ -54,7 +54,7 @@ need for manual labelling of separate growth phases.
 </br>
 
 If specific parameters should be constrained to the users choice (like upper or lower asymptote), a constrained version of the 
-Levenberg-Marquardt solver can be used (`LevenbergMarquardtConstrained`)! Accordingly minimal and maximal parameter vectors must be provided.
+Levenberg-Marquardt solver can be used (`LevenbergMarquardtConstrained`)! Accordingly, minimal and maximal parameter vectors must be provided.
 
 *)
 
@@ -104,7 +104,7 @@ growthChart |> GenericChart.toChartHTML
 (**
 ## Manual phase selection
 
-If growth phases are labeled manually, the exponential phase can be fitted with a regression line. 
+If growth phases are labelled manually, the exponential phase can be fitted with a regression line. 
 
 To determine the generation time, it is necessary to find the time interval it takes to double the count data.
 When a log<sub>2</sub> transform is used, a doubling of the original counts is achieved, when the log value moves 1 unit.
@@ -179,14 +179,14 @@ Gompertz parameters:
 
   - B: relative growth rate (approximated by generation time consideration)
 
-  - C: upper asymtote - lower asymptote
+  - C: upper asymptote - lower asymptote 
 
   - M: time point of inflection (maximal growth rate)
 
 *)
 
 // The Levenberg Marquardt algorithm identifies the parameters that leads to the best fit 
-// of the gompertz models to the count data. The solver must be provided with initial paramters
+// of the gompertz models to the count data. The solver must be provided with initial parameters
 // that are estimated in the following:
 let solverOptions (xData :float []) (yDataLog :float []) expectedGenerationTime (usedLogTransform: float -> float) =
     // lower asymptote
@@ -291,7 +291,7 @@ In the following other growth models are applied to the given data set:
   - von Bertalanffy
 
 To determine the generation time, the slope at the inflection point must be calculated. 
-As explained above, the generation time can be calculated by: logx(2)/(slope at inflection) where x ist the used
+As explained above, the generation time can be calculated by: logx(2)/(slope at inflection) where x is the used
 log transform.
 
 [Choose a appropriate growth model according to your needs.](http://www.pisces-conservation.com/growthhelp/index.html)
@@ -626,7 +626,7 @@ fittedChartExpS |> GenericChart.toChartHTML
 ## Verhulst
 
 The verhulst growth model is a logistic function with a lower asymptote fixed at y=0. A 4 parameter version allows 
-the lower asymtote to vary from 0.
+the lower asymptote to vary from 0.
 
 Note: symmetric with inflection point at 50 % of y axis range
 
@@ -792,7 +792,7 @@ fittedChartMMF |> GenericChart.toChartHTML
 (**
 ## von Bertalanffy
 
-Since this model expects a x axis crossing of the data it can not be applied to the given data.
+Since this model expects a x axis crossing of the data it cannot be applied to the given data.
 
 Parameters:
 

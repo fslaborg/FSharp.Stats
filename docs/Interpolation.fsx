@@ -27,7 +27,7 @@ _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.
 
 ## Polynomial Interpolation
 
-Here a polynomial is fitted to the data. In general a polynomial with degree = dataPointNumber - 1 has sufficient flexibility to interpolate all data points.
+Here a polynomial is fitted to the data. In general, a polynomial with degree = dataPointNumber - 1 has sufficient flexibility to interpolate all data points.
 The least squares approach is not sufficient to converge to an interpolating polynomial! A degree other than n-1 results in a regression polynomial.
 
 *)
@@ -81,7 +81,7 @@ chartPol |> GenericChart.toChartHTML
 ## Cubic interpolating Spline
 
 Splines are flexible strips of wood, that were used by shipbuilders to draw smooth shapes. In graphics and mathematics a piecewise cubic polynomial (order = 3) is called spline.
-The curvature (second derivative) of a cubic polynomial is proportional to its tense energy and in spline theory the curvature is minimized. Therefore the resulting function is very smooth.
+The curvature (second derivative) of a cubic polynomial is proportional to its tense energy and in spline theory the curvature is minimized. Therefore, the resulting function is very smooth.
 To solve for the spline coefficients it is necessary to define two additional constraints, so called boundary conditions:
 
  - natural spline (most used spline variant): `f''` at borders is set to 0
@@ -96,7 +96,7 @@ To solve for the spline coefficients it is necessary to define two additional co
 
  - clamped spline: `f'` at first and last knot are set by user
 
-In general piecewise cubic splines only are defined within the region defined by the used x values.
+In general, piecewise cubic splines only are defined within the region defined by the used x values.
 
 ### Related information
  - [Cubic Spline Interpolation](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
@@ -182,7 +182,7 @@ derivativeChart |> GenericChart.toChartHTML
 ## Hermite interpolation
 
 In Hermite interpolation the user can define the slopes of the function in the knots. This is especially useful if the function is oscillating and thereby generates local minima/maxima.
-Intuitevely the slope of a knot should be between the slopes of the adjacent straight lines. By using this slope calculation a monotone knot behavior results in a monotone spline.
+Intuitively the slope of a knot should be between the slopes of the adjacent straight lines. By using this slope calculation a monotone knot behavior results in a monotone spline.
 
 
  - [Slope calculation](http://www.korf.co.uk/spline.pdf)
