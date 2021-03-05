@@ -4,6 +4,10 @@ open System
 
 module Persistence =
 
+    type Direction =
+        | Split
+        | Join
+
     // adds zeroes at front and end of data to ensure local minima at both ends
     // and therefore "real" maxima at the original borders
     let paddData rawData = 
@@ -24,8 +28,8 @@ module Persistence =
     //   persistence pairs as list of index pairs
     //   merge tree as list of edges represented by index pairs
     //   segmentation array assigning to each point its corresponding maximum
-    let computePPMT (data:float[]) direction =
-        let reverse = direction = "split"
+    let computePPMT (data:float[]) (direction: Direction) =
+        let reverse = direction = Direction.Split
         
         // comparison functions for data points with simulation of simplicity
         let compare i j =
@@ -153,9 +157,9 @@ module Persistence =
         persistencePairs,mergeTreePairs |> List.rev,segmentation_pp,segmentation_mt
 
     // function that simplifies data array based on persistence threshold
-    let simplifyData (data:float[]) (persistencePairs:(int*int)list) threshold  direction =
+    let simplifyData (data:float[]) (persistencePairs:(int*int)list) threshold (direction: Direction) =
         let dataSimpl = Array.copy data
-        let reverse = direction = "split"
+        let reverse = direction = Direction.Split
         
         // comparison functions for data points with simulation of simplicity
         let compare i j =
@@ -213,9 +217,9 @@ module Persistence =
         dataSimpl   
 
     // function that simplifies merge tree and segmentation based on persistence threshold
-    let simplifyMergeTreeAndSeg (data:float []) (mergeTreePairs:(int*int)list) (persistencePairs:(int*int)list) ppSegmentation mtSegmentation threshold direction =
+    let simplifyMergeTreeAndSeg (data:float []) (mergeTreePairs:(int*int)list) (persistencePairs:(int*int)list) ppSegmentation mtSegmentation threshold (direction: Direction) =
     
-        let split = direction = "split"
+        let split = direction = Direction.Split
         
         // comparison functions for data points with simulation of simplicity
         let compare i j =
@@ -391,7 +395,7 @@ module Persistence =
     //        let a = fst pair
     //        let b = snd pair
     //        if snd pair < 0 then    
-    //            if direction = "split" then
+    //            if direction = Direction.Split then
     //                charts <- (Chart.Line([(a,data.[indexsingle data a]);(a,minVal-0.1*(maxVal-minVal)) ],Color="blue",Width=1.))::charts
     //            else 
     //                charts <- (Chart.Line([(a,data.[indexsingle data a]);(a,maxVal+0.1*(maxVal-minVal)) ],Color="blue",Width=1.))::charts
@@ -435,7 +439,7 @@ module Persistence =
     //let plotPeristenceDiagram rawData =
     //    let data = paddData rawData
     //    //let data = rawData
-    //    let (persistencePairsSplit, mergeTreePairsSplit, segmentationSplit) = computePPMT data "split"
+    //    let (persistencePairsSplit, mergeTreePairsSplit, segmentationSplit) = computePPMT data Direction.Split
     //    plotPersistenceDiagram' data persistencePairsSplit 
     //    |> Chart.withTitle "Persistence Diagram for Split Tree" //|> Chart.withSize (1200.,700.) |> Chart.Show
 
@@ -443,30 +447,30 @@ module Persistence =
     //    let data = paddData rawData
     //    //let data = rawData
     //    let raw = Chart.Line(data|> Seq.indexed,"raw",Color="grey",Dash=DrawingStyle.Dash) 
-    //    let (persistencePairsSplit, mergeTreePairsSplit, segmentationSplit) = computePPMT data "split"
-    //    [raw;plotMergeTree' data mergeTreePairsSplit "split"]
+    //    let (persistencePairsSplit, mergeTreePairsSplit, segmentationSplit) = computePPMT data Direction.Split
+    //    [raw;plotMergeTree' data mergeTreePairsSplit Direction.Split]
     //    |> Chart.Combine |> styleChart "" "" |> Chart.withTitle "Split Tree"
 
     //let plotMergeTreeSimp rawData = 
     //    let data = paddData rawData
     //    //let data = rawData
     //    let raw = Chart.Line(data|> Seq.indexed,"raw",Color="grey",Dash=DrawingStyle.Dash) 
-    //    let (persistencePairsSplit, mergeTreePairsSplit, segmentationSplit) = computePPMT data "split"
-    //    let (mergeTreePairsSimplSplit,segmentationSimplSplit) = simplifyMergeTreeAndSeg data (Array.ofSeq mergeTreePairsSplit) (Array.ofSeq persistencePairsSplit) segmentationSplit threshold "split"
-    //    [raw;plotMergeTree' data mergeTreePairsSimplSplit "split"] 
+    //    let (persistencePairsSplit, mergeTreePairsSplit, segmentationSplit) = computePPMT data Direction.Split
+    //    let (mergeTreePairsSimplSplit,segmentationSimplSplit) = simplifyMergeTreeAndSeg data (Array.ofSeq mergeTreePairsSplit) (Array.ofSeq persistencePairsSplit) segmentationSplit threshold Direction.Split
+    //    [raw;plotMergeTree' data mergeTreePairsSimplSplit Direction.Split] 
     //    |> Chart.Combine |> Chart.withTitle "Simplified Split Tree"
     
     //let plotSegmentation rawData = 
     //    let data = paddData rawData
     //    //let data = rawData
-    //    let (persistencePairsSplit, mergeTreePairsSplit, segmentationSplit) = computePPMT data "split"
+    //    let (persistencePairsSplit, mergeTreePairsSplit, segmentationSplit) = computePPMT data Direction.Split
     //    plotSegmentation' data segmentationSplit 
     //    |> Chart.withTitle "Segmentation for Split Tree" 
 
     //let plotSegmentationSimp rawData = 
     //    let data = paddData rawData
     //    //let data = rawData
-    //    let (persistencePairsSplit, mergeTreePairsSplit, segmentationSplit) = computePPMT data "split"
-    //    let (mergeTreePairsSimplSplit,segmentationSimplSplit) = simplifyMergeTreeAndSeg data (Array.ofSeq mergeTreePairsSplit) (Array.ofSeq persistencePairsSplit) segmentationSplit threshold "split"
+    //    let (persistencePairsSplit, mergeTreePairsSplit, segmentationSplit) = computePPMT data Direction.Split
+    //    let (mergeTreePairsSimplSplit,segmentationSimplSplit) = simplifyMergeTreeAndSeg data (Array.ofSeq mergeTreePairsSplit) (Array.ofSeq persistencePairsSplit) segmentationSplit threshold Direction.Split
     //    plotSegmentation' data segmentationSimplSplit 
     //    |> Chart.withTitle "Segmentation for Split Tree after Simplification" 
