@@ -96,6 +96,10 @@ Random.SetSampleGenerator(Random.RandThreadSafe(seed))
 List.init 3 (fun _ -> normal.Sample())
 (*** include-it ***)
 
+// Get back to unseeded sampling
+Random.SetSampleGenerator(Random.RandThreadSafe())   
+List.init 3 (fun _ -> normal.Sample())
+(*** include-it ***)
 
 open Plotly.NET
 
