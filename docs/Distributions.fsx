@@ -86,6 +86,21 @@ let normC =
 
 (*** include-value:normC ***)
 
+// Set a seed so that sampling is reproducible
+let seed = 1
+
+Random.SetSampleGenerator(Random.RandThreadSafe(seed))   
+List.init 3 (fun _ -> normal.Sample())
+(*** include-it ***)
+Random.SetSampleGenerator(Random.RandThreadSafe(seed))   
+List.init 3 (fun _ -> normal.Sample())
+(*** include-it ***)
+
+// Get back to unseeded sampling
+Random.SetSampleGenerator(Random.RandThreadSafe())   
+List.init 3 (fun _ -> normal.Sample())
+(*** include-it ***)
+
 open Plotly.NET
 
 //some axis styling
