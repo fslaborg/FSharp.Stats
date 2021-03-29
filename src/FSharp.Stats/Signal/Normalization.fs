@@ -17,3 +17,20 @@ module Normalization =
         let std   = Seq.stDev yVal
         yVal |> Vector.map (fun x -> (x - yMean) / std) 
 
+    /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
+    ///
+    /// Rows are genes, columns are samples
+    let medianOfRatios (data:Matrix<float>) =
+        let sampleWiseCorrectionFactors =
+            data
+            |> Matrix.mapiRows (fun _ v -> 
+                let geometricMean = Seq.meanGeometric v           
+                Seq.map (fun s -> s / geometricMean) v
+                ) 
+            |> matrix
+            |> Matrix.mapiCols (fun _ v -> Vector.median v)
+            |> vector
+        data
+        |> Matrix.mapi (fun r c v ->
+            v / sampleWiseCorrectionFactors.[c]
+        )
