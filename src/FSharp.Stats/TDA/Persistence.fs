@@ -246,7 +246,6 @@ module Persistence =
             neighborMap <- neighborMap |> Map.add (fst edge) ((snd edge)::tmpA)
             neighborMap <- neighborMap |> Map.add (snd edge) ((fst edge)::tmpB)
             )
-
         // function for pruning nodes of degree 2
         let prune vID = 
             // get both remaining neighbors of vID
@@ -259,9 +258,9 @@ module Persistence =
             neighborMap <- neighborMap |> Map.remove n1 |> Map.add n1 tmpR1
             neighborMap <- neighborMap |> Map.remove n2 |> Map.add n2 tmpR2
             neighborMap <- neighborMap |> Map.add vID []
-
+        
         neighborMap <- neighborMap |> Map.map (fun k v -> v |> List.rev)
-
+        
         // iterate over sorted persistence pairs
         let rec loopList ppList =
             match ppList with
@@ -293,13 +292,17 @@ module Persistence =
                 // prune kept node if necessary (i.e. if degree 2)
                 if neighborMap.[keptExtremum].Length = 2 then
                     let smallerNeighbor =
-                        if smaller (neighborMap.[keptExtremum]).[0] (neighborMap.[keptExtremum]).[1]
+                        //if smaller (neighborMap.[keptExtremum]).[0] (neighborMap.[keptExtremum]).[1]
+                        //then (neighborMap.[keptExtremum]).[0] else (neighborMap.[keptExtremum]).[1]
+                        if (neighborMap.[keptExtremum]).[0] < 0 then (neighborMap.[keptExtremum]).[1]
+                        elif (neighborMap.[keptExtremum]).[1] <0 then (neighborMap.[keptExtremum]).[0]
+                        elif smaller (neighborMap.[keptExtremum]).[0] (neighborMap.[keptExtremum]).[1]
                         then (neighborMap.[keptExtremum]).[0] else (neighborMap.[keptExtremum]).[1]
                     mtSegmentationSimpl.[keptExtremum] <- mtSegmentationSimpl.[smallerNeighbor]
                     prune (int keptExtremum)
                 loopList tail
         loopList persistencePairs
-
+        
         // propagate segmentation changes to whole segments (by flattening tree-like reference structure in array)
         let rec recurseSegSimplification (seg:int array) i =
             match seg.[i] with 
@@ -340,7 +343,7 @@ module Persistence =
         // convert edge set to edge list
         
         let mergeTreePairsSimpl = Set.toList mergeTreePairsSimplSet
-
+        
         mergeTreePairsSimpl,ppSegmentationSimpl,mtSegmentationSimpl
  
 
