@@ -182,9 +182,10 @@ The library is available under Public Domain license, which allows modification 
 redistribution for both commercial and non-commercial purposes. For more information see the 
 [License file][license] in the GitHub repository. 
 
-  [content]: https://github.com/CSBiology/FSharp.Stats/tree/master/docsrc/content
-  [gh]: https://github.com/CSBiology/FSharp.Stats
-  [issues]: https://github.com/CSBiology/FSharp.Stats/issues
-  [readme]: https://github.com/CSBiology/FSharp.Stats/blob/master/README.md
-  [license]: https://github.com/CSBiology/FSharp.Stats/blob/master/LICENSE.txt
+  [content]: https://github.com/fslaborg/FSharp.Stats/tree/developer/docs
+  [gh]: https://github.com/fslaborg/FSharp.Stats
+  [issues]: https://github.com/fslaborg/FSharp.Stats/issues
+  [readme]: https://github.com/fslaborg/FSharp.Stats/blob/developer/README.md
+  [license]: https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE
+
 *)
