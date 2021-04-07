@@ -43,3 +43,56 @@ let outlierTests =
         
     ]
 
+
+[<Tests>]
+let normalizationTests =
+    
+    let table = 
+        [
+            [4.5;4.2;3.6]
+            [4.3;4.2;0.5]
+            [2.5;4.1;0.6]
+        ]
+        |> matrix
+
+    let tableWithNan = 
+        [
+            [4.5;nan;3.6]
+            [4.3;4.2;nan]
+            [2.5;4.1;0.6]
+        ]
+        |> matrix
+
+    testList "NormalizationTests"[
+        testCase "MedianOfRatios" <| fun() ->
+
+            let expectedNormalizedTable = 
+                [
+                    [3.29784;2.08239;10.99283]
+                    [3.15127;2.08239;1.52678]
+                    [1.83213;2.03281;1.83213]
+                    
+                ]
+                |> matrix
+
+            let result = Normalization.medianOfRatios table
+
+            TestExtensions.sequenceEqualRounded 4 result expectedNormalizedTable "Value was not normalized correctly"
+
+        testCase "MedianOfRatiosIgnoreNans" <| fun() ->
+           
+            let result = Normalization.medianOfRatiosBy (fun x -> if System.Double.IsNaN x then 0.1 else x) tableWithNan
+
+            Expect.hasCountOf  result 2u System.Double.IsNaN "Only initial nan values should be nans afterwards"
+
+        testCase "MedianOfRatioWides" <| fun() ->
+        
+            let result = Normalization.medianOfRatiosWide table
+            let expected = 
+                table
+                |> Matrix.transpose
+                |> Normalization.medianOfRatios
+                |> Matrix.transpose
+            TestExtensions.sequenceEqualRounded 4 result expected "Wide method should return the same result as the non wide method on a transposed matrix"
+    ]
+

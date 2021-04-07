@@ -17,3 +17,56 @@ module Normalization =
         let std   = Seq.stDev yVal
         yVal |> Vector.map (fun x -> (x - yMean) / std) 
 
+    /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
+    ///
+    /// Rows are genes, columns are samples
+    ///
+    /// The additional function is applied on all values of the matrix when calculating the normalization factors. By this, a zero in the original dataset will still remain zero.
+    let medianOfRatiosBy (f: float -> float) (data:Matrix<float>) =
+        let sampleWiseCorrectionFactors =
+            data
+            |> Matrix.mapiRows (fun _ v -> 
+                let v = Seq.map f v
+                let geometricMean = Seq.meanGeometric v           
+                Seq.map (fun s -> s / geometricMean) v
+                ) 
+            |> matrix
+            |> Matrix.mapiCols (fun _ v -> Vector.median v)
+            |> vector
+        data
+        |> Matrix.mapi (fun r c v ->
+            v / sampleWiseCorrectionFactors.[c]
+        )
+
+    /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
+    ///
+    /// Rows are genes, columns are samples
+    let medianOfRatios (data:Matrix<float>) =
+        medianOfRatiosBy id data
+
+    /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
+    ///
+    /// Columns are genes, rows are samples
+    ///
+    /// The additional function is applied on all values of the matrix when calculating the normalization factors. By this, a zero in the original dataset will still remain zero.
+    let medianOfRatiosWideBy (f: float -> float) (data:Matrix<float>) =
+        let sampleWiseCorrectionFactors =
+            data
+            |> Matrix.mapiCols (fun _ v -> 
+                let v = Seq.map f v
+                let geometricMean = Seq.meanGeometric v           
+                Seq.map (fun s -> s / geometricMean) v
+                ) 
+            |> matrix
+            |> Matrix.mapiCols (fun _ v -> Seq.median v)
+            |> vector
+        data
+        |> Matrix.mapi (fun r c v ->
+            v / sampleWiseCorrectionFactors.[r]
+        )
+
+    /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
+    ///
+    /// Columns are genes, rows are samples
+    let medianOfRatiosWide (data:Matrix<float>) =
+        medianOfRatiosWideBy id data

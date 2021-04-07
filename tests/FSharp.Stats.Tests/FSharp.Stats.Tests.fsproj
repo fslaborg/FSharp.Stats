@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="TestExtensions.fs" />
     <Compile Include="Correlation.fs" />
     <Compile Include="Covariance.fs" />
     <Compile Include="Distributions.fs" />
