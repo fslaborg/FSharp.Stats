@@ -13,9 +13,11 @@
     <Compile Include="Vector.fs" />
     <Compile Include="Matrix.fs" />
     <Compile Include="ML.fs" />
+    <Compile Include="Signal.fs" />
     <Compile Include="SpecialFunctions.fs" />
     <Compile Include="Testing.fs" />
     <Compile Include="Main.fs" />
+
   </ItemGroup>
 
   <ItemGroup>
