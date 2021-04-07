@@ -58,11 +58,11 @@ module Normalization =
                 Seq.map (fun s -> s / geometricMean) v
                 ) 
             |> matrix
-            |> Matrix.mapiRows (fun _ v -> Seq.median v)
+            |> Matrix.mapiCols (fun _ v -> Seq.median v)
             |> vector
         data
         |> Matrix.mapi (fun r c v ->
-            v / sampleWiseCorrectionFactors.[c]
+            v / sampleWiseCorrectionFactors.[r]
         )
 
     /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
