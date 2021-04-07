@@ -26,16 +26,12 @@ module Outliers =
         let s = stDevPopulation(ls)
         [for x in ls -> zScore x m s]
 
-<<<<<<< HEAD
+
     ///Returns a population interval according to desired max and min Z Score values    
-=======
-    ///Returns population interval according to desired max and min Z Score values    
->>>>>>> 8d22dd7cf4dd300a600e3ea88031c66b629621d3
     let populationIntervalByZScore (ls:list<float>) (minZ:float) (maxZ:float) =
         let m = mean ls
         let s = stDevPopulation(ls)
         Intervals.create (minZ * s + m) (maxZ * s + m)
-<<<<<<< HEAD
     
     ///Returns a list of Z scores of a sample
     let zScoresOfSample (ls:list<float>) =
@@ -48,6 +44,3 @@ module Outliers =
         let m = mean ls
         let s = stDev(ls)
         Intervals.create (minZ * s + m) (maxZ * s + m)
-=======
->>>>>>> 8d22dd7cf4dd300a600e3ea88031c66b629621d3
-        
