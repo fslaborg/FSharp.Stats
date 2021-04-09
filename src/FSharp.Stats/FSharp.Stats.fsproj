@@ -17,9 +17,9 @@
     <Title>FSharp.Stats</Title>
     <Owners>fslaborg, Timo Muehlhaus</Owners>
     <Description>F#-first linear algebra, machine learning, fitting, signal processing, and statistical testing.</Description>
-    <PackageLicenseUrl>https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://fslab.org/FSharp.Stats</PackageProjectUrl>
-    <PackageIconUrl>http://raw.githubusercontent.com/fslaborg/FSharp.Stats/developer/docsrc/files/img/logo.png</PackageIconUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageTags>F# FSharp dotnet data-science linear-algebra machine-learning fitting signal-processing statistical-testing</PackageTags>
     <RepositoryUrl>https://github.com/fslaborg/FSharp.Stats</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -28,6 +28,7 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\**" />
+    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath=""/>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ops.fs" />
