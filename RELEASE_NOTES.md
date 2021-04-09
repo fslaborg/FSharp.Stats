@@ -1,8 +1,24 @@
+### 0.4.1+e699171 (Released 2021-4-9)
+* Additions:
+    * latest commit #e699171
+    * [[#1138ef6](https://github.com/fslaborg/FSharp.Stats/commit/1138ef6346cb906d3919b5e7a33fa1bde51b8db9)] update docs generation workflow
+    * [[#f8c2ed9](https://github.com/fslaborg/FSharp.Stats/commit/f8c2ed9d9996c4fade0f60cb5809b125afcd1916)] add binder links to all docs
+    * [[#e5a98bb](https://github.com/fslaborg/FSharp.Stats/commit/e5a98bbc6835d57cc79acb8469c23a6bdc64ea2c)] update altcover and switch to lcov coverage format
+    * [[#80c89d0](https://github.com/fslaborg/FSharp.Stats/commit/80c89d0af114935009bc608275bc871d333df61e)] add generic Seq.cov functions based on Vector.cov.
+    * [[#8c82d85](https://github.com/fslaborg/FSharp.Stats/commit/8c82d857fb8cab3c0e5b19c20ff0b5b6fb99b8c6)] add deseq2 medianOfRatios normalization
+    * [[#eba03f3](https://github.com/fslaborg/FSharp.Stats/commit/eba03f36b7e401f94833a84f3c9efc119417963a)] add ZScore calculations 
+    * update clustering, basic stats, and distribution documentation
+* Deletions:
+    * [[#e855845](https://github.com/fslaborg/FSharp.Stats/commit/e8558451e3247e576611ade4021ab237ebc55adc)] remove unnecessary doc files
+* Bugfixes:
+    * [[#46d203e](https://github.com/fslaborg/FSharp.Stats/commit/46d203ead27711ca35116cd0cfdad20ae58fbcd4)] fix Matrix.meanRowWise #119
+
 #### 0.4.0 - Tuesday. December 15, 2020
 The documentation and unit tests have been extended.
 
 
 * **FSharp.Stats** 
+  * latest commit #c76af47
   * [Modernization of build and CI chains](https://github.com/fslaborg/FSharp.Stats/commit/413194017492aa6a3f60d055bbb4e2a34c739afe)
   * Additional functionalities:
     * [Chi Distribution](https://github.com/fslaborg/FSharp.Stats/commit/3ff9571375d03592fda3649a172a69e326664de9)
