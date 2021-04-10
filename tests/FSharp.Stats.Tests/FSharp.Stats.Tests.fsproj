@@ -7,22 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="TestExtensions.fs" />
     <Compile Include="Correlation.fs" />
+    <Compile Include="Covariance.fs" />
     <Compile Include="Distributions.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="Matrix.fs" />
     <Compile Include="ML.fs" />
+    <Compile Include="Signal.fs" />
     <Compile Include="SpecialFunctions.fs" />
     <Compile Include="Testing.fs" />
     <Compile Include="Main.fs" />
+
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AltCover" Version="7.2.801" />
+    <PackageReference Include="AltCover" Version="7.6.812" />
     <PackageReference Include="Expecto" Version="9.*" />
     <PackageReference Include="YoloDev.Expecto.TestSdk" Version="0.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
-    <PackageReference Update="FSharp.Core" Version="4.*" />
+    <PackageReference Update="FSharp.Core" Version="5.*" />
   </ItemGroup>
 
   <ItemGroup>

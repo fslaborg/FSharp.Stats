@@ -1080,6 +1080,28 @@ let floatImplementationDenseTests =
                     Expect.equal actual 0. "Product of matrix elements was not correctly computed using Matrix.sum"
 
             ]
+            testList "mean" [
+                testCase "meanRowWise" <| fun() ->
+                    let testMat = matrix [
+                                            [20.;  11.];
+                                            [6.;  29.];
+                                            [12.;  8.];
+                                          ]
+                    let correctList = [15.5; 17.5; 10.]
+
+                    let testlist = List.ofArray( Vector.toArray (Matrix.meanRowWise testMat))
+                    List.iter2 (fun a b -> Expect.floatClose Accuracy.high a b "means of matrix RowWise was calculated incorrectly") testlist correctList
+                
+                testCase "meanColumnWise"<| fun() ->
+                    let testMat = matrix[
+                        [20.;6.;12.];
+                        [11.;29.;8.]
+                    ]
+                    let correctList = [15.5; 17.5; 10.]
+                    let testlist = List.ofArray( Vector.toArray (Matrix.meanColumnWise testMat))
+                    List.iter2 (fun a b -> Expect.floatClose Accuracy.high a b "means of matrix ColumnWise was calculated incorrectly") testlist correctList
+
+            ]
             testList "norm" [
                 
                 testCase "norm" <| fun () ->

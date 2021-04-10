@@ -6,7 +6,7 @@ FSharp.Stats
 [![Build status](https://ci.appveyor.com/api/projects/status/gjsjlqmrljtty780/branch/developer?svg=true)](https://ci.appveyor.com/project/kMutagene/fsharp-stats/branch/developer)
 [![codecov](https://codecov.io/gh/fslaborg/FSharp.Stats/branch/developer/graph/badge.svg?token=LRBZPV6MH8)](https://codecov.io/gh/fslaborg/FSharp.Stats)
 
-FSharp.Stats is supposed to be a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.
+FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.
 
 <br>
 

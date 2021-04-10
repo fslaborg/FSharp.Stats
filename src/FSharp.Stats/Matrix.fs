@@ -549,7 +549,7 @@ module Matrix = begin
     let meanRowWise (a:matrix) =
         a
         |> sumRows
-        |> Vector.map (fun sum -> sum / (a.NumRows |> float))
+        |> Vector.map (fun sum -> sum / (a.NumCols |> float))
 
     /// Computes the Column wise mean of a Matrix
     let meanColumnWise (a:matrix) =
