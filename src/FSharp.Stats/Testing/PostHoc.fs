@@ -158,3 +158,61 @@ module PostHoc =
                 let tTest = createTTest tValue dw
                 createContrast i meanDiff db msw tTest.PValue tTest.Statistic ssw 
             ) 
+
+    type CriticalValueContrast = { 
+        Index            : int    
+        /// group mean difference
+        L                : float
+        DegreesOfFreedom : float
+        MeanSquares      : float
+        Significance     : bool
+        Statistic        : float
+        SumOfSquares     : float
+        CriticalValue    : float
+        } with static member create index l degreesOfFreedom meanSquares significance statistic sumOfSquares criticalValue=
+                {Index = index; L = l; DegreesOfFreedom = degreesOfFreedom; MeanSquares = meanSquares; Significance = significance; Statistic = statistic; SumOfSquares = sumOfSquares; CriticalValue = criticalValue}  
+
+    
+    /// Dunnetts post hoc test compares groups to one control group (multiple-to-one comparison). 
+    /// Returns if the groups defined in the contrast differ significantly (already multi comparison corrected for FWER<a) 
+    /// Critical value tables can be found in Testing.Tables
+    let dunnetts (contrastMatrix:float[][]) (data:float[][]) (criticalTable:Matrix<float>) =
+        // Sample sizes
+        let sizes = data |> Array.map (fun x -> x.Length)
+        let totalSize = sizes |> Array.sum
+        let groupCount = data.Length
+        if groupCount > 40 then failwithf "Not implemented for group count > 40"
+        
+        // Degrees of freedom
+        let db = float(groupCount - 1)
+        let dw = totalSize - groupCount
+        
+        // Step 1. Calculate the mean within each group
+        let sampleMeans = data |> Array.map Seq.mean        
+        
+        // Step 2. Calculate the "within-group" sum of squares
+        let ssw = 
+            data
+            |> Array.mapi (fun i group -> 
+                group 
+                |> Array.sumBy (fun elem -> 
+                    pown (elem - sampleMeans.[i]) 2
+                    )
+                ) 
+            |> Array.sum
+        // within-group mean square or MSerror
+        let msw = ssw / (float dw) 
+
+        let calcStats i (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =        
+            let meanDifference =  Array.fold2 (fun state mi ai -> state + (mi * ai)) 0.0 sampleMeans contrast
+            let denominator = (Array.map2 (fun a n -> (abs a) * (msw / (float n))) contrast sampleSizes) |> Array.sum                
+            //n=df Error from ANOVA table (all measurements - groupcount), k=number of groups (excl. control)
+            let t_d = criticalTable.[dw - 1,groupCount - 2]
+            let critical = t_d * (sqrt denominator)
+            CriticalValueContrast.create i meanDifference db msw ((abs meanDifference) > critical) meanDifference ssw critical
+
+        let stats = contrastMatrix |> Array.mapi (fun i ar -> calcStats i sizes sampleMeans ar)
+        stats
+
+    //let dunnetts095 contrastMatrix data criticalTable = 
+    //    dunnetts contrastMatrix data dunnetts095
