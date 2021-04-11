@@ -598,8 +598,17 @@ let tukeySignificance =
 (**
 ### Dunnetts test
 
-When there is one control group which should be compared with all treatment-groups, you can use Dunnett's test. It is a multiple-to-one post hoc test
-that has a higher power than Tukey's HSD since fewer comparisons have to be performed.
+When there is one control group which should be compared with all treatment-groups, Tukeys HSD would lead 
+to an explosion of comparisons if the number of conditions increases. If just the comparison of each 
+treatment to an control is required you can use Dunnett's test. It is a multiple-to-one post hoc test for **homoscedastic** samples with **equal variance**
+that has a higher power than Tukey's HSD since fewer comparisons have to be performed, and therefore the Confidence 
+limits are wider than necessary. "ANOVA is not a necessary part of the multiple comparisons procedure" (Dunnett, 1964).
+
+Reference:
+
+  - A Multiple Comparison Procedure for Comparing Several Treatments with a Control; CW Dunnett; Journal of the American Statistical Association; Dec. 1955 
+
+  - New Tables for Multiple Comparisons with a Control; CW Dunnett; Biometrics; Sep. 1964
 
 ### Fisher Hotelling
 
