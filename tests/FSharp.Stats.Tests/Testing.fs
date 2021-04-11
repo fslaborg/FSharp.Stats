@@ -3,13 +3,13 @@ open Expecto
 open System
 open FSharp.Stats.Testing
     
-(*
-// Test ommitted due to extremely long runtime of CodeCov.
 [<Tests>]
 let testPostHocTests =
     //Tests taken from:
     //https://www.icalcu.com/stat/anova-tukey-hsd-calculator.html
     testList "Testing.PostHoc" [
+        (*
+        // Test ommitted due to extremely long runtime of CodeCov.
         testCase "tukeyHSD" <| fun () ->
             let dataA = [|3.;3.;4.;5.;2.;5.;5.;4.;4.;2.;2.;2.;4.;3.;5.;3.;4.;5.;3.;5.;                   |]
             let dataB = [|10.;7.;9.;6.;7.;7.;6.;7.;10.;7.;8.;8.;8.;6.;10.;9.;9.;6.;9.;8.;                |]
@@ -45,9 +45,42 @@ let testPostHocTests =
             Expect.floatClose Accuracy.low rpval.[2] pValues.[2] "p values should be equal."
             Expect.floatClose Accuracy.low rpval.[3] pValues.[3] "p values should be equal."
             Expect.floatClose Accuracy.low rpval.[4] pValues.[4] "p values should be equal."
-    ]
-*)
+        *)
+        testCase "dunnett" <| fun () ->
+            let data = 
+                [|
+                    [|1.84;2.49;1.50;2.42;|]
+                    [|2.43;1.85;2.42;2.73;|]
+                    [|3.95;3.67;3.23;2.31;|]
+                    [|3.21;3.20;2.32;3.30;|]
+                    [|3.21;3.13;2.32;3.30;3.20;2.42;|]
+                |]
 
+            //first sample is control
+            let contrastMatrix = 
+                [|                
+                    [|-1.;1.;0.;0.;0.|]
+                    [|-1.;0.;1.;0.;0.|]
+                    [|-1.;0.;0.;1.;0.|]
+                    [|-1.;0.;0.;0.;1.|]
+                |]
+
+            let dunnettResult = 
+                PostHoc.dunnetts contrastMatrix data Tables.dunnetts095
+
+            //result from: SPSS Dunnett's test version 27
+            let pval = [0.811;0.010;0.050;0.049]
+            let dmean = [0.295;1.2275;0.945;0.8675]
+                
+            Expect.equal dunnettResult.[0].Significance (pval.[0]<0.05) "Significance should be equal."
+            Expect.equal dunnettResult.[1].Significance (pval.[1]<0.05) "Significance should be equal."
+            Expect.equal dunnettResult.[2].Significance (pval.[2]<0.05) "Significance should be equal."
+            Expect.equal dunnettResult.[3].Significance (pval.[3]<0.05) "Significance should be equal."
+            Expect.floatClose Accuracy.high dunnettResult.[0].L dmean.[0] "Mean differences should be equal."
+            Expect.floatClose Accuracy.high dunnettResult.[1].L dmean.[1] "Mean differences should be equal."
+            Expect.floatClose Accuracy.high dunnettResult.[2].L dmean.[2] "Mean differences should be equal."
+            Expect.floatClose Accuracy.high dunnettResult.[3].L dmean.[3] "Mean differences should be equal."
+    ]
 
 [<Tests>]
 let hTestTests = 
