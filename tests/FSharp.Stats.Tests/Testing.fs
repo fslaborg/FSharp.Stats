@@ -66,7 +66,7 @@ let testPostHocTests =
                 |]
 
             let dunnettResult = 
-                PostHoc.dunnetts contrastMatrix data Tables.dunnetts095
+                PostHoc.dunnetts contrastMatrix data Tables.dunnettsTwoSided095
 
             //result from: SPSS Dunnett's test version 27
             let pval = [0.811;0.010;0.050;0.049]

@@ -596,19 +596,52 @@ let tukeySignificance =
 //TTest.twoSample true (vector hsdExample.[2]) (vector hsdExample.[3])
 
 (**
-### Dunnetts test
+### Dunnett's (t) test
 
 When there is one control group which should be compared with all treatment-groups, Tukeys HSD would lead 
 to an explosion of comparisons if the number of conditions increases. If just the comparison of each 
 treatment to an control is required you can use Dunnett's test. It is a multiple-to-one post hoc test for **homoscedastic** samples with **equal variance**
 that has a higher power than Tukey's HSD since fewer comparisons have to be performed, and therefore the Confidence 
-limits are wider than necessary. "ANOVA is not a necessary part of the multiple comparisons procedure" (Dunnett, 1964).
+limits are wider than necessary. "ANOVA is not a necessary part of the multiple comparisons procedure" (Dunnett, 1964). 
+
+_Note:_ Dunnett's test is designed for equal group sizes and will only provide approximate values when group sizes differ (Dunnett 1955).
 
 Reference:
 
   - A Multiple Comparison Procedure for Comparing Several Treatments with a Control; CW Dunnett; Journal of the American Statistical Association; Dec. 1955 
 
   - New Tables for Multiple Comparisons with a Control; CW Dunnett; Biometrics; Sep. 1964
+
+*)
+
+let dunnetExample = 
+    [|
+        [|1.84;2.49;1.50;2.42;|]
+        [|2.43;1.85;2.42;2.73;|]
+        [|3.95;3.67;3.23;2.31;|]
+        [|3.21;3.20;2.32;3.30;|]
+        //only gives aproximate results when group sizes are unequal
+        [|3.21;3.13;2.32;3.30;3.20;2.42;|]
+    |]
+
+//first sample serves as control
+let dunnetContrastMatrix = 
+    [|                
+        [|-1.;1.;0.;0.;0.|]
+        [|-1.;0.;1.;0.;0.|]
+        [|-1.;0.;0.;1.;0.|]
+        [|-1.;0.;0.;0.;1.|]
+    |]
+
+let dunnettResult = 
+    PostHoc.dunnetts dunnetContrastMatrix dunnetExample Tables.dunnettsTwoSided095
+
+(*** include-value:dunnettResult ***)
+
+
+(**
+
+
 
 ### Fisher Hotelling
 

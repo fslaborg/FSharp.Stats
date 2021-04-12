@@ -209,7 +209,7 @@ module PostHoc =
             //n=df Error from ANOVA table (all measurements - groupcount), k=number of groups (excl. control)
             let t_d = criticalTable.[dw - 1,groupCount - 2]
             let critical = t_d * (sqrt denominator)
-            CriticalValueContrast.create i meanDifference db msw ((abs meanDifference) > critical) meanDifference ssw critical
+            CriticalValueContrast.create i meanDifference db msw ((abs meanDifference) > critical) (meanDifference / (sqrt denominator)) ssw t_d
 
         let stats = contrastMatrix |> Array.mapi (fun i ar -> calcStats i sizes sampleMeans ar)
         stats
