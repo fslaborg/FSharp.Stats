@@ -294,7 +294,7 @@ Possible further tests:
 
   -   ...
 
-Note that there is no information about the direction of variance difference.
+Note that there is no information about the direction of variance difference (e.g. Zimmermann 2004).
 In this implemented test the larger variance is always the numerator, therefore the comparison to F<sub>df1,df2,1-(alpha/2)</sub> is used for a two sided test. 
 
 _Important note: The effectiveness of a preliminary test of variances is discussed. 
@@ -309,6 +309,8 @@ References:
   - Shlomo S. Sawilowsky, The Probable Difference Between Two Means When σ<sub>1</sub><sup>2</sup>≠σ<sub>2</sub><sup>2</sup> (2002)
 
   - Ronald Ley, F curves have two tails but the F test is a one-tailed two-tailed test (1979) + Reviewer comments
+
+  - Donald W. Zimmermann, A note on preliminary tests of equality ofvariances (2004)
   
 *F-Test from data:*
 *)
@@ -411,6 +413,8 @@ The simplest method is Fisher's least significant difference (Fisher's LSD). It 
 estimating the variance for each sample separately it takes all groups into account. Violations of the homogeneity of variances reduce the test power.
 Since no correction for multiple comparisons is performed, the resulting p values must be corrected (for example with Benjamini-Hochberg method).
 
+_Important: Fishers LSD is dependent to a significant ANOVA (ANOVA-protected post-hoc test)._
+
 *)
 open PostHoc
 
@@ -505,7 +509,7 @@ Anova.oneWayAnova dmg
 Tukeys honestly significant difference (HSD) can be used to inspect a significant ANOVA result for underlying causes.
 
 _Important note: Various discussions question the application of Tukeys HSD only to significant ANOVA results (Anova-protected post-hoc test), since Tukeys HSD already controls for multiple testing._
-_Inform yourself prior to using an post hoc test appropriate to your experimental design._
+_Inform yourself prior to using an post hoc test appropriate to your experimental design. Fishers LSD however is dependent to a significant ANOVA._
 
 Using this post hoc test you can determine which of the means differ significantly from each other.
 In the classis Tukeys HSD approach, the population variances are pooled for a more robust estimation (especially with small sample sizes). If the population variances
@@ -604,7 +608,7 @@ treatment to an control is required you can use Dunnett's test. It is a multiple
 that has a higher power than Tukey's HSD since fewer comparisons have to be performed, and therefore the Confidence 
 limits are wider than necessary. "ANOVA is not a necessary part of the multiple comparisons procedure" (Dunnett, 1964). 
 
-_Note:_ Dunnett's test is designed for equal group sizes and will only provide approximate values when group sizes differ (Dunnett 1955).
+_Note: Dunnett's test is designed for equal group sizes and will only provide approximate values when group sizes differ (Dunnett 1955)._
 
 Reference:
 

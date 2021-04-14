@@ -2,6 +2,7 @@
 open Expecto
 open System
 open FSharp.Stats.Testing
+open FSharp.Stats
     
 [<Tests>]
 let testPostHocTests =
@@ -99,6 +100,42 @@ let hTestTests =
             Expect.isTrue (0.03781 = Math.Round(hResult.PValueRight,5)) "pValue should be equal."
             Expect.isTrue (6.5502  = Math.Round(hResult.Statistic,4)) "statistic should be equal."
                 
+    ]
+
+[<Tests>]
+let tTestTests = 
+    // tested in SPSS version 27
+    let groupA = vector [-5.;-3.;-3.;-4.;-5.;] 
+    let groupB = vector [-2.;-4.;-4.;-6.;-6.;-6.;-5.;] 
+    let groupC = vector [-3.;-7.;-8.;-4.;-2.; 1.;-1.;]   
+    let groupD = vector [1.;-1.;0.;2.;2.;]   
+        
+    let meanA = Seq.mean groupA
+    let meanB = Seq.mean groupB
+    let varA = Seq.var groupA
+    let varB = Seq.var groupB
+    let nA = float (Seq.length groupA)
+    let nB = float (Seq.length groupB)
+
+    // calculation of the H test 
+    let tTest1 = TTest.twoSample true groupA groupB
+    let tTest2 = TTest.twoSampleFromMeanAndVar true (meanA,varA,nA) (meanB,varB,nB) 
+    let tTest3 = TTest.twoSample false groupA groupB
+    let tTest4 = TTest.oneSample groupD 0.5
+
+    testList "Testing.TTest" [
+        testCase "twoSample" <| fun () -> 
+            Expect.floatClose Accuracy.low tTest1.PValue 0.377 "pValue should be equal."
+            Expect.floatClose Accuracy.low tTest1.DegreesOfFreedom 10. "df should be equal."
+            Expect.floatClose Accuracy.low tTest1.Statistic 0.924 "t statistic should be equal."
+            Expect.floatClose Accuracy.low tTest3.PValue 0.345 "pValue should be equal."
+            Expect.floatClose Accuracy.low tTest3.DegreesOfFreedom 9.990 "df should be equal."
+        testCase "twoSampleFromMeanAndVar" <| fun () -> 
+            Expect.equal tTest1 tTest2 "results should be equal."
+        testCase "oneSample" <| fun () -> 
+            Expect.floatClose Accuracy.low tTest4.PValue 0.634 "pValue should be equal."
+            Expect.equal tTest4.DegreesOfFreedom 4. "df should be equal."
+            Expect.floatClose Accuracy.low tTest4.Statistic 0.514 "t statistic should be equal."
     ]
 
 [<Tests>]
