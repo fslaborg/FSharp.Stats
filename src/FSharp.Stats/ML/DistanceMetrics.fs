@@ -205,8 +205,29 @@ module DistanceMetrics =
                 d.[i, j] <- dval; dval 
         dist (m, n)
 
-
-
+    /// Calculates the maximal distance from each point of the source coordinates to the nearest point of target coordiantes.
+    /// The clostest target point to each source point is determined with the given distance function. The maximal closest distance is reported
+    /// By default euclidean distance is set as distance function
+    let hausdorffDirected (distFu : seq<float> -> seq<float> -> float) (source: float [][]) (target: float [][]) =
+        source
+        |> Array.map (fun sourceCoor -> 
+            target
+            |> Seq.map (fun targetCoor -> 
+                let distance = distFu sourceCoor targetCoor
+                distance
+                )
+            |> Seq.min 
+            )
+        |> Seq.max
+    
+    /// Calculates the maximal distance from each point on one set to the nearest point of the other set.
+    /// The clostest target point to each source point is determined with the given distance function. 
+    /// dataA and dataB are both analyzed as source and target respectively. The maximal closest distance is reported.
+    /// By default euclidean distance is set as distance function
+    let hausdorff distFu dataA dataB =
+        let hausDorffA = hausdorffDirected distFu dataA dataB
+        let hausDorffB = hausdorffDirected distFu dataB dataA
+        max hausDorffA hausDorffB
 
 //Value	Description
 //'euclidean'	Euclidean distance.
