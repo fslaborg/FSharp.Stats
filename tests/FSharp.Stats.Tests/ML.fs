@@ -187,3 +187,32 @@ module SimilarityMetrics =
 
         ]
     
+
+module DistanceMetrics = 
+    open DistanceMetrics
+
+    [<Tests>]
+    let hausdorff =
+        testList "DistanceMetrics" [
+            
+            let dataA = 
+                [|1.,3.;2.,5.;3.,2.;4.,6.;5.,2.;6.,4.;7.,2.|]
+                |> Array.map (fun (x,y) -> [|x;y|])
+            let dataB = 
+                [|0.4,4.;0.7,4.7;4.,4.;4.2,8.;4.5,5.;4.7,6.;5.,7.|]
+                |> Array.map (fun (x,y) -> [|x;y|])
+
+            testCase "hausdorffDirected" <| fun () ->
+                let directionA = DistanceMetrics.hausdorffDirected euclidean dataA dataB
+                let directionB = DistanceMetrics.hausdorffDirected euclidean dataB dataA
+                Expect.floatClose Accuracy.high directionA 3.60555127546 "Directed hausdorff distance should be 3.60555127"
+                Expect.floatClose Accuracy.high directionB 2.00997512422 "Directed hausdorff distance should be 2.009975"
+                
+            testCase "hausdorff" <| fun () ->
+                let actual = DistanceMetrics.hausdorff euclidean dataA dataB
+                Expect.floatClose Accuracy.high actual 3.60555127546 "Hausdorff distance should be 3.60555127"
+
+            
+        ]
+    
+    
