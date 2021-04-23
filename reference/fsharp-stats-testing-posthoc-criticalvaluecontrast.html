@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>smatrix (FSharp.Stats)</title>
+    <title>CriticalValueContrast (FSharp.Stats)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
@@ -72,12 +72,12 @@
                 <div class="container" id="fsdocs-content">
                     <div>
   <h1>
-    smatrix Type
+    CriticalValueContrast Type
   </h1>
   <p>
     Namespace: 
-    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
-      FSharp.Stats
+    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing.html">
+      FSharp.Stats.Testing
     </a>
   </p>
   <p>
@@ -85,17 +85,25 @@
   </p>
   <span>
     Parent Module: 
-    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-specializedgenericimpl.html">
-      SpecializedGenericImpl
+    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-posthoc.html">
+      PostHoc
     </a>
   </span>
   <p>
-    Abbreviation For: 
-    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-sparsematrix-1.html">SparseMatrix</a>&lt;float&gt;</span></code>
-  </p>
-  <p>
     Base Type: 
     <code>obj</code>
+  </p>
+  <p>
+    All Interfaces: 
+    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-posthoc-criticalvaluecontrast.html">CriticalValueContrast</a>&gt;</span></code>
+    , 
+    <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
+    , 
+    <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-posthoc-criticalvaluecontrast.html">CriticalValueContrast</a>&gt;</span></code>
+    , 
+    <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
+    , 
+    <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
   </p>
   <div class="fsdocs-xmldoc">
     
@@ -104,18 +112,15 @@
   <div></div>
   <div></div>
   <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
   <div>
     <h3>
-      Instance members
+      Record fields
     </h3>
     <table class="table outer-list fsdocs-member-list">
       <thead>
         <tr>
           <td class="fsdocs-member-list-header">
-            Instance member
+            Record Field
           </td>
           <td class="fsdocs-member-list-header">
             Description
@@ -126,25 +131,20 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1805', 1805)" onmouseover="showTip(event, '1805', 1805)">
+              <code onmouseout="hideTip(event, '2366', 2366)" onmouseover="showTip(event, '2366', 2366)">
                 <p>
-                  <a id="ElementOps">
-                    <a href="#ElementOps">
-                      <code><span>this.ElementOps</span></code>
+                  <a id="CriticalValue">
+                    <a href="#CriticalValue">
+                      <code>CriticalValue</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1805">
+              <div class="fsdocs-tip" id="2366">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>this.ElementOps</span></code>
+                  <code>CriticalValue</code>
                   <br/>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-inumeric-1.html">INumeric</a>&lt;float&gt;</span></code>
-                  </span>
                   <br/>
                 </div>
               </div>
@@ -152,46 +152,285 @@
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L79-79" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L171-171" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
               
             </p>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-inumeric-1.html">INumeric</a>&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1806', 1806)" onmouseover="showTip(event, '1806', 1806)">
+              <code onmouseout="hideTip(event, '2367', 2367)" onmouseover="showTip(event, '2367', 2367)">
                 <p>
-                  <a id="Item">
-                    <a href="#Item">
-                      <code><span>this.[<span><span>i,&#32;j</span></span>]</span></code>
+                  <a id="DegreesOfFreedom">
+                    <a href="#DegreesOfFreedom">
+                      <code>DegreesOfFreedom</code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1806">
+              <div class="fsdocs-tip" id="2367">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>this.[<span><span>i,&#32;j</span></span>]</span></code>
+                  <code>DegreesOfFreedom</code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L166-166" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '2368', 2368)" onmouseover="showTip(event, '2368', 2368)">
+                <p>
+                  <a id="Index">
+                    <a href="#Index">
+                      <code>Index</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2368">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>Index</code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L163-163" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '2369', 2369)" onmouseover="showTip(event, '2369', 2369)">
+                <p>
+                  <a id="L">
+                    <a href="#L">
+                      <code>L</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2369">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>L</code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L165-165" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ group mean difference
+
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '2370', 2370)" onmouseover="showTip(event, '2370', 2370)">
+                <p>
+                  <a id="MeanSquares">
+                    <a href="#MeanSquares">
+                      <code>MeanSquares</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2370">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>MeanSquares</code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L167-167" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '2371', 2371)" onmouseover="showTip(event, '2371', 2371)">
+                <p>
+                  <a id="Significance">
+                    <a href="#Significance">
+                      <code>Significance</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2371">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>Significance</code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L168-168" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '2372', 2372)" onmouseover="showTip(event, '2372', 2372)">
+                <p>
+                  <a id="Statistic">
+                    <a href="#Statistic">
+                      <code>Statistic</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2372">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>Statistic</code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L169-169" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '2373', 2373)" onmouseover="showTip(event, '2373', 2373)">
+                <p>
+                  <a id="SumOfSquares">
+                    <a href="#SumOfSquares">
+                      <code>SumOfSquares</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2373">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>SumOfSquares</code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L170-170" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div>
+    <h3>
+      Static members
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Static member
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '2374', 2374)" onmouseover="showTip(event, '2374', 2374)">
+                <p>
+                  <a id="create">
+                    <a href="#create">
+                      <code><span>CriticalValueContrast.create&#32;<span>index&#32;l&#32;degreesOfFreedom&#32;meanSquares&#32;significance&#32;statistic&#32;sumOfSquares&#32;criticalValue</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2374">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>CriticalValueContrast.create&#32;<span>index&#32;l&#32;degreesOfFreedom&#32;meanSquares&#32;significance&#32;statistic&#32;sumOfSquares&#32;criticalValue</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        i
+                        index
                       </b>
                       :
                       <code>int</code>
@@ -199,17 +438,65 @@
                     <br/>
                     <span>
                       <b>
-                        j
+                        l
                       </b>
                       :
-                      <code>int</code>
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        degreesOfFreedom
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        meanSquares
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        significance
+                      </b>
+                      :
+                      <code>bool</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        statistic
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        sumOfSquares
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        criticalValue
+                      </b>
+                      :
+                      <code>float</code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>float</code>
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-posthoc-criticalvaluecontrast.html">CriticalValueContrast</a></code>
                   </span>
                   <br/>
                 </div>
@@ -218,7 +505,7 @@
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L88-88" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L172-172" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
@@ -227,7 +514,7 @@
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  i
+                  index
                 </span>
                 :
                 <code>int</code>
@@ -235,10 +522,58 @@
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  j
+                  l
                 </span>
                 :
-                <code>int</code>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  degreesOfFreedom
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  meanSquares
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  significance
+                </span>
+                :
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  statistic
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  sumOfSquares
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  criticalValue
+                </span>
+                :
+                <code>float</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -247,283 +582,7 @@
                 <span class="fsdocs-return-name">
                   Returns:
                 </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-name">
-            <div>
-              <code onmouseout="hideTip(event, '1807', 1807)" onmouseover="showTip(event, '1807', 1807)">
-                <p>
-                  <a id="NumCols">
-                    <a href="#NumCols">
-                      <code><span>this.NumCols</span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1807">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>this.NumCols</span></code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>int</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L73-73" class="fsdocs-source-link">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
-              </a>
-              
-            </p>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code>int</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-name">
-            <div>
-              <code onmouseout="hideTip(event, '1808', 1808)" onmouseover="showTip(event, '1808', 1808)">
-                <p>
-                  <a id="NumRows">
-                    <a href="#NumRows">
-                      <code><span>this.NumRows</span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1808">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>this.NumRows</span></code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>int</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L74-74" class="fsdocs-source-link">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
-              </a>
-              
-            </p>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code>int</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-name">
-            <div>
-              <code onmouseout="hideTip(event, '1809', 1809)" onmouseover="showTip(event, '1809', 1809)">
-                <p>
-                  <a id="OpsData">
-                    <a href="#OpsData">
-                      <code><span>this.OpsData</span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1809">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>this.OpsData</span></code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-opsdata-1.html">OpsData</a>&lt;float&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L72-72" class="fsdocs-source-link">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
-              </a>
-              
-            </p>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-opsdata-1.html">OpsData</a>&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-name">
-            <div>
-              <code onmouseout="hideTip(event, '1810', 1810)" onmouseover="showTip(event, '1810', 1810)">
-                <p>
-                  <a id="SparseColumnValues">
-                    <a href="#SparseColumnValues">
-                      <code><span>this.SparseColumnValues</span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1810">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>this.SparseColumnValues</span></code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span>int&#32;array</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L75-75" class="fsdocs-source-link">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
-              </a>
-              
-            </p>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code><span>int&#32;array</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-name">
-            <div>
-              <code onmouseout="hideTip(event, '1811', 1811)" onmouseover="showTip(event, '1811', 1811)">
-                <p>
-                  <a id="SparseRowOffsets">
-                    <a href="#SparseRowOffsets">
-                      <code><span>this.SparseRowOffsets</span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1811">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>this.SparseRowOffsets</span></code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span>int&#32;array</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L76-76" class="fsdocs-source-link">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
-              </a>
-              
-            </p>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code><span>int&#32;array</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-name">
-            <div>
-              <code onmouseout="hideTip(event, '1812', 1812)" onmouseover="showTip(event, '1812', 1812)">
-                <p>
-                  <a id="SparseValues">
-                    <a href="#SparseValues">
-                      <code><span>this.SparseValues</span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1812">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>this.SparseValues</span></code>
-                  <br/>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span>float&#32;array</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/AlgTypes.fs#L77-77" class="fsdocs-source-link">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
-              </a>
-              
-            </p>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns:
-                </span>
-                <code><span>float&#32;array</span></code>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-posthoc-criticalvaluecontrast.html">CriticalValueContrast</a></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -532,7 +591,6 @@
       </tbody>
     </table>
   </div>
-  <div></div>
 </div>
                 </div>
             </div>

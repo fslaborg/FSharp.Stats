@@ -122,6 +122,26 @@
             </p>
           </td>
         </tr>
+        <tr>
+          <td class="fsdocs-entity-name">
+            <p>
+              <a name="CriticalValueContrast">
+                <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-posthoc-criticalvaluecontrast.html">
+                  CriticalValueContrast
+                </a>
+              </a>
+            </p>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L162-162" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+            </p>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -144,7 +164,7 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1626', 1626)" onmouseover="showTip(event, '1626', 1626)">
+              <code onmouseout="hideTip(event, '1635', 1635)" onmouseover="showTip(event, '1635', 1635)">
                 <p>
                   <a id="createContrast">
                     <a href="#createContrast">
@@ -153,7 +173,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1626">
+              <div class="fsdocs-tip" id="1635">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>createContrast&#32;<span>index&#32;l&#32;degreesOfFreedom&#32;meanSquares&#32;significance&#32;statistic&#32;sumOfSquares</span></span></code>
@@ -308,7 +328,111 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1627', 1627)" onmouseover="showTip(event, '1627', 1627)">
+              <code onmouseout="hideTip(event, '1636', 1636)" onmouseover="showTip(event, '1636', 1636)">
+                <p>
+                  <a id="dunnetts">
+                    <a href="#dunnetts">
+                      <code><span>dunnetts&#32;<span>contrastMatrix&#32;data&#32;criticalTable</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1636">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>dunnetts&#32;<span>contrastMatrix&#32;data&#32;criticalTable</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        contrastMatrix
+                      </b>
+                      :
+                      <code><span><span>float[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span><span>float[]</span>[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        criticalTable
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-posthoc-criticalvaluecontrast.html">CriticalValueContrast</a>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/PostHoc.fs#L179-179" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Dunnetts post hoc test compares groups to one control group (multiple-to-one comparison). 
+ Returns if the groups defined in the contrast differ significantly (already multi comparison corrected for FWER<a) 
+ Critical value tables can be found in Testing.Tables
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  contrastMatrix
+                </span>
+                :
+                <code><span><span>float[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span><span>float[]</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  criticalTable
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-posthoc-criticalvaluecontrast.html">CriticalValueContrast</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1637', 1637)" onmouseover="showTip(event, '1637', 1637)">
                 <p>
                   <a id="fishersLSD">
                     <a href="#fishersLSD">
@@ -317,7 +441,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1627">
+              <div class="fsdocs-tip" id="1637">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>fishersLSD&#32;<span>contrastMatrix&#32;data</span></span></code>
@@ -360,7 +484,7 @@
               </a>
               
  Fisher's LSD. Sequential t tests with the variance estimated from all samples instead of the individual groups.
- Not multiple testing corrected! Apply e.g. Benjamini-Hochberg method afterwards.
+ Use ANOVA first. Not multiple testing corrected! Apply e.g. Benjamini-Hochberg method afterwards.
 
             </p>
             <dl class="fsdocs-params">
@@ -395,7 +519,7 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1628', 1628)" onmouseover="showTip(event, '1628', 1628)">
+              <code onmouseout="hideTip(event, '1638', 1638)" onmouseover="showTip(event, '1638', 1638)">
                 <p>
                   <a id="hays">
                     <a href="#hays">
@@ -404,7 +528,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1628">
+              <div class="fsdocs-tip" id="1638">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>hays&#32;<span>contrastMatrix&#32;data</span></span></code>
@@ -479,7 +603,7 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1629', 1629)" onmouseover="showTip(event, '1629', 1629)">
+              <code onmouseout="hideTip(event, '1639', 1639)" onmouseover="showTip(event, '1639', 1639)">
                 <p>
                   <a id="tukeyHSD">
                     <a href="#tukeyHSD">
@@ -488,7 +612,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1629">
+              <div class="fsdocs-tip" id="1639">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>tukeyHSD&#32;<span>contrastMatrix&#32;data</span></span></code>
