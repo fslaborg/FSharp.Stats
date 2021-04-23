@@ -6,8 +6,8 @@
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta3"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-alpha5"
+#r "nuget: Plotly.NET, 2.0.0-beta8"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -638,7 +638,7 @@ let dunnetContrastMatrix =
     |]
 
 let dunnettResult = 
-    PostHoc.dunnetts dunnetContrastMatrix dunnetExample Tables.dunnettsTwoSided095
+    PostHoc.dunnetts dunnetContrastMatrix dunnetExample Tables.dunnetts095
 
 (*** include-value:dunnettResult ***)
 
