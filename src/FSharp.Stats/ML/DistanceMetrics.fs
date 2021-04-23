@@ -208,9 +208,9 @@ module DistanceMetrics =
     /// Calculates the maximal distance from each point of the source coordinates to the nearest point of target coordiantes.
     /// The clostest target point to each source point is determined with the given distance function. The maximal closest distance is reported
     /// By default euclidean distance is set as distance function
-    let hausdorffDirected (distFu : seq<float> -> seq<float> -> float) (source: float [][]) (target: float [][]) =
+    let hausdorffDirected (distFu : seq<'a> -> seq<'a> -> 'b) (source: seq<#seq<'a>>) (target: seq<#seq<'a>>) =
         source
-        |> Array.map (fun sourceCoor -> 
+        |> Seq.map (fun sourceCoor -> 
             target
             |> Seq.map (fun targetCoor -> 
                 let distance = distFu sourceCoor targetCoor

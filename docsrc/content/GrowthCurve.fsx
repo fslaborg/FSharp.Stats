@@ -251,7 +251,7 @@ To determine the generation time, the slope at the inflection point must be calc
 As explained above, the generation time can be calculated by: logx(2)/(slope at inflection) where x ist the used
 log transform.
 
-[Choose a appropriate growth model according to your needs.](http://www.pisces-conservation.com/growthhelp/index.html)
+Choose a appropriate growth model according to your needs (e.g. from [Henderson, P. A. & Seaby, R. M. (2006). Growth II. Pisces Conservation Ltd., Lymington, England.](http://www.pisces-conservation.com/growthhelp/index.html)
 
 For an overview please scroll down to see a combined diagram of all growth models.
 
