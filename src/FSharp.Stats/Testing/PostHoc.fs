@@ -108,7 +108,7 @@ module PostHoc =
                     ) stats
 
     /// Fisher's LSD. Sequential t tests with the variance estimated from all samples instead of the individual groups.
-    /// Not multiple testing corrected! Apply e.g. Benjamini-Hochberg method afterwards.
+    /// FishersLSD requires ANOVA protection (apply ANOVA first). Not multiple testing corrected! Apply e.g. Benjamini-Hochberg method afterwards.
     let fishersLSD (contrastMatrix:float[][]) (data:float[][]) =
 
         let calcStats (msw:float) (sampleSizes:int[]) (sampleMeans:float[]) (contrast:float[]) =        
