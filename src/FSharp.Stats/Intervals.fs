@@ -54,6 +54,16 @@ module Intervals =
         | ClosedInterval (min,max) -> min,max
         | Empty -> (zero / zero,zero / zero)
     
+    /// Returns min and max value of Interval [min,max] or [max,min],
+    let inline valuesOrdered (interval:Interval<'a>) =
+        let zero = LanguagePrimitives.GenericZero< 'a >
+        match interval with
+        | ClosedInterval (min,max) -> 
+            if min <= max then
+                min,max
+            else max,min
+        | Empty -> (zero / zero,zero / zero)
+
     /// Returns min/start value of Interval [min,max]
     let inline getStart (interval:Interval<'a>) =
         let zero = LanguagePrimitives.GenericZero< 'a >

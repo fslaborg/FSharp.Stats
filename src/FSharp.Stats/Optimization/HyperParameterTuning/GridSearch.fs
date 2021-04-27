@@ -10,11 +10,7 @@ module GridSearch =
         match hyperParam with
         | Category categories -> categories |> List.map HyperParameterValue.String
         | IntBetween interval ->        
-            let min,max = 
-                if Intervals.getStart interval <= Intervals.getEnd interval then
-                    Intervals.values interval
-                else
-                    Intervals.getEnd interval, Intervals.getStart interval
+            let min,max = Intervals.valuesOrdered interval
             if max - min <= gridLineNumber then 
                 [min .. max] 
             else
@@ -23,11 +19,7 @@ module GridSearch =
                 )
             |> List.map HyperParameterValue.Int
         | FloatBetween interval ->
-            let min,max = 
-                if Intervals.getStart interval <= Intervals.getEnd interval then
-                    Intervals.values interval
-                else
-                    Intervals.getEnd interval, Intervals.getStart interval
+            let min,max = Intervals.valuesOrdered interval
             List.init gridLineNumber (fun i ->
                 (max - min) * (i + 1 |> float) / (gridLineNumber + 1 |> float) 
             )
