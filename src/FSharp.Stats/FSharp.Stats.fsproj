@@ -28,7 +28,7 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\**" />
-    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath=""/>
+    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ops.fs" />
@@ -81,6 +81,8 @@
     <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
     <Compile Include="Optimization\Bisection.fs" />
+    <Compile Include="Optimization\HyperParameterTuning\HyperParameterTuning.fs" />
+    <Compile Include="Optimization\HyperParameterTuning\GridSearch.fs" />
     <Compile Include="Interpolation\Polynomial.fs" />
     <!-- Interpolation -->
     <Compile Include="Interpolation\LinearSpline.fs" />
