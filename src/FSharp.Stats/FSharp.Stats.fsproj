@@ -84,6 +84,7 @@
     <Compile Include="Optimization\HyperParameterTuning\HyperParameterTuning.fs" />
     <Compile Include="Optimization\HyperParameterTuning\GridSearch.fs" />
     <Compile Include="Optimization\HyperParameterTuning\RandomSearch.fs" />
+    <Compile Include="Optimization\HyperParameterTuning\EvolutionaryAlgorithm.fs" />
     <Compile Include="Interpolation\Polynomial.fs" />
     <!-- Interpolation -->
     <Compile Include="Interpolation\LinearSpline.fs" />
