@@ -220,6 +220,10 @@ module Persistence =
     let simplifyMergeTreeAndSeg (data:float []) (mergeTreePairs:(int*int)list) (persistencePairs:(int*int)list) ppSegmentation mtSegmentation threshold (direction: Direction) =
     
         let split = direction = Direction.Split
+
+        // printfn "Merge tree segmentation:"
+        // printfn "%A" mtSegmentation
+        // printfn ""
         
         // comparison functions for data points with simulation of simplicity
         let compare i j =
@@ -236,6 +240,10 @@ module Persistence =
 
         let mutable ppSegmentationSimpl = Array.copy ppSegmentation
         let mutable mtSegmentationSimpl = Array.copy mtSegmentation
+
+        // printfn "Merge tree segmentation simplified:"
+        // printfn "%A" mtSegmentation
+        // printfn ""
 
         // build neighbor map that contains the list of neighbors for each vertex in merge tree
         let mutable neighborMap = [] |> Map.ofSeq
@@ -300,6 +308,10 @@ module Persistence =
                         then (neighborMap.[keptExtremum]).[0] else (neighborMap.[keptExtremum]).[1]
                     mtSegmentationSimpl.[keptExtremum] <- mtSegmentationSimpl.[smallerNeighbor]
                     prune (int keptExtremum)
+
+                // printfn "Merge tree segmentation simplified:"
+                // printfn "%A" mtSegmentationSimpl
+                // printfn ""
                 loopList tail
         loopList persistencePairs
         
@@ -332,10 +344,11 @@ module Persistence =
                         // determine direction of pair based on tree type/direction
                         if v=(-1) then (n,v)
                         elif n=(-1) then (v,n)
-                        elif split then
-                            if data.[v]>data.[n] then (v,n) else (n,v)
-                        else
-                            if data.[v]>data.[n] then (n,v) else (v,n)
+                        else if smaller v n then (v,n) else (n,v)
+                        // elif split then
+                        //     if data.[v]>data.[n] then (v,n) else (n,v)
+                        // else
+                        //     if data.[v]>data.[n] then (n,v) else (v,n)
                     // add pair to edge set
                     mergeTreePairsSimplSet <- Set.add newPair mergeTreePairsSimplSet
                 )
