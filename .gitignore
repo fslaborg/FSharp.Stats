@@ -168,6 +168,7 @@ $RECYCLE.BIN/
 
 # NuGet Packages Directory
 packages/
+pkg/
 
 # Test results produced by build
 TestResults.xml

@@ -9,7 +9,7 @@ module Tables =
     // from Zaiontz, C. (2020) Real Statistics Using Excel. www.real-statistics.com
     // and C. W. Dunnett, New Tables for Multiple Comparisons with a Control,Biometrics , Sep., 1964, Vol. 20, No. 3 (Sep., 1964), pp. 482-491
     // df = totalcount - groupcount, k = number of means (including control)
-    let dunnetts095 = 
+    let dunnettsTwoSided095 = 
         matrix [                                                                                        
         //d     k  2;      3;      4;      5;     6;      7;      8;      9;      10   11  12  13  14  15  
         (*1  *) [12.706; 17.369;20.034;  21.85; 23.209;24.285;  25.171;25.922;  26.57;  nan; nan; nan; nan; 28.901;]

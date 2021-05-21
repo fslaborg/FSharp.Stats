@@ -12,6 +12,7 @@ nuget Fake.DotNet.FSFormatting
 nuget Fake.DotNet.Fsi
 nuget Fake.DotNet.NuGet
 nuget Fake.Api.Github
+nuget Fake.Extensions.Release
 nuget Fake.DotNet.Testing.Expecto //"
 
 #load ".fake/build.fsx/intellisense.fsx"
@@ -29,6 +30,7 @@ open Fake.DotNet.Testing
 open Fake.Tools
 open Fake.Api
 open Fake.Tools.Git
+open Fake.Extensions.Release
 
 Target.initEnvironment ()
 
@@ -199,6 +201,27 @@ let runTestsWithCodeCov = BuildTask.create "RunTestsWithCodeCov" [clean; build; 
         }
     ) testProject
 }
+
+let createAssemblyVersion = BuildTask.create "createvfs" [] {
+    AssemblyVersion.create gitName
+}
+
+let updateReleaseNotes = BuildTask.createFn "ReleaseNotes" [] (fun config ->
+    Release.exists()
+    Release.update(gitOwner, gitName, config)
+)
+
+let githubDraft = BuildTask.createFn "GithubDraft" [] (fun config ->
+    let body = "We are ready to go for the first release!"
+    Github.draft(
+        gitOwner,
+        gitName,
+        (Some body),
+        None,
+        config
+    )
+)
+
 let _all = BuildTask.createEmpty "All" [clean; build; copyBinaries; runTestsWithCodeCov; pack; buildDocs]
 
-BuildTask.runOrDefault runTests
+BuildTask.runOrDefaultWithArguments runTests
