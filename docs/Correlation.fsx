@@ -4,6 +4,8 @@
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 2.0.0-beta3"
 
+open Plotly.NET
+
 (*** condition: ipynb ***)
 #if IPYNB
 #r "nuget: Plotly.NET, 2.0.0-beta8"
@@ -21,7 +23,95 @@ _Summary_: This tutorial demonstrates how to autocorrelate a signal in FSharp.St
 
 ### Table of contents
 
+ - [Sequence correlations](#Sequence correlations)
+ - [Matrix correlations](#Matrix correlations)
  - [Autocorrelation](#Autocorrelation)
+
+## Sequence correlations
+
+*)
+open FSharp.Stats
+open FSharp.Stats.Correlation
+
+let sampleA = [|3.4;2.5;6.5;0.2;-0.1|]
+let sampleB = [|3.1;1.5;4.2;1.2;2.0|]
+
+let pearson =   Seq.pearson sampleA sampleB
+let pearsonW =  Seq.pearsonWeighted  sampleA sampleB [1.;1.;1.;2.;1.;]
+let spearman =  Seq.spearman sampleA sampleB
+let kendall =   Seq.kendall sampleA sampleB
+let bicor =     Seq.bicor sampleA sampleB
+
+let table = 
+    let header = ["<b>Correlation measure</b>";"value"]
+    let rows = 
+        [
+        ["Pearson";                 sprintf "%3f" pearson ]       
+        ["Pearson weighted";        sprintf "%3f" pearsonW]
+        ["Spearman";                sprintf "%3f" spearman]
+        ["Kendall";                 sprintf "%3f" kendall ]
+        ["Biweight midcorrelation"; sprintf "%3f" bicor   ]     
+        ]
+    Chart.Table(header, rows, ColorHeader = "#deebf7", ColorCells = "lightgrey") 
+
+(*** condition: ipynb ***)
+#if IPYNB
+table
+#endif // IPYNB
+
+(***hide***)
+table |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+
+## Matrix correlations
+
+*)
+let m = 
+    [
+        [0.4;1.2;4.5]
+        [1.2;0.5;-0.1]
+        [5.0;19.8;2.4]
+        [-6.0;-2.;0.0]
+    ]
+    |> matrix
+
+let pearsonCorrelationMatrix = 
+    Correlation.Matrix.rowWiseCorrelationMatrix Correlation.Seq.pearson m
+
+
+let table2 = 
+    //Assign a color to every cell seperately. Matrix must be transposed for correct orientation.
+    let cellcolors = 
+        //map color from value to hex representation
+        let mapColor min max value = 
+            let proportion =  int (255. * (value - min) / (max - min))
+            Colors.fromRgb (255 - proportion) 255  proportion
+            |> Colors.toWebColor
+        pearsonCorrelationMatrix
+        |> Matrix.toJaggedArray
+        |> JaggedArray.map (mapColor -1. 1.)
+        |> JaggedArray.transpose
+
+    let values = 
+        pearsonCorrelationMatrix 
+        |> Matrix.toJaggedArray
+        |> JaggedArray.map (sprintf "%.3f")
+
+    Chart.Table(["colindex 0";"colindex 1";"colindex 2";"colindex 3"],values,ColorCells=cellcolors)
+
+(*** condition: ipynb ***)
+#if IPYNB
+table2
+#endif // IPYNB
+
+(***hide***)
+table2 |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
 
 ## Autocorrelation
 
@@ -31,8 +121,7 @@ The analysis of autocorrelation is a mathematical tool for finding repeating pat
 
 *)
 
-open FSharp.Stats
-open FSharp.Stats.Distributions
+
 open FSharp.Stats.Distributions.Continuous
 open FSharp.Stats.Correlation
 
