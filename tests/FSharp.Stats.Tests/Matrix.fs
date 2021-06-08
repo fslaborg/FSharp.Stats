@@ -256,6 +256,24 @@ let floatImplementationDenseTests =
                     Matrix.init 3 3 (fun i j -> testValuesArrRows.[i].[j])
                 Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.init"
                 
+            testCase "ofRows" <| fun () ->
+                let actual =
+                    testValuesArrRows
+                    |> Array.map rowvec
+                    |> Vector.Generic.ofSeq
+                    |> Matrix.ofRows
+
+                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofRows"
+            
+            testCase "ofCols" <| fun () ->
+                let actual =
+                    testValuesArrCols
+                    |> Array.map vector
+                    |> RowVector.Generic.ofSeq
+                    |> Matrix.ofCols
+
+                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofCols"      
+                
             testCase "ofJaggedList" <| fun () ->
 
                 let actual =
@@ -371,10 +389,21 @@ let floatImplementationDenseTests =
                 Expect.equal actual expected "Matrix.toArray2D did not return the correct Array2D"
 
             testCase "toJaggedArray" <| fun () ->
-
                 let actual = Matrix.toJaggedArray testSquareMatrixA
+                Expect.equal actual testValuesArrRows "Matrix.toJaggedArray did not return the correct JaggedArray"
 
-                Expect.equal actual testValuesArrRows "Matrix.toArray2D did not return the correct JaggedArray"
+            testCase "toJaggedSeq" <| fun () ->
+                let actual = Matrix.toJaggedSeq testSquareMatrixA |> JaggedArray.ofJaggedSeq
+                Expect.equal actual testValuesArrRows "Matrix.toJaggedSeq did not return the correct JaggedSeq"
+            
+            testCase "toJaggedColArray" <| fun () ->
+                let actual = Matrix.toJaggedColArray testSquareMatrixA
+                Expect.equal actual testValuesArrCols "Matrix.toJaggedColArray did not return the correct JaggedArray"
+
+            testCase "toJaggedColSeq" <| fun () ->
+                let actual = Matrix.toJaggedColSeq testSquareMatrixA |> JaggedArray.ofJaggedSeq
+                Expect.equal actual testValuesArrCols "Matrix.toJaggedColSeq did not return the correct JaggedSeq"
+
 
             testCase "getDiagN 1 above diagonal" <| fun () ->
                     
@@ -775,6 +804,56 @@ let floatImplementationDenseTests =
                             )
                     Expect.equal actual identityFloat3 "creating identity matrix using Matrix.mapi failed"
 
+            ]
+            testList "mapRows" [
+                
+                testCase "map with Seq.mean" <| fun () ->
+                    let actual = 
+                        testSquareMatrixA
+                        |> Matrix.mapRows Seq.mean
+
+                    let expected =
+                        Vector.init
+                            3
+                            (fun i -> Seq.mean testValuesArrRows.[i])
+
+                    Expect.equal actual expected "Mapping the rows of a test matrix with Seq.mean did not return the correct result"
+            ]
+            testList "mapCols" [
+                
+                testCase "map with Seq.mean" <| fun () ->
+                    let actual = 
+                        testSquareMatrixA
+                        |> Matrix.mapCols Seq.mean
+
+                    let expected =
+                        RowVector.init 3 (fun i -> Seq.mean testValuesArrCols.[i])
+
+                    Expect.equal actual expected "Mapping the cols of a test matrix with Seq.mean did not return the correct result"
+            ]
+            testList "mapiRows" [
+                
+                testCase "mapi with Seq.mean" <| fun () ->
+                    let actual = 
+                        testSquareMatrixA
+                        |> Matrix.mapiRows (fun i x -> float i * Seq.mean x)
+
+                    let expected =
+                        Vector.init 3 (fun i -> float i * Seq.average testValuesArrRows.[i])
+
+                    Expect.equal actual expected "Mapping the rows of a test matrix with Seq.mean did not return the correct result"
+            ]
+            testList "mapiCols" [
+                
+                testCase "mapi with Seq.mean" <| fun () ->
+                    let actual = 
+                        testSquareMatrixA
+                        |> Matrix.mapiCols (fun i x -> float i * Seq.mean x)
+
+                    let expected =
+                        RowVector.init 3 (fun i -> float i * Seq.average testValuesArrCols.[i])
+
+                    Expect.equal actual expected "Mapping the columns of a test matrix with Seq.mean did not return the correct result"
             ]
             testList "fold" [
                 
