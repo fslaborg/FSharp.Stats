@@ -47,8 +47,8 @@
     <Compile Include="List.fs" />
     <Compile Include="JaggedArray.fs" />
     <Compile Include="Vector.fs" />
-    <Compile Include="Matrix.fs" />
     <Compile Include="RowVector.fs" />
+    <Compile Include="Matrix.fs" />
     <Compile Include="MatrixTopLevelOperators.fs" />
     <Compile Include="Rank.fs" />
     <Compile Include="Correlation.fs" />
