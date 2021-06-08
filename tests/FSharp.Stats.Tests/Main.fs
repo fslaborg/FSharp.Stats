@@ -9,6 +9,9 @@ let main argv =
     //================================ Vector ===============================================================
     Tests.runTestsWithCLIArgs [] argv VectorTests.covarianceTests               |> ignore
 
+    //================================ RowVor ===============================================================
+    Tests.runTestsWithCLIArgs [] argv RowVectorTests.floatImplementationTests   |> ignore
+
     //=========================== Special Functions =========================================================    
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.gammaFunctionsTests |> ignore
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.betaFunctionsTests  |> ignore
