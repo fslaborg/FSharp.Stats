@@ -28,7 +28,7 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\**" />
-    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath=""/>
+    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ops.fs" />
