@@ -1,4 +1,4 @@
-﻿namespace FSharp.Stats.Optimization.HyperParameterTuning
+﻿namespace FSharp.Stats.HyperParameterTuning
 
 open FSharp.Stats
 

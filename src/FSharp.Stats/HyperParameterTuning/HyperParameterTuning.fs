@@ -1,4 +1,4 @@
-﻿namespace FSharp.Stats.Optimization.HyperParameterTuning
+﻿namespace FSharp.Stats.HyperParameterTuning
 
 open FSharp.Stats
 
@@ -7,6 +7,15 @@ type HyperParameter =
     | Category of string list
     | IntBetween of Intervals.Interval<int>
     | FloatBetween of Intervals.Interval<float>
+
+    static member Create (categories : string list) =
+        HyperParameter.Category categories
+
+    static member Create (lower,upper) =
+        HyperParameter.IntBetween (Intervals.Interval.ClosedInterval (lower,upper))
+
+    static member Create (lower,upper) =
+        HyperParameter.FloatBetween (Intervals.Interval.ClosedInterval (lower,upper))
 
 /// Specificies a specific value of a Hyper Parameter
 type HyperParameterValue =
@@ -37,6 +46,12 @@ type HyperParameterValue =
     static member GetFloat (hpValue : HyperParameterValue) =
         match hpValue with
         | Float f -> f
+        | _ -> failwith "HyperParameterValue is not of type float"
+
+    static member GetAsFloat (hpValue : HyperParameterValue) =
+        match hpValue with
+        | Float f -> f
+        | Int i   -> float i
         | _ -> failwith "HyperParameterValue is not of type float"
 
     static member GetString (hpValue : HyperParameterValue) =
