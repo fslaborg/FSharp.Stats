@@ -3,7 +3,7 @@
 open FSharp.Stats
 
 /// Functions for finding the optimal hyper parameters using an evolutionary algorithm
-module EvolutionaryAlgorihm = 
+module EvolutionaryAlgorithm = 
 
     type Agent = 
         {

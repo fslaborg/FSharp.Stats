@@ -52,6 +52,9 @@ module BayesianOptimization =
             mu, sigmaSqr, inv_K, -lnLike
 
         let minimize (bounds : HyperParameter list) (initialPoints : HyperParameterValue list) (f : float list -> float) =
+            //let xs = HyperParameterValue.ToVector initialPoints
+            //let derivative = Optimization.GradientDescent.grad f
+            //Optimization.GradientDescent.minimize f derivative xs
             GridSearch.createSearchGrid 100 bounds
             |> List.map (fun x -> x, f (x |> List.map HyperParameterValue.GetAsFloat))
             |> List.minBy snd
@@ -138,8 +141,11 @@ module BayesianOptimization =
             |> List.maxBy (expectedImprovementAt xi prior surrogate)
 
         let expectedImprovementSelector (hyperParams : HyperParameter list) (prior : HyperParameterTuningResult<'T> list) (surrogate : HyperParameterValue list -> float*float) = 
+            //Surrogates.minimize hyperParams 
+            //expectedImprovementAt 0.01 prior surrogate
             let xs = GridSearch.createSearchGrid 1000 hyperParams
             expectedImprovementSelectorWith 0.01 xs hyperParams prior surrogate
+
 
     /// Perform a random search on n random hyper parameter value sets, returning the hyper parameters for which the model performance was maximized
     let bayesianOptimizationMaximize (maxIterations : int) (surrogateF : SurrogateFunction<'T>) (selectorF : SelectionFunction<'T>) (scoringFunction : HPScoringFunction<'Data,'T>) (data : 'Data) (hyperParams : HyperParameter list) : HyperParameterTuningResult<'T> =

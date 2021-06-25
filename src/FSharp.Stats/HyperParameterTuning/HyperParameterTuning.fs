@@ -59,6 +59,16 @@ type HyperParameterValue =
         | String s -> s
         | _ -> failwith "HyperParameterValue is not of type string"
 
+    static member ToVector (hpValues : HyperParameterValue list) =
+        hpValues
+        |> List.map HyperParameterValue.GetAsFloat
+        |> vector
+
+    static member OfVector (vec : vector) =
+        vec
+        |> Seq.map HyperParameterValue.Float
+        |> List.ofSeq
+
 /// Contains the performance score a ML model achieved for a given set of hyper parameter values
 type HyperParameterTuningResult<'T> =
     {
