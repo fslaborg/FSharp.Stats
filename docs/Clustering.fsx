@@ -114,7 +114,7 @@ let randomInitFactory : IterativeClustering.CentroidsFactory<float []> =
     IterativeClustering.randomCentroids<float []> rnd
 
 //let cvmaxFactory : IterativeClustering.CentroidsFactory<float []> = 
-//    IterativeClustering.intitCVMAX
+//    IterativeClustering.initCVMAX
   
 let kmeansResult = 
     IterativeClustering.kmeans <| DistanceMetrics.euclidean <| randomInitFactory 
