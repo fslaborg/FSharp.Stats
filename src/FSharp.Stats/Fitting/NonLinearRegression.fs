@@ -872,7 +872,7 @@ module NonLinearRegression =
                  // interpolation modells for the term structure instruments
 
                  // 1. create the coefficient function                 
-                let coefficients (xData : array<float>) (yData : array<float>) = 
+                let coefficients (xData : array<float>) (yData : array<float>) (initialGuess: float array option) = 
 
                     if Array.length xData = 0 || Array.length yData = 0 then
                          raise (ArgumentException("Empty Inputs are invalid"))
@@ -880,8 +880,9 @@ module NonLinearRegression =
                     if  xData.Length <> yData.Length then 
                          raise(ArgumentException("Inputs have unequal length - Both inputs must have the same length."))
 
-                    // 1.1 define parameter names
+                    // parameter names
                     let parameterNames = [|"b0";"b1";"b2";"t"|]
+
                     //function defining the model
                     let getFunctionValue =                 
                                 fun (parameterVector: Vector<float>) m -> 
@@ -891,10 +892,7 @@ module NonLinearRegression =
                                 let t  = parameterVector.[3]
                                 b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t))
 
-                    // 1.3 Define partial derivatives of the function. 
-                    //     Take partial derivatives for every unknown parameter and
-                    //     insert it into the gradient vector sorted by parameterNames.
-
+                    // Define partial derivatives of the function.          
                     let getGradientValues =
                         fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) m -> 
                             let b0 = parameterVector.[0]
@@ -908,30 +906,29 @@ module NonLinearRegression =
                             gradientVector
 
                     let model = createModel parameterNames getFunctionValue getGradientValues
-
-                    // 2. define the solver options
-                    // 2.1 define the stepwidth of the x value change
+                   
+                    // the stepwidth of the x value change
                     let deltaX = 0.0001
-                    // 2.2 define the stepwidth of the parameter change
+                    // the stepwidth of the parameter change
                     let deltaP = 0.0001
-                    // 2.3 define the number of iterations
+                    //number of iterations
                     let k = 5000
 
-                    // 2.4 define an initial guess
-                    //     For many problems you can set a default value or let the user decide to choose an 
-                    //     appropriate guess. 
-                    let initialParamGuess =  [|0.01;0.01;0.01;1.0|]
-
-                    // 2.5 create the solverOptions
+                    // The initial guess
+                    let initialParamGuess = 
+                        match initialGuess with 
+                        |Some initialGuess ->  initialGuess
+                        |None -> [|0.01;0.01;0.01;1.0|]
+                   
                     let solverOptions = 
                         createSolverOption deltaX deltaP k initialParamGuess
                     
-                    // 3. get coefficients
+                    //get the coefficients
                     let coefficientsExp = LevenbergMarquardt.estimatedParams model solverOptions 0.001 10. xData yData
                     coefficientsExp
 
-                let fit (coefficients : Vector<float>) (xData:Vector<float>) = 
-                    // the model
+                let fit (coefficients : Vector<float>) (xFit:Vector<float>) = 
+                    
                     let getFunctionValue =                 
                                 fun (parameterVector: Vector<float>) m -> 
                                 let b0 = parameterVector.[0]
@@ -942,24 +939,21 @@ module NonLinearRegression =
 
                     let fittingFunction =  getFunctionValue coefficients 
                     //let n =  Array.length xData |> float
-                    let interpoletedYields = Vector.map(fun x -> fittingFunction x)xData
+                    let interpoletedYields = Vector.map(fun x -> fittingFunction x)xFit
                     interpoletedYields
 
             module NelsonSigelSevvensson = 
 
-                let coefficients(xData : array<float>) (yData : array<float>)  = 
+                let coefficients(xData : array<float>) (yData : array<float>) (initialGuess: float array option)  = 
 
                         if Array.length xData = 0 || Array.length yData = 0 then
                              raise (ArgumentException("Empty Inputs are invalid"))
 
                         if  xData.Length <> yData.Length then 
                              raise(ArgumentException("Inputs have unequal length - Both inputs must have the same length."))
-                                             
-                        // 1.1 define parameter names
+                                         
                         let parameterNamesNSS = [|"b0";"b1";"b2";"b3";"t";"u"|]
-
-                        // 1.2 define the function that gets a parameter vector containing the 
-                        // parameters and the x value and gives the corresponding y value
+                        
                         let getFunctionValueNSS =                 
                             fun (parameterVector: Vector<float>) m -> 
                                 let b0 = parameterVector.[0]
@@ -968,11 +962,7 @@ module NonLinearRegression =
                                 let b3 = parameterVector.[3]
                                 let t = parameterVector.[4]
                                 let u = parameterVector.[5]
-                                b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t)) + b3*((1.-exp(-m/u))/(m/u)-exp(-m/u))
-
-                        // 1.3 Define partial derivatives of the function. 
-                        //     Take partial derivatives for every unknown parameter and
-                        //     insert it into the gradient vector sorted by parameterNames.
+                                b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t)) + b3*((1.-exp(-m/u))/(m/u)-exp(-m/u))                       
 
                         let getGradientValuesNSS =
                             fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) m -> 
@@ -989,27 +979,20 @@ module NonLinearRegression =
                                 gradientVector.[4] <- (exp(-m/t)*((b2+b1)*t**2.*exp(m/t)+(-b2-b1)*t**2.+(-b2-b1)*m*t-b2*m**2.))/(m*t**2.)
                                 gradientVector.[5] <- b3*(-exp(-m/u)/u-(m*exp(-m/u))/u**2.+(1.-exp(-m/u))/m)
                                 gradientVector
-
-                        // 1.4 create the model
+                   
                         let modelNSS = createModel parameterNamesNSS getFunctionValueNSS getGradientValuesNSS
-
-                        // 2. define the solver options
-                        // 2.1 define the stepwidth of the x value change
-                        let deltaXNSS = 0.0001
-                        // 2.2 define the stepwidth of the parameter change
-                        let deltaPNSS = 0.0001
-                        // 2.3 define the number of iterations
+                        
+                        let deltaXNSS = 0.0001                       
+                        let deltaPNSS = 0.0001                        
                         let kNSS = 5000
-
-                        // 2.4 define an initial guess
-                        //     For many problems you can set a default value or let the user decide to choose an 
-                        //     appropriate guess. 
-                        let initialParamGuessNSS = [|0.01;0.01;0.01;0.01;1.0;1.0|]
-
-                        // 2.5 create the solverOptions
+                       
+                        //For many problems you can set a default value or let the user decide to choose an                       
+                        let initialParamGuessNSS =                                                
+                            match initialGuess with 
+                            |Some initialGuess ->  initialGuess
+                            |None -> [|0.01;0.01;0.01;0.01;1.0;1.0|]
+     
                         let solverOptionsNSS = createSolverOption deltaXNSS deltaPNSS kNSS initialParamGuessNSS
-
-                        // 3. get coefficients
                         let coefficientsNSS = LevenbergMarquardt.estimatedParams modelNSS solverOptionsNSS 0.001 10. xData yData
                         coefficientsNSS
 
@@ -1025,8 +1008,7 @@ module NonLinearRegression =
                                 let u = parameterVector.[5]
                                 b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t)) + b3*((1.-exp(-m/u))/(m/u)-exp(-m/u))
 
-                    let fittingFunction =  getFunctionValueNSS coefficients 
-                    //let n =  Array.length xData |> float
+                    let fittingFunction =  getFunctionValueNSS coefficients                    
                     let interpoletedYields = Vector.map(fun x -> fittingFunction x)xFit
                     interpoletedYields
 
