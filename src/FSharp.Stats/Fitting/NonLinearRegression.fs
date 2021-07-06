@@ -334,8 +334,8 @@ module NonLinearRegression =
         
     module Table = 
         
-    /////////////////////////
-    /// Line  
+        /////////////////////////
+        /// Line  
         /// Line model of the form "y = a * x + b"
         let lineModel = {
             ParameterNames= [|"a";"b"|]
@@ -354,8 +354,8 @@ module NonLinearRegression =
             InitialParamGuess       = initialParamGuess
             }
                 
-    /////////////////////////
-    /// Parabola
+        /////////////////////////
+        /// Parabola
         
         /// paraboola model of the form "y = a * x^2 + b * x + c"
         let parabolaModel = {
@@ -375,8 +375,8 @@ module NonLinearRegression =
             InitialParamGuess       = initialParamGuess
             }
 
-    /////////////////////////
-    /// Gaussian function of the form "y = amp * exp( -1. * ( ( ( (x-meanX)**2. ) / (2.*std**2.)) ) )"
+        /////////////////////////
+        /// Gaussian function of the form "y = amp * exp( -1. * ( ( ( (x-meanX)**2. ) / (2.*std**2.)) ) )"
         let gaussModel = {
             ParameterNames= [|"amp";"meanX";"std"|]
             GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> parameterVector.[0] * exp( (-1.) * ( ( ( (xValue-parameterVector.[1])**2. ) / (2.*parameterVector.[2]**2.)) ) ))
@@ -394,8 +394,8 @@ module NonLinearRegression =
             InitialParamGuess       = initialParamGuess
             }
 
-    /////////////////////////
-    /// Exponential function of the form "y = a * exp(b * x)"
+        /////////////////////////
+        /// Exponential function of the form "y = a * exp(b * x)"
         let expModel = 
             let parameterNames = [|"a";"b"|]
             let getFunctionValues = (fun (parameters:Vector<float>) x -> 
@@ -425,8 +425,8 @@ module NonLinearRegression =
             }
 
     
-    /////////////////////////
-    /// Exponentially modified Gaussian (EMG) of the form "y =  ((amp*std)/tau) * sqrt(PI/2.) * exp(1./2. * ((std/tau)**2.) - ((x-meanX)/tau)) * Erfc((1./sqrt(2.)) * ((std/tau)-((x-meanX)/std)))"
+        /////////////////////////
+        /// Exponentially modified Gaussian (EMG) of the form "y =  ((amp*std)/tau) * sqrt(PI/2.) * exp(1./2. * ((std/tau)**2.) - ((x-meanX)/tau)) * Erfc((1./sqrt(2.)) * ((std/tau)-((x-meanX)/std)))"
 
 
         let private findZ initMeanX initStdev initTau x =
@@ -521,8 +521,8 @@ module NonLinearRegression =
             InitialParamGuess       = initialParamGuess
             }
 
-    /////////////////////////
-    /// Hill equation "y = Vm * x^n / (k^n+x^n)"
+        /////////////////////////
+        /// Hill equation "y = Vm * x^n / (k^n+x^n)"
         let hillModel = 
             let parameterNames = [|"Vm";"n";"k"|]
             let getFunctionValues = (fun (parameters:Vector<float>) x -> 
@@ -547,9 +547,8 @@ module NonLinearRegression =
             InitialParamGuess       = [|Vm;n;k|]
             }
 
-    /////////////////////////
-
-    /// Logistic function of the form "y = L/(1+e^(k(t-x)))"
+        /////////////////////////
+        /// Logistic function of the form "y = L/(1+e^(k(t-x)))"
         [<Obsolete("Use the ascending and descending versions instead.")>]
         let LogisticFunction = {
             ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"|]
@@ -561,7 +560,7 @@ module NonLinearRegression =
                                 gradientVector)
             }
 
-    /// Logistic function of the form "y = L/(1+e^(k(t-x)))"
+        /// Logistic function of the form "y = L/(1+e^(k(t-x)))"
         let LogisticFunctionDescending = {
             ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"|]
             GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> parameterVector.[0] / (1. + exp(parameterVector.[1]*(xValue-parameterVector.[2]))))
@@ -572,7 +571,7 @@ module NonLinearRegression =
                                 gradientVector)
             }
 
-    /// Logistic function of the form "y = L/(1+e^(-k(t-x)))"
+        /// Logistic function of the form "y = L/(1+e^(-k(t-x)))"
         let LogisticFunctionAscending = {
             ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"|]
             GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> parameterVector.[0] / (1. + exp(-parameterVector.[1]*(xValue-parameterVector.[2]))))
@@ -583,8 +582,8 @@ module NonLinearRegression =
                                 gradientVector)
             }
 
-    /// Logistic function of the form "y = L/(1+e^(k(t-x)))+N"
-    /// Modified version of the Logistic function model with a variable curve minimum.
+        /// Logistic function of the form "y = L/(1+e^(k(t-x)))+N"
+        /// Modified version of the Logistic function model with a variable curve minimum.
         let LogisticFunctionVarYDescending = {
             ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"; "N - curve minimum"|]
             GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> 
@@ -597,8 +596,8 @@ module NonLinearRegression =
                                 gradientVector)
             }
 
-    /// Logistic function of the form "y = L/(1+e^(-k(t-x)))+N"
-    /// Modified version of the Logistic function model with a variable curve minimum.
+        /// Logistic function of the form "y = L/(1+e^(-k(t-x)))+N"
+        /// Modified version of the Logistic function model with a variable curve minimum.
         let LogisticFunctionVarYAscending = {
             ParameterNames= [|"L - curve maximum";"k - Steepness"; "x0 xValue of midpoint"; "N - curve minimum"|]
             GetFunctionValue = (fun (parameterVector:Vector<float>) xValue -> 
@@ -856,162 +855,98 @@ module NonLinearRegression =
         //    MaximumIterations       = 10000
         //    InitialParamGuess       = [|n;k|]
         //    }
+
         module Finances = 
+            // https://en.wikipedia.org/wiki/Fixed-income_attribution
 
-            /// <summary>
-            /// Nelson-Siegel is a curve fitting procedures, can be used to produce smoothed yield curves.
-            /// </summary>
-            /// <param name="xData">The Periods of available yield rates(Time).</param>
-            /// <param name="yData">The observed yields to be,a vector of floats.</param>          
-            /// <returns>The Interpolated Yields For the period.</returns>
-            /// <exception cref="System.ArgumentNullException">Thrown when the inputs are unequal or null.</exception>
+            /// Nelson-Siegel is a curve fitting model that is frequently applied in finance to fit smoothed yield curves. 
+            /// xData: The periods of available yield rates (time).
+            /// yData: The observed yields.
+            // model modified from: Forecasting the term structure of government bond yields, Diebolda and Li, 2006
+            let nelsonSiegel = 
 
-            module NelseonSigel  = 
-
-                 // https://en.wikipedia.org/wiki/Fixed-income_attribution
-                 // interpolation modells for the term structure instruments
-
-                 // 1. create the coefficient function                 
-                let coefficients (xData : array<float>) (yData : array<float>) (initialGuess: float array option) = 
-
-                    if Array.length xData = 0 || Array.length yData = 0 then
-                         raise (ArgumentException("Empty Inputs are invalid"))
-
-                    if  xData.Length <> yData.Length then 
-                         raise(ArgumentException("Inputs have unequal length - Both inputs must have the same length."))
-
-                    // parameter names
-                    let parameterNames = [|"b0";"b1";"b2";"t"|]
-
-                    //function defining the model
-                    let getFunctionValue =                 
-                                fun (parameterVector: Vector<float>) m -> 
-                                let b0 = parameterVector.[0]
-                                let b1 = parameterVector.[1]
-                                let b2 = parameterVector.[2]
-                                let t  = parameterVector.[3]
-                                b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t))
-
-                    // Define partial derivatives of the function.          
-                    let getGradientValues =
-                        fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) m -> 
+                let parameterNames = [|"b0";"b1";"b2";"t"|]
+                //b0 and t1 must be positive
+                //function defining the model
+                let getFunctionValue =                 
+                            fun (parameterVector: Vector<float>) m -> 
                             let b0 = parameterVector.[0]
                             let b1 = parameterVector.[1]
                             let b2 = parameterVector.[2]
-                            let t = parameterVector.[3]
-                            gradientVector.[0] <- 1.
-                            gradientVector.[1] <- (t*(1.-exp(-m/t)))/m
-                            gradientVector.[2] <- (t*(1.-exp(-m/t)))/m-exp(-m/t)
-                            gradientVector.[3] <- (exp(-m/t)*((b2+b1)*t**2.*exp(m/t)+(-b2-b1)*t**2.+(-b2-b1)*m*t-b2*m**2.))/(m*t**2.)
-                            gradientVector
+                            let t  = parameterVector.[3]
+                            b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t))
 
-                    let model = createModel parameterNames getFunctionValue getGradientValues
+                //partial derivatives of the function         
+                let getGradientValues =
+                    fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) m -> 
+                        let b0 = parameterVector.[0]
+                        let b1 = parameterVector.[1]
+                        let b2 = parameterVector.[2]
+                        let t = parameterVector.[3]
+                        gradientVector.[0] <- 1.
+                        gradientVector.[1] <- (t*(1.-exp(-m/t)))/m
+                        gradientVector.[2] <- (t*(1.-exp(-m/t)))/m-exp(-m/t)
+                        gradientVector.[3] <- (exp(-m/t)*((b2+b1)*t**2.*exp(m/t)+(-b2-b1)*t**2.+(-b2-b1)*m*t-b2*m**2.))/(m*t**2.)
+                        gradientVector
+                createModel parameterNames getFunctionValue getGradientValues
                    
-                    // the stepwidth of the x value change
-                    let deltaX = 0.0001
-                    // the stepwidth of the parameter change
-                    let deltaP = 0.0001
-                    //number of iterations
-                    let k = 5000
 
-                    // The initial guess
-                    let initialParamGuess = 
-                        match initialGuess with 
-                        |Some initialGuess ->  initialGuess
-                        |None -> [|0.01;0.01;0.01;1.0|]
+            (*
+            Example Nelson Siegel model
+            let actual = [|0.0928; 0.106; 0.1174; 0.1246; 0.1395; 0.1489; 0.1686; 0.1806|]
+            let time = [|1.0; 2.0; 3.0; 5.0; 7.0; 10.0; 15.0; 25.0|]
+            let solverOptionsNS = createSolverOption 0.0001 0.0001 5000 [|0.01;0.01;0.01;1.0|]
+            let coefficientsNS = LevenbergMarquardt.estimatedParams nelsonSiegel solverOptionsNS 0.001 10. time actual
+            let fittingFunctionNS = nelsonSiegel.GetFunctionValue coefficientsNS
+            let expected = time |> Array.map fittingFunctionNS
+            *) 
+            
+                
+            
+            /// Nelson-Siegel-Svensson is a curve fitting model that is frequently applied in finance to fit smoothed yield curves and extends the Nelson Siegel model by a term introducing a second hump. 
+            /// xData: The periods of available yield rates (time).
+            /// yData: The observed yields.
+            // model modified from: Forecasting the term structure of government bond yields, Diebolda and Li, 2006 
+            // and Estimating and interpreting forward interest rates, Svensson, 1994
+            let nelsonSiegelSvensson = 
+                let parameterNamesNSS = [|"b0";"b1";"b2";"b3";"t";"u"|]
+                //b0 and t1 must be positive
+                            
+                let getFunctionValueNSS =                 
+                    fun (parameterVector: Vector<float>) m -> 
+                        let b0 = parameterVector.[0]
+                        let b1 = parameterVector.[1]
+                        let b2 = parameterVector.[2]
+                        let b3 = parameterVector.[3]
+                        let t = parameterVector.[4]
+                        let u = parameterVector.[5]
+                        b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t)) + b3*((1.-exp(-m/u))/(m/u)-exp(-m/u))                       
+
+                let getGradientValuesNSS =
+                    fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) m -> 
+                        let b0 = parameterVector.[0]
+                        let b1 = parameterVector.[1]
+                        let b2 = parameterVector.[2]
+                        let b3 = parameterVector.[3]
+                        let t = parameterVector.[4]
+                        let u = parameterVector.[5]
+                        gradientVector.[0] <- 1.
+                        gradientVector.[1] <- (t*(1.-exp(-m/t)))/m
+                        gradientVector.[2] <- (t*(1.-exp(-m/t)))/m-exp(-m/t)
+                        gradientVector.[3] <- (u*(1.-exp(-m/u)))/m-exp(-m/u)
+                        gradientVector.[4] <- (exp(-m/t)*((b2+b1)*t**2.*exp(m/t)+(-b2-b1)*t**2.+(-b2-b1)*m*t-b2*m**2.))/(m*t**2.)
+                        gradientVector.[5] <- b3*(-exp(-m/u)/u-(m*exp(-m/u))/u**2.+(1.-exp(-m/u))/m)
+                        gradientVector
                    
-                    let solverOptions = 
-                        createSolverOption deltaX deltaP k initialParamGuess
-                    
-                    //get the coefficients
-                    let coefficientsExp = LevenbergMarquardt.estimatedParams model solverOptions 0.001 10. xData yData
-                    coefficientsExp
-
-                let fit (coefficients : Vector<float>) (xFit:Vector<float>) = 
-                    
-                    let getFunctionValue =                 
-                                fun (parameterVector: Vector<float>) m -> 
-                                let b0 = parameterVector.[0]
-                                let b1 = parameterVector.[1]
-                                let b2 = parameterVector.[2]
-                                let t  = parameterVector.[3]
-                                b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t))
-
-                    let fittingFunction =  getFunctionValue coefficients 
-                    //let n =  Array.length xData |> float
-                    let interpoletedYields = Vector.map(fun x -> fittingFunction x)xFit
-                    interpoletedYields
-
-            module NelsonSigelSevvensson = 
-
-                let coefficients(xData : array<float>) (yData : array<float>) (initialGuess: float array option)  = 
-
-                        if Array.length xData = 0 || Array.length yData = 0 then
-                             raise (ArgumentException("Empty Inputs are invalid"))
-
-                        if  xData.Length <> yData.Length then 
-                             raise(ArgumentException("Inputs have unequal length - Both inputs must have the same length."))
-                                         
-                        let parameterNamesNSS = [|"b0";"b1";"b2";"b3";"t";"u"|]
+                createModel parameterNamesNSS getFunctionValueNSS getGradientValuesNSS
                         
-                        let getFunctionValueNSS =                 
-                            fun (parameterVector: Vector<float>) m -> 
-                                let b0 = parameterVector.[0]
-                                let b1 = parameterVector.[1]
-                                let b2 = parameterVector.[2]
-                                let b3 = parameterVector.[3]
-                                let t = parameterVector.[4]
-                                let u = parameterVector.[5]
-                                b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t)) + b3*((1.-exp(-m/u))/(m/u)-exp(-m/u))                       
-
-                        let getGradientValuesNSS =
-                            fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) m -> 
-                                let b0 = parameterVector.[0]
-                                let b1 = parameterVector.[1]
-                                let b2 = parameterVector.[2]
-                                let b3 = parameterVector.[3]
-                                let t = parameterVector.[4]
-                                let u = parameterVector.[5]
-                                gradientVector.[0] <- 1.
-                                gradientVector.[1] <- (t*(1.-exp(-m/t)))/m
-                                gradientVector.[2] <- (t*(1.-exp(-m/t)))/m-exp(-m/t)
-                                gradientVector.[3] <- (u*(1.-exp(-m/u)))/m-exp(-m/u)
-                                gradientVector.[4] <- (exp(-m/t)*((b2+b1)*t**2.*exp(m/t)+(-b2-b1)*t**2.+(-b2-b1)*m*t-b2*m**2.))/(m*t**2.)
-                                gradientVector.[5] <- b3*(-exp(-m/u)/u-(m*exp(-m/u))/u**2.+(1.-exp(-m/u))/m)
-                                gradientVector
-                   
-                        let modelNSS = createModel parameterNamesNSS getFunctionValueNSS getGradientValuesNSS
-                        
-                        let deltaXNSS = 0.0001                       
-                        let deltaPNSS = 0.0001                        
-                        let kNSS = 5000
-                       
-                        //For many problems you can set a default value or let the user decide to choose an                       
-                        let initialParamGuessNSS =                                                
-                            match initialGuess with 
-                            |Some initialGuess ->  initialGuess
-                            |None -> [|0.01;0.01;0.01;0.01;1.0;1.0|]
-     
-                        let solverOptionsNSS = createSolverOption deltaXNSS deltaPNSS kNSS initialParamGuessNSS
-                        let coefficientsNSS = LevenbergMarquardt.estimatedParams modelNSS solverOptionsNSS 0.001 10. xData yData
-                        coefficientsNSS
-
-                let fit (coefficients : Vector<float>) (xFit:Vector<float>) = 
-                    // the NSS interpolation model. 
-                    let getFunctionValueNSS =                 
-                            fun (parameterVector: Vector<float>) m -> 
-                                let b0 = parameterVector.[0]
-                                let b1 = parameterVector.[1]
-                                let b2 = parameterVector.[2]
-                                let b3 = parameterVector.[3]
-                                let t = parameterVector.[4]
-                                let u = parameterVector.[5]
-                                b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t)) + b3*((1.-exp(-m/u))/(m/u)-exp(-m/u))
-
-                    let fittingFunction =  getFunctionValueNSS coefficients                    
-                    let interpoletedYields = Vector.map(fun x -> fittingFunction x)xFit
-                    interpoletedYields
-
-
-                     
+            (*
+            Example Nelson Siegel Svensson model
+            let actual = [|0.0928; 0.106; 0.1174; 0.1246; 0.1395; 0.1489; 0.1686; 0.1806|]
+            let time = [|1.0; 2.0; 3.0; 5.0; 7.0; 10.0; 15.0; 25.0|]
+            let solverOptionsNSS = createSolverOption 0.0001 0.0001 5000 [|0.01;0.01;0.01;0.01;1.0;1.0|]
+            let coefficientsNSS = LevenbergMarquardt.estimatedParams nelsonSiegelSvensson solverOptionsNSS 0.001 10. time actual
+            let fittingFunctionNSS = nelsonSiegelSvensson.GetFunctionValue coefficientsNSS
+            let expected = time |> Array.map fittingFunctionNSS
+            *) 
 
