@@ -899,6 +899,10 @@ module NonLinearRegression =
             let coefficientsNS = LevenbergMarquardt.estimatedParams nelsonSiegel solverOptionsNS 0.001 10. time actual
             let fittingFunctionNS = nelsonSiegel.GetFunctionValue coefficientsNS
             let expected = time |> Array.map fittingFunctionNS
+
+            let actual2 = [|12.71;13.13;13.34;13.78;13.77;13.75;13.74;13.62|]
+            let time2 = [|3./12.;0.5;1.;2.;3.;5.;7.;10.|] 
+            let initialParamGuess = [|13.;-1.;3.;1.|]
             *) 
             
                 
@@ -948,5 +952,10 @@ module NonLinearRegression =
             let coefficientsNSS = LevenbergMarquardt.estimatedParams nelsonSiegelSvensson solverOptionsNSS 0.001 10. time actual
             let fittingFunctionNSS = nelsonSiegelSvensson.GetFunctionValue coefficientsNSS
             let expected = time |> Array.map fittingFunctionNSS
+
+            
+            let actual2 = [|12.71;13.13;13.34;13.78;13.77;13.75;13.74;13.62|]
+            let time2 = [|3./12.;0.5;1.;2.;3.;5.;7.;10.|] 
+            let initialParamGuess = [|13.;-1.;3.;1.;3.;1.|]
             *) 
 
