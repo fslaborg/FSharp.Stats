@@ -863,6 +863,7 @@ module NonLinearRegression =
             /// xData: The periods of available yield rates (time).
             /// yData: The observed yields.
             // model modified from: Forecasting the term structure of government bond yields, Diebolda and Li, 2006
+            // The initiall guess can be any resonable values,the tau parameters have to be higher than the beta values the commony used in the industry is 0.01 for betas and 1.0 for taus.
             let nelsonSiegel = 
 
                 let parameterNames = [|"b0";"b1";"b2";"t"|]
