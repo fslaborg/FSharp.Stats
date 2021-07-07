@@ -4,7 +4,6 @@ open Expecto
 open FSharp.Stats
 
 
-
 [<Tests>]
 let sequenceTests =
     let x = [5.;12.;18.;-23.;45.]
@@ -54,3 +53,20 @@ let arrayTests =
             let covPop = Array.covPopulation x y
             Expect.floatClose Accuracy.high covPop 347.92 "Should be equal (double precision)"
     ]
+//tested in comparison with
+//https://www.itl.nist.gov/div898/handbook/pmc/section5/pmc541.htm
+
+[<Tests>]
+let CovariancematrixTest =
+    let x = [|[|4.0;4.2;3.9;4.3;4.1|];
+              [|2.0;2.1;2.0;2.1;2.2|];
+              [|0.60;0.59;0.58;0.62;0.63|]|] |> matrix
+
+    let actual = Matrix.columnSampleCovarianceMatrixOf(x)
+    let expected = [|[|0.025;0.0075;0.00175|];
+                    [|0.0075;0.00701;0.00135|];
+                    [|0.00175;0.00135;0.00043|]|] |> matrix
+
+    Expect.equal actual expected
+            
+        
