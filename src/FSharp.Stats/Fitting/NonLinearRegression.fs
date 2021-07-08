@@ -863,10 +863,14 @@ module NonLinearRegression =
             /// xData: The periods of available yield rates (time).
             /// yData: The observed yields.
             // model modified from: Forecasting the term structure of government bond yields, Diebolda and Li, 2006
+            // initialGuess: b0 (long term factor), governs the yield curve y axis level and defines the level which is approached asymptotically.
+            // b1 (short term factor, >0), governs the slope of the early yield curve.
+            // b2 (medium term factor), governs the curvature of the yield curve and thereby affecting the medium-term yields.
+            // t (>0), is the decay factor with high values leading to a fast decay
+            // default: [0.01;0.01;0.01;1.0]
             let nelsonSiegel = 
 
                 let parameterNames = [|"b0";"b1";"b2";"t"|]
-                //b0 and t1 must be positive
                 //function defining the model
                 let getFunctionValue =                 
                             fun (parameterVector: Vector<float>) m -> 
@@ -912,8 +916,13 @@ module NonLinearRegression =
             /// yData: The observed yields.
             // model modified from: Forecasting the term structure of government bond yields, Diebolda and Li, 2006 
             // and Estimating and interpreting forward interest rates, Svensson, 1994
+            // initialGuess: b0 (long term factor), governs the yield curve y axis level and defines the level which is approached asymptotically.
+            // b1 (short term factor, >0), governs the slope of the early yield curve.
+            // b2 (medium term factor), governs the curvature of the yield curve and thereby affecting the medium-term yields.
+            // t1 (>0), is the decay factor with high values leading to a fast decay
+            // default: [0.01;0.01;0.01;1.0]
             let nelsonSiegelSvensson = 
-                let parameterNamesNSS = [|"b0";"b1";"b2";"b3";"t";"u"|]
+                let parameterNamesNSS = [|"b0";"b1";"b2";"b3";"t1";"t2"|]
                 //b0 and t1 must be positive
                             
                 let getFunctionValueNSS =                 
@@ -922,9 +931,9 @@ module NonLinearRegression =
                         let b1 = parameterVector.[1]
                         let b2 = parameterVector.[2]
                         let b3 = parameterVector.[3]
-                        let t = parameterVector.[4]
-                        let u = parameterVector.[5]
-                        b0+b1*((1.-exp(-m/t))/(m/t)) + b2*((1.-exp(-m/t))/(m/t)-exp(-m/t)) + b3*((1.-exp(-m/u))/(m/u)-exp(-m/u))                       
+                        let t1 = parameterVector.[4]
+                        let t2 = parameterVector.[5]
+                        b0+b1*((1.-exp(-m/t1))/(m/t1)) + b2*((1.-exp(-m/t1))/(m/t1)-exp(-m/t1)) + b3*((1.-exp(-m/t2))/(m/t2)-exp(-m/t2))                       
 
                 let getGradientValuesNSS =
                     fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) m -> 
@@ -932,14 +941,14 @@ module NonLinearRegression =
                         let b1 = parameterVector.[1]
                         let b2 = parameterVector.[2]
                         let b3 = parameterVector.[3]
-                        let t = parameterVector.[4]
-                        let u = parameterVector.[5]
+                        let t1 = parameterVector.[4]
+                        let t2 = parameterVector.[5]
                         gradientVector.[0] <- 1.
-                        gradientVector.[1] <- (t*(1.-exp(-m/t)))/m
-                        gradientVector.[2] <- (t*(1.-exp(-m/t)))/m-exp(-m/t)
-                        gradientVector.[3] <- (u*(1.-exp(-m/u)))/m-exp(-m/u)
-                        gradientVector.[4] <- (exp(-m/t)*((b2+b1)*t**2.*exp(m/t)+(-b2-b1)*t**2.+(-b2-b1)*m*t-b2*m**2.))/(m*t**2.)
-                        gradientVector.[5] <- b3*(-exp(-m/u)/u-(m*exp(-m/u))/u**2.+(1.-exp(-m/u))/m)
+                        gradientVector.[1] <- (t1*(1.-exp(-m/t1)))/m
+                        gradientVector.[2] <- (t1*(1.-exp(-m/t1)))/m-exp(-m/t1)
+                        gradientVector.[3] <- (t2*(1.-exp(-m/t2)))/m-exp(-m/t2)
+                        gradientVector.[4] <- (exp(-m/t1)*((b2+b1)*t1**2.*exp(m/t1)+(-b2-b1)*t1**2.+(-b2-b1)*m*t1-b2*m**2.))/(m*t1**2.)
+                        gradientVector.[5] <- b3*(-exp(-m/t2)/t2-(m*exp(-m/t2))/t2**2.+(1.-exp(-m/t2))/m)
                         gradientVector
                    
                 createModel parameterNamesNSS getFunctionValueNSS getGradientValuesNSS

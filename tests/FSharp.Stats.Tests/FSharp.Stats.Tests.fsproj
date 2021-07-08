@@ -18,6 +18,7 @@
     <Compile Include="Signal.fs" />
     <Compile Include="SpecialFunctions.fs" />
     <Compile Include="Testing.fs" />
+    <Compile Include="Fitting.fs" />
     <Compile Include="Main.fs" />
 
   </ItemGroup>
