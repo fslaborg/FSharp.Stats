@@ -4,22 +4,24 @@
 module FriedmanTest =
 
     open FSharp.Stats
-    let createFriedmanTest (samples : seq<array<float>>) =
-    
+    let createFriedmanTest (samples : seq<#seq<float>>) =
+        
+        // efficient rank calculations are based on arrays
+        let samples = samples |> Seq.map Seq.toArray
+
         let samplesize = Seq.length samples |> float 
         let groupsize = 
-            Seq.map Array.length samples 
+            Seq.map Seq.length samples 
             |> Seq.head
             |> float
-    
     
         let dof = groupsize - 1. 
     
         // rank all groups individually
         let ranksAll = 
             samples
-            |> Seq.map FSharp.Stats.Rank.rankAverage
-    
+            |> Seq.map Rank.rankAverage
+
         // get every first, second, third,...., value for ranking 
         let groups = 
             ranksAll
@@ -29,7 +31,7 @@ module FriedmanTest =
         // calculate the sum of each treatment
         let sums = 
             groups
-            |> Seq.map (Seq.sum)
+            |> Seq.map Seq.sum
     
         // calculating statistics without ties
         let statistics = 
@@ -57,7 +59,7 @@ module FriedmanTest =
             |> Seq.concat
     
         if ties = seq [] then
-            FSharp.Stats.Testing.TestStatistics.createChiSquare statistics dof
+            Testing.TestStatistics.createChiSquare statistics dof
         else 
             let totalties = 
                 ties
@@ -70,4 +72,4 @@ module FriedmanTest =
                 |> Seq.sum  
             let corrected =  
                 (statistics / (1. - (1./(samplesize*groupsize*(groupsize**2.-1.))*newtieslist)))
-            FSharp.Stats.Testing.TestStatistics.createChiSquare corrected dof 
+            Testing.TestStatistics.createChiSquare corrected dof 

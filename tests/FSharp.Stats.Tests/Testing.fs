@@ -134,7 +134,7 @@ let friedmanTestTests =
     //calculation of friedman test
     let friedmanResult1 = 
         FriedmanTest.createFriedmanTest samples 
-    
+        
     let friedmanResult2 = 
         FriedmanTest.createFriedmanTest samples2 
 
