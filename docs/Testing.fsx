@@ -396,25 +396,29 @@ A suitable post hoc test for H tests is Dunn's test.
 The Friedman-Test is a nonparametric method to detect differences in more than two related samples.
 It's used for dependent samples, e.g. with measurements of different treatments or at different timepoints. 
 The test can be performed even on small sample sizes.
-One benefit of this coded test is that a correction factor is applied if there are any ties in the measurements. 
+One benefit of the implemented version in FSharp.Stats is that a correction factor is applied if there are any ties in the measurements. 
 
-Requirements :
+Requirements:
 
    -   sample sizes *must* be identical
    -   repeated measurements 
-   -   no need for normal distribution
+   -   no need for normal distribution of the samples
    -   samples must be at least ordinal scaled
 
 The idea of the test is to rank each value in every ID (as seen below).
 The test statistic approximately follows a chi-squared distribution (dof = k-1). 
 The recommended Post-Hoc-Test is Wilcoxon-signed-rank-test or a Bonferroni-correction. 
 Example taken from Universitaet Zuerich - Methodenberatung Friedman-Test ( https://www.methodenberatung.uzh.ch/de/datenanalyse_spss/unterschiede/zentral/friedman.html ) with a modification for 3 ties in one ID. 
-References : 
+
+References: 
+
   - Viv Bewick, Liz Cheek & Jonathan Ball, Statistics review 10: Further nonparametric methods (2004)
+  
   - Salvador García,  Alberto Fernández, Julián Luengo, Francisco Herrera, Advanced nonparametric tests for multiple comparisons in the design of experiments in computational intelligence and data mining: Experimental analysis of power (2010)
 
 
 *)
+
 ID   |  pre   | month 1| month 2| month 3| month 4
 1       275     273      288      273      273            
 2       292     283      284      285      329     
@@ -426,9 +430,13 @@ ID   |  pre   | month 1| month 2| month 3| month 4
 8       294     277      295      290      271
 9       300     304      293      279      271
 10      284     297      284      292      284
+
+
 (**
 Ranking the results - average if values appear multiple times in one ID 
 *)
+
+
 ID   |  pre   | month 1| month 2| month 3| month 4
 1       4       2        5        2        2      
 2       4       1        2        3        5
@@ -442,6 +450,8 @@ ID   |  pre   | month 1| month 2| month 3| month 4
 10      2       5        2        4        2     
 rank-sums
         36      29.5     39       25       20.5
+
+
 (** *)
 // The data have to be entered in this format: 
 
@@ -457,13 +467,13 @@ let I = [|300.;304.;293.;279.;271.|]
 let J = [|284.;297.;284.;292.;284.|]
 
 // add everything in one sequence
-let samples =  seq{A;B;C;D;E;F;G;H;I;J}
+let samples =  [|A;B;C;D;E;F;G;H;I;J|]
 
 // create the test 
-createFriedmanTest samples 
+let friedmanResult = FriedmanTest.createFriedmanTest samples 
 
 // results 
-(*** include-value:createFriedmanTest ***)
+(*** include-value:friedmanResult ***)
 
 
 
@@ -717,7 +727,7 @@ let dunnetContrastMatrix =
     |]
 
 let dunnettResult = 
-    PostHoc.dunnetts dunnetContrastMatrix dunnetExample Tables.dunnetts095
+    PostHoc.dunnetts dunnetContrastMatrix dunnetExample Tables.dunnettsTwoSided095
 
 (*** include-value:dunnettResult ***)
 
