@@ -26,6 +26,7 @@ _Summary:_ this tutorial explains how to perform various statistical tests with 
     - [Anova](#Anova)
     - [F-Test](#F-Test)
     - [H Test](#H-Test)
+    - [Friedman-Test](#Friedman-Test)
     - [Chi-Squared Test](#Chi-Squared-Test)
     - [Bartlett](#Bartlett)
  - [PostHoc](#PostHoc)
@@ -387,6 +388,84 @@ _PValueRight is significant at a alpha level of 0.05_
 
 A suitable post hoc test for H tests is Dunn's test.
 *)
+
+(** 
+
+### Friedman-Test
+
+The Friedman-Test is a nonparametric method to detect differences in more than two related samples.
+It's used for dependent samples, e.g. with measurements of different treatments or at different timepoints. 
+The test can be performed even on small sample sizes.
+One benefit of this coded test is that a correction factor is applied if there are any ties in the measurements. 
+
+Requirements :
+
+   -   sample sizes *must* be identical
+   -   repeated measurements 
+   -   no need for normal distribution
+   -   samples must be at least ordinal scaled
+
+The idea of the test is to rank each value in every ID (as seen below).
+The test statistic approximately follows a chi-squared distribution (dof = k-1). 
+The recommended Post-Hoc-Test is Wilcoxon-signed-rank-test or a Bonferroni-correction. 
+Example taken from Universitaet Zuerich - Methodenberatung Friedman-Test ( https://www.methodenberatung.uzh.ch/de/datenanalyse_spss/unterschiede/zentral/friedman.html ) with a modification for 3 ties in one ID. 
+References : 
+  - Viv Bewick, Liz Cheek & Jonathan Ball, Statistics review 10: Further nonparametric methods (2004)
+  - Salvador García,  Alberto Fernández, Julián Luengo, Francisco Herrera, Advanced nonparametric tests for multiple comparisons in the design of experiments in computational intelligence and data mining: Experimental analysis of power (2010)
+
+
+*)
+ID   |  pre   | month 1| month 2| month 3| month 4
+1       275     273      288      273      273            
+2       292     283      284      285      329     
+3       281     274      298      270      252           
+4       284     275      271      272      258           
+5       285     294      307      278      275
+6       283     279      301      276      279
+7       290     265      298      291      295
+8       294     277      295      290      271
+9       300     304      293      279      271
+10      284     297      284      292      284
+(**
+Ranking the results - average if values appear multiple times in one ID 
+*)
+ID   |  pre   | month 1| month 2| month 3| month 4
+1       4       2        5        2        2      
+2       4       1        2        3        5
+3       4       3        5        2        1          
+4       5       4        2        3        1          
+5       3       4        5        2        1
+6       4       2.5      5        1        2.5
+7       2       1        5        3        4
+8       4       2        5        3        1
+9       4       5        3        2        1
+10      2       5        2        4        2     
+rank-sums
+        36      29.5     39       25       20.5
+(** *)
+// The data have to be entered in this format: 
+
+let A = [|275.;273.;288.;273.;273.|]
+let B = [|292.;283.;284.;285.;329.|]
+let C = [|281.;274.;298.;270.;252.|]
+let D = [|284.;275.;271.;272.;258.|]
+let E = [|285.;294.;307.;278.;275.|]
+let F = [|283.;279.;301.;276.;279.|]
+let G = [|290.;265.;298.;291.;295.|]
+let H = [|294.;277.;295.;290.;271.|]
+let I = [|300.;304.;293.;279.;271.|]
+let J = [|284.;297.;284.;292.;284.|]
+
+// add everything in one sequence
+let samples =  seq{A;B;C;D;E;F;G;H;I;J}
+
+// create the test 
+createFriedmanTest samples 
+
+// results 
+(*** include-value:createFriedmanTest ***)
+
+
 
 (**
 ### Chi-Squared Test
