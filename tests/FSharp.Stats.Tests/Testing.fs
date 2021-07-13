@@ -103,6 +103,51 @@ let hTestTests =
     ]
 
 [<Tests>]
+let friedmanTestTests = 
+    // Friedman-Test testes against dataset from https://www.methodenberatung.uzh.ch/de/datenanalyse_spss/unterschiede/zentral/friedman.html#3.2._Ergebnisse_des_Friedman-Tests and p-values obtained from distcalc and https://www.socscistatistics.com/pvalues/chidistribution.aspx 
+    let A = [|275.;273.;288.;273.;244.|]
+    let B = [|292.;283.;284.;285.;329.|]
+    let C = [|281.;274.;298.;270.;252.|]
+    let D = [|284.;275.;271.;272.;258.|]
+    let E = [|285.;294.;307.;278.;275.|]
+    let F = [|283.;279.;301.;276.;279.|]
+    let G = [|290.;265.;298.;291.;295.|]
+    let H = [|294.;277.;295.;290.;271.|]
+    let I = [|300.;304.;293.;279.;271.|]
+    let J = [|284.;297.;352.;292.;284.|]
+    let samples = seq{A;B;C;D;E;F;G;H;I;J}
+
+    // modified dataset from UZH for 3x equal ranks 
+    let A2 = [|275.;273.;288.;273.;273.|]
+    let B2 = [|292.;283.;284.;285.;329.|]
+    let C2 = [|281.;274.;298.;270.;252.|]
+    let D2 = [|284.;275.;271.;272.;258.|]
+    let E2 = [|285.;294.;307.;278.;275.|]
+    let F2 = [|283.;279.;301.;276.;279.|]
+    let G2 = [|290.;265.;298.;291.;295.|]
+    let H2 = [|294.;277.;295.;290.;271.|]
+    let I2 = [|300.;304.;293.;279.;271.|]
+    let J2 = [|284.;297.;284.;292.;284.|]
+    let samples2 = seq{A2;B2;C2;D2;E2;F2;G2;H2;I2;J2}
+
+
+    //calculation of friedman test
+    let friedmanResult1 = 
+        FriedmanTest.createFriedmanTest samples 
+        
+    let friedmanResult2 = 
+        FriedmanTest.createFriedmanTest samples2 
+
+    testList "Testing.FriedmanTest" [
+        testCase "createFriedmanTest2equal" <| fun () -> 
+            Expect.floatClose Accuracy.low friedmanResult1.Statistic 13.259 "statistics should be equal."
+            Expect.floatClose Accuracy.low friedmanResult1.PValueRight 0.010077 "pValue should be equal."
+        testCase "createFriedmanTest3equal" <| fun () -> 
+            Expect.floatClose Accuracy.low friedmanResult2.Statistic 9.738 "statistics should be equal."
+            Expect.floatClose Accuracy.low friedmanResult2.PValueRight 0.04508 "pValue should be equal."
+        ]
+
+[<Tests>]
 let tTestTests = 
     // tested in SPSS version 27
     let groupA = vector [-5.;-3.;-3.;-4.;-5.;] 
