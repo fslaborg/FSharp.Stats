@@ -30,8 +30,18 @@ let pearsonCorrelationTests =
         let seq2 = [315.5; 101.3; 108.; 32.2]
         Seq.pearson seq1 seq2
 
+    let testCase3 = 
+        let seq1 = [312.7; 104.2; 104.; 34.7]
+        let seq2 = [315.5; 101.3; 108.; 32.2]
+        (seq1, seq2)
+        ||> Seq.zip 
+        |> Seq.pearsonOfPairs
+
     testList "Correlation.Seq" [
         testCase "pearson" <| fun () -> 
             Expect.isTrue (0.571181558 = Math.Round(testCase1,9)) "pearson correlation coefficient should be equal"
             Expect.isTrue (0.999705373 = Math.Round(testCase2,9)) "pearson correlation coefficient should be equal"
-    ]
+        testCase "pearsonOfPairs" <| fun () -> 
+            Expect.isTrue (0.999705373 = Math.Round(testCase3,9)) "pearson correlation coefficient should be equal"
+     ]
+
