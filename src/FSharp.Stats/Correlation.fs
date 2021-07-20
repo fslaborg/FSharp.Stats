@@ -42,6 +42,7 @@ module Correlation =
     module Seq = 
         /// Calculates the pearson correlation of two samples. Homoscedasticity must be assumed.
         let inline pearson (seq1:seq<'T>) (seq2:seq<'T>) : float =
+            if (Seq.length seq1) <> (Seq.length seq2) then failwith "Inputs need to have the same length." 
             let seq1' = seq1 |> Seq.map float
             let seq2' = seq2 |> Seq.map float
             use e = seq1'.GetEnumerator()
