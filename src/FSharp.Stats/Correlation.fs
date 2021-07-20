@@ -70,7 +70,7 @@ module Correlation =
                         else nan
             loop zero zero zero zero zero zero
 
-       let inline pearsonOfPairs (seq:seq<'T * 'T>) = 
+        let inline pearsonOfPairs (seq:seq<'T * 'T>) = 
             seq
             |> Seq.toArray
             |> Array.unzip
