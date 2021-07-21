@@ -127,6 +127,24 @@ module Correlation =
 
             pearson spearRank1 spearRank2
 
+        /// <summary>
+        /// Calculates the spearman correlation (with ranks)
+        /// </summary>
+        /// <param name="seq">The input sequence.</param>
+        /// <typeparam name="'T"></typeparam>
+        /// <returns>The spearman correlation.</returns>
+        /// <example> 
+        /// <code> 
+        /// [1.1, 1.2; 1.1, 0.9; 2.0, 3.85] |> Seq.spearmanOfPairs
+        /// // evaluates to 0.5
+        /// </code> 
+        /// </example>
+        let inline spearmanOfPairs (seq:seq<'T * 'T>) = 
+            seq
+            |> Seq.toArray
+            |> Array.unzip
+            ||> spearman
+
         /// Kendall Correlation Coefficient 
         let kendall (setA:_[]) (setB:_[]) =
             let lengthArray = Array.length setA
