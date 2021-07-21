@@ -65,7 +65,7 @@ let pearsonWeightedCorrelationTests =
 
     testList "Correlation.Seq" [
         testCase "pearsonWeighted" <| fun () ->
-            Expect.isTrue (-0.230423707 = Math.Round(testCase1,9)) "pearson weighted correlation coefficient should be equal"
+            Expect.isTrue (-0.324874283 = Math.Round(testCase1,9)) "pearson weighted correlation coefficient should be equal"
         testCase "pearsonWeightedOfPairs" <| fun () ->
             Expect.isTrue (-0.230423707 = Math.Round(testCase2,9)) "pearson weighted correlation coefficient should be equal"
     ]
