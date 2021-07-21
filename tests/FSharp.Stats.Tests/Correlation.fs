@@ -12,12 +12,11 @@ let kendallCorrelationTests =
             let ys = [|-0.3;-0.25;-0.1;-0.46;0.103;0.409|]
             let tau = Seq.kendall xs ys
             Expect.floatClose Accuracy.high tau 0.4666666667 "Should be equal (double precision)"
+    //ToDo ties tau_a,tau_b,tau_c
         testCase "kendallOfPairs" <| fun() ->
             let testCase1 = 
                 [1.1, 1.2; 1.1, 0.9; 2.0, 3.85] |> Seq.kendallOfPairs
             Expect.isTrue (0.3333333333 = Math.Round(testCase1,9)) "kendall correlation coefficient should be equal"
- 
-    //ToDo ties tau_a,tau_b,tau_c
     ]
 
 [<Tests>]
@@ -49,3 +48,20 @@ let pearsonCorrelationTests =
             Expect.isTrue (0.999705373 = Math.Round(testCase3,9)) "pearson correlation coefficient should be equal"
      ]
 
+[<Tests>]
+let spearmanCorrelationTests =
+    let testCase1 =
+        let array1 = [| 1.1; 1.1; 2.0 |]
+        let array2 = [| 1.2; 0.9; 3.85 |]
+        Seq.spearman array1 array2
+    
+    let testCase2 = 
+        [1.1, 1.2; 1.1, 0.9; 2.0, 3.85]
+        |> Seq.spearmanOfPairs
+
+    testList "Correlation.Seq" [
+        testCase "spearman" <| fun () ->
+            Expect.isTrue (0.5 = Math.Round(testCase1,9)) "spearman correlation coefficient should be equal"
+        testCase "spearmanOfPairs" <| fun () ->
+            Expect.isTrue (0.5 = Math.Round(testCase2,9)) "spearman correlation coefficient should be equal"
+    ]
