@@ -74,7 +74,7 @@ module Correlation =
             seq
             |> Seq.toArray
             |> Array.unzip
-            ||> Seq.pearson
+            ||> pearson
 
         /// weighted pearson correlation (http://sci.tech-archive.net/Archive/sci.stat.math/2006-02/msg00171.html)
         let inline pearsonWeighted (seq1:seq<'T>) (seq2:seq<'T>) (weights:seq<'T>) : float =
