@@ -70,6 +70,19 @@ module Correlation =
                         else nan
             loop zero zero zero zero zero zero
 
+        /// <summary>
+        /// Calculates the pearson correlation of two samples given as a sequence of paired values. 
+        /// Homoscedasticity must be assumed.
+        /// </summary>
+        /// <param name="seq">The input sequence.</param>
+        /// <typeparam name="'T"></typeparam>
+        /// <returns>The pearson correlation.</returns>
+        /// <example> 
+        /// <code> 
+        /// [1.1, 1.2; 1.1, 0.9; 1.2, 0.08] |> Seq.pearsonOfPairs
+        /// // evaluates to -0.9659514878
+        /// </code> 
+        /// </example>
         let inline pearsonOfPairs (seq:seq<'T * 'T>) = 
             seq
             |> Seq.toArray
