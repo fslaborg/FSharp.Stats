@@ -234,8 +234,8 @@ module Correlation =
         /// <returns>The Biweighted Midcorrelation.</returns>
         /// <example> 
         /// <code> 
-        /// [1.1, 1.2; 1.1, 0.9; 2.0, 3.85] |> Seq.spearmanOfPairs
-        /// // evaluates to 0.5
+        /// [32.1, 1.2; 3.1, 0.4; 2.932, 3.85] |> Seq.bicorOfPairs
+        /// // evaluates to -0.9303913046
         /// </code> 
         /// </example>
         let inline bicorOfPairs (seq:seq<'T * 'T>) = 
