@@ -128,7 +128,7 @@ module Correlation =
             pearson spearRank1 spearRank2
 
         /// <summary>
-        /// Calculates the spearman correlation (with ranks)
+        /// Calculates the spearman correlation (with ranks) of two samples given as a sequence of paired values. 
         /// </summary>
         /// <param name="seq">The input sequence.</param>
         /// <typeparam name="'T"></typeparam>
@@ -187,6 +187,24 @@ module Correlation =
 
             kendallCorrFun (FSharp.Stats.Rank.rankFirst setA ) (FSharp.Stats.Rank.rankFirst setB )
 
+        /// <summary>
+        /// Calculates the kendall correlation coefficient of two samples given as a sequence of paired values. 
+        /// </summary>
+        /// <param name="seq">The input sequence.</param>
+        /// <typeparam name="'T"></typeparam>
+        /// <returns>The kendall correlation coefficient.</returns>
+        /// <example> 
+        /// <code> 
+        /// [1.1, 1.2; 1.1, 0.9; 2.0, 3.85] |> Seq.kendallOfPairs
+        /// // evaluates to 0.3333333333
+        /// </code> 
+        /// </example>
+        let inline kendallOfPairs (seq:seq<'T * 'T>) = 
+            seq
+            |> Seq.toArray
+            |> Array.unzip
+            ||> kendall
+
         /// Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.
         let bicor seq1 seq2 = 
             
@@ -206,6 +224,25 @@ module Correlation =
                 (bicorHelpers.normalize xVal xWeight xNF xMed) * (bicorHelpers.normalize yVal yWeight yNF yMed)
                 )
                 xs xWeights ys yWeights 
+
+        /// <summary>
+        /// Calculates the Biweighted Midcorrelation of two samples given as a sequence of paired values. 
+        /// This is a median based correlation measure which is more robust against outliers.
+        /// </summary>
+        /// <param name="seq">The input sequence.</param>
+        /// <typeparam name="'T"></typeparam>
+        /// <returns>The Biweighted Midcorrelation.</returns>
+        /// <example> 
+        /// <code> 
+        /// [1.1, 1.2; 1.1, 0.9; 2.0, 3.85] |> Seq.spearmanOfPairs
+        /// // evaluates to 0.5
+        /// </code> 
+        /// </example>
+        let inline bicorOfPairs (seq:seq<'T * 'T>) = 
+            seq
+            |> Seq.toArray
+            |> Array.unzip
+            ||> bicor
 
     /// Contains correlation functions optimized for vectors
     [<AutoOpen>]
