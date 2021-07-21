@@ -16,7 +16,7 @@ let kendallCorrelationTests =
         testCase "kendallOfPairs" <| fun() ->
             let testCase1 = 
                 [1.1, 1.2; 1.1, 0.9; 2.0, 3.85] |> Seq.kendallOfPairs
-            Expect.isTrue (0.3333333333 = Math.Round(testCase1,9)) "kendall correlation coefficient should be equal"
+            Expect.isTrue (0.333333333 = Math.Round(testCase1,9)) "kendall correlation coefficient should be equal"
     ]
 
 [<Tests>]
@@ -47,6 +47,28 @@ let pearsonCorrelationTests =
         testCase "pearsonOfPairs" <| fun () -> 
             Expect.isTrue (0.999705373 = Math.Round(testCase3,9)) "pearson correlation coefficient should be equal"
      ]
+
+[<Tests>]
+let pearsonWeightedCorrelationTests =
+    let testCase1 =
+        let seq1 = [1.2; 0.4; 3.85]
+        let seq2 = [0.2; 0.3; 0.25]
+        let weights = [0.2; 0.3; 0.25]
+        (seq1, seq2, weights)
+        |||> pearsonWeighted
+
+    let testCase2 = 
+        let seq = [32.1, 1.2; 3.1, 0.4; 2.932, 3.85]
+        let weights = [0.2; 0.3; 0.25]
+        (seq, weights)
+        ||> pearsonWeightedOfPairs
+
+    testList "Correlation.Seq" [
+        testCase "pearsonWeighted" <| fun () ->
+            Expect.isTrue (-0.230423707 = Math.Round(testCase1,9)) "pearson weighted correlation coefficient should be equal"
+        testCase "pearsonWeightedOfPairs" <| fun () ->
+            Expect.isTrue (-0.230423707 = Math.Round(testCase2,9)) "pearson weighted correlation coefficient should be equal"
+    ]
 
 [<Tests>]
 let spearmanCorrelationTests =
@@ -80,7 +102,7 @@ let bicorCorrelationTests =
 
     testList "Correlation.Seq" [
         testCase "bicor" <| fun () -> 
-            Expect.isTrue (-0.9303913046 = Math.Round(testCase1, 9)) "bicor correlation coefficient should be equal"
+            Expect.isTrue (-0.930391305 = Math.Round(testCase1, 9)) "bicor correlation coefficient should be equal"
         testCase "bicorOfPairs" <| fun () ->
-            Expect.isTrue (-0.9303913046 = Math.Round(testCase2, 9)) "bicor correlation coefficient should be equal"
+            Expect.isTrue (-0.930391305 = Math.Round(testCase2, 9)) "bicor correlation coefficient should be equal"
     ]

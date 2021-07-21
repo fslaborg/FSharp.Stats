@@ -118,7 +118,28 @@ module Correlation =
                     |> sqrt
                 a / b          
             weightedCorrelation seq1 seq2 weights
-    
+
+
+        /// <summary>
+        /// Calculates the weighted pearson correlation of two samples given as a sequence of paired values and the respective weights sequence. 
+        /// </summary>
+        /// <param name="seq">The input sequence.</param>
+        /// <param name="weights">The input weights.</param>
+        /// <typeparam name="'T"></typeparam>
+        /// <typeparam name="'a"></typeparam>
+        /// <returns>The weighted pearson correlation.</returns>
+        /// <example>
+        /// <code>
+        /// 
+        /// </code>
+        /// </example>
+        let inline pearsonWeightedOfPairs (seq:seq<'T * 'T>) (weights:seq<'T>) : float =
+            seq
+            |> Seq.toArray
+            |> Array.unzip
+            |> fun (seq1, seq2) ->
+                pearsonWeighted seq1 seq2 weights
+   
         /// Spearman Correlation (with ranks)
         let spearman array1 array2 =
     
