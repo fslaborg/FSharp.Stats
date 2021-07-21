@@ -65,3 +65,22 @@ let spearmanCorrelationTests =
         testCase "spearmanOfPairs" <| fun () ->
             Expect.isTrue (0.5 = Math.Round(testCase2,9)) "spearman correlation coefficient should be equal"
     ]
+
+[<Tests>]
+let bicorCorrelationTests =
+    let testCase1 =
+        let seq1 = [32.1; 3.1; 2.932]
+        let seq2 = [1.2; 0.4; 3.85]
+        (seq1, seq2)
+        ||> Seq.bicor
+    
+    let testCase2 =
+        [32.1, 1.2; 3.1, 0.4; 2.932, 3.85]
+        |> Seq.bicorOfPairs
+
+    testList "Correlation.Seq" [
+        testCase "bicor" <| fun () -> 
+            Expect.isTrue (-0.9303913046 = Math.Round(testCase1, 9)) "bicor correlation coefficient should be equal"
+        testCase "bicorOfPairs" <| fun () ->
+            Expect.isTrue (-0.9303913046 = Math.Round(testCase2, 9)) "bicor correlation coefficient should be equal"
+    ]
