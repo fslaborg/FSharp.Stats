@@ -193,7 +193,7 @@ module Correlation =
         /// <code> 
         /// </code> 
         /// </example>
-        let inline spearmanOfPairsBy (mapping: 'T -> 'T * 'T) (source: 'T[]) =
+        let inline spearmanOfPairsBy (mapping: 'T -> 'U * 'U) (source: 'T[]) =
             Array.map mapping source
             |> spearmanOfPairs
 
@@ -269,7 +269,7 @@ module Correlation =
         /// <code> 
         /// </code> 
         /// </example>
-        let inline kendallOfPairsBy (mapping: 'T -> 'T * 'T) (source: 'T[]) =
+        let inline kendallOfPairsBy (mapping: 'T -> 'U * 'U) (source: 'T[]) =
             Array.map mapping source
             |> kendallOfPairs
 
@@ -324,7 +324,7 @@ module Correlation =
         /// <code> 
         /// </code> 
         /// </example>
-        let inline bicorOfPairsBy (mapping: 'T -> 'T * 'T) (source: 'T[]) =
+        let inline bicorOfPairsBy (mapping: 'T -> 'U * 'U) (source: 'T[]) =
             Array.map mapping source
             |> bicorOfPairs
 
