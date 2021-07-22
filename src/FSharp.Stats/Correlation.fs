@@ -89,6 +89,24 @@ module Correlation =
             |> Array.unzip
             ||> pearson
 
+        /// <summary>
+        /// Calculates the pearson Correlation of two samples given as a new array of paired values whose elements are the result of applying the function map to each element of the array.
+        /// </summary>
+        /// <param name="mapping">The function to transform elements of the array.</param>
+        /// <param name="source">The input array.</param>
+        /// <typeparam name="'a"></typeparam>
+        /// <typeparam name="'b"></typeparam>
+        /// <returns>The pearson correlation.</returns>
+        /// <example> 
+        /// <code> 
+        /// [1.1, 1.2; 1.1, 0.9; 1.2, 0.08] |> Seq.pearsonOfPairs
+        /// // evaluates to -0.9659514878
+        /// </code> 
+        /// </example>
+        let inline pearsonOfPairsBy (mapping: 'T -> 'U * 'U) (source: 'T[]) =
+            Array.map mapping source
+            |> pearsonOfPairs
+
         /// weighted pearson correlation (http://sci.tech-archive.net/Archive/sci.stat.math/2006-02/msg00171.html)
         let inline pearsonWeighted (seq1:seq<'T>) (seq2:seq<'T>) (weights:seq<'T>) : float =
             // TODO: solve in a prettier coding fashion
@@ -259,7 +277,7 @@ module Correlation =
         /// // evaluates to -0.9303913046
         /// </code> 
         /// </example>
-        let inline bicorOfPairs (seq:seq<'T * 'T>) = 
+        let inline bicorOfPairs (seq:seq<'T * 'T> ) = 
             seq
             |> Seq.toArray
             |> Array.unzip
