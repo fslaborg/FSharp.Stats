@@ -195,6 +195,22 @@ module Correlation =
             |> Array.unzip
             ||> spearman
 
+        /// <summary>
+        /// Calculates the spearman Correlation of two samples given as a new array of paired values whose elements are the result of applying the function map to each element of the array.
+        /// </summary>
+        /// <param name="mapping">The function to transform elements of the array.</param>
+        /// <param name="source">The input array.</param>
+        /// <typeparam name="'a"></typeparam>
+        /// <typeparam name="'b"></typeparam>
+        /// <returns>The spearman correlation.</returns>
+        /// <example> 
+        /// <code> 
+        /// </code> 
+        /// </example>
+        let inline spearmanOfPairsBy (mapping: 'T -> 'T * 'T) (source: 'T[]) =
+            Array.map mapping source
+            |> spearmanOfPairs
+
         /// Kendall Correlation Coefficient 
         let kendall (setA:_[]) (setB:_[]) =
             let lengthArray = Array.length setA
