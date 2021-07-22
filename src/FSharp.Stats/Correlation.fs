@@ -271,6 +271,22 @@ module Correlation =
             |> Array.unzip
             ||> kendall
 
+        /// <summary>
+        /// Calculates the kendall Correlation of two samples given as a new array of paired values whose elements are the result of applying the function map to each element of the array.
+        /// </summary>
+        /// <param name="mapping">The function to transform elements of the array.</param>
+        /// <param name="source">The input array.</param>
+        /// <typeparam name="'a"></typeparam>
+        /// <typeparam name="'b"></typeparam>
+        /// <returns>The kendall correlation.</returns>
+        /// <example> 
+        /// <code> 
+        /// </code> 
+        /// </example>
+        let inline kendallOfPairsBy (mapping: 'T -> 'T * 'T) (source: 'T[]) =
+            Array.map mapping source
+            |> kendallOfPairs
+
         /// Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.
         let bicor seq1 seq2 = 
             
