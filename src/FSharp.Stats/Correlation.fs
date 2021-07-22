@@ -99,11 +99,9 @@ module Correlation =
         /// <returns>The pearson correlation.</returns>
         /// <example> 
         /// <code> 
-        /// [1.1, 1.2; 1.1, 0.9; 1.2, 0.08] |> Seq.pearsonOfPairs
-        /// // evaluates to -0.9659514878
         /// </code> 
         /// </example>
-        let inline pearsonOfPairsBy (mapping: 'T -> 'U * 'U) (source: 'T[]) =
+        let inline pearsonOfPairsBy (mapping: 'T -> 'T * 'T) (source: 'T[]) =
             Array.map mapping source
             |> pearsonOfPairs
 
@@ -137,9 +135,8 @@ module Correlation =
                 a / b          
             weightedCorrelation seq1 seq2 weights
 
-
         /// <summary>
-        /// Calculates the weighted pearson correlation of two samples given as a sequence of paired values and the respective weights sequence. 
+        /// Calculates the weighted pearson correlation of two samples given as a sequence of paired values whose elements are the result of applying the function map to each element of the array, and the respective weights sequence. 
         /// </summary>
         /// <param name="seq">The input sequence.</param>
         /// <param name="weights">The input weights.</param>
@@ -157,7 +154,21 @@ module Correlation =
             |> Array.unzip
             |> fun (seq1, seq2) ->
                 pearsonWeighted seq1 seq2 weights
-   
+
+        /// <summary>
+        /// Calculates the weighted pearson correlation of two samples given as a sequence of paired values and the respective weights sequence. 
+        /// </summary>
+        /// <param name="mapping">The function to transform elements of the array.</param>
+        /// <param name="source">The input array.</param>
+        /// <param name="weights">The input weights</param>
+        /// <typeparam name="'T"></typeparam>
+        /// <typeparam name="'a"></typeparam>
+        /// <returns>The weighted pearson correlation.</returns>
+        let inline pearsonWeightedOfPairsBy (mapping: 'T -> 'T * 'T) (source: 'T[]) (weights:seq<'T>) =
+            let seq = Array.map mapping source
+            (seq, weights)
+            ||> pearsonWeightedOfPairs
+
         /// Spearman Correlation (with ranks)
         let spearman array1 array2 =
     
