@@ -326,6 +326,22 @@ module Correlation =
             |> Array.unzip
             ||> bicor
 
+        /// <summary>
+        /// Calculates the The Biweighted Midcorrelation of two samples given as a new array of paired values whose elements are the result of applying the function map to each element of the array.
+        /// </summary>
+        /// <param name="mapping">The function to transform elements of the array.</param>
+        /// <param name="source">The input array.</param>
+        /// <typeparam name="'a"></typeparam>
+        /// <typeparam name="'b"></typeparam>
+        /// <returns>The Biweighted Midcorrelation.</returns>
+        /// <example> 
+        /// <code> 
+        /// </code> 
+        /// </example>
+        let inline bicorOfPairsBy (mapping: 'T -> 'T * 'T) (source: 'T[]) =
+            Array.map mapping source
+            |> bicorOfPairs
+
     /// Contains correlation functions optimized for vectors
     [<AutoOpen>]
     module Vector =
