@@ -90,19 +90,26 @@ module Correlation =
             ||> pearson
 
         /// <summary>
-        /// Calculates the pearson Correlation of two samples given as a new array of paired values whose elements are the result of applying the function map to each element of the array.
+        /// Calculates the pearson correlation of two samples.
+        /// The two samples are built by applying the given function to each element of the sequence.
+        /// The function should transform each sequence element into a tuple of paired observations from the two samples.
+        /// The correlation will be calculated between the paired observations.
         /// </summary>
-        /// <param name="mapping">The function to transform elements of the array.</param>
-        /// <param name="source">The input array.</param>
-        /// <typeparam name="'a"></typeparam>
-        /// <typeparam name="'b"></typeparam>
+        /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
+        /// <param name="source">The input sequence.</param>
         /// <returns>The pearson correlation.</returns>
         /// <example> 
-        /// <code> 
+        /// <code>
+        /// [ {| A = 1.1; B = 1.2; C = 0.1|}
+        ///   {| A = 1.1; B = 0.9; C = 7.2 |}
+        ///   {| A = 1.2; B = 0.08; C = -3.0|} ] 
+        /// |> Seq.pearsonOfPairsBy (fun x -> x.A, x.B)
+        /// // evaluates to -0.9659514878
         /// </code> 
         /// </example>
-        let inline pearsonOfPairsBy (mapping: 'T -> 'U * 'U) (source: 'T[]) =
-            Array.map mapping source
+        let inline pearsonOfPairsBy f (source: 'T seq) =
+            source
+            |> Seq.map f
             |> pearsonOfPairs
 
         /// weighted pearson correlation (http://sci.tech-archive.net/Archive/sci.stat.math/2006-02/msg00171.html)
