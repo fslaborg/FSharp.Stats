@@ -107,7 +107,7 @@ module Correlation =
         /// // evaluates to -0.9659514878
         /// </code> 
         /// </example>
-        let inline pearsonOfPairsBy f (source: 'T seq) =
+        let inline pearsonBy f (source: 'T seq) =
             source
             |> Seq.map f
             |> pearsonOfPairs
@@ -202,11 +202,11 @@ module Correlation =
         /// [ {| A = 1.1; B = 1.2; C = 0.1|}
         ///   {| A = 1.1; B = 0.9; C = 7.2 |}
         ///   {| A = 1.2; B = 0.08; C = -3.0|} ] 
-        /// |> spearmanOfPairsBy (fun x -> x.A, x.B)
+        /// |> Seq.spearmanOfPairsBy (fun x -> x.A, x.B)
         /// // evaluates to -1.0
         /// </code>
         /// </example>
-        let inline spearmanOfPairsBy f (source: 'T seq) =
+        let inline spearmanBy f (source: 'T seq) =
             source
             |> Seq.map f
             |> spearmanOfPairs
@@ -286,11 +286,11 @@ module Correlation =
         /// [ {| A = 1.1; B = 1.2; C = 0.1|}
         ///   {| A = 1.1; B = 0.9; C = 7.2 |}
         ///   {| A = 1.2; B = 0.08; C = -3.0|} ] 
-        /// |> spearmanOfPairsBy (fun x -> x.A, x.B)
+        /// |> Seq.spearmanOfPairsBy (fun x -> x.A, x.B)
         /// // evaluates to -1.0
         /// </code>
         /// </example>
-        let inline kendallOfPairsBy f (source: 'T seq) =
+        let inline kendallBy f (source: 'T seq) =
             source
             |> Seq.map f
             |> kendallOfPairs
@@ -328,14 +328,14 @@ module Correlation =
         /// // evaluates to -0.9303913046
         /// </code> 
         /// </example>
-        let inline bicorOfPairs (seq:seq<'T * 'T> ) = 
+        let inline bicorOfPairs seq = 
             seq
             |> Seq.toArray
             |> Array.unzip
             ||> bicor
 
         /// <summary>
-        /// Calculates the kendall correlation of two samples.
+        /// Calculates the bicor correlation of two samples.
         /// The two samples are built by applying the given function to each element of the sequence.
         /// The function should transform each sequence element into a tuple of paired observations from the two samples.
         /// The correlation will be calculated between the paired observations.
@@ -346,13 +346,13 @@ module Correlation =
         /// <example>
         /// <code>
         /// [ {| A = 1.1; B = 1.2; C = 0.1|}
-        ///   {| A = 1.1; B = 0.9; C = 7.2 |}
-        ///   {| A = 1.2; B = 0.08; C = -3.0|} ] 
-        /// |> bicorOfPairsBy (fun x -> x.A, x.B)
-        /// // evaluates to -1.0
+        ///   {| A = 1.2; B = 0.08; C = -3.0|}
+        ///   {| A = 1.15; B = 0.75; C = 0.0 |} ]
+        /// |> Seq.bicorOfPairsBy (fun x -> x.A, x.B)
+        /// // evaluates to ...
         /// </code>
         /// </example>
-        let inline bicorOfPairsBy f (source: 'T seq) =
+        let inline bicorBy f (source: 'T seq) =
             source
             |> Seq.map f
             |> bicorOfPairs
