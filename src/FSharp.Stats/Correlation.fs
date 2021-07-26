@@ -79,7 +79,8 @@ module Correlation =
         /// <returns>The pearson correlation.</returns>
         /// <example> 
         /// <code> 
-        /// [1.1, 1.2; 1.1, 0.9; 1.2, 0.08] |> Seq.pearsonOfPairs
+        /// [312.7, 315.5; 104.2, 101.3; 104., 108.; 34.7, 32.2]
+        /// |> Seq.pearsonOfPairs
         /// // evaluates to -0.9659514878
         /// </code> 
         /// </example>
@@ -100,9 +101,10 @@ module Correlation =
         /// <returns>The pearson correlation.</returns>
         /// <example> 
         /// <code>
-        /// [ {| A = 1.1; B = 1.2; C = 0.1|}
-        ///   {| A = 1.1; B = 0.9; C = 7.2 |}
-        ///   {| A = 1.2; B = 0.08; C = -3.0|} ] 
+        /// [ {| A = 312.7; B = 315.5 |}
+        ///   {| A = 104.2; B = 101.3 |}
+        ///   {| A = 104.; B = 108. |}
+        ///   {| A = 34.7; B = 32.2 |} ]
         /// |> Seq.pearsonOfPairsBy (fun x -> x.A, x.B)
         /// // evaluates to -0.9659514878
         /// </code> 
@@ -143,7 +145,7 @@ module Correlation =
             weightedCorrelation seq1 seq2 weights
 
         /// <summary>
-        /// Calculates the weighted pearson correlation of two samples given as a sequence of paired values whose elements are the result of applying the function map to each element of the array, and the respective weights sequence.         /// 
+        /// Calculates the weighted pearson correlation of two samples given as a sequence of tuples ('seq1 * 'seq2 * 'weights).
         /// </summary>
         /// <param name="seq">The input sequence.</param>
         /// <returns>The weighted pearson correlation.</returns>
@@ -171,8 +173,8 @@ module Correlation =
         /// <example>
         /// <code>
         /// [ {| A = 1.1; B = 1.2; C = 0.1; Weights = 0.2|}
-        ///  {| A = 1.1; B = 0.9; C = 7.2; Weights = 0.3 |}
-        ///  {| A = 1.2; B = 0.08; C = -3.0; Weights = 0.5|} ] 
+        ///   {| A = 1.1; B = 0.9; C = 7.2; Weights = 0.3 |}
+        ///   {| A = 1.2; B = 0.08; C = -3.0; Weights = 0.5|} ] 
         /// |> pearsonWeightedBy (fun x -> x.A, x.B, x.Weights)
         /// // evaluates to -0.9764158959
         /// </code>
@@ -222,7 +224,7 @@ module Correlation =
         /// [ {| A = 1.1; B = 1.2; C = 0.1|}
         ///   {| A = 1.1; B = 0.9; C = 7.2 |}
         ///   {| A = 1.2; B = 0.08; C = -3.0|} ] 
-        /// |> Seq.spearmanOfPairsBy (fun x -> x.A, x.B)
+        /// |> Seq.spearmanBy (fun x -> x.A, x.B)
         /// // evaluates to -1.0
         /// </code>
         /// </example>
@@ -281,8 +283,9 @@ module Correlation =
         /// <returns>The kendall correlation coefficient.</returns>
         /// <example> 
         /// <code> 
-        /// [1.1, 1.2; 1.1, 0.9; 2.0, 3.85] |> Seq.kendallOfPairs
-        /// // evaluates to 0.3333333333
+        /// [-0.5, -0.3; -0.4, -0.25; 0., -0.1; 0.7, -0.46; 0.65, 0.103; 0.9649, 0.409] 
+        /// |> Seq.kendallOfPairs
+        /// // evaluates to 0.4666666667
         /// </code> 
         /// </example>
         let inline kendallOfPairs (seq:seq<'T * 'T>) = 
@@ -290,7 +293,6 @@ module Correlation =
             |> Seq.toArray
             |> Array.unzip
             ||> kendall
-
 
         /// <summary>
         /// Calculates the kendall correlation of two samples.
@@ -303,11 +305,14 @@ module Correlation =
         /// <returns>The kendall correlation coefficient.</returns>
         /// <example>
         /// <code>
-        /// [ {| A = 1.1; B = 1.2; C = 0.1|}
-        ///   {| A = 1.1; B = 0.9; C = 7.2 |}
-        ///   {| A = 1.2; B = 0.08; C = -3.0|} ] 
-        /// |> Seq.spearmanOfPairsBy (fun x -> x.A, x.B)
-        /// // evaluates to -1.0
+        /// [ {| xs = -0.5; ys = -0.3 |}
+        ///   {| xs = -0.4; ys = -0.25 |}
+        ///   {| xs = 0.; ys = -0.1 |}
+        ///   {| xs = 0.7; ys = -0.46 |}
+        ///   {| xs = 0.65; ys = 0.103 |}
+        ///   {| xs = 0.9649; ys = 0.409 |} ]
+        /// |> Seq.kendallBy (fun x -> x.xs, x.ys)
+        /// // evaluates to 0.4666666667
         /// </code>
         /// </example>
         let inline kendallBy f (source: 'T seq) =
@@ -368,7 +373,7 @@ module Correlation =
         /// [ {| A = 1.1; B = 1.2; C = 0.1|}
         ///   {| A = 1.2; B = 0.08; C = -3.0|}
         ///   {| A = 1.15; B = 0.75; C = 0.0 |} ]
-        /// |> Seq.bicorOfPairsBy (fun x -> x.A, x.B)
+        /// |> Seq.bicorBy (fun x -> x.A, x.B)
         /// // evaluates to ...
         /// </code>
         /// </example>
