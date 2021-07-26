@@ -97,7 +97,7 @@ module Correlation =
         /// The correlation will be calculated between the paired observations.
         /// </summary>
         /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
-        /// <param name="source">The input sequence.</param>
+        /// <param name="seq">The input sequence.</param>
         /// <returns>The pearson correlation.</returns>
         /// <example> 
         /// <code>
@@ -109,8 +109,8 @@ module Correlation =
         /// // evaluates to -0.9659514878
         /// </code> 
         /// </example>
-        let inline pearsonBy f (source: 'T seq) =
-            source
+        let inline pearsonBy f (seq: 'T seq) =
+            seq
             |> Seq.map f
             |> pearsonOfPairs
 
@@ -217,7 +217,7 @@ module Correlation =
         /// The correlation will be calculated between the paired observations.
         /// </summary>
         /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
-        /// <param name="source">The input sequence.</param>
+        /// <param name="seq">The input sequence.</param>
         /// <returns>The spearman correlation.</returns>
         /// <example>
         /// <code>
@@ -228,8 +228,8 @@ module Correlation =
         /// // evaluates to -1.0
         /// </code>
         /// </example>
-        let inline spearmanBy f (source: 'T seq) =
-            source
+        let inline spearmanBy f (seq: 'T seq) =
+            seq
             |> Seq.map f
             |> spearmanOfPairs
 
@@ -301,7 +301,7 @@ module Correlation =
         /// The correlation will be calculated between the paired observations.
         /// </summary>
         /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
-        /// <param name="source">The input sequence.</param>
+        /// <param name="seq">The input sequence.</param>
         /// <returns>The kendall correlation coefficient.</returns>
         /// <example>
         /// <code>
@@ -315,8 +315,8 @@ module Correlation =
         /// // evaluates to 0.4666666667
         /// </code>
         /// </example>
-        let inline kendallBy f (source: 'T seq) =
-            source
+        let inline kendallBy f (seq: 'T seq) =
+            seq
             |> Seq.map f
             |> kendallOfPairs
 
@@ -366,7 +366,7 @@ module Correlation =
         /// The correlation will be calculated between the paired observations.
         /// </summary>
         /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
-        /// <param name="source">The input sequence.</param>
+        /// <param name="seq">The input sequence.</param>
         /// <returns>The kendall correlation coefficient.</returns>
         /// <example>
         /// <code>
@@ -377,8 +377,8 @@ module Correlation =
         /// // evaluates to ...
         /// </code>
         /// </example>
-        let inline bicorBy f (source: 'T seq) =
-            source
+        let inline bicorBy f (seq: 'T seq) =
+            seq
             |> Seq.map f
             |> bicorOfPairs
 
