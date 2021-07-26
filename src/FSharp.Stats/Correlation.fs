@@ -143,24 +143,44 @@ module Correlation =
             weightedCorrelation seq1 seq2 weights
 
         /// <summary>
-        /// Calculates the weighted pearson correlation of two samples given as a sequence of paired values whose elements are the result of applying the function map to each element of the array, and the respective weights sequence. 
+        /// Calculates the weighted pearson correlation of two samples given as a sequence of paired values whose elements are the result of applying the function map to each element of the array, and the respective weights sequence.         /// 
         /// </summary>
         /// <param name="seq">The input sequence.</param>
-        /// <param name="weights">The input weights.</param>
-        /// <typeparam name="'T"></typeparam>
-        /// <typeparam name="'a"></typeparam>
         /// <returns>The weighted pearson correlation.</returns>
         /// <example>
         /// <code>
-        /// 
+        /// [1.1, 1.2, 0.2; 1.1, 0.9, 0.3; 1.2, 0.08, 0.5] |> Seq.pearsonWeightedOfPairs
+        /// // evaluates to -0.9764158959
         /// </code>
         /// </example>
-        let inline pearsonWeightedOfPairs (seq:seq<'T * 'T>) (weights:seq<'T>) : float =
+        let inline pearsonWeightedOfPairs (seq: seq<'T * 'T * 'T>) =
             seq
             |> Seq.toArray
-            |> Array.unzip
-            |> fun (seq1, seq2) ->
-                pearsonWeighted seq1 seq2 weights
+            |> Array.unzip3
+            |||> pearsonWeighted
+
+        /// <summary>
+        /// Calculates the weighted pearson correlation of three samples. (seq1 * seq2 * weights)
+        /// The three samples are built by applying the given function to each element of the sequence.
+        /// The function should transform each sequence element into a tuple of observations from the three samples.
+        /// The correlation will be calculated between the three observations.
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="seq">The input sequence.</param>
+        /// <returns>The weighted pearson correlation.</returns>
+        /// <example>
+        /// <code>
+        /// [ {| A = 1.1; B = 1.2; C = 0.1; Weights = 0.2|}
+        ///  {| A = 1.1; B = 0.9; C = 7.2; Weights = 0.3 |}
+        ///  {| A = 1.2; B = 0.08; C = -3.0; Weights = 0.5|} ] 
+        /// |> pearsonWeightedBy (fun x -> x.A, x.B, x.Weights)
+        /// // evaluates to -0.9764158959
+        /// </code>
+        /// </example>
+        let inline pearsonWeightedBy f (seq: 'T seq) =
+            seq
+            |> Seq.map f
+            |> pearsonWeightedOfPairs
 
         /// Spearman Correlation (with ranks)
         let spearman array1 array2 =
