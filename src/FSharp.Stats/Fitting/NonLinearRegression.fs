@@ -242,7 +242,7 @@ module NonLinearRegression =
             let estParams = estimatedParamsVerbose model solverOptions lambdaInitial lambdaFactor lowerBound upperBound xData yData
             estParams
             |> fun estParams ->
-                let paramGuess = Vector.last estParams
+                let paramGuess = Seq.last estParams
                 let rss = getRSS model xData yData paramGuess
                 estParams.[estParams.Count-1], rss
 
