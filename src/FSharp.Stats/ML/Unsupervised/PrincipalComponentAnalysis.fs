@@ -66,7 +66,7 @@ module PCA =
             data |> Matrix.meanColumnWise                    
         // Atttention: not entierly shure if space of data before
         let colStDev =
-            data |> Matrix.Generic.enumerateColumnWise Seq.stDevPopulation |> Seq.toArray
+            data |> Matrix.Generic.mapCols Seq.stDevPopulation |> Seq.toArray
      
         let adjust (direction:AdjustmentDirection) (aData:Matrix<float>) = 
             match direction with
@@ -88,11 +88,11 @@ module PCA =
     /// Returns an AdjustmentFactory which centers and standardize the data
     let toAdjustCorrelation (data:Matrix<float>) : AdjustmentFactory =                
         let colMeans =
-            data |> Matrix.meanColumnWise                    
-        let sqrtI = sqrt (float data.NumRows)
-        // Atttention: not entierly shure if space of data before
+            data |> Matrix.meanColumnWise 
+        let sqrtI = sqrt (float data.NumRows)                   
+        // Attention: not entirely sure if space of data before
         let colStDev =
-            data |> Matrix.Generic.enumerateColumnWise Seq.stDevPopulation |> Seq.toArray    
+            data |> Matrix.Generic.mapCols Seq.stDevPopulation |> Seq.toArray    
         let adjust (direction:AdjustmentDirection)  (aData:Matrix<float>) = 
             match direction with
             | Obverse ->

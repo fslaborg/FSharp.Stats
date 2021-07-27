@@ -20,9 +20,9 @@ module MRandom =
     let float f = randomGen.NextDouble() * f
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Matrix = begin
+module Matrix = 
 
-    module Generic = begin
+    module Generic = 
 
         module MS = SpecializedGenericImpl
 
@@ -32,12 +32,16 @@ module Matrix = begin
         // Creation
         let ofList lists = MS.listM lists
         let ofSeq sources  = MS.seqM sources
+        let ofColSeq sources  = MS.seqCM sources
         let init lengthRow lengthCol initializer = MS.initM  lengthRow lengthCol initializer
         let ofArray2D (array: 'T[,])  : Matrix<'T> = MS.arrayM array
         ///Creates a sparse matrix based on the CSR format
         let sparseOfArray2D (array: 'T[,]) : Matrix<'T> = MS.arraySM array
         let toArray2D (matrix:Matrix<_>) = Array2D.init matrix.NumRows matrix.NumCols (fun i j -> get matrix i j)
         let toJaggedArray (m:Matrix<_>) = [|for i=0 to m.NumRows-1 do yield (Array.init m.NumCols (fun j -> get m i j))|]
+        let toJaggedColArray (m:Matrix<_>) = [|for i=0 to m.NumCols-1 do yield (Array.init m.NumRows (fun j -> get m j i))|]
+        let toJaggedSeq (m: Matrix<'a>) = Seq.init m.NumRows (fun i -> Seq.init m.NumCols (fun j -> get m i j))
+        let toJaggedColSeq (m: Matrix<'a>) = Seq.init m.NumCols (fun i -> Seq.init m.NumRows (fun j -> get m j i))
         let initNumeric lengthRow lengthCol initializer = MS.initNumericM lengthRow lengthCol initializer
         [<Obsolete("Use zeroCreate instead.")>]
         let zero lengthRow lengthCol = MS.zeroM lengthRow lengthCol
@@ -168,8 +172,6 @@ module Matrix = begin
         ///
         let toScalar matrix = MS.toScalarM matrix
 
-        
-
         let inplace_assign f matrix                = MS.inplaceAssignM  f matrix
         let inplace_cptMul matrix1 matrix2         = MS.inplaceCptMulM matrix1 matrix2
         let inplace_scale value matrix             = MS.inplaceScaleM value matrix
@@ -218,36 +220,42 @@ module Matrix = begin
 
 
         // TM
-        /// Applies function f along row axis
+        [<Obsolete("Use Matrix.mapRows instead.")>]
         let enumerateRowWise f (matrix:Matrix<'a>) =
             seq [
                 for rowi=0 to matrix.NumRows-1 do
                 yield f (seq [for coli=0 to matrix.NumCols-1 do yield matrix.[rowi,coli]])
             ]
+        /// Applies mapping function along row axis
+        let mapRows (mapping: RowVector<'a> -> 'b) (matrix: Matrix<'a>) =
+            Vector.Generic.init matrix.NumRows (fun rowi ->
+                mapping (getRow matrix rowi)
+            )
 
-        /// Maps every matrix row using the position dependant function
-        let mapiRows (mapping: int -> RowVector<'a> -> 'b) (matrix:Matrix<'a>) =
-
-            seq [
-                for rowi=0 to matrix.NumRows-1 do
-                    yield mapping rowi (getRow matrix rowi)
-            ]
+        /// Maps every matrix row using the position dependent function
+        let mapiRows (mapping: int -> RowVector<'a> -> 'b) (matrix: Matrix<'a>) =
+            Vector.Generic.init matrix.NumRows (fun rowi ->
+                mapping rowi (getRow matrix rowi)
+            )
 
         // TM
-        /// Applies function f along colúmn axis
+        /// Applies function f along column axis
+        [<Obsolete("Use Matrix.mapCols instead.")>]
         let enumerateColumnWise f (matrix:Matrix<'a>) =
             seq [
                 for coli=0 to matrix.NumCols-1 do
                 yield f (seq [for rowi=0 to matrix.NumRows-1 do yield matrix.[rowi,coli]])
             ]
-
+        /// Applies mapping function along column axis
+        let mapCols (mapping: Vector<'a> -> 'b) (matrix: Matrix<'a>) =
+            RowVector.Generic.init matrix.NumCols (fun coli ->
+                 mapping (getCol matrix coli)
+            )
         /// Maps every matrix column using the position dependant function
-        let mapiCols (mapping: int -> Vector<'a> -> 'b) (matrix:Matrix<'a>) =
-            seq [
-                for coli=0 to matrix.NumCols-1 do
-                    yield mapping coli (getCol matrix coli)
-            ]
-
+        let mapiCols (mapping: int -> Vector<'a> -> 'b) (matrix: Matrix<'a>) =
+            RowVector.Generic.init matrix.NumCols (fun coli ->
+                mapping coli (getCol matrix coli)
+            )
         /// Iterates the given Matrix row wise and places every element in a new vector with length n*m.
         let flattenRowWise (matrix: Matrix<'a>) =
             let tmp = FSharp.Stats.Vector.Generic.zeroCreate (matrix.NumRows*matrix.NumCols)
@@ -260,7 +268,7 @@ module Matrix = begin
         let flattenColWise (matrix: Matrix<'a>) =
             matrix.Transpose |> flattenRowWise
 
-    end
+    
 
     module MG = Generic
     module DS = DoubleImpl
@@ -271,8 +279,8 @@ module Matrix = begin
     type elem = float
 
     // Accessors
-    let get (a:matrix) i j   = MG.get a i j
-    let set (a:matrix) i j x = MG.set a i j x
+    let get (a:Matrix<_>) i j   = MG.get a i j
+    let set (a:Matrix<_>) i j x = MG.set a i j x
     // Creation
     ///returns a dense matrix with m rows and n rows, applying the init function with the two indices as arguments
     let init  m n f = DS.initDenseMatrixDS  m n f |> MS.dense
@@ -280,14 +288,18 @@ module Matrix = begin
     let ofJaggedList     xss   = DS.listDenseMatrixDS    xss |> MS.dense
     ///returns a dense matrix with the inner lists of the input jagged list as its columns
     let ofJaggedColList  xss   = DS.colListDenseMatrixDS    xss |> MS.dense
-    ///returns a dense matrix with the inner lists of the input jagged list as its rows
+    ///returns a dense matrix with the inner sequences of the input jagged sequences as its rows
     let ofJaggedSeq      xss   = DS.seqDenseMatrixDS    xss |> MS.dense
-    ///returns a dense matrix with the inner lists of the input jagged list as its columns
+    ///returns a dense matrix with the inner sequences of the input jagged sequence as its columns
     let ofJaggedColSeq   xss   = DS.colSeqDenseMatrixDS    xss |> MS.dense
-    ///returns a dense matrix with the inner lists of the input jagged list as its rows
+    ///returns a dense matrix with the inner arrays of the input jagged array as its rows
     let ofJaggedArray    xss   = DS.arrayDenseMatrixDS    xss |> MS.dense
-    ///returns a dense matrix with the inner lists of the input jagged list as its columns
+    ///returns a dense matrix with the inner arrays of the input jagged array as its columns
     let ofJaggedColArray xss   = DS.colArrayDenseMatrixDS    xss |> MS.dense
+    ///returns a dense matrix with the inner rowvectors of the input vector as its rows
+    let ofRows (rows: Vector<RowVector<'T>>) = DS.seqDenseMatrixDS rows |> MS.dense
+    ///returns a dense matrix with the inner vectors of the input rowvector as its columns
+    let ofCols (cols: RowVector<Vector<'T>>) = DS.colSeqDenseMatrixDS cols |> MS.dense
     ///
     let diag  (v:vector)   = MG.diag v
     ///
@@ -308,6 +320,12 @@ module Matrix = begin
     let toArray2D (m : matrix) = MG.toArray2D m
     ///
     let toJaggedArray (m: matrix) = MG.toJaggedArray m
+    /// converts the matrix into an array of column arrays
+    let toJaggedColArray (m: matrix) = MG.toJaggedColArray m
+    ///converts the matrix into an seq of row seqs
+    let toJaggedSeq (m: matrix) = MG.toJaggedSeq m
+    /// converts the matrix into an seq of column seqs
+    let toJaggedColSeq (m: matrix) = MG.toJaggedColSeq m
     ///
     let getDiagN  (a:matrix) n = MG.getDiagN a n
     ///
@@ -442,13 +460,13 @@ module Matrix = begin
     let rowRange (a:Matrix<_>) = (0,a.NumRows - 1)
     let colRange (a:Matrix<_>) = (0,a.NumCols - 1)
     let wholeRegion a = (colRange a, rowRange a)
-    let foldByRow f (z:Vector<'T>) (a:matrix) =
+    let foldByRow f (z:Vector<'T>) (a:Matrix<_>) =
         colRange a |> GU.foldR (fun z j -> MS.mapiV (fun i z -> f z (get a i j)) z) z
-    let foldByCol f (z:RowVector<'T>) (a:matrix) =
+    let foldByCol f (z:RowVector<'T>) (a:Matrix<_>) =
         rowRange a |> GU.foldR (fun z i -> MS.mapiRV (fun j z -> f z (get a i j)) z) z
-    let foldRow f (z:'T) (a:matrix) i =
+    let foldRow f (z:'T) (a:Matrix<_>) i =
         colRange a |> GU.foldR (fun (z:'T) j -> f z (get a i j)) z
-    let foldCol f (z:'T) (a:matrix) j =
+    let foldCol f (z:'T) (a:Matrix<_>) j =
         rowRange a |> GU.foldR (fun (z:'T) i -> f z (get a i j)) z
     let sum (a:matrix)  = MS.sumM a
     let prod (a:matrix)  = MS.prodM a
@@ -591,13 +609,19 @@ module Matrix = begin
     //----------------------------------------------------------------------------
 
     /// Applies function f along row axis
-    let enumerateRowWise f (m:matrix) = Generic.enumerateRowWise f m
+    let mapRows f (m:matrix) = Generic.mapRows f m
+    /// Applies function f along row axis
+    [<Obsolete("Use Matrix.mapRows instead")>]
+    let enumerateRowWise f (m:matrix) = Generic.mapRows f m
 
     /// Maps every matrix row using the position dependant function
     let mapiRows (f: int -> rowvec -> 'b) (m:matrix) = Generic.mapiRows f m
-
+    
     /// Applies function f along column axis
-    let enumerateColumnWise f (m:matrix) = Generic.enumerateColumnWise f m
+    let mapCols f (m:matrix) = Generic.mapCols f m
+    /// Applies function f along column axis
+    [<Obsolete("Use Matrix.mapCols instead")>]
+    let enumerateColumnWise f (m:matrix) = Generic.mapCols f m
 
     /// Maps every matrix column using the position dependant function
     let mapiCols (f: int -> vector -> 'b) (m:matrix) = Generic.mapiCols f m
@@ -689,7 +713,6 @@ module Matrix = begin
 
         loop (nCols-1-indices.Length) (indices.Length-1) (nCols-1)
 
-end
 
 [<AutoOpen>]
 module MatrixExtension =

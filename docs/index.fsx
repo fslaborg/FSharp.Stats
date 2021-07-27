@@ -45,6 +45,10 @@ You can get all FSharp.Stats packages from nuget at https://www.nuget.org/packag
 - make the script executable with `chmod +x ./build.sh`
 - use the console command `./build.sh`
 
+**Documentation**:
+
+- While editing the documentation you can preview the documentation in your browser via `dotnet fsdocs watch --eval`
+
 ---
 
 ## Example

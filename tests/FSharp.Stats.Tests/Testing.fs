@@ -2,14 +2,15 @@
 open Expecto
 open System
 open FSharp.Stats.Testing
+open FSharp.Stats
     
-(*
-// Test ommitted due to extremely long runtime of CodeCov.
 [<Tests>]
 let testPostHocTests =
     //Tests taken from:
     //https://www.icalcu.com/stat/anova-tukey-hsd-calculator.html
     testList "Testing.PostHoc" [
+        (*
+        // Test ommitted due to extremely long runtime of CodeCov.
         testCase "tukeyHSD" <| fun () ->
             let dataA = [|3.;3.;4.;5.;2.;5.;5.;4.;4.;2.;2.;2.;4.;3.;5.;3.;4.;5.;3.;5.;                   |]
             let dataB = [|10.;7.;9.;6.;7.;7.;6.;7.;10.;7.;8.;8.;8.;6.;10.;9.;9.;6.;9.;8.;                |]
@@ -45,9 +46,42 @@ let testPostHocTests =
             Expect.floatClose Accuracy.low rpval.[2] pValues.[2] "p values should be equal."
             Expect.floatClose Accuracy.low rpval.[3] pValues.[3] "p values should be equal."
             Expect.floatClose Accuracy.low rpval.[4] pValues.[4] "p values should be equal."
-    ]
-*)
+        *)
+        testCase "dunnett" <| fun () ->
+            let data = 
+                [|
+                    [|1.84;2.49;1.50;2.42;|]
+                    [|2.43;1.85;2.42;2.73;|]
+                    [|3.95;3.67;3.23;2.31;|]
+                    [|3.21;3.20;2.32;3.30;|]
+                    [|3.21;3.13;2.32;3.30;3.20;2.42;|]
+                |]
 
+            //first sample is control
+            let contrastMatrix = 
+                [|                
+                    [|-1.;1.;0.;0.;0.|]
+                    [|-1.;0.;1.;0.;0.|]
+                    [|-1.;0.;0.;1.;0.|]
+                    [|-1.;0.;0.;0.;1.|]
+                |]
+
+            let dunnettResult = 
+                PostHoc.dunnetts contrastMatrix data Tables.dunnettsTwoSided095
+
+            //result from: SPSS Dunnett's test version 27
+            let pval = [0.811;0.010;0.050;0.049]
+            let dmean = [0.295;1.2275;0.945;0.8675]
+                
+            Expect.equal dunnettResult.[0].Significance (pval.[0]<0.05) "Significance should be equal."
+            Expect.equal dunnettResult.[1].Significance (pval.[1]<0.05) "Significance should be equal."
+            Expect.equal dunnettResult.[2].Significance (pval.[2]<0.05) "Significance should be equal."
+            Expect.equal dunnettResult.[3].Significance (pval.[3]<0.05) "Significance should be equal."
+            Expect.floatClose Accuracy.high dunnettResult.[0].L dmean.[0] "Mean differences should be equal."
+            Expect.floatClose Accuracy.high dunnettResult.[1].L dmean.[1] "Mean differences should be equal."
+            Expect.floatClose Accuracy.high dunnettResult.[2].L dmean.[2] "Mean differences should be equal."
+            Expect.floatClose Accuracy.high dunnettResult.[3].L dmean.[3] "Mean differences should be equal."
+    ]
 
 [<Tests>]
 let hTestTests = 
@@ -66,6 +100,87 @@ let hTestTests =
             Expect.isTrue (0.03781 = Math.Round(hResult.PValueRight,5)) "pValue should be equal."
             Expect.isTrue (6.5502  = Math.Round(hResult.Statistic,4)) "statistic should be equal."
                 
+    ]
+
+[<Tests>]
+let friedmanTestTests = 
+    // Friedman-Test testes against dataset from https://www.methodenberatung.uzh.ch/de/datenanalyse_spss/unterschiede/zentral/friedman.html#3.2._Ergebnisse_des_Friedman-Tests and p-values obtained from distcalc and https://www.socscistatistics.com/pvalues/chidistribution.aspx 
+    let A = [|275.;273.;288.;273.;244.|]
+    let B = [|292.;283.;284.;285.;329.|]
+    let C = [|281.;274.;298.;270.;252.|]
+    let D = [|284.;275.;271.;272.;258.|]
+    let E = [|285.;294.;307.;278.;275.|]
+    let F = [|283.;279.;301.;276.;279.|]
+    let G = [|290.;265.;298.;291.;295.|]
+    let H = [|294.;277.;295.;290.;271.|]
+    let I = [|300.;304.;293.;279.;271.|]
+    let J = [|284.;297.;352.;292.;284.|]
+    let samples = seq{A;B;C;D;E;F;G;H;I;J}
+
+    // modified dataset from UZH for 3x equal ranks 
+    let A2 = [|275.;273.;288.;273.;273.|]
+    let B2 = [|292.;283.;284.;285.;329.|]
+    let C2 = [|281.;274.;298.;270.;252.|]
+    let D2 = [|284.;275.;271.;272.;258.|]
+    let E2 = [|285.;294.;307.;278.;275.|]
+    let F2 = [|283.;279.;301.;276.;279.|]
+    let G2 = [|290.;265.;298.;291.;295.|]
+    let H2 = [|294.;277.;295.;290.;271.|]
+    let I2 = [|300.;304.;293.;279.;271.|]
+    let J2 = [|284.;297.;284.;292.;284.|]
+    let samples2 = seq{A2;B2;C2;D2;E2;F2;G2;H2;I2;J2}
+
+
+    //calculation of friedman test
+    let friedmanResult1 = 
+        FriedmanTest.createFriedmanTest samples 
+        
+    let friedmanResult2 = 
+        FriedmanTest.createFriedmanTest samples2 
+
+    testList "Testing.FriedmanTest" [
+        testCase "createFriedmanTest2equal" <| fun () -> 
+            Expect.floatClose Accuracy.low friedmanResult1.Statistic 13.259 "statistics should be equal."
+            Expect.floatClose Accuracy.low friedmanResult1.PValueRight 0.010077 "pValue should be equal."
+        testCase "createFriedmanTest3equal" <| fun () -> 
+            Expect.floatClose Accuracy.low friedmanResult2.Statistic 9.738 "statistics should be equal."
+            Expect.floatClose Accuracy.low friedmanResult2.PValueRight 0.04508 "pValue should be equal."
+        ]
+
+[<Tests>]
+let tTestTests = 
+    // tested in SPSS version 27
+    let groupA = vector [-5.;-3.;-3.;-4.;-5.;] 
+    let groupB = vector [-2.;-4.;-4.;-6.;-6.;-6.;-5.;] 
+    let groupC = vector [-3.;-7.;-8.;-4.;-2.; 1.;-1.;]   
+    let groupD = vector [1.;-1.;0.;2.;2.;]   
+        
+    let meanA = Seq.mean groupA
+    let meanB = Seq.mean groupB
+    let varA = Seq.var groupA
+    let varB = Seq.var groupB
+    let nA = float (Seq.length groupA)
+    let nB = float (Seq.length groupB)
+
+    // calculation of the H test 
+    let tTest1 = TTest.twoSample true groupA groupB
+    let tTest2 = TTest.twoSampleFromMeanAndVar true (meanA,varA,nA) (meanB,varB,nB) 
+    let tTest3 = TTest.twoSample false groupA groupB
+    let tTest4 = TTest.oneSample groupD 0.5
+
+    testList "Testing.TTest" [
+        testCase "twoSample" <| fun () -> 
+            Expect.floatClose Accuracy.low tTest1.PValue 0.377 "pValue should be equal."
+            Expect.floatClose Accuracy.low tTest1.DegreesOfFreedom 10. "df should be equal."
+            Expect.floatClose Accuracy.low tTest1.Statistic 0.924 "t statistic should be equal."
+            Expect.floatClose Accuracy.low tTest3.PValue 0.345 "pValue should be equal."
+            Expect.floatClose Accuracy.low tTest3.DegreesOfFreedom 9.990 "df should be equal."
+        testCase "twoSampleFromMeanAndVar" <| fun () -> 
+            Expect.equal tTest1 tTest2 "results should be equal."
+        testCase "oneSample" <| fun () -> 
+            Expect.floatClose Accuracy.low tTest4.PValue 0.634 "pValue should be equal."
+            Expect.equal tTest4.DegreesOfFreedom 4. "df should be equal."
+            Expect.floatClose Accuracy.low tTest4.Statistic 0.514 "t statistic should be equal."
     ]
 
 [<Tests>]

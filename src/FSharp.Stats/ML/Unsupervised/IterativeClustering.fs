@@ -51,17 +51,14 @@ module IterativeClustering =
 
 
 
-    // cvmax - Algorith by Moth’d Belal. Al-Daoud (Ref.: A New Algorithm for Cluster Initialization)
-    let intitCVMAX (sample: float[] array) k =
-        let dmatrix = matrix sample
+    // cvmax - Algorithm by Moth’d Belal. Al-Daoud (Ref.: A New Algorithm for Cluster Initialization)
+    let initCVMAX (sampleRows: float[] []) k =
+        let dmatrix = matrix sampleRows
         let cvmax =
-            dmatrix
-            |> Matrix.Generic.enumerateColumnWise Seq.var
-            |> Seq.zip (Matrix.Generic.enumerateColumnWise id dmatrix)
-            |> Seq.maxBy snd
-            |> fst
-            |> Seq.mapi (fun rowI value -> (rowI,value)) 
-            |> Seq.toArray 
+            sampleRows
+            |> JaggedArray.transpose
+            |> Array.maxBy Seq.var
+            |> Array.indexed
             |> Array.sortBy snd
                     
         if cvmax.Length < k then failwithf "Number of data points must be at least %i" k        
@@ -78,7 +75,7 @@ module IterativeClustering =
                 | x                       -> chunkSize * (i - 1) + ((cvmax.Length - chunkSize * (i - 1)) / 2)
             //printfn "Array.lenght = %i and index = %i" cvmax.Length (index-1)
             yield cvmax.[index-1] |> fst]
-        |> Seq.map (fun rowI -> dmatrix.Row(rowI).ToArray())
+        |> Seq.map (fun rowI -> sampleRows.[rowI])
         |> Seq.toArray
 
 //    // cvmax - Algorith by Moth’d Belal. Al-Daoud (Ref.: A New Algorithm for Cluster Initialization)

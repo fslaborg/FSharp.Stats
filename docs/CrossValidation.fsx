@@ -6,8 +6,8 @@
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta3"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-alpha5"
+#r "nuget: Plotly.NET, 2.0.0-beta8"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -147,7 +147,7 @@ let's first create some smoothing splines to cross validate:
 
 *)
 
-// the fitting function fits a polynomial of order 'order' to the training data set (xTrain and yTrain) and applies it to xTest
+// the fitting function fits a smoothing spline with smoothing factor lambda to the training data set (xTrain and yTrain) and applies it to xTest
 let getFitFuncSpline xDat yDat (xDatTrain: RowVector<float>) lambda =
     let xDatVec = xDat |> Matrix.toVector
     let zippedData = Seq.zip xDatVec yDat |> Array.ofSeq

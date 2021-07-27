@@ -8,8 +8,8 @@
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta3"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-alpha5"
+#r "nuget: Plotly.NET, 2.0.0-beta8"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
 #r "nuget: FSharpAux, 1.0.0"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
@@ -114,7 +114,7 @@ let randomInitFactory : IterativeClustering.CentroidsFactory<float []> =
     IterativeClustering.randomCentroids<float []> rnd
 
 //let cvmaxFactory : IterativeClustering.CentroidsFactory<float []> = 
-//    IterativeClustering.intitCVMAX
+//    IterativeClustering.initCVMAX
   
 let kmeansResult = 
     IterativeClustering.kmeans <| DistanceMetrics.euclidean <| randomInitFactory 
