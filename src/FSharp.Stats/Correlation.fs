@@ -79,9 +79,14 @@ module Correlation =
         /// <returns>The pearson correlation.</returns>
         /// <example> 
         /// <code> 
-        /// [312.7, 315.5; 104.2, 101.3; 104., 108.; 34.7, 32.2]
-        /// |> Seq.pearsonOfPairs
-        /// // evaluates to -0.9659514878
+        /// // Consider a sequence of paired x and y values.
+        /// let x = [312.7; 104.2; 104.0; 34.7]
+        /// let y = [315.5; 101.3; 108.0; 32.2]
+        /// let paired = Seq.zip x y 
+        /// // paired evaluates to [(312.7, 315.5); (104.2, 101.3); (104.0, 108.0); (34.7, 32.2)]
+        /// 
+        /// // To get the correlation between x and y:
+        /// paired |> Seq.pearsonOfPairs // evaluates to -0.9659514878
         /// </code> 
         /// </example>
         let inline pearsonOfPairs (seq:seq<'T * 'T>) = 
@@ -145,17 +150,17 @@ module Correlation =
             weightedCorrelation seq1 seq2 weights
 
         /// <summary>
-        /// Calculates the weighted pearson correlation of two samples given as a sequence of tuples ('seq1 * 'seq2 * 'weights).
+        /// Calculates the weighted pearson correlation of two samples given as a sequence of triples.
         /// </summary>
-        /// <param name="seq">The input sequence.</param>
+        /// <param name="seq">The input sequence. If the two samples are x and y then the elements of the sequence should be triples of <c>x * y * weight</c></param>
         /// <returns>The weighted pearson correlation.</returns>
         /// <example>
         /// <code>
-        /// [1.1, 1.2, 0.2; 1.1, 0.9, 0.3; 1.2, 0.08, 0.5] |> Seq.pearsonWeightedOfPairs
+        /// [1.1, 1.2, 0.2; 1.1, 0.9, 0.3; 1.2, 0.08, 0.5] |> Seq.pearsonWeightedOfTriples
         /// // evaluates to -0.9764158959
         /// </code>
         /// </example>
-        let inline pearsonWeightedOfPairs (seq: seq<'T * 'T * 'T>) =
+        let inline pearsonWeightedOfTriples (seq: seq<'T * 'T * 'T>) =
             seq
             |> Seq.toArray
             |> Array.unzip3
@@ -182,7 +187,7 @@ module Correlation =
         let inline pearsonWeightedBy f (seq: 'T seq) =
             seq
             |> Seq.map f
-            |> pearsonWeightedOfPairs
+            |> pearsonWeightedOfTriples
 
         /// Spearman Correlation (with ranks)
         let spearman array1 array2 =
