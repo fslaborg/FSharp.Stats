@@ -359,7 +359,7 @@ module Persistence =
         
         mergeTreePairsSimpl,ppSegmentationSimpl,mtSegmentationSimpl
  
-
+    //let indexsingle (da:'a[]) k = if k<0 then da.Length + k else k 
     //let plotPersistenceDiagram' (data:float []) persistencePairs = 
     //    let mutable maxVal = -infinity
     //    let mutable minVal = infinity
