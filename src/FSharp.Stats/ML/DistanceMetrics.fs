@@ -119,6 +119,29 @@ module DistanceMetrics =
                     dist <- dist + (x |> System.Math.Abs)
             dist
 
+        /// Calculates the maximal distance from each point of the source coordinates to the nearest point of target coordiantes.
+        /// The clostest target point to each source point is determined with the given distance function. The maximal closest distance is reported
+        /// By default euclidean distance is set as distance function
+        let hausdorffDirected (distFu : float [] -> float [] -> float) (source: float[][]) (target: float[][]) =
+            source
+            |> Array.map (fun sourceCoor -> 
+                target
+                |> Array.map (fun targetCoor -> 
+                    let distance = distFu sourceCoor targetCoor
+                    distance
+                    )
+                |> Array.min 
+                )
+            |> Array.max
+        
+        /// Calculates the maximal distance from each point on one set to the nearest point of the other set.
+        /// The clostest target point to each source point is determined with the given distance function. 
+        /// dataA and dataB are both analyzed as source and target respectively. The maximal closest distance is reported.
+        /// By default euclidean distance is set as distance function
+        let hausdorff distFu dataA dataB =
+            let hausDorffA = hausdorffDirected distFu dataA dataB
+            let hausDorffB = hausdorffDirected distFu dataB dataA
+            max hausDorffA hausDorffB
         
 
     /// Euclidean distance of two coordinate sequences
