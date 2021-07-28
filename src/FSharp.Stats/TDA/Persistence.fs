@@ -35,9 +35,14 @@ module Persistence =
         let compare i j =
             let a = if i<0 || i>(data.Length-1) then nan else data.[i]
             let b = if j<0 || j>(data.Length-1) then nan else data.[j]
+            let i_ = abs (i-data.Length/2)
+            let j_ = abs (j-data.Length/2)
             if a=b then
                 let res = i-j
-                if reverse then res*(-1) else res
+                let res_ = j_ - i_
+                if res_=0
+                    then if reverse then res*(-1) else res
+                    else if reverse then res_*(-1) else res_
             else
                 let res = if a<b then -1 else 1
                 if reverse then res*(-1) else res
@@ -165,9 +170,14 @@ module Persistence =
         let compare i j =
             let a = if i<0 || i>(data.Length-1) then nan else data.[i]
             let b = if j<0 || j>(data.Length-1) then nan else data.[j]
+            let i_ = abs (i-data.Length/2)
+            let j_ = abs (j-data.Length/2)
             if a=b then
                 let res = i-j
-                if reverse then res*(-1) else res
+                let res_ = j_ - i_
+                if res_=0
+                    then if reverse then res*(-1) else res
+                    else if reverse then res_*(-1) else res_
             else
                 let res = if a<b then -1 else 1
                 if reverse then res*(-1) else res
@@ -229,13 +239,18 @@ module Persistence =
         let compare i j =
             let a = if i<0 || i>(data.Length-1) then nan else data.[i]
             let b = if j<0 || j>(data.Length-1) then nan else data.[j]
+            let i_ = abs (i-data.Length/2)
+            let j_ = abs (j-data.Length/2)
             if a=b then
                 let res = i-j
-                if split then res*(-1) else res
+                let res_ = j_ - i_
+                if res_=0
+                    then if split then res*(-1) else res
+                    else if split then res_*(-1) else res_
             else
                 let res = if a<b then -1 else 1
                 if split then res*(-1) else res
-        let smaller i j=
+        let smaller i j =
             compare i j < 0
 
         let mutable ppSegmentationSimpl = Array.copy ppSegmentation
@@ -281,13 +296,13 @@ module Persistence =
             let v1 = data.[fst pair]
             let v2 = data.[snd pair]
             // if persistence over threshold, stop iteration (following pairs are also larger due to sorting)
-            if Math.Abs(v1-v2) > threshold then 
+            if Math.Abs(v1-v2) > threshold then
                 ()
             else
                 // determine which vertex is inner node (kept) and which leave (simplified)
-                let simplifiedExtremum = 
+                let simplifiedExtremum =
                     if smaller (fst pair) (snd pair) then fst pair else snd pair
-                let keptExtremum = 
+                let keptExtremum =
                     if simplifiedExtremum = snd pair then fst pair else snd pair
 
                 // change segmentation value of for simplified vertex (rest of region follows later)
@@ -295,7 +310,7 @@ module Persistence =
                 mtSegmentationSimpl.[simplifiedExtremum] <- mtSegmentationSimpl.[keptExtremum]
                 // remove simplified node from neighbors of kept node
                 let tmpR1 = (List.filter (fun x -> x <> simplifiedExtremum) neighborMap.[keptExtremum])
-                neighborMap <- neighborMap |> Map.add keptExtremum tmpR1     
+                neighborMap <- neighborMap |> Map.add keptExtremum tmpR1
                 neighborMap <- neighborMap |> Map.add simplifiedExtremum []
                 // prune kept node if necessary (i.e. if degree 2)
                 if neighborMap.[keptExtremum].Length = 2 then
@@ -307,6 +322,7 @@ module Persistence =
                         elif smaller (neighborMap.[keptExtremum]).[0] (neighborMap.[keptExtremum]).[1]
                         then (neighborMap.[keptExtremum]).[0] else (neighborMap.[keptExtremum]).[1]
                     mtSegmentationSimpl.[keptExtremum] <- mtSegmentationSimpl.[smallerNeighbor]
+                    let largerNeighbor = if smallerNeighbor=neighborMap.[keptExtremum].[0] then neighborMap.[keptExtremum].[1] else neighborMap.[keptExtremum].[0] 
                     prune (int keptExtremum)
 
                 // printfn "Merge tree segmentation simplified:"
