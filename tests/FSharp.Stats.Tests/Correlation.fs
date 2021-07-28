@@ -35,3 +35,30 @@ let pearsonCorrelationTests =
             Expect.isTrue (0.571181558 = Math.Round(testCase1,9)) "pearson correlation coefficient should be equal"
             Expect.isTrue (0.999705373 = Math.Round(testCase2,9)) "pearson correlation coefficient should be equal"
     ]
+   
+[<Tests>]
+let spearmanCorrelationTests = 
+    // tested with R cor(x,y,method = "spearman")
+    let seq1 = [5.05;6.75;3.21;2.66]
+    let seq2 = [1.65;2.64;2.64;6.95]
+    let testCase1 =
+        (seq1, seq2)
+        ||> Seq.spearman
+
+    let testCase2 = 
+        let seq1 = [2.0; 47.4; 42.0; 10.8; 60.1; 1.7; 64.0; 63.1; 1.0; 1.4; 7.9; 0.3; 3.9; 0.3; 6.7]
+        let seq2 = [22.6; 8.3; 44.4; 11.9; 24.6; 0.6; 5.7; 41.6; 0.0; 0.6; 6.7; 3.8; 1.0; 1.2; 1.4]
+        (seq1, seq2)
+        ||> Seq.spearman
+
+    let testCase3 = 
+        (seq1 |> Seq.map decimal,
+         seq2 |> Seq.map decimal)
+        ||> Seq.spearman
+
+    testList "Correlation.Seq" [
+        testCase "spearman" <| fun () ->
+            Expect.floatClose Accuracy.high testCase1 -0.632455532 "Should be equal (double precision)"
+            Expect.floatClose Accuracy.high testCase2 0.6887298748 "Should be equal (double precision)"
+            Expect.floatClose Accuracy.high testCase3 -0.632455532 "Should be equal (double precision)"
+    ]

@@ -42,6 +42,7 @@ module Correlation =
     module Seq = 
         /// Calculates the pearson correlation of two samples. Homoscedasticity must be assumed.
         let inline pearson (seq1:seq<'T>) (seq2:seq<'T>) : float =
+            if Seq.length seq1 <> Seq.length seq2 then failwithf "input arguments are not the same length"
             let seq1' = seq1 |> Seq.map float
             let seq2' = seq2 |> Seq.map float
             use e = seq1'.GetEnumerator()
@@ -99,11 +100,29 @@ module Correlation =
                 a / b          
             weightedCorrelation seq1 seq2 weights
     
+        /// <summary>
         /// Spearman Correlation (with ranks)
-        let spearman array1 array2 =
+        /// 
+        /// Items that are tied are each allocated the average of the ranks that
+        /// they would have had had they been distinguishable.
+        /// 
+        /// Reference: Williams R.B.G. (1986) Spearman’s and Kendall’s Coefficients of Rank Correlation. 
+        /// Intermediate Statistics for Geographers and Earth Scientists, p453, https://doi.org/10.1007/978-1-349-06813-5_6
+        /// </summary>
+        /// <returns>The spearman correlation.</returns>
+        /// <example>
+        /// <code>
+        /// let x = [5.05;6.75;3.21;2.66]
+        /// let y = [1.65;2.64;2.64;6.95]
+        /// 
+        /// // To get the correlation between x and y:
+        /// Seq.spearman x y // evaluates to -0.632455532
+        /// </code>
+        /// </example>
+        let inline spearman (seq1: seq<'T>) (seq2: seq<'T>) : float =
     
-            let spearRank1 = FSharp.Stats.Rank.rankFirst array1 
-            let spearRank2 = FSharp.Stats.Rank.rankFirst array2
+            let spearRank1 = seq1 |> Seq.map float |> Seq.toArray |> FSharp.Stats.Rank.rankAverage
+            let spearRank2 = seq2 |> Seq.map float |> Seq.toArray |> FSharp.Stats.Rank.rankAverage
 
             pearson spearRank1 spearRank2
 
