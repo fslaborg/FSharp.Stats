@@ -910,6 +910,30 @@ rich |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (*** hide ***)
+let explRichGeneric (model:Model) coefs = 
+    let ff = model.GetFunctionValue coefs
+    [-6. .. 0.1 .. 6.]
+    |> List.map (fun x -> x,ff x)
+    |> Chart.Line
+    |> styleChart "" ""
+    |> Chart.withTraceName (sprintf "%A" coefs)
+
+let richGeneric =
+    [
+        explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 0.5; 1.; 0.])
+        explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 0.5; 1.; 3.])
+        explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 2.; 0.5; 1.; 0.])
+        explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 5.; 1.; 0.])
+        explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 0.5; 5.; 0.])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "Richards Generic"
+
+(***hide***)
+richGeneric |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(*** hide ***)
 
 let wei =
     [

@@ -609,6 +609,41 @@ module NonLinearRegression =
                                 gradientVector.[3] <- 1.
                                 gradientVector)
             }
+        /// Descending version of the generalized logistic function or curve, also known as Richards' curve with 7 parameters.
+        /// Logistic function of the form "Y(t) = A + (K - A) / (C + Q * e^(B * (t - M)))**(1. / v)"
+        let richardsGenericDescending =
+            {
+            ParameterNames= [|"A - lower asymptote"; "K - upper asymptote"; "B - growth rate"; "v > 0 - affects near which asymptote maximum growth occurs"; "Q - related to Y(0)"; "C - typically 1"; "M - starting time"|]
+            GetFunctionValue = 
+                (fun (parameterVector:Vector<float>) t -> 
+                    let a = parameterVector.[0]
+                    let k = parameterVector.[1]
+                    let b = parameterVector.[2]
+                    let v = parameterVector.[3]
+                    let q = parameterVector.[4]
+                    let c = parameterVector.[5]
+                    let m = parameterVector.[6]
+                    a + (k - a) / (c + q * Math.Exp(b * (t - m)))**(1. / v)
+                )
+            GetGradientValue = 
+                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                    let a = parameterVector.[0]
+                    let k = parameterVector.[1]
+                    let b = parameterVector.[2]
+                    let v = parameterVector.[3]
+                    let q = parameterVector.[4]
+                    let c = parameterVector.[5]
+                    let m = parameterVector.[6]
+                    gradientVector.[0] <- 1.-1./(q*Math.Exp(b*(t-m))+c)**(1./v)
+                    gradientVector.[1] <- 1./(q*Math.Exp(b*(t-m))+c)**(1./v)
+                    gradientVector.[2] <- -((k-a)*q*(t-m)*Math.Exp((t-m)*b)*(q*Math.Exp((t-m)*b)+c)**(-1./v-1.))/v
+                    gradientVector.[3] <- ((k-a)*Math.Log(q*Math.Exp(b*(t-m))+c))/((q*Math.Exp(b*(t-m))+c)**(1./v)*v**2.)
+                    gradientVector.[4] <- -((k-a)*Math.Exp(b*(t-m))*(Math.Exp(b*(t-m))*q+c)**(-1./v-1.))/v
+                    gradientVector.[5] <- -((k-a)*(c+q*Math.Exp(b*(t-m)))**(-1./v-1.))/v
+                    gradientVector.[6] <- (b*(k-a)*q*Math.Exp(b*(t-m))*(q*Math.Exp(b*(t-m))+c)**(-1./v-1.))/v
+                    gradientVector
+                )
+            }
         
         module GrowthModels =
 
@@ -677,6 +712,41 @@ module NonLinearRegression =
                         gradientVector.[3] <- 
                             l*(Math.Exp(-k*(t-y))/((Math.Exp(-k*(t-y))*(d-1.)+1.)*(1.-d)) + (log(Math.Exp(-k*(t-y))*(d-1.)+1.))/(pown (1. - d) 2))*(Math.Exp(-k*(t-y))*(d-1.)+1.)**(1./(1.-d))
                         gradientVector)
+                }
+            /// Generalized logistic function or curve, also known as Richards' curve with 7 parameters.
+            /// Logistic function of the form "Y(t) = A + (K - A) / (C + Q * e^(-B * (t - M)))**(1. / v)"
+            let richardsGeneric =
+                {
+                ParameterNames= [|"A - lower asymptote"; "K - upper asymptote"; "B - growth rate"; "v > 0 - affects near which asymptote maximum growth occurs"; "Q - related to Y(0)"; "C - typically 1"; "M - starting time"|]
+                GetFunctionValue = 
+                    (fun (parameterVector:Vector<float>) t -> 
+                        let a = parameterVector.[0]
+                        let k = parameterVector.[1]
+                        let b = parameterVector.[2]
+                        let v = parameterVector.[3]
+                        let q = parameterVector.[4]
+                        let c = parameterVector.[5]
+                        let m = parameterVector.[6]
+                        a + (k - a) / (c + q * Math.Exp(-b * (t - m)))**(1. / v)
+                    )
+                GetGradientValue = 
+                    (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) t ->
+                        let a = parameterVector.[0]
+                        let k = parameterVector.[1]
+                        let b = parameterVector.[2]
+                        let v = parameterVector.[3]
+                        let q = parameterVector.[4]
+                        let c = parameterVector.[5]
+                        let m = parameterVector.[6]
+                        gradientVector.[0] <- 1.-1./(q*Math.Exp(-b*(t-m))+c)**(1./v)
+                        gradientVector.[1] <- 1./(q*Math.Exp(-b*(t-m))+c)**(1./v)
+                        gradientVector.[2] <- ((k-a)*q*(t-m))/(v*(q*Math.Exp(-(t-m)*b)+c)**(1./v)*(c*Math.Exp((t-m)*b)+q))
+                        gradientVector.[3] <- ((k-a)*log(q*Math.Exp(-b*(t-m))+c))/((q*Math.Exp(-b*(t-m))+c)**(1./v)*v**2.)
+                        gradientVector.[4] <- -((k-a)*Math.Exp(-b*(t-m))*(Math.Exp(-b*(t-m))*q+c)**(-1./v-1.))/v
+                        gradientVector.[5] <- -((k-a)*(c+q*Math.Exp(-b*(t-m)))**(-1./v-1.))/v
+                        gradientVector.[6] <- -(b*(k-a)*q*Math.Exp(-b*(t-m))*(q*Math.Exp(-b*(t-m))+c)**(-1./v-1.))/v
+                        gradientVector
+                    )
                 }
 
             /// weibull growth model; if d=1 then it is a simple exponential growth model
