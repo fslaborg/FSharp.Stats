@@ -911,6 +911,21 @@ rich |> GenericChart.toChartHTML
 
 (*** hide ***)
 
+let richGeneric =
+    [
+        explGompertz Table.GrowthModels.richards (vector [20.; 7.; 5.; 5.])
+        explGompertz Table.GrowthModels.richards (vector [20.; 5.; 5.; 10.])
+        explGompertz Table.GrowthModels.richards (vector [15.; 7.; 5.; 15.])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "Richards"
+
+(***hide***)
+rich |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(*** hide ***)
+
 let wei =
     [
         explGompertz Table.GrowthModels.weibull (vector [7.; 20.; 0.2; 3.])
