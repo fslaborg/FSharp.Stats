@@ -611,7 +611,7 @@ module NonLinearRegression =
             }
         /// Descending version of the generalized logistic function or curve, also known as Richards' curve with 7 parameters.
         /// Logistic function of the form "Y(t) = A + (K - A) / (C + Q * e^(B * (t - M)))**(1. / v)"
-        let richardsDescending =
+        let richardsGenericDescending =
             {
             ParameterNames= [|"A - lower asymptote"; "K - upper asymptote"; "B - growth rate"; "v > 0 - affects near which asymptote maximum growth occurs"; "Q - related to Y(0)"; "C - typically 1"; "M - starting time"|]
             GetFunctionValue = 
@@ -715,7 +715,7 @@ module NonLinearRegression =
                 }
             /// Generalized logistic function or curve, also known as Richards' curve with 7 parameters.
             /// Logistic function of the form "Y(t) = A + (K - A) / (C + Q * e^(-B * (t - M)))**(1. / v)"
-            let richardsAscending =
+            let richardsGeneric =
                 {
                 ParameterNames= [|"A - lower asymptote"; "K - upper asymptote"; "B - growth rate"; "v > 0 - affects near which asymptote maximum growth occurs"; "Q - related to Y(0)"; "C - typically 1"; "M - starting time"|]
                 GetFunctionValue = 
