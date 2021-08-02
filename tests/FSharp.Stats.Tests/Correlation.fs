@@ -12,8 +12,23 @@ let kendallCorrelationTests =
             let ys = [|-0.3;-0.25;-0.1;-0.46;0.103;0.409|]
             let tau = Seq.kendall xs ys
             Expect.floatClose Accuracy.high tau 0.4666666667 "Should be equal (double precision)"
-            
     //ToDo ties tau_a,tau_b,tau_c
+
+        testCase "kendallOfPairs" <| fun() ->
+            let testCase1 = 
+                [-0.5, -0.3; -0.4, -0.25; 0., -0.1; 0.7, -0.46; 0.65, 0.103; 0.9649, 0.409] |> Seq.kendallOfPairs
+            Expect.floatClose Accuracy.high testCase1 0.4666666667 "Should be equal (double precision)"
+
+        testCase "kendallBy" <| fun() ->
+            let testCase2 = 
+                [ {| xs = -0.5; ys = -0.3 |}
+                  {| xs = -0.4; ys = -0.25 |}
+                  {| xs = 0.; ys = -0.1 |}
+                  {| xs = 0.7; ys = -0.46 |}
+                  {| xs = 0.65; ys = 0.103 |}
+                  {| xs = 0.9649; ys = 0.409 |} ]
+                |> Seq.kendallBy (fun x -> x.xs, x.ys)
+            Expect.floatClose Accuracy.high testCase2 0.4666666667 "Should be equal (double precision)"
     ]
 
 [<Tests>]
@@ -30,25 +45,47 @@ let pearsonCorrelationTests =
         let seq2 = [315.5; 101.3; 108.; 32.2]
         Seq.pearson seq1 seq2
 
+    let testCase3 = 
+        [312.7, 315.5; 104.2, 101.3; 104., 108.; 34.7, 32.2]
+        |> Seq.pearsonOfPairs
+
+    let testCase4 = 
+        [ {| A = 312.7; B = 315.5 |}
+          {| A = 104.2; B = 101.3 |}
+          {| A = 104.; B = 108. |}
+          {| A = 34.7; B = 32.2 |} ]
+        |> Seq.pearsonBy(fun x -> x.A, x.B)
+
     testList "Correlation.Seq" [
         testCase "pearson" <| fun () -> 
             Expect.isTrue (0.571181558 = Math.Round(testCase1,9)) "pearson correlation coefficient should be equal"
             Expect.isTrue (0.999705373 = Math.Round(testCase2,9)) "pearson correlation coefficient should be equal"
-    ]
+        testCase "pearsonOfPairs" <| fun () -> 
+            Expect.isTrue (0.999705373 = Math.Round(testCase3,9)) "pearson correlation coefficient should be equal"
+        testCase "pearsonBy" <| fun () -> 
+            Expect.isTrue (0.999705373 = Math.Round(testCase4,9)) "pearson correlation coefficient should be equal"
+     ]
+
    
 [<Tests>]
 let spearmanCorrelationTests = 
     // tested with R cor(x,y,method = "spearman")
     let seq1 = [5.05;6.75;3.21;2.66]
     let seq2 = [1.65;2.64;2.64;6.95]
+    let seq3 = [2.0; 47.4; 42.0; 10.8; 60.1; 1.7; 64.0; 63.1; 1.0; 1.4; 7.9; 0.3; 3.9; 0.3; 6.7]
+    let seq4 = [22.6; 8.3; 44.4; 11.9; 24.6; 0.6; 5.7; 41.6; 0.0; 0.6; 6.7; 3.8; 1.0; 1.2; 1.4]
+
+    let ab = [ {| A = 5.05; B = 1.65 |}
+               {| A = 6.75; B = 2.64 |}
+               {| A = 3.21; B = 2.64 |}
+               {| A = 2.66; B = 6.95 |} ]
+
     let testCase1 =
         (seq1, seq2)
         ||> Seq.spearman
 
     let testCase2 = 
-        let seq1 = [2.0; 47.4; 42.0; 10.8; 60.1; 1.7; 64.0; 63.1; 1.0; 1.4; 7.9; 0.3; 3.9; 0.3; 6.7]
-        let seq2 = [22.6; 8.3; 44.4; 11.9; 24.6; 0.6; 5.7; 41.6; 0.0; 0.6; 6.7; 3.8; 1.0; 1.2; 1.4]
-        (seq1, seq2)
+        (seq3, seq4)
         ||> Seq.spearman
 
     let testCase3 = 
@@ -56,9 +93,24 @@ let spearmanCorrelationTests =
          seq2 |> Seq.map decimal)
         ||> Seq.spearman
 
+    let testCase4 = 
+        Seq.zip seq1 seq2
+        |> Seq.spearmanOfPairs
+
+    let testCase5 = 
+        Seq.zip seq3 seq4
+        |> Seq.spearmanOfPairs
+
+    let testCase6 = 
+        ab
+        |> Seq.spearmanBy(fun x -> x.A, x.B)
+
     testList "Correlation.Seq" [
         testCase "spearman" <| fun () ->
             Expect.floatClose Accuracy.high testCase1 -0.632455532 "Should be equal (double precision)"
             Expect.floatClose Accuracy.high testCase2 0.6887298748 "Should be equal (double precision)"
             Expect.floatClose Accuracy.high testCase3 -0.632455532 "Should be equal (double precision)"
+            Expect.floatClose Accuracy.high testCase4 -0.632455532 "Should be equal (double precision)"
+            Expect.floatClose Accuracy.high testCase5 0.6887298748 "Should be equal (double precision)"
+            Expect.floatClose Accuracy.high testCase6 -0.632455532 "Should be equal (double precision)"            
     ]
