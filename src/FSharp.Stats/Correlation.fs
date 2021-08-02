@@ -149,9 +149,10 @@ module Correlation =
             weightedCorrelation seq1 seq2 weights
 
         /// <summary>
-        /// Calculates the weighted pearson correlation of two samples given as a sequence of triples.
+        /// Calculates the weighted pearson correlation of two samples. 
+        /// If the two samples are <c>x</c> and <c>y</c> then the elements of the input sequence should be triples of <c>x * y * weight</c>.
         /// </summary>
-        /// <param name="seq">The input sequence. If the two samples are x and y then the elements of the sequence should be triples of <c>x * y * weight</c></param>
+        /// <param name="seq">The input sequence.</param>
         /// <returns>The weighted pearson correlation.</returns>
         /// <example>
         /// <code>
@@ -170,11 +171,11 @@ module Correlation =
             |||> pearsonWeighted
 
         /// <summary>
-        /// Calculates the weighted pearson correlation of two samples given as a sequence of triples.
-        /// The three samples are built by applying the given function to each element of the sequence.
+        /// Calculates the weighted pearson correlation of two samples after 
+        /// applying the given function to each element of the sequence.
         /// </summary>
-        /// <param name="f"></param>
-        /// <param name="seq">The input sequence. If the two samples are x and y then the elements of the sequence should be triples of <c>x * y * weight</c></param>
+        /// <param name="f">A function applied to transform each element of the sequence into a tuple of triples representing the two samples and the weight. If the two samples are <c>x</c> and <c>y</c> then the elements of the sequence should be triples of <c>x * y * weight</c></param>
+        /// <param name="seq">The input sequence.</param>
         /// <returns>The weighted pearson correlation.</returns>
         /// <example>
         /// <code>
