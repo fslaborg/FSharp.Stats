@@ -170,13 +170,11 @@ module Correlation =
             |||> pearsonWeighted
 
         /// <summary>
-        /// Calculates the weighted pearson correlation of three samples. (seq1 * seq2 * weights)
+        /// Calculates the weighted pearson correlation of two samples given as a sequence of triples.
         /// The three samples are built by applying the given function to each element of the sequence.
-        /// The function should transform each sequence element into a tuple of observations from the three samples.
-        /// The correlation will be calculated between the three observations.
         /// </summary>
         /// <param name="f"></param>
-        /// <param name="seq">The input sequence.</param>
+        /// <param name="seq">The input sequence. If the two samples are x and y then the elements of the sequence should be triples of <c>x * y * weight</c></param>
         /// <returns>The weighted pearson correlation.</returns>
         /// <example>
         /// <code>

@@ -352,7 +352,6 @@ module Array =
 
     /// <summary>
     ///   Computes the population covariance of two random variables.
-    ///   The function should transform each array element into a tuple of paired observations from the two samples.
     ///   The covariance will be calculated between the paired observations.
     /// </summary>
     /// <param name="array">The input array.</param>
@@ -410,7 +409,6 @@ module Array =
 
     /// <summary>
     ///   Computes the sample covariance of two random variables.
-    ///   The function should transform each array element into a tuple of paired observations from the two samples.
     ///   The covariance will be calculated between the paired observations.    
     /// </summary>
     /// <param name="array">The input array.</param>

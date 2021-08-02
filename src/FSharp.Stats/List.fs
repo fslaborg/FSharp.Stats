@@ -87,7 +87,6 @@ module List =
 
     /// <summary>
     ///   Computes the population covariance of two random variables.
-    ///   The function should transform each list element into a tuple of paired observations from the two samples.
     ///   The covariance will be calculated between the paired observations.
     /// </summary>
     /// <param name="list">The input list.</param>
@@ -145,7 +144,6 @@ module List =
 
     /// <summary>
     ///   Computes the sample covariance of two random variables.
-    ///   The function should transform each list element into a tuple of paired observations from the two samples.
     ///   The covariance will be calculated between the paired observations.    
     /// </summary>
     /// <param name="list">The input list.</param>

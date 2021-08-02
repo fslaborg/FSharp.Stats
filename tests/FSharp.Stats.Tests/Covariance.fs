@@ -12,20 +12,6 @@ let sequenceTests =
     let xd = [5m;12m;18m;-23m;45m] 
     let yd = [2m;8m;18m;-20m;28m] 
 
-    let xy =
-        [ {| x = 5.; y = 2. |}
-          {| x = 12.; y = 8. |}
-          {| x = 18.; y = 18. |}
-          {| x = -23.; y = -20. |} 
-          {| x = 45.; y = 28. |}]
-
-    let xdyd =
-        [ {| x = 5m; y = 2m |}
-          {| x = 12m; y = 8m |}
-          {| x = 18m; y = 18m |}
-          {| x = -23m; y = -20m |} 
-          {| x = 45m; y = 28m |} ]
-
     testList "Seq" [
         testCase "cov of floats" <| fun () ->
             let cov = Seq.cov x y
@@ -52,16 +38,16 @@ let sequenceTests =
             let covPop = (xd, yd) ||> Seq.zip |> Seq.covPopulationOfPairs
             Expect.equal covPop 347.92m "Should be equal (decimal)"
         testCase "covBy of floats" <| fun () ->
-            let cov = xy |> Seq.covBy(fun x -> x.x, x.y)
+            let cov = (x, y) ||> Seq.zip |> Seq.map(fun (x, y) -> {| x = x; y = y |}) |> Seq.covBy(fun x -> x.x, x.y)
             Expect.floatClose Accuracy.high cov 434.90 "Should be equal (double precision)"
         testCase "covPopulationBy of floats" <| fun () ->
-            let covPop = xy |> Seq.covPopulationBy(fun x -> x.x, x.y)
+            let covPop = (x, y) ||> Seq.zip |> Seq.map(fun (x, y) -> {| x = x; y = y |}) |> Seq.covPopulationBy(fun x -> x.x, x.y)
             Expect.floatClose Accuracy.high covPop 347.92 "Should be equal (double precision)"
         testCase "covBy of decimals" <| fun () ->
-            let cov = xdyd |> Seq.covBy(fun x -> x.x, x.y)
+            let cov = (xd, yd) ||> Seq.zip |> Seq.map(fun (x, y) -> {| x = x; y = y |}) |> Seq.covBy(fun x -> x.x, x.y)
             Expect.equal cov 434.90m "Should be equal (decimal)"
         testCase "covPopulationBy of decimals" <| fun () ->
-            let covPop = xdyd |> Seq.covPopulationBy(fun x -> x.x, x.y)
+            let covPop = (xd, yd) ||> Seq.zip |> Seq.map(fun (x, y) -> {| x = x; y = y |}) |> Seq.covPopulationBy(fun x -> x.x, x.y)
             Expect.equal covPop 347.92m "Should be equal (decimal)"
     ]
 
@@ -69,12 +55,6 @@ let sequenceTests =
 let listTests =
     let x = [5.;12.;18.;-23.;45.]
     let y = [2.;8.;18.;-20.;28.]
-    let xy =
-        [ {| x = 5.; y = 2. |}
-          {| x = 12.; y = 8. |}
-          {| x = 18.; y = 18. |}
-          {| x = -23.; y = -20. |} 
-          {| x = 45.; y = 28. |} ]
 
     testList "List" [
         testCase "cov" <| fun () ->
@@ -90,10 +70,10 @@ let listTests =
             let covPop = (x, y) ||> List.zip |> List.covPopulationOfPairs
             Expect.floatClose Accuracy.high covPop 347.92 "Should be equal (double precision)"
         testCase "covBy of floats" <| fun () ->
-            let cov = xy |> List.covBy(fun x -> x.x, x.y)
+            let cov =  (x, y) ||> List.zip |> List.map(fun (x, y) -> {| x = x; y = y |}) |> List.covBy(fun x -> x.x, x.y)
             Expect.floatClose Accuracy.high cov 434.90 "Should be equal (double precision)"
         testCase "covPopulationBy of floats" <| fun () ->
-            let covPop = xy |> List.covPopulationBy(fun x -> x.x, x.y)
+            let covPop =  (x, y) ||> List.zip |> List.map(fun (x, y) -> {| x = x; y = y |}) |> List.covPopulationBy(fun x -> x.x, x.y)
             Expect.floatClose Accuracy.high covPop 347.92 "Should be equal (double precision)"
 
     ]
@@ -102,12 +82,6 @@ let listTests =
 let arrayTests =
     let x = [| 5.;12.;18.;-23.;45. |]
     let y = [| 2.;8.;18.;-20.;28. |]
-    let xy =
-        [| {| x = 5.; y = 2. |}
-           {| x = 12.; y = 8. |}
-           {| x = 18.; y = 18. |}
-           {| x = -23.; y = -20. |} 
-           {| x = 45.; y = 28. |} |]
 
     testList "Array" [
         testCase "cov" <| fun () ->
@@ -123,10 +97,10 @@ let arrayTests =
             let covPop = (x, y) ||> Array.zip |> Array.covPopulationOfPairs
             Expect.floatClose Accuracy.high covPop 347.92 "Should be equal (double precision)"
         testCase "covBy of floats" <| fun () ->
-            let cov = xy |> Array.covBy(fun x -> x.x, x.y)
+            let cov =  (x, y) ||> Array.zip |> Array.map(fun (x, y) -> {| x = x; y = y |}) |> Array.covBy(fun x -> x.x, x.y)
             Expect.floatClose Accuracy.high cov 434.90 "Should be equal (double precision)"
         testCase "covPopulationBy of floats" <| fun () ->
-            let covPop = xy |> Array.covPopulationBy(fun x -> x.x, x.y)
+            let covPop = (x, y) ||> Array.zip |> Array.map(fun (x, y) -> {| x = x; y = y |}) |> Array.covPopulationBy(fun x -> x.x, x.y)
             Expect.floatClose Accuracy.high covPop 347.92 "Should be equal (double precision)"
     ]
 
