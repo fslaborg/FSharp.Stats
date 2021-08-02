@@ -614,7 +614,7 @@ module Seq =
 
     /// <summary>
     ///   Computes the population covariance of two random variables.
-     ///   The covariance will be calculated between the paired observations.
+    ///   The covariance will be calculated between the paired observations.
     /// </summary>
     /// <param name="seq">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
