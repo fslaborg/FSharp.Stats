@@ -70,6 +70,54 @@ module Correlation =
                         else nan
             loop zero zero zero zero zero zero
 
+        /// <summary>
+        /// Calculates the pearson correlation of two samples given as a sequence of paired values. 
+        /// Homoscedasticity must be assumed.
+        /// </summary>
+        /// <param name="seq">The input sequence.</param>
+        /// <typeparam name="'T"></typeparam>
+        /// <returns>The pearson correlation.</returns>
+        /// <example> 
+        /// <code> 
+        /// // Consider a sequence of paired x and y values:
+        /// // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
+        /// let xy = [(312.7, 315.5); (104.2, 101.3); (104.0, 108.0); (34.7, 32.2)]
+        /// 
+        /// // To get the correlation between x and y:
+        /// xy |> Seq.pearsonOfPairs // evaluates to 0.9997053729
+        /// </code> 
+        /// </example>
+        let inline pearsonOfPairs (seq:seq<'T * 'T>) = 
+            seq
+            |> Seq.toArray
+            |> Array.unzip
+            ||> pearson
+
+        /// <summary>
+        /// Calculates the pearson correlation of two samples.
+        /// The two samples are built by applying the given function to each element of the sequence.
+        /// The function should transform each sequence element into a tuple of paired observations from the two samples.
+        /// The correlation will be calculated between the paired observations.
+        /// </summary>
+        /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
+        /// <param name="seq">The input sequence.</param>
+        /// <returns>The pearson correlation.</returns>
+        /// <example> 
+        /// <code>
+        /// // To get the correlation between A and B observations:
+        /// let ab = [ {| A = 312.7; B = 315.5 |}
+        ///            {| A = 104.2; B = 101.3 |}
+        ///            {| A = 104.; B = 108. |}
+        ///            {| A = 34.7; B = 32.2 |} ]
+        /// 
+        /// ab |> Seq.pearsonBy (fun x -> x.A, x.B) // evaluates to 0.9997053729
+        /// </code> 
+        /// </example>
+        let inline pearsonBy f (seq: 'T seq) =
+            seq
+            |> Seq.map f
+            |> pearsonOfPairs
+
         /// weighted pearson correlation (http://sci.tech-archive.net/Archive/sci.stat.math/2006-02/msg00171.html)
         let inline pearsonWeighted (seq1:seq<'T>) (seq2:seq<'T>) (weights:seq<'T>) : float =
             // TODO: solve in a prettier coding fashion
@@ -99,8 +147,52 @@ module Correlation =
                     |> sqrt
                 a / b          
             weightedCorrelation seq1 seq2 weights
-    
+
         /// <summary>
+        /// Calculates the weighted pearson correlation of two samples. 
+        /// If the two samples are <c>x</c> and <c>y</c> then the elements of the input sequence should be triples of <c>x * y * weight</c>.
+        /// </summary>
+        /// <param name="seq">The input sequence.</param>
+        /// <returns>The weighted pearson correlation.</returns>
+        /// <example>
+        /// <code>
+        /// // Consider a sequence of triples with x, y and w values:
+        /// // [(x1, y1, w1); (x2, y2, w2); (x3, y3, w3); (x4, y4, w4); ... ]
+        /// let xyw = [(1.1, 1.2, 0.2); (1.1, 0.9, 0.3); (1.2, 0.08, 0.5)] 
+        /// 
+        /// // To get the correlation between x and y weighted by w :
+        /// xyw |> Seq.pearsonWeightedOfTriples // evaluates to -0.9764158959
+        /// </code>
+        /// </example>
+        let inline pearsonWeightedOfTriples (seq: seq<'T * 'T * 'T>) =
+            seq
+            |> Seq.toArray
+            |> Array.unzip3
+            |||> pearsonWeighted
+
+        /// <summary>
+        /// Calculates the weighted pearson correlation of two samples after 
+        /// applying the given function to each element of the sequence.
+        /// </summary>
+        /// <param name="f">A function applied to transform each element of the sequence into a tuple of triples representing the two samples and the weight. If the two samples are <c>x</c> and <c>y</c> then the elements of the sequence should be triples of <c>x * y * weight</c></param>
+        /// <param name="seq">The input sequence.</param>
+        /// <returns>The weighted pearson correlation.</returns>
+        /// <example>
+        /// <code>
+        /// // To get the correlation between A and B observations weighted by W:
+        /// let abw = [ {| A = 1.1; B = 1.2; W = 0.2 |}
+        ///             {| A = 1.1; B = 0.9; W = 0.3 |}
+        ///             {| A = 1.2; B = 0.08; W = 0.5 |} ] 
+        /// 
+        /// abw |> pearsonWeightedBy (fun x -> x.A, x.B, x.W)
+        /// // evaluates to -0.9764158959
+        /// </code>
+        /// </example>
+        let inline pearsonWeightedBy f (seq: 'T seq) =
+            seq
+            |> Seq.map f
+            |> pearsonWeightedOfTriples
+
         /// Spearman Correlation (with ranks)
         /// 
         /// Items that are tied are each allocated the average of the ranks that
@@ -125,6 +217,52 @@ module Correlation =
             let spearRank2 = seq2 |> Seq.map float |> Seq.toArray |> FSharp.Stats.Rank.rankAverage
 
             pearson spearRank1 spearRank2
+
+        /// <summary>
+        /// Calculates the spearman correlation (with ranks) of two samples given as a sequence of paired values. 
+        /// </summary>
+        /// <param name="seq">The input sequence.</param>
+        /// <typeparam name="'T"></typeparam>
+        /// <returns>The spearman correlation.</returns>
+        /// <example> 
+        /// <code> 
+        /// // Consider a sequence of paired x and y values:
+        /// // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
+        /// let xy = [(1.1, 1.2); (1.1, 0.9); (2.0, 3.85)]
+        /// 
+        /// // To get the correlation between x and y:
+        /// xy |> Seq.spearmanOfPairs // evaluates to 0.5
+        /// </code> 
+        /// </example>
+        let inline spearmanOfPairs (seq:seq<'T * 'T>) = 
+            seq
+            |> Seq.toArray
+            |> Array.unzip
+            ||> spearman
+
+        /// <summary>
+        /// Calculates the spearman correlation of two samples.
+        /// The two samples are built by applying the given function to each element of the sequence.
+        /// The function should transform each sequence element into a tuple of paired observations from the two samples.
+        /// The correlation will be calculated between the paired observations.
+        /// </summary>
+        /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
+        /// <param name="seq">The input sequence.</param>
+        /// <returns>The spearman correlation.</returns>
+        /// <example>
+        /// <code>
+        /// // To get the correlation between A and B observations:
+        /// let ab = [ {| A = 1.1; B = 1.2 |}
+        ///            {| A = 1.1; B = 0.9 |}
+        ///            {| A = 2.0; B = 3.85 |} ] 
+        /// 
+        /// ab |> Seq.spearmanBy (fun x -> x.A, x.B) // evaluates to 0.5
+        /// </code>
+        /// </example>
+        let inline spearmanBy f (seq: 'T seq) =
+            seq
+            |> Seq.map f
+            |> spearmanOfPairs
 
         /// Kendall Correlation Coefficient 
         let kendall (setA:_[]) (setB:_[]) =
@@ -168,6 +306,55 @@ module Correlation =
 
             kendallCorrFun (FSharp.Stats.Rank.rankFirst setA ) (FSharp.Stats.Rank.rankFirst setB )
 
+        /// <summary>
+        /// Calculates the kendall correlation coefficient of two samples given as a sequence of paired values. 
+        /// </summary>
+        /// <param name="seq">The input sequence.</param>
+        /// <typeparam name="'T"></typeparam>
+        /// <returns>The kendall correlation coefficient.</returns>
+        /// <example> 
+        /// <code> 
+        /// // Consider a sequence of paired x and y values:
+        /// // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
+        /// let xy = [(-0.5, -0.3); (-0.4, -0.25); (0., -0.1); (0.7, -0.46); (0.65, 0.103); (0.9649, 0.409)] 
+        /// 
+        /// // To get the correlation between x and y:
+        /// xy |> Seq.kendallOfPairs // evaluates to 0.4666666667
+        /// </code> 
+        /// </example>
+        let inline kendallOfPairs (seq:seq<'T * 'T>) = 
+            seq
+            |> Seq.toArray
+            |> Array.unzip
+            ||> kendall
+
+        /// <summary>
+        /// Calculates the kendall correlation of two samples.
+        /// The two samples are built by applying the given function to each element of the sequence.
+        /// The function should transform each sequence element into a tuple of paired observations from the two samples.
+        /// The correlation will be calculated between the paired observations.
+        /// </summary>
+        /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
+        /// <param name="seq">The input sequence.</param>
+        /// <returns>The kendall correlation coefficient.</returns>
+        /// <example>
+        /// <code>
+        /// // To get the correlation between A and B observations:
+        /// let ab = [ {| A = -0.5; B = -0.3 |}
+        ///            {| A = -0.4; B = -0.25 |}
+        ///            {| A = 0.; B = -0.1 |}
+        ///            {| A = 0.7; B = -0.46 |}
+        ///            {| A = 0.65; B = 0.103 |}
+        ///            {| A = 0.9649; B = 0.409 |} ]
+        /// 
+        /// ab |> Seq.kendallBy (fun x -> x.A, x.B) // evaluates to 0.4666666667
+        /// </code>
+        /// </example>
+        let inline kendallBy f (seq: 'T seq) =
+            seq
+            |> Seq.map f
+            |> kendallOfPairs
+
         /// Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.
         let bicor seq1 seq2 = 
             
@@ -187,6 +374,53 @@ module Correlation =
                 (bicorHelpers.normalize xVal xWeight xNF xMed) * (bicorHelpers.normalize yVal yWeight yNF yMed)
                 )
                 xs xWeights ys yWeights 
+
+        /// <summary>
+        /// Calculates the Biweighted Midcorrelation of two samples given as a sequence of paired values. 
+        /// This is a median based correlation measure which is more robust against outliers.
+        /// </summary>
+        /// <param name="seq">The input sequence.</param>
+        /// <typeparam name="'T"></typeparam>
+        /// <returns>The Biweighted Midcorrelation.</returns>
+        /// <example> 
+        /// <code> 
+        /// // Consider a sequence of paired x and y values:
+        /// // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
+        /// let xy = [(32.1, 1.2); (3.1, 0.4); (2.932, 3.85)]
+        /// 
+        /// // To get the correlation between x and y:
+        /// xy |> Seq.bicorOfPairs // evaluates to -0.9303913046
+        /// </code> 
+        /// </example>
+        let inline bicorOfPairs seq = 
+            seq
+            |> Seq.toArray
+            |> Array.unzip
+            ||> bicor
+
+        /// <summary>
+        /// Calculates the bicor correlation of two samples.
+        /// The two samples are built by applying the given function to each element of the sequence.
+        /// The function should transform each sequence element into a tuple of paired observations from the two samples.
+        /// The correlation will be calculated between the paired observations.
+        /// </summary>
+        /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
+        /// <param name="seq">The input sequence.</param>
+        /// <returns>The kendall correlation coefficient.</returns>
+        /// <example>
+        /// <code>
+        /// // To get the correlation between A and B observations:
+        /// let ab = [ {| A = 32.1; B = 1.2 |}
+        ///            {| A = 3.1; B = 0.4 |}
+        ///            {| A = 2.932; B = 3.85 |} ]
+        /// 
+        /// ab |> Seq.bicorBy (fun x -> x.A, x.B) // evaluates to -0.9303913046
+        /// </code>
+        /// </example>
+        let inline bicorBy f (seq: 'T seq) =
+            seq
+            |> Seq.map f
+            |> bicorOfPairs
 
     /// Contains correlation functions optimized for vectors
     [<AutoOpen>]
