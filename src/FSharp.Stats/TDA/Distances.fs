@@ -1,12 +1,21 @@
 namespace FSharp.Stats.TDA
 
+/// This module contains funtions to compute the alignment distance for rooted ordered trees with arbitrary labels
 module TreeAlignmentDistance =
 
     open BinaryTree
 
-    // computes alignment distance between two ordered forests F1 and F2 and the corresponding matching
-    // writes result to memoization tables MT (for subtrees) and MF (for subforests)
-    // relabel costs and deletion/insertion costs are given as functions editCost and delCost
+    /// <summary>Helper function to compute alignment distance between two ordered binary forests and the corresponding matching.
+    /// Writes result to memoization tables that are passed as parameters.
+    /// Functions for relabel and deletion/insertion costs are passed as parameters.
+    /// Only for internal use, has side effects for memoization.</summary>
+    /// <param name="F1">First forest to align.</param>
+    /// <param name="F2">Second forest to align.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <param name="MT">Memoization table for subtrees.</param>
+    /// <param name="MF">memoization table for subforests.</param>
+    /// <returns>A tuple (m,d) containing a list of matched ids m and the alignment costs d.</returns>
     let rec alignmentDist_forest (F1:BinaryTree<'lt>) (F2:BinaryTree<'lt>)
                                  (editCost:'lt->'lt->float) (delCost:'lt->float)
                                  (MT:System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>)
@@ -70,9 +79,17 @@ module TreeAlignmentDistance =
             MF.Add((F1,F2),res)
             res
 
-    // computes alignment distance between two binary trees T1 and T2 and the corresponding matching
-    // writes result to memoization tables MT (for subtrees) and MF (for subforests)
-    // relabel costs and deletion/insertion costs are given as functions editCost and delCost
+    /// <summary>Helper function to compute alignment distance between two ordered binary trees and the corresponding matching.
+    /// Writes result to memoization tables that are passed as parameters.
+    /// Functions for relabel and deletion/insertion costs are passed as parameters.
+    /// Only for internal use, has side effects for memoization.</summary>
+    /// <param name="T1">First tree to align.</param>
+    /// <param name="T2">Second tree to align.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <param name="MT">Memoization table for subtrees.</param>
+    /// <param name="MF">memoization table for subforests.</param>
+    /// <returns>A tuple (m,d) containing a list of matched ids m and the alignment costs d.</returns>
     and alignmentDist_tree (T1:BinaryTree<'lt>) (T2:BinaryTree<'lt>)
                            (editCost:'lt->'lt->float) (delCost:'lt->float)
                            (MT:System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>)
@@ -125,8 +142,14 @@ module TreeAlignmentDistance =
             MT.Add((T1,T2),res)
             res
 
-    // wrapper function that returns alignment distance and corresponding matching of two binary trees T1 and T2 as a pair
-    // relabel costs and deletion/insertion costs are given as functions editCost and delCost
+    /// <summary>Function to compute alignment distance between two ordered binary trees and the corresponding matching.
+    /// Functions for relabel and deletion/insertion costs are passed as parameters.
+    /// (wrapper function for alignmentDist_tree() and alignmentDist_forest())</summary>
+    /// <param name="T1">First tree to align.</param>
+    /// <param name="T2">Second tree to align.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <returns>A tuple (m,d) containing a list of matched ids m and the alignment costs d.</returns>
     let alignmentDist (T1:BinaryTree<'lt>) (T2:BinaryTree<'lt>) (editCost:'lt->'lt->float) (delCost:'lt->float) =
         let memoizationTable_tree =
             new System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>()
@@ -134,15 +157,21 @@ module TreeAlignmentDistance =
             new System.Collections.Generic.Dictionary<BinaryTree<'lt>*BinaryTree<'lt>,float*List<int*int>>()
         alignmentDist_tree T1 T2 editCost delCost memoizationTable_tree memoizationTable_forest
 
-
-
+/// This module contains funtions to compute the general edit distance for rooted ordered trees with arbitrary labels
 module TreeEditDistance =
 
     open BinaryTree
 
-    // computes edit distance between two ordered forests F1 and F2 and the corresponding matching
-    // writes result to memoization table M
-    // relabel costs and deletion/insertion costs are given as functions editCost and delCost
+    /// <summary>Helper function to compute edit distance between two ordered binary forests and the corresponding matching.
+    /// Writes result to memoization table that is passed as parameter.
+    /// Functions for relabel and deletion/insertion costs are passed as parameters.
+    /// Only for internal use, has side effects for memoization.</summary>
+    /// <param name="F1">First forest.</param>
+    /// <param name="F2">Second forest.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <param name="M">Memoization table for subforests.</param>
+    /// <returns>A tuple (m,d) containing a list of matched ids m and the alignment costs d.</returns>
     let rec editDist_forest (F1:List<BinaryTree<'lt>>) (F2:List<BinaryTree<'lt>>)
                             (editCost:'lt->'lt->float) (delCost:'lt->float)
                             (M:System.Collections.Generic.Dictionary<List<BinaryTree<'lt>>*List<BinaryTree<'lt>>,float*List<int*int>>) =
@@ -188,20 +217,34 @@ module TreeEditDistance =
             M.Add((F1,F2),res)
             res
 
-    // wrapper function that returns edit distance and corresponding matching of two binary trees T1 and T2 as a pair
-    // relabel costs and deletion/insertion costs are given as functions editCost and delCost
+    /// <summary>Function to compute edit distance between two ordered binary trees and the corresponding matching.
+    /// Functions for relabel and deletion/insertion costs are passed as parameters.
+    /// (wrapper function for editDist_forest())</summary>
+    /// <param name="T1">First tree.</param>
+    /// <param name="T2">Second tree.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <returns>A tuple (m,d) containing a list of matched ids m and the edit distance d.</returns>
     let editDist (T1:BinaryTree<'lt>) (T2:BinaryTree<'lt>)
                  (editCost:'lt->'lt->float) (delCost:'lt->float) =
         let memoizationTable =
             new System.Collections.Generic.Dictionary<List<BinaryTree<'lt>>*List<BinaryTree<'lt>>,float*List<int*int>>()
         editDist_forest [T1] [T2] editCost delCost memoizationTable
 
+/// This module contains funtions to compute the edit distance and alignments for strings or sequences of arbitrary labels
 module StringEditDistance =
 
     open System
 
-    // computes edit distance between two sequences s1 and s2 and writes result to M
-    // relabel costs and deletion/insertion costs are given as functions editCost and delCost
+    /// <summary>Helper function to compute edit distance between two sequences s1 and s2.
+    /// Writes result to memoization table passed as parameter.
+    /// Relabel and deletion/insertion costs are passed as parameters.</summary>
+    /// <param name="s1">First sequence to align.</param>
+    /// <param name="s2">Second sequence to align.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <param name="M">Memoization table for subsequences.</param>
+    /// <returns>The edit distance between s1 and s2.</returns>
     let rec editDist_memoization (s1:List<'lt>) (s2:List<'lt>)
                                  (editCost:'lt->'lt->float) (delCost:'lt->float)
                                  (M:System.Collections.Generic.Dictionary<List<'lt>*List<'lt>,float>) =
@@ -233,8 +276,16 @@ module StringEditDistance =
             M.Add((s1,s2),v)
             v
 
-    // computes the matching as an list of id-pairs from memoization table
-    // relabel costs and deletion/insertion costs are given as functions editCost and delCost
+    /// <summary>Helper function to compute alignment/matching between two sequences s1 and s2 from a given memoization table with edit distances.
+    /// Relabel and deletion/insertion costs are passed as parameters.</summary>
+    /// <param name="s1">First sequence to align.</param>
+    /// <param name="s2">Second sequence to align.</param>
+    /// <param name="p1">id of head of first sequence.</param>
+    /// <param name="p2">id of head of second sequnce.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <param name="M">Memoization table for subsequences.</param>
+    /// <returns>The matching between s1 and s2 as list of matched ids.</returns>
     let rec traceMatching (s1:List<'lt>) (p1:int) (s2:List<'lt>) (p2:int)
                           (editCost:'lt->'lt->float) (delCost:'lt->float)
                           (M:System.Collections.Generic.Dictionary<List<'lt>*List<'lt>,float>) =
@@ -250,12 +301,20 @@ module StringEditDistance =
             let v1 = (delCost h2) + r1
             let v2 = (delCost h1) + r2
             let v3 = (editCost h1 h2) + r3
-            if res=v1 then traceMatching (h1::t1) p1 t2 (p2+1) editCost delCost M
-            elif res=v2 then traceMatching (t1) (p1+1) (h2::t2) p2 editCost delCost M
-            else (p1,p2)::(traceMatching t1 (p1+1) t2 (p2+1) editCost delCost M)
+            if res=v3 then (p1,p2)::(traceMatching t1 (p1+1) t2 (p2+1) editCost delCost M)
+            elif res=v1 then traceMatching (h1::t1) p1 t2 (p2+1) editCost delCost M
+            else traceMatching (t1) (p1+1) (h2::t2) p2 editCost delCost M
 
     // wrapper function that returns edit distance and corresponding matching of two sequences s1 and s2 as a pair
     // relabel costs and deletion/insertion costs are given as functions editCost and delCost
+    /// <summary>Function to compute edit distance and alignment/matching between two sequences s1 and s2.
+    /// Relabel and deletion/insertion costs are passed as parameters.
+    /// /// (wrapper function for editDist_memoization() and traceMatching())</summary>
+    /// <param name="s1">First sequence to align.</param>
+    /// <param name="s2">Second sequence to align.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <returns>A tuple (m,d) containing a list of matched ids m and the edit distance d.</returns>
     let editDist (s1:List<'lt>) (s2:List<'lt>) (editCost:'lt->'lt->float) (delCost:'lt->float) = 
         let M = new System.Collections.Generic.Dictionary<List<'lt>*List<'lt>,float>()
         let dist = editDist_memoization s1 s2 editCost delCost M

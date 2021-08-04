@@ -2,21 +2,23 @@
 
 open System
 
+/// This module contains functions for merge trees and persistent homology of 1D scalar fields.
 module Persistence =
 
+    /// type of merge tree
     type Direction =
         | Split
         | Join
 
-    // adds zeroes at front and end of data to ensure local minima at both ends
-    // and therefore "real" maxima at the original borders
+    /// adds zeroes at front and end of data to ensure local minima at both ends
+    /// and therefore "real" maxima at the original borders
     let paddData rawData = 
         Array.append (Array.append [|0.|] rawData) [|0.|]
 
-    // union function for naive union-find data structure based on an array
+    /// union function for naive union-find data structure based on an array
     let union a b (uf:int []) = uf.[int b] <- a
 
-    // find function for naive union-find data structure based on an array
+    /// find function for naive union-find data structure based on an array
     let rec find a (uf:int[]) =
         let atmp = if a<0 then uf.Length + int a else a
         if uf.[int atmp] = atmp then
@@ -24,10 +26,10 @@ module Persistence =
         else 
             find uf.[int atmp] uf 
 
-    // function that computes for data array:
-    //   persistence pairs as list of index pairs
-    //   merge tree as list of edges represented by index pairs
-    //   segmentation array assigning to each point its corresponding maximum
+    /// <summary>Function that computes for data array:<br/>
+    ///   - persistence pairs as list of index pairs<br/>
+    ///   - merge tree as list of edges represented by index pairs<br/>
+    ///   - segmentation array assigning to each point its corresponding maximum</summary>
     let computePPMT (data:float[]) (direction: Direction) =
         let reverse = direction = Direction.Split
         
@@ -161,7 +163,12 @@ module Persistence =
     
         persistencePairs,mergeTreePairs |> List.rev,segmentation_pp,segmentation_mt
 
-    // function that simplifies data array based on persistence threshold
+    /// <summary>Function that simplifies data array based on persistence threshold.</summary>
+    /// <param name="data">Data domain (1D array) to simplify.</param>
+    /// <param name="persistencePairs">List of precomputed persistence pairs in data.</param>
+    /// <param name="threshold">Threshold for simplification: all persistence pairs with persistenc smaller than threshold are removed.</param>
+    /// <param name="direction">Direction of persistence pairs.</param>
+    /// <returns>The simplified data array.</returns>
     let simplifyData (data:float[]) (persistencePairs:(int*int)list) threshold (direction: Direction) =
         let dataSimpl = Array.copy data
         let reverse = direction = Direction.Split
@@ -226,7 +233,15 @@ module Persistence =
 
         dataSimpl   
 
-    // function that simplifies merge tree and segmentation based on persistence threshold
+    /// <summary>Function that simplifies merge tree and segmentation based on persistence threshold.</summary>
+    /// <param name="data">Data domain (1D array) to simplify.</param>
+    /// <param name="mergeTreePairs">List of edges of merge tree of data. Each edge is represented by the indices of its two vertices. Root has index 0.</param>
+    /// <param name="persistencePairs">List of precomputed persistence pairs in data.</param>
+    /// <param name="ppSegmentation">Segmentation of data domain derived from persistence pairs.</param>
+    /// <param name="mtSegmentation">Segmentation of data domain derived from mergeTree.</param>
+    /// <param name="threshold">Threshold for simplification: all persistence pairs with persistence smaller than threshold are removed.</param>
+    /// <param name="direction">Direction of persistence pairs/merge tree.</param>
+    /// <returns>Tuple containing the simplified merge tree and both simplified segemntations.</returns>
     let simplifyMergeTreeAndSeg (data:float []) (mergeTreePairs:(int*int)list) (persistencePairs:(int*int)list) ppSegmentation mtSegmentation threshold (direction: Direction) =
     
         let split = direction = Direction.Split
