@@ -2,10 +2,31 @@ namespace FSharp.Stats.TDA
 
 module BinaryTree =
 
-    /// generic binary tree type
+    /// Generic binary tree type
     type BinaryTree<'LabelType> =
         | Empty
         | BinaryNode of label:'LabelType * id:int * child1:BinaryTree<'LabelType> * child2:BinaryTree<'LabelType>
+
+    /// Returns leaves of a binary tree as a list. Leaves are in correct order.
+    let rec getLeafStringAsList (t : BinaryTree<'lt'>) =
+        match t with
+        | BinaryTree.Empty -> []
+        | BinaryTree.BinaryNode(l,id,BinaryTree.Empty,BinaryTree.Empty) -> [l]
+        | BinaryTree.BinaryNode(l,id,c1,c2) -> List.append (getLeafStringAsList c1) (getLeafStringAsList c2)
+
+    /// Return ids of leaves of given binary tree as a list. Leaves are in correct order.
+    let rec getLeafIndices (t : BinaryTree<'lt>) = 
+        match t with
+        | BinaryTree.Empty -> []
+        | BinaryTree.BinaryNode(l,id,BinaryTree.Empty,BinaryTree.Empty) -> [(id,l)]
+        | BinaryTree.BinaryNode(l,id,c1,c2) -> List.append (getLeafIndices c1) (getLeafIndices c2)
+
+    /// Return ids of nodes of given binary tree as a list. Nodes are given in pre-order.
+    let rec getNodeIndices (t : BinaryTree<'lt>) = 
+        match t with
+        | BinaryTree.Empty -> []
+        | BinaryTree.BinaryNode(l,id,BinaryTree.Empty,BinaryTree.Empty) -> [(id,l)]
+        | BinaryTree.BinaryNode(l,id,c1,c2) -> (id,l)::(List.append (getNodeIndices c1) (getNodeIndices c2))
 
     /// Returns int-labeled tree with labels in range [0,numLabels)
     let rec randomTree numNodes numLabels currId (randGen:System.Random) =

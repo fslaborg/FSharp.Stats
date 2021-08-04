@@ -305,11 +305,9 @@ module StringEditDistance =
             elif res=v1 then traceMatching (h1::t1) p1 t2 (p2+1) editCost delCost M
             else traceMatching (t1) (p1+1) (h2::t2) p2 editCost delCost M
 
-    // wrapper function that returns edit distance and corresponding matching of two sequences s1 and s2 as a pair
-    // relabel costs and deletion/insertion costs are given as functions editCost and delCost
     /// <summary>Function to compute edit distance and alignment/matching between two sequences s1 and s2.
     /// Relabel and deletion/insertion costs are passed as parameters.
-    /// /// (wrapper function for editDist_memoization() and traceMatching())</summary>
+    /// (wrapper function for editDist_memoization() and traceMatching())</summary>
     /// <param name="s1">First sequence to align.</param>
     /// <param name="s2">Second sequence to align.</param>
     /// <param name="editCost">Cost function for relabel operation.</param>
@@ -319,5 +317,120 @@ module StringEditDistance =
         let M = new System.Collections.Generic.Dictionary<List<'lt>*List<'lt>,float>()
         let dist = editDist_memoization s1 s2 editCost delCost M
         let matching = traceMatching s1 0 s2 0  editCost delCost M
+        dist,matching
+
+/// This module contains funtions to compute a modified edit distance for strings or sequences of arbitrary labels
+module StringEditDistanceWithMerging =
+
+    open System.Collections.Generic
+    open Persistence
+
+    /// <summary>Helper function to compute edit distance between two sequences s1 and s2.
+    /// Writes result to memoization table passed as parameter.
+    /// Relabel and deletion/insertion costs are passed as parameters.</summary>
+    /// <param name="s1">First sequence as array.</param>
+    /// <param name="s2">Second sequence as array.</param>
+    /// <param name="i1">Current index in first sequence.</param>
+    /// <param name="i2">Current index in second sequence.</param>
+    /// <param name="p1">Index of merging start in first sequence.</param>
+    /// <param name="p2">Index of merging start in second sequence.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <param name="M">Memoization table for subsequences.</param>
+    /// <returns>The edit distance between s1 and s2.</returns>
+    let rec editDist_memoization (s1:'lt []) (s2:'lt [])
+                                 (i1:int) (i2:int) (p1:int) (p2:int)
+                                 (editCost:'lt[]->'lt[]->int->int->int->int->float) (delCost:'lt[]->int->int->float)
+                                 (M:Dictionary<int*int*int*int,float>) =
+        // if result already in memoization table, return immediately
+        let succ,res = M.TryGetValue((i1,i2,p1,p2))
+        if succ then res else
+        // otherwise recurse and compute result
+        match (i1,i2) with
+        // base case for two emtpy strings
+        | (x,y) when (i1>=s1.Length) && (i2>=s2.Length) ->
+            M.Add((i1,i2,p1,p2),0.)
+            0.
+        // base case for complete deletion/insertion of s1
+        | (x,y) when (i1<s1.Length) && (i2>=s2.Length) ->
+            let v = (delCost s1 i1 p1) + (editDist_memoization s1 s2 (i1+1) i2 (i1+1) p2 editCost delCost M)
+            M.Add((i1,i2,p1,p2),v)
+            v
+        // base case for complete deletion/insertion of s2
+        | (x,y) when (i1>=s1.Length) && (i2<s2.Length) ->
+            let v = (delCost s2 i2 p2) + (editDist_memoization s1 s2 i1 (i2+1) p1 (i2+1) editCost delCost M)
+            M.Add((i1,i2,p1,p2),v)
+            v
+        // recursive case for non-empty s1 and s2
+        | _ -> 
+            // delete p2-i2
+            let v1 = (delCost s2 i2 p2) + (editDist_memoization s1 s2 i1 (i2+1) p1 (i2+1) editCost delCost M)
+            // delete p1-i1
+            let v2 = (delCost s1 i1 p1) + (editDist_memoization s1 s2 (i1+1) i2 (i1+1) p2 editCost delCost M)
+            // match p1-i1 to p2-i2
+            let v3 = (editCost s1 s2 i1 i2 p1 p2) + (editDist_memoization s1 s2 (i1+1) (i2+1) (i1+1) (i2+1) editCost delCost M)
+            // merge i1 to i1+1
+            let v4 = if i1<s1.Length-1 && (s1.[i1+1].XVal-s1.[p1].XVal<8)
+                        then editDist_memoization s1 s2 (i1+1) i2 p1 p2 editCost delCost M
+                        else v3
+            // merge i2 to i2+1
+            let v5 = if i2<s2.Length-1 && (s2.[i2+1].XVal-s2.[p2].XVal<8)
+                        then editDist_memoization s1 s2 i1 (i2+1) p1 p2 editCost delCost M
+                        else v3
+
+            let v = List.min [v1;v2;v3;v4;v5]
+            M.Add((i1,i2,p1,p2),v)
+            v
+
+    /// <summary>Helper function to compute matching between two sequences s1 and s2 from a given memoization table with edit distances.
+    /// Relabel and deletion/insertion costs are passed as parameters.</summary>
+    /// <param name="s1">First sequence as array.</param>
+    /// <param name="s2">Second sequence as array.</param>
+    /// <param name="i1">Current index in first sequence.</param>
+    /// <param name="i2">Current index in second sequence.</param>
+    /// <param name="p1">Index of merging start in first sequence.</param>
+    /// <param name="p2">Index of merging start in second sequence.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <param name="M">Memoization table for subsequences.</param>
+    /// <returns>The matching between s1 and s2 as list of matched ids.</returns>
+    let rec traceMatching (s1:'lt []) (s2:'lt [])
+                          (i1:int) (i2:int) (p1:int) (p2:int)
+                          (editCost:'lt[]->'lt[]->int->int->int->int->float) (delCost:'lt[]->int->int->float)
+                          (M:Dictionary<int*int*int*int,float>) =
+        let succ,res = M.TryGetValue((i1,i2,p1,p2))
+        match (s1,s2) with
+        | (x,y) when (i1>=s1.Length) && (i2>=s2.Length) -> []
+        | (x,y) when (i1<s1.Length) && (i2>=s2.Length) -> []
+        | (x,y) when (i1>=s1.Length) && (i2<s2.Length) -> []
+        | _ -> 
+            let suc1,r1 = M.TryGetValue((i1,(i2+1),p1,(i2+1)))
+            let suc2,r2 = M.TryGetValue(((i1+1),i2,(i1+1),p2))
+            let suc3,r3 = M.TryGetValue(((i1+1),(i2+1),(i1+1),(i2+1)))
+            let suc4,r4 = if i1<s1.Length-1 && (s1.[i1+1].XVal-s1.[p1].XVal<8) then M.TryGetValue(((i1+1),i2,p1,p2)) else false,-1.
+            let suc5,r5 = if i2<s2.Length-1 && (s2.[i2+1].XVal-s2.[p2].XVal<8) then M.TryGetValue((i1,(i2+1),p1,p2)) else false,-1.
+            let v1 = (delCost s2 i2 p2) + r1
+            let v2 = (delCost s1 i1 p1) + r2
+            let v3 = (editCost s1 s2 i1 i2 p1 p2) + r3
+            let v4 = r4
+            let v5 = r5
+            if res=v1 then traceMatching s1 s2 i1 (i2+1) p1 (i2+1) editCost delCost M
+            elif res=v2 then traceMatching s1 s2 (i1+1) i2 (i1+1) p2 editCost delCost M
+            elif res=v3 then ((p1,i1),(p2,i2))::(traceMatching s1 s2 (i1+1) (i2+1) (i1+1) (i2+1) editCost delCost M)
+            elif res=v4 then traceMatching s1 s2 (i1+1) i2 p1 p2 editCost delCost M
+            else traceMatching s1 s2 i1 (i2+1) p1 p2 editCost delCost M
+
+    /// <summary>Function to compute edit distance and matching between two sequences s1 and s2.
+    /// Relabel and deletion/insertion costs are passed as parameters.
+    /// (wrapper function for editDist_memoization() and traceMatching())</summary>
+    /// <param name="s1">First sequence to align.</param>
+    /// <param name="s2">Second sequence to align.</param>
+    /// <param name="editCost">Cost function for relabel operation.</param>
+    /// <param name="delCost">Cost function for deleting/inserting a node.</param>
+    /// <returns>A tuple (m,d) containing a list of matched ids m and the edit distance d.</returns>
+    let editDist (s1:'lt list) (s2:'lt list) (editCost:'lt[]->'lt[]->int->int->int->int->float) (delCost:'lt[]->int->int->float) = 
+        let M = new Dictionary<int*int*int*int,float>()
+        let dist = editDist_memoization (s1|>Array.ofList) (s2|>Array.ofList) 0 0 0 0 editCost delCost M
+        let matching = traceMatching (s1|>Array.ofList) (s2|>Array.ofList) 0 0 0 0  editCost delCost M
         dist,matching
        
