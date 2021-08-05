@@ -1,4 +1,4 @@
-namespace FSharp.Stats.TDA
+namespace FSharp.Stats.Signal.TDA
 
 module BinaryTree =
 

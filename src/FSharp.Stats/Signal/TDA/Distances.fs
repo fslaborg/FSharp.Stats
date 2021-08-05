@@ -1,4 +1,4 @@
-namespace FSharp.Stats.TDA
+namespace FSharp.Stats.Signal.TDA
 
 /// This module contains funtions to compute the alignment distance for rooted ordered trees with arbitrary labels
 module TreeAlignmentDistance =

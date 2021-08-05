@@ -1,7 +1,7 @@
-namespace FSharp.Stats.TDA
+namespace FSharp.Stats.Signal.TDA
 
-// This module contains types and functions for topological data analysis on complexomics data
-module Complexomics = 
+/// This module contains types and functions for topological data analysis on e.g. complexomics data
+module PeakAlignment = 
 
     open Persistence
     open FSharp.Stats
@@ -67,7 +67,6 @@ module Complexomics =
                             |> Seq.filter (fun (i,s) -> s = segOfA)
                             |> Seq.map fst
                             |> Seq.mean
-                        //printfn "%f" integralOfSegment
                         let nodeType = Leaf
                         let mergedIntegral = integralOfSegment
                         let newNode = BinaryTree.BinaryNode(Node.Create xValue yValue mergedIntegral nodeType xmeanOfSegment,getID(),BinaryTree.Empty,BinaryTree.Empty)
