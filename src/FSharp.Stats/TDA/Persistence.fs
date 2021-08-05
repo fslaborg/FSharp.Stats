@@ -389,21 +389,6 @@ module Persistence =
         let mergeTreePairsSimpl = Set.toList mergeTreePairsSimplSet
         
         mergeTreePairsSimpl,ppSegmentationSimpl,mtSegmentationSimpl
-    
-    /// type of node in a merge tree
-    type NodeType = 
-        | Root
-        | Node
-        | Leaf 
-
-    /// explicit label type for binary merge trees
-    type Node = {
-        XVal : int
-        YVal : float
-        Integral : float
-        NodeType : NodeType
-        XValMean : float
-        } with static member Create x y i n xm = {XVal=x;YVal=y;Integral=i;NodeType=n;XValMean=xm}
  
     //let indexsingle (da:'a[]) k = if k<0 then da.Length + k else k 
     //let plotPersistenceDiagram' (data:float []) persistencePairs = 
