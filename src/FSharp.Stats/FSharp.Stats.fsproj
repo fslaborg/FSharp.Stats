@@ -82,6 +82,11 @@
     <Compile Include="Signal\Filtering.fs" />
     <Compile Include="Signal\Convolution.fs" />
     <Compile Include="Signal\PeakDetection.fs" />
+    <!-- Signal / TDA -->
+    <Compile Include="Signal\TDA\BinaryTree.fs" />
+    <Compile Include="Signal\TDA\Persistence.fs" />
+    <Compile Include="Signal\TDA\Distances.fs" />
+    <Compile Include="Signal\TDA\PeakAlignment.fs" />
     <!-- Distributions -->
     <Compile Include="Distributions\Bandwidth.fs" />
     <Compile Include="Distributions\Frequency.fs" />
@@ -126,10 +131,6 @@
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
     <Compile Include="ML\Unsupervised\DbScan.fs" />
     <Compile Include="ML\Unsupervised\GapStatistics.fs" />
-    <!-- TDA -->
-    <Compile Include="TDA\BinaryTree.fs" />
-    <Compile Include="TDA\Persistence.fs" />
-    <Compile Include="TDA\Distances.fs" />
     <!-- MISC -->
     <Compile Include="FSIPrinters.fs" />
     <Compile Include="ConfidenceInterval.fs" />
@@ -140,6 +141,6 @@
   <ItemGroup>
     <PackageReference Include="FSharpAux" Version="1.0.0" />
     <PackageReference Include="FSharpAux.IO" Version="1.0.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>
