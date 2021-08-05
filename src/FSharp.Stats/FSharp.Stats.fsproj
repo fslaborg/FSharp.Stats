@@ -130,6 +130,7 @@
     <Compile Include="TDA\BinaryTree.fs" />
     <Compile Include="TDA\Persistence.fs" />
     <Compile Include="TDA\Distances.fs" />
+    <Compile Include="TDA\Complexomics.fs" />
     <!-- MISC -->
     <Compile Include="FSIPrinters.fs" />
     <Compile Include="ConfidenceInterval.fs" />
