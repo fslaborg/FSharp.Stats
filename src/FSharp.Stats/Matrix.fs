@@ -574,7 +574,7 @@ module Matrix = begin
     
     ///Computes mean in the specified orientation
     /// orientation - "RowWise" or "ColWise"
-    let mean (a:matrix) (orientation:Orientation) = 
+    let mean (orientation:Orientation) (a:matrix) = 
         match orientation with
         |RowWise -> meanRowWise a
         |ColWise -> meanColumnWise a
@@ -614,7 +614,7 @@ module Matrix = begin
     /// computes the orientation and dataSource specific covariance matrix of a dataMatrix\
     /// dataSource - "Sample" or "Population". \
     /// orientation - "RowWise" or "ColWise" 
-    let covarianceMatrixOf (dataMatrix:matrix) (dataSource:DataSource) (orientation:Orientation) :matrix =
+    let covarianceMatrixOf (dataSource:DataSource) (orientation:Orientation) (dataMatrix:matrix) :matrix =
         match dataSource with
         |Sample ->
             match orientation with

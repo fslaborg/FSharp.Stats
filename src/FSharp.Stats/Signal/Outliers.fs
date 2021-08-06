@@ -29,7 +29,7 @@ module Outliers =
 
 
     ///Returns a population interval according to desired max and min Z Score values    
-    let populationIntervalByZScore (ls:list<float>) (minZ:float) (maxZ:float) =
+    let populationIntervalByZScore (minZ:float) (maxZ:float) (ls:list<float>) =
         let m = List.mean ls
         let s = stDevPopulation(ls)
         Intervals.create (minZ * s + m) (maxZ * s + m)
@@ -41,7 +41,7 @@ module Outliers =
         [for x in ls -> zScore x m s]
 
     ///Returns a sample interval according to desired max and min Z Score values    
-    let sampleIntervalByZscore (ls:list<float>) (minZ:float) (maxZ:float) =
+    let sampleIntervalByZscore (minZ:float) (maxZ:float) (ls:list<float>) =
         let m = List.mean ls
         let s = stDev(ls)
         Intervals.create (minZ * s + m) (maxZ * s + m)
@@ -49,25 +49,24 @@ module Outliers =
     ///Returns Mahalanobi's distance  for an individual observation in a matrix.
     ///dataSource - Sample or Population.
     ///orientation - RowWise or ColWise. (RowWise orientation means that each row is a Vector) 
-    let mahalanobisDistance (observation:vector) (dataMatrix:matrix) (dataSource:DataSource) (orientation:Orientation) :float =
+    let private mahalanobisDistanceOfEntry (dataMatrix:matrix) (dataSource:DataSource) (orientation:Orientation) (observation:vector) :float =
         
-        let invertedCovarianceMatrix = Algebra.LinearAlgebra.Inverse(covarianceMatrixOf dataMatrix dataSource (orientation.Inverse))
-        let meanVector = Matrix.mean dataMatrix (orientation.Inverse)
+        let invertedCovarianceMatrix = Algebra.LinearAlgebra.Inverse(covarianceMatrixOf dataSource (orientation.Inverse) dataMatrix)
+        let meanVector = Matrix.mean (orientation.Inverse) dataMatrix
         let subObsMean = Matrix.ofVector(Vector.sub observation meanVector)
         let multObsCov = Matrix.mul (subObsMean.Transpose) invertedCovarianceMatrix
         let distance = Matrix.toScalar(Matrix.mul multObsCov subObsMean)
         sqrt distance
         
-    ///Returns Mahalanobi's distance  for for every observation in a matrix.
+    ///Returns Mahalanobi's distance for for every observation in a matrix.
     ///dataSource - Sample or Population.
     ///orientation - RowWise or ColWise. (RowWise orientation means that each row is a Vector) 
-    let mahalanobisDistanceList (dataMatrix:matrix) (dataSource:DataSource) (orientation:Orientation) :List<float> =
-        let GetObsList = 
+    let mahalanobisDistances (dataSource:DataSource) (orientation:Orientation) (dataMatrix:matrix) =
+        let getObsList = 
             match orientation with 
                 |ColWise -> 
-                    [for i=0 to dataMatrix.NumCols-1 do dataMatrix.Column i ]
+                    dataMatrix.Transpose
+                    |> Matrix.toJaggedArray
                 |RowWise -> 
-                    let dat = dataMatrix.Transpose
-                    [for i=0 to dat.NumCols-1 do dat.Column i]
-        
-        [for obs in GetObsList -> mahalanobisDistance obs dataMatrix dataSource orientation]
+                    dataMatrix |> Matrix.toJaggedArray
+        getObsList |> Array.map (vector >> mahalanobisDistanceOfEntry dataMatrix dataSource orientation)
