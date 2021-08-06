@@ -103,6 +103,20 @@ module IterativeClustering =
 //        |> Seq.map (fun rowI -> dmatrix.Row(rowI).ToArray())
 //        |> Seq.toArray
     
+    /// calculates mean based on subset of non-nan values
+    let private meanNaN (input: float []) = 
+        let isValid f = 
+            nan.Equals f || infinity.Equals f || (-infinity).Equals f 
+            |> not
+        let rec loop i sum count = 
+            if i < input.Length then 
+                let current = input.[i]
+                let valid = isValid current 
+                let accS = if valid then sum + current else sum
+                let accC = if valid then count + 1. else count
+                loop (i+1) accS accC
+            else sum/count 
+        loop 0 0. 0. 
 
     // Recompute Centroid as average of given sample (for kmeans)
     let avgCentroid (current: float []) (sample: float [] array) =
@@ -110,10 +124,9 @@ module IterativeClustering =
         match size with
         | 0 -> current
         | _ ->
-            sample
-            |> Array.reduce (fun v1 v2 -> 
-                   Array.map2 (fun v1x v2x -> v1x + v2x) v1 v2)
-            |> Array.map (fun e -> e / (float)size)
+            sample 
+            |> JaggedArray.transpose
+            |> Array.map meanNaN
 
 
     // Given a distance, centroid factory and
