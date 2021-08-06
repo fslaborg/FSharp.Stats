@@ -299,7 +299,7 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
         // Calculate log(sum_i(within-cluster_i sum of squares around cluster_i mean)) of kmeans clustering result.
         let logDispersionKMeansInitCvMax = 
             let aggregator = IterativeClustering.avgCentroid
-            let factory = IterativeClustering.intitCVMAX 
+            let factory = IterativeClustering.initCVMAX 
             let clusterDispersion (cluster:float[][]) =
                 let distances =
                     cluster 

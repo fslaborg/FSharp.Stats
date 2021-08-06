@@ -23,16 +23,15 @@ module Normalization =
     ///
     /// The additional function is applied on all values of the matrix when calculating the normalization factors. By this, a zero in the original dataset will still remain zero.
     let medianOfRatiosBy (f: float -> float) (data:Matrix<float>) =
-        let sampleWiseCorrectionFactors =
+        let sampleWiseCorrectionFactors =            
             data
-            |> Matrix.mapiRows (fun _ v -> 
-                let v = Seq.map f v
+            |> Matrix.mapiRows (fun _ v ->
+                let v = RowVector.map f v
                 let geometricMean = Seq.meanGeometric v           
-                Seq.map (fun s -> s / geometricMean) v
+                RowVector.map (fun s -> s / geometricMean) v
                 ) 
-            |> matrix
+            |> Matrix.ofRows
             |> Matrix.mapiCols (fun _ v -> Vector.median v)
-            |> vector
         data
         |> Matrix.mapi (fun r c v ->
             v / sampleWiseCorrectionFactors.[c]
@@ -53,13 +52,12 @@ module Normalization =
         let sampleWiseCorrectionFactors =
             data
             |> Matrix.mapiCols (fun _ v -> 
-                let v = Seq.map f v
+                let v = Vector.map f v
                 let geometricMean = Seq.meanGeometric v           
-                Seq.map (fun s -> s / geometricMean) v
+                Vector.map (fun s -> s / geometricMean) v
                 ) 
-            |> matrix
-            |> Matrix.mapiCols (fun _ v -> Seq.median v)
-            |> vector
+            |> Matrix.ofCols
+            |> Matrix.mapiRows (fun _ v -> Seq.median v)
         data
         |> Matrix.mapi (fun r c v ->
             v / sampleWiseCorrectionFactors.[r]

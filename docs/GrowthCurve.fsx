@@ -61,6 +61,7 @@ Levenberg-Marquardt solver can be used (`LevenbergMarquardtConstrained`)! Accord
 open System
 open FSharp.Stats
 open FSharp.Stats.Fitting.NonLinearRegression
+open FSharp.Stats.Fitting.LinearRegression
 
 let time = [|0. .. 0.5 .. 8.|]
 
@@ -122,11 +123,9 @@ If a different log transform was used, the correction factor for the numerator i
 let logPhaseX = vector time.[3..11]
 let logPhaseY = vector cellCountLn.[3..11]
 
-(*** do-not-eval ***)
-
 // regression coefficients as [intercept;slope]
 let regressionCoeffs =
-    Fitting.LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient logPhaseX logPhaseY
+    OrdinaryLeastSquares.Linear.Univariable.coefficient logPhaseX logPhaseY
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
@@ -137,18 +136,17 @@ let generationTime = log(2.) / slope
 
 
 let fittedValues = 
-    let f = Fitting.LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fit (vector [|14.03859475; 1.515073487|])
+    let f = OrdinaryLeastSquares.Linear.Univariable.fit (vector [|14.03859475; 1.515073487|])
     logPhaseX |> Seq.map (fun x -> x,f x)
 
 let chartLinearRegression =
     [
-    Chart.Point(time,cellCountLn)    |> Chart.withTraceName "log counts"
-    Chart.Line(fittedValues)            |> Chart.withTraceName "fit"
+    Chart.Point(time,cellCountLn)   |> Chart.withTraceName "log counts"
+    Chart.Line(fittedValues)        |> Chart.withTraceName "fit"
     ]
     |> Chart.Combine
     |> styleChart "time (h)" "ln(cells/ml)"
 
-let generationTimeManual = sprintf "The generation time (manual selection) is: %.1f min" ((log(2.)/1.5150)* 60.)
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -159,7 +157,10 @@ chartLinearRegression
 chartLinearRegression |> GenericChart.toChartHTML
 (***include-it-raw***)
 
-(*** include-value:generationTimeManual ***)
+let generationTimeManual = sprintf "The generation time (manual selection) is: %.1f min" ((log(2.)/1.5150)* 60.)
+
+generationTimeManual
+(***include-it-raw***)
 
 (**
 
@@ -906,6 +907,30 @@ let rich =
 
 (***hide***)
 rich |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(*** hide ***)
+let explRichGeneric (model:Model) coefs = 
+    let ff = model.GetFunctionValue coefs
+    [-6. .. 0.1 .. 6.]
+    |> List.map (fun x -> x,ff x)
+    |> Chart.Line
+    |> styleChart "" ""
+    |> Chart.withTraceName (sprintf "%A" coefs)
+
+let richGeneric =
+    [
+        explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 0.5; 1.; 0.])
+        explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 0.5; 1.; 3.])
+        explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 2.; 0.5; 1.; 0.])
+        explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 5.; 1.; 0.])
+        explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 0.5; 5.; 0.])
+    ]
+    |> Chart.Combine
+    |> Chart.withTitle "Richards Generic"
+
+(***hide***)
+richGeneric |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (*** hide ***)

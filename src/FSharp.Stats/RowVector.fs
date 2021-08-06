@@ -43,7 +43,7 @@ module RowVector =
         let of_seq a         = ofSeq a
         [<Obsolete("Use toArray instead.")>]
         let to_array m       = toArray m
-
+        let map mapping (a:RowVector<_>) = OpsS.mapRV mapping a 
 
     module RVG = Generic
 
@@ -70,7 +70,9 @@ module RowVector =
     let of_array arr = ofArray arr
     [<Obsolete("Use toArray instead.")>]
     let to_array m   = toArray m
-
+    ///Builds a new rowvector whose elements are the results of applying the given function to each of the elements of the rowvector.
+    let map mapping (rowvec:rowvec) = RVG.map mapping rowvec
+    
 
 
 

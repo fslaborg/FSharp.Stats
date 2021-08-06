@@ -28,7 +28,7 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\**" />
-    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath=""/>
+    <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ops.fs" />
@@ -47,8 +47,8 @@
     <Compile Include="List.fs" />
     <Compile Include="JaggedArray.fs" />
     <Compile Include="Vector.fs" />
-    <Compile Include="Matrix.fs" />
     <Compile Include="RowVector.fs" />
+    <Compile Include="Matrix.fs" />
     <Compile Include="MatrixTopLevelOperators.fs" />
     <Compile Include="Rank.fs" />
     <Compile Include="Correlation.fs" />
@@ -113,6 +113,7 @@
     <Compile Include="Testing\Correlation.fs" />
     <Compile Include="Testing\TTest.fs" />
     <Compile Include="Testing\FTest.fs" />
+    <Compile Include="Testing\FriedmanTest.fs" />
     <Compile Include="Testing\HTest.fs" />
     <Compile Include="Testing\ChiSquareTest.fs" />
     <Compile Include="Testing\Bartlett.fs" />

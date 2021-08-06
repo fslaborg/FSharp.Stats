@@ -907,6 +907,9 @@ namespace FSharp.Stats
             let arrA = a.Values 
             createDenseMatrixGU a.OpsData a.NumRows a.NumCols (fun i j -> f i j (getArray2D arrA i j))
 
+        let mapRowVecGU f (a:RowVector<_>) = 
+            createRowVecGU a.OpsData a.NumCols (fun i -> f a.[i])
+
         let mapiRowVecGU f (a:RowVector<_>) = 
             createRowVecGU a.OpsData a.NumCols (fun i -> f i a.[i])
 
@@ -1409,8 +1412,12 @@ namespace FSharp.Stats
         let arraySM   xss : Matrix<'T>    = GU.mkSparseMatrixGU opsdata<'T> (Array2D.copy xss) |> sparse
         let arrayV    xss : Vector<'T>    = GU.mkVecGU          opsdata<'T> (Array.copy xss)
         let arrayRV   xss : RowVector<'T> = GU.mkRowVecGU       opsdata<'T> (Array.copy xss)
+        
+        let rowVecM xss: Matrix<'T>     = GU.rowvecDenseMatrixGU xss |> dense
+        let vecM    xss: Matrix<'T>     = GU.vectorDenseMatrixGU xss |> dense
 
         let seqM    xss : Matrix<'T>    = GU.seqDenseMatrixGU   opsdata<'T> xss |> dense
+        let seqCM   xss : Matrix<'T>    = GU.colSeqDenseMatrixGU   opsdata<'T> xss |> dense
         let seqV    xss : Vector<'T>    = GU.seqVecGU           opsdata<'T> xss
         let seqRV   xss : RowVector<'T> = GU.seqRowVecGU        opsdata<'T> xss
 
@@ -1848,6 +1855,8 @@ namespace FSharp.Stats
         let mapiV  f a = GU.mapiVecGU f a
         let permuteV p a = GU.permuteVecGU p a
         let permuteRV p a = GU.permuteRowVecGU p a
+        
+        let mapRV f a = GU.mapRowVecGU f a
 
         let mapiRV  f a = GU.mapiRowVecGU f a
 

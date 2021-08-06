@@ -1,3 +1,16 @@
+### 0.4.2+b91c80d (Released 2021-7-27)
+* Additions:
+    * latest commit #b91c80d
+    * [[#050ead5](https://github.com/fslaborg/FSharp.Stats/commit/050ead5833ab83bfa6e394fe7253c0633e216e7b)] add dunnett multi comparison test #75
+    * [[#2f9fcf7](https://github.com/fslaborg/FSharp.Stats/commit/2f9fcf736d22e3061c3bc717c96c282b4a9a3b37)] add RowVector.map #134
+    * [[#7d89443](https://github.com/fslaborg/FSharp.Stats/commit/7d894434f43ec69d475d0223404f2dec618083e5)] add Matrix.map function #134
+    * [[#352d196](https://github.com/fslaborg/FSharp.Stats/commit/352d1960a45aaf5644c68ffa4e3dd1d8c3b27551)] add nonlinear financial models
+    * [[#d33d971](https://github.com/fslaborg/FSharp.Stats/commit/d33d9712ece1972f7409d46a2439e23ef8a739e0)] add Friedman-Test
+* Bugfixes:
+    * [[#6402636](https://github.com/fslaborg/FSharp.Stats/commit/6402636860aa145e7ac78ac3de8053550bd96bbc)] fix degrees of freedom calculations for t statistic
+    * [[#3d4f3b8](https://github.com/fslaborg/FSharp.Stats/commit/3d4f3b8d2139fa95096cbef8a6544379ad4a3174)] fix Matrix.map references
+    * [[#b91c80d](https://github.com/fslaborg/FSharp.Stats/commit/b91c80de5f61ff1484acd4cfc9ef44c70d0ce231)] fix LevenbergMarquardtConstrained parameter estimation
+
 ### 0.4.1+e699171 (Released 2021-4-9)
 * Additions:
     * latest commit #e699171

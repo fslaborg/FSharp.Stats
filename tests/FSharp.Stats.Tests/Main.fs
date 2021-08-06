@@ -9,6 +9,9 @@ let main argv =
     //================================ Vector ===============================================================
     Tests.runTestsWithCLIArgs [] argv VectorTests.covarianceTests               |> ignore
 
+    //================================ RowVor ===============================================================
+    Tests.runTestsWithCLIArgs [] argv RowVectorTests.floatImplementationTests   |> ignore
+
     //=========================== Special Functions =========================================================    
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.gammaFunctionsTests |> ignore
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.betaFunctionsTests  |> ignore
@@ -28,6 +31,7 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv CovarianceTests.sequenceTests |> ignore
     Tests.runTestsWithCLIArgs [] argv CovarianceTests.listTests |> ignore
     Tests.runTestsWithCLIArgs [] argv CovarianceTests.arrayTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv CovarianceTests.matrixTests |> ignore
     
     //================================ Testing ==============================================================
     //Tests.runTestsWithCLIArgs [] argv TestingTests.testPostHocTests |> ignore 
@@ -43,4 +47,6 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv MLTests.SimilarityMetrics.tverskyIndexTests           |> ignore
     Tests.runTestsWithCLIArgs [] argv MLTests.SimilarityMetrics.tverskySymmetricIndexTests  |> ignore
 
+    //================================== Fitting ============================================================
+    Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests      |> ignore
     0

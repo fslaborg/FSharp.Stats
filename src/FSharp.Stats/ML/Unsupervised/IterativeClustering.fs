@@ -51,17 +51,14 @@ module IterativeClustering =
 
 
 
-    // cvmax - Algorith by Moth’d Belal. Al-Daoud (Ref.: A New Algorithm for Cluster Initialization)
-    let intitCVMAX (sample: float[] array) k =
-        let dmatrix = matrix sample
+    // cvmax - Algorithm by Moth’d Belal. Al-Daoud (Ref.: A New Algorithm for Cluster Initialization)
+    let initCVMAX (sampleRows: float[] []) k =
+        let dmatrix = matrix sampleRows
         let cvmax =
-            dmatrix
-            |> Matrix.Generic.enumerateColumnWise Seq.var
-            |> Seq.zip (Matrix.Generic.enumerateColumnWise id dmatrix)
-            |> Seq.maxBy snd
-            |> fst
-            |> Seq.mapi (fun rowI value -> (rowI,value)) 
-            |> Seq.toArray 
+            sampleRows
+            |> JaggedArray.transpose
+            |> Array.maxBy Seq.var
+            |> Array.indexed
             |> Array.sortBy snd
                     
         if cvmax.Length < k then failwithf "Number of data points must be at least %i" k        
@@ -78,7 +75,7 @@ module IterativeClustering =
                 | x                       -> chunkSize * (i - 1) + ((cvmax.Length - chunkSize * (i - 1)) / 2)
             //printfn "Array.lenght = %i and index = %i" cvmax.Length (index-1)
             yield cvmax.[index-1] |> fst]
-        |> Seq.map (fun rowI -> dmatrix.Row(rowI).ToArray())
+        |> Seq.map (fun rowI -> sampleRows.[rowI])
         |> Seq.toArray
 
 //    // cvmax - Algorith by Moth’d Belal. Al-Daoud (Ref.: A New Algorithm for Cluster Initialization)
@@ -106,6 +103,20 @@ module IterativeClustering =
 //        |> Seq.map (fun rowI -> dmatrix.Row(rowI).ToArray())
 //        |> Seq.toArray
     
+    /// calculates mean based on subset of non-nan values
+    let private meanNaN (input: float []) = 
+        let isValid f = 
+            nan.Equals f || infinity.Equals f || (-infinity).Equals f 
+            |> not
+        let rec loop i sum count = 
+            if i < input.Length then 
+                let current = input.[i]
+                let valid = isValid current 
+                let accS = if valid then sum + current else sum
+                let accC = if valid then count + 1. else count
+                loop (i+1) accS accC
+            else sum/count 
+        loop 0 0. 0. 
 
     // Recompute Centroid as average of given sample (for kmeans)
     let avgCentroid (current: float []) (sample: float [] array) =
@@ -113,10 +124,9 @@ module IterativeClustering =
         match size with
         | 0 -> current
         | _ ->
-            sample
-            |> Array.reduce (fun v1 v2 -> 
-                   Array.map2 (fun v1x v2x -> v1x + v2x) v1 v2)
-            |> Array.map (fun e -> e / (float)size)
+            sample 
+            |> JaggedArray.transpose
+            |> Array.map meanNaN
 
 
     // Given a distance, centroid factory and
