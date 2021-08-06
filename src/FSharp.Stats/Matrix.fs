@@ -20,7 +20,7 @@ module MRandom =
     let float f = randomGen.NextDouble() * f
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Matrix = begin
+module Matrix = 
 
 
     type Orientation =
@@ -37,7 +37,7 @@ module Matrix = begin
     |Sample
     |Population
 
-    module Generic = begin
+    module Generic = 
 
         module MS = SpecializedGenericImpl
 
@@ -275,7 +275,6 @@ module Matrix = begin
         let flattenColWise (matrix: Matrix<'a>) =
             matrix.Transpose |> flattenRowWise
         
-    end
 
     module MG = Generic
     module DS = DoubleImpl
@@ -725,7 +724,6 @@ module Matrix = begin
 
         loop (nCols-1-indices.Length) (indices.Length-1) (nCols-1)
 
-end
 
 [<AutoOpen>]
 module MatrixExtension =
