@@ -277,57 +277,57 @@ let floatImplementationDenseTests =
             testCase "ofJaggedList" <| fun () ->
 
                 let actual =
-                    testValuesArrRows
+                    testValues2x3
                     |> List.ofArray
                     |> List.map List.ofArray
                     |> Matrix.ofJaggedList
 
-                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofJaggedList"
+                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedList"
 
             testCase "ofJaggedColList" <| fun () ->
                 let actual =
-                    testValuesArrCols
+                    testValues2x3Transposed
                     |> List.ofArray
                     |> List.map List.ofArray
                     |> Matrix.ofJaggedColList
 
-                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofJaggedColList"
+                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedColList"
 
 
             testCase "ofJaggedSeq" <| fun () ->
                 let actual =
-                    testValuesArrRows
+                    testValues2x3
                     |> Seq.ofArray
                     |> Seq.map Seq.ofArray
                     |> Matrix.ofJaggedSeq
 
-                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofJaggedSeq"
+                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedSeq"
 
 
             testCase "ofJaggedColSeq" <| fun () ->
                 let actual =
-                    testValuesArrCols
+                    testValues2x3Transposed
                     |> Seq.ofArray
                     |> Seq.map Seq.ofArray
                     |> Matrix.ofJaggedColSeq
 
-                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofJaggedColSeq"
+                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedColSeq"
 
 
             testCase "ofJaggedArray" <| fun () ->
                 let actual =
-                    testValuesArrRows
+                    testValues2x3
                     |> Matrix.ofJaggedArray
 
-                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofJaggedArray"
+                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedArray"
 
 
             testCase "ofJaggedColArray" <| fun () ->
                 let actual =
-                    testValuesArrCols
+                    testValues2x3Transposed
                     |> Matrix.ofJaggedColArray
 
-                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofJaggedColArray"
+                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedColArray"
 
 
             testCase "diag" <| fun () ->
@@ -1177,7 +1177,7 @@ let floatImplementationDenseTests =
                         [11.;29.;8.]
                     ]
                     let correctList = [15.5; 17.5; 10.]
-                    let testlist = List.ofArray( Vector.toArray (Matrix.meanColumnWise testMat))
+                    let testlist = List.ofArray( RowVector.toArray (Matrix.meanColumnWise testMat))
                     List.iter2 (fun a b -> Expect.floatClose Accuracy.high a b "means of matrix ColumnWise was calculated incorrectly") testlist correctList
 
             ]
