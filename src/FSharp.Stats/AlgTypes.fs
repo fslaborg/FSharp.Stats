@@ -473,7 +473,7 @@ namespace FSharp.Stats
             if m < 1 then invalidArg "xss" "unexpected empty seq"
             let n = xss |> Seq.head |> Seq.length
             if not (Seq.forall (fun xs -> Seq.length xs=n) xss) then invalidArg "xss" "the sequences are not all of the same length";
-            let values = Array2D.zeroCreate m n
+            let values = Array2D.zeroCreate n m
             Seq.iteri (fun i rw -> Seq.iteri (fun j x -> values.[j,i] <- x) rw) xss;
             DenseMatrix(ops,values)
 
@@ -494,7 +494,7 @@ namespace FSharp.Stats
             if m < 1 then invalidArg "xss" "unexpected empty array"
             let n = xss.[0] |> Array.length
             if not (Array.forall (fun xs -> Array.length xs=n) xss) then invalidArg "xss" "the arrays are not all of the same length";
-            let values = Array2D.zeroCreate m n
+            let values = Array2D.zeroCreate n m
             Array.iteri (fun i rw -> Array.iteri (fun j x -> values.[j,i] <- x) rw) xss;
             DenseMatrix(ops,values)
 

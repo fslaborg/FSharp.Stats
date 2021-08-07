@@ -22,6 +22,21 @@ module MRandom =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Matrix = 
 
+
+    type Orientation =
+        | RowWise
+        | ColWise
+        member this.Inverse =
+            match this with
+            | RowWise -> Orientation.ColWise
+            | ColWise -> Orientation.RowWise
+        static member inverse (o:Orientation) = 
+            o.Inverse
+
+    type DataSource = 
+        |Sample
+        |Population
+
     module Generic = 
 
         module MS = SpecializedGenericImpl
@@ -267,8 +282,7 @@ module Matrix =
         /// Iterates the given Matrix column wise and places every element in a new vector with length n*m.
         let flattenColWise (matrix: Matrix<'a>) =
             matrix.Transpose |> flattenRowWise
-
-    
+        
 
     module MG = Generic
     module DS = DoubleImpl
@@ -553,15 +567,15 @@ module Matrix =
         getDiag a
         |> diag
 
-    /// Computes the row wise sum of a Matrix
+    /// Computes the row wise sums of a Matrix
     let sumRows (a:matrix) =
         a
         |> foldByRow (fun acc r -> acc + r ) (Vector.zeroCreate a.NumRows)
 
-    /// Computes the Column wise sum of a Matrix
+    /// Computes the column wise sums of a Matrix
     let sumColumns (a:matrix) =
-        a.Transpose
-        |> foldByRow (fun acc r -> acc + r ) (Vector.zeroCreate a.NumCols)
+        a
+        |> foldByCol (fun acc r -> acc + r ) (RowVector.zero a.NumCols)
 
     /// Computes the row wise mean of a Matrix
     let meanRowWise (a:matrix) =
@@ -573,7 +587,14 @@ module Matrix =
     let meanColumnWise (a:matrix) =
         a
         |> sumColumns
-        |> Vector.map (fun sum -> sum / (a.NumRows |> float))
+        |> RowVector.map (fun sum -> sum / (a.NumRows |> float))
+    
+    ///Computes mean in the specified orientation
+    /// orientation - "RowWise" or "ColWise"
+    let meanAsSeq (orientation:Orientation) (a:matrix) = 
+        match orientation with
+        | RowWise -> meanRowWise a    |> seq
+        | ColWise -> meanColumnWise a |> seq
 
     /// computes the column specific covariance matrix of a data matrix as described at:
     // http://stattrek.com/matrix-algebra/covariance-matrix.aspx
@@ -606,6 +627,20 @@ module Matrix =
     /// computes the row specific sample covariance matrix of a data matrix
     let rowSampleCovarianceMatrixOf (dataMatrix:Matrix<float>) =
         columnCovarianceMatrixOf (dataMatrix.Transpose.NumRows-1) dataMatrix.Transpose
+
+    /// computes the orientation and dataSource specific covariance matrix of a dataMatrix\
+    /// dataSource - "Sample" or "Population". \
+    /// orientation - "RowWise" or "ColWise" 
+    let covarianceMatrixOf (dataSource:DataSource) (orientation:Orientation) (dataMatrix:matrix) :matrix =
+        match dataSource with
+        |Sample ->
+            match orientation with
+            |RowWise ->rowSampleCovarianceMatrixOf dataMatrix
+            |ColWise ->columnSampleCovarianceMatrixOf dataMatrix
+        |Population ->
+            match orientation with
+            |RowWise ->rowPopulationCovarianceMatrixOf dataMatrix
+            |ColWise ->columnPopulationCovarianceMatrixOf dataMatrix
     //----------------------------------------------------------------------------
 
     /// Applies function f along row axis
