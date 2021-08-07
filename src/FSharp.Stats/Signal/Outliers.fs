@@ -46,18 +46,18 @@ module Outliers =
         let s = stDev(ls)
         Intervals.create (minZ * s + m) (maxZ * s + m)
 
-    ///Returns Mahalanobi's distance  for an individual observation in a matrix.
+    ///Returns Mahalanobi's distance for an individual observation in a matrix.
     ///dataSource - Sample or Population.
-    ///orientation - RowWise or ColWise. (RowWise orientation means that each row is a Vector) 
-    let private mahalanobisDistanceOfEntry (dataMatrix:matrix) (dataSource:DataSource) (orientation:Orientation) (observation:vector) :float =
-        
-        let invertedCovarianceMatrix = Algebra.LinearAlgebra.Inverse(covarianceMatrixOf dataSource (orientation.Inverse) dataMatrix)
-        let meanVector = Matrix.mean (orientation.Inverse) dataMatrix
-        let subObsMean = Matrix.ofVector(Vector.sub observation meanVector)
+    ///orientation - RowWise or ColWise.
+    let mahalanobisDistanceOfEntry (dataMatrix:matrix) (dataSource:DataSource) (orientation:Orientation) (observation:seq<float>) :float =
+        let sub (a:seq<float>) b = Seq.map2 (fun xa xb -> xb - xa) a b
+        let invertedCovarianceMatrix = Algebra.LinearAlgebra.Inverse (covarianceMatrixOf dataSource orientation.Inverse dataMatrix)
+        let meanVector = Matrix.meanAsSeq orientation.Inverse dataMatrix
+        let subObsMean = Matrix.ofJaggedColSeq([sub observation meanVector])
         let multObsCov = Matrix.mul (subObsMean.Transpose) invertedCovarianceMatrix
         let distance = Matrix.toScalar(Matrix.mul multObsCov subObsMean)
-        sqrt distance
-        
+        sqrt distance    
+
     ///Returns Mahalanobi's distance for for every observation in a matrix.
     ///dataSource - Sample or Population.
     ///orientation - RowWise or ColWise. (RowWise orientation means that each row is a Vector) 
@@ -69,4 +69,4 @@ module Outliers =
                     |> Matrix.toJaggedArray
                 |RowWise -> 
                     dataMatrix |> Matrix.toJaggedArray
-        getObsList |> Array.map (vector >> mahalanobisDistanceOfEntry dataMatrix dataSource orientation)
+        getObsList |> Array.map (mahalanobisDistanceOfEntry dataMatrix dataSource orientation)
