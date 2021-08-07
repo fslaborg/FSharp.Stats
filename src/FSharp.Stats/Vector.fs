@@ -170,7 +170,7 @@ module Vector =
     let ofScalar value = VecDS.scalarVecDS value
     ///Builds a new vector whose elements are the results of adding the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
     let add vector1 vector2 = VecDS.addVecDS vector1 vector2
-    ///Builds a new vector whose elements are the results of substracting the corresponding elements of vector1 from vector2. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    ///Builds a new vector whose elements are the results of substracting the corresponding elements of vector2 from vector1. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
     let sub vector1 vector2 = VecDS.subVecDS vector1 vector2
     let mulRVV vector1 vector2 = VecDS.mulRowVecVecDS vector1 vector2
     let mulVRV vector1 vector2 = VecDS.mulVecRowVecDS vector1 vector2

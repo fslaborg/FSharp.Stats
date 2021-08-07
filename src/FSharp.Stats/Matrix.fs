@@ -34,8 +34,8 @@ module Matrix =
             o.Inverse
 
     type DataSource = 
-    |Sample
-    |Population
+        |Sample
+        |Population
 
     module Generic = 
 
@@ -567,15 +567,15 @@ module Matrix =
         getDiag a
         |> diag
 
-    /// Computes the row wise sum of a Matrix
+    /// Computes the row wise sums of a Matrix
     let sumRows (a:matrix) =
         a
         |> foldByRow (fun acc r -> acc + r ) (Vector.zeroCreate a.NumRows)
 
-    /// Computes the Column wise sum of a Matrix
+    /// Computes the column wise sums of a Matrix
     let sumColumns (a:matrix) =
-        a.Transpose
-        |> foldByRow (fun acc r -> acc + r ) (Vector.zeroCreate a.NumCols)
+        a
+        |> foldByCol (fun acc r -> acc + r ) (RowVector.zero a.NumCols)
 
     /// Computes the row wise mean of a Matrix
     let meanRowWise (a:matrix) =
@@ -587,14 +587,14 @@ module Matrix =
     let meanColumnWise (a:matrix) =
         a
         |> sumColumns
-        |> Vector.map (fun sum -> sum / (a.NumRows |> float))
+        |> RowVector.map (fun sum -> sum / (a.NumRows |> float))
     
     ///Computes mean in the specified orientation
     /// orientation - "RowWise" or "ColWise"
-    let mean (orientation:Orientation) (a:matrix) = 
+    let meanAsSeq (orientation:Orientation) (a:matrix) = 
         match orientation with
-        |RowWise -> meanRowWise a
-        |ColWise -> meanColumnWise a
+        | RowWise -> meanRowWise a    |> seq
+        | ColWise -> meanColumnWise a |> seq
 
     /// computes the column specific covariance matrix of a data matrix as described at:
     // http://stattrek.com/matrix-algebra/covariance-matrix.aspx

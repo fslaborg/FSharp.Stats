@@ -258,21 +258,21 @@ let floatImplementationDenseTests =
                 
             testCase "ofRows" <| fun () ->
                 let actual =
-                    testValuesArrRows
+                    testValues2x3
                     |> Array.map rowvec
                     |> Vector.Generic.ofSeq
                     |> Matrix.ofRows
 
-                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofRows"
+                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofRows"
             
             testCase "ofCols" <| fun () ->
                 let actual =
-                    testValuesArrCols
+                    testValues2x3Transposed
                     |> Array.map vector
                     |> RowVector.Generic.ofSeq
                     |> Matrix.ofCols
 
-                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofCols"      
+                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofCols"      
                 
             testCase "ofJaggedList" <| fun () ->
 
