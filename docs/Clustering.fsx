@@ -5,6 +5,7 @@
 #r "nuget: Newtonsoft.JSON"
 #r "nuget: Plotly.NET, 2.0.0-beta3"
 #r "nuget: FSharpAux, 1.0.0"
+#r "nuget: Cyjs.NET"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -12,6 +13,7 @@
 #r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
 #r "nuget: FSharpAux, 1.0.0"
 #r "nuget: FSharp.Stats"
+#r "nuget: Cyjs.NET"
 #endif // IPYNB
 
 (**
@@ -35,6 +37,7 @@ _Summary:_ this tutorial demonstrates several clustering methods in FSharp.Stats
     - [Silhouette coefficient](#Silhouette-coefficient)
     - [GapStatistics](#GapStatistics)
 
+Clustering methods can be used to group elements of a huge data set based on their similarity. Elements sharing similar properties cluster together and can be reported as coherent group.
 For demonstration of several clustering methods, the classic iris data set is used, which consists of 150 records, 
 each of which contains four measurements and a species identifier. Since the species identifier occur several times 
 (Iris-virginica, Iris-versicolor, and Iris-setosa), the first step is to generate unique labels:
@@ -99,6 +102,7 @@ all data points are assigned to their nearest centroid, the algorithm iterativel
 that minimizes the dispersion of every of the k clusters. For cluster number determination see below (Determining the optimal 
 number of clusters).
 
+Further information can be found [here](https://fslab.org/content/tutorials/002_clustering_kMeans.html).
 *)
 
 
@@ -151,6 +155,8 @@ let getBestkMeansClustering data k bootstraps =
 ## Density based clustering
 
 ### DBSCAN
+
+Further information can be found [here](https://fslab.org/content/tutorials/004_clustering_DBSCAN.html).
 
 *)
 //four dimensional clustering with sepal length, petal length, sepal width and petal width
@@ -278,6 +284,25 @@ Hierarchical clustering results in a tree structure, that has a single cluster (
 splits up into clusters of elements that are more similar to each other than to elements of other clusters. 
 For generating multiple cluster results with different number of clusters, the clustering has to performed only once. 
 Subsequently a threshold can be determined which will result in the desired number of clusters.
+
+Further information can be found [here](https://fslab.org/content/tutorials/003_clustering_hierarchical.html).
+
+#### Distance measures
+There are several distance metrics, that can be used as distance function. The commonly used one probably is Euclidean distance.
+
+#### Linker
+When the distance between two clusters is calculated, there are several linkage types to choose from:
+
+  - **complete linkage**: maximal pairwise distance between the clusters (prone to break large clusters)
+
+  - **single linkage**: minimal pairwise distance between the clusters (sensitive to outliers)
+
+  - **centroid linkage**: distance between the two cluster centroids
+
+  - **average linkage**: average pairwise distance between the clusters (sensitive to cluster shape and size)
+
+  - **median linkage**: median pairwise distance between the clusters
+
 
 *)
 
