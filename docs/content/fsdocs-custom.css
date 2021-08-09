@@ -6840,6 +6840,12 @@ a.has-text-black:hover, a.has-text-black:focus {
 a.has-text-light:hover, a.has-text-light:focus {
   color: #dbdbdb !important; }
 
+.has-text-fsstatsruby {
+  color: #933156 !important; }
+
+.has-text-fsstatsgrey {
+  color: #485363 !important; }
+
 .has-background-light {
   background-color: whitesmoke !important; }
 
