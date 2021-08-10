@@ -1,6 +1,7 @@
 ![](docs/img/logo_title.svg)
 
-[![Gitter](https://badges.gitter.im/CSBiology/FSharp.Stats.svg)](https://gitter.im/CSBiology/FSharp.Stats?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+[![Discord](https://img.shields.io/discord/836161044501889064?color=purple&label=Join%20our%20Discord%21&logo=discord&logoColor=white)](https://discord.gg/y95XRJg23e)
 [![Generic badge](https://img.shields.io/badge/Made%20with-FSharp-rgb(1,143,204).svg)](https://shields.io/)
 ![GitHub contributors](https://img.shields.io/github/contributors/CSBiology/FSharp.Stats)
 [![Build status](https://ci.appveyor.com/api/projects/status/gjsjlqmrljtty780/branch/developer?svg=true)](https://ci.appveyor.com/project/kMutagene/fsharp-stats/branch/developer)
