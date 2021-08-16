@@ -93,6 +93,7 @@ let clean = BuildTask.create "Clean" [] {
 
 let build = BuildTask.create "Build" [clean] {
     !! "src/**/*.*proj"
+    ++ "tests/**/*.*proj"
     |> Seq.iter (DotNet.build id)
 }
 
@@ -180,6 +181,8 @@ let runTests = BuildTask.create "RunTests" [clean; build; copyBinaries] {
         {
             testParams with
                 Logger = Some "console;verbosity=detailed"
+                Configuration = DotNet.BuildConfiguration.fromString configuration
+                NoBuild = true
         }
     ) testProject
 }
@@ -198,6 +201,8 @@ let runTestsWithCodeCov = BuildTask.create "RunTestsWithCodeCov" [clean; build; 
                         ]
                 };
                 Logger = Some "console;verbosity=detailed"
+                Configuration = DotNet.BuildConfiguration.fromString configuration
+                NoBuild = true
         }
     ) testProject
 }

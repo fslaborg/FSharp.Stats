@@ -233,3 +233,70 @@ let pearsonTests =
             Expect.isTrue (0.108173054 = Math.Round(testCase1.PValue,9)) "pValue should be equal"
             Expect.isTrue (0.000294627 = Math.Round(testCase2.PValue,9)) "pValue should be equal"
     ]
+
+
+[<Tests>]
+let benjaminiHochbergTests =
+    
+    let readCsv path =
+        System.IO.File.ReadAllText(path)
+        |> fun s -> s.Split("\r\n")
+        |> Array.skip 1
+        |> Array.map (fun x -> x.Split(", ") |> fun ([|a;b|]) -> a, float b)
+
+    let largeSetWithIds = readCsv @"data\benjaminiHochberg_Input.csv"
+    let largeSet        = largeSetWithIds |> Array.map snd
+
+    let largeSetWithIds_Expected = readCsv @"data\benjaminiHochberg_AdjustedWithR.csv"
+    let largeSet_Expected        = largeSetWithIds_Expected |> Array.map snd
+
+    testList "Testing.PValueAdjust.BenjaminiHochberg" [
+        
+        testCase "testBHLarge" (fun () -> 
+            Expect.sequenceEqual 
+                (largeSet |> MultipleTesting.benjaminiHochbergFDR |> Seq.map (fun x -> Math.Round(x,9))) 
+                (largeSet_Expected |> Seq.map (fun x -> Math.Round(x,9)))
+                "soos"
+        )
+
+        testCase "testBHLargeNaN" (fun () -> 
+            Expect.sequenceEqual 
+                ([nan; nan; yield! largeSet] |> MultipleTesting.benjaminiHochbergFDR |> Seq.skip 2 |> Seq.map (fun x -> Math.Round(x,9))) 
+                (largeSet_Expected |> Seq.map (fun x -> Math.Round(x,9)))
+                "soos"
+        )
+
+        testCase "testBHLargeBy" (fun () -> 
+            Expect.sequenceEqual 
+                (
+                    largeSetWithIds 
+                    |> MultipleTesting.benjaminiHochbergFDRBy id 
+                    |> Seq.sortBy fst
+                    |> Seq.map (fun (x,y) -> x, Math.Round(y,9))
+                ) 
+                (
+                    largeSetWithIds_Expected 
+                    |> Seq.sortBy fst
+                    |> Seq.map (fun (x,y) -> x, Math.Round(y,9))
+                )
+                "soos"
+        )
+
+        testCase "testBHLargeNaNBy" (fun () -> 
+            Expect.sequenceEqual 
+                (
+                    [("A0",nan); ("A0",nan); yield! largeSetWithIds] 
+                    |> MultipleTesting.benjaminiHochbergFDRBy id 
+                    |> Seq.sortBy fst 
+                    |> Seq.skip 2 
+                    |> Seq.map (fun (x,y) -> x, Math.Round(y,9))
+                ) 
+                (
+                    largeSetWithIds_Expected
+                    |> Seq.sortBy fst
+                    |> Seq.map (fun (x,y) -> x, Math.Round(y,9))
+                )
+                "soos"
+        )
+            
+    ]
