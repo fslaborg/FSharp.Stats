@@ -11,28 +11,43 @@ module MultipleTesting =
     /// This function applies the Benjamini-Hochberg multiple testing correcture and returns all False Discovery Rates to which the given p-values are still 
     /// significant.
     /// Note: corrected pValues are not sorted in original order!
-    let benjaminiHochbergFDRBy (projection:'a -> 'b*float) (rawP:seq<'a>) = 
-
-        let pVals = rawP |> (Array.ofSeq >> Array.map projection) 
-        // recursive function calculating cumulative minimum
-        let rec cummin (pValues:List<_*float>) (nrPvalues:int) (i:int) (min:float) =      
-            match pValues with
-            | [] -> []
-            | x::rest when System.Double.IsNaN(snd(x)) -> (fst(x),nan)::(cummin rest nrPvalues (i) min)//[(fst(x),nan)] @ (cummin rest nrPvalues (i) min)
-            | x::rest  -> let prd = (float(nrPvalues)/float(nrPvalues-i))*snd(x)
-                          let prd = if(prd > 1.0) then 1.0 else prd
-                          let value = if(prd<=min) then prd else min
-                          (fst(x),value) :: (cummin rest nrPvalues (i+1) value)//[(fst(x),value)] @ (cummin rest nrPvalues (i+1) value)
+    let inline benjaminiHochbergFDRBy (projection:'a -> 'b*float) (rawP:seq<'a>) = 
     
-        let rawpListMinusNan = pVals |> Seq.filter (fun (_,x) -> not (System.Double.IsNaN x)) |> Seq.toList
-        let rawpListNan = pVals |> Seq.filter (fun (_,x) -> (System.Double.IsNaN x)) |> Seq.toList
-        let npval = Seq.length (rawpListMinusNan)
-        //let npval = Seq.length rawp
-        let sortedRawp =
-            rawpListMinusNan
-            |> List.sortWith(fun (_,x) (_,y) -> if (x) > (y) then -1 else 1)                           
-        let adjp = cummin sortedRawp npval 0 System.Double.PositiveInfinity
-        adjp @ rawpListNan
+            let pVals = rawP |> (Array.ofSeq >> Array.map projection) 
+            // recursive function calculating cumulative minimum
+            let rec cummin (pValues:List<_*float>) (nrPvalues:int) (i:int) (min:float) (acc: ('b*float) list) =      
+                match pValues with
+                | [] -> 
+                    acc |> List.rev
+
+                | x::rest when System.Double.IsNaN(snd(x)) -> 
+                    cummin rest nrPvalues (i) min ((fst(x),nan)::acc)
+
+                | x::rest  -> 
+                    let prd = (float(nrPvalues)/float(nrPvalues-i))*snd(x)
+                    let prd = if(prd > 1.0) then 1.0 else prd
+                    let value = if(prd<=min) then prd else min
+                    cummin rest nrPvalues (i+1) value ((fst(x),value) :: acc)
+    
+            let rawpListMinusNan = 
+                pVals 
+                |> Seq.filter (fun (_,x) -> not (System.Double.IsNaN x)) 
+                |> Seq.toList
+
+            let rawpListNan = 
+                pVals 
+                |> Seq.filter (fun (_,x) -> (System.Double.IsNaN x)) 
+                |> Seq.toList
+
+            let npval = Seq.length (rawpListMinusNan)
+
+            let sortedRawp =
+                rawpListMinusNan
+                |> List.sortWith(fun (_,x) (_,y) -> if (x) > (y) then -1 else 1)
+
+            let adjp = cummin sortedRawp npval 0 System.Double.PositiveInfinity []
+
+            adjp @ rawpListNan
 
 
     /// Benjamini-Hochberg Correction (BH)
