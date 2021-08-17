@@ -275,14 +275,14 @@ let benjaminiHochbergTests =
             Expect.sequenceEqual 
                 (largeSet |> MultipleTesting.benjaminiHochbergFDR |> Seq.map (fun x -> Math.Round(x,9))) 
                 (largeSet_Expected |> Seq.map (fun x -> Math.Round(x,9)))
-                "soos"
+                "adjusted pValues should be equal to the reference implementation."
         )
 
         testCase "testBHLargeNaN" (fun () -> 
             Expect.sequenceEqual 
                 ([nan; nan; yield! largeSet] |> MultipleTesting.benjaminiHochbergFDR |> Seq.skip 2 |> Seq.map (fun x -> Math.Round(x,9))) 
                 (largeSet_Expected |> Seq.map (fun x -> Math.Round(x,9)))
-                "soos"
+                "adjusted pValues should be equal to the reference implementation, ignoring nan."
         )
 
         testCase "testBHLargeBy" (fun () -> 
@@ -298,7 +298,7 @@ let benjaminiHochbergTests =
                     |> Seq.sortBy fst
                     |> Seq.map (fun (x,y) -> x, Math.Round(y,9))
                 )
-                "soos"
+                "adjusted pValues with keys should be equal to the reference implementation."
         )
 
         testCase "testBHLargeNaNBy" (fun () -> 
@@ -315,7 +315,7 @@ let benjaminiHochbergTests =
                     |> Seq.sortBy fst
                     |> Seq.map (fun (x,y) -> x, Math.Round(y,9))
                 )
-                "soos"
+                "adjusted pValues with keys should be equal to the reference implementation, ignoring nan."
         )
             
     ]
