@@ -24,3 +24,6 @@
 *.PDF diff=astextplain
 *.rtf diff=astextplain
 *.RTF diff=astextplain
+
+# ignore changes to data files
+*.csv binary

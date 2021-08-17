@@ -3,7 +3,23 @@ open Expecto
 open System
 open FSharp.Stats.Testing
 open FSharp.Stats
-    
+
+open System.IO
+open System.Reflection
+
+let assembly = Assembly.GetExecutingAssembly()
+let resnames = assembly.GetManifestResourceNames();
+
+let readEmbeddedRessource (name:string) = 
+    match Array.tryFind (fun (r:string) -> r.Contains(name)) resnames with
+    | Some path -> 
+        use stream = assembly.GetManifestResourceStream(path)
+        use reader = new StreamReader(stream)
+        reader.ReadToEnd()
+
+    | _ -> failwithf "could not embedded ressources, check package integrity"
+
+
 [<Tests>]
 let testPostHocTests =
     //Tests taken from:
@@ -232,4 +248,74 @@ let pearsonTests =
         testCase "testPearson" <| fun () -> 
             Expect.isTrue (0.108173054 = Math.Round(testCase1.PValue,9)) "pValue should be equal"
             Expect.isTrue (0.000294627 = Math.Round(testCase2.PValue,9)) "pValue should be equal"
+    ]
+
+
+[<Tests>]
+let benjaminiHochbergTests =
+    
+    let readCsv path =
+        readEmbeddedRessource path
+        |> fun s -> s.Split("\r\n")
+        |> Array.skip 1
+        |> Array.map (fun x -> 
+            printfn "%s" x
+            x.Split(", ") |> fun ([|a;b|]) -> a, float b
+        )
+
+    let largeSetWithIds = readCsv @"benjaminiHochberg_Input.csv"
+    let largeSet        = largeSetWithIds |> Array.map snd
+
+    let largeSetWithIds_Expected = readCsv @"benjaminiHochberg_AdjustedWithR.csv"
+    let largeSet_Expected        = largeSetWithIds_Expected |> Array.map snd
+
+    testList "Testing.PValueAdjust.BenjaminiHochberg" [
+        
+        testCase "testBHLarge" (fun () -> 
+            Expect.sequenceEqual 
+                (largeSet |> MultipleTesting.benjaminiHochbergFDR |> Seq.map (fun x -> Math.Round(x,9))) 
+                (largeSet_Expected |> Seq.map (fun x -> Math.Round(x,9)))
+                "adjusted pValues should be equal to the reference implementation."
+        )
+
+        testCase "testBHLargeNaN" (fun () -> 
+            Expect.sequenceEqual 
+                ([nan; nan; yield! largeSet] |> MultipleTesting.benjaminiHochbergFDR |> Seq.skip 2 |> Seq.map (fun x -> Math.Round(x,9))) 
+                (largeSet_Expected |> Seq.map (fun x -> Math.Round(x,9)))
+                "adjusted pValues should be equal to the reference implementation, ignoring nan."
+        )
+
+        testCase "testBHLargeBy" (fun () -> 
+            Expect.sequenceEqual 
+                (
+                    largeSetWithIds 
+                    |> MultipleTesting.benjaminiHochbergFDRBy id 
+                    |> Seq.sortBy fst
+                    |> Seq.map (fun (x,y) -> x, Math.Round(y,9))
+                ) 
+                (
+                    largeSetWithIds_Expected 
+                    |> Seq.sortBy fst
+                    |> Seq.map (fun (x,y) -> x, Math.Round(y,9))
+                )
+                "adjusted pValues with keys should be equal to the reference implementation."
+        )
+
+        testCase "testBHLargeNaNBy" (fun () -> 
+            Expect.sequenceEqual 
+                (
+                    [("A0",nan); ("A0",nan); yield! largeSetWithIds] 
+                    |> MultipleTesting.benjaminiHochbergFDRBy id 
+                    |> Seq.sortBy fst 
+                    |> Seq.skip 2 
+                    |> Seq.map (fun (x,y) -> x, Math.Round(y,9))
+                ) 
+                (
+                    largeSetWithIds_Expected
+                    |> Seq.sortBy fst
+                    |> Seq.map (fun (x,y) -> x, Math.Round(y,9))
+                )
+                "adjusted pValues with keys should be equal to the reference implementation, ignoring nan."
+        )
+            
     ]
