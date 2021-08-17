@@ -3,7 +3,23 @@ open Expecto
 open System
 open FSharp.Stats.Testing
 open FSharp.Stats
-    
+
+open System.IO
+open System.Reflection
+
+let assembly = Assembly.GetExecutingAssembly()
+let resnames = assembly.GetManifestResourceNames();
+
+let readEmbeddedRessource (name:string) = 
+    match Array.tryFind (fun (r:string) -> r.Contains(name)) resnames with
+    | Some path -> 
+        use stream = assembly.GetManifestResourceStream(path)
+        use reader = new StreamReader(stream)
+        reader.ReadToEnd()
+
+    | _ -> failwithf "could not embedded ressources, check package integrity"
+
+
 [<Tests>]
 let testPostHocTests =
     //Tests taken from:
@@ -239,15 +255,18 @@ let pearsonTests =
 let benjaminiHochbergTests =
     
     let readCsv path =
-        System.IO.File.ReadAllText(path)
+        readEmbeddedRessource path
         |> fun s -> s.Split("\r\n")
         |> Array.skip 1
-        |> Array.map (fun x -> x.Split(", ") |> fun ([|a;b|]) -> a, float b)
+        |> Array.map (fun x -> 
+            printfn "%s" x
+            x.Split(", ") |> fun ([|a;b|]) -> a, float b
+        )
 
-    let largeSetWithIds = readCsv @"data\benjaminiHochberg_Input.csv"
+    let largeSetWithIds = readCsv @"benjaminiHochberg_Input.csv"
     let largeSet        = largeSetWithIds |> Array.map snd
 
-    let largeSetWithIds_Expected = readCsv @"data\benjaminiHochberg_AdjustedWithR.csv"
+    let largeSetWithIds_Expected = readCsv @"benjaminiHochberg_AdjustedWithR.csv"
     let largeSet_Expected        = largeSetWithIds_Expected |> Array.map snd
 
     testList "Testing.PValueAdjust.BenjaminiHochberg" [

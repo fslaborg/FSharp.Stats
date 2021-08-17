@@ -24,8 +24,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Include="data/benjaminiHochberg_Input.csv" CopyToOutputDirectory="PreserveNewest"/>
-    <None Include="data/benjaminiHochberg_AdjustedWithR.csv" CopyToOutputDirectory="PreserveNewest"/>
+    <EmbeddedResource Include="data/benjaminiHochberg_Input.csv" CopyToOutputDirectory="PreserveNewest"/>
+    <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR.csv" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
 
   <ItemGroup />
