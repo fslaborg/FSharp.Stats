@@ -79,4 +79,20 @@ module TestStatistics =
         let pvalue = if statistic > 0. then 1. - cdf else cdf
         {Statistic = statistic; DegreesOfFreedom = dof; PValueLeft = 1. - pvalue; PValueRight = pvalue; PValue = pvalue * 2.}
 
-
+    
+    /// <summary>
+    ///   Computes the Wilcoxon test statistics for a given statistic.
+    /// </summary>
+    /// <param name="Statistic">The test statistic.</param>
+    /// <param name="PValue">One Tailed/Sided.</param>
+    /// <param name="PValueTwoTailed">Two Tailed/Sided.</param>   
+    type WilxoconTestStatistics = {
+        Statistic            : float
+        PValue               : float 
+        PValueTwoTailed      : float 
+    }    
+    let createWilxocon statistic (correction:bool) =
+        let cdf  =  Distributions.Continuous.Normal.CDF 0. 1.  statistic         
+        let pvalue = 1.-  cdf
+        let pvalueTwoTailed = pvalue * 2.
+        {Statistic=statistic; PValue=pvalue; PValueTwoTailed = pvalueTwoTailed}
