@@ -94,7 +94,7 @@ module WilcoxonTest =
                     else stats
             let finalstats = 
                 absstat stats 
-            Testing.TestStatistics.createWilcoxon finalstats correction
+            Testing.TestStatistics.createWilxocon finalstats correction
         createTest
 
 

@@ -170,10 +170,10 @@ let wilcoxonTestTests =
     let after = seq{78.;24.;62.;48.;68.;56.;25.;44.;56.;40.;68.;36.;68.;20.;58.;32.}
     let differences = seq{0.;0.;2.;-3.;-4.;-4.;5.;6.;8.;10.;10.;-14.;16.;20.;32.;40.}
     // with continuity correction:
-    let wilcoxon1 = WilcoxonTest.createWilcoxonFromData before after true 
-    let wilcoxon2 = WilcoxonTest.createWilcoxonFromData before after false
-    let wilcoxon3 = WilcoxonTest.createWilcoxonFromDifferences differences true 
-    let wilcoxon4 = WilcoxonTest.createWilcoxonFromDifferences differences false
+    let wilcoxon1 = WilcoxonTest.createWilcoxonTest before after true 
+    let wilcoxon2 = WilcoxonTest.createWilcoxonTest before after false
+    let wilcoxon3 = WilcoxonTest.createWilcoxonTestFromDifferences differences true 
+    let wilcoxon4 = WilcoxonTest.createWilcoxonTestFromDifferences differences false
 
     testList "Testing.WilcoxonTest" [
         testCase "wilcoxonWithCorrection" <| fun () -> 
