@@ -481,7 +481,7 @@ let friedmanResult = FriedmanTest.createFriedmanTest samples
 ### Wilcoxon-Test
 
 The Wilcoxon signed-rank test is a non-parametric alternative to the paired t-test. The test is used to determine if two samples stem from a similar distributed population.
-It calculates the differences between sets of pairs and ranks them to anazyle if they are statistically significantly different. If at least one of the assumptions for the t-test is not given the wilcoxon signed-rank
+It calculates the differences between sets of pairs and ranks them to analyze if they are statistically significantly different. If at least one of the assumptions for the t-test is not given the Wilcoxon signed-rank
 test can be used. This implemented test uses a normal distribution approximation (validated against SciPy with mode="approx"). It also includes automatic tie correction as well as optional continuity correction. 
 
 Cases where Wilcoxon signed-rank test can be used:
@@ -497,8 +497,8 @@ Assumptions for the test:
   - At least interval scaled data
 
 *) 
-let before  = seq{78.;24.;64.;45.;64.;52.;30.;50.;64.;50.;78.;22.;84.;40.;90.;72.}
-let after  = seq{78.;24.;62.;48.;68.;56.;25.;44.;56.;40.;68.;36.;68.;20.;58.;32.}
+let before = [78.;24.;64.;45.;64.;52.;30.;50.;64.;50.;78.;22.;84.;40.;90.;72.]
+let after  = [78.;24.;62.;48.;68.;56.;25.;44.;56.;40.;68.;36.;68.;20.;58.;32.]
 
 // create the test
 // Results with continuity correction: 
@@ -512,7 +512,7 @@ let wilcoxonResult2 = WilcoxonTest.createWilcoxonTest before after false
 (*** include-value:wilcoxonResult2 ***)
 
 //alternatively you can use just the differences 
-let differences = seq{0.;0.;2.;-3.;-4.;-4.;5.;6.;8.;10.;10.;-14.;16.;20.;32.;40.}
+let differences = [0.;0.;2.;-3.;-4.;-4.;5.;6.;8.;10.;10.;-14.;16.;20.;32.;40.]
 // results from differences
 let wilcoxonResult3 = WilcoxonTest.createWilcoxonTestFromDifferences differences true 
 // results 
@@ -522,7 +522,7 @@ let wilcoxonResult3 = WilcoxonTest.createWilcoxonTestFromDifferences differences
 References: 
 
   - Concepts & Applications of Inferential Statistics - VassarStats
-  - https://www.investopedia.com/terms/w/wilcoxon-test.asp 
+  - [Wilcoxon Test](https://www.investopedia.com/terms/w/wilcoxon-test.asp ), Adam Hayes, 13 April 2020, accessed 20.09.2021 
 
   *)
 
