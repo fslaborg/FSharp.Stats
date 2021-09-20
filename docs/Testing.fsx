@@ -514,7 +514,7 @@ let wilcoxonResult2 = WilcoxonTest.createWilcoxonTest before after false
 //alternatively you can use just the differences 
 let differences = seq{0.;0.;2.;-3.;-4.;-4.;5.;6.;8.;10.;10.;-14.;16.;20.;32.;40.}
 // results from differences
-let wilcoxonResult3 = WilcoxonTest.createWilcoxonTestWithDifferences differences true 
+let wilcoxonResult3 = WilcoxonTest.createWilcoxonTestFromDifferences differences true 
 // results 
 (*** include-value:wilcoxonResult3 ***)
 
