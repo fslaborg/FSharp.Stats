@@ -164,6 +164,35 @@ let friedmanTestTests =
         ]
 
 [<Tests>]
+let wilcoxonTestTests = 
+    // tested against SciPy Version 1.7.1
+    let before = seq{78.;24.;64.;45.;64.;52.;30.;50.;64.;50.;78.;22.;84.;40.;90.;72.}
+    let after = seq{78.;24.;62.;48.;68.;56.;25.;44.;56.;40.;68.;36.;68.;20.;58.;32.}
+    let differences = seq{0.;0.;2.;-3.;-4.;-4.;5.;6.;8.;10.;10.;-14.;16.;20.;32.;40.}
+    // with continuity correction:
+    let wilcoxon1 = WilcoxonTest.createWilcoxonTest before after true 
+    let wilcoxon2 = WilcoxonTest.createWilcoxonTest before after false
+    let wilcoxon3 = WilcoxonTest.createWilcoxonTestFromDifferences differences true 
+    let wilcoxon4 = WilcoxonTest.createWilcoxonTestFromDifferences differences false
+
+    testList "Testing.WilcoxonTest" [
+        testCase "wilcoxonWithCorrection" <| fun () -> 
+            Expect.floatClose Accuracy.low wilcoxon1.PValueTwoTailed 0.0382 "pValue should be equal."
+        testCase "wilcoxonWithoutCorrection" <| fun () -> 
+            Expect.floatClose Accuracy.low wilcoxon2.PValueTwoTailed 0.03537 "pValue should be equal."
+        testCase "wilcoxonDifferencesWithCorrection" <| fun () -> 
+            Expect.floatClose Accuracy.low wilcoxon3.PValueTwoTailed 0.0382 "pValue should be equal."
+        testCase "wilcoxonDifferencesWithoutCorrection" <| fun () -> 
+            Expect.floatClose Accuracy.low wilcoxon4.PValueTwoTailed 0.03537 "pValue should be equal."
+        testCase "wilcoxonOneSidedWithCorrection" <| fun () -> 
+            Expect.floatClose Accuracy.low wilcoxon1.PValueLeft 0.019102 "pValue should be equal"
+        testCase "wilcoxonOneSidedWithoutCorrection" <| fun () -> 
+            Expect.floatClose Accuracy.low wilcoxon2.PValueRight 0.9823 "pValue should be equal"    
+            
+        ]
+
+
+[<Tests>]
 let tTestTests = 
     // tested in SPSS version 27
     let groupA = vector [-5.;-3.;-3.;-4.;-5.;] 
