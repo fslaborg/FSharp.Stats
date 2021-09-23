@@ -184,6 +184,11 @@ let wilcoxonTestTests =
             Expect.floatClose Accuracy.low wilcoxon3.PValueTwoTailed 0.0382 "pValue should be equal."
         testCase "wilcoxonDifferencesWithoutCorrection" <| fun () -> 
             Expect.floatClose Accuracy.low wilcoxon4.PValueTwoTailed 0.03537 "pValue should be equal."
+        testCase "wilcoxonOneSidedWithCorrection" <| fun () -> 
+            Expect.floatClose Accuracy.low wilcoxon1.PValueLeft 0.019102 "pValue should be equal"
+        testCase "wilcoxonOneSidedWithoutCorrection" <| fun () -> 
+            Expect.floatClose Accuracy.low wilcoxon2.PValueRight 0.9823 "pValue should be equal"    
+            
         ]
 
 
