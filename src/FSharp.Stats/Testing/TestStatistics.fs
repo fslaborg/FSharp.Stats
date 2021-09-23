@@ -88,11 +88,12 @@ module TestStatistics =
     /// <param name="PValueTwoTailed">Two Tailed/Sided.</param>   
     type WilcoxonTestStatistics = {
         Statistic            : float
-        PValue               : float 
+        PValueLeft           : float
+        PValueRight          : float 
         PValueTwoTailed      : float 
     }    
     let createWilcoxon statistic =
         let cdf  =  Distributions.Continuous.Normal.CDF 0. 1.  statistic         
         let pvalue = 1.-  cdf
         let pvalueTwoTailed = pvalue * 2.
-        {Statistic=statistic; PValue=pvalue; PValueTwoTailed = pvalueTwoTailed}
+        {Statistic=statistic; PValueLeft=pvalue;PValueRight = cdf; PValueTwoTailed = pvalueTwoTailed}
