@@ -120,6 +120,13 @@ module LinearAlgebra =
         //                    else LinearAlgebraManaged.leastSquares a b
         LinearAlgebraManaged.leastSquares a b
     
+    /// Given A[m,n] and b[m] solves AX = b for X[n].
+    /// When the system is under constrained,
+    /// for example when the columns of A are not linearly independent,
+    /// then it will not give sensible results.
+    let LeastSquaresCholesky (a : Matrix<float>) (b : Vector<float>) = 
+        LinearAlgebraManaged.leastSquaresCholesky a b
+
     /// Given A[n,n] real symmetric positive definite.
     /// Finds the cholesky decomposition L such that L' * L = A.
     /// May fail if not positive definite.
