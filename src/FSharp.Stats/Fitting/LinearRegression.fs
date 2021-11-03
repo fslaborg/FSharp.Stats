@@ -75,7 +75,7 @@ module LinearRegression =
 
                 /// Calculates the coefficients for linear regression
                 /// in the form of [|intercept; slope;|] using Cholesky Decomposition
-                let coefficientsCholesky (xData: Vector<float>) (yData: Vector<float>) =
+                let coefficientCholesky (xData: Vector<float>) (yData: Vector<float>) =
                     if xData.NumRows <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
 
