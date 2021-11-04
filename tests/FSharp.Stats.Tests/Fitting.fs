@@ -46,7 +46,7 @@ let leastSquaresCholeskyTests =
             Expect.floatClose Accuracy.low coeffcientsCholesky.[1] expectedCoefficients.[1] "Coefficient should be equal (double precision)"
         )
         testCase "Multivariable Regression" (fun () ->
-            let expectedCoefficients = [3.; 2.; 0.5]
+            let expectedCoefficients = [3.; 2.; 1.]
             let coeffcientsCholesky = LinearRegression.OrdinaryLeastSquares.Linear.Multivariable.coefficientsCholesky xData yData
             Expect.floatClose Accuracy.low coeffcientsCholesky.[0] expectedCoefficients.[0] "Coefficient should be equal (double precision)"
             Expect.floatClose Accuracy.low coeffcientsCholesky.[1] expectedCoefficients.[1] "Coefficient should be equal (double precision)"
