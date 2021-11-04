@@ -30,8 +30,8 @@ let nonLinearRegressionTests =
 let leastSquaresCholeskyTests = 
     // Create random input 
     let normal = Distributions.Continuous.normal 0.0 1.0
-    let n = 1000
-    let xs = [|for _ in [1..n] do 4.0 * normal.Sample()|]
+    let n = 100
+    let xs = [|for _ in [1..n] do normal.Sample()|]
     let us = [|for _ in [1..n] do 0.5 * normal.Sample()|]
     let xVector = vector xs
     let yVector = vector (Array.map (fun x -> 3.0 + 2.0 * x) xs)
@@ -41,7 +41,7 @@ let leastSquaresCholeskyTests =
     testList "Least Squares with Cholesky" [
         testCase "Univariable Regression" (fun () ->
             let expectedCoefficients = [3.; 2.]
-            let coeffcientsCholesky = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficientCholesky (vector xs) yData
+            let coeffcientsCholesky = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficientCholesky (vector xs) yVector
             Expect.floatClose Accuracy.low coeffcientsCholesky.[0] expectedCoefficients.[0] "Coefficient should be equal (double precision)"
             Expect.floatClose Accuracy.low coeffcientsCholesky.[1] expectedCoefficients.[1] "Coefficient should be equal (double precision)"
         )
