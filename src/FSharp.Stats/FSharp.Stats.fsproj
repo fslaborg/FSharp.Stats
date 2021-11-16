@@ -38,7 +38,6 @@
     <Compile Include="Permutation.fs" />
     <Compile Include="BigRational.fs" />
     <Compile Include="INumeric.fs" />
-    <Compile Include="Complex.fs" />
     <Compile Include="GlobalAssociations.fs" />
     <Compile Include="AlgTypes.fs" />
     <Compile Include="RunningStats.fs" />
