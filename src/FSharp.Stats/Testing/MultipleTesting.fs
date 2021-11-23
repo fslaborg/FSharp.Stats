@@ -177,24 +177,30 @@ module MultipleTesting =
                 )
             |> bindBy pValues
 
-
         /// Calculates q-values from given p-values and returns an array of qValues in the same order.
         /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
-        let ofPValues (pi0:float) (pValues:float[]) =
-
+        let ofPValuesBy (pi0: float) (projection: 'a -> float) (pValues: 'a []) =
             let m0 = float pValues.Length * pi0
-            pValues
+            let extPValues = 
+                pValues
+                |> Array.map projection
+            extPValues
             // replaces all values with ints ordered by their size. The smallest value will get 1, 
             // while the largest value of the arr will get arr.Length as new rank
             |> Rank.rankFirst
             |> Array.map float
             |> Array.mapi (fun i r -> 
                 let qVal = 
-                    let pVal = pValues.[i]
+                    let pVal = extPValues.[i]
                     pVal / r * m0 
                 min qVal 1.
                 )            
-            |> bindBy pValues
+            |> bindBy extPValues
+
+        /// Calculates q-values from given p-values and returns an array of qValues in the same order.
+        /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+        let ofPValues (pi0: float) (pValues: float[]) =
+            ofPValuesBy pi0 id pValues
 
 
 //        let inline checkNonNull argName arg = 

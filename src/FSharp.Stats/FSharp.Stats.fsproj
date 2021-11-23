@@ -119,7 +119,7 @@
     <Compile Include="Testing\Bartlett.fs" />
     <Compile Include="Testing\PostHoc.fs" />
     <Compile Include="Testing\Wilcoxon.fs" />
-    <Compile Include="Testing\PvalueAdjust.fs" />
+    <Compile Include="Testing\MultipleTesting.fs" />
     <Compile Include="Testing\Outliers.fs" />
     <Compile Include="Testing\SAM.fs" />
     <Compile Include="Testing\FisherHotelling.fs" />
