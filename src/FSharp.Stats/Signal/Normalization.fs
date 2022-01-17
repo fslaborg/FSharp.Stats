@@ -1,5 +1,6 @@
-﻿namespace FSharp.Stats
+﻿namespace FSharp.Stats.Signal
 
+open FSharp.Stats
 
 module Normalization =
 
