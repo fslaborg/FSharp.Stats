@@ -19,6 +19,13 @@ let readEmbeddedRessource (name:string) =
 
     | _ -> failwithf "could not embedded ressources, check package integrity"
 
+let readCsv path =
+     readEmbeddedRessource path
+     |> fun s -> s.Split("\r\n")
+     |> Array.skip 1
+     |> Array.map (fun x -> 
+         x.Split(", ") |> fun ([|a;b|]) -> a, float b
+     )
 
 [<Tests>]
 let testPostHocTests =
@@ -283,22 +290,13 @@ let pearsonTests =
 [<Tests>]
 let benjaminiHochbergTests =
     
-    let readCsv path =
-        readEmbeddedRessource path
-        |> fun s -> s.Split("\r\n")
-        |> Array.skip 1
-        |> Array.map (fun x -> 
-            printfn "%s" x
-            x.Split(", ") |> fun ([|a;b|]) -> a, float b
-        )
-
     let largeSetWithIds = readCsv @"benjaminiHochberg_Input.csv"
     let largeSet        = largeSetWithIds |> Array.map snd
 
     let largeSetWithIds_Expected = readCsv @"benjaminiHochberg_AdjustedWithR.csv"
     let largeSet_Expected        = largeSetWithIds_Expected |> Array.map snd
 
-    testList "Testing.PValueAdjust.BenjaminiHochberg" [
+    testList "Testing.MultipleTesting.BenjaminiHochberg" [
         
         testCase "testBHLarge" (fun () -> 
             Expect.sequenceEqual 
@@ -347,4 +345,28 @@ let benjaminiHochbergTests =
                 "adjusted pValues with keys should be equal to the reference implementation, ignoring nan."
         )
             
+    ]
+
+
+
+[<Tests>]
+let qValuesTest =
+  
+    let largeSetWithIds = readCsv @"benjaminiHochberg_Input.csv"
+    let largeSet        = largeSetWithIds |> Array.map snd
+
+    let largeSetWithIds_Expected = readCsv @"benjaminiHochberg_AdjustedWithR.csv"//@"qvaluesWithR.csv"
+    let largeSet_Expected        = largeSetWithIds_Expected |> Array.map snd
+
+    testList "Testing.MultipleTesting.Qvalues" [
+      
+        testCase "ofPValuesBy" (fun () -> 
+            let pi0 = 0.48345
+            Expect.sequenceEqual 
+                (largeSet |> MultipleTesting.Qvalues.ofPValuesBy pi0 id |> Seq.map (fun x -> Math.Round(x,9))) 
+                (largeSet_Expected |> Seq.map (fun x -> Math.Round(x,9)))
+                "qValues should be equal to the reference implementation."
+        )
+
+          
     ]
