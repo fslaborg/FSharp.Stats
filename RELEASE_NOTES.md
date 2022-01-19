@@ -1,3 +1,18 @@
+### 0.4.3+d424857 (Released 2022-1-19)
+* Additions:
+    * latest commit #d424857
+    * [[#a23fcd7](https://github.com/fslaborg/FSharp.Stats/commit/a23fcd72152dfd4561af11f60e0bd2f0d4197c7f)] update signal.fs namespace #168
+    * [[#cc228f4](https://github.com/fslaborg/FSharp.Stats/commit/cc228f482d142a1f21426511c977195c4763cdf4)] improve svd
+    * [[#09daa87](https://github.com/fslaborg/FSharp.Stats/commit/09daa87e1d2da7352e01c8fb17ae918d0a283875)] add Wilcoxon Test #117
+    * [[#5c36566](https://github.com/fslaborg/FSharp.Stats/commit/5c36566c488a3942fc7b29170994edbd533142d3)] make benjaminiHochbergFDRBy tail-recursive
+    * [[#79913a2](https://github.com/fslaborg/FSharp.Stats/commit/79913a22222a9b188e79d265bf0f474e572c444a)] update logo
+    * [[#165b8e3](https://github.com/fslaborg/FSharp.Stats/commit/165b8e38c5f8740224e1d646dbbe9d16c35cd8bb)] add ascendingand descending versions of the 7 parameter richards curve
+* Bugfixes:
+    * [[#b62743d](https://github.com/fslaborg/FSharp.Stats/commit/b62743d5ad1102068ffd4ecfc5901db1f4efd852)] fix q value calculation #171
+    * [[#832f50c](https://github.com/fslaborg/FSharp.Stats/commit/832f50ceb69a2bc98917d484238ed3526387d902)] fix svd #159
+    * [[#ba7ac89](https://github.com/fslaborg/FSharp.Stats/commit/ba7ac8918c402fc1ac2cd30c3e34d9b3223fe68b)] fix Matrix.sumColumns output type #150
+    * [[#c18863c](https://github.com/fslaborg/FSharp.Stats/commit/c18863cad3afd21ef518071b16ea078a020a647a)] fix spearman 
+
 ### 0.4.2+b91c80d (Released 2021-7-27)
 * Additions:
     * latest commit #b91c80d
