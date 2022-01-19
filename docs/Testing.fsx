@@ -418,7 +418,7 @@ References:
   - Salvador García,  Alberto Fernández, Julián Luengo, Francisco Herrera, Advanced nonparametric tests for multiple comparisons in the design of experiments in computational intelligence and data mining: Experimental analysis of power (2010)
 
 
-*)
+<pre>
 
 ID   |  pre   | month 1| month 2| month 3| month 4
 1       275     273      288      273      273            
@@ -433,11 +433,11 @@ ID   |  pre   | month 1| month 2| month 3| month 4
 10      284     297      284      292      284
 
 
-(**
+</pre>
 Ranking the results - average if values appear multiple times in one ID 
-*)
 
 
+<pre>
 ID   |  pre   | month 1| month 2| month 3| month 4
 1       4       2        5        2        2      
 2       4       1        2        3        5
@@ -451,9 +451,9 @@ ID   |  pre   | month 1| month 2| month 3| month 4
 10      2       5        2        4        2     
 rank-sums
         36      29.5     39       25       20.5
+</pre>
 
-
-(** *)
+*)
 // The data have to be entered in this format: 
 
 let A = [|275.;273.;288.;273.;273.|]
@@ -468,10 +468,10 @@ let I = [|300.;304.;293.;279.;271.|]
 let J = [|284.;297.;284.;292.;284.|]
 
 // add everything in one sequence
-let samples =  [|A;B;C;D;E;F;G;H;I;J|]
+let samplesMany =  [|A;B;C;D;E;F;G;H;I;J|]
 
 // create the test 
-let friedmanResult = FriedmanTest.createFriedmanTest samples 
+let friedmanResult = FriedmanTest.createFriedmanTest samplesMany 
 
 // results 
 (*** include-value:friedmanResult ***)
@@ -841,7 +841,7 @@ let pValues =
     |] |> Array.sort
 
 let pValsAdj =
-    MultipleTesting.benjaminiHochbergFDRBy (fun x -> x,x) pValues
+    MultipleTesting.benjaminiHochbergFDRBy (fun x -> "",x) pValues
     |> List.rev
 
 let bhValues =
@@ -865,6 +865,20 @@ bhValues |> GenericChart.toChartHTML
 
 ### Q Value
 
+
+m = #tests
+
+**qValues**
+
+qvalue(p) = #(false positives) / #positives
+
+**qValues robust**
+
+Corrects for small p values especially if the number of tests is low
+qvalueRobust(p) = #(false positives) / [#positives * (1 - (1 - p)**m)]
+
+
+
 *)
 let pi0 = 
     pValues
@@ -886,9 +900,10 @@ let qChart =
     |> Chart.Combine
     |> styleChartRange "pValues" "qValues" (0.,1.) (0.,1.)
 
+
 let qHisto =
     [
-        Chart.Histogram(pValues,Xbins=Bins.init(0.,1.,0.05),Name="pValues",HistNorm=StyleParam.HistNorm.Density)
+        Chart.Histogram(pValues,Xbins=Bins.init(0.,1.,0.05),Name="pValues",HistNorm=StyleParam.HistNorm.ProbabilityDensity)
         Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",Dash=StyleParam.DrawingStyle.Dash)
     ]
     |> Chart.Combine
