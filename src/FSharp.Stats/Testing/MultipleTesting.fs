@@ -143,7 +143,7 @@ module MultipleTesting =
                
         /// Calculates q-values from given p-values and returns an array of qValues in the same order.
         /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
-        /// See Storey JD (2002) JRSS-B 64: 479-498.
+        /// More robust for small p values when testcount is low, see Storey JD (2002) JRSS-B 64: 479-498.
         let ofPValuesRobustBy (pi0:float) (projection: 'a -> float) (pValues: 'a []) =
 
             let pvaluesExt = pValues |> Array.map projection
