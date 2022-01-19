@@ -9,22 +9,22 @@ open System.Reflection
 
 let assembly = Assembly.GetExecutingAssembly()
 let resnames = assembly.GetManifestResourceNames();
-
 let readEmbeddedRessource (name:string) = 
     match Array.tryFind (fun (r:string) -> r.Contains(name)) resnames with
     | Some path -> 
         use stream = assembly.GetManifestResourceStream(path)
-        use reader = new StreamReader(stream)
+        use reader = new StreamReader(stream, encoding=Text.Encoding.UTF8)
         reader.ReadToEnd()
 
     | _ -> failwithf "could not embedded ressources, check package integrity"
 
 let readCsv path =
-     readEmbeddedRessource path
-     |> fun s -> s.Split("\r\n")
-     |> Array.skip 1
-     |> Array.map (fun x -> 
-         x.Split(", ") |> fun ([|a;b|]) -> a, float b
+    readEmbeddedRessource path
+    |> fun s -> 
+        s.Replace("\r\n","\n").Split("\n")
+    |> Array.skip 1
+    |> Array.map (fun x -> 
+        x.Split(", ") |> fun ([|a;b|]) -> a, float b
      )
 
 [<Tests>]
@@ -355,12 +355,14 @@ let qValuesTest =
     let largeSetWithIds = readCsv @"benjaminiHochberg_Input.csv"
     let largeSet        = largeSetWithIds |> Array.map snd
 
-    let largeSetWithIds_Expected = readCsv @"benjaminiHochberg_AdjustedWithR.csv"//@"qvaluesWithR.csv"
+    let largeSetWithIds_Expected = readCsv @"qvaluesWithR.csv"
     let largeSet_Expected        = largeSetWithIds_Expected |> Array.map snd
 
     testList "Testing.MultipleTesting.Qvalues" [
       
         testCase "ofPValuesBy" (fun () -> 
+            //tested against r qvalue package 2.26.0
+            //pi0 estimation is in closed form in r package and therefore cannot be tested 
             let pi0 = 0.48345
             Expect.sequenceEqual 
                 (largeSet |> MultipleTesting.Qvalues.ofPValuesBy pi0 id |> Seq.map (fun x -> Math.Round(x,9))) 
@@ -368,5 +370,4 @@ let qValuesTest =
                 "qValues should be equal to the reference implementation."
         )
 
-          
     ]
