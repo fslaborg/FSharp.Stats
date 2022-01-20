@@ -399,7 +399,8 @@ module SVD =
 
                 iter <- 0
                 p <- p - 1
-        
+            | _ -> failwithf "case %i does not exist" case
+
         if transposeBeforeSVD then 
             (vmatrix,s,transpose umatrix)
         else 
