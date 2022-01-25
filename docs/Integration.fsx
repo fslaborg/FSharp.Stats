@@ -2,14 +2,28 @@
 
 (*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
+
+open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
+
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 (**
 # Integration
@@ -55,7 +69,8 @@ let comparisonChart =
     Chart.Point(y's,Name = "f'(x)")
     Chart.Point(Array.map (fun x -> x,(x ** 2.) * 3.) xs,Name = "g(x)")
     ]
-    |> Chart.Combine
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB

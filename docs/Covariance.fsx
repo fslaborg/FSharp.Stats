@@ -2,12 +2,12 @@
 
 (*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -36,10 +36,18 @@ let sampleC = Vector.init 50 (fun x -> 100. - float (x + 3 * error()))
 let sampleD = Vector.init 50 (fun x -> 100. + float (10 * error()))
 
 open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
 
-//Some axis styling
-let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
-let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 let sampleChart =
     [
@@ -48,8 +56,8 @@ let sampleChart =
         Chart.Point(sampleA,sampleD,"AD")  
         Chart.Point(sampleA,sampleBHigh,"AB+")   
     ]
-    |> Chart.Combine
-    |> styleChart "x" "y"
+    |> Chart.combine
+    |> Chart.withAxisTitles "x" "y"
     |> Chart.withTitle "test cases for covariance calculation"
 
 (**

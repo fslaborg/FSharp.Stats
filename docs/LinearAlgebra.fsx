@@ -2,18 +2,16 @@
 
 (*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
 open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
 
 (**
 # Linear Algebra
@@ -48,3 +46,4 @@ LinearAlgebra.Service()
 
 let svdRes = LinearAlgebra.SVD A
 (***include-value:svdRes***)
+

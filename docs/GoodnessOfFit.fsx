@@ -2,14 +2,28 @@
 
 (*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
+
+open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
+
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 (**
 
@@ -45,18 +59,14 @@ let fitFunc = Linear.Univariable.fit coefficients
 
 let fittedValues = x |> Seq.map fitFunc
 
-open Plotly.NET
-
-let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
 
 let chart =
     [
     Chart.Point(x,y) |> Chart.withTraceName "raw"
     Chart.Line(fittedValues|> Seq.mapi (fun i y -> x.[i],y)) |> Chart.withTraceName "fit"
     ]
-    |> Chart.Combine
-    |> Chart.withX_Axis(myAxis "")
-    |> Chart.withY_Axis(myAxis "")
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -139,9 +149,9 @@ let outputTable =
     Chart.Table(
         header, 
         rows, 
-        ColorHeader = "#deebf7",
-        ColorCells  = ["#deebf7";"white";"white"],
-        AlignCells  = [StyleParam.HorizontalAlign.Left;StyleParam.HorizontalAlign.Center]
+        HeaderFillColor = Color.fromString "#deebf7",
+        CellsFillColor  = Color.fromColors [Color.fromString "#deebf7"; Color.fromString "white";Color. fromString "white"],
+        CellsMultiAlign  = [StyleParam.HorizontalAlign.Left;StyleParam.HorizontalAlign.Center]
         )
     |> Chart.withTitle "Regression report"
     
@@ -197,14 +207,13 @@ let rangePlot =
         lower,
         upper,
         mode = StyleParam.Mode.Lines,
-        Color = Colors.toWebColor Colors.Table.Office.blue,
-        RangeColor = Colors.toWebColor Colors.Table.Office.lightBlue)
+        Color = Color.Table.Office.blue,
+        RangeColor = Color.Table.Office.lightBlue)
         |> Chart.withTraceName "CI95"
-    Chart.Point (values,Color="#000000") |> Chart.withTraceName "raw"
+    Chart.Point (values,MarkerColor=Color.fromString "#000000") |> Chart.withTraceName "raw"
     ]
-    |> Chart.Combine
-    |> Chart.withY_Axis (myAxis "")
-    |> Chart.withX_Axis (myAxis "")
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "Confidence band 95%"
 
 (*** condition: ipynb ***)
@@ -238,12 +247,11 @@ let linePlot =
     [
     Chart.Point(xData,yData) |> Chart.withTraceName (sprintf "%.2f+%.4fx" coeffs.[0] coeffs.[1])
     Chart.Line(fitValues) |> Chart.withTraceName "linear regression"
-    Chart.Line(newXValues,newLower,Color= "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "lower"
-    Chart.Line(newXValues,newUpper,Color= "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "upper"
+    Chart.Line(newXValues,newLower,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "lower"
+    Chart.Line(newXValues,newUpper,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "upper"
     ]
-    |> Chart.Combine
-    |> Chart.withX_Axis(myAxis "")
-    |> Chart.withY_Axis(myAxis "")
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "Confidence band 95%"
 
 (*** condition: ipynb ***)
@@ -277,12 +285,11 @@ let predictionPlot =
     [
     Chart.Point(xData,yData) |> Chart.withTraceName (sprintf "%.2f+%.4fx" coeffs.[0] coeffs.[1])
     Chart.Line(fitValues) |> Chart.withTraceName "linear regression"
-    Chart.Line(predictionXValues,pLower,Color= "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "pLower"
-    Chart.Line(predictionXValues,pUpper,Color= "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "pUpper"
+    Chart.Line(predictionXValues,pLower,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "pLower"
+    Chart.Line(predictionXValues,pUpper,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "pUpper"
     ]
-    |> Chart.Combine
-    |> Chart.withX_Axis(myAxis "")
-    |> Chart.withY_Axis(myAxis "")
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "Prediction band"
 
 
@@ -326,12 +333,10 @@ let cook =
     Chart.Line([0.5,threshold2;10.5,threshold2])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "t=4/n"
     Chart.Line([0.5,threshold3;10.5,threshold3])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "t=3*mean(D)"
     ]
-    |> Chart.Combine
-    |> Chart.withX_Axis(myAxis "x")
-    |> Chart.withY_Axis(myAxis "cook's distance")
-    |> fun l -> Chart.Stack 1 [(Chart.Point(xD,yD) |> Chart.withTraceName "raw");l]
-    |> Chart.withX_Axis(myAxis "")
-    |> Chart.withY_Axis(myAxis "")
+    |> Chart.combine
+    |> Chart.withAxisTitles "" "cook's distance"
+    |> fun l -> [(Chart.Point(xD,yD) |> Chart.withTraceName "raw");l] |> Chart.Grid(2,1)
+    |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "Cook's distance"
     |> Chart.withSize (650.,650.)
 

@@ -2,12 +2,12 @@
 
 (*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -68,11 +68,18 @@ let fittingFunctionLinearRTO x =
     OrdinaryLeastSquares.Linear.RTO.fit coefficientsLinearRTO x
 
 open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
 
 //some axis styling
-let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let styleChart xt yt c = c |> Chart.withX_Axis (myAxis xt) |> Chart.withY_Axis (myAxis yt)
-
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 let rawChart = 
     Chart.Point(xData,yData)
@@ -101,8 +108,8 @@ let fittingRTO =
 
 let simpleLinearChart =
     [rawChart;fittingLS;fittingRTO;fittingRobust;] 
-    |> Chart.Combine
-    |> styleChart "" ""
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -199,8 +206,8 @@ let fittingPolW =
 
 let polRegressionChart =
     [rawChartP;fittingPol;fittingPolW] 
-    |> Chart.Combine
-    |> styleChart "" ""
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -330,8 +337,8 @@ let fittingNLR =
 
 let NLRChart =
     [rawChartNLR;fittingNLR] 
-    |> Chart.Combine
-    |> styleChart "" ""
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -430,8 +437,8 @@ let fittedLogisticFunc =
     Chart.Line fittedY
     |> Chart.withTraceName "Fit"
     ]
-    |> Chart.Combine
-    |> styleChart "Time" "Count"
+    |> Chart.combine
+    |> Chart.withAxisTitles "Time" "Count"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -497,8 +504,8 @@ let smoothingSplines =
     fit 0.02
     fit 1.
     ]
-    |> Chart.Combine
-    |> styleChart "" ""
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
