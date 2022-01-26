@@ -115,6 +115,7 @@
     <Compile Include="Testing\FTest.fs" />
     <Compile Include="Testing\FriedmanTest.fs" />
     <Compile Include="Testing\HTest.fs" />
+    <Compile Include="Testing\KolmogorovSmirnov.fs" />
     <Compile Include="Testing\ChiSquareTest.fs" />
     <Compile Include="Testing\Bartlett.fs" />
     <Compile Include="Testing\PostHoc.fs" />
