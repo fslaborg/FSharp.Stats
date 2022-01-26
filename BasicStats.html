@@ -29,13 +29,13 @@
     <div class="columns is-fullheight m-0">
         <div id="fsdocs-menu" class="column is-2 is-paddingless">
             <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-dark">
+                <div class="container is-paddingless is-marginless has-background-light">
                     <a href="https://fslab.org/FSharp.Stats/">
                         <figure class="image is-128x128 container">
                             <img src="https://fslab.org/FSharp.Stats/img/logo.png">
                         </figure>
                     </a>
-                    <h2 class="title has-text-centered has-text-white pb-4">FSharp.Stats</h2>
+                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
                 </div>
                 <div class="content">
                     <!-- BEGIN SEARCH BOX: this adds support for the search box -->
@@ -204,16 +204,16 @@ the sum of the values divided by the number of values:</p>
 <p><span class="math">\(\bar{x} = \frac{1}{n}\left (\sum_{i=1}^n{x_i}\right ) = \frac{x_1+x_2+\cdots +x_n}{n}\)</span></p>
 <p><code>mean</code> is available as a Sequence (and other collections) extension, as well as <code>meanBy</code>,
 which takes an additional converter function:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs5', 9)" onmouseover="showTip(event, 'fs5', 9)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs6', 10)" onmouseover="showTip(event, 'fs6', 10)" class="id">Stats</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">Stats</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="id">mean1</span> <span class="o">=</span> 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">mean1</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10</span><span class="pn">;</span> <span class="n">2</span><span class="pn">;</span> <span class="n">19</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">6</span><span class="pn">;</span> <span class="n">23</span><span class="pn">;</span> <span class="n">47</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">54</span><span class="pn">;</span> <span class="n">77</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 12)" onmouseover="showTip(event, 'fs8', 12)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs9', 13)" onmouseover="showTip(event, 'fs9', 13)" class="id">meanBy</span> <span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="fn">float</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="id">meanBy</span> <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="fn">float</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>28.6</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 15)" onmouseover="showTip(event, 'fs11', 15)" class="id">mean2</span> <span class="o">=</span> 
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="id">mean2</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10.</span><span class="pn">;</span> <span class="n">2.</span><span class="pn">;</span> <span class="n">19.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">6.</span><span class="pn">;</span> <span class="n">23.</span><span class="pn">;</span> <span class="n">47.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">54.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 16)" onmouseover="showTip(event, 'fs8', 16)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 17)" onmouseover="showTip(event, 'fs12', 17)" class="id">mean</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs8', 9)" onmouseover="showTip(event, 'fs8', 9)" class="id">mean</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>28.6</code></pre></td></tr></table>
 <h3><a name="Truncated-mean" class="anchor" href="#Truncated-mean">Truncated mean</a></h3>
@@ -221,14 +221,14 @@ which takes an additional converter function:</p>
 In total 2 times the given percentage are discarded:</p>
 <p><code>meanTruncated</code> is available as a Sequence (and other collections) extension, as well as <code>meanTruncatedBy</code>,
 which takes an additional converter function:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 18)" onmouseover="showTip(event, 'fs13', 18)" class="id">truncMean1</span> <span class="o">=</span> 
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 10)" onmouseover="showTip(event, 'fs9', 10)" class="id">truncMean1</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10.</span><span class="pn">;</span> <span class="n">2.</span><span class="pn">;</span> <span class="n">19.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">6.</span><span class="pn">;</span> <span class="n">23.</span><span class="pn">;</span> <span class="n">47.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">54.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 19)" onmouseover="showTip(event, 'fs8', 19)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 20)" onmouseover="showTip(event, 'fs14', 20)" class="id">meanTruncated</span> <span class="n">0.2</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 11)" onmouseover="showTip(event, 'fs4', 11)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 12)" onmouseover="showTip(event, 'fs10', 12)" class="id">meanTruncated</span> <span class="n">0.2</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>24.5</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 21)" onmouseover="showTip(event, 'fs15', 21)" class="id">truncMean2</span> <span class="o">=</span> 
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 13)" onmouseover="showTip(event, 'fs11', 13)" class="id">truncMean2</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10</span><span class="pn">;</span> <span class="n">2</span><span class="pn">;</span> <span class="n">19</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">6</span><span class="pn">;</span> <span class="n">23</span><span class="pn">;</span> <span class="n">47</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">54</span><span class="pn">;</span> <span class="n">77</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 22)" onmouseover="showTip(event, 'fs8', 22)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 23)" onmouseover="showTip(event, 'fs16', 23)" class="id">meanTruncatedBy</span> <span onmouseout="hideTip(event, 'fs10', 24)" onmouseover="showTip(event, 'fs10', 24)" class="fn">float</span> <span class="n">0.2</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 14)" onmouseover="showTip(event, 'fs4', 14)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 15)" onmouseover="showTip(event, 'fs12', 15)" class="id">meanTruncatedBy</span> <span onmouseout="hideTip(event, 'fs6', 16)" onmouseover="showTip(event, 'fs6', 16)" class="fn">float</span> <span class="n">0.2</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>34.75</code></pre></td></tr></table>
 <h3><a name="Median" class="anchor" href="#Median">Median</a></h3>
@@ -237,9 +237,9 @@ For a data set, it may be thought of as "the middle" value: if you sort the valu
 Therefore, there are as many bigger values as smaller values than the median in the collection.
 If there is an even number of observations, then there is no single middle value; the median is then usually defined to be the mean of the two middle values.</p>
 <p><code>median</code> is available as a equence (and other collections) extension:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 25)" onmouseover="showTip(event, 'fs17', 25)" class="id">median1</span> <span class="o">=</span> 
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 17)" onmouseover="showTip(event, 'fs13', 17)" class="id">median1</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10</span><span class="pn">;</span> <span class="n">2</span><span class="pn">;</span> <span class="n">19</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">6</span><span class="pn">;</span> <span class="n">23</span><span class="pn">;</span> <span class="n">47</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">54</span><span class="pn">;</span> <span class="n">77</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 26)" onmouseover="showTip(event, 'fs8', 26)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 27)" onmouseover="showTip(event, 'fs18', 27)" class="id">median</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 18)" onmouseover="showTip(event, 'fs4', 18)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 19)" onmouseover="showTip(event, 'fs14', 19)" class="id">median</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>23</code></pre></td></tr></table>
 <h3><a name="Harmonic-mean" class="anchor" href="#Harmonic-mean">Harmonic mean</a></h3>
@@ -248,14 +248,14 @@ It is typically appropriate for situations when the average of rates is desired.
 <p><span class="math">\(H = \frac{n}{\frac1{x_1} + \frac1{x_2} + \cdots + \frac1{x_n}} = \frac{n}{\sum\limits_{i=1}^n \frac1{x_i}} = \left(\frac{\sum\limits_{i=1}^n x_i^{-1}}{n}\right)^{-1}.\)</span></p>
 <p><code>meanHarmonic</code> is available as a sequence (and other collections) extension, as well as <code>meanHarmonicBy</code>,
 which takes an additional converter function:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 28)" onmouseover="showTip(event, 'fs19', 28)" class="id">harmonicMean1</span> <span class="o">=</span> 
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 20)" onmouseover="showTip(event, 'fs15', 20)" class="id">harmonicMean1</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10.</span><span class="pn">;</span> <span class="n">2.</span><span class="pn">;</span> <span class="n">19.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">6.</span><span class="pn">;</span> <span class="n">23.</span><span class="pn">;</span> <span class="n">47.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">54.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 29)" onmouseover="showTip(event, 'fs8', 29)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 30)" onmouseover="showTip(event, 'fs20', 30)" class="id">meanHarmonic</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 21)" onmouseover="showTip(event, 'fs4', 21)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 22)" onmouseover="showTip(event, 'fs16', 22)" class="id">meanHarmonic</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>10.01109262</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 31)" onmouseover="showTip(event, 'fs21', 31)" class="id">harmonicMean2</span> <span class="o">=</span> 
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 23)" onmouseover="showTip(event, 'fs17', 23)" class="id">harmonicMean2</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10</span><span class="pn">;</span> <span class="n">2</span><span class="pn">;</span> <span class="n">19</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">6</span><span class="pn">;</span> <span class="n">23</span><span class="pn">;</span> <span class="n">47</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">54</span><span class="pn">;</span> <span class="n">77</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 32)" onmouseover="showTip(event, 'fs8', 32)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 33)" onmouseover="showTip(event, 'fs22', 33)" class="id">meanHarmonicBy</span> <span onmouseout="hideTip(event, 'fs10', 34)" onmouseover="showTip(event, 'fs10', 34)" class="fn">float</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 24)" onmouseover="showTip(event, 'fs4', 24)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 25)" onmouseover="showTip(event, 'fs18', 25)" class="id">meanHarmonicBy</span> <span onmouseout="hideTip(event, 'fs6', 26)" onmouseover="showTip(event, 'fs6', 26)" class="fn">float</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>10.01109262</code></pre></td></tr></table>
 <h3><a name="Geometric-mean" class="anchor" href="#Geometric-mean">Geometric mean</a></h3>
@@ -265,14 +265,14 @@ The geometric mean is defined as the nth root of the product of n numbers:</p>
 <p><span class="math">\(\left(\prod_{i=1}^n x_i\right)^\frac{1}{n} = \sqrt[n]{x_1 x_2 \cdots x_n}\)</span></p>
 <p><code>meanGeometric</code> is available as a sequence (and other collections) extension, as well as <code>meanGeometricBy</code>,
 which takes an additional converter function:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 35)" onmouseover="showTip(event, 'fs23', 35)" class="id">geometricMean1</span> <span class="o">=</span> 
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 27)" onmouseover="showTip(event, 'fs19', 27)" class="id">geometricMean1</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10.</span><span class="pn">;</span> <span class="n">2.</span><span class="pn">;</span> <span class="n">19.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">6.</span><span class="pn">;</span> <span class="n">23.</span><span class="pn">;</span> <span class="n">47.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">54.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 36)" onmouseover="showTip(event, 'fs8', 36)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 37)" onmouseover="showTip(event, 'fs24', 37)" class="id">meanGeometric</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 28)" onmouseover="showTip(event, 'fs4', 28)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 29)" onmouseover="showTip(event, 'fs20', 29)" class="id">meanGeometric</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>18.9280882</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 38)" onmouseover="showTip(event, 'fs25', 38)" class="id">geometricMean2</span> <span class="o">=</span> 
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 30)" onmouseover="showTip(event, 'fs21', 30)" class="id">geometricMean2</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10</span><span class="pn">;</span> <span class="n">2</span><span class="pn">;</span> <span class="n">19</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">6</span><span class="pn">;</span> <span class="n">23</span><span class="pn">;</span> <span class="n">47</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">54</span><span class="pn">;</span> <span class="n">77</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 39)" onmouseover="showTip(event, 'fs8', 39)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 40)" onmouseover="showTip(event, 'fs26', 40)" class="id">meanGeometricBy</span> <span onmouseout="hideTip(event, 'fs10', 41)" onmouseover="showTip(event, 'fs10', 41)" class="fn">float</span> 
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 31)" onmouseover="showTip(event, 'fs4', 31)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 32)" onmouseover="showTip(event, 'fs22', 32)" class="id">meanGeometricBy</span> <span onmouseout="hideTip(event, 'fs6', 33)" onmouseover="showTip(event, 'fs6', 33)" class="fn">float</span> 
  
 </code></pre>
 <table class="pre"><tr><td><pre><code>18.9280882</code></pre></td></tr></table>
@@ -285,14 +285,14 @@ is stretched or squeezed.</p>
 which takes an additional converter function:</p>
 <p><em>Note:</em> instead of returning the absolute difference between max and min value, these functions return an interval with these values as boundaries.
 <em></em></p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 42)" onmouseover="showTip(event, 'fs27', 42)" class="id">range1</span> <span class="o">=</span> 
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 34)" onmouseover="showTip(event, 'fs23', 34)" class="id">range1</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10.</span><span class="pn">;</span> <span class="n">2.</span><span class="pn">;</span> <span class="n">19.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">6.</span><span class="pn">;</span> <span class="n">23.</span><span class="pn">;</span> <span class="n">47.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">54.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 43)" onmouseover="showTip(event, 'fs8', 43)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 44)" onmouseover="showTip(event, 'fs28', 44)" class="id">rangeBy</span> <span onmouseout="hideTip(event, 'fs10', 45)" onmouseover="showTip(event, 'fs10', 45)" class="fn">float</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 35)" onmouseover="showTip(event, 'fs4', 35)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 36)" onmouseover="showTip(event, 'fs24', 36)" class="id">rangeBy</span> <span onmouseout="hideTip(event, 'fs6', 37)" onmouseover="showTip(event, 'fs6', 37)" class="fn">float</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>ClosedInterval (2.0, 77.0)</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 46)" onmouseover="showTip(event, 'fs29', 46)" class="id">range2</span> <span class="o">=</span> 
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 38)" onmouseover="showTip(event, 'fs25', 38)" class="id">range2</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10</span><span class="pn">;</span> <span class="n">2</span><span class="pn">;</span> <span class="n">19</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">6</span><span class="pn">;</span> <span class="n">23</span><span class="pn">;</span> <span class="n">47</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">54</span><span class="pn">;</span> <span class="n">77</span><span class="pn">;</span><span class="pn">]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs8', 47)" onmouseover="showTip(event, 'fs8', 47)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 48)" onmouseover="showTip(event, 'fs28', 48)" class="id">rangeBy</span> <span onmouseout="hideTip(event, 'fs10', 49)" onmouseover="showTip(event, 'fs10', 49)" class="fn">float</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 39)" onmouseover="showTip(event, 'fs4', 39)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 40)" onmouseover="showTip(event, 'fs24', 40)" class="id">rangeBy</span> <span onmouseout="hideTip(event, 'fs6', 41)" onmouseover="showTip(event, 'fs6', 41)" class="fn">float</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>ClosedInterval (2.0, 77.0)</code></pre></td></tr></table>
 <h3><a name="Variance-and-Standard-Deviation" class="anchor" href="#Variance-and-Standard-Deviation">Variance and Standard Deviation</a></h3>
@@ -303,12 +303,12 @@ which takes an additional converter function:</p>
 <p>are measures of dispersion the values of a collection have. While the standard deviation has the same unit as the values of the collection the variance has the squared unit.</p>
 <p><code>varPopulation</code> and <code>stDevPopulation</code> are available as sequence (and other collections) extensions, as well as <code>varPopulationBy</code> and <code>stDevPopulationBy</code>,
 which take an additional converter function:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 50)" onmouseover="showTip(event, 'fs30', 50)" class="id">data</span> <span class="o">=</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">|]</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 42)" onmouseover="showTip(event, 'fs26', 42)" class="id">data</span> <span class="o">=</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">|]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 51)" onmouseover="showTip(event, 'fs31', 51)" class="id">varPopulation</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 52)" onmouseover="showTip(event, 'fs8', 52)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 53)" onmouseover="showTip(event, 'fs32', 53)" class="id">varPopulation</span> <span onmouseout="hideTip(event, 'fs30', 54)" onmouseover="showTip(event, 'fs30', 54)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 43)" onmouseover="showTip(event, 'fs27', 43)" class="id">varPopulation</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 44)" onmouseover="showTip(event, 'fs4', 44)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 45)" onmouseover="showTip(event, 'fs28', 45)" class="id">varPopulation</span> <span onmouseout="hideTip(event, 'fs26', 46)" onmouseover="showTip(event, 'fs26', 46)" class="id">data</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>5.138888889</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 55)" onmouseover="showTip(event, 'fs33', 55)" class="id">stdPopulation</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 56)" onmouseover="showTip(event, 'fs8', 56)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 57)" onmouseover="showTip(event, 'fs34', 57)" class="id">stDevPopulation</span> <span onmouseout="hideTip(event, 'fs30', 58)" onmouseover="showTip(event, 'fs30', 58)" class="id">data</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 47)" onmouseover="showTip(event, 'fs29', 47)" class="id">stdPopulation</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 48)" onmouseover="showTip(event, 'fs4', 48)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 49)" onmouseover="showTip(event, 'fs30', 49)" class="id">stDevPopulation</span> <span onmouseout="hideTip(event, 'fs26', 50)" onmouseover="showTip(event, 'fs26', 50)" class="id">data</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>2.266911751</code></pre></td></tr></table>
 <p>If the full population is <strong>not</strong> given, the calculation lacks in one degree of freedom, so the Bessel corrected version of the calculation has to be used (results in higher values):</p>
@@ -316,10 +316,10 @@ which take an additional converter function:</p>
 <p><span class="math">\(s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2}\)</span> for the corrected standard deviation.</p>
 <p><code>var</code> and <code>stDev</code> are available as sequence (and other collections) extensions, as well as <code>varBy</code> and <code>stDevBy</code>,
 which take an additional converter function:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 59)" onmouseover="showTip(event, 'fs35', 59)" class="id">varSample</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 60)" onmouseover="showTip(event, 'fs8', 60)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 61)" onmouseover="showTip(event, 'fs36', 61)" class="id">var</span> <span onmouseout="hideTip(event, 'fs30', 62)" onmouseover="showTip(event, 'fs30', 62)" class="id">data</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 51)" onmouseover="showTip(event, 'fs31', 51)" class="id">varSample</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 52)" onmouseover="showTip(event, 'fs4', 52)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 53)" onmouseover="showTip(event, 'fs32', 53)" class="id">var</span> <span onmouseout="hideTip(event, 'fs26', 54)" onmouseover="showTip(event, 'fs26', 54)" class="id">data</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>6.166666667</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 63)" onmouseover="showTip(event, 'fs37', 63)" class="id">stdSample</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 64)" onmouseover="showTip(event, 'fs8', 64)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 65)" onmouseover="showTip(event, 'fs38', 65)" class="id">stDev</span> <span onmouseout="hideTip(event, 'fs30', 66)" onmouseover="showTip(event, 'fs30', 66)" class="id">data</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 55)" onmouseover="showTip(event, 'fs33', 55)" class="id">stdSample</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 56)" onmouseover="showTip(event, 'fs4', 56)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 57)" onmouseover="showTip(event, 'fs34', 57)" class="id">stDev</span> <span onmouseout="hideTip(event, 'fs26', 58)" onmouseover="showTip(event, 'fs26', 58)" class="id">data</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>2.483277404</code></pre></td></tr></table>
 <h3><a name="Coefficient-of-variation" class="anchor" href="#Coefficient-of-variation">Coefficient of variation</a></h3>
@@ -329,62 +329,58 @@ which take an additional converter function:</p>
 with varying amplitudes. Use only if data is measured with a ratio scale (meaningful zero values and meaningful intervals).</p>
 <p><code>cv</code> is available as a sequence (and other collections) extension, as well as <code>cvBy</code>,
 which takes an additional converter function:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 67)" onmouseover="showTip(event, 'fs39', 67)" class="id">sample1</span> <span class="o">=</span>   <span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">6.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 68)" onmouseover="showTip(event, 'fs40', 68)" class="id">sample2</span> <span class="o">=</span>   <span class="pn">[</span><span class="n">13.</span><span class="pn">;</span><span class="n">41.</span><span class="pn">;</span><span class="n">29.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">;</span><span class="n">52.</span><span class="pn">;</span><span class="n">34.</span><span class="pn">;</span><span class="n">25.</span><span class="pn">;</span><span class="pn">]</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 59)" onmouseover="showTip(event, 'fs35', 59)" class="id">sample1</span> <span class="o">=</span>   <span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">6.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 60)" onmouseover="showTip(event, 'fs36', 60)" class="id">sample2</span> <span class="o">=</span>   <span class="pn">[</span><span class="n">13.</span><span class="pn">;</span><span class="n">41.</span><span class="pn">;</span><span class="n">29.</span><span class="pn">;</span><span class="n">8.</span><span class="pn">;</span><span class="n">52.</span><span class="pn">;</span><span class="n">34.</span><span class="pn">;</span><span class="n">25.</span><span class="pn">;</span><span class="pn">]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 69)" onmouseover="showTip(event, 'fs41', 69)" class="id">cvSample1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 70)" onmouseover="showTip(event, 'fs8', 70)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 71)" onmouseover="showTip(event, 'fs42', 71)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs39', 72)" onmouseover="showTip(event, 'fs39', 72)" class="id">sample1</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 61)" onmouseover="showTip(event, 'fs37', 61)" class="id">cvSample1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 62)" onmouseover="showTip(event, 'fs4', 62)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 63)" onmouseover="showTip(event, 'fs38', 63)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs35', 64)" onmouseover="showTip(event, 'fs35', 64)" class="id">sample1</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>0.5476650327</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs43', 73)" onmouseover="showTip(event, 'fs43', 73)" class="id">cvSample2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs8', 74)" onmouseover="showTip(event, 'fs8', 74)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 75)" onmouseover="showTip(event, 'fs42', 75)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs40', 76)" onmouseover="showTip(event, 'fs40', 76)" class="id">sample2</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 65)" onmouseover="showTip(event, 'fs39', 65)" class="id">cvSample2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 66)" onmouseover="showTip(event, 'fs4', 66)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 67)" onmouseover="showTip(event, 'fs38', 67)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs36', 68)" onmouseover="showTip(event, 'fs36', 68)" class="id">sample2</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>0.5313890073</code></pre></td></tr></table>
 
                 </div>
             </div>
         </div>
-        <div class="fsdocs-tip" id="fs1">namespace Plotly</div>
-<div class="fsdocs-tip" id="fs2">namespace Plotly.NET</div>
-<div class="fsdocs-tip" id="fs3">module Axis<br /><br />from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs4">module StyleParam<br /><br />from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs5">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs6">namespace FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs7">val mean1 : float</div>
-<div class="fsdocs-tip" id="fs8">Multiple items<br />module Seq<br /><br />from FSharp.Stats<br /><br />--------------------<br />module Seq<br /><br />from Plotly.NET<br /><br />--------------------<br />module Seq<br /><br />from Microsoft.FSharp.Collections</div>
-<div class="fsdocs-tip" id="fs9">val meanBy : f:(&#39;T -&gt; &#39;U) -&gt; items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member get_Zero and member ( + ) and member DivideByInt and member ( / ))</div>
-<div class="fsdocs-tip" id="fs10">Multiple items<br />val float : value:&#39;T -&gt; float (requires member op_Explicit)<br /><br />--------------------<br />type float = System.Double<br /><br />--------------------<br />type float&lt;&#39;Measure&gt; = float</div>
-<div class="fsdocs-tip" id="fs11">val mean2 : float</div>
-<div class="fsdocs-tip" id="fs12">val mean : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( + ) and member get_Zero and member DivideByInt and member ( / ))</div>
-<div class="fsdocs-tip" id="fs13">val truncMean1 : float</div>
-<div class="fsdocs-tip" id="fs14">val meanTruncated : percent:float -&gt; data:seq&lt;&#39;T&gt; -&gt; &#39;U (requires comparison and member ( + ) and member get_Zero and member DivideByInt and member ( / ))</div>
-<div class="fsdocs-tip" id="fs15">val truncMean2 : float</div>
-<div class="fsdocs-tip" id="fs16">val meanTruncatedBy : f:(&#39;T -&gt; &#39;U) -&gt; percent:float -&gt; data:seq&lt;&#39;T&gt; -&gt; &#39;U (requires comparison and member get_Zero and member ( + ) and member DivideByInt and member ( / ))</div>
-<div class="fsdocs-tip" id="fs17">val median1 : int</div>
-<div class="fsdocs-tip" id="fs18">val median : items:seq&lt;&#39;T&gt; -&gt; &#39;T (requires comparison and member get_Zero and member get_One and member ( + ) and member ( / ) and member ( / ))</div>
-<div class="fsdocs-tip" id="fs19">val harmonicMean1 : float</div>
-<div class="fsdocs-tip" id="fs20">val meanHarmonic : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( / ) and member get_Zero and member get_One and member ( + ) and comparison and member ( / ) and member ( + ))</div>
-<div class="fsdocs-tip" id="fs21">val harmonicMean2 : float</div>
-<div class="fsdocs-tip" id="fs22">val meanHarmonicBy : f:(&#39;T -&gt; &#39;U) -&gt; items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member get_Zero and member get_One and member ( + ) and comparison and member ( / ))</div>
-<div class="fsdocs-tip" id="fs23">val geometricMean1 : float</div>
-<div class="fsdocs-tip" id="fs24">val meanGeometric : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( + ) and member Log and member get_Zero and member DivideByInt and member Exp and member ( / ))</div>
-<div class="fsdocs-tip" id="fs25">val geometricMean2 : float</div>
-<div class="fsdocs-tip" id="fs26">val meanGeometricBy : f:(&#39;T -&gt; &#39;a) -&gt; items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( + ) and member Log and member get_Zero and member DivideByInt and member Exp and member ( / ))</div>
-<div class="fsdocs-tip" id="fs27">val range1 : Intervals.Interval&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs28">val rangeBy : f:(&#39;a -&gt; &#39;b) -&gt; items:seq&lt;&#39;a&gt; -&gt; Intervals.Interval&lt;&#39;a&gt; (requires comparison)</div>
-<div class="fsdocs-tip" id="fs29">val range2 : Intervals.Interval&lt;int&gt;</div>
-<div class="fsdocs-tip" id="fs30">val data : float []</div>
-<div class="fsdocs-tip" id="fs31">val varPopulation : float</div>
-<div class="fsdocs-tip" id="fs32">val varPopulation : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ))</div>
-<div class="fsdocs-tip" id="fs33">val stdPopulation : float</div>
-<div class="fsdocs-tip" id="fs34">val stDevPopulation : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ) and member Sqrt)</div>
-<div class="fsdocs-tip" id="fs35">val varSample : float</div>
-<div class="fsdocs-tip" id="fs36">val var : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ))</div>
-<div class="fsdocs-tip" id="fs37">val stdSample : float</div>
-<div class="fsdocs-tip" id="fs38">val stDev : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ) and member Sqrt)</div>
-<div class="fsdocs-tip" id="fs39">val sample1 : float list</div>
-<div class="fsdocs-tip" id="fs40">val sample2 : float list</div>
-<div class="fsdocs-tip" id="fs41">val cvSample1 : float</div>
-<div class="fsdocs-tip" id="fs42">val cv : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member Sqrt and member ( + ) and member ( / ) and member ( / ))</div>
-<div class="fsdocs-tip" id="fs43">val cvSample2 : float</div>
+        <div class="fsdocs-tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs2">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs3">val mean1 : float</div>
+<div class="fsdocs-tip" id="fs4">Multiple items<br />module Seq<br /><br />from FSharp.Stats<br /><br />--------------------<br />module Seq<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="fsdocs-tip" id="fs5">val meanBy : f:(&#39;T -&gt; &#39;U) -&gt; items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member get_Zero and member ( + ) and member DivideByInt and member ( / ))</div>
+<div class="fsdocs-tip" id="fs6">Multiple items<br />val float : value:&#39;T -&gt; float (requires member op_Explicit)<br /><br />--------------------<br />type float = System.Double<br /><br />--------------------<br />type float&lt;&#39;Measure&gt; = float</div>
+<div class="fsdocs-tip" id="fs7">val mean2 : float</div>
+<div class="fsdocs-tip" id="fs8">val mean : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( + ) and member get_Zero and member DivideByInt and member ( / ))</div>
+<div class="fsdocs-tip" id="fs9">val truncMean1 : float</div>
+<div class="fsdocs-tip" id="fs10">val meanTruncated : percent:float -&gt; data:seq&lt;&#39;T&gt; -&gt; &#39;U (requires comparison and member ( + ) and member get_Zero and member DivideByInt and member ( / ))</div>
+<div class="fsdocs-tip" id="fs11">val truncMean2 : float</div>
+<div class="fsdocs-tip" id="fs12">val meanTruncatedBy : f:(&#39;T -&gt; &#39;U) -&gt; percent:float -&gt; data:seq&lt;&#39;T&gt; -&gt; &#39;U (requires comparison and member get_Zero and member ( + ) and member DivideByInt and member ( / ))</div>
+<div class="fsdocs-tip" id="fs13">val median1 : int</div>
+<div class="fsdocs-tip" id="fs14">val median : items:seq&lt;&#39;T&gt; -&gt; &#39;T (requires comparison and member get_Zero and member get_One and member ( + ) and member ( / ) and member ( / ))</div>
+<div class="fsdocs-tip" id="fs15">val harmonicMean1 : float</div>
+<div class="fsdocs-tip" id="fs16">val meanHarmonic : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( / ) and member get_Zero and member get_One and member ( + ) and comparison and member ( / ) and member ( + ))</div>
+<div class="fsdocs-tip" id="fs17">val harmonicMean2 : float</div>
+<div class="fsdocs-tip" id="fs18">val meanHarmonicBy : f:(&#39;T -&gt; &#39;U) -&gt; items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member get_Zero and member get_One and member ( + ) and comparison and member ( / ))</div>
+<div class="fsdocs-tip" id="fs19">val geometricMean1 : float</div>
+<div class="fsdocs-tip" id="fs20">val meanGeometric : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( + ) and member Log and member get_Zero and member DivideByInt and member Exp and member ( / ))</div>
+<div class="fsdocs-tip" id="fs21">val geometricMean2 : float</div>
+<div class="fsdocs-tip" id="fs22">val meanGeometricBy : f:(&#39;T -&gt; &#39;a) -&gt; items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( + ) and member Log and member get_Zero and member DivideByInt and member Exp and member ( / ))</div>
+<div class="fsdocs-tip" id="fs23">val range1 : Intervals.Interval&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs24">val rangeBy : f:(&#39;a -&gt; &#39;b) -&gt; items:seq&lt;&#39;a&gt; -&gt; Intervals.Interval&lt;&#39;a&gt; (requires comparison)</div>
+<div class="fsdocs-tip" id="fs25">val range2 : Intervals.Interval&lt;int&gt;</div>
+<div class="fsdocs-tip" id="fs26">val data : float []</div>
+<div class="fsdocs-tip" id="fs27">val varPopulation : float</div>
+<div class="fsdocs-tip" id="fs28">val varPopulation : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ))</div>
+<div class="fsdocs-tip" id="fs29">val stdPopulation : float</div>
+<div class="fsdocs-tip" id="fs30">val stDevPopulation : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ) and member Sqrt)</div>
+<div class="fsdocs-tip" id="fs31">val varSample : float</div>
+<div class="fsdocs-tip" id="fs32">val var : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ))</div>
+<div class="fsdocs-tip" id="fs33">val stdSample : float</div>
+<div class="fsdocs-tip" id="fs34">val stDev : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member ( + ) and member ( / ) and member Sqrt)</div>
+<div class="fsdocs-tip" id="fs35">val sample1 : float list</div>
+<div class="fsdocs-tip" id="fs36">val sample2 : float list</div>
+<div class="fsdocs-tip" id="fs37">val cvSample1 : float</div>
+<div class="fsdocs-tip" id="fs38">val cv : items:seq&lt;&#39;T&gt; -&gt; &#39;U (requires member ( - ) and member get_Zero and member DivideByInt and member ( + ) and member ( * ) and member Sqrt and member ( + ) and member ( / ) and member ( / ))</div>
+<div class="fsdocs-tip" id="fs39">val cvSample2 : float</div>
 
     </div>
 

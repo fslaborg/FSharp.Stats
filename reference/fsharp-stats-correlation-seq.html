@@ -28,13 +28,13 @@
     <div class="columns is-fullheight m-0">
         <div id="fsdocs-menu" class="column is-2 is-paddingless">
             <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-dark">
+                <div class="container is-paddingless is-marginless has-background-light">
                     <a href="https://fslab.org/FSharp.Stats/">
                         <figure class="image is-128x128 container">
                             <img src="https://fslab.org/FSharp.Stats/img/logo.png">
                         </figure>
                     </a>
-                    <h2 class="title has-text-centered has-text-white pb-4">FSharp.Stats</h2>
+                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
                 </div>
                 <div class="content">
                     <!-- BEGIN SEARCH BOX: this adds support for the search box -->
@@ -113,7 +113,7 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '110', 110)" onmouseover="showTip(event, '110', 110)">
+              <code onmouseout="hideTip(event, '81', 81)" onmouseover="showTip(event, '81', 81)">
                 <p>
                   <a id="bicor">
                     <a href="#bicor">
@@ -122,7 +122,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="110">
+              <div class="fsdocs-tip" id="81">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>bicor&#32;<span>seq1&#32;seq2</span></span></code>
@@ -159,7 +159,7 @@
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L154-154" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L359-359" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
@@ -199,7 +199,221 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '111', 111)" onmouseover="showTip(event, '111', 111)">
+              <code onmouseout="hideTip(event, '82', 82)" onmouseover="showTip(event, '82', 82)">
+                <p>
+                  <a id="bicorBy">
+                    <a href="#bicorBy">
+                      <code><span>bicorBy&#32;<span>f&#32;seq</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="82">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>bicorBy&#32;<span>f&#32;seq</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;<span>float&#32;*&#32;float</span></span></code>
+                       - 
+                      A function applied to transform each element of the sequence into a tuple of paired observations.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        seq
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                  </span>
+                  The kendall correlation coefficient.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L420-420" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the bicor correlation of two samples.
+ The two samples are built by applying the given function to each element of the sequence.
+ The function should transform each sequence element into a tuple of paired observations from the two samples.
+ The correlation will be calculated between the paired observations.
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;<span>float&#32;*&#32;float</span></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence into a tuple of paired observations.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seq
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  The kendall correlation coefficient.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example">
+              <pre>
+ // To get the correlation between A and B observations:
+ let ab = [ {| A = 32.1; B = 1.2 |}
+            {| A = 3.1; B = 0.4 |}
+            {| A = 2.932; B = 3.85 |} ]
+ 
+ ab |> Seq.bicorBy (fun x -> x.A, x.B) // evaluates to -0.9303913046
+ </pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '83', 83)" onmouseover="showTip(event, '83', 83)">
+                <p>
+                  <a id="bicorOfPairs">
+                    <a href="#bicorOfPairs">
+                      <code><span>bicorOfPairs&#32;<span>seq</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="83">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>bicorOfPairs&#32;<span>seq</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        seq
+                      </b>
+                      :
+                      <code><span>seq&lt;<span>float&#32;*&#32;float</span>&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                  </span>
+                  The Biweighted Midcorrelation.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L395-395" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the Biweighted Midcorrelation of two samples given as a sequence of paired values. 
+ This is a median based correlation measure which is more robust against outliers.
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seq
+                </span>
+                :
+                <code><span>seq&lt;<span>float&#32;*&#32;float</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  The Biweighted Midcorrelation.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example">
+              <pre> 
+ // Consider a sequence of paired x and y values:
+ // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
+ let xy = [(32.1, 1.2); (3.1, 0.4); (2.932, 3.85)]
+ 
+ // To get the correlation between x and y:
+ xy |> Seq.bicorOfPairs // evaluates to -0.9303913046
+ </pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '84', 84)" onmouseover="showTip(event, '84', 84)">
                 <p>
                   <a id="kendall">
                     <a href="#kendall">
@@ -208,7 +422,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="111">
+              <div class="fsdocs-tip" id="84">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>kendall&#32;<span>setA&#32;setB</span></span></code>
@@ -245,7 +459,7 @@
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L112-112" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L268-268" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
@@ -285,7 +499,223 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '112', 112)" onmouseover="showTip(event, '112', 112)">
+              <code onmouseout="hideTip(event, '85', 85)" onmouseover="showTip(event, '85', 85)">
+                <p>
+                  <a id="kendallBy">
+                    <a href="#kendallBy">
+                      <code><span>kendallBy&#32;<span>f&#32;seq</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="85">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>kendallBy&#32;<span>f&#32;seq</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;<span>'a&#32;*&#32;'a</span></span></code>
+                       - 
+                      A function applied to transform each element of the sequence into a tuple of paired observations.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        seq
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                  </span>
+                  The kendall correlation coefficient.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L353-353" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the kendall correlation of two samples.
+ The two samples are built by applying the given function to each element of the sequence.
+ The function should transform each sequence element into a tuple of paired observations from the two samples.
+ The correlation will be calculated between the paired observations.
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;<span>'a&#32;*&#32;'a</span></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence into a tuple of paired observations.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seq
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  The kendall correlation coefficient.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example">
+              <pre>
+ // To get the correlation between A and B observations:
+ let ab = [ {| A = -0.5; B = -0.3 |}
+            {| A = -0.4; B = -0.25 |}
+            {| A = 0.; B = -0.1 |}
+            {| A = 0.7; B = -0.46 |}
+            {| A = 0.65; B = 0.103 |}
+            {| A = 0.9649; B = 0.409 |} ]
+ 
+ ab |> Seq.kendallBy (fun x -> x.A, x.B) // evaluates to 0.4666666667
+ </pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '86', 86)" onmouseover="showTip(event, '86', 86)">
+                <p>
+                  <a id="kendallOfPairs">
+                    <a href="#kendallOfPairs">
+                      <code><span>kendallOfPairs&#32;<span>seq</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="86">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>kendallOfPairs&#32;<span>seq</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        seq
+                      </b>
+                      :
+                      <code><span>seq&lt;<span>'T&#32;*&#32;'T</span>&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                  </span>
+                  The kendall correlation coefficient.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L325-325" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the kendall correlation coefficient of two samples given as a sequence of paired values. 
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seq
+                </span>
+                :
+                <code><span>seq&lt;<span>'T&#32;*&#32;'T</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  The kendall correlation coefficient.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example">
+              <pre> 
+ // Consider a sequence of paired x and y values:
+ // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
+ let xy = [(-0.5, -0.3); (-0.4, -0.25); (0., -0.1); (0.7, -0.46); (0.65, 0.103); (0.9649, 0.409)] 
+ 
+ // To get the correlation between x and y:
+ xy |> Seq.kendallOfPairs // evaluates to 0.4666666667
+ </pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '87', 87)" onmouseover="showTip(event, '87', 87)">
                 <p>
                   <a id="pearson">
                     <a href="#pearson">
@@ -294,7 +724,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="112">
+              <div class="fsdocs-tip" id="87">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>pearson&#32;<span>seq1&#32;seq2</span></span></code>
@@ -371,7 +801,222 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '113', 113)" onmouseover="showTip(event, '113', 113)">
+              <code onmouseout="hideTip(event, '88', 88)" onmouseover="showTip(event, '88', 88)">
+                <p>
+                  <a id="pearsonBy">
+                    <a href="#pearsonBy">
+                      <code><span>pearsonBy&#32;<span>f&#32;seq</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="88">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pearsonBy&#32;<span>f&#32;seq</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;<span>^a&#32;*&#32;^a</span></span></code>
+                       - 
+                      A function applied to transform each element of the sequence into a tuple of paired observations.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        seq
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  The pearson correlation.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L116-116" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the pearson correlation of two samples.
+ The two samples are built by applying the given function to each element of the sequence.
+ The function should transform each sequence element into a tuple of paired observations from the two samples.
+ The correlation will be calculated between the paired observations.
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;<span>^a&#32;*&#32;^a</span></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence into a tuple of paired observations.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seq
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  The pearson correlation.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example">
+              <pre>
+ // To get the correlation between A and B observations:
+ let ab = [ {| A = 312.7; B = 315.5 |}
+            {| A = 104.2; B = 101.3 |}
+            {| A = 104.; B = 108. |}
+            {| A = 34.7; B = 32.2 |} ]
+ 
+ ab |> Seq.pearsonBy (fun x -> x.A, x.B) // evaluates to 0.9997053729
+ </pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '89', 89)" onmouseover="showTip(event, '89', 89)">
+                <p>
+                  <a id="pearsonOfPairs">
+                    <a href="#pearsonOfPairs">
+                      <code><span>pearsonOfPairs&#32;<span>seq</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="89">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pearsonOfPairs&#32;<span>seq</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        seq
+                      </b>
+                      :
+                      <code><span>seq&lt;<span>^T&#32;*&#32;^T</span>&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  The pearson correlation.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L90-90" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the pearson correlation of two samples given as a sequence of paired values. 
+ Homoscedasticity must be assumed.
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seq
+                </span>
+                :
+                <code><span>seq&lt;<span>^T&#32;*&#32;^T</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  The pearson correlation.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example">
+              <pre> 
+ // Consider a sequence of paired x and y values:
+ // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
+ let xy = [(312.7, 315.5); (104.2, 101.3); (104.0, 108.0); (34.7, 32.2)]
+ 
+ // To get the correlation between x and y:
+ xy |> Seq.pearsonOfPairs // evaluates to 0.9997053729
+ </pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '90', 90)" onmouseover="showTip(event, '90', 90)">
                 <p>
                   <a id="pearsonWeighted">
                     <a href="#pearsonWeighted">
@@ -380,7 +1025,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="113">
+              <div class="fsdocs-tip" id="90">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>pearsonWeighted&#32;<span>seq1&#32;seq2&#32;weights</span></span></code>
@@ -425,7 +1070,7 @@
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L74-74" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L122-122" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
@@ -473,37 +1118,250 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '114', 114)" onmouseover="showTip(event, '114', 114)">
+              <code onmouseout="hideTip(event, '91', 91)" onmouseover="showTip(event, '91', 91)">
                 <p>
-                  <a id="spearman">
-                    <a href="#spearman">
-                      <code><span>spearman&#32;<span>array1&#32;array2</span></span></code>
+                  <a id="pearsonWeightedBy">
+                    <a href="#pearsonWeightedBy">
+                      <code><span>pearsonWeightedBy&#32;<span>f&#32;seq</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="114">
+              <div class="fsdocs-tip" id="91">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>spearman&#32;<span>array1&#32;array2</span></span></code>
+                  <code><span>pearsonWeightedBy&#32;<span>f&#32;seq</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        array1
+                        f
                       </b>
                       :
-                      <code><span>'b&#32;array</span></code>
+                      <code><span>'T&#32;->&#32;<span>^a&#32;*&#32;^a&#32;*&#32;^a</span></span></code>
+                       - 
+                      A function applied to transform each element of the sequence into a tuple of triples representing the two samples and the weight. If the two samples are <code>x</code> and <code>y</code> then the elements of the sequence should be triples of <code>x * y * weight</code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        array2
+                        seq
                       </b>
                       :
-                      <code><span>'c&#32;array</span></code>
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  The weighted pearson correlation.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L191-191" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the weighted pearson correlation of two samples after 
+ applying the given function to each element of the sequence.
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;<span>^a&#32;*&#32;^a&#32;*&#32;^a</span></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence into a tuple of triples representing the two samples and the weight. If the two samples are <code>x</code> and <code>y</code> then the elements of the sequence should be triples of <code>x * y * weight</code>
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seq
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  The weighted pearson correlation.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example">
+              <pre>
+ // To get the correlation between A and B observations weighted by W:
+ let abw = [ {| A = 1.1; B = 1.2; W = 0.2 |}
+             {| A = 1.1; B = 0.9; W = 0.3 |}
+             {| A = 1.2; B = 0.08; W = 0.5 |} ] 
+ 
+ abw |> pearsonWeightedBy (fun x -> x.A, x.B, x.W)
+ // evaluates to -0.9764158959
+ </pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '92', 92)" onmouseover="showTip(event, '92', 92)">
+                <p>
+                  <a id="pearsonWeightedOfTriples">
+                    <a href="#pearsonWeightedOfTriples">
+                      <code><span>pearsonWeightedOfTriples&#32;<span>seq</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="92">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>pearsonWeightedOfTriples&#32;<span>seq</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        seq
+                      </b>
+                      :
+                      <code><span>seq&lt;<span>^T&#32;*&#32;^T&#32;*&#32;^T</span>&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  The weighted pearson correlation.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L167-167" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the weighted pearson correlation of two samples. 
+ If the two samples are <code>x</code> and <code>y</code> then the elements of the input sequence should be triples of <code>x * y * weight</code>.
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seq
+                </span>
+                :
+                <code><span>seq&lt;<span>^T&#32;*&#32;^T&#32;*&#32;^T</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  The weighted pearson correlation.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example">
+              <pre>
+ // Consider a sequence of triples with x, y and w values:
+ // [(x1, y1, w1); (x2, y2, w2); (x3, y3, w3); (x4, y4, w4); ... ]
+ let xyw = [(1.1, 1.2, 0.2); (1.1, 0.9, 0.3); (1.2, 0.08, 0.5)] 
+ 
+ // To get the correlation between x and y weighted by w :
+ xyw |> Seq.pearsonWeightedOfTriples // evaluates to -0.9764158959
+ </pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '93', 93)" onmouseover="showTip(event, '93', 93)">
+                <p>
+                  <a id="spearman">
+                    <a href="#spearman">
+                      <code><span>spearman&#32;<span>seq1&#32;seq2</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="93">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>spearman&#32;<span>seq1&#32;seq2</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        seq1
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        seq2
+                      </b>
+                      :
+                      <code><span>seq&lt;^T&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -519,29 +1377,46 @@
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L104-104" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L214-214" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
               
  Spearman Correlation (with ranks)
+ 
+ Items that are tied are each allocated the average of the ranks that
+ they would have had had they been distinguishable.
+ 
+ Reference: Williams R.B.G. (1986) Spearman’s and Kendall’s Coefficients of Rank Correlation. 
+ Intermediate Statistics for Geographers and Earth Scientists, p453, https://doi.org/10.1007/978-1-349-06813-5_6
+ </summary>
+ <returns>The spearman correlation.</returns>
+ <example>
+ <code>
+ let x = [5.05;6.75;3.21;2.66]
+ let y = [1.65;2.64;2.64;6.95]
+ 
+ // To get the correlation between x and y:
+ Seq.spearman x y // evaluates to -0.632455532
+ </code>
+ </example>
 
             </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  array1
+                  seq1
                 </span>
                 :
-                <code><span>'b&#32;array</span></code>
+                <code><span>seq&lt;^T&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  array2
+                  seq2
                 </span>
                 :
-                <code><span>'c&#32;array</span></code>
+                <code><span>seq&lt;^T&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -554,6 +1429,219 @@
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '94', 94)" onmouseover="showTip(event, '94', 94)">
+                <p>
+                  <a id="spearmanBy">
+                    <a href="#spearmanBy">
+                      <code><span>spearmanBy&#32;<span>f&#32;seq</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="94">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>spearmanBy&#32;<span>f&#32;seq</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>'T&#32;->&#32;<span>^a&#32;*&#32;^a</span></span></code>
+                       - 
+                      A function applied to transform each element of the sequence into a tuple of paired observations.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        seq
+                      </b>
+                      :
+                      <code><span>seq&lt;'T&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  The spearman correlation.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L262-262" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the spearman correlation of two samples.
+ The two samples are built by applying the given function to each element of the sequence.
+ The function should transform each sequence element into a tuple of paired observations from the two samples.
+ The correlation will be calculated between the paired observations.
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>'T&#32;->&#32;<span>^a&#32;*&#32;^a</span></span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  A function applied to transform each element of the sequence into a tuple of paired observations.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seq
+                </span>
+                :
+                <code><span>seq&lt;'T&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  The spearman correlation.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example">
+              <pre>
+ // To get the correlation between A and B observations:
+ let ab = [ {| A = 1.1; B = 1.2 |}
+            {| A = 1.1; B = 0.9 |}
+            {| A = 2.0; B = 3.85 |} ] 
+ 
+ ab |> Seq.spearmanBy (fun x -> x.A, x.B) // evaluates to 0.5
+ </pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '95', 95)" onmouseover="showTip(event, '95', 95)">
+                <p>
+                  <a id="spearmanOfPairs">
+                    <a href="#spearmanOfPairs">
+                      <code><span>spearmanOfPairs&#32;<span>seq</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="95">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>spearmanOfPairs&#32;<span>seq</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        seq
+                      </b>
+                      :
+                      <code><span>seq&lt;<span>^T&#32;*&#32;^T</span>&gt;</span></code>
+                       - 
+                      The input sequence.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  The spearman correlation.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L237-237" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ Calculates the spearman correlation (with ranks) of two samples given as a sequence of paired values. 
+ 
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  seq
+                </span>
+                :
+                <code><span>seq&lt;<span>^T&#32;*&#32;^T</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input sequence.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  The spearman correlation.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example">
+              <pre> 
+ // Consider a sequence of paired x and y values:
+ // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
+ let xy = [(1.1, 1.2); (1.1, 0.9); (2.0, 3.85)]
+ 
+ // To get the correlation between x and y:
+ xy |> Seq.spearmanOfPairs // evaluates to 0.5
+ </pre>
+            </p>
           </td>
         </tr>
       </tbody>

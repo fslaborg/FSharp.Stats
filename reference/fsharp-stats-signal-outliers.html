@@ -28,13 +28,13 @@
     <div class="columns is-fullheight m-0">
         <div id="fsdocs-menu" class="column is-2 is-paddingless">
             <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-dark">
+                <div class="container is-paddingless is-marginless has-background-light">
                     <a href="https://fslab.org/FSharp.Stats/">
                         <figure class="image is-128x128 container">
                             <img src="https://fslab.org/FSharp.Stats/img/logo.png">
                         </figure>
                     </a>
-                    <h2 class="title has-text-centered has-text-white pb-4">FSharp.Stats</h2>
+                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
                 </div>
                 <div class="content">
                     <!-- BEGIN SEARCH BOX: this adds support for the search box -->
@@ -105,31 +105,247 @@
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1546', 1546)" onmouseover="showTip(event, '1546', 1546)">
+              <code onmouseout="hideTip(event, '1554', 1554)" onmouseover="showTip(event, '1554', 1554)">
                 <p>
-                  <a id="populationIntervalByZScore">
-                    <a href="#populationIntervalByZScore">
-                      <code><span>populationIntervalByZScore&#32;<span>ls&#32;minZ&#32;maxZ</span></span></code>
+                  <a id="mahalanobisDistanceOfEntry">
+                    <a href="#mahalanobisDistanceOfEntry">
+                      <code><span>mahalanobisDistanceOfEntry&#32;<span>dataMatrix&#32;dataSource&#32;orientation&#32;observation</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1546">
+              <div class="fsdocs-tip" id="1554">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>populationIntervalByZScore&#32;<span>ls&#32;minZ&#32;maxZ</span></span></code>
+                  <code><span>mahalanobisDistanceOfEntry&#32;<span>dataMatrix&#32;dataSource&#32;orientation&#32;observation</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        ls
+                        dataMatrix
                       </b>
                       :
-                      <code><span>float&#32;list</span></code>
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
                     </span>
                     <br/>
+                    <span>
+                      <b>
+                        dataSource
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrixmodule-datasource.html">DataSource</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        orientation
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrixmodule-orientation.html">Orientation</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        observation
+                      </b>
+                      :
+                      <code><span>seq&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L52-52" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+Returns Mahalanobi's distance for an individual observation in a matrix.
+dataSource - Sample or Population.
+orientation - RowWise or ColWise.
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dataMatrix
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dataSource
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrixmodule-datasource.html">DataSource</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  orientation
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrixmodule-orientation.html">Orientation</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  observation
+                </span>
+                :
+                <code><span>seq&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1555', 1555)" onmouseover="showTip(event, '1555', 1555)">
+                <p>
+                  <a id="mahalanobisDistances">
+                    <a href="#mahalanobisDistances">
+                      <code><span>mahalanobisDistances&#32;<span>dataSource&#32;orientation&#32;dataMatrix</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1555">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>mahalanobisDistances&#32;<span>dataSource&#32;orientation&#32;dataMatrix</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        dataSource
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrixmodule-datasource.html">DataSource</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        orientation
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrixmodule-orientation.html">Orientation</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        dataMatrix
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>float[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L64-64" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+Returns Mahalanobi's distance for for every observation in a matrix.
+dataSource - Sample or Population.
+orientation - RowWise or ColWise. (RowWise orientation means that each row is a Vector) 
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dataSource
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrixmodule-datasource.html">DataSource</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  orientation
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrixmodule-orientation.html">Orientation</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  dataMatrix
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span>float[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1556', 1556)" onmouseover="showTip(event, '1556', 1556)">
+                <p>
+                  <a id="populationIntervalByZScore">
+                    <a href="#populationIntervalByZScore">
+                      <code><span>populationIntervalByZScore&#32;<span>minZ&#32;maxZ&#32;ls</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1556">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>populationIntervalByZScore&#32;<span>minZ&#32;maxZ&#32;ls</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
                     <span>
                       <b>
                         minZ
@@ -146,6 +362,14 @@
                       <code>float</code>
                     </span>
                     <br/>
+                    <span>
+                      <b>
+                        ls
+                      </b>
+                      :
+                      <code><span>float&#32;list</span></code>
+                    </span>
+                    <br/>
                   </ul>
                   <br/>
                   <span>
@@ -159,7 +383,7 @@
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L31-31" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L32-32" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
@@ -170,14 +394,6 @@ Returns a population interval according to desired max and min Z Score values
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  ls
-                </span>
-                :
-                <code><span>float&#32;list</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
                   minZ
                 </span>
                 :
@@ -190,6 +406,14 @@ Returns a population interval according to desired max and min Z Score values
                 </span>
                 :
                 <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ls
+                </span>
+                :
+                <code><span>float&#32;list</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -207,31 +431,23 @@ Returns a population interval according to desired max and min Z Score values
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1547', 1547)" onmouseover="showTip(event, '1547', 1547)">
+              <code onmouseout="hideTip(event, '1557', 1557)" onmouseover="showTip(event, '1557', 1557)">
                 <p>
                   <a id="sampleIntervalByZscore">
                     <a href="#sampleIntervalByZscore">
-                      <code><span>sampleIntervalByZscore&#32;<span>ls&#32;minZ&#32;maxZ</span></span></code>
+                      <code><span>sampleIntervalByZscore&#32;<span>minZ&#32;maxZ&#32;ls</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1547">
+              <div class="fsdocs-tip" id="1557">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>sampleIntervalByZscore&#32;<span>ls&#32;minZ&#32;maxZ</span></span></code>
+                  <code><span>sampleIntervalByZscore&#32;<span>minZ&#32;maxZ&#32;ls</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
-                    <span>
-                      <b>
-                        ls
-                      </b>
-                      :
-                      <code><span>float&#32;list</span></code>
-                    </span>
-                    <br/>
                     <span>
                       <b>
                         minZ
@@ -248,6 +464,14 @@ Returns a population interval according to desired max and min Z Score values
                       <code>float</code>
                     </span>
                     <br/>
+                    <span>
+                      <b>
+                        ls
+                      </b>
+                      :
+                      <code><span>float&#32;list</span></code>
+                    </span>
+                    <br/>
                   </ul>
                   <br/>
                   <span>
@@ -261,7 +485,7 @@ Returns a population interval according to desired max and min Z Score values
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L43-43" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L44-44" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
@@ -270,14 +494,6 @@ Returns a sample interval according to desired max and min Z Score values
 
             </p>
             <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  ls
-                </span>
-                :
-                <code><span>float&#32;list</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   minZ
@@ -292,6 +508,14 @@ Returns a sample interval according to desired max and min Z Score values
                 </span>
                 :
                 <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ls
+                </span>
+                :
+                <code><span>float&#32;list</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -309,7 +533,7 @@ Returns a sample interval according to desired max and min Z Score values
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1548', 1548)" onmouseover="showTip(event, '1548', 1548)">
+              <code onmouseout="hideTip(event, '1558', 1558)" onmouseover="showTip(event, '1558', 1558)">
                 <p>
                   <a id="tukey">
                     <a href="#tukey">
@@ -318,7 +542,7 @@ Returns a sample interval according to desired max and min Z Score values
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1548">
+              <div class="fsdocs-tip" id="1558">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>tukey&#32;<span>k&#32;d</span></span></code>
@@ -355,7 +579,7 @@ Returns a sample interval according to desired max and min Z Score values
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L9-9" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L10-10" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
@@ -396,7 +620,7 @@ Returns a sample interval according to desired max and min Z Score values
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1549', 1549)" onmouseover="showTip(event, '1549', 1549)">
+              <code onmouseout="hideTip(event, '1559', 1559)" onmouseover="showTip(event, '1559', 1559)">
                 <p>
                   <a id="zScore">
                     <a href="#zScore">
@@ -405,7 +629,7 @@ Returns a sample interval according to desired max and min Z Score values
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1549">
+              <div class="fsdocs-tip" id="1559">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>zScore&#32;<span>x&#32;m&#32;s</span></span></code>
@@ -450,7 +674,7 @@ Returns a sample interval according to desired max and min Z Score values
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L20-20" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L21-21" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
@@ -501,7 +725,7 @@ Returns a sample interval according to desired max and min Z Score values
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1550', 1550)" onmouseover="showTip(event, '1550', 1550)">
+              <code onmouseout="hideTip(event, '1560', 1560)" onmouseover="showTip(event, '1560', 1560)">
                 <p>
                   <a id="zScoresOfPopulation">
                     <a href="#zScoresOfPopulation">
@@ -510,7 +734,7 @@ Returns a sample interval according to desired max and min Z Score values
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1550">
+              <div class="fsdocs-tip" id="1560">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>zScoresOfPopulation&#32;<span>ls</span></span></code>
@@ -539,7 +763,7 @@ Returns a sample interval according to desired max and min Z Score values
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L24-24" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L25-25" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>
@@ -571,7 +795,7 @@ Returns a list of Z scores of a population
         <tr>
           <td class="fsdocs-member-name">
             <div>
-              <code onmouseout="hideTip(event, '1551', 1551)" onmouseover="showTip(event, '1551', 1551)">
+              <code onmouseout="hideTip(event, '1561', 1561)" onmouseover="showTip(event, '1561', 1561)">
                 <p>
                   <a id="zScoresOfSample">
                     <a href="#zScoresOfSample">
@@ -580,7 +804,7 @@ Returns a list of Z scores of a population
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1551">
+              <div class="fsdocs-tip" id="1561">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>zScoresOfSample&#32;<span>ls</span></span></code>
@@ -609,7 +833,7 @@ Returns a list of Z scores of a population
           </td>
           <td class="fsdocs-xmldoc">
             <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L37-37" class="fsdocs-source-link">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Outliers.fs#L38-38" class="fsdocs-source-link">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
               </a>

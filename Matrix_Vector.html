@@ -29,13 +29,13 @@
     <div class="columns is-fullheight m-0">
         <div id="fsdocs-menu" class="column is-2 is-paddingless">
             <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-dark">
+                <div class="container is-paddingless is-marginless has-background-light">
                     <a href="https://fslab.org/FSharp.Stats/">
                         <figure class="image is-128x128 container">
                             <img src="https://fslab.org/FSharp.Stats/img/logo.png">
                         </figure>
                     </a>
-                    <h2 class="title has-text-centered has-text-white pb-4">FSharp.Stats</h2>
+                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
                 </div>
                 <div class="content">
                     <!-- BEGIN SEARCH BOX: this adds support for the search box -->
@@ -227,14 +227,14 @@ _____________________________________
 <h3><a name="Calculation-Examples-for-Matrices" class="anchor" href="#Calculation-Examples-for-Matrices">Calculation Examples for Matrices</a></h3>
 <p>Get sum of each row.</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs9', 38)" onmouseover="showTip(event, 'fs9', 38)" class="id">A</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 39)" onmouseover="showTip(event, 'fs17', 39)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 40)" onmouseover="showTip(event, 'fs18', 40)" class="m">Generic</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 41)" onmouseover="showTip(event, 'fs19', 41)" class="id">enumerateRowWise</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs20', 42)" onmouseover="showTip(event, 'fs20', 42)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 43)" onmouseover="showTip(event, 'fs21', 43)" class="id">sum</span><span class="pn">)</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 39)" onmouseover="showTip(event, 'fs17', 39)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 40)" onmouseover="showTip(event, 'fs18', 40)" class="m">Generic</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 41)" onmouseover="showTip(event, 'fs19', 41)" class="id">mapRows</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs20', 42)" onmouseover="showTip(event, 'fs20', 42)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 43)" onmouseover="showTip(event, 'fs21', 43)" class="id">sum</span><span class="pn">)</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>[10.0; 5.0; 12.0]</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>vector [|10.0; 5.0; 12.0|]</code></pre></td></tr></table>
 <p>Create seq of vectors of matrix columns.</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs9', 51)" onmouseover="showTip(event, 'fs9', 51)" class="id">A</span>
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 52)" onmouseover="showTip(event, 'fs17', 52)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs23', 53)" onmouseover="showTip(event, 'fs23', 53)" class="id">mapiCols</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs24', 54)" onmouseover="showTip(event, 'fs24', 54)" class="fn">i</span> <span onmouseout="hideTip(event, 'fs25', 55)" onmouseover="showTip(event, 'fs25', 55)" class="fn">r</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs25', 56)" onmouseover="showTip(event, 'fs25', 56)" class="fn">r</span><span class="pn">)</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>[vector [|1.0; 1.0; 2.0|]; vector [|7.0; 3.0; 9.0|]; vector [|2.0; 1.0; 1.0|]]</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>rowvec [|vector ...; vector ...; vector ...|]</code></pre></td></tr></table>
 <p>Sum of two matrices.</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs9', 111)" onmouseover="showTip(event, 'fs9', 111)" class="id">A</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs14', 112)" onmouseover="showTip(event, 'fs14', 112)" class="id">B</span>
 </code></pre>
@@ -333,14 +333,14 @@ _____________________________________
 <div class="fsdocs-tip" id="fs13">val matrix : mat:Matrix&lt;float&gt; -&gt; string</div>
 <div class="fsdocs-tip" id="fs14">val B : Matrix&lt;float&gt;</div>
 <div class="fsdocs-tip" id="fs15">val BPrint : string</div>
-<div class="fsdocs-tip" id="fs16">val exmp1 : seq&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs16">val exmp1 : Vector&lt;float&gt;</div>
 <div class="fsdocs-tip" id="fs17">Multiple items<br />module Matrix<br /><br />from FSharp.Stats<br /><br />--------------------<br />type Matrix&lt;&#39;T&gt; =<br />&#160;&#160;| DenseRepr of DenseMatrix&lt;&#39;T&gt;<br />&#160;&#160;| SparseRepr of SparseMatrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IEnumerable<br />&#160;&#160;&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IStructuralEquatable<br />&#160;&#160;&#160;&#160;interface IStructuralComparable<br />&#160;&#160;&#160;&#160;interface IComparable<br />&#160;&#160;&#160;&#160;override Equals : yobj:obj -&gt; bool<br />&#160;&#160;&#160;&#160;override GetHashCode : unit -&gt; int<br />&#160;&#160;&#160;&#160;member GetSlice : start1:int option * finish1:int option * start2:int option * finish2:int option -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member PermuteColumns : p:permutation -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member PermuteRows : p:permutation -&gt; Matrix&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;...</div>
 <div class="fsdocs-tip" id="fs18">module Generic<br /><br />from FSharp.Stats.MatrixModule</div>
-<div class="fsdocs-tip" id="fs19">val enumerateRowWise : f:(seq&lt;&#39;a&gt; -&gt; &#39;a0) -&gt; matrix:Matrix&lt;&#39;a&gt; -&gt; seq&lt;&#39;a0&gt;</div>
+<div class="fsdocs-tip" id="fs19">val mapRows : mapping:(RowVector&lt;&#39;a&gt; -&gt; &#39;b) -&gt; matrix:Matrix&lt;&#39;a&gt; -&gt; Vector&lt;&#39;b&gt;</div>
 <div class="fsdocs-tip" id="fs20">Multiple items<br />module Seq<br /><br />from FSharp.Stats<br /><br />--------------------<br />module Seq<br /><br />from Microsoft.FSharp.Collections</div>
 <div class="fsdocs-tip" id="fs21">val sum : source:seq&lt;&#39;T&gt; -&gt; &#39;T (requires member ( + ) and member get_Zero)</div>
-<div class="fsdocs-tip" id="fs22">val exmp2 : seq&lt;vector&gt;</div>
-<div class="fsdocs-tip" id="fs23">val mapiCols : f:(int -&gt; vector -&gt; &#39;b) -&gt; m:matrix -&gt; seq&lt;&#39;b&gt;</div>
+<div class="fsdocs-tip" id="fs22">val exmp2 : RowVector&lt;vector&gt;</div>
+<div class="fsdocs-tip" id="fs23">val mapiCols : f:(int -&gt; vector -&gt; &#39;b) -&gt; m:matrix -&gt; RowVector&lt;&#39;b&gt;</div>
 <div class="fsdocs-tip" id="fs24">val i : int</div>
 <div class="fsdocs-tip" id="fs25">val r : vector</div>
 <div class="fsdocs-tip" id="fs26">val exmp3 : string</div>

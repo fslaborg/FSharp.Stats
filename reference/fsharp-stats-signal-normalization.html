@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Normalization (FSharp.Stats)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
+
+    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head> 
+
+<body>
+    <div class="columns is-fullheight m-0">
+        <div id="fsdocs-menu" class="column is-2 is-paddingless">
+            <aside class="menu">
+                <div class="container is-paddingless is-marginless has-background-light">
+                    <a href="https://fslab.org/FSharp.Stats/">
+                        <figure class="image is-128x128 container">
+                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
+                        </figure>
+                    </a>
+                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
+                </div>
+                <div class="content">
+                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+                    <div id="header">
+                        <div class="searchbox" id="fsdocs-searchbox">
+                            <label for="search-by">
+                                <i class="fas fa-search"></i>
+                            </label>
+                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
+                            <span data-search-clear="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END SEARCH BOX: this adds support for the search box -->
+                    <ul class="navbar-nav">
+                        <li class="nav-header">Links</li>
+                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
+                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
+                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
+                        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-10 is-paddingless">
+            <div class="section pt-4">
+                <div class="container" id="fsdocs-content">
+                    <div>
+  <h1>
+    Normalization Module
+  </h1>
+  <p>
+    Namespace: 
+    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal.html">
+      FSharp.Stats.Signal
+    </a>
+  </p>
+  <p>
+    Assembly: FSharp.Stats.dll
+  </p>
+  <div class="fsdocs-xmldoc">
+    
+  </div>
+  <div>
+    <h3>
+      Functions and values
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Function or value
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1548', 1548)" onmouseover="showTip(event, '1548', 1548)">
+                <p>
+                  <a id="medianOfRatios">
+                    <a href="#medianOfRatios">
+                      <code><span>medianOfRatios&#32;<span>data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1548">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>medianOfRatios&#32;<span>data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L44-44" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
+
+ Rows are genes, columns are samples
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1549', 1549)" onmouseover="showTip(event, '1549', 1549)">
+                <p>
+                  <a id="medianOfRatiosBy">
+                    <a href="#medianOfRatiosBy">
+                      <code><span>medianOfRatiosBy&#32;<span>f&#32;data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1549">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>medianOfRatiosBy&#32;<span>f&#32;data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>float&#32;->&#32;float</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L26-26" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
+
+ Rows are genes, columns are samples
+
+ The additional function is applied on all values of the matrix when calculating the normalization factors. By this, a zero in the original dataset will still remain zero.
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>float&#32;->&#32;float</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1550', 1550)" onmouseover="showTip(event, '1550', 1550)">
+                <p>
+                  <a id="medianOfRatiosWide">
+                    <a href="#medianOfRatiosWide">
+                      <code><span>medianOfRatiosWide&#32;<span>data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1550">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>medianOfRatiosWide&#32;<span>data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L70-70" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
+
+ Columns are genes, rows are samples
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1551', 1551)" onmouseover="showTip(event, '1551', 1551)">
+                <p>
+                  <a id="medianOfRatiosWideBy">
+                    <a href="#medianOfRatiosWideBy">
+                      <code><span>medianOfRatiosWideBy&#32;<span>f&#32;data</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1551">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>medianOfRatiosWideBy&#32;<span>f&#32;data</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        f
+                      </b>
+                      :
+                      <code><span>float&#32;->&#32;float</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        data
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L52-52" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
+
+ Columns are genes, rows are samples
+
+ The additional function is applied on all values of the matrix when calculating the normalization factors. By this, a zero in the original dataset will still remain zero.
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  f
+                </span>
+                :
+                <code><span>float&#32;->&#32;float</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  data
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1552', 1552)" onmouseover="showTip(event, '1552', 1552)">
+                <p>
+                  <a id="zScoreTrans">
+                    <a href="#zScoreTrans">
+                      <code><span>zScoreTrans&#32;<span>yVal</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1552">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>zScoreTrans&#32;<span>yVal</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        yVal
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L16-16" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ z normalization using the sample standard deviation
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  yVal
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-name">
+            <div>
+              <code onmouseout="hideTip(event, '1553', 1553)" onmouseover="showTip(event, '1553', 1553)">
+                <p>
+                  <a id="zScoreTransformPopulation">
+                    <a href="#zScoreTransformPopulation">
+                      <code><span>zScoreTransformPopulation&#32;<span>yVal</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1553">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>zScoreTransformPopulation&#32;<span>yVal</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        yVal
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-xmldoc">
+            <p class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L9-9" class="fsdocs-source-link">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+              </a>
+              
+ z normalization using the population standard deviation of population
+
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  yVal
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns:
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+</body>
+
+</html>

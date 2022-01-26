@@ -29,13 +29,13 @@
     <div class="columns is-fullheight m-0">
         <div id="fsdocs-menu" class="column is-2 is-paddingless">
             <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-dark">
+                <div class="container is-paddingless is-marginless has-background-light">
                     <a href="https://fslab.org/FSharp.Stats/">
                         <figure class="image is-128x128 container">
                             <img src="https://fslab.org/FSharp.Stats/img/logo.png">
                         </figure>
                     </a>
-                    <h2 class="title has-text-centered has-text-white pb-4">FSharp.Stats</h2>
+                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
                 </div>
                 <div class="content">
                     <!-- BEGIN SEARCH BOX: this adds support for the search box -->
@@ -171,27 +171,27 @@
             <div class="section pt-4">
                 <div class="container" id="fsdocs-content">
                     <h1><a name="Linear-Algebra" class="anchor" href="#Linear-Algebra">Linear Algebra</a></h1>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs5', 9)" onmouseover="showTip(event, 'fs5', 9)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs6', 10)" onmouseover="showTip(event, 'fs6', 10)" class="id">Stats</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs5', 11)" onmouseover="showTip(event, 'fs5', 11)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs6', 12)" onmouseover="showTip(event, 'fs6', 12)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="id">Algebra</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="id">Stats</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs3', 5)" onmouseover="showTip(event, 'fs3', 5)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="id">Algebra</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 14)" onmouseover="showTip(event, 'fs8', 14)" class="id">A</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs9', 15)" onmouseover="showTip(event, 'fs9', 15)" class="fn">matrix</span> <span class="pn">[</span> <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span>  <span class="n">1.0</span><span class="pn">;</span> <span class="o">-</span><span class="n">1.0</span> <span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 8)" onmouseover="showTip(event, 'fs6', 8)" class="id">A</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs7', 9)" onmouseover="showTip(event, 'fs7', 9)" class="fn">matrix</span> <span class="pn">[</span> <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span>  <span class="n">1.0</span><span class="pn">;</span> <span class="o">-</span><span class="n">1.0</span> <span class="pn">]</span>
              <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span> <span class="o">-</span><span class="n">2.0</span><span class="pn">;</span> <span class="o">-</span><span class="n">3.0</span> <span class="pn">]</span>
              <span class="pn">[</span> <span class="n">2.0</span><span class="pn">;</span>  <span class="n">3.0</span><span class="pn">;</span>  <span class="n">1.0</span> <span class="pn">]</span> <span class="pn">]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 16)" onmouseover="showTip(event, 'fs10', 16)" class="id">B</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs9', 17)" onmouseover="showTip(event, 'fs9', 17)" class="fn">matrix</span> <span class="pn">[</span> <span class="pn">[</span>  <span class="n">4.0</span><span class="pn">;</span> <span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 10)" onmouseover="showTip(event, 'fs8', 10)" class="id">B</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="fn">matrix</span> <span class="pn">[</span> <span class="pn">[</span>  <span class="n">4.0</span><span class="pn">;</span> <span class="pn">]</span>
              <span class="pn">[</span> <span class="o">-</span><span class="n">6.0</span><span class="pn">;</span> <span class="pn">]</span>
              <span class="pn">[</span>  <span class="n">7.0</span><span class="pn">;</span> <span class="pn">]</span> <span class="pn">]</span>
 </code></pre>
 <h2><a name="Using-unmanaged-optimized-linear-algebra-functions" class="anchor" href="#Using-unmanaged-optimized-linear-algebra-functions">Using unmanaged optimized linear algebra functions</a></h2>
 <p><strong>Attention</strong>: These bindings are highly incomplete and will most likely be dropped for something like MKL.NET. <a href="https://github.com/fslaborg/FSharp.Stats/issues/91">See issue#</a></p>
 <p>the native libraries are contained in the nuget package at the <code>netlib_LAPACK</code> path. Include that one instead of the <code>/../../lib</code> pth used here.</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="m">ServiceLocator</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 19)" onmouseover="showTip(event, 'fs12', 19)" class="id">setEnvironmentPathVariable</span> <span class="pn">(</span><span class="k">__SOURCE_DIRECTORY__</span> <span class="o">+</span> <span class="s">&quot;/../../lib&quot;</span><span class="pn">)</span> <span class="c">//&quot;D:/Source/FSharp.Stats/lib&quot;</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs9', 12)" onmouseover="showTip(event, 'fs9', 12)" class="m">ServiceLocator</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 13)" onmouseover="showTip(event, 'fs10', 13)" class="id">setEnvironmentPathVariable</span> <span class="pn">(</span><span class="k">__SOURCE_DIRECTORY__</span> <span class="o">+</span> <span class="s">&quot;/../../lib&quot;</span><span class="pn">)</span> <span class="c">//&quot;D:/Source/FSharp.Stats/lib&quot;</span>
 
-<span onmouseout="hideTip(event, 'fs13', 20)" onmouseover="showTip(event, 'fs13', 20)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 21)" onmouseover="showTip(event, 'fs14', 21)" class="id">Service</span><span class="pn">(</span><span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs11', 14)" onmouseover="showTip(event, 'fs11', 14)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 15)" onmouseover="showTip(event, 'fs12', 15)" class="id">Service</span><span class="pn">(</span><span class="pn">)</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 22)" onmouseover="showTip(event, 'fs15', 22)" class="id">svdRes</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 23)" onmouseover="showTip(event, 'fs13', 23)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 24)" onmouseover="showTip(event, 'fs16', 24)" class="id">SVD</span> <span onmouseout="hideTip(event, 'fs8', 25)" onmouseover="showTip(event, 'fs8', 25)" class="id">A</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 16)" onmouseover="showTip(event, 'fs13', 16)" class="id">svdRes</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 18)" onmouseover="showTip(event, 'fs14', 18)" class="id">SVD</span> <span onmouseout="hideTip(event, 'fs6', 19)" onmouseover="showTip(event, 'fs6', 19)" class="id">A</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>No value returned by any evaluator</code></pre></td></tr></table>
 
@@ -200,20 +200,18 @@
         </div>
         <div class="fsdocs-tip" id="fs1">namespace Plotly</div>
 <div class="fsdocs-tip" id="fs2">namespace Plotly.NET</div>
-<div class="fsdocs-tip" id="fs3">module Axis<br /><br />from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs4">module StyleParam<br /><br />from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs5">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs6">namespace FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs7">namespace FSharp.Stats.Algebra</div>
-<div class="fsdocs-tip" id="fs8">val A : Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs9">Multiple items<br />val matrix : ll:seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs10">val B : Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs11">module ServiceLocator<br /><br />from FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs12">val setEnvironmentPathVariable : dllDirectory:string -&gt; unit</div>
-<div class="fsdocs-tip" id="fs13">module LinearAlgebra<br /><br />from FSharp.Stats.Algebra</div>
-<div class="fsdocs-tip" id="fs14">val Service : unit -&gt; ILinearAlgebra</div>
-<div class="fsdocs-tip" id="fs15">val svdRes : vector * Matrix&lt;float&gt; * Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs16">val SVD : a:Matrix&lt;float&gt; -&gt; vector * Matrix&lt;float&gt; * Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs3">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs4">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs5">namespace FSharp.Stats.Algebra</div>
+<div class="fsdocs-tip" id="fs6">val A : Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs7">Multiple items<br />val matrix : ll:seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs8">val B : Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs9">module ServiceLocator<br /><br />from FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs10">val setEnvironmentPathVariable : dllDirectory:string -&gt; unit</div>
+<div class="fsdocs-tip" id="fs11">module LinearAlgebra<br /><br />from FSharp.Stats.Algebra</div>
+<div class="fsdocs-tip" id="fs12">val Service : unit -&gt; ILinearAlgebra</div>
+<div class="fsdocs-tip" id="fs13">val svdRes : vector * Matrix&lt;float&gt; * Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs14">val SVD : a:Matrix&lt;float&gt; -&gt; vector * Matrix&lt;float&gt; * Matrix&lt;float&gt;</div>
 
     </div>
 
