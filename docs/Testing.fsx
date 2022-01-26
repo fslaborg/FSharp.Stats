@@ -2,15 +2,29 @@
 
 (*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
+open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
+
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
+        
 (**
 
 # Statistical testing
@@ -567,14 +581,6 @@ let (index,pValue,pValueAdj) =
     |> List.map (fun (x,pValAdj) -> x.Index, x.Significance, pValAdj)
     |> List.unzip3
 
-open Plotly.NET
-
-//some axis styling
-let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
-let myAxisRange name range = Axis.LinearAxis.init(Title=name,Range=StyleParam.Range.MinMax(range), Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true)
-let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
-let styleChartRange x y rx ry chart = chart |> Chart.withX_Axis (myAxisRange x rx) |> Chart.withY_Axis (myAxisRange y ry)
-
 let lsdCorrected =
     let header = ["<b>Contrast index</b>";"<b>p Value</b>";"<b>p Value adj</b>"]
     let rows = 
@@ -590,9 +596,8 @@ let lsdCorrected =
     Chart.Table(
         header, 
         rows,
-        ColorHeader = "#45546a",
-        ColorCells = ["#deebf7";"lightgrey"],
-        FontHeader = Font.init(Color="white")
+        HeaderFillColor = Color.fromHex "#45546a",
+        CellsFillColor = Color.fromColors [Color.fromHex "#deebf7";Color.fromString "lightgrey"]
         )
 
 (*** condition: ipynb ***)
@@ -809,7 +814,7 @@ let aErrorAcc =
     [1. .. 100.]
     |> List.map (fun x -> x,(1. - 0.95**x))
     |> Chart.Line
-    |> styleChart "number of tests (k)" "probability of at least one false positive test"
+    |> Chart.withAxisTitles "number of tests (k)" "probability of at least one false positive test"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -849,8 +854,8 @@ let bhValues =
         Chart.Line(pValues,pValues,Name="diagonal")
         Chart.Line(pValsAdj,Name="adj")
     ]
-    |> Chart.Combine
-    |> styleChartRange "pValue" "BH corrected pValue" (0.,1.) (0.,1.)
+    |> Chart.combine
+    |> Chart.withAxisTitles "pValue" "BH corrected pValue"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -865,24 +870,28 @@ bhValues |> GenericChart.toChartHTML
 
 ### Q Value
 
+See q value blog post at [fslabs](https://fslab.org/).
 
-m = #tests
+$m = \#tests$
 
-**qValues**
+####qValues
 
-qvalue(p) = #(false positives) / #positives
+$qvalue_p = \frac{\#(false positives)}{\#positives}$
 
-**qValues robust**
+####qValues robust
 
-Corrects for small p values especially if the number of tests is low
-qvalueRobust(p) = #(false positives) / [#positives * (1 - (1 - p)**m)]
+Corrects for small p values especially if the number of tests is low or the population distributions are not skewed.
 
+$qvalueRobust_p = \frac{\#(false positives)}{\#positives * (1 - (1 - p)**m)}$
 
 
 *)
 let pi0 = 
     pValues
     |> MultipleTesting.Qvalues.pi0Bootstrap 
+
+pi0
+(***include-it-raw***)
 
 let qValues = 
     pValues
@@ -895,19 +904,22 @@ let qValuesRob =
 let qChart =    
     [
         Chart.Line(pValues,qValues,Name="qValue")
+        Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",LineDash=StyleParam.DrawingStyle.Dash)
         Chart.Line(pValues,qValuesRob,Name="qValueRobust")
     ]
-    |> Chart.Combine
-    |> styleChartRange "pValues" "qValues" (0.,1.) (0.,1.)
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
+    |> Chart.withXAxisStyle ("p value",MinMax=(0.,1.))
+    |> Chart.withYAxisStyle ("q Values",MinMax=(0.,1.))
 
 
 let qHisto =
     [
-        Chart.Histogram(pValues,Xbins=Bins.init(0.,1.,0.05),Name="pValues",HistNorm=StyleParam.HistNorm.ProbabilityDensity)
-        Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",Dash=StyleParam.DrawingStyle.Dash)
+        Chart.Histogram(pValues,XBins=TraceObjects.Bins.init(0.,1.,0.05),Name="pValues",HistNorm=HistNorm.ProbabilityDensity)
+        Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",LineDash=StyleParam.DrawingStyle.Dash)
     ]
-    |> Chart.Combine
-    |> styleChart "p value" "density"
+    |> Chart.combine
+    |> Chart.withAxisTitles "p value" "density"
 
 (*** condition: ipynb ***)
 #if IPYNB
