@@ -11,23 +11,6 @@ module GlobalAssociations =
     open System
     open System.Numerics
 
-    let ComplexNumerics = 
-      { new IFractional<_> with 
-          member __.Zero = FSharp.Stats.Complex.Zero
-          member __.One = FSharp.Stats.Complex.One
-          member __.Add(a,b) = a + b
-          member __.Subtract(a,b) = a - b
-          member __.Multiply(a,b) = a * b
-          member __.Equals(a,b) = (a = b)
-          member __.Compare(a,b) = compare a b
-          member __.Divide(a,b) = a / b
-          member __.Negate(a) = -a
-          member __.Abs(a)  = a // not signed
-          member __.Sign(a) = 1 // not signed
-          member __.Reciprocal(a) =  FSharp.Stats.Complex.One / a 
-          member __.ToString((x:FSharp.Stats.Complex),fmt,fmtprovider) = x.ToString(fmt,fmtprovider)
-          member __.Parse(s,numstyle,fmtprovider) = FSharp.Stats.Complex.mkRect (System.Double.Parse(s,numstyle,fmtprovider),0.0) }
-
     let ht = 
         let ht = new System.Collections.Generic.Dictionary<Type,obj>() 
         let optab =
@@ -36,7 +19,6 @@ module GlobalAssociations =
               typeof<int64>,   (Some(Int64Numerics    :> INumeric<int64>) :> obj);
               typeof<BigInteger>,  (Some(BigIntNumerics   :> INumeric<BigInteger>) :> obj);
               typeof<float32>, (Some(Float32Numerics  :> INumeric<float32>) :> obj);
-              typeof<FSharp.Stats.Complex>, (Some(ComplexNumerics :> INumeric<FSharp.Stats.Complex>) :> obj);
               typeof<bignum>,  (Some(BigRationalNumerics   :> INumeric<bignum>) :> obj); ]
            
         List.iter (fun (ty,ops) -> ht.Add(ty,ops)) optab;

@@ -6,7 +6,7 @@ namespace FSharp.Stats.Distributions
 module KernelDensity =
 
     open FSharp.Stats
-
+    open System.Numerics
     type DensityKernel = float -> float -> float
 
     module Kernel =
@@ -108,19 +108,19 @@ module KernelDensity =
                 let a = Array.seqInit 0. (2.*(up - lo)) (2 * n)
                 (a.[(n + 1)..(2 * n)-1] <- (a.[1..n-1] |> Array.rev |> Array.map (fun x -> x * -1.0)  ) )
                 a 
-                |> Array.map ((kernel bandwidth) >> Complex.ofReal)
+                |> Array.map ((kernel bandwidth) >> fun r ->  Complex(r,0.))
                 |> Signal.FFT.forwardInPlace
 
                 
             let fftY     = 
                 y
-                |> Array.map Complex.ofReal
+                |> Array.map (fun r ->  Complex(r,0.))
                 |> Signal.FFT.forwardInPlace
 
-            Array.map2 (fun y k -> y * Complex.conjugate k) fftY fftKords
+            Array.map2 (fun y k -> y * Complex.Conjugate k) fftY fftKords
             |> Signal.FFT.inverseInPlace
             |> Seq.truncate (n)    
-            |> Seq.map (fun c -> let tmp = c.RealPart / float y.Length
+            |> Seq.map (fun c -> let tmp = c.Real / float y.Length
                                  if tmp > 0. then tmp else 0.)
 
 
