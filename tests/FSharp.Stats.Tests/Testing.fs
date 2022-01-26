@@ -348,6 +348,23 @@ let benjaminiHochbergTests =
     ]
 
 
+[<Tests>]
+let dunnSidakTest =
+    // taken from: https://www.real-statistics.com/hypothesis-testing/familywise-error/bonferroni-and-dunn-sidak-tests/
+    let testPvalues = [0.01208; 0.00356; 0.11542; 0.02155; 0.03329; 0.01042]
+    let testAlpha1 = 0.05
+    let testAlpha2 = 0.01
+    let expectedValue1 = 0.008512
+    let expectedValue2 = 0.001674
+    let observedValue1 = MultipleTesting.dunnSidak testAlpha1 testPvalues |> round 6
+    let observedValue2 = MultipleTesting.dunnSidak testAlpha2 testPvalues |> round 6
+    testList "Testing.MultipleTesting.dunnSidak" [
+        testCase "Alpha = 5 %" <| fun () ->
+            Expect.floatClose Accuracy.veryHigh observedValue1 expectedValue1 "corrected p values are about equal."
+        testCase "Alpha = 1 %" <| fun () ->
+            Expect.floatClose Accuracy.veryHigh observedValue2 expectedValue2 "corrected p values are about equal."
+    ]
+
 
 [<Tests>]
 let qValuesTest =
