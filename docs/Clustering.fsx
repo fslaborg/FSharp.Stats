@@ -7,15 +7,6 @@
 #r "nuget: FSharpAux, 1.0.0"
 #r "nuget: Cyjs.NET"
 
-(*** condition: ipynb ***)
-#if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
-#r "nuget: FSharpAux, 1.0.0"
-#r "nuget: FSharp.Stats"
-#r "nuget: Cyjs.NET"
-#endif // IPYNB
-
 open Plotly.NET
 open Plotly.NET.StyleParam
 open Plotly.NET.LayoutObjects
@@ -29,6 +20,15 @@ module Chart =
         |> Chart.withTemplate ChartTemplates.lightMirrored
         |> Chart.withXAxis (myAxis x) 
         |> Chart.withYAxis (myAxis y)
+
+(*** condition: ipynb ***)
+#if IPYNB
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: FSharpAux, 1.0.0"
+#r "nuget: FSharp.Stats"
+#r "nuget: Cyjs.NET"
+#endif // IPYNB
 
 (**
 # Clustering
@@ -199,12 +199,9 @@ let dbscanPlot =
                 |> Array.map (fun x -> 
                     x.[0],x.[1])
                 |> Array.distinct //more efficient visualization; no difference in plot but in point numbers
-                |> fun x -> 
-                    printfn "%A" x
-                    Chart.Point ([1,2])//x
-                |> fun t -> 
-                    printfn "ceas"
-                    Chart.withTraceName (sprintf "Cluster %i" i) t)
+                |> Chart.Point 
+                |> Chart.withTraceName (sprintf "Cluster %i" i)
+                )
             |> Chart.combine
         else Chart.Point []
 
@@ -619,12 +616,10 @@ let gapStatisticsChart =
         Chart.Line (k,dispRef)|> Chart.withTraceName "dispRef" |> Chart.withYErrorStyle(std)
         ]
         |> Chart.combine 
-        |> Chart.withXAxis (Chart.myAxisRange "" (0.,11.)) 
-        |> Chart.withYAxis (Chart.myAxis "log(disp)")
+        |> Chart.withAxisTitles "" "log(disp)"
     let gaps = 
         Chart.Line (k,gap)|> Chart.withTraceName "gaps"
-        |> Chart.withXAxis (Chart.myAxisRange "k" (0.,11.)) 
-        |> Chart.withYAxis (Chart.myAxis "gaps")
+        |> Chart.withAxisTitles "k" "gaps"
     [dispersions; gaps]
     |> Chart.Grid(2,1)
 
@@ -653,8 +648,7 @@ let gapChart =
 
     Chart.Line (k,gap)
     |> Chart.withYErrorStyle(sK)
-    |> Chart.withXAxis (Chart.myAxisRange "k" (0.,11.)) 
-    |> Chart.withYAxis (Chart.myAxisRange "gap" (-0.5,2.)) 
+    |> Chart.withAxisTitles "k" "gaps"
     
 (***hide***)
 gapChart |> GenericChart.toChartHTML

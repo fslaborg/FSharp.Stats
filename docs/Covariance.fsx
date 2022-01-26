@@ -4,37 +4,6 @@
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 2.0.0-preview.16"
 
-(*** condition: ipynb ***)
-#if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
-#r "nuget: FSharp.Stats"
-#endif // IPYNB
-
-
-(** 
-
-#Covariance
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Covariance
-.ipynb)
-
-_Summary:_ This tutorial explains how to investigate the covariance of two samples with FSharp.Stats
-
-Lets first define some sample data:
-*)
-
-open FSharp.Stats
-
-let rnd = System.Random()
-let error() = rnd.Next(11)
-
-let sampleA = Vector.init 50 (fun x -> float x)
-let sampleB = Vector.init 50 (fun x -> float (x + error()))
-let sampleBHigh = sampleB |> Vector.map (fun x -> 200. + x)
-let sampleC = Vector.init 50 (fun x -> 100. - float (x + 3 * error()))
-let sampleD = Vector.init 50 (fun x -> 100. + float (10 * error()))
-
 open Plotly.NET
 open Plotly.NET.StyleParam
 open Plotly.NET.LayoutObjects
@@ -48,6 +17,38 @@ module Chart =
         |> Chart.withTemplate ChartTemplates.lightMirrored
         |> Chart.withXAxis (myAxis x) 
         |> Chart.withYAxis (myAxis y)
+
+(*** condition: ipynb ***)
+#if IPYNB
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: FSharp.Stats"
+#endif // IPYNB
+
+(** 
+
+#Covariance
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Covariance
+.ipynb)
+
+_Summary:_ This tutorial explains how to investigate the covariance of two samples with FSharp.Stats
+
+Lets first define some sample data:
+*)
+
+
+open FSharp.Stats
+
+let rnd = System.Random()
+let error() = rnd.Next(11)
+
+let sampleA = Vector.init 50 (fun x -> float x)
+let sampleB = Vector.init 50 (fun x -> float (x + error()))
+let sampleBHigh = sampleB |> Vector.map (fun x -> 200. + x)
+let sampleC = Vector.init 50 (fun x -> 100. - float (x + 3 * error()))
+let sampleD = Vector.init 50 (fun x -> 100. + float (10 * error()))
+
 
 let sampleChart =
     [

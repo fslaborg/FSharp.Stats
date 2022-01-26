@@ -4,6 +4,20 @@
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 2.0.0-preview.16"
 
+open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
+
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
+
 (*** condition: ipynb ***)
 #if IPYNB
 #r "nuget: Plotly.NET, 2.0.0-preview.16"
@@ -16,6 +30,7 @@
 # Fitting
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Fitting.ipynb)
+
 
 _Summary:_ this tutorial will walk through several ways of fitting data with FSharp.Stats.
 
@@ -67,19 +82,7 @@ let coefficientsLinearRTO =
 let fittingFunctionLinearRTO x = 
     OrdinaryLeastSquares.Linear.RTO.fit coefficientsLinearRTO x
 
-open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
 
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 let rawChart = 
     Chart.Point(xData,yData)

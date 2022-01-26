@@ -5,6 +5,18 @@
 #r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
+
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -141,7 +153,12 @@ let gaussAC =
     Chart.Point(lags,autoCorrGauss)
     |> Chart.withTraceName "Autocorrelation"
     |> Chart.withTitle "Autocorrelation of a gaussian sine wave"
-    |> fun c -> [Chart.Point(x,yGauss,Name="gaussian");c]  |> Chart.Grid(2,1)
+    |> fun c -> 
+        [
+            Chart.Point(x,yGauss,Name="gaussian") |> Chart.withAxisTitles "" ""
+            c |> Chart.withAxisTitles "" ""
+        ]  
+        |> Chart.Grid(2,1)
 
 (*** condition: ipynb ***)
 #if IPYNB

@@ -870,24 +870,28 @@ bhValues |> GenericChart.toChartHTML
 
 ### Q Value
 
+See q value blog post at [fslabs](https://fslab.org/).
 
-m = #tests
+$m = \#tests$
 
-**qValues**
+####qValues
 
-qvalue(p) = #(false positives) / #positives
+$qvalue_p = \frac{\#(false positives)}{\#positives}$
 
-**qValues robust**
+####qValues robust
 
-Corrects for small p values especially if the number of tests is low
-qvalueRobust(p) = #(false positives) / [#positives * (1 - (1 - p)**m)]
+Corrects for small p values especially if the number of tests is low or the population distributions are not skewed.
 
+$qvalueRobust_p = \frac{\#(false positives)}{\#positives * (1 - (1 - p)**m)}$
 
 
 *)
 let pi0 = 
     pValues
     |> MultipleTesting.Qvalues.pi0Bootstrap 
+
+pi0
+(***include-it-raw***)
 
 let qValues = 
     pValues
@@ -900,11 +904,13 @@ let qValuesRob =
 let qChart =    
     [
         Chart.Line(pValues,qValues,Name="qValue")
+        Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",LineDash=StyleParam.DrawingStyle.Dash)
         Chart.Line(pValues,qValuesRob,Name="qValueRobust")
     ]
     |> Chart.combine
-    |> Chart.withXAxis (Chart.myAxisRange "pValues" (0.,1.))
-    |> Chart.withYAxis (Chart.myAxisRange "qValues" (0.,1.))
+    |> Chart.withAxisTitles "" ""
+    |> Chart.withXAxisStyle ("p value",MinMax=(0.,1.))
+    |> Chart.withYAxisStyle ("q Values",MinMax=(0.,1.))
 
 
 let qHisto =
