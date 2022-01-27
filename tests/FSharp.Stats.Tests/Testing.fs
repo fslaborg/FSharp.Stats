@@ -235,6 +235,32 @@ let tTestTests =
             Expect.floatClose Accuracy.low tTest4.Statistic 0.514 "t statistic should be equal."
     ]
 
+
+let uTestTests =
+    // taken from https://de.wikipedia.org/wiki/Wilcoxon-Mann-Whitney-Test#Beispiel
+    let testList1 =
+        ([0;400;500;550;600;650;750;800;900;950;1000;1100;1200;1500;1600;1800;1900;2000;2200;3500 ],["M";"W";"M";"W";"M";"W";"M";"M";"W";"W";"M";"M";"W";"M";"W";"M";"M";"M";"M";"M"])
+        ||> List.map2 (fun pay sex -> sex, pay) |> List.sortBy fst
+
+    let testList1A = testList1 |> List.choose (fun (sex,pay) -> if sex = "W" then Some pay else None)
+    let testList1B = testList1 |> List.choose (fun (sex,pay) -> if sex = "M" then Some pay else None)
+
+    let observedResult1 = UTest.computeUtest testList1A testList1B
+    let expectedResult1 : TestStatistics.UTestTestStatistics = {
+        Statistic       = -1.15
+        PValueTwoTailed = 0.267
+        PV
+    }
+
+    testList "Testing.UTest" [
+        testCase "TwoSample" <| fun () ->
+            Expect.floatClose Accuracy.low observedResult1.PValueLeft expectedResult1.PValueLeft "left p-value should be equal"
+            Expect.floatClose Accuracy.low observedResult1.PValueRight expectedResult1.PValueRight "right p-value should be equal"
+            Expect.floatClose Accuracy.low observedResult1.PValueTwoTailed expectedResult1.PValueTwoTailed "p-value should be equal"
+            Expect.floatClose Accuracy.low observedResult1.Statistic expectedResult1.Statistic "test statistic should be equal"
+    ]
+
+
 [<Tests>]
 let chiSquaredTests = 
     // ChiSquared https://www.graphpad.com/quickcalcs/chisquared2/
