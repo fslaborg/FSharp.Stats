@@ -236,6 +236,7 @@ let tTestTests =
     ]
 
 
+[<Tests>]
 let uTestTests =
     // taken from https://de.wikipedia.org/wiki/Wilcoxon-Mann-Whitney-Test#Beispiel
     let testList1 =
@@ -248,8 +249,9 @@ let uTestTests =
     let observedResult1 = UTest.computeUtest testList1A testList1B
     let expectedResult1 : TestStatistics.UTestTestStatistics = {
         Statistic       = -1.15
-        PValueTwoTailed = 0.267
-        PV
+        PValueTwoTailed = 0.2505
+        PValueLeft      = 0.875
+        PValueRight     = 0.1253
     }
 
     testList "Testing.UTest" [
