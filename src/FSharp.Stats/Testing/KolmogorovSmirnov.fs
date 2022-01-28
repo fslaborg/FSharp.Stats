@@ -18,27 +18,4 @@ module KolmogorovSmirnov =
         let deltaCumVals = (cum, rankedNormVals) ||> Array.map2 (fun c v -> System.Math.Abs (c - v))
         let kS = Array.max deltaCumVals
         kS
-        //Continuous.kolmogorov 
-        // let z = kS * (System.Math.Sqrt())
-        // let kolmoDist x = (System.Math.Sqrt (2. * System.Math.PI) / x) * 
-
-module Distributions =
-    
-    // TO DO
-    let cdfKolmogorov x =
-        let fraction = (System.Math.Sqrt(2. * System.Math.PI)) / x
-        printfn "fraction: %f" fraction
-        let eFractionDenominator = 8. * x ** 2.
-        printfn "eFractionDenominator: %f" eFractionDenominator
-        let rec getSum acc k n =
-            printfn "k: %f" k
-            let eFractionNumerator = -(2. * k - 1.) ** 2. * System.Math.PI ** 2.
-            printfn "eFractionNumerator: %f" eFractionNumerator
-            let newAcc = acc + System.Math.E ** (eFractionNumerator / eFractionDenominator)
-            printfn "newAcc: %f" newAcc
-            if k < n then getSum newAcc (k + 1.) n
-            else newAcc
-        let sum = getSum 0. 1. 1.
-        fraction * sum
-    
-    //cdfKolmogorov 1.3581
+        Continuous.kolmogorov 
