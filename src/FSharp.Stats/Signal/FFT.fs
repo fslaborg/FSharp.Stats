@@ -1,7 +1,7 @@
 namespace FSharp.Stats.Signal
 
 open FSharp.Stats
-
+open System.Numerics
 
 /// FFT analysis converts a signal from its original domain (often time or space) to a representation in the frequency domain and vice versa.
 module FFT =
@@ -38,7 +38,7 @@ module FFT =
     let private fftAux (a : Complex array) n j sign m = 
         let w = 
             let t = pi * float (sign * m) / float j 
-            Complex.Create (cos t, sin t)
+            Complex(cos t, sin t)
         let mutable i = m 
         while i < n do 
             let ai = a. [i] 
@@ -65,10 +65,10 @@ module FFT =
         | n -> 2 * nextPow2 (n / 2)
 
 
-    let private pad n nb (w : complex array) = function
+    let private pad n nb (w : Complex array) = function
         | i when i < n -> w. [i] 
         | i when i > nb - n -> w. [nb-i]
-        | _ -> Complex.zero 
+        | _ -> Complex.Zero
 
 
     /// Bluestein’s convolution algorith
@@ -78,7 +78,7 @@ module FFT =
             let s = pi / float n 
             Array.init n ( fun k -> 
                 let t = s * float(k * k) 
-                Complex.Create (cos t, sin t)
+                Complex (cos t, sin t)
                 )
 
         let n = Array.length a 
@@ -86,15 +86,15 @@ module FFT =
         let w = bluesteinSequence n 
         let y = pad n nb w |> Array.init nb 
         fftPow2 (-1) y
-        let b = Array.create nb Complex.zero 
+        let b = Array.create nb Complex.Zero
         for i=0 to n-1 do
-            b. [i] <- Complex.conjugate w. [i] * a. [i] 
+            b. [i] <- Complex.Conjugate w. [i] * a. [i] 
         fftPow2 (-1) b
         let b = Array.map2 ( * ) b y
         fftPow2 1 b
-        let nbinv = Complex.Create ((1.0 / float nb),0.0)
+        let nbinv = Complex ((1.0 / float nb),0.0)
         for i=0 to n-1 do 
-            a. [i] <- nbinv * Complex.conjugate w. [i] * b. [i]
+            a. [i] <- nbinv * Complex.Conjugate w. [i] * b. [i]
 
 
 
@@ -105,7 +105,7 @@ module FFT =
             n &&& n-1 = 0
 
         let swapriInPlace a = 
-            mapInPlace (fun z -> Complex.Create (z.i, z.r)) a
+            mapInPlace (fun (z: Complex) -> Complex (z.Imaginary, z.Real)) a
                 
 
         let n = Array.length a 

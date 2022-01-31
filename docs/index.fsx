@@ -2,20 +2,27 @@
 
 (*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta3"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-alpha5"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
 open Plotly.NET
-open Plotly.NET.Axis
 open Plotly.NET.StyleParam
-let myAxis title = LinearAxis.init(Title=title,Mirror=Mirror.All,Ticks=TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let styleChart xt yt c = c |> Chart.withX_Axis (myAxis xt) |> Chart.withY_Axis (myAxis yt)
+open Plotly.NET.LayoutObjects
+
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 (**
 # FSharp.Stats
@@ -127,7 +134,7 @@ let interpolFitFunc =
 let interpolChart = 
     [1. .. 0.1 .. 10.] 
     |> List.map (fun x -> x,interpolFitFunc x)
-    |> fun data -> Chart.Line(data,"interpol polynomial")
+    |> fun data -> Chart.Line(data,Name="interpol polynomial")
 
 (**
 ### Regression
@@ -146,13 +153,13 @@ let regressionFitFunc =
 let regressionChart = 
     [1. .. 0.1 .. 10.] 
     |> List.map (fun x -> x,regressionFitFunc x)
-    |> fun data -> Chart.Line(data,"regression polynomial")
+    |> fun data -> Chart.Line(data,Name="regression polynomial")
 
 let combinedChart =
     let rawChart = Chart.Point(xData,yData)
     [rawChart;interpolChart;regressionChart]
-    |> Chart.Combine
-    |> styleChart "" ""
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 (**
 The resulting interpolating and regression polynomials are plotted below using [Plotly.NET](https://github.com/plotly/Plotly.NET).
 

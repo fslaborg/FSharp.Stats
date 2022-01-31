@@ -751,7 +751,6 @@ let floatImplementationDenseTests =
             ]
             testList "mapi" [
                 
-
                 testCase "mapi with (fun elem -> elem * 2)" <| fun () ->
                     let actual = 
                         testSquareMatrixA
@@ -899,6 +898,77 @@ let floatImplementationDenseTests =
                             )
                             0.
                     Expect.equal actual (Matrix.trace testSquareMatrixA) "Results of Matrix.trace and calculating matrix trace with Matrix.foldi where not equal"
+            ]
+            testList "filterRows" [
+                testCase "simple filter by sum" <| fun () ->
+                    let expected = 
+                        matrix [
+                            [1.;2.]
+                            [2.;1.]
+                        ]
+                    let actual =
+                        matrix [
+                            [5.;5.]
+                            [1.;2.]
+                            [5.;5.]
+                            [2.;1.]
+                            [5.;5.]
+                            [5.;5.]
+                        ]
+                        |> Matrix.filterRows (fun r -> r |> Seq.sum = 3.)
+                    Expect.equal actual expected "Matrix.filterRows did not return correct result"                
+
+                testCase "simple filter by contains" <| fun () ->
+                    let expected = 
+                        matrix [
+                            [1.;100.]
+                            [2.;100.]
+                        ]
+                    let actual =
+                        matrix [
+                            [5.;5.]
+                            [1.;2.]
+                            [5.;5.]
+                            [1.;100.]
+                            [2.;100.]
+                            [2.;1.]
+                            [5.;5.]
+                            [5.;5.]
+                        ]
+                        |> Matrix.filterRows (fun r -> r |> Seq.contains 100.)
+                    Expect.equal actual expected "Matrix.filterRows did not return correct result"
+            ]            
+            testList "filterCols" [
+                testCase "simple filter by sum" <| fun () ->
+                    let expected = 
+                        matrix [
+                            [1.;2.]
+                            [2.;1.]
+                        ]
+                    let actual =
+                        matrix [
+                            [5.;1.;6.;2.;0.]
+                            [5.;2.;6.;1.;0.]
+                        ]
+                        |> Matrix.filterCols (fun c -> c |> Seq.sum = 3.)
+                    Expect.equal actual expected "Matrix.filterCols did not return correct result"
+
+                testCase "simple filter by contains" <| fun () ->
+                    let expected = 
+                        matrix [
+                            [100.;2.]
+                            [2.;100.]
+                        ]
+                    let actual =
+                        matrix [
+                            [5.;100.;6.;2.;0.]
+                            [5.;2.;6.;100.;0.]
+                        ]
+                        |> Matrix.filterCols (fun c -> c |> Seq.contains 100.)
+                    Expect.equal actual expected "Matrix.filterCols did not return correct result"
+            ]            
+            testList "filterCols" [
+
             ]
             testList "toDense" [
                 

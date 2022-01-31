@@ -86,11 +86,11 @@ let BPrint =
 (***hide***)
 let exmp1 =
     A
-    |> Matrix.Generic.enumerateRowWise (Seq.sum)
+    |> Matrix.Generic.mapRows (Seq.sum)
 
 (**Get sum of each row.*)
 A
-|> Matrix.Generic.enumerateRowWise (Seq.sum)
+|> Matrix.Generic.mapRows (Seq.sum)
 
 (*** include-value:exmp1 ***)
 

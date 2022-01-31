@@ -140,61 +140,128 @@ module MultipleTesting =
         //        if arr'.[i] < arr'.[i-1] then
         //            arr'.[i] <- arr'.[i-1]
         //    arr'
-
-
-        /// When used for QValues.ofPValues(Robust) it iterates through the pValues in ascending order and compares their new QValues.
-        /// To do this it compares the QValues in the ascending order of the PValues (QValues are sorted by their related PValues so that the first QValue is the one which is related to the previously smalles PValue). 
-        /// Should the QValue related to the second PValue (QValue.[1]) be smaller the the QValue related to the smallest PValue (QValue.[0]) the later QValue is 
-        /// replaced by the first QValue (QValue.[1] <- (QValue.[0])). Should all following QValues be smaller than that QVal, all will be replaced by it.
-        let private bindBy (objArr:float []) (arr:float[]) =
-            let arr' = Array.copy arr
-            let objArr' = Array.copy objArr
-            let index = Array.init arr.Length id
-            System.Array.Sort(objArr',index)
-            for i=1 to arr'.Length-1 do
-                if arr'.[index.[i]] < arr'.[index.[i-1]] then
-                    arr'.[index.[i]] <- arr'.[index.[i-1]]
-            arr'
                
-
         /// Calculates q-values from given p-values and returns an array of qValues in the same order.
         /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
-        /// See Storey JD (2002) JRSS-B 64: 479-498.
+        /// More robust for small p values when testcount is low, see Storey JD (2002) JRSS-B 64: 479-498.
+        let ofPValuesRobustBy (pi0:float) (projection: 'a -> float) (pValues: 'a []) =
+
+            let pvaluesExt = pValues |> Array.map projection
+
+            // total number of pvalues
+            let m = float pvaluesExt.Length
+                
+            //determines the local FDR for a given p value
+            let getFDR p = 
+                //determines the number of pvalues that are lower or equal than p (number of discoveries)
+                let getD p = 
+                    pvaluesExt 
+                    |> Array.sumBy (fun x -> if x <= p then 1. else 0.) 
+                //determines the number of false positives up to this p value
+                let getFP p = p * pi0 * m
+                (getFP p) / (getD p * (1. - (1. - p)**m))
+                
+            //p values must not be sorted when this function is used. To facilitate the monotonicity smoothing, the indices are stored
+            //before the p values are sorted 
+            let indicesSorted = 
+                pvaluesExt
+                |> Array.indexed
+                |> Seq.sortBy snd 
+                |> Array.ofSeq
+                |> Array.map fst
+                
+            let monotoneQvalues = 
+                //to smoothen the q values the p values must be sorted in descending order. Array.sortDescending corrupts the sorting 
+                //when many identical p values are in the data, therefore Seq is used.
+                let pValsMonotone =
+                    pvaluesExt
+                    |> Seq.sortDescending
+                    |> Array.ofSeq
+                //beginning from the highest p value, the q values are checked and set to the pervious minimum to ensure monotonicity
+                let rec loop i lowest acc  = 
+                    if i = pValsMonotone.Length then 
+                        acc 
+                    else 
+                        let p = pValsMonotone.[i]
+                        let q = getFDR p
+                        if q > lowest then  
+                            loop (i+1) lowest (lowest::acc)
+                        else loop (i+1) q (q::acc)
+                loop 0 1. []
+                
+            //the q values are sorted by the original order of the p value input
+            let sortedQValues = 
+                let tmp = Array.zeroCreate (int m)
+                monotoneQvalues
+                |> List.iteri (fun i x -> 
+                    tmp.[indicesSorted.[i]] <- x
+                    )
+                tmp
+            sortedQValues
+
         let ofPValuesRobust (pi0:float) (pValues: float []) =
-
-            let m  = float pValues.Length
-            let m0 = m * pi0
-            pValues
-            // replaces all values with ints ordered by their size. The smallest value will get 1, 
-            // while the largest value of the arr will get arr.Length as new rank
-            |> Rank.rankFirst
-            |> Array.map float
-            |> Array.mapi (fun i r -> 
-                let qVal = 
-                    let pVal = pValues.[i]
-                    pVal * m0 / (r * (1. - (1. - pVal)**m))
-                min qVal 1.
-                )
-            |> bindBy pValues
-
-
+            ofPValuesRobustBy pi0 id pValues
+            
         /// Calculates q-values from given p-values and returns an array of qValues in the same order.
         /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
-        let ofPValues (pi0:float) (pValues:float[]) =
-
-            let m0 = float pValues.Length * pi0
-            pValues
-            // replaces all values with ints ordered by their size. The smallest value will get 1, 
-            // while the largest value of the arr will get arr.Length as new rank
-            |> Rank.rankFirst
-            |> Array.map float
-            |> Array.mapi (fun i r -> 
-                let qVal = 
-                    let pVal = pValues.[i]
-                    pVal / r * m0 
-                min qVal 1.
-                )            
-            |> bindBy pValues
+        let ofPValuesBy (pi0: float) (projection: 'a -> float) (pValues: 'a []) =
+            let pvaluesExt = pValues |> Array.map projection
+            // total number of pvalues
+            let m = float pvaluesExt.Length
+            
+            //determines the local FDR for a given p value
+            let getFDR p = 
+                //determines the number of pvalues that are lower or equal than p (number of discoveries)
+                let getD p = 
+                    pvaluesExt 
+                    |> Array.sumBy (fun x -> if x <= p then 1. else 0.) 
+                //determines the number of false positives up to this p value
+                let getFP p = p * pi0 * m
+                (getFP p) / (getD p)
+            
+            //p values must not be sorted when this function is used. To facilitate the monotonicity smoothing, the indices are stored
+            //before the p values are sorted 
+            let indicesSorted = 
+                pvaluesExt
+                |> Array.indexed
+                |> Seq.sortBy snd 
+                |> Array.ofSeq
+                |> Array.map fst
+            
+            let monotoneQvalues = 
+                //to smoothen the q values the p values must be sorted in descending order. Array.sortDescending corrupts the sorting 
+                //when many identical p values are in the data, therefore Seq is used.
+                let pValsMonotone =
+                    pvaluesExt
+                    |> Seq.sortDescending
+                    |> Array.ofSeq
+                //beginning from the highest p value, the q values are checked and set to the pervious minimum to ensure monotonicity
+                let rec loop i lowest acc  = 
+                    if i = pValsMonotone.Length then 
+                        acc 
+                    else 
+                        let p = pValsMonotone.[i]
+                        let q = getFDR p
+                        if q > lowest then  
+                            loop (i+1) lowest (lowest::acc)
+                        else loop (i+1) q (q::acc)
+                loop 0 1. []
+            
+            //the q values are sorted by the original order of the p value input
+            let sortedQValues = 
+                let tmp = Array.zeroCreate (int m)
+                monotoneQvalues
+                |> List.iteri (fun i x -> 
+                    tmp.[indicesSorted.[i]] <- x
+                    )
+                tmp
+            sortedQValues
+            
+        
+        /// Calculates q-values from given p-values and returns an array of qValues in the same order.
+        /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+        let ofPValues (pi0: float) (pValues: float[]) =
+            ofPValuesBy pi0 id pValues
 
 
 //        let inline checkNonNull argName arg = 

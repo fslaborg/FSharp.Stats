@@ -3,6 +3,7 @@ module SignalTests
 
 open Expecto
 open FSharp.Stats
+open FSharp.Stats.Signal
 open Signal.Outliers
 
 

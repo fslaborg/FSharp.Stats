@@ -51,8 +51,6 @@ module Spline =
             let xi = xdata.[-2+min r c]
             let xj = xdata.[-2+max r c]
             -((6.*(xj - xm)*(xj*(xj + xm) - 2.*xm*xn + xi*(-3.*xj + xm + 2.*xn)))/((xi - xn)*(-xj + xn)))
-        let det = LinearAlgebra.Determinant BtB
-        if det = 0. then failwith "Can't deal with input data for some reason"
         let Omega = Matrix.init n' n' (fun r c ->
             match min r c <= 1 with
             | true -> 0.
@@ -62,9 +60,8 @@ module Spline =
         let n' = float n'
         fun (lambda: float) ->
             do checkSmoothingParameter lambda
-            let theta = LinearAlgebra.Inverse (BtB + n'*lambda*Omega)
-            let theta = theta * Bt * ydata
-            let helper = Array.zip basis (theta.ToArray())
+            let beta = FSharp.Stats.Algebra.LinearAlgebra.LeastSquares (BtB + n'*lambda*Omega) (Bt * ydata)
+            let helper = Array.zip basis (beta.ToArray())
             /// Our actualy smoothing spline
             fun x -> helper |> Array.sumBy  (fun (f,w) -> w * f x)
        

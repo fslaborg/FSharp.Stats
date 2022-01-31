@@ -2,12 +2,12 @@
 
 (*** condition: prepare ***)
 #r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -60,11 +60,18 @@ let getFitFuncPolynomial xTrain yTrain (xTest:RowVector<float>) order =
     fit
 
 open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
 
-//Some axis styling
-let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let myLogAxis title = Axis.LinearAxis.init(StyleParam.AxisType.Log,Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 let rawchart() = 
     Chart.Point (xV,yV) 
@@ -80,10 +87,9 @@ let chartOrderOpt =
         |> Chart.Line
         |> Chart.withTraceName (sprintf "order=%i" order)
         )
-    |> fun x -> Chart.Combine (rawchart()::x)
+    |> fun x -> Chart.combine (rawchart()::x)
     |> Chart.withTitle "polynomial fits"
-    |> Chart.withX_Axis (myAxis "x")
-    |> Chart.withY_Axis (myAxis "y")
+    |> Chart.withAxisTitles "x" "y"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -123,8 +129,7 @@ let errorPol =
 let chartPol = 
     errorPol 
     |> Chart.Line 
-    |> Chart.withX_Axis (myAxis "polynomial order") 
-    |> Chart.withY_Axis (myLogAxis "mean error" )
+    |> Chart.withAxisTitles "polynomial order" "mean error" 
     |> Chart.withTitle "leave one out cross validation (polynomial)"
     
 let result = sprintf "The minimal error is obtained by order=%i" (errorPol |> Seq.minBy snd |> fst)
@@ -171,9 +176,8 @@ let chartSpline =
         |> Chart.withTraceName (sprintf "l=%.4f" lambda)
         )
     |> fun x -> 
-        Chart.Combine (rawchart()::x)
-    |> Chart.withX_Axis (myAxis "x") 
-    |> Chart.withY_Axis (myAxis "y")
+        Chart.combine (rawchart()::x)
+    |> Chart.withAxisTitles "x" "y"
     |> Chart.withTitle "smoothing splines"
 
 (*** condition: ipynb ***)
@@ -218,8 +222,7 @@ let errorSpline =
 let chartSplineError = 
     errorSpline 
     |> Chart.Line 
-    |> Chart.withX_Axis (myAxis "lambda") 
-    |> Chart.withY_Axis (myAxis "mean error")
+    |> Chart.withAxisTitles "lambda" "mean error"
     |> Chart.withTitle "leave one out cross validation (smoothing spline)"
     
 let resultSpline = sprintf "The minimal error is obtained by lambda=%f" (errorSpline |> Seq.minBy snd |> fst)
@@ -285,8 +288,8 @@ let kfp =
 
     fst errorSplinekf 
     |> Chart.Line 
-    |> Chart.withX_Axis (myAxis "order") 
-    |> Chart.withY_Axis (myLogAxis "mean error")
+    |> Chart.withAxisTitles "order" "mean error"
+    |> Chart.withYAxis(LinearAxis.init(AxisType=AxisType.Log))
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "kfoldPolynomial error"
 
@@ -310,8 +313,7 @@ let kfs =
 
     fst errorSplinekf 
     |> Chart.Line 
-    |> Chart.withX_Axis (myAxis "lambda") 
-    |> Chart.withY_Axis (myAxis "mean error")
+    |> Chart.withAxisTitles "lambda" "mean error"
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "kfoldSpline error"
 
@@ -374,8 +376,8 @@ let sasp =
 
     fst errorSplinekf 
     |> Chart.Line 
-    |> Chart.withX_Axis (myAxis "order") 
-    |> Chart.withY_Axis (myLogAxis "mean error")
+    |> Chart.withAxisTitles "order" "mean error"
+    |> Chart.withYAxis(LinearAxis.init(AxisType=AxisType.Log))
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "shuffle_and_split polynomial error"
 
@@ -399,8 +401,7 @@ let sass =
 
     fst errorSplinekf 
     |> Chart.Line 
-    |> Chart.withX_Axis (myAxis "lambda") 
-    |> Chart.withY_Axis (myAxis "mean error")
+    |> Chart.withAxisTitles "lambda" "mean error"
     |> Chart.withYErrorStyle (snd errorSplinekf)
     |> Chart.withTitle "shuffle_and_split spline error"
 
