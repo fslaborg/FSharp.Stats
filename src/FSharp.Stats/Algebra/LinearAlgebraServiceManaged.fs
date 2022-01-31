@@ -469,6 +469,21 @@ module LinearAlgebraManaged =
             let s = SolveTriangularLinearSystem R.[0..m-1,0..m-1] Qtb false
             Vector.init n (fun i -> if i < m then s.[i] else 0.0)
        
+    
+    let leastSquaresCholesky (A: Matrix<float>) (b: Vector<float>) =
+        // We want to solve AT*A beta = AT * b for beta.
+        // We compute an upper triangular matrix U such that UT * U = AT * A
+        // We then solve UT * gamma = AT * b for gamma (note that UT is lower triangular)
+        // Finally we solve U * beta = gamma
+
+        let AT = Matrix.transpose A
+
+        let upper = (AT * A) |> Cholesky
+        let gamma =
+            SolveTriangularLinearSystem(Matrix.transpose upper) (AT * b) true
+        let beta =
+            SolveTriangularLinearSystem upper gamma false
+        beta
 
     /// computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
     let hatMatrix (designMatrix: Matrix<float>) = 

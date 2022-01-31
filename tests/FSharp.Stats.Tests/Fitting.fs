@@ -3,6 +3,7 @@ module FittingTests
 open Expecto
 
 open FSharp.Stats
+open FSharp.Stats.Fitting
 open FSharp.Stats.Fitting.NonLinearRegression
 
 let compareSeq (a:seq<float>) (b:seq<float>) (str:string) =
@@ -26,6 +27,33 @@ let nonLinearRegressionTests =
             Expect.floatClose Accuracy.low coefficientsNS.[3] expectedCoefficients.[3] "Coefficient should be equal (double precision)"
     ]
 
+[<Tests>]
+let leastSquaresCholeskyTests = 
+    // Create random input 
+    let normal = Distributions.Continuous.normal 0.0 1.0
+    let n = 100
+    let xs = Array.init n (fun _ -> normal.Sample())
+    let us = Array.init n (fun _ -> 0.5 * normal.Sample())
+    let xVector = vector xs
+    let yVector = vector (Array.map (fun x -> 3.0 + 2.0 * x) xs)
+    let yData = vector (Array.map2 (fun x u -> 3.0 + 2.0 * x + u) xs us)
+    let xData = Matrix.ofJaggedArray (Array.zip xs us |> Array.map (fun (a,b) -> [|a;b|]))
+
+    testList "Least Squares with Cholesky" [
+        testCase "Univariable Regression" (fun () ->
+            let expectedCoefficients = [3.; 2.]
+            let coeffcientsCholesky = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficientCholesky (vector xs) yVector
+            Expect.floatClose Accuracy.low coeffcientsCholesky.[0] expectedCoefficients.[0] "Coefficient should be equal"
+            Expect.floatClose Accuracy.low coeffcientsCholesky.[1] expectedCoefficients.[1] "Coefficient should be equal"
+        )
+        testCase "Multivariable Regression" (fun () ->
+            let expectedCoefficients = [3.; 2.; 1.]
+            let coeffcientsCholesky = LinearRegression.OrdinaryLeastSquares.Linear.Multivariable.coefficientsCholesky xData yData
+            Expect.floatClose Accuracy.low coeffcientsCholesky.[0] expectedCoefficients.[0] "Coefficient should be equal"
+            Expect.floatClose Accuracy.low coeffcientsCholesky.[1] expectedCoefficients.[1] "Coefficient should be equal"
+            Expect.floatClose Accuracy.low coeffcientsCholesky.[2] expectedCoefficients.[2] "Coefficient should be equal"
+        )
+    ]
 open FSharp.Stats.Fitting.Spline
 [<Tests>]
 let splineTests = 

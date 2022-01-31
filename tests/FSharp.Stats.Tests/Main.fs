@@ -52,5 +52,6 @@ let main argv =
 
     //================================== Fitting ============================================================
     Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests      |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.leastSquaresCholeskyTests    |> ignore
     Tests.runTestsWithCLIArgs [] argv FittingTests.splineTests      |> ignore
     0

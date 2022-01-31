@@ -73,13 +73,24 @@ module LinearRegression =
                     let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else xData.[m] )
                     Algebra.LinearAlgebra.LeastSquares X yData
 
+                /// Calculates the coefficients for linear regression
+                /// in the form of [|intercept; slope;|] using Cholesky Decomposition
+                let coefficientCholesky (xData: Vector<float>) (yData: Vector<float>) =
+                    if xData.NumRows <> yData.Length then
+                        raise (System.ArgumentException("vector x and y have to be the same size!"))
+
+                    let X =
+                        Matrix.init (xData.Length) 2 (fun i j -> if j = 0 then 1.0 else xData.[i])
+
+                    Algebra.LinearAlgebra.LeastSquaresCholesky X yData
+
                 /// Calculates the coefficients for linear regression through a specified point (xC,yC) 
                 let coefficientConstrained (xData : Vector<float>) (yData : Vector<float>) ((xC,yC): float*float) =
                     let xTransformed = xData |> Vector.map (fun x -> x - xC)
                     let yTransformed = yData |> Vector.map (fun y -> y - yC)
                     let slope = RTO.coefficientOfVector xTransformed yTransformed
                     [|- xC * slope - yC;slope|]
-
+                
                 /// Fit to x
                 let fit (coef : Vector<float>) (x:float) =
                     if coef.Length <> 2 then
@@ -116,7 +127,19 @@ module LinearRegression =
                     let n = xData.NumCols
                     let X = Matrix.init m (n+1) (fun m n ->  if n = 0 then 1. else xData.[m,n-1] )
                     Algebra.LinearAlgebra.LeastSquares X yData
-                    
+
+                /// Calculates the coefficients for linear regression
+                /// in the form of [|intercept; slope;|] using Cholesky Decomposition
+                let coefficientsCholesky (xData: Matrix<float>) (yData: Vector<float>) =
+                    if xData.NumRows <> yData.Length then
+                        raise (System.ArgumentException("vector x and y have to be the same size!"))
+
+                    let X =
+                        Matrix.init (xData.NumRows) (xData.NumCols + 1) 
+                            (fun i j -> if j = 0 then 1.0 else xData.[i, j - 1])
+
+                    Algebra.LinearAlgebra.LeastSquaresCholesky X yData
+
                 /// Fit to x
                 let fit (coef : Vector<float>) (x:Vector<float>) =
                     let tmp :Vector<float> = Vector.init (x.Length+1) (fun i -> if i = 0 then 1. else x.[i-1])
