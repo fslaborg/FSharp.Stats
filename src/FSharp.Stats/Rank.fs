@@ -20,7 +20,7 @@ module Rank =
 
         let rec loop i pi =
             if i < data.Length then
-                if (abs (data'.[i] - data'.[pi]) <= zero) then
+                if (abs (data'.[i] - data'.[pi]) = zero) then
                     loop (i+1) pi
                 else
                     if (i = pi + 1) then
@@ -45,15 +45,15 @@ module Rank =
 
     /// Ranks each entry of the given unsorted data array.
     /// Permutation with increasing values at each index of ties.
-    let inline rankFirst (data:array<_>) =        
+    let inline rankFirst (data:array<_>) =
         //let ranks  = Array.copy data
         let data' = Array.copy data
-        let ranks  = Array.create data.Length 0
-        let index = Array.init data.Length id     
+        let ranks  = Array.create data.Length 0.
+        let index = Array.init data.Length id
         System.Array.Sort(data',index)
 
         for i=0 to ranks.Length-1 do
-            ranks.[index.[i]] <- (i + 1)    
+            ranks.[index.[i]] <- float (i + 1)
 
         ranks
 
@@ -76,5 +76,5 @@ module Rank =
     /// Ranks each entry of the given unsorted data array.
     /// Ties are replaced by their mean
     let inline rankAverage (data:array<_>) =    
-        let averageTies a b = float (a + b + 1) / 2.
+        let averageTies a b = float (a + b + 1) / 2.//([(a + 1) .. b] |> List.sum) / float (b - a)
         rank averageTies float data
