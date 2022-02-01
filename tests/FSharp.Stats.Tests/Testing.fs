@@ -350,7 +350,7 @@ let benjaminiHochbergTests =
 
 [<Tests>]
 let dunnSidakTest =
-    // taken from: https://www.real-statistics.com/hypothesis-testing/familywise-error/bonferroni-and-dunn-sidak-tests/
+    // taken from: https://web.archive.org/web/20200723122809/https://www.real-statistics.com/hypothesis-testing/familywise-error/bonferroni-and-dunn-sidak-tests/
     let testPvalues = [0.01208; 0.00356; 0.11542; 0.02155; 0.03329; 0.01042]
     let testAlpha1 = 0.05
     let testAlpha2 = 0.01
