@@ -16,6 +16,9 @@
     <Compile Include="Matrix.fs" />
     <Compile Include="RowVector.fs" />
     <Compile Include="ML.fs" />
+    <Compile Include="Array.fs" />
+    <Compile Include="Seq.fs" />
+    <Compile Include="List.fs" />
     <Compile Include="Signal.fs" />
     <Compile Include="SpecialFunctions.fs" />
     <Compile Include="Testing.fs" />
@@ -26,10 +29,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <EmbeddedResource Include="data/benjaminiHochberg_Input.csv" CopyToOutputDirectory="PreserveNewest"/>
-    <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR.csv" CopyToOutputDirectory="PreserveNewest"/>
-    <EmbeddedResource Include="data/qvaluesWithR.csv" CopyToOutputDirectory="PreserveNewest"/>
-    <EmbeddedResource Include="data/qvaluesRobustWithR.csv" CopyToOutputDirectory="PreserveNewest"/>
+    <EmbeddedResource Include="data/benjaminiHochberg_Input.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/qvaluesWithR.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/qvaluesRobustWithR.csv" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup />

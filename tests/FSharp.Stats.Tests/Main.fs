@@ -16,8 +16,19 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.gammaFunctionsTests |> ignore
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.betaFunctionsTests  |> ignore
     
-    //================================ Algebra ===============================================================
+    //================================ Algebra ==============================================================
     Tests.runTestsWithCLIArgs [] argv LinearAlgebraTests.managedSVDTests   |> ignore
+
+    //================================== List ===============================================================
+    Tests.runTestsWithCLIArgs [] argv ListTests.medianTests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv ListTests.meanTests   |> ignore
+
+    //================================== Array ==============================================================
+    Tests.runTestsWithCLIArgs [] argv ArrayTests.medianTests   |> ignore
+
+    //================================= Seq ==============================================================
+    Tests.runTestsWithCLIArgs [] argv SeqTests.medianTests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv SeqTests.meanTests   |> ignore
 
     //============================= Distributions ===========================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.distanceFunctionsTests |> ignore
