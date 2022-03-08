@@ -1,3 +1,11 @@
+### 0.4.4+30d2f800 (Released 2022-3-8)
+* Additions:
+    * latest commit #30d2f800
+    * [[#30d2f800](https://github.com/fslaborg/FSharp.Stats/commit/30d2f8003f5a1c8741657dae40c16f8d658788ef)] update FSharpAux version
+    * [[#162](https://github.com/fslaborg/FSharp.Stats/issues/162)] add LeastSquaresCholesky
+    * [[#165](https://github.com/fslaborg/FSharp.Stats/issues/165)] remove Complex module
+    * [[#184](https://github.com/fslaborg/FSharp.Stats/issues/184)] update List.median output
+
 ### 0.4.3+d424857 (Released 2022-1-19)
 * Additions:
     * latest commit #d424857
