@@ -150,8 +150,8 @@
     <Content Include="../../lib/*.dll" PackagePath="netlib_LAPACK"></Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharpAux" Version="1.0.0" />
-    <PackageReference Include="FSharpAux.IO" Version="1.0.0" />
+    <PackageReference Include="FSharpAux" Version="1.1.0" />
+    <PackageReference Include="FSharpAux.IO" Version="1.1.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>
