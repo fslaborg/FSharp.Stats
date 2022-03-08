@@ -1,6 +1,6 @@
 ![](docs/img/logo_title.svg)
 
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6337056.svg)](https://doi.org/10.5281/zenodo.6337056)
 [![Discord](https://img.shields.io/discord/836161044501889064?color=purple&label=Join%20our%20Discord%21&logo=discord&logoColor=white)](https://discord.gg/y95XRJg23e)
 [![Generic badge](https://img.shields.io/badge/Made%20with-FSharp-rgb(1,143,204).svg)](https://shields.io/)
 ![GitHub contributors](https://img.shields.io/github/contributors/CSBiology/FSharp.Stats)
