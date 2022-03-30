@@ -22,20 +22,29 @@ FSharp.Stats is a multipurpose project for statistical testing, linear algebra, 
 
 
 
-Documentation
--------------
+## Documentation
 
 Indepth explanations, tutorials and general information about the project can be found [here](https://fslab.org/FSharp.Stats) or at [fslab](https://fslab.org/).
 The documentation and tutorials for this library are automatically generated (using the F# Formatting) from *.fsx and *.md files in the docs folder. If you find a typo, please submit a pull request!
 
 
-Contributing
-------------
+## Contributing
 
 Please refer to the [Contribution guidelines](.github/CONTRIBUTING.md).
 
+## Development
 
-Library license
----------------
+to build the project, run either `build.cmd` or `build.sh` depending on your OS.
+
+build targets are defined in the modules of /build/build.fsproj. 
+
+Some interesting targets may be:
+
+`./build.cmd runtests` will build the project and run tests
+`./build.cmd watchdocs` will build the project, run tests, and build and host a local version of the documentation.
+`./build.cmd release` will start the full release pipeline.
+
+
+## Library license
 
 The library is available under Apache 2.0. For more information see the License file in the GitHub repository.
