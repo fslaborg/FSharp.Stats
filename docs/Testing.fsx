@@ -1,7 +1,8 @@
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
+#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
