@@ -386,3 +386,85 @@ let qValuesTest =
         )
 
     ]
+
+[<Tests>]
+let confusionMatrixTests =
+                    
+    let truth       = [ 1;  1;  1;  1;  0;  0;  0 ] 
+    let predictions = [ 1;  1;  1;  0;  0;  0;  1 ]
+
+    //                 TP; TP; TP; FN; TN; TN, FP
+    //              | Predicted |
+    //              |  P  |  N  |
+    // | Actual | P |  3  |  1  |
+    //          | N |  1  |  2  |
+
+    let p  = 4.
+    let n  = 3.
+    let tp = 3.
+    let tn = 2.
+    let fp = 1.
+    let fn = 1.
+
+    // values calculated by formulas at https://en.wikipedia.org/wiki/Confusion_matrix
+    let sensitivity = 0.75
+    let specificity = 0.6666666667
+    let precision = 0.75
+    let negativePredictiveValue = 0.6666666667
+    let missrate = 0.25
+    let fallOut = 0.3333333333
+    let falseDiscoveryRate = 0.25
+    let falseOmissionRate = 0.3333333333
+    let positiveLikelihoodRatio = sensitivity / fallOut
+    let negativeLikelihoodRatio = missrate / specificity
+    let prevalenceThreshold = sqrt(fallOut) / (sqrt(sensitivity) + sqrt(fallOut))
+    let threatScore = 0.6
+    let prevalence = 0.5714285714
+    let accuracy = 0.7142857143
+    let balancedAccuracy = (sensitivity + specificity) / 2.
+    let f1 = 0.75
+    let phiCoefficient = 0.4166666667
+    let fowlkesMallowsIndex = 0.75
+    let informedness = 0.4166666667
+    let markedness = 0.4166666667
+    let diagnosticOddsRatio = positiveLikelihoodRatio / negativeLikelihoodRatio
+
+
+    let binaryCM = BinaryConfusionMatrix(1,truth,predictions)
+
+    let createMetricTestInt metricName actual expected = testCase metricName (fun () -> Expect.equal actual expected (sprintf "Metric %s was calculated incorrectly." metricName))
+    let createMetricTestFloat accuracy metricName actual expected = testCase metricName (fun () -> Expect.floatClose accuracy actual expected (sprintf "Metric %s was calculated incorrectly." metricName))
+
+    testList "Testing.ConfusionMatrix" [
+        testList "Binary" [
+            createMetricTestInt "TruePositives" binaryCM.TP 3
+            createMetricTestInt "TrueNegatives" binaryCM.TN 2
+            createMetricTestInt "FalsePositives" binaryCM.FP 1
+            createMetricTestInt "FalseNegatives" binaryCM.FN 1
+            createMetricTestInt "Positves" binaryCM.P 4
+            createMetricTestInt "Negatives" binaryCM.N 3
+            createMetricTestInt "Total" binaryCM.SampleSize 7
+
+            createMetricTestFloat Accuracy.veryHigh "Sensitivity" binaryCM.Sensitivity sensitivity
+            createMetricTestFloat Accuracy.veryHigh "Specificity" binaryCM.Specificity specificity
+            createMetricTestFloat Accuracy.veryHigh "Precision" binaryCM.Precision precision
+            createMetricTestFloat Accuracy.veryHigh "NegativePredictiveValue" binaryCM.NegativePredictiveValue negativePredictiveValue
+            createMetricTestFloat Accuracy.veryHigh "Missrate" binaryCM.Missrate missrate 
+            createMetricTestFloat Accuracy.veryHigh "FallOut" binaryCM.FallOut fallOut
+            createMetricTestFloat Accuracy.veryHigh "FalseDiscoveryRate" binaryCM.FalseDiscoveryRate falseDiscoveryRate
+            createMetricTestFloat Accuracy.veryHigh "FalseOmissionRate" binaryCM.FalseOmissionRate falseOmissionRate
+            createMetricTestFloat Accuracy.veryHigh "PositiveLikelihoodRatio" binaryCM.PositiveLikelihoodRatio positiveLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "NegativeLikelihoodRatio" binaryCM.NegativeLikelihoodRatio negativeLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "PrevalenceThreshold" binaryCM.PrevalenceThreshold prevalenceThreshold
+            createMetricTestFloat Accuracy.veryHigh "ThreatScore" binaryCM.ThreatScore threatScore
+            createMetricTestFloat Accuracy.veryHigh "Prevalence" binaryCM.Prevalence prevalence
+            createMetricTestFloat Accuracy.veryHigh "Accuracy" binaryCM.Accuracy accuracy
+            createMetricTestFloat Accuracy.veryHigh "BalancedAccuracy" binaryCM.BalancedAccuracy balancedAccuracy
+            createMetricTestFloat Accuracy.veryHigh "F1" binaryCM.F1 f1
+            createMetricTestFloat Accuracy.veryHigh "PhiCoefficient" binaryCM.PhiCoefficient phiCoefficient
+            createMetricTestFloat Accuracy.veryHigh "FowlkesMallowsIndex" binaryCM.FowlkesMallowsIndex fowlkesMallowsIndex
+            createMetricTestFloat Accuracy.veryHigh "Informedness" binaryCM.Informedness informedness
+            createMetricTestFloat Accuracy.veryHigh "Markedness" binaryCM.Markedness markedness
+            createMetricTestFloat Accuracy.veryHigh "DiagnosticOddsRatio" binaryCM.DiagnosticOddsRatio diagnosticOddsRatio
+        ]
+    ]

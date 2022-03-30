@@ -108,6 +108,7 @@
     <!-- Testing -->
     <Compile Include="Testing\Tables.fs" />
     <Compile Include="Testing\TestStatistics.fs" />
+    <Compile Include="Testing\ConfusionMatrix.fs" />
     <Compile Include="Testing\Anova.fs" />
     <Compile Include="Testing\Correlation.fs" />
     <Compile Include="Testing\TTest.fs" />
