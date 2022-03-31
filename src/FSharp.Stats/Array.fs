@@ -21,7 +21,7 @@ module Array =
 
 
     // Swaps items of left and right index
-    let swapInPlace left right (items:array<'T>) =
+    let inline swapInPlace left right (items:array<'T>) =
         let tmp = items.[left]
         items.[left]  <- items.[right]
         items.[right] <- tmp
@@ -50,7 +50,7 @@ module Array =
                     if isNan v then   // true if nan
                         loop (~~~j) right // break beacause nan                    
                     else
-                        if (v <= pivot) then        
+                        if (v <= pivot) then
                             let i' = i + 1
                             swapInPlace i' j items            
                             loop i' (j+1)
@@ -68,24 +68,25 @@ module Array =
 
     /// Finds the kth smallest element in an unordered array (note that k is ONE-based)
     /// Works in place and can change the order of the elements in the input array
-    let rec quickSelectInPlaceWith left right k (arr:array<'T>) : 'T =  
-
-        if ( left = right ) then
-            arr.[left]
-        else
-            let pivotIndex = partitionSortInPlace left right arr
-            if pivotIndex < 0 then
-                arr.[~~~pivotIndex]             
+    let inline quickSelectInPlaceWith left right k (arr:array<'T>) : 'T =  
+        let rec loop left right k (arr:array<'T>) : 'T =
+            if ( left = right ) then
+                arr.[left]
             else
-                let length = pivotIndex - left + 1
-                if ( length = k) then
-                    arr.[pivotIndex]
-                else 
-                    if ( k < length ) then
-                        quickSelectInPlaceWith left (pivotIndex - 1) k arr
+                let pivotIndex = partitionSortInPlace left right arr
+                if pivotIndex < 0 then
+                    arr.[~~~pivotIndex]             
+                else
+                    let length = pivotIndex - left + 1
+                    if ( length = k) then
+                        arr.[pivotIndex]
                     else 
-                        quickSelectInPlaceWith (pivotIndex + 1) right (k - length) arr
-   
+                        if ( k < length ) then
+                            loop left (pivotIndex - 1) k arr
+                        else 
+                            loop (pivotIndex + 1) right (k - length) arr
+        loop left right k arr
+
 
     /// Finds the kth smallest element in an unordered array (note that k is ONE-based)
     /// Works in place and can change the order of the elements in the input array

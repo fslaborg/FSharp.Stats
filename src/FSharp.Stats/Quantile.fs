@@ -136,7 +136,7 @@ module Quantile =
     /// ! Input needs to be sorted
     module OfSorted =
 
-        
+        /// ! Input needs to be sorted !
         /// Estimates the q-th quantile from the unsorted data array. (in place)
         /// Approximately median-unbiased regardless of the sample distribution.
         let compute q (data:array<_>) =
@@ -251,7 +251,8 @@ module Quantile =
 
     /// Estimates the q-th quantile from the unsorted data array.
     /// Approximately median-unbiased regardless of the sample distribution.
-    let compute q (data:array<_>) =
+    /// NOTE: If duplicates exist 'Quantile.OfSorted.compute' is much faster!
+    let inline compute q (data:array<_>) =
         
         let h  = ((float data.Length + 1./3.)*q + 1./3.)
         let h' = h |> int
