@@ -137,7 +137,7 @@ module Quantile =
     module OfSorted =
 
         /// ! Input needs to be sorted !
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         /// Approximately median-unbiased regardless of the sample distribution.
         let compute q (data:array<_>) =
         
@@ -156,7 +156,7 @@ module Quantile =
                 a + (h - float h') * (b - a);    
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let empiricalInvCdf q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q + 0.5
@@ -165,7 +165,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let empiricalInvCdfAverage q (data:array<_>) =
 
             let f q (data:array<_>) =
@@ -177,7 +177,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let nearest q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q
@@ -186,7 +186,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let california q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float data.Length * q
@@ -198,7 +198,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let hazen q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float data.Length * q + 0.5
@@ -210,7 +210,7 @@ module Quantile =
             quantileHelper f q data        
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let nist q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float (data.Length+1) * q
@@ -222,7 +222,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let mode q (data:array<_>) =
             let f q (data:array<_>) =                
                 let h  = float (data.Length-1) * q + 1.
@@ -234,7 +234,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let normal q (data:array<_>) =
             let f q (data:array<'a>) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
