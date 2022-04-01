@@ -24,11 +24,6 @@ type BinaryConfusionMatrix = {
         actual: seq<'A>,
         predictions: seq<'A>
     ) =
-        // use mutable variables here so we do not have to iterate through the input multiple times
-        let mutable tp = 0.
-        let mutable tn = 0.
-        let mutable fp = 0.
-        let mutable fn = 0.
 
         let isPositiveLabel x = x = positiveLabel
 
@@ -80,14 +75,21 @@ type MultiLabelConfusionMatrix = {
             )
 
         MultiLabelConfusionMatrix.create(labels |> Array.map string, confusion)
+    
+    static member oneVsRest (label: string) (mlcm: MultiLabelConfusionMatrix) =
 
-    static member oneVsRest (mlcm: MultiLabelConfusionMatrix) =
+        let labelIndex = Array.findIndex (fun x -> x = label) mlcm.Labels
 
-        mlcm.Labels
-        |> Array.mapi (fun labelIndex label ->
-            let tp = mlcm.Confusion[labelIndex,labelIndex]
-            let tn = mlcm.Confusion |> Matrix.Generic.foldi (fun rI cI acc elem -> if rI = labelIndex || cI = labelIndex then acc else acc + elem) 0
-            let fp = mlcm.Confusion.Column(labelIndex) |> Seq.foldi (fun rI acc elem -> if rI = labelIndex then acc else acc + elem) 0
-            let fn = mlcm.Confusion.Row(labelIndex) |> Seq.foldi (fun cI acc elem -> if cI = labelIndex then acc else acc + elem) 0
-            label, BinaryConfusionMatrix.create(tp, tn, fp, fn)
-        )
+        mlcm.Confusion 
+        |> Matrix.Generic.foldi (
+            fun rI cI cm elem -> 
+                match (rI, cI) with
+                | (rI, cI) when rI = labelIndex && cI = labelIndex -> {cm with TP = cm.TP + elem}
+                | (rI, cI) when rI = labelIndex && cI <> labelIndex -> {cm with FP = cm.FP + elem}
+                | (rI, cI) when rI <> labelIndex && cI = labelIndex -> {cm with FN = cm.FN + elem}
+                | _ ->   {cm with TN = cm.TN + elem}
+
+        ) (BinaryConfusionMatrix.create(0,0,0,0))
+
+    static member allVsAll (mlcm: MultiLabelConfusionMatrix) =
+        mlcm.Labels |> Array.map (fun label -> label, MultiLabelConfusionMatrix.oneVsRest label mlcm)

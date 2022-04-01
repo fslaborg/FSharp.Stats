@@ -387,51 +387,29 @@ let qValuesTest =
 
     ]
 
-// binary classification metrics
-//              | Predicted |
-//              |  P  |  N  |
-// | Actual | P |  3  |  1  |
-//          | N |  1  |  2  |
-
-let p  = 4.
-let n  = 3.
-let tp = 3.
-let tn = 2.
-let fp = 1.
-let fn = 1.
-
-// values calculated by formulas at https://en.wikipedia.org/wiki/Confusion_matrix
-let sensitivity = 0.75
-let specificity = 0.6666666667
-let precision = 0.75
-let negativePredictiveValue = 0.6666666667
-let missrate = 0.25
-let fallOut = 0.3333333333
-let falseDiscoveryRate = 0.25
-let falseOmissionRate = 0.3333333333
-let positiveLikelihoodRatio = sensitivity / fallOut
-let negativeLikelihoodRatio = missrate / specificity
-let prevalenceThreshold = sqrt(fallOut) / (sqrt(sensitivity) + sqrt(fallOut))
-let threatScore = 0.6
-let prevalence = 0.5714285714
-let accuracy = 0.7142857143
-let balancedAccuracy = (sensitivity + specificity) / 2.
-let f1 = 0.75
-let phiCoefficient = 0.4166666667
-let fowlkesMallowsIndex = 0.75
-let informedness = 0.4166666667
-let markedness = 0.4166666667
-let diagnosticOddsRatio = positiveLikelihoodRatio / negativeLikelihoodRatio
 
 let createMetricTestInt metricName actual expected = testCase metricName (fun () -> Expect.equal actual expected (sprintf "Metric %s was calculated incorrectly." metricName))
 let createMetricTestFloat accuracy metricName actual expected = testCase metricName (fun () -> Expect.floatClose accuracy actual expected (sprintf "Metric %s was calculated incorrectly." metricName))
 
 [<Tests>]
-let confusionMatrixTests =
+let binaryConfusionMatrixTests =
+
+    // binary classification
+    //              | Predicted |
+    //              |  P  |  N  |
+    // | Actual | P |  3  |  1  |
+    //          | N |  1  |  2  |
+    
+    let p  = 4.
+    let n  = 3.
+    let tp = 3.
+    let tn = 2.
+    let fp = 1.
+    let fn = 1.
 
     let binaryCM = BinaryConfusionMatrix.create(int tp,int tn,int fp,int fn)
 
-    testList "Testing.ConfusionMatrix" [
+    testList "Testing.BinaryConfusionMatrix" [
         testList "Binary" [
             createMetricTestInt "TruePositives" binaryCM.TP 3
             createMetricTestInt "TrueNegatives" binaryCM.TN 2
@@ -442,8 +420,33 @@ let confusionMatrixTests =
 
 [<Tests>]
 let comparisonmetricsTests =
-    let binaryCM = BinaryConfusionMatrix.create(int tp,int tn,int fp,int fn)
-    let cm = ComparisonMetrics(binaryCM)
+
+    // values calculated by formulas at https://en.wikipedia.org/wiki/Confusion_matrix
+    let sensitivity = 0.75
+    let specificity = 0.6666666667
+    let precision = 0.75
+    let negativePredictiveValue = 0.6666666667
+    let missrate = 0.25
+    let fallOut = 0.3333333333
+    let falseDiscoveryRate = 0.25
+    let falseOmissionRate = 0.3333333333
+    let positiveLikelihoodRatio = sensitivity / fallOut
+    let negativeLikelihoodRatio = missrate / specificity
+    let prevalenceThreshold = sqrt(fallOut) / (sqrt(sensitivity) + sqrt(fallOut))
+    let threatScore = 0.6
+    let prevalence = 0.5714285714
+    let accuracy = 0.7142857143
+    let balancedAccuracy = (sensitivity + specificity) / 2.
+    let f1 = 0.75
+    let phiCoefficient = 0.4166666667
+    let fowlkesMallowsIndex = 0.75
+    let informedness = 0.4166666667
+    let markedness = 0.4166666667
+    let diagnosticOddsRatio = positiveLikelihoodRatio / negativeLikelihoodRatio
+
+    let binaryCM = BinaryConfusionMatrix.create(3,2,1,1)
+    let cm = ComparisonMetrics.create(binaryCM)
+
     testList "Testing.ComparisonMetrics" [
         testList "Binary" [
             createMetricTestInt "TruePositives" cm.TP 3
@@ -477,3 +480,4 @@ let comparisonmetricsTests =
             createMetricTestFloat Accuracy.veryHigh "DiagnosticOddsRatio" cm.DiagnosticOddsRatio diagnosticOddsRatio
         ]
     ]
+
