@@ -122,32 +122,53 @@ type ComparisonMetrics = {
 
         }
 
+    /// calculates the sensitivity, recall, hit rate, or true positive rate (TPR)
+    static member calculateSensitivity (tp: float) (p: float) = tp / p
+    /// calculates the specificity, selectivity or true negative rate (TNR)
+    static member calculateSpecificity (tn: float) (n: float) = tn / n
+    /// calculates the precision or positive predictive value (PPV)
+    static member calculatePrecision (tp: float) (fp: float) = tp / (tp + fp)
+    /// calculates the negative predictive value (NPV)
+    static member calculateNegativePredictiveValue (tn: float) (fn: float) = tn / (tn + fn)
+    /// calculates the miss rate or false negative rate (FNR)
+    static member calculateMissrate (fn: float) (p: float) = fn / p
+    /// calculates the fall-out or false positive rate (FPR)
+    static member calculateFallOut (fp: float) (n: float) = fp / n
+    /// calculates the false discovery rate (FDR)
+    static member calculateFalseDiscoveryRate (fp: float) (tp: float) = fp / (fp + tp)
+    /// calculates the false omission rate (FOR)
+    static member calculateFalseOmissionRate (fn: float) (tn: float) = fn / (fn + tn)
+    /// calculates the Positive likelihood ratio (LR+)
+    static member calculatePositiveLikelihoodRatio (tp: float) (p: float) (fp: float) (n: float) = ComparisonMetrics.calculateSensitivity tp p / ComparisonMetrics.calculateFallOut fp n
+    /// calculates the Negative likelihood ratio (LR-)
+    static member calculateNegativeLikelihoodRatio (fn: float) (p: float) (tn: float) (n: float) = ComparisonMetrics.calculateMissrate fn p / ComparisonMetrics.calculateSpecificity tn n
+    /// calculates the prevalence threshold (PT)
+    static member calculatePrevalenceThreshold (fp: float) (n: float) (tp: float) (p: float) = (sqrt (ComparisonMetrics.calculateFallOut fp n))  / ((sqrt (ComparisonMetrics.calculateSensitivity tp p)) + (sqrt (ComparisonMetrics.calculateFallOut fp n)))
+    /// calculates the threat score (TS) or critical success index (CSI)
+    static member calculateThreatScore (tp: float) (fn: float) (fp: float) = tp / (tp + fn + fp)
+    /// calculates the Prevalence
+    static member calculatePrevalence (p: float) (samplesize: float) = p / samplesize
+    /// calculates the accuracy (ACC)
+    static member calculateAccuracy (tp: float) (tn: float) (samplesize: float) = (tp + tn) / samplesize
+    /// calculates the balanced accuracy (BA)
+    static member calculateBalancedAccuracy (tp: float) (p: float) (tn: float) (n: float)= (ComparisonMetrics.calculateSensitivity tp p + ComparisonMetrics.calculateSpecificity tn n) / 2.
+    /// calculates the F1 score (harmonic mean of precision and sensitivity)
+    static member calculateF1 (tp: float) (fp: float) (fn: float) = (2. * tp) / ((2. * tp) + fp + fn)
+    /// calculates the phi coefficient (φ or rφ) or Matthews correlation coefficient (MCC)
+    static member calculatePhiCoefficient (tp: float) (tn: float) (fp: float) (fn: float) = ((tp*tn) - (fp * fn)) / (sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)))
+    /// calculates the Fowlkes–Mallows index (FM)
+    static member calculateFowlkesMallowsIndex (tp: float) (fp: float) (p: float) = sqrt((ComparisonMetrics.calculatePrecision tp fp) * (ComparisonMetrics.calculateSensitivity tp p))
+    /// calculates the informedness or bookmaker informedness (BM)
+    static member calculateInformedness (tp: float) (p: float) (tn: float) (n: float) = ComparisonMetrics.calculateSensitivity tp p + ComparisonMetrics.calculateSpecificity tn n - 1.
+    /// calculates the markedness (MK) or deltaP (Δp)
+    static member calculateMarkedness (tp: float) (fp: float) (tn: float) (fn: float) = ComparisonMetrics.calculatePrecision tp fp + ComparisonMetrics.calculateNegativePredictiveValue tn fn - 1.
+    /// calculates the Diagnostic odds ratio (DOR)
+    static member calculateDiagnosticOddsRatio (tp: float) (tn: float) (fp: float) (fn: float) (p: float) (n: float) = ComparisonMetrics.calculatePositiveLikelihoodRatio tp p fp n / ComparisonMetrics.calculateNegativeLikelihoodRatio fn p tn n
+
     static member create (tp: float, tn: float, fp: float, fn: float) =
         let p = tp + fn
         let n = tn + fp
         let samplesize = p + n
-
-        let sensitivity = tp / p
-        let specificity = tn / n
-        let precision = tp / (tp + fp)
-        let negativepredictivevalue = tn / (tn + fn)
-        let missrate = fn / p
-        let fallout = fp / n
-        let falsediscoveryrate = fp / (fp + tp)
-        let falseomissionrate = fn / (fn + tn)
-        let positivelikelihoodratio = sensitivity / fallout
-        let negativelikelihoodratio = missrate / specificity
-        let prevalencethreshold = (sqrt fallout)  / ((sqrt sensitivity) + (sqrt fallout))
-        let threatscore = tp / (tp + fn + fp)
-        let prevalence = p / float samplesize
-        let accuracy = (tp + tn) / float samplesize
-        let balancedaccuracy = (sensitivity + specificity) / 2.
-        let f1 = (2. * tp) / ((2. * tp) + fp + fn)
-        let phicoefficient = ((tp*tn) - (fp * fn)) / (sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)))
-        let fowlkesmallowsindex = sqrt(precision * sensitivity)
-        let informedness = sensitivity + specificity - 1.
-        let markedness = precision + negativepredictivevalue - 1.
-        let diagnosticoddsratio = positivelikelihoodratio / negativelikelihoodratio
 
         ComparisonMetrics.create(
             p,
@@ -157,27 +178,27 @@ type ComparisonMetrics = {
             tn,
             fp,
             fn,
-            sensitivity,
-            specificity,
-            precision,
-            negativepredictivevalue,
-            missrate,
-            fallout,
-            falsediscoveryrate,
-            falseomissionrate,
-            positivelikelihoodratio,
-            negativelikelihoodratio,
-            prevalencethreshold,
-            threatscore,
-            prevalence,
-            accuracy,
-            balancedaccuracy,
-            f1,
-            phicoefficient,
-            fowlkesmallowsindex,
-            informedness,
-            markedness,
-            diagnosticoddsratio
+            ComparisonMetrics.calculateSensitivity tp p,
+            ComparisonMetrics.calculateSpecificity tn n,
+            ComparisonMetrics.calculatePrecision tp fp,
+            ComparisonMetrics.calculateNegativePredictiveValue tn fn,
+            ComparisonMetrics.calculateMissrate fn p,
+            ComparisonMetrics.calculateFallOut fp n,
+            ComparisonMetrics.calculateFalseDiscoveryRate fp tp,
+            ComparisonMetrics.calculateFalseOmissionRate fn tn,
+            ComparisonMetrics.calculatePositiveLikelihoodRatio tp p fp n,
+            ComparisonMetrics.calculateNegativeLikelihoodRatio fn p tn n,
+            ComparisonMetrics.calculatePrevalenceThreshold fp n tp p,
+            ComparisonMetrics.calculateThreatScore tp fn fp,
+            ComparisonMetrics.calculatePrevalence p samplesize,
+            ComparisonMetrics.calculateAccuracy tp tn samplesize,
+            ComparisonMetrics.calculateBalancedAccuracy tp p tn n,
+            ComparisonMetrics.calculateF1 tp fp fn,
+            ComparisonMetrics.calculatePhiCoefficient tp tn fp fn,
+            ComparisonMetrics.calculateFowlkesMallowsIndex tp fp p,
+            ComparisonMetrics.calculateInformedness tp p tn n,
+            ComparisonMetrics.calculateMarkedness tp fp tn fn,
+            ComparisonMetrics.calculateDiagnosticOddsRatio tp tn fp fn p n
         )
 
     static member create (bcm: BinaryConfusionMatrix) = ComparisonMetrics.create(bcm.TP, bcm.TN, bcm.FP, bcm.FN)
