@@ -400,55 +400,176 @@ let binaryConfusionMatrixTests =
     // | Actual | P |  3  |  1  |
     //          | N |  1  |  2  |
     
-    let p  = 4.
-    let n  = 3.
     let tp = 3.
     let tn = 2.
     let fp = 1.
     let fn = 1.
-
+    
     let binaryCM = BinaryConfusionMatrix.create(int tp,int tn,int fp,int fn)
+    let ofPredictions1 = BinaryConfusionMatrix.ofPredictions(1,[1;1;1;1;0;0;0],[1;1;1;0;1;0;0])
+    let ofPredictions2 = BinaryConfusionMatrix.ofPredictions([true;true;true;true;false;false;false],[true;true;true;false;true;false;false])
+
+    let expectedCM = {
+        TP = 3
+        TN = 2
+        FP = 1
+        FN = 1
+    }
 
     testList "Testing.BinaryConfusionMatrix" [
-        testList "Binary" [
-            createMetricTestInt "TruePositives" binaryCM.TP 3
-            createMetricTestInt "TrueNegatives" binaryCM.TN 2
-            createMetricTestInt "FalsePositives" binaryCM.FP 1
-            createMetricTestInt "FalseNegatives" binaryCM.FN 1
+
+        testCase "create" (fun _ -> Expect.equal binaryCM expectedCM "binary confusion matrix incorrectly created")
+        testCase "ofPredictions1" (fun _ -> Expect.equal ofPredictions1 expectedCM "binary confusion matrix created incorrectly from observations with positive label")
+        testCase "ofPredictions2" (fun _ -> Expect.equal ofPredictions2 expectedCM "binary confusion matrix created incorrectly from boolean observations")
+
+        createMetricTestInt "TruePositives" binaryCM.TP 3
+        createMetricTestInt "TrueNegatives" binaryCM.TN 2
+        createMetricTestInt "FalsePositives" binaryCM.FP 1
+        createMetricTestInt "FalseNegatives" binaryCM.FN 1
+        
+    ]
+
+
+[<Tests>]
+let multiLabelConfusionMatrixTests =
+
+    // multi label classification 
+    //              |    Predicted  |
+    //              |  A  |  B  | C |
+    // | Actual | A |  3  |  1  | 1 |
+    //          | B |  1  |  2  | 0 |
+    //          | C |  2  |  0  | 4 |
+
+    let c: Matrix<int> = 
+        [
+            [3; 1; 1]
+            [1; 2; 0]
+            [2; 0; 4]
         ]
+        |> array2D
+        |> Matrix.Generic.ofArray2D
+    
+    let expectedMLCM = 
+        {
+            Labels = [|"A"; "B"; "C"|]
+            Confusion = 
+                [
+                    [3; 1; 1]
+                    [1; 2; 0]
+                    [2; 0; 4]
+                ]
+                |> array2D
+                |> Matrix.Generic.ofArray2D
+        }
+
+    let multiLabelCM = MultiLabelConfusionMatrix.create([|"A";"B";"C"|], c)
+    let ofPredictions = 
+        MultiLabelConfusionMatrix.ofPredictions(
+            [|"A"; "B"; "C"|],
+            [|"A"; "A"; "A"; "A"; "A"; "B"; "B"; "B"; "C"; "C"; "C"; "C"; "C"; "C"|],
+            [|"A"; "A"; "A"; "B"; "C"; "B"; "B"; "A"; "C"; "C"; "C"; "C"; "A"; "A"|]
+        )
+    let allVsAll = multiLabelCM |> MultiLabelConfusionMatrix.allVsAll
+    let expectedAllVsAll =
+        [
+            "A", BinaryConfusionMatrix.create(3,6,3,2)
+            "B", BinaryConfusionMatrix.create(2,10,1,1)
+            "C", BinaryConfusionMatrix.create(4,7,1,2)
+        ]
+
+    testList "Testing.MultiLabelConfusionMatrix" [
+
+        testCase "create" (fun _ -> Expect.equal multiLabelCM expectedMLCM "multi label confusion matrix incorrectly created")
+        testCase "ofPredictions" (fun _ -> Expect.equal ofPredictions expectedMLCM "multi label confusion matrix created incorrectly from observations with positive label")
+
+        testCase "oneVsAll1" (fun _ -> Expect.equal (snd expectedAllVsAll[0]) (multiLabelCM |> MultiLabelConfusionMatrix.oneVsRest "A") "all-vs-all binary confusion matrices incorrectly created from multi label confusion matrix")
+        testCase "oneVsAll2" (fun _ -> Expect.equal (snd expectedAllVsAll[1]) (multiLabelCM |> MultiLabelConfusionMatrix.oneVsRest "B") "all-vs-all binary confusion matrices incorrectly created from multi label confusion matrix")
+        testCase "oneVsAll3" (fun _ -> Expect.equal (snd expectedAllVsAll[2]) (multiLabelCM |> MultiLabelConfusionMatrix.oneVsRest "C") "all-vs-all binary confusion matrices incorrectly created from multi label confusion matrix")
+        testCase "allVsAll" (fun _ -> Expect.sequenceEqual expectedAllVsAll allVsAll "all-vs-all binary confusion matrices incorrectly created from multi label confusion matrix")
+        
     ]
 
 [<Tests>]
 let comparisonmetricsTests =
 
-    // values calculated by formulas at https://en.wikipedia.org/wiki/Confusion_matrix
-    let sensitivity = 0.75
-    let specificity = 0.6666666667
-    let precision = 0.75
-    let negativePredictiveValue = 0.6666666667
-    let missrate = 0.25
-    let fallOut = 0.3333333333
-    let falseDiscoveryRate = 0.25
-    let falseOmissionRate = 0.3333333333
-    let positiveLikelihoodRatio = sensitivity / fallOut
-    let negativeLikelihoodRatio = missrate / specificity
-    let prevalenceThreshold = sqrt(fallOut) / (sqrt(sensitivity) + sqrt(fallOut))
-    let threatScore = 0.6
-    let prevalence = 0.5714285714
-    let accuracy = 0.7142857143
-    let balancedAccuracy = (sensitivity + specificity) / 2.
-    let f1 = 0.75
-    let phiCoefficient = 0.4166666667
-    let fowlkesMallowsIndex = 0.75
-    let informedness = 0.4166666667
-    let markedness = 0.4166666667
-    let diagnosticOddsRatio = positiveLikelihoodRatio / negativeLikelihoodRatio
 
-    let binaryCM = BinaryConfusionMatrix.create(3,2,1,1)
-    let cm = ComparisonMetrics.create(binaryCM)
+    let c: Matrix<int> = 
+        [
+            [3; 1; 1]
+            [1; 2; 0]
+            [2; 0; 4]
+        ]
+        |> array2D
+        |> Matrix.Generic.ofArray2D
+
+    let multiLabelCM  = MultiLabelConfusionMatrix.create([|"A";"B";"C"|], c)
+    let cmMicroAverage1 = ComparisonMetrics.microAverage multiLabelCM
+    let cmMacroAverage1 = ComparisonMetrics.macroAverage multiLabelCM
+    let cmMicroAverage2 = multiLabelCM |> MultiLabelConfusionMatrix.allVsAll |> Array.map snd |> ComparisonMetrics.microAverage
+    let cmMacroAverage2 = multiLabelCM |> MultiLabelConfusionMatrix.allVsAll |> Array.map (snd >> ComparisonMetrics.create) |> ComparisonMetrics.macroAverage
 
     testList "Testing.ComparisonMetrics" [
+
+        
+        // values calculated by formulas at https://en.wikipedia.org/wiki/Confusion_matrix
+        let sensitivity = 0.75
+        let specificity = 0.6666666667
+        let precision = 0.75
+        let negativePredictiveValue = 0.6666666667
+        let missrate = 0.25
+        let fallOut = 0.3333333333
+        let falseDiscoveryRate = 0.25
+        let falseOmissionRate = 0.3333333333
+        let positiveLikelihoodRatio = sensitivity / fallOut
+        let negativeLikelihoodRatio = missrate / specificity
+        let prevalenceThreshold = sqrt(fallOut) / (sqrt(sensitivity) + sqrt(fallOut))
+        let threatScore = 0.6
+        let prevalence = 0.5714285714
+        let accuracy = 0.7142857143
+        let balancedAccuracy = (sensitivity + specificity) / 2.
+        let f1 = 0.75
+        let phiCoefficient = 0.4166666667
+        let fowlkesMallowsIndex = 0.75
+        let informedness = 0.4166666667
+        let markedness = 0.4166666667
+        let diagnosticOddsRatio = positiveLikelihoodRatio / negativeLikelihoodRatio
+
+        let tp = 3.
+        let tn = 2.
+        let fp = 1.
+        let fn = 1.
+        let p = 4.
+        let n = 3.
+        let samplesize = 7.
+        let binaryCM = BinaryConfusionMatrix.create(3,2,1,1)
+        let cm = ComparisonMetrics.create(binaryCM)
+
+        testList "Metric calculation" [
+            createMetricTestFloat Accuracy.veryHigh "Calculate Sensitivity" (ComparisonMetrics.calculateSensitivity tp p) sensitivity
+            createMetricTestFloat Accuracy.veryHigh "Calculate Specificity" (ComparisonMetrics.calculateSpecificity tn n) specificity
+            createMetricTestFloat Accuracy.veryHigh "Calculate Precision" (ComparisonMetrics.calculatePrecision tp fp) precision
+            createMetricTestFloat Accuracy.veryHigh "Calculate NegativePredictiveValue" (ComparisonMetrics.calculateNegativePredictiveValue tn fn) negativePredictiveValue
+            createMetricTestFloat Accuracy.veryHigh "Calculate Missrate" (ComparisonMetrics.calculateMissrate fn p) missrate 
+            createMetricTestFloat Accuracy.veryHigh "Calculate FallOut" (ComparisonMetrics.calculateFallOut fp n) fallOut
+            createMetricTestFloat Accuracy.veryHigh "Calculate FalseDiscoveryRate" (ComparisonMetrics.calculateFalseDiscoveryRate fp tp) falseDiscoveryRate
+            createMetricTestFloat Accuracy.veryHigh "Calculate FalseOmissionRate" (ComparisonMetrics.calculateFalseOmissionRate fn tn) falseOmissionRate
+            createMetricTestFloat Accuracy.veryHigh "Calculate PositiveLikelihoodRatio" (ComparisonMetrics.calculatePositiveLikelihoodRatio tp p fp n) positiveLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "Calculate NegativeLikelihoodRatio" (ComparisonMetrics.calculateNegativeLikelihoodRatio fn p tn n) negativeLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "Calculate PrevalenceThreshold" (ComparisonMetrics.calculatePrevalenceThreshold fp n tp p) prevalenceThreshold
+            createMetricTestFloat Accuracy.veryHigh "Calculate ThreatScore" (ComparisonMetrics.calculateThreatScore tp fn fp) threatScore
+            createMetricTestFloat Accuracy.veryHigh "Calculate Prevalence" (ComparisonMetrics.calculatePrevalence p samplesize) prevalence
+            createMetricTestFloat Accuracy.veryHigh "Calculate Accuracy" (ComparisonMetrics.calculateAccuracy tp tn samplesize) accuracy
+            createMetricTestFloat Accuracy.veryHigh "Calculate BalancedAccuracy" (ComparisonMetrics.calculateBalancedAccuracy tp p tn n) balancedAccuracy
+            createMetricTestFloat Accuracy.veryHigh "Calculate F1" (ComparisonMetrics.calculateF1 tp fp fn) f1
+            createMetricTestFloat Accuracy.veryHigh "Calculate PhiCoefficient" (ComparisonMetrics.calculatePhiCoefficient tp tn fp fn) phiCoefficient
+            createMetricTestFloat Accuracy.veryHigh "Calculate FowlkesMallowsIndex" (ComparisonMetrics.calculateFowlkesMallowsIndex tp fp p) fowlkesMallowsIndex
+            createMetricTestFloat Accuracy.veryHigh "Calculate Informedness" (ComparisonMetrics.calculateInformedness tp p tn n) informedness
+            createMetricTestFloat Accuracy.veryHigh "Calculate Markedness" (ComparisonMetrics.calculateMarkedness tp fp tn fn) markedness
+            createMetricTestFloat Accuracy.veryHigh "Calculate DiagnosticOddsRatio" (ComparisonMetrics.calculateDiagnosticOddsRatio tp tn fp fn p n) diagnosticOddsRatio
+        ]
+
         testList "Binary" [
+
             createMetricTestInt "TruePositives" cm.TP 3
             createMetricTestInt "TrueNegatives" cm.TN 2
             createMetricTestInt "FalsePositives" cm.FP 1
@@ -478,6 +599,10 @@ let comparisonmetricsTests =
             createMetricTestFloat Accuracy.veryHigh "Informedness" cm.Informedness informedness
             createMetricTestFloat Accuracy.veryHigh "Markedness" cm.Markedness markedness
             createMetricTestFloat Accuracy.veryHigh "DiagnosticOddsRatio" cm.DiagnosticOddsRatio diagnosticOddsRatio
+
+        ]
+        testList "MultiLabel" [
+        
         ]
     ]
 
