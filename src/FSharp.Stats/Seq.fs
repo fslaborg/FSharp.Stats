@@ -1142,6 +1142,10 @@ module Seq =
         let pooledStDevPopulation (data:seq<#seq<float>>) = 
             sqrt (pooledVarPopulation data)
 
+        let inline internal toArrayQuick (xs: seq<'T>) =
+            match xs with
+            | :? ('T[]) as arr -> arr
+            | _ -> Seq.toArray xs
 
 //    // ########################################################################
 //    /// A module which implements functional matrix operations.
