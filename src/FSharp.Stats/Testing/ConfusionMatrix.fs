@@ -85,8 +85,8 @@ type MultiLabelConfusionMatrix = {
             fun rI cI cm elem -> 
                 match (rI, cI) with
                 | (rI, cI) when rI = labelIndex && cI = labelIndex -> {cm with TP = cm.TP + elem}
-                | (rI, cI) when rI = labelIndex && cI <> labelIndex -> {cm with FP = cm.FP + elem}
-                | (rI, cI) when rI <> labelIndex && cI = labelIndex -> {cm with FN = cm.FN + elem}
+                | (rI, cI) when rI <> labelIndex && cI = labelIndex -> {cm with FP = cm.FP + elem}
+                | (rI, cI) when rI = labelIndex && cI <> labelIndex -> {cm with FN = cm.FN + elem}
                 | _ ->   {cm with TN = cm.TN + elem}
 
         ) (BinaryConfusionMatrix.create(0,0,0,0))
