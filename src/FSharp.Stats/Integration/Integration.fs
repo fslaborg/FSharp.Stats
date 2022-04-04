@@ -7,70 +7,77 @@ open FSharpAux
 type NumericalIntegrationMethod =
     | LeftEndpoint
     | RightEndpoint
-    | MidPoint
+    | Midpoint
     | Trapezoidal
     | Simpson
 
-    static member integrateFunction = function 
-        | LeftEndpoint -> fun (f: (float -> float)) leftBoundaries partitionSize -> leftBoundaries |> Seq.sumBy (fun boundary -> f(boundary) * partitionSize)
-        | RightEndpoint -> fun (f: (float -> float)) leftBoundaries partitionSize -> leftBoundaries |> Seq.sumBy (fun boundary -> f(boundary + partitionSize) * partitionSize)
-        | MidPoint -> fun (f: (float -> float)) leftBoundaries partitionSize -> leftBoundaries |> Seq.sumBy (fun boundary -> f(boundary + (partitionSize / 2.)) * partitionSize)
-        | Trapezoidal -> fun (f: (float -> float)) leftBoundaries partitionSize -> leftBoundaries |> Seq.sumBy (fun boundary -> ((f(boundary) + f(boundary + partitionSize)) * partitionSize) / 2.)
-        | Simpson -> fun (f: (float -> float)) leftBoundaries partitionSize -> leftBoundaries |> Seq.sumBy (fun boundary -> ((f(boundary) + 4.0 * f(boundary + partitionSize / 2.0) + f(boundary + partitionSize)) * partitionSize) / 6.0)
+    static member getIntervalIntegrals = function 
+        | LeftEndpoint -> fun (f: (float -> float)) leftBoundaries partitionSize -> leftBoundaries |> Seq.map (fun boundary -> f(boundary) * partitionSize)
+        | RightEndpoint -> fun (f: (float -> float)) leftBoundaries partitionSize -> leftBoundaries |> Seq.map (fun boundary -> f(boundary + partitionSize) * partitionSize)
+        | Midpoint -> fun (f: (float -> float)) leftBoundaries partitionSize -> leftBoundaries |> Seq.map (fun boundary -> f(boundary + (partitionSize / 2.)) * partitionSize)
+        | Trapezoidal -> fun (f: (float -> float)) leftBoundaries partitionSize -> leftBoundaries |> Seq.map (fun boundary -> ((f(boundary) + f(boundary + partitionSize)) * partitionSize) / 2.)
+        | Simpson -> fun (f: (float -> float)) leftBoundaries partitionSize -> leftBoundaries |> Seq.map (fun boundary -> ((f(boundary) + 4.0 * f(boundary + partitionSize / 2.0) + f(boundary + partitionSize)) * partitionSize) / 6.0)
 
-    static member integrateObservations = function
+
+    static member integrateFunction (method: NumericalIntegrationMethod) = 
+         fun (f: (float -> float)) leftBoundaries partitionSize -> NumericalIntegrationMethod.getIntervalIntegrals method f leftBoundaries partitionSize |> Seq.sum
+        
+
+    static member getObservationIntegrals = function
         | LeftEndpoint -> fun (observations: (float*float) []) ->
             let xVals, yVals = observations |> Array.unzip
             xVals
-            |> Array.foldi (fun i auc x ->
+            |> Array.mapi (fun i x ->
                 if i = xVals.Length - 1 then 
-                    auc 
+                    0.
                 else 
                     let rectWidth = xVals[i+1] - x
-                    (auc + (rectWidth*yVals[i]))
-            ) 0.
+                    (rectWidth*yVals[i])
+            )
         | RightEndpoint -> fun (observations: (float*float) []) ->
             let xVals, yVals = observations |> Array.unzip
             xVals
-            |> Array.foldi (fun i auc x ->
+            |> Array.mapi (fun i x ->
                 if i = 0 then 
-                    auc 
+                    0. 
                 else 
                     let rectWidth = x - xVals[i-1]
-                    (auc + (rectWidth*yVals[i]))
-            ) 0.
-        | MidPoint -> fun (observations: (float*float) []) ->
+                    (rectWidth*yVals[i])
+            )
+        | Midpoint -> fun (observations: (float*float) []) ->
             let xVals, yVals = observations |> Array.unzip
             xVals
-            |> Array.foldi (fun i auc x ->
+            |> Array.mapi (fun i x ->
                 if i = xVals.Length - 1 then 
-                    auc 
+                    0.
                 else 
                     let midValue = (yVals[i] + yVals[i+1]) / 2.
                     let rectWidth = xVals[i+1] - x
-                    (auc + (rectWidth*midValue))
-            ) 0.
+                    (rectWidth*midValue)
+            )
         | Trapezoidal -> fun (observations: (float*float) []) ->
             let xVals, yVals = observations |> Array.unzip
             xVals
-            |> Array.foldi (fun i auc x ->
+            |> Array.mapi (fun i x ->
                 if i = xVals.Length - 1 then 
-                    auc 
+                    0.
                 else 
                     let trapezoid = (xVals[i+1] - x) * ((yVals[i] + yVals[i+1]) / 2.)
-                    (auc + trapezoid)
-            ) 0.
+                    trapezoid
+            )
         | Simpson -> fun (observations: (float*float) []) ->
             let xVals, yVals = observations |> Array.unzip
             xVals
-            |> Array.foldi (fun i auc x ->
+            |> Array.mapi (fun i x ->
                 if i = xVals.Length - 1 then 
-                    auc 
+                    0.
                 else 
                     let midValue = (yVals[i] + yVals[i+1]) / 2.
                     let parabola = ((xVals[i+1] - x) / 6.) * (yVals[i] + (4. * midValue) + yVals[i+1])
-                    (auc + parabola)
-            ) 0.
+                    parabola
+            )
+
+    static member integrateObservations (method: NumericalIntegrationMethod) = fun (observations: (float*float) []) -> NumericalIntegrationMethod.getObservationIntegrals method observations
 
 /// Definite integral approximation
 type NumericalIntegration() = 
@@ -103,7 +110,7 @@ type NumericalIntegration() =
         /// the numerical integration approximation method to use
         method: NumericalIntegrationMethod
     ) = 
-        fun (data: (float*float) []) -> NumericalIntegrationMethod.integrateObservations method data
+        fun (data: (float*float) []) -> NumericalIntegrationMethod.integrateObservations method data |> Seq.sum
         
 
 module DefiniteIntegral =
