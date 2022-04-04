@@ -42,6 +42,56 @@ type BinaryConfusionMatrix = {
         predictions: seq<bool>
     ) = BinaryConfusionMatrix.ofPredictions(true,actual,predictions)
 
+
+    static member thresholdMap(
+        actual: seq<bool>,
+        predictions: seq<float>,
+        thresholds:seq<float>
+    ) =
+    
+        // get values that are outside of the prediction range for max threshold
+        // for this threshold, the predictor can not report any positives.
+        let largest = (Seq.max predictions) + 1.
+        
+        let distinctThresholds =
+            thresholds
+            |> fun x -> seq{largest; yield! x}
+
+        distinctThresholds
+        |> Array.ofSeq
+        |> Array.map (fun thr ->
+            let thresholded = predictions |> Seq.map (fun x -> x >= thr)
+            thr, BinaryConfusionMatrix.ofPredictions(actual,thresholded)
+        )
+
+    static member thresholdMap(
+        actual: seq<bool>,
+        predictions: seq<float>
+    ) =
+    
+        let zippedSorted =
+            Seq.zip 
+                actual
+                predictions
+            |> Array.ofSeq
+            |> Array.sortByDescending snd
+
+        // get values that are outside of the prediction range for max threshold
+        // for this threshold, the predictor can not report any positives.
+        let largest = snd (Array.head zippedSorted) + 1.
+        
+        let distinctThresholds =
+            zippedSorted
+            |> Array.distinctBy snd
+            |> Array.map snd
+            |> fun x -> [|largest; yield! x|]
+
+        distinctThresholds
+        |> Array.map (fun thr ->
+            let thresholded = predictions |> Seq.map (fun x -> x >= thr)
+            thr, BinaryConfusionMatrix.ofPredictions(actual,thresholded)
+        )
+
 open System
 open FSharpAux
 

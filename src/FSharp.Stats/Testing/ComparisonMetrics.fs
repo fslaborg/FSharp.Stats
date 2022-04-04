@@ -1,5 +1,9 @@
 ﻿namespace FSharp.Stats.Testing
 
+open System
+open FSharpAux
+open FSharp.Stats.Integration
+
 /// Comparison metrics that can be derived from a binary confusion matrix
 // https://en.wikipedia.org/wiki/Confusion_matrix
 type ComparisonMetrics = {
@@ -203,6 +207,21 @@ type ComparisonMetrics = {
 
     static member create (bcm: BinaryConfusionMatrix) = ComparisonMetrics.create(bcm.TP, bcm.TN, bcm.FP, bcm.FN)
 
+    static member ofBinaryPredictions(
+        positiveLabel: 'A,
+        actual: seq<'A>,
+        predictions: seq<'A>
+    ) =
+        let bcm = BinaryConfusionMatrix.ofPredictions(positiveLabel,actual,predictions)
+        ComparisonMetrics.create(bcm)
+
+    static member ofBinaryPredictions(
+        actual: seq<bool>,
+        predictions: seq<bool>
+    ) =
+        let bcm = BinaryConfusionMatrix.ofPredictions(actual,predictions)
+        ComparisonMetrics.create(bcm)
+
     /// calculates comparison metrics from multiple binary confusion matrices as micro-averages (all TP/TN/FP/FN are aggregated before calculating metrics)
     static member microAverage (cms: seq<BinaryConfusionMatrix>) = 
         ComparisonMetrics.create(
@@ -222,6 +241,14 @@ type ComparisonMetrics = {
         MultiLabelConfusionMatrix.allVsAll mlcm
         |> Array.map snd 
         |> ComparisonMetrics.microAverage
+
+    static member microAverageOfMultiLabelPredictions(
+        labels: #IConvertible [],
+        actual: #IConvertible [],
+        predictions: #IConvertible []
+    ) =
+        let mlcm = MultiLabelConfusionMatrix.ofPredictions(labels,actual,predictions)
+        ComparisonMetrics.microAverage(mlcm)
 
     /// calculates comparison metrics as macro average of the given sequence of comparison metrics (all metrics are calculated as the average of the respective metrics)
     static member macroAverage (metrics: seq<ComparisonMetrics>) = 
@@ -299,3 +326,127 @@ type ComparisonMetrics = {
         MultiLabelConfusionMatrix.allVsAll mlcm
         |> Array.map (snd >> ComparisonMetrics.create)
         |> ComparisonMetrics.macroAverage
+
+    static member macroAverage (bcms: BinaryConfusionMatrix []) = 
+        bcms
+        |> Array.map (ComparisonMetrics.create)
+        |> ComparisonMetrics.macroAverage
+
+    static member macroAverageOfMultiLabelPredictions(
+        labels: #IConvertible [],
+        actual: #IConvertible [],
+        predictions: #IConvertible []
+    ) =
+        let mlcm = MultiLabelConfusionMatrix.ofPredictions(labels,actual,predictions)
+        ComparisonMetrics.macroAverage(mlcm)
+
+    static member binaryThresholdMap (tm: (float*BinaryConfusionMatrix) []) =
+        tm
+        |> Array.map (fun (thr, bcm) -> thr, ComparisonMetrics.create bcm)
+
+    static member binaryThresholdMap(
+        actual: seq<bool>,
+        predictions: seq<float>,
+        thresholds:seq<float>
+    ) =
+        BinaryConfusionMatrix.thresholdMap(
+            actual,
+            predictions,
+            thresholds
+        )
+        |> ComparisonMetrics.binaryThresholdMap
+
+    static member binaryThresholdMap(
+        actual: seq<bool>,
+        predictions: seq<float>
+    ) =
+        BinaryConfusionMatrix.thresholdMap(
+            actual,
+            predictions
+        )
+        |> ComparisonMetrics.binaryThresholdMap
+
+    static member multiLabelThresholdMap(
+        actual: #IConvertible [],
+        predictions: (#IConvertible * float []) []
+    ) = 
+        
+        // we have to use a global threshold collection for all binary threhold maps, otherwise we do not necessarily have values for macro/micro averaging for each label.
+        let allDistinctThresholds = 
+            predictions
+            |> Array.map snd
+            |> Array.concat
+            |> Array.distinct
+            |> Array.sortDescending
+
+        let prefixedThresholds = [|allDistinctThresholds[0] + 1.; yield! allDistinctThresholds|]
+
+        let labelMetrics =
+            predictions 
+            |> Array.map (fun (label, preds) ->
+                let labelTruth = actual |> Array.map (fun x -> x = label)
+                label, BinaryConfusionMatrix.thresholdMap(labelTruth,preds,allDistinctThresholds)
+            )
+
+        let transposedBCMs =
+            labelMetrics
+            |> Array.map (fun (x,y) -> y)
+            |> JaggedArray.transpose
+            |> JaggedArray.map snd
+
+        let microAverages =
+            transposedBCMs
+            |> Array.map ComparisonMetrics.microAverage
+            |> Array.zip prefixedThresholds
+
+        let macroAverages =
+            transposedBCMs
+            |> Array.map ComparisonMetrics.macroAverage
+            |> Array.zip prefixedThresholds
+
+        [|
+            yield! labelMetrics |> Array.map (fun (label, thrs) -> string label, thrs |> Array.map (fun (thr,bcm) -> thr, ComparisonMetrics.create bcm))
+            "micro-average", microAverages
+            "macro-average", macroAverages
+        |]
+        |> Map.ofArray
+
+    static member calculateROC(
+        actual: seq<bool>,
+        predictions: seq<float>,
+        thresholds:seq<float>
+    ) =
+        BinaryConfusionMatrix.thresholdMap(
+            actual,
+            predictions,
+            thresholds
+        )
+        |> Array.map (fun (_,bcm) -> 
+            let metrics = ComparisonMetrics.create bcm 
+            metrics.FallOut, metrics.Sensitivity
+        )
+
+    static member calculateROC(
+        actual: seq<bool>,
+        predictions: seq<float>
+    ) =
+        BinaryConfusionMatrix.thresholdMap(
+            actual,
+            predictions
+        )
+        |> Array.map (fun (_,bcm) -> 
+            let metrics = ComparisonMetrics.create bcm 
+            metrics.FallOut, metrics.Sensitivity
+        )
+
+    static member calculateMultiLabelROC(
+        actual: #IConvertible [],
+        predictions: (#IConvertible * float []) []
+    ) =
+        ComparisonMetrics.multiLabelThresholdMap(
+            actual,
+            predictions
+        )
+        |> Map.map (fun k v  -> v |> Array.map (fun (_,cm) -> cm.FallOut, cm.Sensitivity)
+
+        )
