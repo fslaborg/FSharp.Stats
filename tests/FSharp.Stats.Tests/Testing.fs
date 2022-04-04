@@ -490,27 +490,10 @@ let multiLabelConfusionMatrixTests =
     ]
 
 [<Tests>]
-let comparisonmetricsTests =
-
-
-    let c: Matrix<int> = 
-        [
-            [3; 1; 1]
-            [1; 2; 0]
-            [2; 0; 4]
-        ]
-        |> array2D
-        |> Matrix.Generic.ofArray2D
-
-    let multiLabelCM  = MultiLabelConfusionMatrix.create([|"A";"B";"C"|], c)
-    let cmMicroAverage1 = ComparisonMetrics.microAverage multiLabelCM
-    let cmMacroAverage1 = ComparisonMetrics.macroAverage multiLabelCM
-    let cmMicroAverage2 = multiLabelCM |> MultiLabelConfusionMatrix.allVsAll |> Array.map snd |> ComparisonMetrics.microAverage
-    let cmMacroAverage2 = multiLabelCM |> MultiLabelConfusionMatrix.allVsAll |> Array.map (snd >> ComparisonMetrics.create) |> ComparisonMetrics.macroAverage
+let comparisonMetricsTests =
 
     testList "Testing.ComparisonMetrics" [
 
-        
         // values calculated by formulas at https://en.wikipedia.org/wiki/Confusion_matrix
         let sensitivity = 0.75
         let specificity = 0.6666666667
@@ -567,7 +550,6 @@ let comparisonmetricsTests =
             createMetricTestFloat Accuracy.veryHigh "Calculate Markedness" (ComparisonMetrics.calculateMarkedness tp fp tn fn) markedness
             createMetricTestFloat Accuracy.veryHigh "Calculate DiagnosticOddsRatio" (ComparisonMetrics.calculateDiagnosticOddsRatio tp tn fp fn p n) diagnosticOddsRatio
         ]
-
         testList "Binary" [
 
             createMetricTestInt "TruePositives" cm.TP 3
@@ -602,7 +584,155 @@ let comparisonmetricsTests =
 
         ]
         testList "MultiLabel" [
+            let c: Matrix<int> = 
+                [
+                    [3; 1; 1]
+                    [1; 2; 0]
+                    [2; 0; 4]
+                ]
+                |> array2D
+                |> Matrix.Generic.ofArray2D
+
+            let multiLabelCM  = MultiLabelConfusionMatrix.create([|"A";"B";"C"|], c)
+
+            let expectedAvsRest = BinaryConfusionMatrix.create(3,6,3,2)
+            let expectedBvsRest = BinaryConfusionMatrix.create(2,10,1,1)
+            let expectedCvsRest = BinaryConfusionMatrix.create(4,7,1,2)
+
+            let expectedMicroAverage = ComparisonMetrics.create(BinaryConfusionMatrix.create(9,23,5,5))
+
+            let expectedMacroAverage =
+                [
+                    expectedAvsRest
+                    expectedBvsRest
+                    expectedCvsRest
+                ]
+                |> List.map (fun x -> ComparisonMetrics.create(x))
+                |> fun metrics ->
+                    ComparisonMetrics.create(
+                        ((metrics[0].P                       + metrics[1].P                      + metrics[2].P                      ) / 3.),
+                        ((metrics[0].N                       + metrics[1].N                      + metrics[2].N                      ) / 3.),
+                        ((metrics[0].SampleSize              + metrics[1].SampleSize             + metrics[2].SampleSize             ) / 3.),
+                        ((metrics[0].TP                      + metrics[1].TP                     + metrics[2].TP                     ) / 3.),
+                        ((metrics[0].TN                      + metrics[1].TN                     + metrics[2].TN                     ) / 3.),
+                        ((metrics[0].FP                      + metrics[1].FP                     + metrics[2].FP                     ) / 3.),
+                        ((metrics[0].FN                      + metrics[1].FN                     + metrics[2].FN                     ) / 3.),
+                        ((metrics[0].Sensitivity             + metrics[1].Sensitivity            + metrics[2].Sensitivity            ) / 3.),
+                        ((metrics[0].Specificity             + metrics[1].Specificity            + metrics[2].Specificity            ) / 3.),
+                        ((metrics[0].Precision               + metrics[1].Precision              + metrics[2].Precision              ) / 3.),
+                        ((metrics[0].NegativePredictiveValue + metrics[1].NegativePredictiveValue+ metrics[2].NegativePredictiveValue) / 3.),
+                        ((metrics[0].Missrate                + metrics[1].Missrate               + metrics[2].Missrate               ) / 3.),
+                        ((metrics[0].FallOut                 + metrics[1].FallOut                + metrics[2].FallOut                ) / 3.),
+                        ((metrics[0].FalseDiscoveryRate      + metrics[1].FalseDiscoveryRate     + metrics[2].FalseDiscoveryRate     ) / 3.),
+                        ((metrics[0].FalseOmissionRate       + metrics[1].FalseOmissionRate      + metrics[2].FalseOmissionRate      ) / 3.),
+                        ((metrics[0].PositiveLikelihoodRatio + metrics[1].PositiveLikelihoodRatio+ metrics[2].PositiveLikelihoodRatio) / 3.),
+                        ((metrics[0].NegativeLikelihoodRatio + metrics[1].NegativeLikelihoodRatio+ metrics[2].NegativeLikelihoodRatio) / 3.),
+                        ((metrics[0].PrevalenceThreshold     + metrics[1].PrevalenceThreshold    + metrics[2].PrevalenceThreshold    ) / 3.),
+                        ((metrics[0].ThreatScore             + metrics[1].ThreatScore            + metrics[2].ThreatScore            ) / 3.),
+                        ((metrics[0].Prevalence              + metrics[1].Prevalence             + metrics[2].Prevalence             ) / 3.),
+                        ((metrics[0].Accuracy                + metrics[1].Accuracy               + metrics[2].Accuracy               ) / 3.),
+                        ((metrics[0].BalancedAccuracy        + metrics[1].BalancedAccuracy       + metrics[2].BalancedAccuracy       ) / 3.),
+                        ((metrics[0].F1                      + metrics[1].F1                     + metrics[2].F1                     ) / 3.),
+                        ((metrics[0].PhiCoefficient          + metrics[1].PhiCoefficient         + metrics[2].PhiCoefficient         ) / 3.),
+                        ((metrics[0].FowlkesMallowsIndex     + metrics[1].FowlkesMallowsIndex    + metrics[2].FowlkesMallowsIndex    ) / 3.),
+                        ((metrics[0].Informedness            + metrics[1].Informedness           + metrics[2].Informedness           ) / 3.),
+                        ((metrics[0].Markedness              + metrics[1].Markedness             + metrics[2].Markedness             ) / 3.),
+                        ((metrics[0].DiagnosticOddsRatio     + metrics[1].DiagnosticOddsRatio    + metrics[2].DiagnosticOddsRatio    ) / 3.)
+                    )
+
+
+            let cmMicroAverage1 = ComparisonMetrics.microAverage multiLabelCM
+            let cmMacroAverage1 = ComparisonMetrics.macroAverage multiLabelCM
+            let cmMicroAverage2 = multiLabelCM |> MultiLabelConfusionMatrix.allVsAll |> Array.map snd |> ComparisonMetrics.microAverage
+            let cmMacroAverage2 = multiLabelCM |> MultiLabelConfusionMatrix.allVsAll |> Array.map (snd >> ComparisonMetrics.create) |> ComparisonMetrics.macroAverage
+            
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Sensitivity 1" cmMicroAverage1.Sensitivity expectedMicroAverage.Sensitivity
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Specificity 1" cmMicroAverage1.Specificity expectedMicroAverage.Specificity
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Precision 1" cmMicroAverage1.Precision expectedMicroAverage.Precision
+            createMetricTestFloat Accuracy.veryHigh "microAverage: NegativePredictiveValue 1" cmMicroAverage1.NegativePredictiveValue expectedMicroAverage.NegativePredictiveValue
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Missrate 1" cmMicroAverage1.Missrate expectedMicroAverage.Missrate 
+            createMetricTestFloat Accuracy.veryHigh "microAverage: FallOut 1" cmMicroAverage1.FallOut expectedMicroAverage.FallOut
+            createMetricTestFloat Accuracy.veryHigh "microAverage: FalseDiscoveryRate 1" cmMicroAverage1.FalseDiscoveryRate expectedMicroAverage.FalseDiscoveryRate
+            createMetricTestFloat Accuracy.veryHigh "microAverage: FalseOmissionRate 1" cmMicroAverage1.FalseOmissionRate expectedMicroAverage.FalseOmissionRate
+            createMetricTestFloat Accuracy.veryHigh "microAverage: PositiveLikelihoodRatio 1" cmMicroAverage1.PositiveLikelihoodRatio expectedMicroAverage.PositiveLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "microAverage: NegativeLikelihoodRatio 1" cmMicroAverage1.NegativeLikelihoodRatio expectedMicroAverage.NegativeLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "microAverage: PrevalenceThreshold 1" cmMicroAverage1.PrevalenceThreshold expectedMicroAverage.PrevalenceThreshold
+            createMetricTestFloat Accuracy.veryHigh "microAverage: ThreatScore 1" cmMicroAverage1.ThreatScore expectedMicroAverage.ThreatScore
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Prevalence 1" cmMicroAverage1.Prevalence expectedMicroAverage.Prevalence
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Accuracy 1" cmMicroAverage1.Accuracy expectedMicroAverage.Accuracy
+            createMetricTestFloat Accuracy.veryHigh "microAverage: BalancedAccuracy 1" cmMicroAverage1.BalancedAccuracy expectedMicroAverage.BalancedAccuracy
+            createMetricTestFloat Accuracy.veryHigh "microAverage: F1 1" cmMicroAverage1.F1 expectedMicroAverage.F1
+            createMetricTestFloat Accuracy.veryHigh "microAverage: PhiCoefficient 1" cmMicroAverage1.PhiCoefficient expectedMicroAverage.PhiCoefficient
+            createMetricTestFloat Accuracy.veryHigh "microAverage: FowlkesMallowsIndex 1" cmMicroAverage1.FowlkesMallowsIndex expectedMicroAverage.FowlkesMallowsIndex
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Informedness 1" cmMicroAverage1.Informedness expectedMicroAverage.Informedness
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Markedness 1" cmMicroAverage1.Markedness expectedMicroAverage.Markedness
+            createMetricTestFloat Accuracy.veryHigh "microAverage: DiagnosticOddsRatio 1" cmMicroAverage1.DiagnosticOddsRatio expectedMicroAverage.DiagnosticOddsRatio
+
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Sensitivity 2" cmMicroAverage2.Sensitivity expectedMicroAverage.Sensitivity
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Specificity 2" cmMicroAverage2.Specificity expectedMicroAverage.Specificity
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Precision 2" cmMicroAverage2.Precision expectedMicroAverage.Precision
+            createMetricTestFloat Accuracy.veryHigh "microAverage: NegativePredictiveValue 2" cmMicroAverage2.NegativePredictiveValue expectedMicroAverage.NegativePredictiveValue
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Missrate 2" cmMicroAverage2.Missrate expectedMicroAverage.Missrate 
+            createMetricTestFloat Accuracy.veryHigh "microAverage: FallOut 2" cmMicroAverage1.FallOut expectedMicroAverage.FallOut
+            createMetricTestFloat Accuracy.veryHigh "microAverage: FalseDiscoveryRate 2" cmMicroAverage2.FalseDiscoveryRate expectedMicroAverage.FalseDiscoveryRate
+            createMetricTestFloat Accuracy.veryHigh "microAverage: FalseOmissionRate 2" cmMicroAverage2.FalseOmissionRate expectedMicroAverage.FalseOmissionRate
+            createMetricTestFloat Accuracy.veryHigh "microAverage: PositiveLikelihoodRatio 2" cmMicroAverage1.PositiveLikelihoodRatio expectedMicroAverage.PositiveLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "microAverage: NegativeLikelihoodRatio 2" cmMicroAverage1.NegativeLikelihoodRatio expectedMicroAverage.NegativeLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "microAverage: PrevalenceThreshold 2" cmMicroAverage1.PrevalenceThreshold expectedMicroAverage.PrevalenceThreshold
+            createMetricTestFloat Accuracy.veryHigh "microAverage: ThreatScore 2" cmMicroAverage1.ThreatScore expectedMicroAverage.ThreatScore
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Prevalence 2" cmMicroAverage1.Prevalence expectedMicroAverage.Prevalence
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Accuracy 2" cmMicroAverage1.Accuracy expectedMicroAverage.Accuracy
+            createMetricTestFloat Accuracy.veryHigh "microAverage: BalancedAccuracy 2" cmMicroAverage1.BalancedAccuracy expectedMicroAverage.BalancedAccuracy
+            createMetricTestFloat Accuracy.veryHigh "microAverage: F1 2" cmMicroAverage1.F1 expectedMicroAverage.F1
+            createMetricTestFloat Accuracy.veryHigh "microAverage: PhiCoefficient 2" cmMicroAverage1.PhiCoefficient expectedMicroAverage.PhiCoefficient
+            createMetricTestFloat Accuracy.veryHigh "microAverage: FowlkesMallowsIndex 2" cmMicroAverage1.FowlkesMallowsIndex expectedMicroAverage.FowlkesMallowsIndex
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Informedness 2" cmMicroAverage1.Informedness expectedMicroAverage.Informedness
+            createMetricTestFloat Accuracy.veryHigh "microAverage: Markedness 2" cmMicroAverage1.Markedness expectedMicroAverage.Markedness
+            createMetricTestFloat Accuracy.veryHigh "microAverage: DiagnosticOddsRatio 2" cmMicroAverage1.DiagnosticOddsRatio expectedMicroAverage.DiagnosticOddsRatio
         
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Sensitivity 1" cmMacroAverage1.Sensitivity expectedMacroAverage.Sensitivity
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Specificity 1" cmMacroAverage1.Specificity expectedMacroAverage.Specificity
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Precision 1" cmMacroAverage1.Precision expectedMacroAverage.Precision
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: NegativePredictiveValue 1" cmMacroAverage1.NegativePredictiveValue expectedMacroAverage.NegativePredictiveValue
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Missrate 1" cmMacroAverage1.Missrate expectedMacroAverage.Missrate 
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: FallOut 1" cmMacroAverage1.FallOut expectedMacroAverage.FallOut
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: FalseDiscoveryRate 1" cmMacroAverage1.FalseDiscoveryRate expectedMacroAverage.FalseDiscoveryRate
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: FalseOmissionRate 1" cmMacroAverage1.FalseOmissionRate expectedMacroAverage.FalseOmissionRate
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: PositiveLikelihoodRatio 1" cmMacroAverage1.PositiveLikelihoodRatio expectedMacroAverage.PositiveLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: NegativeLikelihoodRatio 1" cmMacroAverage1.NegativeLikelihoodRatio expectedMacroAverage.NegativeLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: PrevalenceThreshold 1" cmMacroAverage1.PrevalenceThreshold expectedMacroAverage.PrevalenceThreshold
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: ThreatScore 1" cmMacroAverage1.ThreatScore expectedMacroAverage.ThreatScore
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Prevalence 1" cmMacroAverage1.Prevalence expectedMacroAverage.Prevalence
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Accuracy 1" cmMacroAverage1.Accuracy expectedMacroAverage.Accuracy
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: BalancedAccuracy 1" cmMacroAverage1.BalancedAccuracy expectedMacroAverage.BalancedAccuracy
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: F1 1" cmMacroAverage1.F1 expectedMacroAverage.F1
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: PhiCoefficient 1" cmMacroAverage1.PhiCoefficient expectedMacroAverage.PhiCoefficient
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: FowlkesMallowsIndex 1" cmMacroAverage1.FowlkesMallowsIndex expectedMacroAverage.FowlkesMallowsIndex
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Informedness 1" cmMacroAverage1.Informedness expectedMacroAverage.Informedness
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Markedness 1" cmMacroAverage1.Markedness expectedMacroAverage.Markedness
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: DiagnosticOddsRatio 1" cmMacroAverage1.DiagnosticOddsRatio expectedMacroAverage.DiagnosticOddsRatio
+
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Sensitivity 2" cmMacroAverage2.Sensitivity expectedMacroAverage.Sensitivity
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Specificity 2" cmMacroAverage2.Specificity expectedMacroAverage.Specificity
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Precision 2" cmMacroAverage2.Precision expectedMacroAverage.Precision
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: NegativePredictiveValue 2" cmMacroAverage2.NegativePredictiveValue expectedMacroAverage.NegativePredictiveValue
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Missrate 2" cmMacroAverage2.Missrate expectedMacroAverage.Missrate 
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: FallOut 2" cmMacroAverage2.FallOut expectedMacroAverage.FallOut
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: FalseDiscoveryRate 2" cmMacroAverage2.FalseDiscoveryRate expectedMacroAverage.FalseDiscoveryRate
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: FalseOmissionRate 2" cmMacroAverage2.FalseOmissionRate expectedMacroAverage.FalseOmissionRate
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: PositiveLikelihoodRatio 2" cmMacroAverage2.PositiveLikelihoodRatio expectedMacroAverage.PositiveLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: NegativeLikelihoodRatio 2" cmMacroAverage2.NegativeLikelihoodRatio expectedMacroAverage.NegativeLikelihoodRatio
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: PrevalenceThreshold 2" cmMacroAverage2.PrevalenceThreshold expectedMacroAverage.PrevalenceThreshold
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: ThreatScore 2" cmMacroAverage2.ThreatScore expectedMacroAverage.ThreatScore
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Prevalence 2" cmMacroAverage2.Prevalence expectedMacroAverage.Prevalence
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Accuracy 2" cmMacroAverage2.Accuracy expectedMacroAverage.Accuracy
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: BalancedAccuracy 2" cmMacroAverage2.BalancedAccuracy expectedMacroAverage.BalancedAccuracy
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: F1 2" cmMacroAverage2.F1 expectedMacroAverage.F1
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: PhiCoefficient 2" cmMacroAverage2.PhiCoefficient expectedMacroAverage.PhiCoefficient
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: FowlkesMallowsIndex 2" cmMacroAverage2.FowlkesMallowsIndex expectedMacroAverage.FowlkesMallowsIndex
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Informedness 2" cmMacroAverage2.Informedness expectedMacroAverage.Informedness
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: Markedness 2" cmMacroAverage2.Markedness expectedMacroAverage.Markedness
+            createMetricTestFloat Accuracy.veryHigh "macroAverage: DiagnosticOddsRatio 2" cmMacroAverage2.DiagnosticOddsRatio expectedMacroAverage.DiagnosticOddsRatio
         ]
     ]
 
