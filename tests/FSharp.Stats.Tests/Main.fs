@@ -20,14 +20,14 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv LinearAlgebraTests.managedSVDTests   |> ignore
 
     //================================== List ===============================================================
-    Tests.runTestsWithCLIArgs [] argv ListTests.medianTests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv ListTests.medianTests |> ignore
     Tests.runTestsWithCLIArgs [] argv ListTests.meanTests   |> ignore
 
     //================================== Array ==============================================================
     Tests.runTestsWithCLIArgs [] argv ArrayTests.medianTests   |> ignore
 
     //================================= Seq ==============================================================
-    Tests.runTestsWithCLIArgs [] argv SeqTests.medianTests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv SeqTests.medianTests |> ignore
     Tests.runTestsWithCLIArgs [] argv SeqTests.meanTests   |> ignore
 
     //============================= Distributions ===========================================================
@@ -43,9 +43,9 @@ let main argv =
     
     //=============================== Covariance ============================================================
     Tests.runTestsWithCLIArgs [] argv CovarianceTests.sequenceTests |> ignore
-    Tests.runTestsWithCLIArgs [] argv CovarianceTests.listTests |> ignore
-    Tests.runTestsWithCLIArgs [] argv CovarianceTests.arrayTests |> ignore
-    Tests.runTestsWithCLIArgs [] argv CovarianceTests.matrixTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv CovarianceTests.listTests     |> ignore
+    Tests.runTestsWithCLIArgs [] argv CovarianceTests.arrayTests    |> ignore
+    Tests.runTestsWithCLIArgs [] argv CovarianceTests.matrixTests   |> ignore
     
     //================================ Testing ==============================================================
     //Tests.runTestsWithCLIArgs [] argv TestingTests.testPostHocTests |> ignore 
@@ -62,7 +62,13 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv MLTests.SimilarityMetrics.tverskySymmetricIndexTests  |> ignore
 
     //================================== Fitting ============================================================
-    Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests      |> ignore
-    Tests.runTestsWithCLIArgs [] argv FittingTests.leastSquaresCholeskyTests    |> ignore
-    Tests.runTestsWithCLIArgs [] argv FittingTests.splineTests      |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests  |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.leastSquaresCholeskyTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.splineTests               |> ignore
+
+    //================================== Quantile ============================================================
+    Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileDefaultTests  |> ignore
+    Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileTests         |> ignore
+    Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileOfSortedTests |> ignore
+
     0
