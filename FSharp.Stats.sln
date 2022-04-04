@@ -44,6 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6
 		docs\Correlation.fsx = docs\Correlation.fsx
 		docs\Covariance.fsx = docs\Covariance.fsx
 		docs\CrossValidation.fsx = docs\CrossValidation.fsx
+		docs\Differentiation.fsx = docs\Differentiation.fsx
 		docs\Distributions.fsx = docs\Distributions.fsx
 		docs\Dockerfile = docs\Dockerfile
 		docs\Fitting.fsx = docs\Fitting.fsx

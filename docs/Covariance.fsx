@@ -1,3 +1,12 @@
+(**
+---
+title: Covariance
+index: 6
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)

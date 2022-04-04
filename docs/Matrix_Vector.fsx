@@ -1,3 +1,13 @@
+(**
+---
+title: Matrix and Vector
+index: 3
+category: Documentation
+categoryindex: 0
+---
+*)
+
+
 (*** hide ***)
 
 (*** condition: prepare ***)

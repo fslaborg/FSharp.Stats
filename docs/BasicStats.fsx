@@ -1,3 +1,12 @@
+(**
+---
+title: Basic Statistics
+index: 0
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)

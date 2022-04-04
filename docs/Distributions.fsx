@@ -1,3 +1,13 @@
+(**
+---
+title: Probability Distributions
+index: 1
+category: Documentation
+categoryindex: 0
+---
+*)
+
+
 (*** hide ***)
 
 (*** condition: prepare ***)
