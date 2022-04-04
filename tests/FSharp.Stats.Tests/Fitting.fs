@@ -6,9 +6,9 @@ open FSharp.Stats
 open FSharp.Stats.Fitting
 open FSharp.Stats.Fitting.NonLinearRegression
 
-let compareSeq (a:seq<float>) (b:seq<float>) (str:string) =
-    Seq.iter2 (fun a b -> Expect.floatClose Accuracy.high a b str) a b
-
+let compareSeq accuracy (a:seq<float>) (b:seq<float>) (str:string) =
+    Seq.iter2 (fun a b -> Expect.floatClose accuracy a b str) a b
+    
 [<Tests>]
 let nonLinearRegressionTests = 
     let time = [|0.083;0.25;0.5;0.75;1.0;2.0;3.0;4.0;5.0;6.0;7.0;8.0;9.0;10.0|]
@@ -99,7 +99,7 @@ let splineTests =
                     |]
                     |> Array.concat
                 
-                compareSeq fits results "The fitted spline does not yield the expected predictions."   
+                compareSeq Accuracy.high fits results "The fitted spline does not yield the expected predictions."   
                 
         ]
 

@@ -1142,9 +1142,16 @@ module Seq =
         let pooledStDevPopulation (data:seq<#seq<float>>) = 
             sqrt (pooledVarPopulation data)
 
+        ///Converts the input sequence to an array if it not already is an array.
         let inline internal toArrayQuick (xs: seq<'T>) =
             match xs with
             | :? ('T[]) as arr -> arr
+            | _ -> Seq.toArray xs
+
+        ///Like toArrayQuick but if the input sequence is an array already, it is copied to a new one to not interfere with inplace operations
+        let inline internal toArrayCopyQuick (xs: seq<'T>) =
+            match xs with
+            | :? ('T[]) as arr -> Array.copy arr
             | _ -> Seq.toArray xs
 
 //    // ########################################################################

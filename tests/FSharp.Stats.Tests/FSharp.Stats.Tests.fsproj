@@ -23,6 +23,7 @@
     <Compile Include="SpecialFunctions.fs" />
     <Compile Include="Testing.fs" />
     <Compile Include="Fitting.fs" />
+    <Compile Include="Quantile.fs" />
     <Compile Include="Rank.fs" />
     <Compile Include="Main.fs" />
 
