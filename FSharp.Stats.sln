@@ -41,6 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6
 		docs\_template.ipynb = docs\_template.ipynb
 		docs\BasicStats.fsx = docs\BasicStats.fsx
 		docs\Clustering.fsx = docs\Clustering.fsx
+		docs\ComparisonMetrics.fsx = docs\ComparisonMetrics.fsx
 		docs\Correlation.fsx = docs\Correlation.fsx
 		docs\Covariance.fsx = docs\Covariance.fsx
 		docs\CrossValidation.fsx = docs\CrossValidation.fsx

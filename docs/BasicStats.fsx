@@ -1,6 +1,6 @@
 (**
 ---
-title: Basic Statistics
+title: Basic statistics
 index: 0
 category: Documentation
 categoryindex: 0
