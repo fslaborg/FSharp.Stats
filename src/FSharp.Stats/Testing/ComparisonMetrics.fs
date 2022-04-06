@@ -371,7 +371,7 @@ type ComparisonMetrics = {
         predictions: (#IConvertible * float []) []
     ) = 
         
-        // we have to use a global threshold collection for all binary threhold maps, otherwise we do not necessarily have values for macro/micro averaging for each label.
+        // we have to use a global threshold collection for all binary threshold maps, otherwise we do not necessarily have values for macro/micro averaging for each label.
         let allDistinctThresholds = 
             predictions
             |> Array.map snd

@@ -427,6 +427,69 @@ let binaryConfusionMatrixTests =
         createMetricTestInt "FalsePositives" binaryCM.FP 1
         createMetricTestInt "FalseNegatives" binaryCM.FN 1
         
+        testCase "thresholdMap implicit thresholds 1" (fun _ ->
+            let actual = BinaryConfusionMatrix.thresholdMap(
+                [true;true;true;true;false;false;false],
+                [0.9 ;0.6 ;0.7 ; 0.2 ; 0.7; 0.3 ; 0.1]
+            )
+            let expected = [
+                1.9, BinaryConfusionMatrix.create(0,3,0,4)
+                0.9, BinaryConfusionMatrix.create(1,3,0,3)
+                0.7, BinaryConfusionMatrix.create(2,2,1,2)
+                0.6, BinaryConfusionMatrix.create(3,2,1,1)
+                0.3, BinaryConfusionMatrix.create(3,1,2,1)
+                0.2, BinaryConfusionMatrix.create(4,1,2,0)
+                0.1, BinaryConfusionMatrix.create(4,0,3,0)
+            ]
+            Expect.sequenceEqual actual expected "binary threshold map not correctly created from binary predictions"
+        )
+
+        testCase "thresholdMap explicit thresholds 1" (fun _ ->
+            let actual = BinaryConfusionMatrix.thresholdMap(
+                [true;true;true;true;false;false;false],
+                [0.9 ;0.6 ;0.7 ; 0.2 ; 0.7; 0.3 ; 0.1],
+                [1.; 0.9; 0.8; 0.7; 0.6; 0.5; 0.4; 0.3; 0.2; 0.1; 0.]
+            )
+            let expected = [|
+                1.9, BinaryConfusionMatrix.create(0,3,0,4)
+                1.0, BinaryConfusionMatrix.create(0,3,0,4)
+                0.9, BinaryConfusionMatrix.create(1,3,0,3)
+                0.8, BinaryConfusionMatrix.create(1,3,0,3)
+                0.7, BinaryConfusionMatrix.create(2,2,1,2)
+                0.6, BinaryConfusionMatrix.create(3,2,1,1)
+                0.5, BinaryConfusionMatrix.create(3,2,1,1)
+                0.4, BinaryConfusionMatrix.create(3,2,1,1)
+                0.3, BinaryConfusionMatrix.create(3,1,2,1)
+                0.2, BinaryConfusionMatrix.create(4,1,2,0)
+                0.1, BinaryConfusionMatrix.create(4,0,3,0)
+                0. , BinaryConfusionMatrix.create(4,0,3,0)
+            |]
+            Expect.sequenceEqual actual expected "binary threshold map not correctly created from binary predictions"
+        )
+
+        testCase "thresholdMap: floating point error affects custom thresholds" (fun _ ->
+            let actual = BinaryConfusionMatrix.thresholdMap(
+                [true;true;true;true;false;false;false],
+                [0.9 ;0.6 ;0.7 ; 0.2 ; 0.7; 0.3 ; 0.1],
+                // these values are not exact due to floating point errors in addition. For example, the 0.7 is actually 0.70000000000000006661338147750939 which is > 0.7 and therefore produces an unexpected result
+                [0. .. 0.1 .. 1.] |> List.rev 
+            )
+            let expected = [|
+                1.9, BinaryConfusionMatrix.create(0,3,0,4)
+                1.0, BinaryConfusionMatrix.create(0,3,0,4)
+                0.9, BinaryConfusionMatrix.create(1,3,0,3)
+                0.8, BinaryConfusionMatrix.create(1,3,0,3)
+                0.7, BinaryConfusionMatrix.create(2,2,1,2)
+                0.6, BinaryConfusionMatrix.create(3,2,1,1)
+                0.5, BinaryConfusionMatrix.create(3,2,1,1)
+                0.4, BinaryConfusionMatrix.create(3,2,1,1)
+                0.3, BinaryConfusionMatrix.create(3,1,2,1)
+                0.2, BinaryConfusionMatrix.create(4,1,2,0)
+                0.1, BinaryConfusionMatrix.create(4,0,3,0)
+                0. , BinaryConfusionMatrix.create(4,0,3,0)
+            |]
+            Expect.isFalse (actual = expected) "expected list comprehension threshold to produce slightly incorrent thresholds"
+        )
     ]
 
 
@@ -550,7 +613,7 @@ let comparisonMetricsTests =
             createMetricTestFloat Accuracy.veryHigh "Calculate Markedness" (ComparisonMetrics.calculateMarkedness tp fp tn fn) markedness
             createMetricTestFloat Accuracy.veryHigh "Calculate DiagnosticOddsRatio" (ComparisonMetrics.calculateDiagnosticOddsRatio tp tn fp fn p n) diagnosticOddsRatio
         ]
-        testList "Binary" [
+        testList "Binary predictions" [
 
             createMetricTestInt "TruePositives" cm.TP 3
             createMetricTestInt "TrueNegatives" cm.TN 2
@@ -583,7 +646,7 @@ let comparisonMetricsTests =
             createMetricTestFloat Accuracy.veryHigh "DiagnosticOddsRatio" cm.DiagnosticOddsRatio diagnosticOddsRatio
 
         ]
-        testList "MultiLabel" [
+        testList "Multi-label predictions" [
             let c: Matrix<int> = 
                 [
                     [3; 1; 1]
@@ -733,6 +796,120 @@ let comparisonMetricsTests =
             createMetricTestFloat Accuracy.veryHigh "macroAverage: Informedness 2" cmMacroAverage2.Informedness expectedMacroAverage.Informedness
             createMetricTestFloat Accuracy.veryHigh "macroAverage: Markedness 2" cmMacroAverage2.Markedness expectedMacroAverage.Markedness
             createMetricTestFloat Accuracy.veryHigh "macroAverage: DiagnosticOddsRatio 2" cmMacroAverage2.DiagnosticOddsRatio expectedMacroAverage.DiagnosticOddsRatio
+        ]
+        testList "binary threshold map" [
+            let actual = 
+                ComparisonMetrics.binaryThresholdMap(
+                    [true;true;true;true;false;false;false],
+                    [0.9 ;0.6 ;0.7 ; 0.2 ; 0.7; 0.3 ; 0.1]
+                )
+
+            let expected = [|
+                1.9, BinaryConfusionMatrix.create(0,3,0,4) |> ComparisonMetrics.create
+                0.9, BinaryConfusionMatrix.create(1,3,0,3) |> ComparisonMetrics.create
+                0.7, BinaryConfusionMatrix.create(2,2,1,2) |> ComparisonMetrics.create
+                0.6, BinaryConfusionMatrix.create(3,2,1,1) |> ComparisonMetrics.create
+                0.3, BinaryConfusionMatrix.create(3,1,2,1) |> ComparisonMetrics.create
+                0.2, BinaryConfusionMatrix.create(4,1,2,0) |> ComparisonMetrics.create
+                0.1, BinaryConfusionMatrix.create(4,0,3,0) |> ComparisonMetrics.create
+            |]
+            testCase "threshold 1-9" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd actual[0]) (snd expected[0]) "Incorrect metrics for threshold 1.9")
+            testCase "threshold 0-9" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd actual[1]) (snd expected[1]) "Incorrect metrics for threshold 0.9")
+            testCase "threshold 0-7" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd actual[2]) (snd expected[2]) "Incorrect metrics for threshold 0.7")
+            testCase "threshold 0-6" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd actual[3]) (snd expected[3]) "Incorrect metrics for threshold 0.6")
+            testCase "threshold 0-3" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd actual[4]) (snd expected[4]) "Incorrect metrics for threshold 0.3")
+            testCase "threshold 0-2" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd actual[5]) (snd expected[5]) "Incorrect metrics for threshold 0.2")
+            testCase "threshold 0-1" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd actual[6]) (snd expected[6]) "Incorrect metrics for threshold 0.1")
+        ]
+        testList "multi-label threshold map" [
+            let expectedMetricsMap =
+                Map.ofList [
+                    "A", [|
+                        1.9, BinaryConfusionMatrix.create(0,9,0,5) |> ComparisonMetrics.create
+                        0.9, BinaryConfusionMatrix.create(1,9,0,4) |> ComparisonMetrics.create
+                        0.8, BinaryConfusionMatrix.create(2,9,0,3) |> ComparisonMetrics.create
+                        0.7, BinaryConfusionMatrix.create(3,9,0,2) |> ComparisonMetrics.create
+                        0.6, BinaryConfusionMatrix.create(3,9,0,2) |> ComparisonMetrics.create
+                        0.5, BinaryConfusionMatrix.create(3,7,2,2) |> ComparisonMetrics.create
+                        0.4, BinaryConfusionMatrix.create(4,6,3,1) |> ComparisonMetrics.create
+                        0.3, BinaryConfusionMatrix.create(5,5,4,0) |> ComparisonMetrics.create
+                        0.2, BinaryConfusionMatrix.create(5,4,5,0) |> ComparisonMetrics.create
+                        0.1, BinaryConfusionMatrix.create(5,0,9,0) |> ComparisonMetrics.create
+                        0.0, BinaryConfusionMatrix.create(5,0,9,0) |> ComparisonMetrics.create
+                    |]
+                    "B", [|
+                        1.9, BinaryConfusionMatrix.create(0,11,0,3) |> ComparisonMetrics.create
+                        0.9, BinaryConfusionMatrix.create(0,11,0,3) |> ComparisonMetrics.create
+                        0.8, BinaryConfusionMatrix.create(1,11,0,2) |> ComparisonMetrics.create
+                        0.7, BinaryConfusionMatrix.create(2,11,0,1) |> ComparisonMetrics.create
+                        0.6, BinaryConfusionMatrix.create(2,11,0,1) |> ComparisonMetrics.create
+                        0.5, BinaryConfusionMatrix.create(2,10,1,1) |> ComparisonMetrics.create
+                        0.4, BinaryConfusionMatrix.create(3,10,1,0) |> ComparisonMetrics.create
+                        0.3, BinaryConfusionMatrix.create(3,9,2,0) |> ComparisonMetrics.create
+                        0.2, BinaryConfusionMatrix.create(3,9,2,0) |> ComparisonMetrics.create
+                        0.1, BinaryConfusionMatrix.create(3,4,7,0) |> ComparisonMetrics.create
+                        0.0, BinaryConfusionMatrix.create(3,0,11,0) |> ComparisonMetrics.create
+                    |]
+                    "C", [|
+                        1.9, BinaryConfusionMatrix.create(0,8,0,6) |> ComparisonMetrics.create
+                        0.9, BinaryConfusionMatrix.create(1,8,0,5) |> ComparisonMetrics.create
+                        0.8, BinaryConfusionMatrix.create(3,8,0,3) |> ComparisonMetrics.create
+                        0.7, BinaryConfusionMatrix.create(4,8,0,2) |> ComparisonMetrics.create
+                        0.6, BinaryConfusionMatrix.create(4,7,1,2) |> ComparisonMetrics.create
+                        0.5, BinaryConfusionMatrix.create(4,7,1,2) |> ComparisonMetrics.create
+                        0.4, BinaryConfusionMatrix.create(5,7,1,1) |> ComparisonMetrics.create
+                        0.3, BinaryConfusionMatrix.create(6,7,1,0) |> ComparisonMetrics.create
+                        0.2, BinaryConfusionMatrix.create(6,5,3,0) |> ComparisonMetrics.create
+                        0.1, BinaryConfusionMatrix.create(6,0,8,0) |> ComparisonMetrics.create
+                        0.0, BinaryConfusionMatrix.create(6,0,8,0) |> ComparisonMetrics.create
+                    |]
+                ]   
+            
+            let actual = 
+                ComparisonMetrics.multiLabelThresholdMap(
+                    actual = [|"A"; "A"; "A"; "A"; "A"; "B"; "B"; "B"; "C"; "C"; "C"; "C"; "C"; "C"|],
+                    predictions = [|
+                        "A", [|0.8; 0.7; 0.9; 0.4; 0.3; 0.1; 0.2; 0.5; 0.1; 0.1; 0.1; 0.3; 0.5; 0.4|]
+                        "B", [|0.0; 0.1; 0.0; 0.5; 0.1; 0.8; 0.7; 0.4; 0.0; 0.1; 0.1; 0.0; 0.1; 0.3|]
+                        "C", [|0.2; 0.2; 0.1; 0.1; 0.6; 0.1; 0.1; 0.1; 0.9; 0.8; 0.8; 0.7; 0.4; 0.3|]
+                    |]
+                )
+
+            testCase "A: threshold 1-9" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][0])) (snd (expectedMetricsMap["A"][0])) "Incorrect metrics for threshold 1.9")
+            testCase "A: threshold 0-9" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][1])) (snd (expectedMetricsMap["A"][1])) "Incorrect metrics for threshold 0.9")
+            testCase "A: threshold 0-8" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][2])) (snd (expectedMetricsMap["A"][2])) "Incorrect metrics for threshold 0.8")
+            testCase "A: threshold 0-7" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][3])) (snd (expectedMetricsMap["A"][3])) "Incorrect metrics for threshold 0.7")
+            testCase "A: threshold 0-6" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][4])) (snd (expectedMetricsMap["A"][4])) "Incorrect metrics for threshold 0.6")
+            testCase "A: threshold 0-5" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][5])) (snd (expectedMetricsMap["A"][5])) "Incorrect metrics for threshold 0.5")
+            testCase "A: threshold 0-4" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][6])) (snd (expectedMetricsMap["A"][6])) "Incorrect metrics for threshold 0.4")
+            testCase "A: threshold 0-3" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][7])) (snd (expectedMetricsMap["A"][7])) "Incorrect metrics for threshold 0.3")
+            testCase "A: threshold 0-2" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][8])) (snd (expectedMetricsMap["A"][8])) "Incorrect metrics for threshold 0.2")
+            testCase "A: threshold 0-1" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][9])) (snd (expectedMetricsMap["A"][9])) "Incorrect metrics for threshold 0.1")
+            testCase "A: threshold 0-0" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["A"][10])) (snd (expectedMetricsMap["A"][10])) "Incorrect metrics for threshold 0.0")
+
+            testCase "B: threshold 1-9" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][0])) (snd (expectedMetricsMap["B"][0])) "Incorrect metrics for threshold 1.9")
+            testCase "B: threshold 0-9" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][1])) (snd (expectedMetricsMap["B"][1])) "Incorrect metrics for threshold 0.9")
+            testCase "B: threshold 0-8" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][2])) (snd (expectedMetricsMap["B"][2])) "Incorrect metrics for threshold 0.8")
+            testCase "B: threshold 0-7" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][3])) (snd (expectedMetricsMap["B"][3])) "Incorrect metrics for threshold 0.7")
+            testCase "B: threshold 0-6" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][4])) (snd (expectedMetricsMap["B"][4])) "Incorrect metrics for threshold 0.6")
+            testCase "B: threshold 0-5" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][5])) (snd (expectedMetricsMap["B"][5])) "Incorrect metrics for threshold 0.5")
+            testCase "B: threshold 0-4" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][6])) (snd (expectedMetricsMap["B"][6])) "Incorrect metrics for threshold 0.4")
+            testCase "B: threshold 0-3" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][7])) (snd (expectedMetricsMap["B"][7])) "Incorrect metrics for threshold 0.3")
+            testCase "B: threshold 0-2" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][8])) (snd (expectedMetricsMap["B"][8])) "Incorrect metrics for threshold 0.2")
+            testCase "B: threshold 0-1" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][9])) (snd (expectedMetricsMap["B"][9])) "Incorrect metrics for threshold 0.1")
+            testCase "B: threshold 0-0" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["B"][10])) (snd (expectedMetricsMap["B"][10])) "Incorrect metrics for threshold 0.0")
+
+            testCase "C: threshold 1-9" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][0])) (snd (expectedMetricsMap["C"][0])) "Incorrect metrics for threshold 1.9")
+            testCase "C: threshold 0-9" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][1])) (snd (expectedMetricsMap["C"][1])) "Incorrect metrics for threshold 0.9")
+            testCase "C: threshold 0-8" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][2])) (snd (expectedMetricsMap["C"][2])) "Incorrect metrics for threshold 0.8")
+            testCase "C: threshold 0-7" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][3])) (snd (expectedMetricsMap["C"][3])) "Incorrect metrics for threshold 0.7")
+            testCase "C: threshold 0-6" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][4])) (snd (expectedMetricsMap["C"][4])) "Incorrect metrics for threshold 0.6")
+            testCase "C: threshold 0-5" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][5])) (snd (expectedMetricsMap["C"][5])) "Incorrect metrics for threshold 0.5")
+            testCase "C: threshold 0-4" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][6])) (snd (expectedMetricsMap["C"][6])) "Incorrect metrics for threshold 0.4")
+            testCase "C: threshold 0-3" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][7])) (snd (expectedMetricsMap["C"][7])) "Incorrect metrics for threshold 0.3")
+            testCase "C: threshold 0-2" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][8])) (snd (expectedMetricsMap["C"][8])) "Incorrect metrics for threshold 0.2")
+            testCase "C: threshold 0-1" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][9])) (snd (expectedMetricsMap["C"][9])) "Incorrect metrics for threshold 0.1")
+            testCase "C: threshold 0-0" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][10])) (snd (expectedMetricsMap["C"][10])) "Incorrect metrics for threshold 0.0")
         ]
     ]
 
