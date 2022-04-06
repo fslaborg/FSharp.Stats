@@ -44,5 +44,5 @@ jobs:
       uses: codecov/codecov-action@v2
       with:
         directory: ./
-        files: ./codeCov.txt
+        files: ./codeCov.xml
         verbose: true
