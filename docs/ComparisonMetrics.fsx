@@ -26,6 +26,20 @@ categoryindex: 0
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Integration.ipynb)
 
+#### Table of contents
+- [Confusion matrices](#Confusion-matrices)
+    - [Binary confusion matrix](#Binary-confusion-matrix)
+    - [Multi-label confusion matrix](#Multi-label-confusion-matrix)
+- [Comparison-Metric](#Comparison-Metrics)
+    - [ComparisonMetrics for binary comparisons](#ComparisonMetrics-for-binary-comparisons)
+    - [ComparisonMetrics for multi-label comparisons](#ComparisonMetrics-for-multi-label-comparisons)
+        - [Macro-averaging metrics](#Macro-averaging-metrics)
+        - [Micro-averaging metrics](#Micro-averaging-metrics)
+    - [Creating threshold-dependent metric maps](#Creating-threshold-dependent-metric-maps)
+        - [For binary predictions](#For-binary-predictions)
+        - [For multi-label predictions](#For-multi-label-predictions)
+        - [ROC curve example](#ROC-curve-example)
+
 FSharp.Stats contains a collection for assessing both binary and multi-label comparisons, for example the results of a binary/multi-label classification or the results of a statistical test.
 
 Usually, using the functions provided by the `ComparisonMetrics` module should be enough, but for clarity this documentation also introduces the `BinaryConfusionMatrix` and `MultiLabelConfusionMatrix` types that are used to derive the `ComparisonMetrics.`
