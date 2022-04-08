@@ -318,7 +318,7 @@ Predictions usually have a confidence or score attached, which indicates how "su
 
 Predictors can be compared by comparing the relative frequency distributions of metrics of interest for each possible (or obtained) confidence value.
 
-Two prominent examples are the **Reciever Operating Characteristic (ROC)** or the **Precision-Recall metric**
+Two prominent examples are the **Receiver Operating Characteristic (ROC)** or the **Precision-Recall metric**
 
 #### For binary predictions
 
@@ -360,7 +360,7 @@ let binaryROC =
         [0.9 ;0.6 ;0.7 ; 0.2 ; 0.7; 0.3 ; 0.1]
     )
 
-let auc = binaryROC |> NumericalIntegration.integrateObservations Midpoint
+let auc = binaryROC |> NumericalIntegration.definiteIntegral Trapezoidal
 
 let binaryROCChart =
     [
@@ -402,7 +402,7 @@ let multiLabelROC =
 
 let aucMap = 
     multiLabelROC 
-    |> Map.map (fun label roc -> roc |> NumericalIntegration.integrateObservations Midpoint)
+    |> Map.map (fun label roc -> roc |> NumericalIntegration.definiteIntegral Trapezoidal)
 
 let multiLabelROCChart =
     [

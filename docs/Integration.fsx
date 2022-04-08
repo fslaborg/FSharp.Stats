@@ -48,7 +48,7 @@ You can either integrate a function (`float -> float`) or observations. When est
 
 Any function with domain and range of float (`float -> float`) can be numerically integrated for an interval $[a,b]$ with $n$ partitions, which will be evenly spaced in the interval (partition length = $\frac{(b-a)}n$)
 
-Use the `NumericalIntegration.integrateFunction` function and pass the desired estimation method together with the integration interval start/endpoints and the amount of partitions(more on those methods in the chapters below).
+Use the `NumericalIntegration.definiteIntegral` function and pass the desired estimation method together with the integration interval start/endpoints and the amount of partitions(more on those methods in the chapters below).
 
 the expected exact value for the definite integral of $f(x) = x^3$ is 0.25
 
@@ -59,23 +59,23 @@ open FSharp.Stats.Integration
 let f (x: float) = x * x * x
 
 // integrate f in the interval [0.,1.] with 100 partitions using the left endpoint method
-f |> NumericalIntegration.integrateFunction(LeftEndpoint, 0., 1., 100)
+f |> NumericalIntegration.definiteIntegral(LeftEndpoint, 0., 1., 100)
 (***include-it***)
 
 // integrate f in the interval [0.,1.] with 100 partitions using the right endpoint method
-f |> NumericalIntegration.integrateFunction(RightEndpoint, 0., 1., 100)
+f |> NumericalIntegration.definiteIntegral(RightEndpoint, 0., 1., 100)
 (***include-it***)
 
 // integrate f in the interval [0.,1.] with 100 partitions using the midpoint method
-f |> NumericalIntegration.integrateFunction(Midpoint, 0., 1., 100)
+f |> NumericalIntegration.definiteIntegral(Midpoint, 0., 1., 100)
 (***include-it***)
 
 // integrate f in the interval [0.,1.] with 100 partitions using the trapezoidal method
-f |> NumericalIntegration.integrateFunction(Trapezoidal, 0., 1., 100)
+f |> NumericalIntegration.definiteIntegral(Trapezoidal, 0., 1., 100)
 (***include-it***)
 
 // integrate f in the interval [0.,1.] with 100 partitions using the simpson method
-f |> NumericalIntegration.integrateFunction(Simpson, 0., 1., 100)
+f |> NumericalIntegration.definiteIntegral(Simpson, 0., 1., 100)
 (***include-it***)
 
 (**
@@ -86,9 +86,9 @@ It should be noted that the accuracy of the estimation increases with the amount
 
 Instead of integrating a function by sampling the function values in a set interval, we can also calculate the definite integral of (x,y) pairs with these methods.
 
-This may be of use for example for calculating the area under the curve for prediction metrics such as the ROC(Reciever operator characteristic), which yields a distinct set of (Specificity/Fallout) pairs.
+This may be of use for example for calculating the area under the curve for prediction metrics such as the ROC(Receiver operator characteristic), which yields a distinct set of (Specificity/Fallout) pairs.
 
-Use the `NumericalIntegration.integrateObservations` function and pass the desired estimation method (more on those methods in the chapters below).
+Use the `NumericalIntegration.definiteIntegral` function and pass the desired estimation method (more on those methods in the chapters below).
 
 the expected exact value for the definite integral of $f(x) = x^2$ is $0.\overline3$
 *)
@@ -104,29 +104,29 @@ observations.Length
 (***include-it***)
 
 // integrate observations using the left endpoint method
-observations |> NumericalIntegration.integrateObservations LeftEndpoint
+observations |> NumericalIntegration.definiteIntegral LeftEndpoint
 (***include-it***)
 
 // integrate observations using the right endpoint method
-observations |> NumericalIntegration.integrateObservations RightEndpoint
+observations |> NumericalIntegration.definiteIntegral RightEndpoint
 (***include-it***)
 
 // integrate observations using the midpoint method
-observations |> NumericalIntegration.integrateObservations Midpoint
+observations |> NumericalIntegration.definiteIntegral Midpoint
 (***include-it***)
 
 // integrate observations using the trapezoidal method
-observations |> NumericalIntegration.integrateObservations Trapezoidal
+observations |> NumericalIntegration.definiteIntegral Trapezoidal
 (***include-it***)
 
 // integrate observations using the simpson method
-observations |> NumericalIntegration.integrateObservations Simpson
+observations |> NumericalIntegration.definiteIntegral Simpson
 (***include-it***)
 
 (**
 ## Explanation of the methods
 
-In the following chapter, each estimation method is introduced brefly and visualized for the example of $f(x) = x^3$ in the interval $[0,1]$ using 5 partitions.
+In the following chapter, each estimation method is introduced briefly and visualized for the example of $f(x) = x^3$ in the interval $[0,1]$ using 5 partitions.
 
 *)
 
@@ -348,5 +348,13 @@ $$
 $$
 
 The integral of the whole integration interval is obtained by summing the integral of n partitions.
+
+This rule can be derived by constructing parabolas that have the value of $f(x)$ for the partition boundaries $a$ and $b$, and the midpoint $m = \frac{a+b}2$ and calculating their definite integral for $[a,b]$
+
+Another possibility to derive this rule is the weighted average of the midpoint ($M$) and trapezoidal ($T$) rules $\frac{2M + T}3$
+
+![Simpson's One-Third Rule.gif](https://upload.wikimedia.org/wikipedia/commons/f/fc/Simpson%27s_One-Third_Rule.gif)
+
+[Source](https://en.wikipedia.org/wiki/Simpson%27s_rule)
 
 *)
