@@ -1,3 +1,12 @@
+(**
+---
+title: Clustering
+index: 13
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)

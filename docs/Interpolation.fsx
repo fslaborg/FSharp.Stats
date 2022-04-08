@@ -1,3 +1,12 @@
+(**
+---
+title: Interpolation
+index: 8
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)

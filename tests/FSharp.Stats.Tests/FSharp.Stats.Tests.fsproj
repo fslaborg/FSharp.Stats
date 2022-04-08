@@ -21,6 +21,7 @@
     <Compile Include="List.fs" />
     <Compile Include="Signal.fs" />
     <Compile Include="SpecialFunctions.fs" />
+    <Compile Include="Integration.fs" />
     <Compile Include="Testing.fs" />
     <Compile Include="Fitting.fs" />
     <Compile Include="Quantile.fs" />

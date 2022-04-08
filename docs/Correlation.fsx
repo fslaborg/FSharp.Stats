@@ -1,3 +1,12 @@
+(**
+---
+title: Correlation
+index: 5
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)

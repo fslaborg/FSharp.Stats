@@ -1,3 +1,12 @@
+(**
+---
+title: Fit quality
+index: 11
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)

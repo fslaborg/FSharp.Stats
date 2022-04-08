@@ -1,3 +1,12 @@
+(**
+---
+title: Statistical testing
+index: 2
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)

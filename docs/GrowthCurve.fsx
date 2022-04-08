@@ -1,3 +1,12 @@
+(**
+---
+title: Growth curve
+index: 9
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)

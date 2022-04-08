@@ -62,9 +62,12 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv MLTests.SimilarityMetrics.tverskySymmetricIndexTests  |> ignore
 
     //================================== Fitting ============================================================
-    Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests  |> ignore
-    Tests.runTestsWithCLIArgs [] argv FittingTests.leastSquaresCholeskyTests |> ignore
-    Tests.runTestsWithCLIArgs [] argv FittingTests.splineTests               |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests      |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.leastSquaresCholeskyTests    |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.splineTests      |> ignore
+
+    //================================== Integration ============================================================
+    Tests.runTestsWithCLIArgs [] argv IntegrationTests.numericalIntegrationTests      |> ignore
 
     //================================== Quantile ============================================================
     Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileDefaultTests  |> ignore

@@ -1,3 +1,12 @@
+(**
+---
+title: Fitting
+index: 7
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)

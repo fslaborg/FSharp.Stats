@@ -1,3 +1,12 @@
+(**
+---
+title: Signal processing
+index: 17
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)
@@ -29,7 +38,7 @@ module Chart =
 
 (**
 
-# Signal
+# Signal Processing
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Signal.ipynb)
 
@@ -490,6 +499,7 @@ The FFT analysis converts a signal from its original domain (often time or space
 *)
 
 open FSharp.Stats 
+open System.Numerics
 
 // Fast fourier transform
 
@@ -511,8 +521,8 @@ let timeSignal = time |> Array.map signal
 let fft = 
     Signal.FFT.inverseInPlace (
         timeSignal 
-        |> Array.map (fun v ->  Complex.Create (v, 0.) )) 
-    |> Array.map (fun c -> c.RealPart)
+        |> Array.map (fun v ->  Complex(v, 0.) )) 
+    |> Array.map (fun c -> c.Real)
 
 let fftChart = 
     [
