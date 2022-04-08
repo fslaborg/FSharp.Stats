@@ -715,7 +715,7 @@ module Continuous =
         static member CDF q r v c accuracy computeParallel =
             // An alternative (not implemented) algorithm makes use of t statistic to approximate q quite accurate: 
             // An accurate, non-iterativeapproximation for studentizedrange quantiles John R. Gleason ,Computational Statistics & Data Analysis 31 (1999) 147           
-            let accuracy   = defaultArg accuracy 2000.
+            let accuracy   = defaultArg accuracy 2000
     
             studentizedRangeCheckParam q r v
             let normal = normal 0. 1.
@@ -728,8 +728,8 @@ module Continuous =
                 if  not (Precision.almostEqualNorm (integrateInner -20.) (10.**(-20.))) || 
                     not (Precision.almostEqualNorm (integrateInner  20.) (10.**(-20.))) 
                     then printfn "Warning: Integral in q distribution H(q) does not start/end at y=0. Extend borders [-20,20]!"
-                if computeParallel then r * DefiniteIntegral.integratePSeq DefiniteIntegral.midRect integrateInner -20. 20. accuracy
-                else r * DefiniteIntegral.integrate DefiniteIntegral.midRect integrateInner -20. 20. accuracy
+                r * (NumericalIntegration.definiteIntegral(Midpoint, -20., 20., accuracy, Parallel=computeParallel) integrateInner)
+
     
             let f q r v c =
                 let partH u = (h (q * sqrt u) r) ** c
@@ -742,8 +742,8 @@ module Continuous =
                     let bordercase = com 50.
                     if not (Precision.almostEqualNorm bordercase (10.**(-20.))) then 
                         printfn "Warning: Integral in q distribution F(q) does not end at y=0 but at y=%.12f. Extend border [0,50]!" bordercase
-                if computeParallel then DefiniteIntegral.integratePSeq DefiniteIntegral.midRect com 0. 50. accuracy           
-                else DefiniteIntegral.integrate DefiniteIntegral.midRect com 0. 50. accuracy
+                NumericalIntegration.definiteIntegral(Midpoint, 0., 50., accuracy, Parallel=computeParallel) com
+
             f q r v c
 
             //Lawal B, Applied Statistical Methods in Agriculture, Health and Life Sciences, DOI 10.1007/978-3-319-05555-8, 2014
