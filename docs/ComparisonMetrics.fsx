@@ -348,6 +348,13 @@ ComparisonMetrics.multiLabelThresholdMap(
 (**
 #### ROC curve example
 
+A receiver operating characteristic curve, or ROC curve, is a graphical plot that illustrates the diagnostic ability of a binary classifier system as its discrimination threshold is varied.
+
+The ROC curve is created by plotting the true positive rate (TPR, sensitivity) against the false positive rate (FPR, fallout) at various threshold settings
+
+When using normalized units, the area under the curve (often referred to as simply the AUC) is equal to the probability that a classifier will rank a randomly chosen positive instance higher than a randomly chosen negative one (assuming 'positive' ranks higher than 'negative'). 
+In other words, when given one randomly selected positive instance and one randomly selected negative instance, AUC is the probability that the classifier will be able to tell which one is which.
+
 ##### Binary
 *)
 open Plotly.NET
