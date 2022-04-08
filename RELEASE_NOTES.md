@@ -1,3 +1,15 @@
+### 0.4.5+dd76c80 (Released 2022-4-8)
+* Additions:
+    * latest commit #dd76c80
+    * [[#188](https://github.com/fslaborg/FSharp.Stats/pull/188)] add Comparison metrics docs
+    * [[#188](https://github.com/fslaborg/FSharp.Stats/pull/188)] add binary confusion matrix
+    * [[#188](https://github.com/fslaborg/FSharp.Stats/pull/188)] add multi lable confusion matrix
+    * [[#188](https://github.com/fslaborg/FSharp.Stats/pull/188)] add integration docs
+* Improvements:
+    * [[#188](https://github.com/fslaborg/FSharp.Stats/pull/188)] update Integration module
+    * [[#2777594](https://github.com/fslaborg/FSharp.Stats/commit/277759476d1ceffe5486eb582119a6f72e808b70)] update to project-based build pipeline, use .net 6.0
+    * [[#192](https://github.com/fslaborg/FSharp.Stats/issues/192)] improve Quantile speed
+
 ### 0.4.4+30d2f800 (Released 2022-3-8)
 * Additions:
     * latest commit #30d2f800
