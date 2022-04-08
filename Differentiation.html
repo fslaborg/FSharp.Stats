@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Differentiation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
+
+    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head> 
+
+<body>
+    <div class="columns is-fullheight m-0">
+        <div id="fsdocs-menu" class="column is-2 is-paddingless">
+            <aside class="menu">
+                <div class="container is-paddingless is-marginless has-background-light">
+                    <a href="https://fslab.org/FSharp.Stats/">
+                        <figure class="image is-128x128 container">
+                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
+                        </figure>
+                    </a>
+                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
+                </div>
+                <div class="content">
+                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+                    <div id="header">
+                        <div class="searchbox" id="fsdocs-searchbox">
+                            <label for="search-by">
+                                <i class="fas fa-search"></i>
+                            </label>
+                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
+                            <span data-search-clear="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END SEARCH BOX: this adds support for the search box -->
+                    <ul class="navbar-nav">
+                        <li class="nav-header">Links</li>
+                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
+                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
+                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
+                        <li class="nav-header">
+  Documentation
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Matrix_Vector.html">
+    Matrix and Vector
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/LinearAlgebra.html">
+    Linear Algebra
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>
+                        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-10 is-paddingless">
+            <div class="section pt-4">
+                <div class="container" id="fsdocs-content">
+                    
+<h1><a name="Numerical-Differentiation" class="anchor" href="#Numerical-Differentiation">Numerical Differentiation</a></h1>
+<p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Integration.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
+<p>Numerical differentiation is used to estimate the derivative of a mathematical function using values of the function and perhaps other knowledge about the function.</p>
+<h3><a name="Three-Point-Differentiation" class="anchor" href="#Three-Point-Differentiation">Three-Point Differentiation</a></h3>
+<p>FSharp.Stats implements a three point differentiation method. This method takes a set of values and their function values. For a given value xT of the set, one defines three other points which should be considered to calculate the differential at xT.
+Here follows a small snippet.</p>
+<p>First, we create our data. In this case our function is f(x) = x ^ 3.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs30', 64)" onmouseover="showTip(event, 'fs30', 64)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 65)" onmouseover="showTip(event, 'fs31', 65)" class="id">Stats</span>
+
+<span class="c">// x data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 66)" onmouseover="showTip(event, 'fs32', 66)" class="id">xs</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 67)" onmouseover="showTip(event, 'fs33', 67)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 68)" onmouseover="showTip(event, 'fs34', 68)" class="id">init</span> <span class="n">100</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs35', 69)" onmouseover="showTip(event, 'fs35', 69)" class="fn">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs36', 70)" onmouseover="showTip(event, 'fs36', 70)" class="fn">float</span> <span onmouseout="hideTip(event, 'fs35', 71)" onmouseover="showTip(event, 'fs35', 71)" class="fn">x</span> <span class="o">/</span> <span class="n">8.</span><span class="pn">)</span>
+<span class="c">// y data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 72)" onmouseover="showTip(event, 'fs37', 72)" class="id">ys</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs33', 73)" onmouseover="showTip(event, 'fs33', 73)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 74)" onmouseover="showTip(event, 'fs38', 74)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs39', 75)" onmouseover="showTip(event, 'fs39', 75)" class="fn">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs39', 76)" onmouseover="showTip(event, 'fs39', 76)" class="fn">x</span> <span class="o">**</span> <span class="n">3.</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs32', 77)" onmouseover="showTip(event, 'fs32', 77)" class="id">xs</span>
+</code></pre>
+<p>Now we apply the threePointDifferentiation to every point starting with the second and ending with the second last. We can't do it for every point because for every point we need to have three other points in close proximity.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 78)" onmouseover="showTip(event, 'fs40', 78)" class="id">y&#39;s</span> <span class="o">=</span> 
+    <span class="pn">[|</span>
+    <span class="k">for</span> <span onmouseout="hideTip(event, 'fs41', 79)" onmouseover="showTip(event, 'fs41', 79)" class="fn">i</span> <span class="o">=</span> <span class="n">1</span> <span class="k">to</span> <span onmouseout="hideTip(event, 'fs32', 80)" onmouseover="showTip(event, 'fs32', 80)" class="id">xs</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 81)" onmouseover="showTip(event, 'fs42', 81)" class="id">Length</span> <span class="o">-</span> <span class="n">2</span> <span class="k">do</span>
+        <span class="k">yield</span> <span onmouseout="hideTip(event, 'fs32', 82)" onmouseover="showTip(event, 'fs32', 82)" class="id">xs</span><span class="pn">.</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs41', 83)" onmouseover="showTip(event, 'fs41', 83)" class="fn">i</span><span class="pn">]</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs43', 84)" onmouseover="showTip(event, 'fs43', 84)" class="id">Integration</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 85)" onmouseover="showTip(event, 'fs44', 85)" class="m">Differentiation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs45', 86)" onmouseover="showTip(event, 'fs45', 86)" class="id">differentiateThreePoint</span> <span onmouseout="hideTip(event, 'fs32', 87)" onmouseover="showTip(event, 'fs32', 87)" class="id">xs</span> <span onmouseout="hideTip(event, 'fs37', 88)" onmouseover="showTip(event, 'fs37', 88)" class="id">ys</span> <span onmouseout="hideTip(event, 'fs41', 89)" onmouseover="showTip(event, 'fs41', 89)" class="fn">i</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs41', 90)" onmouseover="showTip(event, 'fs41', 90)" class="fn">i</span><span class="o">-</span><span class="n">1</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs41', 91)" onmouseover="showTip(event, 'fs41', 91)" class="fn">i</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs41', 92)" onmouseover="showTip(event, 'fs41', 92)" class="fn">i</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span>
+    <span class="pn">|]</span>
+</code></pre>
+<p>We compare the resulting values with the values of the known differential f'(x) = 3x^2, here called g(x)</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 93)" onmouseover="showTip(event, 'fs1', 93)" class="id">Plotly</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 94)" onmouseover="showTip(event, 'fs2', 94)" class="id">NET</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 95)" onmouseover="showTip(event, 'fs46', 95)" class="id">comparisonChart</span> <span class="o">=</span> 
+    <span class="pn">[</span>
+    <span onmouseout="hideTip(event, 'fs47', 96)" onmouseover="showTip(event, 'fs47', 96)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs48', 97)" onmouseover="showTip(event, 'fs48', 97)" class="id">Point</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs32', 98)" onmouseover="showTip(event, 'fs32', 98)" class="id">xs</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs37', 99)" onmouseover="showTip(event, 'fs37', 99)" class="id">ys</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs49', 100)" onmouseover="showTip(event, 'fs49', 100)" class="fn">Name</span> <span class="o">=</span> <span class="s">&quot;f(x)&quot;</span><span class="pn">)</span>
+    <span onmouseout="hideTip(event, 'fs47', 101)" onmouseover="showTip(event, 'fs47', 101)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs48', 102)" onmouseover="showTip(event, 'fs48', 102)" class="id">Point</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs40', 103)" onmouseover="showTip(event, 'fs40', 103)" class="id">y&#39;s</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs49', 104)" onmouseover="showTip(event, 'fs49', 104)" class="fn">Name</span> <span class="o">=</span> <span class="s">&quot;f&#39;(x)&quot;</span><span class="pn">)</span>
+    <span onmouseout="hideTip(event, 'fs47', 105)" onmouseover="showTip(event, 'fs47', 105)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs48', 106)" onmouseover="showTip(event, 'fs48', 106)" class="id">Point</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs33', 107)" onmouseover="showTip(event, 'fs33', 107)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 108)" onmouseover="showTip(event, 'fs38', 108)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs39', 109)" onmouseover="showTip(event, 'fs39', 109)" class="fn">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs39', 110)" onmouseover="showTip(event, 'fs39', 110)" class="fn">x</span><span class="pn">,</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs39', 111)" onmouseover="showTip(event, 'fs39', 111)" class="fn">x</span> <span class="o">**</span> <span class="n">2.</span><span class="pn">)</span> <span class="o">*</span> <span class="n">3.</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs32', 112)" onmouseover="showTip(event, 'fs32', 112)" class="id">xs</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs49', 113)" onmouseover="showTip(event, 'fs49', 113)" class="fn">Name</span> <span class="o">=</span> <span class="s">&quot;g(x)&quot;</span><span class="pn">)</span>
+    <span class="pn">]</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs47', 114)" onmouseover="showTip(event, 'fs47', 114)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 115)" onmouseover="showTip(event, 'fs50', 115)" class="id">combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs47', 116)" onmouseover="showTip(event, 'fs47', 116)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 117)" onmouseover="showTip(event, 'fs21', 117)" class="id">withAxisTitles</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;&quot;</span>
+</code></pre>
+<div id="6e517d6c-9bf0-4680-b65f-9643d35f305c"><!-- Plotly chart will be drawn inside this DIV --></div>
+<script type="text/javascript">
+
+            var renderPlotly_6e517d6c9bf04680b65f9643d35f305c = function() {
+            var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
+            fsharpPlotlyRequire(['plotly'], function(Plotly) {
+
+            var data = [{"type":"scatter","name":"f(x)","mode":"markers","x":[0.0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1.0,1.125,1.25,1.375,1.5,1.625,1.75,1.875,2.0,2.125,2.25,2.375,2.5,2.625,2.75,2.875,3.0,3.125,3.25,3.375,3.5,3.625,3.75,3.875,4.0,4.125,4.25,4.375,4.5,4.625,4.75,4.875,5.0,5.125,5.25,5.375,5.5,5.625,5.75,5.875,6.0,6.125,6.25,6.375,6.5,6.625,6.75,6.875,7.0,7.125,7.25,7.375,7.5,7.625,7.75,7.875,8.0,8.125,8.25,8.375,8.5,8.625,8.75,8.875,9.0,9.125,9.25,9.375,9.5,9.625,9.75,9.875,10.0,10.125,10.25,10.375,10.5,10.625,10.75,10.875,11.0,11.125,11.25,11.375,11.5,11.625,11.75,11.875,12.0,12.125,12.25,12.375],"y":[0.0,0.001953125,0.015625,0.052734375,0.125,0.244140625,0.421875,0.669921875,1.0,1.423828125,1.953125,2.599609375,3.375,4.291015625,5.359375,6.591796875,8.0,9.595703125,11.390625,13.396484375,15.625,18.087890625,20.796875,23.763671875,27.0,30.517578125,34.328125,38.443359375,42.875,47.634765625,52.734375,58.185546875,64.0,70.189453125,76.765625,83.740234375,91.125,98.931640625,107.171875,115.857421875,125.0,134.611328125,144.703125,155.287109375,166.375,177.978515625,190.109375,202.779296875,216.0,229.783203125,244.140625,259.083984375,274.625,290.775390625,307.546875,324.951171875,343.0,361.705078125,381.078125,401.130859375,421.875,443.322265625,465.484375,488.373046875,512.0,536.376953125,561.515625,587.427734375,614.125,641.619140625,669.921875,699.044921875,729.0,759.798828125,791.453125,823.974609375,857.375,891.666015625,926.859375,962.966796875,1000.0,1037.970703125,1076.890625,1116.771484375,1157.625,1199.462890625,1242.296875,1286.138671875,1331.0,1376.892578125,1423.828125,1471.818359375,1520.875,1571.009765625,1622.234375,1674.560546875,1728.0,1782.564453125,1838.265625,1895.115234375],"marker":{},"line":{}},{"type":"scatter","name":"f'(x)","mode":"markers","x":[0.125,0.25,0.375,0.5,0.625,0.75,0.875,1.0,1.125,1.25,1.375,1.5,1.625,1.75,1.875,2.0,2.125,2.25,2.375,2.5,2.625,2.75,2.875,3.0,3.125,3.25,3.375,3.5,3.625,3.75,3.875,4.0,4.125,4.25,4.375,4.5,4.625,4.75,4.875,5.0,5.125,5.25,5.375,5.5,5.625,5.75,5.875,6.0,6.125,6.25,6.375,6.5,6.625,6.75,6.875,7.0,7.125,7.25,7.375,7.5,7.625,7.75,7.875,8.0,8.125,8.25,8.375,8.5,8.625,8.75,8.875,9.0,9.125,9.25,9.375,9.5,9.625,9.75,9.875,10.0,10.125,10.25,10.375,10.5,10.625,10.75,10.875,11.0,11.125,11.25,11.375,11.5,11.625,11.75,11.875,12.0,12.125,12.25],"y":[0.0625,0.203125,0.4375,0.765625,1.1875,1.703125,2.3125,3.015625,3.8125,4.703125,5.6875,6.765625,7.9375,9.203125,10.5625,12.015625,13.5625,15.203125,16.9375,18.765625,20.6875,22.703125,24.8125,27.015625,29.3125,31.703125,34.1875,36.765625,39.4375,42.203125,45.0625,48.015625,51.0625,54.203125,57.4375,60.765625,64.1875,67.703125,71.3125,75.015625,78.8125,82.703125,86.6875,90.765625,94.9375,99.203125,103.5625,108.015625,112.5625,117.203125,121.9375,126.765625,131.6875,136.703125,141.8125,147.015625,152.3125,157.703125,163.1875,168.765625,174.4375,180.203125,186.0625,192.015625,198.0625,204.203125,210.4375,216.765625,223.1875,229.703125,236.3125,243.015625,249.8125,256.703125,263.6875,270.765625,277.9375,285.203125,292.5625,300.015625,307.5625,315.203125,322.9375,330.765625,338.6875,346.703125,354.8125,363.015625,371.3125,379.703125,388.1875,396.765625,405.4375,414.203125,423.0625,432.015625,441.0625,450.203125],"marker":{},"line":{}},{"type":"scatter","name":"g(x)","mode":"markers","x":[0.0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1.0,1.125,1.25,1.375,1.5,1.625,1.75,1.875,2.0,2.125,2.25,2.375,2.5,2.625,2.75,2.875,3.0,3.125,3.25,3.375,3.5,3.625,3.75,3.875,4.0,4.125,4.25,4.375,4.5,4.625,4.75,4.875,5.0,5.125,5.25,5.375,5.5,5.625,5.75,5.875,6.0,6.125,6.25,6.375,6.5,6.625,6.75,6.875,7.0,7.125,7.25,7.375,7.5,7.625,7.75,7.875,8.0,8.125,8.25,8.375,8.5,8.625,8.75,8.875,9.0,9.125,9.25,9.375,9.5,9.625,9.75,9.875,10.0,10.125,10.25,10.375,10.5,10.625,10.75,10.875,11.0,11.125,11.25,11.375,11.5,11.625,11.75,11.875,12.0,12.125,12.25,12.375],"y":[0.0,0.046875,0.1875,0.421875,0.75,1.171875,1.6875,2.296875,3.0,3.796875,4.6875,5.671875,6.75,7.921875,9.1875,10.546875,12.0,13.546875,15.1875,16.921875,18.75,20.671875,22.6875,24.796875,27.0,29.296875,31.6875,34.171875,36.75,39.421875,42.1875,45.046875,48.0,51.046875,54.1875,57.421875,60.75,64.171875,67.6875,71.296875,75.0,78.796875,82.6875,86.671875,90.75,94.921875,99.1875,103.546875,108.0,112.546875,117.1875,121.921875,126.75,131.671875,136.6875,141.796875,147.0,152.296875,157.6875,163.171875,168.75,174.421875,180.1875,186.046875,192.0,198.046875,204.1875,210.421875,216.75,223.171875,229.6875,236.296875,243.0,249.796875,256.6875,263.671875,270.75,277.921875,285.1875,292.546875,300.0,307.546875,315.1875,322.921875,330.75,338.671875,346.6875,354.796875,363.0,371.296875,379.6875,388.171875,396.75,405.421875,414.1875,423.046875,432.0,441.046875,450.1875,459.421875],"marker":{},"line":{}}];
+            var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false}};
+            var config = {"responsive":true};
+            Plotly.newPlot('6e517d6c-9bf0-4680-b65f-9643d35f305c', data, layout, config);
+});
+            };
+            if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
+                var script = document.createElement("script");
+                script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
+                script.onload = function(){
+                    renderPlotly_6e517d6c9bf04680b65f9643d35f305c();
+                };
+                document.getElementsByTagName("head")[0].appendChild(script);
+            }
+            else {
+                renderPlotly_6e517d6c9bf04680b65f9643d35f305c();
+            }
+</script>
+
+<h3><a name="Two-Point-Differentiation" class="anchor" href="#Two-Point-Differentiation">Two-Point Differentiation</a></h3>
+<p>To calculate the approximation for the derivative, a Two-Point Differentiation calculates the difference of f(x) at x and f(x) at x+h and correlates it to h.
+This will give better approximations the smaller h is.
+The function uses two different mathematical approaches to decrease the error, one for h &gt; 1. and one for h &lt; 1.</p>
+</br>
+<p><img src="img/Derivative.svg.png" alt="Data model" /></p>
+</br>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs30', 121)" onmouseover="showTip(event, 'fs30', 121)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 122)" onmouseover="showTip(event, 'fs31', 122)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 123)" onmouseover="showTip(event, 'fs43', 123)" class="id">Integration</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 124)" onmouseover="showTip(event, 'fs44', 124)" class="m">Differentiation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 125)" onmouseover="showTip(event, 'fs53', 125)" class="m">TwoPointDifferentiation</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs30', 126)" onmouseover="showTip(event, 'fs30', 126)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 127)" onmouseover="showTip(event, 'fs31', 127)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 128)" onmouseover="showTip(event, 'fs43', 128)" class="id">Integration</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 129)" onmouseover="showTip(event, 'fs44', 129)" class="m">Differentiation</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs54', 130)" onmouseover="showTip(event, 'fs54', 130)" class="fn">testFunction</span> <span onmouseout="hideTip(event, 'fs39', 131)" onmouseover="showTip(event, 'fs39', 131)" class="fn">x</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs39', 132)" onmouseover="showTip(event, 'fs39', 132)" class="fn">x</span><span class="o">**</span><span class="n">2.</span> 
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs55', 133)" onmouseover="showTip(event, 'fs55', 133)" class="id">test1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs56', 134)" onmouseover="showTip(event, 'fs56', 134)" class="fn">differentiate</span> <span class="n">0.5</span> <span onmouseout="hideTip(event, 'fs54', 135)" onmouseover="showTip(event, 'fs54', 135)" class="fn">testFunction</span> <span class="n">2.</span>
+<span class="c">//Result for test1 is: 4.00</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs57', 136)" onmouseover="showTip(event, 'fs57', 136)" class="id">test2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs56', 137)" onmouseover="showTip(event, 'fs56', 137)" class="fn">differentiate</span> <span class="n">3.</span> <span onmouseout="hideTip(event, 'fs54', 138)" onmouseover="showTip(event, 'fs54', 138)" class="fn">testFunction</span> <span class="n">2.</span>
+<span class="c">//Result for test2 is: 7.00</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs58', 139)" onmouseover="showTip(event, 'fs58', 139)" class="id">test3</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs56', 140)" onmouseover="showTip(event, 'fs56', 140)" class="fn">differentiate</span> <span class="n">0.1</span> <span onmouseout="hideTip(event, 'fs54', 141)" onmouseover="showTip(event, 'fs54', 141)" class="fn">testFunction</span> <span class="n">2.</span>
+<span class="c">//Result for test3 is: 4.00</span>
+</code></pre>
+<ul>
+<li>The correct result for test1 (f(x) = x<em></em>2.) is assumed to be 4.</li>
+<li>With a higher h (for test2 h = 3., compared to the 0.5 used in test1) the approximation error increases.</li>
+</ul>
+<p>You can try and find an optimal h - value with the "differentiateOptimalHBy" - function.
+This function uses the first h-value it assumes to give good results for the numerical differentiation calculation.
+Due to this, possible error due to float precision is avoided.
+In the following example this is not really necessary, as values are quite big.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs59', 142)" onmouseover="showTip(event, 'fs59', 142)" class="id">hArray</span> <span class="o">=</span> <span class="pn">[|</span><span class="o">0.1</span> <span class="o">..</span> <span class="n">0.1</span> <span class="o">..</span> <span class="n">2.</span><span class="pn">|]</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs60', 143)" onmouseover="showTip(event, 'fs60', 143)" class="id">test4</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs61', 144)" onmouseover="showTip(event, 'fs61', 144)" class="fn">differentiateOptimalHBy</span> <span onmouseout="hideTip(event, 'fs59', 145)" onmouseover="showTip(event, 'fs59', 145)" class="id">hArray</span> <span onmouseout="hideTip(event, 'fs54', 146)" onmouseover="showTip(event, 'fs54', 146)" class="fn">testFunction</span> <span class="n">2.</span>
+<span class="c">//Result for test4 is: 4.00</span>
+</code></pre>
+<p>If you want to use a presuggested hArray then you can use the "differentiateOptimalH" function.
+This function uses an array from 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005; 0.0001 ..|]-increments as hArray.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs62', 147)" onmouseover="showTip(event, 'fs62', 147)" class="id">test5</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs63', 148)" onmouseover="showTip(event, 'fs63', 148)" class="fn">differentiateOptimalH</span> <span onmouseout="hideTip(event, 'fs54', 149)" onmouseover="showTip(event, 'fs54', 149)" class="fn">testFunction</span> <span class="n">2.</span> 
+<span class="c">//Result for test5 is: 4.00</span>
+</code></pre>
+
+                </div>
+            </div>
+        </div>
+        <div class="fsdocs-tip" id="fs1">namespace Plotly</div>
+<div class="fsdocs-tip" id="fs2">namespace Plotly.NET</div>
+<div class="fsdocs-tip" id="fs3">module StyleParam
+
+from Plotly.NET</div>
+<div class="fsdocs-tip" id="fs4">namespace Plotly.NET.LayoutObjects</div>
+<div class="fsdocs-tip" id="fs5">type Chart =
+  static member AnnotatedHeatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * annotationText: seq&lt;#seq&lt;string&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a5 :&gt; IConvertible)
+  static member Area: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowMarkers: bool * ?ShowLegend: bool * ?MarkerSymbol: MarkerSymbol * ?Color: Color * ?Opacity: float * ?Labels: seq&lt;#IConvertible&gt; * ?TextPosition: TextPosition * ?TextFont: Font * ?Dash: DrawingStyle * ?Width: float * ?UseDefaults: bool -&gt; GenericChart + 1 overload
+  static member Bar: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member BoxPlot: ?x: seq&lt;#IConvertible&gt; * ?y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?Fillcolor: Color * ?MarkerColor: Color * ?OutlierColor: Color * ?OutlierWidth: int * ?Opacity: float * ?WhiskerWidth: float * ?BoxPoints: BoxPoints * ?BoxMean: BoxMean * ?Jitter: float * ?PointPos: float * ?Orientation: Orientation * ?Marker: Marker * ?Line: Line * ?AlignmentGroup: string * ?Offsetgroup: string * ?Notched: bool * ?NotchWidth: float * ?QuartileMethod: QuartileMethod * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Bubble: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * sizes: seq&lt;int&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Candlestick: ``open`` : seq&lt;#IConvertible&gt; * high: seq&lt;#IConvertible&gt; * low: seq&lt;#IConvertible&gt; * close: seq&lt;#IConvertible&gt; * x: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?Line: Line * ?IncreasingColor: Color * ?Increasing: FinanceMarker * ?DecreasingColor: Color * ?Decreasing: FinanceMarker * ?WhiskerWidth: float * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a5 :&gt; IConvertible) + 1 overload
+  static member Column: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member Contour: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?Y: seq&lt;#IConvertible&gt; * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?Transpose: bool * ?LineColor: Color * ?LineDash: DrawingStyle * ?Line: Line * ?ContoursColoring: ContourColoring * ?ContoursOperation: ConstraintOperation * ?ContoursType: ContourType * ?ShowContourLabels: bool * ?ContourLabelFont: Font * ?Contours: Contours * ?FillColor: Color * ?NContours: int * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
+  static member Funnel: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Width: float * ?Offset: float * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?Orientation: Orientation * ?AlignmentGroup: string * ?OffsetGroup: string * ?MarkerColor: Color * ?MarkerOutline: Line * ?Marker: Marker * ?TextInfo: TextInfo * ?ConnectorLineColor: Color * ?ConnectorLineStyle: DrawingStyle * ?ConnectorFillColor: Color * ?ConnectorLine: Line * ?Connector: FunnelConnector * ?InsideTextFont: Font * ?OutsideTextFont: Font * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
+  static member Heatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  ...</div>
+<div class="fsdocs-tip" id="fs6">val myAxis: name: string -&gt; LinearAxis</div>
+<div class="fsdocs-tip" id="fs7">val name: string</div>
+<div class="fsdocs-tip" id="fs8">Multiple items<br />type LinearAxis =
+  inherit DynamicObj
+  new: unit -&gt; LinearAxis
+  static member init: ?Visible: bool * ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#IConvertible&gt; * ?UIRevision: #IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar * ?BackgroundColor: Color * ?ShowBackground: bool -&gt; LinearAxis
+  static member initCarpet: ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?ShowTickLabels: bool * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#IConvertible&gt; * ?ArrayDTick: int * ?ArrayTick0: int * ?CheaterType: CheaterType * ?EndLine: bool * ?EndLineColor: Color * ?EndLineWidth: int * ?LabelPadding: int * ?LabelPrefix: string * ?LabelSuffix: string * ?MinorGridColor: Color * ?MinorGridCount: int * ?MinorGridWidth: int * ?Smoothing: float * ?StartLine: bool * ?StartLineColor: Color * ?StartLineWidth: int -&gt; LinearAxis
+  static member initCategorical: categoryOrder: CategoryOrder * ?Visible: bool * ?Color: Color * ?Title: Title * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryArray: seq&lt;#IConvertible&gt; * ?UIRevision: #IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar -&gt; LinearAxis
+  static member initIndicatorGauge: ?DTick: #IConvertible * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?NTicks: int * ?Range: Range * ?SeparateThousands: bool * ?ShowExponent: ShowExponent * ?ShowTickLabels: bool * ?ShowTickPrefix: ShowTickOption * ?ShowTickSuffix: ShowTickOption * ?Tick0: #IConvertible * ?TickAngle: int * ?TickColor: Color * ?TickFont: Font * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?TickLen: int * ?TickMode: TickMode * ?TickPrefix: string * ?Ticks: TickOptions * ?TickSuffix: string * ?TickText: seq&lt;#IConvertible&gt; * ?TickVals: seq&lt;#IConvertible&gt; * ?TickWidth: int * ?Visible: bool -&gt; LinearAxis
+  static member style: ?Visible: bool * ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#IConvertible&gt; * ?UIRevision: #IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar * ?ArrayDTick: int * ?ArrayTick0: int * ?CheaterType: CheaterType * ?EndLine: bool * ?EndLineColor: Color * ?EndLineWidth: int * ?LabelPadding: int * ?LabelPrefix: string * ?LabelSuffix: string * ?MinorGridColor: Color * ?MinorGridCount: int * ?MinorGridWidth: int * ?Smoothing: float * ?StartLine: bool * ?StartLineColor: Color * ?StartLineWidth: int * ?BackgroundColor: Color * ?ShowBackground: bool -&gt; (LinearAxis -&gt; LinearAxis)<br /><em>&lt;summary&gt;Linear axes can be used as x and y scales on 2D plots, and as x,y, and z scales on 3D plots.&lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; LinearAxis</div>
+<div class="fsdocs-tip" id="fs9">static member LinearAxis.init: ?Visible: bool * ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #System.IConvertible * ?DTick: #System.IConvertible * ?TickVals: seq&lt;#System.IConvertible&gt; * ?TickText: seq&lt;#System.IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#System.IConvertible&gt; * ?UIRevision: #System.IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar * ?BackgroundColor: Color * ?ShowBackground: bool -&gt; LinearAxis</div>
+<div class="fsdocs-tip" id="fs10">Multiple items<br />type Title =
+  inherit DynamicObj
+  new: unit -&gt; Title
+  static member init: ?Text: string * ?Font: Font * ?Standoff: int * ?Side: Side * ?X: float * ?Y: float -&gt; Title
+  static member style: ?Text: string * ?Font: Font * ?Standoff: int * ?Side: Side * ?X: float * ?Y: float -&gt; (Title -&gt; Title)<br /><br />--------------------<br />new: unit -&gt; Title</div>
+<div class="fsdocs-tip" id="fs11">static member Title.init: ?Text: string * ?Font: Font * ?Standoff: int * ?Side: Side * ?X: float * ?Y: float -&gt; Title</div>
+<div class="fsdocs-tip" id="fs12">type Mirror =
+  | True
+  | Ticks
+  | False
+  | All
+  | AllTicks
+  member Convert: unit -&gt; obj
+  override ToString: unit -&gt; string
+  static member convert: (Mirror -&gt; obj)
+  static member toString: (Mirror -&gt; string)<br /><em>&lt;summary&gt;
+ Determines if the axis lines or/and ticks are mirrored to the opposite side of the plotting area. If &quot;true&quot;, the axis lines are mirrored.
+ If &quot;ticks&quot;, the axis lines and ticks are mirrored. If &quot;false&quot;, mirroring is disable. If &quot;all&quot;, axis lines are mirrored on all shared-axes subplots. If &quot;allticks&quot;, axis lines and ticks are mirrored on all shared-axes subplots.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs13">union case Mirror.All: Mirror</div>
+<div class="fsdocs-tip" id="fs14">type TickOptions =
+  | Outside
+  | Inside
+  | Empty
+  member Convert: unit -&gt; obj
+  override ToString: unit -&gt; string
+  static member convert: (TickOptions -&gt; obj)
+  static member toString: (TickOptions -&gt; string)<br /><em>&lt;summary&gt;
+ Determines whether ticks are drawn or not. If &quot;&quot;, this axis&#39; ticks are not drawn. If &quot;outside&quot; (&quot;inside&quot;), this axis&#39; are drawn outside (inside) the axis lines.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs15">union case TickOptions.Inside: TickOptions</div>
+<div class="fsdocs-tip" id="fs16">val myAxisRange: name: string -&gt; min: float * max: float -&gt; LinearAxis</div>
+<div class="fsdocs-tip" id="fs17">val min: float</div>
+<div class="fsdocs-tip" id="fs18">val max: float</div>
+<div class="fsdocs-tip" id="fs19">type Range =
+  | MinMax of float * float
+  | Values of float array
+  member Convert: unit -&gt; obj
+  static member convert: (Range -&gt; obj)<br /><em>&lt;summary&gt;
+ Defines a Range between min and max value
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs20">union case Range.MinMax: float * float -&gt; Range</div>
+<div class="fsdocs-tip" id="fs21">val withAxisTitles: x: string -&gt; y: string -&gt; chart: GenericChart.GenericChart -&gt; GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs22">val x: string</div>
+<div class="fsdocs-tip" id="fs23">val y: string</div>
+<div class="fsdocs-tip" id="fs24">val chart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs25">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs26">module ChartTemplates
+
+from Plotly.NET</div>
+<div class="fsdocs-tip" id="fs27">val lightMirrored: Template</div>
+<div class="fsdocs-tip" id="fs28">static member Chart.withXAxis: xAxis: LinearAxis * ?Id: SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs29">static member Chart.withYAxis: yAxis: LinearAxis * ?Id: SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs30">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs31">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs32">val xs: float[]</div>
+<div class="fsdocs-tip" id="fs33">Multiple items<br />module Array
+
+from FSharp.Stats<br /><em>&lt;summary&gt;
+ Module to compute common statistical measure on array
+&lt;/summary&gt;</em><br /><br />--------------------<br />module Array
+
+from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with arrays.&lt;/summary&gt;<br />&lt;remarks&gt;
+  See also &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/arrays&quot;&gt;F# Language Guide - Arrays&lt;/a&gt;.
+ &lt;/remarks&gt;</em></div>
+<div class="fsdocs-tip" id="fs34">val init: count: int -&gt; initializer: (int -&gt; &#39;T) -&gt; &#39;T[]<br /><em>&lt;summary&gt;Creates an array given the dimension and a generator function to compute the elements.&lt;/summary&gt;<br />&lt;param name=&quot;count&quot;&gt;The number of elements to initialize.&lt;/param&gt;<br />&lt;param name=&quot;initializer&quot;&gt;The function to generate the initial values for each index.&lt;/param&gt;<br />&lt;returns&gt;The created array.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentException&quot;&gt;Thrown when count is negative.&lt;/exception&gt;<br />&lt;example id=&quot;init-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ Array.init 4 (fun v -&amp;gt; v + 5)
+ &lt;/code&gt;
+ Evaluates to &lt;c&gt;[| 5; 6; 7; 8 |]&lt;/c&gt;&lt;/example&gt;<br />&lt;example id=&quot;init-2&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ Array.init -5 (fun v -&amp;gt; v + 5)
+ &lt;/code&gt;
+ Throws &lt;c&gt;ArgumentException&lt;/c&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs35">val x: int</div>
+<div class="fsdocs-tip" id="fs36">Multiple items<br />val float: value: &#39;T -&gt; float (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to 64-bit float. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using &lt;c&gt;Double.Parse()&lt;/c&gt;  
+ with InvariantCulture settings. Otherwise the operation requires an appropriate
+ static conversion method on the input type.&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The converted float&lt;/returns&gt;<br />&lt;example id=&quot;float-example&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;&lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
+type float = System.Double<br /><em>&lt;summary&gt;An abbreviation for the CLI type &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category&gt;Basic Types&lt;/category&gt;</em><br /><br />--------------------<br />type float&lt;&#39;Measure&gt; =
+  float<br /><em>&lt;summary&gt;The type of double-precision floating point numbers, annotated with a unit of measure.
+ The unit of measure is erased in compiled code and when values of this type
+ are analyzed using reflection. The type is representationally equivalent to
+ &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category index=&quot;6&quot;&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
+<div class="fsdocs-tip" id="fs37">val ys: float[]</div>
+<div class="fsdocs-tip" id="fs38">val map: mapping: (&#39;T -&gt; &#39;U) -&gt; array: &#39;T[] -&gt; &#39;U[]<br /><em>&lt;summary&gt;Builds a new array whose elements are the results of applying the given function
+ to each of the elements of the array.&lt;/summary&gt;<br />&lt;param name=&quot;mapping&quot;&gt;The function to transform elements of the array.&lt;/param&gt;<br />&lt;param name=&quot;array&quot;&gt;The input array.&lt;/param&gt;<br />&lt;returns&gt;The array of transformed elements.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input array is null.&lt;/exception&gt;<br />&lt;example id=&quot;map-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ let inputs = [| &quot;a&quot;; &quot;bbb&quot;; &quot;cc&quot; |]
+
+ inputs |&amp;gt; Array.map (fun x -&amp;gt; x.Length)
+ &lt;/code&gt;
+ Evaluates to &lt;c&gt;[| 1; 3; 2 |]&lt;/c&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs39">val x: float</div>
+<div class="fsdocs-tip" id="fs40">val y&#39;s: (float * float)[]</div>
+<div class="fsdocs-tip" id="fs41">val i: int</div>
+<div class="fsdocs-tip" id="fs42">property System.Array.Length: int with get<br /><em>&lt;summary&gt;Gets the total number of elements in all the dimensions of the &lt;see cref=&quot;T:System.Array&quot; /&gt;.&lt;/summary&gt;<br />&lt;exception cref=&quot;T:System.OverflowException&quot;&gt;The array is multidimensional and contains more than &lt;see cref=&quot;F:System.Int32.MaxValue&quot; /&gt; elements.&lt;/exception&gt;<br />&lt;returns&gt;The total number of elements in all the dimensions of the &lt;see cref=&quot;T:System.Array&quot; /&gt;; zero if there are no elements in the array.&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs43">namespace FSharp.Stats.Integration</div>
+<div class="fsdocs-tip" id="fs44">module Differentiation
+
+from FSharp.Stats.Integration<br /><em>&lt;summary&gt;
+In numerical analysis, numerical differentiation describes algorithms for estimating the derivative of a mathematical function using values of the function and perhaps other knowledge about the function.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs45">val differentiateThreePoint: xValues: float[] -&gt; yValues: float[] -&gt; idxT: int -&gt; idx0: int -&gt; idx1: int -&gt; idx2: int -&gt; float<br /><em>&lt;summary&gt;
+ Three-Point Differentiation Helper.
+ xValues Sample Points t.
+ yValues Sample Values x(t)
+ idxT Index of the point of the differentiation.&amp;lt;/param&amp;gt;
+ idx0 Index of the first sample.&amp;lt;/param&amp;gt;
+ idx1 Index of the second sample.&amp;lt;/param&amp;gt;
+ idx2 Index of the third sample.&amp;lt;/param&amp;gt;
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs46">val comparisonChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs47">Multiple items<br />module Chart
+
+from Differentiation<br /><br />--------------------<br />type Chart =
+  static member AnnotatedHeatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * annotationText: seq&lt;#seq&lt;string&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a5 :&gt; IConvertible)
+  static member Area: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowMarkers: bool * ?ShowLegend: bool * ?MarkerSymbol: MarkerSymbol * ?Color: Color * ?Opacity: float * ?Labels: seq&lt;#IConvertible&gt; * ?TextPosition: TextPosition * ?TextFont: Font * ?Dash: DrawingStyle * ?Width: float * ?UseDefaults: bool -&gt; GenericChart + 1 overload
+  static member Bar: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member BoxPlot: ?x: seq&lt;#IConvertible&gt; * ?y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?Fillcolor: Color * ?MarkerColor: Color * ?OutlierColor: Color * ?OutlierWidth: int * ?Opacity: float * ?WhiskerWidth: float * ?BoxPoints: BoxPoints * ?BoxMean: BoxMean * ?Jitter: float * ?PointPos: float * ?Orientation: Orientation * ?Marker: Marker * ?Line: Line * ?AlignmentGroup: string * ?Offsetgroup: string * ?Notched: bool * ?NotchWidth: float * ?QuartileMethod: QuartileMethod * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Bubble: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * sizes: seq&lt;int&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Candlestick: ``open`` : seq&lt;#IConvertible&gt; * high: seq&lt;#IConvertible&gt; * low: seq&lt;#IConvertible&gt; * close: seq&lt;#IConvertible&gt; * x: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?Line: Line * ?IncreasingColor: Color * ?Increasing: FinanceMarker * ?DecreasingColor: Color * ?Decreasing: FinanceMarker * ?WhiskerWidth: float * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a5 :&gt; IConvertible) + 1 overload
+  static member Column: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member Contour: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?Y: seq&lt;#IConvertible&gt; * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?Transpose: bool * ?LineColor: Color * ?LineDash: DrawingStyle * ?Line: Line * ?ContoursColoring: ContourColoring * ?ContoursOperation: ConstraintOperation * ?ContoursType: ContourType * ?ShowContourLabels: bool * ?ContourLabelFont: Font * ?Contours: Contours * ?FillColor: Color * ?NContours: int * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
+  static member Funnel: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Width: float * ?Offset: float * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?Orientation: Orientation * ?AlignmentGroup: string * ?OffsetGroup: string * ?MarkerColor: Color * ?MarkerOutline: Line * ?Marker: Marker * ?TextInfo: TextInfo * ?ConnectorLineColor: Color * ?ConnectorLineStyle: DrawingStyle * ?ConnectorFillColor: Color * ?ConnectorLine: Line * ?Connector: FunnelConnector * ?InsideTextFont: Font * ?OutsideTextFont: Font * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
+  static member Heatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  ...</div>
+<div class="fsdocs-tip" id="fs48">static member Chart.Point: xy: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)<br />static member Chart.Point: x: seq&lt;#System.IConvertible&gt; * y: seq&lt;#System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)</div>
+<div class="fsdocs-tip" id="fs49">union case HoverInfo.Name: HoverInfo</div>
+<div class="fsdocs-tip" id="fs50">static member Chart.combine: gCharts: seq&lt;GenericChart.GenericChart&gt; -&gt; GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs51">module GenericChart
+
+from Plotly.NET<br /><em>&lt;summary&gt;
+ Module to represent a GenericChart
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs52">val toChartHTML: gChart: GenericChart.GenericChart -&gt; string<br /><em>&lt;summary&gt;
+ Converts a GenericChart to it HTML representation. The div layer has a default size of 600 if not specified otherwise.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs53">module TwoPointDifferentiation
+
+from FSharp.Stats.Integration.Differentiation<br /><em>&lt;summary&gt;
+A two-point estimation is to compute the slope of a nearby secant line through two points.
+This gives an approximations of f&#39;(x) at x respectively to two points &quot;x and x+h&quot;/&quot;x-h and x+h&quot;(depending on the used algorithm) of the function f.
+Choosing a small number h, h represents a small change in x, and it can be either positive or negative.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs54">val testFunction: x: float -&gt; float</div>
+<div class="fsdocs-tip" id="fs55">val test1: float</div>
+<div class="fsdocs-tip" id="fs56">val differentiate: h: float -&gt; f: (float -&gt; float) -&gt; x: float -&gt; float<br /><em>&lt;summary&gt;
+Returns the approximation of f&#39;(x) at x by calculating the two point differentiation.
+h is the window for the difference calculation. f is the function for which to calculate numerical differentiation. x is the point at which the difference between &quot;x and x+h&quot;/&quot;x-h and x+h&quot; is calculated.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs57">val test2: float</div>
+<div class="fsdocs-tip" id="fs58">val test3: float</div>
+<div class="fsdocs-tip" id="fs59">val hArray: float[]</div>
+<div class="fsdocs-tip" id="fs60">val test4: float</div>
+<div class="fsdocs-tip" id="fs61">val differentiateOptimalHBy: hArr: float[] -&gt; f: (float -&gt; float) -&gt; x: float -&gt; float<br /><em>&lt;summary&gt;
+Returns the approximation of f&#39;(x) at x by calculating the two point differentiation.
+Finds optimal h from all values given in hArr and calculates &quot;differentiate&quot; -function.
+f is the function and x the point at which numerical differentiation is calculated.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs62">val test5: float</div>
+<div class="fsdocs-tip" id="fs63">val differentiateOptimalH: f: (float -&gt; float) -&gt; x: float -&gt; float<br /><em>&lt;summary&gt;
+Returns the approximation of f&#39;(x) at x by calculating the two point differentiation.
+Calculates optimal h for the &quot;differentiate&quot;-function from a preset, suggested array.
+h is tested from h = 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005; 0.0001 ..|]-increments. 
+f is the function and x the point at which numerical differentiation is calculated.
+&lt;/summary&gt;</em></div>
+
+    </div>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+</body>
+
+</html>

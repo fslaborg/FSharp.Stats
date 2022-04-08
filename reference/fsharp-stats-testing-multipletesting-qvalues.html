@@ -71,28 +71,34 @@
             <div class="section pt-4">
                 <div class="container" id="fsdocs-content">
                     <div>
-  <h1>
+  <h2>
     Qvalues Module
-  </h1>
-  <p>
-    Namespace: 
-    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing.html">
-      FSharp.Stats.Testing
-    </a>
-  </p>
-  <p>
-    Assembly: FSharp.Stats.dll
-  </p>
-  <span>
-    Parent Module: 
-    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multipletesting.html">
-      MultipleTesting
-    </a>
-  </span>
+  </h2>
+  <dl class="fsdocs-metadata">
+    <dt>
+      Namespace: 
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing.html">
+        FSharp.Stats.Testing
+      </a>
+    </dt>
+    <dt>
+      Assembly: FSharp.Stats.dll
+    </dt>
+    <dt>
+      Parent Module: 
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multipletesting.html">
+        MultipleTesting
+      </a>
+    </dt>
+  </dl>
   <div class="fsdocs-xmldoc">
-    
+    <div>
+      <p class="fsdocs-summary">
+        
  Estimate the q-values for a given set of p-values. The q-value of a test measures the proportion of false positives incurred (called the false discovery rate) when that particular test is called significant. 
 
+      </p>
+    </div>
   </div>
   <div>
     <h3>
@@ -111,9 +117,9 @@
       </thead>
       <tbody>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1640', 1640)" onmouseover="showTip(event, '1640', 1640)">
+              <code onmouseout="hideTip(event, '1639', 1639)" onmouseover="showTip(event, '1639', 1639)">
                 <p>
                   <a id="ofPValues">
                     <a href="#ofPValues">
@@ -122,7 +128,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1640">
+              <div class="fsdocs-tip" id="1639">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>ofPValues&#32;<span>pi0&#32;pValues</span></span></code>
@@ -157,17 +163,27 @@
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L263-263" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.MultipleTesting.Qvalues.ofPValues`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.MultipleTesting.Qvalues.ofPValues\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L263-263" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates q-values from given p-values and returns an array of qValues in the same order.
  'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -189,7 +205,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>float[]</span></code>
               </dt>
@@ -198,9 +214,9 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1641', 1641)" onmouseover="showTip(event, '1641', 1641)">
+              <code onmouseout="hideTip(event, '1640', 1640)" onmouseover="showTip(event, '1640', 1640)">
                 <p>
                   <a id="ofPValuesBy">
                     <a href="#ofPValuesBy">
@@ -209,7 +225,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1641">
+              <div class="fsdocs-tip" id="1640">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>ofPValuesBy&#32;<span>pi0&#32;projection&#32;pValues</span></span></code>
@@ -252,17 +268,27 @@
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L207-207" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.MultipleTesting.Qvalues.ofPValuesBy``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.MultipleTesting.Qvalues.ofPValuesBy``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L207-207" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates q-values from given p-values and returns an array of qValues in the same order.
  'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -292,7 +318,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>float[]</span></code>
               </dt>
@@ -301,9 +327,9 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1642', 1642)" onmouseover="showTip(event, '1642', 1642)">
+              <code onmouseout="hideTip(event, '1641', 1641)" onmouseover="showTip(event, '1641', 1641)">
                 <p>
                   <a id="ofPValuesRobust">
                     <a href="#ofPValuesRobust">
@@ -312,7 +338,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1642">
+              <div class="fsdocs-tip" id="1641">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>ofPValuesRobust&#32;<span>pi0&#32;pValues</span></span></code>
@@ -347,14 +373,24 @@
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L202-202" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.MultipleTesting.Qvalues.ofPValuesRobust`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.MultipleTesting.Qvalues.ofPValuesRobust\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L202-202" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
-            </p>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -376,7 +412,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>float[]</span></code>
               </dt>
@@ -385,9 +421,9 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1643', 1643)" onmouseover="showTip(event, '1643', 1643)">
+              <code onmouseout="hideTip(event, '1642', 1642)" onmouseover="showTip(event, '1642', 1642)">
                 <p>
                   <a id="ofPValuesRobustBy">
                     <a href="#ofPValuesRobustBy">
@@ -396,7 +432,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1643">
+              <div class="fsdocs-tip" id="1642">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>ofPValuesRobustBy&#32;<span>pi0&#32;projection&#32;pValues</span></span></code>
@@ -439,18 +475,28 @@
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L147-147" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.MultipleTesting.Qvalues.ofPValuesRobustBy``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.MultipleTesting.Qvalues.ofPValuesRobustBy``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L147-147" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates q-values from given p-values and returns an array of qValues in the same order.
  'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
  More robust for small p values when testcount is low, see Storey JD (2002) JRSS-B 64: 479-498.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -480,7 +526,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>float[]</span></code>
               </dt>
@@ -489,9 +535,9 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1644', 1644)" onmouseover="showTip(event, '1644', 1644)">
+              <code onmouseout="hideTip(event, '1643', 1643)" onmouseover="showTip(event, '1643', 1643)">
                 <p>
                   <a id="pi0Bootstrap">
                     <a href="#pi0Bootstrap">
@@ -500,7 +546,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1644">
+              <div class="fsdocs-tip" id="1643">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>pi0Bootstrap&#32;<span>pValues</span></span></code>
@@ -520,25 +566,35 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                    <code>float</code>
                   </span>
                   <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L122-122" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.MultipleTesting.Qvalues.pi0Bootstrap`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.MultipleTesting.Qvalues.pi0Bootstrap\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L122-122" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Estimates pi0 from given p-Values by Storeys bootstrap method using default lambda's
  pi0 is the value to which, one can find certain values of the distribution at random.
  If this returns 0. default lambda needs to be smaller. One should use 'pi0BootstrapWithLambda' in this case.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -552,18 +608,18 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                <code>float</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1645', 1645)" onmouseover="showTip(event, '1645', 1645)">
+              <code onmouseout="hideTip(event, '1644', 1644)" onmouseover="showTip(event, '1644', 1644)">
                 <p>
                   <a id="pi0BootstrapWithLambda">
                     <a href="#pi0BootstrapWithLambda">
@@ -572,7 +628,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1645">
+              <div class="fsdocs-tip" id="1644">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>pi0BootstrapWithLambda&#32;<span>lambda&#32;pValues</span></span></code>
@@ -600,26 +656,36 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                    <code>float</code>
                   </span>
                   <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L79-79" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.MultipleTesting.Qvalues.pi0BootstrapWithLambda`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.MultipleTesting.Qvalues.pi0BootstrapWithLambda\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L79-79" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Estimates pi0 from given p-Values by Storeys bootstrap .
  pi0 is the value to which, one can find certain values of the distribution at random.
  If this returns 0. lambda needs to be smaller.
  Math Definition for lambda = [0,1) . Contains values from 0 to 1, but not 1.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -641,9 +707,9 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                <code>float</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>

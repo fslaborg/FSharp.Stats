@@ -71,22 +71,28 @@
             <div class="section pt-4">
                 <div class="container" id="fsdocs-content">
                     <div>
-  <h1>
+  <h2>
     Array Module
-  </h1>
-  <p>
-    Namespace: 
-    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
-      FSharp.Stats
-    </a>
-  </p>
-  <p>
-    Assembly: FSharp.Stats.dll
-  </p>
+  </h2>
+  <dl class="fsdocs-metadata">
+    <dt>
+      Namespace: 
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
+        FSharp.Stats
+      </a>
+    </dt>
+    <dt>
+      Assembly: FSharp.Stats.dll
+    </dt>
+  </dl>
   <div class="fsdocs-xmldoc">
-    
+    <div>
+      <p class="fsdocs-summary">
+        
  Module to compute common statistical measure on array
 
+      </p>
+    </div>
   </div>
   <div>
     <h3>
@@ -105,7 +111,7 @@
       </thead>
       <tbody>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '36', 36)" onmouseover="showTip(event, '36', 36)">
                 <p>
@@ -152,20 +158,33 @@
                   </span>
                   sample covariance estimator (Bessel's correction by N-1)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L407-407" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.cov``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.cov``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L408-408" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the sample covariance of two random variables
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -198,7 +217,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -211,7 +230,7 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '37', 37)" onmouseover="showTip(event, '37', 37)">
                 <p>
@@ -258,20 +277,33 @@
                   </span>
                   sample covariance estimator (Bessel's correction by N-1)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L451-451" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.covBy``4```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.covBy``4\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L452-452" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the sample covariance of two random variables generated by applying a function to the input array.
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -304,7 +336,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -317,7 +349,7 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // To get the sample covariance between x and y observations:
  let xy = [| {| x = 5.; y = 2. |}
@@ -326,13 +358,12 @@
              {| x = -23.; y = -20. |} 
              {| x = 45.; y = 28. |} |]
  
- xy |> Array.covBy (fun x -> x.x, x.y) // evaluates to 434.90
- </pre>
+ xy |&gt; Array.covBy (fun x -&gt; x.x, x.y) // evaluates to 434.90</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '38', 38)" onmouseover="showTip(event, '38', 38)">
                 <p>
@@ -369,21 +400,34 @@
                   </span>
                   sample covariance estimator (Bessel's correction by N-1)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L427-427" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.covOfPairs``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.covOfPairs``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L428-428" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the sample covariance of two random variables.
    The covariance will be calculated between the paired observations.    
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -404,7 +448,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -417,20 +461,19 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // Consider an array of paired x and y values:
  // [| (x1, y1); (x2, y2); (x3, y3); (x4, y4); ... |]
  let xy = [| (5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.) |]
  
  // To get the sample covariance between x and y:
- xy |> Array.covOfPairs // evaluates to 434.90
- </pre>
+ xy |&gt; Array.covOfPairs // evaluates to 434.90</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '39', 39)" onmouseover="showTip(event, '39', 39)">
                 <p>
@@ -477,20 +520,33 @@
                   </span>
                   population covariance estimator (denominator N)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L350-350" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.covPopulation``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.covPopulation``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L351-351" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the population covariance of two random variables
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -523,7 +579,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -536,7 +592,7 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '40', 40)" onmouseover="showTip(event, '40', 40)">
                 <p>
@@ -583,20 +639,33 @@
                   </span>
                   population covariance estimator (denominator N)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L394-394" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.covPopulationBy``4```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.covPopulationBy``4\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L395-395" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the population covariance of two random variables generated by applying a function to the input array.
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -629,7 +698,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -642,7 +711,7 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // To get the population covariance between x and y observations:
  let xy = [| {| x = 5.; y = 2. |}
@@ -651,13 +720,12 @@
              {| x = -23.; y = -20. |} 
              {| x = 45.; y = 28. |} |]
  
- xy |> Array.covPopulationBy (fun x -> x.x, x.y) // evaluates to 347.92
- </pre>
+ xy |&gt; Array.covPopulationBy (fun x -&gt; x.x, x.y) // evaluates to 347.92</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '41', 41)" onmouseover="showTip(event, '41', 41)">
                 <p>
@@ -694,21 +762,34 @@
                   </span>
                   population covariance estimator (denominator N)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L370-370" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.covPopulationOfPairs``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.covPopulationOfPairs``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L371-371" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the population covariance of two random variables.
    The covariance will be calculated between the paired observations.
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -729,7 +810,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -742,20 +823,19 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // Consider an array of paired x and y values:
  // [| (x1, y1); (x2, y2); (x3, y3); (x4, y4); ... |]
  let xy = [| (5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.) |]
  
  // To get the population covariance between x and y:
- xy |> Array.covPopulationOfPairs // evaluates to 347.92
- </pre>
+ xy |&gt; Array.covPopulationOfPairs // evaluates to 347.92</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '42', 42)" onmouseover="showTip(event, '42', 42)">
                 <p>
@@ -789,21 +869,36 @@
                     <code>^T</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  ^T, ^b
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L222-222" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.median``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.median``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L223-223" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
 Old partitionSortInPlace fails with dublicates
  Computes the sample median
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -817,7 +912,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^T</code>
               </dt>
@@ -826,7 +921,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '43', 43)" onmouseover="showTip(event, '43', 43)">
                 <p>
@@ -864,16 +959,26 @@ Old partitionSortInPlace fails with dublicates
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L273-273" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Array.medianAbsoluteDev`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.medianAbsoluteDev\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L274-274" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Median absolute deviation (MAD)
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -887,7 +992,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>float</code>
               </dt>
@@ -896,7 +1001,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '44', 44)" onmouseover="showTip(event, '44', 44)">
                 <p>
@@ -946,21 +1051,36 @@ Old partitionSortInPlace fails with dublicates
                     <code>int</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L31-31" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.partitionSortInPlace``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.partitionSortInPlace``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L31-31" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Arranges the items between the left and right border, that all items left of the pivot element are smaller and bigger on the right.
  Function works in place and returns the index of the pivote element (using Lomuto's partitioning algorithm)
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -990,7 +1110,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>int</code>
               </dt>
@@ -999,7 +1119,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '45', 45)" onmouseover="showTip(event, '45', 45)">
                 <p>
@@ -1041,20 +1161,35 @@ Old partitionSortInPlace fails with dublicates
                     <code>'T</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L102-102" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.quickSelect``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.quickSelect``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L103-103" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Finds the kth smallest element in an unordered array (note that k is ONE-based)
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1076,7 +1211,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>'T</code>
               </dt>
@@ -1085,7 +1220,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '46', 46)" onmouseover="showTip(event, '46', 46)">
                 <p>
@@ -1127,21 +1262,36 @@ Old partitionSortInPlace fails with dublicates
                     <code>'T</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L92-92" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.quickSelectInPlace``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.quickSelectInPlace``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L93-93" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Finds the kth smallest element in an unordered array (note that k is ONE-based)
  Works in place and can change the order of the elements in the input array
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1163,7 +1313,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>'T</code>
               </dt>
@@ -1172,7 +1322,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '47', 47)" onmouseover="showTip(event, '47', 47)">
                 <p>
@@ -1230,21 +1380,36 @@ Old partitionSortInPlace fails with dublicates
                     <code>'T</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L71-71" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.quickSelectInPlaceWith``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.quickSelectInPlaceWith``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L71-71" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Finds the kth smallest element in an unordered array (note that k is ONE-based)
  Works in place and can change the order of the elements in the input array
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1282,7 +1447,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>'T</code>
               </dt>
@@ -1291,7 +1456,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '48', 48)" onmouseover="showTip(event, '48', 48)">
                 <p>
@@ -1329,14 +1494,24 @@ Old partitionSortInPlace fails with dublicates
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L9-9" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.range``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.range``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L9-9" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
-            </p>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1350,7 +1525,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-intervals-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
@@ -1359,7 +1534,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '49', 49)" onmouseover="showTip(event, '49', 49)">
                 <p>
@@ -1413,16 +1588,26 @@ Old partitionSortInPlace fails with dublicates
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L291-291" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.sampleWithOutReplacement``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.sampleWithOutReplacement``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L292-292" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Samples from an array of obj without replacement (without putting back)
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1452,7 +1637,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>'b[]</span></code>
               </dt>
@@ -1461,7 +1646,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '50', 50)" onmouseover="showTip(event, '50', 50)">
                 <p>
@@ -1515,16 +1700,26 @@ Old partitionSortInPlace fails with dublicates
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L283-283" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.sampleWithReplacement``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.sampleWithReplacement``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L284-284" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Samples from an array of obj wit replacement (with putting back)
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1554,7 +1749,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>'a[]</span></code>
               </dt>
@@ -1563,7 +1758,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '51', 51)" onmouseover="showTip(event, '51', 51)">
                 <p>
@@ -1617,16 +1812,26 @@ Old partitionSortInPlace fails with dublicates
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L334-334" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Array.seqInit`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.seqInit\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L335-335" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Generates array sequence (like R! seq.int)
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1656,7 +1861,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>float[]</span></code>
               </dt>
@@ -1665,7 +1870,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '52', 52)" onmouseover="showTip(event, '52', 52)">
                 <p>
@@ -1703,16 +1908,26 @@ Old partitionSortInPlace fails with dublicates
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L308-308" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.shuffleFisherYates``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.shuffleFisherYates``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L309-309" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Shuffels the input array (method: Fisher-Yates)
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1726,7 +1941,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>'b[]</span></code>
               </dt>
@@ -1735,7 +1950,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '53', 53)" onmouseover="showTip(event, '53', 53)">
                 <p>
@@ -1773,16 +1988,26 @@ Old partitionSortInPlace fails with dublicates
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L321-321" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.shuffleFisherYatesInPlace``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.shuffleFisherYatesInPlace``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L322-322" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Shuffels the input array (method: Fisher-Yates) in place
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1796,7 +2021,7 @@ Old partitionSortInPlace fails with dublicates
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>'a[]</span></code>
               </dt>
@@ -1805,7 +2030,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '54', 54)" onmouseover="showTip(event, '54', 54)">
                 <p>
@@ -1862,14 +2087,24 @@ Old partitionSortInPlace fails with dublicates
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L339-339" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.sort2InPlaceByKeys``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.sort2InPlaceByKeys``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L340-340" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
-            </p>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1907,7 +2142,7 @@ Old partitionSortInPlace fails with dublicates
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '55', 55)" onmouseover="showTip(event, '55', 55)">
                 <p>
@@ -1952,18 +2187,33 @@ Old partitionSortInPlace fails with dublicates
                     <br/>
                   </ul>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L24-24" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Array.swapInPlace``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Array.swapInPlace``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L24-24" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
-            </p>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">

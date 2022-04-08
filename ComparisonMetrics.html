@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Comparison metrics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
+
+    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head> 
+
+<body>
+    <div class="columns is-fullheight m-0">
+        <div id="fsdocs-menu" class="column is-2 is-paddingless">
+            <aside class="menu">
+                <div class="container is-paddingless is-marginless has-background-light">
+                    <a href="https://fslab.org/FSharp.Stats/">
+                        <figure class="image is-128x128 container">
+                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
+                        </figure>
+                    </a>
+                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
+                </div>
+                <div class="content">
+                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+                    <div id="header">
+                        <div class="searchbox" id="fsdocs-searchbox">
+                            <label for="search-by">
+                                <i class="fas fa-search"></i>
+                            </label>
+                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
+                            <span data-search-clear="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END SEARCH BOX: this adds support for the search box -->
+                    <ul class="navbar-nav">
+                        <li class="nav-header">Links</li>
+                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
+                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
+                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
+                        <li class="nav-header">
+  Documentation
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Matrix_Vector.html">
+    Matrix and Vector
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/LinearAlgebra.html">
+    Linear Algebra
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>
+                        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-10 is-paddingless">
+            <div class="section pt-4">
+                <div class="container" id="fsdocs-content">
+                    
+<h1><a name="Evaluating-predictions-and-tests" class="anchor" href="#Evaluating-predictions-and-tests">Evaluating predictions and tests</a></h1>
+<p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Integration.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
+<h4><a name="Table-of-contents" class="anchor" href="#Table-of-contents">Table of contents</a></h4>
+<ul>
+<li>
+<a href="#Confusion-matrices">Confusion matrices</a>
+<ul>
+<li><a href="#Binary-confusion-matrix">Binary confusion matrix</a></li>
+<li><a href="#Multi-label-confusion-matrix">Multi-label confusion matrix</a></li>
+</ul>
+</li>
+<li>
+<a href="#Comparison-Metrics">Comparison-Metric</a>
+<ul>
+<li><a href="#ComparisonMetrics-for-binary-comparisons">ComparisonMetrics for binary comparisons</a></li>
+<li>
+<a href="#ComparisonMetrics-for-multi-label-comparisons">ComparisonMetrics for multi-label comparisons</a>
+<ul>
+<li><a href="#Macro-averaging-metrics">Macro-averaging metrics</a></li>
+<li><a href="#Micro-averaging-metrics">Micro-averaging metrics</a></li>
+</ul>
+</li>
+<li>
+<a href="#Creating-threshold-dependent-metric-maps">Creating threshold-dependent metric maps</a>
+<ul>
+<li><a href="#For-binary-predictions">For binary predictions</a></li>
+<li><a href="#For-multi-label-predictions">For multi-label predictions</a></li>
+<li><a href="#ROC-curve-example">ROC curve example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>FSharp.Stats contains a collection for assessing both binary and multi-label comparisons, for example the results of a binary/multi-label classification or the results of a statistical test.</p>
+<p>Usually, using the functions provided by the <code>ComparisonMetrics</code> module should be enough, but for clarity this documentation also introduces the <code>BinaryConfusionMatrix</code> and <code>MultiLabelConfusionMatrix</code> types that are used to derive the <code>ComparisonMetrics.</code></p>
+<h2><a name="Confusion-matrices" class="anchor" href="#Confusion-matrices">Confusion matrices</a></h2>
+<p>See also: <a href="https://en.wikipedia.org/wiki/Confusion_matrix">https://en.wikipedia.org/wiki/Confusion_matrix</a></p>
+<p>Confusion matrices can be used to count and visualize the outcomes of a prediction against the actual 'true' values and therefore assess the prediction quality.</p>
+<p>Each row of the matrix represents the instances in an actual class while each column represents the instances in a predicted class, or vice versa. The name stems from the fact that it makes it easy to see whether the system is confusing two classes (i.e. commonly mislabeling one as another).</p>
+<h3><a name="Binary-confusion-matrix" class="anchor" href="#Binary-confusion-matrix">Binary confusion matrix</a></h3>
+<p>A binary confusion matrix is a special kind of contingency table, with two dimensions ("actual" and "predicted"), and identical sets of "classes" in both dimensions (each combination of dimension and class is a variable in the contingency table).</p>
+<p>let for example the actual labels be the set</p>
+<p><span class="math">\[actual = (1,1,1,1,0,0,0)\]</span></p>
+<p>and the predictions</p>
+<p><span class="math">\[predicted = (1,1,1,0,1,0,0)\]</span></p>
+<p>a binary confusion matrix can be filled by comparing actual and predicted values at their respective indices:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th></th>
+<th><p>predicted</p></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td><p>True</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="even">
+<td><p>actual</p></td>
+<td><p>True</p></td>
+<td><p>3</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><p>False</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+
+<p>A whole array of prediction/test evaluation metrics can be derived from binary confusion matrices, which are all based on the 4 values of the confusion matrix:</p>
+<ul>
+<li>TP (True Positives, the actual true labels predicted correctly as true)</li>
+<li>TN (True Negatives, the actual false labels predicted correctly as false)</li>
+<li>FP (False Positives, the actual false labels incorrectly predicted as true)</li>
+<li>TP (False Negatives, the actual true labels incorrectly predicted as false)</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th></th>
+<th><p>Predicted</p></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td><p>True</p></td>
+<td><p>False</p></td>
+</tr>
+<tr class="even">
+<td><p>Actual</p></td>
+<td><p>True</p></td>
+<td><p>TP</p></td>
+<td><p>FN</p></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><p>False</p></td>
+<td><p>FP</p></td>
+<td><p>TN</p></td>
+</tr>
+</tbody>
+</table>
+
+<p>These 4 base metrics are in principle what comprises the record type <code>BinaryConfusionMatrix</code>.</p>
+<p>A BinaryConfusionMatrix can be created in various ways :</p>
+<ul>
+<li>from predictions and actual labels of any type using <code>BinaryConfusionMatrix.fromPredictions</code>, additionally passing which label is the "positive" label</li>
+</ul>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">actual</span> <span class="o">=</span> <span class="pn">[</span><span class="n">1</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">0</span><span class="pn">;</span><span class="n">0</span><span class="pn">;</span><span class="n">0</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">predicted</span> <span class="o">=</span> <span class="pn">[</span><span class="n">1</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">0</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">0</span><span class="pn">;</span><span class="n">0</span><span class="pn">]</span>
+
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="id">Testing</span>
+
+<span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="id">ofPredictions</span><span class="pn">(</span><span class="n">1</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs1', 8)" onmouseover="showTip(event, 'fs1', 8)" class="id">actual</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs2', 9)" onmouseover="showTip(event, 'fs2', 9)" class="id">predicted</span><span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>{ TP = 3
+  TN = 2
+  FP = 1
+  FN = 1 }</code></pre></td></tr></table>
+<ul>
+<li>from boolean predictions and actual labels using <code>BinaryConfusionMatrix.fromPredictions</code></li>
+</ul>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 10)" onmouseover="showTip(event, 'fs8', 10)" class="id">actualBool</span> <span class="o">=</span> <span class="pn">[</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 11)" onmouseover="showTip(event, 'fs9', 11)" class="id">predictedBool</span> <span class="o">=</span> <span class="pn">[</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">]</span>
+
+<span onmouseout="hideTip(event, 'fs6', 12)" onmouseover="showTip(event, 'fs6', 12)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="id">ofPredictions</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 14)" onmouseover="showTip(event, 'fs8', 14)" class="id">actualBool</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs9', 15)" onmouseover="showTip(event, 'fs9', 15)" class="id">predictedBool</span><span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>{ TP = 3
+  TN = 2
+  FP = 1
+  FN = 1 }</code></pre></td></tr></table>
+<ul>
+<li>directly from obtained TP/TN/FP/FN values using <code>BinaryConfusionMatrix.create</code></li>
+</ul>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs6', 16)" onmouseover="showTip(event, 'fs6', 16)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 17)" onmouseover="showTip(event, 'fs10', 17)" class="id">create</span><span class="pn">(</span><span class="fn">tp</span><span class="o">=</span><span class="n">3</span><span class="pn">,</span><span class="fn">tn</span><span class="o">=</span><span class="n">2</span><span class="pn">,</span><span class="fn">fp</span><span class="o">=</span><span class="n">1</span><span class="pn">,</span><span class="fn">fn</span><span class="o">=</span><span class="n">1</span><span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>{ TP = 3
+  TN = 2
+  FP = 1
+  FN = 1 }</code></pre></td></tr></table>
+<p>There are more things you can do with <code>BinaryConfusionMatrix</code>, but most use cases are covered and abstracted by <code>ComparisonMetrics</code> (see <a href="#Comparison-metrics">below</a>).</p>
+<h3><a name="Multi-label-confusion-matrix" class="anchor" href="#Multi-label-confusion-matrix">Multi label confusion matrix</a></h3>
+<p>Confusion matrix is not limited to binary classification and can be used in multi-class classifiers as well, increasing both dimensions by the amount of additional labels.</p>
+<p>let for example the actual labels be the set</p>
+<p><span class="math">\[actual = (A,A,A,A,A,B,B,B,C,C,C,C,C,C)\]</span></p>
+<p>and the predictions</p>
+<p><span class="math">\[predicted = (A,A,A,B,C,B,B,A,C,C,C,C,A,A)\]</span></p>
+<p>a multi-label confusion matrix can be filled by comparing actual and predicted values at their respective indices:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th></th>
+<th><p>Predicted</p></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td><p>Label A</p></td>
+<td><p>Label B</p></td>
+<td><p>Label C</p></td>
+</tr>
+<tr class="even">
+<td><p>Actual</p></td>
+<td><p>Label A</p></td>
+<td><p>3</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><p>Label B</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><p>Label C</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+<td><p>4</p></td>
+</tr>
+</tbody>
+</table>
+
+<p>A <code>MultiLabelConfusionMatrix</code> can be created either</p>
+<ul>
+<li>from the labels and a confusion matrix (<code>Matrix&lt;int&gt;</code>, note that the index in the label array will be assigned for the column/row indices of the matrix, and that the matrix must be square and of the same dimensions as the label array)</li>
+</ul>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs3', 18)" onmouseover="showTip(event, 'fs3', 18)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs4', 19)" onmouseover="showTip(event, 'fs4', 19)" class="id">Stats</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 20)" onmouseover="showTip(event, 'fs11', 20)" class="id">mlcm</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs12', 21)" onmouseover="showTip(event, 'fs12', 21)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 22)" onmouseover="showTip(event, 'fs13', 22)" class="id">create</span><span class="pn">(</span>
+        <span class="fn">labels</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
+        <span class="fn">confusion</span> <span class="o">=</span><span class="pn">(</span>
+            <span class="pn">[</span>
+                <span class="pn">[</span><span class="n">3</span><span class="pn">;</span> <span class="n">1</span><span class="pn">;</span> <span class="n">1</span><span class="pn">]</span>
+                <span class="pn">[</span><span class="n">1</span><span class="pn">;</span> <span class="n">2</span><span class="pn">;</span> <span class="n">0</span><span class="pn">]</span>
+                <span class="pn">[</span><span class="n">2</span><span class="pn">;</span> <span class="n">0</span><span class="pn">;</span> <span class="n">4</span><span class="pn">]</span>
+            <span class="pn">]</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs14', 23)" onmouseover="showTip(event, 'fs14', 23)" class="fn">array2D</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs15', 24)" onmouseover="showTip(event, 'fs15', 24)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 25)" onmouseover="showTip(event, 'fs16', 25)" class="m">Generic</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs17', 26)" onmouseover="showTip(event, 'fs17', 26)" class="id">ofArray2D</span>
+        <span class="pn">)</span>
+    <span class="pn">)</span>
+</code></pre>
+<ul>
+<li>from predictions and actual labels of any type using <code>MultiLabelConfusionMatrix.ofPredictions</code>, additionally passing the labels</li>
+</ul>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs12', 27)" onmouseover="showTip(event, 'fs12', 27)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 28)" onmouseover="showTip(event, 'fs18', 28)" class="id">ofPredictions</span><span class="pn">(</span>
+    <span class="fn">labels</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
+    <span onmouseout="hideTip(event, 'fs1', 29)" onmouseover="showTip(event, 'fs1', 29)" class="fn">actual</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
+    <span class="fn">predictions</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">|]</span>
+<span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>{ Labels = [|"A"; "B"; "C"|]
+  Confusion = matrix [[3; 1; 1]
+                      [1; 2; 0]
+                      [2; 0; 4]] }</code></pre></td></tr></table>
+<p>It is however not as easy to extract comparable metrics directly from this matrix.</p>
+<p>Therefore, multi-label classification are most often compared using <code>one/all-vs-rest</code> and <code>micro/macro averaging</code> of metrics.</p>
+<p>It is possible to derive binary <code>one-vs-rest</code> confusion matrices to evaluate prediction metrics of individual labels from a multi-label confusion matrix.</p>
+<p>This is done by taking all occurences of the label in the actual labels as positive values, and all other label occurences as negatives. The same is done for the prediction vector.</p>
+<p>As an example, the derived binary confusion matrix for <code>Label A</code> in above example would be:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th></th>
+<th><p>Predicted</p></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td><p>is A</p></td>
+<td><p>is not A</p></td>
+</tr>
+<tr class="even">
+<td><p>Actual</p></td>
+<td><p>is A</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><p>is not A</p></td>
+<td><p>3</p></td>
+<td><p>6</p></td>
+</tr>
+</tbody>
+</table>
+
+<p>Programmatically, this can be done via <code>MultiLabelConfusionMatrix.oneVsRest</code></p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs11', 30)" onmouseover="showTip(event, 'fs11', 30)" class="id">mlcm</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 31)" onmouseover="showTip(event, 'fs12', 31)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 32)" onmouseover="showTip(event, 'fs19', 32)" class="id">oneVsRest</span> <span class="s">&quot;A&quot;</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>{ TP = 3
+  TN = 6
+  FP = 3
+  FN = 2 }</code></pre></td></tr></table>
+<p>Binary confusion matrices for all labels can be obtained by <code>MultiLabelConfusionMatrix.allVsAll</code></p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs11', 33)" onmouseover="showTip(event, 'fs11', 33)" class="id">mlcm</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 34)" onmouseover="showTip(event, 'fs12', 34)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 35)" onmouseover="showTip(event, 'fs20', 35)" class="id">allVsAll</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 36)" onmouseover="showTip(event, 'fs21', 36)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 37)" onmouseover="showTip(event, 'fs22', 37)" class="id">iter</span> <span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 38)" onmouseover="showTip(event, 'fs23', 38)" class="fn">label</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs24', 39)" onmouseover="showTip(event, 'fs24', 39)" class="fn">cm</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs25', 40)" onmouseover="showTip(event, 'fs25', 40)" class="fn">printf</span> <span class="s">$&quot;{</span><span onmouseout="hideTip(event, 'fs23', 41)" onmouseover="showTip(event, 'fs23', 41)" class="fn">label</span><span class="s">}:\n{</span><span class="fn">cm</span><span class="s">}\n&quot;</span><span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>A:
+{ TP = 3
+  TN = 6
+  FP = 3
+  FN = 2 }
+B:
+{ TP = 2
+  TN = 10
+  FP = 1
+  FN = 1 }
+C:
+{ TP = 4
+  TN = 7
+  FP = 1
+  FN = 2 }</code></pre></td></tr></table>
+<h2><a name="Comparison-Metrics" class="anchor" href="#Comparison-Metrics">Comparison Metrics</a></h2>
+<p><code>Comparison Metrics</code> is a record type that contains (besides other things) the 21 metric shown in the table below.</p>
+<p>It also provides static methods to perform calculation of individual metrics derived from a BinaryConfusionMatrix via the <code>ComparisonMetrics.calculate&lt;Metric&gt;</code> functions:</p>
+<table>
+<thead>
+<tr class="header">
+<th><p>Metric</p></th>
+<th><p>Formula</p></th>
+<th><p>API reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>Sensitivity (TPR)</p></td>
+<td><p><span class="math">\(TPR = \frac{TP}{TP+TN}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateSensitivity">ComparisonMetrics.calculateSensitivity            </a></p></td>
+</tr>
+<tr class="even">
+<td><p>Specificity (TNR)</p></td>
+<td><p><span class="math">\(TNR = \frac{TN}{TN+TP}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateSpecificity">ComparisonMetrics.calculateSpecificity            </a></p></td>
+</tr>
+<tr class="odd">
+<td><p>Precision (PPV)</p></td>
+<td><p><span class="math">\(PPV = \frac{TP}{TP+FP}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrecision">ComparisonMetrics.calculatePrecision              </a></p></td>
+</tr>
+<tr class="even">
+<td><p>NegativePredictiveValue (NPV)</p></td>
+<td><p><span class="math">\(NPV = \frac{TN}{TN+FN}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateNegativePredictiveValue">ComparisonMetrics.calculateNegativePredictiveValue</a></p></td>
+</tr>
+<tr class="odd">
+<td><p>Missrate (FNR)</p></td>
+<td><p><span class="math">\(FNR = \frac{FN}{FN+TP}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateMissrate">ComparisonMetrics.calculateMissrate               </a></p></td>
+</tr>
+<tr class="even">
+<td><p>FallOut (FPR)</p></td>
+<td><p><span class="math">\(FPR = \frac{FP}{FP+TN}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFallOut">ComparisonMetrics.calculateFallOut                </a></p></td>
+</tr>
+<tr class="odd">
+<td><p>FalseDiscoveryRate (FDR)</p></td>
+<td><p><span class="math">\(FDR = \frac{FP}{FP+TP}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFalseDiscoveryRate">ComparisonMetrics.calculateFalseDiscoveryRate     </a></p></td>
+</tr>
+<tr class="even">
+<td><p>FalseOmissionRate (FOR)</p></td>
+<td><p><span class="math">\(FOR = \frac{FN}{FN+TN}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFalseOmissionRate">ComparisonMetrics.calculateFalseOmissionRate      </a></p></td>
+</tr>
+<tr class="odd">
+<td><p>PositiveLikelihoodRatio (LR+)</p></td>
+<td><p><span class="math">\(LR+ = \frac{TPR}{FPR}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePositiveLikelihoodRatio">ComparisonMetrics.calculatePositiveLikelihoodRatio</a></p></td>
+</tr>
+<tr class="even">
+<td><p>NegativeLikelihoodRatio (LR-)</p></td>
+<td><p><span class="math">\(LR- = \frac{FNR}{TNR}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateNegativeLikelihoodRatio">ComparisonMetrics.calculateNegativeLikelihoodRatio</a></p></td>
+</tr>
+<tr class="odd">
+<td><p>PrevalenceThreshold (PT)</p></td>
+<td><p><span class="math">\(PT = \frac{\sqrt{FPR}}{\sqrt{TPR}+\sqrt{FPR}}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrevalenceThreshold">ComparisonMetrics.calculatePrevalenceThreshold    </a></p></td>
+</tr>
+<tr class="even">
+<td><p>ThreatScore (TS)</p></td>
+<td><p><span class="math">\(TS = \frac{TP}{TP+FN+FP}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateThreatScore">ComparisonMetrics.calculateThreatScore            </a></p></td>
+</tr>
+<tr class="odd">
+<td><p>Prevalence</p></td>
+<td><p><span class="math">\(Prevalence = \frac{P}{P+N}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrevalence">ComparisonMetrics.calculatePrevalence             </a></p></td>
+</tr>
+<tr class="even">
+<td><p>Accuracy (ACC)</p></td>
+<td><p><span class="math">\(ACC = \frac{TP+TN}{TP+TN+FP+FN}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateAccuracy">ComparisonMetrics.calculateAccuracy               </a></p></td>
+</tr>
+<tr class="odd">
+<td><p>BalancedAccuracy (BA)</p></td>
+<td><p><span class="math">\(BA = \frac{TPR+TNR}{2}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateBalancedAccuracy">ComparisonMetrics.calculateBalancedAccuracy       </a></p></td>
+</tr>
+<tr class="even">
+<td><p>F1 Score</p></td>
+<td><p><span class="math">\(F1 = \frac{2TP}{2TP+FP+FN}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateF1">ComparisonMetrics.calculateF1                     </a></p></td>
+</tr>
+<tr class="odd">
+<td><p>PhiCoefficient (MCC)</p></td>
+<td><p><span class="math">\(MCC = \frac{TP*TN-FP*FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePhiCoefficient">ComparisonMetrics.calculatePhiCoefficient         </a></p></td>
+</tr>
+<tr class="even">
+<td><p>FowlkesMallowsIndex (FM)</p></td>
+<td><p><span class="math">\(FM = \frac{}{}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFowlkesMallowsIndex">ComparisonMetrics.calculateFowlkesMallowsIndex    </a></p></td>
+</tr>
+<tr class="odd">
+<td><p>Informedness (BM)</p></td>
+<td><p><span class="math">\(BM = \frac{}{}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateInformedness">ComparisonMetrics.calculateInformedness           </a></p></td>
+</tr>
+<tr class="even">
+<td><p>Markedness (MK)</p></td>
+<td><p><span class="math">\(MK = \frac{}{}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateMarkedness">ComparisonMetrics.calculateMarkedness             </a></p></td>
+</tr>
+<tr class="odd">
+<td><p>DiagnosticOddsRatio (DOR)</p></td>
+<td><p><span class="math">\(DOR = \frac{}{}\)</span></p></td>
+<td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateDiagnosticOddsRatio">ComparisonMetrics.calculateDiagnosticOddsRatio    </a></p></td>
+</tr>
+</tbody>
+</table>
+
+<h3><a name="ComparisonMetrics-for-binary-comparisons" class="anchor" href="#ComparisonMetrics-for-binary-comparisons">ComparisonMetrics for binary comparisons</a></h3>
+<p>You can create the <code>ComparisonMetrics</code> record in various ways:</p>
+<ul>
+<li>directly from obtained TP/TN/FP/FN values using <code>ComparisonMetrics.create</code></li>
+</ul>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs26', 42)" onmouseover="showTip(event, 'fs26', 42)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 43)" onmouseover="showTip(event, 'fs27', 43)" class="id">create</span><span class="pn">(</span><span class="n">3</span><span class="pn">,</span><span class="n">2</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">1</span><span class="pn">)</span>
+</code></pre>
+<ul>
+<li>From a <code>BinaryConfusionMatrix</code> using <code>ComparisonMetrics.create</code></li>
+</ul>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 44)" onmouseover="showTip(event, 'fs28', 44)" class="id">bcm</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs6', 45)" onmouseover="showTip(event, 'fs6', 45)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs7', 46)" onmouseover="showTip(event, 'fs7', 46)" class="id">ofPredictions</span><span class="pn">(</span><span class="n">1</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs1', 47)" onmouseover="showTip(event, 'fs1', 47)" class="id">actual</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs2', 48)" onmouseover="showTip(event, 'fs2', 48)" class="id">predicted</span><span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs26', 49)" onmouseover="showTip(event, 'fs26', 49)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 50)" onmouseover="showTip(event, 'fs27', 50)" class="id">create</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 51)" onmouseover="showTip(event, 'fs28', 51)" class="id">bcm</span><span class="pn">)</span>
+</code></pre>
+<ul>
+<li>from predictions and actual labels of any type using <code>ComparisonMetrics.ofBinaryPredictions</code>, additionally passing which label is the "positive" label</li>
+</ul>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs26', 52)" onmouseover="showTip(event, 'fs26', 52)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs29', 53)" onmouseover="showTip(event, 'fs29', 53)" class="id">ofBinaryPredictions</span><span class="pn">(</span><span class="n">1</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs1', 54)" onmouseover="showTip(event, 'fs1', 54)" class="id">actual</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs2', 55)" onmouseover="showTip(event, 'fs2', 55)" class="id">predicted</span><span class="pn">)</span>
+</code></pre>
+<ul>
+<li>from boolean predictions and actual labels using <code>BinaryConfusionMatrix.ofBinaryPredictions</code></li>
+</ul>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs26', 56)" onmouseover="showTip(event, 'fs26', 56)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs29', 57)" onmouseover="showTip(event, 'fs29', 57)" class="id">ofBinaryPredictions</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 58)" onmouseover="showTip(event, 'fs8', 58)" class="id">actualBool</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs9', 59)" onmouseover="showTip(event, 'fs9', 59)" class="id">predictedBool</span><span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>{ P = 4.0
+  N = 3.0
+  SampleSize = 7.0
+  TP = 3.0
+  TN = 2.0
+  FP = 1.0
+  FN = 1.0
+  Sensitivity = 0.75
+  Specificity = 0.6666666667
+  Precision = 0.75
+  NegativePredictiveValue = 0.6666666667
+  Missrate = 0.25
+  FallOut = 0.3333333333
+  FalseDiscoveryRate = 0.25
+  FalseOmissionRate = 0.3333333333
+  PositiveLikelihoodRatio = 2.25
+  NegativeLikelihoodRatio = 0.375
+  PrevalenceThreshold = 0.4
+  ThreatScore = 0.6
+  Prevalence = 0.5714285714
+  Accuracy = 0.7142857143
+  BalancedAccuracy = 0.7083333333
+  F1 = 0.75
+  PhiCoefficient = 0.4166666667
+  FowlkesMallowsIndex = 0.75
+  Informedness = 0.4166666667
+  Markedness = 0.4166666667
+  DiagnosticOddsRatio = 6.0 }</code></pre></td></tr></table>
+<h3><a name="ComparisonMetrics-for-multi-label-comparisons" class="anchor" href="#ComparisonMetrics-for-multi-label-comparisons">ComparisonMetrics for multi-label comparisons</a></h3>
+<p>see also: <a href="https://cran.r-project.org/web/packages/yardstick/vignettes/multiclass.html">https://cran.r-project.org/web/packages/yardstick/vignettes/multiclass.html</a></p>
+<p>To evaluate individual label prediction metrics, you can create comparison metrics for each individual label confusion matrix obtained by <code>MultiLabelConfusionMatrix.allVsAll</code>:</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs11', 60)" onmouseover="showTip(event, 'fs11', 60)" class="id">mlcm</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 61)" onmouseover="showTip(event, 'fs12', 61)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 62)" onmouseover="showTip(event, 'fs20', 62)" class="id">allVsAll</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 63)" onmouseover="showTip(event, 'fs21', 63)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 64)" onmouseover="showTip(event, 'fs30', 64)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 65)" onmouseover="showTip(event, 'fs23', 65)" class="fn">label</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs24', 66)" onmouseover="showTip(event, 'fs24', 66)" class="fn">cm</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs23', 67)" onmouseover="showTip(event, 'fs23', 67)" class="fn">label</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs26', 68)" onmouseover="showTip(event, 'fs26', 68)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 69)" onmouseover="showTip(event, 'fs27', 69)" class="id">create</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs24', 70)" onmouseover="showTip(event, 'fs24', 70)" class="fn">cm</span><span class="pn">)</span><span class="pn">)</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 71)" onmouseover="showTip(event, 'fs21', 71)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 72)" onmouseover="showTip(event, 'fs22', 72)" class="id">iter</span><span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 73)" onmouseover="showTip(event, 'fs23', 73)" class="fn">label</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs31', 74)" onmouseover="showTip(event, 'fs31', 74)" class="fn">metrics</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs25', 75)" onmouseover="showTip(event, 'fs25', 75)" class="fn">printf</span> <span class="s">$&quot;Label {</span><span onmouseout="hideTip(event, 'fs23', 76)" onmouseover="showTip(event, 'fs23', 76)" class="fn">label</span><span class="s">}:\n\tSpecificity:</span><span class="pf">%.3f</span><span class="s">{</span><span class="fn">metrics</span><span class="pn">.</span><span class="id">Specificity</span><span class="s">}\n\tAccuracy:</span><span class="pf">%.3f</span><span class="s">{</span><span class="fn">metrics</span><span class="pn">.</span><span class="id">Accuracy</span><span class="s">}\n&quot;</span><span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>Label A:
+	Specificity:0.667
+	Accuracy:0.643
+Label B:
+	Specificity:0.909
+	Accuracy:0.857
+Label C:
+	Specificity:0.875
+	Accuracy:0.786</code></pre></td></tr></table>
+<h4><a name="Macro-averaging-metrics" class="anchor" href="#Macro-averaging-metrics">Macro-averaging metrics</a></h4>
+<p>Macro averaging averages the metrics obtained by calculating the metric of interest for each <code>one-vs-rest</code> binary confusion matrix created from the multi-label confusion matrix..</p>
+<p>So if you for example want to calculate the macro-average Sensitivity(TPR) <span class="math">\(TPR_{macro}\)</span> of a multi-label prediction, this is obtained by averaging the <span class="math">\(TPR_i\)</span> of each individual <code>one-vs-rest</code> label prediction for all <span class="math">\(i = 1 .. k\)</span> labels:</p>
+<p><span class="math">\[TPR_{macro} = \frac1k\sum_{i=1}^{k}TPR_i\]</span></p>
+<p>macro average metrics can be obtained either from multiple metrics, a multi-label confusion matrix, or a sequence of binary confusion matrices</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs26', 77)" onmouseover="showTip(event, 'fs26', 77)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 78)" onmouseover="showTip(event, 'fs32', 78)" class="id">macroAverage</span><span class="pn">(</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs26', 79)" onmouseover="showTip(event, 'fs26', 79)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 80)" onmouseover="showTip(event, 'fs27', 80)" class="id">create</span><span class="pn">(</span><span class="n">3</span><span class="pn">,</span><span class="n">6</span><span class="pn">,</span><span class="n">3</span><span class="pn">,</span><span class="n">2</span><span class="pn">)</span><span class="pn">;</span> <span onmouseout="hideTip(event, 'fs26', 81)" onmouseover="showTip(event, 'fs26', 81)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 82)" onmouseover="showTip(event, 'fs27', 82)" class="id">create</span><span class="pn">(</span><span class="n">2</span><span class="pn">,</span><span class="n">10</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">1</span><span class="pn">)</span><span class="pn">;</span> <span onmouseout="hideTip(event, 'fs26', 83)" onmouseover="showTip(event, 'fs26', 83)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 84)" onmouseover="showTip(event, 'fs27', 84)" class="id">create</span><span class="pn">(</span><span class="n">4</span><span class="pn">,</span><span class="n">7</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">2</span><span class="pn">)</span><span class="pn">]</span> <span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs26', 85)" onmouseover="showTip(event, 'fs26', 85)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 86)" onmouseover="showTip(event, 'fs32', 86)" class="id">macroAverage</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs11', 87)" onmouseover="showTip(event, 'fs11', 87)" class="id">mlcm</span><span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs26', 88)" onmouseover="showTip(event, 'fs26', 88)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 89)" onmouseover="showTip(event, 'fs32', 89)" class="id">macroAverage</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs11', 90)" onmouseover="showTip(event, 'fs11', 90)" class="id">mlcm</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 91)" onmouseover="showTip(event, 'fs12', 91)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 92)" onmouseover="showTip(event, 'fs20', 92)" class="id">allVsAll</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 93)" onmouseover="showTip(event, 'fs21', 93)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 94)" onmouseover="showTip(event, 'fs30', 94)" class="id">map</span> <span onmouseout="hideTip(event, 'fs33', 95)" onmouseover="showTip(event, 'fs33', 95)" class="fn">snd</span><span class="pn">)</span>
+</code></pre>
+<p>or directly from predictions and actual labels of any type using <code>ComparisonMetrics.macroAverageOfMultiLabelPredictions</code>, additionally passing the labels</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs26', 96)" onmouseover="showTip(event, 'fs26', 96)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 97)" onmouseover="showTip(event, 'fs34', 97)" class="id">macroAverageOfMultiLabelPredictions</span><span class="pn">(</span>
+    <span class="fn">labels</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
+    <span onmouseout="hideTip(event, 'fs1', 98)" onmouseover="showTip(event, 'fs1', 98)" class="fn">actual</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
+    <span class="fn">predictions</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">|]</span>
+<span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>{ P = 4.666666667
+  N = 9.333333333
+  SampleSize = 14.0
+  TP = 3.0
+  TN = 7.666666667
+  FP = 1.666666667
+  FN = 1.666666667
+  Sensitivity = 0.6444444444
+  Specificity = 0.8169191919
+  Precision = 0.6555555556
+  NegativePredictiveValue = 0.8122895623
+  Missrate = 0.3555555556
+  FallOut = 0.1830808081
+  FalseDiscoveryRate = 0.3444444444
+  FalseOmissionRate = 0.1877104377
+  PositiveLikelihoodRatio = 4.822222222
+  NegativeLikelihoodRatio = 0.4492063492
+  PrevalenceThreshold = 0.3329688981
+  ThreatScore = 0.4821428571
+  Prevalence = 0.3333333333
+  Accuracy = 0.7619047619
+  BalancedAccuracy = 0.7306818182
+  F1 = 0.6464646465
+  PhiCoefficient = 0.4644624644
+  FowlkesMallowsIndex = 0.6482286558
+  Informedness = 0.4613636364
+  Markedness = 0.4678451178
+  DiagnosticOddsRatio = 12.33333333 }</code></pre></td></tr></table>
+<h4><a name="Micro-averaging-metrics" class="anchor" href="#Micro-averaging-metrics">Micro-averaging metrics</a></h4>
+<p>Micro aggregates the <code>one-vs-rest</code> binary confusion matrices created from the multi-label confusion matrix, and then calculates the metric from the aggregated (TP/TN/FP/FN) values.</p>
+<p>So if you for example want to calculate the micro-average Sensitivity(TPR) <span class="math">\(TPR_{micro}\)</span> of a multi-label prediction, this is obtained by summing each individual <code>one-vs-rest</code> label prediction's <span class="math">\(TP\)</span> and <span class="math">\(TN\)</span> and obtaining <span class="math">\(TPR_{micro}\)</span> by</p>
+<p><span class="math">\[TPR_{micro} = \frac{TP_1 + TP_2 .. + TP_k}{(TP_1 + TP_2 .. + TP_k)+(TN_1 + TN_2 .. + TN_k)}\]</span></p>
+<p>micro average metrics can be obtained either from multiple binary confusion matrices or a multi-label confusion matrix</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs26', 99)" onmouseover="showTip(event, 'fs26', 99)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 100)" onmouseover="showTip(event, 'fs35', 100)" class="id">microAverage</span><span class="pn">(</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs6', 101)" onmouseover="showTip(event, 'fs6', 101)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 102)" onmouseover="showTip(event, 'fs10', 102)" class="id">create</span><span class="pn">(</span><span class="n">3</span><span class="pn">,</span><span class="n">6</span><span class="pn">,</span><span class="n">3</span><span class="pn">,</span><span class="n">2</span><span class="pn">)</span><span class="pn">;</span> <span onmouseout="hideTip(event, 'fs6', 103)" onmouseover="showTip(event, 'fs6', 103)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 104)" onmouseover="showTip(event, 'fs10', 104)" class="id">create</span><span class="pn">(</span><span class="n">2</span><span class="pn">,</span><span class="n">10</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">1</span><span class="pn">)</span><span class="pn">;</span> <span onmouseout="hideTip(event, 'fs6', 105)" onmouseover="showTip(event, 'fs6', 105)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 106)" onmouseover="showTip(event, 'fs10', 106)" class="id">create</span><span class="pn">(</span><span class="n">4</span><span class="pn">,</span><span class="n">7</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">2</span><span class="pn">)</span><span class="pn">]</span> <span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs26', 107)" onmouseover="showTip(event, 'fs26', 107)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 108)" onmouseover="showTip(event, 'fs35', 108)" class="id">microAverage</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs11', 109)" onmouseover="showTip(event, 'fs11', 109)" class="id">mlcm</span><span class="pn">)</span>
+</code></pre>
+<p>or directly from predictions and actual labels of any type using <code>ComparisonMetrics.macroAverageOfMultiLabelPredictions</code>, additionally passing the labels</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs26', 110)" onmouseover="showTip(event, 'fs26', 110)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 111)" onmouseover="showTip(event, 'fs36', 111)" class="id">microAverageOfMultiLabelPredictions</span><span class="pn">(</span>
+    <span class="fn">labels</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
+    <span onmouseout="hideTip(event, 'fs1', 112)" onmouseover="showTip(event, 'fs1', 112)" class="fn">actual</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
+    <span class="fn">predictions</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">|]</span>
+<span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>{ P = 14.0
+  N = 28.0
+  SampleSize = 42.0
+  TP = 9.0
+  TN = 23.0
+  FP = 5.0
+  FN = 5.0
+  Sensitivity = 0.6428571429
+  Specificity = 0.8214285714
+  Precision = 0.6428571429
+  NegativePredictiveValue = 0.8214285714
+  Missrate = 0.3571428571
+  FallOut = 0.1785714286
+  FalseDiscoveryRate = 0.3571428571
+  FalseOmissionRate = 0.1785714286
+  PositiveLikelihoodRatio = 3.6
+  NegativeLikelihoodRatio = 0.4347826087
+  PrevalenceThreshold = 0.3451409985
+  ThreatScore = 0.4736842105
+  Prevalence = 0.3333333333
+  Accuracy = 0.7619047619
+  BalancedAccuracy = 0.7321428571
+  F1 = 0.6428571429
+  PhiCoefficient = 0.4642857143
+  FowlkesMallowsIndex = 0.6428571429
+  Informedness = 0.4642857143
+  Markedness = 0.4642857143
+  DiagnosticOddsRatio = 8.28 }</code></pre></td></tr></table>
+<h3><a name="Creating-threshold-dependent-metric-maps" class="anchor" href="#Creating-threshold-dependent-metric-maps">Creating threshold-dependent metric maps</a></h3>
+<p>Predictions usually have a confidence or score attached, which indicates how "sure" the predictor is to report a label for a certain input.</p>
+<p>Predictors can be compared by comparing the relative frequency distributions of metrics of interest for each possible (or obtained) confidence value.</p>
+<p>Two prominent examples are the <strong>Receiver Operating Characteristic (ROC)</strong> or the <strong>Precision-Recall metric</strong></p>
+<h4><a name="For-binary-predictions" class="anchor" href="#For-binary-predictions">For binary predictions</a></h4>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs26', 113)" onmouseover="showTip(event, 'fs26', 113)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 114)" onmouseover="showTip(event, 'fs37', 114)" class="id">binaryThresholdMap</span><span class="pn">(</span>
+    <span class="pn">[</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">]</span><span class="pn">,</span>
+    <span class="pn">[</span><span class="n">0.9</span> <span class="pn">;</span><span class="n">0.6</span> <span class="pn">;</span><span class="n">0.7</span> <span class="pn">;</span> <span class="n">0.2</span> <span class="pn">;</span> <span class="n">0.7</span><span class="pn">;</span> <span class="n">0.3</span> <span class="pn">;</span> <span class="n">0.1</span><span class="pn">]</span>
+<span class="pn">)</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 115)" onmouseover="showTip(event, 'fs21', 115)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 116)" onmouseover="showTip(event, 'fs22', 116)" class="id">iter</span> <span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs38', 117)" onmouseover="showTip(event, 'fs38', 117)" class="fn">threshold</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs39', 118)" onmouseover="showTip(event, 'fs39', 118)" class="fn">cm</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs25', 119)" onmouseover="showTip(event, 'fs25', 119)" class="fn">printf</span> <span class="s">$&quot;Threshold {</span><span onmouseout="hideTip(event, 'fs38', 120)" onmouseover="showTip(event, 'fs38', 120)" class="fn">threshold</span><span class="s">}:\n\tSensitivity: </span><span class="pf">%.2f</span><span class="s">{</span><span class="fn">cm</span><span class="pn">.</span><span class="id">Sensitivity</span><span class="s">}\n\tPrecision : </span><span class="pf">%.2f</span><span class="s">{</span><span class="fn">cm</span><span class="pn">.</span><span class="id">Precision</span><span class="s">}\n\tFallout : </span><span class="pf">%.2f</span><span class="s">{</span><span class="fn">cm</span><span class="pn">.</span><span class="id">FallOut</span><span class="s">}\n\tetc...\n&quot;</span><span class="pn">)</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>Threshold 1.9:
+	Sensitivity: 0.00
+	Precision : NaN
+	Fallout : 0.00
+	etc...
+Threshold 0.9:
+	Sensitivity: 0.25
+	Precision : 1.00
+	Fallout : 0.00
+	etc...
+Threshold 0.7:
+	Sensitivity: 0.50
+	Precision : 0.67
+	Fallout : 0.33
+	etc...
+Threshold 0.6:
+	Sensitivity: 0.75
+	Precision : 0.75
+	Fallout : 0.33
+	etc...
+Threshold 0.3:
+	Sensitivity: 0.75
+	Precision : 0.60
+	Fallout : 0.67
+	etc...
+Threshold 0.2:
+	Sensitivity: 1.00
+	Precision : 0.67
+	Fallout : 0.67
+	etc...
+Threshold 0.1:
+	Sensitivity: 1.00
+	Precision : 0.57
+	Fallout : 1.00
+	etc...</code></pre></td></tr></table>
+<h4><a name="For-multi-label-predictions" class="anchor" href="#For-multi-label-predictions">For multi-label predictions</a></h4>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs26', 121)" onmouseover="showTip(event, 'fs26', 121)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 122)" onmouseover="showTip(event, 'fs40', 122)" class="id">multiLabelThresholdMap</span><span class="pn">(</span>
+    <span onmouseout="hideTip(event, 'fs1', 123)" onmouseover="showTip(event, 'fs1', 123)" class="fn">actual</span> <span class="o">=</span> 
+             <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
+    <span class="fn">predictions</span> <span class="o">=</span> <span class="pn">[|</span>
+        <span class="s">&quot;A&quot;</span><span class="pn">,</span> <span class="pn">[|</span><span class="n">0.8</span><span class="pn">;</span> <span class="n">0.7</span><span class="pn">;</span> <span class="n">0.9</span><span class="pn">;</span> <span class="n">0.4</span><span class="pn">;</span> <span class="n">0.3</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.3</span><span class="pn">;</span> <span class="n">0.5</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.3</span><span class="pn">;</span> <span class="n">0.5</span><span class="pn">;</span> <span class="n">0.4</span><span class="pn">|]</span>
+        <span class="s">&quot;B&quot;</span><span class="pn">,</span> <span class="pn">[|</span><span class="n">0.0</span><span class="pn">;</span> <span class="n">0.2</span><span class="pn">;</span> <span class="n">0.0</span><span class="pn">;</span> <span class="n">0.5</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.8</span><span class="pn">;</span> <span class="n">0.7</span><span class="pn">;</span> <span class="n">0.4</span><span class="pn">;</span> <span class="n">0.0</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.0</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.3</span><span class="pn">|]</span>
+        <span class="s">&quot;C&quot;</span><span class="pn">,</span> <span class="pn">[|</span><span class="n">0.2</span><span class="pn">;</span> <span class="n">0.3</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.6</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.9</span><span class="pn">;</span> <span class="n">0.8</span><span class="pn">;</span> <span class="n">0.8</span><span class="pn">;</span> <span class="n">0.7</span><span class="pn">;</span> <span class="n">0.4</span><span class="pn">;</span> <span class="n">0.3</span><span class="pn">|]</span>
+    <span class="pn">|]</span>
+<span class="pn">)</span>
+</code></pre>
+<h4><a name="ROC-curve-example" class="anchor" href="#ROC-curve-example">ROC curve example</a></h4>
+<p>A receiver operating characteristic curve, or ROC curve, is a graphical plot that illustrates the diagnostic ability of a binary classifier system as its discrimination threshold is varied.</p>
+<p>The ROC curve is created by plotting the true positive rate (TPR, sensitivity) against the false positive rate (FPR, fallout) at various threshold settings</p>
+<p>When using normalized units, the area under the curve (often referred to as simply the AUC) is equal to the probability that a classifier will rank a randomly chosen positive instance higher than a randomly chosen negative one (assuming 'positive' ranks higher than 'negative').
+In other words, when given one randomly selected positive instance and one randomly selected negative instance, AUC is the probability that the classifier will be able to tell which one is which.</p>
+<h5><a name="Binary" class="anchor" href="#Binary">Binary</a></h5>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs41', 124)" onmouseover="showTip(event, 'fs41', 124)" class="id">Plotly</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 125)" onmouseover="showTip(event, 'fs42', 125)" class="id">NET</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs41', 126)" onmouseover="showTip(event, 'fs41', 126)" class="id">Plotly</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 127)" onmouseover="showTip(event, 'fs42', 127)" class="id">NET</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 128)" onmouseover="showTip(event, 'fs43', 128)" class="id">LayoutObjects</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs3', 129)" onmouseover="showTip(event, 'fs3', 129)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs4', 130)" onmouseover="showTip(event, 'fs4', 130)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 131)" onmouseover="showTip(event, 'fs44', 131)" class="id">Integration</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 132)" onmouseover="showTip(event, 'fs45', 132)" class="id">binaryROC</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs26', 133)" onmouseover="showTip(event, 'fs26', 133)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs46', 134)" onmouseover="showTip(event, 'fs46', 134)" class="id">calculateROC</span><span class="pn">(</span>
+        <span class="pn">[</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">]</span><span class="pn">,</span>
+        <span class="pn">[</span><span class="n">0.9</span> <span class="pn">;</span><span class="n">0.6</span> <span class="pn">;</span><span class="n">0.7</span> <span class="pn">;</span> <span class="n">0.2</span> <span class="pn">;</span> <span class="n">0.7</span><span class="pn">;</span> <span class="n">0.3</span> <span class="pn">;</span> <span class="n">0.1</span><span class="pn">]</span>
+    <span class="pn">)</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs47', 135)" onmouseover="showTip(event, 'fs47', 135)" class="id">auc</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs45', 136)" onmouseover="showTip(event, 'fs45', 136)" class="id">binaryROC</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs48', 137)" onmouseover="showTip(event, 'fs48', 137)" class="rt">NumericalIntegration</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 138)" onmouseover="showTip(event, 'fs49', 138)" class="id">definiteIntegral</span> <span onmouseout="hideTip(event, 'fs50', 139)" onmouseover="showTip(event, 'fs50', 139)" class="uc">Trapezoidal</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs51', 140)" onmouseover="showTip(event, 'fs51', 140)" class="id">binaryROCChart</span> <span class="o">=</span>
+    <span class="pn">[</span>
+        <span onmouseout="hideTip(event, 'fs52', 141)" onmouseover="showTip(event, 'fs52', 141)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 142)" onmouseover="showTip(event, 'fs53', 142)" class="id">Line</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs45', 143)" onmouseover="showTip(event, 'fs45', 143)" class="id">binaryROC</span><span class="pn">,</span> <span class="fn">Name</span><span class="o">=</span> <span class="s">$&quot;2 label ROC, AUC = </span><span class="pf">%.2f</span><span class="s">{</span><span onmouseout="hideTip(event, 'fs47', 144)" onmouseover="showTip(event, 'fs47', 144)" class="id">auc</span><span class="s">}&quot;</span><span class="pn">)</span>
+        <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 145)" onmouseover="showTip(event, 'fs52', 145)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 146)" onmouseover="showTip(event, 'fs54', 146)" class="id">withLineStyle</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs55', 147)" onmouseover="showTip(event, 'fs55', 147)" class="fn">Shape</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs56', 148)" onmouseover="showTip(event, 'fs56', 148)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs57', 149)" onmouseover="showTip(event, 'fs57', 149)" class="rt">Shape</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs58', 150)" onmouseover="showTip(event, 'fs58', 150)" class="id">Vh</span><span class="pn">)</span>
+        <span onmouseout="hideTip(event, 'fs52', 151)" onmouseover="showTip(event, 'fs52', 151)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 152)" onmouseover="showTip(event, 'fs53', 152)" class="id">Line</span><span class="pn">(</span><span class="pn">[</span><span class="n">0.</span><span class="pn">,</span><span class="n">0.</span><span class="pn">;</span> <span class="n">1.</span><span class="pn">,</span><span class="n">1.0</span><span class="pn">]</span><span class="pn">,</span> <span class="fn">Name</span> <span class="o">=</span> <span class="s">&quot;no skill&quot;</span><span class="pn">,</span> <span class="fn">LineDash</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs56', 153)" onmouseover="showTip(event, 'fs56', 153)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs59', 154)" onmouseover="showTip(event, 'fs59', 154)" class="rt">DrawingStyle</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs60', 155)" onmouseover="showTip(event, 'fs60', 155)" class="id">Dash</span><span class="pn">,</span> <span class="fn">LineColor</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs61', 156)" onmouseover="showTip(event, 'fs61', 156)" class="m">Color</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs62', 157)" onmouseover="showTip(event, 'fs62', 157)" class="id">fromKeyword</span> <span onmouseout="hideTip(event, 'fs63', 158)" onmouseover="showTip(event, 'fs63', 158)" class="uc">Grey</span><span class="pn">)</span>
+    <span class="pn">]</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 159)" onmouseover="showTip(event, 'fs52', 159)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 160)" onmouseover="showTip(event, 'fs64', 160)" class="id">combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 161)" onmouseover="showTip(event, 'fs52', 161)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs65', 162)" onmouseover="showTip(event, 'fs65', 162)" class="id">withTemplate</span> <span onmouseout="hideTip(event, 'fs66', 163)" onmouseover="showTip(event, 'fs66', 163)" class="m">ChartTemplates</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs67', 164)" onmouseover="showTip(event, 'fs67', 164)" class="id">lightMirrored</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 165)" onmouseover="showTip(event, 'fs52', 165)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs68', 166)" onmouseover="showTip(event, 'fs68', 166)" class="id">withLegend</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs69', 167)" onmouseover="showTip(event, 'fs69', 167)" class="rt">Legend</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs70', 168)" onmouseover="showTip(event, 'fs70', 168)" class="id">init</span><span class="pn">(</span><span class="fn">XAnchor</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs56', 169)" onmouseover="showTip(event, 'fs56', 169)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs71', 170)" onmouseover="showTip(event, 'fs71', 170)" class="rt">XAnchorPosition</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs72', 171)" onmouseover="showTip(event, 'fs72', 171)" class="id">Right</span><span class="pn">,</span> <span class="fn">YAnchor</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs56', 172)" onmouseover="showTip(event, 'fs56', 172)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs73', 173)" onmouseover="showTip(event, 'fs73', 173)" class="rt">YAnchorPosition</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs74', 174)" onmouseover="showTip(event, 'fs74', 174)" class="id">Bottom</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs75', 175)" onmouseover="showTip(event, 'fs75', 175)" class="fn">X</span> <span class="o">=</span> <span class="n">0.5</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs76', 176)" onmouseover="showTip(event, 'fs76', 176)" class="fn">Y</span> <span class="o">=</span> <span class="n">0.1</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 177)" onmouseover="showTip(event, 'fs52', 177)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs77', 178)" onmouseover="showTip(event, 'fs77', 178)" class="id">withXAxisStyle</span><span class="pn">(</span><span class="s">&quot;TPR&quot;</span><span class="pn">,</span> <span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">1.</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 179)" onmouseover="showTip(event, 'fs52', 179)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs78', 180)" onmouseover="showTip(event, 'fs78', 180)" class="id">withYAxisStyle</span><span class="pn">(</span><span class="s">&quot;FPR&quot;</span><span class="pn">,</span> <span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">1.</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 181)" onmouseover="showTip(event, 'fs52', 181)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs79', 182)" onmouseover="showTip(event, 'fs79', 182)" class="id">withTitle</span> <span class="s">&quot;Binary receiver operating characteristic example&quot;</span>
+</code></pre>
+<div id="067e4181-d67a-48ed-933e-c1336dac0b24"><!-- Plotly chart will be drawn inside this DIV --></div>
+<script type="text/javascript">
+
+            var renderPlotly_067e4181d67a48ed933ec1336dac0b24 = function() {
+            var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
+            fsharpPlotlyRequire(['plotly'], function(Plotly) {
+
+            var data = [{"type":"scatter","name":"2 label ROC, AUC = 0.71","mode":"lines","x":[0.0,0.0,0.3333333333333333,0.3333333333333333,0.6666666666666666,0.6666666666666666,1.0],"y":[0.0,0.25,0.5,0.75,0.75,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"no skill","mode":"lines","x":[0.0,1.0],"y":[0.0,1.0],"marker":{},"line":{"color":"rgba(128, 128, 128, 1.0)","dash":"dash"}}];
+            var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"legend":{"x":0.5,"y":0.1,"yanchor":"bottom"},"xaxis":{"title":{"text":"TPR"},"range":[0.0,1.0]},"yaxis":{"title":{"text":"FPR"},"range":[0.0,1.0]},"title":{"text":"Binary receiver operating characteristic example"}};
+            var config = {"responsive":true};
+            Plotly.newPlot('067e4181-d67a-48ed-933e-c1336dac0b24', data, layout, config);
+});
+            };
+            if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
+                var script = document.createElement("script");
+                script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
+                script.onload = function(){
+                    renderPlotly_067e4181d67a48ed933ec1336dac0b24();
+                };
+                document.getElementsByTagName("head")[0].appendChild(script);
+            }
+            else {
+                renderPlotly_067e4181d67a48ed933ec1336dac0b24();
+            }
+</script>
+
+<h5><a name="Multi-label" class="anchor" href="#Multi-label">Multi-label</a></h5>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs82', 186)" onmouseover="showTip(event, 'fs82', 186)" class="id">multiLabelROC</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs26', 187)" onmouseover="showTip(event, 'fs26', 187)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs83', 188)" onmouseover="showTip(event, 'fs83', 188)" class="id">calculateMultiLabelROC</span><span class="pn">(</span>
+        <span onmouseout="hideTip(event, 'fs1', 189)" onmouseover="showTip(event, 'fs1', 189)" class="fn">actual</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
+        <span class="fn">predictions</span> <span class="o">=</span> <span class="pn">[|</span>
+            <span class="s">&quot;A&quot;</span><span class="pn">,</span> <span class="pn">[|</span><span class="n">0.8</span><span class="pn">;</span> <span class="n">0.7</span><span class="pn">;</span> <span class="n">0.9</span><span class="pn">;</span> <span class="n">0.4</span><span class="pn">;</span> <span class="n">0.3</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.2</span><span class="pn">;</span> <span class="n">0.5</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.3</span><span class="pn">;</span> <span class="n">0.5</span><span class="pn">;</span> <span class="n">0.4</span><span class="pn">|]</span>
+            <span class="s">&quot;B&quot;</span><span class="pn">,</span> <span class="pn">[|</span><span class="n">0.0</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.0</span><span class="pn">;</span> <span class="n">0.5</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.8</span><span class="pn">;</span> <span class="n">0.7</span><span class="pn">;</span> <span class="n">0.4</span><span class="pn">;</span> <span class="n">0.0</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.0</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.3</span><span class="pn">|]</span>
+            <span class="s">&quot;C&quot;</span><span class="pn">,</span> <span class="pn">[|</span><span class="n">0.2</span><span class="pn">;</span> <span class="n">0.2</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.6</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.1</span><span class="pn">;</span> <span class="n">0.9</span><span class="pn">;</span> <span class="n">0.8</span><span class="pn">;</span> <span class="n">0.8</span><span class="pn">;</span> <span class="n">0.7</span><span class="pn">;</span> <span class="n">0.4</span><span class="pn">;</span> <span class="n">0.3</span><span class="pn">|]</span>
+        <span class="pn">|]</span>
+    <span class="pn">)</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs84', 190)" onmouseover="showTip(event, 'fs84', 190)" class="id">aucMap</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs82', 191)" onmouseover="showTip(event, 'fs82', 191)" class="id">multiLabelROC</span> 
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs85', 192)" onmouseover="showTip(event, 'fs85', 192)" class="m">Map</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs86', 193)" onmouseover="showTip(event, 'fs86', 193)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs23', 194)" onmouseover="showTip(event, 'fs23', 194)" class="fn">label</span> <span onmouseout="hideTip(event, 'fs87', 195)" onmouseover="showTip(event, 'fs87', 195)" class="fn">roc</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs87', 196)" onmouseover="showTip(event, 'fs87', 196)" class="fn">roc</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs48', 197)" onmouseover="showTip(event, 'fs48', 197)" class="rt">NumericalIntegration</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 198)" onmouseover="showTip(event, 'fs49', 198)" class="id">definiteIntegral</span> <span onmouseout="hideTip(event, 'fs50', 199)" onmouseover="showTip(event, 'fs50', 199)" class="uc">Trapezoidal</span><span class="pn">)</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs88', 200)" onmouseover="showTip(event, 'fs88', 200)" class="id">multiLabelROCChart</span> <span class="o">=</span>
+    <span class="pn">[</span>
+        <span class="k">yield!</span>  
+            <span onmouseout="hideTip(event, 'fs82', 201)" onmouseover="showTip(event, 'fs82', 201)" class="id">multiLabelROC</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs85', 202)" onmouseover="showTip(event, 'fs85', 202)" class="m">Map</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs89', 203)" onmouseover="showTip(event, 'fs89', 203)" class="id">toArray</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 204)" onmouseover="showTip(event, 'fs21', 204)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 205)" onmouseover="showTip(event, 'fs30', 205)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 206)" onmouseover="showTip(event, 'fs23', 206)" class="fn">label</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs87', 207)" onmouseover="showTip(event, 'fs87', 207)" class="fn">roc</span><span class="pn">)</span> <span class="k">-&gt;</span> 
+                <span onmouseout="hideTip(event, 'fs52', 208)" onmouseover="showTip(event, 'fs52', 208)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 209)" onmouseover="showTip(event, 'fs53', 209)" class="id">Line</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs87', 210)" onmouseover="showTip(event, 'fs87', 210)" class="fn">roc</span><span class="pn">,</span> <span class="fn">Name</span><span class="o">=</span> <span class="s">$&quot;{</span><span onmouseout="hideTip(event, 'fs23', 211)" onmouseover="showTip(event, 'fs23', 211)" class="fn">label</span><span class="s">} ROC, AUC = </span><span class="pf">%.2f</span><span class="s">{</span><span class="id">aucMap</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs23', 212)" onmouseover="showTip(event, 'fs23', 212)" class="fn">label</span><span class="pn">]</span><span class="s">}&quot;</span><span class="pn">)</span>
+                <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 213)" onmouseover="showTip(event, 'fs52', 213)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 214)" onmouseover="showTip(event, 'fs54', 214)" class="id">withLineStyle</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs55', 215)" onmouseover="showTip(event, 'fs55', 215)" class="fn">Shape</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs56', 216)" onmouseover="showTip(event, 'fs56', 216)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs57', 217)" onmouseover="showTip(event, 'fs57', 217)" class="rt">Shape</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs58', 218)" onmouseover="showTip(event, 'fs58', 218)" class="id">Vh</span><span class="pn">)</span>
+            <span class="pn">)</span>
+        <span onmouseout="hideTip(event, 'fs52', 219)" onmouseover="showTip(event, 'fs52', 219)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 220)" onmouseover="showTip(event, 'fs53', 220)" class="id">Line</span><span class="pn">(</span><span class="pn">[</span><span class="n">0.</span><span class="pn">,</span><span class="n">0.</span><span class="pn">;</span> <span class="n">1.</span><span class="pn">,</span><span class="n">1.0</span><span class="pn">]</span><span class="pn">,</span> <span class="fn">Name</span> <span class="o">=</span> <span class="s">&quot;no skill&quot;</span><span class="pn">,</span> <span class="fn">LineDash</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs56', 221)" onmouseover="showTip(event, 'fs56', 221)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs59', 222)" onmouseover="showTip(event, 'fs59', 222)" class="rt">DrawingStyle</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs60', 223)" onmouseover="showTip(event, 'fs60', 223)" class="id">Dash</span><span class="pn">,</span> <span class="fn">LineColor</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs61', 224)" onmouseover="showTip(event, 'fs61', 224)" class="m">Color</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs62', 225)" onmouseover="showTip(event, 'fs62', 225)" class="id">fromKeyword</span> <span onmouseout="hideTip(event, 'fs63', 226)" onmouseover="showTip(event, 'fs63', 226)" class="uc">Grey</span><span class="pn">)</span>
+    <span class="pn">]</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 227)" onmouseover="showTip(event, 'fs52', 227)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 228)" onmouseover="showTip(event, 'fs64', 228)" class="id">combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 229)" onmouseover="showTip(event, 'fs52', 229)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs65', 230)" onmouseover="showTip(event, 'fs65', 230)" class="id">withTemplate</span> <span onmouseout="hideTip(event, 'fs66', 231)" onmouseover="showTip(event, 'fs66', 231)" class="m">ChartTemplates</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs67', 232)" onmouseover="showTip(event, 'fs67', 232)" class="id">lightMirrored</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 233)" onmouseover="showTip(event, 'fs52', 233)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs68', 234)" onmouseover="showTip(event, 'fs68', 234)" class="id">withLegend</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs69', 235)" onmouseover="showTip(event, 'fs69', 235)" class="rt">Legend</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs70', 236)" onmouseover="showTip(event, 'fs70', 236)" class="id">init</span><span class="pn">(</span><span class="fn">XAnchor</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs56', 237)" onmouseover="showTip(event, 'fs56', 237)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs71', 238)" onmouseover="showTip(event, 'fs71', 238)" class="rt">XAnchorPosition</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs72', 239)" onmouseover="showTip(event, 'fs72', 239)" class="id">Right</span><span class="pn">,</span> <span class="fn">YAnchor</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs56', 240)" onmouseover="showTip(event, 'fs56', 240)" class="m">StyleParam</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs73', 241)" onmouseover="showTip(event, 'fs73', 241)" class="rt">YAnchorPosition</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs74', 242)" onmouseover="showTip(event, 'fs74', 242)" class="id">Bottom</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs75', 243)" onmouseover="showTip(event, 'fs75', 243)" class="fn">X</span> <span class="o">=</span> <span class="n">0.5</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs76', 244)" onmouseover="showTip(event, 'fs76', 244)" class="fn">Y</span> <span class="o">=</span> <span class="n">0.1</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 245)" onmouseover="showTip(event, 'fs52', 245)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs77', 246)" onmouseover="showTip(event, 'fs77', 246)" class="id">withXAxisStyle</span><span class="pn">(</span><span class="s">&quot;TPR&quot;</span><span class="pn">,</span> <span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">1.</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 247)" onmouseover="showTip(event, 'fs52', 247)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs78', 248)" onmouseover="showTip(event, 'fs78', 248)" class="id">withYAxisStyle</span><span class="pn">(</span><span class="s">&quot;FPR&quot;</span><span class="pn">,</span> <span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">1.</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 249)" onmouseover="showTip(event, 'fs52', 249)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs79', 250)" onmouseover="showTip(event, 'fs79', 250)" class="id">withTitle</span> <span class="s">&quot;Binary receiver operating characteristic example&quot;</span>
+</code></pre>
+<div id="772f36f2-8ed0-4e26-aa58-ca8313907666"><!-- Plotly chart will be drawn inside this DIV --></div>
+<script type="text/javascript">
+
+            var renderPlotly_772f36f28ed04e26aa58ca8313907666 = function() {
+            var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
+            fsharpPlotlyRequire(['plotly'], function(Plotly) {
+
+            var data = [{"type":"scatter","name":"A ROC, AUC = 0.87","mode":"lines","x":[0.0,0.0,0.0,0.0,0.0,0.2222222222222222,0.3333333333333333,0.4444444444444444,0.5555555555555556,1.0,1.0],"y":[0.0,0.2,0.4,0.6,0.6,0.6,0.8,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"B ROC, AUC = 0.97","mode":"lines","x":[0.0,0.0,0.0,0.0,0.0,0.09090909090909091,0.09090909090909091,0.18181818181818182,0.18181818181818182,0.6363636363636364,1.0],"y":[0.0,0.0,0.3333333333333333,0.6666666666666666,0.6666666666666666,0.6666666666666666,1.0,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"C ROC, AUC = 0.96","mode":"lines","x":[0.0,0.0,0.0,0.0,0.125,0.125,0.125,0.125,0.375,1.0,1.0],"y":[0.0,0.16666666666666666,0.5,0.6666666666666666,0.6666666666666666,0.6666666666666666,0.8333333333333334,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"macro-average ROC, AUC = 0.94","mode":"lines","x":[0.0,0.0,0.0,0.0,0.041666666666666664,0.14604377104377106,0.18308080808080807,0.25042087542087543,0.37079124579124584,0.8787878787878788,1.0],"y":[0.0,0.12222222222222223,0.41111111111111115,0.6444444444444444,0.6444444444444444,0.6444444444444444,0.8777777777777778,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"micro-average ROC, AUC = 0.93","mode":"lines","x":[0.0,0.0,0.0,0.0,0.03571428571428571,0.14285714285714285,0.17857142857142858,0.25,0.35714285714285715,0.8571428571428571,1.0],"y":[0.0,0.14285714285714285,0.42857142857142855,0.6428571428571429,0.6428571428571429,0.6428571428571429,0.8571428571428571,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"no skill","mode":"lines","x":[0.0,1.0],"y":[0.0,1.0],"marker":{},"line":{"color":"rgba(128, 128, 128, 1.0)","dash":"dash"}}];
+            var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"legend":{"x":0.5,"y":0.1,"yanchor":"bottom"},"xaxis":{"title":{"text":"TPR"},"range":[0.0,1.0]},"yaxis":{"title":{"text":"FPR"},"range":[0.0,1.0]},"title":{"text":"Binary receiver operating characteristic example"}};
+            var config = {"responsive":true};
+            Plotly.newPlot('772f36f2-8ed0-4e26-aa58-ca8313907666', data, layout, config);
+});
+            };
+            if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
+                var script = document.createElement("script");
+                script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
+                script.onload = function(){
+                    renderPlotly_772f36f28ed04e26aa58ca8313907666();
+                };
+                document.getElementsByTagName("head")[0].appendChild(script);
+            }
+            else {
+                renderPlotly_772f36f28ed04e26aa58ca8313907666();
+            }
+</script>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="fsdocs-tip" id="fs1">val actual: int list</div>
+<div class="fsdocs-tip" id="fs2">val predicted: int list</div>
+<div class="fsdocs-tip" id="fs3">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs4">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs5">namespace FSharp.Stats.Testing</div>
+<div class="fsdocs-tip" id="fs6">type BinaryConfusionMatrix =
+  {
+    TP: int
+    TN: int
+    FP: int
+    FN: int
+  }
+  static member create: tp: int * tn: int * fp: int * fn: int -&gt; BinaryConfusionMatrix
+  static member ofPredictions: positiveLabel: &#39;A * actual: seq&lt;&#39;A&gt; * predictions: seq&lt;&#39;A&gt; -&gt; BinaryConfusionMatrix (requires equality) + 1 overload
+  static member thresholdMap: actual: seq&lt;bool&gt; * predictions: seq&lt;float&gt; * thresholds: seq&lt;float&gt; -&gt; (float * BinaryConfusionMatrix)[] + 1 overload<br /><em>&lt;summary&gt;
+ Confusion matrix for binary classification
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs7">static member BinaryConfusionMatrix.ofPredictions: actual: seq&lt;bool&gt; * predictions: seq&lt;bool&gt; -&gt; BinaryConfusionMatrix<br />static member BinaryConfusionMatrix.ofPredictions: positiveLabel: &#39;A * actual: seq&lt;&#39;A&gt; * predictions: seq&lt;&#39;A&gt; -&gt; BinaryConfusionMatrix (requires equality)</div>
+<div class="fsdocs-tip" id="fs8">val actualBool: bool list</div>
+<div class="fsdocs-tip" id="fs9">val predictedBool: bool list</div>
+<div class="fsdocs-tip" id="fs10">static member BinaryConfusionMatrix.create: tp: int * tn: int * fp: int * fn: int -&gt; BinaryConfusionMatrix</div>
+<div class="fsdocs-tip" id="fs11">val mlcm: MultiLabelConfusionMatrix</div>
+<div class="fsdocs-tip" id="fs12">type MultiLabelConfusionMatrix =
+  {
+    Labels: string[]
+    Confusion: Matrix&lt;int&gt;
+  }
+  static member allVsAll: mlcm: MultiLabelConfusionMatrix -&gt; (string * BinaryConfusionMatrix)[]
+  static member create: labels: string[] * confusion: Matrix&lt;int&gt; -&gt; MultiLabelConfusionMatrix
+  static member ofPredictions: labels: &#39;a[] * actual: &#39;a[] * predictions: &#39;a[] -&gt; MultiLabelConfusionMatrix (requires &#39;a :&gt; IConvertible and equality)
+  static member oneVsRest: label: string -&gt; mlcm: MultiLabelConfusionMatrix -&gt; BinaryConfusionMatrix</div>
+<div class="fsdocs-tip" id="fs13">static member MultiLabelConfusionMatrix.create: labels: string[] * confusion: Matrix&lt;int&gt; -&gt; MultiLabelConfusionMatrix</div>
+<div class="fsdocs-tip" id="fs14">val array2D: rows: seq&lt;#seq&lt;&#39;T&gt;&gt; -&gt; &#39;T[,]<br /><em>&lt;summary&gt;Builds a 2D array from a sequence of sequences of elements.&lt;/summary&gt;<br />&lt;example id=&quot;array2d-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ array2D [ [ 1.0; 2.0 ]; [ 3.0; 4.0 ] ]
+ &lt;/code&gt;
+ Evaluates to a 2x2 zero-based array with contents &lt;c&gt;[[1.0; 2.0]; [3.0; 4.0]]&lt;/c&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs15">Multiple items<br />module Matrix
+
+from FSharp.Stats<br /><br />--------------------<br />type Matrix&lt;&#39;T&gt; =
+  | DenseRepr of DenseMatrix&lt;&#39;T&gt;
+  | SparseRepr of SparseMatrix&lt;&#39;T&gt;
+  interface IEnumerable
+  interface IEnumerable&lt;&#39;T&gt;
+  interface IStructuralEquatable
+  interface IStructuralComparable
+  interface IComparable
+  override Equals: yobj: obj -&gt; bool
+  override GetHashCode: unit -&gt; int
+  member GetSlice: start1: int option * finish1: int option * start2: int option * finish2: int option -&gt; Matrix&lt;&#39;T&gt;
+  member PermuteColumns: p: permutation -&gt; Matrix&lt;&#39;T&gt;
+  member PermuteRows: p: permutation -&gt; Matrix&lt;&#39;T&gt;
+  ...</div>
+<div class="fsdocs-tip" id="fs16">module Generic
+
+from FSharp.Stats.MatrixModule</div>
+<div class="fsdocs-tip" id="fs17">val ofArray2D: array: &#39;T[,] -&gt; Matrix&lt;&#39;T&gt;</div>
+<div class="fsdocs-tip" id="fs18">static member MultiLabelConfusionMatrix.ofPredictions: labels: &#39;a[] * actual: &#39;a[] * predictions: &#39;a[] -&gt; MultiLabelConfusionMatrix (requires &#39;a :&gt; System.IConvertible and equality)</div>
+<div class="fsdocs-tip" id="fs19">static member MultiLabelConfusionMatrix.oneVsRest: label: string -&gt; mlcm: MultiLabelConfusionMatrix -&gt; BinaryConfusionMatrix</div>
+<div class="fsdocs-tip" id="fs20">static member MultiLabelConfusionMatrix.allVsAll: mlcm: MultiLabelConfusionMatrix -&gt; (string * BinaryConfusionMatrix)[]</div>
+<div class="fsdocs-tip" id="fs21">Multiple items<br />module Array
+
+from FSharp.Stats<br /><em>&lt;summary&gt;
+ Module to compute common statistical measure on array
+&lt;/summary&gt;</em><br /><br />--------------------<br />module Array
+
+from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with arrays.&lt;/summary&gt;<br />&lt;remarks&gt;
+  See also &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/arrays&quot;&gt;F# Language Guide - Arrays&lt;/a&gt;.
+ &lt;/remarks&gt;</em></div>
+<div class="fsdocs-tip" id="fs22">val iter: action: (&#39;T -&gt; unit) -&gt; array: &#39;T[] -&gt; unit<br /><em>&lt;summary&gt;Applies the given function to each element of the array.&lt;/summary&gt;<br />&lt;param name=&quot;action&quot;&gt;The function to apply.&lt;/param&gt;<br />&lt;param name=&quot;array&quot;&gt;The input array.&lt;/param&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input array is null.&lt;/exception&gt;<br />&lt;example id=&quot;iter-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ let inputs = [| &quot;a&quot;; &quot;b&quot;; &quot;c&quot; |]
+
+ inputs |&amp;gt; Array.iter (printfn &quot;%s&quot;)
+ &lt;/code&gt;
+ Evaluates to &lt;c&gt;unit&lt;/c&gt; and prints
+ &lt;code&gt;
+ a
+ b
+ c
+ &lt;/code&gt;
+ in the console.
+ &lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs23">val label: string</div>
+<div class="fsdocs-tip" id="fs24">val cm: BinaryConfusionMatrix</div>
+<div class="fsdocs-tip" id="fs25">val printf: format: Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Print to &lt;c&gt;stdout&lt;/c&gt; using the given format.&lt;/summary&gt;<br />&lt;param name=&quot;format&quot;&gt;The formatter.&lt;/param&gt;<br />&lt;returns&gt;The formatted result.&lt;/returns&gt;<br />&lt;example&gt;See &lt;c&gt;Printf.printf&lt;/c&gt; (link: &lt;see cref=&quot;M:Microsoft.FSharp.Core.PrintfModule.PrintFormat``1&quot; /&gt;) for examples.&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs26">type ComparisonMetrics =
+  {
+    P: float
+    N: float
+    SampleSize: float
+    TP: float
+    TN: float
+    FP: float
+    FN: float
+    Sensitivity: float
+    Specificity: float
+    Precision: float
+    ...
+  }
+  static member binaryThresholdMap: tm: (float * BinaryConfusionMatrix)[] -&gt; (float * ComparisonMetrics)[] + 2 overloads
+  static member calculateAccuracy: tp: float -&gt; tn: float -&gt; samplesize: float -&gt; float
+  static member calculateBalancedAccuracy: tp: float -&gt; p: float -&gt; tn: float -&gt; n: float -&gt; float
+  static member calculateDiagnosticOddsRatio: tp: float -&gt; tn: float -&gt; fp: float -&gt; fn: float -&gt; p: float -&gt; n: float -&gt; float
+  static member calculateF1: tp: float -&gt; fp: float -&gt; fn: float -&gt; float
+  static member calculateFallOut: fp: float -&gt; n: float -&gt; float
+  static member calculateFalseDiscoveryRate: fp: float -&gt; tp: float -&gt; float
+  static member calculateFalseOmissionRate: fn: float -&gt; tn: float -&gt; float
+  static member calculateFowlkesMallowsIndex: tp: float -&gt; fp: float -&gt; p: float -&gt; float
+  static member calculateInformedness: tp: float -&gt; p: float -&gt; tn: float -&gt; n: float -&gt; float
+  ...<br /><em>&lt;summary&gt;
+ Comparison metrics that can be derived from a binary confusion matrix
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs27">static member ComparisonMetrics.create: bcm: BinaryConfusionMatrix -&gt; ComparisonMetrics<br />static member ComparisonMetrics.create: tp: float * tn: float * fp: float * fn: float -&gt; ComparisonMetrics<br />static member ComparisonMetrics.create: p: float * n: float * samplesize: float * tp: float * tn: float * fp: float * fn: float * sensitivity: float * specificity: float * precision: float * negativepredictivevalue: float * missrate: float * fallout: float * falsediscoveryrate: float * falseomissionrate: float * positivelikelihoodratio: float * negativelikelihoodratio: float * prevalencethreshold: float * threatscore: float * prevalence: float * accuracy: float * balancedaccuracy: float * f1: float * phicoefficient: float * fowlkesmallowsindex: float * informedness: float * markedness: float * diagnosticoddsratio: float -&gt; ComparisonMetrics</div>
+<div class="fsdocs-tip" id="fs28">val bcm: BinaryConfusionMatrix</div>
+<div class="fsdocs-tip" id="fs29">static member ComparisonMetrics.ofBinaryPredictions: actual: seq&lt;bool&gt; * predictions: seq&lt;bool&gt; -&gt; ComparisonMetrics<br />static member ComparisonMetrics.ofBinaryPredictions: positiveLabel: &#39;A * actual: seq&lt;&#39;A&gt; * predictions: seq&lt;&#39;A&gt; -&gt; ComparisonMetrics (requires equality)</div>
+<div class="fsdocs-tip" id="fs30">val map: mapping: (&#39;T -&gt; &#39;U) -&gt; array: &#39;T[] -&gt; &#39;U[]<br /><em>&lt;summary&gt;Builds a new array whose elements are the results of applying the given function
+ to each of the elements of the array.&lt;/summary&gt;<br />&lt;param name=&quot;mapping&quot;&gt;The function to transform elements of the array.&lt;/param&gt;<br />&lt;param name=&quot;array&quot;&gt;The input array.&lt;/param&gt;<br />&lt;returns&gt;The array of transformed elements.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input array is null.&lt;/exception&gt;<br />&lt;example id=&quot;map-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ let inputs = [| &quot;a&quot;; &quot;bbb&quot;; &quot;cc&quot; |]
+
+ inputs |&amp;gt; Array.map (fun x -&amp;gt; x.Length)
+ &lt;/code&gt;
+ Evaluates to &lt;c&gt;[| 1; 3; 2 |]&lt;/c&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs31">val metrics: ComparisonMetrics</div>
+<div class="fsdocs-tip" id="fs32">static member ComparisonMetrics.macroAverage: bcms: BinaryConfusionMatrix[] -&gt; ComparisonMetrics<br />static member ComparisonMetrics.macroAverage: mlcm: MultiLabelConfusionMatrix -&gt; ComparisonMetrics<br />static member ComparisonMetrics.macroAverage: metrics: seq&lt;ComparisonMetrics&gt; -&gt; ComparisonMetrics</div>
+<div class="fsdocs-tip" id="fs33">val snd: tuple: (&#39;T1 * &#39;T2) -&gt; &#39;T2<br /><em>&lt;summary&gt;Return the second element of a tuple, &lt;c&gt;snd (a,b) = b&lt;/c&gt;.&lt;/summary&gt;<br />&lt;param name=&quot;tuple&quot;&gt;The input tuple.&lt;/param&gt;<br />&lt;returns&gt;The second value.&lt;/returns&gt;<br />&lt;example id=&quot;snd-example&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ snd (&quot;first&quot;, 2)  //  Evaluates to 2
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs34">static member ComparisonMetrics.macroAverageOfMultiLabelPredictions: labels: &#39;a[] * actual: &#39;a[] * predictions: &#39;a[] -&gt; ComparisonMetrics (requires &#39;a :&gt; System.IConvertible and equality)</div>
+<div class="fsdocs-tip" id="fs35">static member ComparisonMetrics.microAverage: mlcm: MultiLabelConfusionMatrix -&gt; ComparisonMetrics<br />static member ComparisonMetrics.microAverage: cms: seq&lt;BinaryConfusionMatrix&gt; -&gt; ComparisonMetrics</div>
+<div class="fsdocs-tip" id="fs36">static member ComparisonMetrics.microAverageOfMultiLabelPredictions: labels: &#39;a[] * actual: &#39;a[] * predictions: &#39;a[] -&gt; ComparisonMetrics (requires &#39;a :&gt; System.IConvertible and equality)</div>
+<div class="fsdocs-tip" id="fs37">static member ComparisonMetrics.binaryThresholdMap: tm: (float * BinaryConfusionMatrix)[] -&gt; (float * ComparisonMetrics)[]<br />static member ComparisonMetrics.binaryThresholdMap: actual: seq&lt;bool&gt; * predictions: seq&lt;float&gt; -&gt; (float * ComparisonMetrics)[]<br />static member ComparisonMetrics.binaryThresholdMap: actual: seq&lt;bool&gt; * predictions: seq&lt;float&gt; * thresholds: seq&lt;float&gt; -&gt; (float * ComparisonMetrics)[]</div>
+<div class="fsdocs-tip" id="fs38">val threshold: float</div>
+<div class="fsdocs-tip" id="fs39">val cm: ComparisonMetrics</div>
+<div class="fsdocs-tip" id="fs40">static member ComparisonMetrics.multiLabelThresholdMap: actual: &#39;a[] * predictions: (&#39;a * float[])[] -&gt; Map&lt;string,(float * ComparisonMetrics)[]&gt; (requires &#39;a :&gt; System.IConvertible and equality)</div>
+<div class="fsdocs-tip" id="fs41">namespace Plotly</div>
+<div class="fsdocs-tip" id="fs42">namespace Plotly.NET</div>
+<div class="fsdocs-tip" id="fs43">namespace Plotly.NET.LayoutObjects</div>
+<div class="fsdocs-tip" id="fs44">namespace FSharp.Stats.Integration</div>
+<div class="fsdocs-tip" id="fs45">val binaryROC: (float * float)[]</div>
+<div class="fsdocs-tip" id="fs46">static member ComparisonMetrics.calculateROC: actual: seq&lt;bool&gt; * predictions: seq&lt;float&gt; -&gt; (float * float)[]<br />static member ComparisonMetrics.calculateROC: actual: seq&lt;bool&gt; * predictions: seq&lt;float&gt; * thresholds: seq&lt;float&gt; -&gt; (float * float)[]</div>
+<div class="fsdocs-tip" id="fs47">val auc: float</div>
+<div class="fsdocs-tip" id="fs48">Multiple items<br />type NumericalIntegration =
+  new: unit -&gt; NumericalIntegration
+  static member definiteIntegral: method: NumericalIntegrationMethod * intervalStart: float * intervalEnd: float * partitions: int * ?Parallel: bool -&gt; ((float -&gt; float) -&gt; float) + 1 overload<br /><em>&lt;summary&gt;
+ Definite integral approximation
+&lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; NumericalIntegration</div>
+<div class="fsdocs-tip" id="fs49">static member NumericalIntegration.definiteIntegral: method: NumericalIntegrationMethod -&gt; ((float * float)[] -&gt; float)<br />static member NumericalIntegration.definiteIntegral: method: NumericalIntegrationMethod * intervalStart: float * intervalEnd: float * partitions: int * ?Parallel: bool -&gt; ((float -&gt; float) -&gt; float)</div>
+<div class="fsdocs-tip" id="fs50">union case NumericalIntegrationMethod.Trapezoidal: NumericalIntegrationMethod<br /><em>&lt;summary&gt;
+ Trapezoidal rule - approximation via partition intervals using trapezoids in the partition boundaries
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs51">val binaryROCChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs52">type Chart =
+  static member AnnotatedHeatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * annotationText: seq&lt;#seq&lt;string&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a5 :&gt; IConvertible)
+  static member Area: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowMarkers: bool * ?ShowLegend: bool * ?MarkerSymbol: MarkerSymbol * ?Color: Color * ?Opacity: float * ?Labels: seq&lt;#IConvertible&gt; * ?TextPosition: TextPosition * ?TextFont: Font * ?Dash: DrawingStyle * ?Width: float * ?UseDefaults: bool -&gt; GenericChart + 1 overload
+  static member Bar: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member BoxPlot: ?x: seq&lt;#IConvertible&gt; * ?y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?Fillcolor: Color * ?MarkerColor: Color * ?OutlierColor: Color * ?OutlierWidth: int * ?Opacity: float * ?WhiskerWidth: float * ?BoxPoints: BoxPoints * ?BoxMean: BoxMean * ?Jitter: float * ?PointPos: float * ?Orientation: Orientation * ?Marker: Marker * ?Line: Line * ?AlignmentGroup: string * ?Offsetgroup: string * ?Notched: bool * ?NotchWidth: float * ?QuartileMethod: QuartileMethod * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Bubble: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * sizes: seq&lt;int&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Candlestick: ``open`` : seq&lt;#IConvertible&gt; * high: seq&lt;#IConvertible&gt; * low: seq&lt;#IConvertible&gt; * close: seq&lt;#IConvertible&gt; * x: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?Line: Line * ?IncreasingColor: Color * ?Increasing: FinanceMarker * ?DecreasingColor: Color * ?Decreasing: FinanceMarker * ?WhiskerWidth: float * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a5 :&gt; IConvertible) + 1 overload
+  static member Column: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member Contour: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?Y: seq&lt;#IConvertible&gt; * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?Transpose: bool * ?LineColor: Color * ?LineDash: DrawingStyle * ?Line: Line * ?ContoursColoring: ContourColoring * ?ContoursOperation: ConstraintOperation * ?ContoursType: ContourType * ?ShowContourLabels: bool * ?ContourLabelFont: Font * ?Contours: Contours * ?FillColor: Color * ?NContours: int * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
+  static member Funnel: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Width: float * ?Offset: float * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?Orientation: Orientation * ?AlignmentGroup: string * ?OffsetGroup: string * ?MarkerColor: Color * ?MarkerOutline: Line * ?Marker: Marker * ?TextInfo: TextInfo * ?ConnectorLineColor: Color * ?ConnectorLineStyle: DrawingStyle * ?ConnectorFillColor: Color * ?ConnectorLine: Line * ?Connector: FunnelConnector * ?InsideTextFont: Font * ?OutsideTextFont: Font * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
+  static member Heatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  ...</div>
+<div class="fsdocs-tip" id="fs53">static member Chart.Line: xy: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?LineColor: Color * ?LineColorScale: StyleParam.Colorscale * ?LineWidth: float * ?LineDash: StyleParam.DrawingStyle * ?Line: Line * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)<br />static member Chart.Line: x: seq&lt;#System.IConvertible&gt; * y: seq&lt;#System.IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?LineColor: Color * ?LineColorScale: StyleParam.Colorscale * ?LineWidth: float * ?LineDash: StyleParam.DrawingStyle * ?Line: Line * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)</div>
+<div class="fsdocs-tip" id="fs54">static member Chart.withLineStyle: ?Width: float * ?Color: Color * ?Shape: StyleParam.Shape * ?Dash: StyleParam.DrawingStyle * ?Smoothing: float * ?Colorscale: StyleParam.Colorscale * ?OutlierColor: Color * ?OutlierWidth: float -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs55">Multiple items<br />type Shape =
+  inherit DynamicObj
+  new: unit -&gt; Shape
+  static member init: ?ShapeType: ShapeType * ?X0: #IConvertible * ?X1: #IConvertible * ?Y0: #IConvertible * ?Y1: #IConvertible * ?Path: string * ?Opacity: float * ?Line: Line * ?Fillcolor: Color * ?Layer: Layer * ?Xref: string * ?Yref: string -&gt; Shape
+  static member style: ?ShapeType: ShapeType * ?X0: #IConvertible * ?X1: #IConvertible * ?Y0: #IConvertible * ?Y1: #IConvertible * ?Path: string * ?Opacity: float * ?Line: Line * ?Fillcolor: Color * ?Layer: Layer * ?Xref: string * ?Yref: string -&gt; (Shape -&gt; Shape)<br /><em>&lt;summary&gt;
+ Shape type inherits from dynamic object
+&lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; Shape</div>
+<div class="fsdocs-tip" id="fs56">module StyleParam
+
+from Plotly.NET</div>
+<div class="fsdocs-tip" id="fs57">type Shape =
+  | Linear
+  | Spline
+  | Hv
+  | Vh
+  | Hvh
+  | Vhv
+  member Convert: unit -&gt; obj
+  override ToString: unit -&gt; string
+  static member convert: (Shape -&gt; obj)
+  static member toString: (Shape -&gt; string)<br /><em>&lt;summary&gt;
+ Determines the line shape. With &quot;spline&quot; the lines are drawn using spline interpolation. The other available values correspond to step-wise line shapes.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs58">union case StyleParam.Shape.Vh: StyleParam.Shape</div>
+<div class="fsdocs-tip" id="fs59">type DrawingStyle =
+  | Solid
+  | Dash
+  | Dot
+  | DashDot
+  | User of int
+  member Convert: unit -&gt; obj
+  override ToString: unit -&gt; string
+  static member convert: (DrawingStyle -&gt; obj)
+  static member toString: (DrawingStyle -&gt; string)<br /><em>&lt;summary&gt;
+ Dash: Sets the drawing style of the lines segments in this trace.
+ Sets the style of the lines. Set to a dash string type or a dash length in px.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs60">union case StyleParam.DrawingStyle.Dash: StyleParam.DrawingStyle</div>
+<div class="fsdocs-tip" id="fs61">Multiple items<br />module Color
+
+from Plotly.NET<br /><br />--------------------<br />type Color =
+  override Equals: other: obj -&gt; bool
+  override GetHashCode: unit -&gt; int
+  static member fromARGB: a: int -&gt; r: int -&gt; g: int -&gt; b: int -&gt; Color
+  static member fromColorScaleValues: c: seq&lt;#IConvertible&gt; -&gt; Color
+  static member fromColors: c: seq&lt;Color&gt; -&gt; Color
+  static member fromHex: s: string -&gt; Color
+  static member fromKeyword: c: ColorKeyword -&gt; Color
+  static member fromRGB: r: int -&gt; g: int -&gt; b: int -&gt; Color
+  static member fromString: c: string -&gt; Color
+  member Value: obj<br /><em>&lt;summary&gt;
+ Plotly color can be a single color, a sequence of colors, or a sequence of numeric values referencing the color of the colorscale obj
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs62">static member Color.fromKeyword: c: ColorKeyword -&gt; Color</div>
+<div class="fsdocs-tip" id="fs63">union case ColorKeyword.Grey: ColorKeyword</div>
+<div class="fsdocs-tip" id="fs64">static member Chart.combine: gCharts: seq&lt;GenericChart.GenericChart&gt; -&gt; GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs65">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs66">module ChartTemplates
+
+from Plotly.NET</div>
+<div class="fsdocs-tip" id="fs67">val lightMirrored: Template</div>
+<div class="fsdocs-tip" id="fs68">static member Chart.withLegend: showlegend: bool -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)<br />static member Chart.withLegend: legend: Legend -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs69">Multiple items<br />type Legend =
+  inherit DynamicObj
+  new: unit -&gt; Legend
+  static member init: ?BGColor: Color * ?BorderColor: Color * ?Borderwidth: float * ?Orientation: Orientation * ?TraceOrder: TraceOrder * ?TraceGroupGap: float * ?ItemSizing: TraceItemSizing * ?ItemWidth: int * ?ItemClick: TraceItemClickOptions * ?ItemDoubleClick: TraceItemClickOptions * ?X: float * ?XAnchor: XAnchorPosition * ?Y: float * ?YAnchor: YAnchorPosition * ?VerticalAlign: VerticalAlign * ?Title: string -&gt; Legend
+  static member style: ?BGColor: Color * ?BorderColor: Color * ?Borderwidth: float * ?Orientation: Orientation * ?TraceOrder: TraceOrder * ?TraceGroupGap: float * ?ItemSizing: TraceItemSizing * ?ItemWidth: int * ?ItemClick: TraceItemClickOptions * ?ItemDoubleClick: TraceItemClickOptions * ?X: float * ?XAnchor: XAnchorPosition * ?Y: float * ?YAnchor: YAnchorPosition * ?VerticalAlign: VerticalAlign * ?Title: string -&gt; (Legend -&gt; Legend)<br /><em>&lt;summary&gt;
+ Legend
+&lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; Legend</div>
+<div class="fsdocs-tip" id="fs70">static member Legend.init: ?BGColor: Color * ?BorderColor: Color * ?Borderwidth: float * ?Orientation: StyleParam.Orientation * ?TraceOrder: StyleParam.TraceOrder * ?TraceGroupGap: float * ?ItemSizing: StyleParam.TraceItemSizing * ?ItemWidth: int * ?ItemClick: StyleParam.TraceItemClickOptions * ?ItemDoubleClick: StyleParam.TraceItemClickOptions * ?X: float * ?XAnchor: StyleParam.XAnchorPosition * ?Y: float * ?YAnchor: StyleParam.YAnchorPosition * ?VerticalAlign: StyleParam.VerticalAlign * ?Title: string -&gt; Legend</div>
+<div class="fsdocs-tip" id="fs71">type XAnchorPosition =
+  | Auto
+  | Left
+  | Center
+  | Right
+  member Convert: unit -&gt; obj
+  override ToString: unit -&gt; string
+  static member convert: (XAnchorPosition -&gt; obj)
+  static member toString: (XAnchorPosition -&gt; string)</div>
+<div class="fsdocs-tip" id="fs72">union case StyleParam.XAnchorPosition.Right: StyleParam.XAnchorPosition</div>
+<div class="fsdocs-tip" id="fs73">type YAnchorPosition =
+  | Auto
+  | Top
+  | Middle
+  | Bottom
+  member Convert: unit -&gt; obj
+  override ToString: unit -&gt; string
+  static member convert: (YAnchorPosition -&gt; obj)
+  static member toString: (YAnchorPosition -&gt; string)</div>
+<div class="fsdocs-tip" id="fs74">union case StyleParam.YAnchorPosition.Bottom: StyleParam.YAnchorPosition</div>
+<div class="fsdocs-tip" id="fs75">argument X: float option<br /><em>&lt;summary&gt;
+ Init Legend type
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs76">argument Y: float option<br /><em>&lt;summary&gt;
+ Init Legend type
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs77">static member Chart.withXAxisStyle: title: string * ?TitleFont: Font * ?MinMax: (float * float) * ?ShowGrid: bool * ?ShowLine: bool * ?Side: StyleParam.Side * ?Overlaying: StyleParam.LinearAxisId * ?Id: StyleParam.SubPlotId * ?Domain: (float * float) * ?Position: float * ?Zeroline: bool * ?Anchor: StyleParam.LinearAxisId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs78">static member Chart.withYAxisStyle: title: string * ?TitleFont: Font * ?MinMax: (float * float) * ?ShowGrid: bool * ?ShowLine: bool * ?Side: StyleParam.Side * ?Overlaying: StyleParam.LinearAxisId * ?Id: StyleParam.SubPlotId * ?Domain: (float * float) * ?Position: float * ?ZeroLine: bool * ?Anchor: StyleParam.LinearAxisId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs79">static member Chart.withTitle: title: string * ?TitleFont: Font -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs80">module GenericChart
+
+from Plotly.NET<br /><em>&lt;summary&gt;
+ Module to represent a GenericChart
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs81">val toChartHTML: gChart: GenericChart.GenericChart -&gt; string<br /><em>&lt;summary&gt;
+ Converts a GenericChart to it HTML representation. The div layer has a default size of 600 if not specified otherwise.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs82">val multiLabelROC: Map&lt;string,(float * float)[]&gt;</div>
+<div class="fsdocs-tip" id="fs83">static member ComparisonMetrics.calculateMultiLabelROC: actual: &#39;a[] * predictions: (&#39;a * float[])[] -&gt; Map&lt;string,(float * float)[]&gt; (requires &#39;a :&gt; System.IConvertible and equality)</div>
+<div class="fsdocs-tip" id="fs84">val aucMap: Map&lt;string,float&gt;</div>
+<div class="fsdocs-tip" id="fs85">Multiple items<br />module Map
+
+from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.Map`2&quot; /&gt;.&lt;/summary&gt;</em><br /><br />--------------------<br />type Map&lt;&#39;Key,&#39;Value (requires comparison)&gt; =
+  interface IReadOnlyDictionary&lt;&#39;Key,&#39;Value&gt;
+  interface IReadOnlyCollection&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;
+  interface IEnumerable
+  interface IComparable
+  interface IEnumerable&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;
+  interface ICollection&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;
+  interface IDictionary&lt;&#39;Key,&#39;Value&gt;
+  new: elements: seq&lt;&#39;Key * &#39;Value&gt; -&gt; Map&lt;&#39;Key,&#39;Value&gt;
+  member Add: key: &#39;Key * value: &#39;Value -&gt; Map&lt;&#39;Key,&#39;Value&gt;
+  member Change: key: &#39;Key * f: (&#39;Value option -&gt; &#39;Value option) -&gt; Map&lt;&#39;Key,&#39;Value&gt;
+  ...<br /><em>&lt;summary&gt;Immutable maps based on binary trees, where keys are ordered by F# generic comparison. By default
+ comparison is the F# structural comparison function or uses implementations of the IComparable interface on key values.&lt;/summary&gt;<br />&lt;remarks&gt;See the &lt;see cref=&quot;T:Microsoft.FSharp.Collections.MapModule&quot; /&gt; module for further operations on maps.
+
+ All members of this class are thread-safe and may be used concurrently from multiple threads.&lt;/remarks&gt;</em><br /><br />--------------------<br />new: elements: seq&lt;&#39;Key * &#39;Value&gt; -&gt; Map&lt;&#39;Key,&#39;Value&gt;</div>
+<div class="fsdocs-tip" id="fs86">val map: mapping: (&#39;Key -&gt; &#39;T -&gt; &#39;U) -&gt; table: Map&lt;&#39;Key,&#39;T&gt; -&gt; Map&lt;&#39;Key,&#39;U&gt; (requires comparison)<br /><em>&lt;summary&gt;Builds a new collection whose elements are the results of applying the given function
+ to each of the elements of the collection. The key passed to the
+ function indicates the key of element being transformed.&lt;/summary&gt;<br />&lt;param name=&quot;mapping&quot;&gt;The function to transform the key/value pairs.&lt;/param&gt;<br />&lt;param name=&quot;table&quot;&gt;The input map.&lt;/param&gt;<br />&lt;returns&gt;The resulting map of keys and transformed values.&lt;/returns&gt;<br />&lt;example id=&quot;map-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ let sample = Map [ (1, &quot;a&quot;); (2, &quot;b&quot;) ]
+ 
+ sample |&amp;gt; Map.map (fun n s -&amp;gt; sprintf &quot;%i %s&quot; n s) // evaluates to map [(1, &quot;1 a&quot;); (2, &quot;2 b&quot;)]
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs87">val roc: (float * float)[]</div>
+<div class="fsdocs-tip" id="fs88">val multiLabelROCChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs89">val toArray: table: Map&lt;&#39;Key,&#39;T&gt; -&gt; (&#39;Key * &#39;T)[] (requires comparison)<br /><em>&lt;summary&gt;Returns an array of all key-value pairs in the mapping.
+ The array will be ordered by the keys of the map.&lt;/summary&gt;<br />&lt;param name=&quot;table&quot;&gt;The input map.&lt;/param&gt;<br />&lt;returns&gt;The array of key/value pairs.&lt;/returns&gt;<br />&lt;example id=&quot;toarray-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ let input = Map [ (1, &quot;a&quot;); (2, &quot;b&quot;) ]
+
+ input |&amp;gt; Map.toArray // evaluates to [|(1, &quot;a&quot;); (2, &quot;b&quot;)|]
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+
+    </div>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+</body>
+
+</html>

@@ -71,22 +71,28 @@
             <div class="section pt-4">
                 <div class="container" id="fsdocs-content">
                     <div>
-  <h1>
+  <h2>
     List Module
-  </h1>
-  <p>
-    Namespace: 
-    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
-      FSharp.Stats
-    </a>
-  </p>
-  <p>
-    Assembly: FSharp.Stats.dll
-  </p>
+  </h2>
+  <dl class="fsdocs-metadata">
+    <dt>
+      Namespace: 
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
+        FSharp.Stats
+      </a>
+    </dt>
+    <dt>
+      Assembly: FSharp.Stats.dll
+    </dt>
+  </dl>
   <div class="fsdocs-xmldoc">
-    
+    <div>
+      <p class="fsdocs-summary">
+        
  Module to compute common statistical measure on list
 
+      </p>
+    </div>
   </div>
   <div>
     <h3>
@@ -105,7 +111,7 @@
       </thead>
       <tbody>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '454', 454)" onmouseover="showTip(event, '454', 454)">
                 <p>
@@ -152,20 +158,33 @@
                   </span>
                   sample covariance estimator (Bessel's correction by N-1)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L142-142" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.List.cov``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.List.cov``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L145-145" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the sample covariance of two random variables
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -198,7 +217,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -211,7 +230,7 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '455', 455)" onmouseover="showTip(event, '455', 455)">
                 <p>
@@ -258,20 +277,33 @@
                   </span>
                   sample covariance estimator (Bessel's correction by N-1)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L186-186" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.List.covBy``4```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.List.covBy``4\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L189-189" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the sample covariance of two random variables generated by applying a function to the input list.
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -304,7 +336,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -317,7 +349,7 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // To get the sample covariance between x and y observations:
  let xy = [ {| x = 5.; y = 2. |}
@@ -326,13 +358,12 @@
             {| x = -23.; y = -20. |} 
             {| x = 45.; y = 28. |} ]
  
- xy |> List.covBy (fun x -> x.x, x.y) // evaluates to 434.90
- </pre>
+ xy |&gt; List.covBy (fun x -&gt; x.x, x.y) // evaluates to 434.90</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '456', 456)" onmouseover="showTip(event, '456', 456)">
                 <p>
@@ -369,21 +400,34 @@
                   </span>
                   sample covariance estimator (Bessel's correction by N-1)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L162-162" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.List.covOfPairs``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.List.covOfPairs``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L165-165" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the sample covariance of two random variables.
    The covariance will be calculated between the paired observations.    
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -404,7 +448,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -417,20 +461,19 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // Consider a list of paired x and y values:
  // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
  let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
  
  // To get the sample covariance between x and y:
- xy |> List.covOfPairs // evaluates to 434.90
- </pre>
+ xy |&gt; List.covOfPairs // evaluates to 434.90</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '457', 457)" onmouseover="showTip(event, '457', 457)">
                 <p>
@@ -477,20 +520,33 @@
                   </span>
                   population covariance estimator (denominator N)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L85-85" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.List.covPopulation``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.List.covPopulation``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L88-88" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the population covariance of two random variables
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -523,7 +579,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -536,7 +592,7 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '458', 458)" onmouseover="showTip(event, '458', 458)">
                 <p>
@@ -583,20 +639,33 @@
                   </span>
                   population covariance estimator (denominator N)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L129-129" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.List.covPopulationBy``4```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.List.covPopulationBy``4\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L132-132" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the population covariance of two random variables generated by applying a function to the input list.
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -629,7 +698,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -642,7 +711,7 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // To get the population covariance between x and y observations:
  let xy = [ {| x = 5.; y = 2. |}
@@ -651,13 +720,12 @@
             {| x = -23.; y = -20. |} 
             {| x = 45.; y = 28. |} ]
  
- xy |> List.covPopulationBy (fun x -> x.x, x.y) // evaluates to 347.92
- </pre>
+ xy |&gt; List.covPopulationBy (fun x -&gt; x.x, x.y) // evaluates to 347.92</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '459', 459)" onmouseover="showTip(event, '459', 459)">
                 <p>
@@ -694,21 +762,34 @@
                   </span>
                   population covariance estimator (denominator N)
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L105-105" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.List.covPopulationOfPairs``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.List.covPopulationOfPairs``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L108-108" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
    Computes the population covariance of two random variables.
    The covariance will be calculated between the paired observations.
  
-            </p>
+              </p>
+            </div>
             <p class="fsdocs-remarks">
               Returns NaN if data is empty or if any entry is NaN.
             </p>
@@ -729,7 +810,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>^U</code>
               </dt>
@@ -742,20 +823,19 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // Consider a list of paired x and y values:
  // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
  let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
  
  // To get the population covariance between x and y:
- xy |> List.covPopulationOfPairs // evaluates to 347.92
- </pre>
+ xy |&gt; List.covPopulationOfPairs // evaluates to 347.92</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '460', 460)" onmouseover="showTip(event, '460', 460)">
                 <p>
@@ -779,53 +859,68 @@
                         items
                       </b>
                       :
-                      <code><span><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span>&#32;list</span></code>
+                      <code><span>^T&#32;list</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                    <code>^a</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  ^T, ^a
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L20-20" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.List.mean``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.List.mean``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L18-18" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  computes the population mean (normalized by n)
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   items
                 </span>
                 :
-                <code><span><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span>&#32;list</span></code>
+                <code><span>^T&#32;list</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                <code>^a</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '461', 461)" onmouseover="showTip(event, '461', 461)">
                 <p>
@@ -849,54 +944,67 @@
                         xs
                       </b>
                       :
-                      <code><span>'a&#32;list</span></code>
+                      <code><span>^T&#32;list</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span>'a&#32;*&#32;'a</span></code>
+                    <code>^T</code>
                   </span>
+                  <br/>
+                  Modifiers: 
+                  inline
                   <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L27-27" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.List.median``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.List.median``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L27-27" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculate the median of a list of items.
  The result is a tuple of two items whose mean is the median.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   xs
                 </span>
                 :
-                <code><span>'a&#32;list</span></code>
+                <code><span>^T&#32;list</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
-                <code><span>'a&#32;*&#32;'a</span></code>
+                <code>^T</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '462', 462)" onmouseover="showTip(event, '462', 462)">
                 <p>
@@ -934,14 +1042,24 @@
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L9-9" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.List.range``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.List.range``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/List.fs#L7-7" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
-            </p>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -955,7 +1073,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-intervals-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>

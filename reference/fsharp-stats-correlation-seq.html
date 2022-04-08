@@ -71,28 +71,34 @@
             <div class="section pt-4">
                 <div class="container" id="fsdocs-content">
                     <div>
-  <h1>
+  <h2>
     Seq Module
-  </h1>
-  <p>
-    Namespace: 
-    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
-      FSharp.Stats
-    </a>
-  </p>
-  <p>
-    Assembly: FSharp.Stats.dll
-  </p>
-  <span>
-    Parent Module: 
-    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-correlation.html">
-      Correlation
-    </a>
-  </span>
+  </h2>
+  <dl class="fsdocs-metadata">
+    <dt>
+      Namespace: 
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
+        FSharp.Stats
+      </a>
+    </dt>
+    <dt>
+      Assembly: FSharp.Stats.dll
+    </dt>
+    <dt>
+      Parent Module: 
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-correlation.html">
+        Correlation
+      </a>
+    </dt>
+  </dl>
   <div class="fsdocs-xmldoc">
-    
+    <div>
+      <p class="fsdocs-summary">
+        
  Contains correlation functions optimized for sequences
 
+      </p>
+    </div>
   </div>
   <div>
     <h3>
@@ -111,7 +117,7 @@
       </thead>
       <tbody>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '81', 81)" onmouseover="showTip(event, '81', 81)">
                 <p>
@@ -150,23 +156,33 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                    <code>float</code>
                   </span>
                   <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L359-359" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Correlation.Seq.bicor`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.bicor\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L359-359" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -188,16 +204,16 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                <code>float</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '82', 82)" onmouseover="showTip(event, '82', 82)">
                 <p>
@@ -240,27 +256,42 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                    <code>float</code>
                   </span>
                   The kendall correlation coefficient.
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L420-420" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.bicorBy``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.bicorBy``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L420-420" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the bicor correlation of two samples.
  The two samples are built by applying the given function to each element of the sequence.
  The function should transform each sequence element into a tuple of paired observations from the two samples.
  The correlation will be calculated between the paired observations.
  
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -290,9 +321,9 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                <code>float</code>
               </dt>
               <dd class="fsdocs-return-docs">
                 <p>
@@ -303,20 +334,19 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre>
  // To get the correlation between A and B observations:
  let ab = [ {| A = 32.1; B = 1.2 |}
             {| A = 3.1; B = 0.4 |}
             {| A = 2.932; B = 3.85 |} ]
  
- ab |> Seq.bicorBy (fun x -> x.A, x.B) // evaluates to -0.9303913046
- </pre>
+ ab |&gt; Seq.bicorBy (fun x -&gt; x.A, x.B) // evaluates to -0.9303913046</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '83', 83)" onmouseover="showTip(event, '83', 83)">
                 <p>
@@ -349,25 +379,38 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                    <code>float</code>
                   </span>
                   The Biweighted Midcorrelation.
+                  <br/>
+                  Modifiers: 
+                  inline
                   <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L395-395" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Correlation.Seq.bicorOfPairs`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.bicorOfPairs\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L395-395" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the Biweighted Midcorrelation of two samples given as a sequence of paired values. 
  This is a median based correlation measure which is more robust against outliers.
  
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -385,9 +428,9 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                <code>float</code>
               </dt>
               <dd class="fsdocs-return-docs">
                 <p>
@@ -398,20 +441,19 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // Consider a sequence of paired x and y values:
  // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
  let xy = [(32.1, 1.2); (3.1, 0.4); (2.932, 3.85)]
  
  // To get the correlation between x and y:
- xy |> Seq.bicorOfPairs // evaluates to -0.9303913046
- </pre>
+ xy |&gt; Seq.bicorOfPairs // evaluates to -0.9303913046</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '84', 84)" onmouseover="showTip(event, '84', 84)">
                 <p>
@@ -450,23 +492,33 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                    <code>float</code>
                   </span>
                   <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L268-268" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.kendall``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.kendall``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L268-268" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Kendall Correlation Coefficient 
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -488,16 +540,16 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                <code>float</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '85', 85)" onmouseover="showTip(event, '85', 85)">
                 <p>
@@ -540,27 +592,40 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                    <code>float</code>
                   </span>
                   The kendall correlation coefficient.
+                  <br/>
+                  Modifiers: 
+                  inline
                   <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L353-353" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.kendallBy``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.kendallBy``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L353-353" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the kendall correlation of two samples.
  The two samples are built by applying the given function to each element of the sequence.
  The function should transform each sequence element into a tuple of paired observations from the two samples.
  The correlation will be calculated between the paired observations.
  
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -590,9 +655,9 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                <code>float</code>
               </dt>
               <dd class="fsdocs-return-docs">
                 <p>
@@ -603,7 +668,7 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre>
  // To get the correlation between A and B observations:
  let ab = [ {| A = -0.5; B = -0.3 |}
@@ -613,13 +678,12 @@
             {| A = 0.65; B = 0.103 |}
             {| A = 0.9649; B = 0.409 |} ]
  
- ab |> Seq.kendallBy (fun x -> x.A, x.B) // evaluates to 0.4666666667
- </pre>
+ ab |&gt; Seq.kendallBy (fun x -&gt; x.A, x.B) // evaluates to 0.4666666667</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '86', 86)" onmouseover="showTip(event, '86', 86)">
                 <p>
@@ -652,24 +716,39 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                    <code>float</code>
                   </span>
                   The kendall correlation coefficient.
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L325-325" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.kendallOfPairs``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.kendallOfPairs``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L325-325" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the kendall correlation coefficient of two samples given as a sequence of paired values. 
  
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -687,9 +766,9 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
-                <code><span><a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.float-1">float</a>&lt;<a href="https://docs.microsoft.com/dotnet/api/microsoft.fsharp.core.compilerservices.measureone">MeasureOne</a>&gt;</span></code>
+                <code>float</code>
               </dt>
               <dd class="fsdocs-return-docs">
                 <p>
@@ -700,20 +779,19 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // Consider a sequence of paired x and y values:
  // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
  let xy = [(-0.5, -0.3); (-0.4, -0.25); (0., -0.1); (0.7, -0.46); (0.65, 0.103); (0.9649, 0.409)] 
  
  // To get the correlation between x and y:
- xy |> Seq.kendallOfPairs // evaluates to 0.4666666667
- </pre>
+ xy |&gt; Seq.kendallOfPairs // evaluates to 0.4666666667</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '87', 87)" onmouseover="showTip(event, '87', 87)">
                 <p>
@@ -755,20 +833,35 @@
                     <code>float</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  ^T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L44-44" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.pearson``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.pearson``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L44-44" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the pearson correlation of two samples. Homoscedasticity must be assumed.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -790,7 +883,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>float</code>
               </dt>
@@ -799,7 +892,7 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '88', 88)" onmouseover="showTip(event, '88', 88)">
                 <p>
@@ -846,23 +939,36 @@
                   </span>
                   The pearson correlation.
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L116-116" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.pearsonBy``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.pearsonBy``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L116-116" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the pearson correlation of two samples.
  The two samples are built by applying the given function to each element of the sequence.
  The function should transform each sequence element into a tuple of paired observations from the two samples.
  The correlation will be calculated between the paired observations.
  
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -892,7 +998,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>float</code>
               </dt>
@@ -905,7 +1011,7 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre>
  // To get the correlation between A and B observations:
  let ab = [ {| A = 312.7; B = 315.5 |}
@@ -913,13 +1019,12 @@
             {| A = 104.; B = 108. |}
             {| A = 34.7; B = 32.2 |} ]
  
- ab |> Seq.pearsonBy (fun x -> x.A, x.B) // evaluates to 0.9997053729
- </pre>
+ ab |&gt; Seq.pearsonBy (fun x -&gt; x.A, x.B) // evaluates to 0.9997053729</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '89', 89)" onmouseover="showTip(event, '89', 89)">
                 <p>
@@ -956,21 +1061,36 @@
                   </span>
                   The pearson correlation.
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  ^T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L90-90" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.pearsonOfPairs``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.pearsonOfPairs``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L90-90" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the pearson correlation of two samples given as a sequence of paired values. 
  Homoscedasticity must be assumed.
  
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -988,7 +1108,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>float</code>
               </dt>
@@ -1001,20 +1121,19 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // Consider a sequence of paired x and y values:
  // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
  let xy = [(312.7, 315.5); (104.2, 101.3); (104.0, 108.0); (34.7, 32.2)]
  
  // To get the correlation between x and y:
- xy |> Seq.pearsonOfPairs // evaluates to 0.9997053729
- </pre>
+ xy |&gt; Seq.pearsonOfPairs // evaluates to 0.9997053729</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '90', 90)" onmouseover="showTip(event, '90', 90)">
                 <p>
@@ -1064,20 +1183,33 @@
                     <code>float</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L122-122" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.pearsonWeighted``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.pearsonWeighted``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L122-122" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  weighted pearson correlation (http://sci.tech-archive.net/Archive/sci.stat.math/2006-02/msg00171.html)
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1107,7 +1239,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>float</code>
               </dt>
@@ -1116,7 +1248,7 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '91', 91)" onmouseover="showTip(event, '91', 91)">
                 <p>
@@ -1163,21 +1295,34 @@
                   </span>
                   The weighted pearson correlation.
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L191-191" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.pearsonWeightedBy``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.pearsonWeightedBy``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L191-191" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the weighted pearson correlation of two samples after 
  applying the given function to each element of the sequence.
  
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1207,7 +1352,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>float</code>
               </dt>
@@ -1220,21 +1365,20 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre>
  // To get the correlation between A and B observations weighted by W:
  let abw = [ {| A = 1.1; B = 1.2; W = 0.2 |}
              {| A = 1.1; B = 0.9; W = 0.3 |}
              {| A = 1.2; B = 0.08; W = 0.5 |} ] 
  
- abw |> pearsonWeightedBy (fun x -> x.A, x.B, x.W)
- // evaluates to -0.9764158959
- </pre>
+ abw |&gt; pearsonWeightedBy (fun x -&gt; x.A, x.B, x.W)
+ // evaluates to -0.9764158959</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '92', 92)" onmouseover="showTip(event, '92', 92)">
                 <p>
@@ -1271,21 +1415,34 @@
                   </span>
                   The weighted pearson correlation.
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L167-167" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.pearsonWeightedOfTriples``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.pearsonWeightedOfTriples``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L167-167" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the weighted pearson correlation of two samples. 
  If the two samples are <code>x</code> and <code>y</code> then the elements of the input sequence should be triples of <code>x * y * weight</code>.
  
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1303,7 +1460,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>float</code>
               </dt>
@@ -1316,20 +1473,19 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre>
  // Consider a sequence of triples with x, y and w values:
  // [(x1, y1, w1); (x2, y2, w2); (x3, y3, w3); (x4, y4, w4); ... ]
  let xyw = [(1.1, 1.2, 0.2); (1.1, 0.9, 0.3); (1.2, 0.08, 0.5)] 
  
  // To get the correlation between x and y weighted by w :
- xyw |> Seq.pearsonWeightedOfTriples // evaluates to -0.9764158959
- </pre>
+ xyw |&gt; Seq.pearsonWeightedOfTriples // evaluates to -0.9764158959</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '93', 93)" onmouseover="showTip(event, '93', 93)">
                 <p>
@@ -1371,17 +1527,31 @@
                     <code>float</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  ^T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L214-214" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.spearman``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.spearman``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L214-214" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Spearman Correlation (with ranks)
  
  Items that are tied are each allocated the average of the ranks that
@@ -1401,7 +1571,8 @@
  </code>
  </example>
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1423,7 +1594,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>float</code>
               </dt>
@@ -1432,7 +1603,7 @@
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '94', 94)" onmouseover="showTip(event, '94', 94)">
                 <p>
@@ -1479,23 +1650,36 @@
                   </span>
                   The spearman correlation.
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L262-262" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.spearmanBy``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.spearmanBy``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L262-262" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the spearman correlation of two samples.
  The two samples are built by applying the given function to each element of the sequence.
  The function should transform each sequence element into a tuple of paired observations from the two samples.
  The correlation will be calculated between the paired observations.
  
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1525,7 +1709,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>float</code>
               </dt>
@@ -1538,20 +1722,19 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre>
  // To get the correlation between A and B observations:
  let ab = [ {| A = 1.1; B = 1.2 |}
             {| A = 1.1; B = 0.9 |}
             {| A = 2.0; B = 3.85 |} ] 
  
- ab |> Seq.spearmanBy (fun x -> x.A, x.B) // evaluates to 0.5
- </pre>
+ ab |&gt; Seq.spearmanBy (fun x -&gt; x.A, x.B) // evaluates to 0.5</pre>
             </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '95', 95)" onmouseover="showTip(event, '95', 95)">
                 <p>
@@ -1588,20 +1771,35 @@
                   </span>
                   The spearman correlation.
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  ^T
                 </div>
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L237-237" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Correlation.Seq.spearmanOfPairs``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Correlation.Seq.spearmanOfPairs``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Correlation.fs#L237-237" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Calculates the spearman correlation (with ranks) of two samples given as a sequence of paired values. 
  
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1619,7 +1817,7 @@
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>float</code>
               </dt>
@@ -1632,15 +1830,14 @@
             <h5 class="fsdocs-example-header">
               Example
             </h5>
-            <p class="fsdocs-example">
+            <p class="fsdocs-example" id="example">
               <pre> 
  // Consider a sequence of paired x and y values:
  // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
  let xy = [(1.1, 1.2); (1.1, 0.9); (2.0, 3.85)]
  
  // To get the correlation between x and y:
- xy |> Seq.spearmanOfPairs // evaluates to 0.5
- </pre>
+ xy |&gt; Seq.spearmanOfPairs // evaluates to 0.5</pre>
             </p>
           </td>
         </tr>

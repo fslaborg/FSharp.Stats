@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>MultiLabelConfusionMatrix (FSharp.Stats)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
+
+    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head> 
+
+<body>
+    <div class="columns is-fullheight m-0">
+        <div id="fsdocs-menu" class="column is-2 is-paddingless">
+            <aside class="menu">
+                <div class="container is-paddingless is-marginless has-background-light">
+                    <a href="https://fslab.org/FSharp.Stats/">
+                        <figure class="image is-128x128 container">
+                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
+                        </figure>
+                    </a>
+                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
+                </div>
+                <div class="content">
+                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+                    <div id="header">
+                        <div class="searchbox" id="fsdocs-searchbox">
+                            <label for="search-by">
+                                <i class="fas fa-search"></i>
+                            </label>
+                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
+                            <span data-search-clear="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END SEARCH BOX: this adds support for the search box -->
+                    <ul class="navbar-nav">
+                        <li class="nav-header">Links</li>
+                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
+                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
+                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
+                        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-10 is-paddingless">
+            <div class="section pt-4">
+                <div class="container" id="fsdocs-content">
+                    <div>
+  <h2>
+    MultiLabelConfusionMatrix Type
+  </h2>
+  <dl class="fsdocs-metadata">
+    <dt>
+      Namespace: 
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing.html">
+        FSharp.Stats.Testing
+      </a>
+    </dt>
+    <dt>
+      Assembly: FSharp.Stats.dll
+    </dt>
+    <dt>
+      Base Type: 
+      <code>obj</code>
+    </dt>
+    <dt>
+      All Interfaces: 
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multilabelconfusionmatrix.html">MultiLabelConfusionMatrix</a>&gt;</span></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
+      , 
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multilabelconfusionmatrix.html">MultiLabelConfusionMatrix</a>&gt;</span></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
+    </dt>
+  </dl>
+  <div class="fsdocs-xmldoc">
+    <div>
+      <p class="fsdocs-summary">
+        
+      </p>
+    </div>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div>
+    <h3>
+      Record fields
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Record Field
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2469', 2469)" onmouseover="showTip(event, '2469', 2469)">
+                <p>
+                  <a id="Confusion">
+                    <a href="#Confusion">
+                      <code>Confusion</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2469">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>Confusion</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;int&gt;</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/ConfusionMatrix.fs#L100-100" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;int&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2470', 2470)" onmouseover="showTip(event, '2470', 2470)">
+                <p>
+                  <a id="Labels">
+                    <a href="#Labels">
+                      <code>Labels</code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2470">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code>Labels</code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Field type: 
+                    <code><span>string[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/ConfusionMatrix.fs#L99-99" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Field type: 
+                </span>
+                <code><span>string[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div>
+    <h3>
+      Static members
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Static member
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2471', 2471)" onmouseover="showTip(event, '2471', 2471)">
+                <p>
+                  <a id="allVsAll">
+                    <a href="#allVsAll">
+                      <code><span>MultiLabelConfusionMatrix.allVsAll&#32;<span>mlcm</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2471">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>MultiLabelConfusionMatrix.allVsAll&#32;<span>mlcm</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        mlcm
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multilabelconfusionmatrix.html">MultiLabelConfusionMatrix</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>(<span>string&#32;*&#32;<a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-binaryconfusionmatrix.html">BinaryConfusionMatrix</a></span>)</span>[]</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.MultiLabelConfusionMatrix.allVsAll`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.MultiLabelConfusionMatrix.allVsAll\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/ConfusionMatrix.fs#L144-144" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  mlcm
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multilabelconfusionmatrix.html">MultiLabelConfusionMatrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><span>(<span>string&#32;*&#32;<a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-binaryconfusionmatrix.html">BinaryConfusionMatrix</a></span>)</span>[]</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2472', 2472)" onmouseover="showTip(event, '2472', 2472)">
+                <p>
+                  <a id="create">
+                    <a href="#create">
+                      <code><span>MultiLabelConfusionMatrix.create&#32;<span><span>(<span>labels,&#32;confusion</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2472">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>MultiLabelConfusionMatrix.create&#32;<span><span>(<span>labels,&#32;confusion</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        labels
+                      </b>
+                      :
+                      <code><span>string[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        confusion
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;int&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multilabelconfusionmatrix.html">MultiLabelConfusionMatrix</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.MultiLabelConfusionMatrix.create`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.MultiLabelConfusionMatrix.create\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/ConfusionMatrix.fs#L102-102" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  labels
+                </span>
+                :
+                <code><span>string[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  confusion
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;int&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multilabelconfusionmatrix.html">MultiLabelConfusionMatrix</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2473', 2473)" onmouseover="showTip(event, '2473', 2473)">
+                <p>
+                  <a id="ofPredictions">
+                    <a href="#ofPredictions">
+                      <code><span>MultiLabelConfusionMatrix.ofPredictions&#32;<span><span>(<span>labels,&#32;actual,&#32;predictions</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2473">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>MultiLabelConfusionMatrix.ofPredictions&#32;<span><span>(<span>labels,&#32;actual,&#32;predictions</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        labels
+                      </b>
+                      :
+                      <code><span>'a[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        actual
+                      </b>
+                      :
+                      <code><span>'a[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        predictions
+                      </b>
+                      :
+                      <code><span>'a[]</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multilabelconfusionmatrix.html">MultiLabelConfusionMatrix</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.MultiLabelConfusionMatrix.ofPredictions``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.MultiLabelConfusionMatrix.ofPredictions``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/ConfusionMatrix.fs#L109-109" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  labels
+                </span>
+                :
+                <code><span>'a[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  actual
+                </span>
+                :
+                <code><span>'a[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  predictions
+                </span>
+                :
+                <code><span>'a[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multilabelconfusionmatrix.html">MultiLabelConfusionMatrix</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2474', 2474)" onmouseover="showTip(event, '2474', 2474)">
+                <p>
+                  <a id="oneVsRest">
+                    <a href="#oneVsRest">
+                      <code><span>MultiLabelConfusionMatrix.oneVsRest&#32;<span>label&#32;mlcm</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2474">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>MultiLabelConfusionMatrix.oneVsRest&#32;<span>label&#32;mlcm</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        label
+                      </b>
+                      :
+                      <code>string</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        mlcm
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multilabelconfusionmatrix.html">MultiLabelConfusionMatrix</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-binaryconfusionmatrix.html">BinaryConfusionMatrix</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.MultiLabelConfusionMatrix.oneVsRest`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.MultiLabelConfusionMatrix.oneVsRest\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/ConfusionMatrix.fs#L129-129" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  label
+                </span>
+                :
+                <code>string</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  mlcm
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-multilabelconfusionmatrix.html">MultiLabelConfusionMatrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-binaryconfusionmatrix.html">BinaryConfusionMatrix</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+</body>
+
+</html>

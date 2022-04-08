@@ -71,20 +71,26 @@
             <div class="section pt-4">
                 <div class="container" id="fsdocs-content">
                     <div>
-  <h1>
+  <h2>
     JaggedList Module
-  </h1>
-  <p>
-    Namespace: 
-    <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
-      FSharp.Stats
-    </a>
-  </p>
-  <p>
-    Assembly: FSharp.Stats.dll
-  </p>
+  </h2>
+  <dl class="fsdocs-metadata">
+    <dt>
+      Namespace: 
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
+        FSharp.Stats
+      </a>
+    </dt>
+    <dt>
+      Assembly: FSharp.Stats.dll
+    </dt>
+  </dl>
   <div class="fsdocs-xmldoc">
-    
+    <div>
+      <p class="fsdocs-summary">
+        
+      </p>
+    </div>
   </div>
   <div>
     <h3>
@@ -103,7 +109,7 @@
       </thead>
       <tbody>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '420', 420)" onmouseover="showTip(event, '420', 420)">
                 <p>
@@ -173,17 +179,27 @@
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L297-297" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.fold``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.fold``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L297-297" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
 Applies a function to each element of the inner lists of the jagged list, threading an accumulator argument through the computation. 
 A second function is the applied to each result of the predeceding computation, again passing an accumulater through the computation 
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -229,7 +245,7 @@ A second function is the applied to each result of the predeceding computation, 
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code>'State2</code>
               </dt>
@@ -238,7 +254,7 @@ A second function is the applied to each result of the predeceding computation, 
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '421', 421)" onmouseover="showTip(event, '421', 421)">
                 <p>
@@ -284,16 +300,26 @@ A second function is the applied to each result of the predeceding computation, 
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L308-308" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.innerChoose``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.innerChoose``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L308-308" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
 Applies the given function to each element in the inner lists of the jagged List. Returns the jagged list whose inner lists are comprised of the results x for each element where the function returns Some(x)
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -315,7 +341,7 @@ Applies the given function to each element in the inner lists of the jagged List
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><span>'U&#32;list</span>&#32;list</span></code>
               </dt>
@@ -324,7 +350,7 @@ Applies the given function to each element in the inner lists of the jagged List
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '422', 422)" onmouseover="showTip(event, '422', 422)">
                 <p>
@@ -370,16 +396,26 @@ Applies the given function to each element in the inner lists of the jagged List
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L303-303" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.innerFilter``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.innerFilter``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L303-303" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
 Returns a new jagged list whose inner lists only contain the elements for which the given predicate returns true
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -401,7 +437,7 @@ Returns a new jagged list whose inner lists only contain the elements for which 
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><span>'T&#32;list</span>&#32;list</span></code>
               </dt>
@@ -410,7 +446,7 @@ Returns a new jagged list whose inner lists only contain the elements for which 
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '423', 423)" onmouseover="showTip(event, '423', 423)">
                 <p>
@@ -464,16 +500,26 @@ Returns a new jagged list whose inner lists only contain the elements for which 
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L291-291" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.innerFold``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.innerFold``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L291-291" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
 Applies a function to each element of the inner lists of the jagged list, threading an accumulator argument through the computation.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -503,7 +549,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>'State&#32;list</span></code>
               </dt>
@@ -512,7 +558,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '424', 424)" onmouseover="showTip(event, '424', 424)">
                 <p>
@@ -558,16 +604,26 @@ Applies a function to each element of the inner lists of the jagged list, thread
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L270-270" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.map``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.map``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L270-270" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Builds a new jagged list whose inner lists are the results of applying the given function to each of their elements.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -589,7 +645,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><span>'U&#32;list</span>&#32;list</span></code>
               </dt>
@@ -598,7 +654,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '425', 425)" onmouseover="showTip(event, '425', 425)">
                 <p>
@@ -652,17 +708,27 @@ Applies a function to each element of the inner lists of the jagged list, thread
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L276-276" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.map2``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.map2``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L276-276" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Builds a new jagged list whose inner lists are the results of applying the given function to the corresponding elements of the inner lists of the two jagged lists pairwise. 
  All corresponding inner lists must be of the same length, otherwise ArgumentException is raised.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -692,7 +758,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><span>'U&#32;list</span>&#32;list</span></code>
               </dt>
@@ -701,7 +767,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '426', 426)" onmouseover="showTip(event, '426', 426)">
                 <p>
@@ -763,17 +829,27 @@ Applies a function to each element of the inner lists of the jagged list, thread
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L282-282" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.map3``4```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.map3``4\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L282-282" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
  Builds a new jagged list whose inner lists are the results of applying the given function to the corresponding elements of the inner lists of the tree jagged lists triplewise. 
  All corresponding inner lists must be of the same length, otherwise ArgumentException is raised.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -811,7 +887,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><span>'U&#32;list</span>&#32;list</span></code>
               </dt>
@@ -820,7 +896,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '427', 427)" onmouseover="showTip(event, '427', 427)">
                 <p>
@@ -866,16 +942,26 @@ Applies a function to each element of the inner lists of the jagged list, thread
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L286-286" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.mapi``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.mapi``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L286-286" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
+              <p class="fsdocs-summary">
+                
 Builds a new jagged list whose inner lists are the results of applying the given function to each of their elements. The integer index passed to the function indicates the index of element in the inner list being transformed.
 
-            </p>
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -897,7 +983,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><span>'U&#32;list</span>&#32;list</span></code>
               </dt>
@@ -906,7 +992,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '428', 428)" onmouseover="showTip(event, '428', 428)">
                 <p>
@@ -944,14 +1030,24 @@ Builds a new jagged list whose inner lists are the results of applying the given
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L253-253" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.ofJaggedArray``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.ofJaggedArray``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L253-253" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
-            </p>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -965,7 +1061,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><span>'T&#32;list</span>&#32;list</span></code>
               </dt>
@@ -974,7 +1070,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '429', 429)" onmouseover="showTip(event, '429', 429)">
                 <p>
@@ -1012,14 +1108,24 @@ Builds a new jagged list whose inner lists are the results of applying the given
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L259-259" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.ofJaggedSeq``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.ofJaggedSeq``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L259-259" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
-            </p>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1033,7 +1139,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><span>'T&#32;list</span>&#32;list</span></code>
               </dt>
@@ -1042,7 +1148,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '430', 430)" onmouseover="showTip(event, '430', 430)">
                 <p>
@@ -1080,14 +1186,24 @@ Builds a new jagged list whose inner lists are the results of applying the given
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L246-246" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.toJaggedList``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.toJaggedList``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L246-246" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
-            </p>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1101,7 +1217,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><span>'T[]</span>[]</span></code>
               </dt>
@@ -1110,7 +1226,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '431', 431)" onmouseover="showTip(event, '431', 431)">
                 <p>
@@ -1148,14 +1264,24 @@ Builds a new jagged list whose inner lists are the results of applying the given
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L265-265" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.toJaggedSeq``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.toJaggedSeq``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L265-265" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
-            </p>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1169,7 +1295,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span>seq&lt;<span>seq&lt;'T&gt;</span>&gt;</span></code>
               </dt>
@@ -1178,7 +1304,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-member-name">
+          <td class="fsdocs-member-usage">
             <div>
               <code onmouseout="hideTip(event, '432', 432)" onmouseover="showTip(event, '432', 432)">
                 <p>
@@ -1216,14 +1342,24 @@ Builds a new jagged list whose inner lists are the results of applying the given
               </div>
             </div>
           </td>
-          <td class="fsdocs-xmldoc">
-            <p class="fsdocs-summary">
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L238-238" class="fsdocs-source-link">
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.JaggedList.transpose``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.JaggedList.transpose``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L238-238" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-blue.png" class="hover"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
-              
-            </p>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1237,7 +1373,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
-                  Returns:
+                  Returns: 
                 </span>
                 <code><span><span>'T&#32;list</span>&#32;list</span></code>
               </dt>
