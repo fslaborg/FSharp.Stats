@@ -18,7 +18,8 @@ let main argv =
     
     //================================ Algebra ==============================================================
     Tests.runTestsWithCLIArgs [] argv LinearAlgebraTests.managedSVDTests   |> ignore
-
+    Tests.runTestsWithCLIArgs [] argv LinearAlgebraTests.nullspace         |> ignore
+    
     //================================== List ===============================================================
     Tests.runTestsWithCLIArgs [] argv ListTests.medianTests |> ignore
     Tests.runTestsWithCLIArgs [] argv ListTests.meanTests   |> ignore
