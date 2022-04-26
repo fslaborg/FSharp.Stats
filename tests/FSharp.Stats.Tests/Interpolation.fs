@@ -3,12 +3,13 @@ module InterpolationTests
 open Expecto
 open FSharp.Stats
 open FSharp.Stats.Interpolation 
+
 open TestExtensions
 
 [<Tests>]
 let cubicInterpolationTests =
-    let t = vector [-2.0; -1.0; 0.0; 1.0; 2.0]
-    let y = vector [1.0; 2.0; -1.0; 0.0; 1.0 ]
+    let t = vector [0.0; 1.0; 2.0; 3.0]
+    let y = vector [187.6;185.7;193.7;197.0]
     let tt = vector [0.0;0.25;0.5;0.75;1.;1.25;1.5;1.75;2.;2.25;2.5;2.75;3.0]
     
     let u = vector [1.0 ;4.0; 9.0; 16.0]
@@ -28,8 +29,8 @@ let cubicInterpolationTests =
             let coefficientsQuadraticSpline = 
                 CubicSpline.Simple.coefficients CubicSpline.Simple.Quadratic t2 u         
             let fittingFunc x = 
-                CubicSpline.Simple.fit coefficientsQuadraticSpline t x           
-            Expect.floatClose Accuracy.low (fittingFunc 1.5) 0.0  "Fitted Value should be equal (double precision)"
+                CubicSpline.Simple.fit coefficientsQuadraticSpline t2 x           
+            Expect.floatClose Accuracy.low (fittingFunc 1.5) 2.25  "Fitted Value should be equal (double precision)"
             Expect.floatClose Accuracy.low (fittingFunc 2.5) 6.25 "Fitted Value should be equal (double precision)"
             Expect.floatClose Accuracy.low (fittingFunc 3.5) 12.25 "Fitted Value  should be equal (double precision)"  
 
