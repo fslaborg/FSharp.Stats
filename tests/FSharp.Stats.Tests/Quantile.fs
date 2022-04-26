@@ -3,7 +3,7 @@
 open System
 open FSharp.Stats
 open Expecto
-
+open TestExtensions
 
 let rnd = System.Random(1)
 let testSeq1   = seq {20.;-0.5;0.9649;-0.4;0.0;0.1;0.7;12.;4.7;100.;0.0;0.65}

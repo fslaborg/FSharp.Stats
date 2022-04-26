@@ -24,6 +24,7 @@
     <Compile Include="Integration.fs" />
     <Compile Include="Testing.fs" />
     <Compile Include="Fitting.fs" />
+    <Compile Include="Interpolation.fs" />
     <Compile Include="Quantile.fs" />
     <Compile Include="Rank.fs" />
     <Compile Include="Main.fs" />
