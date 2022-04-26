@@ -1,12 +1,11 @@
 namespace FSharp.Stats.Algebra
 
 open FSharp.Stats
-
+open System
 
 
 module LinearAlgebra = 
-    open System
-
+    
     type Factorization = matrix -> (matrix*matrix*matrix)
 
     //let private LinearAlgebraService = 
@@ -173,19 +172,6 @@ module LinearAlgebra =
                 |> Seq.max
             maxEigenVal |> sqrt
 
-    //(synonym: kernel) Returns an orthonormal basis for the null space of A. Ax = 0
-    let nullspace (a:Matrix<float>)= 
-        if HaveService() then 
-            let (eps,U,V) = SVD a
-            let rank = 
-                eps 
-                |> Seq.filter (fun x -> x >= 1e-5) //Threshold whether a singular value is considered as zero.
-                |> Seq.length 
-            let count = V.NumRows - rank 
-            Matrix.getRows V rank count
-            |> Matrix.transpose
-        else failwith "MKL service either not available, or not started"
-
     ///Returns the thin Singular Value Decomposition of the input MxN matrix A 
     ///
     ///A = U * SIGMA * V**T in the tuple (S, U, V), 
@@ -253,3 +239,29 @@ module LinearAlgebra =
     //        LinearAlgebraService.MM A B
     //    else
     //        A * B
+
+type LinearAlgebra() =
+
+    /// Synonym: kernel / right null space. Returns an orthonormal basis for the null space of matrix A (Ax = 0).
+    /// The accuracy defines a threshold whether a singular value is considered as zero (default: 1e-08).
+    static member nullspace(?Accuracy :float ) = 
+
+        let accuracy = defaultArg Accuracy 1e-08
+
+        fun (a: Matrix<float>) -> 
+                        
+            // Either MKL or fallback implementation of the full SVD
+            let (sigma,U,Vt) = LinearAlgebra.SVD a
+
+            // The rank is the number of nonzero singular values
+            let rank = 
+                sigma
+                |> Seq.sumBy (fun x -> if x >= accuracy then 1 else 0)
+
+            let count = Vt.NumRows - rank 
+
+            Matrix.getRows Vt rank count
+            |> Matrix.transpose
+
+
+
