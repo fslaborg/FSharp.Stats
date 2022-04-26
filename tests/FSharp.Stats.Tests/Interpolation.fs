@@ -30,9 +30,9 @@ let cubicInterpolationTests =
                 CubicSpline.Simple.coefficients CubicSpline.Simple.Quadratic t2 u         
             let fittingFunc x = 
                 CubicSpline.Simple.fit coefficientsQuadraticSpline t2 x           
-            Expect.floatClose Accuracy.low (fittingFunc 1.5) 2.25  "Fitted Value should be equal (double precision)"
-            Expect.floatClose Accuracy.low (fittingFunc 2.5) 6.25 "Fitted Value should be equal (double precision)"
-            Expect.floatClose Accuracy.low (fittingFunc 3.5) 12.25 "Fitted Value  should be equal (double precision)"  
+            Expect.floatClose Accuracy.high (fittingFunc 1.5) 2.25  "Fitted Value should be equal (double precision)"
+            Expect.floatClose Accuracy.high (fittingFunc 2.5) 6.25 "Fitted Value should be equal (double precision)"
+            Expect.floatClose Accuracy.high (fittingFunc 3.5) 12.25 "Fitted Value should be equal (double precision)"  
 
         let values =  [|0.0; 2.0; 1.0; 3.0; 2.0; 6.0; 5.5; 5.5; 2.7; 5.1; 3.0|]
         let time = [|0.0..10.0|]
@@ -40,12 +40,12 @@ let cubicInterpolationTests =
             let splineCoefsAkima = CubicSpline.Differentiable.akimaCoefficients time values 
             let fittingFuncAkima x = 
                 CubicSpline.Differentiable.interpolateAtX splineCoefsAkima  x          
-            Expect.floatClose Accuracy.low (fittingFuncAkima 0.5) 1.375 "Fitted Value should be equal (double precision)"
-            Expect.floatClose Accuracy.low (fittingFuncAkima 1.0) 2.0 "Fitted Value should be equal (double precision)"
-            Expect.floatClose Accuracy.low (fittingFuncAkima 1.5) 1.5 "Fitted Value  should be equal (double precision)" 
-            Expect.floatClose Accuracy.low (fittingFuncAkima 2.5) 1.953125 "Fitted Value  should be equal (double precision)"  
-            Expect.floatClose Accuracy.low (fittingFuncAkima 3.5) 2.484375 "Fitted Value  should be equal (double precision)" 
-            Expect.floatClose Accuracy.low (fittingFuncAkima 4.5) 4.136363 "Fitted Value  should be equal (double precision)" 
+            Expect.floatClose Accuracy.high (fittingFuncAkima 0.5) 1.375 "Fitted Value should be equal (double precision)"
+            Expect.floatClose Accuracy.high (fittingFuncAkima 1.0) 2.0 "Fitted Value should be equal (double precision)"
+            Expect.floatClose Accuracy.high (fittingFuncAkima 1.5) 1.5 "Fitted Value  should be equal (double precision)" 
+            Expect.floatClose Accuracy.high (fittingFuncAkima 2.5) 1.953125 "Fitted Value should be equal (double precision)"  
+            Expect.floatClose Accuracy.high (fittingFuncAkima 3.5) 2.484375 "Fitted Value should be equal (double precision)" 
+            Expect.floatClose Accuracy.medium (fittingFuncAkima 4.5) 4.136363 "Fitted Value should be equal (double precision)" 
 
         let seriesy = [|0.367;0.591;0.796|] |> Array.sort |> vector
         let seriesx = [|20.15;24.41;28.78|] |> Array.sort |> vector
@@ -59,7 +59,7 @@ let cubicInterpolationTests =
             let interpParabolic = genrateX |> Vector.map fittingFuncParabolic
             let parabolicSndDeriv x = CubicSpline.Simple.getSecondDerivative coeffParabolic seriesx x 
 
-            Expect.floatClose Accuracy.low (parabolicSndDeriv interpParabolic.[0])  (parabolicSndDeriv interpParabolic.[1]) "the second derivative at the first and second points should be equal (double precision)"
+            Expect.floatClose Accuracy.high (parabolicSndDeriv interpParabolic.[0])  (parabolicSndDeriv interpParabolic.[1]) "the second derivative at the first and second points should be equal (double precision)"
         ]
 
 
