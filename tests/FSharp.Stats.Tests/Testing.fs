@@ -3,7 +3,7 @@ open Expecto
 open System
 open FSharp.Stats.Testing
 open FSharp.Stats
-
+open TestExtensions
 open System.IO
 open System.Reflection
 

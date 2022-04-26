@@ -1,4 +1,5 @@
 ﻿module FSharp.Stats.Tests
+
 open Expecto
 
 [<EntryPoint>]
@@ -63,10 +64,13 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv MLTests.SimilarityMetrics.tverskySymmetricIndexTests  |> ignore
 
     //================================== Fitting ============================================================
-    Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests      |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests     |> ignore
     Tests.runTestsWithCLIArgs [] argv FittingTests.leastSquaresCholeskyTests    |> ignore
-    Tests.runTestsWithCLIArgs [] argv FittingTests.splineTests      |> ignore
-
+    Tests.runTestsWithCLIArgs [] argv FittingTests.splineTests                  |> ignore
+    
+    //================================== Interpolation ============================================================
+    Tests.runTestsWithCLIArgs [] argv InterpolationTests.cubicInterpolationTests      |> ignore
+    
     //================================== Integration ============================================================
     Tests.runTestsWithCLIArgs [] argv IntegrationTests.numericalIntegrationTests      |> ignore
 
