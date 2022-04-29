@@ -890,7 +890,7 @@ $qvalue_p = \frac{\#(false positives)}{\#positives}$
 
 ####qValues robust
 
-Corrects for small p values especially if the number of tests is low or the population distributions are not skewed.
+Corrects for small p values especially if the number of tests is low or the population distributions do not follow a normal distribution.  The correction takes into account the probability of a false positive being reported in the first place.
 
 $qvalueRobust_p = \frac{\#(false positives)}{\#positives * (1 - (1 - p)**m)}$
 
