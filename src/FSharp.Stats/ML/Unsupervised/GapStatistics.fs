@@ -55,7 +55,7 @@ module ClusterNumber =
     let silhouetteIndex (clusteredData:float [] [] []) =
         let averageDistance (item: float []) (cluster:float[][]) =
             cluster 
-            |> Array.averageBy (fun j -> ML.DistanceMetrics.Array.euclideanNaNSquared item j)
+            |> Array.averageBy (fun j -> DistanceMetrics.Array.euclideanNaNSquared item j)
 
         let silhouetteIndexK = 
             clusteredData
@@ -114,7 +114,6 @@ module ClusterNumber =
 
 module GapStatistics = 
     
-    open FSharp.Stats.ML
     open FSharp.Stats.ML.Unsupervised
 
 

@@ -51,6 +51,7 @@
     <Compile Include="MatrixTopLevelOperators.fs" />
     <Compile Include="Rank.fs" />
     <Compile Include="Correlation.fs" />
+    <Compile Include="DistanceMetrics.fs" />
     <Compile Include="Quantile.fs" />
     <Compile Include="Precision.fs" />
     <Compile Include="Geometry.fs" />
@@ -136,10 +137,10 @@
     <!-- ML -->
     <Compile Include="ML\SurprisalAnalysis.fs" />
     <Compile Include="ML\SimilarityMetrics.fs" />
-    <Compile Include="ML\DistanceMetrics.fs" />
     <Compile Include="ML\Impute.fs" />
-    <Compile Include="ML\Unsupervised\PrincipalComponentAnalysis.fs" />
+    <Compile Include="ML\DistanceMetrics.fs" />
     <!-- ML / Unsupervised -->
+    <Compile Include="ML\Unsupervised\PrincipalComponentAnalysis.fs" />
     <Compile Include="ML\Unsupervised\IterativeClustering.fs" />
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
     <Compile Include="ML\Unsupervised\DbScan.fs" />

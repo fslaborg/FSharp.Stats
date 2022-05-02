@@ -206,7 +206,7 @@ And then crossvalidate across different lambda values:
 
 // the error is calculated as the squared difference of fitted and original y value
 let errorSpl (f1:float) f2 = 
-    /// if xValue is outside of support area of the fitted model (some smoothing spline algorithms), the error should report 0.
+    // if xValue is outside of support area of the fitted model (some smoothing spline algorithms), the error should report 0.
     //if nan.Equals f1 then 0.
     //else pown (f1 - f2) 2
     pown (f1 - f2) 2

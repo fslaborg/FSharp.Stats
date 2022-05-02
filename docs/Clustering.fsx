@@ -129,8 +129,6 @@ number of clusters).
 Further information can be found [here](https://fslab.org/content/tutorials/002_clustering_kMeans.html).
 *)
 
-
-open FSharp.Stats.ML
 open FSharp.Stats.ML.Unsupervised
 open FSharp.Stats.ML.Unsupervised.HierarchicalClustering
 

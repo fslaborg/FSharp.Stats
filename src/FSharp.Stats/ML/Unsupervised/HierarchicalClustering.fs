@@ -3,6 +3,7 @@
 open System
 open System.Collections.Generic
 
+open FSharp.Stats
 open FSharp.Stats.ML
 
 /// Agglomerative hierarchical clustering
