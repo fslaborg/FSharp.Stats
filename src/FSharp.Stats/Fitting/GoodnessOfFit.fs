@@ -22,7 +22,6 @@ module GoodnessOfFit =
         MeanY      : float
         /// Count N
         Count      : float
-        
         }
     
     let createSumOfSquares ssr sse sst ssxx ssxy meanX meanY count =
@@ -98,17 +97,16 @@ module GoodnessOfFit =
         
 
     /// Gets the coefficient of determination, as known as the R-Squared (R²)
-    (*
-        ///    The coefficient of determination is used in the context of statistical models
-        ///    whose main purpose is the prediction of future outcomes on the basis of other
-        ///    related information. It is the proportion of variability in a data set that
-        ///    is accounted for by the statistical model. It provides a measure of how well
-        ///    future outcomes are likely to be predicted by the model.
-        ///    
-        ///    The R^2 coefficient of determination is a statistical measure of how well the
-        ///    regression approximates the real data points. An R^2 of 1.0 indicates that the
-        ///    regression perfectly fits the data.
-    *)
+    ///
+    /// The coefficient of determination is used in the context of statistical models
+    /// whose main purpose is the prediction of future outcomes on the basis of other
+    /// related information. It is the proportion of variability in a data set that
+    /// is accounted for by the statistical model. It provides a measure of how well
+    /// future outcomes are likely to be predicted by the model.
+    /// 
+    /// The R^2 coefficient of determination is a statistical measure of how well the
+    /// regression approximates the real data points. An R^2 of 1.0 indicates that the
+    /// regression perfectly fits the data.
     let calculateDeterminationFromValue (actual:seq<float>) (expected:seq<float>) = 
         let meanY = Seq.mean actual
         let SSE,SST =
@@ -267,6 +265,31 @@ module GoodnessOfFit =
                         criticalT * stdevOfY
                         )
 
+            module Multivariable =
+                
+                /// The variance inflation factor (VIF) is the ratio (quotient) of the variance of estimating some parameter in a model 
+                /// that includes multiple other terms (parameters) by the variance of a model constructed using only one term. 
+                ///
+                /// It quantifies the severity of multicollinearity in an ordinary least squares regression analysis. 
+                /// It provides an index that measures how much the variance (the square of the estimate's standard deviation) of an 
+                /// estimated regression coefficient is increased because of collinearity.
+                ///
+                /// Given a multivariable OLS model that has Xi as a function of all the other explanatory variables [X0 .. Xn]
+                ///
+                /// for example for i = 1: X1 = a0 + a2X2 ... + anXn + intercept
+                ///
+                /// The VIF can be calculated:
+                ///
+                /// VIF(i) = 1 / (1 - R²(i)) 
+                ///
+                /// with R²(i) being the coefficient of determination for the regression model.
+                ///
+                /// The VIF equals 1 when the vector Xi is orthogonal to each column of the design matrix for the regression of Xi on 
+                /// the other covariates. By contrast, the VIF is greater than 1 when the vector Xi is not orthogonal to all columns 
+                /// of the design matrix for the regression of Xj on the other covariates.
+                let calculateVIFFromValues (actual:seq<float>) (expected:seq<float>) =
+                    let rsquared = calculateDeterminationFromValue (actual:seq<float>) (expected:seq<float>)
+                    1. / (1. - rsquared)
 
         module Polynomial = 
 

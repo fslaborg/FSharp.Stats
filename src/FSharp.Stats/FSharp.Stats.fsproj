@@ -145,6 +145,9 @@
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
     <Compile Include="ML\Unsupervised\DbScan.fs" />
     <Compile Include="ML\Unsupervised\GapStatistics.fs" />
+    <Compile Include="ModelAPI\ModelNames.fs" />
+    <Compile Include="ModelAPI\IStatisticalModel.fs" />
+    <Compile Include="ModelAPI\OLS.fs" />
     <!-- MISC -->
     <Compile Include="FSIPrinters.fs" />
     <Compile Include="ConfidenceInterval.fs" />
