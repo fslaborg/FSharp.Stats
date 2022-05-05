@@ -60,14 +60,16 @@ let cubicInterpolationTests =
             let parabolicSndDeriv x = CubicSpline.Simple.getSecondDerivative coeffParabolic seriesx x 
 
             Expect.floatClose Accuracy.high (parabolicSndDeriv interpParabolic.[0])  (parabolicSndDeriv interpParabolic.[1]) "the second derivative at the first and second points should be equal (double precision)"
-       
+    ]
+    testList "Interpolation.Polynomial" [
         let datax = vector [301.0;306.0;318.0;332.0;333.0]
         let datay = vector [0.02;0.2;-0.04;0.06;0.17]      
+    
         testCase "Polynomial Interpolation" <| fun() -> 
             //http://support.ptc.com/help/mathcad/en/index.html#page/PTC_Mathcad_Help%2Fexample_polynomial_interpolation.html%23wwID0E3LVS
             let polyParams = Polynomial.coefficients datax datay
             let polyInterpFit x = Polynomial.fit polyParams x 
-            Expect.floatClose Accuracy.high (polyInterpFit 328.0) -0.18943 "Fitted Value should be equal (double precision)"
+            Expect.floatClose Accuracy.high (polyInterpFit 328.0) -0.1894337636 "Fitted Value should be equal (double precision)"
        
         ]
 
