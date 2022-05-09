@@ -69,7 +69,9 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv FittingTests.splineTests                  |> ignore
     
     //================================== Interpolation ============================================================
-    Tests.runTestsWithCLIArgs [] argv InterpolationTests.cubicInterpolationTests      |> ignore
+    Tests.runTestsWithCLIArgs [] argv InterpolationTests.cubicInterpolationTests           |> ignore
+    Tests.runTestsWithCLIArgs [] argv InterpolationTests.polynomialInterpolationTests      |> ignore
+    
     
     //================================== Integration ============================================================
     Tests.runTestsWithCLIArgs [] argv IntegrationTests.numericalIntegrationTests      |> ignore
