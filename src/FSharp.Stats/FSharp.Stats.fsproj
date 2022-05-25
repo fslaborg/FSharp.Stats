@@ -29,6 +29,7 @@
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\**" />
     <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="" />
+    <Compile Include="Common\Common.fs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ops.fs" />
@@ -148,6 +149,7 @@
     <!-- MISC -->
     <Compile Include="FSIPrinters.fs" />
     <Compile Include="ConfidenceInterval.fs" />
+    <None Include="Playground.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="../../lib/*.dll" PackagePath="netlib_LAPACK"></Content>
