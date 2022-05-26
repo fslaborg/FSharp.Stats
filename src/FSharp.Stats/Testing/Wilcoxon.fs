@@ -16,7 +16,7 @@ module WilcoxonTest =
         // ranking with average for ties 
         let absolutevalueneg x = x * -1.
         let abs = Seq.append pos (Seq.map absolutevalueneg neg) |> Seq.toArray
-        let ranks = Rank.rankAverage abs
+        let ranks = Rank.RankAverage() abs
 
         // separating positive and negative values
         let lengthpos = Seq.length pos

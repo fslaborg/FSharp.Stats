@@ -37,8 +37,6 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "build", "build\build.fsproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6804-4AF9-B6D5-5CBD00E14A02}"
 	ProjectSection(SolutionItems) = preProject
-		docs\_template.html = docs\_template.html
-		docs\_template.ipynb = docs\_template.ipynb
 		docs\BasicStats.fsx = docs\BasicStats.fsx
 		docs\Clustering.fsx = docs\Clustering.fsx
 		docs\ComparisonMetrics.fsx = docs\ComparisonMetrics.fsx
@@ -59,7 +57,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6
 		docs\Matrix_Vector.fsx = docs\Matrix_Vector.fsx
 		docs\NuGet.config = docs\NuGet.config
 		docs\Signal.fsx = docs\Signal.fsx
+		docs\Rank.fsx = docs\Rank.fsx
 		docs\Testing.fsx = docs\Testing.fsx
+		docs\_template.html = docs\_template.html
+		docs\_template.ipynb = docs\_template.ipynb
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{50E3E339-AA4D-4FD2-8791-DEBD2EBF0504}"
