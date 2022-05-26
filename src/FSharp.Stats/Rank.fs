@@ -132,6 +132,14 @@ type Rank() =
         fun (data:array<_>) -> 
             rank averageTies float comparer setNanToNan data
 
+    [<Obsolete("Use Rank.RankAverage() instead")>]
+    static member rankAverage = fun (x: float[]) -> Rank.RankAverage(false,false) x
+    [<Obsolete("Use Rank.RankFirst() instead")>] 
+    static member rankFirst = fun (x: float[]) -> Rank.RankFirst(false,false) x |> Array.map int
+    [<Obsolete("Use Rank.RankMin() instead")>]
+    static member rankMin = fun (x: float[]) -> Rank.RankMin(false,false) x
+    [<Obsolete("Use Rank.RankMax() instead")>]
+    static member rankMax = fun (x: float[]) -> Rank.RankMax(false,false) x
 
 
 
