@@ -76,6 +76,9 @@ let main argv =
     //================================== Integration ============================================================
     Tests.runTestsWithCLIArgs [] argv IntegrationTests.numericalIntegrationTests      |> ignore
 
+    //================================== Integration ============================================================
+    Tests.runTestsWithCLIArgs [] argv RankTests.rankTests      |> ignore
+
     //================================== Quantile ============================================================
     Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileDefaultTests  |> ignore
     Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileTests         |> ignore
