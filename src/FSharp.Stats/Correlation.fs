@@ -213,8 +213,8 @@ module Correlation =
         /// </example>
         let inline spearman (seq1: seq<'T>) (seq2: seq<'T>) : float =
     
-            let spearRank1 = seq1 |> Seq.map float |> Seq.toArray |> FSharp.Stats.Rank.rankAverage
-            let spearRank2 = seq2 |> Seq.map float |> Seq.toArray |> FSharp.Stats.Rank.rankAverage
+            let spearRank1 = seq1 |> Seq.map float |> Seq.toArray |> FSharp.Stats.Rank.RankAverage()
+            let spearRank2 = seq2 |> Seq.map float |> Seq.toArray |> FSharp.Stats.Rank.RankAverage()
 
             pearson spearRank1 spearRank2
 
@@ -304,7 +304,7 @@ module Correlation =
                 
                 loop 0 1 0.0 0.0 0.0 0.0 0.0
 
-            kendallCorrFun (FSharp.Stats.Rank.rankFirst setA ) (FSharp.Stats.Rank.rankFirst setB )
+            kendallCorrFun (FSharp.Stats.Rank.RankFirst() setA ) (FSharp.Stats.Rank.RankFirst() setB )
 
         /// <summary>
         /// Calculates the kendall correlation coefficient of two samples given as a sequence of paired values. 

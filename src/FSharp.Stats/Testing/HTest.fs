@@ -25,7 +25,7 @@ module HTest =
     
         // associating ranks to each element
         let valuesAndRanks = 
-            let ranks = Rank.rankAverage allElements
+            let ranks = Rank.RankAverage() allElements
             Array.zip allElements ranks 
     
         // match ranks with each group 
