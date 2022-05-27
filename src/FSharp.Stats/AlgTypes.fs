@@ -2218,7 +2218,7 @@ namespace FSharp.Stats
                 Array.init (rowStartCount+rowEndCount+3) (fun rowIndex ->
                     match rowIndex with
                     | 0 -> [|"";"";yield! [for i = 0 to nCols-1 do yield string i]|]
-                    | 1 -> [|for i in 0 .. nCols+1 do yield "—"|]
+                    | 1 -> [|for i in 0 .. nCols+1 do yield ""|]
                     | _ ->
                         Array.init (nCols+2) (fun colIndex ->
                             if (rowIndex-2) < rowStartCount then

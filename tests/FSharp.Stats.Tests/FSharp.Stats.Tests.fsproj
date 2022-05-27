@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="TestExtensions.fs" />
+    <Compile Include="Formatting.fs" />
     <Compile Include="LinearAlgebra.fs" />
     <Compile Include="Correlation.fs" />
     <Compile Include="Covariance.fs" />
