@@ -1,0 +1,4 @@
+          0     1        2         3
+                                    
+ 0 ->   NaN 1e+08 Infinity     1.400
+ 1 -> 1.337   NaN  4.3e+06 -Infinity

@@ -17,7 +17,9 @@ let formatValueTests =
         testCase "Format small positive int value" (fun _ -> Expect.equal (Formatting.formatValue 10) "10" "Incorrect format for this value")
         testCase "Format large positive int value" (fun _ -> Expect.equal (Formatting.formatValue 10000000) "10000000" "Incorrect format for this value")
         testCase "Format small negative int value" (fun _ -> Expect.equal (Formatting.formatValue -122) "-122" "Incorrect format for this value")
-        testCase "Format large negative int value" (fun _ -> Expect.equal (Formatting.formatValue -1000000) "-1000000" "Incorrect format for this value")
+        testCase "Format nan" (fun _ -> Expect.equal (Formatting.formatValue nan) "NaN" "Incorrect format for this value")
+        testCase "Format infinity" (fun _ -> Expect.equal (Formatting.formatValue infinity) "Infinity" "Incorrect format for this value")
+        testCase "Format -infinity" (fun _ -> Expect.equal (Formatting.formatValue -infinity) "-Infinity" "Incorrect format for this value")
     ]
 
 [<Tests>]
@@ -59,6 +61,11 @@ let matrixFormattingtests =
         let mdense3_with_info = readEmbeddedRessource "DenseMatrixFormat3WithInfo.txt"
         let mdense4_with_info = readEmbeddedRessource "DenseMatrixFormat4WithInfo.txt"
 
+        let mDenseSpecial = matrix[[nan;100000000.;infinity;1.4];[1.337;-nan;4269420.42;-infinity]]
+
+        let mdenseSpecial_no_info = readEmbeddedRessource "DenseMatrixSpecialNoInfo.txt"
+        let mdenseSpecial_with_info = readEmbeddedRessource "DenseMatrixSpecialWithInfo.txt"
+
         let mSparse1 = Matrix.initSparse 10 10 [ 1,1,13.37; 2,2,6942013.37 ]
 
         let msparse1_no_info = readEmbeddedRessource "SparseMatrixFormat1NoInfo.txt"
@@ -79,6 +86,10 @@ let matrixFormattingtests =
         testCase "dense float matrix omitted rows and cols no info" (fun _ -> Expect.equal (mDense4.Format(false)) mdense4_no_info "Incorrect format for this value")        
         
         testCase "dense float matrix omitted rows and cols with info" (fun _ -> Expect.equal (mDense4.Format(true)) mdense4_with_info "Incorrect format for this value" )
+        
+        testCase "dense float matrix with edge cases (+/- nan, +/- infinity) no info" (fun _ -> Expect.equal (mDenseSpecial.Format(true)) mdenseSpecial_with_info "Incorrect format for this value" )
+        
+        testCase "dense float matrix with edge cases (+/- nan, +/- infinity) with info" (fun _ -> Expect.equal (mDenseSpecial.Format(true)) mdenseSpecial_with_info "Incorrect format for this value" )
 
         testCase "sparse float matrix full display no info" (fun _ ->  Expect.equal (mSparse1.Format(false)) msparse1_no_info "Incorrect format for this value")
 
