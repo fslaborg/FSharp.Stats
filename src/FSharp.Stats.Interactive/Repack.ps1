@@ -7,5 +7,5 @@ Remove-Item -Recurse ~\.nuget\packages\fsharp.stats* -Force
 cd ../../
 dotnet restore FSharp.Stats.sln
 dotnet build FSharp.Stats.sln
-dotnet pack -c Release -p:PackageVersion=0.0.1-dev -o "./pkg" FSharp.Stats.sln
+dotnet pack -c Release -p:PackageVersion=0.0.0-dev -o "./pkg" FSharp.Stats.sln
 cd src/FSharp.Stats.Interactive
