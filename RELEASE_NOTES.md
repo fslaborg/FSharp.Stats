@@ -1,3 +1,12 @@
+### 0.4.7+9386ed56 (Released 2022-5-30)
+* Additions:
+    * latest commit #9386ed56
+    * [[#a28a119b](https://github.com/fslaborg/FSharp.Stats/commit/a28a119b52768a976040ade8a21dd655eb1bc835)] add release notes build target
+* Bugfixes:
+    * [[#8060b68a](https://github.com/fslaborg/FSharp.Stats/commit/8060b68a2dfa4135bd7aecc4f781b351dce526ba)] Fix index errors on ommitted rows + ommitted cols formatting
+* Tests
+    * [[#8a559f56](https://github.com/fslaborg/FSharp.Stats/commit/8a559f561516a869991362c2fc6be767984055fd)] Add int Matrix formatting tests
+
 ### 0.4.6+5133c86a (Released 2022-5-30)
 * Additions:
     * latest commit #5133c86a
