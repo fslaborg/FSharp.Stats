@@ -2193,46 +2193,46 @@ namespace FSharp.Stats
             elif displayRows >= nRows && displayCols < nCols then // this formats the matrix with only ommitted cols
                 Array.init (nRows+2) (fun rowIndex ->
                     match rowIndex with
-                    | 0 -> 
+                    | 0 -> // column index header row
                         [|
                             "";"";
                             yield! [for i in [0 .. columnStartCount-1] do yield string i]; 
                             "..."; 
                             yield! [for i in [nCols - columnEndCount .. nCols - 1] do yield string i]
                         |]
-                    | 1 -> [|for i in 0 .. (displayCols + 2) do yield ""|] 
+                    | 1 -> [|for i in 0 .. (displayCols + 2) do yield ""|] // empty row to distinguish column indices from data in FSI/StructuredDisplay
                     | _ -> // the rest of the rows contain data
                         Array.init (columnStartCount+columnEndCount+3) (fun colIndex ->
-                            if (colIndex-2) < columnStartCount then
+                            if (colIndex-2) < columnStartCount then // left
                                 match colIndex with
                                 | 0 -> string (rowIndex-2) 
                                 | 1 -> "->"
                                 | _ -> m.[rowIndex-2,colIndex-2] |> formatValue
-                            elif (colIndex-2) > columnStartCount then
+                            elif (colIndex-2) > columnStartCount then // right
                                 m[rowIndex-2,(nCols - 3 - columnEndCount + colIndex - columnStartCount)] |> formatValue
                             else 
-                                "..."
+                                "..." // separator for signalling ommitted cols
                         )
                 )
             elif displayRows < nRows && displayCols >= nCols then // this formats the matrix with only ommitted rows
                 Array.init (rowStartCount+rowEndCount+3) (fun rowIndex ->
                     match rowIndex with
-                    | 0 -> [|"";"";yield! [for i = 0 to nCols-1 do yield string i]|]
-                    | 1 -> [|for i in 0 .. nCols+1 do yield ""|]
+                    | 0 -> [|"";"";yield! [for i = 0 to nCols-1 do yield string i]|] // column index header row
+                    | 1 -> [|for i in 0 .. nCols+1 do yield ""|] // empty row to distinguish column indices from data in FSI/StructuredDisplay
                     | _ ->
                         Array.init (nCols+2) (fun colIndex ->
-                            if (rowIndex-2) < rowStartCount then
+                            if (rowIndex-2) < rowStartCount then // upper half
                                 match colIndex with
                                 | 0 -> string (rowIndex-2)
                                 | 1 -> "->"
                                 | _ -> m.[rowIndex-2,colIndex-2] |> formatValue
-                            elif (rowIndex-2) > rowStartCount then
+                            elif (rowIndex-2) > rowStartCount then // lower half
                                 match colIndex with
                                 | 0 -> string (nRows - 3 - rowEndCount + rowIndex - rowStartCount)
                                 | 1 -> "->"
                                 | _ -> m[(nRows - 3 - rowEndCount + rowIndex - rowStartCount),colIndex - 2] |> formatValue
                             else 
-                                match colIndex with
+                                match colIndex with // separator for signalling ommitted rows
                                 | 0 -> ":"
                                 | 1 -> ""
                                 | _ -> "..."
@@ -2241,33 +2241,33 @@ namespace FSharp.Stats
             else // this formats the matrix with ommitted rows and cols
                 Array.init (rowStartCount+rowEndCount+3) (fun rowIndex -> 
                     match rowIndex with
-                    | 0 ->
+                    | 0 -> // column index header row
                         [|
                             "";"";
                             yield! [for i in [0 .. columnStartCount-1] do yield string i]; 
                             "..."; 
                             yield! [for i in [nCols - columnEndCount .. nCols - 1] do yield string i]
                         |]
-                    | 1 -> [|for i in 0 .. (displayCols + 2) do yield ""|]
+                    | 1 -> [|for i in 0 .. (displayCols + 2) do yield ""|] // empty row to distinguish column indices from data in FSI/StructuredDisplay
                     | _ -> 
                         Array.init (columnStartCount+columnEndCount+3) (fun colIndex ->
-                            if (rowIndex-2) < rowStartCount then
-                                if (colIndex-2) < columnStartCount then
+                            if (rowIndex-2) < rowStartCount then // upper half
+                                if (colIndex-2) < columnStartCount then // upper left
                                     match colIndex with
-                                    | 0 -> string (rowIndex-2)
+                                    | 0 -> string (rowIndex-2) 
                                     | 1 -> "->"
-                                    | _ -> m.[rowIndex-1,colIndex-2] |> formatValue
-                                elif (colIndex-2) > columnStartCount then
+                                    | _ -> m.[rowIndex-2,colIndex-2] |> formatValue
+                                elif (colIndex-2) > columnStartCount then // upper right
                                     m[rowIndex-2,(nCols - 3 - columnEndCount + colIndex - columnStartCount)] |> formatValue
                                 else 
                                     "..."
-                            elif (rowIndex-2) > rowStartCount then
-                                if (colIndex-2) < columnStartCount then
+                            elif (rowIndex-2) > rowStartCount then // lower half
+                                if (colIndex-2) < columnStartCount then // lower left
                                     match colIndex with
                                     | 0 -> string (nRows - 3 - rowEndCount + rowIndex - rowStartCount)
                                     | 1 -> "->"
-                                    | _ -> m[(nRows - 3 - rowEndCount + rowIndex - rowStartCount),colIndex] |> formatValue
-                                elif (colIndex-2) > columnStartCount then
+                                    | _ -> m[(nRows - 3 - rowEndCount + rowIndex - rowStartCount),(colIndex-2)] |> formatValue
+                                elif (colIndex-2) > columnStartCount then // lower right
                                     m[(nRows - 3 - rowEndCount + rowIndex - rowStartCount),(nCols - 3 - columnEndCount + colIndex - columnStartCount)] |> formatValue
                                 else 
                                     "..."

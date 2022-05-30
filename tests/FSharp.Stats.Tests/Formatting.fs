@@ -45,6 +45,20 @@ let formatTableTests =
 let matrixFormattingtests =    
     testList "Formatting.MatrixFormatting" [
 
+        let mDenseInt1 = Matrix.Generic.init 10 10 (fun r c -> $"{r}{c}" )
+        let mDenseInt2 = Matrix.Generic.init 10 100 (fun r c -> $"{r}{c}" )
+        let mDenseInt3 = Matrix.Generic.init 100 10 (fun r c -> $"{r}{c}" )
+        let mDenseInt4 = Matrix.Generic.init 100 100 (fun r c -> $"{r}{c}" )
+
+        let mdense1_int_no_info = readEmbeddedRessource "DenseMatrixIntFormat1NoInfo.txt"
+        let mdense2_int_no_info = readEmbeddedRessource "DenseMatrixIntFormat2NoInfo.txt"
+        let mdense3_int_no_info = readEmbeddedRessource "DenseMatrixIntFormat3NoInfo.txt"
+        let mdense4_int_no_info = readEmbeddedRessource "DenseMatrixIntFormat4NoInfo.txt"
+        let mdense1_int_with_info = readEmbeddedRessource "DenseMatrixIntFormat1WithInfo.txt"
+        let mdense2_int_with_info = readEmbeddedRessource "DenseMatrixIntFormat2WithInfo.txt"
+        let mdense3_int_with_info = readEmbeddedRessource "DenseMatrixIntFormat3WithInfo.txt"
+        let mdense4_int_with_info = readEmbeddedRessource "DenseMatrixIntFormat4WithInfo.txt"
+
         let rnd = new System.Random(69)
 
         let mDense1 = Matrix.init 10 10 (fun i j -> float i * float j * rnd.NextDouble())
@@ -71,27 +85,27 @@ let matrixFormattingtests =
         let msparse1_no_info = readEmbeddedRessource "SparseMatrixFormat1NoInfo.txt"
         let msparse1_with_info = readEmbeddedRessource "SparseMatrixFormat1WithInfo.txt"
 
+        testCase "dense int matrix full display no info" (fun _ -> Expect.equal (mDenseInt1.Format(false)) mdense1_int_no_info "Incorrect format for this value")        
+        testCase "dense int matrix full display with info" (fun _ -> Expect.equal (mDenseInt1.Format(true)) mdense1_int_with_info "Incorrect format for this value")
+        testCase "dense int matrix omitted cols no info" (fun _ -> Expect.equal (mDenseInt2.Format(false)) mdense2_int_no_info "Incorrect format for this value")        
+        testCase "dense int matrix omitted cols with info" (fun _ -> Expect.equal (mDenseInt2.Format(true)) mdense2_int_with_info "Incorrect format for this value")
+        testCase "dense int matrix omitted rows no info" (fun _ -> Expect.equal (mDenseInt3.Format(false)) mdense3_int_no_info "Incorrect format for this value")        
+        testCase "dense int matrix omitted rows with info" (fun _ -> Expect.equal (mDenseInt3.Format(true)) mdense3_int_with_info "Incorrect format for this value")
+        testCase "dense int matrix omitted rows and cols no info" (fun _ -> Expect.equal (mDenseInt4.Format(false)) mdense4_int_no_info "Incorrect format for this value")        
+        testCase "dense int matrix omitted rows and cols with info" (fun _ -> Expect.equal (mDenseInt4.Format(true)) mdense4_int_with_info "Incorrect format for this value" )
+        
         testCase "dense float matrix full display no info" (fun _ -> Expect.equal (mDense1.Format(false)) mdense1_no_info "Incorrect format for this value")        
-        
         testCase "dense float matrix full display with info" (fun _ -> Expect.equal (mDense1.Format(true)) mdense1_with_info "Incorrect format for this value")
-
         testCase "dense float matrix omitted cols no info" (fun _ -> Expect.equal (mDense2.Format(false)) mdense2_no_info "Incorrect format for this value")        
-        
         testCase "dense float matrix omitted cols with info" (fun _ -> Expect.equal (mDense2.Format(true)) mdense2_with_info "Incorrect format for this value")
-
         testCase "dense float matrix omitted rows no info" (fun _ -> Expect.equal (mDense3.Format(false)) mdense3_no_info "Incorrect format for this value")        
-        
         testCase "dense float matrix omitted rows with info" (fun _ -> Expect.equal (mDense3.Format(true)) mdense3_with_info "Incorrect format for this value")
-
         testCase "dense float matrix omitted rows and cols no info" (fun _ -> Expect.equal (mDense4.Format(false)) mdense4_no_info "Incorrect format for this value")        
-        
         testCase "dense float matrix omitted rows and cols with info" (fun _ -> Expect.equal (mDense4.Format(true)) mdense4_with_info "Incorrect format for this value" )
         
         testCase "dense float matrix with edge cases (+/- nan, +/- infinity) no info" (fun _ -> Expect.equal (mDenseSpecial.Format(true)) mdenseSpecial_with_info "Incorrect format for this value" )
-        
         testCase "dense float matrix with edge cases (+/- nan, +/- infinity) with info" (fun _ -> Expect.equal (mDenseSpecial.Format(true)) mdenseSpecial_with_info "Incorrect format for this value" )
 
         testCase "sparse float matrix full display no info" (fun _ ->  Expect.equal (mSparse1.Format(false)) msparse1_no_info "Incorrect format for this value")
-
         testCase "sparse float matrix full display with info" (fun _ -> Expect.equal (mSparse1.Format(true)) msparse1_with_info "Incorrect format for this value")
     ]
