@@ -10,7 +10,7 @@ let main argv =
     //================================ Vector ===============================================================
     Tests.runTestsWithCLIArgs [] argv VectorTests.covarianceTests               |> ignore
 
-    //================================ RowVor ===============================================================
+    //================================ RowVector ============================================================
     Tests.runTestsWithCLIArgs [] argv RowVectorTests.floatImplementationTests   |> ignore
 
     //=========================== Special Functions =========================================================    
@@ -83,5 +83,10 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileDefaultTests  |> ignore
     Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileTests         |> ignore
     Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileOfSortedTests |> ignore
+
+    //================================ Formatting ===============================================================
+    Tests.runTestsWithCLIArgs [] argv FormattingTests.formatValueTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv FormattingTests.formatTableTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv FormattingTests.matrixFormattingtests |> ignore
 
     0
