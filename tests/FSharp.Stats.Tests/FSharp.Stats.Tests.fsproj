@@ -41,6 +41,14 @@
     <EmbeddedResource Include="data/DenseMatrixFormat2WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/DenseMatrixFormat3WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/DenseMatrixFormat4WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat1NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat2NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat3NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat4NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat1WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat2WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat3WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat4WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/DenseMatrixSpecialNoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/DenseMatrixSpecialWithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/SparseMatrixFormat1NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
