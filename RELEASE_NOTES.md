@@ -1,3 +1,23 @@
+### 0.4.6+5133c86a (Released 2022-5-30)
+* Additions:
+    * latest commit #5133c86a
+    * [[#194](https://github.com/fslaborg/FSharp.Stats/issues/194)] add nullspace accuracy parameter #194
+    * [[#200](https://github.com/fslaborg/FSharp.Stats/issues/200)] move DistanceMetrics from ML to Core #200
+    * [[#203](https://github.com/fslaborg/FSharp.Stats/pull/203)] Add FSharp.Stats.Interactive
+* Bugfixes:
+    * [[#195](https://github.com/fslaborg/FSharp.Stats/issues/195)] fix Gamma function edge cases
+    * [[#183](https://github.com/fslaborg/FSharp.Stats/issues/183)] fix rank module #183
+* Tests:
+    * [[#72faba16](https://github.com/fslaborg/FSharp.Stats/commit/72faba1633269a02cdb9965f62efb2501ff569ba)] Add tests for formatting special float cases (infinity,nan)
+    * [[#39ffb209](https://github.com/fslaborg/FSharp.Stats/commit/39ffb209f340f4cc59dac0b5ac8dd3fdd61c3fe4)] Add formatting tests
+    * [[#9390d4b3](https://github.com/fslaborg/FSharp.Stats/commit/9390d4b39f2bf73c0412423ae8b4c62e465a5796)] add rank unit tests
+    * [[#fb36a90d](https://github.com/fslaborg/FSharp.Stats/commit/fb36a90d2d17a1f788dbd2de4f139c7ee5954709)] add Polynomial interpolation test
+    * [[#6de434f0](https://github.com/fslaborg/FSharp.Stats/commit/6de434f0e42a399fc27fd1fec938666fb5ede310)] add interpolation coefficients tests
+    * [[#ca9ad465](https://github.com/fslaborg/FSharp.Stats/commit/ca9ad4653564438d98fe568886165bb1d83c6c55)] Add Natural Cubic,Quandratic and Parabolic Tests
+* Documentation:
+    * [[#5b17a5f6](https://github.com/fslaborg/FSharp.Stats/commit/5b17a5f69410bb2f796725dc02750c0d69fc3eae)] add rank documentation #183
+    * [[#d1a46d61](https://github.com/fslaborg/FSharp.Stats/commit/d1a46d6162b034e0c7b2ee8f3da862d74f5696b3)] update q value variant description
+    
 ### 0.4.5+dd76c80 (Released 2022-4-8)
 * Additions:
     * latest commit #dd76c80
