@@ -83,9 +83,8 @@ type Rank() =
             let ranks  = Array.zeroCreate data.Length
             let index = Array.init data.Length id
             //System.Array.Sort(data',index,comparer=comparer)
-            
             if orderNanLast then System.Array.Sort(data',index,comparer=compNaNLast) else System.Array.Sort(data',index)
-            if setNanToNan && typeof<'b>.Name = "Double" then 
+            if setNanToNan && box data :? float [] then 
                 for i=0 to ranks.Length-1 do
                     if nan.Equals data.[index.[i]] then 
                         ranks.[index.[i]] <- nan

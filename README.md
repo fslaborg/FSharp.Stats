@@ -13,13 +13,74 @@ FSharp.Stats is a multipurpose project for statistical testing, linear algebra, 
 
 ##### Amongst others, following functionalities are covered:
 
- 
-|Descriptive statistics|Fitting|Interpolation|Signal processing|
-|:---|:---|:---|:---|
-| <ul><li>[Measures of central tendency](https://fslab.org/FSharp.Stats/BasicStats.html)</li><li>[Measures of dispersion](https://fslab.org/FSharp.Stats/BasicStats.html)</li><li>[Correlation](https://fslab.org/FSharp.Stats/Correlation.html)</li><li>Quantile/Rank</li><li>[Distribution](https://fslab.org/FSharp.Stats/Distributions.html)</li></ul> | <ul><li>[Linear regression](https://fslab.org/FSharp.Stats/Fitting.html#Linear-Regression)</li><li>[Nonlinear regression](https://fslab.org/FSharp.Stats/Fitting.html#Nonlinear-Regression)</li><li>[Spline regression](https://fslab.org/FSharp.Stats/Fitting.html#Nonlinear-Regression)</li><li>[Goodness of fit](https://fslab.org/FSharp.Stats/GoodnessOfFit.html)</li></ul><br>|<ul><li>[Polynomial interpolation](https://fslab.org/FSharp.Stats/Interpolation.html#Polynomial-Interpolation)</li><li>[Spline interpolation](https://fslab.org/FSharp.Stats/Interpolation.html#Cubic-interpolating-Spline)</li></ul><br><br><br>|<ul><li>[Continuous wavelet transform](https://fslab.org/FSharp.Stats/Signal.html#Continuous-Wavelet)</li><li>[Smoothing filters](https://fslab.org/FSharp.Stats/Signal.html)</li><li>Peak detection</li></ul><br><br>|
-|**Linear algebra**				|**Machine Learning**|**Optimization**			|**Testing**					|
-|<ul><li>Singular value decomposition</li></ul><br><br><br><br><br>|<ul><li>PCA</li><li>[Clustering](https://fslab.org/FSharp.Stats/Clustering.html)</li><li>Surprisal analysis</li></ul><br><br><br>|<ul><li>Brent minimization</li><li>Bisection</li></ul><br><br><br><br>|<ul><li>[t test](https://fslab.org/FSharp.Stats/Testing.html#T-Test), [H test](https://fslab.org/FSharp.Stats/Testing.html#H-Test), etc.</li><li>[ANOVA](https://fslab.org/FSharp.Stats/Testing.html#Anova)</li><li>[Post hoc tests](https://fslab.org/FSharp.Stats/Testing.html#PostHoc)</li><li>[Q values](https://fslab.org/FSharp.Stats/Testing.html#Q-Value)</li><li>SAM</li><li>RMT</li></ul>|
-
+<table id="content">
+    <thead>
+        <tr>
+            <th style="background-color:#943256;color: white">Descriptive statistics</th>
+            <th style="background-color:#943256;color: white">Fitting</th>
+            <th style="background-color:#943256;color: white">Interpolation</th>
+            <th style="background-color:#943256;color: white">Signal processing</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="left" valign="top">
+                - <a href="https://fslab.org/FSharp.Stats/BasicStats.html">Measures of central tendency</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/BasicStats.html">Measures of dispersion</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/Correlation.html">Correlation</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/Rank.html">Quantile/Rank</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/Distributions.html">Distribution</a><br>
+            </td>
+            <td align="left" valign="top">
+                - <a href="https://fslab.org/FSharp.Stats/Fitting.html#Linear-Regression">Linear regression</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/Fitting.html#Nonlinear-Regression">Nonlinear regression</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/Fitting.html#Smoothing-spline">Spline regression</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">Goodness of fit</a><br>
+            </td>
+            <td align="left" valign="top">
+                - <a href="https://fslab.org/FSharp.Stats/Interpolation.html#Polynomial-Interpolation">Polynomial interpolation</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/Interpolation.html#Cubic-interpolating-Spline">Spline interpolation</a><br>
+            </td>
+            <td align="left" valign="top">
+                - <a href="https://fslab.org/FSharp.Stats/Signal.html#Continuous-Wavelet">Continuous wavelet transform</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/Signal.html">Smoothing filters</a><br>
+                - Peak detection
+            </td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th style="background-color:#485364;color: white">Linear Algebra</th>
+            <th style="background-color:#485364;color: white">Machine learning</th>
+            <th style="background-color:#485364;color: white">Optimization</th>
+            <th style="background-color:#485364;color: white">Statistical testing</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="left" valign="top">
+                - Singular value decomposition
+            </td>
+            <td align="left" valign="top">
+                - PCA<br>
+                - <a href="https://fslab.org/FSharp.Stats/Clustering.html">Clustering</a><br>
+                - Surprisal analysis
+            </td>
+            <td align="left" valign="top">
+                - Brent minimization<br>
+                - Bisection
+            </td>
+            <td align="left" valign="top">
+                - <a href="https://fslab.org/FSharp.Stats/Testing.html#T-Test">t test</a>, <a href="https://fslab.org/FSharp.Stats/Testing.html#H-Test">H test</a>, etc.<br> 
+                - <a href="https://fslab.org/FSharp.Stats/Testing.html#Anova">ANOVA</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/Testing.html#PostHoc">Post hoc tests</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/Testing.html#Q-Value">q values</a><br>
+                - SAM<br>
+                - RMT
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 
 ## Documentation
