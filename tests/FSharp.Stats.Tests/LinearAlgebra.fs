@@ -355,21 +355,21 @@ let linearSystems =
                         |> Array.concat
                     TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with Inf in last row and NaN in other rows"
             // This test fails. Difference to R Implementation?
-            //testCase "3x3 Upper Triangular Matrix (Values = 1) with 3x3 Matrix (Values = Inf)" <| fun () ->
-            //    SolveTriangularLinearSystems KUpper1 BInf false
-            //    |> fun res ->
-            //        let concatRes =
-            //            res
-            //            |> Matrix.toJaggedArray
-            //            |> Array.concat
-            //        let concatExpected =
-            //            [|
-            //                [|nan;nan;nan|];
-            //                [|nan;nan;nan|];
-            //                [|infinity;infinity;infinity|]
-            //            |]
-            //            |> Array.concat
-            //        TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with Inf in last row and NaN in other rows"
+            testCase "3x3 Upper Triangular Matrix (Values = 1) with 3x3 Matrix (Values = Inf)" <| fun () ->
+                SolveTriangularLinearSystems KUpper1 BInf false
+                |> fun res ->
+                    let concatRes =
+                        res
+                        |> Matrix.toJaggedArray
+                        |> Array.concat
+                    let concatExpected =
+                        [|
+                            [|nan;nan;nan|];
+                            [|nan;nan;nan|];
+                            [|infinity;infinity;infinity|]
+                        |]
+                        |> Array.concat
+                    TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with Inf in last row and NaN in other rows"
             testCase "3x3 Upper Triangular Matrix (Values = -1) with 3x3 Matrix (Values = Inf)" <| fun () ->
                 SolveTriangularLinearSystems KUpperNeg1 BInf false
                 |> fun res ->
