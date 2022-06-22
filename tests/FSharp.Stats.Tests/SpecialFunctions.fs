@@ -69,3 +69,37 @@ let betaFunctionsTests =
             Expect.floatClose Accuracy.veryHigh result 3.1811881124242447 "Should be equal (double precision)" //rtol=1e-14, atol=0
          
     ]
+
+[<Tests>]
+let factorialTests =
+    testList "SpecialFunctions.Factorial" [
+        testCase "Double overflow" (fun _ -> 
+            Expect.equal (Factorial.factorial 171) infinity "Expected factorial of a number larger than 170 to result in infinity (171! is larger than max double)"
+        )
+        testCase "0! equals 1" (fun _ -> 
+            Expect.equal (Factorial.factorial 0) 1. "Expected factorial of 0 to be 1."
+        )
+        testCase "69!" (fun _ -> 
+            Expect.floatClose Accuracy.low (Factorial.factorial 69) 1.7112245e+98 "Expected factorial of 69 to be 1.7112245e+98"
+        )
+        testCase "factorial not defined for negative numbers" (fun _ -> 
+            Expect.throws (fun _ -> Factorial.factorial -69421337 |> ignore) "Expected factorial to fail for negative values"
+        )
+    ]
+
+[<Tests>]
+let FactorialLnTests =
+    testList "SpecialFunctions.lnFactorial" [
+        testCase "Large value" (fun _ -> 
+            Expect.floatClose Accuracy.low (Factorial.factorialLn 6942) 54467.727976695301612523565124699078303834231913072759124392135342 "Expected factorial of a number larger than 170 to result in infinity (171! is larger than max double)"
+        )
+        testCase "ln(0!) equals 0" (fun _ -> 
+            Expect.equal (Factorial.factorialLn 0) 0. "Expected factorial of 0 to be 1."
+        )
+        testCase "ln(69!)" (fun _ -> 
+            Expect.floatClose Accuracy.low 226.19054832372759333227016852232261788323276357495863628461257077 (Factorial.factorialLn 69) "Expected factorialLn of 69 to be 226.19054832372759333227016852232261788323276357495863628461257077"
+        )
+        testCase "factorialLn not defined for negative numbers" (fun _ -> 
+            Expect.throws (fun _ -> Factorial.factorialLn -69421337 |> ignore) "Expected factorialLn to fail for negative values"
+        )
+    ]

@@ -8,13 +8,7 @@ module Factorial =
     // This is the largest integer value for which the factorial function doesn't overflow the floating point format.
     let private FactorialMax = 170
 
-    //let inline facti n =
-    //    let rec loop acc n = 
-    //       if n<=LanguagePrimitives.GenericOne 
-    //        then acc 
-    //        else loop (n*acc) (n-LanguagePrimitives.GenericOne)
-    //    loop LanguagePrimitives.GenericOne n
-
+    //cache of all factorials in [0..170]
     let private FactorialCache =
         //let cache =  [| 0 .. FactorialMax |] |> Array.map (fun a -> float a)
         let cache = Array.zeroCreate (FactorialMax + 1)
@@ -29,18 +23,18 @@ module Factorial =
     let private FactorialLnCache =
         let cache = Array.zeroCreate (FactorialLnNTop + 1)
         for i=0 to FactorialLnNTop do
-            cache.[i] <-Gamma.gammaLn ((float i) + 1.0)
+            cache.[i] <- Gamma.gammaLn ((float i) + 1.0)
         cache
 
-    /// The factorial functions takes an int x and computes x!. This function will not overflow
-    /// the floating point format as long as x is at most 170.
+    /// The factorial functions takes an int x and returns x!. This function will not overflow
+    /// the floating point format as long as x is at most 170, and will return +infinity for all values > 170
     let factorial (x:int) =    
         if x <= FactorialMax then
             FactorialCache.[x]
         else
             System.Double.PositiveInfinity
         
-    /// Computes the natural logarithm of the factorial function.
+    /// Computes the natural logarithm of the factorial function, 
     let factorialLn (x: int) : float =
         if x < 0 then failwith "Log factorial not defined for n < 0"
         //if x <= 1 then 0.0 else Gamma.gammaLn ((float x) + 1.0)
@@ -48,42 +42,3 @@ module Factorial =
             FactorialLnCache.[x]
         else 
             Gamma.gammaLn ((float x) + 1.0)
-
-
-
-//    let cacheFactorial size f = 
-//        let cache = Array.zeroCreate size
-//        (fun x ->  
-//            match cache.[x] with
-//            | 0 -> 
-//                let v = f(x)
-//                cache.[x] <- v
-//                v
-//            | y -> y ) 
-//                
-//
-//    let rec factorial =
-//        cacheFactorial FactorialMax (
-//            fun x -> 
-//                if (x = 0) then 
-//                    1 
-//                else 
-//                    x * factorial(x - 1))
-//
-//    let rec factorialLn =
-//        cacheFactorial FactorialMax (
-//            fun x -> 
-//                if (x = 0) then 
-//                    1 
-//                else 
-//                    x * factorial(x - 1))
-//
-//    let inline facti n =
-//        let rec loop acc n = 
-//           if n<=LanguagePrimitives.GenericOne 
-//            then acc 
-//            else loop (n*acc) (n-LanguagePrimitives.GenericOne)
-//        loop LanguagePrimitives.GenericOne n
-
-
- 

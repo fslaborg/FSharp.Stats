@@ -16,7 +16,7 @@ let main argv =
     //=========================== Special Functions =========================================================    
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.gammaFunctionsTests |> ignore
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.betaFunctionsTests  |> ignore
-    
+    Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.factorialTests  |> ignore
     //================================ Algebra ==============================================================
     Tests.runTestsWithCLIArgs [] argv LinearAlgebraTests.managedSVDTests   |> ignore
     Tests.runTestsWithCLIArgs [] argv LinearAlgebraTests.nullspace         |> ignore
