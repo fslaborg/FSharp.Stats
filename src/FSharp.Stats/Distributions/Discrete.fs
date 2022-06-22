@@ -299,7 +299,7 @@ module Discrete =
 
 
     // Binomial distribution helper functions.
-    let binomialCheckParam p n = if n < 0 || p < 0. || p > 1. then failwith "Binomial distribution should be parametrized by n > 0.0 and 0 ≤ p ≤ 1."
+    let binomialCheckParam p n = if n < 0 || p < 0. || p > 1. || isNan(p) then failwith "Binomial distribution should be parametrized by n > 0.0 and 0 ≤ p ≤ 1."
     
     ///Binomial distribution
     type Binomial =
@@ -343,7 +343,7 @@ module Discrete =
             binomialCheckParam p n
             Binomial.SampleUnchecked p n
 
-
+        
         /// Computes the probability density function at k, i.e. P(K = k)
         static member PDF p n k =
             binomialCheckParam  p n
