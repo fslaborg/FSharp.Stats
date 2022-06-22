@@ -91,15 +91,74 @@ let factorialTests =
 let FactorialLnTests =
     testList "SpecialFunctions.lnFactorial" [
         testCase "Large value" (fun _ -> 
-            Expect.floatClose Accuracy.low (Factorial.factorialLn 6942) 54467.727976695301612523565124699078303834231913072759124392135342 "Expected factorial of a number larger than 170 to result in infinity (171! is larger than max double)"
+            Expect.floatClose Accuracy.low (Factorial.factorialLn 6942) 54467.727976695301612523565124699078303834231913072759124392135342 "factorialLn of large number failed"
         )
         testCase "ln(0!) equals 0" (fun _ -> 
-            Expect.equal (Factorial.factorialLn 0) 0. "Expected factorial of 0 to be 1."
+            Expect.equal (Factorial.factorialLn 0) 0. "Expected factorialLn of 0 to be 1."
         )
         testCase "ln(69!)" (fun _ -> 
             Expect.floatClose Accuracy.low 226.19054832372759333227016852232261788323276357495863628461257077 (Factorial.factorialLn 69) "Expected factorialLn of 69 to be 226.19054832372759333227016852232261788323276357495863628461257077"
         )
         testCase "factorialLn not defined for negative numbers" (fun _ -> 
             Expect.throws (fun _ -> Factorial.factorialLn -69421337 |> ignore) "Expected factorialLn to fail for negative values"
+        )
+    ]
+
+[<Tests>]
+let logisticTests =
+    testList "SpecialFunctions.Logistic" [
+        testCase "standard x=69" (fun _ -> 
+            Expect.floatClose Accuracy.low (Logistic.standard 2.) 0.8807970779778824440597291413023967952063842986289682757984052500 ""
+        )
+        testCase "standard nan" (fun _ -> 
+            Expect.isTrue (nan.Equals(Logistic.standard nan)) "Expected nan"
+        )
+        testCase "standard inf" (fun _ -> 
+            Expect.floatClose Accuracy.low (Logistic.standard infinity) 1. "Expected 1"
+        )
+        testCase "standard -inf" (fun _ -> 
+            Expect.floatClose Accuracy.low (Logistic.standard (-infinity)) 0. "Expected 0"
+        )
+        testCase "generic x0=4 L=2 k=4 x=5 " (fun _ -> 
+            Expect.floatClose Accuracy.low (Logistic.generic 4. 2. 4. 5. ) 1.9640275800758168839464137241009231502550299762409347760482632174 ""
+        )
+        //nan
+        testCase "generic x=nan L=2 k=4 x0=4" (fun _ -> 
+            Expect.isTrue (nan.Equals(Logistic.generic nan 2. 4. 5.)) "Expected nan"
+        )
+        testCase "generic x=4 L=nan k=4 x0=4" (fun _ -> 
+            Expect.isTrue (nan.Equals(Logistic.generic 4. nan 4. 5.)) "Expected nan"
+        )
+        testCase "generic x=4 L=2 k=nan x0=4" (fun _ -> 
+            Expect.isTrue (nan.Equals(Logistic.generic 4. 2. nan 5.)) "Expected nan"
+        )
+        testCase "generic x=4 L=2 k=4 x0=nan" (fun _ -> 
+            Expect.isTrue (nan.Equals(Logistic.generic 4. 2. 4. nan)) "Expected nan"
+        )
+        //infinity
+        testCase "generic x=infinity L=2 k=4 x0=4" (fun _ -> 
+            Expect.floatClose Accuracy.low  (Logistic.generic infinity 2. 4. 5.) 0. "Expected 0"
+        )
+        testCase "generic x=4 L=infinity k=4 x0=4" (fun _ -> 
+            Expect.isTrue (infinity.Equals(Logistic.generic 4. infinity 4. 5.)) "Expected infinity"
+        )
+        testCase "generic x=4 L=2 k=infinity x0=4" (fun _ -> 
+            Expect.floatClose Accuracy.low (Logistic.generic 4. 2. infinity 5.) 2. "Expected 2"
+        )
+        testCase "generic x=4 L=2 k=4 x0=infinity" (fun _ -> 
+            Expect.floatClose Accuracy.low (Logistic.generic 4. 2. 4. infinity) 2. "Expected 2"
+        )
+        //-infinity
+        testCase "generic x=-infinity L=2 k=4 x0=4" (fun _ -> 
+            Expect.floatClose Accuracy.low 2. (Logistic.generic (-infinity) 2. 4. 5.) "Expected 2"
+        )
+        testCase "generic x=4 L=-infinity k=4 x0=4" (fun _ -> 
+            Expect.isTrue ((-infinity).Equals(Logistic.generic 4. (-infinity) 4. 5.)) "Expected -infinity"
+        )
+        testCase "generic x=4 L=2 k=-infinity x0=4" (fun _ -> 
+            Expect.floatClose Accuracy.low 0. (Logistic.generic 4. 2. (-infinity) 5.)  "Expected 0"
+        )
+        testCase "generic x=4 L=2 k=4 x0=-infinity" (fun _ -> 
+            Expect.floatClose Accuracy.low 0. (Logistic.generic 4. 2. 4. (-infinity))  "Expected 0"
         )
     ]
