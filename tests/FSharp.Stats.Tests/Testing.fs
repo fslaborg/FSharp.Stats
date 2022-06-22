@@ -206,8 +206,37 @@ let tTestTests =
             Expect.floatClose Accuracy.low tTest1.Statistic 0.924 "t statistic should be equal."
             Expect.floatClose Accuracy.low tTest3.PValue 0.345 "pValue should be equal."
             Expect.floatClose Accuracy.low tTest3.DegreesOfFreedom 9.990 "df should be equal."
+        
         testCase "twoSampleFromMeanAndVar" <| fun () -> 
             Expect.equal tTest1 tTest2 "results should be equal."
+            
+           // tested with R function (t.test(batcha, batchb, var.equal=TRUE))
+            let sample1 = [1.;2.;3;]
+            let sample2 = [1.;3.;5.;7;]
+            let mean = Seq.mean sample1
+            let mean2 = Seq.mean sample2
+            let var1 = Seq.var sample1
+            let var2 = Seq.var sample2
+            let ttestTwoSample = Testing.TTest.twoSampleFromMeanAndVar true (mean,var1,3) (mean2,var2,4) 
+            let expectedPval = 0.26716219523142071
+            let expectedStatistic = -1.24837556786471859
+            Expect.floatClose Accuracy.high ttestTwoSample.PValue expectedPval "pValue should be equal."
+            Expect.floatClose Accuracy.high ttestTwoSample.Statistic expectedStatistic "t statistic should be equal."
+
+            let sample3 = [-1.;3.;-5.;7;]
+            let mean3 = Seq.mean sample2
+            let var3 = Seq.var sample2
+            let ttestTwoSample2 = Testing.TTest.twoSampleFromMeanAndVar true (mean,var1,3) (mean3,var3,4) 
+            let expectedPval2 = 0.75954440793496059
+            let expectedStatistic2 = -0.323310403056781825
+            Expect.floatClose Accuracy.high ttestTwoSample2.PValue expectedPval "pValue should be equal."
+            Expect.floatClose Accuracy.high ttestTwoSample2.Statistic expectedStatistic "t statistic should be equal."
+
+            let ttestTwoSample3 = Testing.TTest.twoSampleFromMeanAndVar true (nan,var2,3) (mean2,var2,4) 
+            Expect.isTrue (nan.Equals(ttestTwoSample3.PValue)) "pValue should be nan."
+            Expect.isTrue (nan.Equals(ttestTwoSample3.Statistic)) "t statistic should be nan."
+        
+        
         testCase "oneSample" <| fun () -> 
             Expect.floatClose Accuracy.low tTest4.PValue 0.634 "pValue should be equal."
             Expect.equal tTest4.DegreesOfFreedom 4. "df should be equal."
@@ -238,9 +267,10 @@ let tTestTests =
             Expect.isTrue (nan.Equals(ttest3.PValue)) "pValue should be nan."
             Expect.isTrue (nan.Equals(ttest3.Statistic)) "t statistic should be nan."
            
-           
     ]
-
+        
+        
+     
 [<Tests>]
 let fTestTests = 
     // F-Test validated against res.ftest <- var.test(samplea, sampleb, alternative = "two.sided") RStudio 2022.02.3+492 "Prairie Trillium" Release (1db809b8323ba0a87c148d16eb84efe39a8e7785, 2022-05-20) for Windows
