@@ -15,6 +15,11 @@ module Discrete =
     
     /// Bernoulli distribution.
     type Bernoulli =
+
+        // https://planetcalc.com/486/
+        // > Mean, or expected value of a binomial distribution is equal to "np"(n=1 in bernoulli distribution),
+        // > and the variance is equal to "np(1-p)"
+
         /// Computes the mean.
         static member Mean p =
             bernCheckParam p
@@ -36,12 +41,16 @@ module Discrete =
 //            if rndgen.NextFloat() < p then 0.0 else 1.0
             failwith "Not implemented yet."
 
+        // Rename PMF? https://en.wikipedia.org/wiki/Probability_mass_function
+        // > A probability mass function differs from a probability density function (PDF) in that the latter is associated with continuous 
+        // > rather than discrete random variables. A PDF must be integrated over an interval to yield a probability.
+
         /// Computes the probability density function.
         static member PDF p x =
             bernCheckParam p
             match x with
-            | 0.0 -> p
-            | 1.0 -> 1.0 - p
+            | 0.0 -> 1.0 - p
+            | 1.0 -> p
             | _ -> 0.0
 
         /// Computes the cumulative distribution function.
@@ -51,7 +60,7 @@ module Discrete =
             elif x < 1.0 then p
             else 1.0
 
-        /// Returns the support of the exponential distribution: [0, Positive Infinity).
+        /// Returns the support of the bernoulli distribution: [0, 1.0].
         static member Support p =
             bernCheckParam p
             [0.0; 1.0]
