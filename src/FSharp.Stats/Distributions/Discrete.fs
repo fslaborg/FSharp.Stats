@@ -53,14 +53,19 @@ module Discrete =
             | 1.0 -> p
             | _ -> 0.0
 
-        /// Computes the cumulative distribution function.
+        /// Computes the cumulative distribution function. P(X>=k)
         static member CDF p x =
             bernCheckParam p
-            if x < 0.0 then 0.0
-            elif x < 1.0 then p
-            else 1.0
+            // Summary: This cdf calculates the probability, that value x is greater or equal to a random value (R) taken from the bernoulli distribution.
+            // Reminder: A bernoulli distribution can only return 0 or 1 as result.
+            // If the value x is less than 0, the probability that x is greater than the random outcome (R) of p is 0 since, R∈{0,1}.
+            if x < 0.0 then 0.0 
+            // Example: p = 0.8. 80% of the time R=1 and 20% of the time R=0. The probability that x in the range of 0.0 ... 0.99 is greater than R is 20%. Therefore 1-p=q.
+            elif x < 1.0 then 1.0 - p 
+            // If the value x is greater than 1.0, then the probability that x is greater than the random outcome (R) is 1.0, since R∈{0,1}.
+            else 1.0 
 
-        /// Returns the support of the bernoulli distribution: [0, 1.0].
+        /// Returns the support of the bernoulli distribution: {0, 1}.
         static member Support p =
             bernCheckParam p
             [0.0; 1.0]
