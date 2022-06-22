@@ -212,6 +212,33 @@ let tTestTests =
             Expect.floatClose Accuracy.low tTest4.PValue 0.634 "pValue should be equal."
             Expect.equal tTest4.DegreesOfFreedom 4. "df should be equal."
             Expect.floatClose Accuracy.low tTest4.Statistic 0.514 "t statistic should be equal."
+        
+        //tested with R function (t.test(c(-1,-2,-3), mu = -3, alternative = "two.sided"))
+        testCase "oneSampleFromMeanandStDev" <| fun () -> 
+            let sample = [1.;2.;3;]
+            let mean = Seq.mean sample
+            let stdev = Seq.stDev sample
+            let ttest = Testing.TTest.oneSampleFromMeanAndStDev(mean,stdev,3) -3.
+            let expectedPval = 0.013072457560346513
+            let expectedStatistic = 8.6602540378443873
+            Expect.floatClose Accuracy.high ttest.PValue expectedPval "pValue should be equal."
+            Expect.floatClose Accuracy.high ttest.Statistic expectedStatistic "t statistic should be equal."
+
+            let sample = [-1.;-2.;-3;]
+            let mean3 = Seq.mean sample
+            let stdev1 = Seq.stDev sample
+            let ttest2 = Testing.TTest.oneSampleFromMeanAndStDev(mean3,stdev1,3) 0.
+            let expectedPval1 = 0.074179900227448525
+            let expectedStatistic2 = -3.46410161513775483
+            Expect.floatClose Accuracy.high ttest2.PValue expectedPval1 "pValue should be equal."
+            Expect.floatClose Accuracy.high ttest2.Statistic expectedStatistic2 "t statistic should be equal."
+
+            let mean2 = nan
+            let ttest3 = Testing.TTest.oneSampleFromMeanAndStDev(mean2,stdev,3) 0.
+            Expect.isTrue (nan.Equals(ttest3.PValue)) "pValue should be nan."
+            Expect.isTrue (nan.Equals(ttest3.Statistic)) "t statistic should be nan."
+           
+           
     ]
 
 [<Tests>]
