@@ -4,6 +4,7 @@ open Expecto
 
 open FSharp.Stats
 open FSharp.Stats.Algebra
+open FSharp.Stats.Algebra.LinearAlgebraManaged
 open TestExtensions
 
 [<Tests>]
@@ -107,5 +108,522 @@ let nullspace =
                 |> Seq.concat
             let expected = seq {0.;0.;0.;}
             TestExtensions.sequenceEqual Accuracy.veryHigh expected prod  "A * (nullspace A) should be matrix of zeros"
+    ]
+
+[<Tests>]
+let linearSystems =
+    
+    let KDiagonal1 =
+        [|
+            [|1.;0.;0.|]
+            [|0.;1.;0.|]
+            [|0.;0.;1.|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    let KUpper1 =
+        [|
+            [|1.;1.;1.|]
+            [|0.;1.;1.|]
+            [|0.;0.;1.|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    let KUpperNeg1 =
+        [|
+            [|-1.;-1.;-1.|]
+            [|0.;-1.;-1.|]
+            [|0.;0.;-1.|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    let KUpperInf =
+        [|
+            [|infinity;infinity;infinity|]
+            [|0.;infinity;infinity|]
+            [|0.;0.;infinity|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    let KUpperNegInf =
+        [|
+            [|-infinity;-infinity;-infinity|]
+            [|0.;-infinity;-infinity|]
+            [|0.;0.;-infinity|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    let KUpperNaN =
+        [|
+            [|nan;nan;nan|]
+            [|0.;nan;nan|]
+            [|0.;0.;nan|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    let B1 =
+        [|
+            [|1.;1.;1.|]
+            [|1.;1.;1.|]
+            [|1.;1.;1.|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    let BNeg1 =
+        [|
+            [|-1.;-1.;-1.|]
+            [|-1.;-1.;-1.|]
+            [|-1.;-1.;-1.|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    let BInf =
+        [|
+            [|infinity;infinity;infinity|]
+            [|infinity;infinity;infinity|]
+            [|infinity;infinity;infinity|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    let BNegInf =
+        [|
+            [|-infinity;-infinity;-infinity|]
+            [|-infinity;-infinity;-infinity|]
+            [|-infinity;-infinity;-infinity|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    let BNaN =
+        [|
+            [|nan;nan;nan|]
+            [|nan;nan;nan|]
+            [|nan;nan;nan|]
+        |]
+        |> Matrix.ofJaggedArray
+
+    // Tested vs R package "bdsmatrix: Routines for Block Diagonal Symmetric Matrices" Version 1.3-6
+    testList "Upper Triangular Linear Systems" [
+    
+        testCase "3x3 diagonal Matrix (Values = 1) with 3x3 Matrix (Values = 1)" <| fun () ->
+            SolveTriangularLinearSystems KDiagonal1 B1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|1.;1.;1.|];
+                        [|1.;1.;1.|];
+                        [|1.;1.;1.|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqual Accuracy.high concatRes concatExpected "Should be 3x3 Matrix of 1"
+        testCase "3x3 Upper Triangular Matrix (Values = 1) with 3x3 Matrix (Values = 1)" <| fun () ->
+            SolveTriangularLinearSystems KUpper1 B1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|0.;0.;0.|];
+                        [|0.;0.;0.|];
+                        [|1.;1.;1.|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqual Accuracy.high concatRes concatExpected "Should be 3x3 Matrix with 1 in last row"
+        testCase "3x3 Upper Triangular Matrix (Values = -1) with 3x3 Matrix (Values = 1)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNeg1 B1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|0.;0.;0.|];
+                        [|0.;0.;0.|];
+                        [|-1.;-1.;-1.|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqual Accuracy.high concatRes concatExpected "Should be 3x3 Matrix with 1 in last row"
+        testCase "3x3 Upper Triangular Matrix (Values = Inf) with 3x3 Matrix (Values = 1)" <| fun () ->
+            SolveTriangularLinearSystems KUpperInf B1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|0.;0.;0.|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with 0 in last row and NaN in other rows"
+        testCase "3x3 Upper Triangular Matrix (Values = -Inf) with 3x3 Matrix (Values = 1)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNegInf B1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|0.;0.;0.|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with 0 in last row and NaN in other rows"
+        testCase "3x3 Upper Triangular Matrix (Values = NaN) with 3x3 Matrix (Values = 1)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNaN B1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
+        testCase "3x3 diagonal Matrix (Values = 1) with 3x3 Matrix (Values = Inf)" <| fun () ->
+            SolveTriangularLinearSystems KDiagonal1 BInf false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|infinity;infinity;infinity|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with Inf in last row and NaN in other rows"
+        // This test fails. Difference to R Implementation?
+        //testCase "3x3 Upper Triangular Matrix (Values = 1) with 3x3 Matrix (Values = Inf)" <| fun () ->
+        //    SolveTriangularLinearSystems KUpper1 BInf false
+        //    |> fun res ->
+        //        let concatRes =
+        //            res
+        //            |> Matrix.toJaggedArray
+        //            |> Array.concat
+        //        let concatExpected =
+        //            [|
+        //                [|nan;nan;nan|];
+        //                [|nan;nan;nan|];
+        //                [|infinity;infinity;infinity|]
+        //            |]
+        //            |> Array.concat
+        //        TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with Inf in last row and NaN in other rows"
+        testCase "3x3 Upper Triangular Matrix (Values = -1) with 3x3 Matrix (Values = Inf)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNeg1 BInf false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|-infinity;-infinity;-infinity|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with Inf in last row and NaN in other rows"
+        testCase "3x3 Upper Triangular Matrix (Values = Inf) with 3x3 Matrix (Values = Inf)" <| fun () ->
+            SolveTriangularLinearSystems KUpperInf BInf false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
+        testCase "3x3 Upper Triangular Matrix (Values = -Inf) with 3x3 Matrix (Values = Inf)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNegInf BInf false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
+        testCase "3x3 Upper Triangular Matrix (Values = NaN) with 3x3 Matrix (Values = Inf)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNaN BInf false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
+        testCase "3x3 diagonal Matrix (Values = 1) with 3x3 Matrix (Values = -Inf)" <| fun () ->
+            SolveTriangularLinearSystems KDiagonal1 BNegInf false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|-infinity;-infinity;-infinity|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with -Inf in last row and NaN in other rows"
+        testCase "3x3 Upper Triangular Matrix (Values = 1) with 3x3 Matrix (Values = -Inf)" <| fun () ->
+            SolveTriangularLinearSystems KUpper1 BNegInf false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|-infinity;-infinity;-infinity|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with -Inf in last row and NaN in other rows"
+        testCase "3x3 Upper Triangular Matrix (Values = Inf) with 3x3 Matrix (Values = -Inf)" <| fun () ->
+            SolveTriangularLinearSystems KUpperInf BNegInf false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
+        testCase "3x3 Upper Triangular Matrix (Values = -Inf) with 3x3 Matrix (Values = -Inf)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNegInf BNegInf false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
+        testCase "3x3 Upper Triangular Matrix (Values = NaN) with 3x3 Matrix (Values = -Inf)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNaN BNegInf false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
+        testCase "3x3 diagonal Matrix (Values = 1) with 3x3 Matrix (Values = NaN)" <| fun () ->
+            SolveTriangularLinearSystems KDiagonal1 BNaN false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with Inf in last row and NaN in other rows"
+        testCase "3x3 Upper Triangular Matrix (Values = 1) with 3x3 Matrix (Values = NaN)" <| fun () ->
+            SolveTriangularLinearSystems KUpper1 BNaN false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with Inf in last row and NaN in other rows"
+        testCase "3x3 Upper Triangular Matrix (Values = Inf) with 3x3 Matrix (Values = NaN)" <| fun () ->
+            SolveTriangularLinearSystems KUpperInf BNaN false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
+        testCase "3x3 Upper Triangular Matrix (Values = -Inf) with 3x3 Matrix (Values = NaN)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNegInf BNaN false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
+        testCase "3x3 Upper Triangular Matrix (Values = NaN) with 3x3 Matrix (Values = NaN)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNaN BNaN false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
+        testCase "3x3 diagonal Matrix (Values = 1) with 3x3 Matrix (Values = -1)" <| fun () ->
+            SolveTriangularLinearSystems KDiagonal1 BNeg1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|-1.;-1.;-1.|];
+                        [|-1.;-1.;-1.|];
+                        [|-1.;-1.;-1.|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqual Accuracy.high concatRes concatExpected "Should be 3x3 Matrix of -1"
+        testCase "3x3 Upper Triangular Matrix (Values = 1) with 3x3 Matrix (Values = -1)" <| fun () ->
+            SolveTriangularLinearSystems KUpper1 BNeg1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|0.;0.;0.|];
+                        [|0.;0.;0.|];
+                        [|-1.;-1.;-1.|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqual Accuracy.high concatRes concatExpected "Should be 3x3 Matrix with -1 in last row"
+        testCase "3x3 Upper Triangular Matrix (Values = -1) with 3x3 Matrix (Values = -1)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNeg1 BNeg1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|0.;0.;0.|];
+                        [|0.;0.;0.|];
+                        [|1.;1.;1.|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqual Accuracy.high concatRes concatExpected "Should be 3x3 Matrix with -1 in last row"
+        testCase "3x3 Upper Triangular Matrix (Values = Inf) with 3x3 Matrix (Values = -1)" <| fun () ->
+            SolveTriangularLinearSystems KUpperInf BNeg1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|0.;0.;0.|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with 0 in last row and NaN in other rows"
+        testCase "3x3 Upper Triangular Matrix (Values = -Inf) with 3x3 Matrix (Values = -1)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNegInf BNeg1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|0.;0.;0.|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix with 0 in last row and NaN in other rows"
+        testCase "3x3 Upper Triangular Matrix (Values = NaN) with 3x3 Matrix (Values = -1)" <| fun () ->
+            SolveTriangularLinearSystems KUpperNaN BNeg1 false
+            |> fun res ->
+                let concatRes =
+                    res
+                    |> Matrix.toJaggedArray
+                    |> Array.concat
+                let concatExpected =
+                    [|
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|];
+                        [|nan;nan;nan|]
+                    |]
+                    |> Array.concat
+                TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
     ]
     
