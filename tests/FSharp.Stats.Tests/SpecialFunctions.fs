@@ -54,8 +54,8 @@ let gammaFunctionsTests =
 [<Tests>]
 let betaFunctionsTests =
 
-    testList "SpecialFunctions.Beta.betaLn" [
-        testCase "equality1" <| fun () ->
+    testList "SpecialFunctions.Beta" [
+        testCase "betaLn equality1" <| fun () ->
             let result = Beta.betaLn 1. 1. 
             Expect.floatClose Accuracy.veryHigh result 0.0 "Should be equal (double precision)" //rtol=1e-14, atol=0
             //Expect.equal result 0.0 "Should be equal"
@@ -64,7 +64,7 @@ let betaFunctionsTests =
         //    let result = Beta.betaLn -100.3 1e-200
         //    Expect.equal result (Gamma.gammaLn 1e-200) "Should be equal"
 
-        testCase "equality3" <| fun () ->
+        testCase "betaLn equality3" <| fun () ->
             let result = Beta.betaLn 0.0342 170.
             Expect.floatClose Accuracy.veryHigh result 3.1811881124242447 "Should be equal (double precision)" //rtol=1e-14, atol=0
          
@@ -72,6 +72,7 @@ let betaFunctionsTests =
 
 [<Tests>]
 let factorialTests =
+    //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
     testList "SpecialFunctions.Factorial" [
         testCase "Double overflow" (fun _ -> 
             Expect.equal (Factorial.factorial 171) infinity "Expected factorial of a number larger than 170 to result in infinity (171! is larger than max double)"
@@ -80,7 +81,7 @@ let factorialTests =
             Expect.equal (Factorial.factorial 0) 1. "Expected factorial of 0 to be 1."
         )
         testCase "69!" (fun _ -> 
-            Expect.floatClose Accuracy.low (Factorial.factorial 69) 1.7112245e+98 "Expected factorial of 69 to be 1.7112245e+98"
+            Expect.floatClose Accuracy.high (Factorial.factorial 69) 1.7112245e+98 "Expected factorial of 69 to be 1.7112245e+98"
         )
         testCase "factorial not defined for negative numbers" (fun _ -> 
             Expect.throws (fun _ -> Factorial.factorial -69421337 |> ignore) "Expected factorial to fail for negative values"
@@ -89,15 +90,16 @@ let factorialTests =
 
 [<Tests>]
 let FactorialLnTests =
+    //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
     testList "SpecialFunctions.lnFactorial" [
         testCase "Large value" (fun _ -> 
-            Expect.floatClose Accuracy.low (Factorial.factorialLn 6942) 54467.727976695301612523565124699078303834231913072759124392135342 "factorialLn of large number failed"
+            Expect.floatClose Accuracy.high (Factorial.factorialLn 6942) 54467.727976695301612523565124699078303834231913072759124392135342 "factorialLn of large number failed"
         )
         testCase "ln(0!) equals 0" (fun _ -> 
             Expect.equal (Factorial.factorialLn 0) 0. "Expected factorialLn of 0 to be 1."
         )
         testCase "ln(69!)" (fun _ -> 
-            Expect.floatClose Accuracy.low 226.19054832372759333227016852232261788323276357495863628461257077 (Factorial.factorialLn 69) "Expected factorialLn of 69 to be 226.19054832372759333227016852232261788323276357495863628461257077"
+            Expect.floatClose Accuracy.high 226.19054832372759333227016852232261788323276357495863628461257077 (Factorial.factorialLn 69) "Expected factorialLn of 69 to be 226.19054832372759333227016852232261788323276357495863628461257077"
         )
         testCase "factorialLn not defined for negative numbers" (fun _ -> 
             Expect.throws (fun _ -> Factorial.factorialLn -69421337 |> ignore) "Expected factorialLn to fail for negative values"
@@ -106,6 +108,7 @@ let FactorialLnTests =
 
 [<Tests>]
 let logisticTests =
+    //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
     testList "SpecialFunctions.Logistic" [
         testCase "standard x=69" (fun _ -> 
             Expect.floatClose Accuracy.low (Logistic.standard 2.) 0.8807970779778824440597291413023967952063842986289682757984052500 ""
@@ -114,13 +117,13 @@ let logisticTests =
             Expect.isTrue (nan.Equals(Logistic.standard nan)) "Expected nan"
         )
         testCase "standard inf" (fun _ -> 
-            Expect.floatClose Accuracy.low (Logistic.standard infinity) 1. "Expected 1"
+            Expect.floatClose Accuracy.high (Logistic.standard infinity) 1. "Expected 1"
         )
         testCase "standard -inf" (fun _ -> 
-            Expect.floatClose Accuracy.low (Logistic.standard (-infinity)) 0. "Expected 0"
+            Expect.floatClose Accuracy.high (Logistic.standard (-infinity)) 0. "Expected 0"
         )
         testCase "generic x0=4 L=2 k=4 x=5 " (fun _ -> 
-            Expect.floatClose Accuracy.low (Logistic.generic 4. 2. 4. 5. ) 1.9640275800758168839464137241009231502550299762409347760482632174 ""
+            Expect.floatClose Accuracy.high (Logistic.generic 4. 2. 4. 5. ) 1.9640275800758168839464137241009231502550299762409347760482632174 ""
         )
         //nan
         testCase "generic x=nan L=2 k=4 x0=4" (fun _ -> 
@@ -137,16 +140,16 @@ let logisticTests =
         )
         //infinity
         testCase "generic x=infinity L=2 k=4 x0=4" (fun _ -> 
-            Expect.floatClose Accuracy.low  (Logistic.generic infinity 2. 4. 5.) 0. "Expected 0"
+            Expect.floatClose Accuracy.high  (Logistic.generic infinity 2. 4. 5.) 0. "Expected 0"
         )
         testCase "generic x=4 L=infinity k=4 x0=4" (fun _ -> 
             Expect.isTrue (infinity.Equals(Logistic.generic 4. infinity 4. 5.)) "Expected infinity"
         )
         testCase "generic x=4 L=2 k=infinity x0=4" (fun _ -> 
-            Expect.floatClose Accuracy.low (Logistic.generic 4. 2. infinity 5.) 2. "Expected 2"
+            Expect.floatClose Accuracy.high (Logistic.generic 4. 2. infinity 5.) 2. "Expected 2"
         )
         testCase "generic x=4 L=2 k=4 x0=infinity" (fun _ -> 
-            Expect.floatClose Accuracy.low (Logistic.generic 4. 2. 4. infinity) 2. "Expected 2"
+            Expect.floatClose Accuracy.high (Logistic.generic 4. 2. 4. infinity) 2. "Expected 2"
         )
         //-infinity
         testCase "generic x=-infinity L=2 k=4 x0=4" (fun _ -> 
@@ -156,9 +159,73 @@ let logisticTests =
             Expect.isTrue ((-infinity).Equals(Logistic.generic 4. (-infinity) 4. 5.)) "Expected -infinity"
         )
         testCase "generic x=4 L=2 k=-infinity x0=4" (fun _ -> 
-            Expect.floatClose Accuracy.low 0. (Logistic.generic 4. 2. (-infinity) 5.)  "Expected 0"
+            Expect.floatClose Accuracy.high 0. (Logistic.generic 4. 2. (-infinity) 5.)  "Expected 0"
         )
         testCase "generic x=4 L=2 k=4 x0=-infinity" (fun _ -> 
-            Expect.floatClose Accuracy.low 0. (Logistic.generic 4. 2. 4. (-infinity))  "Expected 0"
+            Expect.floatClose Accuracy.high 0. (Logistic.generic 4. 2. 4. (-infinity))  "Expected 0"
+        )
+    ]
+
+
+[<Tests>]
+let erfTests =
+    //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
+    testList "SpecialFunctions.ErrorFunction(erf)" [
+        // erf
+        testCase "erf(0) = 0" (fun _ -> 
+            Expect.floatClose Accuracy.medium (Errorfunction.Erf 0.) 0. "expected erf(0) to be 0"
+        )
+        testCase "erf(-3)" (fun _ -> 
+            Expect.floatClose Accuracy.medium (Errorfunction.Erf -3.) -0.999977909503001414558627223870417679620152292912600750342761045 "erf returned insufficient approximation of the result"
+        )
+        testCase "erf(3)" (fun _ -> 
+            Expect.floatClose Accuracy.medium (Errorfunction.Erf 3.) 0.9999779095030014145586272238704176796201522929126007503427610451 "erf returned insufficient approximation of the result"
+        )
+        testCase "erf(nan)" (fun _ -> 
+            Expect.isTrue (nan.Equals(Errorfunction.Erf nan)) "Expected nan"
+        )
+        testCase "erf(infinity)" (fun _ -> 
+            Expect.equal  (Errorfunction.Erf infinity) 1. "expected erf(infinity) to be 1"
+        )
+        testCase "erf(-infinity)" (fun _ -> 
+            Expect.equal  (Errorfunction.Erf -infinity) -1. "expected erf(-infinity) to be -1"
+        )
+        //erfc
+        testCase "erfc(0) = 1" (fun _ -> 
+            Expect.floatClose Accuracy.low (Errorfunction.Erfc 0.) 1. "expected erfc(0) to be 1"
+        )
+        testCase "erfc(-3)" (fun _ -> 
+            Expect.floatClose Accuracy.low (Errorfunction.Erfc -3.) 1.9999779095030014145586272238704176796201522929126007503427610451 "erfc returned insufficient approximation of the result"
+        )
+        testCase "erfc(3)" (fun _ -> 
+            Expect.floatClose Accuracy.low (Errorfunction.Erfc 3.) 0.0000220904969985854413727761295823203798477070873992496572389548 "erfc returned insufficient approximation of the result"
+        )
+        testCase "erfc(nan)" (fun _ -> 
+            Expect.isTrue (nan.Equals(Errorfunction.Erfc nan)) "Expected nan"
+        )
+        testCase "erfc(infinity)" (fun _ -> 
+            Expect.equal  (Errorfunction.Erfc infinity) 0. "expected erfc(infinity) to be 0"
+        )
+        testCase "erfc(-infinity)" (fun _ -> 
+            Expect.equal  (Errorfunction.Erfc -infinity) 2. "expected erfc(-infinity) to be 2"
+        )
+        //erfcx
+        testCase "erfcx(0) = 1" (fun _ -> 
+            Expect.floatClose Accuracy.low (Errorfunction.erfcx 0.) 1. "expected erfcx(0) to be 1"
+        )
+        testCase "erfcx(-3)" (fun _ -> 
+            Expect.floatClose Accuracy.low (Errorfunction.erfcx -3.) 16205.988853999586625469574084050206309035724190299120070784655345 "erfcx returned insufficient approximation of the result"
+        )
+        testCase "erfcx(3)" (fun _ -> 
+            Expect.floatClose Accuracy.low (Errorfunction.erfcx 3.) 0.1790011511813899504192948153136209872279853641068542156627588395 "erfcx returned insufficient approximation of the result"
+        )
+        testCase "erfcx(nan)" (fun _ -> 
+            Expect.isTrue (nan.Equals(Errorfunction.erfcx nan)) "Expected nan"
+        )
+        testCase "erfcx(infinity)" (fun _ -> 
+            Expect.isTrue (nan.Equals(Errorfunction.erfcx infinity)) "expected erfcx(infinity) to be nan"
+        )
+        testCase "erfcx(-infinity)" (fun _ -> 
+            Expect.isTrue (infinity.Equals(Errorfunction.erfcx -infinity)) "expected erfcx(-infinity) to be infinity"
         )
     ]
