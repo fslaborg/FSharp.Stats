@@ -81,6 +81,9 @@ module PCA =
             |> snd
         let pc = u * (Matrix.diag (Vector.init u.NumCols (fun i -> if i <= s.Length-1 then s.[i] else 0.)));
         let loadings = Matrix.getCols v.Transpose 0 varExplained.Length
+        //Update:
+        // There seems to be a lot of ambuiguity when it comes to the use of the term loading. Here we use the term loading to 
+        // refer to the eigenvectors, also termed "unit scaled loading". see: https://stats.stackexchange.com/questions/143905/loadings-vs-eigenvectors-in-pca-when-to-use-one-or-another
         // proper loadings when https://stats.stackexchange.com/a/141531 is right, however the described scaling does
         // not result in vectors of norm 1 (the columns of principal axes do) and differ from rs prcomp() "rotation" propertie which is 
         // described here: https://stats.stackexchange.com/a/510465 and here https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/prcomp as loadings
