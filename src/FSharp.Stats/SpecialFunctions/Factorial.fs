@@ -2,7 +2,15 @@ namespace FSharp.Stats.SpecialFunctions
 
 open System
 
-/// Special mathematical functions
+/// Functions for computing the factorial of a number.
+///
+/// The factorial of a non-negative integer n, denoted by n!, is the product of all positive integers less than or equal to n:
+///
+/// n! = n * (n-1) * (n-2) * ... * 2 * 1
+///
+/// For example, 5! = 5 * 4 * 3 * 2 * 1 = 120
+///
+/// The value of 0! is 1.
 module Factorial =
 
     // This is the largest integer value for which the factorial function doesn't overflow the floating point format.

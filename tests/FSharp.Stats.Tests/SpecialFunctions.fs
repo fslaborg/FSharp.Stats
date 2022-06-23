@@ -8,44 +8,86 @@ open FSharp.Stats
 let gammaFunctionsTests =
 
     testList "SpecialFunctions.Gamma" [
-        testCase "test_gamma" <| fun () ->
+        //gamma
+        testCase "gamma(5)" <| fun () ->
             let gam = Gamma.gamma 5.
-            Expect.floatClose Accuracy.high gam  24. "Should be equal (double precision)"
+            Expect.floatClose Accuracy.high gam 24. "Should be equal (double precision)"
+        
+        testCase "gamma(-1)" <| fun () ->
+            let gam = Gamma.gamma -1.
+            Expect.isTrue ((-infinity).Equals(gam)) "Expected gamma of negative number to return -infinity"
 
-        testCase "test_gammaln" <| fun () ->
-            let gamln = Gamma.gammaLn 3.
-            let lngam = Gamma.gamma 3. |> log
-            Expect.floatClose Accuracy.high gamln lngam "Should be equal (double precision)"
+        testCase "gamma(420) returns infinity (although incorrect)" <| fun () ->
+            let gam = Gamma.gamma 420.
+            Expect.isTrue (infinity.Equals(gam)) "Expected gamma of large number to return infinity"
+
+        testCase "gamma(nan) = nan" <| fun () ->
+            let gam = Gamma.gamma nan
+            Expect.isTrue (nan.Equals(gam)) "Expected gamma(nan) to be nan"
+
+        testCase "gamma(infinity) = infinity" <| fun () ->
+            let gam = Gamma.gamma infinity
+            Expect.isTrue (infinity.Equals(gam)) "Expected gamma(infinity) to be infinity"
+
+        testCase "gamma(-infinity) = nan" <| fun () ->
+            let gam = Gamma.gamma (-infinity)
+            Expect.isTrue (nan.Equals(gam)) "Expected gamma(-infinity) to be nan"
+
+        //gammaLn
+        testCase "gammaLn(5)" <| fun () ->
+            let gam = Gamma.gammaLn 5.
+            Expect.floatClose Accuracy.high gam 3.1780538303479456196469416012970554088739909609035152140967343621 "Should be equal (double precision)"
+        
+        testCase "gammaLn(-1)" <| fun () ->
+            let gam = Gamma.gammaLn -1.
+            Expect.isTrue (nan.Equals(gam)) "Expected gammaLn of negative number to return nan"
+
+        testCase "gammaLn(420) returns infinity (although incorrect)" <| fun () ->
+            let gam = Gamma.gammaLn 420.
+            Expect.floatClose Accuracy.high gam 2114.8059883267407613276719264808503756320291823875025922347978642 "Should be equal (double precision)"
+
+        testCase "gammaLn(nan) = nan" <| fun () ->
+            let gam = Gamma.gammaLn nan
+            Expect.isTrue (nan.Equals(gam)) "Expected gammaLn(nan) to be nan"
+
+        testCase "gammaLn(infinity) = infinity" <| fun () ->
+            let gam = Gamma.gammaLn infinity
+            Expect.isTrue (infinity.Equals(gam)) "Expected gammaLn(infinity) to be infinity"
+
+        testCase "gammaLn(-infinity) = nan" <| fun () ->
+            let gam = Gamma.gammaLn (-infinity)
+            Expect.isTrue (nan.Equals(gam)) "Expected gammaLn(-infinity) to be nan"
  
-        testCase "test_gammainc" <| fun () ->
+        //lowerIncomplete
+        testCase "lowerIncomplete(0.5,0.5)" <| fun () ->
             let gam = Gamma.lowerIncomplete 0.5 0.5
             Expect.floatClose Accuracy.low gam 0.682689 "Should be equal (low precision)"
 
-        testCase "test_gammaincnan" <| fun () ->
+        testCase "lowerIncomplete(-1,1) = nan" <| fun () ->
             let gam = Gamma.lowerIncomplete -1. 1.
-            Expect.isTrue (nan.Equals(gam)) "IsNan"
+            Expect.isTrue (nan.Equals(gam)) "Expected lowerIncomplete(-1,1) to be nan"
 
-        testCase "test_gammainczero" <| fun () ->
+        testCase "lowerIncomplete(-1,0) = 0" <| fun () ->
             let gam = Gamma.lowerIncomplete -1. 0.
-            Expect.floatClose Accuracy.high gam 0.0 "IsZero"
+            Expect.floatClose Accuracy.high gam 0.0 "Expected lowerIncomplete(-1,0) = 0 to be 0"
 
-        testCase "test_gammaincinf" <| fun () ->
+        testCase "lowerIncomplete(0.5,infinity) = 1" <| fun () ->
             let gam = Gamma.lowerIncomplete 0.5 Ops.inf
-            Expect.equal gam 1.0 "Should be equal"
+            Expect.equal gam 1.0 "lowerIncomplete(0.5,infinity) = 1"
 
-        testCase "test_gammaincupper" <| fun () ->
+        //upperIncomplete
+        testCase "upperIncomplete(0.5,0.5)" <| fun () ->
             let gamu = Gamma.upperIncomplete 0.5 0.5
             let gam  = 1. - Gamma.lowerIncomplete 0.5 0.5
             Expect.floatClose Accuracy.medium gamu gam "Should be equal (medium precision)"
 
-        testCase "test_gammaincuppernan" <| fun () ->
+        testCase "upperIncomplete(-1,1)" <| fun () ->
             let gam = Gamma.upperIncomplete -1. 1.
-            Expect.isTrue (nan.Equals(gam)) "IsNan"
+            Expect.isTrue (nan.Equals(gam)) "Expected upperIncomplete(-1,1) to be nan"
 
-        testCase "test_gammaincupperinf" <| fun () ->
+        testCase "upperIncomplete(0.5, infinity)" <| fun () ->
             let gam = Gamma.upperIncomplete 0.5 Ops.inf
-            Expect.equal gam 0.0 "Should be equal"
-
+            Expect.equal gam 0.0 "expected upperIncomplete(0.5, infinity) to be 0"
     ]    
 
 
