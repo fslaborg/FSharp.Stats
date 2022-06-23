@@ -27,7 +27,7 @@ module Rank =
         let index = Array.init data.Length id
         //let zero  = LanguagePrimitives.GenericZero< 'a >
         //let comparer,rankNanWithNan = if box zero :? float then comparer,rankNanWithNan else (compNaNFirst,false)
-        let comparer,rankNanWithNan = if typeof<'a>.Name = "Double" then comparer,rankNanWithNan else (compNaNFirst,false)
+        let comparer,rankNanWithNan = if box data :? float [] then comparer,rankNanWithNan else (compNaNFirst,false)
         System.Array.Sort(data',index,comparer=comparer)
         
         let setTies a b =
