@@ -62,6 +62,7 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv MLTests.SimilarityMetrics.sorensenDiceIndexTests      |> ignore
     Tests.runTestsWithCLIArgs [] argv MLTests.SimilarityMetrics.tverskyIndexTests           |> ignore
     Tests.runTestsWithCLIArgs [] argv MLTests.SimilarityMetrics.tverskySymmetricIndexTests  |> ignore
+    Tests.runTestsWithCLIArgs [] argv MLTests.PCA.pcaTests |> ignore
 
     //================================== Fitting ============================================================
     Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests     |> ignore
