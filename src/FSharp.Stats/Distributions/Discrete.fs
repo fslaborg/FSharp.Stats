@@ -211,22 +211,22 @@ module Discrete =
             if (N-K)<(n-k) then 0. 
             else
                 exp ((SpecialFunctions.Binomial.coeffcientLn K k) + (SpecialFunctions.Binomial.coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial.coeffcientLn N n)
-
+        
         /// Computes the cumulative distribution function at k for P(X <= k).
-        static member CDF N K n (k:float) =
+        static member CDF N K n (k: int) =
             hypergeoCheckParam N K n
-            hypergeoCheckParam_k N K n (floor k |> int)
-            if (k < float (max 0 (n + K - N))) then 
+            hypergeoCheckParam_k N K n k
+            if (k < (max 0 (n + K - N))) then 
                 0.0
-            elif (k >= float (min K n)) then
+            elif (k >= (min K n)) then
                 1.0
             elif N-K < n then
                 1.0
             else
-                let k' = floor k |> int 
+   
                 let d = SpecialFunctions.Binomial.coeffcientLn N n
                 let rec loop i acc =
-                    if i <= k' then
+                    if i <= k then
                         let tmp = exp ((SpecialFunctions.Binomial.coeffcientLn K i) + (SpecialFunctions.Binomial.coeffcientLn (N-K) (n-i)) - d)
                         loop (i+1) (acc+tmp)
                     else
@@ -259,13 +259,13 @@ module Discrete =
     /// <param name="n">The number of draws</param>
     let hypergeometric N K n =
         { new Distribution<float,int> with
-            member d.Mean              = Hypergeometric.Mean N K n
-            member d.StandardDeviation = Hypergeometric.StandardDeviation N K n
-            member d.Variance          = Hypergeometric.Variance N K n
+            member d.Mean               = Hypergeometric.Mean N K n
+            member d.StandardDeviation  = Hypergeometric.StandardDeviation N K n
+            member d.Variance           = Hypergeometric.Variance N K n
             //member d.CoVariance        = Hypergeometric.CoVariance N K n
-            member d.Sample ()         = Hypergeometric.Sample N K n
-            member d.PDF k             = Hypergeometric.PDF N K n k    
-            member d.CDF k             = Hypergeometric.CDF N K n k         
+            member d.Sample ()          = Hypergeometric.Sample N K n
+            member d.PDF k              = Hypergeometric.PDF N K n k    
+            member d.CDF k              = Hypergeometric.CDF N K n k         
         }   
 
 

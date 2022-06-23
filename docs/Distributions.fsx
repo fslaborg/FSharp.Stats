@@ -330,11 +330,11 @@ let hypA = hyper.PDF 6
 // Output: 7.15-08
 
 // HypB: What is the probability that you have at least 3 right ones?
-let hypB = 1. - hyper.CDF 2.
+let hypB = 1. - hyper.CDF 2
 // Output: 0.01864 = 1.86 %
 
 // HypC: What is the probability that you have a maximum of 3 right ones? 
-let hypC = hyper.CDF 3.
+let hypC = hyper.CDF 3
 // Output: 0.99901 = 99.90 %
 
 (***hide***)
