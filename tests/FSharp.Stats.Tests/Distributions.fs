@@ -147,3 +147,53 @@ let multivariateNormalTests =
             let testCase = Continuous.Chi.PDF 8. 1.
             Expect.floatClose Accuracy.veryHigh 0.001451989663439 pdfs.[2] "Should be equal"        
     ]
+
+[<Tests>]
+let exponentialTests =
+    // references is R V. 2022.02.3 Build 492
+    // PDF is used with expPDF <- dexp(3,0.59)
+    // CDF is created with expCDF <- pexp(3, 0.59)
+    testList "Distributions.exponential" [
+
+        let createExpDistCDF  lambda x = FSharp.Stats.Distributions.Continuous.Exponential.CDF lambda x    
+        let createExpDistPDF  lambda x = Distributions.Continuous.Exponential.PDF lambda x
+        
+        testCase "exp check param" <| fun () -> 
+            Expect.throws (fun () -> (Distributions.Continuous.expCheckParam 0. )) "Should fail when lamda  =  0.0"
+            Expect.throws (fun () -> (Distributions.Continuous.expCheckParam -3. )) "Should fail when lamda  < 0."
+            Expect.throws (fun () -> (Distributions.Continuous.expCheckParam -infinity )) "Should fail when lamda < 0.0  "  
+        
+        testCase "Exponential Lambda regular " <| fun () -> 
+            Expect.floatClose Accuracy.low (createExpDistCDF 0.3 5.) 0.776869 "CDF should be equal"
+            Expect.floatClose Accuracy.low (createExpDistPDF 0.3 5.) 0.066939 "PDF should be equal"
+        //testCase "Exponential Lambda= NaN CDF " <| fun () -> 
+        //    let lamdaNaN = createExpDistCDF nan 5.
+        //    Expect.isTrue (nan.Equals (lamdaNaN)) "Distribution can't be initialized with lambda = nan "
+
+        testCase "Exponential Lambda= infinity CDF " <| fun () -> 
+        
+            Expect.floatClose Accuracy.low (createExpDistCDF infinity 5.) 1. "CDF should be 1 with lamda = infinity"
+
+            Expect.isTrue (nan.Equals (createExpDistPDF infinity 5.)) "PDF can't be initialized with lambda = infinity "
+ 
+        testCase "Exponential Lambda= NaN " <| fun () -> 
+
+            Expect.isTrue (nan.Equals (createExpDistCDF nan 5.)) "CDF can't be initialized with lambda = nan "
+
+            Expect.isTrue (nan.Equals (createExpDistPDF nan 5.)) "PDF can't be initialized with lambda = nan "
+
+
+        testCase "Exponential x regular" <| fun () -> 
+            let regularx = createExpDistCDF 0.59 3.
+            Expect.floatClose Accuracy.low regularx 0.829667011174591 "CDF should be equal"
+            let regularx' = createExpDistPDF 0.59 3. 
+            Expect.floatClose Accuracy.low regularx' 0.100496463406992 "PDF should be equal"
+
+        testCase "Exponential x NaN  " <| fun () -> 
+            Expect.isTrue (nan.Equals (createExpDistCDF 0.5 nan)) "CDF can't be initialized with x = nan "
+            Expect.floatClose Accuracy.low (createExpDistPDF 0.5 nan) 0. "PDF should be 0 when x = nan"
+
+        testCase "Exponential x infinity" <| fun () -> 
+            Expect.floatClose Accuracy.low (createExpDistCDF 0.5 infinity) 1. "CDF should be 1 when x = infinity"
+            Expect.floatClose Accuracy.low (createExpDistPDF 0.5 infinity) 0. "PDF should be 0 when x = infinity"
+            ]
