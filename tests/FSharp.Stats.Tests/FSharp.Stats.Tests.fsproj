@@ -22,13 +22,15 @@
     <Compile Include="Main.fs" />
 
   </ItemGroup>
-  
-  <ItemGroup>
-    <EmbeddedResource Include="data/benjaminiHochberg_Input.csv" CopyToOutputDirectory="PreserveNewest"/>
-    <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR.csv" CopyToOutputDirectory="PreserveNewest"/>
-  </ItemGroup>
 
   <ItemGroup />
+  
+  <ItemGroup>
+	<EmbeddedResource Include="data/Set1vs7.txt" CopyToOutputDirectory="PreserveNewest" />
+    
+    <EmbeddedResource Include="data/benjaminiHochberg_Input.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR.csv" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AltCover" Version="7.6.812" />
