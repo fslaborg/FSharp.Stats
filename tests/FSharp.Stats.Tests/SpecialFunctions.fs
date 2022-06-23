@@ -8,6 +8,7 @@ open FSharp.Stats
 let gammaFunctionsTests =
 
     testList "SpecialFunctions.Gamma" [
+        //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
         //gamma
         testCase "gamma(5)" <| fun () ->
             let gam = Gamma.gamma 5.
@@ -91,25 +92,72 @@ let gammaFunctionsTests =
     ]    
 
 
-
-
 [<Tests>]
 let betaFunctionsTests =
-
+    //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
     testList "SpecialFunctions.Beta" [
         testCase "betaLn equality1" <| fun () ->
             let result = Beta.betaLn 1. 1. 
             Expect.floatClose Accuracy.veryHigh result 0.0 "Should be equal (double precision)" //rtol=1e-14, atol=0
-            //Expect.equal result 0.0 "Should be equal"
-            //
-        //testCase "equality2" <| fun () ->
-        //    let result = Beta.betaLn -100.3 1e-200
-        //    Expect.equal result (Gamma.gammaLn 1e-200) "Should be equal"
-
         testCase "betaLn equality3" <| fun () ->
             let result = Beta.betaLn 0.0342 170.
             Expect.floatClose Accuracy.veryHigh result 3.1811881124242447 "Should be equal (double precision)" //rtol=1e-14, atol=0
-         
+        //beta
+        testCase "beta(1.,1.)" <| fun () ->
+            let bet = Beta.beta 1. 1.
+            Expect.floatClose Accuracy.high bet 1. "Should be equal (double precision)"
+        // these are incorrect due to approximation issues, see for example https://www.wolframalpha.com/input?i=beta%28-1%2C1%29
+        testCase "beta(-1.,1.)" <| fun () ->
+            let bet = Beta.beta -1. 1.
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(-1.,1.) to return nan"
+
+        testCase "beta(1.,-1.)" <| fun () ->
+            let bet = Beta.beta 1. -1.
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(1.,-1.) to return nan"
+
+        testCase "beta(-1.,-1.)" <| fun () ->
+            let bet = Beta.beta -1. -1.
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(-1.,-1.) to return nan"
+            
+        testCase "beta(420,420)" <| fun () ->
+            let bet = Beta.beta 420. 420.
+            Expect.floatClose Accuracy.high bet 2.360006414298225624664636431560387583108464693985603322036e-254 "Should be equal (double precision)"
+
+        testCase "beta(nan,1.)" <| fun () ->
+            let bet = Beta.beta nan 1.
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(nan,1.) to return nan"
+
+        testCase "beta(1.,nan)" <| fun () ->
+            let bet = Beta.beta 1. nan
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(1,nan) to return nan"
+
+        testCase "beta(nan,nan)" <| fun () ->
+            let bet = Beta.beta nan nan
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(nan,nan) to return nan"
+
+        testCase "beta(infinity,1.)" <| fun () ->
+            let bet = Beta.beta infinity 1.
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(infinity,1.) to return nan"
+
+        testCase "beta(1.,infinity)" <| fun () ->
+            let bet = Beta.beta 1. infinity
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(1,infinity) to return nan"
+
+        testCase "beta(infinity,infinity)" <| fun () ->
+            let bet = Beta.beta infinity infinity
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(infinity,infinity) to return nan"
+
+        testCase "beta(-infinity,1.)" <| fun () ->
+            let bet = Beta.beta -infinity 1.
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(-infinity,1.) to return nan"
+
+        testCase "beta(1.,-infinity)" <| fun () ->
+            let bet = Beta.beta 1. -infinity
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(1,-infinity) to return nan"
+
+        testCase "beta(-infinity,-infinity)" <| fun () ->
+            let bet = Beta.beta -infinity -infinity
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(-infinity,-infinity) to return nan"
     ]
 
 [<Tests>]

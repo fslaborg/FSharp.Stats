@@ -1,17 +1,19 @@
-namespace FSharp.Stats.SpecialFunctions
+﻿namespace FSharp.Stats.SpecialFunctions
 
 open System
 
-/// Special mathematical functions
+/// The beta function B(p,q), or the beta integral (also called the Eulerian integral of the first kind) is defined by
+///
+/// B(p, q) = (Γ(p) * Γ(q)) / Γ(p+q)
 module Beta =
 
     let private EPS = 3.0e-8    // Precision.DoublePrecision;
     let private FPMIN = 1.0e-30 // 0.0.Increment()/eps
 
-    /// Computes the natural logarithm of the beta function.
+    /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
     let betaLn z w = (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
 
-    /// Computes the beta function.
+    /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
     let beta z w = exp (betaLn z w)
 
     //  incomplete beta function 
