@@ -4,8 +4,6 @@
 /// Module to compute common statistical measure on list
 [<AutoOpen>]
 module List =
-
-
     let range (items:list<_>) =        
         let rec loop l (minimum) (maximum) =
             match l with
@@ -17,14 +15,17 @@ module List =
         | [] -> Intervals.Interval.Empty
 
     /// computes the population mean (normalized by n)
-    let mean items =
+    let inline mean (items: 'T list) =
+        let zero = LanguagePrimitives.GenericZero<'T>
+        let one = LanguagePrimitives.GenericOne<'T>
         items
-        |> List.fold (fun (n,sum) x -> 1 + n,sum + x) (0,0.)
-        |> fun (n,sum) -> sum / float n
+        |> List.fold (fun (n,sum) x -> one + n,sum + x) (zero,zero)
+        |> fun (n,sum) -> sum / n
 
     /// Calculate the median of a list of items.
     /// The result is a tuple of two items whose mean is the median.
-    let median xs =
+    let inline median (xs: 'T list) =
+        let one = LanguagePrimitives.GenericOne<'T>
         /// Partition list into three piles; less-than, equal and greater-than
         /// x:    Current pivot
         /// xs:   Sublist to partition
@@ -34,6 +35,7 @@ module List =
             | [] ->
                 // place pivot in equal pile
                 cont [] 0 [x] 1 [] 0
+            | y::ys when isNan y -> y
             | y::ys ->
                 if y < x then
                     // place item in less-than pile
@@ -55,6 +57,7 @@ module List =
         let rec loop before xs after =
             match xs with
             | [] -> failwith "Median of empty list"
+            | x::xs when isNan x -> x
             | x::xs ->
                 partition x xs (fun lts numlt eqs numeq gts numgt ->
                     if before + numlt > numeq + numgt + after then
@@ -62,13 +65,13 @@ module List =
                         loop before lts (after + numeq + numgt)
                     elif before + numlt = numeq + numgt + after then
                         // Median is split between less and equal pile
-                        (List.max lts, x)
+                        (List.max lts + x) / (one + one)
                     elif before + numlt + numeq > numgt + after then
                         // Median is completely inside equal pile
-                        (x, x)
+                        x
                     elif before + numlt + numeq = numgt + after then
                         // Median is split between equal and greater pile
-                        (x, List.min gts)
+                        (x + List.min gts) / (one + one)
                     else
                         // Recurse into greater pile
                         loop (before + numlt + numeq) gts after)

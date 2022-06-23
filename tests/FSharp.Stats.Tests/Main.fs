@@ -1,4 +1,5 @@
 ﻿module FSharp.Stats.Tests
+
 open Expecto
 
 [<EntryPoint>]
@@ -15,6 +16,21 @@ let main argv =
     //=========================== Special Functions =========================================================    
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.gammaFunctionsTests |> ignore
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.betaFunctionsTests  |> ignore
+    
+    //================================ Algebra ==============================================================
+    Tests.runTestsWithCLIArgs [] argv LinearAlgebraTests.managedSVDTests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv LinearAlgebraTests.nullspace         |> ignore
+    
+    //================================== List ===============================================================
+    Tests.runTestsWithCLIArgs [] argv ListTests.medianTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv ListTests.meanTests   |> ignore
+
+    //================================== Array ==============================================================
+    Tests.runTestsWithCLIArgs [] argv ArrayTests.medianTests   |> ignore
+
+    //================================= Seq ==============================================================
+    Tests.runTestsWithCLIArgs [] argv SeqTests.medianTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv SeqTests.meanTests   |> ignore
 
     //============================= Distributions ===========================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.distanceFunctionsTests |> ignore
@@ -29,9 +45,9 @@ let main argv =
     
     //=============================== Covariance ============================================================
     Tests.runTestsWithCLIArgs [] argv CovarianceTests.sequenceTests |> ignore
-    Tests.runTestsWithCLIArgs [] argv CovarianceTests.listTests |> ignore
-    Tests.runTestsWithCLIArgs [] argv CovarianceTests.arrayTests |> ignore
-    Tests.runTestsWithCLIArgs [] argv CovarianceTests.matrixTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv CovarianceTests.listTests     |> ignore
+    Tests.runTestsWithCLIArgs [] argv CovarianceTests.arrayTests    |> ignore
+    Tests.runTestsWithCLIArgs [] argv CovarianceTests.matrixTests   |> ignore
     
     //================================ Testing ==============================================================
     //Tests.runTestsWithCLIArgs [] argv TestingTests.testPostHocTests |> ignore 
@@ -51,5 +67,21 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv MLTests.SimilarityMetrics.tverskySymmetricIndexTests  |> ignore
 
     //================================== Fitting ============================================================
-    Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests      |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.nonLinearRegressionTests     |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.leastSquaresCholeskyTests    |> ignore
+    Tests.runTestsWithCLIArgs [] argv FittingTests.splineTests                  |> ignore
+    
+    //================================== Interpolation ============================================================
+    Tests.runTestsWithCLIArgs [] argv InterpolationTests.cubicInterpolationTests           |> ignore
+    Tests.runTestsWithCLIArgs [] argv InterpolationTests.polynomialInterpolationTests      |> ignore
+    
+    
+    //================================== Integration ============================================================
+    Tests.runTestsWithCLIArgs [] argv IntegrationTests.numericalIntegrationTests      |> ignore
+
+    //================================== Quantile ============================================================
+    Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileDefaultTests  |> ignore
+    Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileTests         |> ignore
+    Tests.runTestsWithCLIArgs [] argv QuantileTests.quantileOfSortedTests |> ignore
+
     0

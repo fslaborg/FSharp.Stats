@@ -685,6 +685,38 @@ module Matrix =
 
         loop (nRows-2) (nRows-1)
 
+    /// <summary>
+    /// Returns a matrix without the rows for which the given predicate returns false
+    /// </summary>
+    /// <param name="rowPredicate">The predicate function based on which the rows should be filtered. The resulting matrix will only contain rows for which this function returns true </param>
+    /// <param name="m">The matrix to filter rows from</param>
+    let filterRows (rowPredicate: (RowVector<'T> -> bool)) (m:Matrix<'T>) : Matrix<'T> =
+        let validRows =
+            [|
+                for rowIndex in 0..m.NumRows - 1 do
+                    let row = MG.getRow m rowIndex
+                    if rowPredicate row then yield rowIndex
+            |]
+        MG.init validRows.Length m.NumCols (fun r c ->
+            m.[validRows.[r],c]
+        )
+
+    /// <summary>
+    /// Returns a matrix without the cols for which the given predicate returns false
+    /// </summary>
+    /// <param name="colPredicate">The predicate function based on which the cols should be filtered. The resulting matrix will only contain rows for which this function returns true </param>
+    /// <param name="m">The matrix to filter cols from</param>
+    let filterCols (colPredicate: (Vector<'T> -> bool)) (m:Matrix<'T>) : Matrix<'T> =
+        let validCols =
+            [|
+                for colIndex in 0..m.NumCols - 1 do
+                    let col = MG.getCol m colIndex
+                    if colPredicate col then yield colIndex
+            |]
+        MG.init m.NumRows validCols.Length (fun r c ->
+            m.[r,validCols.[c]]
+        )
+
     /// Removes a column at a given index
     let removeColAt index (m:Matrix<_>) =
         let nRows,nCols = m.Dimensions

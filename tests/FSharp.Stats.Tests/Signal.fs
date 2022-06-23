@@ -3,8 +3,9 @@ module SignalTests
 
 open Expecto
 open FSharp.Stats
+open FSharp.Stats.Signal
 open Signal.Outliers
-
+open TestExtensions
 
 [<Tests>]
 let outlierTests =
@@ -37,11 +38,9 @@ let outlierTests =
     let compareIntervals a b (str:string) =
         Expect.floatClose Accuracy.high (Intervals.getStart a) (Intervals.getStart b) str
         Expect.floatClose Accuracy.high (Intervals.getEnd a) (Intervals.getEnd b) str
-    let compareSeq (a:seq<float>) (b:seq<float>) (str:string) =
-        Seq.iter2 (fun a b -> Expect.floatClose Accuracy.high a b str) a b
     
-    testList "OutlierTests"[
-        testList "Z-Score"[
+    testList "OutlierTests" [
+        testList "Z-Score" [
             testCase "Z-Score in a population" <| fun() ->
                 let s = stDevPopulation(ls) //4.745144887
                 Expect.floatClose Accuracy.high (zScore -1.4 m s) -0.5184246337 "Z-Score in a population was calculated incorrectly"
@@ -52,11 +51,11 @@ let outlierTests =
                 
             testCase "Z-Scores of a population" <| fun()->
                 let zLs = [-0.5184246337; -0.5184246337; -0.4973504616; -1.88824582; 1.757585953; -0.5394988058; 0.8303223808; 1.251805823; 0.008429668841; 0.1138005294]
-                compareSeq (zScoresOfPopulation ls) zLs "Z-Score of a population was calculated incorrectly"
+                TestExtensions.sequenceEqual Accuracy.high (zScoresOfPopulation ls) zLs "Z-Score of a population was calculated incorrectly"
                 
             testCase "Z-Scores of a sample" <| fun()->
                 let zLsSample = [-0.4918207913; -0.4918207913; -0.4718280762; -1.791347272; 1.667392439; -0.5118135064; 0.7877129747; 1.187567277; 0.007997086037; 0.1079606615]
-                compareSeq (zScoresOfSample ls) zLsSample "Z-Score of a sample was calculated incorrectly"
+                TestExtensions.sequenceEqual Accuracy.high (zScoresOfSample ls) zLsSample "Z-Score of a sample was calculated incorrectly"
                 
             testCase "Population interval by Z-Score" <| fun()->
                 let populationInterval = Intervals.create -0.3635434661 3.432572444
@@ -67,9 +66,9 @@ let outlierTests =
                 compareIntervals (sampleIntervalByZscore -0.3 0.5 ls) sampleInterval "Z-Score interval in a sample was calculated incorrectly"
         ]
 
-        testList "Mahalanobi's Distance"[
+        testList "Mahalanobi's Distance" [
             testCase "Mahalanobi's Distance for an observation in a matrix"<| fun() ->
-                let obs = Vector.ofList[20.; 11.] 
+                let obs = Vector.ofList [20.; 11.] 
                 Expect.floatClose Accuracy.high (mahalanobisDistanceOfEntry dataRow    Matrix.Sample     Matrix.RowWise obs) 1.843936618 "Mahalanobi's Distance for an observation(Sample, RowWise) calculated incorrectly"
                 Expect.floatClose Accuracy.high (mahalanobisDistanceOfEntry dataColumn Matrix.Sample     Matrix.ColWise obs) 1.843936618 "Mahalanobi's Distance for an observation calculated(Sample, ColWise) incorrectly"
                 Expect.floatClose Accuracy.high (mahalanobisDistanceOfEntry dataRow    Matrix.Population Matrix.RowWise obs) 1.943679857 "Mahalanobi's Distance for an observation calculated(Population, RowWise) incorrectly"
@@ -78,10 +77,10 @@ let outlierTests =
             testCase "Mahalanobi's Distance for every observation in a matrix"<| fun() ->
                 let mahalDistancesSample = [1.843936618; 1.315823162; 1.395764847; 1.698572419; 0.1305760401; 1.862248734; 1.280527036; 1.28097611; 0.934074348; 0.6301069471]
                 let mahalDistancesPopulation = [1.943679857; 1.386999396; 1.471265332; 1.790452538; 0.1376392315; 1.962982523; 1.349794013; 1.350267379; 0.9846008145; 0.6641910408]
-                compareSeq (mahalanobisDistances Matrix.Sample       Matrix.RowWise dataRow   ) mahalDistancesSample  "Mahalanobi's Distance for every observation in a matrix(Sample, RowWise) was calculated incorrectly"
-                compareSeq (mahalanobisDistances Matrix.Population   Matrix.RowWise dataRow   ) mahalDistancesPopulation  "Mahalanobi's Distance for every observation in a matrix(Population, RowWise) was calculated incorrectly"
-                compareSeq (mahalanobisDistances Matrix.Sample       Matrix.ColWise dataColumn) mahalDistancesSample "Mahalanobi's Distance for every observation in a matrix(Sample, ColWise) was calculated incorrectly"
-                compareSeq (mahalanobisDistances Matrix.Population   Matrix.ColWise dataColumn) mahalDistancesPopulation  "Mahalanobi's Distance for every observation in a matrix(Population, ColWise) was calculated incorrectly"
+                TestExtensions.sequenceEqual Accuracy.high (mahalanobisDistances Matrix.Sample       Matrix.RowWise dataRow   ) mahalDistancesSample  "Mahalanobi's Distance for every observation in a matrix(Sample, RowWise) was calculated incorrectly"
+                TestExtensions.sequenceEqual Accuracy.high (mahalanobisDistances Matrix.Population   Matrix.RowWise dataRow   ) mahalDistancesPopulation  "Mahalanobi's Distance for every observation in a matrix(Population, RowWise) was calculated incorrectly"
+                TestExtensions.sequenceEqual Accuracy.high (mahalanobisDistances Matrix.Sample       Matrix.ColWise dataColumn) mahalDistancesSample "Mahalanobi's Distance for every observation in a matrix(Sample, ColWise) was calculated incorrectly"
+                TestExtensions.sequenceEqual Accuracy.high (mahalanobisDistances Matrix.Population   Matrix.ColWise dataColumn) mahalDistancesPopulation  "Mahalanobi's Distance for every observation in a matrix(Population, ColWise) was calculated incorrectly"
 
         ]
     ]
@@ -106,7 +105,7 @@ let normalizationTests =
         ]
         |> matrix
 
-    testList "NormalizationTests"[
+    testList "NormalizationTests" [
         testCase "MedianOfRatios" <| fun() ->
 
             let expectedNormalizedTable = 
@@ -120,7 +119,7 @@ let normalizationTests =
 
             let result = Normalization.medianOfRatios table
 
-            TestExtensions.sequenceEqualRounded 4 result expectedNormalizedTable "Value was not normalized correctly"
+            TestExtensions.sequenceEqual 4 result expectedNormalizedTable "Value was not normalized correctly"
 
         testCase "MedianOfRatiosIgnoreNans" <| fun() ->
            
@@ -136,6 +135,6 @@ let normalizationTests =
                 |> Matrix.transpose
                 |> Normalization.medianOfRatios
                 |> Matrix.transpose
-            TestExtensions.sequenceEqualRounded 4 result expected "Wide method should return the same result as the non wide method on a transposed matrix"
+            TestExtensions.sequenceEqual 4 result expected "Wide method should return the same result as the non wide method on a transposed matrix"
     ]
 

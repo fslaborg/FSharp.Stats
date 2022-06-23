@@ -1,11 +1,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats", "src\FSharp.Stats\FSharp.Stats.fsproj", "{FAAFA66E-170B-4DA5-AA21-69A429CBE646}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{BF60BC93-E09B-4E5F-9D85-95A519479D54}"
 	ProjectSection(SolutionItems) = preProject
+		.config\dotnet-tools.json = .config\dotnet-tools.json
+		global.json = global.json
 		README.md = README.md
 		RELEASE_NOTES.md = RELEASE_NOTES.md
 	EndProjectSection
@@ -26,10 +28,43 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{078A9C52-DDC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{7C6D08E7-3EAC-4335-8F4B-252C193C27C9}"
 	ProjectSection(SolutionItems) = preProject
-		appveyor.yml = appveyor.yml
+		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
 		build.cmd = build.cmd
-		build.fsx = build.fsx
 		build.sh = build.sh
+	EndProjectSection
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "build", "build\build.fsproj", "{8830D84C-C999-4816-9742-AC54A3CC1E13}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6804-4AF9-B6D5-5CBD00E14A02}"
+	ProjectSection(SolutionItems) = preProject
+		docs\_template.html = docs\_template.html
+		docs\_template.ipynb = docs\_template.ipynb
+		docs\BasicStats.fsx = docs\BasicStats.fsx
+		docs\Clustering.fsx = docs\Clustering.fsx
+		docs\ComparisonMetrics.fsx = docs\ComparisonMetrics.fsx
+		docs\Correlation.fsx = docs\Correlation.fsx
+		docs\Covariance.fsx = docs\Covariance.fsx
+		docs\CrossValidation.fsx = docs\CrossValidation.fsx
+		docs\Differentiation.fsx = docs\Differentiation.fsx
+		docs\Distributions.fsx = docs\Distributions.fsx
+		docs\Dockerfile = docs\Dockerfile
+		docs\Fitting.fsx = docs\Fitting.fsx
+		docs\GoodnessOfFit.fsx = docs\GoodnessOfFit.fsx
+		docs\GrowthCurve.fsx = docs\GrowthCurve.fsx
+		docs\Imputation.fsx = docs\Imputation.fsx
+		docs\index.fsx = docs\index.fsx
+		docs\Integration.fsx = docs\Integration.fsx
+		docs\Interpolation.fsx = docs\Interpolation.fsx
+		docs\LinearAlgebra.fsx = docs\LinearAlgebra.fsx
+		docs\Matrix_Vector.fsx = docs\Matrix_Vector.fsx
+		docs\NuGet.config = docs\NuGet.config
+		docs\Signal.fsx = docs\Signal.fsx
+		docs\Testing.fsx = docs\Testing.fsx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{50E3E339-AA4D-4FD2-8791-DEBD2EBF0504}"
+	ProjectSection(SolutionItems) = preProject
+		docs\content\fsdocs-custom.css = docs\content\fsdocs-custom.css
 	EndProjectSection
 EndProject
 Global
@@ -46,12 +81,18 @@ Global
 		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8830D84C-C999-4816-9742-AC54A3CC1E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8830D84C-C999-4816-9742-AC54A3CC1E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8830D84C-C999-4816-9742-AC54A3CC1E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8830D84C-C999-4816-9742-AC54A3CC1E13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
+		{8830D84C-C999-4816-9742-AC54A3CC1E13} = {7C6D08E7-3EAC-4335-8F4B-252C193C27C9}
+		{50E3E339-AA4D-4FD2-8791-DEBD2EBF0504} = {23F9FB2E-6804-4AF9-B6D5-5CBD00E14A02}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97270415-1E71-487B-BDF5-FBE2D8EFFD09}

@@ -1,15 +1,39 @@
+(**
+---
+title: Interpolation
+index: 8
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "FSharp.Stats.dll"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
+
+open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
+
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 (**
 
@@ -45,14 +69,6 @@ let coefficients =
 let interpolFunction x = 
     Interpolation.Polynomial.fit coefficients x
 
-
-open Plotly.NET
-
-//some axis styling
-let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let myAxisRange title range = Axis.LinearAxis.init(Title=title,Range=StyleParam.Range.MinMax range,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
-
 let rawChart = 
     Chart.Point(xData,yData)
     |> Chart.withTraceName "raw data"
@@ -65,8 +81,8 @@ let interpolPol =
 
 let chartPol = 
     [rawChart;interpolPol] 
-    |> Chart.Combine
-    |> styleChart "" ""
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -141,10 +157,9 @@ let splineChart =
     [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x)      |> Chart.Line |> Chart.withTraceName "fitSpline"
     [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitLinSp x) |> Chart.Line |> Chart.withTraceName "fitLinearSpline"
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Interpolation methods"
-    |> Chart.withY_Axis (myAxisRange "" (-10.,10.))
-    |> Chart.withX_Axis (myAxis "" )
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -165,9 +180,9 @@ let derivativeChart =
         [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getSecondDerivative coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "snd derivative"
         [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getThirdDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "trd derivative"
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Cubic spline derivatives"
-    |> styleChart "" ""
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -223,8 +238,8 @@ let splineComparison =
     [0. .. 82.] |> List.map (fun x -> x,funHermite x      ) |> Chart.Line  |> Chart.withTraceName "hermite spline"
     [0. .. 82.] |> List.map (fun x -> x,funPolInterpol x  ) |> Chart.Line  |> Chart.withTraceName "polynomial"
     ]
-    |> Chart.Combine
-    |> styleChart "" ""
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB

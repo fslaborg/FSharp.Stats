@@ -136,8 +136,8 @@ module Quantile =
     /// ! Input needs to be sorted
     module OfSorted =
 
-        
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// ! Input needs to be sorted !
+        /// Estimates the q-th quantile from the sorted data array.
         /// Approximately median-unbiased regardless of the sample distribution.
         let compute q (data:array<_>) =
         
@@ -156,7 +156,7 @@ module Quantile =
                 a + (h - float h') * (b - a);    
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let empiricalInvCdf q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q + 0.5
@@ -165,7 +165,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let empiricalInvCdfAverage q (data:array<_>) =
 
             let f q (data:array<_>) =
@@ -177,7 +177,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let nearest q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q
@@ -186,7 +186,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let california q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float data.Length * q
@@ -198,7 +198,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let hazen q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float data.Length * q + 0.5
@@ -210,7 +210,7 @@ module Quantile =
             quantileHelper f q data        
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let nist q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float (data.Length+1) * q
@@ -222,7 +222,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let mode q (data:array<_>) =
             let f q (data:array<_>) =                
                 let h  = float (data.Length-1) * q + 1.
@@ -234,7 +234,7 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// Estimates the q-th quantile from the sorted data array.
         let normal q (data:array<_>) =
             let f q (data:array<'a>) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
@@ -249,72 +249,74 @@ module Quantile =
 
     // ++++++++++++++++++++++++++++++++++++
 
-    /// Estimates the q-th quantile from the unsorted data array.
+    /// Estimates the q-th quantile from the unsorted data.
     /// Approximately median-unbiased regardless of the sample distribution.
-    let compute q (data:array<_>) =
-        
+    let inline compute q (data:seq<_>) =
+        let data = Seq.UtilityFunctions.toArrayCopyQuick data
         let h  = ((float data.Length + 1./3.)*q + 1./3.)
         let h' = h |> int
         
         if (q < 0. || q > 1. || data.Length = 0) then
             nan
         elif (h' <= 0 || q = 0.) then
-            Array.min data
+            if Array.exists nan.Equals data then 
+                nan 
+            else Array.min data
         elif (h' >= data.Length || q = 1.) then
-            Array.max data
+            if Array.exists nan.Equals data then 
+                nan 
+            else Array.max data
         else
-            let data' = Array.copy data
-            let a = Array.quickSelectInPlace (h') data'
-            let b = Array.quickSelectInPlace (h'+1) data'
+            let a = Array.quickSelectInPlace (h') data
+            let b = Array.quickSelectInPlace (h'+1) data
             a + (h - float h') * (b - a); 
 
-
-    /// Estimates the q-th quantile from the unsorted data array.
-    let empiricalInvCdf q (data:array<_>) =
-        let data' = Array.copy data
+    /// Estimates the q-th quantile from the unsorted data.
+    let empiricalInvCdf q (data:seq<_>) =
+        let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.empiricalInvCdfInPLace q data'
     
     
-    /// Estimates the q-th quantile from the unsorted data array.
-    let empiricalInvCdfAverage q (data:array<_>) =
-        let data' = Array.copy data
+    /// Estimates the q-th quantile from the unsorted data.
+    let empiricalInvCdfAverage q (data:seq<_>) =
+        let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.empiricalInvCdfAverageInPLace q data'        
 
 
-    /// Estimates the q-th quantile from the unsorted data array.
-    let nearest q (data:array<_>) =
-        let data' = Array.copy data
+    /// Estimates the q-th quantile from the unsorted data.
+    let nearest q (data:seq<_>) =
+        let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.nearestInPLace q data'   
         
      
-    /// Estimates the q-th quantile from the unsorted data array.
-    let california q (data:array<_>) =
-        let data' = Array.copy data
+    /// Estimates the q-th quantile from the unsorted data.
+    let california q (data:seq<_>) =
+        let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.californiaInPLace q data'
     
     
-    /// Estimates the q-th quantile from the unsorted data array.
-    let hazen q (data:array<_>) =
-        let data' = Array.copy data
+    /// Estimates the q-th quantile from the unsorted data.
+    let hazen q (data:seq<_>) =
+        let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.hazenInPLace q data'        
 
 
-    /// Estimates the q-th quantile from the unsorted data array.
-    let nist q (data:array<_>) =
-        let data' = Array.copy data
+    /// Estimates the q-th quantile from the unsorted data.
+    let nist q (data:seq<_>) =
+        let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.nistInPLace q data'
     
     
-    /// Estimates the q-th quantile from the unsorted data array.
+    /// Estimates the q-th quantile from the unsorted data.
     /// R! default
-    let mode q (data:array<_>) =
-        let data' = Array.copy data
+    let mode q (data:seq<_>) =
+        let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.modeInPLace q data'        
     
     
-    /// Estimates the q-th quantile from the unsorted data array.
-    let normal q (data:array<_>) =
-        let data' = Array.copy data
+    /// Estimates the q-th quantile from the unsorted data.
+    let normal q (data:seq<_>) =
+        let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.normalInPLace q data'
 
 

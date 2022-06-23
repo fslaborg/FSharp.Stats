@@ -3,6 +3,7 @@
 open System
 open System.Collections.Generic
 
+open FSharp.Stats
 open FSharp.Stats.ML
 
 /// Agglomerative hierarchical clustering
@@ -393,9 +394,10 @@ module HierarchicalClustering =
         
         let toClusterList (clist: Cluster<'T> list) =
             match clist with
-            | c::tail -> match c with
-                        | Node (id,dist,cM,lc,rc)  -> lc::rc::tail                                                                    
-                        | Leaf (id,_,_)            -> c::tail
+            | c::tail -> 
+                match c with
+                | Node (id,dist,cM,lc,rc)  -> lc::rc::tail                                                                    
+                | Leaf (id,_,_)            -> c::tail
             | []      -> []
         
         let rec loop cN (clist: Cluster<'T> list) =                                             

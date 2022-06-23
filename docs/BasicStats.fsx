@@ -1,20 +1,26 @@
+(**
+---
+title: Basic statistics
+index: 0
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
+#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "FSharp.Stats.dll"
 #r "nuget: Newtonsoft.JSON"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
-
-open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
 
 (**
 # Basics
@@ -108,7 +114,7 @@ let median1 =
 (**
 ### Harmonic mean
 
-The [harmonic mean](https://en.wikipedia.org/w/index.php?title=Harmonic_mean&action=edit&section=1) can be expressed as the reciprocal of the arithmetic mean of the reciprocals of the given set of observations.
+The [harmonic mean](https://en.wikipedia.org/wiki/Harmonic_mean) can be expressed as the reciprocal of the arithmetic mean of the reciprocals of the given set of observations.
 It is typically appropriate for situations when the average of rates is desired.
 
 $H = \frac{n}{\frac1{x_1} + \frac1{x_2} + \cdots + \frac1{x_n}} = \frac{n}{\sum\limits_{i=1}^n \frac1{x_i}} = \left(\frac{\sum\limits_{i=1}^n x_i^{-1}}{n}\right)^{-1}.$

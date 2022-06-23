@@ -1,15 +1,37 @@
+(**
+---
+title: Correlation
+index: 5
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "FSharp.Stats.dll"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
+
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -52,7 +74,7 @@ let table =
         ["Kendall";                 sprintf "%3f" kendall ]
         ["Biweight midcorrelation"; sprintf "%3f" bicor   ]     
         ]
-    Chart.Table(header, rows, ColorHeader = "#deebf7", ColorCells = "lightgrey") 
+    Chart.Table(header, rows, HeaderFillColor = Color.fromHex "#deebf7", CellsFillColor= Color.fromString "lightgrey") 
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -87,19 +109,20 @@ let table2 =
         //map color from value to hex representation
         let mapColor min max value = 
             let proportion =  int (255. * (value - min) / (max - min))
-            Colors.fromRgb (255 - proportion) 255  proportion
-            |> Colors.toWebColor
+            Color.fromARGB 1 (255 - proportion) 255  proportion
         pearsonCorrelationMatrix
         |> Matrix.toJaggedArray
         |> JaggedArray.map (mapColor -1. 1.)
         |> JaggedArray.transpose
+        |> Array.map Color.fromColors
+        |> Color.fromColors
 
     let values = 
         pearsonCorrelationMatrix 
         |> Matrix.toJaggedArray
         |> JaggedArray.map (sprintf "%.3f")
 
-    Chart.Table(["colindex 0";"colindex 1";"colindex 2";"colindex 3"],values,ColorCells=cellcolors)
+    Chart.Table(["colindex 0";"colindex 1";"colindex 2";"colindex 3"],values,CellsFillColor=cellcolors)
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -140,7 +163,12 @@ let gaussAC =
     Chart.Point(lags,autoCorrGauss)
     |> Chart.withTraceName "Autocorrelation"
     |> Chart.withTitle "Autocorrelation of a gaussian sine wave"
-    |> fun c -> Chart.Stack 1 [Chart.Point(x,yGauss,Name="gaussian");c]
+    |> fun c -> 
+        [
+            Chart.Point(x,yGauss,Name="gaussian") |> Chart.withAxisTitles "" ""
+            c |> Chart.withAxisTitles "" ""
+        ]  
+        |> Chart.Grid(2,1)
 
 (*** condition: ipynb ***)
 #if IPYNB

@@ -1,22 +1,32 @@
+(**
+---
+title: Linear Algebra
+index: 4
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "FSharp.Stats.dll"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
 open Plotly.NET
-open Plotly.NET.Axis
-open Plotly.NET.StyleParam
 
 (**
 # Linear Algebra
+
+Some algorithms such as SVD, EVD, or QR are implemented as a managed version in F# for a full list check the [API reference](https://fslab.org/FSharp.Stats/reference/fsharp-stats-algebra.html)
 *)
 
 open FSharp.Stats
@@ -32,9 +42,15 @@ let B =
              [ -6.0; ]
              [  7.0; ] ]
 
+let svdRes = LinearAlgebra.SVD A
+
+(***include-value:svdRes***)
+
 (**
 
 ## Using unmanaged optimized linear algebra functions
+
+Additionally, we provide some bindings for [LAPACK]() routines. This is currently only tested on windows.
 
 **Attention**: These bindings are highly incomplete and will most likely be dropped for something like MKL.NET. [See issue#](https://github.com/fslaborg/FSharp.Stats/issues/91)
 
@@ -44,7 +60,9 @@ the native libraries are contained in the nuget package at the `netlib_LAPACK` p
 
 ServiceLocator.setEnvironmentPathVariable (__SOURCE_DIRECTORY__ + "/../../lib") //"D:/Source/FSharp.Stats/lib"
 
+// initialize the native service provider. This will search on many system paths for the needed binaries.
 LinearAlgebra.Service()
 
-let svdRes = LinearAlgebra.SVD A
-(***include-value:svdRes***)
+let svdResLapack = LinearAlgebra.SVD A
+
+

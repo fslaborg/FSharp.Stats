@@ -1,13 +1,23 @@
+(**
+---
+title: Growth curve
+index: 9
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "FSharp.Stats.dll"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -75,23 +85,31 @@ let cellCount =
 let cellCountLn = cellCount |> Array.map log
 
 open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
 
 //some axis styling
-let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=false)
-let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 let chartOrig = 
     Chart.Point(time,cellCount)
     |> Chart.withTraceName "original data"
-    |> styleChart "" "cells/ml"
+    |> Chart.withAxisTitles "" "cells/ml"
 
 let chartLog =
     Chart.Point(time,cellCountLn)
     |> Chart.withTraceName "log count"
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     
 let growthChart = 
-    [chartOrig;chartLog]|> Chart.Stack 1
+    [chartOrig;chartLog] |> Chart.Grid(2,1)
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -144,8 +162,8 @@ let chartLinearRegression =
     Chart.Point(time,cellCountLn)   |> Chart.withTraceName "log counts"
     Chart.Line(fittedValues)        |> Chart.withTraceName "fit"
     ]
-    |> Chart.Combine
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.combine
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
 
 
 (*** condition: ipynb ***)
@@ -236,8 +254,8 @@ let fittedChartGompertz =
         |> Chart.withTraceName "log count"
         fittedValuesGompertz
     ]
-    |> Chart.Combine
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.combine
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -352,7 +370,7 @@ let fittedValuesRichards =
 
 let fittedChartRichards = 
     fittedValuesRichards
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTraceName "richards"
 
 let fittedChartRichardsS = 
@@ -361,8 +379,8 @@ let fittedChartRichardsS =
         |> Chart.withTraceName "log count"
         fittedValuesRichards
     ]
-    |> Chart.Combine
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.combine
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTitle "richards"
 
 let generationRichards = sprintf "The generation time (Richards) is: %.1f min" (generationtimeRichards (vector [|23.25211263; 7.053516315; 5.646889803; 111.0132522|]) * 60.)
@@ -433,7 +451,7 @@ let fittedValuesWeibull =
 
 let fittedChartWeibull = 
     fittedValuesWeibull
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTraceName "weibull"
 
 let fittedChartWeibullS = 
@@ -442,8 +460,8 @@ let fittedChartWeibullS =
         |> Chart.withTraceName "log count"
         fittedValuesWeibull
     ]
-    |> Chart.Combine
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.combine
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTitle "weibull"
 
 let generationWeibull = 
@@ -518,7 +536,7 @@ let fittedValuesJanoschek =
 
 let fittedChartJanoschek = 
     fittedValuesJanoschek
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTraceName "janoschek"
 
 let fittedChartJanoschekS = 
@@ -527,8 +545,8 @@ let fittedChartJanoschekS =
         |> Chart.withTraceName "log count"
         fittedChartJanoschek
     ]
-    |> Chart.Combine
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.combine
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTitle "janoschek"
 
 let generationJanoschek = 
@@ -596,7 +614,7 @@ let fittedValuesExp =
 
 let fittedChartExp = 
     fittedValuesExp
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTraceName "exponential"
 
 let fittedChartExpS = 
@@ -605,8 +623,8 @@ let fittedChartExpS =
         |> Chart.withTraceName "log count"
         fittedChartExp
     ]
-    |> Chart.Combine
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.combine
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTitle "exponential"
 
 let generationExponential = 
@@ -684,7 +702,7 @@ let fittedValuesVerhulst =
 
 let fittedChartVerhulst = 
     fittedValuesVerhulst
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTraceName "verhulst"
 
 let fittedChartVerhulstS = 
@@ -693,8 +711,8 @@ let fittedChartVerhulstS =
         |> Chart.withTraceName "log count"
         fittedChartVerhulst
     ]
-    |> Chart.Combine
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.combine
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTitle "verhulst"
 
 let generationVerhulst = 
@@ -776,8 +794,8 @@ let fittedChartMMF =
         |> Chart.withTraceName "log count"
         fittedValuesMMF |> Chart.withTraceName "morganMercerFlodin"
     ]
-    |> Chart.Combine
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.combine
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
     |> Chart.withTitle "morganMercerFlodin"
 
 (*** condition: ipynb ***)
@@ -823,8 +841,8 @@ let combinedChart =
         fittedValuesVerhulst    |> Chart.withTraceName "Verhulst"
         fittedValuesMMF         |> Chart.withTraceName "MorganMercerFlodin"
     ]
-    |> Chart.Combine
-    |> styleChart "time (h)" "ln(cells/ml)"
+    |> Chart.combine
+    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -856,9 +874,8 @@ let generationTimeTable =
     Chart.Table(
         header, 
         rows,
-        ColorHeader = "#45546a",
-        ColorCells = ["#deebf7";"lightgrey"],
-        FontHeader = Font.init(Color="white")
+        HeaderFillColor = Color.fromHex "#45546a",
+        CellsFillColor = Color.fromColors [Color.fromHex "#deebf7";Color.fromString "lightgrey"]
         )
 
 (***hide***)
@@ -877,7 +894,7 @@ let explGompertz (model:Model) coefs =
     [0. .. 0.1 .. 10.]
     |> List.map (fun x -> x,ff x)
     |> Chart.Line
-    |> styleChart "" ""
+    |> Chart.withAxisTitles "" ""
     |> Chart.withTraceName (sprintf "%A" coefs)
 
 let gom =
@@ -886,7 +903,7 @@ let gom =
         explGompertz Table.GrowthModels.gompertz (vector [7.; 0.7; 12.; 3.])
         explGompertz Table.GrowthModels.gompertz (vector [5.; 0.8; 10.; 3.])
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Gompertz"
 
 
@@ -902,7 +919,7 @@ let rich =
         explGompertz Table.GrowthModels.richards (vector [20.; 5.; 5.; 10.])
         explGompertz Table.GrowthModels.richards (vector [15.; 7.; 5.; 15.])
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Richards"
 
 (***hide***)
@@ -915,9 +932,9 @@ let explRichGeneric (model:Model) coefs =
     [-6. .. 0.1 .. 6.]
     |> List.map (fun x -> x,ff x)
     |> Chart.Line
-    |> styleChart "" ""
+    |> Chart.withAxisTitles "" ""
     |> Chart.withTraceName (sprintf "%A" coefs)
-
+    
 let richGeneric =
     [
         explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 0.5; 1.; 0.])
@@ -926,7 +943,7 @@ let richGeneric =
         explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 5.; 1.; 0.])
         explRichGeneric Table.GrowthModels.richardsGeneric (vector [0.; 1.; 3.; 0.5; 0.5; 5.; 0.])
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Richards Generic"
 
 (***hide***)
@@ -941,7 +958,7 @@ let wei =
         explGompertz Table.GrowthModels.weibull (vector [7.; 20.; 0.3; 5.])
         explGompertz Table.GrowthModels.weibull (vector [7.; 15.; 0.2; 3.])
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Weibull"
 
 (***hide***)
@@ -956,7 +973,7 @@ let jan =
         explGompertz Table.GrowthModels.janoschek (vector [7.; 20.; 0.03; 15.])
         explGompertz Table.GrowthModels.janoschek (vector [7.; 15.; 0.02; 3.])
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Janoschek"
 
 (***hide***)
@@ -971,7 +988,7 @@ let exp =
         explGompertz Table.GrowthModels.exponential (vector [7.; 20.; 2.])
         explGompertz Table.GrowthModels.exponential (vector [7.; 15.; 3.])
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Exponential"
 
 (***hide***)
@@ -985,7 +1002,7 @@ let ver =
         explGompertz Table.GrowthModels.verhulst (vector [20.; 4.; 0.7])
         explGompertz Table.GrowthModels.verhulst (vector [15.; 6.; 3.2])
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Verhulst"
 
 (***hide***)
@@ -999,7 +1016,7 @@ let ver4 =
         explGompertz Table.GrowthModels.verhulst4Param (vector [20.; 4.; 1.5; 10.])
         explGompertz Table.GrowthModels.verhulst4Param (vector [15.; 6.; 1.0; 10.])
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Verhulst 4 Param"
 
 (***hide***)
@@ -1014,7 +1031,7 @@ let mmf =
         explGompertz Table.GrowthModels.morganMercerFlodin (vector [ 10.; 20.; 0.25; 4.0;])
         explGompertz Table.GrowthModels.morganMercerFlodin (vector [ 10.; 15.; 0.3; 3.0;])
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "MMF"
 
 (***hide***)
@@ -1029,7 +1046,7 @@ let vonB =
         explGompertz Table.GrowthModels.vonBertalanffy (vector [ 20.; 0.25; 4.0;])
         explGompertz Table.GrowthModels.vonBertalanffy (vector [ 15.; 0.3 ; 3.0;])
     ]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "vonBertalanffy"
 
 (***hide***)

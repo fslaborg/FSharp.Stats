@@ -38,7 +38,6 @@
     <Compile Include="Permutation.fs" />
     <Compile Include="BigRational.fs" />
     <Compile Include="INumeric.fs" />
-    <Compile Include="Complex.fs" />
     <Compile Include="GlobalAssociations.fs" />
     <Compile Include="AlgTypes.fs" />
     <Compile Include="RunningStats.fs" />
@@ -52,6 +51,7 @@
     <Compile Include="MatrixTopLevelOperators.fs" />
     <Compile Include="Rank.fs" />
     <Compile Include="Correlation.fs" />
+    <Compile Include="DistanceMetrics.fs" />
     <Compile Include="Quantile.fs" />
     <Compile Include="Precision.fs" />
     <Compile Include="Geometry.fs" />
@@ -109,6 +109,8 @@
     <!-- Testing -->
     <Compile Include="Testing\Tables.fs" />
     <Compile Include="Testing\TestStatistics.fs" />
+    <Compile Include="Testing\ConfusionMatrix.fs" />
+    <Compile Include="Testing\ComparisonMetrics.fs" />
     <Compile Include="Testing\Anova.fs" />
     <Compile Include="Testing\Correlation.fs" />
     <Compile Include="Testing\TTest.fs" />
@@ -119,7 +121,7 @@
     <Compile Include="Testing\Bartlett.fs" />
     <Compile Include="Testing\PostHoc.fs" />
     <Compile Include="Testing\Wilcoxon.fs" />
-    <Compile Include="Testing\PvalueAdjust.fs" />
+    <Compile Include="Testing\MultipleTesting.fs" />
     <Compile Include="Testing\Outliers.fs" />
     <Compile Include="Testing\SAM.fs" />
     <Compile Include="Testing\FisherHotelling.fs" />
@@ -135,10 +137,10 @@
     <!-- ML -->
     <Compile Include="ML\SurprisalAnalysis.fs" />
     <Compile Include="ML\SimilarityMetrics.fs" />
-    <Compile Include="ML\DistanceMetrics.fs" />
     <Compile Include="ML\Impute.fs" />
-    <Compile Include="ML\Unsupervised\PrincipalComponentAnalysis.fs" />
+    <Compile Include="ML\DistanceMetrics.fs" />
     <!-- ML / Unsupervised -->
+    <Compile Include="ML\Unsupervised\PrincipalComponentAnalysis.fs" />
     <Compile Include="ML\Unsupervised\IterativeClustering.fs" />
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
     <Compile Include="ML\Unsupervised\DbScan.fs" />
@@ -151,8 +153,8 @@
     <Content Include="../../lib/*.dll" PackagePath="netlib_LAPACK"></Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharpAux" Version="1.0.0" />
-    <PackageReference Include="FSharpAux.IO" Version="1.0.0" />
+    <PackageReference Include="FSharpAux" Version="1.1.0" />
+    <PackageReference Include="FSharpAux.IO" Version="1.1.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>

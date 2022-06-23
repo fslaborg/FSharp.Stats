@@ -44,7 +44,7 @@ let gammaFunctionsTests =
 
         testCase "test_gammaincupperinf" <| fun () ->
             let gam = Gamma.upperIncomplete 0.5 Ops.inf
-            Expect.equal gam 1.0 "Should be equal"
+            Expect.equal gam 0.0 "Should be equal"
 
     ]    
 

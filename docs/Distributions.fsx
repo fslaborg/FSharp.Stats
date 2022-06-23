@@ -1,13 +1,24 @@
+(**
+---
+title: Probability distributions
+index: 1
+category: Documentation
+categoryindex: 0
+---
+*)
+
+
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "FSharp.Stats.dll"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -102,17 +113,24 @@ List.init 3 (fun _ -> normal.Sample())
 (*** include-it ***)
 
 open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
 
 //some axis styling
-let xAxis() = Axis.LinearAxis.init(Title="x",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true)
-let yAxis() = Axis.LinearAxis.init(Title="p(X=k)",Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true)
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 let plotNormal =
     [400. .. 600.]
     |> List.map (fun x -> x,normal.PDF x)
     |> Chart.Area
-    |> Chart.withX_Axis(xAxis())
-    |> Chart.withY_Axis(yAxis())
+    |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "N(500,20) PDF"
 
 (*** condition: ipynb ***)
@@ -129,8 +147,7 @@ let plotNormalCDF =
     [400. .. 600.]
     |> List.map (fun x -> x,normal.CDF x)
     |> Chart.Area
-    |> Chart.withX_Axis(xAxis())
-    |> Chart.withY_Axis(yAxis())
+    |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "N(500,20) CDF"
 
 (*** condition: ipynb ***)
@@ -170,11 +187,11 @@ let samples =
     mvnSamples
     |> Array.map (fun t -> t.[0],t.[1])
     |> Array.unzip
-    |> fun (x,y) -> Chart.Scatter3d(x,y,Array.init x.Length (fun _ -> Random.rndgen.NextFloat() / 3.),StyleParam.Mode.Markers)
+    |> fun (x,y) -> Chart.Scatter3D(x,y,Array.init x.Length (fun _ -> Random.rndgen.NextFloat() / 3.),StyleParam.Mode.Markers)
 
 let mvnChart = 
     [surface;samples]
-    |> Chart.Combine
+    |> Chart.combine
     |> Chart.withTitle "Bivariate normal distribution with sampling"
 
 
@@ -210,9 +227,8 @@ let cdfStudentT mu tau dof =
 let v =
     studentTParams
     |> List.map (fun (mu,tau,dof) -> Chart.Spline(pdfStudentT mu tau dof,Name=sprintf "mu=%.1f tau=%.1f dof=%.1f" mu tau dof,ShowMarkers=false))
-    |> Chart.Combine
-    |> Chart.withX_Axis(xAxis())
-    |> Chart.withY_Axis(yAxis())
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -269,8 +285,7 @@ let plotBinomial =
     [0..30]
     |> List.map (fun x -> x,binomial.PDF x)
     |> Chart.Column
-    |> Chart.withX_Axis(xAxis())
-    |> Chart.withY_Axis(yAxis())
+    |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "B(30,0.1)"
 
 (*** condition: ipynb ***)
@@ -327,8 +342,7 @@ let plotHyper =
     [0..6]
     |> List.map (fun x -> x,hyper.PDF x)
     |> Chart.Column
-    |> Chart.withX_Axis(xAxis())
-    |> Chart.withY_Axis(yAxis())
+    |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "Hyp(6,6,43)"
 
 (*** condition: ipynb ***)
@@ -380,8 +394,7 @@ let plotPo =
     [0..20]
     |> List.map (fun x -> x,poisson.PDF x)
     |> Chart.Column
-    |> Chart.withX_Axis(xAxis())
-    |> Chart.withY_Axis(yAxis())
+    |> Chart.withAxisTitles "" ""
     //|> Chart.withSize(600.,400.)
     |> Chart.withTitle "Po(5.5)"
 
@@ -409,9 +422,8 @@ let pdfGamma a b =
 let gammaPlot =
     gammaParams
     |> List.map (fun (a,b) -> Chart.Point(pdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
-    |> Chart.Combine
-    |> Chart.withX_Axis(xAxis())
-    |> Chart.withY_Axis(yAxis())
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -430,9 +442,8 @@ let cdfGamma a b =
 let gammaCDFPlot=
     gammaParams
     |> List.map (fun (a,b) -> Chart.Spline(cdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
-    |> Chart.Combine
-    |> Chart.withX_Axis(xAxis())
-    |> Chart.withY_Axis(yAxis())
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -466,8 +477,7 @@ let plotEmpirical =
     empiricalDistribution
     |> Empirical.getZip
     |> Chart.Column
-    |> Chart.withX_Axis(xAxis())
-    |> Chart.withY_Axis(yAxis())
+    |> Chart.withAxisTitles "" ""
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -488,8 +498,7 @@ let xy = KernelDensity.estimate KernelDensity.Kernel.gaussian 1.0 nv
 
 let kernelChart = 
     Chart.SplineArea xy
-    |> Chart.withX_Axis(xAxis())
-    |> Chart.withY_Axis(yAxis())
+    |> Chart.withAxisTitles "" ""
  
 (*** condition: ipynb ***)
 #if IPYNB
@@ -525,7 +534,7 @@ let pilesOfDirt =
     Chart.Histogram(distribution2,Name = "Distribution2")
     Chart.Histogram(distribution3,Name = "Distribution3")
     ]
-    |> Chart.Combine
+    |> Chart.combine
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -563,11 +572,10 @@ let mapColor min max value =
         ((255. - 200.) * (value - min) / (max - min))
         |> int
         |> fun x -> 255 - x
-    Colors.fromRgb proportionR proportionG proportionB
-    |> Colors.toWebColor
+    Color.fromARGB 1 proportionR proportionG proportionB
 
 let distancesTable =
-    let headerColors = ["white";"#1f77b4";"#ff7f0e";"#2ca02c"]
+    let headerColors = ["white";"#1f77b4";"#ff7f0e";"#2ca02c"] |> List.map Color.fromString |> Color.fromColors
     let distances = 
         distributions
         |> Array.map (fun x ->
@@ -586,20 +594,22 @@ let distancesTable =
             a
             |> Array.mapi (fun j v -> 
                 if j = 0 then 
-                    if i = 0 then "#1f77b4"
-                    elif i = 1 then "#ff7f0e"
-                    else "#2ca02c"
+                    if i = 0 then Color.fromHex "#1f77b4"
+                    elif i = 1 then Color.fromHex "#ff7f0e"
+                    else Color.fromHex "#2ca02c"
                 else 
                     mapColor 0. 200. (float v)
             )
         )
         |> Array.transpose
+        |> Seq.map Color.fromColors
+        |> Color.fromColors
  
     Chart.Table(
         ["";"Distribution1";"Distribution2";"Distribution3"],         
         distances,
-        ColorHeader = headerColors,
-        ColorCells = cellColors)
+        HeaderFillColor = headerColors,
+        CellsFillColor = cellColors)
 
 (*** condition: ipynb ***)
 #if IPYNB

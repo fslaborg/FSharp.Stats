@@ -16,25 +16,32 @@ module SVD =
 
     exception BreakException 
 
+    let private transpose (a:float[,]) =
+        Array2D.init (a.GetLength(1)) (a.GetLength(0)) (fun i j -> a.[j,i])
+
     let computeInPlace (a:float[,]) =
+        let transposeBeforeSVD = 
+            let m = a.GetLength(0)
+            let n = a.GetLength(1)  
+            m < n
+        let a = if transposeBeforeSVD then transpose a else a   
         //let a = Array2D.copy A
         // number of rows in A
         let m = a.GetLength(0)
         // number of columns in A
-        let n = a.GetLength(1)
-        
+        let n = a.GetLength(1)  
         // * Apparently the failing cases are only a proper subset of (m<n), so
         // * let's not throw error. Correct fix to come later? if (m<n) { throw
         // * new IllegalArgumentException("Jama SVD only works for m >= n") }
         let nu = min m n
         let s  = Array.zeroCreate (min (m+1) n)
-        let umatrix = Array2D.zeroCreate m nu
+        let umatrix = Array2D.zeroCreate m m
         let vmatrix = Array2D.zeroCreate n n
         let e       = Array.zeroCreate n
         let work  = Array.zeroCreate m
         let mutable wantu = true
         let mutable wantv = true
-    
+
         // Reduce A to bidiagonal form, storing the diagonal elements
         // in s and the super-diagonal elements in e.
 
@@ -130,25 +137,25 @@ module SVD =
         let mutable p = min n (m + 1)
         if (nct < n) then
             s.[nct] <- a.[nct,nct]
-    
+
         if (m < p) then
             s.[p - 1] <- 0.0
-    
+
         if (nrt + 1 < p) then
             e.[nrt] <- a.[nrt,p - 1]
-    
+
         e.[p - 1] <- 0.0
 
         // If required, generate U.
         if (wantu) then
-            for j = nct to nu-1 do
+            for j = nct to m-1 do
                 for i = 0 to m-1 do
                     umatrix.[i,j] <- 0.0
                 umatrix.[j,j] <- 1.0
         
             for k = nct-1 downto 0 do
                 if (s.[k] <> 0.0) then
-                    for j = k+1 to nu-1 do 
+                    for j = k+1 to m-1 do 
                         let mutable t = 0.
                         for i = k to m-1 do
                             t <- t + umatrix.[i,k] * umatrix.[i,j]
@@ -169,7 +176,7 @@ module SVD =
                         umatrix.[i,k] <- 0.0
                 
                     umatrix.[k,k] <- 1.0
-    
+
 
         // If required, generate V.
 
@@ -197,19 +204,19 @@ module SVD =
         let tiny = System.Math.Pow(2.0, -966.0)
         while (p > 0) do
             let mutable k = -1
-            let mutable kase = -1
+            let mutable case = -1
 
             // Here is where a test for too many iterations would go.
 
             // This section of the program inspects for
             // negligible elements in the s and e arrays. On
-            // completion the variables kase and k are set as follows.
+            // completion the variables case and k are set as follows.
 
-            // kase = 1 if s(p) and e[k-1] are negligible and k<p
-            // kase = 2 if s(k) is negligible and k<p
-            // kase = 3 if e[k-1] is negligible, k<p, and
+            // case = 1 if s(p) and e[k-1] are negligible and k<p
+            // case = 2 if s(k) is negligible and k<p
+            // case = 3 if e[k-1] is negligible, k<p, and
             // s(k), ..., s(p) are not negligible (qr step).
-            // kase = 4 if e(p-1) is negligible (convergence).
+            // case = 4 if e(p-1) is negligible (convergence).
             try
             for kk = p-2 downto -1 do
                 k <- kk
@@ -225,7 +232,7 @@ module SVD =
             with BreakException -> ()
         
             if (k = p - 2) then
-                kase <- 4
+                case <- 4
             else        
                 let mutable ks = p-1
                 try
@@ -241,15 +248,15 @@ module SVD =
             
                 with BreakException -> ()
 
-                if (ks = k) then kase <- 3
-                elif (ks = p-1) then kase <- 1
+                if (ks = k) then case <- 3
+                elif (ks = p-1) then case <- 1
                 else 
-                    kase <- 2
+                    case <- 2
                     k <- ks
             k <- k + 1
-            // Perform the task indicated by kase.
+            // Perform the task indicated by case.
 
-            match kase with
+            match case with
             | 1 ->             
                 // Deflate negligible s(p).
                 //printfn "case 1"
@@ -392,8 +399,13 @@ module SVD =
 
                 iter <- 0
                 p <- p - 1
+            | _ -> failwithf "case %i does not exist" case
 
-        (umatrix,s,vmatrix)
+        if transposeBeforeSVD then 
+            (vmatrix,s,transpose umatrix)
+        else 
+            (umatrix,s,transpose vmatrix)
+
 
 
     let compute (a:float[,]) =

@@ -1,13 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="TestExtensions.fs" />
+    <Compile Include="LinearAlgebra.fs" />
     <Compile Include="Correlation.fs" />
     <Compile Include="Covariance.fs" />
     <Compile Include="Distributions.fs" />
@@ -15,12 +14,18 @@
     <Compile Include="Matrix.fs" />
     <Compile Include="RowVector.fs" />
     <Compile Include="ML.fs" />
+    <Compile Include="Array.fs" />
+    <Compile Include="Seq.fs" />
+    <Compile Include="List.fs" />
     <Compile Include="Signal.fs" />
     <Compile Include="SpecialFunctions.fs" />
+    <Compile Include="Integration.fs" />
     <Compile Include="Testing.fs" />
+    <Compile Include="Interpolation.fs" />
     <Compile Include="Fitting.fs" />
+    <Compile Include="Quantile.fs" />
+    <Compile Include="Rank.fs" />
     <Compile Include="Main.fs" />
-
   </ItemGroup>
 
   <ItemGroup />
@@ -33,13 +38,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AltCover" Version="7.6.812" />
+    <EmbeddedResource Include="data/benjaminiHochberg_Input.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/qvaluesWithR.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/qvaluesRobustWithR.csv" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="altcover" Version="8.2.837" />
     <PackageReference Include="Expecto" Version="9.*" />
     <PackageReference Include="YoloDev.Expecto.TestSdk" Version="0.*" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.*" />
-    <PackageReference Update="FSharp.Core" Version="5.*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\src\FSharp.Stats\FSharp.Stats.fsproj" />
   </ItemGroup>

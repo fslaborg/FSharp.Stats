@@ -15,11 +15,8 @@ module Brent =
         let newStep = 
             goldSectionRatio * (if x < middleRange then upperBound - x else lowerBound - x)
         let newStep' =
-
             if (abs (x - w) >= tolAct) then
-
                 let t = (x - w) * (fx - fv)
-
                 let (q,p) = 
                     let q' = (x - v) * (fx - fw)
                     let p' = (x - v) * q' - (x - w) * t
@@ -27,18 +24,16 @@ module Brent =
                     if (q'' > 0.) then 
                         q'',-p'
                     else 
-                        -q'',p';
+                        -q'',p'
 
                 if (abs (p) < abs (newStep * q) && 
                     p > q * (lowerBound - x + 2. * tolAct) && 
-                    p < q * (upperBound - x - 2. * tolAct))          
-                    then
-
-                    p / q;                
+                    p < q * (upperBound - x - 2. * tolAct)) then
+                    p / q
                 else 
                     newStep
             else 
-                newStep                
+                newStep
         if abs newStep' < tolAct then 
             if newStep' > 0. then tolAct else - tolAct
         else 
@@ -65,13 +60,15 @@ module Brent =
         let v = lowerBound + goldSectionRatio * (upperBound - lowerBound)
         let fv = f v
 
+        let sqrtEps = sqrt(doubleEpsilon)
+
         let rec mainLoop i x v w fx fv fw lowerBound upperBound =
             if i = maxIterations then 
                 None
             else 
                 let range = upperBound - lowerBound
-                let middleRange = lowerBound / 2.0 + upperBound / 2.0;
-                let tolAct = sqrt(doubleEpsilon) * abs(x) + tolerance / 3.;
+                let middleRange = (lowerBound + upperBound) / 2.0
+                let tolAct = sqrtEps * abs(x) + tolerance / 3.
                 if (abs (x - middleRange) + range / 2. <= 2. * tolAct) then
                     Some x  
                 else

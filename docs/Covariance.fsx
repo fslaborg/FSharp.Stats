@@ -1,16 +1,39 @@
+(**
+---
+title: Covariance
+index: 6
+category: Documentation
+categoryindex: 0
+---
+*)
+
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../bin/FSharp.Stats/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-beta3"
+#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "FSharp.Stats.dll"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+
+open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
+
+//some axis styling
+module Chart = 
+    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
+    let withAxisTitles x y chart = 
+        chart 
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxis (myAxis x) 
+        |> Chart.withYAxis (myAxis y)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-beta8"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-beta8"
+#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
-
 
 (** 
 
@@ -24,6 +47,7 @@ _Summary:_ This tutorial explains how to investigate the covariance of two sampl
 Lets first define some sample data:
 *)
 
+
 open FSharp.Stats
 
 let rnd = System.Random()
@@ -35,11 +59,6 @@ let sampleBHigh = sampleB |> Vector.map (fun x -> 200. + x)
 let sampleC = Vector.init 50 (fun x -> 100. - float (x + 3 * error()))
 let sampleD = Vector.init 50 (fun x -> 100. + float (10 * error()))
 
-open Plotly.NET
-
-//Some axis styling
-let myAxis title = Axis.LinearAxis.init(Title=title,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,Showgrid=false,Showline=true,Zeroline=true)
-let styleChart x y chart = chart |> Chart.withX_Axis (myAxis x) |> Chart.withY_Axis (myAxis y)
 
 let sampleChart =
     [
@@ -48,8 +67,8 @@ let sampleChart =
         Chart.Point(sampleA,sampleD,"AD")  
         Chart.Point(sampleA,sampleBHigh,"AB+")   
     ]
-    |> Chart.Combine
-    |> styleChart "x" "y"
+    |> Chart.combine
+    |> Chart.withAxisTitles "x" "y"
     |> Chart.withTitle "test cases for covariance calculation"
 
 (**
