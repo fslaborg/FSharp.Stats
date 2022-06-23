@@ -786,7 +786,7 @@ module Continuous =
 
 
     // F-distribution helper functions.
-    let fCheckParam dof1 dof2 = if dof1 < 0.0 || dof2 < 0.0 then failwith "F-distribution should be parametrized by dof1 and dof2 > 0.0."
+    let fCheckParam dof1 dof2 = if dof1 <= 0.0 || dof2 <= 0.0 || isNan(dof1) || isNan(dof2) then failwith "F-distribution should be parametrized by dof1 and dof2 > 0.0. and <> nan"
     
     /// F-distribution
     type F =
@@ -829,20 +829,19 @@ module Continuous =
                 let u = Math.Pow(dof1 * x, dof1) * Math.Pow(dof2, dof2) / Math.Pow(dof1 * x + dof2, dof1 + dof2)
                 let b = Beta._beta (dof1 * 0.5) (dof2 * 0.5)
                 sqrt u / (x * b)
+            let u = Math.Pow(dof1 * x, dof1) * Math.Pow(dof2, dof2) / Math.Pow(dof1 * x + dof2, dof1 + dof2)
+            let b = Beta.beta (dof1 * 0.5) (dof2 * 0.5)
+            sqrt u / (x * b)
 
         /// Computes the cumulative distribution function.
         static member CDF dof1 dof2 x =
             fCheckParam dof1 dof2
-            if (x <= 0.) then
-                //1.
-                0.
-            else
-                //equals 1 - cdf(x)
-                //let u = dof2 / (dof2 + dof1 * x)
-                //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
-                //equals cdf(x)
-                let u = (dof1 * x) / (dof2 + dof1 * x) 
-                Beta.lowerIncomplete (dof1 * 0.5) (dof2 * 0.5) u
+            //equals 1 - cdf(x)
+            //let u = dof2 / (dof2 + dof1 * x)
+            //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
+            //equals cdf(x)
+            let u = (dof1 * x) / (dof2 + dof1 * x) 
+            Beta.lowerIncomplete (dof1 * 0.5) (dof2 * 0.5) u
 
         // /// Computes the inverse of the cumulative distribution function.
         // static member InvCDF dof1 dof2 p =
