@@ -909,12 +909,12 @@ let binomialTests =
 
         testCase "Binomial.PDF_n=0" <| fun () ->
             let testCase    = Discrete.Binomial.PDF 0.69 0 237
-            let r_value     = 1
+            let r_value     = 0
             Expect.floatClose
                 Accuracy.low
                 testCase
                 r_value
-                "Binomial.PDF with n=0, p=0.69 and k=237 does not equal the expectd 1"
+                "Binomial.PDF with n=0, p=0.69 and k=237 does not equal the expectd 0"
 
         testCase "Binomial.PDF_k<0" <| fun () ->
             let testCase    = Discrete.Binomial.PDF 0.69 420 -10
@@ -936,12 +936,12 @@ let binomialTests =
         
         testCase "Binomial.CDF_n=0"<| fun () ->
             let testCase = Discrete.Binomial.CDF 0.69 0 237
-            let r_value = 9.341312e-08
+            let r_value = 1.
             Expect.floatClose
                 Accuracy.low
                 testCase
                 r_value
-                "Binomial.CDF with n=0, p=0.69 and k=237 does not equal the expectd 9.341312e-08"
+                "Binomial.CDF with n=0, p=0.69 and k=237 does not equal the expectd 1."
 
         testCase "Binomial.CDF_k=0"<| fun () ->
             let testCase = Discrete.Binomial.CDF 0.69 420 0
