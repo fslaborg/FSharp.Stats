@@ -4,8 +4,10 @@ open System
 
 /// Special mathematical functions
 module Binomial =
-    
-    // Returns the binomial coeffcient(n | k) as a ﬂoating-point number
+
+    // Returns the binomial coeffcient (n | k) as a ﬂoating-point number, as computed by the factorial formula:
+    ///
+    /// for large n coupled with small k, this might result in overflows.
     let coeffcient (n:int) (k:int) = 
         if ( n < 0 || k < 0 || k > n) then invalidArg "Binomial.coeffcient" ""
         if (n < 171) then 
@@ -13,8 +15,8 @@ module Binomial =
             Factorial.factorial n / ((Factorial.factorial k) * (Factorial.factorial (n-k)))
         else
             floor (0.5 + exp ((Factorial.factorialLn n) - (Factorial.factorialLn k) - (Factorial.factorialLn (n-k))))
- 
-    // Returns the natural logarithm of the binomial coefficient(n | k) as a ﬂoating-point number
+
+    // Returns the natural logarithm of the binomial coefficient (n | k) as a ﬂoating-point number
     let coeffcientLn (n:int) (k:int) = 
         if ( n < 0 || k < 0 || k > n) then invalidArg "Binomial.coeffcient" ""
         (Factorial.factorialLn n) - (Factorial.factorialLn k) - (Factorial.factorialLn (n-k))

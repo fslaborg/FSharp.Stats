@@ -229,3 +229,43 @@ let erfTests =
             Expect.isTrue (infinity.Equals(Errorfunction.erfcx -infinity)) "expected erfcx(-infinity) to be infinity"
         )
     ]
+
+[<Tests>]
+let binomialCoefficientTests =
+    //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
+    testList "SpecialFunctions.Binomial" [
+        testCase "(0 | 0) = 1" (fun _ -> 
+            Expect.floatClose Accuracy.high (Binomial.coeffcient 0 0) 1. "Expected (0 | 0) to be 1"
+        )
+        testCase "(-1 | 0) should throw (negative value)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial.coeffcient -1 0) |> ignore) "Expected (-1 | 0) to throw"
+        )
+        testCase "(0 | -1) should throw (negative value)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial.coeffcient 0 -1) |> ignore) "Expected (0 | -1) to throw"
+        )
+        testCase "(1 | 2) should throw (n<k)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial.coeffcient 1 2) |> ignore) "Expected (1 | 2) to throw"
+        )
+        testCase "(69 | 42)" (fun _ -> 
+            Expect.floatClose Accuracy.high (Binomial.coeffcient 69 42) 11185257572725865552. "Binomail coefficient returned wrong result"
+        )
+        // coefficientLn
+        testCase "ln(0 | 0) = 1" (fun _ -> 
+            Expect.floatClose Accuracy.high (Binomial.coeffcientLn 0 0) 0. "Expected ln(0 | 0) to be 0"
+        )
+        testCase "ln(-1 | 0) should throw (negative value)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial.coeffcientLn -1 0) |> ignore) "Expected ln(-1 | 0) to throw"
+        )
+        testCase "ln(0 | -1) should throw (negative value)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial.coeffcientLn 0 -1) |> ignore) "Expected ln(0 | -1) to throw"
+        )
+        testCase "ln(1 | 2) should throw (n<k)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial.coeffcientLn 1 2) |> ignore) "Expected ln(1 | 2) to throw"
+        )
+        testCase "ln(69 | 42)" (fun _ -> 
+            Expect.floatClose Accuracy.high (Binomial.coeffcientLn 69 42) 43.861128296976190734480722409484720407496953168236423941162466992 "Binomail coefficientln returned wrong result"
+        )
+        testCase "ln(69000 | 4200)" (fun _ -> 
+            Expect.floatClose Accuracy.high (Binomial.coeffcientLn 69000 4200) 15820.331735478233070945558688627562355591359160763289683149612673 "Binomail coefficientln returned wrong result"
+        )
+    ]
