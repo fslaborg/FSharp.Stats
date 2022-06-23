@@ -28,6 +28,9 @@ module PCA =
     /// The centered features of the matrix are centered around 0 and possess a standard deviation of 1.
     /// Expects a data matrix with rows representing observations and columns representing features.
     let center m = 
+        if m |> Matrix.exists (fun x -> nan.Equals(x) || infinity.Equals(x) || infNeg.Equals(x)) then 
+            failwith "Computation not possible. Matrix contains invalid entries. Check for the existence of values equal to nan, infinity or -infinity."
+        else
         let columnMeans =
             m 
             |> Matrix.mapiCols (fun i x -> Seq.mean x)
