@@ -10,7 +10,7 @@ open TestExtensions
 let intervalTests =
     //apply tests also to Seq.range
 
-    testList "Interval" [
+    testList "Intervals" [
         
         testCase "create" (fun _ -> 
             Expect.equal 1 1 "Instantiation of Intervals.Interval is incorrect"
@@ -215,31 +215,32 @@ let intervalTests =
                 let i1 = Intervals.create (-5.) (5.5)
                 let i2 = Intervals.create (-3.) (0.)
                 Intervals.subtract i1 i2
-            let expected = Intervals.create (-8.) (5.5)
-            Expect.equal actual expected "Interval addition is incorrect"
+            let expected = Intervals.create (-5.) (8.5)
+            Expect.equal actual expected "Interval subtraction is incorrect"
             
             let actualCE = 
                 let i1 = Intervals.create (-5.) (5.5)
                 let i2 = Intervals.Interval.Empty
                 Intervals.subtract i1 i2
             let expectedCE = Intervals.create (-5.) (5.5)
-            Expect.equal actualCE expectedCE "Interval addition of Empty intervals is incorrect"
+            Expect.equal actualCE expectedCE "Interval subtraction of Empty intervals is incorrect"
             
             let actualEC = 
                 let i1 = Intervals.Interval.Empty
                 let i2 = Intervals.create (-3.) (0.)
                 Intervals.subtract i1 i2
             let expectedEC = Intervals.create (-3.) (0.)
-            Expect.equal actualEC expectedEC "Interval addition of Empty intervals is incorrect"
+            Expect.equal actualEC expectedEC "Interval subtraction of Empty intervals is incorrect"
             
             let actualEE = 
                 let i1 = Intervals.Interval.Empty
                 let i2 = Intervals.Interval.Empty
                 Intervals.subtract i1 i2
             let expectedEE = Intervals.Interval.Empty
-            Expect.equal actualEE expectedEE "Interval addition of Empty intervals is incorrect"
+            Expect.equal actualEE expectedEE "Interval subtraction of Empty intervals is incorrect"
             )
 
+        // Closed intervals include their minimal and maximal values. Therefore shared margins are intersections.
         testCase "isIntersection" (fun _ -> 
             let actual = 
                 let i1 = Intervals.create (-5.) (5.5)
@@ -267,7 +268,7 @@ let intervalTests =
                 let i2 = Intervals.create (-3.) (0.)
                 Intervals.isIntersection i1 i2
             let expectedEC = false
-            Expect.equal actualEC expectedEC "Empty intervals do intersect"
+            Expect.equal actualEC expectedEC "Empty intervals do not intersect"
             
             let actualEE = 
                 let i1 = Intervals.Interval.Empty
@@ -292,6 +293,65 @@ let intervalTests =
             )
 
         
+        // Closed intervals include their minimal and maximal values. Therefore shared margins are intersections.
+        testCase "intersect" (fun _ -> 
+            let actual = 
+                let i1 = Intervals.create (-5.) (5.5)
+                let i2 = Intervals.create (-3.) (0.)
+                Intervals.intersect i1 i2
+            let expected = Some (Intervals.create -3. 0.)
+            Expect.equal actual expected "Interval intersect is calculated incorrectly"
+
+            let actualFalse = 
+                let i1 = Intervals.create (-5.) (5.5)
+                let i2 = Intervals.create (-infinity) (-6.)
+                Intervals.intersect i1 i2
+            let expectedFalse = None
+            Expect.equal actual expected "Interval intersect is calculated incorrectly"
+
+            let actual2 = 
+                let i1 = Intervals.create (-5.) (5.5)
+                let i2 = Intervals.create (-infinity) (2.)
+                Intervals.intersect i1 i2
+            let expected2 = Some (Intervals.create -5. 2.)
+            Expect.equal actual2 expected2 "Intervals do intersect"
+            
+            let actualCE = 
+                let i1 = Intervals.create (-5.) (5.5)
+                let i2 = Intervals.Interval.Empty
+                Intervals.intersect i1 i2
+            let expectedCE = None
+            Expect.equal actualCE expectedCE "Intervals do not intersect"
+            
+            let actualEC = 
+                let i1 = Intervals.Interval.Empty
+                let i2 = Intervals.create (-3.) (0.)
+                Intervals.intersect i1 i2
+            let expectedEC = None
+            Expect.equal actualEC expectedEC "Empty intervals do not intersect"
+            
+            let actualEE = 
+                let i1 = Intervals.Interval.Empty
+                let i2 = Intervals.Interval.Empty
+                Intervals.intersect i1 i2
+            let expectedEE = Some Intervals.Interval.Empty
+            Expect.equal actualEE expectedEE "Empty intervals do intersect"
+            
+            let actualStr = 
+                let i1 = Intervals.create "a" "d"
+                let i2 = Intervals.create "de" "e"
+                Intervals.intersect i1 i2
+            let expectedStr = None
+            Expect.equal actualStr expectedStr "String intervals do not intersect"
+            
+            let actualStrT = 
+                let i1 = Intervals.create "a" "d"
+                let i2 = Intervals.create "d" "e"
+                Intervals.intersect i1 i2
+            let expectedStrT = Some (Intervals.create "d" "d")
+            Expect.equal actualStrT expectedStrT "String intervals do intersect"
+            )
+
 
             
     ]
