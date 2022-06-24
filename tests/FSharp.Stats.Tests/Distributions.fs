@@ -150,13 +150,14 @@ let chiSquaredTests =
                 let testCase = Continuous.ChiSquared.PDF 100. 80.
                 Expect.floatClose Accuracy.low testCase 0.01106689 "Should be equal"
 
-            // edge cases:
-            testCase "PDFLnInfinityDof" <| fun () ->
-                let testCase = Continuous.ChiSquared.PDFLn infinity 1.
-                Expect.isTrue (testCase = -infinity) "Should be equal"
-            testCase "PDFLnInfinityX" <| fun () ->
-                let testCase = Continuous.ChiSquared.PDFLn 1. infinity
-                Expect.isTrue (testCase = -infinity) "Should be equal"
+            //// edge cases:
+            //testCase "PDFLnInfinityDof" <| fun () ->
+            //    let testCase = Continuous.ChiSquared.PDFLn infinity 1.
+            //    Expect.isTrue (testCase = -infinity) "Should be equal"
+            //testCase "PDFLnInfinityX" <| fun () ->
+            //    let testCase = Continuous.ChiSquared.PDFLn 1. infinity
+            //    Expect.isTrue (testCase = -infinity) "Should be equal"
+
             // TO DO: TestCases for other edge cases. Not done as long as the function of PDFLn remains unclear (s. https://github.com/fslaborg/FSharp.Stats/issues/209)
 
             // edge cases:
@@ -314,8 +315,27 @@ let chiSquaredTests =
                 Expect.floatClose Accuracy.low (testCase.PDF 10.) 0.00085 "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF infinity) 0. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF -infinity) 0. "Should be equal"
-                //Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
-                //Expect.floatClose Accuracy.veryHigh (testCase.PDF nan) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
+                Expect.isTrue (isNan <| testCase.PDF nan) "Should be equal"
+            testCase "chiSquaredInfinity" <| fun () ->
+                let testCase = Continuous.chiSquared infinity
+                Expect.isTrue (testCase.Mean = infinity) "Should be equal"
+                Expect.isTrue (testCase.Variance = infinity) "Should be equal"
+                Expect.isTrue (testCase.StandardDeviation = infinity) "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF 0.) 0. "Should be equal"
+                Expect.isTrue (testCase.CDF 1. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF 10. |> isNan) "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF infinity) 1. "Should be equal"
+                Expect.isTrue (testCase.CDF -1. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF -infinity |> isNan) "Should be equal"
+                //Expect.isTrue (testCase.CDF nan = infinity) "Should be equal"
+                Expect.isTrue (testCase.PDF 0. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF 1. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF 10. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF infinity |> isNan) "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF -infinity) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
+                Expect.isTrue (isNan <| testCase.PDF nan) "Should be equal"
         ]
     ]
 
