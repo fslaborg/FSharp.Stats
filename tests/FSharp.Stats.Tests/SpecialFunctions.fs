@@ -21,6 +21,12 @@ let gammaFunctionsTests =
         testCase "_gamma(420) returns infinity (although incorrect)" <| fun () ->
             let gam = Gamma._gamma 420.
             Expect.isTrue (infinity.Equals(gam)) "Expected gamma of large number to return infinity"
+        
+        testCase "_gamma(1) = gamma(1)" <| fun () ->
+            let _gam = Gamma._gamma 1.
+            let gam = Gamma.gamma 1.
+            Expect.equal _gam gam "expected equal result for checked and unchecked version"
+        
         //gamma (checked)
         testCase "gamma(5)" <| fun () ->
             let gam = Gamma.gamma 5.
@@ -54,10 +60,15 @@ let gammaFunctionsTests =
             let gam = Gamma._gammaLn -1.
             Expect.isTrue (nan.Equals(gam)) "Expected _gammaLn of negative number to return nan"
 
-        testCase "_gammaLn(420) returns infinity (although incorrect)" <| fun () ->
+        testCase "_gammaLn(420)" <| fun () ->
             let gam = Gamma._gammaLn 420.
             Expect.floatClose Accuracy.high gam 2114.8059883267407613276719264808503756320291823875025922347978642 "Should be equal (double precision)"
-        
+                
+        testCase "_gammaLn(420) = gammaLn(420)" <| fun () ->
+            let _gam = Gamma._gamma 420.
+            let gam = Gamma.gamma 420.
+            Expect.equal _gam gam "expected equal result for checked and unchecked version"
+
         //gammaLn(checked)
         testCase "gammaLn(5)" <| fun () ->
             let gam = Gamma.gammaLn 5.
@@ -126,6 +137,37 @@ let betaFunctionsTests =
         testCase "betaLn equality3" <| fun () ->
             let result = Beta.betaLn 0.0342 170.
             Expect.floatClose Accuracy.veryHigh result 3.1811881124242447 "Should be equal (double precision)" //rtol=1e-14, atol=0
+        testCase "_betaLn(1,1) = betaLn(1,1)" <| fun () ->
+            let _bet = Beta._betaLn 1. 1. 
+            let bet = Beta.betaLn 1. 1. 
+            Expect.equal _bet bet "expected equal result for checked and unchecked version"
+        
+        //_beta
+        testCase "_beta(1.,1.)" <| fun () ->
+            let bet = Beta._beta 1. 1.
+            Expect.floatClose Accuracy.high bet 1. "Should be equal (double precision)"
+        // these are incorrect due to approximation issues, see for example https://www.wolframalpha.com/input?i=beta%28-1%2C1%29
+        testCase "_beta(-1.,1.)" <| fun () ->
+            let bet = Beta._beta -1. 1.
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(-1.,1.) to return nan"
+
+        testCase "_beta(1.,-1.)" <| fun () ->
+            let bet = Beta._beta 1. -1.
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(1.,-1.) to return nan"
+
+        testCase "_beta(-1.,-1.)" <| fun () ->
+            let bet = Beta._beta -1. -1.
+            Expect.isTrue (nan.Equals(bet)) "Expected beta(-1.,-1.) to return nan"
+            
+        testCase "_beta(420,420)" <| fun () ->
+            let bet = Beta._beta 420. 420.
+            Expect.floatClose Accuracy.high bet 2.360006414298225624664636431560387583108464693985603322036e-254 "Should be equal (double precision)"//beta
+        
+        testCase "_beta(1,1) = beta(1,1)" <| fun () ->
+            let _bet = Beta._beta 420. 420.
+            let bet = Beta.beta 420. 420.
+            Expect.equal _bet bet "expected equal result for checked and unchecked version"
+
         //beta
         testCase "beta(1.,1.)" <| fun () ->
             let bet = Beta.beta 1. 1.

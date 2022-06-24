@@ -10,10 +10,44 @@ module Beta =
     let private EPS = 3.0e-8    // Precision.DoublePrecision;
     let private FPMIN = 1.0e-30 // 0.0.Increment()/eps
 
+    ///<summary>
     /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
-    let betaLn z w = (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
+    ///
+    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
+    ///</summary>
+    /// <param name="z">The function input for approximating ln(B(z, w))</param>
+    /// <param name="w">The function input for approximating ln(B(z, w))</param>
+    let _betaLn z w = (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
 
+    ///<summary>
     /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
+    ///
+    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
+    ///</summary>
+    /// <param name="z">The function input for approximating B(z, w)</param>
+    /// <param name="w">The function input for approximating B(z, w)</param>
+    let _beta z w = exp (_betaLn z w)
+
+    ///<summary>
+    /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
+    ///
+    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
+    ///
+    /// This might be slower than the unchecked version `_gamma` but does not require input sanitation to get expected results for these cases.
+    ///</summary>
+    /// <param name="z">The function input for approximating ln(B(z, w))</param>
+    /// <param name="w">The function input for approximating ln(B(z, w))</param>
+    let betaLn z w = (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
+
+    ///<summary>
+    /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
+    ///
+    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
+    ///
+    /// This might be slower than the unchecked version `_gamma` but does not require input sanitation to get expected results for these cases.
+    ///</summary>
+    /// <param name="z">The function input for approximating B(z, w)</param>
+    /// <param name="w">The function input for approximating B(z, w)</param>
     let beta z w = exp (betaLn z w)
 
     //  incomplete beta function 

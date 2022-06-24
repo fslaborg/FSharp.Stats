@@ -492,7 +492,7 @@ module Continuous =
         static member PDF alpha beta x = 
             gammaCheckParam alpha beta
             if x >= 0.0 && x <= 1.0 then
-                (x ** (alpha - 1.0)) * ((1.0 - x) ** (beta - 1.0)) / (SpecialFunctions.Beta.beta alpha beta)
+                (x ** (alpha - 1.0)) * ((1.0 - x) ** (beta - 1.0)) / (SpecialFunctions.Beta._beta alpha beta)
             else 0.0          
 
         /// Computes the cumulative distribution function.
@@ -824,7 +824,7 @@ module Continuous =
                 0.
             else
                 let u = Math.Pow(dof1 * x, dof1) * Math.Pow(dof2, dof2) / Math.Pow(dof1 * x + dof2, dof1 + dof2)
-                let b = Beta.beta (dof1 * 0.5) (dof2 * 0.5)
+                let b = Beta._beta (dof1 * 0.5) (dof2 * 0.5)
                 sqrt u / (x * b)
 
         /// Computes the cumulative distribution function.
