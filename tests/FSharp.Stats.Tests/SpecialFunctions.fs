@@ -230,7 +230,8 @@ let betaFunctionsTests =
 let factorialTests =
     //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
     testList "SpecialFunctions.Factorial" [
-        testCase "Double overflow" (fun _ -> 
+        //factorial
+        testCase "Prevents Double overflow for 171! as infinity" (fun _ -> 
             Expect.equal (Factorial.factorial 171) infinity "Expected factorial of a number larger than 170 to result in infinity (171! is larger than max double)"
         )
         testCase "0! equals 1" (fun _ -> 
@@ -242,16 +243,29 @@ let factorialTests =
         testCase "factorial not defined for negative numbers" (fun _ -> 
             Expect.throws (fun _ -> Factorial.factorial -69421337 |> ignore) "Expected factorial to fail for negative values"
         )
-    ]
-
-[<Tests>]
-let FactorialLnTests =
-    //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
-    testList "SpecialFunctions.lnFactorial" [
-        testCase "Large value" (fun _ -> 
+        //_factorialLn
+        testCase "_ln(6942!)" (fun _ -> 
+            Expect.floatClose Accuracy.high (Factorial._factorialLn 6942) 54467.727976695301612523565124699078303834231913072759124392135342 "factorialLn of large number failed"
+        )
+        testCase "_ln(0!) = 0" (fun _ -> 
+            Expect.equal (Factorial._factorialLn 0) 0. "Expected factorialLn of 0 to be 1."
+        )
+        testCase "_ln(69!)" (fun _ -> 
+            Expect.floatClose Accuracy.high 226.19054832372759333227016852232261788323276357495863628461257077 (Factorial._factorialLn 69) "Expected factorialLn of 69 to be 226.19054832372759333227016852232261788323276357495863628461257077"
+        )
+        testCase "_factorialLn not defined for negative numbers" (fun _ -> 
+            Expect.throws (fun _ -> Factorial._factorialLn -69421337 |> ignore) "Expected factorialLn to fail for negative values"
+        )        
+        testCase "_ln(6942!) = ln(6942!)" (fun _ ->
+            let _ln = Factorial._factorialLn 6942
+            let ln = Factorial.factorialLn 6942
+            Expect.equal _ln ln "expected equal result for checked and unchecked version"
+        )
+        //factorialLn
+        testCase "ln(6942!)" (fun _ -> 
             Expect.floatClose Accuracy.high (Factorial.factorialLn 6942) 54467.727976695301612523565124699078303834231913072759124392135342 "factorialLn of large number failed"
         )
-        testCase "ln(0!) equals 0" (fun _ -> 
+        testCase "ln(0!) = 0" (fun _ -> 
             Expect.equal (Factorial.factorialLn 0) 0. "Expected factorialLn of 0 to be 1."
         )
         testCase "ln(69!)" (fun _ -> 
@@ -405,6 +419,28 @@ let erfTests =
 let binomialCoefficientTests =
     //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
     testList "SpecialFunctions.Binomial" [
+        // _coefficient (unchecked)
+        testCase "_(0 | 0) = 1" (fun _ -> 
+            Expect.floatClose Accuracy.high (Binomial._coeffcient 0 0) 1. "Expected (0 | 0) to be 1"
+        )
+        testCase "_(-1 | 0) should throw (negative value)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial._coeffcient -1 0) |> ignore) "Expected (-1 | 0) to throw"
+        )
+        testCase "_(0 | -1) should throw (negative value)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial._coeffcient 0 -1) |> ignore) "Expected (0 | -1) to throw"
+        )
+        testCase "_(1 | 2) should throw (n<k)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial._coeffcient 1 2) |> ignore) "Expected (1 | 2) to throw"
+        )
+        testCase "_(69 | 42)" (fun _ -> 
+            Expect.floatClose Accuracy.high (Binomial._coeffcient 69 42) 11185257572725865552. "Binomail coefficient returned wrong result"
+        )        
+        testCase "_(69 | 42) = (69 | 42)" (fun _ -> 
+            let _res = Binomial._coeffcient 69 42
+            let res = Binomial.coeffcient 69 42
+            Expect.equal _res res "expected equal result for checked and unchecked version"
+        )
+        // coefficient (checked)
         testCase "(0 | 0) = 1" (fun _ -> 
             Expect.floatClose Accuracy.high (Binomial.coeffcient 0 0) 1. "Expected (0 | 0) to be 1"
         )
@@ -420,7 +456,31 @@ let binomialCoefficientTests =
         testCase "(69 | 42)" (fun _ -> 
             Expect.floatClose Accuracy.high (Binomial.coeffcient 69 42) 11185257572725865552. "Binomail coefficient returned wrong result"
         )
-        // coefficientLn
+        // _coefficientLn (unchecked)
+        testCase "_ln(0 | 0) = 1" (fun _ -> 
+            Expect.floatClose Accuracy.high (Binomial._coeffcientLn 0 0) 0. "Expected ln(0 | 0) to be 0"
+        )
+        testCase "_ln(-1 | 0) should throw (negative value)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial._coeffcientLn -1 0) |> ignore) "Expected ln(-1 | 0) to throw"
+        )
+        testCase "_ln(0 | -1) should throw (negative value)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial._coeffcientLn 0 -1) |> ignore) "Expected ln(0 | -1) to throw"
+        )
+        testCase "_ln(1 | 2) should throw (n<k)" (fun _ -> 
+            Expect.throws (fun _ -> (Binomial._coeffcientLn 1 2) |> ignore) "Expected ln(1 | 2) to throw"
+        )
+        testCase "_ln(69 | 42)" (fun _ -> 
+            Expect.floatClose Accuracy.high (Binomial._coeffcientLn 69 42) 43.861128296976190734480722409484720407496953168236423941162466992 "Binomail coefficientln returned wrong result"
+        )
+        testCase "_ln(69000 | 4200)" (fun _ -> 
+            Expect.floatClose Accuracy.high (Binomial._coeffcientLn 69000 4200) 15820.331735478233070945558688627562355591359160763289683149612673 "Binomail coefficientln returned wrong result"
+        )        
+        testCase "_ln(69 | 42) = ln(69 | 42)" (fun _ -> 
+            let _res = Binomial._coeffcientLn 69 42
+            let res = Binomial.coeffcientLn 69 42
+            Expect.equal _res res "expected equal result for checked and unchecked version"
+        )
+        // coefficientLn (checked)
         testCase "ln(0 | 0) = 1" (fun _ -> 
             Expect.floatClose Accuracy.high (Binomial.coeffcientLn 0 0) 0. "Expected ln(0 | 0) to be 0"
         )
