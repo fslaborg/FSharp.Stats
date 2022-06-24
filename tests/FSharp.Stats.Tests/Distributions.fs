@@ -147,3 +147,51 @@ let multivariateNormalTests =
             let testCase = Continuous.Chi.PDF 8. 1.
             Expect.floatClose Accuracy.veryHigh 0.001451989663439 pdfs.[2] "Should be equal"        
     ]
+
+[<Tests>]
+let bandWithTests =
+    testList "Distribution.Bandwidth.BinNumber" [
+        //Reference:https://www.statisticshowto.com/choose-bin-sizes-statistics/#rice
+        // tested with r Function ceiling(1+log2(x))
+        testCase "Distribution.Bandwidth.BinNumber.sturges" <| fun () ->
+            let sturges1 =Distributions.Bandwidth.BinNumber.sturges 1.
+            Expect.floatClose Accuracy.veryHigh 1 sturges1 "desirable number of classes Should be equal"
+
+            let sturgesForNull = Distributions.Bandwidth.BinNumber.sturges 0.
+            Expect.isTrue (-infinity = sturgesForNull) "desirable number of classes should be equal"
+
+            let sturgesForNegative = Distributions.Bandwidth.BinNumber.sturges -1.
+            Expect.isTrue (nan.Equals(sturgesForNegative)) "desirable number of classes should be nan."
+
+            let sturgesForNan = Distributions.Bandwidth.BinNumber.sturges nan
+            Expect.isTrue (nan.Equals(sturgesForNan)) "desirable number of classes should be nan."
+
+            let sturgesForPositivInifinity = Distributions.Bandwidth.BinNumber.sturges infinity
+            Expect.isTrue (infinity = sturgesForPositivInifinity) "desirable number of classes should be equal"
+
+            let sturgesForNegativeInfinity = Distributions.Bandwidth.BinNumber.sturges -infinity
+            Expect.isTrue (nan.Equals(sturgesForNegativeInfinity)) "desirable number of classes should be nan."
+
+        // reference:https://www.rdocumentation.org/packages/npsp/versions/0.7-5/topics/rule
+        // tested with R function ceiling(2*(n ** (1./3.)))
+        testCase "Distribution.Bandwidth.BinNumber.riceRule" <| fun () ->
+            let riceRule1 = Distributions.Bandwidth.BinNumber.riceRule 1.
+            Expect.floatClose Accuracy.veryHigh riceRule1 2. "desirable number of classes should be equal"
+
+            let riceRuleForNull = Distributions.Bandwidth.BinNumber.riceRule 0.
+            Expect.floatClose Accuracy.veryHigh riceRuleForNull 0. "desirbale number of classes should be equal to expected Value"
+
+            let riceRuleForNan = Distributions.Bandwidth.BinNumber.riceRule nan
+            Expect.isTrue (nan.Equals(riceRuleForNan)) "desirable number of classes should be nan."
+
+            let riceRuleForNegative = Distributions.Bandwidth.BinNumber.riceRule (-1.)
+            Expect.isTrue (nan.Equals(riceRuleForNegative)) "desirable number of classes should be nan."
+
+            let riceRuleForPositiveInfinity = Distributions.Bandwidth.BinNumber.riceRule infinity
+            Expect.isTrue (infinity = riceRuleForPositiveInfinity) "desirable number of classes should be equal"
+
+            let riceRuleForNegativeInfinity = Distributions.Bandwidth.BinNumber.riceRule -infinity
+            Expect.isTrue (infinity= riceRuleForNegativeInfinity) "desirable number of classes should be -infinity."
+
+   
+    ]   

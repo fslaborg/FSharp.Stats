@@ -38,6 +38,7 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.chiSquaredTests        |> ignore
     //Tests.runTestsWithCLIArgs [] argv DistributionsTests.studentizedRangeTests  |> ignore //Test ommitted due to extremely long runtime of CodeCov.
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.multivariateNormalTests|> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsTests.bandWithTests|> ignore
     
     //=============================== Correlation ===========================================================
     Tests.runTestsWithCLIArgs [] argv CorrelationTests.kendallCorrelationTests |> ignore
