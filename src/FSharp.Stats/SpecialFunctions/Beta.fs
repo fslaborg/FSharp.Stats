@@ -33,7 +33,7 @@ module Beta =
     ///
     /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
     ///
-    /// This might be slower than the unchecked version `_gamma` but does not require input sanitation to get expected results for these cases.
+    /// This might be slower than the unchecked version `_betaLn` but does not require input sanitation to get expected results for these cases.
     ///</summary>
     /// <param name="z">The function input for approximating ln(B(z, w))</param>
     /// <param name="w">The function input for approximating ln(B(z, w))</param>
@@ -44,7 +44,7 @@ module Beta =
     ///
     /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
     ///
-    /// This might be slower than the unchecked version `_gamma` but does not require input sanitation to get expected results for these cases.
+    /// This might be slower than the unchecked version `_beta` but does not require input sanitation to get expected results for these cases.
     ///</summary>
     /// <param name="z">The function input for approximating B(z, w)</param>
     /// <param name="w">The function input for approximating B(z, w)</param>

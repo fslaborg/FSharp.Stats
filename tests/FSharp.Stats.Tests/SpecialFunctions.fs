@@ -365,7 +365,22 @@ let erfTests =
         testCase "erfc(-infinity)" (fun _ -> 
             Expect.equal  (Errorfunction.Erfc -infinity) 2. "expected erfc(-infinity) to be 2"
         )
-        //erfcx
+        //_erfcx (unchecked)
+        testCase "_erfcx(0) = 1" (fun _ -> 
+            Expect.floatClose Accuracy.low (Errorfunction._erfcx 0.) 1. "expected _erfcx(0) to be 1"
+        )
+        testCase "_erfcx(-3)" (fun _ -> 
+            Expect.floatClose Accuracy.low (Errorfunction._erfcx -3.) 16205.988853999586625469574084050206309035724190299120070784655345 "_erfcx returned insufficient approximation of the result"
+        )
+        testCase "_erfcx(3)" (fun _ -> 
+            Expect.floatClose Accuracy.low (Errorfunction._erfcx 3.) 0.1790011511813899504192948153136209872279853641068542156627588395 "_erfcx returned insufficient approximation of the result"
+        )
+        testCase "_erfcx(0) = _erfcx(0)" (fun _ -> 
+            let _res = Errorfunction._erfcx 0
+            let res = Errorfunction.erfcx 0
+            Expect.equal _res res "expected equal result for checked and unchecked version"
+        )
+        //erfcx (checked)
         testCase "erfcx(0) = 1" (fun _ -> 
             Expect.floatClose Accuracy.low (Errorfunction.erfcx 0.) 1. "expected erfcx(0) to be 1"
         )

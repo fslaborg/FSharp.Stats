@@ -46,14 +46,31 @@ module Errorfunction =
             let t = 1.0 / (1.0 + p*x)
             (exp (-(x*x))) * t * (a1 + t*(a2 + t*(a3 + t*(a4 + t*a5))))
 
+    /// <summary>
     /// Scaled complementary error function, exp(x**2) * erfc(x).
-    let erfcx x =
-        match x with
-        | x when x < 25. -> Erfc(x) * exp(x*x)
-        | x when (infinity.Equals(x)) -> nan
-        | x when ((-infinity).Equals(x)) -> infinity
-        | _ -> 
+    ///
+    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
+    ///</summary>
+    ///<param name="x">Input to compute exp(x**2) * erfc(x)</param>
+    let _erfcx x =
+        if x < 25. then
+            Erfc(x) * exp(x*x)
+        else
             let y = 1. / x
             let z = y * y
             let s = y*(1.+z*(-0.5+z*(0.75+z*(-1.875+z*(6.5625-29.53125*z)))))
             s * 0.564189583547756287
+            
+    /// <summary>
+    /// Scaled complementary error function, exp(x**2) * erfc(x).
+    ///
+    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
+    ///
+    /// This might be slower than the unchecked version `_erfcx` but does not require input sanitation to get expected results for these cases.
+    ///</summary>
+    ///<param name="x">Input to compute exp(x**2) * erfc(x)</param>
+    let erfcx x =
+        match x with
+        | x when (infinity.Equals(x)) -> nan
+        | x when ((-infinity).Equals(x)) -> infinity
+        | _ -> _erfcx x
