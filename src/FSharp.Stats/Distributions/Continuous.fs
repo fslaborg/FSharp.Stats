@@ -62,7 +62,7 @@ module Continuous =
             if System.Double.IsPositiveInfinity(dof) || System.Double.IsPositiveInfinity(x) || x=0. then
                 System.Double.NegativeInfinity
             else
-                ((1.0 - (dof/2.0))*System.Math.Log(2.0)) + ((dof - 1.0)*System.Math.Log(x)) - (x*x/2.0) - Gamma.gammaLn(dof/2.0)
+                ((1.0 - (dof/2.0))*System.Math.Log(2.0)) + ((dof - 1.0)*System.Math.Log(x)) - (x*x/2.0) - Gamma._gammaLn(dof/2.0)
 
         /// Computes the cumulative distribution function.
         static member CDF dof x =
@@ -626,7 +626,7 @@ module Continuous =
         static member PDF mu tau dof x =
             studentTCheckParam mu tau dof
             let d = (x - mu) / tau
-            exp (SpecialFunctions.Gamma.gammaLn((dof + 1.)/2.) - SpecialFunctions.Gamma.gammaLn(dof/2.)) * System.Math.Pow(1.0 + (d*d / dof), (-0.5 * (dof + 1.))) / sqrt (dof*pi) / tau
+            exp (SpecialFunctions.Gamma._gammaLn((dof + 1.)/2.) - SpecialFunctions.Gamma._gammaLn(dof/2.)) * System.Math.Pow(1.0 + (d*d / dof), (-0.5 * (dof + 1.))) / sqrt (dof*pi) / tau
 
         /// Computes the cumulative distribution function.
         static member CDF mu tau dof x =

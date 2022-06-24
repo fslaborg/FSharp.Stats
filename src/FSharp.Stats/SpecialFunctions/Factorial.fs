@@ -31,7 +31,7 @@ module Factorial =
     let private FactorialLnCache =
         let cache = Array.zeroCreate (FactorialLnNTop + 1)
         for i=0 to FactorialLnNTop do
-            cache.[i] <- Gamma.gammaLn ((float i) + 1.0)
+            cache.[i] <- Gamma._gammaLn ((float i) + 1.0)
         cache
 
     /// The factorial functions takes an int x and returns x!. This function will not overflow
@@ -49,4 +49,4 @@ module Factorial =
         if x <= FactorialLnNTop then 
             FactorialLnCache.[x]
         else 
-            Gamma.gammaLn ((float x) + 1.0)
+            Gamma._gammaLn ((float x) + 1.0)

@@ -11,7 +11,7 @@ module Beta =
     let private FPMIN = 1.0e-30 // 0.0.Increment()/eps
 
     /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
-    let betaLn z w = (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
+    let betaLn z w = (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
 
     /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
     let beta z w = exp (betaLn z w)
@@ -26,7 +26,7 @@ module Beta =
             if (x = 0.0 || x = 1.0) then
                 0.0
             else
-                exp (Gamma.gammaLn (a + b) - Gamma.gammaLn a - Gamma.gammaLn b + (a*Math.Log(x)) + (b*Math.Log(1.0 - x)))
+                exp (Gamma._gammaLn (a + b) - Gamma._gammaLn a - Gamma._gammaLn b + (a*Math.Log(x)) + (b*Math.Log(1.0 - x)))
 
         let isSymmetryTransformation = ( x >= (a + 1.0)/(a + b + 2.0))
 
