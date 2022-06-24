@@ -9,7 +9,19 @@ let gammaFunctionsTests =
 
     testList "SpecialFunctions.Gamma" [
         //expected values taken from filling function values in wolfram alpha https://www.wolframalpha.com/
-        //gamma
+        //_gamma (unchecked)
+        testCase "_gamma(5)" <| fun () ->
+            let gam = Gamma._gamma 5.
+            Expect.floatClose Accuracy.high gam 24. "Should be equal (double precision)"
+        
+        testCase "_gamma(-1)" <| fun () ->
+            let gam = Gamma._gamma -1.
+            Expect.isTrue ((-infinity).Equals(gam)) "Expected gamma of negative number to return -infinity"
+
+        testCase "_gamma(420) returns infinity (although incorrect)" <| fun () ->
+            let gam = Gamma._gamma 420.
+            Expect.isTrue (infinity.Equals(gam)) "Expected gamma of large number to return infinity"
+        //gamma (checked)
         testCase "gamma(5)" <| fun () ->
             let gam = Gamma.gamma 5.
             Expect.floatClose Accuracy.high gam 24. "Should be equal (double precision)"
@@ -21,7 +33,6 @@ let gammaFunctionsTests =
         testCase "gamma(420) returns infinity (although incorrect)" <| fun () ->
             let gam = Gamma.gamma 420.
             Expect.isTrue (infinity.Equals(gam)) "Expected gamma of large number to return infinity"
-
         testCase "gamma(nan) = nan" <| fun () ->
             let gam = Gamma.gamma nan
             Expect.isTrue (nan.Equals(gam)) "Expected gamma(nan) to be nan"
@@ -34,7 +45,20 @@ let gammaFunctionsTests =
             let gam = Gamma.gamma (-infinity)
             Expect.isTrue (nan.Equals(gam)) "Expected gamma(-infinity) to be nan"
 
-        //gammaLn
+        //_gammaLn(unchecked)
+        testCase "_gammaLn(5)" <| fun () ->
+            let gam = Gamma._gammaLn 5.
+            Expect.floatClose Accuracy.high gam 3.1780538303479456196469416012970554088739909609035152140967343621 "Should be equal (double precision)"
+        
+        testCase "_gammaLn(-1)" <| fun () ->
+            let gam = Gamma._gammaLn -1.
+            Expect.isTrue (nan.Equals(gam)) "Expected _gammaLn of negative number to return nan"
+
+        testCase "_gammaLn(420) returns infinity (although incorrect)" <| fun () ->
+            let gam = Gamma._gammaLn 420.
+            Expect.floatClose Accuracy.high gam 2114.8059883267407613276719264808503756320291823875025922347978642 "Should be equal (double precision)"
+        
+        //gammaLn(checked)
         testCase "gammaLn(5)" <| fun () ->
             let gam = Gamma.gammaLn 5.
             Expect.floatClose Accuracy.high gam 3.1780538303479456196469416012970554088739909609035152140967343621 "Should be equal (double precision)"

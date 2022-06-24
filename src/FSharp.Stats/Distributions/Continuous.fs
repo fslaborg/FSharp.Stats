@@ -49,7 +49,7 @@ module Continuous =
             if x < 0.0 || dof < 1. then
                 0.0
             else
-                let gammaF = Gamma.gamma (dof/2.)
+                let gammaF = Gamma._gamma (dof/2.)
                 let k = 2.**(dof/2.)
                 let fraction = (1./((k)*gammaF))
                 let ex1 = (x**((dof/2.)-1.))
@@ -103,16 +103,16 @@ module Continuous =
         /// Computes the mean.
         static member Mean dof =
             chiCheckParam dof
-            sqrt 2. * ((Gamma.gamma ((dof + 1.) / 2.))/(Gamma.gamma (dof / 2.)))
+            sqrt 2. * ((Gamma._gamma ((dof + 1.) / 2.))/(Gamma._gamma (dof / 2.)))
         /// Computes the variance.
         static member Variance dof =
             chiCheckParam dof
-            let mean = sqrt 2. * ((Gamma.gamma ((dof + 1.) / 2.))/(Gamma.gamma (dof / 2.)))
+            let mean = sqrt 2. * ((Gamma._gamma ((dof + 1.) / 2.))/(Gamma._gamma (dof / 2.)))
             dof - pown mean 2
         /// Computes the standard deviation.
         static member StandardDeviation dof =
             chiCheckParam dof
-            let mean = sqrt 2. * ((Gamma.gamma ((dof + 1.) / 2.))/(Gamma.gamma (dof / 2.)))
+            let mean = sqrt 2. * ((Gamma._gamma ((dof + 1.) / 2.))/(Gamma._gamma (dof / 2.)))
             let var = dof - pown mean 2
             sqrt var
         /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
@@ -126,7 +126,7 @@ module Continuous =
             if x < 0.0 || dof < 1. then
                 0.0
             else
-                let gammaF = Gamma.gamma (dof/2.)
+                let gammaF = Gamma._gamma (dof/2.)
                 let k = 2.**(dof/2. - 1.)
                 let fraction = 1./((k)*gammaF)
                 let ex1 = x**(dof-1.)
@@ -429,7 +429,7 @@ module Continuous =
             gammaCheckParam alpha beta
             if x >= 0.0 then
                 //(beta**alpha) * (x ** (alpha - 1.0)) * (exp (-beta*x)) / SpecialFunctions.Gamma.gamma alpha
-                Math.Pow(beta, alpha) * Math.Pow(x, alpha - 1.0) * (exp (-beta * x)) / SpecialFunctions.Gamma.gamma alpha
+                Math.Pow(beta, alpha) * Math.Pow(x, alpha - 1.0) * (exp (-beta * x)) / SpecialFunctions.Gamma._gamma alpha
             else 0.0
         
         /// Computes the cumulative distribution function.
@@ -733,7 +733,7 @@ module Continuous =
     
             let f q r v c =
                 let partH u = (h (q * sqrt u) r) ** c
-                let gammapart = 2.**(v/2.)*SpecialFunctions.Gamma.gamma (v/2.)
+                let gammapart = 2.**(v/2.)*SpecialFunctions.Gamma._gamma (v/2.)
                 let sndQuotient u = 
                     let a = v**(v/2.)*Math.Exp((-u * v)/2.)*u**(v/2. - 1.)
                     a / gammapart
