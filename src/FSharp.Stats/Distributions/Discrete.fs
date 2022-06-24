@@ -249,10 +249,10 @@ module Discrete =
 
     /// <summary> Initializes a hypergeometric distribution.
     /// 
-    /// The hypergeometric distribution is a discrete probability distribution 
-    /// that describes the probability of `k` successes (random draws for which the object 
-    /// drawn has a specified feature) in `n` draws, without replacement, from a finite 
-    /// population of size `N` that contains exactly `K` objects with that feature, 
+    /// The hypergeometric distribution is a discrete probability distribution
+    /// that describes the probability of `k` successes (random draws for which the object
+    /// drawn has a specified feature) in `n` draws, without replacement, from a finite
+    /// population of size `N` that contains exactly `K` objects with that feature,
     /// wherein each draw is either a success (`1.0`) or a failure (`0.0`).</summary>
     /// <param name="N">The population size</param>
     /// <param name="K">The number of success states in the population</param>
@@ -264,9 +264,10 @@ module Discrete =
             member d.Variance           = Hypergeometric.Variance N K n
             //member d.CoVariance        = Hypergeometric.CoVariance N K n
             member d.Sample ()          = Hypergeometric.Sample N K n
-            member d.PDF k              = Hypergeometric.PDF N K n k    
-            member d.CDF k              = Hypergeometric.CDF N K n k         
-        }   
+            member d.PDF k              = Hypergeometric.PDF N K n k
+            /// Computes the cumulative distribution function at k for P(X <= k).
+            member d.CDF k              = Hypergeometric.CDF N K n (floor k |> int)         
+        }
 
 
 

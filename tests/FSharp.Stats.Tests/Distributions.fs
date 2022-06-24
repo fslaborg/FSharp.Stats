@@ -199,6 +199,20 @@ let hypergeometricTests =
             Expect.equal n_positiveEqualN () "n_positiveEqualN"
             Expect.equal n_positiveSmallerN () "n_positiveSmallerN"
         }
+        test "hypergeoCheckParam_k" {
+            let k_isNegative = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam_k 4 2 2 -2
+            let k_isPositive = Distributions.Discrete.hypergeoCheckParam_k 4 2 2 1
+            let k_isPositive_allEqual = Distributions.Discrete.hypergeoCheckParam_k 4 2 2 2
+            let k_isPositiveBiggerN = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam_k 4 2 2 5
+            let k_isPositiveBiggerK = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam_k 4 2 3 3
+            let k_isPositiveBigger_n = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam_k 4 3 2 3
+            Expect.throws k_isNegative "k_isNegative"
+            Expect.equal k_isPositive () "k_isPositive; should not throw."
+            Expect.equal k_isPositive_allEqual () "k_isPositive_allEqual; should not throw."
+            Expect.throws k_isPositiveBiggerN "k_isPositiveBiggerN"
+            Expect.throws k_isPositiveBiggerK "k_isPositiveBiggerK"
+            Expect.throws k_isPositiveBigger_n "k_isPositiveBigger_n"
+        }
         // 2022-06-23
         // https://www.emathhelp.net/calculators/probability-statistics/hypergeometric-distribution-calculator/?pn=50&pk=40&sn=5&sk=5
         test "Mean" {
