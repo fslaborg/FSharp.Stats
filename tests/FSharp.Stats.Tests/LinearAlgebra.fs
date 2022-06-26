@@ -251,7 +251,38 @@ let linearSystems =
     testList "Triangular Linear Systems" [
         // Tested vs R package "bdsmatrix: Routines for Block Diagonal Symmetric Matrices" Version 1.3-6
         testList "SolveTriangularLinearSystems (Upper)" [
-    
+            testCase "3x3 Upper Triangular Matrix with 3x3 Matrix (realistic example)" <| fun () ->
+                SolveTriangularLinearSystems
+                    (
+                        [|
+                            [|1.;2.;3.|];
+                            [|0.;1.;1.|];
+                            [|0.;0.;2.|]
+                        |]
+                        |> Matrix.ofJaggedArray
+                    )
+                    (
+                        [|
+                            [|8.;4.;2.|];
+                            [|4.;2.;1.|];
+                            [|2.;1.;0.|]
+                        |]
+                        |> Matrix.ofJaggedArray
+                    )
+                    false
+                |> fun res ->
+                    let concatRes =
+                        res
+                        |> Matrix.toJaggedArray
+                        |> Array.concat
+                    let concatExpected =
+                        [|
+                            [|-1.;-0.5;0.|];
+                            [|3.;1.5;1.|];
+                            [|1.;0.5;0.|]
+                        |]
+                        |> Array.concat
+                    TestExtensions.sequenceEqual Accuracy.high concatRes concatExpected "Should be 3x3 Matrix: \n-1.;-0.5;0.\n3.;1.5;1.\n1.;0.5;0."
             testCase "3x3 diagonal Matrix (Values = 1) with 3x3 Matrix (Values = 1)" <| fun () ->
                 SolveTriangularLinearSystems KDiagonal1 B1 false
                 |> fun res ->
@@ -675,7 +706,38 @@ let linearSystems =
         ]
         // Tested vs R package "bdsmatrix: Routines for Block Diagonal Symmetric Matrices" Version 1.3-6
         testList "SolveTriangularLinearSystems (Lower)" [
-    
+            testCase "3x3 Lower Triangular Matrix with 3x3 Matrix (realistic example)" <| fun () ->
+                SolveTriangularLinearSystems
+                    (
+                        [|
+                            [|1.;0.;0.|];
+                            [|2.;1.;0.|];
+                            [|3.;1.;2.|]
+                        |]
+                        |> Matrix.ofJaggedArray
+                    )
+                    (
+                        [|
+                            [|8.;4.;2.|];
+                            [|4.;2.;1.|];
+                            [|2.;1.;0.|]
+                        |]
+                        |> Matrix.ofJaggedArray
+                    )
+                    true
+                |> fun res ->
+                    let concatRes =
+                        res
+                        |> Matrix.toJaggedArray
+                        |> Array.concat
+                    let concatExpected =
+                        [|
+                            [|8.;4.;2.|];
+                            [|-12.;-6.;-3.|];
+                            [|-5.;-2.5;-1.5|]
+                        |]
+                        |> Array.concat
+                    TestExtensions.sequenceEqual Accuracy.high concatRes concatExpected "Should be 3x3 Matrix: \n8.;4.;2.\n-12.;-6.;-3.\n-5.;-2.5;-1.5"
             testCase "3x3 diagonal Matrix (Values = 1) with 3x3 Matrix (Values = 1) (lower)" <| fun () ->
                 SolveTriangularLinearSystems KDiagonal1 B1 true
                 |> fun res ->
@@ -1098,6 +1160,28 @@ let linearSystems =
                     TestExtensions.sequenceEqualRoundedNaN 9 concatRes concatExpected "Should be 3x3 Matrix of NaN"
         ]
         testList "SolveTriangularLinearSystem (Upper)" [
+            testCase "3x3 Upper Triangular Matrix with Vector (realistic example)" <| fun () ->
+                 SolveTriangularLinearSystem
+                     (
+                         [|
+                             [|1.;2.;3.|];
+                             [|0.;1.;1.|];
+                             [|0.;0.;2.|]
+                         |]
+                         |> Matrix.ofJaggedArray
+                     )
+                     (
+                        [|8.;4.;2.|]
+                        |> vector
+                     )
+                     false
+                 |> fun res ->
+                     let concatRes =
+                         res
+                         |> Vector.toArray
+                     let concatExpected =
+                        [|-1.;3.;1.|]
+                     TestExtensions.sequenceEqual Accuracy.high concatRes concatExpected "Should be Vector of -1.;3.;1."
             testCase "3x3 diagonal Matrix (Values = 1) with Vector (Values = 1)" <| fun () ->
                 SolveTriangularLinearSystem KDiagonal1 b1 false
                 |> fun res ->
@@ -1148,6 +1232,28 @@ let linearSystems =
                     TestExtensions.sequenceEqualRoundedNaN 9 concatRes expected "Should be Vector of NaN"
         ]
         testList "SolveTriangularLinearSystem (Lower)" [
+            testCase "3x3 Upper Triangular Matrix with Vector (realistic example)" <| fun () ->
+                 SolveTriangularLinearSystem
+                     (
+                         [|
+                             [|1.;0.;0.|];
+                             [|2.;1.;0.|];
+                             [|3.;1.;2.|]
+                         |]
+                         |> Matrix.ofJaggedArray
+                     )
+                     (
+                        [|8.;4.;2.|]
+                        |> vector
+                     )
+                     true
+                 |> fun res ->
+                     let concatRes =
+                         res
+                         |> Vector.toArray
+                     let concatExpected =
+                        [|8.;-12.;-5.|]
+                     TestExtensions.sequenceEqual Accuracy.high concatRes concatExpected "Should be Vector of 8.;-12.;-5."
             testCase "3x3 diagonal Matrix (Values = 1) with Vector (Values = 1)" <| fun () ->
                 SolveTriangularLinearSystem KDiagonal1 b1 true
                 |> fun res ->
