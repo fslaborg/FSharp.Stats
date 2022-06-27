@@ -3,6 +3,10 @@
     open Expecto
     open FSharp.Stats
     open FSharp.Stats.Testing
+    open System
+    open System.IO
+    open System.Text
+    open System.Reflection
 
     type TestExtensions() =
         static member sequenceEqual(digits: int) =
@@ -25,6 +29,26 @@
                     ) 
                     actual 
                     expected
+
+    let assembly = Assembly.GetExecutingAssembly()
+    let resnames = assembly.GetManifestResourceNames();
+    let readEmbeddedRessource (name:string) = 
+        match Array.tryFind (fun (r:string) -> r.Contains(name)) resnames with
+        | Some path -> 
+            use stream = assembly.GetManifestResourceStream(path)
+            use reader = new StreamReader(stream, encoding=Text.Encoding.UTF8)
+            reader.ReadToEnd()
+
+        | _ -> failwithf "could not embedded ressources, check package integrity"
+
+    let readCsv path =
+        readEmbeddedRessource path
+        |> fun s -> 
+            s.Replace("\r\n","\n").Split("\n")
+        |> Array.skip 1
+        |> Array.map (fun x -> 
+            x.Split(", ") |> fun ([|a;b|]) -> a, float b
+         )
 
  
     let comparisonMetricsEqualRounded (digits : int) (actual: ComparisonMetrics) (expected: ComparisonMetrics) message =

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="TestExtensions.fs" />
+    <Compile Include="Formatting.fs" />
     <Compile Include="LinearAlgebra.fs" />
     <Compile Include="Correlation.fs" />
     <Compile Include="Covariance.fs" />
@@ -37,6 +38,27 @@
     <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR.csv" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/qvaluesWithR.csv" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/qvaluesRobustWithR.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixFormat1NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixFormat2NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixFormat3NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixFormat4NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixFormat1WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixFormat2WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixFormat3WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixFormat4WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat1NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat2NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat3NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat4NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat1WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat2WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat3WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixIntFormat4WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixSpecialNoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/DenseMatrixSpecialWithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/SparseMatrixFormat1NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/SparseMatrixFormat1WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/TableFormat.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

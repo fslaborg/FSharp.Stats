@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -37,8 +37,6 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "build", "build\build.fsproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6804-4AF9-B6D5-5CBD00E14A02}"
 	ProjectSection(SolutionItems) = preProject
-		docs\_template.html = docs\_template.html
-		docs\_template.ipynb = docs\_template.ipynb
 		docs\BasicStats.fsx = docs\BasicStats.fsx
 		docs\Clustering.fsx = docs\Clustering.fsx
 		docs\ComparisonMetrics.fsx = docs\ComparisonMetrics.fsx
@@ -59,13 +57,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6
 		docs\Matrix_Vector.fsx = docs\Matrix_Vector.fsx
 		docs\NuGet.config = docs\NuGet.config
 		docs\Signal.fsx = docs\Signal.fsx
+		docs\Rank.fsx = docs\Rank.fsx
 		docs\Testing.fsx = docs\Testing.fsx
+		docs\_template.html = docs\_template.html
+		docs\_template.ipynb = docs\_template.ipynb
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{50E3E339-AA4D-4FD2-8791-DEBD2EBF0504}"
 	ProjectSection(SolutionItems) = preProject
 		docs\content\fsdocs-custom.css = docs\content\fsdocs-custom.css
 	EndProjectSection
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Stats.Interactive", "src\FSharp.Stats.Interactive\FSharp.Stats.Interactive.fsproj", "{D7BCF5C0-9E2B-4170-9390-607B0B65A8CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +88,10 @@ Global
 		{8830D84C-C999-4816-9742-AC54A3CC1E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8830D84C-C999-4816-9742-AC54A3CC1E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8830D84C-C999-4816-9742-AC54A3CC1E13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7BCF5C0-9E2B-4170-9390-607B0B65A8CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7BCF5C0-9E2B-4170-9390-607B0B65A8CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7BCF5C0-9E2B-4170-9390-607B0B65A8CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7BCF5C0-9E2B-4170-9390-607B0B65A8CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

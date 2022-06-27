@@ -26,6 +26,7 @@ namespace FSharp.Stats
     open System.Collections
     open System.Collections.Generic
     open System.Diagnostics
+    open Formatting
     //type permutation = int -> int
 
 
@@ -66,8 +67,6 @@ namespace FSharp.Stats
            with get (i,j) = values.[i,j]
            and  set (i,j) x = values.[i,j] <- x
 
-
-
     type SparseMatrix<'T>(opsData : OpsData<'T>, sparseValues : 'T array, sparseRowOffsets : int array, ncols:int, columnValues: int array) = 
         member m.OpsData = opsData; 
         member m.NumCols = ncols
@@ -105,7 +104,7 @@ namespace FSharp.Stats
 #else
     [<System.Diagnostics.DebuggerDisplay("{DebugDisplay}")>]
 #endif
-    [<StructuredFormatDisplay("matrix {StructuredDisplayAsArray}")>]
+    [<StructuredFormatDisplay("{StructuredDisplayAsFormattedMatrix}")>]
     [<CustomEquality; CustomComparison>]
     //[<System.Diagnostics.DebuggerTypeProxy(typedefof<MatrixDebugView<_>>)>]
     type Matrix<'T> = 
@@ -116,6 +115,8 @@ namespace FSharp.Stats
         interface IStructuralEquatable
         interface IEnumerable<'T> 
         interface IEnumerable
+        interface IFsiFormattable
+        interface IMatrixFormattable
 
         member m.ElementOps = match m with DenseRepr mr -> mr.ElementOps | SparseRepr mr -> mr.ElementOps
         member m.NumRows    = match m with DenseRepr mr -> mr.NumRows    | SparseRepr mr ->  mr.NumRows
@@ -2169,6 +2170,157 @@ namespace FSharp.Stats
                 | :? Matrix<'T> as m2 -> SpecializedGenericImpl.equalsM comp m m2
                 | _ -> false
 
+        /// Returns four chunks of the matrix as strings depending on the respective row/column start/end count, separated by a row and column indicating omitted rows and columns.
+        member m.FormatStrings(rowStartCount, rowEndCount, columnStartCount, columnEndCount) =
+            let nRows, nCols = m.Dimensions
+            let displayRows = rowStartCount + rowEndCount
+            let displayCols = columnStartCount + columnEndCount
+
+
+            if displayRows >= nRows && displayCols >= nCols then // this formats the full matrix without omitted rows/cols
+                Array.init (nRows+2) (fun rowIndex ->
+                    match rowIndex with 
+                    | 0 -> [|"";"";yield! [for i = 0 to nCols-1 do yield string i]|] // column index header row
+                    | 1 -> [|for i in 0 .. nCols+1 do yield ""|] // empty row to distinguish column indices from data in FSI/StructuredDisplay
+                    | _ -> // the rest of the rows contain data
+                        Array.init (nCols+2) (fun colIndex ->
+                            match colIndex with
+                            | 0 -> string (rowIndex-2) // the first column index contains the row index
+                            | 1 -> "->" // the second column index contains a separator to distinguish row indices from data in FSI/StructuredDisplay
+                            | _ -> m.[rowIndex-2,colIndex-2] |> formatValue // the rest is data. sswitches below work the same, only ommiting some of the data.
+                        )
+                )
+            elif displayRows >= nRows && displayCols < nCols then // this formats the matrix with only ommitted cols
+                Array.init (nRows+2) (fun rowIndex ->
+                    match rowIndex with
+                    | 0 -> // column index header row
+                        [|
+                            "";"";
+                            yield! [for i in [0 .. columnStartCount-1] do yield string i]; 
+                            "..."; 
+                            yield! [for i in [nCols - columnEndCount .. nCols - 1] do yield string i]
+                        |]
+                    | 1 -> [|for i in 0 .. (displayCols + 2) do yield ""|] // empty row to distinguish column indices from data in FSI/StructuredDisplay
+                    | _ -> // the rest of the rows contain data
+                        Array.init (columnStartCount+columnEndCount+3) (fun colIndex ->
+                            if (colIndex-2) < columnStartCount then // left
+                                match colIndex with
+                                | 0 -> string (rowIndex-2) 
+                                | 1 -> "->"
+                                | _ -> m.[rowIndex-2,colIndex-2] |> formatValue
+                            elif (colIndex-2) > columnStartCount then // right
+                                m[rowIndex-2,(nCols - 3 - columnEndCount + colIndex - columnStartCount)] |> formatValue
+                            else 
+                                "..." // separator for signalling ommitted cols
+                        )
+                )
+            elif displayRows < nRows && displayCols >= nCols then // this formats the matrix with only ommitted rows
+                Array.init (rowStartCount+rowEndCount+3) (fun rowIndex ->
+                    match rowIndex with
+                    | 0 -> [|"";"";yield! [for i = 0 to nCols-1 do yield string i]|] // column index header row
+                    | 1 -> [|for i in 0 .. nCols+1 do yield ""|] // empty row to distinguish column indices from data in FSI/StructuredDisplay
+                    | _ ->
+                        Array.init (nCols+2) (fun colIndex ->
+                            if (rowIndex-2) < rowStartCount then // upper half
+                                match colIndex with
+                                | 0 -> string (rowIndex-2)
+                                | 1 -> "->"
+                                | _ -> m.[rowIndex-2,colIndex-2] |> formatValue
+                            elif (rowIndex-2) > rowStartCount then // lower half
+                                match colIndex with
+                                | 0 -> string (nRows - 3 - rowEndCount + rowIndex - rowStartCount)
+                                | 1 -> "->"
+                                | _ -> m[(nRows - 3 - rowEndCount + rowIndex - rowStartCount),colIndex - 2] |> formatValue
+                            else 
+                                match colIndex with // separator for signalling ommitted rows
+                                | 0 -> ":"
+                                | 1 -> ""
+                                | _ -> "..."
+                        )           
+                    )
+            else // this formats the matrix with ommitted rows and cols
+                Array.init (rowStartCount+rowEndCount+3) (fun rowIndex -> 
+                    match rowIndex with
+                    | 0 -> // column index header row
+                        [|
+                            "";"";
+                            yield! [for i in [0 .. columnStartCount-1] do yield string i]; 
+                            "..."; 
+                            yield! [for i in [nCols - columnEndCount .. nCols - 1] do yield string i]
+                        |]
+                    | 1 -> [|for i in 0 .. (displayCols + 2) do yield ""|] // empty row to distinguish column indices from data in FSI/StructuredDisplay
+                    | _ -> 
+                        Array.init (columnStartCount+columnEndCount+3) (fun colIndex ->
+                            if (rowIndex-2) < rowStartCount then // upper half
+                                if (colIndex-2) < columnStartCount then // upper left
+                                    match colIndex with
+                                    | 0 -> string (rowIndex-2) 
+                                    | 1 -> "->"
+                                    | _ -> m.[rowIndex-2,colIndex-2] |> formatValue
+                                elif (colIndex-2) > columnStartCount then // upper right
+                                    m[rowIndex-2,(nCols - 3 - columnEndCount + colIndex - columnStartCount)] |> formatValue
+                                else 
+                                    "..."
+                            elif (rowIndex-2) > rowStartCount then // lower half
+                                if (colIndex-2) < columnStartCount then // lower left
+                                    match colIndex with
+                                    | 0 -> string (nRows - 3 - rowEndCount + rowIndex - rowStartCount)
+                                    | 1 -> "->"
+                                    | _ -> m[(nRows - 3 - rowEndCount + rowIndex - rowStartCount),(colIndex-2)] |> formatValue
+                                elif (colIndex-2) > columnStartCount then // lower right
+                                    m[(nRows - 3 - rowEndCount + rowIndex - rowStartCount),(nCols - 3 - columnEndCount + colIndex - columnStartCount)] |> formatValue
+                                else 
+                                    "..."
+                            else 
+                                match colIndex with
+                                | 0 -> ":"
+                                | 1 -> ""
+                                | _ -> "..."
+                        )           
+                    )
+
+        member m.Format(rowStartCount, rowEndCount, columnStartCount, columnEndCount, showInfo) =
+            try
+                let formattedtable =
+                    m.FormatStrings(rowStartCount, rowEndCount, columnStartCount, columnEndCount)
+                    |> array2D
+                    |> Formatting.formatTable
+                if showInfo then
+                    let matrixInfo = sprintf "Matrix of %i rows x %i columns" m.NumRows m.NumCols
+                    sprintf "%s%s%s" formattedtable System.Environment.NewLine matrixInfo
+                else
+                    formattedtable
+            with e -> sprintf "Formatting failed: %A" e
+
+        member m.Format(rowCount, columnCount, showInfo:bool) =
+            let rowHalf = rowCount / 2
+            let colHalf = columnCount / 2
+            m.Format(rowHalf, rowHalf, colHalf, colHalf, showInfo)
+
+        member m.Format(showInfo:bool) =
+            m.Format(
+                Formatting.Matrix.RowStartItemCount, 
+                Formatting.Matrix.RowEndItemCount, 
+                Formatting.Matrix.ColumnStartItemCount, 
+                Formatting.Matrix.ColumnEndItemCount,
+                showInfo
+            )
+
+        interface IFsiFormattable with
+            member m.Format() = m.Format(false)
+            member m.FormatWithInfo() = m.Format(true)
+
+        interface IMatrixFormattable with
+            member m.InteractiveFormat(rowCount,colCount) =
+                m.FormatStrings(
+                    (rowCount / 2),
+                    (rowCount / 2),
+                    (colCount / 2),
+                    (colCount / 2)
+                )
+            member m.GetNumRows() = m.NumRows
+            member m.GetNumCols() = m.NumCols
+
         override m.ToString() = 
             match m with 
             | DenseRepr m -> GenericImpl.showDenseMatrixGU m
@@ -2181,12 +2333,16 @@ namespace FSharp.Stats
                 | SparseRepr _ -> "<sparse>"
             new System.Text.StringBuilder(txt)  // return an object with a ToString with the right value, rather than a string. (strings get shown using quotes)
 
+        member m.StructuredDisplayAsFormattedMatrix =
+            sprintf "%s%s" System.Environment.NewLine (m.Format(true))
+
         member m.StructuredDisplayAsArray =  
             let rec layout m = 
                 match m with 
                 | DenseRepr _ -> box (Array2D.init m.NumRows m.NumCols (fun i j -> m.[i,j]))
                 | SparseRepr _ -> (if m.NumRows < 20 && m.NumCols < 20 then layout (SpecializedGenericImpl.toDenseM m) else box(SpecializedGenericImpl.nonZeroEntriesM m))
             layout m
+
 
 
 //----------------------------------------------------------------------------

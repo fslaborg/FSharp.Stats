@@ -20,7 +20,7 @@ module FriedmanTest =
         // rank all groups individually
         let ranksAll = 
             samples
-            |> Seq.map Rank.rankAverage
+            |> Seq.map (Rank.RankAverage())
 
         // get every first, second, third,...., value for ranking 
         let groups = 

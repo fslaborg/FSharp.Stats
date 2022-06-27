@@ -14,6 +14,7 @@
     <Compile Include="PackageTasks.fs" />
     <Compile Include="DocumentationTasks.fs" />
     <Compile Include="ReleaseTasks.fs" />
+    <Compile Include="ReleaseNotesTasks.fs" />
     <Compile Include="Build.fs" />
   </ItemGroup>
 
@@ -25,6 +26,7 @@
     <PackageReference Include="Fake.Core.Target" Version="5.22.0" />
     <PackageReference Include="Fake.DotNet.Cli" Version="5.22.0" />
     <PackageReference Include="Fake.DotNet.MSBuild" Version="5.22.0" />
+    <PackageReference Include="Fake.Extensions.Release" Version="0.2.0" />
     <PackageReference Include="Fake.IO.FileSystem" Version="5.22.0" />
     <PackageReference Include="Fake.Tools.Git" Version="5.22.0" />
   </ItemGroup>

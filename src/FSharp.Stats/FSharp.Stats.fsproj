@@ -13,7 +13,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <PropertyGroup>
-    <Authors>Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors</Authors>
+    <Authors>Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors</Authors>
     <Title>FSharp.Stats</Title>
     <Owners>fslaborg, Timo Muehlhaus</Owners>
     <Description>F#-first linear algebra, machine learning, fitting, signal processing, and statistical testing.</Description>
@@ -31,6 +31,7 @@
     <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Common.fs" />
     <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="ServiceLocator.fs" />
@@ -148,6 +149,7 @@
     <!-- MISC -->
     <Compile Include="FSIPrinters.fs" />
     <Compile Include="ConfidenceInterval.fs" />
+    <None Include="Playground.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="../../lib/*.dll" PackagePath="netlib_LAPACK"></Content>
