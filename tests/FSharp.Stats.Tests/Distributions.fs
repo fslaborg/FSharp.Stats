@@ -147,3 +147,125 @@ let multivariateNormalTests =
             let testCase = Continuous.Chi.PDF 8. 1.
             Expect.floatClose Accuracy.veryHigh 0.001451989663439 pdfs.[2] "Should be equal"        
     ]
+
+
+[<Tests>]
+let bernoulliTests =
+
+    let test_basicNumber = 0.42
+
+    let bernoulliDistribution_basicCase = Distributions.Discrete.bernoulli test_basicNumber
+    let bernoulliDistribution_nan = Distributions.Discrete.bernoulli nan
+    let bernoulliDistribution_zero = Distributions.Discrete.bernoulli 0.0
+    let bernoulliDistribution_one = Distributions.Discrete.bernoulli 1.0
+
+    // 2022-06-22
+    // Wikipedia: https://de.wikipedia.org/wiki/Bernoulli-Verteilung#Definition 
+    // "p is element of closed intervall between 0. and 1."
+    testList "Distributions.Discrete.Bernoulli" [
+        test "bernCheckParam" {
+            let test_lowerThan0 = fun (x: unit) -> Distributions.Discrete.bernCheckParam -0.1
+            let test_highterThan1 = fun (x: unit) -> Distributions.Discrete.bernCheckParam 1.1
+            let test_basic = Distributions.Discrete.bernCheckParam test_basicNumber
+            let test_zero = Distributions.Discrete.bernCheckParam 0.
+            let test_one = Distributions.Discrete.bernCheckParam 1.
+            let test_nan = Distributions.Discrete.bernCheckParam nan // 
+            let test_infinity = fun (x: unit) -> Distributions.Discrete.bernCheckParam infinity
+            let test_negativeInfinity = fun (x: unit) -> Distributions.Discrete.bernCheckParam -infinity
+            Expect.throws test_lowerThan0 ""
+            Expect.throws test_highterThan1 ""
+            Expect.equal test_basic () ""
+            Expect.equal test_zero () ""
+            Expect.equal test_one () ""
+            Expect.equal test_nan () ""
+            Expect.throws test_infinity ""
+            Expect.throws test_negativeInfinity ""
+        }
+
+        test "Mean" {
+            Expect.equal bernoulliDistribution_basicCase.Mean test_basicNumber ""
+            Expect.isTrue (nan.Equals(bernoulliDistribution_nan.Mean)) ""
+            Expect.equal bernoulliDistribution_zero.Mean 0.0 ""
+            Expect.equal bernoulliDistribution_one.Mean 1.0 ""
+        }
+        // 2022-06-22
+        // Compared to: https://www.trignosource.com/statistics/bernoulli%20distribution.html
+        test "Variance" {
+            Expect.equal bernoulliDistribution_basicCase.Variance 0.2436 ""
+            Expect.isTrue (nan.Equals(bernoulliDistribution_nan.Variance)) ""
+            Expect.equal bernoulliDistribution_zero.Variance 0.0 ""
+            Expect.equal bernoulliDistribution_one.Variance 0.0 ""
+        }
+        // 2022-06-22
+        // Compared to: https://www.trignosource.com/statistics/bernoulli%20distribution.html
+        // https://www.kristakingmath.com/blog/bernoulli-random-variables
+        test "StandardDeviation" {
+            Expect.equal bernoulliDistribution_basicCase.StandardDeviation (sqrt 0.2436) ""
+            Expect.isTrue (nan.Equals(bernoulliDistribution_nan.StandardDeviation)) ""
+            Expect.equal bernoulliDistribution_zero.StandardDeviation (sqrt 0.0) ""
+            Expect.equal bernoulliDistribution_one.StandardDeviation (sqrt 0.0) ""
+        }
+        // not implemented
+        test "Sample" {
+            Expect.throws (bernoulliDistribution_basicCase.Sample >> ignore) ""
+            Expect.throws (bernoulliDistribution_nan.Sample >> ignore) ""
+            Expect.throws (bernoulliDistribution_zero.Sample >> ignore) ""
+            Expect.throws (bernoulliDistribution_one.Sample >> ignore)  ""
+        }
+        test "PDF" {
+            /// propabiliy of an outcome to be be of a certain value. Bernoulli distribution can only result in 0 (failure) or 1 (success) so anything except 
+            /// those should have a propability of 0.
+            let test_ZeroAndOne (bd: Distributions.Distribution<float,float>) = 
+                let propabilitySuccess = bd.PDF 1.0
+                let propabilityFailure = bd.PDF 0.0
+                Expect.equal propabilitySuccess (bd.Mean) $"test_ZeroAndOne.propabilitySuccess for {bd.Mean}"
+                Expect.floatClose Accuracy.high propabilityFailure (1.0 - bd.Mean) $"test_ZeroAndOne.propabilityFailure for {bd.Mean}"
+            let test_ZeroPDFCases (bd: Distributions.Distribution<float,float>) =
+                Expect.equal (bd.PDF 0.1) 0.0 $"test_ZeroPDFCases 0.1 for {bd.Mean}"
+                Expect.equal (bd.PDF -0.1) 0.0 $"test_ZeroPDFCases -0.1 for {bd.Mean}"
+                Expect.equal (bd.PDF 1.1) 0.0 $"test_ZeroPDFCases 1.1 for {bd.Mean}"
+                Expect.equal (bd.PDF nan) 0.0 $"test_ZeroPDFCases nan for {bd.Mean}"
+                Expect.equal (bd.PDF infinity) 0.0 $"test_ZeroPDFCases infinity for {bd.Mean}"
+                Expect.equal (bd.PDF -infinity) 0.0 $"test_ZeroPDFCases -infinity for {bd.Mean}"
+            test_ZeroPDFCases bernoulliDistribution_basicCase
+            test_ZeroPDFCases bernoulliDistribution_nan
+            test_ZeroPDFCases bernoulliDistribution_zero
+            test_ZeroPDFCases bernoulliDistribution_one
+            //
+            test_ZeroAndOne bernoulliDistribution_basicCase
+            Expect.isTrue (nan.Equals(bernoulliDistribution_nan.PDF 0.0)) $"test_ZeroAndOne.propabilitySuccess for nan"
+            Expect.isTrue (nan.Equals(bernoulliDistribution_nan.PDF 1.0)) $"test_ZeroAndOne.propabilityFailure for nan"
+            test_ZeroAndOne bernoulliDistribution_zero
+            test_ZeroAndOne bernoulliDistribution_one
+        }
+        test "CDF" {
+            // For P(x>=R) and R∈{0,1}, where R is the random outcome of the bernoulli distribution, any value below 0 has a probability of 0 to be greater or equal to R
+            let test_ZeroCDFCases (bd: Distributions.Distribution<float,float>) = 
+                Expect.equal (bd.CDF -0.1) 0.0 $"test_ZeroCDFCases -0.1 for {bd.Mean}"
+                Expect.equal (bd.CDF -infinity) 0.0 $"test_ZeroCDFCases -infinity for {bd.Mean}"
+                Expect.equal (bd.CDF nan) 0.0 $"test_ZeroCDFCases -infinity for {bd.Mean}"
+            let test_OneCDFCases (bd: Distributions.Distribution<float,float>) = 
+                Expect.equal (bd.CDF 1.0) 1.0 $"test_OneCDFCases 1.0 for {bd.Mean}"
+                Expect.equal (bd.CDF 1.1) 1.0 $"test_OneCDFCases 1.1 for {bd.Mean}"
+                Expect.equal (bd.CDF infinity) 1.0 $"test_OneCDFCases infinity for {bd.Mean}"
+            test_ZeroCDFCases bernoulliDistribution_basicCase
+            test_ZeroCDFCases bernoulliDistribution_nan
+            test_ZeroCDFCases bernoulliDistribution_zero
+            test_ZeroCDFCases bernoulliDistribution_one
+            //
+            test_OneCDFCases bernoulliDistribution_basicCase
+            test_OneCDFCases bernoulliDistribution_nan
+            test_OneCDFCases bernoulliDistribution_zero
+            test_OneCDFCases bernoulliDistribution_one
+            //
+            Expect.floatClose Accuracy.high (bernoulliDistribution_basicCase.CDF 0.8) (1.0 - bernoulliDistribution_basicCase.Mean) ""
+            Expect.isTrue (isNan <| bernoulliDistribution_nan.CDF 0.8) ""
+            Expect.floatClose Accuracy.high (bernoulliDistribution_zero.CDF 0.8) (1.0 - bernoulliDistribution_zero.Mean) ""
+            Expect.floatClose Accuracy.high (bernoulliDistribution_one.CDF 0.8) (1.0 - bernoulliDistribution_one.Mean) ""
+        }
+        // Tbh. i have no idea what this is for
+        test "Support" {
+            // insert any number which does not throw an error in "bernCheckParam".
+            Expect.sequenceEqual (Distributions.Discrete.Bernoulli.Support 0.2) [0.0; 1.0] ""
+        }
+    ]
