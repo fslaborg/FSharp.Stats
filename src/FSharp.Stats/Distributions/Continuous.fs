@@ -57,12 +57,14 @@ module Continuous =
                 let pdffunction = fraction*(ex1*ex2)
                 pdffunction 
 
-        /// Computes the logarithm of probability density function.
-        static member PDFLn dof x = 
-            if System.Double.IsPositiveInfinity(dof) || System.Double.IsPositiveInfinity(x) || x=0. then
-                System.Double.NegativeInfinity
-            else
-                ((1.0 - (dof/2.0))*System.Math.Log(2.0)) + ((dof - 1.0)*System.Math.Log(x)) - (x*x/2.0) - Gamma.gammaLn(dof/2.0)
+        // TO DO: unlear function. Commented out until known. (see https://github.com/fslaborg/FSharp.Stats/issues/209)
+
+        ///// Computes the logarithm of probability density function.
+        //static member PDFLn dof x = 
+        //    if System.Double.IsPositiveInfinity(dof) || System.Double.IsPositiveInfinity(x) || x=0. then
+        //        System.Double.NegativeInfinity
+        //    else
+        //        ((1.0 - (dof/2.0))*System.Math.Log(2.0)) + ((dof - 1.0)*System.Math.Log(x)) - (x*x/2.0) - Gamma.gammaLn(dof/2.0)
 
         /// Computes the cumulative distribution function.
         static member CDF dof x =
