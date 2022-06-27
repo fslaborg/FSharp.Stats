@@ -12,7 +12,14 @@ let main argv =
 
     //================================ RowVector ============================================================
     Tests.runTestsWithCLIArgs [] argv RowVectorTests.floatImplementationTests   |> ignore
-
+    //================================ DistanceMetrics ======================================================
+    Tests.runTestsWithCLIArgs [] argv DistanceMetricsTests.euclidianseqfunctiontests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistanceMetricsTests.euclidianvecfunctiontests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistanceMetricsTests.euclidianarrayfunctiontests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistanceMetricsTests.cityblockseqfunctiontests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistanceMetricsTests.cityblockvectorfunctiontests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistanceMetricsTests.cityblockarrayfunctiontests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistanceMetricsTests.Levenshteindistancetest   |> ignore
     //=========================== Special Functions =========================================================    
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.gammaFunctionsTests |> ignore
     Tests.runTestsWithCLIArgs [] argv SpecialFunctionsTests.betaFunctionsTests  |> ignore
