@@ -1,17 +1,53 @@
-namespace FSharp.Stats.SpecialFunctions
+﻿namespace FSharp.Stats.SpecialFunctions
 
 open System
 
-/// Special mathematical functions
+/// The beta function B(p,q), or the beta integral (also called the Eulerian integral of the first kind) is defined by
+///
+/// B(p, q) = (Γ(p) * Γ(q)) / Γ(p+q)
 module Beta =
 
     let private EPS = 3.0e-8    // Precision.DoublePrecision;
     let private FPMIN = 1.0e-30 // 0.0.Increment()/eps
 
-    /// Computes the natural logarithm of the beta function.
+    ///<summary>
+    /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
+    ///
+    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
+    ///</summary>
+    /// <param name="z">The function input for approximating ln(B(z, w))</param>
+    /// <param name="w">The function input for approximating ln(B(z, w))</param>
+    let _betaLn z w = (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
+
+    ///<summary>
+    /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
+    ///
+    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
+    ///</summary>
+    /// <param name="z">The function input for approximating B(z, w)</param>
+    /// <param name="w">The function input for approximating B(z, w)</param>
+    let _beta z w = exp (_betaLn z w)
+
+    ///<summary>
+    /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
+    ///
+    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
+    ///
+    /// This might be slower than the unchecked version `_betaLn` but does not require input sanitation to get expected results for these cases.
+    ///</summary>
+    /// <param name="z">The function input for approximating ln(B(z, w))</param>
+    /// <param name="w">The function input for approximating ln(B(z, w))</param>
     let betaLn z w = (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
 
-    /// Computes the beta function.
+    ///<summary>
+    /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
+    ///
+    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
+    ///
+    /// This might be slower than the unchecked version `_beta` but does not require input sanitation to get expected results for these cases.
+    ///</summary>
+    /// <param name="z">The function input for approximating B(z, w)</param>
+    /// <param name="w">The function input for approximating B(z, w)</param>
     let beta z w = exp (betaLn z w)
 
     //  incomplete beta function 
@@ -24,7 +60,7 @@ module Beta =
             if (x = 0.0 || x = 1.0) then
                 0.0
             else
-                exp (Gamma.gammaLn (a + b) - Gamma.gammaLn a - Gamma.gammaLn b + (a*Math.Log(x)) + (b*Math.Log(1.0 - x)))
+                exp (Gamma._gammaLn (a + b) - Gamma._gammaLn a - Gamma._gammaLn b + (a*Math.Log(x)) + (b*Math.Log(1.0 - x)))
 
         let isSymmetryTransformation = ( x >= (a + 1.0)/(a + b + 2.0))
 

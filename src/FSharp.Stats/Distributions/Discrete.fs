@@ -191,7 +191,7 @@ module Discrete =
             //(SpecialFunctions.Binomial.coeffcient K k) * (SpecialFunctions.Binomial.coeffcient (N-K) (n-k)) / (SpecialFunctions.Binomial.coeffcient N n)
             if (N-K)<(n-k) then 0. 
             else
-                exp ((SpecialFunctions.Binomial.coeffcientLn K k) + (SpecialFunctions.Binomial.coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial.coeffcientLn N n)
+                exp ((SpecialFunctions.Binomial._coeffcientLn K k) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial._coeffcientLn N n)
 
         /// Computes the cumulative distribution function at x, i.e. P(X <= x).
         static member CDF N K n (x:float) =
@@ -204,10 +204,10 @@ module Discrete =
                 1.0
             else
                 let k = floor x |> int 
-                let d = SpecialFunctions.Binomial.coeffcientLn N n
+                let d = SpecialFunctions.Binomial._coeffcientLn N n
                 let rec loop i acc =
                     if i <= k then
-                        let tmp = exp ((SpecialFunctions.Binomial.coeffcientLn K i) + (SpecialFunctions.Binomial.coeffcientLn (N-K) (n-i)) - d)
+                        let tmp = exp ((SpecialFunctions.Binomial._coeffcientLn K i) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-i)) - d)
                         loop (i+1) (acc+tmp)
                     else
                         acc
@@ -311,7 +311,7 @@ module Discrete =
             elif p = 0. then
                 if k = 0 then 1. else 0.
             else
-                exp ( (SpecialFunctions.Binomial.coeffcientLn n k) + (float k * log p + ( float (n - k)*log(1.-p) )) )
+                exp ( (SpecialFunctions.Binomial._coeffcientLn n k) + (float k * log p + ( float (n - k)*log(1.-p) )) )
 
 
         /// Computes the cumulative distribution function at x, i.e. P(X <= x).
@@ -403,7 +403,7 @@ module Discrete =
             elif p = 0. then
                 if k = 0 then 1. else 0.
             else
-                exp ( (SpecialFunctions.Binomial.coeffcientLn n k) + (float k * log p + ( float (n - k)*log(1.-p) )) )
+                exp ( (SpecialFunctions.Binomial._coeffcientLn n k) + (float k * log p + ( float (n - k)*log(1.-p) )) )
 
 
         /// Computes the cumulative distribution function at x, i.e. P(X <= x).
@@ -496,7 +496,7 @@ module Discrete =
         /// Computes the probability density function at k, i.e. P(K = k)
         static member PDF lambda k =
             if k > 170 then 
-                System.Math.E ** (System.Math.Log lambda * float k - SpecialFunctions.Factorial.factorialLn k) * System.Math.E**(-lambda)
+                System.Math.E ** (System.Math.Log lambda * float k - SpecialFunctions.Factorial._factorialLn k) * System.Math.E**(-lambda)
             else
                 (lambda**float k * System.Math.E**(-lambda)) / SpecialFunctions.Factorial.factorial k
 

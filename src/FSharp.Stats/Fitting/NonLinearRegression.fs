@@ -442,7 +442,7 @@ module NonLinearRegression =
                                 let standardEMG a m s t xValue = 
                                     ((a*s)/t) * sqrt(System.Math.PI/2.) * exp(1./2. * ((s/t)**2.) - ((xValue-m)/t)) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc((1./sqrt(2.)) * ((s/t)-((xValue-m)/s))) 
                                 let delleyEMG a m s t xValue = 
-                                    a * exp((-0.5)*((xValue-m)/s)**2.) * (s/t) * sqrt(Math.PI/2.) * FSharp.Stats.SpecialFunctions.Errorfunction.erfcx ((1./(sqrt 2.)) * ((s/t) - ((xValue-m)/s)))
+                                    a * exp((-0.5)*((xValue-m)/s)**2.) * (s/t) * sqrt(Math.PI/2.) * FSharp.Stats.SpecialFunctions.Errorfunction._erfcx ((1./(sqrt 2.)) * ((s/t) - ((xValue-m)/s)))
                                 let asymptoticEMG a m s t xValue = 
                                     let numerator = 
                                         let exp = exp(-(1./2.) * (((xValue - m)/s)**2.))
