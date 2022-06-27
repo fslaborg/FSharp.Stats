@@ -24,7 +24,7 @@ module QuantileNormalization =
         let rawRanks = 
             colSeq
             |> Seq.map (fun col -> 
-                let colRank = Rank.rankAverage col
+                let colRank = Rank.RankAverage() col
                 col |> Array.mapi (fun i v -> colRank.[i],v)
                 ) 
                     
