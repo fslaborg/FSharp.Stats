@@ -58,6 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6
 		docs\NuGet.config = docs\NuGet.config
 		docs\Signal.fsx = docs\Signal.fsx
 		docs\Rank.fsx = docs\Rank.fsx
+		docs\ML.fsx = docs\ML.fsx
 		docs\Testing.fsx = docs\Testing.fsx
 		docs\_template.html = docs\_template.html
 		docs\_template.ipynb = docs\_template.ipynb
