@@ -6,6 +6,7 @@ open System
 module Logistic =
     
     /// Computes the standard logistic function value for x
+    /// where L=1, k=1, x0=0. It is sometimes simply called the sigmoid
     let standard x = 1.0 / (1.0 + exp -x)
 
     /// Computes the logistic function value for x where 

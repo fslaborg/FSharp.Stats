@@ -5,6 +5,7 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DistanceMetrics.fs" />
     <Compile Include="TestExtensions.fs" />
     <Compile Include="Interval.fs" />
     <Compile Include="Formatting.fs" />
