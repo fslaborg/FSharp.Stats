@@ -29,30 +29,314 @@ let distanceFunctionsTests =
 
 [<Tests>]
 let chiSquaredTests =
-    //TestCases from Williams RBG, Introduction to Statistics for Geographers and Earth Scientist, 1984, DOI 10.1007/978-1-349-06815-9 p 333
-    testList "Distributions.ChiSquared" [
-        testCase "CDF.testCase1" <| fun () ->
-            let testCase = 1. - (Continuous.ChiSquared.CDF 20. 12.443)
-            Expect.isTrue (Math.Round(testCase,3) = 0.900) "Should be equal"
-        testCase "CDF.testCase12" <| fun () ->
-            let testCase = 1. - (Continuous.ChiSquared.CDF 3. 1.424)
-            Expect.isTrue (Math.Round(testCase,3) = 0.700) "Should be equal"
-        testCase "CDF.testCase13" <| fun () ->
-            let testCase = 1. - (Continuous.ChiSquared.CDF 100. 67.327)
-            Expect.isTrue (Math.Round(testCase,3) = 0.995) "Should be equal"
-        testCase "CDF.testCase14" <| fun () ->
-            let testCase = 1. - (Continuous.ChiSquared.CDF 100. 129.561)
-            Expect.isTrue (Math.Round(testCase,3) = 0.025) "Should be equal"
-    //TestCases from https://www.analyticscalculators.com/calculator.aspx?id=63
-        testCase "PDF.testCase1" <| fun () ->
-            let testCase = Continuous.ChiSquared.PDF 2. 4.7
-            Expect.floatClose Accuracy.low testCase 0.04768458 "Should be equal"
-        testCase "PDF.testCase2" <| fun () ->
-            let testCase = Continuous.ChiSquared.PDF 20.0 4.7
-            Expect.floatClose Accuracy.low testCase 0.00028723 "Should be equal"
-        testCase "PDF.testCase3" <| fun () ->
-            let testCase = Continuous.ChiSquared.PDF 100. 80.
-            Expect.floatClose Accuracy.low testCase 0.01106689 "Should be equal"
+    testList "ChiSquaredTests" [
+        testList "CheckParam" [
+            // edge cases:
+            testCase "CheckParam10" <| fun () ->
+                let testCase = Continuous.chiSquaredCheckParam 10.
+                Expect.isTrue (testCase = ()) "Should be unit"
+            testCase "CheckParam0" <| fun () ->
+                let testCase = Continuous.chiSquaredCheckParam 0.
+                Expect.isTrue (testCase = ()) "Should be unit"
+            testCase "CheckParamInfinity" <| fun () ->
+                let testCase = Continuous.chiSquaredCheckParam infinity
+                Expect.isTrue (testCase = ()) "Should be unit"
+            testCase "CheckParam-1" <| fun () ->
+                Expect.throws (fun () -> Continuous.chiSquaredCheckParam -1.) "Should throw"
+            testCase "CheckParam-infinity" <| fun () ->
+                Expect.throws (fun () -> Continuous.chiSquaredCheckParam -infinity) "Should throw"
+            testCase "CheckParamNan" <| fun () ->
+                Expect.throws (fun () -> Continuous.chiSquaredCheckParam nan) "Should throw"
+        ]
+
+        testList "Distributions.ChiSquared" [
+            // cases for mean, variance, and standard deviation based on https://web.archive.org/web/20211109131558/https://www.statlect.com/probability-distributions/chi-square-distribution
+            testCase "Mean10" <| fun () ->
+                let testCase = Continuous.ChiSquared.Mean 10.
+                Expect.floatClose Accuracy.veryHigh testCase 10. "Should be equal"
+            // edge cases:
+            testCase "Mean0" <| fun () ->
+                let testCase = Continuous.ChiSquared.Mean 0.
+                Expect.floatClose Accuracy.veryHigh testCase 0. "Should be equal"
+            testCase "MeanInfinity" <| fun () ->
+                let testCase = Continuous.ChiSquared.Mean infinity
+                Expect.isTrue (testCase = infinity) "Should be equal"
+            testCase "Mean-1" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.Mean -1. |> ignore) "Should throw"
+            testCase "Mean-Infinity" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.Mean -infinity |> ignore) "Should throw"
+            testCase "MeanNan" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.Mean nan |> ignore) "Should throw"
+
+            testCase "Variance10" <| fun () ->
+                let testCase = Continuous.ChiSquared.Variance 10.
+                Expect.floatClose Accuracy.veryHigh testCase 20. "Should be equal"
+            // edge cases:
+            testCase "Variance0" <| fun () ->
+                let testCase = Continuous.ChiSquared.Variance 0.
+                Expect.floatClose Accuracy.veryHigh testCase 0. "Should be equal"
+            testCase "VarianceInfinity" <| fun () ->
+                let testCase = Continuous.ChiSquared.Variance infinity
+                Expect.isTrue (testCase = infinity) "Should be equal"
+            testCase "Variance-1" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.Variance -1. |> ignore) "Should throw"
+            testCase "Variance-Infinity" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.Variance -infinity |> ignore) "Should throw"
+            testCase "VarianceNan" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.Variance nan |> ignore) "Should throw"
+
+            testCase "StandardDeviation10" <| fun () ->
+                let testCase = Continuous.ChiSquared.StandardDeviation 8.
+                Expect.floatClose Accuracy.veryHigh testCase 4. "Should be equal"
+            // edge cases:
+            testCase "StandardDeviation0" <| fun () ->
+                let testCase = Continuous.ChiSquared.StandardDeviation 0.
+                Expect.floatClose Accuracy.veryHigh testCase 0. "Should be equal"
+            testCase "StandardDeviationInfinity" <| fun () ->
+                let testCase = Continuous.ChiSquared.StandardDeviation infinity
+                Expect.isTrue (testCase = infinity) "Should be equal"
+            testCase "StandardDeviation-1" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.StandardDeviation -1. |> ignore) "Should throw"
+            testCase "StandardDeviation-Infinity" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.StandardDeviation -infinity |> ignore) "Should throw"
+            testCase "StandardDeviationNan" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.StandardDeviation nan |> ignore) "Should throw"
+
+            // edge cases:
+            testCase "PDF.testCaseDof0X4,7" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 0. 4.7
+                Expect.floatClose Accuracy.low testCase 0. "Should be equal"
+            testCase "PDF.testCaseDof0X1" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 0. 1.
+                Expect.floatClose Accuracy.low testCase 0. "Should be equal"
+            testCase "PDF.testCaseDof0X0" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 0. 0.
+                Expect.floatClose Accuracy.low testCase 0. "Should be equal"
+            testCase "PDF.testCaseDof0XInfinity" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 0. infinity
+                Expect.floatClose Accuracy.low testCase 0. "Should be equal"
+            testCase "PDF.testCaseDof0X-1" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 0. -1.
+                Expect.floatClose Accuracy.low testCase 0. "Should be equal"
+            testCase "PDF.testCaseDof0X-infinity" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 0. -infinity
+                Expect.floatClose Accuracy.low testCase 0. "Should be equal"
+            testCase "PDF.testCaseDof0XNan" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 0. nan
+                Expect.floatClose Accuracy.low testCase 0. "Should be equal"
+            testCase "PDF.testCaseX-1" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 2. -1.
+                Expect.floatClose Accuracy.low testCase 0. "Should be equal"
+            testCase "PDF.testCaseX0" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 2. 0.
+                Expect.floatClose Accuracy.low testCase 0.5 "Should be equal"
+            testCase "PDF.testCaseX-infinity" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 2. -infinity
+                Expect.floatClose Accuracy.low testCase 0. "Should be equal"
+            testCase "PDF.testCaseXInfinity" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 2. infinity
+                Expect.floatClose Accuracy.low testCase 0. "Should be equal"
+            testCase "PDF.testCaseXNan" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 2. nan
+                Expect.isTrue (Double.IsNaN testCase) "Should be equal"
+            //TestCases from https://www.analyticscalculators.com/calculator.aspx?id=63
+            testCase "PDF.testCase1" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 2. 4.7
+                Expect.floatClose Accuracy.low testCase 0.04768458 "Should be equal"
+            testCase "PDF.testCase2" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 20.0 4.7
+                Expect.floatClose Accuracy.low testCase 0.00028723 "Should be equal"
+            testCase "PDF.testCase3" <| fun () ->
+                let testCase = Continuous.ChiSquared.PDF 100. 80.
+                Expect.floatClose Accuracy.low testCase 0.01106689 "Should be equal"
+
+            //// edge cases:
+            //testCase "PDFLnInfinityDof" <| fun () ->
+            //    let testCase = Continuous.ChiSquared.PDFLn infinity 1.
+            //    Expect.isTrue (testCase = -infinity) "Should be equal"
+            //testCase "PDFLnInfinityX" <| fun () ->
+            //    let testCase = Continuous.ChiSquared.PDFLn 1. infinity
+            //    Expect.isTrue (testCase = -infinity) "Should be equal"
+
+            // TO DO: TestCases for other edge cases. Not done as long as the function of PDFLn remains unclear (s. https://github.com/fslaborg/FSharp.Stats/issues/209)
+
+            // edge cases:
+            testCase "CDF.testCaseDof0X1" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 0. 1.)
+                Expect.isTrue (testCase = 0.) "Should be equal"
+            testCase "CDF.testCaseDof0X10" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 0. 10.)
+                Expect.isTrue (testCase = 0.) "Should be equal"
+            testCase "CDF.testCaseDof0XInfinity" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 0. infinity)
+                Expect.isTrue (testCase = 0.) "Should be equal"
+            testCase "CDF.testCaseDof0XNan" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 0. nan)
+                Expect.isTrue (testCase = 1.) "Should be equal"
+            testCase "CDF.testCaseDof0X-infinity" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 0. -infinity)
+                Expect.isTrue (testCase = 1.) "Should be equal"
+            testCase "CDF.testCaseDof0X0" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 0. 0.)
+                Expect.isTrue (testCase = 1.) "Should be equal"
+            testCase "CDF.testCaseDof1X0" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 1. 0.)
+                Expect.floatClose Accuracy.veryHigh testCase 1. "Should be equal"
+            testCase "CDF.testCaseDof1XInfinity" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 1. infinity)
+                Expect.floatClose Accuracy.veryHigh testCase 0. "Should be equal"
+            testCase "CDF.testCaseDof1X-infinity" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 1. -infinity)
+                Expect.isTrue (isNan testCase) "Should be NaN"
+            testCase "CDF.testCaseDof1XNan" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 1. nan)
+                Expect.isTrue (isNan testCase) "Should be NaN"
+            //TestCases from Williams RBG, Introduction to Statistics for Geographers and Earth Scientist, 1984, DOI 10.1007/978-1-349-06815-9 p 333
+            testCase "CDF.testCase1" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 20. 12.443)
+                Expect.isTrue (Math.Round(testCase,3) = 0.900) "Should be equal"
+            testCase "CDF.testCase12" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 3. 1.424)
+                Expect.isTrue (Math.Round(testCase,3) = 0.700) "Should be equal"
+            testCase "CDF.testCase13" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 100. 67.327)
+                Expect.isTrue (Math.Round(testCase,3) = 0.995) "Should be equal"
+            testCase "CDF.testCase14" <| fun () ->
+                let testCase = 1. - (Continuous.ChiSquared.CDF 100. 129.561)
+                Expect.isTrue (Math.Round(testCase,3) = 0.025) "Should be equal"
+
+            testCase "Support-1" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.Support -1. |> ignore) "Should throw"
+            testCase "Support-infinity" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.Support -infinity |> ignore) "Should throw"
+            testCase "SupportNan" <| fun () ->
+                Expect.throws (fun () -> Continuous.ChiSquared.Support nan |> ignore) "Should throw"
+            testCase "Support0" <| fun () ->
+                let testCase = Continuous.ChiSquared.Support 0.
+                Expect.isTrue (testCase = (0., infinity)) "Should be equal"
+            testCase "Support1" <| fun () ->
+                let testCase = Continuous.ChiSquared.Support 1.
+                Expect.isTrue (testCase = (0., infinity)) "Should be equal"
+            testCase "SupportInfinity" <| fun () ->
+                let testCase = Continuous.ChiSquared.Support infinity
+                Expect.isTrue (testCase = (0., infinity)) "Should be equal"
+
+            // is based on the functions from before but nevertheless should be tested, too
+            testCase "chiSquared-1" <| fun () ->
+                let testCase = Continuous.chiSquared -1.
+                Expect.throws (fun () -> testCase.Mean |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.Variance |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.StandardDeviation |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF 0. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF 1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF 10. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF -infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF -1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF nan |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF 0. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF 1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF 10. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF -infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF -1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF nan |> ignore) "Should throw"
+            testCase "chiSquared-infinity" <| fun () ->
+                let testCase = Continuous.chiSquared -infinity
+                Expect.throws (fun () -> testCase.Mean |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.Variance |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.StandardDeviation |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF 0. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF 1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF 10. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF -infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF -1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF nan |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF 0. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF 1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF 10. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF -infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF -1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF nan |> ignore) "Should throw"
+            testCase "chiSquaredNan" <| fun () ->
+                let testCase = Continuous.chiSquared nan
+                Expect.throws (fun () -> testCase.Mean |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.Variance |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.StandardDeviation |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF 0. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF 1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF 10. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF -infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF -1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.CDF nan |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF 0. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF 1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF 10. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF -infinity |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF -1. |> ignore) "Should throw"
+                Expect.throws (fun () -> testCase.PDF nan |> ignore) "Should throw"
+            testCase "chiSquared0" <| fun () ->
+                let testCase = Continuous.chiSquared 0.
+                Expect.floatClose Accuracy.veryHigh testCase.Mean 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh testCase.Variance 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh testCase.StandardDeviation 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF 0.) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF 1.) 1. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF 10.) 1. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF infinity) 1. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF -1.) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF -infinity) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF nan) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF 0.) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF 1.) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF 10.) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF infinity) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF -infinity) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF nan) 0. "Should be equal"
+            testCase "chiSquared1" <| fun () ->
+                let testCase = Continuous.chiSquared 1.
+                Expect.floatClose Accuracy.veryHigh testCase.Mean 1. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh testCase.Variance 2. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh testCase.StandardDeviation (sqrt 2.) "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF 0.) 0. "Should be equal"
+                Expect.floatClose Accuracy.medium (testCase.CDF 1.) 0.682689 "Should be equal"
+                Expect.floatClose Accuracy.low (testCase.CDF 10.) 0.998 "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF infinity) 1. "Should be equal"
+                Expect.isTrue (testCase.CDF -1. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF -infinity |> isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF nan |> isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF 0. = infinity) "Should be equal"
+                Expect.floatClose Accuracy.medium (testCase.PDF 1.) 0.24197 "Should be equal"
+                Expect.floatClose Accuracy.low (testCase.PDF 10.) 0.00085 "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF infinity) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF -infinity) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
+                Expect.isTrue (isNan <| testCase.PDF nan) "Should be equal"
+            testCase "chiSquaredInfinity" <| fun () ->
+                let testCase = Continuous.chiSquared infinity
+                Expect.isTrue (testCase.Mean = infinity) "Should be equal"
+                Expect.isTrue (testCase.Variance = infinity) "Should be equal"
+                Expect.isTrue (testCase.StandardDeviation = infinity) "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF 0.) 0. "Should be equal"
+                Expect.isTrue (testCase.CDF 1. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF 10. |> isNan) "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.CDF infinity) 1. "Should be equal"
+                Expect.isTrue (testCase.CDF -1. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF -infinity |> isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF nan |> isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF 0. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF 1. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF 10. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF infinity |> isNan) "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF -infinity) 0. "Should be equal"
+                Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
+                Expect.isTrue (isNan <| testCase.PDF nan) "Should be equal"
+        ]
     ]
 
 [<Tests>]
