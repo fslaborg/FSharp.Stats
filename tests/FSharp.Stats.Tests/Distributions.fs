@@ -565,6 +565,9 @@ let hypergeometricTests =
             // If N = n then k = K
             Expect.equal generateALL 20 "generateALL"
             Expect.isTrue numbersAreBetween_1_K "numbersAreBetween_1_K"
+            }
+        ]
+
 let exponentialTests =
     // references is R V. 2022.02.3 Build 492
     // PDF is used with expPDF <- dexp(3,0.59)

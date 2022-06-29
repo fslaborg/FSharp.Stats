@@ -224,26 +224,19 @@ module Discrete =
             //(SpecialFunctions.Binomial.coeffcient K k) * (SpecialFunctions.Binomial.coeffcient (N-K) (n-k)) / (SpecialFunctions.Binomial.coeffcient N n)
             if (N-K)<(n-k) then 0. 
             else
-                exp ((SpecialFunctions.Binomial.coeffcientLn K k) + (SpecialFunctions.Binomial.coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial.coeffcientLn N n)
+                exp ((SpecialFunctions.Binomial._coeffcientLn K k) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial._coeffcientLn N n)
         
-        /// Computes the cumulative distribution function at k for P(X <= k).
-        static member CDF N K n (k: int) =
+        /// Computes the cumulative distribution function at x, i.e. P(X <= x).
+        static member CDF N K n (k:int) =
             hypergeoCheckParam N K n
             hypergeoCheckParam_k N K n k
             if (k < (max 0 (n + K - N))) then 
-                exp ((SpecialFunctions.Binomial._coeffcientLn K k) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial._coeffcientLn N n)
-
-        /// Computes the cumulative distribution function at x, i.e. P(X <= x).
-        static member CDF N K n (x:float) =
-            hypergeoCheckParam N K n            
-            if (x < float (max 0 (n + K - N))) then 
                 0.0
             elif (k >= (min K n)) then
                 1.0
             elif N-K < n then
                 1.0
             else
-   
                 let d = SpecialFunctions.Binomial.coeffcientLn N n
                 let rec loop i acc =
                     if i <= k then
