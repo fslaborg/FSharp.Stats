@@ -44,6 +44,8 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.chiTests               |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.chiSquaredTests        |> ignore
     //Tests.runTestsWithCLIArgs [] argv DistributionsTests.studentizedRangeTests  |> ignore //Test ommitted due to extremely long runtime of CodeCov.
+    Tests.runTestsWithCLIArgs [] argv DistributionsTests.multivariateNormalTests|> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsTests.exponentialTests       |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.multivariateNormalTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.bernoulliTests |> ignore
     
@@ -62,6 +64,9 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv TestingTests.hTestTests       |> ignore
     Tests.runTestsWithCLIArgs [] argv TestingTests.chiSquaredTests  |> ignore
     Tests.runTestsWithCLIArgs [] argv TestingTests.pearsonTests     |> ignore
+    Tests.runTestsWithCLIArgs [] argv TestingTests.fTestTests           |> ignore
+    Tests.runTestsWithCLIArgs [] argv TestingTests.friedmanTestTests    |> ignore
+    Tests.runTestsWithCLIArgs [] argv TestingTests.wilcoxonTestTests    |> ignore
     
     //================================== ML =================================================================
     //SimilarityMetrics

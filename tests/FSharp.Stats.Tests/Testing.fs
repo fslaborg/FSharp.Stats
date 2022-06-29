@@ -215,6 +215,39 @@ let tTestTests =
     ]
 
 [<Tests>]
+let fTestTests = 
+    // F-Test validated against res.ftest <- var.test(samplea, sampleb, alternative = "two.sided") RStudio 2022.02.3+492 "Prairie Trillium" Release (1db809b8323ba0a87c148d16eb84efe39a8e7785, 2022-05-20) for Windows
+
+    let sampleFA = vector [|5.0; 6.0; 5.8; 5.7|] 
+    let sampleFB = vector [|3.5; 3.7; 4.0; 3.3; 3.6|]
+    let sampleNaN = vector [|5.0; 6.0; 5.8; nan|]
+    let sampleInf = vector [|5.0; 6.0; 5.8; infinity|]
+    let sampleNegInf = vector [|5.0; 6.0; 5.8; -infinity|]
+    let sampleties = vector [|5.0; 5.0; 5.8; 5.3|]
+
+    // calculation of the F test 
+    let fResult = FTest.testVariances sampleFA sampleFB
+    let fResultNaN = FTest.testVariances sampleNaN sampleFB
+    let fResultInf = FTest.testVariances sampleInf sampleFB
+    let fResultNegInf = FTest.testVariances sampleNegInf sampleFB
+    let fResultTies = FTest.testVariances sampleFA sampleties 
+
+
+
+    testList "Testing.FTest" [
+        testCase "createFTest" <| fun () -> 
+            Expect.floatClose Accuracy.low fResult.Statistic 2.82338 "statistics should be equal."
+            Expect.floatClose Accuracy.low fResult.PValueTwoTailed 0.34172 "pValue should be equal."
+        testCase "FTest NaN" <| fun () -> 
+            Expect.isTrue (nan.Equals (fResultNaN.Statistic)) "statistic should be nan"
+        testCase "FTest infinities" <| fun () -> 
+            Expect.isTrue (nan.Equals (fResultInf.Statistic)) "statistic should be nan"
+            Expect.isTrue (nan.Equals (fResultNegInf.Statistic)) "statistic should be nan"
+        testCase "FTest 2 ties" <| fun () -> 
+            Expect.floatClose Accuracy.low fResultTies.Statistic 1.32748538 "statistics should be equal."
+            Expect.floatClose Accuracy.low fResultTies.PValueTwoTailed 0.8214 "pValue should be equal."
+        ]
+[<Tests>]
 let chiSquaredTests = 
     // ChiSquared https://www.graphpad.com/quickcalcs/chisquared2/
     // example from R

@@ -341,7 +341,7 @@ module Continuous =
         static member PDF lambda x = 
             expCheckParam lambda
             if x >= 0.0 then
-                - lambda * exp(-lambda * x)
+                lambda * exp(-lambda * x)
             else 0.0
 
         /// Computes the cumulative distribution function.
