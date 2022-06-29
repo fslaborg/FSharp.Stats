@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Include="DistanceMetrics.fs" />
     <Compile Include="TestExtensions.fs" />
+    <Compile Include="Interval.fs" />
     <Compile Include="Formatting.fs" />
     <Compile Include="LinearAlgebra.fs" />
     <Compile Include="Correlation.fs" />

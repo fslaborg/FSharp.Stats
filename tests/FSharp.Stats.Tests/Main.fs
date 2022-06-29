@@ -35,6 +35,9 @@ let main argv =
     //================================== Array ==============================================================
     Tests.runTestsWithCLIArgs [] argv ArrayTests.medianTests   |> ignore
 
+    //================================== Interval ===========================================================
+    Tests.runTestsWithCLIArgs [] argv IntervalTests.intervalTests   |> ignore
+
     //================================= Seq ==============================================================
     Tests.runTestsWithCLIArgs [] argv SeqTests.medianTests |> ignore
     Tests.runTestsWithCLIArgs [] argv SeqTests.meanTests   |> ignore
