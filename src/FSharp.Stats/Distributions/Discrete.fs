@@ -15,6 +15,11 @@ module Discrete =
     
     /// Bernoulli distribution.
     type Bernoulli =
+
+        // https://planetcalc.com/486/
+        // > Mean, or expected value of a binomial distribution is equal to "np"(n=1 in bernoulli distribution),
+        // > and the variance is equal to "np(1-p)"
+
         /// Computes the mean.
         static member Mean p =
             bernCheckParam p
@@ -36,22 +41,31 @@ module Discrete =
 //            if rndgen.NextFloat() < p then 0.0 else 1.0
             failwith "Not implemented yet."
 
+        // Rename PMF? https://en.wikipedia.org/wiki/Probability_mass_function
+        // > A probability mass function differs from a probability density function (PDF) in that the latter is associated with continuous 
+        // > rather than discrete random variables. A PDF must be integrated over an interval to yield a probability.
+
         /// Computes the probability density function.
         static member PDF p x =
             bernCheckParam p
             match x with
-            | 0.0 -> p
-            | 1.0 -> 1.0 - p
+            | 0.0 -> 1.0 - p
+            | 1.0 -> p
             | _ -> 0.0
 
-        /// Computes the cumulative distribution function.
+        /// Computes the cumulative distribution function. P(X>=k)
         static member CDF p x =
             bernCheckParam p
-            if x < 0.0 then 0.0
-            elif x < 1.0 then p
-            else 1.0
+            // Summary: This cdf calculates the probability, that value x is greater or equal to a random value (R) taken from the bernoulli distribution.
+            // Reminder: A bernoulli distribution can only return 0 or 1 as result.
+            //// If the value x is greater than 1.0, then the probability that x is greater than the random outcome (R) is 1.0, since R∈{0,1}.
+            if x >= 1.0 then 1.0
+            //// Example: p = 0.8. 80% of the time R=1 and 20% of the time R=0. The probability that x in the range of 0.0 ... 0.99 is greater than R is 20%. Therefore 1-p=q.
+            elif x >= 0.0 then 1.0 - p
+            // If the value x is less than 0, the probability that x is greater than the random outcome (R) of p is 0 since, R∈{0,1}.
+            else 0.0
 
-        /// Returns the support of the exponential distribution: [0, Positive Infinity).
+        /// Returns the support of the bernoulli distribution: {0, 1}.
         static member Support p =
             bernCheckParam p
             [0.0; 1.0]
@@ -217,6 +231,12 @@ module Discrete =
             hypergeoCheckParam N K n
             hypergeoCheckParam_k N K n k
             if (k < (max 0 (n + K - N))) then 
+                exp ((SpecialFunctions.Binomial._coeffcientLn K k) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial._coeffcientLn N n)
+
+        /// Computes the cumulative distribution function at x, i.e. P(X <= x).
+        static member CDF N K n (x:float) =
+            hypergeoCheckParam N K n            
+            if (x < float (max 0 (n + K - N))) then 
                 0.0
             elif (k >= (min K n)) then
                 1.0
@@ -227,7 +247,7 @@ module Discrete =
                 let d = SpecialFunctions.Binomial.coeffcientLn N n
                 let rec loop i acc =
                     if i <= k then
-                        let tmp = exp ((SpecialFunctions.Binomial.coeffcientLn K i) + (SpecialFunctions.Binomial.coeffcientLn (N-K) (n-i)) - d)
+                        let tmp = exp ((SpecialFunctions.Binomial._coeffcientLn K i) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-i)) - d)
                         loop (i+1) (acc+tmp)
                     else
                         acc
@@ -339,7 +359,7 @@ module Discrete =
             elif p = 0. then
                 if k = 0 then 1. else 0.
             else
-                exp ( (SpecialFunctions.Binomial.coeffcientLn n k) + (float k * log p + ( float (n - k)*log(1.-p) )) )
+                exp ( (SpecialFunctions.Binomial._coeffcientLn n k) + (float k * log p + ( float (n - k)*log(1.-p) )) )
 
 
         /// Computes the cumulative distribution function at x, i.e. P(X <= x).
@@ -373,97 +393,6 @@ module Discrete =
             member d.CDF x             = Binomial.CDF p n x         
         }   
 
-
-
-// ######
-// Wilcoxon distribution
-// ----------------------------------------------
-// wiki: "href="http://wiki.analytica.com/index.php?title=Wilcoxon_Distribution#Wilcoxon.28m.2C_n.2C_exact.29"
-// http://vassarstats.net/textbook/ch12a.html
-// ######
-
-
-    // Wilcoxon distribution helper functions.
-    let wilcoxonCheckParam p n = if n < 0 || p < 0. || p > 1. then failwith "Binomial distribution should be parametrized by n > 0.0 and 0 ≤ p ≤ 1."
-    
-    ///Wilcoxon distribution
-    type Wilcoxon =
-        /// Computes the mean.
-        static member Mean p n =
-            wilcoxonCheckParam p n
-            (float n) * p
-
-        /// Computes the variance.
-        static member Variance p n =
-            wilcoxonCheckParam p n
-            p * (1.0 - p) * float n
-
-        /// Computes the standard deviation.
-        static member StandardDeviation p n =
-            wilcoxonCheckParam p n
-            sqrt (Binomial.Variance p n)
-            
-
-        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-        /// No parameter checking!
-        static member internal SampleUnchecked p n =            
-            let rec loop p n k =
-                if k < n then
-                    let k' = if Random.rndgen.NextFloat() < p then k + 1 else k
-                    loop p n k'
-                else    
-                    k                                        
-            
-            loop p n 0
-            
-
-        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-        static member Sample p n =
-            wilcoxonCheckParam p n
-            Binomial.SampleUnchecked p n
-
-
-        /// Computes the probability density function at k, i.e. P(K = k)
-        static member PDF p n k =
-            wilcoxonCheckParam  p n
-            if k < 0 || k > n then
-                0.0
-            elif p = 0. then
-                if k = 0 then 1. else 0.
-            else
-                exp ( (SpecialFunctions.Binomial.coeffcientLn n k) + (float k * log p + ( float (n - k)*log(1.-p) )) )
-
-
-        /// Computes the cumulative distribution function at x, i.e. P(X <= x).
-        static member CDF p n (x:float) =
-            wilcoxonCheckParam p n            
-            if (x < 0.) then 
-                0.0
-            elif (x > float n) then
-                1.0
-            else
-                let k = floor x |> int 
-                SpecialFunctions.Beta.lowerIncomplete (float (n-k)) (float (k + 1)) (1. - p)
-
-
-
-
-        /// Returns the support of the Binomial distribution: (0., n).
-        static member Support p n =
-            wilcoxonCheckParam p n
-            (0., float n)
-
-    /// Initializes a Wilcoxon distribution       
-    let wilcoxon p n =
-        { new Distribution<float,int> with
-            member d.Mean              = Wilcoxon.Mean p n
-            member d.StandardDeviation = Wilcoxon.StandardDeviation p n
-            member d.Variance          = Wilcoxon.Variance p n
-            //member d.CoVariance        = Wilcoxon.CoVariance p n
-            member d.Sample ()         = Wilcoxon.Sample p n
-            member d.PDF k             = Wilcoxon.PDF p n k    
-            member d.CDF x             = Wilcoxon.CDF p n x         
-        }   
 
 
 // ######
@@ -524,7 +453,7 @@ module Discrete =
         /// Computes the probability density function at k, i.e. P(K = k)
         static member PDF lambda k =
             if k > 170 then 
-                System.Math.E ** (System.Math.Log lambda * float k - SpecialFunctions.Factorial.factorialLn k) * System.Math.E**(-lambda)
+                System.Math.E ** (System.Math.Log lambda * float k - SpecialFunctions.Factorial._factorialLn k) * System.Math.E**(-lambda)
             else
                 (lambda**float k * System.Math.E**(-lambda)) / SpecialFunctions.Factorial.factorial k
 
