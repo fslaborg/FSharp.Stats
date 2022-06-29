@@ -1,15 +1,25 @@
-namespace FSharp.Stats.SpecialFunctions
+﻿namespace FSharp.Stats.SpecialFunctions
 
 open System
 
-/// Special mathematical functions
+/// Approximations for the gamma function and related functions.
+///
+/// The gamma function (represented by Γ, the capital letter gamma from the Greek alphabet) is one commonly used extension 
+/// of the factorial function to complex numbers:
+///
+/// Γ(x) = (x-1)!
+///
+///The gamma function is defined for all complex numbers except the non-positive integers.
 module Gamma =
     open FSharp.Stats
-    
 
-    
-    /// Computes the gamma function using the Lanczos Coefficients described in Numerical Recipes (Press et al) 
-    let gamma z = 
+    /// <summary>
+    /// Computes an approximation of the real value of the gamma function using the Lanczos Coefficients described in Numerical Recipes (Press et al) 
+    ///
+    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
+    /// </summary>
+    /// <param name="z">The function input for approximating Γ(z)</param>
+    let _gamma z = 
         let lanczosCoefficients = [76.18009172947146;-86.50532032941677;24.01409824083091;-1.231739572450155;0.1208650973866179e-2;-0.5395239384953e-5]
         let rec sumCoefficients acc i coefficients =
             match coefficients with
@@ -19,9 +29,13 @@ module Gamma =
         let x = z - 1.0
         Math.Pow(x + gamma + 0.5, x + 0.5) * Math.Exp( -(x + gamma + 0.5) ) * Math.Sqrt( 2.0 * Math.PI ) * sumCoefficients 1.000000000190015 (x + 1.0) lanczosCoefficients
 
-
-    /// Computes the log gamma function using the Lanczos Coefficients described in Numerical Recipes (Press et al)
-    let gammaLn z = 
+    /// <summary>
+    /// Computes an approximation of the real value of the log gamma function using the Lanczos Coefficients described in Numerical Recipes (Press et al)
+    ///
+    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
+    /// </summary>
+    /// <param name="z">The function input for approximating ln(Γ(z))</param>
+    let _gammaLn z =
         let lanczosCoefficients = [76.18009172947146;-86.50532032941677;24.01409824083091;-1.231739572450155;0.1208650973866179e-2;-0.5395239384953e-5]
         let rec sumCoefficients acc i coefficients =
             match coefficients with
@@ -32,8 +46,34 @@ module Gamma =
         let tmp = x + gamma + 0.5 
         -(tmp - ((x + 0.5) * log(tmp))) + log(Math.Sqrt( 2.0 * Math.PI ) * sumCoefficients 1.000000000190015 (x + 1.0) lanczosCoefficients)
 
+    /// <summary>
+    /// Computes an approximation of the real value of the gamma function using the Lanczos Coefficients described in Numerical Recipes (Press et al) 
+    ///
+    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
+    ///
+    /// This might be slower than the unchecked version `_gamma` but does not require input sanitation to get expected results for these cases.
+    /// </summary>
+    /// <param name="z">The function input for approximating Γ(z)</param>
+    let gamma z = 
+        match z with
+        | z when (infinity.Equals(z)) -> infinity
+        | z when ((-infinity).Equals(z)) -> nan
+        | _ -> _gamma z
 
-
+    /// <summary>
+    /// Computes an approximation of the real value of the log gamma function using the Lanczos Coefficients described in Numerical Recipes (Press et al)
+    ///
+    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
+    ///
+    /// This might be slower than the unchecked version `_gamma` but does not require input sanitation to get expected results for these cases.
+    /// </summary>
+    /// <param name="z">The function input for approximating ln(Γ(z))</param>
+    let gammaLn z = 
+        match z with
+        | z when (infinity.Equals(z)) -> infinity
+        | z when ((-infinity).Equals(z)) -> nan
+        | _ -> _gammaLn z
+            
     let private FPMIN = 1.0e-30 //(System.Double.MinValue + System.Double.Epsilon)
     let private EPS = 3.0e-8    //System.Double.Epsilon
 

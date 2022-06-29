@@ -59,8 +59,9 @@ module DistanceMetrics =
             let dim = min v1.Length v2.Length
             let mutable dist = 0.
             for i in 0 .. (dim - 1) do
-                let x = v1.[i] - v2.[i] |> System.Math.Abs
-                dist <- dist + x
+                let x = v1.[i] - v2.[i]
+                if not (nan.Equals (x)) then
+                    dist <- dist + (x |> System.Math.Abs)
             dist
  
     module Array = 
@@ -177,7 +178,7 @@ module DistanceMetrics =
 
     // Levenshtein distance between strings, lifted from:
     // http://en.wikibooks.org/wiki/Algorithm_implementation/Strings/Levenshtein_distance#F.23
-    let inline private min3 one two three = 
+    let private min3 one two three :int = 
         if one < two && one < three then one
         elif two < three then two
         else three
