@@ -50,7 +50,6 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.multivariateNormalTests|> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.hypergeometricTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.exponentialTests       |> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.multivariateNormalTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.bernoulliTests |> ignore
     
     //=============================== Correlation ===========================================================
