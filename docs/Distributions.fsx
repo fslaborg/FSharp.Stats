@@ -360,38 +360,45 @@ plotBinomial |> GenericChart.toChartHTML
 The hypergeometric distribution describes the probability, that under a given number of success and failure events and 
 a given number of draws an event occurs exactly k times (without replacement). 
 
-It is defined by three parameters Hyp(n,s,f):
+It is defined by three parameters:
 
-  - n = number of draws
-  
-  - s = number of success events
+  - N = finite population representing the total number of events. 
 
-  - f = number of failure events
+  - K = number of success events in this population.
+
+  - n = number of draws from the population.
 
 Example: You participate in a lottery, where you have to choose 6 numbers out of 49. The lottery queen draws 6 numbers randomly, 
 where the order does not matter.
 
 HypA: What is the probability that your 6 numbers are right?
 
-HypB: What is the probability that you have at least 3 right ones?
+HypB: How to simulate artificial draws from the distribution?
 
-HypC: What is the probability that you have a maximum of 3 right ones? 
+HypC: What is the probability that you have at least 3 right ones?
+
+HypD: What is the probability that you have a maximum of 3 right ones? 
+
 *)
 
-// Creates a hypergeometric distribution with n=6, s=6 and f=49-6=43.
-//N=count(succes)+count(failure), K=count(success), n=number of draws
+// Creates a hypergeometric distribution with N=49, K=6, n=6.
 let hyper = Discrete.hypergeometric 49 6 6
 
 // HypA: What is the probability that your 6 numbers are right?
 let hypA = hyper.PDF 6
 // Output: 7.15-08
 
-// HypB: What is the probability that you have at least 3 right ones?
-let hypB = 1. - hyper.CDF 2.
+// HypB: How to simulate artificial draws from the distribution?
+let hypB = hyper.Sample()
+// Output: Number of success events randomly sampled from the distribution.
+
+// HypC: What is the probability that you have at least 3 right ones?
+// CDF is implemented to calculate P(X <= k)
+let hypC = 1. - hyper.CDF 2
 // Output: 0.01864 = 1.86 %
 
-// HypC: What is the probability that you have a maximum of 3 right ones? 
-let hypC = hyper.CDF 3.
+// HypD: What is the probability that you have a maximum of 3 right ones? 
+let hypD = hyper.CDF 3
 // Output: 0.99901 = 99.90 %
 
 (***hide***)
@@ -400,7 +407,7 @@ let plotHyper =
     |> List.map (fun x -> x,hyper.PDF x)
     |> Chart.Column
     |> Chart.withAxisTitles "" ""
-    |> Chart.withTitle "Hyp(6,6,43)"
+    |> Chart.withTitle "N=49, K=6, n=6"
 
 (*** condition: ipynb ***)
 #if IPYNB

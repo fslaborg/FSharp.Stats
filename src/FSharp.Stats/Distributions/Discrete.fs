@@ -146,23 +146,37 @@ module Discrete =
 // wiki: "http://en.wikipedia.org/wiki/Hypergeometric_distribution"
 // ######
 
+    // In probability theory and statistics, the hypergeometric distribution is a discrete probability distribution 
+    // that describes the probability of `k` successes (random draws for which the object 
+    // drawn has a specified feature) in `n` draws, without replacement, from a finite 
+    // population of size `N` that contains exactly `K` objects with that feature, 
+    // wherein each draw is either a success or a failure. In contrast, the binomial distribution 
+    // describes the probability of `k` successes in `n` draws with replacement.
 
-    
-    //N is the population size,
-    //K is the number of success states in the population,
-    //n is the number of draws,
-    //k is the number of observed successe
+    // N is the population size,
+    // K is the number of success states in the population,
+    // n is the number of draws,
+    // k is the number of observed successes
 
-
-
+    // N ∈ {0,1,2,...}
+    // K ∈ {0,1,2,...,N}
+    // n ∈ {0,1,2,...,N}
     // Hypergeometric distribution helper functions.
     let hypergeoCheckParam N K n = if N <= 0 || K <= 0 || n <= 0 || K > N || n > N then failwith "Hypergeometric distribution should be parametrized by N, K and n > 0.0. Further K and n must be <= N"
     
-    ///Hypergeometric distribution
+    // k ∈ {max(0,n+K-N),...,min(n,K)}
+    let hypergeoCheckParam_k N K n k =
+        if k < 0 then failwith "k must be non negative integer number."
+        if k > N then failwith "k cannot exceed N."
+        if k > K then failwith "k cannot exceed K."
+        if k > n then failwith "k cannot exceed n."
+
+    /// Hypergeometric distribution
     type Hypergeometric =
         /// Computes the mean.
         static member Mean N K n =
             hypergeoCheckParam N K n
+
             float (K * n) / float N
 
         /// Computes the variance.
@@ -193,32 +207,37 @@ module Discrete =
             loop N K n 0
             
 
-        /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+        /// Produces a random sample using the current random number generator (from GetSampleGenerator()) and returns the number of success states `k`.
         static member Sample N K n =
             hypergeoCheckParam N K n
             Hypergeometric.SampleUnchecked N K n
 
 
-        /// Computes the probability density function at k, i.e. P(K = k)
-        static member PDF  N K n k =
+        // Rename PMF? https://en.wikipedia.org/wiki/Probability_mass_function
+        // > A probability mass function differs from a probability density function (PDF) in that the latter is associated with continuous 
+        // > rather than discrete random variables. A PDF must be integrated over an interval to yield a probability.
+
+        /// Computes the probability density function at k for P(X = k).
+        static member PDF N K n k =
             hypergeoCheckParam N K n
+            hypergeoCheckParam_k N K n k
             //(SpecialFunctions.Binomial.coeffcient K k) * (SpecialFunctions.Binomial.coeffcient (N-K) (n-k)) / (SpecialFunctions.Binomial.coeffcient N n)
             if (N-K)<(n-k) then 0. 
             else
                 exp ((SpecialFunctions.Binomial._coeffcientLn K k) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial._coeffcientLn N n)
-
+        
         /// Computes the cumulative distribution function at x, i.e. P(X <= x).
-        static member CDF N K n (x:float) =
-            hypergeoCheckParam N K n            
-            if (x < float (max 0 (n + K - N))) then 
+        static member CDF N K n (k:int) =
+            hypergeoCheckParam N K n
+            hypergeoCheckParam_k N K n k
+            if (k < (max 0 (n + K - N))) then 
                 0.0
-            elif (x >= float (min K n)) then
+            elif (k >= (min K n)) then
                 1.0
             elif N-K < n then
                 1.0
             else
-                let k = floor x |> int 
-                let d = SpecialFunctions.Binomial._coeffcientLn N n
+                let d = SpecialFunctions.Binomial.coeffcientLn N n
                 let rec loop i acc =
                     if i <= k then
                         let tmp = exp ((SpecialFunctions.Binomial._coeffcientLn K i) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-i)) - d)
@@ -226,8 +245,6 @@ module Discrete =
                     else
                         acc
                 loop 0 0.0
-
-
 
         // /// Computes the inverse of the cumulative distribution function.
         // static member InvCDF dof1 dof2 p =
@@ -243,17 +260,27 @@ module Discrete =
             hypergeoCheckParam N K n
             (0., System.Double.PositiveInfinity)
 
-    /// Initializes a hypergeometric distribution       
+    /// <summary> Initializes a hypergeometric distribution.
+    /// 
+    /// The hypergeometric distribution is a discrete probability distribution
+    /// that describes the probability of `k` successes (random draws for which the object
+    /// drawn has a specified feature) in `n` draws, without replacement, from a finite
+    /// population of size `N` that contains exactly `K` objects with that feature,
+    /// wherein each draw is either a success (`1.0`) or a failure (`0.0`).</summary>
+    /// <param name="N">The population size</param>
+    /// <param name="K">The number of success states in the population</param>
+    /// <param name="n">The number of draws</param>
     let hypergeometric N K n =
         { new Distribution<float,int> with
-            member d.Mean              = Hypergeometric.Mean N K n
-            member d.StandardDeviation = Hypergeometric.StandardDeviation N K n
-            member d.Variance          = Hypergeometric.Variance N K n
+            member d.Mean               = Hypergeometric.Mean N K n
+            member d.StandardDeviation  = Hypergeometric.StandardDeviation N K n
+            member d.Variance           = Hypergeometric.Variance N K n
             //member d.CoVariance        = Hypergeometric.CoVariance N K n
-            member d.Sample ()         = Hypergeometric.Sample N K n
-            member d.PDF k             = Hypergeometric.PDF N K n k    
-            member d.CDF x             = Hypergeometric.CDF N K n x         
-        }   
+            member d.Sample ()          = Hypergeometric.Sample N K n
+            member d.PDF k              = Hypergeometric.PDF N K n k
+            /// Computes the cumulative distribution function at k for P(X <= k).
+            member d.CDF k              = Hypergeometric.CDF N K n (floor k |> int)         
+        }
 
 
 
