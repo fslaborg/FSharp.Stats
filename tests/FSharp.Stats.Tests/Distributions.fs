@@ -902,7 +902,7 @@ let FDistributionTests =
                 Accuracy.medium
                 (testcase)
                 (r_value)
-                (sprintf "Continuous.F.Mean with dof2=69 does not return nan %A" testcase  )
+                (sprintf "Continuous.F.Mean with dof2=69. does not return nan %A" testcase  )
 
         testCase "Continuous.F.Mean_dof2=Infininty" <| fun () ->
             let dof1 = 10.
@@ -968,6 +968,141 @@ let FDistributionTests =
                 (isNan(r_value)&& (List.contains false testcase|> not))
                 (sprintf "Continuous.F.Variance with dof<=2 does not return nan")
         
+        testCase "Continuous.F.Sample" <| fun () ->
+            let dof1        = 10000.
+            let dof2        = 10000.
+            let testcase    = 
+                [for i=0 to 10000 do Continuous.F.Sample dof1 dof2]
+                |> List.mean
+                |> round 5
+                
+            let r_value     = 
+                round 5 (1.000359)
+
+            Expect.floatClose
+                Accuracy.low
+                testcase
+                r_value
+                "The mean of 100 sampled values is not close to the respective R value"       
+        
+        testCase "fCheckX" <| fun () ->
+            Expect.throws
+                (fun () -> (Continuous.fCheckX -10.))
+                "fCheckX does not fail with negative values"
+            Expect.throws
+                (fun () -> (Continuous.fCheckX nan))
+                "fCheckX does not fail with nan"
+            Expect.throws
+                (fun () -> (Continuous.fCheckX -infinity))
+                "fCheckX does not fail with -infinity"
+            Expect.isTrue
+                ((Continuous.fCheckX 10.)|> fun x -> true)
+                "fCheckX fails with positive values"
+            Expect.isTrue
+                ((Continuous.fCheckX 0)|> fun x -> true)
+                "fCheckX fails with 0"
+            Expect.isTrue
+                ((Continuous.fCheckX infinity)|> fun x -> true)
+                "fCheckX fails with infinity"
+                
+        testCase "Continuous.F.PDF" <| fun () ->
+            let dof1        = 69.
+            let dof2        = 420.
+            let testcase    = Continuous.F.PDF dof1 dof2 50.
+            let r_value     =   1.
+
+            Expect.floatClose
+                Accuracy.low
+                testcase
+                r_value
+                ""
+        
+        testCase "Continuous.F.PDF_infinity" <| fun () ->
+            let dof1        = 69.
+            let dof2        = 420.
+            let testcase_1    = 
+                Continuous.F.PDF dof1 infinity 50.
+            let testcase_2    = 
+                Continuous.F.PDF infinity dof2 50.
+            let testcase_3    = 
+                Continuous.F.PDF infinity infinity 50.
+            
+            let r_value_1     = nan
+            let r_value_2     = nan
+            let r_value_3     = nan
+
+            Expect.floatClose
+                Accuracy.low
+                testcase_1
+                r_value_1
+                "Continuous.F.PDF_infinity with dof2=infinity does not yield the expected value"
+            Expect.floatClose
+                Accuracy.low
+                testcase_2
+                r_value_2
+                "Continuous.F.PDF_infinity with dof1=infinity does not yield the expected value"
+            Expect.floatClose
+                Accuracy.low
+                testcase_3
+                r_value_3
+                "Continuous.F.PDF_infinity with dof1&dof2=infinity does not yield the expected value"
+
+        testCase "Continuous.F.CDF" <| fun () ->
+            let dof1        = 69.
+            let dof2        = 420.
+            let testcase    = Continuous.F.CDF dof1 dof2 50.
+            let r_value     = nan
+
+            Expect.isTrue
+                (isNan(testcase) && isNan(r_value))
+                (sprintf"Continuous.F.CDF dof1 dof2 50. does not yield NaN but %A"testcase)
+
+
+        testCase "Continuous.F.CDF_infinity" <| fun () ->
+            let dof1        = 69.
+            let dof2        = 420.
+            let testcase_1    = 
+                Continuous.F.CDF dof1 infinity 50.
+            let testcase_2    = 
+                Continuous.F.CDF infinity dof2 50.
+            let testcase_3    = 
+                Continuous.F.CDF infinity infinity 50.
+            
+            let r_value_1     = nan
+            let r_value_2     = nan
+            let r_value_3     = nan
+
+            Expect.isTrue
+                (isNan(testcase_1)&&isNan(r_value_1))
+                "Continuous.F.CDF with dof2=infinity does not yield the expected value"
+            Expect.isTrue
+                (isNan(testcase_2)&&isNan(r_value_2))
+                "Continuous.F.CDF with dof1=infinity does not yield the expected value"
+            Expect.isTrue
+                (isNan(testcase_3)&&isNan(r_value_3))
+                "Continuous.F.CDF with dof1&dof2=infinity does not yield the expected value"
+
+        testCase "Continuous.F.Support" <| fun () ->
+            let dof1            = 10.
+            let dof2            = 25.
+            let testcase    = 
+                Continuous.F.Support dof1 dof2
+            let r_value     = (0., System.Double.PositiveInfinity)
+
+            Expect.isTrue
+                ((fst testcase=fst r_value) && (snd testcase=snd r_value))
+                "Continuous.F.Support does not return the expected Tupel"
+        
+        testCase "Continuous.F.Support_infinity" <| fun () ->
+            let dof1            = infinity
+            let dof2            = infinity
+            let testcase    = 
+                Continuous.F.Support dof1 dof2
+            let r_value     = (0., System.Double.PositiveInfinity)
+
+            Expect.isTrue
+                ((fst testcase=fst r_value) && (snd testcase=snd r_value))
+                "Continuous.F.Support does not return the expected Tupel"
 
 
     ]
