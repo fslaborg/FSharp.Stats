@@ -153,6 +153,7 @@ let bandWithTests =
     testList "Distribution.Bandwidth.BinNumber" [
         //Reference:https://www.statisticshowto.com/choose-bin-sizes-statistics/#rice
         // tested with r Function ceiling(1+log2(x))
+        
         testCase "Distribution.Bandwidth.BinNumber.sturges" <| fun () ->
             let sturges1 =Distributions.Bandwidth.BinNumber.sturges 1.
             Expect.floatClose Accuracy.veryHigh 1 sturges1 "desirable number of classes Should be equal"
@@ -172,8 +173,12 @@ let bandWithTests =
             let sturgesForNegativeInfinity = Distributions.Bandwidth.BinNumber.sturges -infinity
             Expect.isTrue (nan.Equals(sturgesForNegativeInfinity)) "desirable number of classes should be nan."
 
+            let sturgesWithRealWorldProblem = Distributions.Bandwidth.BinNumber.sturges 1000.
+            Expect.floatClose Accuracy.veryHigh sturgesWithRealWorldProblem 11 "desirable number of bins should be equal"
+
         // reference:https://www.rdocumentation.org/packages/npsp/versions/0.7-5/topics/rule
         // tested with R function ceiling(2*(n ** (1./3.)))
+
         testCase "Distribution.Bandwidth.BinNumber.riceRule" <| fun () ->
             let riceRule1 = Distributions.Bandwidth.BinNumber.riceRule 1.
             Expect.floatClose Accuracy.veryHigh riceRule1 2. "desirable number of classes should be equal"
@@ -192,6 +197,9 @@ let bandWithTests =
 
             let riceRuleForNegativeInfinity = Distributions.Bandwidth.BinNumber.riceRule -infinity
             Expect.isTrue (infinity= riceRuleForNegativeInfinity) "desirable number of classes should be -infinity."
+
+            let riceRuleWithRealWorldExample = Distributions.Bandwidth.BinNumber.riceRule 1000.
+            Expect.floatClose Accuracy.veryHigh riceRuleWithRealWorldExample 20. "desirable number of bins should be equal"
 
    
     ]   
