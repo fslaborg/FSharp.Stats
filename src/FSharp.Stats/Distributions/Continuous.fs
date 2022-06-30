@@ -788,6 +788,8 @@ module Continuous =
     // F-distribution helper functions.
     let fCheckParam dof1 dof2 = if dof1 <= 0.0 || dof2 <= 0.0 || isNan(dof1) || isNan(dof2) then failwith "F-distribution should be parametrized by dof1 and dof2 > 0.0. and <> nan"
     
+    let fCheckX x = if x<0. || isNan(x) then failwith "X cannot be a negative value or nan"
+
     /// F-distribution
     type F =
         /// Computes the mean.
@@ -823,19 +825,15 @@ module Continuous =
         /// Computes the probability density function.
         static member PDF dof1 dof2 x =
             fCheckParam dof1 dof2
-            if (x <= 0.) then
-                0.
-            else
-                let u = Math.Pow(dof1 * x, dof1) * Math.Pow(dof2, dof2) / Math.Pow(dof1 * x + dof2, dof1 + dof2)
-                let b = Beta._beta (dof1 * 0.5) (dof2 * 0.5)
-                sqrt u / (x * b)
+            fCheckX x
             let u = Math.Pow(dof1 * x, dof1) * Math.Pow(dof2, dof2) / Math.Pow(dof1 * x + dof2, dof1 + dof2)
             let b = Beta.beta (dof1 * 0.5) (dof2 * 0.5)
-            sqrt u / (x * b)
+            (sqrt u) / (x * b)
 
         /// Computes the cumulative distribution function.
         static member CDF dof1 dof2 x =
             fCheckParam dof1 dof2
+            fCheckX x
             //equals 1 - cdf(x)
             //let u = dof2 / (dof2 + dof1 * x)
             //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
