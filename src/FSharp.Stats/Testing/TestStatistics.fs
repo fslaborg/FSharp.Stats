@@ -97,3 +97,25 @@ module TestStatistics =
         let pvalue = 1.-  cdf
         let pvalueTwoTailed = pvalue * 2.
         {Statistic=statistic; PValueLeft=pvalue;PValueRight = cdf; PValueTwoTailed = pvalueTwoTailed}
+
+
+    /// <summary>
+    ///   Computes the Mann-Whitney U-test statistics for a given statistic.
+    /// </summary>
+    /// <param name="Statistic">The test statistic.</param>
+    /// <param name="PValue">One Tailed/Sided.</param>
+    /// <param name="PValueTwoTailed">Two Tailed/Sided.</param>
+    type UTestTestStatistics = {
+        Statistic       : float
+        PValueLeft      : float
+        PValueRight     : float
+        PValueTwoTailed : float
+    }
+    let createUTest statistic : UTestTestStatistics =
+        let cdf = Distributions.Continuous.Normal.CDF 0. 1. statistic
+        {
+            Statistic       = statistic
+            PValueLeft      = 1. - cdf
+            PValueRight     = cdf
+            PValueTwoTailed = cdf * 2.
+        }
