@@ -206,14 +206,117 @@ let tTestTests =
             Expect.floatClose Accuracy.low tTest1.Statistic 0.924 "t statistic should be equal."
             Expect.floatClose Accuracy.low tTest3.PValue 0.345 "pValue should be equal."
             Expect.floatClose Accuracy.low tTest3.DegreesOfFreedom 9.990 "df should be equal."
+        
         testCase "twoSampleFromMeanAndVar" <| fun () -> 
             Expect.equal tTest1 tTest2 "results should be equal."
+            
+           // tested with R function (t.test(batcha, batchb, var.equal=TRUE))
+            let sample1 = [1.;2.;3;]
+            let sample2 = [1.;3.;5.;7;]
+            let mean = Seq.mean sample1
+            let mean2 = Seq.mean sample2
+            let var1 = Seq.var sample1
+            let var2 = Seq.var sample2
+            let ttestTwoSample = Testing.TTest.twoSampleFromMeanAndVar true (mean,var1,3) (mean2,var2,4) 
+            let expectedPval = 0.26716219523142071
+            let expectedStatistic = -1.24837556786471859
+            Expect.floatClose Accuracy.high ttestTwoSample.PValue expectedPval "pValue should be equal."
+            Expect.floatClose Accuracy.high ttestTwoSample.Statistic expectedStatistic "t statistic should be equal."
+
+            let sample3 = [-1.;3.;-5.;7;]
+            let mean3 = Seq.mean sample2
+            let var3 = Seq.var sample2
+            let ttestTwoSample2 = Testing.TTest.twoSampleFromMeanAndVar true (mean,var1,3) (mean3,var3,4) 
+            let expectedPval2 = 0.75954440793496059
+            let expectedStatistic2 = -0.323310403056781825
+            Expect.floatClose Accuracy.high ttestTwoSample2.PValue expectedPval "pValue should be equal."
+            Expect.floatClose Accuracy.high ttestTwoSample2.Statistic expectedStatistic "t statistic should be equal."
+
+            let ttestTwoSample3 = Testing.TTest.twoSampleFromMeanAndVar true (nan,var2,3) (mean2,var2,4) 
+            Expect.isTrue (nan.Equals(ttestTwoSample3.PValue)) "pValue should be nan."
+            Expect.isTrue (nan.Equals(ttestTwoSample3.Statistic)) "t statistic should be nan."
+        
+        
         testCase "oneSample" <| fun () -> 
             Expect.floatClose Accuracy.low tTest4.PValue 0.634 "pValue should be equal."
             Expect.equal tTest4.DegreesOfFreedom 4. "df should be equal."
             Expect.floatClose Accuracy.low tTest4.Statistic 0.514 "t statistic should be equal."
-    ]
+        
+        //tested with R function (t.test(c(-1,-2,-3), mu = -3, alternative = "two.sided"))
+        testCase "oneSampleFromMeanandStDev" <| fun () -> 
+            let sample = [1.;2.;3;]
+            let mean = Seq.mean sample
+            let stdev = Seq.stDev sample
+            let ttest = Testing.TTest.oneSampleFromMeanAndStDev(mean,stdev,3) -3.
+            let expectedPval = 0.013072457560346513
+            let expectedStatistic = 8.6602540378443873
+            Expect.floatClose Accuracy.high ttest.PValue expectedPval "pValue should be equal."
+            Expect.floatClose Accuracy.high ttest.Statistic expectedStatistic "t statistic should be equal."
 
+            let sample = [-1.;-2.;-3;]
+            let mean3 = Seq.mean sample
+            let stdev1 = Seq.stDev sample
+            let ttest2 = Testing.TTest.oneSampleFromMeanAndStDev(mean3,stdev1,3) 0.
+            let expectedPval1 = 0.074179900227448525
+            let expectedStatistic2 = -3.46410161513775483
+            Expect.floatClose Accuracy.high ttest2.PValue expectedPval1 "pValue should be equal."
+            Expect.floatClose Accuracy.high ttest2.Statistic expectedStatistic2 "t statistic should be equal."
+
+            let mean2 = nan
+            let ttest3 = Testing.TTest.oneSampleFromMeanAndStDev(mean2,stdev,3) 0.
+            Expect.isTrue (nan.Equals(ttest3.PValue)) "pValue should be nan."
+            Expect.isTrue (nan.Equals(ttest3.Statistic)) "t statistic should be nan."
+
+        testCase "twoSamplePaired" <| fun () -> 
+          
+           // tested with R function t.test(x, y, paired = TRUE, alternative = "two.sided")
+            let vectorX = vector [1.;2.;4.;8.]
+            let vectorY = vector [10.;23.;11;9.]
+            let expectedPval = 0.10836944173355316
+            let expectedStatistic = 2.26554660552391818
+            let twoSamplePaired = Testing.TTest.twoSamplePaired vectorX vectorY
+            Expect.floatClose Accuracy.high twoSamplePaired.PValue expectedPval "pValue should be equal."
+            Expect.floatClose Accuracy.high twoSamplePaired.Statistic expectedStatistic "t statistic should be equal."
+            Expect.equal twoSamplePaired.DegreesOfFreedom 3. "df should be equal."
+            
+            let vectorZ = vector [-5.;-9.;0.;-8.]
+            let twoSamplePaired2 = Testing.TTest.twoSamplePaired vectorX vectorZ
+            let expectedPval1 = 0.041226646225439562
+            let expectedStatistic1 = -3.44031028692427698
+            Expect.floatClose Accuracy.high twoSamplePaired2.PValue expectedPval1 "pValue should be equal."
+            Expect.floatClose Accuracy.high twoSamplePaired2.Statistic expectedStatistic1 "t statistic should be equal."
+
+            let vectorNan = vector [nan;10.;23.;11.]
+            let twoSamplePaired3 = Testing.TTest.twoSamplePaired vectorX vectorNan
+            Expect.isTrue (nan.Equals(twoSamplePaired3.PValue)) "pValue should be nan."
+            Expect.isTrue (nan.Equals(twoSamplePaired3.Statistic)) "t statistic should be nan."
+            
+            let vectorBefore = vector [10.;4.;15.;12.;6.]
+            let twoSamplePaired4() = Testing.TTest.twoSamplePaired  vectorBefore vectorX |>ignore
+            Expect.throws twoSamplePaired4 "Vectors of different length"
+
+           // test if exception Test works
+           // Expect.throws (fun _ -> Testing.TTest.twoSamplePaired vectorX vectorY|>ignore) "Vetors should have equal length"
+           
+            let vectorWithInfinity = vector [infinity;4.;15.;12.]
+            let twoSamplePairedInfinity = Testing.TTest.twoSamplePaired vectorWithInfinity vectorX
+            Expect.isTrue (nan.Equals(twoSamplePairedInfinity.PValue)) "pValue should be nan."
+            Expect.isTrue (nan.Equals(twoSamplePairedInfinity.Statistic)) "t statistic should be nan."
+
+            let vectorWithNegativeInfinity =  vector [infinity;4.;15.;12.]
+            let twoSampleNegativeInfinity = Testing.TTest.twoSamplePaired vectorWithNegativeInfinity vectorX
+            Expect.isTrue (nan.Equals(twoSampleNegativeInfinity.PValue)) "pValue should be nan."
+            Expect.isTrue (nan.Equals(twoSampleNegativeInfinity.Statistic)) "t statistic should be nan."
+
+            let vectorNull = vector [0;0;0;0]
+            let twoSamplePairedWithNullVector = Testing.TTest.twoSamplePaired vectorNull vectorY
+            let expectedPval2 = 0.0272
+            let expectedStatistic2 = 4.0451
+            Expect.floatClose Accuracy.low twoSamplePairedWithNullVector.PValue expectedPval2 "pValue should be equal."
+            Expect.floatClose Accuracy.low twoSamplePairedWithNullVector.Statistic expectedStatistic2 "t statistic should be equal."
+        ]
+        
+     
 [<Tests>]
 let fTestTests = 
     // F-Test validated against res.ftest <- var.test(samplea, sampleb, alternative = "two.sided") RStudio 2022.02.3+492 "Prairie Trillium" Release (1db809b8323ba0a87c148d16eb84efe39a8e7785, 2022-05-20) for Windows
