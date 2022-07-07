@@ -336,7 +336,7 @@ References:
 
   - Ronald Ley, F curves have two tails but the F test is a one-tailed two-tailed test (1979) + Reviewer comments
 
-  - Donald W. Zimmermann, A note on preliminary tests of equality ofvariances (2004)
+  - Donald W. Zimmermann, A note on preliminary tests of equality of variances (2004)
   
 *F-Test from data:*
 *)
