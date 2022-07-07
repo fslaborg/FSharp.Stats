@@ -345,13 +345,13 @@ let FDistributionTests =
             let dof1        = 69.
             let dof2        = 420.
             let testcase    = Continuous.F.PDF dof1 dof2 50.
-            let r_value     =   1.
+            let r_value     = 3.90748e-163
 
             Expect.floatClose
                 Accuracy.low
                 testcase
                 r_value
-                ""
+                "Continuous.F.PDF does not yield the expected value"
         
         testCase "Continuous.F.PDF_infinity" <| fun () ->
             let dof1        = 69.
@@ -363,9 +363,9 @@ let FDistributionTests =
             let testcase_3    = 
                 Continuous.F.PDF infinity infinity 50.
             
-            let r_value_1     = nan
-            let r_value_2     = nan
-            let r_value_3     = nan
+            let r_value_1     = 0.
+            let r_value_2     = 4.539216e-269
+            let r_value_3     = 0.
 
             Expect.floatClose
                 Accuracy.low
@@ -376,7 +376,7 @@ let FDistributionTests =
                 Accuracy.low
                 testcase_2
                 r_value_2
-                "Continuous.F.PDF_infinity with dof1=infinity does not yield the expected value"
+                (sprintf"Continuous.F.PDF_infinity with dof1=infinity does not yield the expected value. Actual: %A, expected: %A"testcase_2 r_value_2)
             Expect.floatClose
                 Accuracy.low
                 testcase_3
@@ -387,11 +387,13 @@ let FDistributionTests =
             let dof1        = 69.
             let dof2        = 420.
             let testcase    = Continuous.F.CDF dof1 dof2 50.
-            let r_value     = nan
+            let r_value     = 1.
 
-            Expect.isTrue
-                (isNan(testcase) && isNan(r_value))
-                (sprintf"Continuous.F.CDF dof1 dof2 50. does not yield NaN but %A"testcase)
+            Expect.floatClose
+                Accuracy.low
+                testcase
+                r_value
+                (sprintf"Continuous.F.CDF dof1 dof2 50. does not yield 1. but %A"testcase)
 
 
         testCase "Continuous.F.CDF_infinity" <| fun () ->
