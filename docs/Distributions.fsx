@@ -246,86 +246,65 @@ v |> GenericChart.toChartHTML
 
 The F distribution or Fisher distribution, also known as Fisher-Snedecor distribution, is a continuous probability distribution. 
 An F-distributed random variable results from the quotient of two Chi-square-distributed random variables each divided by the associated number of degrees of freedom. 
-The F-distribution has two independent degrees of freedom as parameters, dof, <b>d</b>egree <b>o</b>f <b>f</b>reedom, 1 and 2, and thus forms a two-parameter distribution family.
+The F-distribution has two independent degrees of freedom(dof) as parameters, and thus forms a two-parameter distribution family.
 
-
-Example: The distribution of bread weights of a local manufacturer follows a normal distribution with mean 500 g and a standard
-deviation of 20 g.
-
-NormA: What is the probability of bread weights to be lower than 470 g?
-
-NormB: What is the probability of bread weights to be higher than 505 g?
-
-NormC: Sample independently 10 values from the normal distribution and calculate their mean.
+Generally speaking, the F-tests and the resulting F-Distribution is utilized for comparing multiple levels of independent variables with multiple groups.
+In practice, it is most commonly used to compare the variances within a group to the variance between different groups, as seen in the Analysis of varaince.
 
 *)
-
+// The F-Distribution with the numerator degree of freedom  10. and the denominator degree of freedom 25. is build like this
 let fDistrobution =
-    Continuous.f 20. 20.
+    Continuous.f 10. 25.
 
-let plotFPDF =
+(**
 
-    [0. .. 5.]
-    |> List.map (fun x -> x,fDistrobution.PDF x)
-    |> Chart.Area
+*)
+(***hide***)
+let fParams = [(2.,1.);(5.,2.);(10.,1.);(100.,100.)]
+let xF = [0. .. 1. .. 5.]
+
+let pdfF a b = 
+    xF 
+    |> List.map (Continuous.F.PDF a b)
+    |> List.zip xF
+
+let fPDFs =
+    fParams
+    |> List.map (fun (a,b) -> Chart.Line(pdfF a b,Name=sprintf "dof1=%.1f dof2=%.1f" a b,LineWidth=3.) )
+    |> Chart.combine
     |> Chart.withAxisTitles "" ""
-    |> Chart.withTitle "N(0,5) PDF"
+    |> Chart.withTitle "Different F-Distributions PDFs, x=[0,5]"
 
 (*** condition: ipynb ***)
 #if IPYNB
-plotFPDF
+fPDFs
 #endif // IPYNB
 
 (***hide***)
-plotFPDF |> GenericChart.toChartHTML
+fPDFs |> GenericChart.toChartHTML
 (***include-it-raw***)
 (**
-AAAAAAAAAAAAAAAAAAAAAAA
 *)
-"""
-<div id="d5fa6af7-ba9b-42cb-91b4-fd0ee10bffa0"><!-- Plotly chart will be drawn inside this DIV --></div>
-<script type="text/javascript">
+(***hide***)
+let cdfF a b = 
+    xF 
+    |> List.map (Continuous.F.CDF a b)
+    |> List.zip xF
 
-            var renderPlotly_d5fa6af7ba9b42cb91b4fd0ee10bffa0 = function() {
-            var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
-            fsharpPlotlyRequire(['plotly'], function(Plotly) {
-
-            var data = [{"type":"scatter","mode":"lines","x":[0.0,1.0,2.0,3.0,4.0,5.0],"y":["NaN",0.714356849621164,0.15274047851602834,0.027206269009991846,0.0055809128876653435,0.0013494085303791742],"fill":"tozeroy","line":{},"marker":{}}];
-            var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"title":{"text":"N(0,5) PDF"}};
-            var config = {"responsive":true};
-            Plotly.newPlot('d5fa6af7-ba9b-42cb-91b4-fd0ee10bffa0', data, layout, config);
-});
-            };
-            if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
-                var script = document.createElement("script");
-                script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
-                script.onload = function(){
-                    renderPlotly_d5fa6af7ba9b42cb91b4fd0ee10bffa0();
-                };
-                document.getElementsByTagName("head")[0].appendChild(script);
-            }
-            else {
-                renderPlotly_d5fa6af7ba9b42cb91b4fd0ee10bffa0();
-            }
-</script>
-"""
-(***include-it-raw***)
-
-let plotFCDF =
-
-    [0. .. 5.]
-    |> List.map (fun x -> x,fDistrobution.CDF x)
-    |> Chart.Area
+let fCDFs =
+    fParams
+    |> List.map (fun (a,b) -> Chart.Line(cdfF a b,Name=sprintf "dof1=%.1f dof2=%.1f" a b,LineWidth=3.) )
+    |> Chart.combine
     |> Chart.withAxisTitles "" ""
-    |> Chart.withTitle "N(0,5) PDF"
+    |> Chart.withTitle "Different F-Distributions CDFs, x=[0,5]"
 
 (*** condition: ipynb ***)
 #if IPYNB
-plotFCDF
+fCDFs
 #endif // IPYNB
 
 (***hide***)
-plotFCDF |> GenericChart.toChartHTML
+fCDFs |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 
