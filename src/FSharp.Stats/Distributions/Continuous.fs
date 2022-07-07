@@ -826,9 +826,18 @@ module Continuous =
         static member PDF dof1 dof2 x =
             fCheckParam dof1 dof2
             fCheckX x
-            let u = Math.Pow(dof1 * x, dof1) * Math.Pow(dof2, dof2) / Math.Pow(dof1 * x + dof2, dof1 + dof2)
-            let b = Beta.beta (dof1 * 0.5) (dof2 * 0.5)
-            (sqrt u) / (x * b)
+            if isInf(dof1) && isInf(dof2) then
+                if x=1. then
+                    infinity
+                else
+                    0.
+            elif dof1 > 1e14 || isInf(dof1) then
+                Gamma.PDF (dof2/2.) (2./dof2) (1./x)
+            elif isInf(dof2) || isInf(dof2**dof2) then
+                Gamma.PDF (dof1/2.) (2./dof1) x
+            else
+                let b = Beta.beta (dof1 * 0.5) (dof2 * 0.5)                
+                (1./b) * (Math.Pow(dof1/dof2, (dof1/2.))) * (Math.Pow(x, ((dof1/2.)-1.))) *(Math.Pow((1.+x*(dof1/dof2),(-1.*((dof1+dof2)/2.)))))
 
         /// Computes the cumulative distribution function.
         static member CDF dof1 dof2 x =
