@@ -253,14 +253,7 @@ Generally speaking, the F-tests and the resulting F-Distribution is utilized for
 In practice, it is most commonly used to compare the variances within a group to the variance between different groups, as seen in the Analysis of varaince.
 
 *)
-// The F-Distribution with the numerator degree of freedom  10. and the denominator degree of freedom 25. is build like this
-let fDistrobution =
-    Continuous.f 10. 25.
 
-(**
-
-*)
-(***hide***)
 let fParams = [(2.,1.);(5.,2.);(10.,1.);(100.,100.)]
 let xF = [0. .. 1. .. 5.]
 
@@ -286,7 +279,7 @@ fPDFs |> GenericChart.toChartHTML
 (***include-it-raw***)
 (**
 *)
-(***hide***)
+
 let cdfF a b = 
     xF 
     |> List.map (Continuous.F.CDF a b)
@@ -307,7 +300,6 @@ fCDFs
 (***hide***)
 fCDFs |> GenericChart.toChartHTML
 (***include-it-raw***)
-
 
 (**
 
