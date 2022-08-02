@@ -54,6 +54,8 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.exponentialTests       |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.bernoulliTests |> ignore
     
+    Tests.runTestsWithCLIArgs [] argv DistributionsTests.binomialTests          |> ignore 
+
     //=============================== Correlation ===========================================================
     Tests.runTestsWithCLIArgs [] argv CorrelationTests.kendallCorrelationTests |> ignore
     Tests.runTestsWithCLIArgs [] argv CorrelationTests.pearsonCorrelationTests |> ignore

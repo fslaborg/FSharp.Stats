@@ -1109,3 +1109,202 @@ let FDistributionTests =
 
     ]
 
+let binomialTests =
+    // TestCases from R: library(chi) function: dchi(x, dof)
+
+    testList "Distributions.Discrete.binominal" [
+        // Values taken from R 4.0.3 
+
+        testCase "binomialCheckParamN<0" <| fun () ->
+            Expect.throws 
+                (fun () -> Discrete.binomialCheckParam 0.5 (-5)) 
+                "binomialCheckParam does work with n<0" 
+        
+        testCase "binomialCheckParamP<0." <| fun () ->
+            Expect.throws
+                (fun () -> Discrete.binomialCheckParam (-0.5) 10)
+                "binomialCheckParam does work with p<0" 
+        
+        testCase "binomialCheckParamP>1." <| fun () ->
+            Expect.throws 
+                (fun () -> Discrete.binomialCheckParam 1.5 10) 
+                "binomialCheckParam does work with p>1" 
+        
+        testCase "binomialCheckParamPInfinite." <| fun () ->
+            Expect.throws 
+                (fun () -> Discrete.binomialCheckParam infinity 10) 
+                "binomialCheckParam does work with p=infinity" 
+        
+        testCase "binomialCheckParamPNegInfinite." <| fun () ->
+            Expect.throws 
+                (fun () -> Discrete.binomialCheckParam (-infinity) 10) 
+                "binomialCheckParam does work with p=-infinity" 
+        
+        testCase "binomialCheckParamPnan" <| fun () ->
+            Expect.throws 
+                (fun () -> Discrete.binomialCheckParam (nan) 10) 
+                (sprintf"binomialCheckParam does work with p=nan ,yields")
+
+        testCase "Binomial.Mean_n=0" <| fun () ->
+            let testCase    = Discrete.Binomial.Mean 0.5 0
+            let r_value  = 0
+            Expect.equal
+                testCase
+                r_value
+                "Binominal mean with n=0 does not yield the expected value of 0" 
+        
+        testCase "Binomial.Mean" <| fun () ->
+            let testCase    = Discrete.Binomial.Mean 0.5 500
+            let r_value  = 250
+            Expect.equal
+                testCase
+                r_value
+                "Binominal mean with n=500 and p=0.5 does not yield the expected value of 250" 
+
+        testCase "Binomial.Variance_n=0" <| fun () ->
+            let testCase    = Discrete.Binomial.Variance 0.5 0
+            let r_value     = 0
+            Expect.equal
+                testCase
+                r_value
+                "Binominal Variance with n=0 a does not yield the expected value of 0" 
+
+        testCase "Binomial.StandardDeviation_n=0" <| fun () ->
+            let testCase = Discrete.Binomial.StandardDeviation 0.5 0
+            let r_value     = 0
+            Expect.equal
+                testCase
+                r_value
+                "Binominal StandardDeviation with n=0 does not yield the expected value of 0" 
+
+        testCase "Binomial.Variance" <| fun () ->
+            let testCase    = Discrete.Binomial.Variance 0.69 420
+            let r_value     = 89.838
+            Expect.floatClose 
+                Accuracy.high
+                testCase
+                r_value
+                "Binominal Variance with n=420 and p=0.69 does not yield the expected value of 89.838" 
+
+        testCase "Binomial.StandardDeviation" <| fun () ->
+            let testCase    = Discrete.Binomial.StandardDeviation 0.69 420
+            let r_value     = 9.478291
+            Expect.floatClose
+                Accuracy.high
+                testCase
+                r_value
+                "Binominal StandardDeviation with n=420 and p=0.69 does not yield the expected value of 9.478291" 
+            
+        testCase "Binomial.PDF" <| fun () ->
+            let testCase    = Discrete.Binomial.PDF 0.69 420 237
+            let r_value     = 4.064494e-08
+            Expect.floatClose
+                Accuracy.low
+                testCase
+                r_value
+                "Binomial.PDF with n=420, p=0.69 and k=237 does not equal the expectd 4.064494e-08"
+
+        testCase "Binomial.PDF_n=0" <| fun () ->
+            let testCase    = Discrete.Binomial.PDF 0.69 0 237
+            let r_value     = 0
+            Expect.floatClose
+                Accuracy.low
+                testCase
+                r_value
+                "Binomial.PDF with n=0, p=0.69 and k=237 does not equal the expectd 0"
+
+        testCase "Binomial.PDF_k<0" <| fun () ->
+            let testCase    = Discrete.Binomial.PDF 0.69 420 -10
+            let r_value     = 0
+            Expect.floatClose
+                Accuracy.low
+                testCase
+                r_value
+                "Binomial.PDF with n=420, p=0.69 and k=-10 does not equal the expectd 0"
+
+        testCase "Binomial.CDF"<| fun () ->
+            let testCase = Discrete.Binomial.CDF 0.69 420 237
+            let r_value = 9.341312e-08
+            Expect.floatClose
+                Accuracy.low
+                testCase
+                r_value
+                "Binomial.CDF with n=420, p=0.69 and k=237 does not equal the expectd 9.341312e-08"
+        
+        testCase "Binomial.CDF_n=0"<| fun () ->
+            let testCase = Discrete.Binomial.CDF 0.69 0 237
+            let r_value = 1.
+            Expect.floatClose
+                Accuracy.low
+                testCase
+                r_value
+                "Binomial.CDF with n=0, p=0.69 and k=237 does not equal the expectd 1."
+
+        testCase "Binomial.CDF_k=0"<| fun () ->
+            let testCase = Discrete.Binomial.CDF 0.69 420 0
+            let r_value = 2.354569e-214
+            Expect.floatClose
+                Accuracy.low
+                testCase
+                r_value
+                "Binomial.CDF with n=420, p=0.69 and k=0 does not equal the expectd 2.354569e-214"
+                
+        testCase "Binomial.CDF_k<0"<| fun () ->
+            let testCase = Discrete.Binomial.CDF 0.69 420 -10
+            let r_value = 0. 
+            Expect.floatClose
+                Accuracy.low
+                testCase
+                r_value
+                "Binomial.CDF with n=420, p=0.69 and k=-10 does not equal the expectd 0."
+        
+        testCase "Binomial.CDF_k-infinity"<| fun () ->
+            let testCase = Discrete.Binomial.CDF 0.69 420 (-infinity)
+            let r_value = 0.
+            Expect.floatClose
+                Accuracy.low
+                testCase
+                r_value
+                "Binomial.CDF with n=420, p=0.69 and k=--infinity does not equal the expectd 0."
+         
+        testCase "Binomial.CDF_kinfinity"<| fun () ->
+            let testCase = Discrete.Binomial.CDF 0.69 420 (infinity)
+            let r_value = 1. 
+            Expect.floatClose
+                Accuracy.low
+                testCase
+                r_value
+                "Binomial.CDF with n=420, p=0.69 and k=-infinity does not equal the expectd 1."   
+
+        testCase "Binomial.Sample" <| fun () ->
+            let testCase = 
+                [
+                    for i=0 to 49 do
+                        Discrete.Binomial.Sample 0.01 100 
+                ] |> List.distinct |> List.length
+            let r_value = 4
+            
+            let testSolution =
+                let help = [-2 .. 2]
+                if (help |> List.map(fun x -> x+r_value)) |> List.contains r_value then
+                    true
+                else
+                    false
+
+            Expect.isTrue
+                (testSolution)
+                (sprintf"50 of 100 binominal values yields not a comparable similarity %A"testCase)
+        
+        testCase "Binomial.Sample_n=0" <| fun () ->
+            let testCase = 
+                [
+                    for i=0 to 49 do
+                        Discrete.Binomial.Sample 0.01 0 
+                ] |> List.distinct
+            let r_value = [0]
+            
+            Expect.isTrue
+                (testCase=r_value)
+                ("50 of 100 binominal values yields not a comparable similarity")
+                      
+    ] 
