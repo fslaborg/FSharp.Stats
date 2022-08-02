@@ -36,6 +36,7 @@ _Summary:_ this tutorial shows how to use the various types of probability distr
     - [Multivariate normal distribution](#Multivariate-normal-distribution)
     - [F distribution](#F-distribution)
 - [Discrete](#Discrete)
+    - [Bernoulli distribution](#Bernoulli-distribution)
     - [Binomial distribution](#Binomial-distribution)
     - [Hypergerometric distribution](#Hypergerometric-distribution)
     - [Poisson distribution](#Poisson-distribution)
@@ -252,14 +253,6 @@ Generally speaking, the F-tests and the resulting F-Distribution is utilized for
 In practice, it is most commonly used to compare the variances within a group to the variance between different groups, as seen in the Analysis of varaince.
 
 *)
-// The F-Distribution with the numerator degree of freedom  10. and the denominator degree of freedom 25. is build like this
-let fDistrobution =
-    Continuous.f 10. 25.
-
-(**
-
-*)
-(***hide***)
 let fParams = [(2.,1.);(5.,2.);(10.,1.);(100.,100.)]
 let xF = [0. .. 1. .. 5.]
 
@@ -285,7 +278,6 @@ fPDFs |> GenericChart.toChartHTML
 (***include-it-raw***)
 (**
 *)
-(***hide***)
 let cdfF a b = 
     xF 
     |> List.map (Continuous.F.CDF a b)
@@ -307,10 +299,65 @@ fCDFs
 fCDFs |> GenericChart.toChartHTML
 (***include-it-raw***)
 
-
 (**
 
 ## Discrete
+
+### Bernoulli distribution
+
+> A Bernoulli distribution is a (..) random experiment that has only two outcomes 
+(usually called a "Success" or a "Failure"). For example, the probability of getting a heads (a "success") while flipping a coin is 0.5. 
+The probability of "failure" is 1 – P (1 minus the probability of success, which also equals 0.5 for a coin toss). It is a special case of the 
+binomial distribution for n = 1. In other words, it is a [binomial distribution](#Binomial-distribution) with a single trial (e.g. a single coin toss).
+<br>_~ by [statisticshowto](https://www.statisticshowto.com/bernoulli-distribution/)_
+
+Mathematically, "success" and "failure" are represented as 1.0 and 0.0, respectively.
+
+It is defined by one parameter B(p):
+
+  -  p = probability of success
+
+Example: A weighted coin with a probability of 0.6 to land on tails. Most bernoulli distribution calculations are rather intuitive:
+
+BernA: What is the mean of a bernoulli distribution with the weighted coin?
+
+BernB: What is the probability to land on heads?
+
+*)
+
+open FSharp.Stats
+open FSharp.Stats.Distributions
+
+// Assumes "tails" to be success
+let bernoulli = Discrete.bernoulli 0.6
+
+// BernA: What is the mean of a bernoulli distribution with the weighted coin?
+let bernA = bernoulli.Mean
+// Output: 0.6
+// Altough the bernoulli distribution can never return 0.6 (only 0.0 or 1.0) on average it will return heads at the same probability it has to land on heads.
+
+// BernB: What is the probability to land on heads?
+let bernB = bernoulli.PDF 0.0
+// Output: 0.4
+// Again: Heads = 0.0 = failure and tails = 1.0 = success. 
+
+let plotBernoulli =
+    [0.0; 1.0]
+    |> List.map (fun x -> x, bernoulli.PDF x)
+    |> Chart.Column
+    |> Chart.withAxisTitles "" ""
+    |> Chart.withTitle "B(0.6)"
+
+(*** condition: ipynb ***)
+#if IPYNB
+plotBernoulli
+#endif // IPYNB
+
+(***hide***)
+plotBernoulli |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
 
 ### Binomial distribution
 
@@ -359,7 +406,7 @@ let plotBinomial =
 
 (*** condition: ipynb ***)
 #if IPYNB
-v
+plotBinomial
 #endif // IPYNB
 
 (***hide***)
@@ -372,38 +419,45 @@ plotBinomial |> GenericChart.toChartHTML
 The hypergeometric distribution describes the probability, that under a given number of success and failure events and 
 a given number of draws an event occurs exactly k times (without replacement). 
 
-It is defined by three parameters Hyp(n,s,f):
+It is defined by three parameters:
 
-  - n = number of draws
-  
-  - s = number of success events
+  - N = finite population representing the total number of events. 
 
-  - f = number of failure events
+  - K = number of success events in this population.
+
+  - n = number of draws from the population.
 
 Example: You participate in a lottery, where you have to choose 6 numbers out of 49. The lottery queen draws 6 numbers randomly, 
 where the order does not matter.
 
 HypA: What is the probability that your 6 numbers are right?
 
-HypB: What is the probability that you have at least 3 right ones?
+HypB: How to simulate artificial draws from the distribution?
 
-HypC: What is the probability that you have a maximum of 3 right ones? 
+HypC: What is the probability that you have at least 3 right ones?
+
+HypD: What is the probability that you have a maximum of 3 right ones? 
+
 *)
 
-// Creates a hypergeometric distribution with n=6, s=6 and f=49-6=43.
-//N=count(succes)+count(failure), K=count(success), n=number of draws
+// Creates a hypergeometric distribution with N=49, K=6, n=6.
 let hyper = Discrete.hypergeometric 49 6 6
 
 // HypA: What is the probability that your 6 numbers are right?
 let hypA = hyper.PDF 6
 // Output: 7.15-08
 
-// HypB: What is the probability that you have at least 3 right ones?
-let hypB = 1. - hyper.CDF 2.
+// HypB: How to simulate artificial draws from the distribution?
+let hypB = hyper.Sample()
+// Output: Number of success events randomly sampled from the distribution.
+
+// HypC: What is the probability that you have at least 3 right ones?
+// CDF is implemented to calculate P(X <= k)
+let hypC = 1. - hyper.CDF 2
 // Output: 0.01864 = 1.86 %
 
-// HypC: What is the probability that you have a maximum of 3 right ones? 
-let hypC = hyper.CDF 3.
+// HypD: What is the probability that you have a maximum of 3 right ones? 
+let hypD = hyper.CDF 3
 // Output: 0.99901 = 99.90 %
 
 (***hide***)
@@ -412,7 +466,7 @@ let plotHyper =
     |> List.map (fun x -> x,hyper.PDF x)
     |> Chart.Column
     |> Chart.withAxisTitles "" ""
-    |> Chart.withTitle "Hyp(6,6,43)"
+    |> Chart.withTitle "N=49, K=6, n=6"
 
 (*** condition: ipynb ***)
 #if IPYNB

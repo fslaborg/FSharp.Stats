@@ -1,5 +1,7 @@
 ﻿namespace FSharp.Stats
 
+open System
+
 module Intervals =
 
     /// Closed interval [Start,End]
@@ -9,6 +11,8 @@ module Intervals =
 
     /// Creates closed interval [min,max] by given min and max
     let create min max =
+        //no valid test if margins are not of type IComparable (e.g. tuples)
+        //if min > max then failwithf "Interval minimum must be lower than maximum"
         ClosedInterval (min, max)
         
     /// Creates closed interval [min,max] by given start and size
@@ -16,65 +20,97 @@ module Intervals =
         ClosedInterval (min, min + size)
         
     //(duplicated from Seq module due to circular dependency)
-    /// Creates closed interval of the given data based on its minimum and maximum 
-    let ofSeq (source:seq<_>) = 
+    /// Creates closed interval of the given data based on its minimum and maximum. If the collection contains nan
+    /// an exception is thrown.
+    let inline ofSeq (source:seq<'a>) = 
+        let isfloat = box source :? seq<float>
         use e = source.GetEnumerator()
         let rec loop minimum maximum =
             match e.MoveNext() with
-            | true  -> loop (min e.Current minimum) (max e.Current maximum)
-            | false -> create minimum maximum          
+            | true  -> 
+                // fail if collection contains nan
+                if isfloat && nan.Equals e.Current then 
+                    //Interval.Empty
+                    raise (System.Exception("Interval cannot be determined if collection contains nan"))
+                else loop (min e.Current minimum) (max e.Current maximum)
+            | false -> create minimum maximum
+           
         //Init by fist value
         match e.MoveNext() with
         | true  -> loop e.Current e.Current
         | false -> Interval.Empty
 
     //(duplicated from Seq module due to circular dependency)
-    /// Creates closed interval [min,max] of the given data based on the extreme values obtained by applying the projection function
-    let ofSeqBy projection (source:seq<_>) =
+    /// Creates closed interval [min,max] of the given data based on the extreme values obtained by applying the projection function.
+    ///If the collection contains nan an exception is thrown.
+    let inline ofSeqBy (projection:'b -> 'c) (source:seq<'b>) =
+        
         use e = source.GetEnumerator()
-        let rec loop minimum maximum minimumV maximumV =
-            match e.MoveNext() with
-            | true  -> 
-                let current = projection e.Current
-                let mmin,mminV = if current < minimum then current,e.Current else minimum,minimumV
-                let mmax,mmaxV = if current > maximum then current,e.Current else maximum,maximumV
-                loop mmin mmax mminV mmaxV
-            | false -> create minimumV maximumV          
         //Init by fist value
         match e.MoveNext() with
         | true  -> 
             let current = projection e.Current
+            let  isfloat = box current :? float
+            //inner loop 
+            let rec loop minimum maximum minimumV maximumV =
+                match e.MoveNext() with
+                | true  -> 
+                    let current = projection e.Current
+                    // fail if collection contains nan
+                    if isfloat && nan.Equals current then 
+                        //Interval.Empty 
+                        raise (System.Exception("Interval cannot be determined if collection contains nan"))
+                    else
+                        let mmin,mminV = if current <  minimum then current,e.Current else minimum,minimumV
+                        let mmax,mmaxV = if current >= maximum then current,e.Current else maximum,maximumV
+                        loop mmin mmax mminV mmaxV
+                | false -> create minimumV maximumV
             loop current current e.Current e.Current
         | false -> Interval.Empty
 
-    /// Returns min and max value of Interval [min,max]
+    /// Returns min and max value of an Interval [min,max]
     let inline values (interval:Interval<'a>) =
         let zero = LanguagePrimitives.GenericZero< 'a >
         match interval with
         | ClosedInterval (min,max) -> min,max
         | Empty -> (zero / zero,zero / zero)
     
-    /// Returns min/start value of Interval [min,max]
+    /// Returns min/start value of an Interval [min,max]
     let inline getStart (interval:Interval<'a>) =
         let zero = LanguagePrimitives.GenericZero< 'a >
         match interval with
         | ClosedInterval (min,_) -> min
         | Empty -> zero / zero
 
-    /// Returns max/end value of Interval [min,max]
+    /// Returns max/end value of an Interval [min,max]
     let inline getEnd (interval:Interval<'a>) =
         let zero = LanguagePrimitives.GenericZero< 'a >
         match interval with
         | ClosedInterval (_,max) -> max
         | Empty -> zero / zero
-
-    /// Returns range of of Interval [min,max] (max - min)
-    let inline getRange (interval:Interval<'a>) =
+        
+    /// Returns the size of an Interval [min,max] (max - min)
+    let inline getSize (interval:Interval<'a>) =
         let zero = LanguagePrimitives.GenericZero< 'a >
         match interval with
         | ClosedInterval (min,max) -> max - min
         | Empty -> zero / zero
+    
+    [<Obsolete("Use Interval.getSize instead")>]
+    let inline getRange (interval:Interval<'a>) = 
+        getSize interval
 
+    /// Returns the range of an Interval [min,max] (projection max - projection min)
+    let inline getSizeBy (projection:'a -> 'b) (interval:Interval<'a>) =
+        let zero = LanguagePrimitives.GenericZero< 'b >
+        match interval with
+        | ClosedInterval (min,max) -> projection max - projection min
+        | Empty -> zero / zero
+    
+    [<Obsolete("Use Interval.getSizeBy instead")>]
+    let inline getRangeBy (projection:'a -> 'b) (interval:Interval<'a>) =
+        getSizeBy projection interval
+        
     /// Returns the size of an closed interval
     let inline trySize interval =
         match interval with
@@ -90,7 +126,7 @@ module Intervals =
         
 
     /// Add two given intervals.
-    let add a b =
+    let inline add a b =
         match a,b with
         | ClosedInterval (minA,maxA), ClosedInterval (minB,maxB) 
             -> ClosedInterval (minA + minB, maxA + maxB)
@@ -101,7 +137,7 @@ module Intervals =
         
 
     /// Subtract a given interval from the other interval.
-    let subtract a b =
+    let inline subtract a b =
         match a,b with
         | ClosedInterval (minA,maxA), ClosedInterval (minB,maxB) 
             -> ClosedInterval (minA - maxB, maxA - minB)
@@ -155,7 +191,6 @@ module Intervals =
         | Empty -> false        
         
         
-
 // ####################################################
 
 // interval tree
