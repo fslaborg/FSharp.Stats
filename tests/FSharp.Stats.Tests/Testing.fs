@@ -330,9 +330,6 @@ let fTestTests =
 
     // calculation of the F test 
     let fResult = FTest.testVariances sampleFA sampleFB
-    let fResultNaN = FTest.testVariances sampleNaN sampleFB
-    let fResultInf = FTest.testVariances sampleInf sampleFB
-    let fResultNegInf = FTest.testVariances sampleNegInf sampleFB
     let fResultTies = FTest.testVariances sampleFA sampleties 
 
 
@@ -342,10 +339,10 @@ let fTestTests =
             Expect.floatClose Accuracy.low fResult.Statistic 2.82338 "statistics should be equal."
             Expect.floatClose Accuracy.low fResult.PValueTwoTailed 0.34172 "pValue should be equal."
         testCase "FTest NaN" <| fun () -> 
-            Expect.isTrue (nan.Equals (fResultNaN.Statistic)) "statistic should be nan"
+            Expect.throws (fun () -> ((FTest.testVariances sampleNaN sampleFB).Statistic) |> printf "%A") "FTest works with NaN"
         testCase "FTest infinities" <| fun () -> 
-            Expect.isTrue (nan.Equals (fResultInf.Statistic)) "statistic should be nan"
-            Expect.isTrue (nan.Equals (fResultNegInf.Statistic)) "statistic should be nan"
+            Expect.throws (fun () -> ((FTest.testVariances sampleInf sampleFB).Statistic)|> printf "%A") "FTest works with divisions by infitity -> nan"
+            Expect.throws (fun () -> ((FTest.testVariances sampleNegInf sampleFB).Statistic)|> printf "%A") "FTest works with divisions by -infitity -> nan"    
         testCase "FTest 2 ties" <| fun () -> 
             Expect.floatClose Accuracy.low fResultTies.Statistic 1.32748538 "statistics should be equal."
             Expect.floatClose Accuracy.low fResultTies.PValueTwoTailed 0.8214 "pValue should be equal."
