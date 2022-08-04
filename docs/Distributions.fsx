@@ -34,6 +34,7 @@ _Summary:_ this tutorial shows how to use the various types of probability distr
 - [Continuous](#Continuous)
     - [Normal distribution](#Normal-distribution)
     - [Multivariate normal distribution](#Multivariate-normal-distribution)
+    - [F distribution](#F-distribution)
 - [Discrete](#Discrete)
     - [Bernoulli distribution](#Bernoulli-distribution)
     - [Binomial distribution](#Binomial-distribution)
@@ -238,6 +239,64 @@ v
 
 (***hide***)
 v |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
+### F distribution
+
+The F distribution or Fisher distribution, also known as Fisher-Snedecor distribution, is a continuous probability distribution. 
+An F-distributed random variable results from the quotient of two Chi-square-distributed random variables each divided by the associated number of degrees of freedom. 
+The F-distribution has two independent degrees of freedom(dof) as parameters, and thus forms a two-parameter distribution family.
+
+Generally speaking, the F-tests and the resulting F-Distribution is utilized for comparing multiple levels of independent variables with multiple groups.
+In practice, it is most commonly used to compare the variances within a group to the variance between different groups, as seen in the Analysis of varaince.
+
+*)
+let fParams = [(2.,1.);(5.,2.);(10.,1.);(100.,100.)]
+let xF = [0. .. 1. .. 5.]
+
+let pdfF a b = 
+    xF 
+    |> List.map (Continuous.F.PDF a b)
+    |> List.zip xF
+
+let fPDFs =
+    fParams
+    |> List.map (fun (a,b) -> Chart.Line(pdfF a b,Name=sprintf "dof1=%.1f dof2=%.1f" a b,LineWidth=3.) )
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
+    |> Chart.withTitle "Different F-Distributions PDFs, x=[0,5]"
+
+(*** condition: ipynb ***)
+#if IPYNB
+fPDFs
+#endif // IPYNB
+
+(***hide***)
+fPDFs |> GenericChart.toChartHTML
+(***include-it-raw***)
+(**
+*)
+let cdfF a b = 
+    xF 
+    |> List.map (Continuous.F.CDF a b)
+    |> List.zip xF
+
+let fCDFs =
+    fParams
+    |> List.map (fun (a,b) -> Chart.Line(cdfF a b,Name=sprintf "dof1=%.1f dof2=%.1f" a b,LineWidth=3.) )
+    |> Chart.combine
+    |> Chart.withAxisTitles "" ""
+    |> Chart.withTitle "Different F-Distributions CDFs, x=[0,5]"
+
+(*** condition: ipynb ***)
+#if IPYNB
+fCDFs
+#endif // IPYNB
+
+(***hide***)
+fCDFs |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
