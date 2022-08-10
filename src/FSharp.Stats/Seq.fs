@@ -145,7 +145,44 @@ module Seq =
             | true  -> loop (n + 1) (acc + log ( f e.Current ))
             | false -> 
                 if (n > 0) then exp (LanguagePrimitives.DivideByInt< 'U > acc n) else (zero / zero)            
+        loop 0 zero     
+
+
+    /// <summary>
+    ///   Computes quadratic mean
+    /// </summary>
+    ///
+    /// <param name="items">The input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>quadratic mean</returns>   
+    let inline meanQuadratic (items:seq<'T>) : 'U  =
+        use e = items.GetEnumerator()
+        let zero = LanguagePrimitives.GenericZero< 'U > 
+        let rec loop n (acc) =
+            match e.MoveNext() with
+            | true  -> loop (n + 1) (acc + (e.Current * e.Current))
+            | false -> 
+                if (n > 0) then sqrt (LanguagePrimitives.DivideByInt< 'U > acc n) else (zero / zero)            
         loop 0 zero          
+        
+
+    /// <summary>
+    ///   Computes quadratic mean
+    /// </summary>
+    ///
+    /// <param name="f">A function applied to transform each element of the sequence.</param>
+    /// <param name="items">The input sequence.</param>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <returns>quadratic mean</returns>   
+    let inline meanQuadraticBy f (items:seq<'T>) : 'U  =
+        use e = items.GetEnumerator()
+        let zero = LanguagePrimitives.GenericZero< 'U > 
+        let rec loop n (acc) =
+            match e.MoveNext() with
+            | true  -> loop (n + 1) (acc + f (e.Current * e.Current))
+            | false -> 
+                if (n > 0) then sqrt (LanguagePrimitives.DivideByInt< 'U > acc n) else (zero / zero)            
+        loop 0 zero        
 
     
 
