@@ -224,6 +224,34 @@ let betaFunctionsTests =
         testCase "beta(-infinity,-infinity)" <| fun () ->
             let bet = Beta.beta -infinity -infinity
             Expect.isTrue (nan.Equals(bet)) "Expected beta(-infinity,-infinity) to return nan"
+
+        testCase "test_incbcf function" <| fun () ->
+            let result  = nan //(4.,2.,4.2); nan
+            let disired = -0.23046874999999992
+            Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
+        
+        testCase "test_incbcd function" <| fun () ->
+            let result  = nan //(4.,2.,4.2); nan
+            let disired = 0.7375
+            Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
+
+        testCase "test_incompleteInverse" <| fun () ->
+            let result  = nan //(0.5,0.6,0.1); nan
+            let disired = 0.019145979066925722
+            Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
+
+        testCase "test_powerSeries" <| fun () ->
+            let result  = Beta.powerSeries 4. 2. 4.2
+            let disired = -3671.801280000001
+            Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
+
+        //TODO: Beta into class to allow [<ParamArray>]
+        
+        //testCase "test_multinomial" <| fun () ->
+        //    let result  = Beta.multinomial (0.42, 0.5, 5.2 )
+        //    let disired = 0.82641912952987062
+        //    Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
+
     ]
 
 [<Tests>]

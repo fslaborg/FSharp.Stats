@@ -167,16 +167,18 @@ module Beta =
     //    aa
 
 
-    /// <summary>
-    ///   Multinomial Beta function.
-    /// </summary>
-    let multinomial ([<ParamArray>] x:float[]) =
-        let mutable sum = 0.
-        let mutable prd = 1.
+    //TODO: Beta into class to allow [<ParamArray>]
 
-        for i = 0 to x.Length-1 do  
-            sum <- sum + x[i];
-            prd <- prd * Gamma.gamma(x[i]);
+    ///// <summary>
+    /////   Multinomial Beta function.
+    ///// </summary>
+    //let multinomial ([<ParamArray>] x:float[]) =
+    //    let mutable sum = 0.
+    //    let mutable prd = 1.
 
-        prd / Gamma.gamma sum
+    //    for i = 0 to x.Length-1 do  
+    //        sum <- sum + x[i];
+    //        prd <- prd * Gamma.gamma(x[i]);
+
+    //    prd / Gamma.gamma sum
   
