@@ -175,7 +175,8 @@ There are several padding methods:
 
 open FSharp.Stats.Signal
 
-//get raw data
+// get raw data
+// data originates from temperature measurements conducted in https://github.com/bvenn/AlgaeWatch
 let data = 
     System.IO.File.ReadAllLines(__SOURCE_DIRECTORY__ + "/data/waveletData.txt")
     |> Array.map (fun x -> 
