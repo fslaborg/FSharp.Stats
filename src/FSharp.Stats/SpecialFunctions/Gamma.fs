@@ -288,6 +288,44 @@ module Gamma =
                 y
                     
 
-
+    /// <summary>
+    ///   Trigamma function.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   This code has been adapted from the FORTRAN77 and subsequent
+    ///   C code by B. E. Schneider and John Burkardt. The code had been
+    ///   made public under the GNU LGPL license.
+    /// </remarks>
+    let rec trigamma (x:float) =
+    
+        match x with
+        | x when  (x < 0.) ->
+            let v = Math.PI / Math.Sin(-Math.PI * x)
+            -trigamma(1. - x) + v * v
+        | x when  (x <= 0.) ->
+            raise (ArgumentException("The input parameter x must be positive.", "x"))
+        | x when  (x <= 0.0001) ->
+            // small value approximation        
+            1.0 / x / x   
+        | _ ->       
+        
+            let b  = 5.0
+            let b2 = 0.1666666667
+            let b4 = -0.03333333333
+            let b6 = 0.02380952381
+            let b8 = -0.03333333333
+        
+            let rec loop v z =
+                if (z < b) then
+                    let v' = v + 1. / z / z 
+                    let z' = z + 1.
+                    loop v' z' 
+                else
+                    // Apply asymptotic formula if argument is B or greater.
+                    let y = 1.0 / z / z
+                    v + 0.5 * y + (1.0 + y * (b2 + y * (b4 + y * (b6 + y * b8)))) / z
+                
+            loop 0. x
 
     
