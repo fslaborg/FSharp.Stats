@@ -443,22 +443,68 @@ module Continuous =
             else 
                 SpecialFunctions.Gamma.lowerIncomplete alpha (x * beta)
         
+        /// Fits the underlying distribution to a given set of observations.
+        static member Fit(observations:float[],?maxIter,?tolerance) =
+            let maxIter = defaultArg maxIter 10000
+            let tol     = defaultArg tolerance 1e-8
+            
+            let lnSum = observations |> Seq.averageBy (log)
+            let mean = observations |> Seq.average
+
+            let s = log(mean) - lnSum / float observations.Length
+
+            if (Double.IsNaN(s)) then
+                raise (ArgumentException("Observation vector contains negative values.", "observations"))
+    
+            // initial approximation
+            let alpha' = (3. - s + Math.Sqrt((s - 3.) * (s - 3.) + 24. * s)) / (12. * s)  
+
+            let rec newtonRaphson iter state =
+                if iter < maxIter && (true) then
+                    let num = Math.Log(state) - Gamma.digamma(state) - s
+                    let den = (1. / state) - Gamma.trigamma(state)
+                    let state' = state - num / den
+                    if (abs (state' - state) > tol ) then
+                        newtonRaphson (iter+1) (state')
+                    else
+                        state
+                else
+                    state    
+
+            let alpha = newtonRaphson 0 alpha' 
+            
+            let theta = mean / alpha 
+            (alpha, 1. / theta) // beta = 1 / theta
+            
+        /// <summary>
+        ///   Estimates a new Gamma distribution from a given set of observations.
+        /// </summary>
+        static member Estimate(observations:float[],?maxIter,?tolerance) =
+            let maxIter = defaultArg maxIter 10000
+            let tol     = defaultArg tolerance 1e-8    
+            let alpha,beta = Gamma.Fit(observations,maxIter,tol)
+            Gamma.Init alpha beta 
+
         /// Returns the support of the exponential distribution: [0, Positive Infinity).
         static member Support alpha beta =
             gammaCheckParam alpha beta
             (0.0, System.Double.PositiveInfinity)
 
+        /// Initializes a Gamma distribution
+        static member Init alpha beta =
+            { new Distribution<float,float> with
+                member d.Mean              = Gamma.Mean alpha beta
+                member d.StandardDeviation = Gamma.StandardDeviation alpha beta   
+                member d.Variance          = Gamma.Variance alpha beta
+                //member d.CoVariance        = Gamma.CoVariance alpha beta 
+                member d.Sample ()         = Gamma.Sample alpha beta
+                member d.PDF x             = Gamma.PDF alpha beta x           
+                member d.CDF x             = Gamma.CDF alpha beta x         
+            }
+
     /// Initializes a Gamma distribution        
     let gamma alpha beta =
-        { new Distribution<float,float> with
-            member d.Mean              = Gamma.Mean alpha beta
-            member d.StandardDeviation = Gamma.StandardDeviation alpha beta   
-            member d.Variance          = Gamma.Variance alpha beta
-            //member d.CoVariance        = Gamma.CoVariance alpha beta 
-            member d.Sample ()         = Gamma.Sample alpha beta
-            member d.PDF x             = Gamma.PDF alpha beta x           
-            member d.CDF x             = Gamma.CDF alpha beta x         
-        }   
+        Gamma.Init alpha beta  
 
 
 // ######
