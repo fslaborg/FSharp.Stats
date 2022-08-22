@@ -124,6 +124,22 @@ let gammaFunctionsTests =
         testCase "upperIncomplete(0.5, infinity)" <| fun () ->
             let gam = Gamma.upperIncomplete 0.5 Ops.inf
             Expect.equal gam 0.0 "expected upperIncomplete(0.5, infinity) to be 0"
+        
+        testCase "digamma(0.17) positive" <| fun () ->
+            let diGam = Gamma.digamma 0.17
+            Expect.equal diGam -6.2100942259248626 "expected upperIncomplete(0.5, infinity) to be 0"    
+        
+        testCase "digamma(-1.8209678549077879) negative" <| fun () ->
+            let diGam = Gamma.digamma -1.8209678549077879
+            Expect.equal diGam -4.1343001655848468 "expected upperIncomplete(0.5, infinity) to be 0"       
+        
+        testCase "trigamma(0.17) positive" <| fun () ->
+            let triGam = Gamma.trigamma 0.17
+            Expect.equal triGam 35.915302055854525 "expected upperIncomplete(0.5, infinity) to be 0"    
+        
+        testCase "trigamma(-1.8209678549077879) negative" <| fun () ->
+            let triGam = Gamma.trigamma -1.8209678549077879
+            Expect.equal triGam 34.283184056369407 "expected upperIncomplete(0.5, infinity) to be 0"      
     ]    
 
 
