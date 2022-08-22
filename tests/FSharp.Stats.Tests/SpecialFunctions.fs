@@ -241,20 +241,20 @@ let betaFunctionsTests =
             let bet = Beta.beta -infinity -infinity
             Expect.isTrue (nan.Equals(bet)) "Expected beta(-infinity,-infinity) to return nan"
 
-        testCase "test_incbcf function" <| fun () ->
-            let result  = nan //(4.,2.,4.2); nan
-            let disired = -0.23046874999999992
-            Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
+        //testCase "test_incbcf function" <| fun () ->
+        //    let result  = nan //(4.,2.,4.2); nan
+        //    let disired = -0.23046874999999992
+        //    Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
         
-        testCase "test_incbcd function" <| fun () ->
-            let result  = nan //(4.,2.,4.2); nan
-            let disired = 0.7375
-            Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
+        //testCase "test_incbcd function" <| fun () ->
+        //    let result  = nan //(4.,2.,4.2); nan
+        //    let disired = 0.7375
+        //    Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
 
-        testCase "test_incompleteInverse" <| fun () ->
-            let result  = nan //(0.5,0.6,0.1); nan
-            let disired = 0.019145979066925722
-            Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
+        //testCase "test_incompleteInverse" <| fun () ->
+        //    let result  = nan //(0.5,0.6,0.1); nan
+        //    let disired = 0.019145979066925722
+        //    Expect.floatClose Accuracy.veryHigh result disired "Should be equal (double precision)"
 
         testCase "test_powerSeries" <| fun () ->
             let result  = Beta.powerSeries 4. 2. 4.2
