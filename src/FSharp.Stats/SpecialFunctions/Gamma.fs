@@ -215,6 +215,78 @@ module Gamma =
             else gcf a x
 
 
+    /// <summary>
+    ///   Digamma function.
+    /// </summary>
+    let rec digamma (x:float) = 
+        match x with
+        | x when (x = 0.) ->         
+            Double.NegativeInfinity
+        | x when (x < 0.) ->
+            digamma(1. - x) + Math.PI / Math.Tan(-Math.PI * x)
+        | _ ->
+            let nz =
+
+                let q = x
+                let p = floor q
+
+                if (p = q) then
+                    raise (OverflowException("Function computation resulted in arithmetic overflow."))
+
+                let nz = q - p
+                if (nz <> 0.5) then
+                    if (nz > 0.5) then
+                        let p = p + 1.0
+                        Math.PI / Math.Tan(System.Math.PI * (q - p))
+                    else
+                        Math.PI / Math.Tan(System.Math.PI * nz)
+                else
+                    0.0
+
+            let x' = 
+                if x <= 0 then
+                    1.0 - x
+                else
+                    x
+
+            let y =
+
+                if (x' <= 10.0 && x' = floor x') then
+                    let n = floor x'
+                    [1. .. (n-1.)]
+                    |> Seq.fold (fun w y -> y + 1.0 / w) 0.
+                    |> fun y -> y - 0.57721566490153286061
+                else
+
+                    let rec loop s w =
+                        if (s < 10.0) then
+                            let w = w + 1.0 / s
+                            let s = s + 1.0
+                            loop s w
+                        
+                        else
+                            if (s < 1.0E17) then
+                                let z = 1.0 / (s * s)
+                                let polv = 
+                                    ((((((8.33333333333333333333E-2
+                                        * z - 2.10927960927960927961E-2)
+                                        * z + 7.57575757575757575758E-3)
+                                        * z - 4.16666666666666666667E-3)
+                                        * z + 3.96825396825396825397E-3)
+                                        * z - 8.33333333333333333333E-3)
+                                        * z + 8.33333333333333333333E-2)
+                                Math.Log(s) - 0.5 / s - (z * polv) - w
+                            
+                            else
+                                Math.Log(s) - 0.5 / s - w
+
+                    loop x' 0.
+
+            if (x < 0.) then
+                y - nz
+            else
+                y
+                    
 
 
 
