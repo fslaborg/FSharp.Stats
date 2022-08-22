@@ -20,6 +20,26 @@ module Ops =
     
     /// Float negative infinity.
     let infNeg = System.Double.NegativeInfinity    
+
+    /// <summary>
+    ///   Double-precision machine round-off error.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   This value is actually different from Double.Epsilon. It
+    ///   is defined as 1.11022302462515654042E-16.
+    /// </remarks>
+    let epsilon = 1.11022302462515654042e-16
+
+    /// <summary>
+    ///   Maximum log (def: 7.09782712893383996732E2).
+    /// </summary>
+    let logMax = 7.09782712893383996732E2
+
+    /// <summary>
+    ///   Minimum log (def: -7.451332191019412076235E2)
+    /// </summary>
+    let logMin = -7.451332191019412076235E2
     
     ///// Float NaN.
     //let NaN = System.Double.NaN

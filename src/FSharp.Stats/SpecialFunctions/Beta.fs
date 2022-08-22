@@ -1,6 +1,7 @@
 ﻿namespace FSharp.Stats.SpecialFunctions
 
 open System
+open FSharp.Stats
 
 /// The beta function B(p,q), or the beta integral (also called the Eulerian integral of the first kind) is defined by
 ///
@@ -115,3 +116,67 @@ module Beta =
         else
             symmetryTransformation a b x
 
+
+    /// <summary>
+    /// Returns the lower incomplete (unregularized) beta function
+    /// </summary>
+    /// <param name="a">The first Beta parameter, a positive real number.</param>
+    /// <param name="b">The second Beta parameter, a positive real number.</param>
+    /// <param name="x">The upper limit of the integral.</param>
+    let lowerIncomplete(a, b, x) =
+        (lowerIncompleteRegularized a b x) * (beta a b)
+ 
+ 
+    /// <summary>
+    ///   Power series for incomplete beta integral. Use when b*x
+    ///   is small and x not too close to 1.
+    /// </summary>
+    let powerSeries a b x =
+        let ai = 1.0 / a
+        let ui = (1.0 - b) * x 
+        let t1 = ui / (a + 1.0)
+        let z  = epsilon * ai
+
+        let rec loop u t v s n =
+            if (abs v > z) then 
+                let u' = (n - b) * x / n
+                let t' = t * u'
+                let v' = t' / (a + n)
+                loop u' t' (t' / (a + n)) (s + v') (n + 1.)
+            else
+                s + t1 + ai
+        
+        let s = loop ui ui t1 0. 2.  
+        let u = a * log x
+        
+        if ((a + b) < Gamma.maximum && abs u < logMax) then
+            let t = Gamma.gamma (a + b) / (Gamma.gamma a * Gamma.gamma b)
+            s * t * System.Math.Pow(x, a)
+        else
+            let t = Gamma.gammaLn (a + b) - Gamma.gammaLn a - Gamma.gammaLn b + u + log s
+            if (t < logMin) then
+                0.0
+            else
+                exp t
+
+
+    ///// <summary>
+    /////   Inverse of incomplete beta integral.
+    ///// </summary>
+    //let incompleteInverse aa bb yy0 =
+    //    aa
+
+
+    /// <summary>
+    ///   Multinomial Beta function.
+    /// </summary>
+    let multinomial ([<ParamArray>] x:float[]) =
+        let mutable sum = 0.
+        let mutable prd = 1.
+
+        for i = 0 to x.Length-1 do  
+            sum <- sum + x[i];
+            prd <- prd * Gamma.gamma(x[i]);
+
+        prd / Gamma.gamma sum
+  
