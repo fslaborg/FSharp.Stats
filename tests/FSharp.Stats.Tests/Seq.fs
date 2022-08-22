@@ -56,3 +56,16 @@ let meanTests =
             let mean = Seq.mean testSeqNegInfinity
             Expect.isTrue (Double.IsNegativeInfinity mean) "Mean should be nan"
     ]
+
+[<Tests>]
+let meanQuadraticTests =
+    testList "Seq" [
+        testCase "meanQuadratic" <| fun () ->
+            let mean = Seq.meanQuadratic testSeqEvenCounts
+            Expect.floatClose Accuracy.high mean 5000.0074 "Mean should be 5000.0074"
+        testCase "meanQuadraticNan" <| fun () ->
+            let mean = Seq.meanQuadratic testSeqNan
+            Expect.isTrue (Double.IsNaN mean) "Mean should be nan"
+    ]
+
+
