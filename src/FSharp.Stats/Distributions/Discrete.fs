@@ -364,7 +364,7 @@ module Discrete =
                 1.0
             else
                 let k = floor x |> int 
-                SpecialFunctions.Beta.lowerIncomplete (float (n-k)) (float (k + 1)) (1. - p)
+                SpecialFunctions.Beta.lowerIncompleteRegularized (float (n-k)) (float (k + 1)) (1. - p)
 
 
 

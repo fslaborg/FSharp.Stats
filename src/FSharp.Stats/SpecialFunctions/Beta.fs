@@ -12,47 +12,54 @@ module Beta =
 
     ///<summary>
     /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
-    ///
-    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
     ///</summary>
+    ///<remarks>
+    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
+    ///</remarks>
     /// <param name="z">The function input for approximating ln(B(z, w))</param>
     /// <param name="w">The function input for approximating ln(B(z, w))</param>
     let _betaLn z w = (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
 
     ///<summary>
     /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
-    ///
-    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
     ///</summary>
+    ///<remarks>
+    /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
+    ///</remarks>
     /// <param name="z">The function input for approximating B(z, w)</param>
     /// <param name="w">The function input for approximating B(z, w)</param>
     let _beta z w = exp (_betaLn z w)
 
     ///<summary>
     /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
-    ///
-    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
-    ///
-    /// This might be slower than the unchecked version `_betaLn` but does not require input sanitation to get expected results for these cases.
     ///</summary>
+    ///<remarks>
+    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
+    /// This might be slower than the unchecked version `_betaLn` but does not require input sanitation to get expected results for these cases.
+    ///</remarks>    
     /// <param name="z">The function input for approximating ln(B(z, w))</param>
     /// <param name="w">The function input for approximating ln(B(z, w))</param>
     let betaLn z w = (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
 
     ///<summary>
     /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
-    ///
-    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
-    ///
-    /// This might be slower than the unchecked version `_beta` but does not require input sanitation to get expected results for these cases.
     ///</summary>
+    ///<remarks>
+    /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
+    /// This might be slower than the unchecked version `_beta` but does not require input sanitation to get expected results for these cases.
+    ///</remarks>
     /// <param name="z">The function input for approximating B(z, w)</param>
     /// <param name="w">The function input for approximating B(z, w)</param>
     let beta z w = exp (betaLn z w)
 
-    //  incomplete beta function 
-    /// Returns the regularized lower incomplete beta function
-    let lowerIncomplete a b x =       
+    // incomplete beta function 
+    /// <summary>
+    /// Returns the regularized lower incomplete beta function 
+    /// </summary>
+    /// <param name="a">The first Beta parameter, a positive real number.</param>
+    /// <param name="b">The second Beta parameter, a positive real number.</param>
+    /// <param name="x">The upper limit of the integral.</param>
+    let lowerIncompleteRegularized a b x =       
         if (a < 0.0) then invalidArg "a" "Argument must not be negative"
         if (b < 0.0) then invalidArg "b" "Argument must not be negative"
         if (x < 0.0 || x > 1.0) then invalidArg "x" "Argument XY interval is inclusive"

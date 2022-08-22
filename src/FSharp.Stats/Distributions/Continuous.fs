@@ -636,7 +636,7 @@ module Continuous =
             studentTCheckParam mu tau dof            
             let k = (x - mu) / tau
             let h = dof / (dof + (k * k))
-            let ib = 0.5 * SpecialFunctions.Beta.lowerIncomplete (dof/2.0) 0.5 h
+            let ib = 0.5 * SpecialFunctions.Beta.lowerIncompleteRegularized (dof/2.0) 0.5 h
             if x <= mu then ib else 1.0 - ib           
 
         /// Returns the support of the exponential distribution: (Negative Infinity, Positive Infinity).
@@ -848,7 +848,7 @@ module Continuous =
             //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
             //equals cdf(x)
             let u = (dof1 * x) / (dof2 + dof1 * x) 
-            Beta.lowerIncomplete (dof1 * 0.5) (dof2 * 0.5) u
+            Beta.lowerIncompleteRegularized (dof1 * 0.5) (dof2 * 0.5) u
 
         // /// Computes the inverse of the cumulative distribution function.
         // static member InvCDF dof1 dof2 p =
