@@ -73,6 +73,19 @@ module Seq =
             | false -> if (n > 0) then LanguagePrimitives.DivideByInt< 'U > acc n else (zero / zero)     
         loop 0 zero
 
+    /// <summary>
+    ///   Computes the Weighted Mean of the given values.
+    /// </summary>
+    let inline weightedMean (weights:seq<'T>) (items:seq<'T>) =
+        use e = items.GetEnumerator()
+        use w = weights.GetEnumerator()
+        let zero = LanguagePrimitives.GenericZero< 'U > 
+        let rec loop n eAcc wAcc =
+            match e.MoveNext(),w.MoveNext() with
+            | true,true   -> loop (n + 1 ) (eAcc + e.Current * w.Current) (wAcc + w.Current)
+            | false,false -> if (n > 0) then eAcc / wAcc else (zero / zero)
+            | _ -> failwithf "The items and weights must have the same length"
+        loop 0 LanguagePrimitives.GenericZero< 'U >
 
     /// <summary>
     ///   Computes harmonic mean

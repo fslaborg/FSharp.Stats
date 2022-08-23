@@ -33,20 +33,20 @@ let chiSquaredTests =
         testList "CheckParam" [
             // edge cases:
             testCase "CheckParam10" <| fun () ->
-                let testCase = Continuous.chiSquaredCheckParam 10.
+                let testCase = Continuous.ChiSquared.CheckParam 10.
                 Expect.isTrue (testCase = ()) "Should be unit"
             testCase "CheckParam0" <| fun () ->
-                let testCase = Continuous.chiSquaredCheckParam 0.
+                let testCase = Continuous.ChiSquared.CheckParam 0.
                 Expect.isTrue (testCase = ()) "Should be unit"
             testCase "CheckParamInfinity" <| fun () ->
-                let testCase = Continuous.chiSquaredCheckParam infinity
+                let testCase = Continuous.ChiSquared.CheckParam infinity
                 Expect.isTrue (testCase = ()) "Should be unit"
             testCase "CheckParam-1" <| fun () ->
-                Expect.throws (fun () -> Continuous.chiSquaredCheckParam -1.) "Should throw"
+                Expect.throws (fun () -> Continuous.ChiSquared.CheckParam -1.) "Should throw"
             testCase "CheckParam-infinity" <| fun () ->
-                Expect.throws (fun () -> Continuous.chiSquaredCheckParam -infinity) "Should throw"
+                Expect.throws (fun () -> Continuous.ChiSquared.CheckParam -infinity) "Should throw"
             testCase "CheckParamNan" <| fun () ->
-                Expect.throws (fun () -> Continuous.chiSquaredCheckParam nan) "Should throw"
+                Expect.throws (fun () -> Continuous.ChiSquared.CheckParam nan) "Should throw"
         ]
 
         testList "Distributions.ChiSquared" [
@@ -223,7 +223,7 @@ let chiSquaredTests =
 
             // is based on the functions from before but nevertheless should be tested, too
             testCase "chiSquared-1" <| fun () ->
-                let testCase = Continuous.chiSquared -1.
+                let testCase = ContinuousDistribution.chiSquared -1.
                 Expect.throws (fun () -> testCase.Mean |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.Variance |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.StandardDeviation |> ignore) "Should throw"
@@ -242,7 +242,7 @@ let chiSquaredTests =
                 Expect.throws (fun () -> testCase.PDF -1. |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.PDF nan |> ignore) "Should throw"
             testCase "chiSquared-infinity" <| fun () ->
-                let testCase = Continuous.chiSquared -infinity
+                let testCase = ContinuousDistribution.chiSquared -infinity
                 Expect.throws (fun () -> testCase.Mean |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.Variance |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.StandardDeviation |> ignore) "Should throw"
@@ -261,7 +261,7 @@ let chiSquaredTests =
                 Expect.throws (fun () -> testCase.PDF -1. |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.PDF nan |> ignore) "Should throw"
             testCase "chiSquaredNan" <| fun () ->
-                let testCase = Continuous.chiSquared nan
+                let testCase = ContinuousDistribution.chiSquared nan
                 Expect.throws (fun () -> testCase.Mean |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.Variance |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.StandardDeviation |> ignore) "Should throw"
@@ -280,7 +280,7 @@ let chiSquaredTests =
                 Expect.throws (fun () -> testCase.PDF -1. |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.PDF nan |> ignore) "Should throw"
             testCase "chiSquared0" <| fun () ->
-                let testCase = Continuous.chiSquared 0.
+                let testCase = ContinuousDistribution.chiSquared 0.
                 Expect.floatClose Accuracy.veryHigh testCase.Mean 0. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh testCase.Variance 0. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh testCase.StandardDeviation 0. "Should be equal"
@@ -299,7 +299,7 @@ let chiSquaredTests =
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF nan) 0. "Should be equal"
             testCase "chiSquared1" <| fun () ->
-                let testCase = Continuous.chiSquared 1.
+                let testCase = ContinuousDistribution.chiSquared 1.
                 Expect.floatClose Accuracy.veryHigh testCase.Mean 1. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh testCase.Variance 2. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh testCase.StandardDeviation (sqrt 2.) "Should be equal"
@@ -318,7 +318,7 @@ let chiSquaredTests =
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
                 Expect.isTrue (isNan <| testCase.PDF nan) "Should be equal"
             testCase "chiSquaredInfinity" <| fun () ->
-                let testCase = Continuous.chiSquared infinity
+                let testCase = ContinuousDistribution.chiSquared infinity
                 Expect.isTrue (testCase.Mean = infinity) "Should be equal"
                 Expect.isTrue (testCase.Variance = infinity) "Should be equal"
                 Expect.isTrue (testCase.StandardDeviation = infinity) "Should be equal"
@@ -404,7 +404,7 @@ let chiTests =
     ]
 
 let multivariateNormalTests =
-    let mvn = Continuous.multivariateNormal (vector [0.;0.;0.;0.;0.]) (Matrix.identity 5)
+    let mvn = ContinuousDistribution.multivariateNormal (vector [0.;0.;0.;0.;0.]) (Matrix.identity 5)
     let pdfs=
         [|
             [0.537667139546100;3.578396939725760;-0.124144348216312;0.488893770311789;-1.068870458168032]
@@ -436,11 +436,11 @@ let multivariateNormalTests =
 [<Tests>]
 let hypergeometricTests =   
 
-    let hypergeoDistribution_basicCase = Distributions.Discrete.hypergeometric 50 40 5
-    let hypergeoDistribution_K_equal_n = Distributions.Discrete.hypergeometric 50 20 20
-    let hypergeoDistribution_max_K = Distributions.Discrete.hypergeometric 50 50 20
-    let hypergeoDistribution_max_n = Distributions.Discrete.hypergeometric 50 20 50
-    let hypergeoDistribution_max_K_n = Distributions.Discrete.hypergeometric 50 50 50
+    let hypergeoDistribution_basicCase = Distributions.DiscreteDistribution.hypergeometric 50 40 5
+    let hypergeoDistribution_K_equal_n = Distributions.DiscreteDistribution.hypergeometric 50 20 20
+    let hypergeoDistribution_max_K = Distributions.DiscreteDistribution.hypergeometric 50 50 20
+    let hypergeoDistribution_max_n = Distributions.DiscreteDistribution.hypergeometric 50 20 50
+    let hypergeoDistribution_max_K_n = Distributions.DiscreteDistribution.hypergeometric 50 50 50
     // 2022-06-23
     // https://hypergeon.wikipedia.org/wiki/Hypergeometric_distribution
     // N is population size,
@@ -453,21 +453,21 @@ let hypergeometricTests =
     testList "Distributions.Discrete.Hypergeometric" [
         test "hypergeoCheckParam" {
             // Low N edge cases are difficult to test separately, as K and n MUST be smaller than N, but MUST also be bigger than 0  
-            let N_isZero = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam 0 1 1
-            let N_isNegative = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam -2 1 1
-            let N_isPositive = Distributions.Discrete.hypergeoCheckParam 2 1 1
+            let N_isZero = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam 0 1 1
+            let N_isNegative = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam -2 1 1
+            let N_isPositive = Distributions.Discrete.Hypergeometric.CheckParam 2 1 1
             //
-            let K_isZero = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam 2 0 1
-            let K_isNegative = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam 2 -2 1
-            let K_positiveBiggerN = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam 2 3 1
-            let K_positiveEqualN = Distributions.Discrete.hypergeoCheckParam 2 2 1
-            let K_positiveSmallerN = Distributions.Discrete.hypergeoCheckParam 2 1 1
+            let K_isZero = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam 2 0 1
+            let K_isNegative = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam 2 -2 1
+            let K_positiveBiggerN = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam 2 3 1
+            let K_positiveEqualN = Distributions.Discrete.Hypergeometric.CheckParam 2 2 1
+            let K_positiveSmallerN = Distributions.Discrete.Hypergeometric.CheckParam 2 1 1
             //
-            let n_isZero = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam 2 1 0
-            let n_isNegative = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam 2 1 -2
-            let n_positiveBiggerN = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam 2 1 3
-            let n_positiveEqualN = Distributions.Discrete.hypergeoCheckParam 2 1 2
-            let n_positiveSmallerN = Distributions.Discrete.hypergeoCheckParam 2 1 1
+            let n_isZero = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam 2 1 0
+            let n_isNegative = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam 2 1 -2
+            let n_positiveBiggerN = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam 2 1 3
+            let n_positiveEqualN = Distributions.Discrete.Hypergeometric.CheckParam 2 1 2
+            let n_positiveSmallerN = Distributions.Discrete.Hypergeometric.CheckParam 2 1 1
             Expect.throws N_isZero "N_isZero"
             Expect.throws N_isNegative "N_isNegative"
             Expect.equal N_isPositive () "N_isPositive"
@@ -485,12 +485,12 @@ let hypergeometricTests =
             Expect.equal n_positiveSmallerN () "n_positiveSmallerN"
         }
         test "hypergeoCheckParam_k" {
-            let k_isNegative = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam_k 4 2 2 -2
-            let k_isPositive = Distributions.Discrete.hypergeoCheckParam_k 4 2 2 1
-            let k_isPositive_allEqual = Distributions.Discrete.hypergeoCheckParam_k 4 2 2 2
-            let k_isPositiveBiggerN = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam_k 4 2 2 5
-            let k_isPositiveBiggerK = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam_k 4 2 3 3
-            let k_isPositiveBigger_n = fun (x:unit) -> Distributions.Discrete.hypergeoCheckParam_k 4 3 2 3
+            let k_isNegative = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam_k 4 2 2 -2
+            let k_isPositive = Distributions.Discrete.Hypergeometric.CheckParam_k 4 2 2 1
+            let k_isPositive_allEqual = Distributions.Discrete.Hypergeometric.CheckParam_k 4 2 2 2
+            let k_isPositiveBiggerN = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam_k 4 2 2 5
+            let k_isPositiveBiggerK = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam_k 4 2 3 3
+            let k_isPositiveBigger_n = fun (x:unit) -> Distributions.Discrete.Hypergeometric.CheckParam_k 4 3 2 3
             Expect.throws k_isNegative "k_isNegative"
             Expect.equal k_isPositive () "k_isPositive; should not throw."
             Expect.equal k_isPositive_allEqual () "k_isPositive_allEqual; should not throw."
@@ -579,9 +579,9 @@ let exponentialTests =
         let createExpDistPDF  lambda x = Distributions.Continuous.Exponential.PDF lambda x
         
         testCase "exp check param" <| fun () -> 
-            Expect.throws (fun () -> (Distributions.Continuous.expCheckParam 0. )) "Should fail when lamda  =  0.0"
-            Expect.throws (fun () -> (Distributions.Continuous.expCheckParam -3. )) "Should fail when lamda  < 0."
-            Expect.throws (fun () -> (Distributions.Continuous.expCheckParam -infinity )) "Should fail when lamda < 0.0  "  
+            Expect.throws (fun () -> (Distributions.Continuous.Exponential.CheckParam 0. )) "Should fail when lamda  =  0.0"
+            Expect.throws (fun () -> (Distributions.Continuous.Exponential.CheckParam -3. )) "Should fail when lamda  < 0."
+            Expect.throws (fun () -> (Distributions.Continuous.Exponential.CheckParam -infinity )) "Should fail when lamda < 0.0  "  
         
         testCase "Exponential Lambda regular " <| fun () -> 
             Expect.floatClose Accuracy.low (createExpDistCDF 0.3 5.) 0.776869 "CDF should be equal"
@@ -641,24 +641,24 @@ let bernoulliTests =
 
     let test_basicNumber = 0.42
 
-    let bernoulliDistribution_basicCase = Distributions.Discrete.bernoulli test_basicNumber
-    let bernoulliDistribution_nan = Distributions.Discrete.bernoulli nan
-    let bernoulliDistribution_zero = Distributions.Discrete.bernoulli 0.0
-    let bernoulliDistribution_one = Distributions.Discrete.bernoulli 1.0
+    let bernoulliDistribution_basicCase = Distributions.DiscreteDistribution.bernoulli test_basicNumber
+    let bernoulliDistribution_nan = Distributions.DiscreteDistribution.bernoulli nan
+    let bernoulliDistribution_zero = Distributions.DiscreteDistribution.bernoulli 0.0
+    let bernoulliDistribution_one = Distributions.DiscreteDistribution.bernoulli 1.0
 
     // 2022-06-22
     // Wikipedia: https://de.wikipedia.org/wiki/Bernoulli-Verteilung#Definition 
     // "p is element of closed intervall between 0. and 1."
     testList "Distributions.Discrete.Bernoulli" [
         test "bernCheckParam" {
-            let test_lowerThan0 = fun (x: unit) -> Distributions.Discrete.bernCheckParam -0.1
-            let test_highterThan1 = fun (x: unit) -> Distributions.Discrete.bernCheckParam 1.1
-            let test_basic = Distributions.Discrete.bernCheckParam test_basicNumber
-            let test_zero = Distributions.Discrete.bernCheckParam 0.
-            let test_one = Distributions.Discrete.bernCheckParam 1.
-            let test_nan = Distributions.Discrete.bernCheckParam nan // 
-            let test_infinity = fun (x: unit) -> Distributions.Discrete.bernCheckParam infinity
-            let test_negativeInfinity = fun (x: unit) -> Distributions.Discrete.bernCheckParam -infinity
+            let test_lowerThan0 = fun (x: unit) -> Distributions.Discrete.Bernoulli.CheckParam -0.1
+            let test_highterThan1 = fun (x: unit) -> Distributions.Discrete.Bernoulli.CheckParam 1.1
+            let test_basic = Distributions.Discrete.Bernoulli.CheckParam test_basicNumber
+            let test_zero = Distributions.Discrete.Bernoulli.CheckParam 0.
+            let test_one = Distributions.Discrete.Bernoulli.CheckParam 1.
+            let test_nan = Distributions.Discrete.Bernoulli.CheckParam nan // 
+            let test_infinity = fun (x: unit) -> Distributions.Discrete.Bernoulli.CheckParam infinity
+            let test_negativeInfinity = fun (x: unit) -> Distributions.Discrete.Bernoulli.CheckParam -infinity
             Expect.throws test_lowerThan0 ""
             Expect.throws test_highterThan1 ""
             Expect.equal test_basic () ""
@@ -821,52 +821,52 @@ let FDistributionTests =
     testList "Distributions.Continuous.F" [
         testCase "fCheckParam_dof1<0" <| fun () ->
             Expect.throws
-                (fun () -> (Continuous.fCheckParam -0.5 420.))
+                (fun () -> (Continuous.F.CheckParam -0.5 420.))
                 "fCheckParam does not fail with dof1<0"
         
         testCase "fCheckParam_dof2<0" <| fun () ->
             Expect.throws
-                (fun () -> (Continuous.fCheckParam 420. -0.5))
+                (fun () -> (Continuous.F.CheckParam 420. -0.5))
                 "fCheckParam does not fail with dof2<0"
         
         testCase "fCheckParam_dof1=0" <| fun () ->
             Expect.throws
-                (fun () -> (Continuous.fCheckParam 0. 420.))
+                (fun () -> (Continuous.F.CheckParam 0. 420.))
                 "fCheckParam does not fail with dof1<0"
         
         testCase "fCheckParam_dof2=0" <| fun () ->
             Expect.throws
-                (fun () -> (Continuous.fCheckParam 420. 0.))
+                (fun () -> (Continuous.F.CheckParam 420. 0.))
                 "fCheckParam does not fail with dof2<0"
 
         testCase "fCheckParam_dof1=nan" <| fun () ->
             Expect.throws
-                (fun () -> (Continuous.fCheckParam nan 420.))
+                (fun () -> (Continuous.F.CheckParam nan 420.))
                 "fCheckParam does not fail with dof1=nan"
         
         testCase "fCheckParam_dof2=nan" <| fun () ->
             Expect.throws
-                (fun () -> (Continuous.fCheckParam 420. nan))
+                (fun () -> (Continuous.F.CheckParam 420. nan))
                 "fCheckParam does not fail with dof2=nan"
      
         testCase "fCheckParam_dof1=-infinity" <| fun () ->
             Expect.throws
-                (fun () -> (Continuous.fCheckParam -infinity 420.))
+                (fun () -> (Continuous.F.CheckParam -infinity 420.))
                 "fCheckParam does not fail with dof1=-infinity"
         
         testCase "fCheckParam_dof2=-infinity" <| fun () ->
             Expect.throws
-                (fun () -> (Continuous.fCheckParam 420. -infinity))
+                (fun () -> (Continuous.F.CheckParam 420. -infinity))
                 "fCheckParam does not fail with dof2=-infinity"
  
         testCase "fCheckParam_dof1=infinity" <| fun () ->
             Expect.isTrue
-                ((Continuous.fCheckParam infinity 420.|> fun x -> true))
+                ((Continuous.F.CheckParam infinity 420.|> fun x -> true))
                 "fCheckParam does fail with dof1=infinity"
         
         testCase "fCheckParam_dof2=infinity" <| fun () ->
             Expect.isTrue
-                ((Continuous.fCheckParam 420. infinity|> fun x -> true))
+                ((Continuous.F.CheckParam 420. infinity|> fun x -> true))
                 "fCheckParam does fail with dof2=infinity"
 
         testCase "Continuous.F.Mean" <| fun () ->
@@ -985,25 +985,25 @@ let FDistributionTests =
                 r_value
                 "The mean of 100 sampled values is not close to the respective R value"       
         
-        testCase "fCheckX" <| fun () ->
-            Expect.throws
-                (fun () -> (Continuous.fCheckX -10.))
-                "fCheckX does not fail with negative values"
-            Expect.throws
-                (fun () -> (Continuous.fCheckX nan))
-                "fCheckX does not fail with nan"
-            Expect.throws
-                (fun () -> (Continuous.fCheckX -infinity))
-                "fCheckX does not fail with -infinity"
-            Expect.isTrue
-                ((Continuous.fCheckX 10.)|> fun x -> true)
-                "fCheckX fails with positive values"
-            Expect.isTrue
-                ((Continuous.fCheckX 0)|> fun x -> true)
-                "fCheckX fails with 0"
-            Expect.isTrue
-                ((Continuous.fCheckX infinity)|> fun x -> true)
-                "fCheckX fails with infinity"
+        //testCase "fCheckX" <| fun () ->
+        //    Expect.throws
+        //        (fun () -> (Continuous.F.CheckX -10.))
+        //        "fCheckX does not fail with negative values"
+        //    Expect.throws
+        //        (fun () -> (Continuous.fCheckX nan))
+        //        "fCheckX does not fail with nan"
+        //    Expect.throws
+        //        (fun () -> (Continuous.fCheckX -infinity))
+        //        "fCheckX does not fail with -infinity"
+        //    Expect.isTrue
+        //        ((Continuous.fCheckX 10.)|> fun x -> true)
+        //        "fCheckX fails with positive values"
+        //    Expect.isTrue
+        //        ((Continuous.fCheckX 0)|> fun x -> true)
+        //        "fCheckX fails with 0"
+        //    Expect.isTrue
+        //        ((Continuous.fCheckX infinity)|> fun x -> true)
+        //        "fCheckX fails with infinity"
                 
         testCase "Continuous.F.PDF" <| fun () ->
             let dof1        = 69.
@@ -1117,32 +1117,32 @@ let binomialTests =
 
         testCase "binomialCheckParamN<0" <| fun () ->
             Expect.throws 
-                (fun () -> Discrete.binomialCheckParam 0.5 (-5)) 
+                (fun () -> Discrete.Binomial.CheckParam 0.5 (-5)) 
                 "binomialCheckParam does work with n<0" 
         
         testCase "binomialCheckParamP<0." <| fun () ->
             Expect.throws
-                (fun () -> Discrete.binomialCheckParam (-0.5) 10)
+                (fun () -> Discrete.Binomial.CheckParam (-0.5) 10)
                 "binomialCheckParam does work with p<0" 
         
         testCase "binomialCheckParamP>1." <| fun () ->
             Expect.throws 
-                (fun () -> Discrete.binomialCheckParam 1.5 10) 
+                (fun () -> Discrete.Binomial.CheckParam 1.5 10) 
                 "binomialCheckParam does work with p>1" 
         
         testCase "binomialCheckParamPInfinite." <| fun () ->
             Expect.throws 
-                (fun () -> Discrete.binomialCheckParam infinity 10) 
+                (fun () -> Discrete.Binomial.CheckParam infinity 10) 
                 "binomialCheckParam does work with p=infinity" 
         
         testCase "binomialCheckParamPNegInfinite." <| fun () ->
             Expect.throws 
-                (fun () -> Discrete.binomialCheckParam (-infinity) 10) 
+                (fun () -> Discrete.Binomial.CheckParam (-infinity) 10) 
                 "binomialCheckParam does work with p=-infinity" 
         
         testCase "binomialCheckParamPnan" <| fun () ->
             Expect.throws 
-                (fun () -> Discrete.binomialCheckParam (nan) 10) 
+                (fun () -> Discrete.Binomial.CheckParam (nan) 10) 
                 (sprintf"binomialCheckParam does work with p=nan ,yields")
 
         testCase "Binomial.Mean_n=0" <| fun () ->

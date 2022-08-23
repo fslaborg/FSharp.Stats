@@ -236,7 +236,7 @@ module GoodnessOfFit =
                     let standardErrorOfTheEstimate = 
                         calculateSSE fitFunction xData yData       
                         |> fun x -> sqrt (x / (n-2.))
-                    let criticalT = Distributions.Continuous.getCriticalTValue df (1. - confidenceLevel) Distributions.Continuous.TwoTailed
+                    let criticalT = Distributions.ContinuousDistribution.getCriticalTValue df (1. - confidenceLevel) Distributions.ContinuousDistribution.TwoTailed
                     //additional x values should be added here
                     (fun xValue -> 
                         let stdevOfY = 
@@ -259,7 +259,7 @@ module GoodnessOfFit =
                     let standardErrorOfTheEstimate = 
                         calculateSSE fitFunction xData yData       
                         |> fun x -> sqrt (x / (n-2.))
-                    let criticalT = Distributions.Continuous.getCriticalTValue df (1. - confidenceLevel) Distributions.Continuous.TwoTailed
+                    let criticalT = Distributions.ContinuousDistribution.getCriticalTValue df (1. - confidenceLevel) Distributions.ContinuousDistribution.TwoTailed
                     //additional x values should be added here
                     (fun xValue -> 
                         let stdevOfY =

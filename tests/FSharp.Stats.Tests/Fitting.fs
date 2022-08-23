@@ -28,7 +28,7 @@ let nonLinearRegressionTests =
 [<Tests>]
 let leastSquaresCholeskyTests = 
     // Create random input 
-    let normal = Distributions.Continuous.normal 0.0 1.0
+    let normal = Distributions.ContinuousDistribution.normal 0.0 1.0
     let n = 100
     let xs = Array.init n (fun _ -> normal.Sample())
     let us = Array.init n (fun _ -> 0.5 * normal.Sample())

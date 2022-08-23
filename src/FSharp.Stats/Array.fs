@@ -217,6 +217,20 @@ module Array =
     //        Array.max items
     //    else
     //        quickSelect' items 0 (items.Length - 1) k'
+    
+    /// Computes the Weighted Mean
+    let inline weightedMean (weights:array<'T>) (items:array<'T>) =
+        // DimensionMismatchException
+        if (items.Length <> weights.Length) then
+            failwithf "The items and weights must have the same length"
+        
+        let mutable sum    = LanguagePrimitives.GenericZero< 'T > 
+        let mutable weight = LanguagePrimitives.GenericZero< 'T > 
+        for i = 0 to items.Length-1 do
+            sum <- sum + (weights[i] * items[i])
+            weight <- weight + weights[i]
+
+        sum / weight 
 
 
     /// Computes the sample median
