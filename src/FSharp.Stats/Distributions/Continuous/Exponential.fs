@@ -19,6 +19,10 @@ type Exponential =
         if lambda <= 0.0 then 
             failwith "Exponential distribution should be parametrized by lambda > 0.0."
 
+    /// Computes the mean.
+    static member Mode lambda =
+        Exponential.CheckParam lambda
+        0.0
 
     /// Computes the mean.
     static member Mean lambda =
@@ -59,21 +63,47 @@ type Exponential =
         if x < 0.0 then 0.0
         else 1.0 - exp(-lambda * x)
 
+    /// <summary>
+    ///   Fits the underlying distribution to a given set of observations.
+    /// </summary>
+    static member Fit(observations:float[],?weights:float[]) =
+        match weights with
+        | None   -> observations |> Array.average
+        | Some w -> observations |> Array.weightedMean w
+        |> fun mean -> 1. / mean
+
+    /// <summary>
+    ///   Estimates a new Exponential distribution from a given set of observations.
+    /// </summary>
+    static member Estimate(observations:float[],?weights:float[]) =
+        match weights with
+        | None   -> observations |> Array.average
+        | Some w -> observations |> Array.weightedMean w
+        |> Exponential.Init  
+
+
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support lambda =
         Exponential.CheckParam lambda
-        (0.0, System.Double.PositiveInfinity)
+        Intervals.create 0.0 System.Double.PositiveInfinity
+
+
+    /// A string representation of the distribution.
+    static member ToString lambda =
+        sprintf "Exponential(λ = %f)" lambda
 
     /// Initializes a Exponential distribution    
     static member Init lambda = 
-        { new Distribution<float,float> with
+        { new ContinuousDistribution<float,float> with
             member d.Mean              = Exponential.Mean lambda
             member d.StandardDeviation = Exponential.StandardDeviation lambda   
             member d.Variance          = Exponential.Variance lambda
-            //member d.CoVariance        = Uniform.CoVariance min max  
+            member d.PDF x             = Exponential.PDF lambda x
+            
+            member d.Mode              = Exponential.Mode lambda
             member d.Sample ()         = Exponential.Sample lambda
-            member d.PDF x             = Exponential.PDF lambda x           
-            member d.CDF x             = Exponential.CDF lambda x         
+            member d.CDF x             = Exponential.CDF lambda x 
+            override d.ToString()      = Exponential.ToString lambda
         }  
 
 

@@ -21,6 +21,10 @@ type StudentT =
         if System.Double.IsNaN(mu) || tau < 0.0 || System.Double.IsNaN(dof)  || dof < 0. then 
             failwith "Student's T-distribution should be parametrized by mu, tau and dof > 0.0."
 
+    /// Computes the mode.
+    static member Mode mu tau dof =
+        StudentT.CheckParam mu tau dof
+        mu
     
     /// Computes the mean.
     static member Mean mu tau dof =
@@ -68,15 +72,23 @@ type StudentT =
         StudentT.CheckParam mu tau dof
         (System.Double.NegativeInfinity, System.Double.PositiveInfinity)
 
+    /// A string representation of the distribution.
+    static member ToString mu tau dof =
+        sprintf "StudentT(μ = %f, σ = %f, dof = %f" mu tau dof
+
+
+
     /// Initializes a Student's T-distribution
     static member Init mu tau dof =
-        { new Distribution<float,float> with
+        { new ContinuousDistribution<float,float> with
             member d.Mean              = StudentT.Mean mu tau dof
             member d.StandardDeviation = StudentT.StandardDeviation mu tau dof
             member d.Variance          = StudentT.Variance mu tau dof
-            //member d.CoVariance        = StudentT.CoVariance  mu tau
+            member d.CDF x             = StudentT.CDF mu tau dof x  
+            
+            member d.Mode              = StudentT.Mode mu tau dof
             member d.Sample ()         = StudentT.Sample mu tau dof
             member d.PDF x             = StudentT.PDF mu tau dof x      
-            member d.CDF x             = StudentT.CDF mu tau dof x         
+            override d.ToString()      = StudentT.ToString mu tau dof
         } 
 

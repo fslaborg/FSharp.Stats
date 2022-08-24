@@ -20,6 +20,10 @@ type Bernoulli =
     static member CheckParam p = 
         if p < 0.0 || p > 1.0 then failwith "Bernoulli distribution should be parametrized by p in [0.0, 1.0]."
 
+    /// Computes the mode.
+    static member Mode p =
+        Bernoulli.CheckParam p
+        if p > 0.5 then 1 else 0
 
     /// Computes the mean.
     static member Mean p =
@@ -47,11 +51,11 @@ type Bernoulli =
     // > rather than discrete random variables. A PDF must be integrated over an interval to yield a probability.
 
     /// Computes the probability density function.
-    static member PDF p x =
+    static member PMF p x =
         Bernoulli.CheckParam p
         match x with
-        | 0.0 -> 1.0 - p
-        | 1.0 -> p
+        | 0 -> 1.0 - p
+        | 1 -> p
         | _ -> 0.0
 
     /// Computes the cumulative distribution function. P(X>=k)
@@ -66,21 +70,44 @@ type Bernoulli =
         // If the value x is less than 0, the probability that x is greater than the random outcome (R) of p is 0 since, R∈{0,1}.
         else 0.0
 
+    /// <summary>
+    ///   Fits the underlying distribution to a given set of observations.
+    /// </summary>
+    static member Fit(observations:float[],?weights:float[]) =
+        match weights with
+        | None   -> observations |> Array.average
+        | Some w -> observations |> Array.weightedMean w
+
+    /// <summary>
+    ///   Estimates a new Bernoulli distribution from a given set of observations.
+    /// </summary>
+    static member Estimate(observations:float[],?weights:float[]) =
+        match weights with
+        | None   -> observations |> Array.average
+        | Some w -> observations |> Array.weightedMean w
+        |> Bernoulli.Init  
+
     /// Returns the support of the bernoulli distribution: {0, 1}.
     static member Support p =
         Bernoulli.CheckParam p
-        [0.0; 1.0]
+        Intervals.create 0 1 
+
+    /// A string representation of the distribution.
+    static member ToString p =
+        sprintf "Bernoulli(p = %f)" p
 
     /// Initializes a uniform distribution 
     static member Init p =
-        { new Distribution<float,float> with
+        { new DiscreteDistribution<float,int> with
             member d.Mean              = Bernoulli.Mean p
             member d.StandardDeviation = Bernoulli.StandardDeviation p 
             member d.Variance          = Bernoulli.Variance p
-            //member d.CoVariance        = Uniform.CoVariance min max  
+            member d.CDF x             = Bernoulli.CDF p x 
+            
+            member d.Mode              = Bernoulli.Mode p
             member d.Sample ()         = Bernoulli.Sample p
-            member d.PDF x             = Bernoulli.PDF p x           
-            member d.CDF x             = Bernoulli.CDF p x         
+            member d.PMF x             = Bernoulli.PMF p x           
+            override d.ToString()      = Bernoulli.ToString p        
         }   
 
 

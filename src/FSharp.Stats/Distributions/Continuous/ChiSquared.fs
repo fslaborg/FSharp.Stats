@@ -20,10 +20,16 @@ type ChiSquared =
         if System.Double.IsNaN(dof)  || dof < 0. then 
             failwith "ChiSquared distribution should be parametrized by degrees of Freedom in [0,inf]."
 
+    /// Computes the mode.
+    static member Mode dof =
+        ChiSquared.CheckParam dof
+        max (dof - 2.)  0.
+
     /// Computes the mean.
     static member Mean dof =
         ChiSquared.CheckParam dof
         dof
+
     /// Computes the variance.
     static member Variance dof =
         ChiSquared.CheckParam dof
@@ -73,18 +79,25 @@ type ChiSquared =
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support dof =
         ChiSquared.CheckParam dof
-        (0., System.Double.PositiveInfinity)
+        Intervals.create 0. System.Double.PositiveInfinity
+
+
+    /// A string representation of the distribution.
+    static member ToString dof =
+        sprintf "ChiSquared(dof = %f)" dof
 
     /// Initializes a ChiSquared distribution 
     static member Init dof =
-        { new Distribution<float,float> with
+        { new ContinuousDistribution<float,float> with
             member d.Mean              = ChiSquared.Mean dof
             member d.StandardDeviation = ChiSquared.StandardDeviation dof 
             member d.Variance          = ChiSquared.Variance dof
-            //member d.CoVariance        = Uniform.CoVariance min max  
+            member d.CDF x             = ChiSquared.CDF dof  x 
+            
+            member d.Mode              = ChiSquared.Mode dof
             member d.Sample ()         = ChiSquared.Sample dof
             member d.PDF x             = ChiSquared.PDF dof x           
-            member d.CDF x             = ChiSquared.CDF dof  x         
+            override d.ToString()      = ChiSquared.ToString dof        
         }  
 
     

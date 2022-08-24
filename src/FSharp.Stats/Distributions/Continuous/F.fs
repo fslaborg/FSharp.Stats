@@ -24,6 +24,12 @@ type F =
         if x<0. || isNan(x) then 
             failwith "X cannot be a negative value or nan"
 
+    /// Computes the Mode.
+    static member Mode dof1 dof2 =
+        F.CheckParam dof1 dof2
+        if (dof1 <= 2) then raise (NotSupportedException())        
+        
+        (dof2*(dof1 - 2.0))/(dof1*(dof2 + 2.0))
         
     /// Computes the mean.
     static member Mean dof1 dof2 =
@@ -96,15 +102,21 @@ type F =
     static member Support dof1 dof2 =
         F.CheckParam dof1 dof2
         (0., System.Double.PositiveInfinity)
-
+     
+    /// A string representation of the distribution.
+    static member ToString dof1 dof2 =
+        sprintf "FisherSnedecor(d1 = %f, d2 = %f" dof1 dof2
+    
     /// Initializes a F-distribution         
     static member Init dof1 dof2 =
-        { new Distribution<float,float> with
+        { new ContinuousDistribution<float,float> with
             member d.Mean              = F.Mean dof1 dof2
             member d.StandardDeviation = F.StandardDeviation dof1 dof2
             member d.Variance          = F.Variance dof1 dof2
-            //member d.CoVariance        = F.CoVariance dof1 dof2
+            member d.CDF x             = F.CDF dof1 dof2 x
+            
+            member d.Mode              = F.Mode dof1 dof2
             member d.Sample ()         = F.Sample dof1 dof2
             member d.PDF x             = F.PDF dof1 dof2 x      
-            member d.CDF x             = F.CDF dof1 dof2 x         
+            override d.ToString()      = F.ToString dof1 dof2
         }   

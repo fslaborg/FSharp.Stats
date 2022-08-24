@@ -20,6 +20,11 @@ type Normal =
         if System.Double.IsNaN(mu) || sigma < 0.0 then 
             failwith "Normal distribution should be parametrized by sigma > 0.0."
 
+    /// Computes the mode.
+    static member Mode mu sigma =
+        Normal.CheckParam mu sigma
+        mu
+
     /// Computes the mean.
     static member Mean mu sigma =
         Normal.CheckParam mu sigma
@@ -65,16 +70,23 @@ type Normal =
         Normal.CheckParam mu sigma
         (System.Double.NegativeInfinity, System.Double.PositiveInfinity)
 
+
+    /// A string representation of the distribution.
+    static member ToString mu sigma =
+        sprintf "Normal(μ = %f, σ = %f)" mu sigma
+
     /// Initializes a Normal distribution        
     static member Init mu sigma =
-        { new Distribution<float,float> with
+        { new ContinuousDistribution<float,float> with
             member d.Mean              = Normal.Mean mu sigma
             member d.StandardDeviation = Normal.StandardDeviation mu sigma
             member d.Variance          = Normal.Variance mu sigma
-            //member d.CoVariance        = Normal.CoVariance  mu sigma
+            member d.CDF x             = Normal.CDF mu sigma x
+
+            member d.Mode              = Normal.Mode mu sigma         
             member d.Sample ()         = Normal.Sample mu sigma
             member d.PDF x             = Normal.PDF mu sigma x      
-            member d.CDF x             = Normal.CDF mu sigma x         
+            override d.ToString()      = Normal.ToString mu sigma
         }
 
     /// Estimates the Normal distribution parameters from sample data with maximum-likelihood.

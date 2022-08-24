@@ -10,7 +10,8 @@ open FSharp.Stats.Ops
 // Gamma distribution
 // ######
 
-
+/// alpha -> shape
+/// beta -> rate
     
 /// Gamma distribution
 /// Sampling implementation based on:
@@ -22,6 +23,17 @@ type Gamma =
     static member CheckParam alpha beta = 
         if alpha <= 0.0 || beta <= 0.0 then 
             failwith "Gamma distribution should be parametrized by alpha > 0.0, beta > 0.0."
+
+    /// Computes the mode.
+    static member Mode alpha beta =
+        Gamma.CheckParam alpha beta
+        if Double.IsPositiveInfinity(beta) then
+            0.
+        elif (alpha=0 && beta =0) then
+            nan
+        else
+            2./sqrt alpha
+
 
     /// Computes the mean.
     static member Mean alpha beta =
@@ -133,15 +145,22 @@ type Gamma =
         Gamma.CheckParam alpha beta
         (0.0, System.Double.PositiveInfinity)
 
+    /// A string representation of the distribution.
+    static member ToString alpha beta = 
+        sprintf "Gamma(α = %f, β = %f)" alpha beta
+
     /// Initializes a Gamma distribution
     static member Init alpha beta =
-        { new Distribution<float,float> with
+        { new ContinuousDistribution<float,float> with            
             member d.Mean              = Gamma.Mean alpha beta
             member d.StandardDeviation = Gamma.StandardDeviation alpha beta   
             member d.Variance          = Gamma.Variance alpha beta
-            //member d.CoVariance        = Gamma.CoVariance alpha beta 
+            member d.CDF x             = Gamma.CDF alpha beta x
+
+            member d.Mode              = Gamma.Mode alpha beta
             member d.Sample ()         = Gamma.Sample alpha beta
             member d.PDF x             = Gamma.PDF alpha beta x           
-            member d.CDF x             = Gamma.CDF alpha beta x         
+            
+            override d.ToString()  = Gamma.ToString alpha beta
         }
 

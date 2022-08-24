@@ -26,6 +26,9 @@ type StudentizedRange =
             v < 1.0 
             then failwith "Studentized range distribution should be parametrized by r and v > 1.0."
     
+    /// Computes the mode.
+    static member Mode =
+        failwithf "Not implemented yet"
 
     /// Computes the mean.
     static member Mean =
@@ -105,12 +108,15 @@ type StudentizedRange =
     /// q:qValue r:number of treatments v:df (n-r) c:1.   
     /// Integration can be performed in parallel using PSeq
     static member Init r v c accuracy computeParallel =
-        { new Distribution<float,float> with
+        { new ContinuousDistribution<float,float> with
             member d.Mean              = StudentizedRange.Mean
             member d.StandardDeviation = StudentizedRange.StandardDeviation
             member d.Variance          = StudentizedRange.Variance
+            member d.CDF q             = StudentizedRange.CDF q r v c accuracy computeParallel
+
+            member d.Mode              = StudentizedRange.Mode
             member d.Sample ()         = StudentizedRange.Sample()
             member d.PDF x             = StudentizedRange.PDF      
-            member d.CDF q             = StudentizedRange.CDF q r v c accuracy computeParallel
+            override d.ToString()      = d.ToString()
         }   
 

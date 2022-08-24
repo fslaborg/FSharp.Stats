@@ -17,6 +17,11 @@ type LogNormal =
     static member CheckParam mu tau = 
         if System.Double.IsNaN(mu) || tau < 0.0 then 
             failwith "Log-Normal distribution should be parametrized by tau > 0.0."
+
+    /// Computes the mode.
+    static member Mode mu tau =
+        LogNormal.CheckParam mu tau
+        exp(mu - (tau*tau))
     
     /// Computes the mean.
     static member Mean mu tau =
@@ -69,16 +74,22 @@ type LogNormal =
         LogNormal.CheckParam mu tau
         (0., System.Double.PositiveInfinity)
 
+    /// A string representation of the distribution.
+    static member ToString mu tau =
+        sprintf "Normal(μ = %f, σ = %f)" mu tau
+
     /// Initializes a Normal distribution 
     static member Init mu tau =
-        { new Distribution<float,float> with
+        { new ContinuousDistribution<float,float> with
             member d.Mean              = LogNormal.Mean mu tau
             member d.StandardDeviation = LogNormal.StandardDeviation mu tau
             member d.Variance          = LogNormal.Variance mu tau
+            member d.CDF x             = LogNormal.CDF mu tau x  
             //member d.CoVariance        = LogNormal.CoVariance  mu tau
+            member d.Mode              = LogNormal.Mode mu tau
             member d.Sample ()         = LogNormal.Sample mu tau
             member d.PDF x             = LogNormal.PDF mu tau x      
-            member d.CDF x             = LogNormal.CDF mu tau x         
+            override d.ToString()      = LogNormal.ToString mu tau
         }
 
     /// Estimates the log-normal distribution parameters from sample data with maximum-likelihood.

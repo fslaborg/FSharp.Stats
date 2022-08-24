@@ -23,7 +23,14 @@ type Binomial =
     static member CheckParam p n = 
         if n < 0 || p < 0. || p > 1. || isNan(p) then 
             failwith "Binomial distribution should be parametrized by n > 0.0 and 0 ≤ p ≤ 1."
-    
+
+    /// Computes the mode.
+    static member Mode p n =
+        Binomial.CheckParam p n
+        match p with
+        | 1.0 -> n
+        | 0.  -> 0
+        | _   -> floor (float(n + 1) * p) |> int
     
     /// Computes the mean.
     static member Mean p n =
@@ -67,7 +74,7 @@ type Binomial =
 
         
     /// Computes the probability density function at k, i.e. P(K = k)
-    static member PDF p n k =
+    static member PMF p n k =
         Binomial.CheckParam  p n
         if k < 0 || k > n then
             0.0
@@ -90,21 +97,44 @@ type Binomial =
 
 
 
+    /// <summary>
+    ///   Fits the underlying distribution to a given set of observations.
+    /// </summary>
+    static member Fit (n:int) (observations:float[]) =
+        let n' = float n
+        observations
+        |> Array.averageBy (fun o -> o / n') 
+
+    /// <summary>
+    ///   Estimates a new Binomial distribution from a given set of observations.
+    /// </summary>
+    static member Estimate (n:int) (observations:float[]) =
+        Binomial.Fit n observations
+        |> fun p -> Binomial.Init p n  
+
 
     /// Returns the support of the Binomial distribution: (0., n).
     static member Support p n =
         Binomial.CheckParam p n
-        (0., float n)
+        Intervals.create 0 n
+
+
+    /// A string representation of the distribution.
+    static member ToString p n =
+        sprintf "Binomial(p = %f, n = %i)" p n
+
 
     /// Initializes a Binomial distribution
     static member Init p n =
-        { new Distribution<float,int> with
+        { new DiscreteDistribution<float,int> with
             member d.Mean              = Binomial.Mean p n
             member d.StandardDeviation = Binomial.StandardDeviation p n
             member d.Variance          = Binomial.Variance p n
+            member d.CDF x             = Binomial.CDF p n x
             //member d.CoVariance        = Binomial.CoVariance p n
+            member d.Mode              = Binomial.Mode p n
             member d.Sample ()         = Binomial.Sample p n
-            member d.PDF k             = Binomial.PDF p n k    
-            member d.CDF x             = Binomial.CDF p n x         
+            member d.PMF k             = Binomial.PMF p n k    
+            override d.ToString()      = Binomial.ToString p n
         }   
 

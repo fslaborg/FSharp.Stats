@@ -16,7 +16,22 @@ type Beta =
     static member CheckParam alpha beta = 
         if alpha <= 0.0 || beta <= 0.0 then 
             failwith "Beta distribution should be parametrized by alpha > 0.0, beta > 0.0."    
-    
+
+    /// Computes the mode.
+    static member Mode alpha beta =
+        Beta.CheckParam alpha beta
+        match alpha,beta with
+        | 0.,0. -> 0.5
+        | 0.,_ -> 0.    
+        | _,0. -> 1.
+
+        | a,b when Double.IsPositiveInfinity(a) && Double.IsPositiveInfinity(b) -> 0.5
+        | a,_ when Double.IsPositiveInfinity(a) -> 1.
+        | _,b when Double.IsPositiveInfinity(b) -> 0.
+
+        | 1.,1. -> 0.
+        | _ -> (alpha - 1.)/(alpha + beta - 2.)
+
     /// Computes the mean.
     static member Mean alpha beta =
         Beta.CheckParam alpha beta
@@ -58,15 +73,21 @@ type Beta =
     static member Support alpha beta =
         Beta.CheckParam alpha beta
         (0.0, 1.0)
+    
+    /// A string representation of the distribution.
+    static member ToString alpha beta =
+        sprintf "Beta(α = %f, β = %f)" alpha beta
 
     /// Initializes a Beta distribution
     static member Init alpha beta =
-        { new Distribution<float,float> with
+        { new ContinuousDistribution<float,float> with
             member d.Mean              = Beta.Mean alpha beta
             member d.StandardDeviation = Beta.StandardDeviation alpha beta   
             member d.Variance          = Beta.Variance alpha beta
-            //member d.CoVariance        = Beta.CoVariance alpha beta 
-            member d.Sample ()         = Beta.Sample alpha beta
-            member d.PDF x             = Beta.PDF alpha beta x           
             member d.CDF x             = Beta.CDF alpha beta x         
+            //member d.CoVariance        = Beta.CoVariance alpha beta 
+            member d.Mode              = Normal.Mode alpha beta
+            member d.Sample ()         = Beta.Sample alpha beta
+            member d.PDF x             = Beta.PDF alpha beta x
+            override d.ToString()      = Normal.ToString alpha beta 
         }

@@ -54,13 +54,15 @@ type MultivariateNormal =
 
     /// Initializes a multivariate normal distribution with mean mu and covariance matrix sigma       
     static member Init (mu:vector) (sigma:matrix) =
-        { new Distribution<vector,vector> with
+        { new ContinuousDistribution<vector,vector> with
+            member d.Mode              = MultivariateNormal.Mean mu sigma
             member d.Mean              = MultivariateNormal.Mean mu sigma
             member d.StandardDeviation = MultivariateNormal.StandardDeviation mu sigma
             member d.Variance          = MultivariateNormal.Variance mu sigma
             member d.Sample ()         = MultivariateNormal.Sample mu sigma
             member d.PDF x             = MultivariateNormal.PDF mu sigma x      
             member d.CDF x             = MultivariateNormal.CDF mu sigma x         
+            override d.ToString()      = d.ToString()
         }
 
 

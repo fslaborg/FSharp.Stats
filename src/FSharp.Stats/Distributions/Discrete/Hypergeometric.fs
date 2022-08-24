@@ -40,6 +40,11 @@ type Hypergeometric =
         if k > K then failwith "k cannot exceed K."
         if k > n then failwith "k cannot exceed n."
 
+    /// Computes the mode.
+    static member Mode N K n =
+        Hypergeometric.CheckParam N K n
+        (n + 1)*(K + 1)/(N + 2);
+
     /// Computes the mean.
     static member Mean N K n =
         Hypergeometric.CheckParam N K n
@@ -84,8 +89,8 @@ type Hypergeometric =
     // > A probability mass function differs from a probability density function (PDF) in that the latter is associated with continuous 
     // > rather than discrete random variables. A PDF must be integrated over an interval to yield a probability.
 
-    /// Computes the probability density function at k for P(X = k).
-    static member PDF N K n k =
+    /// Computes the probability mass function at k for P(X = k).
+    static member PMF N K n k =
         Hypergeometric.CheckParam N K n
         Hypergeometric.CheckParam_k N K n k
         //(SpecialFunctions.Binomial.coeffcient K k) * (SpecialFunctions.Binomial.coeffcient (N-K) (n-k)) / (SpecialFunctions.Binomial.coeffcient N n)
@@ -94,9 +99,10 @@ type Hypergeometric =
             exp ((SpecialFunctions.Binomial._coeffcientLn K k) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial._coeffcientLn N n)
         
     /// Computes the cumulative distribution function at x, i.e. P(X <= x).
-    static member CDF N K n (k:int) =
+    static member CDF N K n x =
         Hypergeometric.CheckParam N K n
-        Hypergeometric.CheckParam_k N K n k
+        //Hypergeometric.CheckParam_k N K n k
+        let k =  floor(x) |> int
         if (k < (max 0 (n + K - N))) then 
             0.0
         elif (k >= (min K n)) then
@@ -113,6 +119,26 @@ type Hypergeometric =
                     acc
             loop 0 0.0
 
+
+    ///// <summary>
+    /////   Fits the underlying distribution to a given set of observations.
+    ///// </summary>
+    //static member Fit K n (observations:float[]) =
+    //    let successes = observations |> Array.sumBy (fun o -> if o = 1. then 1. else 0. )
+    //    // Estimate N (population size)
+    //    let N = System.Math.Truncate(n * K / successes)
+    //    let K = System.Math.Truncate(successes * (N + 1.0) / n)
+
+    ///// <summary>
+    /////   Estimates a new Poisson distribution from a given set of observations.
+    ///// </summary>
+    //static member Estimate(observations:float[],?weights:float[]) =
+    //    match weights with
+    //    | None   -> observations |> Array.average
+    //    | Some w -> observations |> Array.weightedMean w
+    //    |> Poisson.Init  
+
+
     // /// Computes the inverse of the cumulative distribution function.
     // static member InvCDF dof1 dof2 p =
     //     fTCheckParam dof1 dof2
@@ -125,8 +151,15 @@ type Hypergeometric =
     /// Returns the support of the hypergeometric distribution: (0., Positive Infinity).
     static member Support N K n =
         Hypergeometric.CheckParam N K n
-        (0., System.Double.PositiveInfinity)
+        Intervals.create (max 0 (n + K - N) ) (min K n)
 
+
+    
+
+    /// A string representation of the distribution.
+    static member ToString N K n  =
+        sprintf "Hypergeometric(N = %i, K = %i, n = %i)" N K n 
+    
     /// <summary> Initializes a hypergeometric distribution.
     /// 
     /// The hypergeometric distribution is a discrete probability distribution
@@ -138,14 +171,16 @@ type Hypergeometric =
     /// <param name="K">The number of success states in the population</param>
     /// <param name="n">The number of draws</param>
     static member Init N K n =
-        { new Distribution<float,int> with
+        { new DiscreteDistribution<float,int> with
             member d.Mean               = Hypergeometric.Mean N K n
             member d.StandardDeviation  = Hypergeometric.StandardDeviation N K n
             member d.Variance           = Hypergeometric.Variance N K n
-            //member d.CoVariance        = Hypergeometric.CoVariance N K n
+            member d.CDF k              = Hypergeometric.CDF N K n k  
+            
+            member d.Mode               = Hypergeometric.Mode N K n
             member d.Sample ()          = Hypergeometric.Sample N K n
-            member d.PDF k              = Hypergeometric.PDF N K n k
+            member d.PMF k              = Hypergeometric.PMF N K n k
             /// Computes the cumulative distribution function at k for P(X <= k).
-            member d.CDF k              = Hypergeometric.CDF N K n (floor k |> int)         
+            override d.ToString()       = Hypergeometric.ToString N K n                   
         }
 

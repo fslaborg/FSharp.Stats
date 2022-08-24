@@ -211,15 +211,15 @@ let chiSquaredTests =
                 Expect.throws (fun () -> Continuous.ChiSquared.Support -infinity |> ignore) "Should throw"
             testCase "SupportNan" <| fun () ->
                 Expect.throws (fun () -> Continuous.ChiSquared.Support nan |> ignore) "Should throw"
-            testCase "Support0" <| fun () ->
-                let testCase = Continuous.ChiSquared.Support 0.
-                Expect.isTrue (testCase = (0., infinity)) "Should be equal"
-            testCase "Support1" <| fun () ->
-                let testCase = Continuous.ChiSquared.Support 1.
-                Expect.isTrue (testCase = (0., infinity)) "Should be equal"
-            testCase "SupportInfinity" <| fun () ->
-                let testCase = Continuous.ChiSquared.Support infinity
-                Expect.isTrue (testCase = (0., infinity)) "Should be equal"
+            //testCase "Support0" <| fun () ->
+            //    let testCase = Continuous.ChiSquared.Support 0.
+            //    Expect.isTrue (testCase = (0., infinity)) "Should be equal"
+            //testCase "Support1" <| fun () ->
+            //    let testCase = Continuous.ChiSquared.Support 1.
+            //    Expect.isTrue (testCase = (0., infinity)) "Should be equal"
+            //testCase "SupportInfinity" <| fun () ->
+            //    let testCase = Continuous.ChiSquared.Support infinity
+            //    Expect.isTrue (testCase = (0., infinity)) "Should be equal"
 
             // is based on the functions from before but nevertheless should be tested, too
             testCase "chiSquared-1" <| fun () ->
@@ -528,20 +528,20 @@ let hypergeometricTests =
 
         // 2022-06-23
         // https://www.omnicalculator.com/statistics/hypergeometric-distribution
-        test "PDF" {
+        test "PMF" {
             // test k = 0; Accuracy.medium, because online calculator has not enough decimal places.
-            Expect.floatClose Accuracy.medium (hypergeoDistribution_basicCase.PDF 0) 0.00011894 "hyperDistribution_basicCase k=0"
-            Expect.floatClose Accuracy.medium (hypergeoDistribution_K_equal_n.PDF 0) 0.0000006375 "hyperDistribution_K_equal_n k=0"
-            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_K.PDF 0) 0. "hyperDistribution_max_K k=0"
-            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_n.PDF 0) 0. "hyperDistribution_max_n k=0"
-            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_K_n.PDF 0) 0. "hyperDistribution_max_K_n k=0"
+            Expect.floatClose Accuracy.medium (hypergeoDistribution_basicCase.PMF 0) 0.00011894 "hyperDistribution_basicCase k=0"
+            Expect.floatClose Accuracy.medium (hypergeoDistribution_K_equal_n.PMF 0) 0.0000006375 "hyperDistribution_K_equal_n k=0"
+            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_K.PMF 0) 0. "hyperDistribution_max_K k=0"
+            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_n.PMF 0) 0. "hyperDistribution_max_n k=0"
+            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_K_n.PMF 0) 0. "hyperDistribution_max_K_n k=0"
             // test any k 
-            Expect.floatClose Accuracy.medium (hypergeoDistribution_basicCase.PDF 3) 0.20984 "hyperDistribution_basicCase k=3"
+            Expect.floatClose Accuracy.medium (hypergeoDistribution_basicCase.PMF 3) 0.20984 "hyperDistribution_basicCase k=3"
             // Accuracy.low, because online calculator has not enough decimal places.
-            Expect.floatClose Accuracy.low (hypergeoDistribution_K_equal_n.PDF 6) 0.1196 "hyperDistribution_K_equal_n k=6"
-            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_K.PDF 10) 0. "hyperDistribution_max_K k=10"
-            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_n.PDF 13) 0. "hyperDistribution_max_n k=44"
-            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_K_n.PDF 50) 1.0 "hyperDistribution_max_K_n k=50"
+            Expect.floatClose Accuracy.low (hypergeoDistribution_K_equal_n.PMF 6) 0.1196 "hyperDistribution_K_equal_n k=6"
+            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_K.PMF 10) 0. "hyperDistribution_max_K k=10"
+            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_n.PMF 13) 0. "hyperDistribution_max_n k=44"
+            Expect.floatClose Accuracy.medium (hypergeoDistribution_max_K_n.PMF 50) 1.0 "hyperDistribution_max_K_n k=50"
         }
         // 2022-06-23
         // https://www.omnicalculator.com/statistics/hypergeometric-distribution
@@ -553,12 +553,12 @@ let hypergeometricTests =
             Expect.floatClose Accuracy.medium (hypergeoDistribution_max_n.CDF 3) 0.0 "hyperDistribution_max_n k=3"
             Expect.floatClose Accuracy.medium (hypergeoDistribution_max_K_n.CDF 3) 0.0 "hyperDistribution_max_K_n k=3"
         }
-        // No idea what this is meant for, but its Syntax differs from Bernoulli.Support
-        test "Support" {
-            /// 40 20 5 do not matter as long as they don't fail "hypergeoCheckParam"
-            let s = Distributions.Discrete.Hypergeometric.Support 40 20 5
-            Expect.equal s (0., infinity) ""
-        }
+        //// No idea what this is meant for, but its Syntax differs from Bernoulli.Support
+        //test "Support" {
+        //    /// 40 20 5 do not matter as long as they don't fail "hypergeoCheckParam"
+        //    let s = Distributions.Discrete.Hypergeometric.Support 40 20 5
+        //    Expect.equal s (0., infinity) ""
+        //}
         test "SampleUnchecked" {
             let generateALL = Distributions.Discrete.Hypergeometric.Sample 40 20 40
             let generate50 = Array.init 50 (fun x -> Distributions.Discrete.Hypergeometric.Sample 40 20 10)
@@ -702,36 +702,36 @@ let bernoulliTests =
         test "PDF" {
             /// propabiliy of an outcome to be be of a certain value. Bernoulli distribution can only result in 0 (failure) or 1 (success) so anything except 
             /// those should have a propability of 0.
-            let test_ZeroAndOne (bd: Distributions.Distribution<float,float>) = 
-                let propabilitySuccess = bd.PDF 1.0
-                let propabilityFailure = bd.PDF 0.0
+            let test_ZeroAndOne (bd: Distributions.DiscreteDistribution<float,int>) = 
+                let propabilitySuccess = bd.PMF 1
+                let propabilityFailure = bd.PMF 0
                 Expect.equal propabilitySuccess (bd.Mean) $"test_ZeroAndOne.propabilitySuccess for {bd.Mean}"
                 Expect.floatClose Accuracy.high propabilityFailure (1.0 - bd.Mean) $"test_ZeroAndOne.propabilityFailure for {bd.Mean}"
-            let test_ZeroPDFCases (bd: Distributions.Distribution<float,float>) =
-                Expect.equal (bd.PDF 0.1) 0.0 $"test_ZeroPDFCases 0.1 for {bd.Mean}"
-                Expect.equal (bd.PDF -0.1) 0.0 $"test_ZeroPDFCases -0.1 for {bd.Mean}"
-                Expect.equal (bd.PDF 1.1) 0.0 $"test_ZeroPDFCases 1.1 for {bd.Mean}"
-                Expect.equal (bd.PDF nan) 0.0 $"test_ZeroPDFCases nan for {bd.Mean}"
-                Expect.equal (bd.PDF infinity) 0.0 $"test_ZeroPDFCases infinity for {bd.Mean}"
-                Expect.equal (bd.PDF -infinity) 0.0 $"test_ZeroPDFCases -infinity for {bd.Mean}"
-            test_ZeroPDFCases bernoulliDistribution_basicCase
-            test_ZeroPDFCases bernoulliDistribution_nan
-            test_ZeroPDFCases bernoulliDistribution_zero
-            test_ZeroPDFCases bernoulliDistribution_one
+            //let test_ZeroPDFCases (bd: Distributions.DiscreteDistribution<float,int>) =
+            //    Expect.equal (bd.PMF 0.1) 0.0 $"test_ZeroPDFCases 0.1 for {bd.Mean}"
+            //    Expect.equal (bd.PMF -0.1) 0.0 $"test_ZeroPDFCases -0.1 for {bd.Mean}"
+            //    Expect.equal (bd.PMF 1.1) 0.0 $"test_ZeroPDFCases 1.1 for {bd.Mean}"
+            //    Expect.equal (bd.PDF nan) 0.0 $"test_ZeroPDFCases nan for {bd.Mean}"
+            //    Expect.equal (bd.PDF infinity) 0.0 $"test_ZeroPDFCases infinity for {bd.Mean}"
+            //    Expect.equal (bd.PDF -infinity) 0.0 $"test_ZeroPDFCases -infinity for {bd.Mean}"
+            //test_ZeroPDFCases bernoulliDistribution_basicCase
+            //test_ZeroPDFCases bernoulliDistribution_nan
+            //test_ZeroPDFCases bernoulliDistribution_zero
+            //test_ZeroPDFCases bernoulliDistribution_one
             //
             test_ZeroAndOne bernoulliDistribution_basicCase
-            Expect.isTrue (nan.Equals(bernoulliDistribution_nan.PDF 0.0)) $"test_ZeroAndOne.propabilitySuccess for nan"
-            Expect.isTrue (nan.Equals(bernoulliDistribution_nan.PDF 1.0)) $"test_ZeroAndOne.propabilityFailure for nan"
+            Expect.isTrue (nan.Equals(bernoulliDistribution_nan.PMF 0)) $"test_ZeroAndOne.propabilitySuccess for nan"
+            Expect.isTrue (nan.Equals(bernoulliDistribution_nan.PMF 1)) $"test_ZeroAndOne.propabilityFailure for nan"
             test_ZeroAndOne bernoulliDistribution_zero
             test_ZeroAndOne bernoulliDistribution_one
         }
         test "CDF" {
             // For P(x>=R) and R∈{0,1}, where R is the random outcome of the bernoulli distribution, any value below 0 has a probability of 0 to be greater or equal to R
-            let test_ZeroCDFCases (bd: Distributions.Distribution<float,float>) = 
+            let test_ZeroCDFCases (bd: Distributions.DiscreteDistribution<float,int>) = 
                 Expect.equal (bd.CDF -0.1) 0.0 $"test_ZeroCDFCases -0.1 for {bd.Mean}"
                 Expect.equal (bd.CDF -infinity) 0.0 $"test_ZeroCDFCases -infinity for {bd.Mean}"
                 Expect.equal (bd.CDF nan) 0.0 $"test_ZeroCDFCases -infinity for {bd.Mean}"
-            let test_OneCDFCases (bd: Distributions.Distribution<float,float>) = 
+            let test_OneCDFCases (bd: Distributions.DiscreteDistribution<float,int>) = 
                 Expect.equal (bd.CDF 1.0) 1.0 $"test_OneCDFCases 1.0 for {bd.Mean}"
                 Expect.equal (bd.CDF 1.1) 1.0 $"test_OneCDFCases 1.1 for {bd.Mean}"
                 Expect.equal (bd.CDF infinity) 1.0 $"test_OneCDFCases infinity for {bd.Mean}"
@@ -750,11 +750,11 @@ let bernoulliTests =
             Expect.floatClose Accuracy.high (bernoulliDistribution_zero.CDF 0.8) (1.0 - bernoulliDistribution_zero.Mean) ""
             Expect.floatClose Accuracy.high (bernoulliDistribution_one.CDF 0.8) (1.0 - bernoulliDistribution_one.Mean) ""
         }
-        // Tbh. i have no idea what this is for
-        test "Support" {
-            // insert any number which does not throw an error in "bernCheckParam".
-            Expect.sequenceEqual (Distributions.Discrete.Bernoulli.Support 0.2) [0.0; 1.0] ""
-        }
+        //// Tbh. i have no idea what this is for
+        //test "Support" {
+        //    // insert any number which does not throw an error in "bernCheckParam".
+        //    Expect.sequenceEqual (Distributions.Discrete.Bernoulli.Support 0.2) [0.0; 1.0] ""
+        //}
     ]
 
 [<Tests>]
@@ -1195,32 +1195,32 @@ let binomialTests =
                 r_value
                 "Binominal StandardDeviation with n=420 and p=0.69 does not yield the expected value of 9.478291" 
             
-        testCase "Binomial.PDF" <| fun () ->
-            let testCase    = Discrete.Binomial.PDF 0.69 420 237
+        testCase "Binomial.PMF" <| fun () ->
+            let testCase    = Discrete.Binomial.PMF 0.69 420 237
             let r_value     = 4.064494e-08
             Expect.floatClose
                 Accuracy.low
                 testCase
                 r_value
-                "Binomial.PDF with n=420, p=0.69 and k=237 does not equal the expectd 4.064494e-08"
+                "Binomial.PMF with n=420, p=0.69 and k=237 does not equal the expectd 4.064494e-08"
 
-        testCase "Binomial.PDF_n=0" <| fun () ->
-            let testCase    = Discrete.Binomial.PDF 0.69 0 237
+        testCase "Binomial.PMF_n=0" <| fun () ->
+            let testCase    = Discrete.Binomial.PMF 0.69 0 237
             let r_value     = 0
             Expect.floatClose
                 Accuracy.low
                 testCase
                 r_value
-                "Binomial.PDF with n=0, p=0.69 and k=237 does not equal the expectd 0"
+                "Binomial.PMF with n=0, p=0.69 and k=237 does not equal the expectd 0"
 
-        testCase "Binomial.PDF_k<0" <| fun () ->
-            let testCase    = Discrete.Binomial.PDF 0.69 420 -10
+        testCase "Binomial.PMF_k<0" <| fun () ->
+            let testCase    = Discrete.Binomial.PMF 0.69 420 -10
             let r_value     = 0
             Expect.floatClose
                 Accuracy.low
                 testCase
                 r_value
-                "Binomial.PDF with n=420, p=0.69 and k=-10 does not equal the expectd 0"
+                "Binomial.PMF with n=420, p=0.69 and k=-10 does not equal the expectd 0"
 
         testCase "Binomial.CDF"<| fun () ->
             let testCase = Discrete.Binomial.CDF 0.69 420 237
@@ -1348,4 +1348,31 @@ let gammaTests =
                 mean
                 "Gamma Distribution Fit" 
         
+    ]
+
+
+[<Tests>]
+let PoissonDistributionTests =
+
+    testList "Distributions.Discrete.Poisson" [
+        testCase "FitTest<30" <| fun () ->
+            let lambda = 5.5
+            let observations = Array.init 99999 (fun _ -> float (Discrete.Poisson.Sample lambda))
+            let lambda' = Discrete.Poisson.Fit observations
+            
+            Expect.floatClose
+                Accuracy.low
+                lambda
+                lambda' 
+                "Poisson Distribution Fit lambda < 30 (knuth) " 
+        testCase "FitTest>30" <| fun () ->
+            let lambda = 125.5
+            let observations = Array.init 99999 (fun _ -> float (Discrete.Poisson.Sample lambda))
+            let lambda' = Discrete.Poisson.Fit observations
+            
+            Expect.floatClose
+                Accuracy.low
+                lambda
+                lambda' 
+                "Poisson Distribution Fit lambda > 30 (pma)" 
     ]
