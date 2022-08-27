@@ -74,7 +74,7 @@ type ChiSquared =
             if x > 0. then 1.
             else 0.
         elif isNan x then nan
-        else Gamma.lowerIncomplete (dof/2.) (x/2.)
+        else Gamma.lowerIncompleteRegularized (dof/2.) (x/2.)
 
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support dof =

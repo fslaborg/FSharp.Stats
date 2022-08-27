@@ -67,7 +67,41 @@ type Beta =
         Beta.CheckParam alpha beta
         if x < 0.0 then 0.0
         elif x > 1.0 then 1.0
-        else failwith "Not implemented yet."
+        else 
+            SpecialFunctions.Beta.lowerIncompleteRegularized alpha beta x
+
+    /// <summary>
+    ///   Fits the underlying distribution to a given set of observations.
+    /// </summary>
+    static member Fit(observations:float[],?weights:float[]) =
+        let mean, var = 
+            match weights with
+            | None   -> 
+                let m = observations |> Array.average
+                let v = observations |> Array.varOf m
+                m,v
+            | Some w -> 
+                let m = observations |> Array.weightedMean w
+                let v = observations |> Array.weightedVariance m w
+                m, v
+
+        if (var >= mean * (1.0 - mean)) then
+                raise (NotSupportedException())
+
+        let u = (mean * (1. - mean) / var) - 1.0
+        let alpha = mean * u
+        let beta = (1. - mean) * u
+        (alpha, beta)
+
+
+    /// <summary>
+    ///   Estimates a new Beta distribution from a given set of observations.
+    /// </summary>
+    static member Estimate(observations:float[],?weights:float[]) =
+        match weights with
+        | None   -> Beta.Fit observations
+        | Some w -> Beta.Fit (observations,w)
+        |> fun (a,b) -> Beta.Init a b  
 
     /// Returns the support of the exponential distribution: [0.0, 1.0).
     static member Support alpha beta =

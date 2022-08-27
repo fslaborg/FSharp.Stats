@@ -4,6 +4,10 @@ open System
 open FSharp.Stats
 open FSharp.Stats.Distributions
 open Distance.OneDimensional
+
+// Defining an accuracy appropriate for testing random sampling and inference
+let fittingAccuracy : Accuracy = {absolute= 0.1 ;relative= 0.1}
+
 [<Tests>]
 let distanceFunctionsTests =
     // Tests taken directly from the source implementation in scipy
@@ -375,7 +379,7 @@ let chiSquaredTests =
 [<Tests>]
 let chiTests =
     // TestCases from R: library(chi) function: dchi(x, dof)
-    testList "Distributions.chi" [
+    testList "Distributions.Continuous.Chi" [
         testCase "PDF.testCase_1" <| fun () ->
             let testCase = Continuous.Chi.PDF 1. 1.
             Expect.floatClose Accuracy.medium 0.4839414 testCase "Should be equal" 
@@ -573,7 +577,7 @@ let exponentialTests =
     // references is R V. 2022.02.3 Build 492
     // PDF is used with expPDF <- dexp(3,0.59)
     // CDF is created with expCDF <- pexp(3, 0.59)
-    testList "Distributions.exponential" [
+    testList "Distributions.Continuous.Exponential" [
 
         let createExpDistCDF  lambda x = FSharp.Stats.Distributions.Continuous.Exponential.CDF lambda x    
         let createExpDistPDF  lambda x = Distributions.Continuous.Exponential.PDF lambda x
@@ -1112,7 +1116,7 @@ let FDistributionTests =
 let binomialTests =
     // TestCases from R: library(chi) function: dchi(x, dof)
 
-    testList "Distributions.Discrete.binominal" [
+    testList "Distributions.Discrete.Binominal" [
         // Values taken from R 4.0.3 
 
         testCase "binomialCheckParamN<0" <| fun () ->
@@ -1310,13 +1314,161 @@ let binomialTests =
     ] 
 
 
-let gammaTests =
-    
-    testList "Distributions.Continuous.gamma" [
-         
 
+[<Tests>]
+let PoissonDistributionTests =
+     
+    let lambda = 4.2
+    
+    let d      = DiscreteDistribution.poisson lambda
+
+    let mean   = d.Mean      
+    let var    = d.Variance  
+    let cdf1   = d.CDF 2 // 0.21023798702309743
+    let cdf2   = d.CDF 4 // 0.589827021310577643
+    let cdf3   = d.CDF 7 // 0.936056660272578944
+    let pmf1   = d.PMF 4 // 0.19442365170822165
+    let pmf2   = d.PMF 5 // 0.1633158674349062
+    let pmf3   = d.PMF 6 // 0.11432110720443435
+
+    
+    testList "Distributions.Discrete.Poisson" [
+
+        testCase "Mean" <| fun () ->
+            Expect.floatClose Accuracy.high mean lambda "Mean should be equal"
+
+        testCase "Variance" <| fun () ->
+            Expect.floatClose Accuracy.high var lambda "Variance should be equal"
+                
+        testCase "Cdf1" <| fun () ->
+            Expect.floatClose Accuracy.high cdf1 0.21023798702309743 "Cdf should be equal"
+                
+        testCase "Cdf2" <| fun () ->
+            Expect.floatClose Accuracy.high cdf2 0.589827021310577643 "Cdf should be equal"
+                
+        testCase "Cdf3" <| fun () ->
+            Expect.floatClose Accuracy.high cdf3 0.93605666027257894 "Cdf should be equal"
+
+        testCase "Pmf1" <| fun () ->
+            Expect.floatClose Accuracy.high pmf1 0.19442365170822165 "Pdf should be equal"
+
+        testCase "Pmf2" <| fun () ->
+            Expect.floatClose Accuracy.high pmf2 0.1633158674349062 "Pdf should be equal"
+
+        testCase "Pmf3" <| fun () ->
+            Expect.floatClose Accuracy.high pmf3 0.11432110720443435 "Pdf should be equal"
+        
+        
+        testCase "FitTest<30" <| fun () ->
+            let lambda = 11.5
+            let observations = Array.init 9999 (fun _ -> float (Discrete.Poisson.Sample lambda))
+            let lambda' = Discrete.Poisson.Fit observations
+            
+            Expect.floatClose fittingAccuracy lambda lambda' 
+                "Poisson Distribution Fit lambda < 30 (knuth) " 
+        
+        testCase "FitTest>30" <| fun () ->
+            let lambda = 125.5
+            let observations = Array.init 9999 (fun _ -> float (Discrete.Poisson.Sample lambda))
+            let lambda' = Discrete.Poisson.Fit observations
+            
+            Expect.floatClose fittingAccuracy lambda lambda' 
+                "Poisson Distribution Fit lambda > 30 (pma)" 
+    ]
+
+
+[<Tests>]
+let BetaDistributionTests =
+
+    let alpha = 0.42 
+    let beta  = 1.57
+    
+    let d     = ContinuousDistribution.beta alpha beta
+
+    let mean  = Continuous.Beta.Mean alpha beta     // 0.21105527638190955
+    let var   = d.Variance // 0.055689279830523512
+    let cdf   = d.CDF 0.27 // 0.69358638272337991
+    let pdf   = d.PDF 0.27 // 0.94644031936694828
+
+
+    testList "Distributions.Continuous.Beta" [
+        
+        testCase "Mean" <| fun () ->
+            Expect.floatClose Accuracy.high mean 0.21105527638190955 "Mean should be equal"
+
+        testCase "Variance" <| fun () ->
+            Expect.floatClose Accuracy.high var 0.055689279830523512 "Variance should be equal"
+                
+        testCase "Cdf" <| fun () ->
+            Expect.floatClose Accuracy.high cdf 0.69358638272337991 "Cdf should be equal"
+
+        testCase "Pdf" <| fun () ->
+            Expect.floatClose Accuracy.high pdf 0.94644031936694828 "Pdf should be equal"
+        
         testCase "FitTest" <| fun () ->
-            let x = [| 1275.56; 1239.44; 1237.92; 1237.22; 1237.1; 1238.41; 1238.62; 1237.05;
+            let observations = Array.init 99999 (fun _ -> float (Continuous.Beta.Sample alpha beta))
+            let alpha',beta' = Continuous.Beta.Fit observations
+            
+            Expect.floatClose fittingAccuracy alpha alpha' 
+                "alpha" 
+            Expect.floatClose fittingAccuracy beta beta' 
+                "beta"
+    ]
+
+[<Tests>]
+let GammaDistributionTests =
+
+    let alpha = 0.4 
+    let beta  = 4.2
+    
+    let d     = ContinuousDistribution.gamma alpha beta
+
+    let mean  = d.Mean     // 0.21105527638190955
+    let var   = d.Variance // 0.055689279830523512
+    let cdfs  = [| 0.; 0.251017; 0.328997; 0.38435; 0.428371; 0.465289;
+                   0.497226; 0.525426; 0.55069; 0.573571 |] 
+
+    let pdfs = [| 0.987114; 0.635929; 0.486871; 0.400046; 0.341683;
+                  0.299071; 0.266236; 0.239956; 0.218323; 0.200126; |]
+
+
+
+    testList "Distributions.Continuous.Gamma" [
+        
+        testCase "Mean" <| fun () ->
+            Expect.floatClose Accuracy.high mean 0.21105527638190955 "Mean should be equal"
+
+        testCase "Variance" <| fun () ->
+            Expect.floatClose Accuracy.high var 0.055689279830523512 "Variance should be equal"
+                
+        testCase "Cdfs" <| fun () ->
+            cdfs 
+            |> Array.iteri (fun i v ->
+                let cdf = d.CDF (float i / 10.0)
+                Expect.floatClose Accuracy.low cdf cdfs[i] "Cdf should be equal"
+                )
+                 
+        testCase "Pdfs" <| fun () ->
+            cdfs 
+            |> Array.iteri (fun i v ->
+                let pdf = d.PDF ((float i + 1.) / 10.0)
+                Expect.floatClose Accuracy.low pdf pdfs[i] "Cdf should be equal"
+                )          
+           
+        //testCase "Pdf" <| fun () ->
+        //    Expect.floatClose Accuracy.high pdf 0.987114 "Pdf should be equal"
+        
+        testCase "FitTest" <| fun () ->
+            let observations = Array.init 99999 (fun _ -> float (Continuous.Beta.Sample alpha beta))
+            let alpha',beta' = Continuous.Beta.Fit observations
+            
+            Expect.floatClose fittingAccuracy alpha alpha' 
+                "alpha" 
+            Expect.floatClose fittingAccuracy beta beta' 
+                "beta"
+    
+        testCase "FitTest_from_observations" <| fun () ->
+            let observations = [| 1275.56; 1239.44; 1237.92; 1237.22; 1237.1; 1238.41; 1238.62; 1237.05;
                 1237.19; 1236.51; 1264.6; 1238.19; 1237.39; 1235.79; 1236.53; 1236.8; 1238.06; 
                 1236.5; 1235.32; 1236.44; 1236.58; 1236.3; 1237.91; 1238.6; 1238.49; 1239.21; 
                 1238.57; 1244.63; 1236.06; 1236.4; 1237.88; 1237.56; 1236.66; 1236.59; 1236.53; 
@@ -1339,40 +1491,14 @@ let gammaTests =
                 1235.86; 1236.39; 1236.13; 1236.58; 1237.95; 1237.76; 1237.39; 1238.16; 1236.31; 
                 1236.41; 1236.12; 1238.7; 1236.48; 1237.84; 1236.38; 1237.95; 1238.48; 1236.51; 
                 1236.56 |]
-
-            let testGamma = Continuous.Gamma.Estimate x
+            let testGamma = Continuous.Gamma.Estimate observations
             let mean = 1238.8734170854279
             Expect.floatClose
-                Accuracy.low
+                fittingAccuracy
                 testGamma.Mean
                 mean
                 "Gamma Distribution Fit" 
-        
-    ]
-
-
-[<Tests>]
-let PoissonDistributionTests =
-
-    testList "Distributions.Discrete.Poisson" [
-        testCase "FitTest<30" <| fun () ->
-            let lambda = 5.5
-            let observations = Array.init 99999 (fun _ -> float (Discrete.Poisson.Sample lambda))
-            let lambda' = Discrete.Poisson.Fit observations
-            
-            Expect.floatClose
-                Accuracy.low
-                lambda
-                lambda' 
-                "Poisson Distribution Fit lambda < 30 (knuth) " 
-        testCase "FitTest>30" <| fun () ->
-            let lambda = 125.5
-            let observations = Array.init 99999 (fun _ -> float (Discrete.Poisson.Sample lambda))
-            let lambda' = Discrete.Poisson.Fit observations
-            
-            Expect.floatClose
-                Accuracy.low
-                lambda
-                lambda' 
-                "Poisson Distribution Fit lambda > 30 (pma)" 
+    
+    
+    
     ]

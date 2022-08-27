@@ -180,7 +180,7 @@ module Gamma =
 
     /// Returns the incomplete gamma function P(a,X) (regularized gamma) 
     // gammp -> GammaLowerIncomplete
-    let lowerIncomplete a x =
+    let lowerIncompleteRegularized a x =
         let ASWITCH=100.
         //if (x < 0.0 || a <= 0.0) then failwith ("bad args in gammp")
         match x with
@@ -199,7 +199,7 @@ module Gamma =
 
     /// Returns the incomplete gamma function Q(a,X) = 1 - P(a,X) (regularized gamma) 
     // gammq -> GammaUpperIncomplete
-    let upperIncomplete a x =
+    let upperIncompleteRegularized a x =
         let ASWITCH=100.
         //if (x < 0.0 || a <= 0.0) then failwith ("bad args in gammp")
         match x with
@@ -213,7 +213,16 @@ module Gamma =
 
             elif (x < a+1.0) then 1.0 - gser a x
             else gcf a x
+    
+    /// Returns the lower incomplete gamma function
+    /// gamma(a,x) = int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.
+    let lowerIncomplete a x =
+        (lowerIncompleteRegularized a x) * gamma(a)
 
+    /// Returns the upper incomplete gamma function
+    /// Gamma(a,x) = int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.
+    let upperIncomplete a x =
+        (upperIncompleteRegularized a x) * gamma(a)
 
     /// <summary>
     ///   Digamma function.

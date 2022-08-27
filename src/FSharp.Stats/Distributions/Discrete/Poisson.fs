@@ -115,7 +115,7 @@ type Poisson =
     /// Computes the cumulative distribution function at x, i.e. P(X <= x).
     static member CDF lambda k =
         Poisson.CheckParam lambda        
-        Gamma.upperIncomplete lambda (k + 1.)
+        Gamma.upperIncompleteRegularized (k + 1.) lambda
 
 
     /// <summary>

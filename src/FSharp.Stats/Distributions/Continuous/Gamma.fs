@@ -9,14 +9,15 @@ open FSharp.Stats.Ops
 // ######
 // Gamma distribution
 // ######
-
-/// alpha -> shape
-/// beta -> rate
     
 /// Gamma distribution
 /// Sampling implementation based on:
 ///     "A Simple Method for Generating Gamma Variables" - Marsaglia & Tsang
 ///     ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages 363-372.
+
+/// alpha = shape (k) 
+/// beta  = scale || 1 / rate (θ)
+//  init(theta, k)
 type Gamma =
 
     // Gamma distribution helper functions.
@@ -32,23 +33,23 @@ type Gamma =
         elif (alpha=0 && beta =0) then
             nan
         else
-            2./sqrt alpha
+            (alpha - 1.) / beta 
+            //2./sqrt alpha
 
 
     /// Computes the mean.
     static member Mean alpha beta =
         Gamma.CheckParam alpha beta
-        alpha / beta
+        alpha * beta
         
     /// Computes the variance.
     static member Variance alpha beta =
         Gamma.CheckParam alpha beta
-        alpha / (beta * beta)
+        alpha * (beta * beta)
         
     /// Computes the standard deviation.
     static member StandardDeviation alpha beta =
-        Gamma.CheckParam alpha beta
-        sqrt (alpha / (beta * beta))
+        sqrt (Gamma.Variance alpha beta)
         
     /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
     static member Sample alpha beta = 
@@ -85,18 +86,30 @@ type Gamma =
     /// Computes the probability density function.
     static member PDF alpha beta x = 
         Gamma.CheckParam alpha beta
-        if x >= 0.0 then
-            //(beta**alpha) * (x ** (alpha - 1.0)) * (exp (-beta*x)) / SpecialFunctions.Gamma.gamma alpha
-            Math.Pow(beta, alpha) * Math.Pow(x, alpha - 1.0) * (exp (-beta * x)) / SpecialFunctions.Gamma._gamma alpha
-        else 0.0
-        
+        match alpha,beta with
+        | 0., 0. -> infNeg
+        | a , b when isPosInf(b) -> if a = x then infinity else 0. 
+        | 1., _ -> beta * exp(-beta*x)
+        | _ -> Gamma.PDFLn alpha beta x |> exp
+       
+    /// Computes the log probability density function.
+    static member PDFLn alpha beta x = 
+        Gamma.CheckParam alpha beta
+        //shape rate
+        match alpha,beta with
+        | 0., 0. -> 0.
+        | a , b when isPosInf(b) -> if a = x then infinity else infNeg 
+        | 1., _ -> log(beta) * (-beta*x)
+        | _     -> (alpha - 1.) * log(x) - x / beta - (alpha * log(beta)
+                    + SpecialFunctions.Gamma.gammaLn(alpha)) 
+
     /// Computes the cumulative distribution function.
     static member CDF alpha beta x =
         Gamma.CheckParam alpha beta
         if alpha = 0.0 && beta = 0.0 then 
             0.0
         else 
-            SpecialFunctions.Gamma.lowerIncomplete alpha (x * beta)
+            SpecialFunctions.Gamma.lowerIncompleteRegularized alpha (x / beta) 
         
     /// Fits the underlying distribution to a given set of observations.
     static member Fit(observations:float[],?maxIter,?tolerance) =
@@ -150,6 +163,8 @@ type Gamma =
         sprintf "Gamma(α = %f, β = %f)" alpha beta
 
     /// Initializes a Gamma distribution
+    /// alpha = shape (k) 
+    /// beta  = scale || 1 / rate (θ)
     static member Init alpha beta =
         { new ContinuousDistribution<float,float> with            
             member d.Mean              = Gamma.Mean alpha beta
@@ -164,3 +179,18 @@ type Gamma =
             override d.ToString()  = Gamma.ToString alpha beta
         }
 
+    /// Initializes a Gamma distribution
+    /// alpha = shape (k) 
+    /// beta  = scale || 1 / rate (θ)
+    static member FromRate shape rate =
+        let alpha = shape
+        let beta = 1. / rate 
+        Gamma.Init alpha beta
+
+    ///// Initializes a Gamma distribution
+    ///// alpha = shape (k) 
+    ///// beta  = scale || 1 / rate (θ)
+    //static member FromMean alpha mean =
+
+    //    let beta = 1. / rate 
+    //    Gamma.Init alpha beta

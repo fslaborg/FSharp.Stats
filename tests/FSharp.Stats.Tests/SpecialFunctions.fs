@@ -96,33 +96,33 @@ let gammaFunctionsTests =
  
         //lowerIncomplete
         testCase "lowerIncomplete(0.5,0.5)" <| fun () ->
-            let gam = Gamma.lowerIncomplete 0.5 0.5
+            let gam = Gamma.lowerIncompleteRegularized 0.5 0.5
             Expect.floatClose Accuracy.low gam 0.682689 "Should be equal (low precision)"
 
         testCase "lowerIncomplete(-1,1) = nan" <| fun () ->
-            let gam = Gamma.lowerIncomplete -1. 1.
+            let gam = Gamma.lowerIncompleteRegularized -1. 1.
             Expect.isTrue (nan.Equals(gam)) "Expected lowerIncomplete(-1,1) to be nan"
 
         testCase "lowerIncomplete(-1,0) = 0" <| fun () ->
-            let gam = Gamma.lowerIncomplete -1. 0.
+            let gam = Gamma.lowerIncompleteRegularized -1. 0.
             Expect.floatClose Accuracy.high gam 0.0 "Expected lowerIncomplete(-1,0) = 0 to be 0"
 
         testCase "lowerIncomplete(0.5,infinity) = 1" <| fun () ->
-            let gam = Gamma.lowerIncomplete 0.5 Ops.inf
+            let gam = Gamma.lowerIncompleteRegularized 0.5 Ops.inf
             Expect.equal gam 1.0 "lowerIncomplete(0.5,infinity) = 1"
 
         //upperIncomplete
         testCase "upperIncomplete(0.5,0.5)" <| fun () ->
-            let gamu = Gamma.upperIncomplete 0.5 0.5
-            let gam  = 1. - Gamma.lowerIncomplete 0.5 0.5
+            let gamu = Gamma.upperIncompleteRegularized 0.5 0.5
+            let gam  = 1. - Gamma.lowerIncompleteRegularized 0.5 0.5
             Expect.floatClose Accuracy.medium gamu gam "Should be equal (medium precision)"
 
         testCase "upperIncomplete(-1,1)" <| fun () ->
-            let gam = Gamma.upperIncomplete -1. 1.
+            let gam = Gamma.upperIncompleteRegularized -1. 1.
             Expect.isTrue (nan.Equals(gam)) "Expected upperIncomplete(-1,1) to be nan"
 
         testCase "upperIncomplete(0.5, infinity)" <| fun () ->
-            let gam = Gamma.upperIncomplete 0.5 Ops.inf
+            let gam = Gamma.upperIncompleteRegularized 0.5 Ops.inf
             Expect.equal gam 0.0 "expected upperIncomplete(0.5, infinity) to be 0"
         
         testCase "digamma(0.17) positive" <| fun () ->

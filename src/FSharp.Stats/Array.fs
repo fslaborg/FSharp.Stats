@@ -231,6 +231,40 @@ module Array =
             weight <- weight + weights[i]
 
         sum / weight 
+    
+    /// Computes the Variance N-1 
+    let inline varOf mean (items:array<'T>) =
+        
+        let mutable variance = LanguagePrimitives.GenericZero< 'T > 
+                
+        for i = 0 to items.Length-1 do
+            let z = items[i] - mean
+            variance <- variance + (z * z)
+        
+        variance / float (items.Length - 1)
+
+
+    /// Computes the Weighted Variance
+    let inline weightedVariance mean (weights:array<'T>) (items:array<'T>) =
+        // DimensionMismatchException
+        if (items.Length <> weights.Length) then
+            failwithf "The items and weights must have the same length"
+        
+        let mutable sum       = LanguagePrimitives.GenericZero< 'T > 
+        let mutable sqSum     = LanguagePrimitives.GenericZero< 'T >
+        let mutable weightSum = LanguagePrimitives.GenericZero< 'T > 
+        
+        for i = 0 to items.Length-1 do
+            let z = items[i] - mean
+            let w = weights[i]
+            sum <- sum + (w * (z * z))
+            sqSum <- sqSum + (w * w)
+            weightSum <- weightSum + w
+        // TODO: unbaised correction weightedVariance
+        //sum / (weightSum - (squareSum / weightSum)) // unbaised
+        
+        sum / weightSum
+
 
 
     /// Computes the sample median
