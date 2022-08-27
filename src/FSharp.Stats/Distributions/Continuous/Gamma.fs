@@ -80,8 +80,8 @@ type Gamma =
             elif (log u) < 0.5 * x + d * (1.0 - v + (log v)) then
                 d * v
             else gammaSample()
-        alphafix * gammaSample() / beta
-        //failwith "Not implemented yet."
+        alphafix * gammaSample() * beta
+        
         
     /// Computes the probability density function.
     static member PDF alpha beta x = 
@@ -116,7 +116,7 @@ type Gamma =
         let maxIter = defaultArg maxIter 10000
         let tol     = defaultArg tolerance 1e-8
             
-        let lnSum = observations |> Seq.averageBy (log)
+        let lnSum = observations |> Seq.sumBy (log)
         let mean = observations |> Seq.average
 
         let s = log(mean) - lnSum / float observations.Length
@@ -140,9 +140,8 @@ type Gamma =
                 state    
 
         let alpha = newtonRaphson 0 alpha' 
-            
-        let theta = mean / alpha 
-        (alpha, 1. / theta) // beta = 1 / theta
+
+        (alpha, (mean / alpha) ) 
             
     /// <summary>
     ///   Estimates a new Gamma distribution from a given set of observations.
@@ -187,10 +186,8 @@ type Gamma =
         let beta = 1. / rate 
         Gamma.Init alpha beta
 
-    ///// Initializes a Gamma distribution
-    ///// alpha = shape (k) 
-    ///// beta  = scale || 1 / rate (θ)
-    //static member FromMean alpha mean =
-
-    //    let beta = 1. / rate 
-    //    Gamma.Init alpha beta
+    /// Initializes a Gamma distribution
+    /// alpha = shape (k) 
+    /// beta  = scale || 1 / rate (θ)
+    static member FromMean alpha mean =
+        Gamma.Init alpha (mean / alpha)
