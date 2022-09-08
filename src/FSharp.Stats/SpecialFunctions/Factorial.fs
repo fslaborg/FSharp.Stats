@@ -35,11 +35,11 @@ module Factorial =
         cache
 
     ///<summary>
-    /// Computes the factorial of integers <= 170.
+    /// Computes the factorial of integers less than 170.
     ///
     /// The factorial functions takes an int x and returns x!. This function will not overflow
     ///
-    /// the floating point format as long as x is at most 170, and will return +infinity for all values > 170
+    /// the floating point format as long as x is at most 170, and will return +infinity for all values greather than 170
     ///</summary>
     ///<param name="x">The input to compute x!</param>
     let factorial (x:int) =    
@@ -51,7 +51,7 @@ module Factorial =
     ///<summary>
     /// Computes the natural logarithm of the factorial.
     ///
-    /// Values will be approximated for x > 170, as the approximated _gammaLn function is used to obtain the results for large inputs.
+    /// Values will be approximated for x greather than 170, as the approximated _gammaLn function is used to obtain the results for large inputs.
     ///
     /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
     ///</summary>
@@ -67,7 +67,7 @@ module Factorial =
     ///<summary>
     /// Computes the natural logarithm of the factorial.
     ///
-    /// Values will be approximated for x > 170, as the approximated _gammaLn function is used to obtain the results for large inputs.
+    /// Values will be approximated for x greather than 170, as the approximated _gammaLn function is used to obtain the results for large inputs.
     ///
     /// Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
     ///
