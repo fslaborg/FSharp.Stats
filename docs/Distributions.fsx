@@ -276,8 +276,11 @@ fPDFs
 (***hide***)
 fPDFs |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
+
 *)
+
 let cdfF a b = 
     xF 
     |> List.map (Continuous.F.CDF a b)

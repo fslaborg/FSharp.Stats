@@ -160,18 +160,14 @@ module Beta =
                 exp t
 
 
-    ///// <summary>
-    /////   Inverse of incomplete beta integral.
-    ///// </summary>
+    //   Inverse of incomplete beta integral.
     //let incompleteInverse aa bb yy0 =
     //    aa
 
 
     //TODO: Beta into class to allow [<ParamArray>]
 
-    ///// <summary>
-    /////   Multinomial Beta function.
-    ///// </summary>
+    //   Multinomial Beta function.
     //let multinomial ([<ParamArray>] x:float[]) =
     //    let mutable sum = 0.
     //    let mutable prd = 1.

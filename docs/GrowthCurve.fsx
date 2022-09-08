@@ -239,7 +239,7 @@ let fittingFunction =
 
     
 let fittedValuesGompertz =
-    /// The parameter were determined locally for saving time during build processes
+    // The parameter were determined locally for saving time during build processes
     //let f = Table.GrowthModels.gompertz.GetFunctionValue (vector [|16.46850199; 0.7014917539; 7.274139441; 3.3947717|])
     [time.[0] .. 0.1 .. Seq.last time]
     |> Seq.map (fun x -> 
@@ -360,7 +360,7 @@ let generationtimeRichards (richardParameters:vector) =
     log(2.) / maximalSlope
 
 let fittedValuesRichards =
-    /// The parameter were determined locally for saving time during build processes
+    // The parameter were determined locally for saving time during build processes
     let f =  Table.GrowthModels.richards.GetFunctionValue (vector [|23.25211263; 7.053516315; 5.646889803; 111.0132522|])
     [time.[0] .. 0.1 .. Seq.last time]
     |> Seq.map (fun x -> 
@@ -441,7 +441,7 @@ let generationtimeWeibull (weibullParameters:vector) =
     log(2.) / maximalSlope
 
 let fittedValuesWeibull =
-    /// The parameter were determined locally for saving time during build processes
+    // The parameter were determined locally for saving time during build processes
     let f =  Table.GrowthModels.weibull.GetFunctionValue (vector [|16.40632433; 23.35537293; 0.2277752116; 2.900806071|])
     [time.[0] .. 0.1 .. Seq.last time]
     |> Seq.map (fun x -> 
@@ -526,7 +526,7 @@ let generationtimeJanoschek (janoschekParameters:vector) =
     log(2.) / maximalSlope
     
 let fittedValuesJanoschek =
-    /// The parameter were determined locally for saving time during build processes
+    // The parameter were determined locally for saving time during build processes
     let f =  Table.GrowthModels.janoschek.GetFunctionValue (vector [|16.40633962; 23.35535182; 0.01368422994; 2.900857027|])
     [time.[0] .. 0.1 .. Seq.last time]
     |> Seq.map (fun x -> 
@@ -604,7 +604,7 @@ let generationtimeExponential (expParameters:vector) =
     log(2.) / maximalSlope
 
 let fittedValuesExp =
-    /// The parameter were determined locally for saving time during build processes
+    // The parameter were determined locally for saving time during build processes
     let f =  Table.GrowthModels.exponential.GetFunctionValue (vector [|4.813988967; 24.39950361; 0.3939132175|])
     [3.0 .. 0.1 .. Seq.last time]
     |> Seq.map (fun x -> 
@@ -692,7 +692,7 @@ let generationtimeVerhulst (verhulstParameters:vector) =
     log(2.) / maximalSlope
 
 let fittedValuesVerhulst =
-    /// The parameter were determined locally for saving time during build processes
+    // The parameter were determined locally for saving time during build processes
     let f =  Table.GrowthModels.verhulst4Param.GetFunctionValue (vector [|23.39504328; 3.577488116; 1.072136278; 15.77380824|])
     [time.[0] .. 0.1 .. Seq.last time]
     |> Seq.map (fun x -> 
@@ -780,7 +780,7 @@ let generationMmf =
     sprintf "The generation time (MMF) is: %.1f min" (generationtimeMmf (vector [|16.46099291; 24.00147463; 0.2500698772; 3.741048641|]) * 60.)
 
 let fittedValuesMMF =
-    /// The parameter were determined locally for saving time during build processes
+    // The parameter were determined locally for saving time during build processes
     let f =  Table.GrowthModels.morganMercerFlodin.GetFunctionValue (vector [|16.46099291; 24.00147463; 0.2500698772; 3.741048641|])
     [time.[0] .. 0.1 .. Seq.last time]
     |> Seq.map (fun x -> 
