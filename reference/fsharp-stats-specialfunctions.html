@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>FSharp.Stats.SpecialFunctions</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -107,13 +107,15 @@
               <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
               <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
             </div>
-            <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Beta.fs#L6-6" class="fsdocs-source-link" title="Source on GitHub">
+            <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Beta.fs#L9-9" class="fsdocs-source-link" title="Source on GitHub">
               <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
               <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
- Special mathematical functions
+ The beta function B(p,q), or the beta integral (also called the Eulerian integral of the first kind) is defined by
+
+ B(p, q) = (Γ(p) * Γ(q)) / Γ(p+q)
 
             </p>
           </div>
@@ -171,13 +173,22 @@
               <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
               <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
             </div>
-            <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Erf.fs#L6-6" class="fsdocs-source-link" title="Source on GitHub">
+            <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Erf.fs#L15-15" class="fsdocs-source-link" title="Source on GitHub">
               <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
               <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
- Special mathematical functions
+ Error function (erf) and related functions.
+
+ the error function (also called the Gauss error function), often denoted by erf, is a complex function of a complex variable defined as:
+
+ erf (z) = 2/√π * \int e^(-t²) dt from 0 to z
+
+ This integral is a special (non-elementary) sigmoid function that occurs often in probability, statistics, and partial differential equations. In many of these applications, the function argument is a real number. If the function argument is real, then the function value is also real.
+ 
+ In statistics, for non-negative values of x, the error function has the following interpretation: for a random variable Y that is normally distributed with mean 0 and standard deviation 
+ 1/√2 , erf x is the probability that Y falls in the range [−x, x].
 
             </p>
           </div>
@@ -203,13 +214,21 @@
               <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
               <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
             </div>
-            <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Factorial.fs#L6-6" class="fsdocs-source-link" title="Source on GitHub">
+            <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Factorial.fs#L14-14" class="fsdocs-source-link" title="Source on GitHub">
               <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
               <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
- Special mathematical functions
+ Functions for computing the factorial of a number.
+
+ The factorial of a non-negative integer n, denoted by n!, is the product of all positive integers less than or equal to n:
+
+ n! = n * (n-1) * (n-2) * ... * 2 * 1
+
+ For example, 5! = 5 * 4 * 3 * 2 * 1 = 120
+
+ The value of 0! is 1.
 
             </p>
           </div>
@@ -235,13 +254,20 @@
               <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
               <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
             </div>
-            <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Gamma.fs#L6-6" class="fsdocs-source-link" title="Source on GitHub">
+            <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Gamma.fs#L13-13" class="fsdocs-source-link" title="Source on GitHub">
               <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
               <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
             </a>
             <p class="fsdocs-summary">
               
- Special mathematical functions
+ Approximations for the gamma function and related functions.
+
+ The gamma function (represented by Γ, the capital letter gamma from the Greek alphabet) is one commonly used extension 
+ of the factorial function to complex numbers:
+
+ Γ(x) = (x-1)!
+
+The gamma function is defined for all complex numbers except the non-positive integers.
 
             </p>
           </div>

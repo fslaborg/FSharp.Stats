@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>List (FSharp.Stats)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -113,7 +113,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '454', 454)" onmouseover="showTip(event, '454', 454)">
+              <code onmouseout="hideTip(event, '481', 481)" onmouseover="showTip(event, '481', 481)">
                 <p>
                   <a id="cov">
                     <a href="#cov">
@@ -122,7 +122,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="454">
+              <div class="fsdocs-tip" id="481">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>cov&#32;<span>list1&#32;list2</span></span></code>
@@ -232,7 +232,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '455', 455)" onmouseover="showTip(event, '455', 455)">
+              <code onmouseout="hideTip(event, '482', 482)" onmouseover="showTip(event, '482', 482)">
                 <p>
                   <a id="covBy">
                     <a href="#covBy">
@@ -241,7 +241,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="455">
+              <div class="fsdocs-tip" id="482">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>covBy&#32;<span>f&#32;list</span></span></code>
@@ -350,7 +350,7 @@
               Example
             </h5>
             <p class="fsdocs-example" id="example">
-              <pre> 
+              <pre><code class=""> 
  // To get the sample covariance between x and y observations:
  let xy = [ {| x = 5.; y = 2. |}
             {| x = 12.; y = 8. |}
@@ -358,14 +358,14 @@
             {| x = -23.; y = -20. |} 
             {| x = 45.; y = 28. |} ]
  
- xy |&gt; List.covBy (fun x -&gt; x.x, x.y) // evaluates to 434.90</pre>
+ xy |&gt; List.covBy (fun x -&gt; x.x, x.y) // evaluates to 434.90</code></pre>
             </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '456', 456)" onmouseover="showTip(event, '456', 456)">
+              <code onmouseout="hideTip(event, '483', 483)" onmouseover="showTip(event, '483', 483)">
                 <p>
                   <a id="covOfPairs">
                     <a href="#covOfPairs">
@@ -374,7 +374,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="456">
+              <div class="fsdocs-tip" id="483">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>covOfPairs&#32;<span>list</span></span></code>
@@ -462,20 +462,20 @@
               Example
             </h5>
             <p class="fsdocs-example" id="example">
-              <pre> 
+              <pre><code class=""> 
  // Consider a list of paired x and y values:
  // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
  let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
  
  // To get the sample covariance between x and y:
- xy |&gt; List.covOfPairs // evaluates to 434.90</pre>
+ xy |&gt; List.covOfPairs // evaluates to 434.90</code></pre>
             </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '457', 457)" onmouseover="showTip(event, '457', 457)">
+              <code onmouseout="hideTip(event, '484', 484)" onmouseover="showTip(event, '484', 484)">
                 <p>
                   <a id="covPopulation">
                     <a href="#covPopulation">
@@ -484,7 +484,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="457">
+              <div class="fsdocs-tip" id="484">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>covPopulation&#32;<span>list1&#32;list2</span></span></code>
@@ -594,7 +594,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '458', 458)" onmouseover="showTip(event, '458', 458)">
+              <code onmouseout="hideTip(event, '485', 485)" onmouseover="showTip(event, '485', 485)">
                 <p>
                   <a id="covPopulationBy">
                     <a href="#covPopulationBy">
@@ -603,7 +603,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="458">
+              <div class="fsdocs-tip" id="485">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>covPopulationBy&#32;<span>f&#32;list</span></span></code>
@@ -712,7 +712,7 @@
               Example
             </h5>
             <p class="fsdocs-example" id="example">
-              <pre> 
+              <pre><code class=""> 
  // To get the population covariance between x and y observations:
  let xy = [ {| x = 5.; y = 2. |}
             {| x = 12.; y = 8. |}
@@ -720,14 +720,14 @@
             {| x = -23.; y = -20. |} 
             {| x = 45.; y = 28. |} ]
  
- xy |&gt; List.covPopulationBy (fun x -&gt; x.x, x.y) // evaluates to 347.92</pre>
+ xy |&gt; List.covPopulationBy (fun x -&gt; x.x, x.y) // evaluates to 347.92</code></pre>
             </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '459', 459)" onmouseover="showTip(event, '459', 459)">
+              <code onmouseout="hideTip(event, '486', 486)" onmouseover="showTip(event, '486', 486)">
                 <p>
                   <a id="covPopulationOfPairs">
                     <a href="#covPopulationOfPairs">
@@ -736,7 +736,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="459">
+              <div class="fsdocs-tip" id="486">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>covPopulationOfPairs&#32;<span>list</span></span></code>
@@ -824,20 +824,20 @@
               Example
             </h5>
             <p class="fsdocs-example" id="example">
-              <pre> 
+              <pre><code class=""> 
  // Consider a list of paired x and y values:
  // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
  let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
  
  // To get the population covariance between x and y:
- xy |&gt; List.covPopulationOfPairs // evaluates to 347.92</pre>
+ xy |&gt; List.covPopulationOfPairs // evaluates to 347.92</code></pre>
             </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '460', 460)" onmouseover="showTip(event, '460', 460)">
+              <code onmouseout="hideTip(event, '487', 487)" onmouseover="showTip(event, '487', 487)">
                 <p>
                   <a id="mean">
                     <a href="#mean">
@@ -846,7 +846,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="460">
+              <div class="fsdocs-tip" id="487">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>mean&#32;<span>items</span></span></code>
@@ -922,7 +922,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '461', 461)" onmouseover="showTip(event, '461', 461)">
+              <code onmouseout="hideTip(event, '488', 488)" onmouseover="showTip(event, '488', 488)">
                 <p>
                   <a id="median">
                     <a href="#median">
@@ -931,7 +931,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="461">
+              <div class="fsdocs-tip" id="488">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>median&#32;<span>xs</span></span></code>
@@ -1006,7 +1006,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '462', 462)" onmouseover="showTip(event, '462', 462)">
+              <code onmouseout="hideTip(event, '489', 489)" onmouseover="showTip(event, '489', 489)">
                 <p>
                   <a id="range">
                     <a href="#range">
@@ -1015,7 +1015,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="462">
+              <div class="fsdocs-tip" id="489">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>range&#32;<span>items</span></span></code>

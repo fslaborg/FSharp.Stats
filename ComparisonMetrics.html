@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Comparison metrics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -146,6 +146,21 @@
 <li class="nav-item">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
     Signal processing
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
+    Machine Learning
   </a>
 </li>
                         <li class="nav-header">
@@ -396,9 +411,15 @@
 <span class="pn">)</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>{ Labels = [|"A"; "B"; "C"|]
-  Confusion = matrix [[3; 1; 1]
-                      [1; 2; 0]
-                      [2; 0; 4]] }</code></pre></td></tr></table>
+  Confusion =
+   
+      0 1 2
+           
+ 0 -&gt; 3 1 1
+ 1 -&gt; 1 2 0
+ 2 -&gt; 2 0 4
+
+Matrix of 3 rows x 3 columns}</code></pre></td></tr></table>
 <p>It is however not as easy to extract comparable metrics directly from this matrix.</p>
 <p>Therefore, multi-label classification are most often compared using <code>one/all-vs-rest</code> and <code>micro/macro averaging</code> of metrics.</p>
 <p>It is possible to derive binary <code>one-vs-rest</code> confusion matrices to evaluate prediction metrics of individual labels from a multi-label confusion matrix.</p>
@@ -826,29 +847,29 @@ In other words, when given one randomly selected positive instance and one rando
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 179)" onmouseover="showTip(event, 'fs52', 179)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs78', 180)" onmouseover="showTip(event, 'fs78', 180)" class="id">withYAxisStyle</span><span class="pn">(</span><span class="s">&quot;FPR&quot;</span><span class="pn">,</span> <span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">1.</span><span class="pn">)</span><span class="pn">)</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 181)" onmouseover="showTip(event, 'fs52', 181)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs79', 182)" onmouseover="showTip(event, 'fs79', 182)" class="id">withTitle</span> <span class="s">&quot;Binary receiver operating characteristic example&quot;</span>
 </code></pre>
-<div id="067e4181-d67a-48ed-933e-c1336dac0b24"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="fd453825-4f39-4f4f-80c7-205e02ab0bb9"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_067e4181d67a48ed933ec1336dac0b24 = function() {
+            var renderPlotly_fd4538254f394f4f80c7205e02ab0bb9 = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"scatter","name":"2 label ROC, AUC = 0.71","mode":"lines","x":[0.0,0.0,0.3333333333333333,0.3333333333333333,0.6666666666666666,0.6666666666666666,1.0],"y":[0.0,0.25,0.5,0.75,0.75,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"no skill","mode":"lines","x":[0.0,1.0],"y":[0.0,1.0],"marker":{},"line":{"color":"rgba(128, 128, 128, 1.0)","dash":"dash"}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"legend":{"x":0.5,"y":0.1,"yanchor":"bottom"},"xaxis":{"title":{"text":"TPR"},"range":[0.0,1.0]},"yaxis":{"title":{"text":"FPR"},"range":[0.0,1.0]},"title":{"text":"Binary receiver operating characteristic example"}};
             var config = {"responsive":true};
-            Plotly.newPlot('067e4181-d67a-48ed-933e-c1336dac0b24', data, layout, config);
+            Plotly.newPlot('fd453825-4f39-4f4f-80c7-205e02ab0bb9', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_067e4181d67a48ed933ec1336dac0b24();
+                    renderPlotly_fd4538254f394f4f80c7205e02ab0bb9();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_067e4181d67a48ed933ec1336dac0b24();
+                renderPlotly_fd4538254f394f4f80c7205e02ab0bb9();
             }
 </script>
 
@@ -885,29 +906,29 @@ In other words, when given one randomly selected positive instance and one rando
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 247)" onmouseover="showTip(event, 'fs52', 247)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs78', 248)" onmouseover="showTip(event, 'fs78', 248)" class="id">withYAxisStyle</span><span class="pn">(</span><span class="s">&quot;FPR&quot;</span><span class="pn">,</span> <span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">1.</span><span class="pn">)</span><span class="pn">)</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs52', 249)" onmouseover="showTip(event, 'fs52', 249)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs79', 250)" onmouseover="showTip(event, 'fs79', 250)" class="id">withTitle</span> <span class="s">&quot;Binary receiver operating characteristic example&quot;</span>
 </code></pre>
-<div id="772f36f2-8ed0-4e26-aa58-ca8313907666"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="e479ac68-6272-45f8-b4f1-f59158b5ba75"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_772f36f28ed04e26aa58ca8313907666 = function() {
+            var renderPlotly_e479ac68627245f8b4f1f59158b5ba75 = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"scatter","name":"A ROC, AUC = 0.87","mode":"lines","x":[0.0,0.0,0.0,0.0,0.0,0.2222222222222222,0.3333333333333333,0.4444444444444444,0.5555555555555556,1.0,1.0],"y":[0.0,0.2,0.4,0.6,0.6,0.6,0.8,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"B ROC, AUC = 0.97","mode":"lines","x":[0.0,0.0,0.0,0.0,0.0,0.09090909090909091,0.09090909090909091,0.18181818181818182,0.18181818181818182,0.6363636363636364,1.0],"y":[0.0,0.0,0.3333333333333333,0.6666666666666666,0.6666666666666666,0.6666666666666666,1.0,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"C ROC, AUC = 0.96","mode":"lines","x":[0.0,0.0,0.0,0.0,0.125,0.125,0.125,0.125,0.375,1.0,1.0],"y":[0.0,0.16666666666666666,0.5,0.6666666666666666,0.6666666666666666,0.6666666666666666,0.8333333333333334,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"macro-average ROC, AUC = 0.94","mode":"lines","x":[0.0,0.0,0.0,0.0,0.041666666666666664,0.14604377104377106,0.18308080808080807,0.25042087542087543,0.37079124579124584,0.8787878787878788,1.0],"y":[0.0,0.12222222222222223,0.41111111111111115,0.6444444444444444,0.6444444444444444,0.6444444444444444,0.8777777777777778,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"micro-average ROC, AUC = 0.93","mode":"lines","x":[0.0,0.0,0.0,0.0,0.03571428571428571,0.14285714285714285,0.17857142857142858,0.25,0.35714285714285715,0.8571428571428571,1.0],"y":[0.0,0.14285714285714285,0.42857142857142855,0.6428571428571429,0.6428571428571429,0.6428571428571429,0.8571428571428571,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"no skill","mode":"lines","x":[0.0,1.0],"y":[0.0,1.0],"marker":{},"line":{"color":"rgba(128, 128, 128, 1.0)","dash":"dash"}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"legend":{"x":0.5,"y":0.1,"yanchor":"bottom"},"xaxis":{"title":{"text":"TPR"},"range":[0.0,1.0]},"yaxis":{"title":{"text":"FPR"},"range":[0.0,1.0]},"title":{"text":"Binary receiver operating characteristic example"}};
             var config = {"responsive":true};
-            Plotly.newPlot('772f36f2-8ed0-4e26-aa58-ca8313907666', data, layout, config);
+            Plotly.newPlot('e479ac68-6272-45f8-b4f1-f59158b5ba75', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_772f36f28ed04e26aa58ca8313907666();
+                    renderPlotly_e479ac68627245f8b4f1f59158b5ba75();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_772f36f28ed04e26aa58ca8313907666();
+                renderPlotly_e479ac68627245f8b4f1f59158b5ba75();
             }
 </script>
 
@@ -956,16 +977,16 @@ In other words, when given one randomly selected positive instance and one rando
 from FSharp.Stats<br /><br />--------------------<br />type Matrix&lt;&#39;T&gt; =
   | DenseRepr of DenseMatrix&lt;&#39;T&gt;
   | SparseRepr of SparseMatrix&lt;&#39;T&gt;
+  interface IMatrixFormattable
+  interface IFsiFormattable
   interface IEnumerable
   interface IEnumerable&lt;&#39;T&gt;
   interface IStructuralEquatable
   interface IStructuralComparable
   interface IComparable
   override Equals: yobj: obj -&gt; bool
-  override GetHashCode: unit -&gt; int
-  member GetSlice: start1: int option * finish1: int option * start2: int option * finish2: int option -&gt; Matrix&lt;&#39;T&gt;
-  member PermuteColumns: p: permutation -&gt; Matrix&lt;&#39;T&gt;
-  member PermuteRows: p: permutation -&gt; Matrix&lt;&#39;T&gt;
+  member Format: rowStartCount: int * rowEndCount: int * columnStartCount: int * columnEndCount: int * showInfo: bool -&gt; string + 2 overloads
+  member FormatStrings: rowStartCount: int * rowEndCount: int * columnStartCount: int * columnEndCount: int -&gt; string[][]
   ...</div>
 <div class="fsdocs-tip" id="fs16">module Generic
 
@@ -1191,7 +1212,7 @@ from Plotly.NET<br /><em>&lt;summary&gt;
 <div class="fsdocs-tip" id="fs84">val aucMap: Map&lt;string,float&gt;</div>
 <div class="fsdocs-tip" id="fs85">Multiple items<br />module Map
 
-from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.Map`2&quot; /&gt;.&lt;/summary&gt;</em><br /><br />--------------------<br />type Map&lt;&#39;Key,&#39;Value (requires comparison)&gt; =
+from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.FSharpMap`2&quot; /&gt;.&lt;/summary&gt;</em><br /><br />--------------------<br />type Map&lt;&#39;Key,&#39;Value (requires comparison)&gt; =
   interface IReadOnlyDictionary&lt;&#39;Key,&#39;Value&gt;
   interface IReadOnlyCollection&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;
   interface IEnumerable

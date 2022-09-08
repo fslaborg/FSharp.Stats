@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Linear Algebra</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -147,6 +147,21 @@
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
     Signal processing
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
+    Machine Learning
+  </a>
 </li>
                         <li class="nav-header">
   API Reference
@@ -182,12 +197,22 @@
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 12)" onmouseover="showTip(event, 'fs9', 12)" class="id">svdRes</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs10', 13)" onmouseover="showTip(event, 'fs10', 13)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 14)" onmouseover="showTip(event, 'fs11', 14)" class="id">SVD</span> <span onmouseout="hideTip(event, 'fs6', 15)" onmouseover="showTip(event, 'fs6', 15)" class="id">A</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>(vector [|4.595512789; 3.104930081; 0.4905827078|],
- matrix [[0.08363949464; -0.5272668525; 0.8455732382]
-         [-0.6866329583; -0.6454495688; -0.3345594636]
-         [0.7221769974; -0.5526160695; -0.4160238745]],
- matrix [[0.1830830572; 0.7884727058; 0.5871893957]
-         [-0.7336553483; -0.2879987311; 0.615472632]
-         [-0.6543931724; 0.5434772518; -0.5257395294]])</code></pre></td></tr></table>
+ 
+          0     1     2
+                       
+ 0 -&gt; 0.084 -0.53 0.846
+ 1 -&gt; -0.69 -0.65 -0.33
+ 2 -&gt; 0.722 -0.55 -0.42
+
+Matrix of 3 rows x 3 columns,
+ 
+          0     1     2
+                       
+ 0 -&gt; 0.183 0.788 0.587
+ 1 -&gt; -0.73 -0.29 0.615
+ 2 -&gt; -0.65 0.543 -0.53
+
+Matrix of 3 rows x 3 columns)</code></pre></td></tr></table>
 <h2><a name="Using-unmanaged-optimized-linear-algebra-functions" class="anchor" href="#Using-unmanaged-optimized-linear-algebra-functions">Using unmanaged optimized linear algebra functions</a></h2>
 <p>Additionally, we provide some bindings for <a href="">LAPACK</a> routines. This is currently only tested on windows.</p>
 <p><strong>Attention</strong>: These bindings are highly incomplete and will most likely be dropped for something like MKL.NET. <a href="https://github.com/fslaborg/FSharp.Stats/issues/91">See issue#</a></p>
@@ -212,9 +237,11 @@
 <div class="fsdocs-tip" id="fs7">Multiple items<br />val matrix: ll: seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
 <div class="fsdocs-tip" id="fs8">val B: Matrix&lt;float&gt;</div>
 <div class="fsdocs-tip" id="fs9">val svdRes: vector * Matrix&lt;float&gt; * Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs10">module LinearAlgebra
+<div class="fsdocs-tip" id="fs10">Multiple items<br />module LinearAlgebra
 
-from FSharp.Stats.Algebra</div>
+from FSharp.Stats.Algebra<br /><br />--------------------<br />type LinearAlgebra =
+  new: unit -&gt; LinearAlgebra
+  static member nullspace: ?Accuracy: float -&gt; (Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;)<br /><br />--------------------<br />new: unit -&gt; LinearAlgebra</div>
 <div class="fsdocs-tip" id="fs11">val SVD: a: Matrix&lt;float&gt; -&gt; vector * Matrix&lt;float&gt; * Matrix&lt;float&gt;<br /><em>&lt;summary&gt;
 Returns the full Singular Value Decomposition of the input MxN matrix 
 

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Factorial (FSharp.Stats)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -89,7 +89,15 @@
     <div>
       <p class="fsdocs-summary">
         
- Special mathematical functions
+ Functions for computing the factorial of a number.
+
+ The factorial of a non-negative integer n, denoted by n!, is the product of all positive integers less than or equal to n:
+
+ n! = n * (n-1) * (n-2) * ... * 2 * 1
+
+ For example, 5! = 5 * 4 * 3 * 2 * 1 = 120
+
+ The value of 0! is 1.
 
       </p>
     </div>
@@ -113,7 +121,97 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1611', 1611)" onmouseover="showTip(event, '1611', 1611)">
+              <code onmouseout="hideTip(event, '1607', 1607)" onmouseover="showTip(event, '1607', 1607)">
+                <p>
+                  <a id="_factorialLn">
+                    <a href="#_factorialLn">
+                      <code><span>_factorialLn&#32;<span>x</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1607">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>_factorialLn&#32;<span>x</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code>int</code>
+                       - 
+                      The input to compute x!
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.SpecialFunctions.Factorial._factorialLn`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.SpecialFunctions.Factorial._factorialLn\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Factorial.fs#L59-59" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Computes the natural logarithm of the factorial.
+
+ Values will be approximated for x greather than 170, as the approximated _gammaLn function is used to obtain the results for large inputs.
+
+ The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input to compute x!
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1608', 1608)" onmouseover="showTip(event, '1608', 1608)">
                 <p>
                   <a id="factorial">
                     <a href="#factorial">
@@ -122,7 +220,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1611">
+              <div class="fsdocs-tip" id="1608">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>factorial&#32;<span>x</span></span></code>
@@ -136,6 +234,8 @@
                       </b>
                       :
                       <code>int</code>
+                       - 
+                      The input to compute x!
                     </span>
                     <br/>
                   </ul>
@@ -159,14 +259,17 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Factorial.fs#L37-37" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Factorial.fs#L45-45" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- The factorial functions takes an int x and computes x!. This function will not overflow
- the floating point format as long as x is at most 170.
+ Computes the factorial of integers less than 170.
+
+ The factorial functions takes an int x and returns x!. This function will not overflow
+
+ the floating point format as long as x is at most 170, and will return +infinity for all values greather than 170
 
               </p>
             </div>
@@ -178,7 +281,11 @@
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input to compute x!
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -194,7 +301,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1612', 1612)" onmouseover="showTip(event, '1612', 1612)">
+              <code onmouseout="hideTip(event, '1609', 1609)" onmouseover="showTip(event, '1609', 1609)">
                 <p>
                   <a id="factorialLn">
                     <a href="#factorialLn">
@@ -203,7 +310,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1612">
+              <div class="fsdocs-tip" id="1609">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>factorialLn&#32;<span>x</span></span></code>
@@ -217,6 +324,8 @@
                       </b>
                       :
                       <code>int</code>
+                       - 
+                      The input to compute x!
                     </span>
                     <br/>
                   </ul>
@@ -240,13 +349,19 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Factorial.fs#L44-44" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/SpecialFunctions/Factorial.fs#L77-77" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Computes the natural logarithm of the factorial function.
+ Computes the natural logarithm of the factorial.
+
+ Values will be approximated for x greather than 170, as the approximated _gammaLn function is used to obtain the results for large inputs.
+
+ Edge cases in the input (nan, infinity, and -infinity) are catched and handled. 
+
+ This might be slower than the unchecked version `_factorialLn` but does not require input sanitation to get expected results for these cases.
 
               </p>
             </div>
@@ -258,7 +373,11 @@
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The input to compute x!
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>

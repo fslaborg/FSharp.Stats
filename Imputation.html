@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Imputation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -147,6 +147,21 @@
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
     Signal processing
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
+    Machine Learning
+  </a>
 </li>
                         <li class="nav-header">
   API Reference
@@ -220,8 +235,8 @@ _________________________________________________________
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     3.000     5.000
-2     |    2.000     2.000     3.000     4.000     3.000
+1     |    1.000     2.000     3.000     1.000     5.000
+2     |    2.000     2.000     3.000     4.000     2.000
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
@@ -246,8 +261,8 @@ _________________________________________________________
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     2.708     5.000
-2     |    3.282     2.000     3.000     4.000     2.003
+1     |    1.000     2.000     3.000     0.726     5.000
+2     |    2.538     2.000     3.000     4.000     3.453
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
@@ -256,8 +271,8 @@ _________________________________________________________
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     4.312     5.000
-2     |    0.476     2.000     3.000     4.000     5.000
+1     |    1.000     2.000     3.000     4.041     5.000
+2     |    0.788     2.000     3.000     4.000     5.000
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>

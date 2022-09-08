@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Matrix and Vector</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -146,6 +146,21 @@
 <li class="nav-item">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
     Signal processing
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
+    Machine Learning
   </a>
 </li>
                         <li class="nav-header">
@@ -335,16 +350,16 @@ from FSharp.Stats</div>
 from FSharp.Stats<br /><br />--------------------<br />type Matrix&lt;&#39;T&gt; =
   | DenseRepr of DenseMatrix&lt;&#39;T&gt;
   | SparseRepr of SparseMatrix&lt;&#39;T&gt;
+  interface IMatrixFormattable
+  interface IFsiFormattable
   interface IEnumerable
   interface IEnumerable&lt;&#39;T&gt;
   interface IStructuralEquatable
   interface IStructuralComparable
   interface IComparable
   override Equals: yobj: obj -&gt; bool
-  override GetHashCode: unit -&gt; int
-  member GetSlice: start1: int option * finish1: int option * start2: int option * finish2: int option -&gt; Matrix&lt;&#39;T&gt;
-  member PermuteColumns: p: permutation -&gt; Matrix&lt;&#39;T&gt;
-  member PermuteRows: p: permutation -&gt; Matrix&lt;&#39;T&gt;
+  member Format: rowStartCount: int * rowEndCount: int * columnStartCount: int * columnEndCount: int * showInfo: bool -&gt; string + 2 overloads
+  member FormatStrings: rowStartCount: int * rowEndCount: int * columnStartCount: int * columnEndCount: int -&gt; string[][]
   ...</div>
 <div class="fsdocs-tip" id="fs18">module Generic
 

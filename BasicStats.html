@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Basic statistics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, open source contributors">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -147,6 +147,21 @@
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
     Signal processing
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
+    Machine Learning
+  </a>
 </li>
                         <li class="nav-header">
   API Reference
@@ -278,7 +293,7 @@ is stretched or squeezed.</p>
 <p><code>range</code> is available as a sequence (and other collections) extension, as well as <code>rangeBy</code>,
 which takes an additional converter function:</p>
 <p><em>Note:</em> instead of returning the absolute difference between max and min value, these functions return an interval with these values as boundaries.
-<em></em></p>
+**</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 34)" onmouseover="showTip(event, 'fs23', 34)" class="id">range1</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10.</span><span class="pn">;</span> <span class="n">2.</span><span class="pn">;</span> <span class="n">19.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">6.</span><span class="pn">;</span> <span class="n">23.</span><span class="pn">;</span> <span class="n">47.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">54.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span><span class="pn">]</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 35)" onmouseover="showTip(event, 'fs4', 35)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 36)" onmouseover="showTip(event, 'fs24', 36)" class="id">rangeBy</span> <span onmouseout="hideTip(event, 'fs6', 37)" onmouseover="showTip(event, 'fs6', 37)" class="fn">float</span>
