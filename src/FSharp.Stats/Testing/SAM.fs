@@ -3,6 +3,7 @@ namespace FSharp.Stats.Testing
 
 open FSharp.Stats
 
+module SAM =
 ////////////////////////////////////// Read in data /////////////////////////////////////////////////////////////////////////////////////////////////
 /// read Data via deedle and create 2 samples (untreated/treated)
 //let df:Frame<string,string> = 
@@ -34,63 +35,63 @@ open FSharp.Stats
 //let data2 = Array.map2 tupel rowheader sample2
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SAM type that is used for the functions
-type SAM = {
-    // identification of gene
-    ID : string
-    /// relative diffence of mean
-    Ri : float
-    /// pooled standard error 
-    Si : float
-    /// test statistics
-    Statistics : float
-    // local FDR of gene
-    QValue : float
-    } with static member Create id ri si stats qv= {ID=id; Ri=ri; Si=si; Statistics=stats; QValue = qv}
+    // SAM type that is used for the functions
+    type SAM = {
+        // identification of gene
+        ID : string
+        /// relative diffence of mean
+        Ri : float
+        /// pooled standard error 
+        Si : float
+        /// test statistics
+        Statistics : float
+        // local FDR of gene
+        QValue : float
+        } with static member Create id ri si stats qv= {ID=id; Ri=ri; Si=si; Statistics=stats; QValue = qv}
 
 
-// Result after calculating SAM.  
-type SAMResult = {
-    // small positive constant for independent variance of gene expression
-    S0 : float
-    // coefficient to avoid overestimation of FDR
-    Pi0 : float
-    // treshold, absolute difference between observed and expected statistics
-    Delta : float
-    // first Statistic where the difference of observed and expected is greater than delta
-    UpperCut : float
-    // first Statistic where the difference of observed and expected is greater than delta
-    LowerCut : float
-    // Array of all positively regulated genes at given FDR 
-    PosSigGenes : SAM []
-    // Array of all negatively regulated genes at given FDR 
-    NegSigGenes : SAM []
-    // Array of nonsignificant/unchanged genes at given FDR 
-    NonSigGenes : SAM []
-    // Array of the expected values using the average of permutations
-    AveragePermutations : SAM []
-    // False Discovery Rate 
-    FDR : float
-    // Amount of genes called significant (positive and negative) in the dataset at given FDR
-    SigCalledGenesCount : int
-    // Amount of "random" significant genes in the permutations (false positives) 
-    MedianFalsePositivesCount : float
-    } with static member Create s0 pi0 delta uc lc psg nesg nosg perms fdr scg mfp = {
-                S0          = s0
-                Pi0         = pi0
-                Delta       = delta
-                UpperCut    = uc
-                LowerCut    = lc
-                PosSigGenes = psg
-                NegSigGenes = nesg
-                NonSigGenes = nosg
-                AveragePermutations = perms
-                FDR         = fdr
-                SigCalledGenesCount = scg
-                MedianFalsePositivesCount = mfp
-                }
+    // Result after calculating SAM.  
+    type SAMResult = {
+        // small positive constant for independent variance of gene expression
+        S0 : float
+        // coefficient to avoid overestimation of FDR
+        Pi0 : float
+        // treshold, absolute difference between observed and expected statistics
+        Delta : float
+        // first Statistic where the difference of observed and expected is greater than delta
+        UpperCut : float
+        // first Statistic where the difference of observed and expected is greater than delta
+        LowerCut : float
+        // Array of all positively regulated genes at given FDR 
+        PosSigGenes : SAM []
+        // Array of all negatively regulated genes at given FDR 
+        NegSigGenes : SAM []
+        // Array of nonsignificant/unchanged genes at given FDR 
+        NonSigGenes : SAM []
+        // Array of the expected values using the average of permutations
+        AveragePermutations : SAM []
+        // False Discovery Rate 
+        FDR : float
+        // Amount of genes called significant (positive and negative) in the dataset at given FDR
+        SigCalledGenesCount : int
+        // Amount of "random" significant genes in the permutations (false positives) 
+        MedianFalsePositivesCount : float
+        } with static member Create s0 pi0 delta uc lc psg nesg nosg perms fdr scg mfp = {
+                    S0          = s0
+                    Pi0         = pi0
+                    Delta       = delta
+                    UpperCut    = uc
+                    LowerCut    = lc
+                    PosSigGenes = psg
+                    NegSigGenes = nesg
+                    NonSigGenes = nosg
+                    AveragePermutations = perms
+                    FDR         = fdr
+                    SigCalledGenesCount = scg
+                    MedianFalsePositivesCount = mfp
+                    }
 
-module teststatsSAM = 
+
 // t-test statistic for observed statistics, used as default. 
 // umbenennen
     let getObservedStats (s0:float) (dataA:(string*float[])[]) (dataB:(string*float[])[])=
@@ -136,321 +137,321 @@ module teststatsSAM =
     // let obsStats = getObservedStats s0 dataA dataB 
 
 
-module s0 = 
-    // S0 estimation 
-    // the s0 percentiles used in R! are [|0. .. 0.05 .. 1.|] 
-    // can be changed to users preference 
-    let estS0 (values:SAM[]) (s0perc: float []) = 
-        // tt is Statistics (Score) 
-        // si is Si
-        let tt = values |> Array.map (fun x -> x.Statistics)
-        let si = values |> Array.map (fun x -> x.Si)
+    module s0 = 
+        // S0 estimation 
+        // the s0 percentiles used in R! are [|0. .. 0.05 .. 1.|] 
+        // can be changed to users preference 
+        let estS0 (values:SAM[]) (s0perc: float []) = 
+            // tt is Statistics (Score) 
+            // si is Si
+            let tt = values |> Array.map (fun x -> x.Statistics)
+            let si = values |> Array.map (fun x -> x.Si)
 
-        //separate the list of (tt,si) tuples into 100 percentiles
-        //The very first value is assigned to the first percentile
-        let percentilesOfSi =
-            Array.init 100 (fun percentile -> 
-                let lower = Quantile.mode (float percentile / 100.) si
-                let upper = Quantile.mode ((float percentile + 1.) / 100.)  si
-                Array.zip tt si
-                |> Array.filter (fun (t,s) -> 
-                    if percentile = 0 then 
-                        lower <= s && s <= upper
-                    else 
-                        lower < s && s <= upper
-                    )
-                )
-
-        //for the given quantile, determine an estimate of s0 (as quantile of si) and calculate the statistics within the given percentiles
-        let getCVFromQuantile quantile =
-            //current s0 estimate based on sis
-            let w = 
-                // if perc = 0 take correctionfactor s0 = 0, else calculate percentile 
-                if quantile = 0. then 
-                    0. 
-                else Quantile.mode quantile si
-
-            //With the given s0 calculate the median absolute deviation (mad) of every percentile.
-            //Determine the cv of the mad.
-            percentilesOfSi
-            |> Array.map (fun percentiles -> 
-                let tt2 = 
-                    percentiles 
-                    |> Array.map (fun (tt,si) -> 
-                        let tnew = tt * si / (si + w)
-                        tnew
+            //separate the list of (tt,si) tuples into 100 percentiles
+            //The very first value is assigned to the first percentile
+            let percentilesOfSi =
+                Array.init 100 (fun percentile -> 
+                    let lower = Quantile.mode (float percentile / 100.) si
+                    let upper = Quantile.mode ((float percentile + 1.) / 100.)  si
+                    Array.zip tt si
+                    |> Array.filter (fun (t,s) -> 
+                        if percentile = 0 then 
+                            lower <= s && s <= upper
+                        else 
+                            lower < s && s <= upper
                         )
-                tt2
-                |> Array.filter (fun t -> not (nan.Equals t) && not (infinity.Equals t)) 
-                |> Seq.medianAbsoluteDev
-                )
-            |> fun x -> 
-                let cv = Seq.cv x
-                // this filter is implemented in R!, not completely sure of function because we didn't have that case 
-                let siWOnull = si |> Array.filter (fun x -> x <> 0.)
-                let s0 = Quantile.mode quantile siWOnull
-                quantile,cv,s0
-
-        s0perc
-        |> Array.map getCVFromQuantile
-
-    // search s0 where coefficient of variation is minimal 
-    // input is the result from estS0 function 
-    let s0ForMinCV s0List= s0List |> Array.minBy (fun (x,y,z) -> y) |>  fun (x,y,z) -> z
-
-
-// umbenennen
-// ability to exchange Stats function 
-module permutations = 
-
-    // default permutations
-    // create permutations using Fisher Yates Shuffling 
-    let getPermutations iterations s0 (dataA:(string*float[])[]) (dataB:(string*float[])[])  =
-        let dataset = 
-            dataA
-            |> Array.mapi (fun i (id,data) -> 
-                id,Array.append data (snd dataB.[i])
-                )
-        let replicateCount1 = (snd dataA.[0]).Length
-        let replicateCount2 = (snd dataB.[0]).Length
-    
-        Array.init iterations (fun _ ->             
-            let shuffleTemplate = 
-                Array.init (replicateCount1 + replicateCount2) id
-                |> FSharp.Stats.Array.shuffleFisherYates
-
-            let shuffledSampleA,shuffledSampleB = 
-                dataset
-                |> Array.map (fun (id,row) -> 
-                    shuffleTemplate 
-                    |> Array.map (fun si -> row.[si])
-                    |> fun x -> 
-                        (id,x.[..replicateCount1-1]),(id,x.[replicateCount2..])
                     )
-                |> Array.unzip
-    
-            let stats = teststatsSAM.getObservedStats s0 shuffledSampleA shuffledSampleB |> Array.sortBy (fun x -> x.Statistics) 
-            stats 
-            )
 
-    // expected Stats are the scores/values obtained from the permutations via averaging
-    // ID is staying unchanged
-    let getExpectedStats (expStats:SAM[][]) =
-       let iterations = expStats.Length
-       let dei =
-           expStats
-           |> Array.map (Array.sortBy (fun x -> x.Statistics))
-           |> JaggedArray.transpose
-           |> Array.map (fun tt -> 
-                           let (id',ri',si',di') = tt |> Array.fold (fun (id,ri,si,di) t -> t.ID,ri+t.Ri,si+t.Si,di + t.Statistics) ("",0.,0.,0.)  
-                           SAM.Create id' (ri' / float iterations) (si' / float iterations) (di' / float iterations) nan
+            //for the given quantile, determine an estimate of s0 (as quantile of si) and calculate the statistics within the given percentiles
+            let getCVFromQuantile quantile =
+                //current s0 estimate based on sis
+                let w = 
+                    // if perc = 0 take correctionfactor s0 = 0, else calculate percentile 
+                    if quantile = 0. then 
+                        0. 
+                    else Quantile.mode quantile si
+
+                //With the given s0 calculate the median absolute deviation (mad) of every percentile.
+                //Determine the cv of the mad.
+                percentilesOfSi
+                |> Array.map (fun percentiles -> 
+                    let tt2 = 
+                        percentiles 
+                        |> Array.map (fun (tt,si) -> 
+                            let tnew = tt * si / (si + w)
+                            tnew
+                            )
+                    tt2
+                    |> Array.filter (fun t -> not (nan.Equals t) && not (infinity.Equals t)) 
+                    |> Seq.medianAbsoluteDev
+                    )
+                |> fun x -> 
+                    let cv = Seq.cv x
+                    // this filter is implemented in R!, not completely sure of function because we didn't have that case 
+                    let siWOnull = si |> Array.filter (fun x -> x <> 0.)
+                    let s0 = Quantile.mode quantile siWOnull
+                    quantile,cv,s0
+
+            s0perc
+            |> Array.map getCVFromQuantile
+
+        // search s0 where coefficient of variation is minimal 
+        // input is the result from estS0 function 
+        let s0ForMinCV s0List= s0List |> Array.minBy (fun (x,y,z) -> y) |>  fun (x,y,z) -> z
+
+
+    // umbenennen
+    // ability to exchange Stats function 
+    module permutations = 
+
+        // default permutations
+        // create permutations using Fisher Yates Shuffling 
+        let getPermutations iterations s0 (dataA:(string*float[])[]) (dataB:(string*float[])[])  =
+            let dataset = 
+                dataA
+                |> Array.mapi (fun i (id,data) -> 
+                    id,Array.append data (snd dataB.[i])
+                    )
+            let replicateCount1 = (snd dataA.[0]).Length
+            let replicateCount2 = (snd dataB.[0]).Length
+    
+            Array.init iterations (fun _ ->             
+                let shuffleTemplate = 
+                    Array.init (replicateCount1 + replicateCount2) id
+                    |> FSharp.Stats.Array.shuffleFisherYates
+
+                let shuffledSampleA,shuffledSampleB = 
+                    dataset
+                    |> Array.map (fun (id,row) -> 
+                        shuffleTemplate 
+                        |> Array.map (fun si -> row.[si])
+                        |> fun x -> 
+                            (id,x.[..replicateCount1-1]),(id,x.[replicateCount2..])
                         )
-
-       dei       
-
-    // default: 
-    // let permStats = getPermutations 100 s0 dataA dataB
-    // let expectedStats = getExpectedStats permStats 
-
-
-module SAMFunctions = 
-
-    // function for counting 
-    let (*private*) countIf f (arr : _[]) =
-        let mutable counter = 0
-        for i=0 to arr.Length-1 do
-            if f arr.[i] then
-                counter <- counter + 1
-        counter
+                    |> Array.unzip
     
-    // estimate pi0 using the quantile method. Helps to not overestimate the False Discovery Rate 
+                let stats = getObservedStats s0 shuffledSampleA shuffledSampleB |> Array.sortBy (fun x -> x.Statistics) 
+                stats 
+                )
+
+        // expected Stats are the scores/values obtained from the permutations via averaging
+        // ID is staying unchanged
+        let getExpectedStats (expStats:SAM[][]) =
+           let iterations = expStats.Length
+           let dei =
+               expStats
+               |> Array.map (Array.sortBy (fun x -> x.Statistics))
+               |> JaggedArray.transpose
+               |> Array.map (fun tt -> 
+                               let (id',ri',si',di') = tt |> Array.fold (fun (id,ri,si,di) t -> t.ID,ri+t.Ri,si+t.Si,di + t.Statistics) ("",0.,0.,0.)  
+                               SAM.Create id' (ri' / float iterations) (si' / float iterations) (di' / float iterations) nan
+                            )
+
+           dei       
+
+        // default: 
+        // let permStats = getPermutations 100 s0 dataA dataB
+        // let expectedStats = getExpectedStats permStats 
+
+
+    module SAMFunctions = 
+
+        // function for counting 
+        let (*private*) countIf f (arr : _[]) =
+            let mutable counter = 0
+            for i=0 to arr.Length-1 do
+                if f arr.[i] then
+                    counter <- counter + 1
+            counter
     
-    let estimatePi0 (obsStats:SAM []) (expStats:SAM[][]) =
-        let perms =
+        // estimate pi0 using the quantile method. Helps to not overestimate the False Discovery Rate 
+    
+        let estimatePi0 (obsStats:SAM []) (expStats:SAM[][]) =
+            let perms =
+                expStats
+                |> Array.collect (fun x -> x |> Array.map (fun y -> y.Statistics)) 
+            // obtain 25% and 75% 
+            let q25 = Quantile.InPlace.modeInPLace 0.25 perms
+            let q75 = Quantile.InPlace.modeInPLace 0.75 perms 
+            // non significant genes lie in between the 25 and 75 % 
+            let notSig =
+                obsStats |> countIf (fun x -> q25 < x.Statistics && x.Statistics < q75)
+    
+            float notSig / (0.5 * float obsStats.Length)
+    
+        let monotonizeIncreasing (accessionFun: 'a -> float) (replaceFun: 'a -> float -> 'a) (input : 'a []) =
+            let copy = Array.copy input
+            for i=1 to copy.Length-1 do
+                if accessionFun copy.[i] < accessionFun copy.[i-1] then
+                    copy.[i] <- replaceFun copy.[i] (accessionFun copy.[i-1])
+            copy
+       
+       
+        let monotonizeDecreasing (accessionFun: 'a -> float) (replaceFun: 'a -> float -> 'a) (input : 'a []) =
+            let copy = Array.copy input
+            for i=1 to copy.Length-1 do
+                if accessionFun copy.[i] > accessionFun copy.[i-1] then
+                    copy.[i] <- replaceFun copy.[i] (accessionFun copy.[i-1])
+            copy
+    
+    
+        // default in R!
+        // can be substituted with symmetric cuts (need to implement) 
+        let getDeltaAndAsymmCuts (obsStats : SAM[]) (dei: SAM[]) =
+            let getDelta (_,_,delta) = delta
+            // di' are sorted Statistics from the observed (measured) values 
+            let di' = obsStats |> Array.sortBy (fun x -> x.Statistics)
+            // dei' are the sorted Statistics from the averaged values (permutations) 
+            let dei' = dei |> Array.sortBy (fun x -> x.Statistics)
+            // ups and los observed Statistics partitioned at 0. to sort them to positive and negative 
+            let ups,los = 
+                Array.zip di' dei' 
+                |> Array.map (fun (di,dei) -> di.Statistics , dei.Statistics , (di.Statistics - dei.Statistics))
+                |> Array.partition (fun (dis,deis,delta) -> dis >= 0.)
+        
+            // obtaining cuts based on delta (difference between observed and averaged statistics) 
+            // finding matching positive or negative statistic as cutoff 
+            let getCuts set1 set2 =
+                set1 
+                |> Array.map (fun (currentDi, currentDei, currentDelta) ->
+                    if currentDi > 0. then
+                        set2 
+                        |> Array.tryFindBack (fun (di,dei,delta) -> delta >= currentDelta)
+                        |> fun x -> 
+                            match x with 
+                            | Some (di,dei,delta) -> (di,currentDi),currentDelta
+                            | None -> (-infinity,currentDi),currentDelta
+                    else
+                        set2 
+                        |> Array.tryFind (fun (di,dei,delta) -> delta >= currentDelta)
+                        |> fun x ->
+                            match x with 
+                            | Some (di,dei,delta) -> (currentDi,di),currentDelta
+                            | None -> (currentDi,infinity),currentDelta
+                        )
+            let los' = los |> Array.map (fun (a,b,c) -> a,b, abs c )
+            // increase of cutoffs by +1E-80 to include the statistic itself that is used as cutoff 
+            let ups' = monotonizeIncreasing getDelta (fun (di,dei,delta) newDelta -> (di,dei,newDelta+1E-80)) ups
+            let los' = monotonizeDecreasing getDelta (fun (di,dei,delta) newDelta -> (di,dei,newDelta-1E-80)) los'
+            let resultingcuts = [|getCuts ups' los';getCuts los' ups'|] |> Array.concat |> Array.distinct
+        
+            resultingcuts
+
+        // median false positives are obtained by counting how many statistics (from permuted data) fall in between the cuts by chance 
+        // permuted data should show no effect/change, therefor the ones that do are false positive 
+        let getMedianFalsePositives cut expStats = 
+            let cut1,cut2 = cut
             expStats
-            |> Array.collect (fun x -> x |> Array.map (fun y -> y.Statistics)) 
-        // obtain 25% and 75% 
-        let q25 = Quantile.InPlace.modeInPLace 0.25 perms
-        let q75 = Quantile.InPlace.modeInPLace 0.75 perms 
-        // non significant genes lie in between the 25 and 75 % 
-        let notSig =
-            obsStats |> countIf (fun x -> q25 < x.Statistics && x.Statistics < q75)
+            |> Array.map (fun arr -> arr |> countIf ( fun x -> x.Statistics >= cut2 || x.Statistics <= cut1) ) 
+            |> Array.map float
+            |> Array.median
     
-        float notSig / (0.5 * float obsStats.Length)
-    
-    let monotonizeIncreasing (accessionFun: 'a -> float) (replaceFun: 'a -> float -> 'a) (input : 'a []) =
-        let copy = Array.copy input
-        for i=1 to copy.Length-1 do
-            if accessionFun copy.[i] < accessionFun copy.[i-1] then
-                copy.[i] <- replaceFun copy.[i] (accessionFun copy.[i-1])
-        copy
-       
-       
-    let monotonizeDecreasing (accessionFun: 'a -> float) (replaceFun: 'a -> float -> 'a) (input : 'a []) =
-        let copy = Array.copy input
-        for i=1 to copy.Length-1 do
-            if accessionFun copy.[i] > accessionFun copy.[i-1] then
-                copy.[i] <- replaceFun copy.[i] (accessionFun copy.[i-1])
-        copy
+        // amount of genes that are more extreme than the cuts and therefor are called significant 
+        let getSignificantGenes cut obsStats = 
+            let cut1,cut2 = cut
+            obsStats |> countIf (fun v -> v.Statistics > cut2 || v.Statistics < cut1) 
     
     
-    // default in R!
-    // can be substituted with symmetric cuts (need to implement) 
-    let getDeltaAndAsymmCuts (obsStats : SAM[]) (dei: SAM[]) =
-        let getDelta (_,_,delta) = delta
-        // di' are sorted Statistics from the observed (measured) values 
-        let di' = obsStats |> Array.sortBy (fun x -> x.Statistics)
-        // dei' are the sorted Statistics from the averaged values (permutations) 
-        let dei' = dei |> Array.sortBy (fun x -> x.Statistics)
-        // ups and los observed Statistics partitioned at 0. to sort them to positive and negative 
-        let ups,los = 
-            Array.zip di' dei' 
-            |> Array.map (fun (di,dei) -> di.Statistics , dei.Statistics , (di.Statistics - dei.Statistics))
-            |> Array.partition (fun (dis,deis,delta) -> dis >= 0.)
-        
-        // obtaining cuts based on delta (difference between observed and averaged statistics) 
-        // finding matching positive or negative statistic as cutoff 
-        let getCuts set1 set2 =
-            set1 
-            |> Array.map (fun (currentDi, currentDei, currentDelta) ->
-                if currentDi > 0. then
-                    set2 
-                    |> Array.tryFindBack (fun (di,dei,delta) -> delta >= currentDelta)
-                    |> fun x -> 
-                        match x with 
-                        | Some (di,dei,delta) -> (di,currentDi),currentDelta
-                        | None -> (-infinity,currentDi),currentDelta
-                else
-                    set2 
-                    |> Array.tryFind (fun (di,dei,delta) -> delta >= currentDelta)
-                    |> fun x ->
-                        match x with 
-                        | Some (di,dei,delta) -> (currentDi,di),currentDelta
-                        | None -> (currentDi,infinity),currentDelta
-                    )
-        let los' = los |> Array.map (fun (a,b,c) -> a,b, abs c )
-        // increase of cutoffs by +1E-80 to include the statistic itself that is used as cutoff 
-        let ups' = monotonizeIncreasing getDelta (fun (di,dei,delta) newDelta -> (di,dei,newDelta+1E-80)) ups
-        let los' = monotonizeDecreasing getDelta (fun (di,dei,delta) newDelta -> (di,dei,newDelta-1E-80)) los'
-        let resultingcuts = [|getCuts ups' los';getCuts los' ups'|] |> Array.concat |> Array.distinct
-        
-        resultingcuts
-
-    // median false positives are obtained by counting how many statistics (from permuted data) fall in between the cuts by chance 
-    // permuted data should show no effect/change, therefor the ones that do are false positive 
-    let getMedianFalsePositives cut expStats = 
-        let cut1,cut2 = cut
-        expStats
-        |> Array.map (fun arr -> arr |> countIf ( fun x -> x.Statistics >= cut2 || x.Statistics <= cut1) ) 
-        |> Array.map float
-        |> Array.median
-    
-    // amount of genes that are more extreme than the cuts and therefor are called significant 
-    let getSignificantGenes cut obsStats = 
-        let cut1,cut2 = cut
-        obsStats |> countIf (fun v -> v.Statistics > cut2 || v.Statistics < cut1) 
-    
-    
-    let getMedianFdr pi0 medianFalsePos significantGenes = 
-        //if no permutation statistic is significant and no observed statistic is significant the fdr is 0 (not nan)
-        if significantGenes = 0. then 
-            if medianFalsePos = 0. then 
-                0.
-            else 1.
-        else (pi0 * float medianFalsePos)/( float significantGenes)
+        let getMedianFdr pi0 medianFalsePos significantGenes = 
+            //if no permutation statistic is significant and no observed statistic is significant the fdr is 0 (not nan)
+            if significantGenes = 0. then 
+                if medianFalsePos = 0. then 
+                    0.
+                else 1.
+            else (pi0 * float medianFalsePos)/( float significantGenes)
     
 
     
-    // get the smallest cut and corresponding delta for chosen FDR 
-    //// Result has to be smallestCutForFDR,delta                                               /////////////
-    let smallestCutAndDeltaForFDR cuts expStats obsStats fdr pi0  = 
-        cuts 
-        |> Array.filter (fun (cut,delta)  -> 
-            let tmpfdr =
+        // get the smallest cut and corresponding delta for chosen FDR 
+        //// Result has to be smallestCutForFDR,delta                                               /////////////
+        let smallestCutAndDeltaForFDR cuts expStats obsStats fdr pi0  = 
+            cuts 
+            |> Array.filter (fun (cut,delta)  -> 
+                let tmpfdr =
+                    let medianFalsePos = getMedianFalsePositives cut expStats
+                    let significantGenes = getSignificantGenes cut obsStats
+                
+                    getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
+                // "take the smallest delta such that FDR <= alpha "
+                // alpha as in significance 
+            
+                tmpfdr <= fdr
+            
+            
+                )
+            |> Array.minBy snd
+
+        
+        // for each cut calculate the FDR 
+        let fdrsPerCut cuts expStats obsStats pi0 = 
+            cuts
+            |> Array.map (fun (cut,delta) -> 
                 let medianFalsePos = getMedianFalsePositives cut expStats
                 let significantGenes = getSignificantGenes cut obsStats
-                
-                getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
-            // "take the smallest delta such that FDR <= alpha "
-            // alpha as in significance 
-            
-            tmpfdr <= fdr
-            
-            
-            )
-        |> Array.minBy snd
-
-        
-    // for each cut calculate the FDR 
-    let fdrsPerCut cuts expStats obsStats pi0 = 
-        cuts
-        |> Array.map (fun (cut,delta) -> 
-            let medianFalsePos = getMedianFalsePositives cut expStats
-            let significantGenes = getSignificantGenes cut obsStats
-            let localFDR = 
-                getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
+                let localFDR = 
+                    getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
                
-            (cut,localFDR)
-            )
+                (cut,localFDR)
+                )
         
         
-    // obtain negative cut 
-    let negCutToFDR fdrsPerCut = 
-        fdrsPerCut
-        |> Array.map (fun ((lower,upper),fdr) -> lower,fdr)
-        |> Array.sortByDescending fst
-        |> monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
-        //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
-        |> Array.sortBy snd
-        |> Array.distinctBy fst
-        //Array must be sorted by cut (descending because of negative values)
-        |> Array.sortByDescending fst
+        // obtain negative cut 
+        let negCutToFDR fdrsPerCut = 
+            fdrsPerCut
+            |> Array.map (fun ((lower,upper),fdr) -> lower,fdr)
+            |> Array.sortByDescending fst
+            |> monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
+            //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
+            |> Array.sortBy snd
+            |> Array.distinctBy fst
+            //Array must be sorted by cut (descending because of negative values)
+            |> Array.sortByDescending fst
 
-    // obtain positive cut 
-    let posCutToFDR fdrsPerCut = 
-        fdrsPerCut
-        |> Array.map (fun ((lower,upper),fdr) -> upper,fdr)
-        |> Array.sortBy fst
-        |> monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
-        //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
-        |> Array.sortBy snd
-        |> Array.distinctBy fst
-        //Array must be sorted by cut
-        |> Array.sortBy fst
+        // obtain positive cut 
+        let posCutToFDR fdrsPerCut = 
+            fdrsPerCut
+            |> Array.map (fun ((lower,upper),fdr) -> upper,fdr)
+            |> Array.sortBy fst
+            |> monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
+            //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
+            |> Array.sortBy snd
+            |> Array.distinctBy fst
+            //Array must be sorted by cut
+            |> Array.sortBy fst
 
 
     
-    // >= and <= because of "The q-value of a gene is the FDR for the gene List that includes that gene and all genes that are more significant (SAM Manual)
-    // Storey Chapter : d(j) - de >= delta & de - d(j) <= delta 
-    // Qvalue calculation is done as in R!
-    // Cuts corresponding to the chosen FDR are used. First data are parted at 0. for use of positive and negative cuts.
-    // Array.tryFind searches the statistic in observed statistics that is greater/less or equal than the cut.
-    // The nearest cut from observed statistics is matched with the FDR of that statistic (QValue = fdr) 
+        // >= and <= because of "The q-value of a gene is the FDR for the gene List that includes that gene and all genes that are more significant (SAM Manual)
+        // Storey Chapter : d(j) - de >= delta & de - d(j) <= delta 
+        // Qvalue calculation is done as in R!
+        // Cuts corresponding to the chosen FDR are used. First data are parted at 0. for use of positive and negative cuts.
+        // Array.tryFind searches the statistic in observed statistics that is greater/less or equal than the cut.
+        // The nearest cut from observed statistics is matched with the FDR of that statistic (QValue = fdr) 
 
 
-    //// negative and positive cut are results from negCutToFDR and posCutToFDR
-    let getQvalues obsStats negativeCut positiveCut   = 
-        obsStats 
-        |> Array.map (fun currentGene -> 
-            if currentGene.Statistics < 0. then
-                let firstLowerCut =
-                    negativeCut
-                    |> Array.tryFind (fun (lowerCut,fdr) -> 
-                        lowerCut <= currentGene.Statistics
+        //// negative and positive cut are results from negCutToFDR and posCutToFDR
+        let getQvalues obsStats negativeCut positiveCut   = 
+            obsStats 
+            |> Array.map (fun currentGene -> 
+                if currentGene.Statistics < 0. then
+                    let firstLowerCut =
+                        negativeCut
+                        |> Array.tryFind (fun (lowerCut,fdr) -> 
+                            lowerCut <= currentGene.Statistics
+                            )
+                    match firstLowerCut with 
+                    | Some (cut,fdr) -> {currentGene with QValue = fdr}
+                    | None -> {currentGene with QValue = 1.}
+                else 
+                    let firstGreaterCut = 
+                        positiveCut 
+                        |> Array.tryFind (fun (upperCut, fdr)-> 
+                        upperCut >= currentGene.Statistics
                         )
-                match firstLowerCut with 
-                | Some (cut,fdr) -> {currentGene with QValue = fdr}
-                | None -> {currentGene with QValue = 1.}
-            else 
-                let firstGreaterCut = 
-                    positiveCut 
-                    |> Array.tryFind (fun (upperCut, fdr)-> 
-                    upperCut >= currentGene.Statistics
+                    match firstGreaterCut with
+                    | Some (cut,fdr) -> {currentGene with QValue = fdr}
+                    | None -> {currentGene with QValue = 1.}
                     )
-                match firstGreaterCut with
-                | Some (cut,fdr) -> {currentGene with QValue = fdr}
-                | None -> {currentGene with QValue = 1.}
-                )
 
 
 
