@@ -2,13 +2,14 @@ namespace FSharp.Stats.Testing
 
 
 open FSharp.Stats
+open FSharpAux
 
 module SAM =
 ////////////////////////////////////// Read in data /////////////////////////////////////////////////////////////////////////////////////////////////
 /// read Data via deedle and create 2 samples (control/factor)
 
 //let df:Frame<string,string> = 
-//    Frame.ReadCsv(@"C:\..\1vs5NextTry.txt",hasHeaders=true,separators = "\t")
+//    Frame.ReadCsv(@"C:\..\TestDataSAM.txt",hasHeaders=true,separators = "\t")
 //    |> Frame.indexRows "gene"
 
 
@@ -30,7 +31,7 @@ module SAM =
 
 //Array.map3 (fun id s1 s2 -> sprintf "%s\t%A\t%A" id s1 s2) rowheader sample1 sample2
 
-//// create tupel from sample name and data for better identification later
+// create tupel from sample name and data for better identification later
 
 //let tupel a b = (a,b)
 //let data1 = Array.map2 tupel rowheader sample1 
@@ -38,7 +39,7 @@ module SAM =
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // SAM type that is used for the functions
+    /// Type that contains all info regarding SAM for each sample
     type SAM = {
         // identification of gene
         ID : string
@@ -53,31 +54,32 @@ module SAM =
         } with static member Create id ri si stats qv= {ID=id; Ri=ri; Si=si; Statistics=stats; QValue = qv}
 
 
-    // Result after calculating SAM.  
+    // Result after calculating SAM
+    /// SAM Result containing all information  
     type SAMResult = {
-        // small positive constant for independent variance of gene expression
+        /// small positive constant for independent variance of gene expression
         S0 : float
-        // coefficient to avoid overestimation of FDR
+        /// coefficient to avoid overestimation of FDR
         Pi0 : float
-        // treshold, absolute difference between observed and expected statistics
+        /// treshold, absolute difference between observed and expected statistics
         Delta : float
-        // first Statistic where the difference of observed and expected is greater than delta
+        /// first Statistic where the difference of observed and expected is greater than delta
         UpperCut : float
-        // first Statistic where the difference of observed and expected is greater than delta
+        /// first Statistic where the difference of observed and expected is greater than delta
         LowerCut : float
-        // Array of all positively regulated genes at given FDR 
+        /// Array of all positively regulated genes at given FDR 
         PosSigGenes : SAM []
-        // Array of all negatively regulated genes at given FDR 
+        /// Array of all negatively regulated genes at given FDR 
         NegSigGenes : SAM []
-        // Array of nonsignificant/unchanged genes at given FDR 
+        /// Array of nonsignificant/unchanged genes at given FDR 
         NonSigGenes : SAM []
-        // Array of the expected values using the average of permutations
+        /// Array of the expected values using the average of permutations
         AveragePermutations : SAM []
-        // False Discovery Rate 
+        /// False Discovery Rate 
         FDR : float
-        // Amount of genes called significant (positive and negative) in the dataset at given FDR
+        /// Amount of genes called significant (positive and negative) in the dataset at given FDR
         SigCalledGenesCount : int
-        // Amount of "random" significant genes in the permutations (false positives) 
+        /// Amount of "random" significant genes in the permutations (false positives) 
         MedianFalsePositivesCount : float
         } with static member Create s0 pi0 delta uc lc psg nesg nosg perms fdr scg mfp = {
                     S0          = s0
@@ -95,8 +97,21 @@ module SAM =
                     }
 
 
-// t-test statistic for observed statistics, used as default. 
+    /// median centering of the data
+    let medianCentering data = 
+        let calculateMedian:float[] = 
+            data 
+            |> Array.map snd 
+            |> JaggedArray.transpose
+            |> Array.map Array.median
+        printf "medians are %A" calculateMedian
+        let medianCorrectedData = 
+            data
+            |> Array.map snd 
+            |> JaggedArray.mapi (fun i x -> x - calculateMedian.[i])
+        medianCorrectedData
 
+    /// t-test statistic for observed statistics, used as default. 
     let getObservedStats (s0:float) (dataA:(string*float[])[]) (dataB:(string*float[])[])=
 
         let calcStats (a:string*float[]) (b:string*float[]) =  
@@ -139,7 +154,7 @@ module SAM =
 
 
     module S0 = 
-        // S0 estimation 
+        /// S0 estimation 
         // the s0 percentiles used in R! are [|0. .. 0.05 .. 1.|] 
         // can be changed to users preference 
         let estS0 (values:SAM[]) (s0perc: float []) = 
@@ -196,18 +211,16 @@ module SAM =
             s0perc
             |> Array.map getCVFromQuantile
 
-        // search s0 where coefficient of variation is minimal 
-        // input is the result from estS0 function 
+        /// search s0 where coefficient of variation is minimal.
+        /// input is the result from estS0 function 
         let s0ForMinCV s0List= s0List |> Array.minBy (fun (x,y,z) -> y) |>  fun (x,y,z) -> z
 
 
-
-    // ability to exchange Stats function 
     module Permutations = 
 
-        // default permutations
-        // create permutations using Fisher Yates Shuffling 
-        let getPermutations iterations s0 (dataA:(string*float[])[]) (dataB:(string*float[])[])  =
+        /// default permutation method. 
+        /// create permutations using Fisher Yates Shuffling 
+        let getPermutations iterations s0 (dataA:(string*float[])[]) (dataB:(string*float[])[]) rnd =
             let dataset = 
                 dataA
                 |> Array.mapi (fun i (id,data) -> 
@@ -219,7 +232,7 @@ module SAM =
             Array.init iterations (fun _ ->             
                 let shuffleTemplate = 
                     Array.init (replicateCount1 + replicateCount2) id
-                    |> FSharp.Stats.Array.shuffleFisherYates
+                    |> FSharpAux.Array.shuffleFisherYates rnd
 
                 let shuffledSampleA,shuffledSampleB = 
                     dataset
@@ -235,7 +248,7 @@ module SAM =
                 stats 
                 )
 
-        // expected Stats are the scores/values obtained from the permutations via averaging
+        /// expected Stats are the scores/values obtained from the permutations via averaging
         // ID stays unchanged
         let getExpectedStats (expStats:SAM[][]) =
            let iterations = expStats.Length
@@ -257,19 +270,18 @@ module SAM =
 
     module SAMHelper = 
 
-        // function for counting 
-        let (*private*) countIf f (arr : _[]) =
+        /// function for counting 
+        let private countIf f (arr : _[]) =
             let mutable counter = 0
             for i=0 to arr.Length-1 do
                 if f arr.[i] then
                     counter <- counter + 1
             counter
 
-        let inline countIfCuts cutlow cuthigh (arr : SAM[]) =
-            arr |> countIf (fun x -> x.Statistics > cuthigh || x.Statistics < cutlow) 
+        //let countIfCuts cutlow cuthigh (arr : SAM[]) =
+        //    arr |> countIf (fun x -> x.Statistics > cuthigh || x.Statistics < cutlow) 
     
-        // estimate pi0 using the quantile method. Helps to not overestimate the False Discovery Rate 
-    
+        /// estimate pi0 using the quantile method. Helps to not overestimate the False Discovery Rate 
         let estimatePi0 (obsStats:SAM []) (expStats:SAM[][]) =
             let perms =
                 expStats
@@ -277,12 +289,13 @@ module SAM =
             // obtain 25% and 75% 
             let q25 = Quantile.InPlace.modeInPLace 0.25 perms
             let q75 = Quantile.InPlace.modeInPLace 0.75 perms 
-            // non significant genes lie in between the 25 and 75 % 
+            // non significant data are between the 25 and 75 quantile
             let notSig =
                 obsStats |> countIf (fun x -> q25 < x.Statistics && x.Statistics < q75)
     
             float notSig / (0.5 * float obsStats.Length)
     
+        /// ensures continuous increase of data. 
         let monotonizeIncreasing (accessionFun: 'a -> float) (replaceFun: 'a -> float -> 'a) (input : 'a []) =
             let copy = Array.copy input
             for i=1 to copy.Length-1 do
@@ -290,7 +303,7 @@ module SAM =
                     copy.[i] <- replaceFun copy.[i] (accessionFun copy.[i-1])
             copy
        
-       
+       /// ensures continuous decrease of data. 
         let monotonizeDecreasing (accessionFun: 'a -> float) (replaceFun: 'a -> float -> 'a) (input : 'a []) =
             let copy = Array.copy input
             for i=1 to copy.Length-1 do
@@ -299,8 +312,8 @@ module SAM =
             copy
     
     
-        // default in R!
-        // can be substituted with symmetric cuts (need to implement) 
+        /// default in R!. Calculates asymmetric cuts for each delta present. 
+        // can be substituted with symmetric cuts (not implemented yet) 
         let getDeltaAndAsymmCuts (obsStats : SAM[]) (expAvgStats: SAM[]) =
             let getDelta (_,_,delta) = delta
             // di' are sorted Statistics from the observed (measured) values 
@@ -341,8 +354,8 @@ module SAM =
         
             resultingcuts
 
-        // median false positives are obtained by counting how many statistics (from permuted data) fall outside of the cuts by chance 
-        // permuted data should show no effect/change, therefor the ones that do are false positive 
+        /// median false positives are obtained by counting how many statistics (from permuted data) fall outside of the cuts by chance.
+        /// Permuted data should show no effect/change, therefor the ones that do are false positive 
         let getMedianFalsePositives cut expStats = 
             let cut1,cut2 = cut
             expStats
@@ -350,12 +363,12 @@ module SAM =
             |> Array.map float
             |> Array.median
     
-        // amount of genes that are more extreme than the cuts and therefor are called significant 
+        /// amount of genes that are more extreme than the cuts and therefor are called significant 
         let getSignificantGenes cut obsStats = 
             let cut1,cut2 = cut
             obsStats |> countIf (fun v -> v.Statistics > cut2 || v.Statistics < cut1) 
     
-    
+        /// calculate the median False Discovery Rate
         let getMedianFdr pi0 medianFalsePos significantGenes = 
             //if no permutation statistic is significant and no observed statistic is significant the fdr is 0 (not nan)
             if significantGenes = 0. then 
@@ -366,8 +379,8 @@ module SAM =
     
 
     
-        // get the smallest cut and corresponding delta for chosen FDR 
-        //// Result has to be smallestCutForFDR,delta                                               /////////////
+        /// get the smallest cut and corresponding delta for chosen FDR 
+        // Result has to be smallestCutForFDR,delta                                               
         let smallestCutAndDeltaForFDR cuts expStats obsStats fdr pi0  = 
             cuts 
             |> Array.filter (fun (cut,delta)  -> 
@@ -386,7 +399,7 @@ module SAM =
             |> Array.minBy snd
 
         
-        // for each cut calculate the FDR 
+        /// Calculate the FDR for each cut 
         let fdrsPerCut cuts expStats obsStats pi0 = 
             cuts
             |> Array.map (fun (cut,delta) -> 
@@ -399,7 +412,7 @@ module SAM =
                 )
         
         
-        // obtain negative cut 
+        /// obtain negative cut for chosen FDR
         let negCutToFDR fdrsPerCut = 
             fdrsPerCut
             |> Array.map (fun ((lower,upper),fdr) -> lower,fdr)
@@ -411,7 +424,7 @@ module SAM =
             //Array must be sorted by cut (descending because of negative values)
             |> Array.sortByDescending fst
 
-        // obtain positive cut 
+        /// obtain positive cut for chosen FDR 
         let posCutToFDR fdrsPerCut = 
             fdrsPerCut
             |> Array.map (fun ((lower,upper),fdr) -> upper,fdr)
@@ -433,7 +446,8 @@ module SAM =
         // The nearest cut from observed statistics is matched with the FDR of that statistic (QValue = fdr) 
 
 
-        //// negative and positive cut are results from negCutToFDR and posCutToFDR
+        // negative and positive cut are results from negCutToFDR and posCutToFDR
+        /// returns the value for each sample where it is firstly called significantly different. 
         let getQvalues obsStats negativeCut positiveCut   = 
             obsStats 
             |> Array.map (fun currentGene -> 
@@ -458,6 +472,139 @@ module SAM =
                     )
 
 
+    /// default version of SAM. Two class unpaired calculation. Rnd can be either System.Random() or System.Random(seed).
+    let twoClassUnpaired iterations fdr data1 data2 rnd = 
+    // count genes that fall above or below cut -> < and > (SAM Manual)
+
+        let getMedianFalsePositives cut expStats = 
+            let cut1,cut2 = cut
+
+            // function for counting 
+            let countIf' (arr : SAM[]) =
+                let mutable counter = 0
+                for i=0 to arr.Length-1 do
+                    if arr.[i].Statistics > cut2 || arr.[i].Statistics < cut1 then
+                        counter <- counter + 1
+                counter
+            expStats
+            |> Array.map (fun permutation -> 
+                permutation 
+                |> countIf'
+                )
+            |> Array.map float
+            |> Array.median
+
+
+        let getSignificantGenes cut obsStats = 
+            let cut1,cut2 = cut
+
+            let countIf' (arr : SAM[]) =
+                let mutable counter = 0
+                for i=0 to arr.Length-1 do
+                    if arr.[i].Statistics > cut2 || arr.[i].Statistics < cut1 then
+                        counter <- counter + 1
+                counter
+
+            obsStats 
+            |> countIf'
+
+        let getMedianFdr pi0 medianFalsePos significantGenes = 
+            //if no permutation statistic is significant and no observed statistic is significant the fdr is 0 (not nan)
+            //if medianFalsePos = 0. && significantGenes = 0 then 
+            //    0. 
+            if significantGenes = 0. then 
+                if medianFalsePos = 0. then 
+                    0.
+                else 1.
+            else (pi0 * float medianFalsePos)/( float significantGenes)
+
+        let priorStats =    getObservedStats 0.0 data1 data2
+        let s0prior =             S0.estS0 priorStats [|0. .. 0.05 .. 1.|]
+        let s0 =                  s0prior |> Array.minBy (fun (x,y,z) -> y) |>  fun (x,y,z) -> z
+        let obsStats =      getObservedStats s0 data1 data2 |> Array.sortBy (fun x -> x.Statistics)
+        let expStats =     Permutations.getPermutations iterations s0 data1 data2 rnd 
+        let expAvgStats =          Permutations.getExpectedStats(expStats)
+        let cuts =          SAMHelper.getDeltaAndAsymmCuts obsStats expAvgStats 
+        let pi0 =           SAMHelper.estimatePi0 obsStats expStats
+        let fdrsPerCut = 
+            cuts
+            |> Array.map (fun (cut,delta) -> 
+                let medianFalsePos = getMedianFalsePositives cut expStats
+                let significantGenes = getSignificantGenes cut obsStats
+                let localFDR = 
+                    getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
+                (cut,localFDR,delta)
+                )
+
+        let smallestCutForFDR,delta = 
+                        fdrsPerCut
+                        |> Array.filter (fun (cut,tmpfdr,delta) -> 
+                            tmpfdr <= fdr
+                            )
+                        |> Array.minBy (fun (a,b,c) -> c)
+                        |> (fun (a,b,c) -> a,c)
+
+        let negCutToFDR = 
+            fdrsPerCut
+            |> Array.map (fun ((lower,upper),fdr,delta) -> lower,fdr)
+            |> Array.sortByDescending fst
+            |> SAMHelper.monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
+            //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
+            |> Array.sortBy snd
+            |> Array.distinctBy fst
+            //Array must be sorted by cut (descending because of negative values)
+            |> Array.sortByDescending fst
+
+        let posCutToFDR = 
+            fdrsPerCut
+            |> Array.map (fun ((lower,upper),fdr,delta) -> upper,fdr)
+            |> Array.sortBy fst
+            |> SAMHelper.monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
+            //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
+            |> Array.sortBy snd
+            |> Array.distinctBy fst
+            //Array must be sorted by cut
+            |> Array.sortBy fst
+    
+        // >= and <= because of "The q-value of a gene is the FDR for the gene List that includes that gene and all genes that are more significant (SAM Manual)
+        // Storey Chapter : d(j) - de >= delta & de - d(j) <= delta 
+        let getQvalues obsStats = 
+            obsStats 
+            |> Array.map (fun currentGene -> 
+                if currentGene.Statistics < 0. then
+                    let firstLowerCut =
+                        negCutToFDR
+                        |> Array.tryFind (fun (lowerCut,fdr) -> 
+                            lowerCut <= currentGene.Statistics
+                            )
+                    match firstLowerCut with 
+                    | Some (cut,fdr) -> {currentGene with QValue = fdr}
+                    | None -> {currentGene with QValue = 1.}
+                else 
+                    let firstGreaterCut = 
+                        posCutToFDR 
+                        |> Array.tryFind (fun (upperCut, fdr)-> 
+                        upperCut >= currentGene.Statistics
+                        )
+                    match firstGreaterCut with
+                    | Some (cut,fdr) -> {currentGene with QValue = fdr}
+                    | None -> {currentGene with QValue = 1.}
+                    )
+
+        let chosenDelta =  delta
+        let upperCut = snd smallestCutForFDR
+        let lowerCut = fst smallestCutForFDR
+        let getQvals = getQvalues obsStats
+        let posSigGenes = getQvals |> Array.filter (fun x -> x.Statistics > upperCut)
+        let negSigGenes = getQvals |> Array.filter (fun x -> x.Statistics < lowerCut)
+        let nonSigGenes = getQvals |> Array.filter (fun x -> x.Statistics >= lowerCut && x.Statistics <= upperCut)
+        let medianFalsePos = getMedianFalsePositives smallestCutForFDR expStats 
+        let significantGenes = getSignificantGenes smallestCutForFDR getQvals 
+        let medianFDR = getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
+        let delta = chosenDelta 
+
+
+        SAMResult.Create s0 pi0 delta upperCut lowerCut posSigGenes negSigGenes nonSigGenes expAvgStats medianFDR significantGenes medianFalsePos 
 
 // Workflow of SAM (default mode)  
 
@@ -503,234 +650,3 @@ module SAM =
 //let significantGenes = SAMHelper.getSignificantGenes (fst smallestCutForFDR) qValues
 
 //let medianFDR = SAMHelper.getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
-
-
-//let test = SAMResult.Create s0 pi0 delta upperCut lowerCut posSigGenes negSigGenes nonSigGenes expStats medianFDR significantGenes medianFalsePos 
-
-//test.Delta
-
-//test.MedianFalsePositivesCount
-
-//test.UpperCut
-//test.LowerCut
-
-//test.NegSigGenes |> Array.length
-//test.PosSigGenes |> Array.length
-
-
-    let twoClassUnpaired iterations fdr data1 data2 = 
-    // count genes that fall above or below cut -> < and > (SAM Manual)
-        let stopwatch = System.Diagnostics.Stopwatch()
-        let stopwatch2 = System.Diagnostics.Stopwatch()
-        stopwatch.Start()
-        stopwatch2.Start()
-
-        let getMedianFalsePositives cut expStats = 
-            let cut1,cut2 = cut
-
-            // function for counting 
-            let countIf' (arr : SAM[]) =
-                let mutable counter = 0
-                for i=0 to arr.Length-1 do
-                    if arr.[i].Statistics > cut2 || arr.[i].Statistics < cut1 then
-                        counter <- counter + 1
-                counter
-            expStats
-            |> Array.map (fun permutation -> 
-                permutation 
-                //|> SAMFunctions.countIf (fun sam -> 
-                //    sam.Statistics > cut2 || sam.Statistics < cut1
-                //    ) 
-                |> countIf'
-                //|> SAMFunctions.countIfCuts cut1 cut2
-
-                //let lower =
-                //    permutation 
-                //    |> Array.tryFindIndex (fun sam -> sam.Statistics > cut2)
-                //    |> fun l -> 
-                //       match l with 
-                //       | Some x -> x
-                //       | None -> 0
-                //let upper =
-                //    permutation 
-                //    |> Array.tryFindIndexBack (fun sam -> sam.Statistics < cut1)
-                //    |> fun u -> 
-                //       match u with 
-                //       | Some x -> (permutation.Length - x)
-                //       | None -> 0
-                //    |> (-) 1
-                //lower + upper
-                )
-            |> Array.map float
-            |> Array.median
-
-
-        let getSignificantGenes cut obsStats = 
-            let cut1,cut2 = cut
-// function for counting 
-            let countIf' (arr : SAM[]) =
-                let mutable counter = 0
-                for i=0 to arr.Length-1 do
-                    if arr.[i].Statistics > cut2 || arr.[i].Statistics < cut1 then
-                        counter <- counter + 1
-                counter
-
-            //obsStats |> SAMFunctions.countIf (fun v -> v.Statistics > cut2 || v.Statistics < cut1) 
-            obsStats 
-            |> countIf'
-            //|> SAMFunctions.countIfCuts cut1 cut2
-        let getMedianFdr pi0 medianFalsePos significantGenes = 
-            //if no permutation statistic is significant and no observed statistic is significant the fdr is 0 (not nan)
-            //if medianFalsePos = 0. && significantGenes = 0 then 
-            //    0. 
-            if significantGenes = 0. then 
-                if medianFalsePos = 0. then 
-                    0.
-                else 1.
-            else (pi0 * float medianFalsePos)/( float significantGenes)
-
-        let priorStats =    getObservedStats 0.0 data1 data2
-        //printfn "priorStats\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        //let s0 =            estimateS0 priorStats
-        let s0prior =             S0.estS0 priorStats [|0. .. 0.05 .. 1.|]
-        //printfn "s0prior\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        let s0 =                  s0prior |> Array.minBy (fun (x,y,z) -> y) |>  fun (x,y,z) -> z
-        //printfn "s0\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        let obsStats =      getObservedStats s0 data1 data2 |> Array.sortBy (fun x -> x.Statistics)
-        //printfn "obsStats\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        let expStats =     Permutations.getPermutations iterations s0 data1 data2
-        //printfn "expStats\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        let expAvgStats =          Permutations.getExpectedStats(expStats)
-        //printfn "deis\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        printfn "checkp 0"
-        let cuts =          SAMHelper.getDeltaAndAsymmCuts obsStats expAvgStats 
-        //printfn "cuts\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        printfn "checkp 1"
-        let pi0 =           SAMHelper.estimatePi0 obsStats expStats
-        //printfn "pi0\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        //let pi0 =           0.62
-
-        //printfn "checkp 2"
-        //let smallestCutForFDR,delta = 
-        //    cuts 
-        //    |> Array.filter (fun (cut,delta) -> 
-        //        let tmpfdr =
-        //            let medianFalsePos = getMedianFalsePositives cut expStats
-        //            let significantGenes = getSignificantGenes cut obsStats
-        //            //printfn "%A \t %A \t" medianFalsePos significantGenes
-        //            getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
-        //        // "take the smallest delta such that FDR <= alpha "
-        //        //printfn "%A" tmpfdr
-        //        tmpfdr <= fdr
-        
-        //        //significanceByCut pi0 samStats permStats
-        //        )
-        //    |> Array.minBy snd
-        ////printfn "smallest cuts & delta %A " smallestCutForFDR , delta 
-        
-
-
-        printfn "checkp 3"
-        // Qval //
-
-        let fdrsPerCut = 
-            cuts
-            |> Array.map (fun (cut,delta) -> 
-                let medianFalsePos = getMedianFalsePositives cut expStats
-                let significantGenes = getSignificantGenes cut obsStats
-                let localFDR = 
-                    getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
-                //printfn "%f\t%f\t%f\t%i\t%f" (fst cut) (snd cut) medianFalsePos significantGenes localFDR
-                (cut,localFDR,delta)
-                )
-        //printfn "fdrs are %A" fdrsPerCut
-
-        let smallestCutForFDR,delta = 
-                        fdrsPerCut
-                        |> Array.filter (fun (cut,tmpfdr,delta) -> 
-                            tmpfdr <= fdr
-                            )
-                        |> Array.minBy (fun (a,b,c) -> c)
-                        |> (fun (a,b,c) -> a,c)
-
-        printfn "fdrsPerCut\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds //here
-       
-
-
-        printfn "checkp 4"
-        let negCutToFDR = 
-            fdrsPerCut
-            |> Array.map (fun ((lower,upper),fdr,delta) -> lower,fdr)
-            |> Array.sortByDescending fst
-            |> SAMHelper.monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
-            //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
-            |> Array.sortBy snd
-            |> Array.distinctBy fst
-            //Array must be sorted by cut (descending because of negative values)
-            |> Array.sortByDescending fst
-
-        //printfn "negCutToFDR\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        printfn "checkp 5"
-        let posCutToFDR = 
-            fdrsPerCut
-            |> Array.map (fun ((lower,upper),fdr,delta) -> upper,fdr)
-            |> Array.sortBy fst
-            |> SAMHelper.monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
-            //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
-            |> Array.sortBy snd
-            |> Array.distinctBy fst
-            //Array must be sorted by cut
-            |> Array.sortBy fst
-    
-        //printfn "posCutToFDR\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        // >= and <= because of "The q-value of a gene is the FDR for the gene List that includes that gene and all genes that are more significant (SAM Manual)
-        // Storey Chapter : d(j) - de >= delta & de - d(j) <= delta 
-        let getQvalues obsStats = 
-            obsStats 
-            |> Array.map (fun currentGene -> 
-                if currentGene.Statistics < 0. then
-                    let firstLowerCut =
-                        negCutToFDR
-                        |> Array.tryFind (fun (lowerCut,fdr) -> 
-                            lowerCut <= currentGene.Statistics
-                            )
-                    match firstLowerCut with 
-                    | Some (cut,fdr) -> {currentGene with QValue = fdr}
-                    | None -> {currentGene with QValue = 1.}
-                else 
-                    let firstGreaterCut = 
-                        posCutToFDR 
-                        |> Array.tryFind (fun (upperCut, fdr)-> 
-                        upperCut >= currentGene.Statistics
-                        )
-                    match firstGreaterCut with
-                    | Some (cut,fdr) -> {currentGene with QValue = fdr}
-                    | None -> {currentGene with QValue = 1.}
-                    )
-        //printfn "getQvals\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        let chosenDelta =  delta
-
-        let upperCut = snd smallestCutForFDR
-        let lowerCut = fst smallestCutForFDR
-        let getQvals = getQvalues obsStats
-
-
-        //To do
-        let posSigGenes = getQvals |> Array.filter (fun x -> x.Statistics > upperCut)
-        let negSigGenes = getQvals |> Array.filter (fun x -> x.Statistics < lowerCut)
-
-        let nonSigGenes = getQvals |> Array.filter (fun x -> x.Statistics >= lowerCut && x.Statistics <= upperCut)
-
-        let medianFalsePos = getMedianFalsePositives smallestCutForFDR expStats 
-        //printfn "medianFalsePos\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds
-        let significantGenes = getSignificantGenes smallestCutForFDR getQvals 
-        //printfn "medianFalsePos\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds
-        let medianFDR = getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
-        printfn "medianFDR\t%02i:%02i\t%f" stopwatch.Elapsed.Minutes stopwatch.Elapsed.Seconds stopwatch.Elapsed.TotalSeconds
-        //let medianFalsePos = getMedianFalsePositives smallestCutForFDR expStats
-        //let significantGenes = getSignificantGenes smallestCutForFDR getQvals
-        //let medianFDR = getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
-        let delta = chosenDelta 
-
-
-        SAMResult.Create s0 pi0 delta upperCut lowerCut posSigGenes negSigGenes nonSigGenes expAvgStats medianFDR significantGenes medianFalsePos 
