@@ -5,9 +5,10 @@ open FSharp.Stats
 
 module SAM =
 ////////////////////////////////////// Read in data /////////////////////////////////////////////////////////////////////////////////////////////////
-/// read Data via deedle and create 2 samples (untreated/treated)
+/// read Data via deedle and create 2 samples (control/factor)
+
 //let df:Frame<string,string> = 
-//    Frame.ReadCsv(@"C:\Users\Selly\Desktop\Master\VP1 - SAM\Datasets\Set 1vs5\1vs5NextTry.txt",hasHeaders=true,separators = "\t")
+//    Frame.ReadCsv(@"C:\..\1vs5NextTry.txt",hasHeaders=true,separators = "\t")
 //    |> Frame.indexRows "gene"
 
 
@@ -16,12 +17,12 @@ module SAM =
 //let rowheader :string[] = df.RowKeys |> Seq.toArray
 
 
-///// R Testset chunkBySize4, restliche Daten chunkBySize3 (GGF optional machen bzw allgemeinen Code zeigen für die Dokumentation) ///////////////
 ////////////////////// CHUNKING ////////////////////
 //let (sample1,sample2) :float[][] * float [][]=  
 //    df
 //    |> Frame.getRows
 //    |> Series.values
+//  ------------------------ Change the replicate amount ----------------
 //    //|> Seq.map (Series.values >> Seq.toArray >> Array.chunkBySize 4 >> fun x -> x.[0],x.[1])
 //    |> Seq.map (Series.values >> Seq.toArray >> Array.chunkBySize 3 >> fun x -> x.[0],x.[1])
 //    |> Array.ofSeq
@@ -29,12 +30,14 @@ module SAM =
 
 //Array.map3 (fun id s1 s2 -> sprintf "%s\t%A\t%A" id s1 s2) rowheader sample1 sample2
 
-//// create tupel from gene name and data for better identification later
+//// create tupel from sample name and data for better identification later
+
 //let tupel a b = (a,b)
 //let data1 = Array.map2 tupel rowheader sample1 
 //let data2 = Array.map2 tupel rowheader sample2
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // SAM type that is used for the functions
     type SAM = {
         // identification of gene
@@ -93,19 +96,19 @@ module SAM =
 
 
 // t-test statistic for observed statistics, used as default. 
-// umbenennen
+
     let getObservedStats (s0:float) (dataA:(string*float[])[]) (dataB:(string*float[])[])=
 
         let calcStats (a:string*float[]) (b:string*float[]) =  
             // test is arrays are same length
             if (fst a) <> (fst b) then failwithf "row identifier do not match"
-            // get name of observed gene
+            // get name of observed sample
             let idOfGene = fst a 
             // get datapoints 
             let dataA = snd a
             let dataB = snd b
         
-            // get average of one gene 
+            // get average of one sample 
             let ma,mb = Array.average dataA,Array.average dataB
             let ri    = (fun x y -> x - y) mb ma 
             let si    = 
@@ -117,7 +120,7 @@ module SAM =
             
                 let sums = 
                     ((dataA |> Array.sumBy (fun v -> (v - ma) * (v - ma))) + (dataB |> Array.sumBy (fun v -> (v - mb) * (v - mb))))
-                /////////////// ggf besserer name 
+                 
                 let firstPart = 
                     (fun x y -> 1./x + 1./y) n1 n2 
                 let final = (((firstPart)*(sums/denominator))**0.5)
@@ -131,10 +134,6 @@ module SAM =
 
         Array.map2 (fun a b -> calcStats a b) dataA dataB
 
-    // calculating priorStats for s0 estimation
-    // let priorStats = getObservedStats 0.0 dataA dataB 
-    // used again for calculating observed Statistics with estimated s0
-    // let obsStats = getObservedStats s0 dataA dataB 
 
 
     module s0 = 
@@ -143,7 +142,7 @@ module SAM =
         // can be changed to users preference 
         let estS0 (values:SAM[]) (s0perc: float []) = 
             // tt is Statistics (Score) 
-            // si is Si
+            // si is Si(Standard Deviation)
             let tt = values |> Array.map (fun x -> x.Statistics)
             let si = values |> Array.map (fun x -> x.Si)
 
@@ -200,7 +199,7 @@ module SAM =
         let s0ForMinCV s0List= s0List |> Array.minBy (fun (x,y,z) -> y) |>  fun (x,y,z) -> z
 
 
-    // umbenennen
+
     // ability to exchange Stats function 
     module permutations = 
 
@@ -235,7 +234,7 @@ module SAM =
                 )
 
         // expected Stats are the scores/values obtained from the permutations via averaging
-        // ID is staying unchanged
+        // ID stays unchanged
         let getExpectedStats (expStats:SAM[][]) =
            let iterations = expStats.Length
            let dei =
@@ -249,7 +248,7 @@ module SAM =
 
            dei       
 
-        // default: 
+        // default for Microarray Analysis : 
         // let permStats = getPermutations 100 s0 dataA dataB
         // let expectedStats = getExpectedStats permStats 
 
@@ -337,7 +336,7 @@ module SAM =
         
             resultingcuts
 
-        // median false positives are obtained by counting how many statistics (from permuted data) fall in between the cuts by chance 
+        // median false positives are obtained by counting how many statistics (from permuted data) fall outside of the cuts by chance 
         // permuted data should show no effect/change, therefor the ones that do are false positive 
         let getMedianFalsePositives cut expStats = 
             let cut1,cut2 = cut
@@ -512,3 +511,148 @@ module SAM =
 
 //test.NegSigGenes |> Array.length
 //test.PosSigGenes |> Array.length
+    module createSAM =
+
+
+        let twoClassUnpaired iterations fdr data1 data2 = 
+        // count genes that fall above or below cut -> < and > (SAM Manual)
+
+            let getMedianFalsePositives cut expStats = 
+                let cut1,cut2 = cut
+                expStats
+                |> Array.map (fun arr -> arr |> SAMFunctions.countIf ( fun x -> x.Statistics > cut2 || x.Statistics < cut1) ) 
+                |> Array.map float
+                |> Array.median
+
+            let getSignificantGenes cut obsStats = 
+                let cut1,cut2 = cut
+                obsStats |> SAMFunctions.countIf (fun v -> v.Statistics > cut2 || v.Statistics < cut1) 
+
+            let getMedianFdr pi0 medianFalsePos significantGenes = 
+                //if no permutation statistic is significant and no observed statistic is significant the fdr is 0 (not nan)
+                //if medianFalsePos = 0. && significantGenes = 0 then 
+                //    0. 
+                if significantGenes = 0. then 
+                    if medianFalsePos = 0. then 
+                        0.
+                    else 1.
+                else (pi0 * float medianFalsePos)/( float significantGenes)
+
+            let priorStats =    getObservedStats 0.0 data1 data2
+            //let s0 =            estimateS0 priorStats
+            let s0prior =             s0.estS0 priorStats [|0. .. 0.05 .. 1.|]
+            let s0 =                  s0prior |> Array.minBy (fun (x,y,z) -> y) |>  fun (x,y,z) -> z
+            let obsStats =      getObservedStats s0 data1 data2 |> Array.sortBy (fun x -> x.Statistics)
+            let expStats =     permutations.getPermutations iterations s0 data1 data2
+            let deis =          permutations.getExpectedStats(expStats)
+            printfn "checkp 0"
+            let cuts =          SAMFunctions.getDeltaAndAsymmCuts obsStats deis 
+            printfn "checkp 1"
+            let pi0 =           SAMFunctions.estimatePi0 obsStats expStats
+            //let pi0 =           0.62
+    
+            printfn "checkp 2"
+            let smallestCutForFDR,delta = 
+                cuts 
+                |> Array.filter (fun (cut,delta) -> 
+                    let tmpfdr =
+                        let medianFalsePos = getMedianFalsePositives cut expStats
+                        let significantGenes = getSignificantGenes cut obsStats
+                        //printfn "%A \t %A \t" medianFalsePos significantGenes
+                        getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
+                    // "take the smallest delta such that FDR <= alpha "
+                    //printfn "%A" tmpfdr
+                    tmpfdr <= fdr
+            
+                    //significanceByCut pi0 samStats permStats
+                    )
+                |> Array.minBy snd
+            //printfn "smallest cuts & delta %A " smallestCutForFDR , delta 
+            
+
+    
+            printfn "checkp 3"
+            // Qval //
+
+            let fdrsPerCut = 
+                cuts
+                |> Array.map (fun (cut,delta) -> 
+                    let medianFalsePos = getMedianFalsePositives cut expStats
+                    let significantGenes = getSignificantGenes cut obsStats
+                    let localFDR = 
+                        getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
+                    //printfn "%f\t%f\t%f\t%i\t%f" (fst cut) (snd cut) medianFalsePos significantGenes localFDR
+                    (cut,localFDR)
+                    )
+            //printfn "fdrs are %A" fdrsPerCut
+    
+            printfn "checkp 4"
+            let negCutToFDR = 
+                fdrsPerCut
+                |> Array.map (fun ((lower,upper),fdr) -> lower,fdr)
+                |> Array.sortByDescending fst
+                |> SAMFunctions.monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
+                //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
+                |> Array.sortBy snd
+                |> Array.distinctBy fst
+                //Array must be sorted by cut (descending because of negative values)
+                |> Array.sortByDescending fst
+
+            printfn "checkp 5"
+            let posCutToFDR = 
+                fdrsPerCut
+                |> Array.map (fun ((lower,upper),fdr) -> upper,fdr)
+                |> Array.sortBy fst
+                |> SAMFunctions.monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
+                //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
+                |> Array.sortBy snd
+                |> Array.distinctBy fst
+                //Array must be sorted by cut
+                |> Array.sortBy fst
+        
+
+            // >= and <= because of "The q-value of a gene is the FDR for the gene List that includes that gene and all genes that are more significant (SAM Manual)
+            // Storey Chapter : d(j) - de >= delta & de - d(j) <= delta 
+            let getQvalues obsStats = 
+                obsStats 
+                |> Array.map (fun currentGene -> 
+                    if currentGene.Statistics < 0. then
+                        let firstLowerCut =
+                            negCutToFDR
+                            |> Array.tryFind (fun (lowerCut,fdr) -> 
+                                lowerCut <= currentGene.Statistics
+                                )
+                        match firstLowerCut with 
+                        | Some (cut,fdr) -> {currentGene with QValue = fdr}
+                        | None -> {currentGene with QValue = 1.}
+                    else 
+                        let firstGreaterCut = 
+                            posCutToFDR 
+                            |> Array.tryFind (fun (upperCut, fdr)-> 
+                            upperCut >= currentGene.Statistics
+                            )
+                        match firstGreaterCut with
+                        | Some (cut,fdr) -> {currentGene with QValue = fdr}
+                        | None -> {currentGene with QValue = 1.}
+                        )
+
+            let chosenDelta =  delta
+
+            let upperCut = snd smallestCutForFDR
+            let lowerCut = fst smallestCutForFDR
+            let getQvals = getQvalues obsStats
+
+
+            //To do
+            let posSigGenes = getQvals |> Array.filter (fun x -> x.Statistics > upperCut)
+            let negSigGenes = getQvals |> Array.filter (fun x -> x.Statistics < lowerCut)
+
+            let nonSigGenes = getQvals |> Array.filter (fun x -> x.Statistics >= lowerCut && x.Statistics <= upperCut)
+            let medianFalsePos = getMedianFalsePositives smallestCutForFDR expStats
+            let significantGenes = getSignificantGenes smallestCutForFDR getQvals
+            let medianFDR = getMedianFdr pi0 medianFalsePos ( significantGenes |> float)
+            let delta = chosenDelta 
+    
+
+            SAMResult.Create s0 pi0 delta upperCut lowerCut posSigGenes negSigGenes nonSigGenes deis medianFDR significantGenes medianFalsePos 
+
