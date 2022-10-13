@@ -77,6 +77,7 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv TestingTests.friedmanTestTests    |> ignore
     Tests.runTestsWithCLIArgs [] argv TestingTests.wilcoxonTestTests    |> ignore
     Tests.runTestsWithCLIArgs [] argv TestingTests.tTestTests     |> ignore
+    Tests.runTestsWithCLIArgs [] argv TestingTests.SAMTests |> ignore
     
     //================================== ML =================================================================
     //SimilarityMetrics

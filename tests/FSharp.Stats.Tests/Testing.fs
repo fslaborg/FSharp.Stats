@@ -4,7 +4,8 @@ open System
 open FSharp.Stats.Testing
 open FSharp.Stats
 open TestExtensions
-
+open FSharp.Stats.Testing.SAM
+open Deedle
 
 [<Tests>]
 let testPostHocTests =
@@ -1024,4 +1025,69 @@ let comparisonMetricsTests =
             testCase "C: threshold 0-0" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][10])) (snd (expectedMetricsMap["C"][10])) "Incorrect metrics for threshold 0.0")
         ]
     ]
+[<Tests>]
+ let SAMTests = 
+     // data preparation 
+     let df:Frame<string,string> = 
+         Frame.ReadCsv(@"data/TestDataSAM.txt",hasHeaders=true,separators = "\t")
+         |> Frame.indexRows "gene"
+     // get Rowkeys as Array
+     let rowheader :string[] = df.RowKeys |> Seq.toArray
+     // chunk data into Arrays for sample1 and sample2 to compare them 
+     let (sample1,sample2) :float[][] * float [][]=  
+         df
+         |> Frame.getRows
+         |> Series.values
+         //|> Seq.map (Series.values >> Seq.toArray >> Array.chunkBySize 4 >> fun x -> x.[0],x.[1])
+         |> Seq.map (Series.values >> Seq.toArray >> Array.chunkBySize 3 >> fun x -> x.[0],x.[1])
+         |> Array.ofSeq
+         |> Array.unzip
+     // map rowheader to samples, so its (GeneName,[float;float;float])
+     let tupel a b = (a,b)
+     let data1 = Array.map2 tupel rowheader sample1 
+     let data2 = Array.map2 tupel rowheader sample2
+     let corrected1 = 
+         let medCorrect = 
+             medianCentering data1 
+         Array.map2 tupel rowheader medCorrect
+     let corrected2 = 
+         let medCorrect = 
+             medianCentering data2
+         Array.map2 tupel rowheader medCorrect
 
+
+     let result1 = FSharp.Stats.Testing.SAM.twoClassUnpaired 100 0.05 data1 data2 (System.Random(27))
+     let result2 = twoClassUnpaired 100 0.05 data1 data2 (System.Random(1337))
+     let result3 = twoClassUnpaired 100 0.05 corrected1 corrected2 (System.Random(1337))
+
+     testList "SAM Tests" [
+         testCase "twoClassUnpaired Seed 27" <| fun () -> 
+             Expect.floatClose Accuracy.low result1.S0 0.041419 "S0 should be equal."
+             Expect.floatClose Accuracy.low result1.Pi0 0.388060 "Pi0 should be equal."   
+             Expect.floatClose Accuracy.low result1.Delta 0.986042 "Delta should be equal."   
+             Expect.floatClose Accuracy.low result1.UpperCut 1.301745 "Upper Cut should be equal."   
+             Expect.floatClose Accuracy.low result1.LowerCut -1.632438 "Lower Cut should be equal."   
+             Expect.floatClose Accuracy.low (result1.PosSigBioitem |> Array.length |> float ) 80. "PosSigBioitems should be equal."   
+             Expect.floatClose Accuracy.low (result1.NegSigBioitem |> Array.length |> float ) 61. "NegSigBioitems should be equal."   
+             Expect.floatClose Accuracy.low (result1.MedianFalsePositivesCount |> float ) 14. "medFP should be equal."   
+
+         testCase "twoClassUnpaired Seed 1337" <| fun () -> 
+             Expect.floatClose Accuracy.low result2.S0 0.041419 "S0 should be equal."
+             Expect.floatClose Accuracy.low result2.Pi0 0.388060 "Pi0 should be equal."   
+             Expect.floatClose Accuracy.low result2.Delta 0.997591 "Delta should be equal."   
+             Expect.floatClose Accuracy.low result2.UpperCut 1.301745 "Upper Cut should be equal."   
+             Expect.floatClose Accuracy.low result2.LowerCut -1.632438 "Lower Cut should be equal."   
+             Expect.floatClose Accuracy.low (result2.PosSigBioitem |> Array.length |> float ) 80. "PosSigBioitems should be equal."   
+             Expect.floatClose Accuracy.low (result2.NegSigBioitem |> Array.length |> float ) 61. "NegSigBioitems should be equal."   
+             Expect.floatClose Accuracy.low (result2.MedianFalsePositivesCount |> float ) 17. "medFP should be equal."   
+
+         testCase "twoClassUnpaired median centered Seed 1337" <| fun () -> 
+             Expect.floatClose Accuracy.low result3.S0 0.026303 "S0 should be equal."
+             Expect.floatClose Accuracy.low result3.Pi0 0.407960 "Pi0 should be equal."   
+             Expect.floatClose Accuracy.low result3.Delta 1.036888 "Delta should be equal."   
+             Expect.floatClose Accuracy.low result3.UpperCut 1.381420 "Upper Cut should be equal."   
+             Expect.floatClose Accuracy.low result3.LowerCut -1.740646 "Lower Cut should be equal."   
+             Expect.floatClose Accuracy.low (result3.PosSigBioitem |> Array.length |> float ) 78. "PosSigBioitems should be equal."   
+             Expect.floatClose Accuracy.low (result3.NegSigBioitem |> Array.length |> float ) 61. "NegSigBioitems should be equal."   
+             Expect.floatClose Accuracy.low (result3.MedianFalsePositivesCount |> float ) 17. "medFP should be equal."   
+             ]

@@ -34,6 +34,8 @@ module Chart =
         |> Chart.withTemplate ChartTemplates.lightMirrored
         |> Chart.withXAxis (myAxis x) 
         |> Chart.withYAxis (myAxis y)
+
+
         
 (**
 
@@ -63,6 +65,7 @@ _Summary:_ this tutorial explains how to perform various statistical tests with 
 - [Multiple testing](#Multiple-testing)
     - [Benjamini-Hochberg](#Benjamini-Hochberg)
     - [Q Value](#Q-Value)
+    - [SAM](#SAM)
 
 FSharp.Stats provides hypothesis tests for different applications.
 A hypothesis test is a statistical test that is used to determine whether there is enough evidence 
@@ -113,7 +116,7 @@ let sampleA = vector [|4.5; 5.1; 4.8; 4.4; 5.0|]
 // calculates a one sample t test with a given sample and the fixed value the sample should be compared with
 let oneSampleTTest = TTest.oneSample sampleA 5.
 
-(*
+(**
     The test returns no significant p value:
     oneSampleTTest.PValue = 0.1533
 *)
@@ -458,6 +461,7 @@ ID   |  pre   | month 1| month 2| month 3| month 4
 
 
 </pre>
+
 Ranking the results - average if values appear multiple times in one ID 
 
 
@@ -824,8 +828,8 @@ let aErrorAcc =
     [1. .. 100.]
     |> List.map (fun x -> x,(1. - 0.95**x))
     |> Chart.Line
-    |> Chart.withAxisTitles "number of tests (k)" "probability of at least one false positive test"
-
+    |> Chart.withXAxisStyle ( "number of tests (k)" )
+    |> Chart.withYAxisStyle ( "probability of at least one false positive test")
 (*** condition: ipynb ***)
 #if IPYNB
 aErrorAcc
@@ -834,7 +838,7 @@ aErrorAcc
 (***hide***)
 aErrorAcc |> GenericChart.toChartHTML
 (***include-it-raw***)
-
+aErrorAcc|> Chart.show
 (**
 
 To compensate this inflation, several multiple testing corrections were published. 
@@ -865,7 +869,8 @@ let bhValues =
         Chart.Line(pValsAdj,Name="adj")
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "pValue" "BH corrected pValue"
+    |> Chart.withXAxisStyle "pValue" 
+    |> Chart.withYAxisStyle "BH corrected pValue"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -929,8 +934,8 @@ let qHisto =
         Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",LineDash=StyleParam.DrawingStyle.Dash)
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "p value" "density"
-
+    |> Chart.withXAxisStyle "p value" 
+    |> Chart.withYAxisStyle"density"
 (*** condition: ipynb ***)
 #if IPYNB
 qChart
