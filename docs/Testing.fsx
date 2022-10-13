@@ -12,18 +12,22 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 3.0.1"
+#r "nuget: FSharpAux, 1.1.0"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 3.0.1"
+#r "nuget: Plotly.NET.Interactive, 3.0.2"
 #r "nuget: FSharp.Stats"
+#r "nuget: FSharpAux, 1.1.0"
 #endif // IPYNB
 
 open Plotly.NET
 open Plotly.NET.StyleParam
 open Plotly.NET.LayoutObjects
+open FSharpAux
+open Deedle
 
 //some axis styling
 module Chart = 
@@ -51,7 +55,7 @@ _Summary:_ this tutorial explains how to perform various statistical tests with 
     - [T-Test](#T-Test)
     - [Anova](#Anova)
     - [F-Test](#F-Test)
-    - [H Test](#H-Test)
+    - [H-Test](#H-Test)
     - [Friedman-Test](#Friedman-Test)
     - [Wilcoxon signed-rank Test](#Wilcoxon-Test)
     - [Chi-Squared Test](#Chi-Squared-Test)
@@ -371,16 +375,16 @@ let fTestFromParameters = FTest.testVariancesFromVarAndDof sampleF1 sampleF2
 (**
 Using a significance level of 0.05 the sample variances do differ significantly.
 
-### H Test
+### H-Test
 
-The H test is also known as Kruskal-Wallis one-way analysis-of-variance-by-ranks and is the non-parametric equivalent of one-way ANOVA. 
+The H-test is also known as Kruskal-Wallis one-way analysis-of-variance-by-ranks and is the non-parametric equivalent of one-way ANOVA. 
 It is a non-parametric test for comparing the means of more than two independent samples (equal or different sample size), and therefore is an extension of Wilcoxon-Mann-Whitney two sample test.
 Testing with H test gives information whether the samples are from the same distribution.
 
-A benefit of the H test is that it does not require normal distribution of the samples.
+A benefit of the H-test is that it does not require normal distribution of the samples.
 The downside is that there is no information which samples are different from each other, or how many differences occur. For further investigation a post hoc test is recommended. 
 
-The distribution of the H test statistic is approximated by chi-square distribution with degrees of freedom = sample count - 1. 
+The distribution of the H-test statistic is approximated by chi-square distribution with degrees of freedom = sample count - 1. 
 
 The implemented H-test is testing for duplicate values in the data. 
 Duplicates lead to ties in the ranking, and are corrected by using a correction factor. 
@@ -406,7 +410,7 @@ let groupB = [70.;77.;48.;64.;71.;75.]
 let groupC = [80.;76.;34.;80.;73.;80.] 
 let samples = [groupA;groupB;groupC]
 
-// calculation of the H test 
+// calculation of the H-test 
 let hResult = HTest.createHTest samples 
 
 (*** include-value:hResult ***)
@@ -414,7 +418,7 @@ let hResult = HTest.createHTest samples
 (**
 _PValueRight is significant at a alpha level of 0.05_
 
-A suitable post hoc test for H tests is Dunn's test.
+A suitable post hoc test for H-tests is Dunn's test.
 *)
 
 (** 
@@ -953,3 +957,173 @@ qHisto
 (***hide***)
 qHisto |> GenericChart.toChartHTML
 (***include-it-raw***)
+
+
+(**
+###SAM
+SAM (Significance Analysis of Microarrays) is a method developed to overcome multiple testing problems, for example in microarray experiments.
+SAM, short for Significance Analysis of Microarrays, is a statistical analysis created, but not restricted for, microarray analysis. 
+It serves as a blue print for any permutation test.
+Therefore, high throughput experiments can be analysed using a combined permutation-bootstrap-method. For more in depth information see the [SAM BlogPost](https://csbiology.github.io/CSBlog/posts/7_SAM.html).
+*)
+
+(** 
+Data: 
+To use SAM, data need to be in the format (string*float[])[]), with string being the name and float array being the repeated measurements. One way of achieving this is the following data preparation:
+<center><img style="max-width:40%" src="../img/DataStructureSAM.jpeg"></img></center>
+*)
+(**
+Rows are indicated by the sample name, here 1 and 2, representing control and factor. Columns are indicated with the rowkey(A1), here the gene id. This can be saved as .txt. 
+The next step is to read in the data, e.g. via deedle, and to create a dataframe. The rows are indexed by the sample name and the rowkeys are extracted.
+*)
+
+let df:Frame<string,string> = 
+    Frame.ReadCsv(@"data/TestDataSAM.txt",hasHeaders=true,separators = "\t")
+    // here, the name of A1 is needed. 
+    |> Frame.indexRows "gene"
+
+// get Rowkeys as Array
+let rowheader :string[] = df.RowKeys |> Seq.toArray
+
+// to separate control and factor sets (sample1 and sample2, respectively), 
+// the datasets are chunked by the number of repeated measurements (here: triplicates -> chunkBySize 3).
+let (preData1,preData2) :float[][] * float [][]=  
+    df
+    |> Frame.getRows
+    |> Series.values
+    |> Seq.map (Series.values >> Seq.toArray >> Array.chunkBySize 3 >> fun x -> x.[0],x.[1])
+    |> Array.ofSeq
+    |> Array.unzip
+
+// After chunking, the datasets are separated by factor and the rowkey is added to the data for later identification.
+let tupel a b = (a,b)
+let data1 = Array.map2 tupel rowheader preData1 
+let data2 = Array.map2 tupel rowheader preData2 
+(**
+Optional: Data can be normalised by median centering using the following function:
+*)
+open SAM
+let corrected1 = 
+    let medCorrect = 
+        medianCentering data1 
+    Array.map2 tupel rowheader medCorrect
+let corrected2 = 
+    let medCorrect = 
+        medianCentering data2
+    Array.map2 tupel rowheader medCorrect
+ 
+(**
+This calculates the median of a column and subtracts it from each value in this column. 
+With data1 and data2 , or corrected1 and corrected2, SAM can be performed.
+*)
+let res = FSharp.Stats.Testing.SAM.twoClassUnpaired 100 0.05 data1 data2 (System.Random(1234))
+(**
+The parameters are number of permutations, FDR, the datasets and a seed. For balanced permutations as in SAM, it seems to be sufficient to use ~ 100 permutations (also default in samR). The seed is used for randomization of the permutations (System.Random()), or can be fixed to achieve the same results multiple times (e.g. System.Random(1234)).
+Result contains now the following information: s0, pi0, delta, upper Cut, lower Cut, positive significant bioitems, negative significant bioitems, non significant bioitems, False Discovery Rate (FDR), and median False Positives.
+The following code will help to achieve the typical SAM plot.
+*)
+
+let SAMChart = 
+
+    let observed = [| res.NegSigBioitem; res.NonSigBioitem; res.PosSigBioitem|] |> Array.concat 
+    let obs = observed |> Array.map (fun x -> x.Statistics) 
+    let expected = res.AveragePermutations |> Array.map (fun x -> x.Statistics)
+    let minDi = Seq.min obs
+    let maxDi = Seq.max obs
+
+
+    // positive significant changes 
+    let posExpected = expected.[res.NegSigBioitem.Length + res.NonSigBioitem.Length .. res.NegSigBioitem.Length + res.NonSigBioitem.Length-1 + res.PosSigBioitem.Length]
+    let posChart = 
+        Chart.Point(posExpected,res.PosSigBioitem |> Array.map (fun x -> x.Statistics))
+        |> Chart.withLineStyle(Color=Color.fromKeyword Green)
+        |> Chart.withTraceInfo("positive change",Visible = Visible.True )
+
+
+    // no significant changes
+    let nonex = expected.[res.NegSigBioitem.Length-1 .. res.NegSigBioitem.Length + res.NonSigBioitem.Length]
+    let nonchart = 
+        Chart.Point(nonex,res.NonSigBioitem |> Array.map (fun x -> x.Statistics))
+        |> Chart.withLineStyle(Color=Color.fromKeyword Gray)
+        |> Chart.withTraceInfo("no change",Visible = Visible.True)
+
+    // negative significant changes 
+    let negex = expected.[0 .. res.NegSigBioitem.Length-1]
+    let negchart = 
+        Chart.Point(negex,res.NegSigBioitem |> Array.map (fun x -> x.Statistics))
+        |> Chart.withLineStyle(Color=Color.fromKeyword Red)
+        |> Chart.withTraceInfo("negative change",Visible = Visible.True)
+
+    let samValues = 
+        [
+            negchart
+            nonchart
+            posChart
+        ]
+        |> Chart.combine
+        
+    let chartConfig =
+        let svdConfig =
+            ConfigObjects.ToImageButtonOptions.init(
+                Format = StyleParam.ImageFormat.SVG)
+        Config.init (
+            ToImageButtonOptions = svdConfig,
+            ModeBarButtonsToAdd=[ModeBarButton.HoverCompareCartesian]
+            
+        )
+
+    let cutLineUp = [(minDi + res.Delta) ; (maxDi + res.Delta)]
+    let cutsUp = 
+        Chart.Line(cutLineUp,[minDi;maxDi])
+        |> Chart.withLineStyle(Color=Color.fromKeyword Purple,Dash = StyleParam.DrawingStyle.Dash, Width = 0.5)
+        |> Chart.withTraceInfo("delta",Visible = Visible.True)
+    let cutLineLow = [(minDi - res.Delta) ; (maxDi - res.Delta)]
+    let cutsLow = 
+        Chart.Line(cutLineLow,[minDi;maxDi])
+        |> Chart.withLineStyle(Color=Color.fromKeyword Purple,Dash = StyleParam.DrawingStyle.Dash, Width = 0.5)
+        |> Chart.withTraceInfo("delta",Visible = Visible.True)
+    let linechart = 
+        Chart.Line([minDi;maxDi], [minDi;maxDi])
+        |> Chart.withTraceInfo("bisecting angle",Visible = Visible.True)
+        |> Chart.withLineStyle(Color=Color.fromKeyword Black, Width = 1)
+
+    let uppercut = 
+        let xAnchorUppercut = [minDi .. 5. .. maxDi]
+        Chart.Line (xAnchorUppercut, List.init xAnchorUppercut.Length (fun x -> res.UpperCut))
+
+        |> Chart.withTraceInfo("upper cut",Visible = Visible.True)
+        |> Chart.withLineStyle(Color=Color.fromKeyword Black,Dash = StyleParam.DrawingStyle.Dash, Width = 0.3)
+
+    let lowercut = 
+        Chart.Line([minDi;maxDi],[res.LowerCut;res.LowerCut])
+        |> Chart.withTraceInfo("lower cut",Visible = Visible.True)
+        |> Chart.withLineStyle(Color=Color.fromKeyword Black,Dash = StyleParam.DrawingStyle.Dash,Width = 0.3)
+        //|> Chart.withXAxisStyle(MinMax = (-15,20))
+        
+        |> Chart.withTraceInfo("lower cut",Visible = Visible.True)
+    let plot = 
+        [linechart;
+        samValues;
+        cutsUp;
+        cutsLow;
+        uppercut;
+        lowercut]
+        |> Chart.combine
+        |> Chart.withTitle(title = "SAM results")
+        |> Chart.withXAxisStyle("expected Score")
+        |> Chart.withYAxisStyle ("observed Score")
+        |> Chart.withConfig(chartConfig)
+        |> Chart.withTemplate(ChartTemplates.lightMirrored)
+    plot 
+
+
+
+
+(*** condition: ipynb ***)
+#if IPYNB
+SAMChart
+#endif // IPYNB
+
+(***hide***)
+System.IO.File.ReadAllText "../img/7_SAM/SAM005.html"
+(*** include-it-raw ***)
