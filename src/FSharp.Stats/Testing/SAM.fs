@@ -342,78 +342,50 @@ module SAM =
         copy
 
 
-
-
-    // creating asymmetric cuts
-    // asymmetric cuts are used to better find significant genes if the distribution of positively significant and negatively significant are not the same
-    // helps to not overlook different expression change behaviours 
-    //getdeltaandAsymmmCuts
-    let getDeltaAndAsymmCuts (obsStats : SAM [])  (dei : SAM []) =
+// Monotonisierung drin, aber dann wieder lowercut auf -infinity bei 0.05 FDR und s0 = 0.0 
+    let getDeltaAndAsymmCuts (obsStats : SAM[]) (dei: SAM[]) =
         let getDelta (_,_,delta) = delta
         let getDi (di,_,_) = di
-        // calculating delta for all genes to get a variety of cuts 
-
         let replaceDeltaAbs (disA,deisA,deltaA) (disB,deisB,deltaB) = (disA,deisA,(abs deltaB))
-        let di'  = obsStats |> Array.sortBy (fun x -> x.Statistics)
+        let di' = obsStats |> Array.sortBy (fun x -> x.Statistics)
         let dei' = dei |> Array.sortBy (fun x -> x.Statistics)
-        let ups,los =
-            Array.zip di' dei'
-            |> Array.map (fun (di,dei) -> di.Statistics,dei.Statistics, (di.Statistics - dei.Statistics))
-            |> Array.partition (fun (dis,deis,delta) -> deis >= 0.)
+        let ups,los = 
+            Array.zip di' dei' 
+            |> Array.map (fun (di,dei) -> di.Statistics , dei.Statistics , (di.Statistics - dei.Statistics))
+            |> Array.partition (fun (dis,deis,delta) -> dis >= 0.)
 
-        // monoton increases are needed that every delta is greater (positive) or smaller (negative) as the one before
-        // needed because every gene after the first difference > delta is called significant 
+        let getCuts set1 set2 =
+            set1 
+            |> Array.map (fun (currentDi, currentDei, currentDelta) ->
+                if currentDi > 0. then
+                    set2 
+                    |> Array.tryFindBack (fun (di,dei,delta) -> delta >= currentDelta)
+                    |> fun x -> 
+                        match x with 
+                        | Some (di,dei,delta) -> (di,currentDi),currentDelta
+                        | None -> (-infinity,currentDi),currentDelta
+                else
+                    set2 
+                    |> Array.tryFind (fun (di,dei,delta) -> delta >= currentDelta)
+                    |> fun x ->
+                        match x with 
+                        | Some (di,dei,delta) -> (currentDi,di),currentDelta
+                        | None -> (currentDi,infinity),currentDelta
+                    )
+        let los' = los |> Array.map (fun (a,b,c) -> a,b, abs c )
 
-            //monoton increase ups (inplace)
-        for i=1 to ups.Length-1 do
-            if getDelta ups.[i] < getDelta ups.[i-1] then
-                ups.[i] <- replaceDeltaAbs ups.[i] ups.[i-1]
-                
-        // monoton increase los (inplace)
-        let los' = los |> Array.map (fun (a,b,c) -> a,b, abs c)
-        for i=1 to los'.Length-1 do
-            if getDelta los'.[i] > getDelta los'.[i-1] then
-                los'.[i] <- replaceDeltaAbs los'.[i] los'.[i-1]
-        // find the matching cutoffs
-        // map over one cut set (either low or high) to use current delta
-        // find matching delta in the other cut set
-        // e.g. delta 1.4 is at a score of 3.5 in high set, looking for matching delta in the low set might yield score 1.6
-    
-        let cuts set1 set2=
-            set1
-            |> Array.map (fun x -> 
-                let currentDelta = getDelta x
-                let cur =
-                    set2
-                    //////////// wahrscheinlich nur > (laut SAM Manual) 
-                    |> Array.filter (fun (dis,deis,delta) -> delta > currentDelta )
-                // if the array is empty (no matching delta found) the maximium delta available is used
-                let y =
-                    if Array.isEmpty cur then
-                        let (dis,deis,delta) = x 
-                        //(dis,deis,(set1 |> Array.maxBy getDelta |> getDelta))
-                        set2 |> Array.maxBy getDelta
-                        //consider setting cut to -infinity or infinity if no extreme value can be found at current delta
-                    else
-                        cur |> Array.minBy (fun (dis,deis,delta)-> delta )
-            
-                x,y)
+        let ups' = monotonizeIncreasing getDelta (fun (di,dei,delta) newDelta -> (di,dei,newDelta+1E-80)) ups
+        let los' = monotonizeDecreasing getDelta (fun (di,dei,delta) newDelta -> (di,dei,newDelta-1E-80)) los'
+        let resultingcuts = [|getCuts ups' los';getCuts los' ups'|] |> Array.concat |> Array.distinct
 
-        // create two cutoff arrays and distinct them for no doubling  
-        let cutsFromUp  = 
-        
-            cuts ups los' 
-            |> Array.map (fun (a,b) -> 
-                //printfn "%f\t%f" (getDelta a) (getDelta b)
-                //(getDi a , getDi b), (max (getDelta b) (getDelta a) )
-                (getDi b , getDi a), (max (getDelta b) (getDelta a) )
-                )
-    
-        let cutsFromLow = 
-            //cuts los' ups |> Array.map (fun (a,b) -> (getDi b, getDi a), (max (getDelta b) (getDelta a)  ))
-            cuts los' ups |> Array.map (fun (a,b) -> (getDi a, getDi b), (max (getDelta b) (getDelta a)  ))
-        //[|cutsFromUp;cutsFromLow|]|> Array.concat |> Array.distinct
-        [|cutsFromLow;cutsFromUp|]|> Array.concat |> Array.distinct
+        //resultingcuts
+        //|> Array.iter (
+        //    fun values -> 
+        //        let ((a,b),c) = values 
+        //        printfn ("%f \t %f \t %f \t") a b c 
+        //    )
+
+        resultingcuts
 
 
 
