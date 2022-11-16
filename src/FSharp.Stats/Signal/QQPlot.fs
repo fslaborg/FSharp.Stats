@@ -10,14 +10,21 @@ module QQPlot =
     
     /// computes the quantile quantile coordinates of two sample distributions. Uses default quantile (Quantile.mode)
     let fromTwoSamples sampleA sampleB =
-            [0. .. 0.01 .. 1.]
-            |> List.map (fun quantile -> 
-                mode quantile sampleA,
-                mode quantile sampleB
-                )
+        [0. .. 0.01 .. 1.]
+        |> List.map (fun quantile -> 
+            mode quantile sampleA,
+            mode quantile sampleB
+            )
 
     let fromTwoSamples' sampleA sampleB =
-        1
+        let sampleALength = Seq.length sampleA
+        let sampleBLength = Seq.length sampleB
+        let minSampleLength = min sampleALength sampleBLength
+        let stepwidth = 1. / float minSampleLength
+        [stepwidth .. stepwidth .. 1.]
+
+        
+
         
     /// computes the quantile quantile coordinates of a sample distributions against a normal distribution. Uses default quantile (Quantile.mode)    
     let fromSampleToGauss sample =
