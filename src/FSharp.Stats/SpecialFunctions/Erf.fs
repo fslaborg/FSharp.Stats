@@ -81,29 +81,35 @@ module Errorfunction =
     let private c = [|-1.970840454; -1.62490649; 3.429567803; 1.641345311|]
     let private d = [|1.; 3.543889200; 1.637067800|]
  
-    // inverse of error function. uses newton refinement; from https://libit.sourceforge.net/
+    /// inverse of error function. uses newton refinement; from https://libit.sourceforge.net/
+    /// accuracy to the fifth digit
     let inverf x = 
-        let sqrtPi = sqrt Math.PI
+        match x with
+        | x when x = -1. -> -infinity
+        | x when x = 1. -> infinity
+        | _ -> 
+            let sqrtPi = sqrt Math.PI
 
-        let z = abs x
+            let z = abs x
     
-        let r =
-            if z <= 0.7 then
-                let x2 = x * x
-                let r = z * (((a.[3] * x2 + a.[2]) * x2 + a.[1]) * x2 + a.[0])
-                r / ((((b.[4] * x2 + b.[3]) * x2 + b.[2]) * x2 + b.[1]) * x2 + b.[0])
-            else 
-                let y = sqrt( -log((1. - z)/2.))
-                let r = (((c.[3] * y + c.[2]) * y + c.[1]) * y + c.[0])
-                r / ((d.[2] * y + d.[1]) * y + d.[0])
+            let r =
+                if z <= 0.7 then
+                    let x2 = x * x
+                    let r = z * (((a.[3] * x2 + a.[2]) * x2 + a.[1]) * x2 + a.[0])
+                    r / ((((b.[4] * x2 + b.[3]) * x2 + b.[2]) * x2 + b.[1]) * x2 + b.[0])
+                else 
+                    let y = sqrt( -log((1. - z)/2.))
+                    let r = (((c.[3] * y + c.[2]) * y + c.[1]) * y + c.[0])
+                    r / ((d.[2] * y + d.[1]) * y + d.[0])
    
  
-        let r' = r * float (sign x)
-        let z' = z * float (sign x)
+            let r' = r * float (sign x)
+            let z' = z * float (sign x)
  
-        let r'' = r' - (Erf(r') - z')/(2./sqrtPi * exp(-r' * r'))
-        r'' - (Erf(r'') - z')/(2./sqrtPi *exp(-r'' * r''))
+            let r'' = r' - (Erf(r') - z')/(2./sqrtPi * exp(-r' * r'))
+            r'' - (Erf(r'') - z')/(2./sqrtPi *exp(-r'' * r''))
 
-    // inverse of complementary error function
+    /// inverse of complementary error function
+    /// accuracy to the fifth digit
     let inverfc x =
         inverf (1. - x)
