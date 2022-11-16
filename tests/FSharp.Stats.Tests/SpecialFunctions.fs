@@ -457,6 +457,34 @@ let erfTests =
         testCase "erfcx(-infinity)" (fun _ -> 
             Expect.isTrue (infinity.Equals(Errorfunction.erfcx -infinity)) "expected erfcx(-infinity) to be infinity"
         )
+        //tested against R Pracma and WolframAlpha
+        testCase "inverf(0.01)" (fun _ ->
+            Expect.floatClose Accuracy.medium (Errorfunction.inverf 0.01) 0.00886250128095 "inverf returned insufficient approximation of the result"
+        )
+        testCase "inverf(0.5)" (fun _ ->
+            Expect.floatClose Accuracy.medium (Errorfunction.inverf 0.5) 0.476936276204 "inverf returned insufficient approximation of the result"
+        )
+        testCase "inverf(0.99)" (fun _ ->
+            Expect.floatClose Accuracy.medium (Errorfunction.inverf 0.99) 1.82138636772 "inverf returned insufficient approximation of the result"
+        )
+        testCase "inverf(-0.95)" (fun _ ->
+            Expect.floatClose Accuracy.medium (Errorfunction.inverf -0.95) -1.38590382435 "inverf returned insufficient approximation of the result"
+        )
+        testCase "inverf(1)" (fun _ ->
+            Expect.isTrue ((Errorfunction.inverf 1) = infinity) "inverf returned insufficient approximation of the result"
+        )
+        testCase "inverf(-1)" (fun _ ->
+            Expect.isTrue ((Errorfunction.inverf -1) = -infinity) "inverf returned insufficient approximation of the result"
+        )
+        testCase "inverf(0)" (fun _ ->
+            Expect.floatClose Accuracy.medium (Errorfunction.inverf 0.0) 0. "inverf returned insufficient approximation of the result"
+        )
+        testCase "inverf(2)" (fun _ ->
+            Expect.isTrue (nan.Equals(Errorfunction.inverf 2))  "inverf returned insufficient approximation of the result"
+        )
+        testCase "inverf(-2)" (fun _ ->
+            Expect.isTrue (nan.Equals(Errorfunction.inverf -2))  "inverf returned insufficient approximation of the result"
+        )
     ]
 
 [<Tests>]
