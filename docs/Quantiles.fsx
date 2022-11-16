@@ -44,6 +44,65 @@ module Chart =
 
 _Summary:_ this tutorial demonstrates how to handle quantiles and QQ-Plots
 
+## Quantiles
+
+Quantiles are values that divide data into equally spaced groups. Percentiles are just quantiles that divide the data in 100 equally sized groups.
+The median for example defines the 0.5 quantile or 0.5 percentile. You can calculate the quantile by calculating how many values are less than the value you are interested in.
+
+There are many possibilities to handle ties or data that cannot be split equally. The default quantile version used in R is ´Quantile.mode´.
+
+Lets sample 1000 data points from a normal distribution and calculate some percentiles.
+*)
+
+open FSharp.Stats
+open FSharp.Stats.Quantile
+
+let rng = Distributions.ContinuousDistribution.normal 3. 1.
+
+let sample = Array.init 1000 (fun _ -> rng.Sample())
+
+let quantile25  = Quantile.mode 0.25 sample
+let quantile50  = Quantile.mode 0.50 sample
+let quantile75  = Quantile.mode 0.75 sample
+let quantile100 = Quantile.mode 1.00 sample
+
+
+[|quantile25;quantile50;quantile75;quantile100|]
+(***include-it-raw***)
+
+
+(**
+
+These special quantiles are also called quartiles since the divide the data into 4 sections.
+Now we can divide the data into the ranges defined by the quantiles and plot them. Here the ranges defines half-open interval:
+
+*)
+
+let range25  = sample |> Array.filter (fun x -> x < quantile25)
+let range50  = sample |> Array.filter (fun x -> x > quantile25 && x < quantile50)
+let range75  = sample |> Array.filter (fun x -> x > quantile50 && x < quantile75)
+let range100 = sample |> Array.filter (fun x -> x > quantile75)
+
+let quartilePlot =
+    [|
+        Chart.Histogram(range25)  |> Chart.withXAxisStyle("25",MinMax=(0.,6.))
+        Chart.Histogram(range50)  |> Chart.withXAxisStyle("50",MinMax=(0.,6.))
+        Chart.Histogram(range75)  |> Chart.withXAxisStyle("75",MinMax=(0.,6.))
+        Chart.Histogram(range100) |> Chart.withXAxisStyle("100",MinMax=(0.,6.))
+    |]
+    |> Chart.Grid(4,1)
+
+(*** condition: ipynb ***)
+#if IPYNB
+quartilePlot
+#endif // IPYNB
+
+(***hide***)
+quartilePlot |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
 
 ## QQ Plot
 
@@ -64,9 +123,6 @@ Lets create four samples of size 300 first:
   - two that are drawn randomly between 0 and 1
 
 *)
-
-open FSharp.Stats
-open FSharp.Stats.Quantile
 
 
 //create samples
@@ -167,7 +223,8 @@ The both samples were taken from the same normal distribution and therefore they
 
 ### Comparing a sample against a normal distribution
 
-You also can plot the quantiles from a sample versus a normal distribution. Your data is z standardized prior to quantile determination to have zero mean and unit variance.
+You also can plot the quantiles from a sample versus a normal distribution to check if your data is normally distributed.
+Your data is z standardized prior to quantile determination to have zero mean and unit variance.
 
 *)
 
@@ -202,7 +259,7 @@ Its easy to see that the random smaples are distributed between 0 and 1 while th
 
 
 //The raw qq-plot data of a standard normal distribution and the sample distribution
-let qqData sample = FSharp.Stats.Signal.QQPlot.fromSampleToGauss sample
+let qqData2 sample = FSharp.Stats.Signal.QQPlot.fromSampleToGauss sample
 
 
 //plots QQ plot from a sample population against a standard normal distribution
