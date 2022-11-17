@@ -49,9 +49,9 @@ _Summary:_ this tutorial demonstrates how to handle quantiles and QQ-Plots
 Quantiles are values that divide data into equally spaced groups. Percentiles are just quantiles that divide the data in 100 equally sized groups.
 The median for example defines the 0.5 quantile or 0.5 percentile. You can calculate the quantile by calculating how many values are less than the value you are interested in.
 
-There are many possibilities to handle ties or data that cannot be split equally. The default quantile version used in R is ´Quantile.mode´.
+_Note: There are many possibilities to handle ties or data that cannot be split equally. The default quantile version used in R is `Quantile.mode`._
 
-Lets sample 1000 data points from a normal distribution and calculate some percentiles.
+Let's sample 1000 data points from a normal distribution and calculate some percentiles.
 *)
 
 open FSharp.Stats
@@ -83,12 +83,13 @@ let range50  = sample |> Array.filter (fun x -> x > quantile25 && x < quantile50
 let range75  = sample |> Array.filter (fun x -> x > quantile50 && x < quantile75)
 let range100 = sample |> Array.filter (fun x -> x > quantile75)
 
+(*** hide ***)
 let quartilePlot =
     [|
-        Chart.Histogram(range25)  |> Chart.withXAxisStyle("25",MinMax=(0.,6.))
-        Chart.Histogram(range50)  |> Chart.withXAxisStyle("50",MinMax=(0.,6.))
-        Chart.Histogram(range75)  |> Chart.withXAxisStyle("75",MinMax=(0.,6.))
-        Chart.Histogram(range100) |> Chart.withXAxisStyle("100",MinMax=(0.,6.))
+        Chart.Histogram(range25,"25")   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 25")
+        Chart.Histogram(range50,"50")   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 50")
+        Chart.Histogram(range75,"75")   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 75")
+        Chart.Histogram(range100,"100") |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 100")
     |]
     |> Chart.Grid(4,1)
 
@@ -111,10 +112,17 @@ QQ plots allow to compare two sample distributions if:
   - the underlying population distribution is unknown or if
   - the relationship between two distributions should be evaluated in greater detail than just their estimated parameters.
 
+When sample is compared to a known distribution, every quantile can be calculated exactly by inverting the CDF. If you compare two samples, there is no uniquely defined CDF, so quantiles have to be interpolated. Additionally
+there are various methods for determining Quantiles that differ in handling ties and uneven spacing.
 
 ### Comparing two sample distributions
 
-The most common use case is to compare two sample populations:
+Two sample populations can be compared by QQ-plots where quantiles of the first sample are plotted against quantiles of the second sample. If the sample length is equal, both samples are ordered and plotted as pairs. 
+
+$qq_i = X_i,Y_i$ with X and Y beeing sample sequences of length n and $1 <= i <= n)$.
+
+
+If samples sizes are unequal the quantiles have to be estimated. Note that this method does not replace a significance test wether the distributions differ statistically.
 
 Lets create four samples of size 300 first:
 
@@ -165,10 +173,10 @@ Lets calculate the quantiles from _normalDistA_ vs _normalDistB_
 *)
 
 // Here a tuple sequence is generated that pairwise contain the same quantiles from normalDistA and normalDistB
-let qqData = Signal.QQPlot.fromTwoSamples normalDistA normalDistB
+let qqData = Signal.QQPlot.fromTwoSamples() normalDistA normalDistB
 
 // Lets check out the first 5 elements in the sequence
-qqData.[0..4]
+Seq.head qqData
 (***include-it-raw***)
 
 (**
@@ -177,12 +185,15 @@ You can use this tuple sequence and plot it against each other. The diagonal lin
 
 *)
 
+open FSharp.Stats.Signal
+open FSharp.Stats.Signal.QQPlot
+
 //plots QQ plot from two sample populations
 let plotFrom2Populations sampleA sampleB =
 
     //this is the main data plotted as x,y diagram
     let qqData =
-        Signal.QQPlot.fromTwoSamples sampleA sampleB
+        QQPlot.fromTwoSamples() sampleA sampleB
         
     //for a perfect match, all points should be located on the bisector
     let expectedLine = 
@@ -259,20 +270,20 @@ Its easy to see that the random smaples are distributed between 0 and 1 while th
 
 
 //The raw qq-plot data of a standard normal distribution and the sample distribution
-let qqData2 sample = FSharp.Stats.Signal.QQPlot.fromSampleToGauss sample
+let qq2Normal sample = QQPlot.fromSampleToGauss(Method=QuantileMethod.Rankit,ZTransform=false) sample
 
 
 //plots QQ plot from a sample population against a standard normal distribution
 let plotFromOneSampleGauss sample =
     
     //this is the main data plotted as x,y diagram
-    let qqData = FSharp.Stats.Signal.QQPlot.fromSampleToGauss sample
+    let qqData = QQPlot.fromSampleToGauss(Method=QuantileMethod.Rankit,ZTransform=false) sample
 
     let qqChart =
         Chart.Point qqData
 
     let expectedLine = 
-        let minimum = snd qqData.[0] 
+        let minimum = qqData |> Seq.head |> snd
         let maximum = qqData |> Seq.last |> snd
         [
             minimum,minimum
@@ -286,7 +297,7 @@ let plotFromOneSampleGauss sample =
         expectedLine
     ]
     |> Chart.combine
-    |> Chart.withXAxisStyle "Quantiles sample" 
+    |> Chart.withXAxisStyle "Theoretical quantiles" 
     |> Chart.withYAxisStyle "Quantiles gauss"
     |> Chart.withTemplate ChartTemplates.lightMirrored
 
