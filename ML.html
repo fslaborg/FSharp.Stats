@@ -154,6 +154,11 @@
   </a>
 </li>             
 <li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
     Intervals
   </a>
@@ -185,7 +190,7 @@
 <h3><a name="Table-of-contents" class="anchor" href="#Table-of-contents">Table of contents</a></h3>
 <ul>
 <li>
-<a href="#Dimensionality Reduction">Dimensionality Reduction</a>
+<a href="#Dimensionality-Reduction">Dimensionality Reduction</a>
 <ul>
 <li><a href="#PCA">PCA</a></li>
 </ul>
@@ -224,29 +229,29 @@
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs48', 96)" onmouseover="showTip(event, 'fs48', 96)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 97)" onmouseover="showTip(event, 'fs21', 97)" class="id">withAxisTitles</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs50', 98)" onmouseover="showTip(event, 'fs50', 98)" class="fn">sprintf</span> <span class="s">&quot;PC1, Var explained </span><span class="pf">%f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs40', 99)" onmouseover="showTip(event, 'fs40', 99)" class="id">pca</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 100)" onmouseover="showTip(event, 'fs51', 100)" class="id">VarExplainedByComponentIndividual</span><span class="pn">.</span><span class="pn">[</span><span class="n">0</span><span class="pn">]</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs50', 101)" onmouseover="showTip(event, 'fs50', 101)" class="fn">sprintf</span> <span class="s">&quot;PC2, Var explained </span><span class="pf">%f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs40', 102)" onmouseover="showTip(event, 'fs40', 102)" class="id">pca</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 103)" onmouseover="showTip(event, 'fs51', 103)" class="id">VarExplainedByComponentIndividual</span><span class="pn">.</span><span class="pn">[</span><span class="n">1</span><span class="pn">]</span><span class="pn">)</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs48', 104)" onmouseover="showTip(event, 'fs48', 104)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 105)" onmouseover="showTip(event, 'fs52', 105)" class="id">withTitle</span> <span class="s">&quot;Score Plot&quot;</span>
 </code></pre>
-<div id="76ade7bd-7e3a-47d5-b4ea-4b348fe3aab1"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="eafd5946-f859-40ef-b853-4f107703b29f"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_76ade7bd7e3a47d5b4ea4b348fe3aab1 = function() {
+            var renderPlotly_eafd5946f85940efb8534f107703b29f = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"scatter","mode":"markers","x":[2.105432654357974,0.6793418638779576,0.3682688208810325,-1.1875635714705857,-1.9654797676463915],"y":[-0.01895438631426749,-1.5740418345548264,1.7191231678556418,0.2933738547765025,-0.4195008017630639],"marker":{},"line":{}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"PC1, Var explained 0.643962"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":"PC2, Var explained 0.355963"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"title":{"text":"Score Plot"}};
             var config = {"responsive":true};
-            Plotly.newPlot('76ade7bd-7e3a-47d5-b4ea-4b348fe3aab1', data, layout, config);
+            Plotly.newPlot('eafd5946-f859-40ef-b853-4f107703b29f', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_76ade7bd7e3a47d5b4ea4b348fe3aab1();
+                    renderPlotly_eafd5946f85940efb8534f107703b29f();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_76ade7bd7e3a47d5b4ea4b348fe3aab1();
+                renderPlotly_eafd5946f85940efb8534f107703b29f();
             }
 </script>
 
@@ -269,29 +274,29 @@
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs48', 129)" onmouseover="showTip(event, 'fs48', 129)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 130)" onmouseover="showTip(event, 'fs21', 130)" class="id">withAxisTitles</span> <span class="s">&quot;PC1&quot;</span> <span class="s">&quot;PC2&quot;</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs48', 131)" onmouseover="showTip(event, 'fs48', 131)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 132)" onmouseover="showTip(event, 'fs52', 132)" class="id">withTitle</span> <span class="s">&quot;Loading Plot&quot;</span>
 </code></pre>
-<div id="a6752ba8-cf1a-4b28-af88-ee1170d0ce04"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="acc2c556-ab59-4550-9fd6-ef93316443d3"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_a6752ba8cf1a4b28af88ee1170d0ce04 = function() {
+            var renderPlotly_acc2c556ab5945509fd6ef93316443d3 = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"scatter","mode":"lines","x":[0.0,0.5018458447296018],"y":[0.0,-0.4965896060675469],"marker":{},"line":{}},{"type":"scatter","mode":"lines","x":[0.0,0.49797920944078067],"y":[0.0,-0.5035828626241314],"marker":{},"line":{}},{"type":"scatter","mode":"lines","x":[0.0,-0.5000837205370555],"y":[0.0,-0.4999015221105874],"marker":{},"line":{}},{"type":"scatter","mode":"lines","x":[0.0,-0.5000837205370545],"y":[0.0,-0.49990152211058664],"marker":{},"line":{}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"PC1"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":"PC2"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"title":{"text":"Loading Plot"}};
             var config = {"responsive":true};
-            Plotly.newPlot('a6752ba8-cf1a-4b28-af88-ee1170d0ce04', data, layout, config);
+            Plotly.newPlot('acc2c556-ab59-4550-9fd6-ef93316443d3', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_a6752ba8cf1a4b28af88ee1170d0ce04();
+                    renderPlotly_acc2c556ab5945509fd6ef93316443d3();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_a6752ba8cf1a4b28af88ee1170d0ce04();
+                renderPlotly_acc2c556ab5945509fd6ef93316443d3();
             }
 </script>
 

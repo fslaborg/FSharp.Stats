@@ -154,6 +154,11 @@
   </a>
 </li>             
 <li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
     Intervals
   </a>
@@ -238,37 +243,37 @@ is defined as</p>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs68', 178)" onmouseover="showTip(event, 'fs68', 178)" class="id">pearsonAD</span>     <span class="o">=</span> <span onmouseout="hideTip(event, 'fs65', 179)" onmouseover="showTip(event, 'fs65', 179)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs66', 180)" onmouseover="showTip(event, 'fs66', 180)" class="id">pearson</span> <span onmouseout="hideTip(event, 'fs37', 181)" onmouseover="showTip(event, 'fs37', 181)" class="id">sampleA</span> <span onmouseout="hideTip(event, 'fs47', 182)" onmouseover="showTip(event, 'fs47', 182)" class="id">sampleD</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs69', 183)" onmouseover="showTip(event, 'fs69', 183)" class="id">pearsonABHigh</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs65', 184)" onmouseover="showTip(event, 'fs65', 184)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs66', 185)" onmouseover="showTip(event, 'fs66', 185)" class="id">pearson</span> <span onmouseout="hideTip(event, 'fs37', 186)" onmouseover="showTip(event, 'fs37', 186)" class="id">sampleA</span> <span onmouseout="hideTip(event, 'fs43', 187)" onmouseover="showTip(event, 'fs43', 187)" class="id">sampleBHigh</span>
 </code></pre>
-<div id="3b1edc86-75ea-45f5-855b-31f91b77685f"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="392bbbcb-c267-4a25-982b-c79a72cbd5ea"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_3b1edc8675ea45f5855b31f91b77685f = function() {
+            var renderPlotly_392bbbcbc2674a25982bc79a72cbd5ea = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
-            var data = [{"type":"scatter","name":"AB","mode":"markers","x":[0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0,32.0,33.0,34.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44.0,45.0,46.0,47.0,48.0,49.0],"y":[4.0,10.0,2.0,8.0,11.0,12.0,10.0,15.0,9.0,9.0,11.0,15.0,20.0,23.0,20.0,20.0,21.0,24.0,23.0,24.0,28.0,24.0,26.0,27.0,29.0,25.0,30.0,37.0,32.0,37.0,34.0,38.0,38.0,37.0,42.0,37.0,39.0,42.0,45.0,40.0,43.0,42.0,48.0,44.0,51.0,48.0,52.0,56.0,52.0,51.0],"marker":{},"line":{}},{"type":"scatter","name":"AC","mode":"markers","x":[0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0,32.0,33.0,34.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44.0,45.0,46.0,47.0,48.0,49.0],"y":[97.0,69.0,77.0,94.0,72.0,74.0,70.0,81.0,65.0,61.0,60.0,77.0,64.0,84.0,68.0,67.0,69.0,68.0,55.0,72.0,59.0,49.0,69.0,77.0,52.0,48.0,53.0,46.0,69.0,68.0,46.0,63.0,41.0,37.0,51.0,38.0,64.0,39.0,44.0,55.0,36.0,56.0,52.0,39.0,29.0,28.0,30.0,53.0,25.0,21.0],"marker":{},"line":{}},{"type":"scatter","name":"AD","mode":"markers","x":[0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0,32.0,33.0,34.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44.0,45.0,46.0,47.0,48.0,49.0],"y":[120.0,100.0,100.0,200.0,130.0,150.0,150.0,160.0,180.0,120.0,190.0,160.0,140.0,100.0,160.0,110.0,150.0,180.0,120.0,200.0,110.0,200.0,200.0,120.0,130.0,170.0,200.0,180.0,190.0,180.0,100.0,150.0,190.0,130.0,150.0,100.0,180.0,110.0,120.0,140.0,100.0,190.0,190.0,200.0,190.0,130.0,150.0,200.0,130.0,110.0],"marker":{},"line":{}},{"type":"scatter","name":"AB+","mode":"markers","x":[0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0,32.0,33.0,34.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44.0,45.0,46.0,47.0,48.0,49.0],"y":[204.0,210.0,202.0,208.0,211.0,212.0,210.0,215.0,209.0,209.0,211.0,215.0,220.0,223.0,220.0,220.0,221.0,224.0,223.0,224.0,228.0,224.0,226.0,227.0,229.0,225.0,230.0,237.0,232.0,237.0,234.0,238.0,238.0,237.0,242.0,237.0,239.0,242.0,245.0,240.0,243.0,242.0,248.0,244.0,251.0,248.0,252.0,256.0,252.0,251.0],"marker":{},"line":{}}];
+            var data = [{"type":"scatter","name":"AB","mode":"markers","x":[0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0,32.0,33.0,34.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44.0,45.0,46.0,47.0,48.0,49.0],"y":[0.0,1.0,2.0,3.0,4.0,6.0,13.0,11.0,14.0,19.0,17.0,15.0,20.0,16.0,23.0,23.0,25.0,24.0,28.0,19.0,20.0,31.0,23.0,24.0,27.0,29.0,30.0,37.0,36.0,35.0,37.0,39.0,37.0,41.0,40.0,38.0,42.0,37.0,45.0,42.0,42.0,45.0,52.0,48.0,50.0,47.0,50.0,51.0,54.0,51.0],"marker":{},"line":{}},{"type":"scatter","name":"AC","mode":"markers","x":[0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0,32.0,33.0,34.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44.0,45.0,46.0,47.0,48.0,49.0],"y":[76.0,69.0,80.0,82.0,81.0,77.0,76.0,72.0,83.0,61.0,72.0,68.0,82.0,66.0,80.0,61.0,57.0,68.0,79.0,78.0,65.0,79.0,75.0,71.0,73.0,60.0,68.0,61.0,48.0,71.0,55.0,60.0,59.0,49.0,48.0,44.0,37.0,51.0,62.0,55.0,60.0,41.0,58.0,42.0,26.0,25.0,48.0,26.0,46.0,48.0],"marker":{},"line":{}},{"type":"scatter","name":"AD","mode":"markers","x":[0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0,32.0,33.0,34.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44.0,45.0,46.0,47.0,48.0,49.0],"y":[110.0,200.0,160.0,170.0,140.0,180.0,120.0,160.0,140.0,110.0,110.0,180.0,110.0,100.0,120.0,100.0,150.0,200.0,100.0,120.0,180.0,160.0,150.0,190.0,150.0,180.0,180.0,180.0,150.0,190.0,110.0,130.0,150.0,160.0,120.0,190.0,120.0,200.0,160.0,110.0,100.0,130.0,150.0,140.0,100.0,150.0,110.0,200.0,170.0,100.0],"marker":{},"line":{}},{"type":"scatter","name":"AB+","mode":"markers","x":[0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0,32.0,33.0,34.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44.0,45.0,46.0,47.0,48.0,49.0],"y":[200.0,201.0,202.0,203.0,204.0,206.0,213.0,211.0,214.0,219.0,217.0,215.0,220.0,216.0,223.0,223.0,225.0,224.0,228.0,219.0,220.0,231.0,223.0,224.0,227.0,229.0,230.0,237.0,236.0,235.0,237.0,239.0,237.0,241.0,240.0,238.0,242.0,237.0,245.0,242.0,242.0,245.0,252.0,248.0,250.0,247.0,250.0,251.0,254.0,251.0],"marker":{},"line":{}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"x"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":"y"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"title":{"text":"test cases for covariance calculation"}};
             var config = {"responsive":true};
-            Plotly.newPlot('3b1edc86-75ea-45f5-855b-31f91b77685f', data, layout, config);
+            Plotly.newPlot('392bbbcb-c267-4a25-982b-c79a72cbd5ea', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_3b1edc8675ea45f5855b31f91b77685f();
+                    renderPlotly_392bbbcbc2674a25982bc79a72cbd5ea();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_3b1edc8675ea45f5855b31f91b77685f();
+                renderPlotly_392bbbcbc2674a25982bc79a72cbd5ea();
             }
 </script>
 
 <table class="pre"><tr><td><pre><code>"Covariance of the presented four test cases
-AB (blue)   cov: 209.40    covPopulation: 205.21   pearson: 0.983
-AC (orange) cov: -209.9    covPopulation: -205.7   pearson: -0.82
-AD (green)  cov: 54.49    covPopulation: 53.40   pearson: 0.107
-AB+(red)    cov: 209.40    covPopulation: 205.21   pearson: 0.983"</code></pre></td></tr></table>
+AB (blue)   cov: 218.62    covPopulation: 214.25   pearson: 0.977
+AC (orange) cov: -182.9    covPopulation: -179.2   pearson: -0.81
+AD (green)  cov: -17.86    covPopulation: -17.50   pearson: -0.037
+AB+(red)    cov: 218.62    covPopulation: 214.25   pearson: 0.977"</code></pre></td></tr></table>
 
                 </div>
             </div>
@@ -372,7 +377,9 @@ from Plotly.NET</div>
 <div class="fsdocs-tip" id="fs37">val sampleA: Vector&lt;float&gt;</div>
 <div class="fsdocs-tip" id="fs38">Multiple items<br />module Vector
 
-from FSharp.Stats<br /><br />--------------------<br />type Vector&lt;&#39;T&gt; =
+from FSharp.Stats<br /><em>&lt;summary&gt;
+Basic vector operations
+&lt;/summary&gt;</em><br /><br />--------------------<br />type Vector&lt;&#39;T&gt; =
   interface IEnumerable
   interface IEnumerable&lt;&#39;T&gt;
   interface IStructuralEquatable
