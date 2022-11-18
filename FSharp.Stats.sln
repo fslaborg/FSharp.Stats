@@ -57,6 +57,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6
 		docs\Intervals.fsx = docs\Intervals.fsx
 		docs\LinearAlgebra.fsx = docs\LinearAlgebra.fsx
 		docs\Matrix_Vector.fsx = docs\Matrix_Vector.fsx
+		docs\Quantiles.fsx = docs\Quantiles.fsx
 		docs\NuGet.config = docs\NuGet.config
 		docs\Rank.fsx = docs\Rank.fsx
 		docs\Signal.fsx = docs\Signal.fsx
