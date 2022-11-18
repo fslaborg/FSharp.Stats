@@ -44,18 +44,27 @@ module Chart =
 
 _Summary:_ this tutorial demonstrates how to handle quantiles and QQ-Plots
 
+### Table of contents
+
+ - [Quantiles](#Quantiles)
+ - [QQ plot](#QQ-plot)
+   - [Comparing two sample distributions](#Comparing-two-sample-distributions)
+   - [Comparing a sample against a distribution](#Comparing-a-sample-against-a-distribution)
+     - [Normal distribution](#Normal-distribution)
+     - [Uniform Distribution](#Uniform-Distribution)
+
 ## Quantiles
 
 Quantiles are values that divide data into equally spaced groups. Percentiles are just quantiles that divide the data in 100 equally sized groups.
-The median for example defines the 0.5 quantile or 0.5 percentile. You can calculate the quantile by calculating how many values are less than the value you are interested in.
+The median for example defines the 0.5 quantile or 0.5 percentile. You can calculate the quantile by what proportion of values are less than the value you are interested in.
 
-_Note: There are many possibilities to handle ties or data that cannot be split equally. The default quantile version used in R is `Quantile.mode`._
+_Note: There are many possibilities to handle ties or data that cannot be split equally. The default quantile method used here is `Quantile.mode`._
 
 Let's sample 1000 data points from a normal distribution and calculate some percentiles.
 *)
-
+open System
 open FSharp.Stats
-open FSharp.Stats.Quantile
+open FSharp.Stats.Signal
 
 let rng = Distributions.ContinuousDistribution.normal 3. 1.
 
@@ -74,7 +83,7 @@ let quantile100 = Quantile.mode 1.00 sample
 (**
 
 These special quantiles are also called quartiles since the divide the data into 4 sections.
-Now we can divide the data into the ranges defined by the quantiles and plot them. Here the ranges defines half-open interval:
+Now we can divide the data into the ranges defined by the quantiles and plot them. Here the ranges defines half-open intervals:
 
 *)
 
@@ -86,12 +95,13 @@ let range100 = sample |> Array.filter (fun x -> x > quantile75)
 (*** hide ***)
 let quartilePlot =
     [|
-        Chart.Histogram(range25,"25")   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 25")
-        Chart.Histogram(range50,"50")   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 50")
-        Chart.Histogram(range75,"75")   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 75")
-        Chart.Histogram(range100,"100") |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 100")
+        Chart.Histogram(range25,"25",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 25")
+        Chart.Histogram(range50,"50",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 50")
+        Chart.Histogram(range75,"75",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 75")
+        Chart.Histogram(range100,"100",ShowLegend=false) |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 100")
     |]
     |> Chart.Grid(4,1)
+
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -105,39 +115,39 @@ quartilePlot |> GenericChart.toChartHTML
 
 (**
 
-## QQ Plot
+## QQ plot
 
-QQ plots allow to compare two sample distributions if:
+QQ plots allow to compare sample distributions if:
 
   - the underlying population distribution is unknown or if
   - the relationship between two distributions should be evaluated in greater detail than just their estimated parameters.
 
-When sample is compared to a known distribution, every quantile can be calculated exactly by inverting the CDF. If you compare two samples, there is no uniquely defined CDF, so quantiles have to be interpolated. Additionally
-there are various methods for determining Quantiles that differ in handling ties and uneven spacing.
+When a sample is compared to a known distribution, every quantile can be calculated exactly by inverting their CDF. If you compare two samples, there is no uniquely defined CDF, 
+so quantiles have to be interpolated. 
 
 ### Comparing two sample distributions
 
 Two sample populations can be compared by QQ-plots where quantiles of the first sample are plotted against quantiles of the second sample. If the sample length is equal, both samples are ordered and plotted as pairs. 
 
-$qq_i = X_i,Y_i$ with X and Y beeing sample sequences of length n and $1 <= i <= n)$.
+$qq_i = X_i,Y_i$ with $X$ and $Y$ beeing ordered sample sequences of length $n$ and $(1 \le i \le n)$
 
 
-If samples sizes are unequal the quantiles have to be estimated. Note that this method does not replace a significance test wether the distributions differ statistically.
+If samples sizes are unequal the quantiles of the larger data set have to be interpolated from the quantiles of the smaller data set. 
 
-Lets create four samples of size 300 first:
+**Lets create four samples of size 300 first:**
 
-  - two that are drawn from a normal distribution
+ - two that are drawn from a normal distribution of mean $3.0$ and standard deviation $0.5$
 
-  - two that are drawn randomly between 0 and 1
+ - two that are drawn randomly between 0 and 1
 
 *)
 
 
 //create samples
 let rnd = System.Random()
-let norm = Distributions.ContinuousDistribution.normal 0. 1.
+let norm = Distributions.ContinuousDistribution.normal 3.0 0.5
 
-///Example 1: Aamples from a standard normal distribution
+///Example 1: Aamples from a normal distribution
 let normalDistA = Array.init 300 (fun _ -> norm.Sample())
 let normalDistB = Array.init 300 (fun _ -> norm.Sample())
 
@@ -166,76 +176,59 @@ exampleDistributions |> GenericChart.toChartHTML
 
 (**
 
-To compare if two distributions are equal or to identify ranges in which the distributions differ the 100 quantiles from each of the two distributions can be calculated and plotted against each other.
-If both distributions are similar, you would expect the quantiles to be identical and therefore are located on the bisector of the QQ-Plot.
+To compare if two distributions are equal or to identify ranges in which the distributions differ, a quantile pair from each of the two distributions can be calculated and plotted against each other.
+If both distributions are similar, you would expect the quantiles to be identical and therefore are located on a straight line. If the samples are of different length $m$ and $n$ the number 
+of quantiles is limited to $min$ $m$ $n$. For every data point of the smaller data set a corresponding quantile of the larger data set is determined.
 
-Lets calculate the quantiles from _normalDistA_ vs _normalDistB_
+Lets calculate the quantiles from _normalDistA_ vs _normalDistB_.
 *)
 
 // Here a tuple sequence is generated that pairwise contain the same quantiles from normalDistA and normalDistB
-let qqData = Signal.QQPlot.fromTwoSamples() normalDistA normalDistB
+let qqData = QQPlot.fromTwoSamples normalDistA normalDistB
 
 // Lets check out the first 5 elements in the sequence
-Seq.head qqData
+Seq.take 5 qqData
 (***include-it-raw***)
 
 (**
 
-You can use this tuple sequence and plot it against each other. The diagonal line indicates the bisector where perfect matches would be located.
+You can use this tuple sequence and plot it against each other.
 
 *)
 
 open FSharp.Stats.Signal
 open FSharp.Stats.Signal.QQPlot
 
+
 //plots QQ plot from two sample populations
 let plotFrom2Populations sampleA sampleB =
 
-    //this is the main data plotted as x,y diagram
-    let qqData =
-        QQPlot.fromTwoSamples() sampleA sampleB
-        
-    //for a perfect match, all points should be located on the bisector
-    let expectedLine = 
-        let minimum = min (Quantile.mode 0. sampleA) (Quantile.mode 0. sampleB)
-        let maximum = max (Quantile.mode 1. sampleA) (Quantile.mode 1. sampleB)
-        [
-            minimum,minimum
-            maximum,maximum
-        ]
-        |> Chart.Line
-        |> Chart.withTraceName "expected"
+    //here the coordinates are calculated
+    let qqCoordinates = QQPlot.fromTwoSamples sampleA sampleB
 
-    [
-        Chart.Point (qqData,Name="QQ")
-        expectedLine
-    ]
-    |> Chart.combine
+    Chart.Point (qqCoordinates,Name="QQ")
     |> Chart.withXAxisStyle "Quantiles sample A" 
     |> Chart.withYAxisStyle "Quantiles sample B"
     |> Chart.withTemplate ChartTemplates.lightMirrored
 
-let myQQPlot = plotFrom2Populations normalDistA normalDistB
+let myQQplot1 = plotFrom2Populations normalDistA normalDistB
 
 
 (*** condition: ipynb ***)
 #if IPYNB
-myQQPlot
+myQQplot1
 #endif // IPYNB
 
 (***hide***)
-myQQPlot |> GenericChart.toChartHTML
+myQQplot1 |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 
 (**
 
-The both samples were taken from the same normal distribution and therefore they match pretty well.
+Both samples were taken from the same distribution (here normal distribution) and therefore they match pretty well.
 
-### Comparing a sample against a normal distribution
-
-You also can plot the quantiles from a sample versus a normal distribution to check if your data is normally distributed.
-Your data is z standardized prior to quantile determination to have zero mean and unit variance.
+In the following plot you can see four comparisons of the four distributions defined in the beginning (2x normal + 2x uniform).
 
 *)
 
@@ -262,22 +255,44 @@ multipleQQPlots |> GenericChart.toChartHTML
 
 (**
 
-When QQ-plots are generated for pairwise comparisons, it is obvious, that the random-random and normal-normal samples fit nicely. The cross comparisons between normal and random samples do not match.
-Its easy to see that the random smaples are distributed between 0 and 1 while the samples from the normal distributions range from ~-2 to ~2
+When QQ-plots are generated for pairwise comparisons, it is obvious, that the _random_-_random_ and _normal_-_normal_ samples fit nicely. The cross comparisons between normal and random samples do not match.
+Its easy to see that the random samples are distributed between 0 and 1 while the samples from the normal distributions range from $1$ to ~$5$.
+
+
+### Comparing a sample against a distribution
+
+You can plot the quantiles from a sample versus a known distribution to check if your data follows the given distribution. 
+There are various methods to determine quantiles that differ in handling ties and uneven spacing.
+
+
+```
+Quantile determination methods(rank,sampleLength):
+  - Blom          -> (rank - 3. / 8.) / (sampleLength + 1. / 4.)
+  - Rankit        -> (rank - 1. / 2.) / sampleLength
+  - Tukey         -> (rank - 1. / 3.) / (sampleLength + 1. / 3.)
+  - VanDerWerden  -> rank / (sampleLength + 1.)
+```
+
+_Note that this method does not replace a significance test wether the distributions differ statistically._
+
+#### Normal distribution
+
+The data can be z standardized prior to quantile determination to have zero mean and unit variance. If the data is zTransformed the bisector defines a perfect match.
 
 *)
 
+// The raw qq-plot data of a standard normal distribution and the sample distribution
+// defaults: 
+//   Method:     QuantileMethod.Rankit
+//   ZTransform: false
+let qq2Normal sample = QQPlot.toGauss(Method=QuantileMethod.Rankit,ZTransform=true) sample
 
-
-//The raw qq-plot data of a standard normal distribution and the sample distribution
-let qq2Normal sample = QQPlot.fromSampleToGauss(Method=QuantileMethod.Rankit,ZTransform=false) sample
-
-
-//plots QQ plot from a sample population against a standard normal distribution
+// plots QQ plot from a sample population against a standard normal distribution. 
+// if the data is zTransformed the bisector defines a perfect match.
 let plotFromOneSampleGauss sample =
     
     //this is the main data plotted as x,y diagram
-    let qqData = QQPlot.fromSampleToGauss(Method=QuantileMethod.Rankit,ZTransform=false) sample
+    let qqData = QQPlot.toGauss(Method=QuantileMethod.Rankit,ZTransform=true) sample
 
     let qqChart =
         Chart.Point qqData
@@ -297,8 +312,8 @@ let plotFromOneSampleGauss sample =
         expectedLine
     ]
     |> Chart.combine
-    |> Chart.withXAxisStyle "Theoretical quantiles" 
-    |> Chart.withYAxisStyle "Quantiles gauss"
+    |> Chart.withXAxisStyle "Theoretical quantiles (normal)" 
+    |> Chart.withYAxisStyle "Sample quantiles"
     |> Chart.withTemplate ChartTemplates.lightMirrored
 
 
@@ -321,20 +336,95 @@ As seen above the sample perfectly matches the expected quantiles from a normal 
 
 *)
 
-let myQQPlotOneSampleRandm = plotFromOneSampleGauss evenRandomA
+// compare the uniform sample against a normal distribution
+let my2QQPlotOneSampleGauss = plotFromOneSampleGauss evenRandomA 
+
 
 (*** condition: ipynb ***)
 #if IPYNB
-myQQPlotOneSampleRandm
+my2QQPlotOneSampleGauss
 #endif // IPYNB
 
 (***hide***)
-myQQPlotOneSampleRandm |> GenericChart.toChartHTML
+my2QQPlotOneSampleGauss |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 
 (**
 
 As seen above the sample does not matches the expected quantiles from a normal distribution. The sample derives from an random sampling between 0 and 1 and therefore is overrepresented in the tails.
+
+
+#### Uniform Distribution
+
+You also can plot your data against a uniform distribution. Data can be standardized to lie between $0$ and $1$
+*)
+
+let uniform = 
+    QQPlot.toUniform(Method=QuantileMethod.Rankit,Standardize=false) normalDistA
+    |> Chart.Point
+    |> Chart.withXAxisStyle "Theoretical quantiles (uniform)" 
+    |> Chart.withYAxisStyle "Sample quantiles"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+(*** condition: ipynb ***)
+#if IPYNB
+uniform
+#endif // IPYNB
+
+(***hide***)
+uniform |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+
+#### Any specified distribution
+
+You also can plot your data against a distribution you can specify. You have to define the _inverse CDF_ or also called the _Quantile function_.
+
+**LogNormal distribution**
+
+*)
+
+// generate a sample from a lognormal distriution
+let sampleFromLogNormal =
+    let d = Distributions.ContinuousDistribution.logNormal 0. 1.
+    Array.init 500 (fun _ -> d.Sample())
+
+
+
+// define the quantile function for the log normal distribution with parameters mu = 0 and sigma = 1
+let quantileFunctionLogNormal p = 
+    let mu = 0.
+    let sigma = 1.
+    Math.Exp (mu + Math.Sqrt(2. * (pown sigma 2)) * SpecialFunctions.Errorfunction.inverf(2. * p - 1.))
+
+let logNormalNormalDist = QQPlot.toInvCDF(quantileFunctionLogNormal,Method=QuantileMethod.Rankit) normalDistA
+
+let logNormalLogNormal  = QQPlot.toInvCDF(quantileFunctionLogNormal,Method=QuantileMethod.Rankit) sampleFromLogNormal
+
+let logNormalChart = 
+    [
+        Chart.Point(logNormalNormalDist,Name="normal sample")
+        Chart.Point(logNormalLogNormal,Name="log normal sample")
+    ]
+    |> Chart.combine
+    |> Chart.withXAxisStyle "Theoretical quantiles Log Normal" 
+    |> Chart.withYAxisStyle "Sample quantiles"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+(*** condition: ipynb ***)
+#if IPYNB
+logNormalChart
+#endif // IPYNB
+
+(***hide***)
+logNormalChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
+
+The log normal sample fits nicely to the bisector, but the sample from the normal distribution does not fit
 
 *)
