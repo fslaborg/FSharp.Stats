@@ -14,36 +14,35 @@ open FSharp.Stats.Ops
 type LogNormal =
 
     // Log-Normal distribution helper functions.
-    static member CheckParam mu tau = 
-        if System.Double.IsNaN(mu) || tau < 0.0 then 
+    static member CheckParam mu sigma = 
+        if System.Double.IsNaN(mu) || sigma < 0.0 then 
             failwith "Log-Normal distribution should be parametrized by tau > 0.0."
 
     /// Computes the mode.
-    static member Mode mu tau =
-        LogNormal.CheckParam mu tau
-        exp(mu - (tau*tau))
+    static member Mode mu sigma =
+        LogNormal.CheckParam mu sigma
+        exp(mu - (sigma*sigma))
     
     /// Computes the mean.
-    static member Mean mu tau =
-        LogNormal.CheckParam mu tau
-        exp(mu + (tau*tau/2.0))
-            
+    static member Mean mu sigma =
+        LogNormal.CheckParam mu sigma
+        exp(mu + (sigma*sigma/2.0))
 
     /// Computes the variance.
-    static member Variance mu tau =
-        LogNormal.CheckParam mu tau
-        tau*tau
+    static member Variance mu sigma =
+        LogNormal.CheckParam mu sigma
+        (exp(sigma * sigma) - 1.) * (exp(2. * mu + sigma * sigma))
 
     /// Computes the standard deviation.
-    static member StandardDeviation mu tau =
-        LogNormal.CheckParam mu tau
-        let tau2 =  tau * tau
+    static member StandardDeviation mu sigma =
+        LogNormal.CheckParam mu sigma
+        let tau2 =  sigma * sigma
         sqrt (exp(tau2) - 1.0) * exp(mu + mu + tau2)
 
     /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-    static member Sample mu tau =
+    static member Sample mu sigma =
         // Source: fsmathtools
-        LogNormal.CheckParam mu tau
+        LogNormal.CheckParam mu sigma
         let mutable v1 = 2.0 * Random.rndgen.NextFloat() - 1.0
         let mutable v2 = 2.0 * Random.rndgen.NextFloat() - 1.0
         let mutable r = v1 * v1 + v2 * v2
@@ -52,44 +51,43 @@ type LogNormal =
             v2 <- 2.0 * Random.rndgen.NextFloat() - 1.0
             r <- v1 * v1 + v2 * v2
         let fac = sqrt(-2.0*(log r)/r)
-        exp (tau * v1 * fac + mu)
+        exp (sigma * v1 * fac + mu)
         //failwith "Not implemented yet."
 
     /// Computes the probability density function.
-    static member PDF mu tau x =
-        LogNormal.CheckParam mu tau
-        let a = (log x - mu) / tau
-        //exp(-0.5*a*a)/(x * tau * Ops.Sqrt2Pi)
-        failwith "Not implemented yet."
-            
+    static member PDF mu sigma x =
+        LogNormal.CheckParam mu sigma
+        if x <= 0. then failwithf "x must by > 0."
+        let a = 1. / (x * sigma * sqrt (2. * Math.PI))
+        let b = - ((log x - mu)**2.) / (2. * sigma * sigma)
+        a * exp b
 
     /// Computes the cumulative distribution function.
-    static member CDF mu tau x =
-        LogNormal.CheckParam mu tau            
-        //0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((x - mu)/(tau*(sqrt 2.0))))
-        failwith "Not implemented yet."
-
+    static member CDF mu sigma x =
+        LogNormal.CheckParam mu sigma            
+        0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((log x - mu)/(sigma*(sqrt 2.0))))
+ 
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
-    static member Support mu tau =
-        LogNormal.CheckParam mu tau
+    static member Support mu sigma =
+        LogNormal.CheckParam mu sigma
         (0., System.Double.PositiveInfinity)
 
     /// A string representation of the distribution.
-    static member ToString mu tau =
-        sprintf "Normal(μ = %f, σ = %f)" mu tau
+    static member ToString mu sigma =
+        sprintf "LogNormal(μ = %f, σ = %f)" mu sigma
 
     /// Initializes a Normal distribution 
-    static member Init mu tau =
+    static member Init mu sigma =
         { new ContinuousDistribution<float,float> with
-            member d.Mean              = LogNormal.Mean mu tau
-            member d.StandardDeviation = LogNormal.StandardDeviation mu tau
-            member d.Variance          = LogNormal.Variance mu tau
-            member d.CDF x             = LogNormal.CDF mu tau x  
+            member d.Mean              = LogNormal.Mean mu sigma
+            member d.StandardDeviation = LogNormal.StandardDeviation mu sigma
+            member d.Variance          = LogNormal.Variance mu sigma
+            member d.CDF x             = LogNormal.CDF mu sigma x  
             //member d.CoVariance        = LogNormal.CoVariance  mu tau
-            member d.Mode              = LogNormal.Mode mu tau
-            member d.Sample ()         = LogNormal.Sample mu tau
-            member d.PDF x             = LogNormal.PDF mu tau x      
-            override d.ToString()      = LogNormal.ToString mu tau
+            member d.Mode              = LogNormal.Mode mu sigma
+            member d.Sample ()         = LogNormal.Sample mu sigma
+            member d.PDF x             = LogNormal.PDF mu sigma x      
+            override d.ToString()      = LogNormal.ToString mu sigma
         }
 
     /// Estimates the log-normal distribution parameters from sample data with maximum-likelihood.
@@ -99,7 +97,8 @@ type LogNormal =
             |> Seq.map log
             |> Seq.stats
         let mu  = SummaryStats.mean s
-        let tau = SummaryStats.stDev s
+        //n-1 is more stable
+        let sigma = SummaryStats.stDevPopulation s
             
-        LogNormal.Init mu tau
+        LogNormal.Init mu sigma
 

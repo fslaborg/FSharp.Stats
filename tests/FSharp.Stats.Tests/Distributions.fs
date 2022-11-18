@@ -1504,3 +1504,54 @@ let GammaDistributionTests =
     //but was 1238.8734068085332183. actual=1.0276894821207402346e-05 expected=1238.8734170854279455
     
     ]
+
+
+
+[<Tests>]
+let logNormal =
+    
+    let testDist1 = Distributions.ContinuousDistribution.logNormal 1. 2.
+    let testDist2 = Distributions.ContinuousDistribution.logNormal 0. 0.5
+    let testDist3 = Distributions.ContinuousDistribution.logNormal 9. 3.
+    
+    let mean = testDist1.Mean
+    let var  = testDist1.Variance
+    let pdf1 = testDist1.PDF 2. // 0.098568580344
+    let pdf2 = testDist2.PDF 2. // 0.152613826048
+    let pdf3 = testDist3.PDF 2. // 0.00143837301338
+    let cdf1 = testDist1.CDF 2. //0.439031009748
+    let cdf2 = testDist2.CDF 2. //0.917171480998
+    let cdf3 = testDist3.CDF 2. //0.00281185513351
+
+    testList "Distributions.Continuous.LogNormal" [
+        
+        testCase "Mean"<| fun () ->
+            Expect.floatClose Accuracy.medium mean 20.08553692 "Means should be equal"
+        
+        testCase "Variance"<| fun () ->
+            Expect.floatClose Accuracy.high var 21623.037 "Variance should be equal"
+        
+        //tested against r plnorm
+        testCase "Cdf1" <| fun () ->
+            Expect.floatClose Accuracy.medium cdf1 0.439031009748 "Cdf should be equal"
+                
+        testCase "Cdf2" <| fun () ->
+            Expect.floatClose Accuracy.medium cdf2 0.917171480998 "Cdf should be equal"
+                
+        testCase "Cdf3" <| fun () ->
+            Expect.floatClose Accuracy.low cdf3 0.00281185513351 "Cdf should be equal"
+        
+        //tested against r dlnorm
+        testCase "Pdf1" <| fun () ->
+            Expect.floatClose Accuracy.high pdf1 0.098568580344 "Pdf should be equal"
+
+        testCase "Pdf2" <| fun () ->
+            Expect.floatClose Accuracy.high pdf2 0.152613826048 "Pdf should be equal"
+
+        testCase "Pdf3" <| fun () ->
+            Expect.floatClose Accuracy.high pdf3 0.00143837301338 "Pdf should be equal"
+        
+    ]
+
+
+
