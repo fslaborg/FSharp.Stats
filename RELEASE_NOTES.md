@@ -1,3 +1,12 @@
+### 0.4.9+b74ecf29 (Released 2022-11-18)
+* Additions:
+    * latest commit #b74ecf29
+    * [[#8d3427fa](https://github.com/fslaborg/FSharp.Stats/commit/8d3427fa634b082227b7379bd833bfa4d79d3a22)] add erfinv #238
+    * [[#20b2416d](https://github.com/fslaborg/FSharp.Stats/commit/20b2416d678bfd411b55288316a163e345517323)] add qq plot 
+    * [[#26818d6b](https://github.com/fslaborg/FSharp.Stats/commit/26818d6b4d7483d2a7357ae23a46e746a88969f0)] update qq plot documentation
+* Bugfixes:
+    * [[#3aa4c4ce](https://github.com/fslaborg/FSharp.Stats/commit/3aa4c4ce5768e6e1e49d45efd6d2de5e1562e319)] fix failing docs
+    
 ### 0.4.8+be68a276 (Released 2022-8-29)
 * Additions:
     * latest commit #be68a276
