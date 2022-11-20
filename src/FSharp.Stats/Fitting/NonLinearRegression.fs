@@ -393,7 +393,7 @@ module NonLinearRegression =
             MaximumIterations       = 10000
             InitialParamGuess       = initialParamGuess
             }
-
+            
         /////////////////////////
         /// Exponential function of the form "y = a * exp(b * x)"
         let expModel = 
@@ -416,6 +416,65 @@ module NonLinearRegression =
                 let a = exp linearReg.[0]
                 let b = linearReg.[1]
                 [|a;b|]
+
+            {
+            MinimumDeltaValue       = 0.0001
+            MinimumDeltaParameters  = 0.0001  
+            MaximumIterations       = 10000
+            InitialParamGuess       = initialParamGuess
+            }
+
+        /////////////////////////
+        /// log normal distribution
+        let logNormalModel = 
+            let parameterNames = [|"mu";"sigma"|]
+            let getFunctionValues = 
+                (fun (parameters:Vector<float>) x -> 
+                    let mu = parameters.[0] 
+                    let sigma = parameters.[1]
+                    let a = 1. / (x * sigma * sqrt (2. * Math.PI))
+                    let b = - ((log x - mu)**2.) / (2. * sigma * sigma)
+                    a * exp b)
+
+            let getGradientValues =
+                (fun (parameterVector:Vector<float>) (gradientVector: Vector<float>) x -> 
+                    
+                    let mu = parameterVector.[0] 
+                    let sigma = parameterVector.[1]
+                    let partialDerivMu =
+                        ((log (x) - mu) * exp(-(log (x) - mu)**2. / (2. * sigma**2.))) / (sqrt(2.) * sqrt(Math.PI) * sigma**3. * x)
+                        
+                    let partialDerivSigma =
+                        -((sigma**2. - log (x)**2. + 2. * mu * log (x) - mu**2.) * exp(-(log (x) - mu)**2. / (2. * sigma**2.))) / (sqrt (2.) * sqrt (Math.PI) * x * sigma**4.)
+
+                    gradientVector.[0] <- partialDerivMu
+                    gradientVector.[1] <- partialDerivSigma
+                    gradientVector)    
+            createModel parameterNames getFunctionValues getGradientValues
+
+        
+        ///Takes the result of the linearization as initialGuessParams
+        let logNormalOptions (sample:float []) = 
+            //gets the linear representation of the problem and solves it by simple linear regression
+            let initialParamGuess =
+
+                let xBar = Seq.mean sample 
+                let varHat = Seq.varPopulation sample
+                let mu' = log (xBar / sqrt (1. + (varHat / xBar**2.)))
+
+                let sigma' = 
+                    log(1. + (varHat) / (xBar**2.))
+                    |> sqrt
+
+                let s = 
+                    sample
+                    |> Seq.filter (fun x -> x <> 0.)
+                    |> Seq.map log
+                    |> Seq.stats
+                let mu  = SummaryStats.mean s
+                let sigma = SummaryStats.stDev s
+                [|mu;sigma|]
+
 
             {
             MinimumDeltaValue       = 0.0001
