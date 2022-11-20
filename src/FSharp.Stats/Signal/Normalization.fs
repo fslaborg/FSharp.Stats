@@ -33,6 +33,7 @@ module Normalization =
                 ) 
             |> Matrix.ofRows
             |> Matrix.mapiCols (fun _ v -> Vector.median v)
+        printfn "%A" sampleWiseCorrectionFactors
         data
         |> Matrix.mapi (fun r c v ->
             v / sampleWiseCorrectionFactors.[c]
@@ -59,6 +60,7 @@ module Normalization =
                 ) 
             |> Matrix.ofCols
             |> Matrix.mapiRows (fun _ v -> Seq.median v)
+        printfn "%A" sampleWiseCorrectionFactors
         data
         |> Matrix.mapi (fun r c v ->
             v / sampleWiseCorrectionFactors.[r]
