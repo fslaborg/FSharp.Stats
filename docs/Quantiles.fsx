@@ -83,7 +83,7 @@ let quantile100 = Quantile.mode 1.00 sample
 (**
 
 These special quantiles are also called quartiles since the divide the data into 4 sections.
-Now we can divide the data into the ranges defined by the quantiles and plot them. Here the ranges defines half-open intervals:
+Now we can divide the data into the ranges defined by the quantiles and plot them. Here the ranges defines half-open intervals between two quartiles.
 
 *)
 
@@ -93,23 +93,23 @@ let range75  = sample |> Array.filter (fun x -> x > quantile50 && x < quantile75
 let range100 = sample |> Array.filter (fun x -> x > quantile75)
 
 (*** hide ***)
-let quartilePlot =
+let quartileRangePlot =
     [|
-        Chart.Histogram(range25,"25",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 25")
-        Chart.Histogram(range50,"50",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 50")
-        Chart.Histogram(range75,"75",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 75")
-        Chart.Histogram(range100,"100",ShowLegend=false) |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 100")
+        Chart.Histogram(range25,"0-25",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 0-25")
+        Chart.Histogram(range50,"25-50",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 25-50")
+        Chart.Histogram(range75,"50-75",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 50-75")
+        Chart.Histogram(range100,"75-100",ShowLegend=false) |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 75-100")
     |]
     |> Chart.Grid(4,1)
 
 
 (*** condition: ipynb ***)
 #if IPYNB
-quartilePlot
+quartileRangePlot
 #endif // IPYNB
 
 (***hide***)
-quartilePlot |> GenericChart.toChartHTML
+quartileRangePlot |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 
@@ -273,7 +273,7 @@ Quantile determination methods(rank,sampleLength):
   - VanDerWerden  -> rank / (sampleLength + 1.)
 ```
 
-_Note that this method does not replace a significance test wether the distributions differ statistically._
+_Note that a QQ plot does not replace a significance test wether the distributions differ statistically._
 
 #### Normal distribution
 
@@ -352,7 +352,7 @@ my2QQPlotOneSampleGauss |> GenericChart.toChartHTML
 
 (**
 
-As seen above the sample does not matches the expected quantiles from a normal distribution. The sample derives from an random sampling between 0 and 1 and therefore is overrepresented in the tails.
+As seen above the sample does not match the expected quantiles from a normal distribution. The sample derives from an random sampling between 0 and 1 and therefore is overrepresented in the tails.
 
 
 #### Uniform Distribution
