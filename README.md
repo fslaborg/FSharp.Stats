@@ -28,7 +28,7 @@ FSharp.Stats is a multipurpose project for statistical testing, linear algebra, 
                 - <a href="https://fslab.org/FSharp.Stats/BasicStats.html">Measures of central tendency</a><br>
                 - <a href="https://fslab.org/FSharp.Stats/BasicStats.html">Measures of dispersion</a><br>
                 - <a href="https://fslab.org/FSharp.Stats/Correlation.html">Correlation</a><br>
-                - <a href="https://fslab.org/FSharp.Stats/Rank.html">Quantile/Rank</a><br>
+                - <a href="https://fslab.org/FSharp.Stats/Quantiles.html">Quantile/Rank</a><br>
                 - <a href="https://fslab.org/FSharp.Stats/Distributions.html">Distribution</a><br>
             </td>
             <td align="left" valign="top">
@@ -62,7 +62,7 @@ FSharp.Stats is a multipurpose project for statistical testing, linear algebra, 
                 - Singular value decomposition
             </td>
             <td align="left" valign="top">
-                - PCA<br>
+                - <a href="https://fslab.org/FSharp.Stats/ML.html">PCA</a><br>
                 - <a href="https://fslab.org/FSharp.Stats/Clustering.html">Clustering</a><br>
                 - Surprisal analysis
             </td>
