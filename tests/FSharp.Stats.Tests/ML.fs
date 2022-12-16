@@ -258,18 +258,18 @@ module PCA =
             testCase "centerMatrixColumnWise" <| fun () ->
                 let m = ML.Unsupervised.PCA.center data
                 let correctCentered = 
-                    [|[|1.051051734; 1.072923497; -1.043498389; -1.043498389|];
-                    [|1.136503095; 1.117076728; 0.4472135955; 0.4472135955|];
-                    [|-0.6579754759; -0.6932057163; -1.043498389; -1.043498389|];
-                    [|-0.7434268364; -0.7373589466; 0.4472135955; 0.4472135955|];
-                    [|-0.7861525167; -0.7594355618; 1.192569588; 1.192569588|]|]
+                    [|[|1.1751115628; 1.1995649372; -1.1666666667; -1.1666666667|];
+                    [|1.2706490883; 1.2489297494; 0.5000000000; 0.5000000000|];
+                    [|-0.7356389458; -0.7750275520; -1.1666666667; -1.1666666667|];
+                    [|-0.8311764713; -0.8243923643; 0.5000000000; 0.5000000000|];
+                    [|-0.8789452340; -0.8490747704; 1.3333333333; 1.3333333333|]|]
                     |> matrix
                 TestExtensions.sequenceEqual Accuracy.low m correctCentered "matrix was centered incorrectly."
 
             testCase "compute_VarianceOfComponent" <| fun () ->
                 let c = ML.Unsupervised.PCA.center data
                 let pca = ML.Unsupervised.PCA.compute c
-                let correct = vector [|1.604944852; 1.193251919; 0.01737468639; 6.251452346e-17|]
+                let correct = vector [|1.794382894; 1.334096203; 0.01942548992; 8.52122906e-17|]
                 TestExtensions.sequenceEqual Accuracy.low pca.VarianceOfComponent correct "Variances of components were not calculated correctly."
 
             testCase "compute_VarExplainedByComponentIndividual" <| fun () ->
@@ -288,11 +288,11 @@ module PCA =
                 let c = ML.Unsupervised.PCA.center data
                 let pca = ML.Unsupervised.PCA.compute c
                 let correct = 
-                    [|[|2.105432654; -0.01895438631; -0.02112879419; -5.576070939e-17; 0.0|];
-                      [|0.6793418639; -1.574041835; 0.019663029; -5.576070939e-17; 0.0|];
-                      [|0.3682688209; 1.719123168; 0.01540386697; -5.823888578e-17; 0.0|];
-                      [|-1.187563571; 0.2933738548; -0.002494467321; -4.832618021e-17; 0.0|];
-                      [|-1.965479768; -0.4195008018; -0.01144363447; -6.071706218e-17; 0.0|]|]
+                    [|[|2.3539452686; -0.0211916481; -0.0236227100; -0.0; 0.0|];
+                      [|0.7595272938; -1.7598322707; 0.0219839347; -0.0; 0.0|];
+                      [|0.4117370587; 1.9220381325; 0.0172220468; -0.0; 0.0|];
+                      [|-1.3277364367; 0.3280019411; -0.0027888992; -0.0; 0.0|];
+                      [|-2.1974731844; -0.4690161547; -0.0127943723; -0.0; 0.0|]|]
                     |> matrix
                 TestExtensions.sequenceEqual Accuracy.low pca.PrincipalComponents correct "Principal component scores were not calculated correctly."
             
@@ -301,9 +301,9 @@ module PCA =
                 let pca = ML.Unsupervised.PCA.compute c
                 let correct = 
                     [|[|0.5018458447; -0.4965896061; 0.7082016036; -0.0|];
-                      [|0.4979792094; -0.5035828626; -0.705989382; 1.665334537e-16|];
-                      [|-0.5000837205; -0.4999015221; 0.003839354807; 0.7071067812|];
-                      [|-0.5000837205; -0.4999015221; 0.003839354807; -0.7071067812|]|]
+                      [|0.4979792094; -0.5035828626; -0.7059893820; 0.|];
+                      [|-0.5000837205; -0.4999015221; 0.003839354807; -0.7071067812|];
+                      [|-0.5000837205; -0.4999015221; 0.003839354807; 0.7071067812|]|]
                     |> matrix
                 TestExtensions.sequenceEqual Accuracy.low pca.Loadings correct "Loadings were not calculated correctly."
         ]
