@@ -52,6 +52,7 @@ _Summary:_ this tutorial demonstrates how to handle quantiles and QQ-Plots
    - [Comparing a sample against a distribution](#Comparing-a-sample-against-a-distribution)
      - [Normal distribution](#Normal-distribution)
      - [Uniform Distribution](#Uniform-Distribution)
+- [Quantile normalization](#Quantile-normalization)
 
 ## Quantiles
 
@@ -201,17 +202,17 @@ open FSharp.Stats.Signal.QQPlot
 
 
 //plots QQ plot from two sample populations
-let plotFrom2Populations sampleA sampleB =
+let plotFrom2Populations sampleA sampleB sampleNameA sampleNameB =
 
     //here the coordinates are calculated
     let qqCoordinates = QQPlot.fromTwoSamples sampleA sampleB
 
     Chart.Point (qqCoordinates,Name="QQ")
-    |> Chart.withXAxisStyle "Quantiles sample A" 
-    |> Chart.withYAxisStyle "Quantiles sample B"
+    |> Chart.withXAxisStyle $"Quantiles {sampleNameA}" 
+    |> Chart.withYAxisStyle $"Quantiles {sampleNameB}"
     |> Chart.withTemplate ChartTemplates.lightMirrored
 
-let myQQplot1 = plotFrom2Populations normalDistA normalDistB
+let myQQplot1 = plotFrom2Populations normalDistA normalDistB "sample A" "sample B"
 
 
 (*** condition: ipynb ***)
@@ -234,10 +235,10 @@ In the following plot you can see four comparisons of the four distributions def
 
 let multipleQQPlots = 
     [
-        plotFrom2Populations normalDistA normalDistB |> Chart.withXAxisStyle "normalA" |> Chart.withYAxisStyle "normalB"
-        plotFrom2Populations normalDistA evenRandomB |> Chart.withXAxisStyle "normalA" |> Chart.withYAxisStyle "randomB"
-        plotFrom2Populations evenRandomA normalDistB |> Chart.withXAxisStyle "randomA" |> Chart.withYAxisStyle "normalB"
-        plotFrom2Populations evenRandomA evenRandomB |> Chart.withXAxisStyle "randomA" |> Chart.withYAxisStyle "randomB"
+        plotFrom2Populations normalDistA normalDistB "normalA" "normalB"
+        plotFrom2Populations normalDistA evenRandomB "normalA" "randomB"
+        plotFrom2Populations evenRandomA normalDistB "randomA" "normalB"
+        plotFrom2Populations evenRandomA evenRandomB "randomA" "randomB"
     ]
     |> Chart.Grid(2,2)
     |> Chart.withLegend false
@@ -427,4 +428,178 @@ logNormalChart |> GenericChart.toChartHTML
 
 The log normal sample fits nicely to the bisector, but the sample from the normal distribution does not fit
 
+# Quantile normalization
+
+When you want to compare e.g. intensity measurements of elements between samples, you often have to normalize the samples in order
+to be able to perform a valid comparison. Samples may vary in their average intensity just because of the technical nature of the measurement itself, 
+thereby distorting the underlying correct/real distribution.
+
+To compensate for this technical variance you can perform a quantile normalization (_Note: `Signal.Normalization.medianOfRatios` could be an alternative_). It is a technique for making two or more
+distributions identical in statistical properties.
+You can either quantile normalize data according to given reference distribution (e.g. Gamma or Normal distribution) or create your own reference distribution out of your samples.
+For the latter some data is generated that does not share the same intensity range:
+
 *)
+
+let namesA,dataA = Array.init 20 (fun i -> $"A_%02i{i+1}",rnd.NextDouble()      ) |> Array.unzip
+let namesB,dataB = Array.init 20 (fun i -> $"B_%02i{i+1}",rnd.NextDouble() + 0.1) |> Array.unzip
+let namesC,dataC = Array.init 20 (fun i -> $"C_%02i{i+1}",rnd.NextDouble() / 2.0) |> Array.unzip
+
+
+let rawDataChart = 
+    [
+        Chart.Point(dataA |> Array.map (fun value -> "sampleA",value),MultiText=namesA,TextPosition=TextPosition.MiddleRight,ShowLegend=false)
+        Chart.Point(dataB |> Array.map (fun value -> "sampleB",value),MultiText=namesB,TextPosition=TextPosition.MiddleRight,ShowLegend=false)
+        Chart.Point(dataC |> Array.map (fun value -> "sampleC",value),MultiText=namesC,TextPosition=TextPosition.MiddleLeft,ShowLegend=false)
+    ]
+    |> Chart.combine
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withTitle "Raw data"
+
+(*** condition: ipynb ***)
+#if IPYNB
+rawDataChart
+#endif // IPYNB
+
+(***hide***)
+rawDataChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
+As you can see, the average intensity varies greatly between samples A, B, and C. If you want to e.g. compare element 11 of each sample, you have to perform a 
+sample normalization prior to this comparison. It is called quantile normalization, because the final normalized samples have the **same quantiles** and the **same statistical properties**.
+
+For the normalization the data is ranked, the intensities of each rank x are averaged and this intensity is set as normalized intensity for each sample at rank x.
+*)
+
+let rankedA =
+    Rank.RankFirst() dataA
+    |> Array.zip3 namesA dataA
+    |> Array.sortBy (fun (a,b,c) -> c)
+
+let rankedB =
+    Rank.RankFirst() dataB
+    |> Array.zip3 namesB dataB
+    |> Array.sortBy (fun (a,b,c) -> c)
+
+let rankedC =
+    Rank.RankFirst() dataC
+    |> Array.zip3 namesC dataC
+    |> Array.sortBy (fun (a,b,c) -> c)
+
+
+let rankDataChart = 
+    let valA,rankA = rankedA |> Array.map (fun (name,value,rank) -> ("sampleA",value),rank) |> Array.unzip
+    let valB,rankB = rankedB |> Array.map (fun (name,value,rank) -> ("sampleB",value),rank) |> Array.unzip
+    let valC,rankC = rankedC |> Array.map (fun (name,value,rank) -> ("sampleC",value),rank) |> Array.unzip
+    let meanRank11 = [valA.[10];valB.[10];valC.[10]] |> Seq.meanBy snd
+    [
+        Chart.Point(valA,MultiText=rankA,TextPosition=TextPosition.MiddleRight,ShowLegend=false)
+        Chart.Point(valB,MultiText=rankB,TextPosition=TextPosition.MiddleRight,ShowLegend=false)
+        Chart.Point(valC,MultiText=rankC,TextPosition=TextPosition.MiddleLeft,ShowLegend=false)
+        Chart.Point([valA.[10];valB.[10];valC.[10]],ShowLegend=false) |> Chart.withMarkerStyle(Size=10)
+        Chart.Line(["sampleA",meanRank11;"sampleC",meanRank11],LineColor=Color.fromHex "#d62728",LineDash=DrawingStyle.Dash,ShowLegend=false) 
+    ]
+    |> Chart.combine
+    |> Chart.withTitle "Ranks"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+(*** condition: ipynb ***)
+#if IPYNB
+rankDataChart
+#endif // IPYNB
+
+(***hide***)
+rankDataChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+As seen above, the ranks assign ascending indices for each data point within a sample. The data point of rank 11 varies a lot between the samples. To compensate this offset the average of the values at each rank
+is calculated (red dashed line for rank 11). The values of the data points at each rank are subsequently shifted to their mean (their reference).
+*)
+
+///quantile normalization of ranked samples
+let normA,normB,normC =
+    Array.map3 (fun (nameA,intA,_) (nameB,intB,_) (nameC,intC,_) -> 
+        let reference = [intA;intB;intC] |> Seq.mean
+        (nameA,reference),(nameB,reference),(nameC,reference)
+        ) 
+        rankedA rankedB rankedC
+    |> Array.unzip3
+
+
+
+let normalizedDataChart = 
+    let valA,rankA = normA |> Array.map (fun (name,value) -> ("sampleA",value),name) |> Array.unzip
+    let valB,rankB = normB |> Array.map (fun (name,value) -> ("sampleB",value),name) |> Array.unzip
+    let valC,rankC = normC |> Array.map (fun (name,value) -> ("sampleC",value),name) |> Array.unzip
+    [
+        Chart.Point(valA,MultiText=rankA,TextPosition=TextPosition.MiddleRight,ShowLegend=false)
+        Chart.Point(valB,MultiText=rankB,TextPosition=TextPosition.MiddleRight,ShowLegend=false)
+        Chart.Point(valC,MultiText=rankC,TextPosition=TextPosition.MiddleLeft,ShowLegend=false)
+        Chart.Point([valA.[10];valB.[10];valC.[10]],ShowLegend=false) |> Chart.withMarkerStyle(Size=10)
+    ]
+    |> Chart.combine
+    |> Chart.withTitle "Normalized data"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+(*** condition: ipynb ***)
+#if IPYNB
+normalizedDataChart
+#endif // IPYNB
+
+(***hide***)
+normalizedDataChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
+Now let us check why this technique is called quantile normalization. First, we create QQ-Plots of the raw and normalized samples to compare them.
+
+*)
+
+
+let QQPlotRawAB   = plotFrom2Populations dataA dataB "raw data A" "raw data B"
+let QQPlotRawBC   = plotFrom2Populations dataB dataC "raw data B" "raw data C"
+let QQPlotQNormAB = plotFrom2Populations (Array.map snd normA) (Array.map snd normB) "qnorm data A" "qnorm data B"
+let QQPlotQNormBC = plotFrom2Populations (Array.map snd normB) (Array.map snd normC) "qnorm data B" "qnorm data C"
+
+let qNormPlot = 
+    [
+        QQPlotRawAB  |> Chart.withTraceName "rawAB"
+        QQPlotQNormAB|> Chart.withTraceName "qnormAB"
+        QQPlotRawBC  |> Chart.withTraceName "rawBC"
+        QQPlotQNormBC|> Chart.withTraceName "qnormBC"
+    ]
+    |> Chart.Grid(2,2)
+
+qNormPlot |> Chart.show
+
+(*** condition: ipynb ***)
+#if IPYNB
+qNormPlot
+#endif // IPYNB
+
+(***hide***)
+qNormPlot |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
+It is obvious that the quantiles of the samples are identical after the normalization.
+
+### Additional remarks:
+
+  - In this documentation `RankFirst` was used as method for handling ties. If ties are present, the first occurence is assigned to rank x, the next is assigned to rank (x+1).
+
+  - When handling several conditions with multiple replicates each, it may be beneficial to group the samples of each condition and quantile normalize them separately.
+
+  - For the standard quantile normalization the number of data point in each sample has to be equal
+
+  - When strong effects are expected between the samples, it could be useful to make special allowances for outliers.
+
+*)
+
+
+
