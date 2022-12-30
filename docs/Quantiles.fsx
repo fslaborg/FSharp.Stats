@@ -83,8 +83,8 @@ let quantile100 = Quantile.mode 1.00 sample
 
 (**
 
-These special quantiles are also called quartiles since the divide the data into 4 sections.
-Now we can divide the data into the ranges defined by the quantiles and plot them. Here the ranges defines half-open intervals between two quartiles.
+These special quantiles are also called quartiles since they can be used to divide the data into 4 sections.
+The ranges that can be defined by the quantiles are plotted below. Here the ranges defines half-open intervals between two quartiles.
 
 *)
 
@@ -148,13 +148,13 @@ If samples sizes are unequal the quantiles of the larger data set have to be int
 let rnd = System.Random()
 let norm = Distributions.ContinuousDistribution.normal 3.0 0.5
 
-///Example 1: Aamples from a normal distribution
+///Example 1: Samples from a normal distribution
 let normalDistA = Array.init 300 (fun _ -> norm.Sample())
-let normalDistB = Array.init 300 (fun _ -> norm.Sample())
+let normalDistB = Array.init 250 (fun _ -> norm.Sample())
 
 ///Example 2: Random samples from values between 0 and 1
-let evenRandomA = Array.init 300 (fun _ -> rnd.NextDouble())
-let evenRandomB = Array.init 300 (fun _ -> rnd.NextDouble())
+let evenRandomA = Array.init 270 (fun _ -> rnd.NextDouble())
+let evenRandomB = Array.init 280 (fun _ -> rnd.NextDouble())
 
 let exampleDistributions =
     [
@@ -263,6 +263,9 @@ Its easy to see that the random samples are distributed between 0 and 1 while th
 ### Comparing a sample against a distribution
 
 You can plot the quantiles from a sample versus a known distribution to check if your data follows the given distribution. 
+
+_Note that a QQ plot does not replace a significance test wether the distributions differ statistically._
+
 There are various methods to determine quantiles that differ in handling ties and uneven spacing.
 
 
@@ -274,7 +277,6 @@ Quantile determination methods(rank,sampleLength):
   - VanDerWerden  -> rank / (sampleLength + 1.)
 ```
 
-_Note that a QQ plot does not replace a significance test wether the distributions differ statistically._
 
 #### Normal distribution
 
@@ -392,8 +394,6 @@ let sampleFromLogNormal =
     let d = Distributions.ContinuousDistribution.logNormal 0. 1.
     Array.init 500 (fun _ -> d.Sample())
 
-
-
 // define the quantile function for the log normal distribution with parameters mu = 0 and sigma = 1
 let quantileFunctionLogNormal p = 
     let mu = 0.
@@ -432,10 +432,12 @@ The log normal sample fits nicely to the bisector, but the sample from the norma
 
 When you want to compare e.g. intensity measurements of elements between samples, you often have to normalize the samples in order
 to be able to perform a valid comparison. Samples may vary in their average intensity just because of the technical nature of the measurement itself, 
-thereby distorting the underlying correct/real distribution.
+thereby distorting the underlying correct/real distribution. It is assumed that global changes across the samples are due to unwanted technical variability and only
+a small number of elements are dysregulated (Zhao et al, 2020).
 
 To compensate for this technical variance you can perform a quantile normalization (_Note: `Signal.Normalization.medianOfRatios` could be an alternative_). It is a technique for making two or more
-distributions identical in statistical properties.
+distributions identical in statistical properties and was originally developed for gene expression microarrays. It sees widespread use, constituting a standard part
+of analysis pipelines for high-throughput analysis.
 You can either quantile normalize data according to given reference distribution (e.g. Gamma or Normal distribution) or create your own reference distribution out of your samples.
 For the latter some data is generated that does not share the same intensity range:
 
@@ -574,8 +576,6 @@ let qNormPlot =
     ]
     |> Chart.Grid(2,2)
 
-qNormPlot |> Chart.show
-
 (*** condition: ipynb ***)
 #if IPYNB
 qNormPlot
@@ -587,17 +587,25 @@ qNormPlot |> GenericChart.toChartHTML
 
 
 (**
-It is obvious that the quantiles of the samples are identical after the normalization.
+It is obvious that the quantiles of the samples are identical after the normalization. Even if the raw data QQ-Plots look straight, the absolute quantile values differ. 
 
 ### Additional remarks:
 
   - In this documentation `RankFirst` was used as method for handling ties. If ties are present, the first occurence is assigned to rank x, the next is assigned to rank (x+1).
 
-  - When handling several conditions with multiple replicates each, it may be beneficial to group the samples of each condition and quantile normalize them separately.
+  - Quantile normalization is susceptible to batch effects when blindly applied to whole data sets! When handling several conditions with multiple replicates each, it may be beneficial to group the samples of each condition and quantile normalize them separately (Zhao et al, 2020).
 
-  - For the standard quantile normalization the number of data point in each sample has to be equal
+  - For the standard quantile normalization the number of data point in each sample has to be equal.
 
-  - When strong effects are expected between the samples, it could be useful to make special allowances for outliers.
+  - When strong effects are expected between the samples, it is useful to make special allowances for outliers.
+
+  - "A particular danger in the use of QN is that lay analysts are easily misled by the rather “perfect-looking” post-normalization results" (Zhao et al, 2020)
+
+### References
+
+  - Hicks S, Irzarry R, 2014, When to use Quantile Normalization?, https://doi.org/10.1101/012203
+  
+  - Zhao, Wong, and Goh, 2020, How to do quantile normalization correctly for gene expression data analyses, doi: 10.1038/s41598-020-72664-6
 
 *)
 
