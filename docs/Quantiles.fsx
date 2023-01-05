@@ -135,7 +135,7 @@ $qq_i = X_i,Y_i$ with $X$ and $Y$ beeing ordered sample sequences of length $n$ 
 
 If samples sizes are unequal the quantiles of the larger data set have to be interpolated from the quantiles of the smaller data set. 
 
-**Lets create four samples of size 300 first:**
+**Lets create four samples of unequal sizes first:**
 
  - two that are drawn from a normal distribution of mean $3.0$ and standard deviation $0.5$
 
@@ -154,7 +154,7 @@ let normalDistB = Array.init 250 (fun _ -> norm.Sample())
 
 ///Example 2: Random samples from values between 0 and 1
 let evenRandomA = Array.init 270 (fun _ -> rnd.NextDouble())
-let evenRandomB = Array.init 280 (fun _ -> rnd.NextDouble())
+let evenRandomB = Array.init 280 (fun _ -> rnd.NextDouble() + 1.)
 
 let exampleDistributions =
     [
@@ -178,7 +178,7 @@ exampleDistributions |> GenericChart.toChartHTML
 (**
 
 To compare if two distributions are equal or to identify ranges in which the distributions differ, a quantile pair from each of the two distributions can be calculated and plotted against each other.
-If both distributions are similar, you would expect the quantiles to be identical and therefore are located on a straight line. If the samples are of different length $m$ and $n$ the number 
+If both distributions are similar, you would expect the quantiles to be identical and therefore are located on a straight line that additionally is located on the bisector! If the samples are of different length $m$ and $n$ the number 
 of quantiles is limited to $min$ $m$ $n$. For every data point of the smaller data set a corresponding quantile of the larger data set is determined.
 
 Lets calculate the quantiles from _normalDistA_ vs _normalDistB_.
@@ -256,8 +256,15 @@ multipleQQPlots |> GenericChart.toChartHTML
 
 (**
 
-When QQ-plots are generated for pairwise comparisons, it is obvious, that the _random_-_random_ and _normal_-_normal_ samples fit nicely. The cross comparisons between normal and random samples do not match.
-Its easy to see that the random samples are distributed between 0 and 1 while the samples from the normal distributions range from $1$ to ~$5$.
+When QQ-plots are generated for pairwise comparisons, it is obvious, that the _random_-_random_ and _normal_-_normal_ samples fit nicely. 
+
+## Attention
+
+Please note that the _random_-_random_ comparison may be misleading! Despite the fact, that the QQ-plot forms a straight line, the underlying distributions differ greatly (_randomA_ ranges from 0 to 1 while _randomB_
+ranges from 1 to 2. This is indicated in the QQ plot as the x- and y-axis ranges differ. The formed straight line does _not_ correspond to the bisector.
+
+The cross comparisons between normal and random samples do not match because their quantiles differ.
+Its easy to see that the random samples are distributed between 0 and 1 (or 1 and 2) while the samples from the normal distributions range from $1$ to ~$5$.
 
 
 ### Comparing a sample against a distribution
@@ -587,7 +594,8 @@ qNormPlot |> GenericChart.toChartHTML
 
 
 (**
-It is obvious that the quantiles of the samples are identical after the normalization. Even if the raw data QQ-Plots look straight, the absolute quantile values differ. 
+It is obvious that the quantiles of the samples are identical after the normalization. Even the raw data QQ-Plots look straight because they all derive from a normal distribution.
+But it is easy to see, that the absolute quantile values differ (the quantiles are not located on the bisector). 
 
 ### Additional remarks:
 
@@ -599,7 +607,7 @@ It is obvious that the quantiles of the samples are identical after the normaliz
 
   - When strong effects are expected between the samples, it is useful to make special allowances for outliers.
 
-  - "A particular danger in the use of QN is that lay analysts are easily misled by the rather “perfect-looking” post-normalization results" (Zhao et al, 2020)
+  - "A particular danger in the use of QN is that lay analysts are easily misled by the rather "perfect-looking" post-normalization results" (Zhao et al, 2020)
 
 ### References
 
