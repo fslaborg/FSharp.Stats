@@ -1043,22 +1043,23 @@ let comparisonMetricsTests =
          |> Array.ofSeq
          |> Array.unzip
      // map rowheader to samples, so its (GeneName,[float;float;float])
-     let tupel a b = (a,b)
-     let data1 = Array.map2 tupel rowheader sample1 
-     let data2 = Array.map2 tupel rowheader sample2
+     
+     let data1 = Array.zip rowheader sample1 
+     let data2 = Array.zip  rowheader sample2
      let corrected1 = 
          let medCorrect = 
              medianCentering data1 
-         Array.map2 tupel rowheader medCorrect
+         Array.zip rowheader medCorrect
      let corrected2 = 
          let medCorrect = 
              medianCentering data2
-         Array.map2 tupel rowheader medCorrect
+         Array.zip rowheader medCorrect
 
 
      let result1 = FSharp.Stats.Testing.SAM.twoClassUnpaired 100 0.05 data1 data2 (System.Random(27))
      let result2 = twoClassUnpaired 100 0.05 data1 data2 (System.Random(1337))
      let result3 = twoClassUnpaired 100 0.05 corrected1 corrected2 (System.Random(1337))
+     let result4 = twoClassUnpaired 100 0.05 data1 data1 (System.Random(27))
 
      testList "SAM Tests" [
          testCase "twoClassUnpaired Seed 27" <| fun () -> 
@@ -1090,4 +1091,14 @@ let comparisonMetricsTests =
              Expect.floatClose Accuracy.low (result3.PosSigBioitem |> Array.length |> float ) 78. "PosSigBioitems should be equal."   
              Expect.floatClose Accuracy.low (result3.NegSigBioitem |> Array.length |> float ) 61. "NegSigBioitems should be equal."   
              Expect.floatClose Accuracy.low (result3.MedianFalsePositivesCount |> float ) 17. "medFP should be equal."   
+         testCase "twoClassUnpaired Seed 27 data similar " <| fun () -> 
+             Expect.floatClose Accuracy.low result4.S0 0.005275473477 "S0 should be equal."
+             Expect.floatClose Accuracy.low result4.Pi0 2.0 "Pi0 should be equal."   
+             Expect.floatClose Accuracy.low result4.Delta 100000.0 "Delta should be equal."   
+             Expect.floatClose Accuracy.low result4.UpperCut 0.0 "Upper Cut should be equal."   
+             Expect.floatClose Accuracy.low result4.LowerCut 0.0 "Lower Cut should be equal."   
+             Expect.floatClose Accuracy.low (result4.PosSigBioitem |> Array.length |> float ) 0. "PosSigBioitems should be equal."   
+             Expect.floatClose Accuracy.low (result4.NegSigBioitem |> Array.length |> float ) 0. "NegSigBioitems should be equal."   
+             Expect.floatClose Accuracy.low (result4.MedianFalsePositivesCount |> float ) 0. "medFP should be equal."   
+
              ]

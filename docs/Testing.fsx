@@ -14,6 +14,7 @@ categoryindex: 0
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 3.0.1"
 #r "nuget: FSharpAux, 1.1.0"
+#r "nuget: Deedle, 3.0.0"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -21,6 +22,7 @@ categoryindex: 0
 #r "nuget: Plotly.NET.Interactive, 3.0.2"
 #r "nuget: FSharp.Stats"
 #r "nuget: FSharpAux, 1.1.0"
+#r "nuget: Deedle, 3.0.0"
 #endif // IPYNB
 
 open Plotly.NET
@@ -120,7 +122,7 @@ let sampleA = vector [|4.5; 5.1; 4.8; 4.4; 5.0|]
 // calculates a one sample t test with a given sample and the fixed value the sample should be compared with
 let oneSampleTTest = TTest.oneSample sampleA 5.
 
-(**
+(*
     The test returns no significant p value:
     oneSampleTTest.PValue = 0.1533
 *)
@@ -842,7 +844,7 @@ aErrorAcc
 (***hide***)
 aErrorAcc |> GenericChart.toChartHTML
 (***include-it-raw***)
-aErrorAcc|> Chart.show
+
 (**
 
 To compensate this inflation, several multiple testing corrections were published. 
@@ -996,9 +998,8 @@ let (preData1,preData2) :float[][] * float [][]=
     |> Array.unzip
 
 // After chunking, the datasets are separated by factor and the rowkey is added to the data for later identification.
-let tupel a b = (a,b)
-let data1 = Array.map2 tupel rowheader preData1 
-let data2 = Array.map2 tupel rowheader preData2 
+let data1 = Array.zip rowheader preData1 
+let data2 = Array.zip  rowheader preData2 
 (**
 Optional: Data can be normalised by median centering using the following function:
 *)
@@ -1006,11 +1007,11 @@ open SAM
 let corrected1 = 
     let medCorrect = 
         medianCentering data1 
-    Array.map2 tupel rowheader medCorrect
+    Array.zip rowheader medCorrect
 let corrected2 = 
     let medCorrect = 
         medianCentering data2
-    Array.map2 tupel rowheader medCorrect
+    Array.zip rowheader medCorrect
  
 (**
 This calculates the median of a column and subtracts it from each value in this column. 
@@ -1033,7 +1034,7 @@ let SAMChart =
 
 
     // positive significant changes 
-    let posExpected = expected.[res.NegSigBioitem.Length + res.NonSigBioitem.Length .. res.NegSigBioitem.Length + res.NonSigBioitem.Length-1 + res.PosSigBioitem.Length]
+    let posExpected = expected.[res.NegSigBioitem.Length + res.NonSigBioitem.Length .. res.NegSigBioitem.Length + res.NonSigBioitem.Length + res.PosSigBioitem.Length-1]
     let posChart = 
         Chart.Point(posExpected,res.PosSigBioitem |> Array.map (fun x -> x.Statistics))
         |> Chart.withLineStyle(Color=Color.fromKeyword Green)
@@ -1041,7 +1042,7 @@ let SAMChart =
 
 
     // no significant changes
-    let nonex = expected.[res.NegSigBioitem.Length-1 .. res.NegSigBioitem.Length + res.NonSigBioitem.Length]
+    let nonex = expected.[res.NegSigBioitem.Length .. res.NegSigBioitem.Length + res.NonSigBioitem.Length-1]
     let nonchart = 
         Chart.Point(nonex,res.NonSigBioitem |> Array.map (fun x -> x.Statistics))
         |> Chart.withLineStyle(Color=Color.fromKeyword Gray)
@@ -1125,5 +1126,5 @@ SAMChart
 #endif // IPYNB
 
 (***hide***)
-System.IO.File.ReadAllText "../img/7_SAM/SAM005.html"
+System.IO.File.ReadAllText (__SOURCE_DIRECTORY__ + "/img/SAM005.html")
 (*** include-it-raw ***)

@@ -34,14 +34,14 @@ module SAM =
 // create tupel from sample name and data for better identification later
 
 //let tupel a b = (a,b)
-//let data1 = Array.map2 tupel rowheader sample1 
-//let data2 = Array.map2 tupel rowheader sample2
+//let data1 = Array.zip rowheader sample1 
+//let data2 = Array.zip rowheader sample2
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// Type that contains all info regarding SAM for each sample
     type SAM = {
-        // identification of bioitem
+        /// identification of bioitem
         ID : string
         /// relative diffence of mean
         Ri : float
@@ -49,9 +49,11 @@ module SAM =
         Si : float
         /// test statistics
         Statistics : float
-        // local FDR of bioitem
+        /// local FDR of bioitem
         QValue : float
-        } with static member Create id ri si stats qv= {ID=id; Ri=ri; Si=si; Statistics=stats; QValue = qv}
+        /// foldchange from condition to control
+        Foldchange : float 
+        } with static member Create id ri si stats qv fc= {ID=id; Ri=ri; Si=si; Statistics=stats; QValue = qv;Foldchange = fc}
 
 
     // Result after calculating SAM
@@ -125,6 +127,7 @@ module SAM =
         
             // get average of one sample 
             let ma,mb = Array.average dataA,Array.average dataB
+            let fc = mb/ma
             let ri    = (fun x y -> x - y) mb ma 
             let si    = 
                 // length of arrays
@@ -145,7 +148,7 @@ module SAM =
             let statistic = ri / (si + s0) 
 
         
-            SAM.Create idOfBioitem ri si statistic nan
+            SAM.Create idOfBioitem ri si statistic nan fc
 
         Array.map2 (fun a b -> calcStats a b) dataA dataB
 
@@ -258,7 +261,7 @@ module SAM =
                |> JaggedArray.transpose
                |> Array.map (fun tt -> 
                                let (id',ri',si',di') = tt |> Array.fold (fun (id,ri,si,di) t -> t.ID,ri+t.Ri,si+t.Si,di + t.Statistics) ("",0.,0.,0.)  
-                               SAM.Create id' (ri' / float iterations) (si' / float iterations) (di' / float iterations) nan
+                               SAM.Create id' (ri' / float iterations) (si' / float iterations) (di' / float iterations) nan nan
                             )
 
            expAvgStats       
@@ -533,74 +536,85 @@ module SAM =
                 )
 
         let smallestCutForFDR,delta = 
+                    let smallestCut =
                         fdrsPerCut
                         |> Array.filter (fun (cut,tmpfdr,delta) -> 
                             tmpfdr <= fdr
                             )
+                    match smallestCut with 
+                    | [||] ->  ((0.,0.),100000.)
+                    | _ -> 
+                        smallestCut
                         |> Array.minBy (fun (a,b,c) -> c)
                         |> (fun (a,b,c) -> a,c)
 
-        let negCutToFDR = 
-            fdrsPerCut
-            |> Array.map (fun ((lower,upper),fdr,delta) -> lower,fdr)
-            |> Array.sortByDescending fst
-            |> SAMHelper.monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
-            //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
-            |> Array.sortBy snd
-            |> Array.distinctBy fst
-            //Array must be sorted by cut (descending because of negative values)
-            |> Array.sortByDescending fst
+        match smallestCutForFDR,delta with 
+        | ((0.,0.),100000.) ->
+            let defaultIfNoSignificance:SAM[]= [||]
+            printfn "No significant results were found"
+            SAMResult.Create s0 pi0 delta 0. 0. defaultIfNoSignificance defaultIfNoSignificance obsStats expAvgStats 0. 0 0 
+        | _ -> 
+            let negCutToFDR = 
+                fdrsPerCut
+                |> Array.map (fun ((lower,upper),fdr,delta) -> lower,fdr)
+                |> Array.sortByDescending fst
+                |> SAMHelper.monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
+                //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
+                |> Array.sortBy snd
+                |> Array.distinctBy fst
+                //Array must be sorted by cut (descending because of negative values)
+                |> Array.sortByDescending fst
 
-        let posCutToFDR = 
-            fdrsPerCut
-            |> Array.map (fun ((lower,upper),fdr,delta) -> upper,fdr)
-            |> Array.sortBy fst
-            |> SAMHelper.monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
-            //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
-            |> Array.sortBy snd
-            |> Array.distinctBy fst
-            //Array must be sorted by cut
-            |> Array.sortBy fst
-    
-        // >= and <= because of "The q-value of a gene is the FDR for the gene List that includes that gene and all genes that are more significant (SAM Manual)
-        // Storey Chapter : d(j) - de >= delta & de - d(j) <= delta 
-        let getQvalues obsStats = 
-            obsStats 
-            |> Array.map (fun currentBioitem -> 
-                if currentBioitem.Statistics < 0. then
-                    let firstLowerCut =
-                        negCutToFDR
-                        |> Array.tryFind (fun (lowerCut,fdr) -> 
-                            lowerCut <= currentBioitem.Statistics
+            let posCutToFDR = 
+                fdrsPerCut
+                |> Array.map (fun ((lower,upper),fdr,delta) -> upper,fdr)
+                |> Array.sortBy fst
+                |> SAMHelper.monotonizeDecreasing snd (fun (origCut,fdr) newFdr -> origCut,newFdr)
+                //to elimiate same cuts with multiple fdrs, minimal fdr per cut are isolated
+                |> Array.sortBy snd
+                |> Array.distinctBy fst
+                //Array must be sorted by cut
+                |> Array.sortBy fst
+
+            // >= and <= because of "The q-value of a gene is the FDR for the gene List that includes that gene and all genes that are more significant (SAM Manual)
+            // Storey Chapter : d(j) - de >= delta & de - d(j) <= delta 
+            let getQvalues obsStats = 
+                obsStats 
+                |> Array.map (fun currentBioitem -> 
+                    if currentBioitem.Statistics < 0. then
+                        let firstLowerCut =
+                            negCutToFDR
+                            |> Array.tryFind (fun (lowerCut,fdr) -> 
+                                lowerCut <= currentBioitem.Statistics
+                                )
+                        match firstLowerCut with 
+                        | Some (cut,fdr) -> {currentBioitem with QValue = fdr}
+                        | None -> {currentBioitem with QValue = 1.}
+                    else 
+                        let firstGreaterCut = 
+                            posCutToFDR 
+                            |> Array.tryFind (fun (upperCut, fdr)-> 
+                            upperCut >= currentBioitem.Statistics
                             )
-                    match firstLowerCut with 
-                    | Some (cut,fdr) -> {currentBioitem with QValue = fdr}
-                    | None -> {currentBioitem with QValue = 1.}
-                else 
-                    let firstGreaterCut = 
-                        posCutToFDR 
-                        |> Array.tryFind (fun (upperCut, fdr)-> 
-                        upperCut >= currentBioitem.Statistics
+                        match firstGreaterCut with
+                        | Some (cut,fdr) -> {currentBioitem with QValue = fdr}
+                        | None -> {currentBioitem with QValue = 1.}
                         )
-                    match firstGreaterCut with
-                    | Some (cut,fdr) -> {currentBioitem with QValue = fdr}
-                    | None -> {currentBioitem with QValue = 1.}
-                    )
 
-        let chosenDelta =  delta
-        let upperCut = snd smallestCutForFDR
-        let lowerCut = fst smallestCutForFDR
-        let getQvals = getQvalues obsStats
-        let PosSigBioitem = getQvals |> Array.filter (fun x -> x.Statistics > upperCut)
-        let NegSigBioitem = getQvals |> Array.filter (fun x -> x.Statistics < lowerCut)
-        let NonSigBioitem = getQvals |> Array.filter (fun x -> x.Statistics >= lowerCut && x.Statistics <= upperCut)
-        let medianFalsePos = getMedianFalsePositives smallestCutForFDR expStats 
-        let significantBioitems = getSignificantBioitem smallestCutForFDR getQvals 
-        let medianFDR = getMedianFdr pi0 medianFalsePos ( significantBioitems |> float)
-        let delta = chosenDelta 
+            let chosenDelta =  delta
+            let upperCut = snd smallestCutForFDR
+            let lowerCut = fst smallestCutForFDR
+            let getQvals = getQvalues obsStats
+            let PosSigBioitem = getQvals |> Array.filter (fun x -> x.Statistics > upperCut)
+            let NegSigBioitem = getQvals |> Array.filter (fun x -> x.Statistics < lowerCut)
+            let NonSigBioitem = getQvals |> Array.filter (fun x -> x.Statistics >= lowerCut && x.Statistics <= upperCut)
+            let medianFalsePos = getMedianFalsePositives smallestCutForFDR expStats 
+            let significantBioitems = getSignificantBioitem smallestCutForFDR getQvals 
+            let medianFDR = getMedianFdr pi0 medianFalsePos ( significantBioitems |> float)
+            let delta = chosenDelta 
 
 
-        SAMResult.Create s0 pi0 delta upperCut lowerCut PosSigBioitem NegSigBioitem NonSigBioitem expAvgStats medianFDR significantBioitems medianFalsePos 
+            SAMResult.Create s0 pi0 delta upperCut lowerCut PosSigBioitem NegSigBioitem NonSigBioitem expAvgStats medianFDR significantBioitems medianFalsePos 
 
 // Workflow of SAM (default mode)  
 
