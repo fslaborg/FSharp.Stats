@@ -971,10 +971,11 @@ Therefore, high throughput experiments can be analysed using a combined permutat
 
 (** 
 Data: 
-To use SAM, data need to be in the format (string*float[])[]), with string being the name and float array being the repeated measurements. One way of achieving this is the following data preparation:
+To use SAM, data need to be in the format (string*float[])[]), with string being the name and float array being the replicates. One way of achieving this is the following data preparation:
 <center><img style="max-width:40%" src="../img/DataStructureSAM.jpeg"></img></center>
 *)
 (**
+Columns are samples, here 1 and 2, representing control and factor. Rows are transcript counts (here indicated with gene identifier).
 Rows are indicated by the sample name, here 1 and 2, representing control and factor. Columns are indicated with the rowkey(A1), here the gene id. This can be saved as .txt. 
 The next step is to read in the data, e.g. via deedle, and to create a dataframe. The rows are indexed by the sample name and the rowkeys are extracted.
 *)
@@ -988,7 +989,7 @@ let df:Frame<string,string> =
 let rowheader :string[] = df.RowKeys |> Seq.toArray
 
 // to separate control and factor sets (sample1 and sample2, respectively), 
-// the datasets are chunked by the number of repeated measurements (here: triplicates -> chunkBySize 3).
+// the datasets are chunked by the number of replicates (here: triplicates -> chunkBySize 3).
 let (preData1,preData2) :float[][] * float [][]=  
     df
     |> Frame.getRows
@@ -1015,11 +1016,12 @@ let corrected2 =
  
 (**
 This calculates the median of a column and subtracts it from each value in this column. 
+The median centering is performed for each column (all samples) separately.
 With data1 and data2 , or corrected1 and corrected2, SAM can be performed.
 *)
 let res = FSharp.Stats.Testing.SAM.twoClassUnpaired 100 0.05 data1 data2 (System.Random(1234))
 (**
-The parameters are number of permutations, FDR, the datasets and a seed. For balanced permutations as in SAM, it seems to be sufficient to use ~ 100 permutations (also default in samR). The seed is used for randomization of the permutations (System.Random()), or can be fixed to achieve the same results multiple times (e.g. System.Random(1234)).
+The parameters are number of permutations, desired FDR, the datasets and a seed. For balanced permutations as in SAM, it seems to be sufficient to use ~ 100 permutations (also default in samR). The seed is used for randomization of the permutations (System.Random()), or can be fixed to achieve the same results multiple times (e.g. System.Random(1234)).
 Result contains now the following information: s0, pi0, delta, upper Cut, lower Cut, positive significant bioitems, negative significant bioitems, non significant bioitems, False Discovery Rate (FDR), and median False Positives.
 The following code will help to achieve the typical SAM plot.
 *)
