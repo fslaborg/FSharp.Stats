@@ -18,6 +18,12 @@ module Normalization =
         let std   = Seq.stDev yVal
         yVal |> Vector.map (fun x -> (x - yMean) / std) 
 
+    /// Summary of the median of ratios (mor) normalization with normed data and determined correctionfactors.
+    type MorResult = {
+        CorrFactors : seq<float>
+        NormedData : Matrix<float>
+    } with static member Create cf nd = {CorrFactors=cf;NormedData=nd}
+
     /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
     ///
     /// Rows are genes, columns are samples
@@ -33,11 +39,12 @@ module Normalization =
                 ) 
             |> Matrix.ofRows
             |> Matrix.mapiCols (fun _ v -> Vector.median v)
-        printfn "%A" sampleWiseCorrectionFactors
-        data
-        |> Matrix.mapi (fun r c v ->
-            v / sampleWiseCorrectionFactors.[c]
-        )
+        let normedData = 
+            data
+            |> Matrix.mapi (fun r c v ->
+                v / sampleWiseCorrectionFactors.[c]
+            )
+        MorResult.Create sampleWiseCorrectionFactors normedData
 
     /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
     ///
@@ -60,11 +67,12 @@ module Normalization =
                 ) 
             |> Matrix.ofCols
             |> Matrix.mapiRows (fun _ v -> Seq.median v)
-        printfn "%A" sampleWiseCorrectionFactors
-        data
-        |> Matrix.mapi (fun r c v ->
-            v / sampleWiseCorrectionFactors.[r]
-        )
+        let normedData = 
+            data
+            |> Matrix.mapi (fun r c v ->
+                v / sampleWiseCorrectionFactors.[r]
+            )
+        MorResult.Create sampleWiseCorrectionFactors normedData
 
     /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
     ///

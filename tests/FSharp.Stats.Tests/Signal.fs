@@ -119,13 +119,13 @@ let normalizationTests =
 
             let result = Normalization.medianOfRatios table
 
-            TestExtensions.sequenceEqual 4 result expectedNormalizedTable "Value was not normalized correctly"
+            TestExtensions.sequenceEqual 4 result.NormedData expectedNormalizedTable "Value was not normalized correctly"
 
         testCase "MedianOfRatiosIgnoreNans" <| fun() ->
            
             let result = Normalization.medianOfRatiosBy (fun x -> if System.Double.IsNaN x then 0.1 else x) tableWithNan
 
-            Expect.hasCountOf  result 2u System.Double.IsNaN "Only initial nan values should be nans afterwards"
+            Expect.hasCountOf result.NormedData 2u System.Double.IsNaN "Only initial nan values should be nans afterwards"
 
         testCase "MedianOfRatioWides" <| fun() ->
         
@@ -134,7 +134,8 @@ let normalizationTests =
                 table
                 |> Matrix.transpose
                 |> Normalization.medianOfRatios
+                |> fun x -> x.NormedData
                 |> Matrix.transpose
-            TestExtensions.sequenceEqual 4 result expected "Wide method should return the same result as the non wide method on a transposed matrix"
+            TestExtensions.sequenceEqual 4 result.NormedData expected "Wide method should return the same result as the non wide method on a transposed matrix"
     ]
 
