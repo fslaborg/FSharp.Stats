@@ -1,3 +1,11 @@
+### 0.4.10+278bd95a (Released 2023-1-25)
+* Additions:
+    * latest commit #278bd95a
+    * [[#278bd95a](https://github.com/fslaborg/FSharp.Stats/commit/278bd95a554d00cfd15d9fd83f09fb0dfe78968d)] update median of ratios results type
+    * [[#f73b05fc](https://github.com/fslaborg/FSharp.Stats/commit/f73b05fc127cf2e871eae85e0c98178610e9ddd2)] update SAM
+    * [[#b3714f23](https://github.com/fslaborg/FSharp.Stats/commit/b3714f233b566c42666da2d62fec040d05677831)] update PCA deviation determination
+    * [[#27c92191](https://github.com/fslaborg/FSharp.Stats/commit/27c92191fb5cea02ccc0c494bc976bc54208b303)] add logNormal nonlinear Model
+
 ### 0.4.9+b74ecf29 (Released 2022-11-18)
 * Additions:
     * latest commit #b74ecf29
