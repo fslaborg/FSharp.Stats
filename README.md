@@ -75,7 +75,7 @@ FSharp.Stats is a multipurpose project for statistical testing, linear algebra, 
                 - <a href="https://fslab.org/FSharp.Stats/Testing.html#Anova">ANOVA</a><br>
                 - <a href="https://fslab.org/FSharp.Stats/Testing.html#PostHoc">Post hoc tests</a><br>
                 - <a href="https://fslab.org/FSharp.Stats/Testing.html#Q-Value">q values</a><br>
-                - SAM<br>
+                - <a href="https://fslab.org/FSharp.Stats/Testing.html#SAM">SAM</a><br>
                 - RMT
             </td>
         </tr>

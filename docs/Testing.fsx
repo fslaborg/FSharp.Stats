@@ -940,8 +940,8 @@ let qHisto =
         Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",LineDash=StyleParam.DrawingStyle.Dash)
     ]
     |> Chart.combine
-    |> Chart.withXAxisStyle "p value" 
-    |> Chart.withYAxisStyle"density"
+    |> Chart.withAxisTitles "p value" "density"
+
 (*** condition: ipynb ***)
 #if IPYNB
 qChart
@@ -964,8 +964,8 @@ qHisto |> GenericChart.toChartHTML
 (**
 ###SAM
 
-SAM (Significance Analysis of Microarrays) is a method developed to overcome multiple testing problems that was proposed, but not restricted for, microarray analysis. 
-It serves as a blue print for any permutation test.
+SAM (Significance Analysis of Microarrays) is a method developed to overcome multiple testing problems. It was proposed, but not restricted for, microarray analysis. 
+It serves as a blue print for a variety of permutation test.
 Therefore, high throughput experiments can be analysed using a combined permutation-bootstrap-method. For more in depth information see the [SAM BlogPost](https://csbiology.github.io/CSBlog/posts/7_SAM.html).
 *)
 
@@ -1023,20 +1023,20 @@ let res = FSharp.Stats.Testing.SAM.twoClassUnpaired 100 0.05 data1 data2 (System
 (**
 Besides the data itself SAM requires the definition of some parameters:
 
-  - number of permutations: It seems to be sufficient to use ~ 100 permutations (also default in samR).
-  - desired FDR: While FDRs are given for each BioItem it is recommended to set a global FDR for the generation of the SAM plot.
-  - random seed: The seed is used for randomization of the permutations (System.Random()), or can be fixed to achieve the same results multiple times (e.g. System.Random(1234)).
+  - _number of permutations_: It seems to be sufficient to use ~ 100 permutations (also default in samR).
+  - _desired FDR_: While FDRs are given for each BioItem it is recommended to set a global FDR for the generation of the SAM plot.
+  - _random seed_: The seed is used for randomization of the permutations (System.Random()), or can be fixed to achieve the same results multiple times (e.g. System.Random(1234)).
 
 
 The `SAMResult` type summarizes all information required to construct the typical SAM plot: 
 
-  - s0: fudge factor as described by Tusher et al. (2001)
-  - pi0: {pi0 ∈ R ∣ 0 < x < 1} estimated for the determination of qvalues 
-  - delta: distance between the bisector and the parallel margins that separates nonsignificant from significant results
-  - upper Cut/lower Cut: y-axis intercepts that define significance-thresholds for the observed statistics
-  - positive/negative/non-significant bioitems 
-  - False Discovery Rate (FDR)
-  - median number of false positives
+  - _s0_: fudge factor as described by Tusher et al. (2001)
+  - _pi0_: {pi0 ∈ R ∣ 0 < x < 1} estimated for the determination of qvalues 
+  - _delta_: distance between the bisector and the parallel margins that separate nonsignificant from significant results
+  - _upper/lower cut_: y-axis intercepts that define significance-thresholds for the observed statistics
+  - _positive/negative/non-significant bioitems_
+  - _False Discovery Rate (FDR)_
+  - _median number of false positives_
 
 The following snippet helps to generate the typical SAM plot.
 *)
