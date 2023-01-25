@@ -95,8 +95,6 @@
     <div>
       <p class="fsdocs-summary">
         
- Module with different estimation methods computing s0 
-
       </p>
     </div>
   </div>
@@ -119,36 +117,44 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1675', 1675)" onmouseover="showTip(event, '1675', 1675)">
+              <code onmouseout="hideTip(event, '1669', 1669)" onmouseover="showTip(event, '1669', 1669)">
                 <p>
-                  <a id="estimate">
-                    <a href="#estimate">
-                      <code><span>estimate&#32;<span>tt</span></span></code>
+                  <a id="estS0">
+                    <a href="#estS0">
+                      <code><span>estS0&#32;<span>values&#32;s0perc</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1675">
+              <div class="fsdocs-tip" id="1669">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>estimate&#32;<span>tt</span></span></code>
+                  <code><span>estS0&#32;<span>values&#32;s0perc</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        tt
+                        values
                       </b>
                       :
-                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam.html">SAM</a>&#32;array</span></code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam.html">SAM</a>[]</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        s0perc
+                      </b>
+                      :
+                      <code><span>float[]</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>float</code>
+                    <code><span><span>(<span>float&#32;*&#32;float&#32;*&#32;float</span>)</span>[]</span></code>
                   </span>
                   <br/>
                 </div>
@@ -157,31 +163,39 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.SAM.S0.estimate`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.SAM.S0.estS0`')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.S0.estimate\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.S0.estS0\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L337-337" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L163-163" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Estimates s0. Chosen to minimize the coefficient of variation of the test statistics 
+ S0 estimation 
 
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  tt
+                  values
                 </span>
                 :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam.html">SAM</a>&#32;array</span></code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam.html">SAM</a>[]</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  s0perc
+                </span>
+                :
+                <code><span>float[]</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -190,7 +204,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>float</code>
+                <code><span><span>(<span>float&#32;*&#32;float&#32;*&#32;float</span>)</span>[]</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -199,52 +213,36 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1676', 1676)" onmouseover="showTip(event, '1676', 1676)">
+              <code onmouseout="hideTip(event, '1670', 1670)" onmouseover="showTip(event, '1670', 1670)">
                 <p>
-                  <a id="estimateFrom">
-                    <a href="#estimateFrom">
-                      <code><span>estimateFrom&#32;<span>calculate&#32;dataA&#32;dataU</span></span></code>
+                  <a id="s0ForMinCV">
+                    <a href="#s0ForMinCV">
+                      <code><span>s0ForMinCV&#32;<span>s0List</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1676">
+              <div class="fsdocs-tip" id="1670">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>estimateFrom&#32;<span>calculate&#32;dataA&#32;dataU</span></span></code>
+                  <code><span>s0ForMinCV&#32;<span>s0List</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        calculate
+                        s0List
                       </b>
                       :
-                      <code><span>float&#32;->&#32;<span><span>float&#32;array</span>&#32;array</span>&#32;->&#32;<span><span>float&#32;array</span>&#32;array</span>&#32;->&#32;<span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam.html">SAM</a>&#32;array</span></span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        dataA
-                      </b>
-                      :
-                      <code><span><span>float&#32;array</span>&#32;array</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        dataU
-                      </b>
-                      :
-                      <code><span><span>float&#32;array</span>&#32;array</span></code>
+                      <code><span><span>(<span>'a&#32;*&#32;'b&#32;*&#32;'c</span>)</span>[]</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>float</code>
+                    <code>'c</code>
                   </span>
                   <br/>
                 </div>
@@ -253,47 +251,32 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.SAM.S0.estimateFrom`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.S0.s0ForMinCV``3```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.S0.estimateFrom\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.S0.s0ForMinCV``3\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L396-396" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L219-219" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Estimates s0 from given data set. Chosen to minimize the coefficient of variation of the test statistics 
+ search s0 where coefficient of variation is minimal.
+ input is the result from estS0 function 
 
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  calculate
+                  s0List
                 </span>
                 :
-                <code><span>float&#32;->&#32;<span><span>float&#32;array</span>&#32;array</span>&#32;->&#32;<span><span>float&#32;array</span>&#32;array</span>&#32;->&#32;<span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam.html">SAM</a>&#32;array</span></span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  dataA
-                </span>
-                :
-                <code><span><span>float&#32;array</span>&#32;array</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  dataU
-                </span>
-                :
-                <code><span><span>float&#32;array</span>&#32;array</span></code>
+                <code><span><span>(<span>'a&#32;*&#32;'b&#32;*&#32;'c</span>)</span>[]</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -302,183 +285,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '1677', 1677)" onmouseover="showTip(event, '1677', 1677)">
-                <p>
-                  <a id="median">
-                    <a href="#median">
-                      <code><span>median&#32;<span>tt</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1677">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>median&#32;<span>tt</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        tt
-                      </b>
-                      :
-                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam.html">SAM</a>&#32;array</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>float</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.SAM.S0.median`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.S0.median\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L330-330" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- Creates s0 by calulating the mean of si (pooled standard error )
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  tt
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam.html">SAM</a>&#32;array</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '1678', 1678)" onmouseover="showTip(event, '1678', 1678)">
-                <p>
-                  <a id="nearestRank">
-                    <a href="#nearestRank">
-                      <code><span>nearestRank&#32;<span>percentile&#32;tt</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1678">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>nearestRank&#32;<span>percentile&#32;tt</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        percentile
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        tt
-                      </b>
-                      :
-                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam.html">SAM</a>&#32;array</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>float</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.SAM.S0.nearestRank`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.S0.nearestRank\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L319-319" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- Computes s0 using the nearest rank method
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  percentile
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  tt
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam.html">SAM</a>&#32;array</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
+                <code>'c</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
