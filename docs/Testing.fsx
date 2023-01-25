@@ -963,20 +963,19 @@ qHisto |> GenericChart.toChartHTML
 
 (**
 ###SAM
-SAM (Significance Analysis of Microarrays) is a method developed to overcome multiple testing problems, for example in microarray experiments.
-SAM, short for Significance Analysis of Microarrays, is a statistical analysis created, but not restricted for, microarray analysis. 
+
+SAM (Significance Analysis of Microarrays) is a method developed to overcome multiple testing problems that was proposed, but not restricted for, microarray analysis. 
 It serves as a blue print for any permutation test.
 Therefore, high throughput experiments can be analysed using a combined permutation-bootstrap-method. For more in depth information see the [SAM BlogPost](https://csbiology.github.io/CSBlog/posts/7_SAM.html).
 *)
 
 (** 
 Data: 
-To use SAM, data need to be in the format (string*float[])[]), with string being the name and float array being the replicates. One way of achieving this is the following data preparation:
+To use SAM, expression or intensity data need to be in the format (string*float[])[]), with string being the name and float array being the replicates. One way of achieving this is the following data preparation:
 <center><img style="max-width:40%" src="../img/DataStructureSAM.jpeg"></img></center>
 *)
 (**
-Columns are samples, here 1 and 2, representing control and factor. Rows are transcript counts (here indicated with gene identifier).
-Rows are indicated by the sample name, here 1 and 2, representing control and factor. Columns are indicated with the rowkey(A1), here the gene id. This can be saved as .txt. 
+Columns are samples, here 1 and 2, representing control and factor group. Rows are transcript counts (here indicated with gene identifier).
 The next step is to read in the data, e.g. via deedle, and to create a dataframe. The rows are indexed by the sample name and the rowkeys are extracted.
 *)
 
@@ -1002,28 +1001,44 @@ let (preData1,preData2) :float[][] * float [][]=
 let data1 = Array.zip rowheader preData1 
 let data2 = Array.zip  rowheader preData2 
 (**
-Optional: Data can be normalised by median centering using the following function:
+Optional: Data can be normalised by median centering using the following function. Thereby the median of each column is determined 
+and subtracted it from each value in the respective column. 
+Since samples do not influence each other it makes no difference if you center each column individually or center the whole data matrix prior to segragation.
+
+With data1 and data2, or corrected1 and corrected2, SAM can be performed.
 *)
 open SAM
 let corrected1 = 
     let medCorrect = 
         medianCentering data1 
     Array.zip rowheader medCorrect
+
 let corrected2 = 
     let medCorrect = 
         medianCentering data2
     Array.zip rowheader medCorrect
  
-(**
-This calculates the median of a column and subtracts it from each value in this column. 
-The median centering is performed for each column (all samples) separately.
-With data1 and data2 , or corrected1 and corrected2, SAM can be performed.
-*)
 let res = FSharp.Stats.Testing.SAM.twoClassUnpaired 100 0.05 data1 data2 (System.Random(1234))
+
 (**
-The parameters are number of permutations, desired FDR, the datasets and a seed. For balanced permutations as in SAM, it seems to be sufficient to use ~ 100 permutations (also default in samR). The seed is used for randomization of the permutations (System.Random()), or can be fixed to achieve the same results multiple times (e.g. System.Random(1234)).
-Result contains now the following information: s0, pi0, delta, upper Cut, lower Cut, positive significant bioitems, negative significant bioitems, non significant bioitems, False Discovery Rate (FDR), and median False Positives.
-The following code will help to achieve the typical SAM plot.
+Besides the data itself SAM requires the definition of some parameters:
+
+  - number of permutations: It seems to be sufficient to use ~ 100 permutations (also default in samR).
+  - desired FDR: While FDRs are given for each BioItem it is recommended to set a global FDR for the generation of the SAM plot.
+  - random seed: The seed is used for randomization of the permutations (System.Random()), or can be fixed to achieve the same results multiple times (e.g. System.Random(1234)).
+
+
+The `SAMResult` type summarizes all information required to construct the typical SAM plot: 
+
+  - s0: fudge factor as described by Tusher et al. (2001)
+  - pi0: {pi0 ∈ R ∣ 0 < x < 1} estimated for the determination of qvalues 
+  - delta: distance between the bisector and the parallel margins that separates nonsignificant from significant results
+  - upper Cut/lower Cut: y-axis intercepts that define significance-thresholds for the observed statistics
+  - positive/negative/non-significant bioitems 
+  - False Discovery Rate (FDR)
+  - median number of false positives
+
+The following snippet helps to generate the typical SAM plot.
 *)
 
 let SAMChart = 
