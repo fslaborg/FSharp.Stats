@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Normalization</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
+    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
+
+    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head> 
+
+<body>
+    <div class="columns is-fullheight m-0">
+        <div id="fsdocs-menu" class="column is-2 is-paddingless">
+            <aside class="menu">
+                <div class="container is-paddingless is-marginless has-background-light">
+                    <a href="https://fslab.org/FSharp.Stats/">
+                        <figure class="image is-128x128 container">
+                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
+                        </figure>
+                    </a>
+                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
+                </div>
+                <div class="content">
+                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+                    <div id="header">
+                        <div class="searchbox" id="fsdocs-searchbox">
+                            <label for="search-by">
+                                <i class="fas fa-search"></i>
+                            </label>
+                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
+                            <span data-search-clear="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- END SEARCH BOX: this adds support for the search box -->
+                    <ul class="navbar-nav">
+                        <li class="nav-header">Links</li>
+                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
+                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
+                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
+                        <li class="nav-header">
+  Documentation
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Matrix_Vector.html">
+    Matrix and Vector
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/LinearAlgebra.html">
+    Linear Algebra
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
+    Machine Learning
+  </a>
+</li>
+                        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="column is-10 is-paddingless">
+            <div class="section pt-4">
+                <div class="container" id="fsdocs-content">
+                    
+<h1><a name="Normalization" class="anchor" href="#Normalization">Normalization</a></h1>
+<p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Normalization.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
+<p><em>Summary:</em> this tutorial demonstrates multiple ways of data normalization accross several samples</p>
+<h3><a name="Table-of-contents" class="anchor" href="#Table-of-contents">Table of contents</a></h3>
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Median-of-ratios">Median of Ratios</a></li>
+<li><a href="#Quantile">Quantile</a></li>
+</ul>
+<h2><a name="Introduction" class="anchor" href="#Introduction">Introduction</a></h2>
+<p>When you want to compare e.g. intensity measurements of elements between samples, you often have to normalize the samples in order
+to be able to perform a valid comparison. Samples may vary in their average intensity just because of the technical nature of the measurement itself,
+thereby shifting or distorting the underlying correct/real distribution. For the presented normalization strategies it is assumed that global changes across the samples are due to unwanted technical variability and only
+a small number of elements are dysregulated (Zhao et al, 2020).</p>
+<h2><a name="Median-of-ratios" class="anchor" href="#Median-of-ratios">Median of ratios</a></h2>
+<p>To correct for batch effects or technical measurment differences the median of ratios normalization (MOR) can be applied.
+As explained above, it expects that the majority of genes/proteins/elements do not differ between the conditions that should be compared <a href="https://doi.org/10.1186/s13059-014-0550-8">Love et al. 2014</a>.
+At first a reference sample is determined by calculating the geometric mean of each of the <strong>n</strong> elements across all <strong>m</strong> samples. The calculation of the geometric mean as
+the n<sup>th</sup> square root of the product of all values (1) seems odd, but when displayed as mean of the log-transformed data (2) it becomes clear, that the geometric
+mean is just an outlier-insensitive measure of a robust average, which is intuitive to do when dealing with biological data or in general data with some extreme outliers.</p>
+<ol>
+<li><img src="https://render.githubusercontent.com/render/math?math=geomean = \sqrt[n]{\prod_{}^{}x}"></li>
+<li><img src="https://render.githubusercontent.com/render/math?math=geomean = e^{\frac{1}{n}\sum_{}^{}log(x)}"></li>
+</ol>
+<p>After a reference sample for each row is determined, for each entry a correction factor to reach the reference is calculated. Each sample now has n associated correction factors.
+By taking the median of those individual correction factors, an outlier-insensitive measure of the true correction factor is determined. By choosing the median it is assumed that in theory &gt;=50% of all
+measured elements should not change between the measured samples.</p>
+<p>No prior log-transform has to be applied before normalizing the data with this method. If required a log transform can be applied to the normalized values to restore homoscedasticity.</p>
+<p>In the following a step-by-step introduction is given with finally applying <code>Signal.Normalization.medianOfRatios</code> function to the given data.</p>
+<p><strong>1. Raw intensities for m=3 samples and n=6 elements:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><p>elementID</p></th>
+<th><p>sample1</p></th>
+<th><p>sample2</p></th>
+<th><p>sample3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>g00</p></td>
+<td><p>100</p></td>
+<td><p>130</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="even">
+<td><p>g01</p></td>
+<td><p>80</p></td>
+<td><p>200</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="odd">
+<td><p>g02</p></td>
+<td><p>0</p></td>
+<td><p>50</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="even">
+<td><p>g03</p></td>
+<td><p>40</p></td>
+<td><p>50</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="odd">
+<td><p>g04</p></td>
+<td><p>50</p></td>
+<td><p>45</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="even">
+<td><p>g05</p></td>
+<td><p>40</p></td>
+<td><p>50</p></td>
+<td><p>15</p></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>2. Zero intensities cannot be processed during the MOR-normalization.</strong>
+Either imputation, row filtering or data transformation must be performed. In this example a single count is added to each intensity.
+Note that this is not necessarily reasonable for every analysis! The reference sample is determined by calculating the geometric mean of every row.</p>
+<table>
+<thead>
+<tr class="header">
+<th><p>elementID</p></th>
+<th><p>sample1</p></th>
+<th><p>sample2</p></th>
+<th><p>sample3</p></th>
+<th><p>reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>g00</p></td>
+<td><p>101</p></td>
+<td><p>131</p></td>
+<td><p>31</p></td>
+<td><p>74.30</p></td>
+</tr>
+<tr class="even">
+<td><p>g01</p></td>
+<td><p>81</p></td>
+<td><p>201</p></td>
+<td><p>31</p></td>
+<td><p>79.62</p></td>
+</tr>
+<tr class="odd">
+<td><p>g02</p></td>
+<td><p>1</p></td>
+<td><p>51</p></td>
+<td><p>1</p></td>
+<td><p>3.71</p></td>
+</tr>
+<tr class="even">
+<td><p>g03</p></td>
+<td><p>41</p></td>
+<td><p>51</p></td>
+<td><p>21</p></td>
+<td><p>35.28</p></td>
+</tr>
+<tr class="odd">
+<td><p>g04</p></td>
+<td><p>51</p></td>
+<td><p>56</p></td>
+<td><p>26</p></td>
+<td><p>42.03</p></td>
+</tr>
+<tr class="even">
+<td><p>g05</p></td>
+<td><p>41</p></td>
+<td><p>51</p></td>
+<td><p>16</p></td>
+<td><p>32.22</p></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>3. For every element the correction factor is determined by dividing it by its reference.</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><p>elementID</p></th>
+<th><p>sample1</p></th>
+<th><p>sample2</p></th>
+<th><p>sample3</p></th>
+<th><p>reference</p></th>
+<th><p>corr1</p></th>
+<th><p>corr2</p></th>
+<th><p>corr3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>g00</p></td>
+<td><p>101</p></td>
+<td><p>131</p></td>
+<td><p>31</p></td>
+<td><p>74.30</p></td>
+<td><p>1.359</p></td>
+<td><p>1.763</p></td>
+<td><p>0.417</p></td>
+</tr>
+<tr class="even">
+<td><p>g01</p></td>
+<td><p>81</p></td>
+<td><p>201</p></td>
+<td><p>31</p></td>
+<td><p>79.62</p></td>
+<td><p>1.017</p></td>
+<td><p>2.525</p></td>
+<td><p>0.389</p></td>
+</tr>
+<tr class="odd">
+<td><p>g02</p></td>
+<td><p>1</p></td>
+<td><p>51</p></td>
+<td><p>1</p></td>
+<td><p>3.71</p></td>
+<td><p>0.270</p></td>
+<td><p>13.752</p></td>
+<td><p>0.270</p></td>
+</tr>
+<tr class="even">
+<td><p>g03</p></td>
+<td><p>41</p></td>
+<td><p>51</p></td>
+<td><p>21</p></td>
+<td><p>35.28</p></td>
+<td><p>1.162</p></td>
+<td><p>1.446</p></td>
+<td><p>0.595</p></td>
+</tr>
+<tr class="odd">
+<td><p>g04</p></td>
+<td><p>51</p></td>
+<td><p>56</p></td>
+<td><p>26</p></td>
+<td><p>42.03</p></td>
+<td><p>1.213</p></td>
+<td><p>1.332</p></td>
+<td><p>0.619</p></td>
+</tr>
+<tr class="even">
+<td><p>g05</p></td>
+<td><p>41</p></td>
+<td><p>51</p></td>
+<td><p>16</p></td>
+<td><p>32.22</p></td>
+<td><p>1.272</p></td>
+<td><p>1.583</p></td>
+<td><p>0.497</p></td>
+</tr>
+</tbody>
+</table>
+
+<p>It becomes apparent, that sample1 and sample2 are overrepresented and sample3 is underepresented. g02 and g03 are obviously outliers that differ between the samples.
+These elements should not influence the correction factors. By determining the median of each sample correction column, a outlier insensitive approximation of the true correction
+factor is achieved.</p>
+<p><strong>4. The median of each correction factor column determines the final correction.</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><p>elementID</p></th>
+<th><p>sample1</p></th>
+<th><p>sample2</p></th>
+<th><p>sample3</p></th>
+<th><p>reference</p></th>
+<th><p>corr1</p></th>
+<th><p>corr2</p></th>
+<th><p>corr3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>g00</p></td>
+<td><p>101</p></td>
+<td><p>131</p></td>
+<td><p>31</p></td>
+<td><p>74.30</p></td>
+<td><p>1.359</p></td>
+<td><p>1.763</p></td>
+<td><p>0.417</p></td>
+</tr>
+<tr class="even">
+<td><p>g01</p></td>
+<td><p>81</p></td>
+<td><p>201</p></td>
+<td><p>31</p></td>
+<td><p>79.62</p></td>
+<td><p>1.017</p></td>
+<td><p>2.525</p></td>
+<td><p>0.389</p></td>
+</tr>
+<tr class="odd">
+<td><p>g02</p></td>
+<td><p>1</p></td>
+<td><p>51</p></td>
+<td><p>1</p></td>
+<td><p>3.71</p></td>
+<td><p>0.270</p></td>
+<td><p>13.752</p></td>
+<td><p>0.270</p></td>
+</tr>
+<tr class="even">
+<td><p>g03</p></td>
+<td><p>41</p></td>
+<td><p>51</p></td>
+<td><p>21</p></td>
+<td><p>35.28</p></td>
+<td><p>1.162</p></td>
+<td><p>1.446</p></td>
+<td><p>0.595</p></td>
+</tr>
+<tr class="odd">
+<td><p>g04</p></td>
+<td><p>51</p></td>
+<td><p>56</p></td>
+<td><p>26</p></td>
+<td><p>42.03</p></td>
+<td><p>1.213</p></td>
+<td><p>1.332</p></td>
+<td><p>0.619</p></td>
+</tr>
+<tr class="even">
+<td><p>g05</p></td>
+<td><p>41</p></td>
+<td><p>51</p></td>
+<td><p>16</p></td>
+<td><p>32.22</p></td>
+<td><p>1.272</p></td>
+<td><p>1.583</p></td>
+<td><p>0.497</p></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><strong>Median:</strong></p></td>
+<td><p><strong>1.188</strong></p></td>
+<td><p><strong>1.673</strong></p></td>
+<td><p><strong>0.457</strong></p></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>5. Apply the correction factors to the original (untransformed) data.</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><p>elementID</p></th>
+<th><p>sample1</p></th>
+<th><p>sample2</p></th>
+<th><p>sample3</p></th>
+<th><p>reference</p></th>
+<th><p>corr1</p></th>
+<th><p>corr2</p></th>
+<th><p>corr3</p></th>
+<th></th>
+<th><p>normedSample1</p></th>
+<th><p>normedSample2</p></th>
+<th><p>normedSample3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>g00</p></td>
+<td><p>101</p></td>
+<td><p>131</p></td>
+<td><p>31</p></td>
+<td><p>74.30</p></td>
+<td><p>1.359</p></td>
+<td><p>1.763</p></td>
+<td><p>0.417</p></td>
+<td></td>
+<td><p>84.19</p></td>
+<td><p>77.71</p></td>
+<td><p>65.66</p></td>
+</tr>
+<tr class="even">
+<td><p>g01</p></td>
+<td><p>81</p></td>
+<td><p>201</p></td>
+<td><p>31</p></td>
+<td><p>79.62</p></td>
+<td><p>1.017</p></td>
+<td><p>2.525</p></td>
+<td><p>0.389</p></td>
+<td></td>
+<td><p>67.35</p></td>
+<td><p>119.5</p></td>
+<td><p>565.66</p></td>
+</tr>
+<tr class="odd">
+<td><p>g02</p></td>
+<td><p>1</p></td>
+<td><p>51</p></td>
+<td><p>1</p></td>
+<td><p>3.71</p></td>
+<td><p>0.270</p></td>
+<td><p>13.752</p></td>
+<td><p>0.270</p></td>
+<td></td>
+<td><p>0.00</p></td>
+<td><p>29.89</p></td>
+<td><p>0.00</p></td>
+</tr>
+<tr class="even">
+<td><p>g03</p></td>
+<td><p>41</p></td>
+<td><p>51</p></td>
+<td><p>21</p></td>
+<td><p>35.28</p></td>
+<td><p>1.162</p></td>
+<td><p>1.446</p></td>
+<td><p>0.595</p></td>
+<td></td>
+<td><p>33.68</p></td>
+<td><p>29.89</p></td>
+<td><p>43.77</p></td>
+</tr>
+<tr class="odd">
+<td><p>g04</p></td>
+<td><p>51</p></td>
+<td><p>56</p></td>
+<td><p>26</p></td>
+<td><p>42.03</p></td>
+<td><p>1.213</p></td>
+<td><p>1.332</p></td>
+<td><p>0.619</p></td>
+<td></td>
+<td><p>42.10</p></td>
+<td><p>32.88</p></td>
+<td><p>54.72</p></td>
+</tr>
+<tr class="even">
+<td><p>g05</p></td>
+<td><p>41</p></td>
+<td><p>51</p></td>
+<td><p>16</p></td>
+<td><p>32.22</p></td>
+<td><p>1.272</p></td>
+<td><p>1.583</p></td>
+<td><p>0.497</p></td>
+<td></td>
+<td><p>33.68</p></td>
+<td><p>29.89</p></td>
+<td><p>32.83</p></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p><strong>Median:</strong></p></td>
+<td><p><strong>1.188</strong></p></td>
+<td><p><strong>1.673</strong></p></td>
+<td><p><strong>0.457</strong></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<p>The normed intensities of the different elements now match a theoretical common intensity level.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs30', 64)" onmouseover="showTip(event, 'fs30', 64)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 65)" onmouseover="showTip(event, 'fs31', 65)" class="id">Stats</span>
+
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 66)" onmouseover="showTip(event, 'fs32', 66)" class="id">rawData</span> <span class="o">=</span> 
+    <span class="pn">[|</span>
+    <span class="pn">[|</span><span class="n">100.</span><span class="pn">;</span> <span class="n">130.</span><span class="pn">;</span> <span class="n">30.</span><span class="pn">|]</span>
+    <span class="pn">[|</span> <span class="n">80.</span><span class="pn">;</span> <span class="n">200.</span><span class="pn">;</span> <span class="n">30.</span><span class="pn">|]</span>
+    <span class="pn">[|</span>  <span class="n">0.</span><span class="pn">;</span>  <span class="n">50.</span><span class="pn">;</span>  <span class="n">0.</span><span class="pn">|]</span>
+    <span class="pn">[|</span> <span class="n">40.</span><span class="pn">;</span>  <span class="n">50.</span><span class="pn">;</span> <span class="n">20.</span><span class="pn">|]</span>
+    <span class="pn">[|</span> <span class="n">50.</span><span class="pn">;</span>  <span class="n">45.</span><span class="pn">;</span> <span class="n">25.</span><span class="pn">|]</span>
+    <span class="pn">[|</span> <span class="n">40.</span><span class="pn">;</span>  <span class="n">50.</span><span class="pn">;</span> <span class="n">15.</span><span class="pn">|]</span>
+    <span class="pn">|]</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs33', 67)" onmouseover="showTip(event, 'fs33', 67)" class="fn">matrix</span>
+
+<span class="c">// visualization of the raw data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs34', 68)" onmouseover="showTip(event, 'fs34', 68)" class="id">rawDataChart</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs32', 69)" onmouseover="showTip(event, 'fs32', 69)" class="id">rawData</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 70)" onmouseover="showTip(event, 'fs35', 70)" class="id">Transpose</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs36', 71)" onmouseover="showTip(event, 'fs36', 71)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 72)" onmouseover="showTip(event, 'fs37', 72)" class="id">toJaggedArray</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs38', 73)" onmouseover="showTip(event, 'fs38', 73)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 74)" onmouseover="showTip(event, 'fs39', 74)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs40', 75)" onmouseover="showTip(event, 'fs40', 75)" class="fn">sampleID</span> <span onmouseout="hideTip(event, 'fs41', 76)" onmouseover="showTip(event, 'fs41', 76)" class="fn">sample</span> <span class="k">-&gt;</span> 
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs42', 77)" onmouseover="showTip(event, 'fs42', 77)" class="fn">sampleIntensities</span> <span class="o">=</span> 
+            <span onmouseout="hideTip(event, 'fs41', 78)" onmouseover="showTip(event, 'fs41', 78)" class="fn">sample</span> 
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs38', 79)" onmouseover="showTip(event, 'fs38', 79)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 80)" onmouseover="showTip(event, 'fs39', 80)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs43', 81)" onmouseover="showTip(event, 'fs43', 81)" class="fn">gID</span> <span onmouseout="hideTip(event, 'fs44', 82)" onmouseover="showTip(event, 'fs44', 82)" class="fn">intensity</span> <span class="k">-&gt;</span>
+                <span onmouseout="hideTip(event, 'fs43', 83)" onmouseover="showTip(event, 'fs43', 83)" class="fn">gID</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs44', 84)" onmouseover="showTip(event, 'fs44', 84)" class="fn">intensity</span>
+            <span class="pn">)</span>
+        <span onmouseout="hideTip(event, 'fs45', 85)" onmouseover="showTip(event, 'fs45', 85)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs46', 86)" onmouseover="showTip(event, 'fs46', 86)" class="id">Column</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs42', 87)" onmouseover="showTip(event, 'fs42', 87)" class="fn">sampleIntensities</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs47', 88)" onmouseover="showTip(event, 'fs47', 88)" class="fn">Name</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs48', 89)" onmouseover="showTip(event, 'fs48', 89)" class="fn">sprintf</span> <span class="s">&quot;raw sample</span><span class="pf">%i</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs40', 90)" onmouseover="showTip(event, 'fs40', 90)" class="fn">sampleID</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 91)" onmouseover="showTip(event, 'fs45', 91)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 92)" onmouseover="showTip(event, 'fs49', 92)" class="id">combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 93)" onmouseover="showTip(event, 'fs45', 93)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 94)" onmouseover="showTip(event, 'fs21', 94)" class="id">withAxisTitles</span> <span class="s">&quot;gID&quot;</span> <span class="s">&quot;raw intensity&quot;</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 95)" onmouseover="showTip(event, 'fs45', 95)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 96)" onmouseover="showTip(event, 'fs50', 96)" class="id">withTitle</span> <span class="s">&quot;raw data&quot;</span>
+</code></pre>
+<div id="db05254e-8399-4282-8ed9-910afaa780c9"><!-- Plotly chart will be drawn inside this DIV --></div>
+<script type="text/javascript">
+
+            var renderPlotly_db05254e839942828ed9910afaa780c9 = function() {
+            var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
+            fsharpPlotlyRequire(['plotly'], function(Plotly) {
+
+            var data = [{"type":"bar","name":"raw sample1","x":[0,1,2,3,4,5],"y":[100.0,80.0,0.0,40.0,50.0,40.0],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"raw sample2","x":[0,1,2,3,4,5],"y":[130.0,200.0,50.0,50.0,45.0,50.0],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"raw sample3","x":[0,1,2,3,4,5],"y":[30.0,30.0,0.0,20.0,25.0,15.0],"orientation":"v","marker":{"pattern":{}}}];
+            var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":"raw intensity"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"title":{"text":"raw data"}};
+            var config = {"responsive":true};
+            Plotly.newPlot('db05254e-8399-4282-8ed9-910afaa780c9', data, layout, config);
+});
+            };
+            if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
+                var script = document.createElement("script");
+                script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
+                script.onload = function(){
+                    renderPlotly_db05254e839942828ed9910afaa780c9();
+                };
+                document.getElementsByTagName("head")[0].appendChild(script);
+            }
+            else {
+                renderPlotly_db05254e839942828ed9910afaa780c9();
+            }
+</script>
+
+<p>In the above figure you can see, that the green sample is underrepresented, and the orange is overrepresented when compared to the blue one.
+No the MOR normalization is applied. If no transformation (+1) should be applied, you can use <code>Signal.Normalization.medianOfRatios</code>.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">/// actual median of ratios normalization. 1 is added to each intensity to get rid of the empty intensities.</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 100)" onmouseover="showTip(event, 'fs53', 100)" class="id">mor</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs54', 101)" onmouseover="showTip(event, 'fs54', 101)" class="id">Signal</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs55', 102)" onmouseover="showTip(event, 'fs55', 102)" class="m">Normalization</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs56', 103)" onmouseover="showTip(event, 'fs56', 103)" class="id">medianOfRatiosBy</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs57', 104)" onmouseover="showTip(event, 'fs57', 104)" class="fn">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs57', 105)" onmouseover="showTip(event, 'fs57', 105)" class="fn">x</span> <span class="o">+</span> <span class="n">1.0</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs32', 106)" onmouseover="showTip(event, 'fs32', 106)" class="id">rawData</span>
+
+<span class="c">/// Matrix of normalized data in the same order as the input matrix</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs58', 107)" onmouseover="showTip(event, 'fs58', 107)" class="id">morNormedData</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs53', 108)" onmouseover="showTip(event, 'fs53', 108)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs59', 109)" onmouseover="showTip(event, 'fs59', 109)" class="id">NormedData</span>
+
+<span class="c">/// Correction factors to assess the strenght of the applied normalization (1 indicates no normalization)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs60', 110)" onmouseover="showTip(event, 'fs60', 110)" class="id">corrFactors</span> <span class="o">=</span> 
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs61', 111)" onmouseover="showTip(event, 'fs61', 111)" class="fn">cf1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs62', 112)" onmouseover="showTip(event, 'fs62', 112)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs63', 113)" onmouseover="showTip(event, 'fs63', 113)" class="id">item</span> <span class="n">0</span> <span onmouseout="hideTip(event, 'fs53', 114)" onmouseover="showTip(event, 'fs53', 114)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 115)" onmouseover="showTip(event, 'fs64', 115)" class="id">CorrFactors</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs65', 116)" onmouseover="showTip(event, 'fs65', 116)" class="fn">cf2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs62', 117)" onmouseover="showTip(event, 'fs62', 117)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs63', 118)" onmouseover="showTip(event, 'fs63', 118)" class="id">item</span> <span class="n">1</span> <span onmouseout="hideTip(event, 'fs53', 119)" onmouseover="showTip(event, 'fs53', 119)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 120)" onmouseover="showTip(event, 'fs64', 120)" class="id">CorrFactors</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs66', 121)" onmouseover="showTip(event, 'fs66', 121)" class="fn">cf3</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs62', 122)" onmouseover="showTip(event, 'fs62', 122)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs63', 123)" onmouseover="showTip(event, 'fs63', 123)" class="id">item</span> <span class="n">2</span> <span onmouseout="hideTip(event, 'fs53', 124)" onmouseover="showTip(event, 'fs53', 124)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 125)" onmouseover="showTip(event, 'fs64', 125)" class="id">CorrFactors</span>
+    <span onmouseout="hideTip(event, 'fs48', 126)" onmouseover="showTip(event, 'fs48', 126)" class="fn">sprintf</span> <span class="s">&quot;Correctionfactor for sample1 is </span><span class="pf">%.3f</span><span class="s">\nCorrectionfactor for sample2 is </span><span class="pf">%.3f</span><span class="s">\nCorrectionfactor for sample3 is </span><span class="pf">%.3f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs61', 127)" onmouseover="showTip(event, 'fs61', 127)" class="fn">cf1</span> <span onmouseout="hideTip(event, 'fs65', 128)" onmouseover="showTip(event, 'fs65', 128)" class="fn">cf2</span> <span onmouseout="hideTip(event, 'fs66', 129)" onmouseover="showTip(event, 'fs66', 129)" class="fn">cf3</span>
+</code></pre>
+Correctionfactor for sample1 is 1.217
+Correctionfactor for sample2 is 1.673
+Correctionfactor for sample3 is 0.457
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// visualization of the normed data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs67', 131)" onmouseover="showTip(event, 'fs67', 131)" class="id">normedDataChart</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs58', 132)" onmouseover="showTip(event, 'fs58', 132)" class="id">morNormedData</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 133)" onmouseover="showTip(event, 'fs35', 133)" class="id">Transpose</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs36', 134)" onmouseover="showTip(event, 'fs36', 134)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 135)" onmouseover="showTip(event, 'fs37', 135)" class="id">toJaggedArray</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs38', 136)" onmouseover="showTip(event, 'fs38', 136)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 137)" onmouseover="showTip(event, 'fs39', 137)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs40', 138)" onmouseover="showTip(event, 'fs40', 138)" class="fn">sampleID</span> <span onmouseout="hideTip(event, 'fs41', 139)" onmouseover="showTip(event, 'fs41', 139)" class="fn">sample</span> <span class="k">-&gt;</span> 
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs42', 140)" onmouseover="showTip(event, 'fs42', 140)" class="fn">sampleIntensities</span> <span class="o">=</span> 
+            <span onmouseout="hideTip(event, 'fs41', 141)" onmouseover="showTip(event, 'fs41', 141)" class="fn">sample</span> 
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs38', 142)" onmouseover="showTip(event, 'fs38', 142)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 143)" onmouseover="showTip(event, 'fs39', 143)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs43', 144)" onmouseover="showTip(event, 'fs43', 144)" class="fn">gID</span> <span onmouseout="hideTip(event, 'fs44', 145)" onmouseover="showTip(event, 'fs44', 145)" class="fn">intensity</span> <span class="k">-&gt;</span>
+                <span onmouseout="hideTip(event, 'fs43', 146)" onmouseover="showTip(event, 'fs43', 146)" class="fn">gID</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs44', 147)" onmouseover="showTip(event, 'fs44', 147)" class="fn">intensity</span>
+            <span class="pn">)</span>
+        <span onmouseout="hideTip(event, 'fs45', 148)" onmouseover="showTip(event, 'fs45', 148)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs46', 149)" onmouseover="showTip(event, 'fs46', 149)" class="id">Column</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs42', 150)" onmouseover="showTip(event, 'fs42', 150)" class="fn">sampleIntensities</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs47', 151)" onmouseover="showTip(event, 'fs47', 151)" class="fn">Name</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs48', 152)" onmouseover="showTip(event, 'fs48', 152)" class="fn">sprintf</span> <span class="s">&quot;MOR normed sample</span><span class="pf">%i</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs40', 153)" onmouseover="showTip(event, 'fs40', 153)" class="fn">sampleID</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 154)" onmouseover="showTip(event, 'fs45', 154)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 155)" onmouseover="showTip(event, 'fs49', 155)" class="id">combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 156)" onmouseover="showTip(event, 'fs45', 156)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 157)" onmouseover="showTip(event, 'fs21', 157)" class="id">withAxisTitles</span> <span class="s">&quot;gID&quot;</span> <span class="s">&quot;MOR intensity&quot;</span>
+</code></pre>
+<div id="85a74980-726a-419e-941f-7f1060d79ecb"><!-- Plotly chart will be drawn inside this DIV --></div>
+<script type="text/javascript">
+
+            var renderPlotly_85a74980726a419e941f7f1060d79ecb = function() {
+            var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
+            fsharpPlotlyRequire(['plotly'], function(Plotly) {
+
+            var data = [{"type":"bar","name":"MOR normed sample1","x":[0,1,2,3,4,5],"y":[82.15073918013081,65.72059134410465,0.0,32.860295672052324,41.07536959006541,32.860295672052324],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"MOR normed sample2","x":[0,1,2,3,4,5],"y":[77.7073168717368,119.54971826421045,29.887429566052614,29.887429566052614,26.898686609447353,29.887429566052614],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"MOR normed sample3","x":[0,1,2,3,4,5],"y":[65.66130664839933,65.66130664839933,0.0,43.77420443226622,54.717755540332774,32.830653324199666],"orientation":"v","marker":{"pattern":{}}}];
+            var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":"MOR intensity"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false}};
+            var config = {"responsive":true};
+            Plotly.newPlot('85a74980-726a-419e-941f-7f1060d79ecb', data, layout, config);
+});
+            };
+            if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
+                var script = document.createElement("script");
+                script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
+                script.onload = function(){
+                    renderPlotly_85a74980726a419e941f7f1060d79ecb();
+                };
+                document.getElementsByTagName("head")[0].appendChild(script);
+            }
+            else {
+                renderPlotly_85a74980726a419e941f7f1060d79ecb();
+            }
+</script>
+
+<p>The normed data now shows high similarity of the individual element intensities across samples.</p>
+<h1><a name="Quantile-normalization" class="anchor" href="#Quantile-normalization">Quantile normalization</a></h1>
+<p>To compensate for the technical variance you also can perform a quantile normalization. It is a technique for making two or more
+distributions identical in statistical properties and was originally developed for gene expression microarrays. It sees widespread use, constituting a standard part
+of analysis pipelines for high-throughput analysis.
+You can either quantile normalize data according to a given reference distribution (e.g. Gamma or Normal distribution) or create your own reference distribution out of your samples.</p>
+<p>The same dataset as above is used and a quantile normalization is performed. Since no log transform is applied, there is no necessity to add a constant to each intensity:</p>
+<p><strong>1. Raw intensities for m=3 samples and n=6 elements:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><p>elementID</p></th>
+<th><p>sample1</p></th>
+<th><p>sample2</p></th>
+<th><p>sample3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>g00</p></td>
+<td><p>100</p></td>
+<td><p>130</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="even">
+<td><p>g01</p></td>
+<td><p>80</p></td>
+<td><p>200</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="odd">
+<td><p>g02</p></td>
+<td><p>0</p></td>
+<td><p>50</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="even">
+<td><p>g03</p></td>
+<td><p>40</p></td>
+<td><p>50</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="odd">
+<td><p>g04</p></td>
+<td><p>50</p></td>
+<td><p>45</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="even">
+<td><p>g05</p></td>
+<td><p>40</p></td>
+<td><p>50</p></td>
+<td><p>15</p></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>2. Intensities are indexed and sorted in ascending order. The row average intensity is determined.</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><p>sample1</p></th>
+<th><p>sample2</p></th>
+<th><p>sample3</p></th>
+<th></th>
+<th><p>row average</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>3 -&gt; 0</p></td>
+<td><p>5 -&gt; 45</p></td>
+<td><p>3 -&gt; 0</p></td>
+<td></td>
+<td><p>15</p></td>
+</tr>
+<tr class="even">
+<td><p>4 -&gt; 40</p></td>
+<td><p>3 -&gt; 50</p></td>
+<td><p>6 -&gt; 15</p></td>
+<td></td>
+<td><p>35</p></td>
+</tr>
+<tr class="odd">
+<td><p>6 -&gt; 40</p></td>
+<td><p>4 -&gt; 50</p></td>
+<td><p>4 -&gt; 20</p></td>
+<td></td>
+<td><p>36.7</p></td>
+</tr>
+<tr class="even">
+<td><p>5 -&gt; 50</p></td>
+<td><p>6 -&gt; 50</p></td>
+<td><p>5 -&gt; 25</p></td>
+<td></td>
+<td><p>41.7</p></td>
+</tr>
+<tr class="odd">
+<td><p>2 -&gt; 80</p></td>
+<td><p>1 -&gt; 130</p></td>
+<td><p>1 -&gt; 30</p></td>
+<td></td>
+<td><p>80</p></td>
+</tr>
+<tr class="even">
+<td><p>1 -&gt; 100</p></td>
+<td><p>2 -&gt; 200</p></td>
+<td><p>2 -&gt; 30</p></td>
+<td></td>
+<td><p>110</p></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>3. Every intensity is replaced by the row average intensity</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><p>sample1</p></th>
+<th><p>sample2</p></th>
+<th><p>sample3</p></th>
+<th></th>
+<th><p>row average</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>3;15</p></td>
+<td><p>5;15</p></td>
+<td><p>3;15</p></td>
+<td></td>
+<td><p>15</p></td>
+</tr>
+<tr class="even">
+<td><p>4;35</p></td>
+<td><p>3;35</p></td>
+<td><p>6;35</p></td>
+<td></td>
+<td><p>35</p></td>
+</tr>
+<tr class="odd">
+<td><p>6;36.7</p></td>
+<td><p>4;36.7</p></td>
+<td><p>4;36.7</p></td>
+<td></td>
+<td><p>36.7</p></td>
+</tr>
+<tr class="even">
+<td><p>5;41.7</p></td>
+<td><p>6;41.7</p></td>
+<td><p>5;41.7</p></td>
+<td></td>
+<td><p>41.7</p></td>
+</tr>
+<tr class="odd">
+<td><p>2;80</p></td>
+<td><p>1;80</p></td>
+<td><p>1;80</p></td>
+<td></td>
+<td><p>80</p></td>
+</tr>
+<tr class="even">
+<td><p>1;110</p></td>
+<td><p>2;110</p></td>
+<td><p>2;110</p></td>
+<td></td>
+<td><p>110</p></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>4. Finally the columns are resorted to their original order using the indices. The indices are removed</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><p>elementID</p></th>
+<th><p>normedSample1</p></th>
+<th><p>normedSample2</p></th>
+<th><p>normedSample3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>g00</p></td>
+<td><p>110</p></td>
+<td><p>80</p></td>
+<td><p>80</p></td>
+</tr>
+<tr class="even">
+<td><p>g01</p></td>
+<td><p>80</p></td>
+<td><p>110</p></td>
+<td><p>110</p></td>
+</tr>
+<tr class="odd">
+<td><p>g02</p></td>
+<td><p>15</p></td>
+<td><p>35</p></td>
+<td><p>15</p></td>
+</tr>
+<tr class="even">
+<td><p>g03</p></td>
+<td><p>35</p></td>
+<td><p>36.7</p></td>
+<td><p>36.7</p></td>
+</tr>
+<tr class="odd">
+<td><p>g04</p></td>
+<td><p>41.7</p></td>
+<td><p>15</p></td>
+<td><p>41.7</p></td>
+</tr>
+<tr class="even">
+<td><p>g05</p></td>
+<td><p>36.7</p></td>
+<td><p>41.7</p></td>
+<td><p>35</p></td>
+</tr>
+</tbody>
+</table>
+
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs68', 161)" onmouseover="showTip(event, 'fs68', 161)" class="id">quantileNorm</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs54', 162)" onmouseover="showTip(event, 'fs54', 162)" class="id">Signal</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs55', 163)" onmouseover="showTip(event, 'fs55', 163)" class="m">Normalization</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs69', 164)" onmouseover="showTip(event, 'fs69', 164)" class="id">quantile</span> <span onmouseout="hideTip(event, 'fs32', 165)" onmouseover="showTip(event, 'fs32', 165)" class="id">rawData</span>
+
+<span class="c">// visualization of the normed data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs70', 166)" onmouseover="showTip(event, 'fs70', 166)" class="id">normedDataQuantileChart</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs68', 167)" onmouseover="showTip(event, 'fs68', 167)" class="id">quantileNorm</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 168)" onmouseover="showTip(event, 'fs35', 168)" class="id">Transpose</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs36', 169)" onmouseover="showTip(event, 'fs36', 169)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 170)" onmouseover="showTip(event, 'fs37', 170)" class="id">toJaggedArray</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs38', 171)" onmouseover="showTip(event, 'fs38', 171)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 172)" onmouseover="showTip(event, 'fs39', 172)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs40', 173)" onmouseover="showTip(event, 'fs40', 173)" class="fn">sampleID</span> <span onmouseout="hideTip(event, 'fs41', 174)" onmouseover="showTip(event, 'fs41', 174)" class="fn">sample</span> <span class="k">-&gt;</span> 
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs42', 175)" onmouseover="showTip(event, 'fs42', 175)" class="fn">sampleIntensities</span> <span class="o">=</span> 
+            <span onmouseout="hideTip(event, 'fs41', 176)" onmouseover="showTip(event, 'fs41', 176)" class="fn">sample</span> 
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs38', 177)" onmouseover="showTip(event, 'fs38', 177)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 178)" onmouseover="showTip(event, 'fs39', 178)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs43', 179)" onmouseover="showTip(event, 'fs43', 179)" class="fn">gID</span> <span onmouseout="hideTip(event, 'fs44', 180)" onmouseover="showTip(event, 'fs44', 180)" class="fn">intensity</span> <span class="k">-&gt;</span>
+                <span onmouseout="hideTip(event, 'fs43', 181)" onmouseover="showTip(event, 'fs43', 181)" class="fn">gID</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs44', 182)" onmouseover="showTip(event, 'fs44', 182)" class="fn">intensity</span>
+            <span class="pn">)</span>
+        <span onmouseout="hideTip(event, 'fs45', 183)" onmouseover="showTip(event, 'fs45', 183)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs46', 184)" onmouseover="showTip(event, 'fs46', 184)" class="id">Column</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs42', 185)" onmouseover="showTip(event, 'fs42', 185)" class="fn">sampleIntensities</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs47', 186)" onmouseover="showTip(event, 'fs47', 186)" class="fn">Name</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs48', 187)" onmouseover="showTip(event, 'fs48', 187)" class="fn">sprintf</span> <span class="s">&quot;quantile normed sample</span><span class="pf">%i</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs40', 188)" onmouseover="showTip(event, 'fs40', 188)" class="fn">sampleID</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 189)" onmouseover="showTip(event, 'fs45', 189)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 190)" onmouseover="showTip(event, 'fs49', 190)" class="id">combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 191)" onmouseover="showTip(event, 'fs45', 191)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 192)" onmouseover="showTip(event, 'fs21', 192)" class="id">withAxisTitles</span> <span class="s">&quot;gID&quot;</span> <span class="s">&quot;qNorm intensity&quot;</span>
+</code></pre>
+<div id="884223ef-8e99-443a-9fc8-300df2d8d084"><!-- Plotly chart will be drawn inside this DIV --></div>
+<script type="text/javascript">
+
+            var renderPlotly_884223ef8e99443a9fc8300df2d8d084 = function() {
+            var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
+            fsharpPlotlyRequire(['plotly'], function(Plotly) {
+
+            var data = [{"type":"bar","name":"quantile normed sample1","x":[0,1,2,3,4,5],"y":[110.0,80.0,15.0,35.0,41.666666666666664,36.666666666666664],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"quantile normed sample2","x":[0,1,2,3,4,5],"y":[80.0,110.0,35.0,36.666666666666664,15.0,41.666666666666664],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"quantile normed sample3","x":[0,1,2,3,4,5],"y":[80.0,110.0,15.0,36.666666666666664,41.666666666666664,35.0],"orientation":"v","marker":{"pattern":{}}}];
+            var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":"qNorm intensity"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false}};
+            var config = {"responsive":true};
+            Plotly.newPlot('884223ef-8e99-443a-9fc8-300df2d8d084', data, layout, config);
+});
+            };
+            if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
+                var script = document.createElement("script");
+                script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
+                script.onload = function(){
+                    renderPlotly_884223ef8e99443a9fc8300df2d8d084();
+                };
+                document.getElementsByTagName("head")[0].appendChild(script);
+            }
+            else {
+                renderPlotly_884223ef8e99443a9fc8300df2d8d084();
+            }
+</script>
+
+<p>As seen in the normalized column chart, the final samples all consists of the same values, just assigned to different row indices according to the rank within the sample.
+For data with low row count, this normalization is not appropriate because there is a severe disturbance of the intensity values. The more data is incorporated (more rows), the lower
+the single value influence will be.</p>
+<h2><a name="Notes" class="anchor" href="#Notes">Notes</a></h2>
+<p>You can assess the quality of your normalization by performing a PCA prior and after normalization and compare different normalization strategies. While the
+correction factors for MOR can be investigated, quantile normalization is a non-linear transformation since every value is normalized by its own rank-row mean.</p>
+
+                </div>
+            </div>
+        </div>
+        <div class="fsdocs-tip" id="fs1">namespace Plotly</div>
+<div class="fsdocs-tip" id="fs2">namespace Plotly.NET</div>
+<div class="fsdocs-tip" id="fs3">module StyleParam
+
+from Plotly.NET</div>
+<div class="fsdocs-tip" id="fs4">namespace Plotly.NET.LayoutObjects</div>
+<div class="fsdocs-tip" id="fs5">type Chart =
+  static member AnnotatedHeatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * annotationText: seq&lt;#seq&lt;string&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 1 overload
+  static member Area: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?FillColor: Color * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Bar: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member BoxPlot: ?X: seq&lt;#IConvertible&gt; * ?Y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?FillColor: Color * ?MarkerColor: Color * ?Marker: Marker * ?Opacity: float * ?WhiskerWidth: float * ?BoxPoints: BoxPoints * ?BoxMean: BoxMean * ?Jitter: float * ?PointPos: float * ?Orientation: Orientation * ?OutlineColor: Color * ?OutlineWidth: float * ?Outline: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?Notched: bool * ?NotchWidth: float * ?QuartileMethod: QuartileMethod * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 2 overloads
+  static member Bubble: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * sizes: seq&lt;int&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Candlestick: ``open`` : seq&lt;#IConvertible&gt; * high: seq&lt;#IConvertible&gt; * low: seq&lt;#IConvertible&gt; * close: seq&lt;#IConvertible&gt; * x: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?Line: Line * ?IncreasingColor: Color * ?Increasing: FinanceMarker * ?DecreasingColor: Color * ?Decreasing: FinanceMarker * ?WhiskerWidth: float * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a5 :&gt; IConvertible) + 1 overload
+  static member Column: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member Contour: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?Y: seq&lt;#IConvertible&gt; * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?Transpose: bool * ?ContourLineColor: Color * ?ContourLineDash: DrawingStyle * ?ContourLineSmoothing: float * ?ContourLine: Line * ?ContoursColoring: ContourColoring * ?ContoursOperation: ConstraintOperation * ?ContoursType: ContourType * ?ShowContourLabels: bool * ?ContourLabelFont: Font * ?Contours: Contours * ?FillColor: Color * ?NContours: int * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
+  static member Funnel: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Width: float * ?Offset: float * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?Orientation: Orientation * ?AlignmentGroup: string * ?OffsetGroup: string * ?MarkerColor: Color * ?MarkerOutline: Line * ?Marker: Marker * ?TextInfo: TextInfo * ?ConnectorLineColor: Color * ?ConnectorLineStyle: DrawingStyle * ?ConnectorFillColor: Color * ?ConnectorLine: Line * ?Connector: FunnelConnector * ?InsideTextFont: Font * ?OutsideTextFont: Font * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
+  static member Heatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  ...</div>
+<div class="fsdocs-tip" id="fs6">val myAxis: name: string -&gt; LinearAxis</div>
+<div class="fsdocs-tip" id="fs7">val name: string</div>
+<div class="fsdocs-tip" id="fs8">Multiple items<br />type LinearAxis =
+  inherit DynamicObj
+  new: unit -&gt; LinearAxis
+  static member init: ?Visible: bool * ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#IConvertible&gt; * ?UIRevision: #IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar * ?BackgroundColor: Color * ?ShowBackground: bool -&gt; LinearAxis
+  static member initCarpet: ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?ShowTickLabels: bool * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#IConvertible&gt; * ?ArrayDTick: int * ?ArrayTick0: int * ?CheaterType: CheaterType * ?EndLine: bool * ?EndLineColor: Color * ?EndLineWidth: int * ?LabelPadding: int * ?LabelPrefix: string * ?LabelSuffix: string * ?MinorGridColor: Color * ?MinorGridCount: int * ?MinorGridWidth: int * ?Smoothing: float * ?StartLine: bool * ?StartLineColor: Color * ?StartLineWidth: int -&gt; LinearAxis
+  static member initCategorical: categoryOrder: CategoryOrder * ?Visible: bool * ?Color: Color * ?Title: Title * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryArray: seq&lt;#IConvertible&gt; * ?UIRevision: #IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar -&gt; LinearAxis
+  static member initIndicatorGauge: ?DTick: #IConvertible * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?NTicks: int * ?Range: Range * ?SeparateThousands: bool * ?ShowExponent: ShowExponent * ?ShowTickLabels: bool * ?ShowTickPrefix: ShowTickOption * ?ShowTickSuffix: ShowTickOption * ?Tick0: #IConvertible * ?TickAngle: int * ?TickColor: Color * ?TickFont: Font * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?TickLen: int * ?TickMode: TickMode * ?TickPrefix: string * ?Ticks: TickOptions * ?TickSuffix: string * ?TickText: seq&lt;#IConvertible&gt; * ?TickVals: seq&lt;#IConvertible&gt; * ?TickWidth: int * ?Visible: bool -&gt; LinearAxis
+  static member style: ?Visible: bool * ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#IConvertible&gt; * ?UIRevision: #IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar * ?ArrayDTick: int * ?ArrayTick0: int * ?CheaterType: CheaterType * ?EndLine: bool * ?EndLineColor: Color * ?EndLineWidth: int * ?LabelPadding: int * ?LabelPrefix: string * ?LabelSuffix: string * ?MinorGridColor: Color * ?MinorGridCount: int * ?MinorGridWidth: int * ?Smoothing: float * ?StartLine: bool * ?StartLineColor: Color * ?StartLineWidth: int * ?BackgroundColor: Color * ?ShowBackground: bool -&gt; (LinearAxis -&gt; LinearAxis)<br /><em>&lt;summary&gt;Linear axes can be used as x and y scales on 2D plots, and as x,y, and z scales on 3D plots.&lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; LinearAxis</div>
+<div class="fsdocs-tip" id="fs9">static member LinearAxis.init: ?Visible: bool * ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #System.IConvertible * ?DTick: #System.IConvertible * ?TickVals: seq&lt;#System.IConvertible&gt; * ?TickText: seq&lt;#System.IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#System.IConvertible&gt; * ?UIRevision: #System.IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar * ?BackgroundColor: Color * ?ShowBackground: bool -&gt; LinearAxis</div>
+<div class="fsdocs-tip" id="fs10">Multiple items<br />type Title =
+  inherit DynamicObj
+  new: unit -&gt; Title
+  static member init: ?Text: string * ?Font: Font * ?Standoff: int * ?Side: Side * ?X: float * ?Y: float -&gt; Title
+  static member style: ?Text: string * ?Font: Font * ?Standoff: int * ?Side: Side * ?X: float * ?Y: float -&gt; (Title -&gt; Title)<br /><br />--------------------<br />new: unit -&gt; Title</div>
+<div class="fsdocs-tip" id="fs11">static member Title.init: ?Text: string * ?Font: Font * ?Standoff: int * ?Side: Side * ?X: float * ?Y: float -&gt; Title</div>
+<div class="fsdocs-tip" id="fs12">type Mirror =
+  | True
+  | Ticks
+  | False
+  | All
+  | AllTicks
+  member Convert: unit -&gt; obj
+  static member convert: (Mirror -&gt; obj)<br /><em>&lt;summary&gt;
+ Determines if the axis lines or/and ticks are mirrored to the opposite side of the plotting area. If &quot;true&quot;, the axis lines are mirrored.
+ If &quot;ticks&quot;, the axis lines and ticks are mirrored. If &quot;false&quot;, mirroring is disable. If &quot;all&quot;, axis lines are mirrored on all shared-axes subplots. If &quot;allticks&quot;, axis lines and ticks are mirrored on all shared-axes subplots.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs13">union case Mirror.All: Mirror</div>
+<div class="fsdocs-tip" id="fs14">type TickOptions =
+  | Outside
+  | Inside
+  | Empty
+  member Convert: unit -&gt; obj
+  override ToString: unit -&gt; string
+  static member convert: (TickOptions -&gt; obj)
+  static member toString: (TickOptions -&gt; string)<br /><em>&lt;summary&gt;
+ Determines whether ticks are drawn or not. If &quot;&quot;, this axis&#39; ticks are not drawn. If &quot;outside&quot; (&quot;inside&quot;), this axis&#39; are drawn outside (inside) the axis lines.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs15">union case TickOptions.Inside: TickOptions</div>
+<div class="fsdocs-tip" id="fs16">val myAxisRange: name: string -&gt; min: System.IConvertible * max: System.IConvertible -&gt; LinearAxis</div>
+<div class="fsdocs-tip" id="fs17">val min: System.IConvertible</div>
+<div class="fsdocs-tip" id="fs18">val max: System.IConvertible</div>
+<div class="fsdocs-tip" id="fs19">type Range =
+  | MinMax of IConvertible * IConvertible
+  | Values of IConvertible array
+  member Convert: unit -&gt; obj
+  static member ofMinMax: min: #IConvertible * max: #IConvertible -&gt; Range
+  static member ofValues: values: seq&lt;#IConvertible&gt; -&gt; Range
+  static member convert: (Range -&gt; obj)<br /><em>&lt;summary&gt;
+ Defines a Range between min and max value
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs20">union case Range.MinMax: System.IConvertible * System.IConvertible -&gt; Range</div>
+<div class="fsdocs-tip" id="fs21">val withAxisTitles: x: string -&gt; y: string -&gt; chart: GenericChart.GenericChart -&gt; GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs22">val x: string</div>
+<div class="fsdocs-tip" id="fs23">val y: string</div>
+<div class="fsdocs-tip" id="fs24">val chart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs25">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs26">module ChartTemplates
+
+from Plotly.NET</div>
+<div class="fsdocs-tip" id="fs27">val lightMirrored: Template</div>
+<div class="fsdocs-tip" id="fs28">static member Chart.withXAxis: xAxis: LinearAxis * ?Id: SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs29">static member Chart.withYAxis: yAxis: LinearAxis * ?Id: SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs30">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs31">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs32">val rawData: Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs33">Multiple items<br />val matrix: ll: seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs34">val rawDataChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs35">property Matrix.Transpose: Matrix&lt;float&gt; with get</div>
+<div class="fsdocs-tip" id="fs36">Multiple items<br />module Matrix
+
+from FSharp.Stats<br /><br />--------------------<br />type Matrix&lt;&#39;T&gt; =
+  | DenseRepr of DenseMatrix&lt;&#39;T&gt;
+  | SparseRepr of SparseMatrix&lt;&#39;T&gt;
+  interface IMatrixFormattable
+  interface IFsiFormattable
+  interface IEnumerable
+  interface IEnumerable&lt;&#39;T&gt;
+  interface IStructuralEquatable
+  interface IStructuralComparable
+  interface IComparable
+  override Equals: yobj: obj -&gt; bool
+  member Format: rowStartCount: int * rowEndCount: int * columnStartCount: int * columnEndCount: int * showInfo: bool -&gt; string + 2 overloads
+  member FormatStrings: rowStartCount: int * rowEndCount: int * columnStartCount: int * columnEndCount: int -&gt; string[][]
+  ...</div>
+<div class="fsdocs-tip" id="fs37">val toJaggedArray: m: matrix -&gt; float[][]</div>
+<div class="fsdocs-tip" id="fs38">Multiple items<br />module Array
+
+from FSharp.Stats<br /><em>&lt;summary&gt;
+ Module to compute common statistical measure on array
+&lt;/summary&gt;</em><br /><br />--------------------<br />module Array
+
+from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with arrays.&lt;/summary&gt;<br />&lt;remarks&gt;
+  See also &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/arrays&quot;&gt;F# Language Guide - Arrays&lt;/a&gt;.
+ &lt;/remarks&gt;</em></div>
+<div class="fsdocs-tip" id="fs39">val mapi: mapping: (int -&gt; &#39;T -&gt; &#39;U) -&gt; array: &#39;T[] -&gt; &#39;U[]<br /><em>&lt;summary&gt;Builds a new array whose elements are the results of applying the given function
+ to each of the elements of the array. The integer index passed to the
+ function indicates the index of element being transformed, starting at zero.&lt;/summary&gt;<br />&lt;param name=&quot;mapping&quot;&gt;The function to transform elements and their indices.&lt;/param&gt;<br />&lt;param name=&quot;array&quot;&gt;The input array.&lt;/param&gt;<br />&lt;returns&gt;The array of transformed elements.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input array is null.&lt;/exception&gt;<br />&lt;example id=&quot;mapi-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ let inputs = [| 10; 10; 10 |]
+
+ inputs |&amp;gt; Array.mapi (fun i x -&amp;gt; i + x)
+ &lt;/code&gt;
+ Evaluates to &lt;c&gt;[| 10; 11; 12 |]&lt;/c&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs40">val sampleID: int</div>
+<div class="fsdocs-tip" id="fs41">val sample: float[]</div>
+<div class="fsdocs-tip" id="fs42">val sampleIntensities: (int * float)[]</div>
+<div class="fsdocs-tip" id="fs43">val gID: int</div>
+<div class="fsdocs-tip" id="fs44">val intensity: float</div>
+<div class="fsdocs-tip" id="fs45">Multiple items<br />module Chart
+
+from Normalization<br /><br />--------------------<br />type Chart =
+  static member AnnotatedHeatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * annotationText: seq&lt;#seq&lt;string&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 1 overload
+  static member Area: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?FillColor: Color * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Bar: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member BoxPlot: ?X: seq&lt;#IConvertible&gt; * ?Y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?FillColor: Color * ?MarkerColor: Color * ?Marker: Marker * ?Opacity: float * ?WhiskerWidth: float * ?BoxPoints: BoxPoints * ?BoxMean: BoxMean * ?Jitter: float * ?PointPos: float * ?Orientation: Orientation * ?OutlineColor: Color * ?OutlineWidth: float * ?Outline: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?Notched: bool * ?NotchWidth: float * ?QuartileMethod: QuartileMethod * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 2 overloads
+  static member Bubble: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * sizes: seq&lt;int&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Candlestick: ``open`` : seq&lt;#IConvertible&gt; * high: seq&lt;#IConvertible&gt; * low: seq&lt;#IConvertible&gt; * close: seq&lt;#IConvertible&gt; * x: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?Line: Line * ?IncreasingColor: Color * ?Increasing: FinanceMarker * ?DecreasingColor: Color * ?Decreasing: FinanceMarker * ?WhiskerWidth: float * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a5 :&gt; IConvertible) + 1 overload
+  static member Column: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member Contour: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?Y: seq&lt;#IConvertible&gt; * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?Transpose: bool * ?ContourLineColor: Color * ?ContourLineDash: DrawingStyle * ?ContourLineSmoothing: float * ?ContourLine: Line * ?ContoursColoring: ContourColoring * ?ContoursOperation: ConstraintOperation * ?ContoursType: ContourType * ?ShowContourLabels: bool * ?ContourLabelFont: Font * ?Contours: Contours * ?FillColor: Color * ?NContours: int * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
+  static member Funnel: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Width: float * ?Offset: float * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?Orientation: Orientation * ?AlignmentGroup: string * ?OffsetGroup: string * ?MarkerColor: Color * ?MarkerOutline: Line * ?Marker: Marker * ?TextInfo: TextInfo * ?ConnectorLineColor: Color * ?ConnectorLineStyle: DrawingStyle * ?ConnectorFillColor: Color * ?ConnectorLine: Line * ?Connector: FunnelConnector * ?InsideTextFont: Font * ?OutsideTextFont: Font * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
+  static member Heatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  ...</div>
+<div class="fsdocs-tip" id="fs46">static member Chart.Column: keysValues: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: TraceObjects.Pattern * ?Marker: TraceObjects.Marker * ?Base: #System.IConvertible * ?Width: &#39;e * ?MultiWidth: seq&lt;&#39;e&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible and &#39;e :&gt; System.IConvertible)<br />static member Chart.Column: values: seq&lt;#System.IConvertible&gt; * ?Keys: seq&lt;#System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: TraceObjects.Pattern * ?Marker: TraceObjects.Marker * ?Base: #System.IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible and &#39;a4 :&gt; System.IConvertible)</div>
+<div class="fsdocs-tip" id="fs47">union case HoverInfo.Name: HoverInfo</div>
+<div class="fsdocs-tip" id="fs48">val sprintf: format: Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Print to a string using the given format.&lt;/summary&gt;<br />&lt;param name=&quot;format&quot;&gt;The formatter.&lt;/param&gt;<br />&lt;returns&gt;The formatted result.&lt;/returns&gt;<br />&lt;example&gt;See &lt;c&gt;Printf.sprintf&lt;/c&gt; (link: &lt;see cref=&quot;M:Microsoft.FSharp.Core.PrintfModule.PrintFormatToStringThen``1&quot; /&gt;) for examples.&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs49">static member Chart.combine: gCharts: seq&lt;GenericChart.GenericChart&gt; -&gt; GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs50">static member Chart.withTitle: title: Title -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)<br />static member Chart.withTitle: title: string * ?TitleFont: Font -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs51">module GenericChart
+
+from Plotly.NET<br /><em>&lt;summary&gt;
+ Module to represent a GenericChart
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs52">val toChartHTML: gChart: GenericChart.GenericChart -&gt; string<br /><em>&lt;summary&gt;
+ Converts a GenericChart to it HTML representation. The div layer has a default size of 600 if not specified otherwise.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs53">val mor: Signal.Normalization.MorResult<br /><em>&#160;actual median of ratios normalization. 1 is added to each intensity to get rid of the empty intensities.</em></div>
+<div class="fsdocs-tip" id="fs54">namespace FSharp.Stats.Signal</div>
+<div class="fsdocs-tip" id="fs55">module Normalization
+
+from FSharp.Stats.Signal</div>
+<div class="fsdocs-tip" id="fs56">val medianOfRatiosBy: f: (float -&gt; float) -&gt; data: Matrix&lt;float&gt; -&gt; Signal.Normalization.MorResult<br /><em>&lt;summary&gt;
+ As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
+
+ Rows are genes, columns are samples
+
+ The additional function is applied on all values of the matrix when calculating the normalization factors. By this, a zero in the original dataset will still remain zero.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs57">val x: float</div>
+<div class="fsdocs-tip" id="fs58">val morNormedData: Matrix&lt;float&gt;<br /><em>&#160;Matrix of normalized data in the same order as the input matrix</em></div>
+<div class="fsdocs-tip" id="fs59">Signal.Normalization.MorResult.NormedData: Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs60">val corrFactors: string<br /><em>&#160;Correction factors to assess the strenght of the applied normalization (1 indicates no normalization)</em></div>
+<div class="fsdocs-tip" id="fs61">val cf1: float</div>
+<div class="fsdocs-tip" id="fs62">Multiple items<br />module Seq
+
+from FSharp.Stats<br /><em>&lt;summary&gt;
+ Module to compute common statistical measure
+&lt;/summary&gt;</em><br /><br />--------------------<br />module Seq
+
+from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.seq`1&quot; /&gt;.&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs63">val item: index: int -&gt; source: seq&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Computes the element at the specified index in the collection.&lt;/summary&gt;<br />&lt;param name=&quot;index&quot;&gt;The index of the element to retrieve.&lt;/param&gt;<br />&lt;param name=&quot;source&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The element at the specified index of the sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input sequence is null.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.ArgumentException&quot;&gt;Thrown when the index is negative or the input sequence does not contain enough elements.&lt;/exception&gt;<br />&lt;example id=&quot;item-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ let inputs = [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;]
+
+ inputs |&amp;gt; Seq.item 1
+ &lt;/code&gt;
+ Evaluates to &lt;c&gt;&quot;b&quot;&lt;/c&gt;&lt;/example&gt;<br />&lt;example id=&quot;item-2&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+ let inputs = [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;]
+
+ inputs |&amp;gt; Seq.item 4
+ &lt;/code&gt;
+ Throws &lt;c&gt;ArgumentException&lt;/c&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs64">Signal.Normalization.MorResult.CorrFactors: seq&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs65">val cf2: float</div>
+<div class="fsdocs-tip" id="fs66">val cf3: float</div>
+<div class="fsdocs-tip" id="fs67">val normedDataChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs68">val quantileNorm: Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs69">val quantile: data: Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br /><em>&lt;summary&gt;
+ Quantile normalization with equal number of elements for each sample.
+
+ Rows are genes, columns are samples
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs70">val normedDataQuantileChart: GenericChart.GenericChart</div>
+
+    </div>
+
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
+    <!-- END SEARCH BOX: this adds support for the search box -->
+</body>
+
+</html>
