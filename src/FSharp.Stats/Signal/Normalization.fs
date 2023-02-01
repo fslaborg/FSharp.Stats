@@ -79,3 +79,18 @@ module Normalization =
     /// Columns are genes, rows are samples
     let medianOfRatiosWide (data:Matrix<float>) =
         medianOfRatiosWideBy id data
+
+    /// Quantile normalization with equal number of elements for each sample.
+    ///
+    /// Rows are genes, columns are samples
+    let quantile (data:Matrix<float>)  = 
+        data
+        |> Matrix.mapCols (Seq.indexed >> Seq.sortBy snd)
+        |> Matrix.Generic.ofColSeq
+        |> Matrix.Generic.mapRows (fun row -> 
+            let avg = Seq.meanBy snd row
+            row |> RowVector.Generic.map (fun (i,_) -> i,avg)
+            )
+        |> Matrix.Generic.ofSeq
+        |> Matrix.Generic.mapCols (Seq.sortBy fst >> Seq.map snd >> vector)
+        |> Matrix.ofCols

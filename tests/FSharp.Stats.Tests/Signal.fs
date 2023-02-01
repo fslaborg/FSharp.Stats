@@ -97,6 +97,17 @@ let normalizationTests =
         ]
         |> matrix
 
+    let tableB = 
+        [|
+        [|100.; 130.; 30.|]
+        [| 80.; 200.; 30.|]
+        [|  0.;  50.;  0.|]
+        [| 40.;  50.; 20.|]
+        [| 50.;  45.; 25.|]
+        [| 40.;  50.; 15.|]
+        |]
+        |> matrix
+
     let tableWithNan = 
         [
             [4.5;nan;3.6]
@@ -119,7 +130,7 @@ let normalizationTests =
 
             let result = Normalization.medianOfRatios table
 
-            TestExtensions.sequenceEqual 4 result.NormedData expectedNormalizedTable "Value was not normalized correctly"
+            TestExtensions.sequenceEqual 4 result.NormedData expectedNormalizedTable "Matrix was not normalized correctly"
 
         testCase "MedianOfRatiosIgnoreNans" <| fun() ->
            
@@ -137,5 +148,22 @@ let normalizationTests =
                 |> fun x -> x.NormedData
                 |> Matrix.transpose
             TestExtensions.sequenceEqual 4 result.NormedData expected "Wide method should return the same result as the non wide method on a transposed matrix"
+
+        testCase "quantile" <| fun() ->
+
+            let expectedNormalizedTable = 
+                [
+                    [110. ; 80.  ; 80.  ]
+                    [80.  ; 110. ; 110. ]
+                    [15.  ; 35.  ; 15.  ]
+                    [35.  ; 36.6666666667 ; 36.6666666667 ]
+                    [41.6666666667 ; 15   ; 41.6666666667 ]
+                    [36.6666666667 ; 41.6666666667 ; 35.  ]
+                ]
+                |> matrix
+
+            let result = Normalization.quantile tableB
+
+            TestExtensions.sequenceEqual 4 result expectedNormalizedTable "Matrix was not normalized correctly"
     ]
 
