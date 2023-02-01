@@ -1,7 +1,7 @@
 (**
 ---
 title: Quantile
-index: 19
+index: 20
 category: Documentation
 categoryindex: 0
 ---
@@ -436,6 +436,9 @@ logNormalChart |> GenericChart.toChartHTML
 The log normal sample fits nicely to the bisector, but the sample from the normal distribution does not fit
 
 # Quantile normalization
+
+For the FSharp.Stats quantile normalization please refer to the [Normalization documentation](https://fslab.org/FSharp.Stats/Normalization.html). 
+For clarity, the normalization in this documentation is entirely performed within the snippets.
 
 When you want to compare e.g. intensity measurements of elements between samples, you often have to normalize the samples in order
 to be able to perform a valid comparison. Samples may vary in their average intensity just because of the technical nature of the measurement itself, 
