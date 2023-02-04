@@ -82,7 +82,7 @@ open FSharp.Stats
 open FSharp.Stats.Distributions
 
 // Creates a normal distribution with µ = 500 and tau = 20 
-let normal = Continuous.normal 500. 20.
+let normal = ContinuousDistribution.normal 500. 20.
 
 // NormA: What is the probability of bread weights to be equal or lower than 470 g?
 let normA = normal.CDF 470.
@@ -167,7 +167,7 @@ plotNormalCDF |> GenericChart.toChartHTML
 Multivariate normal distributions are initialized with a mean vector and a covariance matrix.
 *)
 
-let mvn = Continuous.multivariateNormal (vector [-1.;5.]) (matrix [[0.5;1.];[0.25;1.2]])
+let mvn = ContinuousDistribution.multivariateNormal (vector [-1.;5.]) (matrix [[0.5;1.];[0.25;1.2]])
 let axisXRange = [-5. .. 0.2 .. 5.]
 let axisYRange = [ 0. .. 0.2 .. 10.]
 
@@ -276,8 +276,11 @@ fPDFs
 (***hide***)
 fPDFs |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
+
 *)
+
 let cdfF a b = 
     xF 
     |> List.map (Continuous.F.CDF a b)
@@ -329,7 +332,7 @@ open FSharp.Stats
 open FSharp.Stats.Distributions
 
 // Assumes "tails" to be success
-let bernoulli = Discrete.bernoulli 0.6
+let bernoulli = DiscreteDistribution.bernoulli 0.6
 
 // BernA: What is the mean of a bernoulli distribution with the weighted coin?
 let bernA = bernoulli.Mean
@@ -337,13 +340,13 @@ let bernA = bernoulli.Mean
 // Altough the bernoulli distribution can never return 0.6 (only 0.0 or 1.0) on average it will return heads at the same probability it has to land on heads.
 
 // BernB: What is the probability to land on heads?
-let bernB = bernoulli.PDF 0.0
+let bernB = bernoulli.PMF 0
 // Output: 0.4
 // Again: Heads = 0.0 = failure and tails = 1.0 = success. 
 
 let plotBernoulli =
-    [0.0; 1.0]
-    |> List.map (fun x -> x, bernoulli.PDF x)
+    [0; 1]
+    |> List.map (fun x -> x, bernoulli.PMF x)
     |> Chart.Column
     |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "B(0.6)"
@@ -383,10 +386,10 @@ open FSharp.Stats
 open FSharp.Stats.Distributions
 
 // Creates a binomial distribution with n=30 and p=0.90 
-let binomial = Discrete.binomial 0.1 30
+let binomial = DiscreteDistribution.binomial 0.1 30
 
 // BinoA: What is the probability of running late exactly 5 times during a 30 day month?
-let binoA = binomial.PDF 5
+let binoA = binomial.PMF 5
 // Output: 0.1023 = 10.23 %
 
 // BinoB: What is the probability of running late for a maximum of 5 times?
@@ -399,7 +402,7 @@ let binoC = 1. - (binomial.CDF 4.)
 
 let plotBinomial =
     [0..30]
-    |> List.map (fun x -> x,binomial.PDF x)
+    |> List.map (fun x -> x,binomial.PMF x)
     |> Chart.Column
     |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "B(30,0.1)"
@@ -441,10 +444,10 @@ HypD: What is the probability that you have a maximum of 3 right ones?
 *)
 
 // Creates a hypergeometric distribution with N=49, K=6, n=6.
-let hyper = Discrete.hypergeometric 49 6 6
+let hyper = DiscreteDistribution.hypergeometric 49 6 6
 
 // HypA: What is the probability that your 6 numbers are right?
-let hypA = hyper.PDF 6
+let hypA = hyper.PMF 6
 // Output: 7.15-08
 
 // HypB: How to simulate artificial draws from the distribution?
@@ -463,7 +466,7 @@ let hypD = hyper.CDF 3
 (***hide***)
 let plotHyper =
     [0..6]
-    |> List.map (fun x -> x,hyper.PDF x)
+    |> List.map (fun x -> x,hyper.PMF x)
     |> Chart.Column
     |> Chart.withAxisTitles "" ""
     |> Chart.withTitle "N=49, K=6, n=6"
@@ -493,18 +496,18 @@ PoB: What is the probability that the lightning strikes less than 2 times?
 PoC: What is the probability that the lightning strikes more than 7 times?
 *)
 // Creates a poisson distribution with lambda=  .
-let poisson = Discrete.poisson 5.5
+let poisson = DiscreteDistribution.poisson 5.5
 
 (*** do-not-eval ***)
 // PoA: What is the probability that the lightning strikes exactly 3 times?
-let poA = poisson.PDF 3
+let poA = poisson.PMF 3
 // Output: 0.11332 = 11.33 %
 
 // PoB: What is the probability that the lightning strikes less or equal to 2 times?
 let poB = 
     // CDF not implemented yet
     //poisson.CDF 2.
-    [0 .. 2] |> List.sumBy poisson.PDF
+    [0 .. 2] |> List.sumBy poisson.PMF
     // Output: 0.088376 = 8.84 %
     
 // PoC: What is the probability that the lightning strikes more than 7 times?
@@ -515,7 +518,7 @@ let poC = 1. -  poisson.CDF 6.
 
 let plotPo =
     [0..20]
-    |> List.map (fun x -> x,poisson.PDF x)
+    |> List.map (fun x -> x,poisson.PMF x)
     |> Chart.Column
     |> Chart.withAxisTitles "" ""
     //|> Chart.withSize(600.,400.)
@@ -588,7 +591,7 @@ In this example 100,000 samples from a student t distribution
 
 // Randomly taken samples; in this case from a gaussian normal distribution.
 let sampleDistribution = 
-    let template = Continuous.normal 5. 2.
+    let template = ContinuousDistribution.normal 5. 2.
     Seq.init 100000 (fun _ -> template.Sample())
 
 //creates an empirical distribution with bandwidth 0.1
@@ -642,13 +645,13 @@ Be aware that this distance measure is dependent on the actual absolute values o
 *)
 
 let distribution1 = 
-    let normal = Continuous.normal 300. 15.
+    let normal = ContinuousDistribution.normal 300. 15.
     Array.init 1000 (fun _ -> normal.Sample())
 let distribution2 =
-    let normal = Continuous.normal 350. 20.
+    let normal = ContinuousDistribution.normal 350. 20.
     Array.init 500 (fun _ -> normal.Sample())
 let distribution3 =
-    let normal = Continuous.normal 500. 20.
+    let normal = ContinuousDistribution.normal 500. 20.
     Array.init 1000 (fun _ -> normal.Sample())
 
 let pilesOfDirt =

@@ -203,7 +203,7 @@ module Intervals =
 /////   Get a percentage how far inside (0.0 - 1.0) or outside (< 0.0, > 1.0) the interval a certain value lies. 
 /////   For single intervals, '1.0' is returned when inside the interval, '-1.0' otherwise. 
 ///// </summary> 
-///// <param name = "position">The position value to get the percentage for.</param> 
+///// <param name="position">The position value to get the percentage for.</param> 
 ///// <returns>The percentage indicating how far inside (or outside) the interval the given value lies.</returns> 
 //let getPercentageFor position r =
 //    let inside = liesInInterval position r
@@ -282,8 +282,8 @@ module Intervals =
 /////   Returns an expanded interval of the current interval up to the given value. 
 /////   When the value lies within the interval the returned interval is the same. 
 ///// </summary> 
-///// <param name = "value">The value up to which to expand the interval.</param> 
-///// <param name = "include">Include the value to which is expanded in the interval.</param> 
+///// <param name="value">The value up to which to expand the interval.</param> 
+///// <param name="include">Include the value to which is expanded in the interval.</param> 
 //let expandTo a =
 //    failwith "not implemented"
 //

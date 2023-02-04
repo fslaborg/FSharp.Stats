@@ -38,7 +38,7 @@ module Gamma =
     ///</summary>
     ///<remarks>
     /// The caller is responsible to handle edge cases such as nan, infinity, and -infinity in the input
-    ///<remarks>
+    ///</remarks>
     /// <param name="z">The function input for approximating ln(Γ(z))</param>
     let _gammaLn z =
         let lanczosCoefficients = [76.18009172947146;-86.50532032941677;24.01409824083091;-1.231739572450155;0.1208650973866179e-2;-0.5395239384953e-5]

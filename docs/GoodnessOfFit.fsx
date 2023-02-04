@@ -58,6 +58,7 @@ open FSharp.Stats
 open FSharp.Stats.Fitting
 open LinearRegression.OrdinaryLeastSquares
 open GoodnessOfFit.OrdinaryLeastSquares.Linear.Univariable
+open FSharp.Stats.Distributions
 
 //data sorted by x values
 let x = vector [|1. .. 10.|]
@@ -121,7 +122,7 @@ let stdErrIntercept = GoodnessOfFit.standardErrorIntercept sos
 //standard error of the estimate (S)
 let stdErrEstimate  = GoodnessOfFit.standardErrorEstimate sos 
 //confidence intervals (df = n-#coefficients; a=5%)
-let criticalT   = Distributions.Continuous.getCriticalTValue (n - 2.) 0.05 Distributions.Continuous.TwoTailed
+let criticalT   = ContinuousDistribution.getCriticalTValue (n - 2.) 0.05 ContinuousDistribution.TwoTailed
 let lowerS      = slope - criticalT * stdErrSlope
 let upperS      = slope + criticalT * stdErrSlope
 let lowerI      = intercept - criticalT * stdErrIntercept

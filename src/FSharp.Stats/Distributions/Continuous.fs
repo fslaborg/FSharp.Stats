@@ -29,7 +29,7 @@ module ContinuousDistribution =
         Continuous.Gamma.Init alpha beta  
 
     /// Initializes a Normal distribution        
-    let logNormal mu tau = Continuous.LogNormal.Init mu tau
+    let logNormal mu sigma = Continuous.LogNormal.Init mu sigma
 
     /// Initializes a Beta distribution        
     let beta alpha beta = Continuous.Beta.Init alpha beta

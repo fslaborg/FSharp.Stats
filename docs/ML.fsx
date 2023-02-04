@@ -1,7 +1,7 @@
 (**
 ---
 title: Machine Learning
-index: 19
+index: 22
 category: Documentation
 categoryindex: 0
 ---
@@ -46,7 +46,7 @@ _Summary:_ this tutorial demonstrates functionality relevant in the context of m
 
 ### Table of contents
 
- - [Dimensionality Reduction](#Dimensionality Reduction)
+ - [Dimensionality Reduction](#Dimensionality-Reduction)
     - [PCA](#PCA)
 
 ## Dimensionality Reduction

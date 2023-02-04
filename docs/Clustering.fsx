@@ -62,6 +62,25 @@ _Summary:_ this tutorial demonstrates several clustering methods in FSharp.Stats
     - [GapStatistics](#GapStatistics)
 
 Clustering methods can be used to group elements of a huge data set based on their similarity. Elements sharing similar properties cluster together and can be reported as coherent group.
+
+**Column wise standardization**
+
+Please note that in many cases a column-wise (also called feature-wise) standardization is required. If the average amplitude and variance of the features differ, perform a z-transform or scaling between 0 and 1.
+
+**Row wise standardization**
+
+Additionally, for e.g. gene expression or protein accumulation data where change rather than amplitude is of interest, a row wise standardization is often applied:
+
+
+1. Adaptive quality-based clustering of gene expression profiles, Smet et al., 2001
+> It is common practice to normalize gene expression vectors before cluster analysis. In this paper, we normalize the expression profiles so that their mean is zero and their variance is one before proceeding with the actual cluster algorithm.
+
+2. CLICK: A Clustering Algorithm with Applications to Gene Expression Analysis, Sharan et al., 200
+> Common procedures for normalizing fingerprint data include transforming each fingerprint to have mean zero and variance one
+
+3. Systematic determination of genetic network architecture, Tavazoie et al., 1999
+> The data matrix was then transformed such that the variance of each gene was normalized across the 15 conditions. This was done by subtracting its mean across the time points from the expression level of each gene, and dividing by the standard deviation across the time points.
+
 For demonstration of several clustering methods, the classic iris data set is used, which consists of 150 records, 
 each of which contains four measurements and a species identifier. Since the species identifier occur several times 
 (Iris-virginica, Iris-versicolor, and Iris-setosa), the first step is to generate unique labels:

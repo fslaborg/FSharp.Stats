@@ -14,7 +14,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <Authors>Kevin Schneider, fslab open source contributors</Authors>
-    <Title>FSharp.Stats</Title>
+    <Title>FSharp.Stats.Interactive</Title>
     <Owners>fslaborg, Timo Muehlhaus</Owners>
     <Description>A .NET Interactive Kernel Extension for displaying FSharp.Stats types and objects.</Description>
     <PackageProjectUrl>https://fslab.org/FSharp.Stats</PackageProjectUrl>

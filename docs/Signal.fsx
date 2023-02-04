@@ -12,12 +12,12 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 3.0.1"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 3.0.1"
+#r "nuget: Plotly.NET.Interactive, 3.0.1"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -45,7 +45,6 @@ module Chart =
 _Summary:_ this tutorial demonstrates multiple ways of signal processing with FSharp.Stats.
 
 ### Table of contents
-
  - [Outliers](#Outliers)
     - [Tukey's fences](#Tukey-s-fences)
  - [Filtering](#Filtering)
@@ -301,7 +300,7 @@ let combinedChart =
 
     //Rawchart
     let rawChart = 
-        Chart.Area (data,Color = Color.fromHex "#1f77b4",Name = "rawData")
+        Chart.Area (data,LineColor = Color.fromHex "#1f77b4",Name = "rawData")
         |> Chart.withAxisAnchor(X=2)
         |> Chart.withAxisAnchor(Y=2) 
 
@@ -527,8 +526,8 @@ let fft =
 
 let fftChart = 
     [
-        Chart.Line(time,timeSignal) |> Chart.withTraceName "signal"
-        Chart.Line(time,fft) |> Chart.withTraceName "fft"
+        Chart.Line(time,timeSignal) |> Chart.withTraceInfo "signal"
+        Chart.Line(time,fft) |> Chart.withTraceInfo "fft"
     ]
     |> Chart.combine
     |> Chart.withAxisTitles "" ""

@@ -1,3 +1,75 @@
+### 0.4.10+278bd95a (Released 2023-1-25)
+* Additions:
+    * latest commit #278bd95a
+    * [[#278bd95a](https://github.com/fslaborg/FSharp.Stats/commit/278bd95a554d00cfd15d9fd83f09fb0dfe78968d)] update median of ratios results type
+    * [[#f73b05fc](https://github.com/fslaborg/FSharp.Stats/commit/f73b05fc127cf2e871eae85e0c98178610e9ddd2)] update SAM
+    * [[#b3714f23](https://github.com/fslaborg/FSharp.Stats/commit/b3714f233b566c42666da2d62fec040d05677831)] update PCA deviation determination
+    * [[#27c92191](https://github.com/fslaborg/FSharp.Stats/commit/27c92191fb5cea02ccc0c494bc976bc54208b303)] add logNormal nonlinear Model
+
+### 0.4.9+b74ecf29 (Released 2022-11-18)
+* Additions:
+    * latest commit #b74ecf29
+    * [[#8d3427fa](https://github.com/fslaborg/FSharp.Stats/commit/8d3427fa634b082227b7379bd833bfa4d79d3a22)] add erfinv #238
+    * [[#20b2416d](https://github.com/fslaborg/FSharp.Stats/commit/20b2416d678bfd411b55288316a163e345517323)] add qq plot 
+    * [[#26818d6b](https://github.com/fslaborg/FSharp.Stats/commit/26818d6b4d7483d2a7357ae23a46e746a88969f0)] update qq plot documentation
+* Bugfixes:
+    * [[#3aa4c4ce](https://github.com/fslaborg/FSharp.Stats/commit/3aa4c4ce5768e6e1e49d45efd6d2de5e1562e319)] fix failing docs
+    
+### 0.4.8+be68a276 (Released 2022-8-29)
+* Additions:
+    * latest commit #be68a276
+    * [[#0d26dd2b](https://github.com/fslaborg/FSharp.Stats/commit/0d26dd2b406f8c0243a89f20a677eecf342efaa3)] Add Gamma and Poisson fitting
+    * [[#fa9dc6c1](https://github.com/fslaborg/FSharp.Stats/commit/fa9dc6c17ad12a2d1fd1c2d6a7fb698dff0f9cfc)] Refactoring distribution modules
+    * [[#20eee2e7](https://github.com/fslaborg/FSharp.Stats/commit/20eee2e720762008b1445a7628610fa806ab1a64)] Add fitting and estimating a Gamma distribution from observations
+    * [[#e9170b0e](https://github.com/fslaborg/FSharp.Stats/commit/e9170b0e4bbf486d4fab360eb6cc2f0d56302a34)] Add Trigamma function
+    * [[#e8e46bff](https://github.com/fslaborg/FSharp.Stats/commit/e8e46bff8be9774133f391fe2125fa2495826d39)] Add Digamma function
+    * [[#35b3fa36](https://github.com/fslaborg/FSharp.Stats/commit/35b3fa36ff82b6db5468699bcec24bf19cabeb7b)] Add unit test for Beta.powerSeries
+    * [[#ae70774b](https://github.com/fslaborg/FSharp.Stats/commit/ae70774b879abd32433fb0be59a543462c457be0)] Add Beta.powerSeries for incomplete beta integral
+    * [[#f64b4f1e](https://github.com/fslaborg/FSharp.Stats/commit/f64b4f1e89e4ca591d6cef090f090bf5924d0b3e)] Add Seq.meanQuadratic and Seq.meanQuadraticBy
+    * [[#8b300c37](https://github.com/fslaborg/FSharp.Stats/commit/8b300c3783807781d5b0da400c5a7a1739b7a139)] add new version PCA
+* Deletions:
+    * [[#8ca9b900](https://github.com/fslaborg/FSharp.Stats/commit/8ca9b900bf8339ed2e90531d811c2a772bca37c5)] removed obsolete wilcoxon distribution #213
+* Bugfixes:
+    * [[#dcb044e6](https://github.com/fslaborg/FSharp.Stats/commit/dcb044e6d5881412c4ae2ac399572812f87ae698)] Fixed: Sampling from Gamma
+    * [[#8fe33a6f](https://github.com/fslaborg/FSharp.Stats/commit/8fe33a6fa12610848f7814c6d81110b126eca0b6)] fixed Ftest tests
+    * [[#b83b8a71](https://github.com/fslaborg/FSharp.Stats/commit/b83b8a718a44f1807499d2c8b56bd41638547cee)] :bug: Fix infinite loop bug in X² CDF
+    * [[#526039cf](https://github.com/fslaborg/FSharp.Stats/commit/526039cf92a26b19cd8869868d4ea35d630239cd)] Fix Distributions.Discrete.Bernoulli.CDF :bug:
+    * [[#a9b2b055](https://github.com/fslaborg/FSharp.Stats/commit/a9b2b055261e4caac804f05ae17bafa1cfb542f5)] Fix Distributions.Discrete.Bernoulli.PDF :bug:
+    * [[#db447834](https://github.com/fslaborg/FSharp.Stats/commit/db447834a8de7415b1c3dca4f20b1e3530427676)] fix intervals #208
+* Tests:
+    * [[#bcc98700](https://github.com/fslaborg/FSharp.Stats/commit/bcc9870061a1baed5cdc11c3015d5d44ccf986d7)] add unit tests meanQuadratic #233
+    * [[#d21cc8c0](https://github.com/fslaborg/FSharp.Stats/commit/d21cc8c0f71a8cda429219e70eed02796196ad09)] Added tests for Distributions.Continuous.F
+    * [[#ab261eda](https://github.com/fslaborg/FSharp.Stats/commit/ab261edac3b7e2cfa28474ca42c9d6574516a117)] added Tests for FSharp.Stats.Distributions.Distinct.Binominal
+    * [[#b0d6e540](https://github.com/fslaborg/FSharp.Stats/commit/b0d6e5400386a2989676c891be9faf8feb2ee882)] add twoSamplePaired ttest test
+    * [[#f203428c](https://github.com/fslaborg/FSharp.Stats/commit/f203428cb54c7bc3cf642b0b2571859e001e0193)] add Intervals.intersect unit test
+    * [[#a0ce2bbb](https://github.com/fslaborg/FSharp.Stats/commit/a0ce2bbbd9975d842f3191d73b485f260800c7fc)] add PCA tests
+    * [[#b92244a4](https://github.com/fslaborg/FSharp.Stats/commit/b92244a4cce34131ffd95ba312c1600116ad1c05)] Added tests for Distributions.Continuous.F
+    * [[#3ae95591](https://github.com/fslaborg/FSharp.Stats/commit/3ae955913748da31c25cdeb7757adf161ca82a79)] add interval tests #208
+    * [[#4907e532](https://github.com/fslaborg/FSharp.Stats/commit/4907e532270e03296dcbedf83b86aad685b05aed)] Add exponential Distribution unit tests
+    * [[#47e2595e](https://github.com/fslaborg/FSharp.Stats/commit/47e2595ebce59c6ad340cf83d310c26d02ec7164)] Add beta function tests and xml docs
+    * [[#d9617f56](https://github.com/fslaborg/FSharp.Stats/commit/d9617f562baef89bc25f73b7020c128b24c8f137)] Add tests for SolveTriangularLinearSystem
+    * [[#dd412093](https://github.com/fslaborg/FSharp.Stats/commit/dd41209316ea88174182b6f7ac9b784401323917)] Add gamma function tests, add edgecase matches, add xml docs
+    * [[#68aec558](https://github.com/fslaborg/FSharp.Stats/commit/68aec5589fa925987ef8c1e06502433e3b742dd4)] add twoSamplePaired ttest test
+    * [[#440a789c](https://github.com/fslaborg/FSharp.Stats/commit/440a789c87bb6d1b21fe3486d0430dc96de5d154)] add twosamplePaired ttest test
+    * [[#e5d21a7e](https://github.com/fslaborg/FSharp.Stats/commit/e5d21a7ef5da2874b5b2c4ee25f9900293f40a4d)] Add Binomial coefficient tests
+    * [[#142ae681](https://github.com/fslaborg/FSharp.Stats/commit/142ae6813c11e5da46b689aa55b7ddbff480f37c)] Add Unit test for F-Test
+    * [[#542b7897](https://github.com/fslaborg/FSharp.Stats/commit/542b7897ea6a0be8dfb363d8761680f2fd7de4e3)] Add docs for Bernoulli distribution :books:
+    * [[#312581f9](https://github.com/fslaborg/FSharp.Stats/commit/312581f99c3aa942597f4b382f4436ff4249d754)] add onesample ttest test
+    * [[#8582dd72](https://github.com/fslaborg/FSharp.Stats/commit/8582dd72243b9b18b213fdce0a8a710256236315)] Add error function tests, fix edge case return values for erfcx
+    * [[#cd964357](https://github.com/fslaborg/FSharp.Stats/commit/cd9643573f33b50b1e3e14eb49c228cd1b8182e8)] Add tests for SolveTriangularLinearSystems (Case: Lower)
+    * [[#872ace38](https://github.com/fslaborg/FSharp.Stats/commit/872ace3832504a03490ff9d8075d928834662bc8)] add twosample ttest test
+    * [[#c41cff63](https://github.com/fslaborg/FSharp.Stats/commit/c41cff63531a50b12072742b05a6ecc7ba9a4b2c)] Add logistic function tests
+    * [[#60615948](https://github.com/fslaborg/FSharp.Stats/commit/60615948d06e22122c6263c6c4739bc36c0b98c6)] Add tests for SolveTriangularLinearSystems (Case: Upper)
+    * [[#1673a013](https://github.com/fslaborg/FSharp.Stats/commit/1673a01318ed95f72267842f3e729f5f16288c14)] Add factorial and factorialLn tests, codebase cleanup
+    * [[#261b0b80](https://github.com/fslaborg/FSharp.Stats/commit/261b0b80926d4a74d951fa529870510d8502b3d1)] add distance metrics tests
+* Documentation
+    * [[#8d03e0f3](https://github.com/fslaborg/FSharp.Stats/commit/8d03e0f3610db00db551e13e373784eefb2db209)] Update F Distribution dokumentation
+    * [[#e159ab4d](https://github.com/fslaborg/FSharp.Stats/commit/e159ab4d3f6491ccdd97acc4726519cc7e847ca8)] update signal docu
+    * [[#be68a276](https://github.com/fslaborg/FSharp.Stats/commit/be68a2761a4b0b247d0ec553ba3225c32f59e45b)] update distribution documentation
+    * [[#454abfe8](https://github.com/fslaborg/FSharp.Stats/commit/454abfe8717137f3aaa5c919a6631fa56c825391)] update ML documentation
+    * [[#b3e0960c](https://github.com/fslaborg/FSharp.Stats/commit/b3e0960c4a471b7d71e3f4e75a9764b1ca4a5de4)] add Intervals documentation
+    * [[#f18cec6b](https://github.com/fslaborg/FSharp.Stats/commit/f18cec6b617cdb44766895ff930b21162a85c60d)] add PCA documentation
+
 ### 0.4.7+9386ed56 (Released 2022-5-30)
 * Additions:
     * latest commit #9386ed56

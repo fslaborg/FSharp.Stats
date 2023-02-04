@@ -38,7 +38,7 @@ module PCA =
 
         let columnStabw =
             m 
-            |> Matrix.mapiCols (fun i x -> Seq.stDev x)
+            |> Matrix.mapiCols (fun i x -> Seq.stDevPopulation x)
             |> vector
 
         let substractionMatrix = 

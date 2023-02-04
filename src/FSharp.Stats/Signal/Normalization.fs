@@ -4,7 +4,7 @@ open FSharp.Stats
 
 module Normalization =
 
-    /// z normalization using the population standard deviation of population
+    /// z normalization using the population standard deviation
     //Bortz J., Schuster C., Statistik für Human- und Sozialwissenschaftler, 7 (2010), p. 35
     let zScoreTransformPopulation (yVal:Vector<float>) =
         let yMean = Seq.mean yVal 
@@ -13,10 +13,16 @@ module Normalization =
 
     /// z normalization using the sample standard deviation
     //Bortz J., Schuster C., Statistik für Human- und Sozialwissenschaftler, 7 (2010), p. 35
-    let zScoreTrans (yVal:Vector<float>) =
+    let zScoreTransform (yVal:Vector<float>) =
         let yMean = Seq.mean yVal
         let std   = Seq.stDev yVal
         yVal |> Vector.map (fun x -> (x - yMean) / std) 
+
+    /// Summary of the median of ratios (mor) normalization with normed data and determined correctionfactors.
+    type MorResult = {
+        CorrFactors : seq<float>
+        NormedData : Matrix<float>
+    } with static member Create cf nd = {CorrFactors=cf;NormedData=nd}
 
     /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
     ///
@@ -33,10 +39,12 @@ module Normalization =
                 ) 
             |> Matrix.ofRows
             |> Matrix.mapiCols (fun _ v -> Vector.median v)
-        data
-        |> Matrix.mapi (fun r c v ->
-            v / sampleWiseCorrectionFactors.[c]
-        )
+        let normedData = 
+            data
+            |> Matrix.mapi (fun r c v ->
+                v / sampleWiseCorrectionFactors.[c]
+            )
+        MorResult.Create sampleWiseCorrectionFactors normedData
 
     /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
     ///
@@ -59,13 +67,30 @@ module Normalization =
                 ) 
             |> Matrix.ofCols
             |> Matrix.mapiRows (fun _ v -> Seq.median v)
-        data
-        |> Matrix.mapi (fun r c v ->
-            v / sampleWiseCorrectionFactors.[r]
-        )
+        let normedData = 
+            data
+            |> Matrix.mapi (fun r c v ->
+                v / sampleWiseCorrectionFactors.[r]
+            )
+        MorResult.Create sampleWiseCorrectionFactors normedData
 
     /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
     ///
     /// Columns are genes, rows are samples
     let medianOfRatiosWide (data:Matrix<float>) =
         medianOfRatiosWideBy id data
+
+    /// Quantile normalization with equal number of elements for each sample.
+    ///
+    /// Rows are genes, columns are samples
+    let quantile (data:Matrix<float>)  = 
+        data
+        |> Matrix.mapCols (Seq.indexed >> Seq.sortBy snd)
+        |> Matrix.Generic.ofColSeq
+        |> Matrix.Generic.mapRows (fun row -> 
+            let avg = Seq.meanBy snd row
+            row |> RowVector.Generic.map (fun (i,_) -> i,avg)
+            )
+        |> Matrix.Generic.ofSeq
+        |> Matrix.Generic.mapCols (Seq.sortBy fst >> Seq.map snd >> vector)
+        |> Matrix.ofCols

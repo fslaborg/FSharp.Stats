@@ -89,6 +89,7 @@
     <Compile Include="Interpolation\Approximation.fs" />
     <!-- Signal -->
     <Compile Include="Signal\Normalization.fs" />
+    <Compile Include="Signal\QQPlot.fs" />
     <Compile Include="Signal\Padding.fs" />
     <Compile Include="Signal\FFT.fs" />
     <Compile Include="Signal\Wavelet.fs" />
