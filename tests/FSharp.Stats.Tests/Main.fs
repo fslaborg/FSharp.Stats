@@ -50,12 +50,18 @@ let main argv =
     //Tests.runTestsWithCLIArgs [] argv DistributionsTests.studentizedRangeTests  |> ignore //Test ommitted due to extremely long runtime of CodeCov.
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.multivariateNormalTests|> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.bandWithTests|> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.bandWithTests|> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.hypergeometricTests |> ignore
+
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.exponentialTests       |> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.bernoulliTests |> ignore
-    
+    Tests.runTestsWithCLIArgs [] argv DistributionsTests.bernoulliTests |> ignore   
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.binomialTests          |> ignore 
+
+    //============================= Distributions Continuous ================================================
+    Tests.runTestsWithCLIArgs [] argv DistributionsContinuousTests.GammaDistributionTests |> ignore
+
+    //============================= Distributions Discrete ================================================
+    Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.hypergeometricTests      |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.PoissonDistributionTests |> ignore
+
 
     //=============================== Correlation ===========================================================
     Tests.runTestsWithCLIArgs [] argv CorrelationTests.kendallCorrelationTests |> ignore

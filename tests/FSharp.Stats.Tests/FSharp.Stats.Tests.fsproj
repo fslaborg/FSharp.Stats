@@ -13,6 +13,8 @@
     <Compile Include="Correlation.fs" />
     <Compile Include="Covariance.fs" />
     <Compile Include="Distributions.fs" />
+    <Compile Include="DistributionsContinuous.fs" />
+    <Compile Include="DistributionsDiscrete.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="Matrix.fs" />
     <Compile Include="RowVector.fs" />
