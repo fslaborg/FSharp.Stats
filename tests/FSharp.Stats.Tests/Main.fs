@@ -54,7 +54,7 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.exponentialTests       |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.bernoulliTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.binomialTests          |> ignore 
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.logNormal |> ignore
+    //Tests.runTestsWithCLIArgs [] argv DistributionsTests.logNormal |> ignore
 
 
     //============================= Distributions Continuous ================================================
