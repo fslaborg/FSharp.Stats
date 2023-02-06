@@ -21,7 +21,7 @@ module MRandom =
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Matrix = 
-
+     
 
     type Orientation =
         | RowWise
@@ -186,6 +186,18 @@ module Matrix =
         let toRowVector matrix = MS.toRowVectorM matrix
         ///
         let toScalar matrix = MS.toScalarM matrix
+        /// reads matrix from delimiter separated file
+        let readCSV (path: string) (separator: char) (removeHeaderRow: bool) (removeHeaderCol: bool) (transform: string -> 'a) = 
+            IO.File.ReadAllLines(path)
+            |> fun x -> 
+                if removeHeaderRow then Array.tail x else x
+            |> Array.map (fun x -> 
+                let tmp = x.Split separator
+                if removeHeaderCol then 
+                    tmp.[1..] |> Array.map transform
+                else tmp |> Array.map transform
+                )
+            |> ofSeq
 
         let inplace_assign f matrix                = MS.inplaceAssignM  f matrix
         let inplace_cptMul matrix1 matrix2         = MS.inplaceCptMulM matrix1 matrix2
@@ -314,6 +326,20 @@ module Matrix =
     let ofRows (rows: Vector<RowVector<'T>>) = DS.seqDenseMatrixDS rows |> MS.dense
     ///returns a dense matrix with the inner vectors of the input rowvector as its columns
     let ofCols (cols: RowVector<Vector<'T>>) = DS.colSeqDenseMatrixDS cols |> MS.dense
+    /// reads matrix from delimiter separated file
+    let readCSV (path: string) (separator: char) (removeHeaderRow: bool) (removeHeaderCol: bool) = 
+        IO.File.ReadAllLines(path)
+        |> fun x -> 
+            if removeHeaderRow then Array.tail x else x
+        |> Array.map (fun x -> 
+            let tmp = x.Split separator
+            if removeHeaderCol then 
+                tmp.[1..] |> Array.map float
+            else tmp |> Array.map float
+            )
+        |> DS.arrayDenseMatrixDS 
+        |> MS.dense
+
     ///
     let diag  (v:vector)   = MG.diag v
     ///
@@ -787,6 +813,15 @@ module MatrixExtension =
     type Matrix<'T> with
         member x.ToArray2()        = Matrix.Generic.toArray2D x
         member x.ToArray2D()        = Matrix.Generic.toArray2D x
+
+        /// Reads generic matrix from file. Requires a function to transform the input strings to the desired type
+        static member ReadCSV(path,transformValues,?Separator,?RemoveHeaderRow,?RemoveHeaderCol): Matrix<'T> = 
+            
+            let sep = defaultArg Separator '\t'
+            let rmr = defaultArg RemoveHeaderRow false
+            let rmc = defaultArg RemoveHeaderCol false
+
+            Matrix.Generic.readCSV path sep rmr rmc transformValues
 
 #if FX_NO_DEBUG_DISPLAYS
 #else
