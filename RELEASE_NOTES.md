@@ -1,3 +1,16 @@
+### 0.4.11+0c6567d4 (Released 2023-2-6)
+* Additions:
+    * latest commit #0c6567d4
+    * [[#ad67e226](https://github.com/fslaborg/FSharp.Stats/commit/ad67e22696cc194ef6f0199bea858c9f9274e98a)] add quantile normalization
+    * [[#71130762](https://github.com/fslaborg/FSharp.Stats/commit/7113076297393b42a9004c8faf1562fb37465e97)] add SAM individual features
+    * [[#0c6567d4](https://github.com/fslaborg/FSharp.Stats/commit/0c6567d4f588dd43b4322e465078ee3b4c593aca)] add matrix reader #185
+* Deletions:
+    * [[#0726f42e](https://github.com/fslaborg/FSharp.Stats/commit/0726f42e98dc58c8ddce11fde16a446e330ca524)] remove duplicate tests
+* Bugfixes:
+    * [[#9f350419](https://github.com/fslaborg/FSharp.Stats/commit/9f35041936f2cc36ecc57ebe9bbe2979b18cef53)] fix SAM permutation #243
+* Documentation
+    * [[#e7b81c1a](https://github.com/fslaborg/FSharp.Stats/commit/e7b81c1acd8f246d8a1216e604909a070dee27cf)] add normalization documentation closes #202
+ 
 ### 0.4.10+278bd95a (Released 2023-1-25)
 * Additions:
     * latest commit #278bd95a
