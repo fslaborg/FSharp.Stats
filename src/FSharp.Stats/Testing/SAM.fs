@@ -243,7 +243,7 @@ module SAM =
                         shuffleTemplate 
                         |> Array.map (fun si -> row.[si])
                         |> fun x -> 
-                            (id,x.[..replicateCount1-1]),(id,x.[replicateCount2..])
+                            (id,x.[..replicateCount1-1]),(id,x.[replicateCount1..])
                         )
                     |> Array.unzip
     
