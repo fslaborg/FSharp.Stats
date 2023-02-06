@@ -53,7 +53,15 @@ module SAM =
         QValue : float
         /// foldchange from condition to control
         Foldchange : float 
-        } with static member Create id ri si stats qv fc= {ID=id; Ri=ri; Si=si; Statistics=stats; QValue = qv;Foldchange = fc}
+        /// mean condition A
+        MeanA : float 
+        /// standard deviation condition A 
+        StDevA : float 
+        /// mean condition B 
+        MeanB : float 
+        /// standard deviation condition B 
+        StDevB : float 
+        } with static member Create id ri si stats qv fc ma stdA mb stdB = {ID=id; Ri=ri; Si=si; Statistics=stats; QValue = qv;Foldchange = fc; MeanA = ma; StDevA = stdA;MeanB = mb; StDevB = stdB }
 
 
     // Result after calculating SAM
@@ -128,6 +136,8 @@ module SAM =
             // get average of one sample 
             let ma,mb = Array.average dataA,Array.average dataB
             let fc = mb/ma
+            let stDevA = Seq.stDev dataA
+            let stDevB = Seq.stDev dataB
             let ri    = (fun x y -> x - y) mb ma 
             let si    = 
                 // length of arrays
@@ -148,7 +158,7 @@ module SAM =
             let statistic = ri / (si + s0) 
 
         
-            SAM.Create idOfBioitem ri si statistic nan fc
+            SAM.Create idOfBioitem ri si statistic nan fc ma stDevA mb stDevB
 
         Array.map2 (fun a b -> calcStats a b) dataA dataB
 
@@ -261,7 +271,7 @@ module SAM =
                |> JaggedArray.transpose
                |> Array.map (fun tt -> 
                                let (id',ri',si',di') = tt |> Array.fold (fun (id,ri,si,di) t -> t.ID,ri+t.Ri,si+t.Si,di + t.Statistics) ("",0.,0.,0.)  
-                               SAM.Create id' (ri' / float iterations) (si' / float iterations) (di' / float iterations) nan nan
+                               SAM.Create id' (ri' / float iterations) (si' / float iterations) (di' / float iterations) nan nan nan nan nan nan 
                             )
 
            expAvgStats       
