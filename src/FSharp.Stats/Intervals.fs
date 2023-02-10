@@ -3,14 +3,25 @@
 open System
 
 module Intervals =
-
     /// Closed interval [Start,End]
     type Interval<'a> = 
-        | ClosedInterval of 'a * 'a    
+        | ClosedInterval of 'a * 'a
         | Empty
 
+        member inline this.TryStart = 
+            match this with
+            | ClosedInterval (min,_) -> Some min
+            | Empty -> None
+        
+        member inline this.TryEnd = 
+            match this with
+            | ClosedInterval (_,max) -> Some max
+            | Empty -> None
+
+        static member inline Create (min,max) = ClosedInterval (min,max)
+
     /// Creates closed interval [min,max] by given min and max
-    let create min max =
+    let inline create min max =
         //no valid test if margins are not of type IComparable (e.g. tuples)
         //if min > max then failwithf "Interval minimum must be lower than maximum"
         ClosedInterval (min, max)
@@ -44,6 +55,7 @@ module Intervals =
     /// Creates closed interval [min,max] of the given data based on the extreme values obtained by applying the projection function.
     ///If the collection contains nan an exception is thrown.
     let inline ofSeqBy (projection:'b -> 'c) (source:seq<'b>) =
+    //let inline ofSeqBy (projection:'b -> 'a) (source:seq<'b> when 'b : (static member Zero : 'b)  and 'b : (static member (/): 'b -> 'b -> 'b)) =
         
         use e = source.GetEnumerator()
         //Init by fist value
@@ -96,20 +108,12 @@ module Intervals =
         | ClosedInterval (min,max) -> max - min
         | Empty -> zero / zero
     
-    [<Obsolete("Use Interval.getSize instead")>]
-    let inline getRange (interval:Interval<'a>) = 
-        getSize interval
-
     /// Returns the range of an Interval [min,max] (projection max - projection min)
     let inline getSizeBy (projection:'a -> 'b) (interval:Interval<'a>) =
         let zero = LanguagePrimitives.GenericZero< 'b >
         match interval with
         | ClosedInterval (min,max) -> projection max - projection min
         | Empty -> zero / zero
-    
-    [<Obsolete("Use Interval.getSizeBy instead")>]
-    let inline getRangeBy (projection:'a -> 'b) (interval:Interval<'a>) =
-        getSizeBy projection interval
         
     /// Returns the size of an closed interval
     let inline trySize interval =
@@ -119,12 +123,11 @@ module Intervals =
 
 
     /// Returns the interval as a string
-    let toString interval =
+    let inline toString interval =
         match interval with
         | ClosedInterval (min,max) -> sprintf "[%A,%A]" min max
         | Empty -> "[empty]"
         
-
     /// Add two given intervals.
     let inline add a b =
         match a,b with
@@ -134,8 +137,6 @@ module Intervals =
         | Empty, ClosedInterval (min,max) -> b
         | Empty,Empty -> Empty
                 
-        
-
     /// Subtract a given interval from the other interval.
     let inline subtract a b =
         match a,b with
@@ -145,11 +146,10 @@ module Intervals =
         | Empty, ClosedInterval (min,max) -> b
         | Empty,Empty -> Empty
         
-        
     // a0----a1
     //     b0-----b1
     /// Checking for intersection of both intervals
-    let isIntersection a b =
+    let inline isIntersection a b =
         match a,b with
         | ClosedInterval (minA,maxA), ClosedInterval (minB,maxB) 
             -> minA <= maxB && minB <= maxA
@@ -159,7 +159,7 @@ module Intervals =
         
 
     /// Returns the intersection of this interval with another.
-    let intersect a b =
+    let inline intersect a b =
         if not (isIntersection a b) then
             None
         else
@@ -185,7 +185,7 @@ module Intervals =
        
 
     ///   Does the given value lie in the interval or not.
-    let liesInInterval value interval =
+    let inline liesInInterval value interval =
         match interval with
         | ClosedInterval (min,max) -> value >= min && value <= max                                      
         | Empty -> false        
