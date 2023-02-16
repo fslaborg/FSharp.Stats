@@ -48,6 +48,7 @@ _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.
 - [Polynomial interpolation](#Polynomial-interpolation)
 - [Cubic interpolating Spline](#Cubic-interpolating-Spline)
 - [Hermite interpolation](#Hermite-interpolation)
+- [Chebyshev function approximation](#Chebyshev-function-approximation)
 
 ## Polynomial Interpolation
 
@@ -249,3 +250,148 @@ splineComparison
 (***hide***)
 splineComparison |> GenericChart.toChartHTML
 (***include-it-raw***)
+
+
+
+(**
+
+## Chebyshev function approximation
+
+Polynomials are great when it comes to slope/area determination or the investigation of signal properties.
+When faced with an unknown (or complex) function it may be beneficial to approximate the data using polynomials, even if it does not correspond to the real model.
+
+Polynomial regression can cause difficulties if the signal is flexible and the required polynomial degree is high. Floating point errors sometimes lead to vanishing coefficients and even though the
+SSE should decrease, it does not and a strange, squiggly shape is generated. 
+Polynomial interpolation can help to obtain a robust polynomial description of the data, but is prone to Runges phenomenon. 
+
+In the next section, data is introduced that should be converted to a polynomial approximation.
+
+*)
+
+
+let xs = [|0. .. 0.2 .. 3.|]
+let ys = [|5.;5.5;6.;6.1;4.;1.;0.7;0.3;0.5;0.9;5.;9.;9.;8.;6.5;5.;|]
+
+let chebyChart =
+    Chart.Line(xs,ys,Name="raw",ShowMarkers=true)
+    |> Chart.withAxisTitles "xs" "ys"
+
+(*** condition: ipynb ***)
+#if IPYNB
+chebyChart
+#endif // IPYNB
+
+(***hide***)
+chebyChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+Let's fit a interpolating polynomial to the points:
+
+*)
+
+// calculates the coefficients of the interpolating polynomial
+let coeffs = 
+    Interpolation.Polynomial.coefficients (vector xs) (vector ys)
+
+// determines the y value of a given x value with the interpolating coefficients
+let interpolatingFunction x = 
+    Interpolation.Polynomial.fit coeffs x
+
+// plot the interpolated data
+let interpolChart =
+    let ys_interpol = 
+        [|0. .. 0.01 .. 3.|] 
+        |> Seq.map (fun x -> x,interpolatingFunction x)
+    Chart.Line(ys_interpol,Name="interpol")
+    |> Chart.withAxisTitles "xs" "ys"
+
+let cbChart =
+    [
+    chebyChart
+    interpolChart
+    ]
+    |> Chart.combine
+
+(*** condition: ipynb ***)
+#if IPYNB
+cbChart
+#endif // IPYNB
+
+(***hide***)
+cbChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+Because of Runges phenomenon the interpolating polynomial overshoots in the outer areas of the data. It would be detrimental if this function approximation is used to investigate signal properties.
+
+To reduce this overfitting you can use x axis nodes that are spaced according to Chebyshev. Here, nodes are sparse in the center of the analysed function and are more dense in the outer areas. 
+
+*)
+
+// new x values are determined in the x axis range of the data. These should reduce overshooting behaviour.
+// since the original data consisted of 16 points, 16 nodes are initialized
+let xs_cheby = 
+    Interpolation.Approximation.chebyshevNodes (Intervals.Interval.Create(0.,3.)) 16
+
+// to get the corresponding y values to the xs_cheby a linear spline is generated that approximates the new y values
+let ys_cheby =
+    let ls = Interpolation.LinearSpline.initInterpolate xs ys
+    xs_cheby |> Vector.map (Interpolation.LinearSpline.interpolate ls)
+
+// again polynomial interpolation coefficients are determined, but here with the x and y data that correspond to the chebyshev spacing
+let coeffs_cheby = Interpolation.Polynomial.coefficients xs_cheby ys_cheby
+
+
+// Note: the upper panel can be summarized by the follwing function:
+Interpolation.Approximation.approxChebyshevPolynomialFromValues xs ys 16
+
+(**
+
+Using the determined polynomial coefficients, the standard approach for fitting can be used to plot the signal together with the function approximation. Obviously the example data 
+is difficult to approximate, but the chebyshev spacing of the x-nodes drastically reduces the overfitting in the outer areas of the signal.
+
+*)
+
+// function using the cheby_coefficients to get y values of given x value
+let interpolating_cheby x = Interpolation.Polynomial.fit coeffs_cheby x
+
+let interpolChart_cheby =
+    let ys_interpol_cheby = 
+        vector [|0. .. 0.01 .. 3.|] 
+        |> Seq.map (fun x -> x,interpolating_cheby x)
+
+    Chart.Line(ys_interpol_cheby,Name="interpol_cheby")
+    |> Chart.withAxisTitles "xs" "ys"
+
+
+let cbChart_cheby =
+    [
+    chebyChart
+    interpolChart
+    Chart.Line(xs_cheby,ys_cheby,ShowMarkers=true,Name="cheby_nodes") |> Chart.withAxisTitles "xs" "ys"
+    interpolChart_cheby
+    ]
+    |> Chart.combine
+    |> Chart.withAxisTitles "xs" "ys"
+
+
+(*** condition: ipynb ***)
+#if IPYNB
+cbChart_cheby
+#endif // IPYNB
+
+(***hide***)
+cbChart_cheby |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
+If a non-polynomal function should be approximated as polynomial you can use `Interpolation.Approximation.approxChebyshevPolynomial` with specifying the interval in which the function should be approximated.
+
+## Further reading
+- Amazing blog post regarding Runges phenomenon and chebyshev spacing https://www.mscroggs.co.uk/blog/57
+
+*)
+
+
