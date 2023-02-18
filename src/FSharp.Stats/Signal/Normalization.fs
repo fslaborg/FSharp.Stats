@@ -71,7 +71,7 @@ module Normalization =
         let normData m = 
             m
             |> Matrix.mapi (fun r c v ->
-                v / sampleWiseCorrectionFactors.[c]
+                v / sampleWiseCorrectionFactors.[r]
             )
         MorResult.Create sampleWiseCorrectionFactors (normData data) normData
 
