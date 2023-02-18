@@ -22,7 +22,8 @@ module Normalization =
     type MorResult = {
         CorrFactors : seq<float>
         NormedData : Matrix<float>
-    } with static member Create cf nd = {CorrFactors=cf;NormedData=nd}
+        NormFunction : matrix -> matrix
+    } with static member Create cf nd f = {CorrFactors=cf;NormedData=nd;NormFunction=f}
 
     /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
     ///
@@ -39,12 +40,12 @@ module Normalization =
                 ) 
             |> Matrix.ofRows
             |> Matrix.mapiCols (fun _ v -> Vector.median v)
-        let normedData = 
-            data
+        let normData m = 
+            m
             |> Matrix.mapi (fun r c v ->
                 v / sampleWiseCorrectionFactors.[c]
             )
-        MorResult.Create sampleWiseCorrectionFactors normedData
+        MorResult.Create sampleWiseCorrectionFactors (normData data) normData
 
     /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
     ///
@@ -67,12 +68,12 @@ module Normalization =
                 ) 
             |> Matrix.ofCols
             |> Matrix.mapiRows (fun _ v -> Seq.median v)
-        let normedData = 
-            data
+        let normData m = 
+            m
             |> Matrix.mapi (fun r c v ->
-                v / sampleWiseCorrectionFactors.[r]
+                v / sampleWiseCorrectionFactors.[c]
             )
-        MorResult.Create sampleWiseCorrectionFactors normedData
+        MorResult.Create sampleWiseCorrectionFactors (normData data) normData
 
     /// As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
     ///
