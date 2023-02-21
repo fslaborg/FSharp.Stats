@@ -1,3 +1,15 @@
+### 0.4.12 TBR
+* Additions:
+    * latest commit #12e3f13e
+    * [[#35d0fc11](https://github.com/fslaborg/FSharp.Stats/commit/35d0fc11bb57a0ce3d7f39c9e9bdc20e667757ef)] add chebyshev based approximation
+    * [[#e688e2be](https://github.com/fslaborg/FSharp.Stats/commit/e688e2be4a7e2f674dc6ed5167253bf90a28b2df)] add mor normalization function
+    * [[#060f696a](https://github.com/fslaborg/FSharp.Stats/commit/060f696a9e8f8bad7542bf35bb5ba885f560d574)] add EmpiricalDistribution type
+* Bugfixes:
+    * [[#32fa0c23](https://github.com/fslaborg/FSharp.Stats/commit/32fa0c23f2629dd9c149b4d98bc9c0befea86ad2)] fix floating point errors at edge cases #245
+* Documentation:
+    * [[#12e3f13e](https://github.com/fslaborg/FSharp.Stats/commit/12e3f13ec5380f6b4f49cf37b9164b19c6fc902b)] update Empirical distribution docu #245
+    * [[#14041ceb](https://github.com/fslaborg/FSharp.Stats/commit/14041cebb9a72a382efb41dc5a74ce365fcfbb8f)] add chebyshev node documenation
+    
 ### 0.4.11+0c6567d4 (Released 2023-2-6)
 * Additions:
     * latest commit #0c6567d4
