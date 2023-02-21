@@ -158,7 +158,7 @@ module Empirical =
         let halfBw = bandwidth / 2.0       
         let tmp = 
             data
-            |> Seq.groupBy (fun x -> floor (x / bandwidth)) 
+            |> Seq.groupBy (fun x -> (decimal x / decBandwidth) |> float |> floor) 
             |> Seq.map (fun (k,values) -> 
                 let count = (Seq.length(values)) |> float                                        
                 if k < 0. then
