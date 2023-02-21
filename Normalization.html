@@ -671,29 +671,29 @@ factor is achieved.</p>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 93)" onmouseover="showTip(event, 'fs45', 93)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 94)" onmouseover="showTip(event, 'fs21', 94)" class="id">withAxisTitles</span> <span class="s">&quot;gID&quot;</span> <span class="s">&quot;raw intensity&quot;</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 95)" onmouseover="showTip(event, 'fs45', 95)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 96)" onmouseover="showTip(event, 'fs50', 96)" class="id">withTitle</span> <span class="s">&quot;raw data&quot;</span>
 </code></pre>
-<div id="db05254e-8399-4282-8ed9-910afaa780c9"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="436b6db9-d72b-4753-bc6f-b85b848a9f78"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_db05254e839942828ed9910afaa780c9 = function() {
+            var renderPlotly_436b6db9d72b4753bc6fb85b848a9f78 = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"bar","name":"raw sample1","x":[0,1,2,3,4,5],"y":[100.0,80.0,0.0,40.0,50.0,40.0],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"raw sample2","x":[0,1,2,3,4,5],"y":[130.0,200.0,50.0,50.0,45.0,50.0],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"raw sample3","x":[0,1,2,3,4,5],"y":[30.0,30.0,0.0,20.0,25.0,15.0],"orientation":"v","marker":{"pattern":{}}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":"raw intensity"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"title":{"text":"raw data"}};
             var config = {"responsive":true};
-            Plotly.newPlot('db05254e-8399-4282-8ed9-910afaa780c9', data, layout, config);
+            Plotly.newPlot('436b6db9-d72b-4753-bc6f-b85b848a9f78', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_db05254e839942828ed9910afaa780c9();
+                    renderPlotly_436b6db9d72b4753bc6fb85b848a9f78();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_db05254e839942828ed9910afaa780c9();
+                renderPlotly_436b6db9d72b4753bc6fb85b848a9f78();
             }
 </script>
 
@@ -732,29 +732,29 @@ Correctionfactor for sample3 is 0.457
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 154)" onmouseover="showTip(event, 'fs45', 154)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 155)" onmouseover="showTip(event, 'fs49', 155)" class="id">combine</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 156)" onmouseover="showTip(event, 'fs45', 156)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 157)" onmouseover="showTip(event, 'fs21', 157)" class="id">withAxisTitles</span> <span class="s">&quot;gID&quot;</span> <span class="s">&quot;MOR intensity&quot;</span>
 </code></pre>
-<div id="85a74980-726a-419e-941f-7f1060d79ecb"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="60d62490-dffc-46d6-8783-e861a8b1c7bd"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_85a74980726a419e941f7f1060d79ecb = function() {
+            var renderPlotly_60d62490dffc46d68783e861a8b1c7bd = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"bar","name":"MOR normed sample1","x":[0,1,2,3,4,5],"y":[82.15073918013081,65.72059134410465,0.0,32.860295672052324,41.07536959006541,32.860295672052324],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"MOR normed sample2","x":[0,1,2,3,4,5],"y":[77.7073168717368,119.54971826421045,29.887429566052614,29.887429566052614,26.898686609447353,29.887429566052614],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"MOR normed sample3","x":[0,1,2,3,4,5],"y":[65.66130664839933,65.66130664839933,0.0,43.77420443226622,54.717755540332774,32.830653324199666],"orientation":"v","marker":{"pattern":{}}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":"MOR intensity"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false}};
             var config = {"responsive":true};
-            Plotly.newPlot('85a74980-726a-419e-941f-7f1060d79ecb', data, layout, config);
+            Plotly.newPlot('60d62490-dffc-46d6-8783-e861a8b1c7bd', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_85a74980726a419e941f7f1060d79ecb();
+                    renderPlotly_60d62490dffc46d68783e861a8b1c7bd();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_85a74980726a419e941f7f1060d79ecb();
+                renderPlotly_60d62490dffc46d68783e861a8b1c7bd();
             }
 </script>
 
@@ -997,29 +997,29 @@ You can either quantile normalize data according to a given reference distributi
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 189)" onmouseover="showTip(event, 'fs45', 189)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 190)" onmouseover="showTip(event, 'fs49', 190)" class="id">combine</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs45', 191)" onmouseover="showTip(event, 'fs45', 191)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 192)" onmouseover="showTip(event, 'fs21', 192)" class="id">withAxisTitles</span> <span class="s">&quot;gID&quot;</span> <span class="s">&quot;qNorm intensity&quot;</span>
 </code></pre>
-<div id="884223ef-8e99-443a-9fc8-300df2d8d084"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="dbae4f9b-012a-4bda-879d-10fbf457f810"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_884223ef8e99443a9fc8300df2d8d084 = function() {
+            var renderPlotly_dbae4f9b012a4bda879d10fbf457f810 = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"bar","name":"quantile normed sample1","x":[0,1,2,3,4,5],"y":[110.0,80.0,15.0,35.0,41.666666666666664,36.666666666666664],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"quantile normed sample2","x":[0,1,2,3,4,5],"y":[80.0,110.0,35.0,36.666666666666664,15.0,41.666666666666664],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"quantile normed sample3","x":[0,1,2,3,4,5],"y":[80.0,110.0,15.0,36.666666666666664,41.666666666666664,35.0],"orientation":"v","marker":{"pattern":{}}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":"qNorm intensity"},"ticks":"inside","mirror":"all","showline":true,"showgrid":false}};
             var config = {"responsive":true};
-            Plotly.newPlot('884223ef-8e99-443a-9fc8-300df2d8d084', data, layout, config);
+            Plotly.newPlot('dbae4f9b-012a-4bda-879d-10fbf457f810', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_884223ef8e99443a9fc8300df2d8d084();
+                    renderPlotly_dbae4f9b012a4bda879d10fbf457f810();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_884223ef8e99443a9fc8300df2d8d084();
+                renderPlotly_dbae4f9b012a4bda879d10fbf457f810();
             }
 </script>
 
