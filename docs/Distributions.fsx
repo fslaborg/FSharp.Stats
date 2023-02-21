@@ -585,7 +585,7 @@ gammaCDFPlot |> GenericChart.toChartHTML
 ## Empirical
 
 You can create empirically derived distributions and sample randomly from these.
-In this example 100,000 samples from a student t distribution 
+In this example 100,000 random samples from a student t distribution are drawn and visualized
 
 *)
 
@@ -596,7 +596,7 @@ let sampleDistribution =
 
 //creates an empirical distribution with bandwidth 0.1
 let empiricalDistribution = 
-    Empirical.create 0.1 sampleDistribution
+    EmpiricalDistribution.create 0.1 sampleDistribution
 
 (***hide***)
 let plotEmpirical =    
@@ -612,6 +612,85 @@ plotEmpirical
 
 (***hide***)
 plotEmpirical |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
+### Categorical data
+You also can create probability mass functions (PMF) from categorical (nominal) data. 
+You can check for just the elements present in your input sequence, or include elements of a predefined set.
+
+*)
+
+
+let myText = 
+    "Hello World, I am a test Text with all kind of Characters!112"
+
+// Define your set of characters that should be checked for
+// Any character that is not present in these sets is neglected
+let mySmallAlphabet = "abcdefghijklmnopqrstuvwxyz" |> Set.ofSeq
+let myAlphabet      = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" |> Set.ofSeq
+let myAlphabetNum   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" |> Set.ofSeq
+
+(**
+
+These alphabets can be used to create the probability maps. 
+
+*)
+
+// takes the characters and determines their probabilities without considering non-existing characters
+let myFrequencies0 = EmpiricalDistribution.createNominal() myText
+
+// takes upper and lower case characters and determines their probability
+let myFrequencies1 = EmpiricalDistribution.createNominal(Template=myAlphabet) myText
+
+// takes upper and lower case characters and numbers and determines their probability
+let myFrequencies2 = EmpiricalDistribution.createNominal(Template=myAlphabetNum) myText
+
+// takes only lower case characters and determines their probability
+// The big M is neglected because it is not present in the template alphabet.
+let myFrequencies3 = EmpiricalDistribution.createNominal(Template=mySmallAlphabet) myText
+
+(**
+
+An additional field for transforming the input sequence may be beneficial if it does not matter if an character is lower case or upper case:
+
+*)
+// converts all characters to lower case characters and determines their probability
+let myFrequencies4 = EmpiricalDistribution.createNominal(Template=mySmallAlphabet,Transform=System.Char.ToLower) myText
+
+(**
+
+With a template set, you can access the probability of 'z' even if it is not in your original input sequence.
+
+*)
+
+myFrequencies3.['z'] //results in 0.0
+
+(**
+#### Visualization of the PMF
+*)
+
+
+let categoricalDistribution = 
+    [
+    Chart.Column(myFrequencies0 |> Map.toArray,"0_noTemplate")    |> Chart.withYAxisStyle "probability"
+    Chart.Column(myFrequencies1 |> Map.toArray,"1_bigAlphabet")   |> Chart.withYAxisStyle "probability"
+    Chart.Column(myFrequencies2 |> Map.toArray,"2_numAlphabet")   |> Chart.withYAxisStyle "probability"
+    Chart.Column(myFrequencies3 |> Map.toArray,"3_smallAlphabet") |> Chart.withYAxisStyle "probability"
+    Chart.Column(myFrequencies4 |> Map.toArray,"4_toLower + smallAlphabet") |> Chart.withYAxisStyle "probability"
+    ]
+    |> Chart.Grid(4,1)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+
+(*** condition: ipynb ***)
+#if IPYNB
+categoricalDistribution
+#endif // IPYNB
+
+(***hide***)
+categoricalDistribution |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
