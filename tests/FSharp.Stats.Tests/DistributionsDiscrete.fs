@@ -149,7 +149,7 @@ let hypergeometricTests =
 
 
 [<Tests>]
-let PoissonDistributionTests =
+let poissonDistributionTests =
      
     let lambda = 4.2
     

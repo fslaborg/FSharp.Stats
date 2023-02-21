@@ -55,6 +55,7 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.bernoulliTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.binomialTests          |> ignore 
     //Tests.runTestsWithCLIArgs [] argv DistributionsTests.logNormal |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsEmpiricalTests.empiricalTests |> ignore
 
 
     //============================= Distributions Continuous ================================================
@@ -62,7 +63,7 @@ let main argv =
 
     //============================= Distributions Discrete ================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.hypergeometricTests      |> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.PoissonDistributionTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.poissonDistributionTests |> ignore
 
 
     //=============================== Correlation ===========================================================
