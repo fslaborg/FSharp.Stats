@@ -39,3 +39,13 @@ let medianTests =
             let median = Array.median testArrayOddCountsInt
             Expect.equal median 5 "Median should be 5"
     ]
+
+[<Tests>]
+let dropNanTests =
+    testList "Array" [
+        testCase "dropNaN" <| fun () ->
+            let testArray = [|-infinity; 0.5; 1.5; 1000.; nan; 5.0; nan|]
+            let expected = [|-infinity; 0.5; 1.5; 1000.; 5.0|]
+            let actual = Array.dropNaN testArray
+            Expect.equal expected actual "Filtered array is incorrect"
+    ]

@@ -501,3 +501,9 @@ module Array =
         array
         |> Array.map f
         |> covOfPairs
+
+    /// Filters out all nan values from an array
+    let dropNaN (array: float array) =
+        array 
+        |> Array.filter (System.Double.IsNaN >> not)
+
