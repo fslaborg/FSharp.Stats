@@ -507,19 +507,22 @@ module Array =
         array 
         |> Array.filter (System.Double.IsNaN >> not)
 
+[<AutoOpen>]
+module ArrayExtension =
+    type Array() =
 
-type Array() =
-
-    /// Creates an float array from an given interval.
-    /// start: start value (is included)
-    /// stop: end value (by default is included )
-    /// Num: sets the number of elements in the array. If not set, stepsize = 1.
-    /// IncludeEndpoint (default = true): If false, array does not contain stop value
-    static member linspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : float [] = 
+        /// <summary>
+        /// Creates an float array with values between a given interval
+        /// </summary>
+        /// <param name="start">start value (is included)</param>
+        /// <param name="stop">end value (by default is included )</param>
+        /// <param name="Num">sets the number of elements in the array. If not set, stepsize = 1.</param>
+        /// <param name="IncludeEndpoint">If false, the array does not contain the stop value</param>
+        static member linspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : float [] = 
         
-        let includeEndpoint = defaultArg IncludeEndpoint true
+            let includeEndpoint = defaultArg IncludeEndpoint true
 
-        if Num.IsSome then 
-            Seq.linspace(start,stop,Num.Value,includeEndpoint) |> Array.ofSeq
-        else 
-            Seq.linspace(start,stop,IncludeEndpoint=includeEndpoint) |> Array.ofSeq
+            if Num.IsSome then 
+                Seq.linspace(start,stop,Num.Value,includeEndpoint) |> Array.ofSeq
+            else 
+                Seq.linspace(start,stop,IncludeEndpoint=includeEndpoint) |> Array.ofSeq

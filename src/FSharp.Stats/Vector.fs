@@ -409,11 +409,13 @@ module VectorExtension =
         member x.Norm      = Vector.Generic.norm x
         member x.Copy ()   = Vector.Generic.copy x
 
-        /// Creates an vector from an given interval.
-        /// start: start value (is included)
-        /// stop: end value (by default is included )
-        /// Num: sets the number of elements in the vector. If not set, stepsize = 1.
-        /// IncludeEndpoint (default = true): If false, vector does not contain stop value
+        /// <summary>
+        /// Creates an vector with values between a given interval
+        /// </summary>
+        /// <param name="start">start value (is included)</param>
+        /// <param name="stop">end value (by default is included )</param>
+        /// <param name="Num">sets the number of elements in the vector. If not set, stepsize = 1.</param>
+        /// <param name="IncludeEndpoint">If false, the vector does not contain the stop value</param>
         static member linspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : vector = 
         
             let includeEndpoint = defaultArg IncludeEndpoint true

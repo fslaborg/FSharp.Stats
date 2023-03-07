@@ -1204,37 +1204,41 @@ module Seq =
             | :? ('T[]) as arr -> Array.copy arr
             | _ -> Seq.toArray xs
 
-type Seq() =
+[<AutoOpen>]
+module SeqExtension =
+    type Seq() =
 
-    /// Creates an seq<float> from an given interval.
-    /// start: start value (is included)
-    /// stop: end value (by default is included )
-    /// Num: sets the number of elements in the sequence. If not set, stepsize = 1.
-    /// IncludeEndpoint (default = true): If false, sequence does not contain stop value
-    static member inline linspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : seq<float> = 
+        /// <summary>
+        /// Creates an seq<float> with values between a given interval
+        /// </summary>
+        /// <param name="start">start value (is included)</param>
+        /// <param name="stop">end value (by default is included )</param>
+        /// <param name="Num">sets the number of elements in the seq. If not set, stepsize = 1.</param>
+        /// <param name="IncludeEndpoint">If false, the seq does not contain the stop value</param>
+        static member inline linspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : seq<float> = 
         
-        let includeEndpoint = defaultArg IncludeEndpoint true
+            let includeEndpoint = defaultArg IncludeEndpoint true
 
-        if Num.IsSome then 
-            if includeEndpoint then 
-                let stepsize = (stop - start) / (float (Num.Value - 1))
-                Seq.init Num.Value (fun i -> stepsize * float i + start)
-            else 
-                let stepsize = (stop - start) / (float (Num.Value))
-                Seq.init Num.Value (fun i -> stepsize * float i + start)
+            if Num.IsSome then 
+                if includeEndpoint then 
+                    let stepsize = (stop - start) / (float (Num.Value - 1))
+                    Seq.init Num.Value (fun i -> stepsize * float i + start)
+                else 
+                    let stepsize = (stop - start) / (float (Num.Value))
+                    Seq.init Num.Value (fun i -> stepsize * float i + start)
                     
-        else 
-            if includeEndpoint then
-                let num = (stop - start) |> ceil
-                Seq.init (int num + 1) (fun i -> float i + start)
             else 
-                let dif = stop - start
-                let num = 
-                    if System.Math.Round dif = dif then 
-                        floor dif
-                    else 
-                        ceil dif
-                Array.init (int num) (fun i -> float i + start)
+                if includeEndpoint then
+                    let num = (stop - start) |> ceil
+                    Seq.init (int num + 1) (fun i -> float i + start)
+                else 
+                    let dif = stop - start
+                    let num = 
+                        if System.Math.Round dif = dif then 
+                            floor dif
+                        else 
+                            ceil dif
+                    Array.init (int num) (fun i -> float i + start)
 
 
 //    // ########################################################################
