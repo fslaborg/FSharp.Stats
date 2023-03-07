@@ -507,3 +507,19 @@ module Array =
         array 
         |> Array.filter (System.Double.IsNaN >> not)
 
+
+type Array() =
+
+    /// Creates an float array from an given interval.
+    /// start: start value (is included)
+    /// stop: end value (by default is included )
+    /// Num: sets the number of elements in the array. If not set, stepsize = 1.
+    /// IncludeEndpoint (default = true): If false, array does not contain stop value
+    static member linspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : float [] = 
+        
+        let includeEndpoint = defaultArg IncludeEndpoint true
+
+        if Num.IsSome then 
+            Seq.linspace(start,stop,Num.Value,includeEndpoint) |> Array.ofSeq
+        else 
+            Seq.linspace(start,stop,IncludeEndpoint=includeEndpoint) |> Array.ofSeq
