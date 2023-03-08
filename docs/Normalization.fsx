@@ -40,7 +40,7 @@ module Chart =
 
 # Normalization
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Normalization.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Normalization.ipynb)
 
 _Summary:_ this tutorial demonstrates multiple ways of data normalization accross several samples
 

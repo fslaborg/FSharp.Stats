@@ -12,7 +12,7 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
 
 open Plotly.NET
 open Plotly.NET.StyleParam
@@ -30,16 +30,18 @@ module Chart =
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
+
+open Plotly.NET
 #endif // IPYNB
 
 (** 
 
 # Correlation
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Correlation.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Correlation.ipynb)
 
 _Summary_: This tutorial demonstrates how to autocorrelate a signal in FSharp.Stats
 
@@ -161,7 +163,7 @@ open Plotly.NET
 
 let gaussAC =
     Chart.Point(lags,autoCorrGauss)
-    |> Chart.withTraceName "Autocorrelation"
+    |> Chart.withTraceInfo "Autocorrelation"
     |> Chart.withTitle "Autocorrelation of a gaussian sine wave"
     |> fun c -> 
         [

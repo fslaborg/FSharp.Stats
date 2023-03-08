@@ -39,7 +39,7 @@ module Chart =
 # Intervals
 
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Intervals.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Intervals.ipynb)
 
 The interval module enables working with closed intervals. A closed interval includes its maximum and minimum.
 

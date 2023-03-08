@@ -40,7 +40,7 @@ module Chart =
 
 # Ranking
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Rank.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Rank.ipynb)
 
 _Summary:_ this tutorial demonstrates how to determine ranks of a collection
 

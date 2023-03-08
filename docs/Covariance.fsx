@@ -39,7 +39,7 @@ module Chart =
 
 #Covariance
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Covariance
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Covariance
 .ipynb)
 
 _Summary:_ This tutorial explains how to investigate the covariance of two samples with FSharp.Stats

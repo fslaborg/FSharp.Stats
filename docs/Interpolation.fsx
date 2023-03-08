@@ -39,7 +39,7 @@ module Chart =
 
 # Interpolation
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Interpolation.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Interpolation.ipynb)
 
 _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.Stats
 

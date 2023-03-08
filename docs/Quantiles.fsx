@@ -40,7 +40,7 @@ module Chart =
 
 # Quantile
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Quantile.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Quantile.ipynb)
 
 _Summary:_ this tutorial demonstrates how to handle quantiles and QQ-Plots
 

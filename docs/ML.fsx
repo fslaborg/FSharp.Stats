@@ -40,7 +40,7 @@ module Chart =
 
 # Machine Learning
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Signal.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Signal.ipynb)
 
 _Summary:_ this tutorial demonstrates functionality relevant in the context of machine learning.
 

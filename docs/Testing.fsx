@@ -47,7 +47,7 @@ module Chart =
 
 # Statistical testing
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Testing.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Testing.ipynb)
 
 _Summary:_ this tutorial explains how to perform various statistical tests with FSharp.Stats.
 

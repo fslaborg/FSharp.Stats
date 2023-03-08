@@ -28,7 +28,7 @@ module Chart =
 (**
 # FSharp.Stats
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=index.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/index.ipynb)
 
 FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.
 

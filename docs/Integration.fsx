@@ -24,7 +24,7 @@ categoryindex: 0
 (**
 # Numerical integration
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Integration.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Integration.ipynb)
 
 Numerical integration comprises a broad family of algorithms for calculating the numerical value of a definite integral, typically by using values from the funcion range.
 
