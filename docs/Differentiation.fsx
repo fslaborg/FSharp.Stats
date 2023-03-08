@@ -12,28 +12,18 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
-open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 (**
 # Numerical Differentiation
@@ -48,6 +38,7 @@ Here follows a small snippet.
 
 First, we create our data. In this case our function is f(x) = x ^ 3.
 *)
+open Plotly.NET
 open FSharp.Stats
 
 // x data
@@ -78,7 +69,7 @@ let comparisonChart =
     Chart.Point(Array.map (fun x -> x,(x ** 2.) * 3.) xs,Name = "g(x)")
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB

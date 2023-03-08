@@ -10,16 +10,12 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
-#r "FSharp.Stats.dll"
-#r "nuget: Newtonsoft.JSON"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "../src/FSharp.Stats/bin/Release/netstandard2.0/FSharp.Stats.dll"
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
 #r "nuget: FSharp.Stats"
+
 #endif // IPYNB
 
 (**

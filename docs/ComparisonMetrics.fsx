@@ -12,12 +12,15 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 

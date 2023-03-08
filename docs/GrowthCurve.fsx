@@ -12,13 +12,18 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
+
+open Plotly.NET
 #endif // IPYNB
 
 (**
@@ -85,28 +90,19 @@ let cellCount =
 let cellCountLn = cellCount |> Array.map log
 
 open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 let chartOrig = 
     Chart.Point(time,cellCount)
-    |> Chart.withTraceName "original data"
-    |> Chart.withAxisTitles "" "cells/ml"
+    |> Chart.withTraceInfo "original data"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withYAxisStyle "cells/ml"
 
 let chartLog =
     Chart.Point(time,cellCountLn)
-    |> Chart.withTraceName "log count"
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
+    |> Chart.withTraceInfo "log count"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
     
 let growthChart = 
     [chartOrig;chartLog] |> Chart.Grid(2,1)
@@ -159,11 +155,13 @@ let fittedValues =
 
 let chartLinearRegression =
     [
-    Chart.Point(time,cellCountLn)   |> Chart.withTraceName "log counts"
-    Chart.Line(fittedValues)        |> Chart.withTraceName "fit"
+    Chart.Point(time,cellCountLn)   |> Chart.withTraceInfo "log counts"
+    Chart.Line(fittedValues)        |> Chart.withTraceInfo "fit"
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
 
 
 (*** condition: ipynb ***)
@@ -246,16 +244,18 @@ let fittedValuesGompertz =
         x,fittingFunction x
         ) 
     |> Chart.Line
-    |> Chart.withTraceName "gompertz"
+    |> Chart.withTraceInfo "gompertz"
 
 let fittedChartGompertz = 
     [
         Chart.Point(time,cellCountLn)
-        |> Chart.withTraceName "log count"
+        |> Chart.withTraceInfo "log count"
         fittedValuesGompertz
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -370,17 +370,21 @@ let fittedValuesRichards =
 
 let fittedChartRichards = 
     fittedValuesRichards
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "richards"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
+    |> Chart.withTraceInfo "richards"
 
 let fittedChartRichardsS = 
     [
         Chart.Point(time,cellCountLn)
-        |> Chart.withTraceName "log count"
+        |> Chart.withTraceInfo "log count"
         fittedValuesRichards
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
     |> Chart.withTitle "richards"
 
 let generationRichards = sprintf "The generation time (Richards) is: %.1f min" (generationtimeRichards (vector [|23.25211263; 7.053516315; 5.646889803; 111.0132522|]) * 60.)
@@ -451,17 +455,21 @@ let fittedValuesWeibull =
 
 let fittedChartWeibull = 
     fittedValuesWeibull
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "weibull"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
+    |> Chart.withTraceInfo "weibull"
 
 let fittedChartWeibullS = 
     [
         Chart.Point(time,cellCountLn)
-        |> Chart.withTraceName "log count"
+        |> Chart.withTraceInfo "log count"
         fittedValuesWeibull
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
     |> Chart.withTitle "weibull"
 
 let generationWeibull = 
@@ -536,17 +544,21 @@ let fittedValuesJanoschek =
 
 let fittedChartJanoschek = 
     fittedValuesJanoschek
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "janoschek"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
+    |> Chart.withTraceInfo "janoschek"
 
 let fittedChartJanoschekS = 
     [
         Chart.Point(time,cellCountLn)
-        |> Chart.withTraceName "log count"
+        |> Chart.withTraceInfo "log count"
         fittedChartJanoschek
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
     |> Chart.withTitle "janoschek"
 
 let generationJanoschek = 
@@ -614,17 +626,21 @@ let fittedValuesExp =
 
 let fittedChartExp = 
     fittedValuesExp
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "exponential"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
+    |> Chart.withTraceInfo "exponential"
 
 let fittedChartExpS = 
     [
         Chart.Point(time,cellCountLn)
-        |> Chart.withTraceName "log count"
+        |> Chart.withTraceInfo "log count"
         fittedChartExp
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
     |> Chart.withTitle "exponential"
 
 let generationExponential = 
@@ -702,17 +718,21 @@ let fittedValuesVerhulst =
 
 let fittedChartVerhulst = 
     fittedValuesVerhulst
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
-    |> Chart.withTraceName "verhulst"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
+    |> Chart.withTraceInfo "verhulst"
 
 let fittedChartVerhulstS = 
     [
         Chart.Point(time,cellCountLn)
-        |> Chart.withTraceName "log count"
+        |> Chart.withTraceInfo "log count"
         fittedChartVerhulst
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
     |> Chart.withTitle "verhulst"
 
 let generationVerhulst = 
@@ -791,11 +811,13 @@ let fittedValuesMMF =
 let fittedChartMMF = 
     [
         Chart.Point(time,cellCountLn)
-        |> Chart.withTraceName "log count"
-        fittedValuesMMF |> Chart.withTraceName "morganMercerFlodin"
+        |> Chart.withTraceInfo "log count"
+        fittedValuesMMF |> Chart.withTraceInfo "morganMercerFlodin"
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
     |> Chart.withTitle "morganMercerFlodin"
 
 (*** condition: ipynb ***)
@@ -831,18 +853,20 @@ Parameters:
 let combinedChart =
     [
         
-        Chart.Point(time,cellCountLn) |> Chart.withTraceName "log count"
-        Chart.Line(fittedValues)|> Chart.withTraceName "regression line"
-        fittedValuesGompertz    |> Chart.withTraceName "Gompertz"
-        fittedValuesRichards    |> Chart.withTraceName "Richards"
-        fittedValuesWeibull     |> Chart.withTraceName "Weibull"
-        fittedValuesJanoschek   |> Chart.withTraceName "Janoschek"
-        fittedValuesExp         |> Chart.withTraceName "Exponential"
-        fittedValuesVerhulst    |> Chart.withTraceName "Verhulst"
-        fittedValuesMMF         |> Chart.withTraceName "MorganMercerFlodin"
+        Chart.Point(time,cellCountLn) |> Chart.withTraceInfo "log count"
+        Chart.Line(fittedValues)|> Chart.withTraceInfo "regression line"
+        fittedValuesGompertz    |> Chart.withTraceInfo "Gompertz"
+        fittedValuesRichards    |> Chart.withTraceInfo "Richards"
+        fittedValuesWeibull     |> Chart.withTraceInfo "Weibull"
+        fittedValuesJanoschek   |> Chart.withTraceInfo "Janoschek"
+        fittedValuesExp         |> Chart.withTraceInfo "Exponential"
+        fittedValuesVerhulst    |> Chart.withTraceInfo "Verhulst"
+        fittedValuesMMF         |> Chart.withTraceInfo "MorganMercerFlodin"
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "time (h)" "ln(cells/ml)"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "time (h)"
+    |> Chart.withYAxisStyle "ln(cells/ml)"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -894,8 +918,8 @@ let explGompertz (model:Model) coefs =
     [0. .. 0.1 .. 10.]
     |> List.map (fun x -> x,ff x)
     |> Chart.Line
-    |> Chart.withAxisTitles "" ""
-    |> Chart.withTraceName (sprintf "%A" coefs)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withTraceInfo (sprintf "%A" coefs)
 
 let gom =
     [
@@ -932,8 +956,8 @@ let explRichGeneric (model:Model) coefs =
     [-6. .. 0.1 .. 6.]
     |> List.map (fun x -> x,ff x)
     |> Chart.Line
-    |> Chart.withAxisTitles "" ""
-    |> Chart.withTraceName (sprintf "%A" coefs)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withTraceInfo (sprintf "%A" coefs)
     
 let richGeneric =
     [

@@ -17,7 +17,7 @@ open System.Diagnostics
 //--------------------------------------------------------------------------*)
       
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-///Basic vector operations
+//Basic vector operations
 module Vector = 
 
     module Generic = 
@@ -283,7 +283,7 @@ module Vector =
     /// Returns the raw data array without copy
     let raw (vector:Vector<'T>) = vector.Values
 
-    ///
+    //
     let interval (items:Vector<'T>) =
         let rec loop index (minimum) (maximum) =
             if index < items.Length then

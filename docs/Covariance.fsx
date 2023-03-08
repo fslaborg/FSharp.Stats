@@ -12,26 +12,15 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
 
-open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -47,7 +36,7 @@ _Summary:_ This tutorial explains how to investigate the covariance of two sampl
 Lets first define some sample data:
 *)
 
-
+open Plotly.NET
 open FSharp.Stats
 
 let rnd = System.Random()
@@ -68,7 +57,9 @@ let sampleChart =
         Chart.Point(sampleA,sampleBHigh,"AB+")   
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "x" "y"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "x"
+    |> Chart.withYAxisStyle "y"
     |> Chart.withTitle "test cases for covariance calculation"
 
 (**

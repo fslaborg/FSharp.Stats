@@ -10,30 +10,23 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
-#r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "../src/FSharp.Stats/bin/Release/netstandard2.0/FSharp.Stats.dll"
+#r "nuget: Newtonsoft.JSON, 13.0.1"
+#r "nuget: DynamicObj, 2.0.0"
+#r "nuget: Giraffe.ViewEngine, 1.4.0"
+#r "nuget: Plotly.NET, 4.0.0"
 
-open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
+
 #endif // IPYNB
+
 
 (**
 
@@ -68,6 +61,7 @@ An alternative is a robust simple linear regression like Theil's incomplete meth
 
 *)
 
+open Plotly.NET
 open FSharp.Stats
 open FSharp.Stats.Fitting.LinearRegression
 
@@ -96,33 +90,33 @@ let fittingFunctionLinearRTO x =
 
 let rawChart = 
     Chart.Point(xData,yData)
-    |> Chart.withTraceName "raw data"
+    |> Chart.withTraceInfo "raw data"
     
 let fittingLS = 
     let fit = 
         [|0. .. 11.|] 
         |> Array.map (fun x -> x,fittingFunctionLinearLS x)
     Chart.Line(fit)
-    |> Chart.withTraceName "least squares (LS)"
+    |> Chart.withTraceInfo "least squares (LS)"
 
 let fittingRobust = 
     let fit = 
         [|0. .. 11.|] 
         |> Array.map (fun x -> x,fittingFunctionLinearRobust x)
     Chart.Line(fit)
-    |> Chart.withTraceName "TheilSen estimator"
+    |> Chart.withTraceInfo "TheilSen estimator"
 
 let fittingRTO = 
     let fit = 
         [|0. .. 11.|] 
         |> Array.map (fun x -> x,fittingFunctionLinearRTO x)
     Chart.Line(fit)
-    |> Chart.withTraceName "LS through origin"
+    |> Chart.withTraceInfo "LS through origin"
 
 let simpleLinearChart =
     [rawChart;fittingLS;fittingRTO;fittingRobust;] 
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -201,26 +195,26 @@ let fittingFunctionPolW x =
 
 let rawChartP = 
     Chart.Point(xDataP,yDataP)
-    |> Chart.withTraceName "raw data"
+    |> Chart.withTraceInfo "raw data"
     
 let fittingPol = 
     let fit = 
         [|1. .. 0.1 .. 10.|] 
         |> Array.map (fun x -> x,fittingFunctionPol x)
     Chart.Line(fit)
-    |> Chart.withTraceName "order = 3"
+    |> Chart.withTraceInfo "order = 3"
 
 let fittingPolW = 
     let fit = 
         [|1. .. 0.1 .. 10.|] 
         |> Array.map (fun x -> x,fittingFunctionPolW x)
     Chart.Line(fit)
-    |> Chart.withTraceName "order = 3 weigthed"
+    |> Chart.withTraceInfo "order = 3 weigthed"
 
 let polRegressionChart =
     [rawChartP;fittingPol;fittingPolW] 
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -339,19 +333,19 @@ let fittingFunction x = coefficientsExp.[0] * Math.Exp(coefficientsExp.[1] * x)
 
 let rawChartNLR = 
     Chart.Point(xDataN,yDataN)
-    |> Chart.withTraceName "raw data"
+    |> Chart.withTraceInfo "raw data"
 
 let fittingNLR = 
     let fit = 
         [|1. .. 0.1 .. 10.|] 
         |> Array.map (fun x -> x,fittingFunction x)
     Chart.Line(fit)
-    |> Chart.withTraceName "NLR"
+    |> Chart.withTraceInfo "NLR"
 
 let NLRChart =
     [rawChartNLR;fittingNLR] 
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -446,12 +440,14 @@ let fittedY = Array.zip [|1. .. 68.|] ([|1. .. 68.|] |> Array.map fittingFunctio
 let fittedLogisticFunc =
     [
     Chart.Point (Array.zip xHours yCount)
-    |> Chart.withTraceName"Data Points"
+    |> Chart.withTraceInfo"Data Points"
     Chart.Line fittedY
-    |> Chart.withTraceName "Fit"
+    |> Chart.withTraceInfo "Fit"
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "Time" "Count"
+    |> Chart.withTemplate ChartTemplates.lightMirrored    
+    |> Chart.withXAxisStyle "Time"
+    |> Chart.withYAxisStyle "Count"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -506,7 +502,7 @@ let fit lambda =
     [|1. .. 0.1 .. 4.|]
     |> Array.map (fun x -> x,spline lambda x)
     |> Chart.Line
-    |> Chart.withTraceName (sprintf "lambda: %.3f" lambda)
+    |> Chart.withTraceInfo (sprintf "lambda: %.3f" lambda)
 
 let rawChartS = Chart.Point(data)
 
@@ -518,7 +514,7 @@ let smoothingSplines =
     fit 1.
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored    
 
 (*** condition: ipynb ***)
 #if IPYNB

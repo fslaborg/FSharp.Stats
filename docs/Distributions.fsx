@@ -13,12 +13,16 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
+
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -115,24 +119,12 @@ List.init 3 (fun _ -> normal.Sample())
 (*** include-it ***)
 
 open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 let plotNormal =
     [400. .. 600.]
     |> List.map (fun x -> x,normal.PDF x)
     |> Chart.Area
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "N(500,20) PDF"
 
 (*** condition: ipynb ***)
@@ -149,7 +141,7 @@ let plotNormalCDF =
     [400. .. 600.]
     |> List.map (fun x -> x,normal.CDF x)
     |> Chart.Area
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "N(500,20) CDF"
 
 (*** condition: ipynb ***)
@@ -230,7 +222,7 @@ let v =
     studentTParams
     |> List.map (fun (mu,tau,dof) -> Chart.Spline(pdfStudentT mu tau dof,Name=sprintf "mu=%.1f tau=%.1f dof=%.1f" mu tau dof,ShowMarkers=false))
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -265,7 +257,7 @@ let fPDFs =
     fParams
     |> List.map (fun (a,b) -> Chart.Line(pdfF a b,Name=sprintf "dof1=%.1f dof2=%.1f" a b,LineWidth=3.) )
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "Different F-Distributions PDFs, x=[0,5]"
 
 (*** condition: ipynb ***)
@@ -290,7 +282,7 @@ let fCDFs =
     fParams
     |> List.map (fun (a,b) -> Chart.Line(cdfF a b,Name=sprintf "dof1=%.1f dof2=%.1f" a b,LineWidth=3.) )
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "Different F-Distributions CDFs, x=[0,5]"
 
 (*** condition: ipynb ***)
@@ -348,7 +340,7 @@ let plotBernoulli =
     [0; 1]
     |> List.map (fun x -> x, bernoulli.PMF x)
     |> Chart.Column
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "B(0.6)"
 
 (*** condition: ipynb ***)
@@ -404,7 +396,7 @@ let plotBinomial =
     [0..30]
     |> List.map (fun x -> x,binomial.PMF x)
     |> Chart.Column
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "B(30,0.1)"
 
 (*** condition: ipynb ***)
@@ -468,7 +460,7 @@ let plotHyper =
     [0..6]
     |> List.map (fun x -> x,hyper.PMF x)
     |> Chart.Column
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "N=49, K=6, n=6"
 
 (*** condition: ipynb ***)
@@ -520,7 +512,7 @@ let plotPo =
     [0..20]
     |> List.map (fun x -> x,poisson.PMF x)
     |> Chart.Column
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     //|> Chart.withSize(600.,400.)
     |> Chart.withTitle "Po(5.5)"
 
@@ -549,7 +541,7 @@ let gammaPlot =
     gammaParams
     |> List.map (fun (a,b) -> Chart.Point(pdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -569,7 +561,7 @@ let gammaCDFPlot=
     gammaParams
     |> List.map (fun (a,b) -> Chart.Spline(cdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -603,7 +595,7 @@ let plotEmpirical =
     empiricalDistribution
     |> Empirical.getZip
     |> Chart.Column
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -703,7 +695,7 @@ let xy = KernelDensity.estimate KernelDensity.Kernel.gaussian 1.0 nv
 
 let kernelChart = 
     Chart.SplineArea xy
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
  
 (*** condition: ipynb ***)
 #if IPYNB

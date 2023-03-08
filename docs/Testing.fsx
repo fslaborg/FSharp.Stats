@@ -12,17 +12,22 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 3.0.1"
+#r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: FSharpAux, 1.1.0"
 #r "nuget: Deedle, 3.0.0"
 
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
+
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 3.0.1"
-#r "nuget: Plotly.NET.Interactive, 3.0.2"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
 #r "nuget: FSharpAux, 1.1.0"
 #r "nuget: Deedle, 3.0.0"
+
+open Plotly.NET
 #endif // IPYNB
 
 open Plotly.NET
@@ -30,18 +35,6 @@ open Plotly.NET.StyleParam
 open Plotly.NET.LayoutObjects
 open FSharpAux
 open Deedle
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
-
-
         
 (**
 
@@ -929,7 +922,7 @@ let qChart =
         Chart.Line(pValues,qValuesRob,Name="qValueRobust")
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withXAxisStyle ("p value",MinMax=(0.,1.))
     |> Chart.withYAxisStyle ("q Values",MinMax=(0.,1.))
 
@@ -940,7 +933,9 @@ let qHisto =
         Chart.Line([(0.,pi0);(1.,pi0)],Name="pi<sub>0</sub>",LineDash=StyleParam.DrawingStyle.Dash)
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "p value" "density"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "p value"
+    |> Chart.withYAxisStyle "density"
 
 (*** condition: ipynb ***)
 #if IPYNB

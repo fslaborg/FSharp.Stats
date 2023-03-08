@@ -14,19 +14,8 @@ categoryindex: 0
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
 
-open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -34,7 +23,6 @@ module Chart =
 #r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
 
-open Plotly.NET
 #endif // IPYNB
 
 (** 
@@ -54,6 +42,7 @@ _Summary_: This tutorial demonstrates how to autocorrelate a signal in FSharp.St
 ## Sequence correlations
 
 *)
+open Plotly.NET
 open FSharp.Stats
 open FSharp.Stats.Correlation
 
@@ -167,8 +156,8 @@ let gaussAC =
     |> Chart.withTitle "Autocorrelation of a gaussian sine wave"
     |> fun c -> 
         [
-            Chart.Point(x,yGauss,Name="gaussian") |> Chart.withAxisTitles "" ""
-            c |> Chart.withAxisTitles "" ""
+            Chart.Point(x,yGauss,Name="gaussian") |> Chart.withTemplate ChartTemplates.lightMirrored
+            c |> Chart.withTemplate ChartTemplates.lightMirrored
         ]  
         |> Chart.Grid(2,1)
 

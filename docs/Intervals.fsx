@@ -12,28 +12,20 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
-#endif // IPYNB
 
 open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
+#endif // IPYNB
 
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 (**
 # Intervals
@@ -52,6 +44,7 @@ The interval module enables working with closed intervals. A closed interval inc
 
 *)
 open FSharp.Stats
+open Plotly.NET
 
 let collection = [3.0; -2.0; 5.0; 1.0; -6.0; 100.0]
 let interval = Intervals.ofSeq collection
@@ -65,11 +58,13 @@ let interval = Intervals.ofSeq collection
 *)
 
 open Plotly.NET
+open Plotly.NET.LayoutObjects
+open Plotly.NET.StyleParam
 
 let interval01 = 
     Chart.Point([])
-    |> Chart.withShape (Shape.init(ShapeType.Rectangle,Intervals.getStart interval,Intervals.getEnd interval,1,2,Fillcolor=Color.fromHex "#1f77b4"))
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withShape (Shape.init(ShapeType=ShapeType.Rectangle,X0=Intervals.getStart interval,X1=Intervals.getEnd interval,Y0=1,Y1=2,FillColor=Color.fromHex "#1f77b4"))
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withXAxisStyle ("",MinMax=(-10.,120.))
     |> Chart.withYAxisStyle ("",MinMax=(0.,5.))
 
@@ -114,14 +109,14 @@ let addedInterval = Intervals.add i02 i03
 
 (*** hide ***)
 let interval02 = 
-    let i1 = Shape.init(ShapeType.Rectangle,Intervals.getStart i02,Intervals.getEnd i02,1,2,Fillcolor=Color.fromHex "#1f77b4")
-    let i2 = Shape.init(ShapeType.Rectangle,Intervals.getStart i03,Intervals.getEnd i03,3,4,Fillcolor=Color.fromHex "#ff7f0e")
-    let re = Shape.init(ShapeType.Rectangle,Intervals.getStart addedInterval,Intervals.getEnd addedInterval,5,6,Fillcolor=Color.fromHex "#2ca02c")
+    let i1 = Shape.init(ShapeType=ShapeType.Rectangle,X0=Intervals.getStart i02,X1=Intervals.getEnd i02,Y0=1,Y1=2,FillColor=Color.fromHex "#1f77b4")
+    let i2 = Shape.init(ShapeType=ShapeType.Rectangle,X0=Intervals.getStart i03,X1=Intervals.getEnd i03,Y0=3,Y1=4,FillColor=Color.fromHex "#ff7f0e")
+    let re = Shape.init(ShapeType=ShapeType.Rectangle,X0=Intervals.getStart addedInterval,X1=Intervals.getEnd addedInterval,Y0=5,Y1=6,FillColor=Color.fromHex "#2ca02c")
     Chart.Point([])
     |> Chart.withShapes [i1;i2;re]
-    |> Chart.withAxisTitles "" ""
-    |> Chart.withXAxisStyle ("",MinMax=(0.,20.))
-    |> Chart.withYAxisStyle ("",MinMax=(0.,8.))
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle (MinMax=(0.,20.))
+    |> Chart.withYAxisStyle (MinMax=(0.,8.))
 
 interval02 |> GenericChart.toChartHTML
 (***include-it-raw***)
@@ -145,14 +140,14 @@ let subInterval = Intervals.subtract i02 i03
 
 (*** hide ***)
 let interval03 = 
-    let i1 = Shape.init(ShapeType.Rectangle,Intervals.getStart i02,Intervals.getEnd i02,1,2,Fillcolor=Color.fromHex "#1f77b4")
-    let i2 = Shape.init(ShapeType.Rectangle,Intervals.getStart i03,Intervals.getEnd i03,3,4,Fillcolor=Color.fromHex "#ff7f0e")
-    let re = Shape.init(ShapeType.Rectangle,Intervals.getStart subInterval,Intervals.getEnd subInterval,5,6,Fillcolor=Color.fromHex "#2ca02c")
+    let i1 = Shape.init(ShapeType=ShapeType.Rectangle,X0=Intervals.getStart i02,X1=Intervals.getEnd i02,Y0=1,Y1=2,FillColor=Color.fromHex "#1f77b4")
+    let i2 = Shape.init(ShapeType=ShapeType.Rectangle,X0=Intervals.getStart i03,X1=Intervals.getEnd i03,Y0=3,Y1=4,FillColor=Color.fromHex "#ff7f0e")
+    let re = Shape.init(ShapeType=ShapeType.Rectangle,X0=Intervals.getStart subInterval,X1=Intervals.getEnd subInterval,Y0=5,Y1=6,FillColor=Color.fromHex "#2ca02c")
     Chart.Point([])
     |> Chart.withShapes [i1;i2;re]
-    |> Chart.withAxisTitles "" ""
-    |> Chart.withXAxisStyle ("",MinMax=(-5.,20.))
-    |> Chart.withYAxisStyle ("",MinMax=(0.,8.))
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle (MinMax=(-5.,20.))
+    |> Chart.withYAxisStyle (MinMax=(0.,8.))
 
 interval03 |> GenericChart.toChartHTML
 (***include-it-raw***)
@@ -172,14 +167,15 @@ let intInterval = Intervals.intersect i04 i05
 
 (*** hide ***)
 let interval04 = 
-    let i1 = Shape.init(ShapeType.Rectangle,Intervals.getStart i04,Intervals.getEnd i04,1,2,Fillcolor=Color.fromHex "#1f77b4")
-    let i2 = Shape.init(ShapeType.Rectangle,Intervals.getStart i05,Intervals.getEnd i05,3,4,Fillcolor=Color.fromHex "#ff7f0e")
-    let re = Shape.init(ShapeType.Rectangle,Intervals.getStart intInterval.Value,Intervals.getEnd intInterval.Value,5,6,Fillcolor=Color.fromHex "#2ca02c")
+    let i1 = Shape.init(ShapeType=ShapeType.Rectangle,X0=Intervals.getStart i04,X1=Intervals.getEnd i04,Y0=1,Y1=2,FillColor=Color.fromHex "#1f77b4")
+    let i2 = Shape.init(ShapeType=ShapeType.Rectangle,X0=Intervals.getStart i05,X1=Intervals.getEnd i05,Y0=3,Y1=4,FillColor=Color.fromHex "#ff7f0e")
+    let re = Shape.init(ShapeType=ShapeType.Rectangle,X0=Intervals.getStart intInterval.Value,X1=Intervals.getEnd intInterval.Value,Y0=5,Y1=6,FillColor=Color.fromHex "#2ca02c")
     Chart.Point([])
     |> Chart.withShapes [i1;i2;re]
-    |> Chart.withAxisTitles "" ""
-    |> Chart.withXAxisStyle ("",MinMax=(0.,12.))
-    |> Chart.withYAxisStyle ("",MinMax=(0.,8.))
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+    |> Chart.withXAxisStyle (MinMax=(0.,12.))
+    |> Chart.withYAxisStyle (MinMax=(0.,8.))
 
 interval04 |> GenericChart.toChartHTML
 (***include-it-raw***)

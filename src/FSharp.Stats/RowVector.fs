@@ -1,20 +1,13 @@
-//namespace Microsoft.FSharp.Math // old namespace
 namespace FSharp.Stats
 
 #nowarn "60" // implementations in augmentations
 #nowarn "69" // implementations in augmentations
 
-//open Microsoft.FSharp.Math
 open System
 open System.Globalization
 open System.Collections
 open System.Collections.Generic
 open System.Diagnostics
-
-
-//----------------------------------------------------------------------------
-// module RowVector
-//--------------------------------------------------------------------------*)
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module RowVector = 

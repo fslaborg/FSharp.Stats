@@ -12,29 +12,25 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 3.0.1"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
+
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 3.0.1"
-#r "nuget: Plotly.NET.Interactive, 3.0.1"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
+
+open Plotly.NET
 #endif // IPYNB
 
 
 open Plotly.NET
 open Plotly.NET.StyleParam
 open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 (**
 
@@ -175,7 +171,9 @@ let rawDataChart =
         Chart.Column(sampleIntensities,Name = sprintf "raw sample%i" (sampleID+1))
     )
     |> Chart.combine
-    |> Chart.withAxisTitles "gID" "raw intensity"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "gID"
+    |> Chart.withYAxisStyle "raw intensity"
     |> Chart.withTitle "raw data"
 
 
@@ -231,7 +229,9 @@ let normedDataChart =
         Chart.Column(sampleIntensities,Name = sprintf "MOR normed sample%i" (sampleID+1))
     )
     |> Chart.combine
-    |> Chart.withAxisTitles "gID" "MOR intensity"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "gID"
+    |> Chart.withYAxisStyle "MOR intensity"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -323,7 +323,9 @@ let normedDataQuantileChart =
         Chart.Column(sampleIntensities,Name = sprintf "quantile normed sample%i" (sampleID+1))
     )
     |> Chart.combine
-    |> Chart.withAxisTitles "gID" "qNorm intensity"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "gID"
+    |> Chart.withYAxisStyle "qNorm intensity"
 
 (*** condition: ipynb ***)
 #if IPYNB

@@ -12,29 +12,25 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 3.0.1"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
+
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 3.0.1"
-#r "nuget: Plotly.NET.Interactive, 3.0.1"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
+
+open Plotly.NET
 #endif // IPYNB
 
 
 open Plotly.NET
 open Plotly.NET.StyleParam
 open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 (**
 
@@ -94,11 +90,11 @@ let tukeyOutlierChart =
     |> Chart.combine
     |> Chart.withShapes(
         [
-            Shape.init(StyleParam.ShapeType.Line,0.5,1.5,lowerBorderO1,lowerBorderO1,Line=Line.init(Dash=StyleParam.DrawingStyle.Dash,Color=Color.fromString "grey"))
-            Shape.init(StyleParam.ShapeType.Line,0.5,1.5,upperBorderO1,upperBorderO1,Line=Line.init(Dash=StyleParam.DrawingStyle.Dash,Color=Color.fromString "grey"))
+            Shape.init(ShapeType=StyleParam.ShapeType.Line,X0=0.5,X1=1.5,Y0=lowerBorderO1,Y1=lowerBorderO1,Line=Line.init(Dash=StyleParam.DrawingStyle.Dash,Color=Color.fromString "grey"))
+            Shape.init(ShapeType=StyleParam.ShapeType.Line,X0=0.5,X1=1.5,Y0=upperBorderO1,Y1=upperBorderO1,Line=Line.init(Dash=StyleParam.DrawingStyle.Dash,Color=Color.fromString "grey"))
         ]
         )
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "Tukey's fences outlier borders"
    
 (*** condition: ipynb ***)
@@ -134,7 +130,7 @@ let savitzgyChart =
         Chart.Point(t, dysg, Name="data sg");
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -217,7 +213,9 @@ let paddedDataChart=
     Chart.Area (data,Name = "rawData")
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "Time" "Temperature"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "Time"
+    |> Chart.withYAxisStyle "Temperature"
     |> Chart.withSize(900.,450.)
 
 (*** condition: ipynb ***)
@@ -244,7 +242,9 @@ let paddedDataLinearChart=
     Chart.Area (data,Name = "rawData")
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "Time" "Temperature"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "Time"
+    |> Chart.withYAxisStyle "Temperature"
     |> Chart.withSize(900.,450.)
 
 (*** condition: ipynb ***)
@@ -376,7 +376,9 @@ let defaultChart =
 
     Array.append rawDataChart cwtCharts
     |> Chart.combine
-    |> Chart.withAxisTitles "Time" "Temperature and Correlation"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "Time"
+    |> Chart.withYAxisStyle "Temperature and Correlation"
     |> Chart.withTitle "default transform"
 
 (*** condition: ipynb ***)
@@ -410,7 +412,9 @@ let defaultZeroChart =
 
     Array.append rawDataChart cwtCharts
     |> Chart.combine
-    |> Chart.withAxisTitles "Time" "Temperature and Correlation"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "Time"
+    |> Chart.withYAxisStyle "Temperature and Correlation"
     |> Chart.withTitle "default Zero transform"
 
 
@@ -530,7 +534,7 @@ let fftChart =
         Chart.Line(time,fft) |> Chart.withTraceInfo "fft"
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB

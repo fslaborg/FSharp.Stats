@@ -12,29 +12,21 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
+
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
-#endif // IPYNB
-
 
 open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
+#endif // IPYNB
 
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 (**
 
@@ -56,6 +48,7 @@ _Summary:_ this tutorial demonstrates functionality relevant in the context of m
 A common approach for to reduce the dimensionality of large data sets is the use of Principal component analyis.
 
 *)
+open Plotly.NET
 open FSharp.Stats
 open FSharp.Stats.ML.Unsupervised
 
@@ -83,7 +76,9 @@ let pcs = pca.PrincipalComponents |> Matrix.mapiRows (fun i v -> v.[0],v.[1])
 // typical PCA "score" plot of components 1 and 2 with the explained variance indicated
 let scorePlot = 
     Chart.Point(pcs)
-    |> Chart.withAxisTitles (sprintf "PC1, Var explained %f" pca.VarExplainedByComponentIndividual.[0]) (sprintf "PC2, Var explained %f" pca.VarExplainedByComponentIndividual.[1])
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle (sprintf "PC1, Var explained %f" pca.VarExplainedByComponentIndividual.[0])
+    |> Chart.withYAxisStyle (sprintf "PC2, Var explained %f" pca.VarExplainedByComponentIndividual.[1])
     |> Chart.withTitle "Score Plot"
 
 (*** condition: ipynb ***)
@@ -111,7 +106,9 @@ let loadingPlot =
     |> Seq.map (fun l -> [0.,0.;l])
     |> Seq.map Chart.Line
     |> Chart.combine
-    |> Chart.withAxisTitles "PC1" "PC2"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "PC1"
+    |> Chart.withYAxisStyle "PC2"
     |> Chart.withTitle "Loading Plot"
 
 (*** condition: ipynb ***)

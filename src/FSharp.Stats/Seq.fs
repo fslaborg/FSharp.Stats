@@ -1209,7 +1209,7 @@ module SeqExtension =
     type Seq() =
 
         /// <summary>
-        /// Creates an seq<float> with values between a given interval
+        /// Creates an seq float with values between a given interval
         /// </summary>
         /// <param name="start">start value (is included)</param>
         /// <param name="stop">end value (by default is included )</param>

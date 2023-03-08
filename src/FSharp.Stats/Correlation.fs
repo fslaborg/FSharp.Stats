@@ -193,6 +193,7 @@ module Correlation =
             |> Seq.map f
             |> pearsonWeightedOfTriples
 
+        ///<summary>
         /// Spearman Correlation (with ranks)
         /// 
         /// Items that are tied are each allocated the average of the ranks that
