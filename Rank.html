@@ -8,9 +8,9 @@
     <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
-
+    <script src="https://cdn.plot.ly/plotly-2.18.1.min.js"></script>
+    <script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
     <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
     <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
     <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
@@ -194,7 +194,7 @@
 <p><em>Summary:</em> this tutorial demonstrates how to determine ranks of a collection</p>
 <p>Consider a collection of values. The rank of a number is its size relative to other values in a sequence.
 There are four methods how to handle ties:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 64)" onmouseover="showTip(event, 'fs30', 64)" class="id">mySequence</span> <span class="o">=</span> <span class="pn">[|</span><span class="n">1.0</span><span class="pn">;</span> <span class="o">-</span><span class="n">2.0</span><span class="pn">;</span> <span class="n">0.0</span><span class="pn">;</span> <span class="n">1.0</span><span class="pn">|]</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 22)" onmouseover="showTip(event, 'fs11', 22)" class="id">mySequence</span> <span class="o">=</span> <span class="pn">[|</span><span class="n">1.0</span><span class="pn">;</span> <span class="o">-</span><span class="n">2.0</span><span class="pn">;</span> <span class="n">0.0</span><span class="pn">;</span> <span class="n">1.0</span><span class="pn">|]</span>
 </code></pre>
 <ul>
 <li>
@@ -239,28 +239,28 @@ There are four methods how to handle ties:</p>
 <li>By default in FSharp.Stats.Rank, nans are sorted to the end of the sequence (the sorting can be defined as optional parameter)</li>
 <li>Additionally ranks of nan values are set to nan if not specified othwerwise</li>
 </ul>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs31', 65)" onmouseover="showTip(event, 'fs31', 65)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 66)" onmouseover="showTip(event, 'fs32', 66)" class="id">Stats</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs12', 23)" onmouseover="showTip(event, 'fs12', 23)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 24)" onmouseover="showTip(event, 'fs13', 24)" class="id">Stats</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 67)" onmouseover="showTip(event, 'fs33', 67)" class="id">collection</span> <span class="o">=</span> <span class="pn">[|</span><span class="n">2.</span><span class="pn">;</span><span class="o">-</span><span onmouseout="hideTip(event, 'fs34', 68)" onmouseover="showTip(event, 'fs34', 68)" class="id">infinity</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs34', 69)" onmouseover="showTip(event, 'fs34', 69)" class="id">infinity</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs34', 70)" onmouseover="showTip(event, 'fs34', 70)" class="id">infinity</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs35', 71)" onmouseover="showTip(event, 'fs35', 71)" class="id">nan</span><span class="pn">;</span><span class="n">0</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 25)" onmouseover="showTip(event, 'fs14', 25)" class="id">collection</span> <span class="o">=</span> <span class="pn">[|</span><span class="n">2.</span><span class="pn">;</span><span class="o">-</span><span onmouseout="hideTip(event, 'fs15', 26)" onmouseover="showTip(event, 'fs15', 26)" class="id">infinity</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs15', 27)" onmouseover="showTip(event, 'fs15', 27)" class="id">infinity</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs15', 28)" onmouseover="showTip(event, 'fs15', 28)" class="id">infinity</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs16', 29)" onmouseover="showTip(event, 'fs16', 29)" class="id">nan</span><span class="pn">;</span><span class="n">0</span><span class="pn">|]</span>
 
-<span onmouseout="hideTip(event, 'fs36', 72)" onmouseover="showTip(event, 'fs36', 72)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 73)" onmouseover="showTip(event, 'fs37', 73)" class="id">RankFirst</span><span class="pn">(</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs33', 74)" onmouseover="showTip(event, 'fs33', 74)" class="id">collection</span>
+<span onmouseout="hideTip(event, 'fs17', 30)" onmouseover="showTip(event, 'fs17', 30)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 31)" onmouseover="showTip(event, 'fs18', 31)" class="id">RankFirst</span><span class="pn">(</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs14', 32)" onmouseover="showTip(event, 'fs14', 32)" class="id">collection</span>
 <span class="c">// result:  [|3.0; 1.0; 4.0; 5.0; nan; 2.0|]</span>
 
-<span onmouseout="hideTip(event, 'fs36', 75)" onmouseover="showTip(event, 'fs36', 75)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 76)" onmouseover="showTip(event, 'fs38', 76)" class="id">RankMin</span><span class="pn">(</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs33', 77)" onmouseover="showTip(event, 'fs33', 77)" class="id">collection</span>
+<span onmouseout="hideTip(event, 'fs17', 33)" onmouseover="showTip(event, 'fs17', 33)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 34)" onmouseover="showTip(event, 'fs19', 34)" class="id">RankMin</span><span class="pn">(</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs14', 35)" onmouseover="showTip(event, 'fs14', 35)" class="id">collection</span>
 <span class="c">// result:  [|3.0; 1.0; 4.0; 4.0; nan; 2.0|]</span>
 
-<span onmouseout="hideTip(event, 'fs36', 78)" onmouseover="showTip(event, 'fs36', 78)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 79)" onmouseover="showTip(event, 'fs39', 79)" class="id">RankMax</span><span class="pn">(</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs33', 80)" onmouseover="showTip(event, 'fs33', 80)" class="id">collection</span>
+<span onmouseout="hideTip(event, 'fs17', 36)" onmouseover="showTip(event, 'fs17', 36)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 37)" onmouseover="showTip(event, 'fs20', 37)" class="id">RankMax</span><span class="pn">(</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs14', 38)" onmouseover="showTip(event, 'fs14', 38)" class="id">collection</span>
 <span class="c">// result:  [|3.0; 1.0; 5.0; 5.0; nan; 2.0|]</span>
 
-<span onmouseout="hideTip(event, 'fs36', 81)" onmouseover="showTip(event, 'fs36', 81)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 82)" onmouseover="showTip(event, 'fs40', 82)" class="id">RankAverage</span><span class="pn">(</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs33', 83)" onmouseover="showTip(event, 'fs33', 83)" class="id">collection</span>
+<span onmouseout="hideTip(event, 'fs17', 39)" onmouseover="showTip(event, 'fs17', 39)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 40)" onmouseover="showTip(event, 'fs21', 40)" class="id">RankAverage</span><span class="pn">(</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs14', 41)" onmouseover="showTip(event, 'fs14', 41)" class="id">collection</span>
 <span class="c">// result:  [|3.0; 1.0; 4.5; 4.5; nan; 2.0|]</span>
 </code></pre>
 <p>If you want to preserve the true ranks of nans but sort them to the back you can use:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs36', 84)" onmouseover="showTip(event, 'fs36', 84)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 85)" onmouseover="showTip(event, 'fs37', 85)" class="id">RankFirst</span><span class="pn">(</span><span class="fn">RankNanWithNan</span><span class="o">=</span><span class="k">false</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs33', 86)" onmouseover="showTip(event, 'fs33', 86)" class="id">collection</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs17', 42)" onmouseover="showTip(event, 'fs17', 42)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 43)" onmouseover="showTip(event, 'fs18', 43)" class="id">RankFirst</span><span class="pn">(</span><span class="fn">RankNanWithNan</span><span class="o">=</span><span class="k">false</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs14', 44)" onmouseover="showTip(event, 'fs14', 44)" class="id">collection</span>
 <span class="c">// result:  [|3.0; 1.0; 4.0; 5.0; 6.0; 2.0|]</span>
 </code></pre>
 <p>If you want to preserve the true ranks of nans AND sort them to the beginning you can use:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs36', 87)" onmouseover="showTip(event, 'fs36', 87)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 88)" onmouseover="showTip(event, 'fs37', 88)" class="id">RankFirst</span><span class="pn">(</span><span class="fn">NanIsMaximum</span><span class="o">=</span><span class="k">false</span><span class="pn">,</span><span class="fn">RankNanWithNan</span><span class="o">=</span><span class="k">false</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs33', 89)" onmouseover="showTip(event, 'fs33', 89)" class="id">collection</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs17', 45)" onmouseover="showTip(event, 'fs17', 45)" class="m">Rank</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 46)" onmouseover="showTip(event, 'fs18', 46)" class="id">RankFirst</span><span class="pn">(</span><span class="fn">NanIsMaximum</span><span class="o">=</span><span class="k">false</span><span class="pn">,</span><span class="fn">RankNanWithNan</span><span class="o">=</span><span class="k">false</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs14', 47)" onmouseover="showTip(event, 'fs14', 47)" class="id">collection</span>
 <span class="c">// result:  [|4.0; 2.0; 5.0; 6.0; 1.0; 3.0|]</span>
 </code></pre>
 
@@ -269,93 +269,46 @@ There are four methods how to handle ties:</p>
         </div>
         <div class="fsdocs-tip" id="fs1">namespace Plotly</div>
 <div class="fsdocs-tip" id="fs2">namespace Plotly.NET</div>
-<div class="fsdocs-tip" id="fs3">module StyleParam
+<div class="fsdocs-tip" id="fs3">module Defaults
+
+from Plotly.NET<br /><em>&lt;summary&gt;
+ Contains mutable global default values.
+
+ Changing these values will apply the default values to all consecutive Chart generations.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs4">val mutable DefaultDisplayOptions: DisplayOptions</div>
+<div class="fsdocs-tip" id="fs5">Multiple items<br />type DisplayOptions =
+  inherit DynamicObj
+  new: unit -&gt; DisplayOptions
+  static member addAdditionalHeadTags: additionalHeadTags: XmlNode list -&gt; (DisplayOptions -&gt; DisplayOptions)
+  static member addDescription: description: XmlNode list -&gt; (DisplayOptions -&gt; DisplayOptions)
+  static member combine: first: DisplayOptions -&gt; second: DisplayOptions -&gt; DisplayOptions
+  static member getAdditionalHeadTags: displayOpts: DisplayOptions -&gt; XmlNode list
+  static member getDescription: displayOpts: DisplayOptions -&gt; XmlNode list
+  static member getPlotlyReference: displayOpts: DisplayOptions -&gt; PlotlyJSReference
+  static member init: ?AdditionalHeadTags: XmlNode list * ?Description: XmlNode list * ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions
+  static member initCDNOnly: unit -&gt; DisplayOptions
+  ...<br /><br />--------------------<br />new: unit -&gt; DisplayOptions</div>
+<div class="fsdocs-tip" id="fs6">static member DisplayOptions.init: ?AdditionalHeadTags: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?Description: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions</div>
+<div class="fsdocs-tip" id="fs7">type PlotlyJSReference =
+  | CDN of string
+  | Full
+  | Require of string
+  | NoReference<br /><em>&lt;summary&gt;
+Sets how plotly is referenced in the head of html docs.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs8">union case PlotlyJSReference.NoReference: PlotlyJSReference</div>
+<div class="fsdocs-tip" id="fs9">module StyleParam
 
 from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs4">namespace Plotly.NET.LayoutObjects</div>
-<div class="fsdocs-tip" id="fs5">type Chart =
-  static member AnnotatedHeatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * annotationText: seq&lt;#seq&lt;string&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a5 :&gt; IConvertible)
-  static member Area: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowMarkers: bool * ?ShowLegend: bool * ?MarkerSymbol: MarkerSymbol * ?Color: Color * ?Opacity: float * ?Labels: seq&lt;#IConvertible&gt; * ?TextPosition: TextPosition * ?TextFont: Font * ?Dash: DrawingStyle * ?Width: float * ?UseDefaults: bool -&gt; GenericChart + 1 overload
-  static member Bar: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
-  static member BoxPlot: ?x: seq&lt;#IConvertible&gt; * ?y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?Fillcolor: Color * ?MarkerColor: Color * ?OutlierColor: Color * ?OutlierWidth: int * ?Opacity: float * ?WhiskerWidth: float * ?BoxPoints: BoxPoints * ?BoxMean: BoxMean * ?Jitter: float * ?PointPos: float * ?Orientation: Orientation * ?Marker: Marker * ?Line: Line * ?AlignmentGroup: string * ?Offsetgroup: string * ?Notched: bool * ?NotchWidth: float * ?QuartileMethod: QuartileMethod * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
-  static member Bubble: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * sizes: seq&lt;int&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
-  static member Candlestick: ``open`` : seq&lt;#IConvertible&gt; * high: seq&lt;#IConvertible&gt; * low: seq&lt;#IConvertible&gt; * close: seq&lt;#IConvertible&gt; * x: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?Line: Line * ?IncreasingColor: Color * ?Increasing: FinanceMarker * ?DecreasingColor: Color * ?Decreasing: FinanceMarker * ?WhiskerWidth: float * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a5 :&gt; IConvertible) + 1 overload
-  static member Column: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
-  static member Contour: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?Y: seq&lt;#IConvertible&gt; * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?Transpose: bool * ?LineColor: Color * ?LineDash: DrawingStyle * ?Line: Line * ?ContoursColoring: ContourColoring * ?ContoursOperation: ConstraintOperation * ?ContoursType: ContourType * ?ShowContourLabels: bool * ?ContourLabelFont: Font * ?Contours: Contours * ?FillColor: Color * ?NContours: int * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
-  static member Funnel: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Width: float * ?Offset: float * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?Orientation: Orientation * ?AlignmentGroup: string * ?OffsetGroup: string * ?MarkerColor: Color * ?MarkerOutline: Line * ?Marker: Marker * ?TextInfo: TextInfo * ?ConnectorLineColor: Color * ?ConnectorLineStyle: DrawingStyle * ?ConnectorFillColor: Color * ?ConnectorLine: Line * ?Connector: FunnelConnector * ?InsideTextFont: Font * ?OutsideTextFont: Font * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
-  static member Heatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;#IConvertible&gt; * ?XGap: int * ?Y: seq&lt;#IConvertible&gt; * ?YGap: int * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
-  ...</div>
-<div class="fsdocs-tip" id="fs6">val myAxis: name: string -&gt; LinearAxis</div>
-<div class="fsdocs-tip" id="fs7">val name: string</div>
-<div class="fsdocs-tip" id="fs8">Multiple items<br />type LinearAxis =
-  inherit DynamicObj
-  new: unit -&gt; LinearAxis
-  static member init: ?Visible: bool * ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#IConvertible&gt; * ?UIRevision: #IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar * ?BackgroundColor: Color * ?ShowBackground: bool -&gt; LinearAxis
-  static member initCarpet: ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?ShowTickLabels: bool * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#IConvertible&gt; * ?ArrayDTick: int * ?ArrayTick0: int * ?CheaterType: CheaterType * ?EndLine: bool * ?EndLineColor: Color * ?EndLineWidth: int * ?LabelPadding: int * ?LabelPrefix: string * ?LabelSuffix: string * ?MinorGridColor: Color * ?MinorGridCount: int * ?MinorGridWidth: int * ?Smoothing: float * ?StartLine: bool * ?StartLineColor: Color * ?StartLineWidth: int -&gt; LinearAxis
-  static member initCategorical: categoryOrder: CategoryOrder * ?Visible: bool * ?Color: Color * ?Title: Title * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryArray: seq&lt;#IConvertible&gt; * ?UIRevision: #IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar -&gt; LinearAxis
-  static member initIndicatorGauge: ?DTick: #IConvertible * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?NTicks: int * ?Range: Range * ?SeparateThousands: bool * ?ShowExponent: ShowExponent * ?ShowTickLabels: bool * ?ShowTickPrefix: ShowTickOption * ?ShowTickSuffix: ShowTickOption * ?Tick0: #IConvertible * ?TickAngle: int * ?TickColor: Color * ?TickFont: Font * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?TickLen: int * ?TickMode: TickMode * ?TickPrefix: string * ?Ticks: TickOptions * ?TickSuffix: string * ?TickText: seq&lt;#IConvertible&gt; * ?TickVals: seq&lt;#IConvertible&gt; * ?TickWidth: int * ?Visible: bool -&gt; LinearAxis
-  static member style: ?Visible: bool * ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #IConvertible * ?DTick: #IConvertible * ?TickVals: seq&lt;#IConvertible&gt; * ?TickText: seq&lt;#IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#IConvertible&gt; * ?UIRevision: #IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar * ?ArrayDTick: int * ?ArrayTick0: int * ?CheaterType: CheaterType * ?EndLine: bool * ?EndLineColor: Color * ?EndLineWidth: int * ?LabelPadding: int * ?LabelPrefix: string * ?LabelSuffix: string * ?MinorGridColor: Color * ?MinorGridCount: int * ?MinorGridWidth: int * ?Smoothing: float * ?StartLine: bool * ?StartLineColor: Color * ?StartLineWidth: int * ?BackgroundColor: Color * ?ShowBackground: bool -&gt; (LinearAxis -&gt; LinearAxis)<br /><em>&lt;summary&gt;Linear axes can be used as x and y scales on 2D plots, and as x,y, and z scales on 3D plots.&lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; LinearAxis</div>
-<div class="fsdocs-tip" id="fs9">static member LinearAxis.init: ?Visible: bool * ?Color: Color * ?Title: Title * ?AxisType: AxisType * ?AutoTypeNumbers: AutoTypeNumbers * ?AutoRange: AutoRange * ?RangeMode: RangeMode * ?Range: Range * ?FixedRange: bool * ?ScaleAnchor: LinearAxisId * ?ScaleRatio: float * ?Constrain: AxisConstraint * ?ConstrainToward: AxisConstraintDirection * ?Matches: LinearAxisId * ?Rangebreaks: seq&lt;Rangebreak&gt; * ?TickMode: TickMode * ?NTicks: int * ?Tick0: #System.IConvertible * ?DTick: #System.IConvertible * ?TickVals: seq&lt;#System.IConvertible&gt; * ?TickText: seq&lt;#System.IConvertible&gt; * ?Ticks: TickOptions * ?TicksOn: CategoryTickAnchor * ?TickLabelMode: TickLabelMode * ?TickLabelPosition: TickLabelPosition * ?TickLabelOverflow: TickLabelOverflow * ?Mirror: Mirror * ?TickLen: int * ?TickWidth: int * ?TickColor: Color * ?ShowTickLabels: bool * ?AutoMargin: bool * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?SpikeDash: DrawingStyle * ?SpikeMode: SpikeMode * ?SpikeSnap: SpikeSnap * ?TickFont: Font * ?TickAngle: int * ?ShowTickPrefix: ShowTickOption * ?TickPrefix: string * ?ShowTickSuffix: ShowTickOption * ?TickSuffix: string * ?ShowExponent: ShowExponent * ?ExponentFormat: ExponentFormat * ?MinExponent: float * ?SeparateThousands: bool * ?TickFormat: string * ?TickFormatStops: seq&lt;TickFormatStop&gt; * ?HoverFormat: string * ?ShowLine: bool * ?LineColor: Color * ?LineWidth: float * ?ShowGrid: bool * ?GridColor: Color * ?GridWidth: float * ?ZeroLine: bool * ?ZeroLineColor: Color * ?ZeroLineWidth: float * ?ShowDividers: bool * ?DividerColor: Color * ?DividerWidth: int * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Layer: Layer * ?Domain: Range * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#System.IConvertible&gt; * ?UIRevision: #System.IConvertible * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?Calendar: Calendar * ?BackgroundColor: Color * ?ShowBackground: bool -&gt; LinearAxis</div>
-<div class="fsdocs-tip" id="fs10">Multiple items<br />type Title =
-  inherit DynamicObj
-  new: unit -&gt; Title
-  static member init: ?Text: string * ?Font: Font * ?Standoff: int * ?Side: Side * ?X: float * ?Y: float -&gt; Title
-  static member style: ?Text: string * ?Font: Font * ?Standoff: int * ?Side: Side * ?X: float * ?Y: float -&gt; (Title -&gt; Title)<br /><br />--------------------<br />new: unit -&gt; Title</div>
-<div class="fsdocs-tip" id="fs11">static member Title.init: ?Text: string * ?Font: Font * ?Standoff: int * ?Side: Side * ?X: float * ?Y: float -&gt; Title</div>
-<div class="fsdocs-tip" id="fs12">type Mirror =
-  | True
-  | Ticks
-  | False
-  | All
-  | AllTicks
-  member Convert: unit -&gt; obj
-  override ToString: unit -&gt; string
-  static member convert: (Mirror -&gt; obj)
-  static member toString: (Mirror -&gt; string)<br /><em>&lt;summary&gt;
- Determines if the axis lines or/and ticks are mirrored to the opposite side of the plotting area. If &quot;true&quot;, the axis lines are mirrored.
- If &quot;ticks&quot;, the axis lines and ticks are mirrored. If &quot;false&quot;, mirroring is disable. If &quot;all&quot;, axis lines are mirrored on all shared-axes subplots. If &quot;allticks&quot;, axis lines and ticks are mirrored on all shared-axes subplots.
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs13">union case Mirror.All: Mirror</div>
-<div class="fsdocs-tip" id="fs14">type TickOptions =
-  | Outside
-  | Inside
-  | Empty
-  member Convert: unit -&gt; obj
-  override ToString: unit -&gt; string
-  static member convert: (TickOptions -&gt; obj)
-  static member toString: (TickOptions -&gt; string)<br /><em>&lt;summary&gt;
- Determines whether ticks are drawn or not. If &quot;&quot;, this axis&#39; ticks are not drawn. If &quot;outside&quot; (&quot;inside&quot;), this axis&#39; are drawn outside (inside) the axis lines.
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs15">union case TickOptions.Inside: TickOptions</div>
-<div class="fsdocs-tip" id="fs16">val myAxisRange: name: string -&gt; min: float * max: float -&gt; LinearAxis</div>
-<div class="fsdocs-tip" id="fs17">val min: float</div>
-<div class="fsdocs-tip" id="fs18">val max: float</div>
-<div class="fsdocs-tip" id="fs19">type Range =
-  | MinMax of float * float
-  | Values of float array
-  member Convert: unit -&gt; obj
-  static member convert: (Range -&gt; obj)<br /><em>&lt;summary&gt;
- Defines a Range between min and max value
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs20">union case Range.MinMax: float * float -&gt; Range</div>
-<div class="fsdocs-tip" id="fs21">val withAxisTitles: x: string -&gt; y: string -&gt; chart: GenericChart.GenericChart -&gt; GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs22">val x: string</div>
-<div class="fsdocs-tip" id="fs23">val y: string</div>
-<div class="fsdocs-tip" id="fs24">val chart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs25">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs26">module ChartTemplates
-
-from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs27">val lightMirrored: Template</div>
-<div class="fsdocs-tip" id="fs28">static member Chart.withXAxis: xAxis: LinearAxis * ?Id: SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs29">static member Chart.withYAxis: yAxis: LinearAxis * ?Id: SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs30">val mySequence: float[]</div>
-<div class="fsdocs-tip" id="fs31">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs32">namespace FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs33">val collection: float[]</div>
-<div class="fsdocs-tip" id="fs34">val infinity: float<br /><em>&lt;summary&gt;Equivalent to &lt;see cref=&quot;P:System.Double.PositiveInfinity&quot; /&gt;&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs35">val nan: float<br /><em>&lt;summary&gt;Equivalent to &lt;see cref=&quot;P:System.Double.NaN&quot; /&gt;&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs36">Multiple items<br />type Rank =
+<div class="fsdocs-tip" id="fs10">namespace Plotly.NET.LayoutObjects</div>
+<div class="fsdocs-tip" id="fs11">val mySequence: float[]</div>
+<div class="fsdocs-tip" id="fs12">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs13">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs14">val collection: float[]</div>
+<div class="fsdocs-tip" id="fs15">val infinity: float<br /><em>&lt;summary&gt;Equivalent to &lt;see cref=&quot;P:System.Double.PositiveInfinity&quot; /&gt;&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs16">val nan: float<br /><em>&lt;summary&gt;Equivalent to &lt;see cref=&quot;P:System.Double.NaN&quot; /&gt;&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs17">Multiple items<br />type Rank =
   new: unit -&gt; Rank
   static member RankAverage: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (&#39;a array -&gt; float[]) (requires equality)
   static member RankFirst: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (#IComparable array -&gt; float[])
@@ -363,10 +316,10 @@ from Plotly.NET</div>
   static member RankMin: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (&#39;a[] -&gt; float[]) (requires equality)<br /><em>&lt;summary&gt;
  The rank of a number is its size relative to other values in a sequence
 &lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; Rank</div>
-<div class="fsdocs-tip" id="fs37">static member Rank.RankFirst: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (#System.IComparable array -&gt; float[])</div>
-<div class="fsdocs-tip" id="fs38">static member Rank.RankMin: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (&#39;a[] -&gt; float[]) (requires equality)</div>
-<div class="fsdocs-tip" id="fs39">static member Rank.RankMax: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (&#39;a array -&gt; float[]) (requires equality)</div>
-<div class="fsdocs-tip" id="fs40">static member Rank.RankAverage: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (&#39;a array -&gt; float[]) (requires equality)</div>
+<div class="fsdocs-tip" id="fs18">static member Rank.RankFirst: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (#System.IComparable array -&gt; float[])</div>
+<div class="fsdocs-tip" id="fs19">static member Rank.RankMin: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (&#39;a[] -&gt; float[]) (requires equality)</div>
+<div class="fsdocs-tip" id="fs20">static member Rank.RankMax: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (&#39;a array -&gt; float[]) (requires equality)</div>
+<div class="fsdocs-tip" id="fs21">static member Rank.RankAverage: ?NanIsMaximum: bool * ?RankNanWithNan: bool -&gt; (&#39;a array -&gt; float[]) (requires equality)</div>
 
     </div>
 

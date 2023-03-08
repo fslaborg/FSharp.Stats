@@ -8,9 +8,9 @@
     <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
-
+    <script src="https://cdn.plot.ly/plotly-2.18.1.min.js"></script>
+    <script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
     <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
     <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
     <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
@@ -192,17 +192,17 @@
 <h1><a name="Imputation" class="anchor" href="#Imputation">Imputation</a></h1>
 <p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Imputation.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
 <p>Short documentation how to impute values</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="id">Stats</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs5', 9)" onmouseover="showTip(event, 'fs5', 9)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs6', 10)" onmouseover="showTip(event, 'fs6', 10)" class="id">ML</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs9', 13)" onmouseover="showTip(event, 'fs9', 13)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="id">Stats</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs9', 15)" onmouseover="showTip(event, 'fs9', 15)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 16)" onmouseover="showTip(event, 'fs10', 16)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="id">ML</span>
 
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="id">a</span> <span class="o">=</span> <span class="pn">[</span><span class="n">3.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 12)" onmouseover="showTip(event, 'fs8', 12)" class="id">b</span> <span class="o">=</span> <span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs9', 13)" onmouseover="showTip(event, 'fs9', 13)" class="id">nan</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="id">c</span> <span class="o">=</span> <span class="pn">[</span><span onmouseout="hideTip(event, 'fs9', 15)" onmouseover="showTip(event, 'fs9', 15)" class="id">nan</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs9', 16)" onmouseover="showTip(event, 'fs9', 16)" class="id">nan</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="id">d</span> <span class="o">=</span> <span class="pn">[</span><span class="n">5.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">6.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 18)" onmouseover="showTip(event, 'fs12', 18)" class="id">e</span> <span class="o">=</span> <span class="pn">[</span><span class="n">0.5</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 18)" onmouseover="showTip(event, 'fs12', 18)" class="id">a</span> <span class="o">=</span> <span class="pn">[</span><span class="n">3.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="id">b</span> <span class="o">=</span> <span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs14', 20)" onmouseover="showTip(event, 'fs14', 20)" class="id">nan</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 21)" onmouseover="showTip(event, 'fs15', 21)" class="id">c</span> <span class="o">=</span> <span class="pn">[</span><span onmouseout="hideTip(event, 'fs14', 22)" onmouseover="showTip(event, 'fs14', 22)" class="id">nan</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs14', 23)" onmouseover="showTip(event, 'fs14', 23)" class="id">nan</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 24)" onmouseover="showTip(event, 'fs16', 24)" class="id">d</span> <span class="o">=</span> <span class="pn">[</span><span class="n">5.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">6.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 25)" onmouseover="showTip(event, 'fs17', 25)" class="id">e</span> <span class="o">=</span> <span class="pn">[</span><span class="n">0.5</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="id">data</span> <span class="o">=</span> <span class="pn">[</span><span onmouseout="hideTip(event, 'fs7', 20)" onmouseover="showTip(event, 'fs7', 20)" class="id">a</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs8', 21)" onmouseover="showTip(event, 'fs8', 21)" class="id">b</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs10', 22)" onmouseover="showTip(event, 'fs10', 22)" class="id">c</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs11', 23)" onmouseover="showTip(event, 'fs11', 23)" class="id">d</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs12', 24)" onmouseover="showTip(event, 'fs12', 24)" class="id">e</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 26)" onmouseover="showTip(event, 'fs18', 26)" class="id">data</span> <span class="o">=</span> <span class="pn">[</span><span onmouseout="hideTip(event, 'fs12', 27)" onmouseover="showTip(event, 'fs12', 27)" class="id">a</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs13', 28)" onmouseover="showTip(event, 'fs13', 28)" class="id">b</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs15', 29)" onmouseover="showTip(event, 'fs15', 29)" class="id">c</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs16', 30)" onmouseover="showTip(event, 'fs16', 30)" class="id">d</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs17', 31)" onmouseover="showTip(event, 'fs17', 31)" class="id">e</span><span class="pn">]</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>"rawData
 
@@ -218,8 +218,8 @@ _________________________________________________________
 <h2><a name="k-Nearest-imputation" class="anchor" href="#k-Nearest-imputation">k-Nearest imputation</a></h2>
 <p>Missing data imputation based on the k-nearest neighbour algorithm:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// init kNearest MatrixBaseImpute</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 32)" onmouseover="showTip(event, 'fs18', 32)" class="fn">kn</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs19', 33)" onmouseover="showTip(event, 'fs19', 33)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 34)" onmouseover="showTip(event, 'fs20', 34)" class="id">MatrixBaseImputation</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs21', 35)" onmouseover="showTip(event, 'fs21', 35)" class="vt">float</span><span class="pn">[</span><span class="pn">]</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs21', 36)" onmouseover="showTip(event, 'fs21', 36)" class="vt">float</span><span class="pn">&gt;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 37)" onmouseover="showTip(event, 'fs19', 37)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 38)" onmouseover="showTip(event, 'fs22', 38)" class="id">kNearestImpute</span> <span class="n">2</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 39)" onmouseover="showTip(event, 'fs23', 39)" class="id">imputedData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 40)" onmouseover="showTip(event, 'fs19', 40)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 41)" onmouseover="showTip(event, 'fs24', 41)" class="id">imputeBy</span> <span onmouseout="hideTip(event, 'fs18', 42)" onmouseover="showTip(event, 'fs18', 42)" class="fn">kn</span> <span onmouseout="hideTip(event, 'fs25', 43)" onmouseover="showTip(event, 'fs25', 43)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 44)" onmouseover="showTip(event, 'fs26', 44)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs13', 45)" onmouseover="showTip(event, 'fs13', 45)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 39)" onmouseover="showTip(event, 'fs23', 39)" class="fn">kn</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs24', 40)" onmouseover="showTip(event, 'fs24', 40)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs25', 41)" onmouseover="showTip(event, 'fs25', 41)" class="id">MatrixBaseImputation</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs26', 42)" onmouseover="showTip(event, 'fs26', 42)" class="vt">float</span><span class="pn">[</span><span class="pn">]</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs26', 43)" onmouseover="showTip(event, 'fs26', 43)" class="vt">float</span><span class="pn">&gt;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 44)" onmouseover="showTip(event, 'fs24', 44)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 45)" onmouseover="showTip(event, 'fs27', 45)" class="id">kNearestImpute</span> <span class="n">2</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 46)" onmouseover="showTip(event, 'fs28', 46)" class="id">imputedData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 47)" onmouseover="showTip(event, 'fs24', 47)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs29', 48)" onmouseover="showTip(event, 'fs29', 48)" class="id">imputeBy</span> <span onmouseout="hideTip(event, 'fs23', 49)" onmouseover="showTip(event, 'fs23', 49)" class="fn">kn</span> <span onmouseout="hideTip(event, 'fs30', 50)" onmouseover="showTip(event, 'fs30', 50)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 51)" onmouseover="showTip(event, 'fs31', 51)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs18', 52)" onmouseover="showTip(event, 'fs18', 52)" class="id">data</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>"k nearest neighbours imputed data
 
@@ -235,18 +235,18 @@ _________________________________________________________
 <h2><a name="random-imputation" class="anchor" href="#random-imputation">random imputation</a></h2>
 <p>...</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// init random VectorBaseImpute</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 53)" onmouseover="showTip(event, 'fs28', 53)" class="fn">rnd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 54)" onmouseover="showTip(event, 'fs19', 54)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs29', 55)" onmouseover="showTip(event, 'fs29', 55)" class="id">rnd</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 56)" onmouseover="showTip(event, 'fs30', 56)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 57)" onmouseover="showTip(event, 'fs31', 57)" class="id">Random</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 60)" onmouseover="showTip(event, 'fs33', 60)" class="fn">rnd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 61)" onmouseover="showTip(event, 'fs24', 61)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 62)" onmouseover="showTip(event, 'fs34', 62)" class="id">rnd</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs35', 63)" onmouseover="showTip(event, 'fs35', 63)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 64)" onmouseover="showTip(event, 'fs36', 64)" class="id">Random</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 58)" onmouseover="showTip(event, 'fs32', 58)" class="id">rndRowWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 59)" onmouseover="showTip(event, 'fs19', 59)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 60)" onmouseover="showTip(event, 'fs33', 60)" class="id">imputeRowWiseBy</span> <span onmouseout="hideTip(event, 'fs28', 61)" onmouseover="showTip(event, 'fs28', 61)" class="fn">rnd</span> <span onmouseout="hideTip(event, 'fs25', 62)" onmouseover="showTip(event, 'fs25', 62)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 63)" onmouseover="showTip(event, 'fs26', 63)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs13', 64)" onmouseover="showTip(event, 'fs13', 64)" class="id">data</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs34', 65)" onmouseover="showTip(event, 'fs34', 65)" class="id">rndColWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 66)" onmouseover="showTip(event, 'fs19', 66)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 67)" onmouseover="showTip(event, 'fs35', 67)" class="id">imputeColWiseBy</span> <span onmouseout="hideTip(event, 'fs28', 68)" onmouseover="showTip(event, 'fs28', 68)" class="fn">rnd</span> <span onmouseout="hideTip(event, 'fs25', 69)" onmouseover="showTip(event, 'fs25', 69)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 70)" onmouseover="showTip(event, 'fs26', 70)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs13', 71)" onmouseover="showTip(event, 'fs13', 71)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 65)" onmouseover="showTip(event, 'fs37', 65)" class="id">rndRowWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 66)" onmouseover="showTip(event, 'fs24', 66)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 67)" onmouseover="showTip(event, 'fs38', 67)" class="id">imputeRowWiseBy</span> <span onmouseout="hideTip(event, 'fs33', 68)" onmouseover="showTip(event, 'fs33', 68)" class="fn">rnd</span> <span onmouseout="hideTip(event, 'fs30', 69)" onmouseover="showTip(event, 'fs30', 69)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 70)" onmouseover="showTip(event, 'fs31', 70)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs18', 71)" onmouseover="showTip(event, 'fs18', 71)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 72)" onmouseover="showTip(event, 'fs39', 72)" class="id">rndColWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 73)" onmouseover="showTip(event, 'fs24', 73)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 74)" onmouseover="showTip(event, 'fs40', 74)" class="id">imputeColWiseBy</span> <span onmouseout="hideTip(event, 'fs33', 75)" onmouseover="showTip(event, 'fs33', 75)" class="fn">rnd</span> <span onmouseout="hideTip(event, 'fs30', 76)" onmouseover="showTip(event, 'fs30', 76)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 77)" onmouseover="showTip(event, 'fs31', 77)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs18', 78)" onmouseover="showTip(event, 'fs18', 78)" class="id">data</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>"rndRowDataMatrix imputed data
 
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     1.000     5.000
-2     |    3.000     2.000     3.000     4.000     2.000
+1     |    1.000     2.000     3.000     3.000     5.000
+2     |    2.000     2.000     3.000     4.000     2.000
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
@@ -256,23 +256,23 @@ _________________________________________________________
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
 1     |    1.000     2.000     3.000     4.000     5.000
-2     |    5.000     2.000     3.000     4.000     5.000
+2     |    3.000     2.000     3.000     4.000     5.000
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
 <a name="normal imputation"></a>
 <h2><a name="normal-imputation" class="anchor" href="#normal-imputation">normal imputation</a></h2>
 <p>...</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs38', 86)" onmouseover="showTip(event, 'fs38', 86)" class="id">normalRowWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 87)" onmouseover="showTip(event, 'fs19', 87)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 88)" onmouseover="showTip(event, 'fs33', 88)" class="id">imputeRowWiseBy</span> <span onmouseout="hideTip(event, 'fs19', 89)" onmouseover="showTip(event, 'fs19', 89)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 90)" onmouseover="showTip(event, 'fs39', 90)" class="id">normal</span> <span onmouseout="hideTip(event, 'fs25', 91)" onmouseover="showTip(event, 'fs25', 91)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 92)" onmouseover="showTip(event, 'fs26', 92)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs13', 93)" onmouseover="showTip(event, 'fs13', 93)" class="id">data</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 94)" onmouseover="showTip(event, 'fs40', 94)" class="id">normalColWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs19', 95)" onmouseover="showTip(event, 'fs19', 95)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 96)" onmouseover="showTip(event, 'fs35', 96)" class="id">imputeColWiseBy</span> <span onmouseout="hideTip(event, 'fs19', 97)" onmouseover="showTip(event, 'fs19', 97)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 98)" onmouseover="showTip(event, 'fs39', 98)" class="id">normal</span> <span onmouseout="hideTip(event, 'fs25', 99)" onmouseover="showTip(event, 'fs25', 99)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 100)" onmouseover="showTip(event, 'fs26', 100)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs13', 101)" onmouseover="showTip(event, 'fs13', 101)" class="id">data</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs43', 93)" onmouseover="showTip(event, 'fs43', 93)" class="id">normalRowWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 94)" onmouseover="showTip(event, 'fs24', 94)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 95)" onmouseover="showTip(event, 'fs38', 95)" class="id">imputeRowWiseBy</span> <span onmouseout="hideTip(event, 'fs24', 96)" onmouseover="showTip(event, 'fs24', 96)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 97)" onmouseover="showTip(event, 'fs44', 97)" class="id">normal</span> <span onmouseout="hideTip(event, 'fs30', 98)" onmouseover="showTip(event, 'fs30', 98)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 99)" onmouseover="showTip(event, 'fs31', 99)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs18', 100)" onmouseover="showTip(event, 'fs18', 100)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 101)" onmouseover="showTip(event, 'fs45', 101)" class="id">normalColWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 102)" onmouseover="showTip(event, 'fs24', 102)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 103)" onmouseover="showTip(event, 'fs40', 103)" class="id">imputeColWiseBy</span> <span onmouseout="hideTip(event, 'fs24', 104)" onmouseover="showTip(event, 'fs24', 104)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 105)" onmouseover="showTip(event, 'fs44', 105)" class="id">normal</span> <span onmouseout="hideTip(event, 'fs30', 106)" onmouseover="showTip(event, 'fs30', 106)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 107)" onmouseover="showTip(event, 'fs31', 107)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs18', 108)" onmouseover="showTip(event, 'fs18', 108)" class="id">data</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>"normalRowDataMatrix imputed data
 
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     2.115     5.000
-2     |    3.670     2.000     3.000     4.000     4.705
+1     |    1.000     2.000     3.000     1.647     5.000
+2     |    3.789     2.000     3.000     4.000     4.584
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
@@ -281,8 +281,8 @@ _________________________________________________________
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     3.600     5.000
-2     |    3.912     2.000     3.000     4.000     5.000
+1     |    1.000     2.000     3.000     4.469     5.000
+2     |    -1.87     2.000     3.000     4.000     5.000
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
@@ -292,36 +292,62 @@ _________________________________________________________
         </div>
         <div class="fsdocs-tip" id="fs1">namespace Plotly</div>
 <div class="fsdocs-tip" id="fs2">namespace Plotly.NET</div>
-<div class="fsdocs-tip" id="fs3">module StyleParam
+<div class="fsdocs-tip" id="fs3">module Defaults
 
-from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs4">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs5">namespace FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs6">namespace FSharp.Stats.ML</div>
-<div class="fsdocs-tip" id="fs7">val a: float list</div>
-<div class="fsdocs-tip" id="fs8">val b: float list</div>
-<div class="fsdocs-tip" id="fs9">val nan: float<br /><em>&lt;summary&gt;Equivalent to &lt;see cref=&quot;P:System.Double.NaN&quot; /&gt;&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs10">val c: float list</div>
-<div class="fsdocs-tip" id="fs11">val d: float list</div>
-<div class="fsdocs-tip" id="fs12">val e: float list</div>
-<div class="fsdocs-tip" id="fs13">val data: float list list</div>
-<div class="fsdocs-tip" id="fs14">val missingDataMatrix: string</div>
-<div class="fsdocs-tip" id="fs15">module FSIPrinters
+from Plotly.NET<br /><em>&lt;summary&gt;
+ Contains mutable global default values.
+
+ Changing these values will apply the default values to all consecutive Chart generations.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs4">val mutable DefaultDisplayOptions: Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs5">Multiple items<br />type DisplayOptions =
+  inherit DynamicObj
+  new: unit -&gt; DisplayOptions
+  static member addAdditionalHeadTags: additionalHeadTags: XmlNode list -&gt; (DisplayOptions -&gt; DisplayOptions)
+  static member addDescription: description: XmlNode list -&gt; (DisplayOptions -&gt; DisplayOptions)
+  static member combine: first: DisplayOptions -&gt; second: DisplayOptions -&gt; DisplayOptions
+  static member getAdditionalHeadTags: displayOpts: DisplayOptions -&gt; XmlNode list
+  static member getDescription: displayOpts: DisplayOptions -&gt; XmlNode list
+  static member getPlotlyReference: displayOpts: DisplayOptions -&gt; PlotlyJSReference
+  static member init: ?AdditionalHeadTags: XmlNode list * ?Description: XmlNode list * ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions
+  static member initCDNOnly: unit -&gt; DisplayOptions
+  ...<br /><br />--------------------<br />new: unit -&gt; Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs6">static member Plotly.NET.DisplayOptions.init: ?AdditionalHeadTags: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?Description: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?PlotlyJSReference: Plotly.NET.PlotlyJSReference -&gt; Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs7">type PlotlyJSReference =
+  | CDN of string
+  | Full
+  | Require of string
+  | NoReference<br /><em>&lt;summary&gt;
+Sets how plotly is referenced in the head of html docs.
+&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs8">union case Plotly.NET.PlotlyJSReference.NoReference: Plotly.NET.PlotlyJSReference</div>
+<div class="fsdocs-tip" id="fs9">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs10">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs11">namespace FSharp.Stats.ML</div>
+<div class="fsdocs-tip" id="fs12">val a: float list</div>
+<div class="fsdocs-tip" id="fs13">val b: float list</div>
+<div class="fsdocs-tip" id="fs14">val nan: float<br /><em>&lt;summary&gt;Equivalent to &lt;see cref=&quot;P:System.Double.NaN&quot; /&gt;&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs15">val c: float list</div>
+<div class="fsdocs-tip" id="fs16">val d: float list</div>
+<div class="fsdocs-tip" id="fs17">val e: float list</div>
+<div class="fsdocs-tip" id="fs18">val data: float list list</div>
+<div class="fsdocs-tip" id="fs19">val missingDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs20">module FSIPrinters
 
 from FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs16">val matrix: mat: Matrix&lt;float&gt; -&gt; string</div>
-<div class="fsdocs-tip" id="fs17">Multiple items<br />val matrix: ll: seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs18">val kn: Impute.MatrixBaseImputation&lt;float[],float&gt;</div>
-<div class="fsdocs-tip" id="fs19">module Impute
+<div class="fsdocs-tip" id="fs21">val matrix: mat: Matrix&lt;float&gt; -&gt; string</div>
+<div class="fsdocs-tip" id="fs22">Multiple items<br />val matrix: ll: seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs23">val kn: Impute.MatrixBaseImputation&lt;float[],float&gt;</div>
+<div class="fsdocs-tip" id="fs24">module Impute
 
 from FSharp.Stats.ML<br /><em>&lt;summary&gt;
  Module for data imputation and missing value filtering
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs20">type MatrixBaseImputation&lt;&#39;a,&#39;b&gt; = seq&lt;&#39;a&gt; -&gt; &#39;a -&gt; int -&gt; &#39;b<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs25">type MatrixBaseImputation&lt;&#39;a,&#39;b&gt; = seq&lt;&#39;a&gt; -&gt; &#39;a -&gt; int -&gt; &#39;b<br /><em>&lt;summary&gt;
  Type definintion for a vector based imputation
  The imputed values are based on the given whole dataset
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs21">Multiple items<br />val float: value: &#39;T -&gt; float (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to 64-bit float. This is a direct conversion for all 
+<div class="fsdocs-tip" id="fs26">Multiple items<br />val float: value: &#39;T -&gt; float (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to 64-bit float. This is a direct conversion for all 
  primitive numeric types. For strings, the input is converted using &lt;c&gt;Double.Parse()&lt;/c&gt;  
  with InvariantCulture settings. Otherwise the operation requires an appropriate
  static conversion method on the input type.&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The converted float&lt;/returns&gt;<br />&lt;example id=&quot;float-example&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;&lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
@@ -330,28 +356,28 @@ type float = System.Double<br /><em>&lt;summary&gt;An abbreviation for the CLI t
  The unit of measure is erased in compiled code and when values of this type
  are analyzed using reflection. The type is representationally equivalent to
  &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category index=&quot;6&quot;&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
-<div class="fsdocs-tip" id="fs22">val kNearestImpute: k: int -&gt; data: seq&lt;float[]&gt; -&gt; arr: float[] -&gt; index: int -&gt; float<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs27">val kNearestImpute: k: int -&gt; data: seq&lt;float[]&gt; -&gt; arr: float[] -&gt; index: int -&gt; float<br /><em>&lt;summary&gt;
  Imputation by k-nearest neighbour
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs23">val imputedData: float[][]</div>
-<div class="fsdocs-tip" id="fs24">val imputeBy: impute: Impute.MatrixBaseImputation&lt;&#39;a[],&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs28">val imputedData: float[][]</div>
+<div class="fsdocs-tip" id="fs29">val imputeBy: impute: Impute.MatrixBaseImputation&lt;&#39;a[],&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;
  Imputes rows by matrix-based imputation
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs25">module Ops
+<div class="fsdocs-tip" id="fs30">module Ops
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
  Operations module (automatically opened)
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs26">val isNan: num: &#39;b -&gt; bool (requires equality)<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs31">val isNan: num: &#39;b -&gt; bool (requires equality)<br /><em>&lt;summary&gt;
  Returs true if x is nan (generics) equality
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs27">val imputedDataMatrix: string</div>
-<div class="fsdocs-tip" id="fs28">val rnd: (seq&lt;float&gt; -&gt; int -&gt; float)</div>
-<div class="fsdocs-tip" id="fs29">val rnd: rnd: System.Random -&gt; fdata: seq&lt;&#39;a&gt; -&gt; index: int -&gt; &#39;a<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs32">val imputedDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs33">val rnd: (seq&lt;float&gt; -&gt; int -&gt; float)</div>
+<div class="fsdocs-tip" id="fs34">val rnd: rnd: System.Random -&gt; fdata: seq&lt;&#39;a&gt; -&gt; index: int -&gt; &#39;a<br /><em>&lt;summary&gt;
  Imputation by random sampling from the input vector
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs30">namespace System</div>
-<div class="fsdocs-tip" id="fs31">Multiple items<br />type Random =
+<div class="fsdocs-tip" id="fs35">namespace System</div>
+<div class="fsdocs-tip" id="fs36">Multiple items<br />type Random =
   new: unit -&gt; unit + 1 overload
   member Next: unit -&gt; int + 2 overloads
   member NextBytes: buffer: byte[] -&gt; unit + 1 overload
@@ -359,23 +385,23 @@ from FSharp.Stats<br /><em>&lt;summary&gt;
   member NextInt64: unit -&gt; int64 + 2 overloads
   member NextSingle: unit -&gt; float32
   static member Shared: Random<br /><em>&lt;summary&gt;Represents a pseudo-random number generator, which is an algorithm that produces a sequence of numbers that meet certain statistical requirements for randomness.&lt;/summary&gt;</em><br /><br />--------------------<br />System.Random() : System.Random<br />System.Random(Seed: int) : System.Random</div>
-<div class="fsdocs-tip" id="fs32">val rndRowWise: float[][]</div>
-<div class="fsdocs-tip" id="fs33">val imputeRowWiseBy: impute: Impute.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs37">val rndRowWise: float[][]</div>
+<div class="fsdocs-tip" id="fs38">val imputeRowWiseBy: impute: Impute.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;
  Imputes row-wise by vector-based imputation
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs34">val rndColWise: float[][]</div>
-<div class="fsdocs-tip" id="fs35">val imputeColWiseBy: impute: Impute.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs39">val rndColWise: float[][]</div>
+<div class="fsdocs-tip" id="fs40">val imputeColWiseBy: impute: Impute.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;
  Imputes column-wise by vector-based imputation
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs36">val rndRowDataMatrix: string</div>
-<div class="fsdocs-tip" id="fs37">val rndColDataMatrix: string</div>
-<div class="fsdocs-tip" id="fs38">val normalRowWise: float[][]</div>
-<div class="fsdocs-tip" id="fs39">val normal: fdata: seq&lt;float&gt; -&gt; index: int -&gt; float<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs41">val rndRowDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs42">val rndColDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs43">val normalRowWise: float[][]</div>
+<div class="fsdocs-tip" id="fs44">val normal: fdata: seq&lt;float&gt; -&gt; index: int -&gt; float<br /><em>&lt;summary&gt;
  Imputation by sampling from a gausian normal distribution based on the input vector
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs40">val normalColWise: float[][]</div>
-<div class="fsdocs-tip" id="fs41">val normalRowDataMatrix: string</div>
-<div class="fsdocs-tip" id="fs42">val normalColDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs45">val normalColWise: float[][]</div>
+<div class="fsdocs-tip" id="fs46">val normalRowDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs47">val normalColDataMatrix: string</div>
 
     </div>
 
