@@ -2,7 +2,7 @@
 
 
 open System
-open System.Collections.Generic
+open System.Collections
 
 open FSharp.Stats
 
@@ -50,7 +50,7 @@ module DbScan =
             | :? array<'a> as value -> TaggedValue(value)
             | _ -> TaggedValue( input |> Seq.toArray )
 
-        let inline expandCluster dfu (point:TaggedValue<'a array>) (neighours:List<TaggedValue<'a array>>) (sourcelist:List<TaggedValue<'a array>>) (eps:float) (minPts:int) (cluster:List<TaggedValue<'a array>>)= 
+        let inline expandCluster dfu (point:TaggedValue<'a array>) (neighours:Generic.List<TaggedValue<'a array>>) (sourcelist:Generic.List<TaggedValue<'a array>>) (eps:float) (minPts:int) (cluster:Generic.List<TaggedValue<'a array>>)= 
             cluster.Add point                                                                        
             point.SetIsInCluster ()                                                                 
             let rec loop i =                                                                         
@@ -68,17 +68,17 @@ module DbScan =
                     loop (i+1)                                                                       
             loop 0 
 
-        let noiseList= List<TaggedValue<'a array>>()
-        let clusterList = List<List<TaggedValue<'a array>>>() 
+        let noiseList= Generic.List<TaggedValue<'a array>>()
+        let clusterList = Generic.List<Generic.List<TaggedValue<'a array>>>() 
     
-        let sourcelist = List (input |> Seq.map convert)
+        let sourcelist = Generic.List (input |> Seq.map convert)
                                                                                                             
         for i=0 to sourcelist.Count-1 do                                                                                               
             if not sourcelist.[i].IsVisited then                                        
                 sourcelist.[i].SetIsVisited ()
                 let neiOfI = sourcelist.FindAll (fun x -> dfu x.Value sourcelist.[i].Value <= eps)      
                 if neiOfI.Count >= minPts then                                        
-                    let c = List<TaggedValue<'a array>>()                                         
+                    let c = Generic.List<TaggedValue<'a array>>()                                         
                     expandCluster dfu sourcelist.[i] neiOfI sourcelist eps minPts c      
                     clusterList.Add c                                                
         let noisepoints =                                                            
