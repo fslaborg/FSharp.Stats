@@ -1238,7 +1238,7 @@ module SeqExtension =
                             floor dif
                         else 
                             ceil dif
-                    Array.init (int num) (fun i -> float i + start)
+                    Seq.init (int num) (fun i -> float i + start)
 
 
 //    // ########################################################################
