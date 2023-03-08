@@ -190,7 +190,7 @@
                 <div class="container" id="fsdocs-content">
                     
 <h1><a name="Intervals" class="anchor" href="#Intervals">Intervals</a></h1>
-<p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Intervals.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
+<p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Intervals.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
 <p>The interval module enables working with closed intervals. A closed interval includes its maximum and minimum.</p>
 <ul>
 <li><span class="math">\([1,2], \left\{ x | 1 \le x \le 2 \right\}\)</span> - closed interval; 1 and 2 are <em>included</em></li>
@@ -214,29 +214,29 @@
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs37', 92)" onmouseover="showTip(event, 'fs37', 92)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs48', 93)" onmouseover="showTip(event, 'fs48', 93)" class="id">withXAxisStyle</span> <span class="pn">(</span><span class="s">&quot;&quot;</span><span class="pn">,</span><span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="o">-</span><span class="n">10.</span><span class="pn">,</span><span class="n">120.</span><span class="pn">)</span><span class="pn">)</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs37', 94)" onmouseover="showTip(event, 'fs37', 94)" class="m">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 95)" onmouseover="showTip(event, 'fs49', 95)" class="id">withYAxisStyle</span> <span class="pn">(</span><span class="s">&quot;&quot;</span><span class="pn">,</span><span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">5.</span><span class="pn">)</span><span class="pn">)</span>
 </code></pre>
-<div id="61ecc79d-b557-4ab5-b2a8-ca6720b59f9a"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="2910c042-03bb-4886-8d4b-6fe556d0a2b8"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_61ecc79db5574ab5b2a8ca6720b59f9a = function() {
+            var renderPlotly_2910c04203bb48868d4b6fe556d0a2b8 = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"scatter","mode":"markers","x":[],"y":[],"marker":{},"line":{}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"shapes":[{"type":"rect","x0":-6.0,"x1":100.0,"y0":1,"y1":2,"fillcolor":"rgba(31, 119, 180, 1.0)"}],"xaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false,"range":[-10.0,120.0]},"yaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false,"range":[0.0,5.0]}};
             var config = {"responsive":true};
-            Plotly.newPlot('61ecc79d-b557-4ab5-b2a8-ca6720b59f9a', data, layout, config);
+            Plotly.newPlot('2910c042-03bb-4886-8d4b-6fe556d0a2b8', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_61ecc79db5574ab5b2a8ca6720b59f9a();
+                    renderPlotly_2910c04203bb48868d4b6fe556d0a2b8();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_61ecc79db5574ab5b2a8ca6720b59f9a();
+                renderPlotly_2910c04203bb48868d4b6fe556d0a2b8();
             }
 </script>
 
@@ -257,29 +257,29 @@
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs60', 113)" onmouseover="showTip(event, 'fs60', 113)" class="id">i03</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs34', 114)" onmouseover="showTip(event, 'fs34', 114)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs59', 115)" onmouseover="showTip(event, 'fs59', 115)" class="id">create</span> <span class="n">5.</span> <span class="n">10.</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs61', 116)" onmouseover="showTip(event, 'fs61', 116)" class="id">addedInterval</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs34', 117)" onmouseover="showTip(event, 'fs34', 117)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs62', 118)" onmouseover="showTip(event, 'fs62', 118)" class="id">add</span> <span onmouseout="hideTip(event, 'fs58', 119)" onmouseover="showTip(event, 'fs58', 119)" class="id">i02</span> <span onmouseout="hideTip(event, 'fs60', 120)" onmouseover="showTip(event, 'fs60', 120)" class="id">i03</span>
 </code></pre>
-<div id="fd523bb7-9d4a-4a91-a2bb-3e55b5e135df"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="cbc4cc01-1b3f-4555-b081-2e5a5f512522"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_fd523bb79d4a4a91a2bb3e55b5e135df = function() {
+            var renderPlotly_cbc4cc011b3f4555b0812e5a5f512522 = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"scatter","mode":"markers","x":[],"y":[],"marker":{},"line":{}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"shapes":[{"type":"rect","x0":6.0,"x1":8.0,"y0":1,"y1":2,"fillcolor":"rgba(31, 119, 180, 1.0)"},{"type":"rect","x0":5.0,"x1":10.0,"y0":3,"y1":4,"fillcolor":"rgba(255, 127, 14, 1.0)"},{"type":"rect","x0":11.0,"x1":18.0,"y0":5,"y1":6,"fillcolor":"rgba(44, 160, 44, 1.0)"}],"xaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false,"range":[0.0,20.0]},"yaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false,"range":[0.0,8.0]}};
             var config = {"responsive":true};
-            Plotly.newPlot('fd523bb7-9d4a-4a91-a2bb-3e55b5e135df', data, layout, config);
+            Plotly.newPlot('cbc4cc01-1b3f-4555-b081-2e5a5f512522', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_fd523bb79d4a4a91a2bb3e55b5e135df();
+                    renderPlotly_cbc4cc011b3f4555b0812e5a5f512522();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_fd523bb79d4a4a91a2bb3e55b5e135df();
+                renderPlotly_cbc4cc011b3f4555b0812e5a5f512522();
             }
 </script>
 
@@ -292,29 +292,29 @@
 </code></pre>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs68', 177)" onmouseover="showTip(event, 'fs68', 177)" class="id">subInterval</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs34', 178)" onmouseover="showTip(event, 'fs34', 178)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs69', 179)" onmouseover="showTip(event, 'fs69', 179)" class="id">subtract</span> <span onmouseout="hideTip(event, 'fs58', 180)" onmouseover="showTip(event, 'fs58', 180)" class="id">i02</span> <span onmouseout="hideTip(event, 'fs60', 181)" onmouseover="showTip(event, 'fs60', 181)" class="id">i03</span>
 </code></pre>
-<div id="22525c8e-35e5-4f2f-8d70-55be1edaf0aa"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="44dc11f7-566d-4388-8b23-8c2f95ebd044"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_22525c8e35e54f2f8d7055be1edaf0aa = function() {
+            var renderPlotly_44dc11f7566d43888b238c2f95ebd044 = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"scatter","mode":"markers","x":[],"y":[],"marker":{},"line":{}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"shapes":[{"type":"rect","x0":6.0,"x1":8.0,"y0":1,"y1":2,"fillcolor":"rgba(31, 119, 180, 1.0)"},{"type":"rect","x0":5.0,"x1":10.0,"y0":3,"y1":4,"fillcolor":"rgba(255, 127, 14, 1.0)"},{"type":"rect","x0":-4.0,"x1":3.0,"y0":5,"y1":6,"fillcolor":"rgba(44, 160, 44, 1.0)"}],"xaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false,"range":[-5.0,20.0]},"yaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false,"range":[0.0,8.0]}};
             var config = {"responsive":true};
-            Plotly.newPlot('22525c8e-35e5-4f2f-8d70-55be1edaf0aa', data, layout, config);
+            Plotly.newPlot('44dc11f7-566d-4388-8b23-8c2f95ebd044', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_22525c8e35e54f2f8d7055be1edaf0aa();
+                    renderPlotly_44dc11f7566d43888b238c2f95ebd044();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_22525c8e35e54f2f8d7055be1edaf0aa();
+                renderPlotly_44dc11f7566d43888b238c2f95ebd044();
             }
 </script>
 
@@ -324,29 +324,29 @@
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs72', 241)" onmouseover="showTip(event, 'fs72', 241)" class="id">i05</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs34', 242)" onmouseover="showTip(event, 'fs34', 242)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs59', 243)" onmouseover="showTip(event, 'fs59', 243)" class="id">create</span> <span class="n">5.</span> <span class="n">10.</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs73', 244)" onmouseover="showTip(event, 'fs73', 244)" class="id">intInterval</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs34', 245)" onmouseover="showTip(event, 'fs34', 245)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs74', 246)" onmouseover="showTip(event, 'fs74', 246)" class="id">intersect</span> <span onmouseout="hideTip(event, 'fs71', 247)" onmouseover="showTip(event, 'fs71', 247)" class="id">i04</span> <span onmouseout="hideTip(event, 'fs72', 248)" onmouseover="showTip(event, 'fs72', 248)" class="id">i05</span>
 </code></pre>
-<div id="4f8fafa7-371d-4c1b-904b-ab46b48f8eaf"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="b31d86e1-b62c-412f-ad19-b41cd95f855b"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_4f8fafa7371d4c1b904bab46b48f8eaf = function() {
+            var renderPlotly_b31d86e1b62c412fad19b41cd95f855b = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"scatter","mode":"markers","x":[],"y":[],"marker":{},"line":{}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"shapes":[{"type":"rect","x0":2.0,"x1":8.0,"y0":1,"y1":2,"fillcolor":"rgba(31, 119, 180, 1.0)"},{"type":"rect","x0":5.0,"x1":10.0,"y0":3,"y1":4,"fillcolor":"rgba(255, 127, 14, 1.0)"},{"type":"rect","x0":5.0,"x1":8.0,"y0":5,"y1":6,"fillcolor":"rgba(44, 160, 44, 1.0)"}],"xaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false,"range":[0.0,12.0]},"yaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false,"range":[0.0,8.0]}};
             var config = {"responsive":true};
-            Plotly.newPlot('4f8fafa7-371d-4c1b-904b-ab46b48f8eaf', data, layout, config);
+            Plotly.newPlot('b31d86e1-b62c-412f-ad19-b41cd95f855b', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_4f8fafa7371d4c1b904bab46b48f8eaf();
+                    renderPlotly_b31d86e1b62c412fad19b41cd95f855b();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_4f8fafa7371d4c1b904bab46b48f8eaf();
+                renderPlotly_b31d86e1b62c412fad19b41cd95f855b();
             }
 </script>
 

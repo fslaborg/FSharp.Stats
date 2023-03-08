@@ -190,7 +190,7 @@
             <div class="section pt-4">
                 <div class="container" id="fsdocs-content">
                     <h1><a name="FSharp-Stats" class="anchor" href="#FSharp-Stats">FSharp.Stats</a></h1>
-<p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=index.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
+<p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/index.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
 <p>FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.</p>
 <h2><a name="Installation" class="anchor" href="#Installation">Installation</a></h2>
 <p><strong>From Nuget.org:</strong></p>
@@ -225,25 +225,25 @@
 <span class="c">// draw independently 30 times from the given distribution </span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 48)" onmouseover="showTip(event, 'fs31', 48)" class="id">sample</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 49)" onmouseover="showTip(event, 'fs32', 49)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 50)" onmouseover="showTip(event, 'fs33', 50)" class="id">init</span> <span class="n">30</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs27', 51)" onmouseover="showTip(event, 'fs27', 51)" class="id">normalDistribution</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 52)" onmouseover="showTip(event, 'fs34', 52)" class="id">Sample</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>[|24.83163486; 24.92433541; 25.00457925; 25.25538616; 24.94297752; 25.04426922;
-  24.93518485; 25.02438138; 25.13109405; 25.01966295; 24.909347; 25.00191962;
-  24.97765222; 24.88684814; 25.11002452; 24.93905071; 25.00374232; 24.94672947;
-  25.10157737; 24.89700114; 24.98314516; 25.17027831; 24.94714654; 24.95534306;
-  25.00959976; 25.10396405; 24.92776992; 24.88442136; 25.18836031; 24.91392751|]</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>[|24.85915708; 25.123232; 25.15630735; 25.28140207; 24.78083957; 25.03981366;
+  25.03183891; 24.98732988; 24.8830361; 25.25713597; 24.97173073; 25.03962734;
+  24.9609445; 24.92152124; 24.97730964; 24.97563635; 24.96756149; 25.18080669;
+  24.97246541; 25.06087845; 24.89410791; 25.09379665; 25.09797134; 24.98704245;
+  25.03616868; 24.94966242; 25.01400695; 25.12107024; 25.14566857; 24.85834925|]</code></pre></td></tr></table>
 <h3><a name="Basic-descriptive-statistics" class="anchor" href="#Basic-descriptive-statistics">Basic descriptive statistics</a></h3>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// calculate the mean of the given sample</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 53)" onmouseover="showTip(event, 'fs35', 53)" class="id">mean</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs36', 54)" onmouseover="showTip(event, 'fs36', 54)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 55)" onmouseover="showTip(event, 'fs37', 55)" class="id">mean</span> <span onmouseout="hideTip(event, 'fs31', 56)" onmouseover="showTip(event, 'fs31', 56)" class="id">sample</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>24.99904514</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>25.02088063</code></pre></td></tr></table>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// calculate the bessel corrected sample standard deviation of the given sample</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs38', 57)" onmouseover="showTip(event, 'fs38', 57)" class="id">stDev</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs36', 58)" onmouseover="showTip(event, 'fs36', 58)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 59)" onmouseover="showTip(event, 'fs39', 59)" class="id">stDev</span> <span onmouseout="hideTip(event, 'fs31', 60)" onmouseover="showTip(event, 'fs31', 60)" class="id">sample</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>0.1007593095</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.1167490142</code></pre></td></tr></table>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// calculate the coefficient of variation of the given sample </span>
 <span class="c">// Attention: CV is valid only if a hypothetical real zero value exists for the data.</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 61)" onmouseover="showTip(event, 'fs40', 61)" class="id">cv</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs36', 62)" onmouseover="showTip(event, 'fs36', 62)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 63)" onmouseover="showTip(event, 'fs41', 63)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs31', 64)" onmouseover="showTip(event, 'fs31', 64)" class="id">sample</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>0.004030526322</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.004666063354</code></pre></td></tr></table>
 <h3><a name="Vectors-Matrices-and-linear-algebra" class="anchor" href="#Vectors-Matrices-and-linear-algebra">Vectors, Matrices and linear algebra</a></h3>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// create a vector </span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs42', 65)" onmouseover="showTip(event, 'fs42', 65)" class="id">vecB</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs43', 66)" onmouseover="showTip(event, 'fs43', 66)" class="fn">vector</span> <span class="pn">[</span><span class="n">19.</span><span class="pn">;</span><span class="n">11.</span><span class="pn">;</span><span class="n">35.</span><span class="pn">]</span>
@@ -277,29 +277,29 @@
     <span onmouseout="hideTip(event, 'fs67', 113)" onmouseover="showTip(event, 'fs67', 113)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs68', 114)" onmouseover="showTip(event, 'fs68', 114)" class="m">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs69', 115)" onmouseover="showTip(event, 'fs69', 115)" class="m">OrdinaryLeastSquares</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs70', 116)" onmouseover="showTip(event, 'fs70', 116)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs73', 117)" onmouseover="showTip(event, 'fs73', 117)" class="id">fit</span> <span class="n">3</span> <span onmouseout="hideTip(event, 'fs66', 118)" onmouseover="showTip(event, 'fs66', 118)" class="id">regressionCoefficients</span>
 </code></pre>
 <p>The resulting interpolating and regression polynomials are plotted below using <a href="https://github.com/plotly/Plotly.NET">Plotly.NET</a>.</p>
-<div id="f3efb7da-f203-4229-88ae-cc3eb81b8b59"><!-- Plotly chart will be drawn inside this DIV --></div>
+<div id="f9cd1663-b7c9-4e4a-970a-654e8edb2c8e"><!-- Plotly chart will be drawn inside this DIV --></div>
 <script type="text/javascript">
 
-            var renderPlotly_f3efb7daf203422988aecc3eb81b8b59 = function() {
+            var renderPlotly_f9cd1663b7c94e4a970a654e8edb2c8e = function() {
             var fsharpPlotlyRequire = requirejs.config({context:'fsharp-plotly',paths:{plotly:'https://cdn.plot.ly/plotly-2.6.3.min'}}) || require;
             fsharpPlotlyRequire(['plotly'], function(Plotly) {
 
             var data = [{"type":"scatter","mode":"markers","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.0,7.0,9.0,12.0,15.0,17.0,16.0,23.0,5.0,30.0],"marker":{},"line":{}},{"type":"scatter","name":"interpol polynomial","mode":"lines","x":[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7000000000000002,1.8,1.9,2.0,2.1,2.2,2.3,2.4000000000000004,2.5,2.6,2.7,2.8,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5,3.6,3.7,3.8000000000000003,3.9000000000000004,4.0,4.1,4.2,4.300000000000001,4.4,4.5,4.6,4.7,4.800000000000001,4.9,5.0,5.1000000000000005,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.800000000000001,5.9,6.0,6.1000000000000005,6.2,6.300000000000001,6.4,6.5,6.6000000000000005,6.7,6.800000000000001,6.9,7.0,7.1000000000000005,7.2,7.300000000000001,7.4,7.5,7.6000000000000005,7.7,7.800000000000001,7.9,8.0,8.100000000000001,8.2,8.3,8.4,8.5,8.600000000000001,8.7,8.8,8.9,9.0,9.1,9.200000000000001,9.3,9.4,9.5,9.6,9.700000000000001,9.8,9.9,10.0],"y":[4.000000000000001,9.677506472156333,12.653219225718779,13.75671890177262,13.633243955273898,12.77432250979497,11.544644300783702,10.205497566308734,8.93507799031007,7.845959513350153,6.999999999869821,6.42093838892843,6.104924057464143,6.0292036910343665,6.159175987077711,6.454010009655073,6.8710089726980925,7.368887650777605,7.9101185023215645,8.462488940393584,8.999999999931159,9.503224928489665,9.959234969522889,10.361188813081526,10.707671859104721,11.001861572164998,11.250585804686779,11.463332027729962,11.65125693426279,11.82623786981651,11.99999999984226,12.183346040407116,12.385508761437677,12.613640317522254,12.872446771072987,13.163970947132157,13.487521996702753,13.839745747247207,14.214826086318453,14.604804251938276,15.000000000008185,15.389516175080644,15.76180623363689,16.105282754741893,16.40894392329028,16.66299438484384,16.859436748995904,16.99261035953168,17.05965475859557,17.0608765366851,17.000000000274667,16.88428428221232,16.724492185723648,16.534699174324487,16.33193451551415,16.135650635002094,15.967021260876209,15.84807391416689,15.800667750590947,15.845333673809364,16.000000000283762,16.27863381183124,16.68983541771013,17.235431126406183,17.90911774727283,18.695220947440248,19.567638733045897,20.489050961172325,21.410485862812493,22.271345113927964,23.000000000494765,23.515082714991877,23.727608730230713,23.544078661798267,22.87072081968654,21.6190490736044,19.712924365827348,17.097322550602257,13.749025895434897,9.689470805518795,5.000000000582077,-0.16021656058728695,-5.533311078208499,-10.738599672098644,-15.244901069090702,-18.338958740700036,-19.08961464453023,-16.307363767409697,-8.498899353435263,6.183761200867593,30.000000001396984],"marker":{},"line":{}},{"type":"scatter","name":"regression polynomial","mode":"lines","x":[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7000000000000002,1.8,1.9,2.0,2.1,2.2,2.3,2.4000000000000004,2.5,2.6,2.7,2.8,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5,3.6,3.7,3.8000000000000003,3.9000000000000004,4.0,4.1,4.2,4.300000000000001,4.4,4.5,4.6,4.7,4.800000000000001,4.9,5.0,5.1000000000000005,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.800000000000001,5.9,6.0,6.1000000000000005,6.2,6.300000000000001,6.4,6.5,6.6000000000000005,6.7,6.800000000000001,6.9,7.0,7.1000000000000005,7.2,7.300000000000001,7.4,7.5,7.6000000000000005,7.7,7.800000000000001,7.9,8.0,8.100000000000001,8.2,8.3,8.4,8.5,8.600000000000001,8.7,8.8,8.9,9.0,9.1,9.200000000000001,9.3,9.4,9.5,9.6,9.700000000000001,9.8,9.9,10.0],"y":[2.422377622374652,3.079641025638399,3.7109743589720567,4.316939393937402,4.8980979020962,5.45501165501023,5.988242424241262,6.498351981351064,6.985902097901411,7.451454545454075,7.895571095570825,8.318813519813437,8.721743589743683,9.104923076923328,9.468913752914151,9.814277389277926,10.141575757576415,10.451370629371397,10.744223776224642,11.020696969697926,11.281351981353014,11.52675058275168,11.757454545455701,11.974025641026845,12.177025641026882,12.367016317017589,12.544559440560732,12.71021678321809,12.864550116551424,13.00812121212252,13.141491841493135,13.265223776225053,13.37987878788004,13.486018648019876,13.584205128206317,13.675000000001146,13.758965034966135,13.836662004663053,13.908652680653672,13.97549883449976,14.037762237763115,14.096004662005464,14.150787878788615,14.202673659674321,14.252223776224362,14.30000000000051,14.346564102564535,14.392477855478216,14.438303030303306,14.484601398601598,14.531934731934847,14.580864801864838,14.631953379953327,14.685762237762116,14.74285314685294,14.803787878787599,14.86912820512785,14.939435897435477,15.01527272727223,15.097200466199919,15.185780885780275,15.28157575757507,15.385146853146125,15.497055944055163,15.617864801863988,15.748135198134342,15.888428904428004,16.03930769230677,16.2013333333324,16.37506759906664,16.561072261071295,16.75990909090813,16.972139860138903,17.198326340325387,17.439030303029384,17.694813519812634,17.96623776223693,18.253864801864005,18.558256410255687,18.879974358973698,19.21958041957984,19.57763636363586,19.954703962703576,20.35134498834472,20.768121212121073,21.20559440559441,21.664326340326497,22.144878787879108,22.647813519813994,23.173692307693003,23.72307692307784],"marker":{},"line":{}}];
             var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false},"yaxis":{"title":{"text":""},"ticks":"inside","mirror":"all","showline":true,"showgrid":false}};
             var config = {"responsive":true};
-            Plotly.newPlot('f3efb7da-f203-4229-88ae-cc3eb81b8b59', data, layout, config);
+            Plotly.newPlot('f9cd1663-b7c9-4e4a-970a-654e8edb2c8e', data, layout, config);
 });
             };
             if ((typeof(requirejs) !==  typeof(Function)) || (typeof(requirejs.config) !== typeof(Function))) {
                 var script = document.createElement("script");
                 script.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js");
                 script.onload = function(){
-                    renderPlotly_f3efb7daf203422988aecc3eb81b8b59();
+                    renderPlotly_f9cd1663b7c94e4a970a654e8edb2c8e();
                 };
                 document.getElementsByTagName("head")[0].appendChild(script);
             }
             else {
-                renderPlotly_f3efb7daf203422988aecc3eb81b8b59();
+                renderPlotly_f9cd1663b7c94e4a970a654e8edb2c8e();
             }
 </script>
 
