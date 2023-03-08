@@ -190,3 +190,24 @@ module List =
         list
         |> List.map f
         |> covOfPairs
+
+[<AutoOpen>]
+module ListExtension =
+
+    type List() =
+
+        /// <summary>
+        /// Creates an float list with values between a given interval
+        /// </summary>
+        /// <param name="start">start value (is included)</param>
+        /// <param name="stop">end value (by default is included )</param>
+        /// <param name="Num">sets the number of elements in the list. If not set, stepsize = 1.</param>
+        /// <param name="IncludeEndpoint">If false, the list does not contain the stop value</param>
+        static member linspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : float list = 
+        
+            let includeEndpoint = defaultArg IncludeEndpoint true
+
+            if Num.IsSome then 
+                Seq.linspace(start,stop,Num.Value,includeEndpoint) |> List.ofSeq
+            else 
+                Seq.linspace(start,stop,IncludeEndpoint=includeEndpoint) |> List.ofSeq

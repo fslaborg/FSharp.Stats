@@ -3,6 +3,7 @@
 open Expecto
 open System
 open FSharp.Stats
+open TestExtensions
 
 let testArrayEvenCounts = [|10000.;-0.1;14.;-10.|]
 let testArrayOddCounts = [|10000.;-0.1;14.;-10.;5.|]
@@ -48,4 +49,46 @@ let dropNanTests =
             let expected = [|-infinity; 0.5; 1.5; 1000.; 5.0|]
             let actual = Array.dropNaN testArray
             Expect.equal expected actual "Filtered array is incorrect"
+    ]
+
+   
+[<Tests>]
+let linspaceTests =
+    testList "Array" [
+        testCase "linspace_0" <| fun () ->
+            let expected = Array.linspace(-3.5,2.5)
+            let actual = [|-3.5; -2.5; -1.5; -0.5; 0.5; 1.5; 2.5|]
+            TestExtensions.sequenceEqual (Accuracy.high) actual expected "linspace results in wrong array"
+
+        testCase "linspace_1" <| fun () ->
+            let expected = Array.linspace(-3.5,2.5,IncludeEndpoint=false)
+            let actual = [|-3.5; -2.5; -1.5; -0.5; 0.5; 1.5|]
+            TestExtensions.sequenceEqual (Accuracy.high) actual expected "linspace results in wrong array"
+
+        testCase "linspace_2" <| fun () ->
+            let expected = Array.linspace(-3.5,2.1)
+            let actual = [|-3.5; -2.5; -1.5; -0.5; 0.5; 1.5; 2.5|]
+            TestExtensions.sequenceEqual (Accuracy.high) actual expected "linspace results in wrong array"
+        
+        testCase "linspace_3" <| fun () ->
+            let expected = Array.linspace(-3.5,2.1,IncludeEndpoint=false)
+            let actual = [|-3.5; -2.5; -1.5; -0.5; 0.5; 1.5|]
+            TestExtensions.sequenceEqual (Accuracy.high) actual expected "linspace results in wrong array"
+        
+        testCase "linspace_4" <| fun () ->
+            let expected = Array.linspace(-3.5,30.1,Num=7)
+            let actual = [|-3.5; 2.1; 7.7; 13.3; 18.9; 24.5; 30.1|]
+            TestExtensions.sequenceEqual (Accuracy.high) actual expected "linspace results in wrong array"
+        
+        testCase "linspace_5" <| fun () ->
+            let expected = Array.linspace(-3.5,2.9,Num=17)
+            let actual = [|-3.5; -3.1; -2.7; -2.3; -1.9; -1.5; -1.1; -0.7; -0.3;  0.1;  0.5; 0.9;  1.3;  1.7;  2.1;  2.5;  2.9|]
+            TestExtensions.sequenceEqual (Accuracy.high) actual expected "linspace results in wrong array"
+        
+        testCase "linspace_6" <| fun () ->
+            let expected = Array.linspace(-3.5,30.1,Num=6,IncludeEndpoint=false)
+            let actual = [|-3.5;  2.1;  7.7; 13.3; 18.9; 24.5|]
+            TestExtensions.sequenceEqual (Accuracy.high) actual expected "linspace results in wrong array"
+      
+        
     ]
