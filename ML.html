@@ -190,7 +190,8 @@
                 <div class="container" id="fsdocs-content">
                     
 <h1><a name="Machine-Learning" class="anchor" href="#Machine-Learning">Machine Learning</a></h1>
-<p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Signal.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
+<p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Signal.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a>
+<a href="https://fslab.org/FSharp.Stats/ML.ipynb"><img src="https://fslab.org/FSharp.Stats/img/badge-notebook.svg" alt="Notebook" /></a></p>
 <p><em>Summary:</em> this tutorial demonstrates functionality relevant in the context of machine learning.</p>
 <h3><a name="Table-of-contents" class="anchor" href="#Table-of-contents">Table of contents</a></h3>
 <ul>
@@ -237,13 +238,13 @@
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs27', 57)" onmouseover="showTip(event, 'fs27', 57)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 58)" onmouseover="showTip(event, 'fs35', 58)" class="id">withYAxisStyle</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs33', 59)" onmouseover="showTip(event, 'fs33', 59)" class="fn">sprintf</span> <span class="s">&quot;PC2, Var explained </span><span class="pf">%f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs19', 60)" onmouseover="showTip(event, 'fs19', 60)" class="id">pca</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 61)" onmouseover="showTip(event, 'fs34', 61)" class="id">VarExplainedByComponentIndividual</span><span class="pn">.</span><span class="pn">[</span><span class="n">1</span><span class="pn">]</span><span class="pn">)</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs27', 62)" onmouseover="showTip(event, 'fs27', 62)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 63)" onmouseover="showTip(event, 'fs36', 63)" class="id">withTitle</span> <span class="s">&quot;Score Plot&quot;</span>
 </code></pre>
-<div><div id="0b406008-c739-4976-8465-ac4cc62db45c"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_0b406008c73949768465ac4cc62db45c = function() {
+<div><div id="712a5ee9-29f3-40c4-8bd4-2cca37a4752a"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_712a5ee929f340c48bd42cca37a4752a = function() {
     var data = [{"type":"scatter","mode":"markers","x":[2.3539452685961253,0.7595272937962629,0.4117370587418399,-1.3277364367053304,-2.1974731844289117],"y":[-0.02119164813524546,-1.7598322707465337,1.9220381325099989,0.32800194105070457,-0.46901615467893876],"marker":{},"line":{}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"PC1, Var explained 0.643962"}},"yaxis":{"title":{"text":"PC2, Var explained 0.355963"}},"title":{"text":"Score Plot"}};
     var config = {"responsive":true};
-    Plotly.newPlot('0b406008-c739-4976-8465-ac4cc62db45c', data, layout, config);
+    Plotly.newPlot('712a5ee9-29f3-40c4-8bd4-2cca37a4752a', data, layout, config);
 };
-renderPlotly_0b406008c73949768465ac4cc62db45c();
+renderPlotly_712a5ee929f340c48bd42cca37a4752a();
 </script></div>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// Additionally the variable loadings can be visualized:</span>
 <span class="c">// Disclaimer: there is a certain ambiguity when it comes to the use of the term loading.</span>
@@ -266,13 +267,13 @@ renderPlotly_0b406008c73949768465ac4cc62db45c();
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs27', 93)" onmouseover="showTip(event, 'fs27', 93)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 94)" onmouseover="showTip(event, 'fs35', 94)" class="id">withYAxisStyle</span> <span class="s">&quot;PC2&quot;</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs27', 95)" onmouseover="showTip(event, 'fs27', 95)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 96)" onmouseover="showTip(event, 'fs36', 96)" class="id">withTitle</span> <span class="s">&quot;Loading Plot&quot;</span>
 </code></pre>
-<div><div id="cb513117-2467-4b8f-896a-452919bd8b9d"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_cb51311724674b8f896a452919bd8b9d = function() {
+<div><div id="6f04dada-f59d-499c-bb09-72e5d6414b52"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_6f04dadaf59d499cbb0972e5d6414b52 = function() {
     var data = [{"type":"scatter","mode":"lines","x":[0.0,0.5018458447296024],"y":[0.0,-0.49658960606754643],"marker":{},"line":{}},{"type":"scatter","mode":"lines","x":[0.0,0.4979792094407811],"y":[0.0,-0.5035828626241312],"marker":{},"line":{}},{"type":"scatter","mode":"lines","x":[0.0,-0.5000837205370554],"y":[0.0,-0.499901522110588],"marker":{},"line":{}},{"type":"scatter","mode":"lines","x":[0.0,-0.5000837205370544],"y":[0.0,-0.49990152211058686],"marker":{},"line":{}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"PC1"}},"yaxis":{"title":{"text":"PC2"}},"title":{"text":"Loading Plot"}};
     var config = {"responsive":true};
-    Plotly.newPlot('cb513117-2467-4b8f-896a-452919bd8b9d', data, layout, config);
+    Plotly.newPlot('6f04dada-f59d-499c-bb09-72e5d6414b52', data, layout, config);
 };
-renderPlotly_cb51311724674b8f896a452919bd8b9d();
+renderPlotly_6f04dadaf59d499cbb0972e5d6414b52();
 </script></div>
 
                 </div>
