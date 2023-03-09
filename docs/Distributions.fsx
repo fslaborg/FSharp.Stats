@@ -30,6 +30,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 # Probability Distributions
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Distributions.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial shows how to use the various types of probability distributions in FSharp.Stats.
 

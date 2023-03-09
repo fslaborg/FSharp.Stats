@@ -31,6 +31,7 @@ open Plotly.NET
 # Growth curve
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/GrowthCurve.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates variou way to model growth curves, a commong task in any (micro)biological lab
 

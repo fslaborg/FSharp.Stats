@@ -23,6 +23,7 @@ categoryindex: 0
 # Matrix and Vector
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Matrix_Vector.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates some of the functionality for matrices and vectors provided by FSharp.Stats.
 

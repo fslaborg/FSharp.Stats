@@ -37,6 +37,7 @@ open Plotly.NET.LayoutObjects
 # Normalization
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Normalization.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates multiple ways of data normalization accross several samples
 

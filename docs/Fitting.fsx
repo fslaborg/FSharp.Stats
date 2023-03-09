@@ -33,6 +33,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 # Fitting
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Fitting.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 
 _Summary:_ this tutorial will walk through several ways of fitting data with FSharp.Stats.

@@ -29,6 +29,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 # Cross validation
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/CrossValidation.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates how to perform several types of cross validation with FSharp.Stats.
 

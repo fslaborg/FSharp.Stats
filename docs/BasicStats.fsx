@@ -22,6 +22,7 @@ categoryindex: 0
 # Basics
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/BasicStats.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial gives an overview over how to do some of the basic statistical measurements with FSharp.Stats.
 

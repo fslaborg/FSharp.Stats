@@ -32,6 +32,7 @@ open Plotly.NET
 # Linear Algebra
 
 Some algorithms such as SVD, EVD, or QR are implemented as a managed version in F# for a full list check the [API reference](https://fslab.org/FSharp.Stats/reference/fsharp-stats-algebra.html)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 *)
 
 open FSharp.Stats

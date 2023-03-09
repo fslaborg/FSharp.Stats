@@ -28,6 +28,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 # Evaluating predictions and tests
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Integration.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 #### Table of contents
 - [Confusion matrices](#Confusion-matrices)

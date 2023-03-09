@@ -30,6 +30,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 # Correlation
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Correlation.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary_: This tutorial demonstrates how to autocorrelate a signal in FSharp.Stats
 
