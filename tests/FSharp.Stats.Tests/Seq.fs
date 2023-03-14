@@ -74,27 +74,27 @@ let meanQuadraticTests =
 let geomspaceTests =
     testList "Seq" [
         testCase "geomspace_0" <| fun () ->
-            let expected = Seq.geomspace(10, 1000, 3)
+            let expected = Seq.geomspace(start= 10, stop= 1000, num= 3)
             let actual = seq {10.0; 100.0; 1000.0}
             TestExtensions.sequenceEqual (Accuracy.high) actual expected "geomspace results in wrong seq"
 
         testCase "geomspace_1" <| fun () ->
-            let expected = Seq.geomspace(10, 1000, 2, IncludeEndpoint = false)
+            let expected = Seq.geomspace(start= 10, stop= 1000, num= 2, IncludeEndpoint = false)
             let actual = seq {10.0; 100.0}
             TestExtensions.sequenceEqual (Accuracy.high) actual expected "geomspace results in wrong seq"
 
         testCase "geomspace_2" <| fun () ->
-            let expected = Seq.geomspace(8, 2, 3)
+            let expected = Seq.geomspace(start= 8, stop= 2, num= 3)
             let actual = seq {8.0; 4.0; 2.0}
             TestExtensions.sequenceEqual (Accuracy.high) actual expected "geomspace results in wrong seq"
 
         testCase "geomspace_3" <| fun () ->
-            let expected = Seq.geomspace(0.1, 10, 3)
+            let expected = Seq.geomspace(start= 0.1, stop= 10, num= 3)
             let actual = seq {0.1; 1.0; 10.0}
             TestExtensions.sequenceEqual (Accuracy.high) actual expected "geomspace results in wrong seq"
 
         testCase "geomspace_4" <| fun () ->
-            let expected = Seq.geomspace(2., 2. ** 50.)
+            let expected = Seq.geomspace(start= 2., stop= 2. ** 50., num= 50)
             let actual =
                 seq {2.; 4.; 8.; 16.; 32.; 64.; 128.; 256.; 512.; 1024.;
                 2048.; 4096.; 8192.; 16384.; 32768.; 65536.; 131072.;
@@ -109,15 +109,15 @@ let geomspaceTests =
             TestExtensions.sequenceEqual (Accuracy.high) actual expected "geomspace results in wrong seq"
 
         testCase "geomspace_5" <| fun () ->
-            let expected() = Seq.geomspace(-2., 2., 3) |> ignore
+            let expected() = Seq.geomspace(start= -2., stop= 2., num= 3) |> ignore
             Expect.throws expected "geomspace cannot be initialized with negative values."
 
         testCase "geomspace_6" <| fun () ->
-            let expected() = Seq.geomspace(2., -2.) |> ignore
+            let expected() = Seq.geomspace(start= 2., stop= -2., num= 3) |> ignore
             Expect.throws expected "geomspace cannot be initialized with negative values."
 
         testCase "geomspace_7" <| fun () ->
-            let expected() = Seq.geomspace(-2., -20.) |> ignore
+            let expected() = Seq.geomspace(start= -2., stop= -20., num= 3) |> ignore
             Expect.throws expected "geomspace cannot be initialized with negative values."
     ]
 

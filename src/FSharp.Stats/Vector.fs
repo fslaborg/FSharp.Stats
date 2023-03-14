@@ -416,14 +416,11 @@ module VectorExtension =
         /// <param name="stop">end value (by default is included )</param>
         /// <param name="Num">sets the number of elements in the vector. If not set, stepsize = 1.</param>
         /// <param name="IncludeEndpoint">If false, the vector does not contain the stop value</param>
-        static member linspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : vector = 
+        static member linspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : vector = 
         
             let includeEndpoint = defaultArg IncludeEndpoint true
-
-            if Num.IsSome then 
-                Seq.linspace(start,stop,Num.Value,includeEndpoint) |> Vector.ofSeq
-            else 
-                Seq.linspace(start,stop,IncludeEndpoint=includeEndpoint) |> Vector.ofSeq
+ 
+            Seq.linspace(start,stop,num,includeEndpoint) |> Vector.ofSeq
 
         /// <summary>
         /// Creates a geometric vector of floats with values between a given interval.
@@ -432,9 +429,8 @@ module VectorExtension =
         /// <param name="stop">end value (by default is included)</param>
         /// <param name="Num">sets the number of elements in the vector. Defaults to 50.</param>
         /// <param name="IncludeEndpoint">If false, the vector does not contain the stop value. Defaults to true.</param>
-        static member geomspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : vector = 
+        static member geomspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : vector = 
             let includeEndpoint = defaultArg IncludeEndpoint true
-            let num = defaultArg Num 50
 
             Seq.geomspace (start, stop ,num, includeEndpoint)
             |> Vector.ofSeq

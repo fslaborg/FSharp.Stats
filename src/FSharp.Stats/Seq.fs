@@ -1215,30 +1215,17 @@ module SeqExtension =
         /// <param name="stop">end value (by default is included )</param>
         /// <param name="Num">sets the number of elements in the seq. If not set, stepsize = 1.</param>
         /// <param name="IncludeEndpoint">If false, the seq does not contain the stop value</param>
-        static member inline linspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : seq<float> = 
+        static member inline linspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : seq<float> = 
         
             let includeEndpoint = defaultArg IncludeEndpoint true
 
-            if Num.IsSome then 
-                if includeEndpoint then 
-                    let stepsize = (stop - start) / (float (Num.Value - 1))
-                    Seq.init Num.Value (fun i -> stepsize * float i + start)
-                else 
-                    let stepsize = (stop - start) / (float (Num.Value))
-                    Seq.init Num.Value (fun i -> stepsize * float i + start)
-                    
+            if includeEndpoint then 
+                let stepsize = (stop - start) / (float (num - 1))
+                Seq.init num (fun i -> stepsize * float i + start)
             else 
-                if includeEndpoint then
-                    let num = (stop - start) |> ceil
-                    Seq.init (int num + 1) (fun i -> float i + start)
-                else 
-                    let dif = stop - start
-                    let num = 
-                        if System.Math.Round dif = dif then 
-                            floor dif
-                        else 
-                            ceil dif
-                    Seq.init (int num) (fun i -> float i + start)
+                let stepsize = (stop - start) / (float num)
+                Seq.init num (fun i -> stepsize * float i + start)
+
 
         /// <summary>
         /// Creates a geometric seq float with values between a given interval
@@ -1247,12 +1234,11 @@ module SeqExtension =
         /// <param name="stop">end value (by default is included)</param>
         /// <param name="Num">sets the number of elements in the seq. Defaults to 50.</param>
         /// <param name="IncludeEndpoint">If false, the seq does not contain the stop value. Defaults to true.</param>
-        static member inline geomspace (start:float, stop:float, ?Num:int, ?IncludeEndpoint:bool) : seq<float> = 
+        static member inline geomspace (start:float, stop:float, num:int, ?IncludeEndpoint:bool) : seq<float> = 
             if start <= 0. || stop <= 0. then
                 failwith "Geometric space can only take positive values."
 
             let includeEndpoint = defaultArg IncludeEndpoint true
-            let num = defaultArg Num 50
 
             let logStart = System.Math.Log start
             let logStop = System.Math.Log stop
