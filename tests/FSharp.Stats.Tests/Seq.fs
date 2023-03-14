@@ -107,5 +107,17 @@ let geomspaceTests =
                 70368744177664.; 140737488355328.; 281474976710656.;
                 562949953421312.; 1125899906842624.}
             TestExtensions.sequenceEqual (Accuracy.high) actual expected "geomspace results in wrong seq"
+
+        testCase "geomspace_5" <| fun () ->
+            let expected() = Seq.geomspace(-2., 2., 3) |> ignore
+            Expect.throws expected "geomspace cannot be initialized with negative values."
+
+        testCase "geomspace_6" <| fun () ->
+            let expected() = Seq.geomspace(2., -2.) |> ignore
+            Expect.throws expected "geomspace cannot be initialized with negative values."
+
+        testCase "geomspace_7" <| fun () ->
+            let expected() = Seq.geomspace(-2., -20.) |> ignore
+            Expect.throws expected "geomspace cannot be initialized with negative values."
     ]
 
