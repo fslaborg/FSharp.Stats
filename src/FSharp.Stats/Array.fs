@@ -518,11 +518,21 @@ module ArrayExtension =
         /// <param name="stop">end value (by default is included )</param>
         /// <param name="Num">sets the number of elements in the array. If not set, stepsize = 1.</param>
         /// <param name="IncludeEndpoint">If false, the array does not contain the stop value</param>
-        static member linspace(start:float,stop:float,?Num:int,?IncludeEndpoint:bool) : float [] = 
+        static member linspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : float [] = 
         
             let includeEndpoint = defaultArg IncludeEndpoint true
 
-            if Num.IsSome then 
-                Seq.linspace(start,stop,Num.Value,includeEndpoint) |> Array.ofSeq
-            else 
-                Seq.linspace(start,stop,IncludeEndpoint=includeEndpoint) |> Array.ofSeq
+            Seq.linspace(start,stop,num,includeEndpoint) |> Array.ofSeq
+
+        /// <summary>
+        /// Creates a geometric array of floats with values between a given interval
+        /// </summary>
+        /// <param name="start">start value (is included)</param>
+        /// <param name="stop">end value (by default is included)</param>
+        /// <param name="Num">sets the number of elements in the array. Defaults to 50.</param>
+        /// <param name="IncludeEndpoint">If false, the array does not contain the stop value. Defaults to true.</param>
+        static member geomspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : float array = 
+            let includeEndpoint = defaultArg IncludeEndpoint true
+
+            Seq.geomspace (start, stop ,num, includeEndpoint)
+            |> Array.ofSeq

@@ -44,6 +44,8 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv SeqTests.medianTests |> ignore
     Tests.runTestsWithCLIArgs [] argv SeqTests.meanTests   |> ignore
     Tests.runTestsWithCLIArgs [] argv SeqTests.meanQuadraticTests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv SeqTests.geomspaceTests   |> ignore
+
 
     //============================= Distributions ===========================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.distanceFunctionsTests |> ignore
