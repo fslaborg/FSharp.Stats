@@ -109,3 +109,9 @@ Some interesting targets may be:
 ## Library license
 
 The library is available under Apache 2.0. For more information see the License file in the GitHub repository.
+
+## Citation
+
+FSharp.Stats can be cited using its [zenodo record](https://zenodo.org/record/7568568). 
+
+> Benedikt Venn, Lukas Weil, Kevin Schneider, David Zimmer & Timo Mühlhaus. (2022). fslaborg/FSharp.Stats. Zenodo. https://doi.org/10.5281/zenodo.6337056 
