@@ -36,10 +36,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="data/TestDataSAM.txt" CopyToOutputDirectory="PreserveNewest" />
-    <EmbeddedResource Include="data/benjaminiHochberg_Input.csv" CopyToOutputDirectory="PreserveNewest" />
-    <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR.csv" CopyToOutputDirectory="PreserveNewest" />
-    <EmbeddedResource Include="data/qvaluesWithR.csv" CopyToOutputDirectory="PreserveNewest" />
-    <EmbeddedResource Include="data/qvaluesRobustWithR.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/benjaminiHochberg_Input_nan.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR_nan.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/qvaluesWithR_nan.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/qvaluesRobustWithR_nan.csv" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/DenseMatrixFormat1NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/DenseMatrixFormat2NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/DenseMatrixFormat3NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
