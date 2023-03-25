@@ -52,9 +52,8 @@ type Gamma =
         sqrt (Gamma.Variance alpha beta)
         
     /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-    static member Sample alpha beta = 
+    static member SampleUnchecked alpha beta = 
         // Source: fsmathtools (same in MN)
-        Gamma.CheckParam alpha beta
         let mutable a = alpha
         // Fix when alpha is less than one.
         let alphafix =
@@ -66,11 +65,10 @@ type Gamma =
         let d = a - 1.0 / 3.0
         let c = 1.0 / sqrt(9.0 * d)
         let rec gammaSample () =
-            // TODO Implement unchecked Normal.Sample 
-            let mutable x = Normal.Sample 0.0 1.0
+            let mutable x = Normal.SampleUnchecked 0.0 1.0
             let mutable v = 1.0 + c * x
             while v <= 0.0 do
-                x <- Normal.Sample 0.0 1.0
+                x <- Normal.SampleUnchecked 0.0 1.0
                 v <- 1.0 + c * x
             v <- v * v * v
             let u = Random.rndgen.NextFloat()
@@ -81,7 +79,12 @@ type Gamma =
                 d * v
             else gammaSample()
         alphafix * gammaSample() * beta
-        
+
+    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    static member Sample alpha beta = 
+        // Source: fsmathtools (same in MN)
+        Gamma.CheckParam alpha beta
+        Gamma.SampleUnchecked alpha beta
         
     /// Computes the probability density function.
     static member PDF alpha beta x = 

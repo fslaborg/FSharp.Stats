@@ -43,8 +43,8 @@ type Bernoulli =
     /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
     static member Sample p = 
         Bernoulli.CheckParam p
-//            if rndgen.NextFloat() < p then 0.0 else 1.0
-        failwith "Not implemented yet."
+        if Random.rndgen.NextFloat() < p then 0.0 else 1.0
+        //failwith "Not implemented yet."
 
     // Rename PMF? https://en.wikipedia.org/wiki/Probability_mass_function
     // > A probability mass function differs from a probability density function (PDF) in that the latter is associated with continuous 

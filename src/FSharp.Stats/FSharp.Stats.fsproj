@@ -101,7 +101,6 @@
     <Compile Include="Signal\PeakDetection.fs" />
     <Compile Include="Distributions\Distribution.fs" />
     <Compile Include="Distributions\Continuous\Normal.fs" />
-    <Compile Include="Distributions\Continuous\NegativeBinomial.fs" />
     <Compile Include="Distributions\Continuous\Gamma.fs" />
     <Compile Include="Distributions\Continuous\Beta.fs" />
     <Compile Include="Distributions\Continuous\F.fs" />
@@ -113,6 +112,7 @@
     <Compile Include="Distributions\Continuous\Uniform.fs" />
     <Compile Include="Distributions\Continuous\Chi.fs" />
     <Compile Include="Distributions\Continuous\ChiSquared.fs" />
+    <Compile Include="Distributions\Discrete\NegativeBinomial.fs" />
     <Compile Include="Distributions\Discrete\Bernoulli.fs" />
     <Compile Include="Distributions\Discrete\Binomial.fs" />
     <Compile Include="Distributions\Discrete\Hypergeometric.fs" />

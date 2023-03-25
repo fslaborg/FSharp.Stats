@@ -73,7 +73,7 @@ type Binomial =
         Binomial.SampleUnchecked p n
 
         
-    /// Computes the probability density function at k, i.e. P(K = k)
+    /// Computes the probability mass function at k, i.e. P(K = k)
     static member PMF p n k =
         Binomial.CheckParam  p n
         if k < 0 || k > n then

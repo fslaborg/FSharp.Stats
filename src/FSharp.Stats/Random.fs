@@ -26,6 +26,7 @@ module Random =
             member x.NextInt() = x.rnd.Value.Next()
             ///maxValue is not part of the possible sampling range (minVal <= x < maxVal)
             member x.NextInt maxValue = x.rnd.Value.Next(maxValue)
+            /// Returns a random floating-point number that is greater or equal to 0.0, and less then 1.0
             member x.NextFloat() =x.rnd.Value.NextDouble()
         end
 

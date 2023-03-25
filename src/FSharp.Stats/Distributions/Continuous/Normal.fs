@@ -41,9 +41,8 @@ type Normal =
         sigma
 
     /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-    static member Sample mu sigma =
+    static member SampleUnchecked mu sigma =
         // Source: fsmathtools
-        Normal.CheckParam mu sigma
         let mutable v1 = 2.0 * Random.rndgen.NextFloat() - 1.0
         let mutable v2 = 2.0 * Random.rndgen.NextFloat() - 1.0
         let mutable r = v1 * v1 + v2 * v2
@@ -54,7 +53,13 @@ type Normal =
         let fac = sqrt(-2.0*(log r)/r)
         (sigma * v1 * fac + mu)
         //failwith "Not implemented yet."
-
+    
+    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    static member Sample mu sigma =
+        // Source: fsmathtools
+        Normal.CheckParam mu sigma
+        Normal.SampleUnchecked mu sigma
+        
     /// Computes the probability density function.
     static member PDF mu sigma x =
         Normal.CheckParam mu sigma
