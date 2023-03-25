@@ -240,8 +240,6 @@ module NelderMead =
         stopCounter.IncIerationCounter()
         let newNmInterResult = update nmc stopCounter fn nmInterResult
 
-        printfn "Counter: %i" stopCounter.IterationCounter
-
         // if (fx[0] < minCostSoFar) then
         //   minCostSoFar = fx[0];
         //   newMinimalValueFound?.Invoke(minCostSoFar);

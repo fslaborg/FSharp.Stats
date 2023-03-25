@@ -57,31 +57,26 @@ let NelderMeadTests =
             }
         ]
 
-        //testList "Test Fletcher" [
+        testList "Test Fletcher" [
 
-        //    let x0 = vector [| -1.0; 0.0; 0.0; |] 
-        //    let nmc = 
-        //        { 
-        //           NelderMead.NmConfig.defaultInit() 
-        //           with 
-        //              Rho = 10.
-        //              Psi = 1.5
-        //        }
-
-        //    let optim = NelderMead.minimize nmc x0 fphv 
+            let x0 = vector [| -1.0; 0.0; 0.0; |] 
+            let nmc = NelderMead.NmConfig.defaultInit() 
+            let optim = 
+                NelderMead.minimizeWithStopCriteria nmc x0 fphv 
+                    { OptimizationStop.defaultStopCriteria with MinFunctionEpsilon = 1e-24 }
           
-        //    test "Fletcher: solution value" {
-        //        let expected = 6.950929861e-09
-        //        let actual   = optim.Solution
-        //        Expect.floatClose Accuracy.low actual expected "fletcher: solution did not match"
-        //    }
-        //    //seq [0.9999272578; -2.558463341e-05; -4.073735628e-05]; #  1 0 0
-        //    testCase "Fletcher: solution vector" <| fun () ->
-        //        Expect.floatClose Accuracy.low optim.SolutionVector[0] 1. "fletcher: x1 did not match"
-        //        Expect.floatClose Accuracy.low optim.SolutionVector[1] 0. "fletcher: x2 did not match"
-        //        Expect.floatClose Accuracy.low optim.SolutionVector[2] 0. "fletcher: x3 did not match"
+            //test "Fletcher: solution value" {
+            //    let expected = 0.
+            //    let actual   = optim.Solution
+            //    Expect.floatClose Accuracy.low actual expected "fletcher: solution did not match"
+            //}
+            //seq [0.9999272578; -2.558463341e-05; -4.073735628e-05]; #  1 0 0
+            testCase "Fletcher: solution vector" <| fun () ->
+                Expect.floatClose Accuracy.low optim.SolutionVector[0] 1. "fletcher: x1 did not match"
+                Expect.floatClose Accuracy.low optim.SolutionVector[1] 0. "fletcher: x2 did not match"
+                Expect.floatClose Accuracy.low optim.SolutionVector[2] 0. "fletcher: x3 did not match"
 
-        //]
+        ]
 
         testList "Test Powell's Singular Function" [
 

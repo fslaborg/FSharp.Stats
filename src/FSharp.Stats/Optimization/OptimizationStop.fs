@@ -298,5 +298,5 @@ module OptimizationStop =
       stopCounter.EndCriteria <- testFlags
       testFlags = StopCriteriaType.None
 
-  // 1e-8
+
   let defaultStopCriteria = StopCriteria.InitWith (1000, 1e-8, 10000, 100, System.Threading.CancellationToken.None)
