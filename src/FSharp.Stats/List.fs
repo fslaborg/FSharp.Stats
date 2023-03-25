@@ -190,3 +190,35 @@ module List =
         list
         |> List.map f
         |> covOfPairs
+
+[<AutoOpen>]
+module ListExtension =
+
+    type List() =
+
+        /// <summary>
+        /// Creates an float list with values between a given interval
+        /// </summary>
+        /// <param name="start">start value (is included)</param>
+        /// <param name="stop">end value (by default is included )</param>
+        /// <param name="Num">sets the number of elements in the list. If not set, stepsize = 1.</param>
+        /// <param name="IncludeEndpoint">If false, the list does not contain the stop value</param>
+        static member linspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : float list = 
+        
+            let includeEndpoint = defaultArg IncludeEndpoint true
+
+            Seq.linspace(start,stop,num,includeEndpoint) |> List.ofSeq
+
+        /// <summary>
+        /// Creates a geometric list of floats with values between a given interval
+        /// </summary>
+        /// <param name="start">start value (is included)</param>
+        /// <param name="stop">end value (by default is included)</param>
+        /// <param name="Num">sets the number of elements in the list. Defaults to 50.</param>
+        /// <param name="IncludeEndpoint">If false, the list does not contain the stop value. Defaults to true.</param>
+        static member geomspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : float list = 
+            let includeEndpoint = defaultArg IncludeEndpoint true
+
+            Seq.geomspace (start, stop ,num, includeEndpoint)
+            |> List.ofSeq
+

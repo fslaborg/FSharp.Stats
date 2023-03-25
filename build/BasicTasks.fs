@@ -11,7 +11,8 @@ let setPrereleaseTag = BuildTask.create "SetPrereleaseTag" [] {
     printfn "Please enter pre-release package suffix"
     let suffix = System.Console.ReadLine()
     prereleaseSuffix <- suffix
-    prereleaseTag <- (sprintf "%s-%s" release.NugetVersion suffix)
+    //prereleaseTag <- (sprintf "%s-%s" release.NugetVersion suffix)
+    prereleaseTag <- (sprintf "%i.%i.%i-%s" release.SemVer.Major release.SemVer.Minor release.SemVer.Patch suffix)
     isPrerelease <- true
 }
 

@@ -12,34 +12,28 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
+
+open Plotly.NET
 #endif // IPYNB
 
 open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 (**
 
 # Fit quality
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=GoodnessOfFit.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/GoodnessOfFit.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial shows how to assess fit quality with FSharp.Stats
 
@@ -73,11 +67,11 @@ let fittedValues = x |> Seq.map fitFunc
 
 let chart =
     [
-    Chart.Point(x,y) |> Chart.withTraceName "raw"
-    Chart.Line(fittedValues|> Seq.mapi (fun i y -> x.[i],y)) |> Chart.withTraceName "fit"
+    Chart.Point(x,y) |> Chart.withTraceInfo "raw"
+    Chart.Line(fittedValues|> Seq.mapi (fun i y -> x.[i],y)) |> Chart.withTraceInfo "fit"
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -208,23 +202,25 @@ let confidence =
 ///lower and upper bounds of the 95% confidence band sorted according to x values
 let (lower,upper) = 
     xData 
-    |> Seq.mapi (fun i xi -> (fit xi) - confidence.[i],(fit xi) + confidence.[i]) 
-    |> Seq.unzip
+    |> Vector.toArray
+    |> Array.mapi (fun i xi -> (fit xi) - confidence.[i],(fit xi) + confidence.[i]) 
+    |> Array.unzip
 
 let rangePlot = 
     [
     Chart.Range (
-        fitValues,
-        lower,
-        upper,
+        xy=fitValues,
+        lower=lower,
+        upper=upper,
         mode = StyleParam.Mode.Lines,
-        Color = Color.Table.Office.blue,
-        RangeColor = Color.Table.Office.lightBlue)
-        |> Chart.withTraceName "CI95"
-    Chart.Point (values,MarkerColor=Color.fromString "#000000") |> Chart.withTraceName "raw"
+        LineColor = Color.fromKeyword ColorKeyword.Blue,
+        RangeColor = Color.fromKeyword ColorKeyword.LightBlue
+        )
+        |> Chart.withTraceInfo "CI95"
+    Chart.Point (values,MarkerColor=Color.fromString "#000000") |> Chart.withTraceInfo "raw"
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "Confidence band 95%"
 
 (*** condition: ipynb ***)
@@ -251,18 +247,19 @@ let newConfidence =
 ///lower and upper bounds of the 95% confidence band sorted according to x values
 let (newLower,newUpper) = 
     newXValues 
-    |> Seq.mapi (fun i xi -> (fit xi) - newConfidence.[i],(fit xi) + newConfidence.[i]) 
-    |> Seq.unzip
+    |> Vector.toArray
+    |> Array.mapi (fun i xi -> (fit xi) - newConfidence.[i],(fit xi) + newConfidence.[i]) 
+    |> Array.unzip
 
 let linePlot =
     [
-    Chart.Point(xData,yData) |> Chart.withTraceName (sprintf "%.2f+%.4fx" coeffs.[0] coeffs.[1])
-    Chart.Line(fitValues) |> Chart.withTraceName "linear regression"
-    Chart.Line(newXValues,newLower,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "lower"
-    Chart.Line(newXValues,newUpper,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "upper"
+    Chart.Point(xData,yData) |> Chart.withTraceInfo (sprintf "%.2f+%.4fx" coeffs.[0] coeffs.[1])
+    Chart.Line(fitValues) |> Chart.withTraceInfo "linear regression"
+    Chart.Line(newXValues,newLower,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceInfo "lower"
+    Chart.Line(newXValues,newUpper,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceInfo "upper"
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "Confidence band 95%"
 
 (*** condition: ipynb ***)
@@ -289,18 +286,19 @@ let prediction =
 ///lower and upper bounds of the 95% prediction band sorted according to x values
 let (pLower,pUpper) = 
     predictionXValues 
-    |> Seq.mapi (fun i xi -> (fit xi) - prediction.[i],(fit xi) + prediction.[i]) 
-    |> Seq.unzip
+    |> Vector.toArray
+    |> Array.mapi (fun i xi -> (fit xi) - prediction.[i],(fit xi) + prediction.[i]) 
+    |> Array.unzip
 
 let predictionPlot =
     [
-    Chart.Point(xData,yData) |> Chart.withTraceName (sprintf "%.2f+%.4fx" coeffs.[0] coeffs.[1])
-    Chart.Line(fitValues) |> Chart.withTraceName "linear regression"
-    Chart.Line(predictionXValues,pLower,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "pLower"
-    Chart.Line(predictionXValues,pUpper,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "pUpper"
+    Chart.Point(xData,yData) |> Chart.withTraceInfo (sprintf "%.2f+%.4fx" coeffs.[0] coeffs.[1])
+    Chart.Line(fitValues) |> Chart.withTraceInfo "linear regression"
+    Chart.Line(predictionXValues,pLower,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceInfo "pLower"
+    Chart.Line(predictionXValues,pUpper,LineColor= Color.fromString "#C1C1C1") |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceInfo "pUpper"
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "Prediction band"
 
 
@@ -339,15 +337,16 @@ let threshold3 = 3. * meanCook
 
 let cook = 
     [
-    Chart.Column (Seq.zip xD cooksDistance) |> Chart.withTraceName "cook's distance"
-    Chart.Line([0.5,threshold1;10.5,threshold1])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "t=1"
-    Chart.Line([0.5,threshold2;10.5,threshold2])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "t=4/n"
-    Chart.Line([0.5,threshold3;10.5,threshold3])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceName "t=3*mean(D)"
+    Chart.Column (Seq.zip xD cooksDistance) |> Chart.withTraceInfo "cook's distance"
+    Chart.Line([0.5,threshold1;10.5,threshold1])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceInfo "t=1"
+    Chart.Line([0.5,threshold2;10.5,threshold2])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceInfo "t=4/n"
+    Chart.Line([0.5,threshold3;10.5,threshold3])|> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash)|> Chart.withTraceInfo "t=3*mean(D)"
     ]
-    |> Chart.combine
-    |> Chart.withAxisTitles "" "cook's distance"
-    |> fun l -> [(Chart.Point(xD,yD) |> Chart.withTraceName "raw");l] |> Chart.Grid(2,1)
-    |> Chart.withAxisTitles "" ""
+    |> Chart.combine    
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withYAxisStyle "cook's distance"
+    |> fun l -> [(Chart.Point(xD,yD) |> Chart.withTraceInfo "raw");l] |> Chart.Grid(2,1)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "Cook's distance"
     |> Chart.withSize (650.,650.)
 

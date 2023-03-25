@@ -13,19 +13,23 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
 (**
 # Cross validation
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=CrossValidation.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/CrossValidation.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates how to perform several types of cross validation with FSharp.Stats.
 
@@ -56,6 +60,7 @@ The parameter of the model that shows the minimal average error is the best unde
 
 let's first create some polynomial fits to cross validate:
 *)
+open Plotly.NET
 open FSharp.Stats
 open FSharp.Stats.Fitting
 open LinearRegression.OrdinaryLeastSquares
@@ -71,22 +76,10 @@ let getFitFuncPolynomial xTrain yTrain (xTest:RowVector<float>) order =
     fit
 
 open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 let rawchart() = 
     Chart.Point (xV,yV) 
-    |> Chart.withTraceName "raw data"
+    |> Chart.withTraceInfo "raw data"
 
 let chartOrderOpt = 
     [1 .. 2 .. 10]
@@ -96,11 +89,13 @@ let chartOrderOpt =
         [1. .. 0.2 .. 10.]
         |> List.map (fun x -> x,fit x)
         |> Chart.Line
-        |> Chart.withTraceName (sprintf "order=%i" order)
+        |> Chart.withTraceInfo (sprintf "order=%i" order)
         )
     |> fun x -> Chart.combine (rawchart()::x)
     |> Chart.withTitle "polynomial fits"
-    |> Chart.withAxisTitles "x" "y"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "x"
+    |> Chart.withYAxisStyle "y"
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -140,7 +135,9 @@ let errorPol =
 let chartPol = 
     errorPol 
     |> Chart.Line 
-    |> Chart.withAxisTitles "polynomial order" "mean error" 
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "polynomial order"
+    |> Chart.withYAxisStyle "mean error"
     |> Chart.withTitle "leave one out cross validation (polynomial)"
     
 let result = sprintf "The minimal error is obtained by order=%i" (errorPol |> Seq.minBy snd |> fst)
@@ -184,11 +181,13 @@ let chartSpline =
         [1. .. 0.2 .. 10.]
         |> List.map (fun x -> x,fit x)
         |> Chart.Line
-        |> Chart.withTraceName (sprintf "l=%.4f" lambda)
+        |> Chart.withTraceInfo (sprintf "l=%.4f" lambda)
         )
     |> fun x -> 
         Chart.combine (rawchart()::x)
-    |> Chart.withAxisTitles "x" "y"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "x"
+    |> Chart.withYAxisStyle "y"
     |> Chart.withTitle "smoothing splines"
 
 (*** condition: ipynb ***)
@@ -233,7 +232,9 @@ let errorSpline =
 let chartSplineError = 
     errorSpline 
     |> Chart.Line 
-    |> Chart.withAxisTitles "lambda" "mean error"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "lambda"
+    |> Chart.withYAxisStyle "mean error"
     |> Chart.withTitle "leave one out cross validation (smoothing spline)"
     
 let resultSpline = sprintf "The minimal error is obtained by lambda=%f" (errorSpline |> Seq.minBy snd |> fst)
@@ -299,9 +300,11 @@ let kfp =
 
     fst errorSplinekf 
     |> Chart.Line 
-    |> Chart.withAxisTitles "order" "mean error"
-    |> Chart.withYAxis(LinearAxis.init(AxisType=AxisType.Log))
-    |> Chart.withYErrorStyle (snd errorSplinekf)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "order"
+    |> Chart.withYAxisStyle "mean error"
+    |> Chart.withYAxis(LayoutObjects.LinearAxis.init(AxisType=StyleParam.AxisType.Log))
+    |> Chart.withYErrorStyle (Array= snd errorSplinekf)
     |> Chart.withTitle "kfoldPolynomial error"
 
 (*** condition: ipynb ***)
@@ -324,8 +327,10 @@ let kfs =
 
     fst errorSplinekf 
     |> Chart.Line 
-    |> Chart.withAxisTitles "lambda" "mean error"
-    |> Chart.withYErrorStyle (snd errorSplinekf)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "lambda"
+    |> Chart.withYAxisStyle "mean error"
+    |> Chart.withYErrorStyle (Array= snd errorSplinekf)
     |> Chart.withTitle "kfoldSpline error"
 
 (*** condition: ipynb ***)
@@ -387,9 +392,11 @@ let sasp =
 
     fst errorSplinekf 
     |> Chart.Line 
-    |> Chart.withAxisTitles "order" "mean error"
-    |> Chart.withYAxis(LinearAxis.init(AxisType=AxisType.Log))
-    |> Chart.withYErrorStyle (snd errorSplinekf)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "order"
+    |> Chart.withYAxisStyle "mean error"
+    |> Chart.withYAxis(LayoutObjects.LinearAxis.init(AxisType=StyleParam.AxisType.Log))
+    |> Chart.withYErrorStyle (Array= snd errorSplinekf)
     |> Chart.withTitle "shuffle_and_split polynomial error"
 
 (*** condition: ipynb ***)
@@ -412,8 +419,10 @@ let sass =
 
     fst errorSplinekf 
     |> Chart.Line 
-    |> Chart.withAxisTitles "lambda" "mean error"
-    |> Chart.withYErrorStyle (snd errorSplinekf)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "lambda"
+    |> Chart.withYAxisStyle "mean error"
+    |> Chart.withYErrorStyle (Array= snd errorSplinekf)
     |> Chart.withTitle "shuffle_and_split spline error"
 
 (*** condition: ipynb ***)

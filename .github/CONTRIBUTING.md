@@ -1,8 +1,8 @@
-﻿# Contributing to CSBiology repositories
+﻿# Contributing to FSharp.Stats
 
 First of all, we are really happy that you are reading this, because this means that you are considering contributing to our repositories, which is awesome. 🎉👍
 
-The following is a set of guidelines for contributing to repositories which are hosted in the CSBiology Organization on GitHub. These guidelines are subject to changes, and therefore should not be thought about as strict rules. Feel free to suggest changes with a pull request to this file
+The following is a set of guidelines for contributing to repositories which are hosted in the fslab organization on GitHub. These guidelines are subject to changes, and therefore should not be thought about as strict rules. Feel free to suggest changes with a pull request to this file
 
 **If you just want to know how to start contributing without reading all of this stuff, go [here](#Starting-point-for-first-time-contributors) for a quickstart guide, or [here](#How-can-i-contribute) for more indepth information**
 
@@ -42,7 +42,7 @@ This project and everyone participating in it is governed by the [CSBiology Code
 
 ## Who we are
 
-Members of the [CSBiology](https://github.com/CSBiology) organization are group members of the [Computational Systems Biology](https://csb.bio.uni-kl.de/) workgroup at the Technical University Kaiserslautern, headed by [Jun. Prof. Dr. Timo Mühlhaus](https://scholar.google.com/citations?user=hKrd6ocAAAAJ&hl=en&oi=ao)
+FSharp.Stats was initialized by [Prof. Dr. Timo Mühlhaus](https://scholar.google.com/citations?user=hKrd6ocAAAAJ&hl=en&oi=ao), head of the [CSBiology](https://github.com/CSBiology) group at the [RPTU Kaiserslautern](https://rptu.de/).
 
 The main focus of our group is the application and development of computational methods to process and integrate quantitative biological data from modern high-throughput measurements to gain novel insights into plant acclimation responses. Therefore, we want to drive theory and technology forward with a combination of biological science, applied informatics and statistical approaches.
 
@@ -51,26 +51,15 @@ However, the scope of our projects is not limited to our particular research top
 We mainly develop in the [F# programming language](https://fsharp.org/), which we see as perfectly suited for large scale data analysis.
 All of our repositories are the result of our active research, which we make publicly available by going open source.
 
+In 2020 under supervision of [bvenn](https://github.com/bvenn) the project was migrated to [fslab.org](https://fslab.org/), the F# community project incubation space for data science.
+
 ## Repository structure and scope
 
-One part of our research activity is data analysis. Therefore, projects that are used in that process may be subject to a burst of changes in a brief period of time. This is the reason why we work on our projects in two branches:
+One part of our research activity is data analysis. Therefore, projects that are used in that process may be subject to a burst of changes in a brief period of time.
 
-* `developer` branch: As the name suggests, this is where the bulk development work is done. All changes and pull request should target this branch instead of the `master` branch. Due to the speed of changes to the codebase, a `nuget` branch is used to host prerelease packages as a git source. We mainly use these packages because such frequent updates to nuget.org take to much time and would slow down research.
+* `developer` branch: As the name suggests, this is where the bulk development work is done. All changes and pull request should target this branch.
 
-* 'master' branch: This is the place for stable releases. The `developer` branch will be merged into this branch on a semi-regular basis. The codebase used for publishing release packages on nuget.org can be found here
-
-### Projects
-
-Here is a brief overview of our main projects (also available [here](https://github.com/CSBiology)) :
-
-|Project|Description|Docs|
-|---|---|---|
-|[BioFSharp](https://github.com/CSBiology/BioFSharp)|Provides data structures for common biological entities like amino acids and nucleotides, as well as various algorithms suited for computational biology. Additionally, it contains a steadily growing amount of parsers for biological file formats|<https://csbiology.github.io/BioFSharp/>|
-|[FSharp.Stats](https://github.com/CSBiology/FSharp.Stats) | Statistics, Linear Algebra, Machine learning, Optimization and Fitting. Everything needed for (statistical) data analysis belongs here.| <https://csbiology.github.io/FSharp.Stats/>|
-|[FSharp.Plotly](https://github.com/muehlhaus/FSharp.Plotly)| Implements charting suitable for use from F# scripting using plotly.js for all kinds of data visualization| <https://muehlhaus.github.io/FSharp.Plotly/>|
-|[FSharpGephiStreamer](https://github.com/CSBiology/FSharpGephiStreamer)| F# functions for streaming graph data to the graph visualization software gephi. Helpful for all kinds of network analysis. | <https://csbiology.github.io/FSharpGephiStreamer> |
-|[FSharp.FGL](https://github.com/CSBiology/FSharp.FGL)| Functional graph library based on the [Hekate graph library](https://github.com/xyncro/hekate) | <https://csbiology.github.io/FSharp.FGL> |
-|[FSharpAux](https://github.com/CSBiology/FSharpAux)| Auxiliary functions and extensions for F#. Used in all of our projects to extend F# core functionalities for our needs. | <https://csbiology.github.io/FSharpAux> |
+* `master` branch: This is the place for stable releases, that are available at [nuget.org](https://www.nuget.org/packages/FSharp.Stats/). The `developer` branch will be merged into this branch on a semi-regular basis.
 
 ### Issue and pull request labels
 
@@ -84,19 +73,19 @@ Here is a brief overview of our main projects (also available [here](https://git
 | priority-*| `low`, `medium`, or `high`. high means that the CSBiology core team is actively working on this issue|
 | project-*| Signals the respective subproject this issue is about|
 | question | Questions more than bug reports or feature requests (e.g. how do I do X).|
-| up-for-grabs| Issues with this label show up on <https://up-for-grabs.net> if the respective project is registered there. Marks good issues for contributig to the project.|
+| up-for-grabs| Issues with this label show up on https://up-for-grabs.net if the respective project is registered there. Marks good issues for contributig to the project.|
 | wontfix| The CSBiology core team has decided not to fix these issues for now, either because they're working as intended or for some other reason. |
 
 ### Build process
 
-Our F# projects use the [ProjectScaffold](https://github.com/fsprojects/ProjectScaffold) layout. To build our projects, you will need [.NET Core SDK](https://dotnet.microsoft.com/download) and an installation of [FAKE5 CLI]().
+To build our projects, you will need [.NET Core SDK](https://dotnet.microsoft.com/download).
 
 All projects have at least the following build targets:
 
 |Target|Description|Command Line Arguments|
 |---|---|---|
-|Build|Builds the binaries and docs|fake build|
-|ReleaseLocal|Uses Build. Afterwards creates a folder structure so you can see the docs with proper style and relative paths in temp/localDocs. Use this to test documentation. | fake build --target releaselocal|
+|build|Builds the binaries |./build|
+|watchdocs|Uses Build. Afterwards creates a live view of the documentation with proper style and relative paths. Use this to test documentation. | ./build watchdocs|
 
 ## How can i contribute?
 
@@ -110,8 +99,7 @@ Before creating bug reports, please check [this list](#before-submitting-a-bug-r
 
 #### Before Submitting A Bug Report
 
-* **Determine [which repository the problem should be reported in](#Projects)**.
-* **Perform a [cursory search](https://github.com/search?q=+is:issue+user:CSBiology)** to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue instead of opening a new one.
+* **Perform a [cursory search](https://github.com/search?q=+is:issue+user:fslaborg)** to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Bug Report?
 
@@ -146,7 +134,6 @@ Before creating feature requests, please check [this list](#before-submitting-an
 
 #### Before Submitting An Enhancement Suggestion
 
-* **Determine [which repository the enhancement should be suggested in](#Projects).**
 * **Perform a [cursory search](https://github.com/search?q=+is%3Aissue+user:CSBiology)** to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Enhancement Suggestion?
@@ -183,8 +170,8 @@ Please follow these steps to have your contribution considered by the maintainer
 
 ### Git Commit Messages
 
-* Use the present tense ("Add feature" not "Added feature")
-* Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
+* Use the present tense ("add feature" not "added feature")
+* Use the imperative mood ("move cursor to..." not "moves cursor to...")
 * Limit the first line to 72 characters or less
 * Reference issues and pull requests liberally after the first line
 

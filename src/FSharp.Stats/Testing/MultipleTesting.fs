@@ -141,125 +141,194 @@ module MultipleTesting =
         //            arr'.[i] <- arr'.[i-1]
         //    arr'
                
-        /// Calculates q-values from given p-values and returns an array of qValues in the same order.
-        /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+        /// <summary>
+        /// Calculates q-values from given p-values and returns an array of robust qValues in the same order.
         /// More robust for small p values when testcount is low, see Storey JD (2002) JRSS-B 64: 479-498.
+        /// nan p values are ignored and reported as nan.
+        /// </summary>
+        /// <param name="pi0">can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.</param>
+        /// <param name="projection">projection function to isolate the pvalue from input type 'a</param>
+        /// <param name="pValues">sequence of p values to correct</param>
         let ofPValuesRobustBy (pi0:float) (projection: 'a -> float) (pValues: 'a []) =
-
             let pvaluesExt = pValues |> Array.map projection
+            
+            let pvaluesExtValid =
+                pvaluesExt 
+                |> Array.indexed   
+                |> Array.filter (fun (i,p) -> not (nan.Equals p))
 
-            // total number of pvalues
-            let m = float pvaluesExt.Length
+            let pvaluesExtInValid = 
+                pvaluesExt 
+                |> Array.indexed   
+                |> Array.filter (fun (i,p) -> (nan.Equals p))
+
+            // if all pvalues are none, just return the nans
+            if pvaluesExtValid.Length = 0 then 
+                pvaluesExtInValid |> Array.map snd
+
+            else
+
+                // total number of pvalues
+                let m = float pvaluesExtValid.Length
                 
-            //determines the local FDR for a given p value
-            let getFDR p = 
-                //determines the number of pvalues that are lower or equal than p (number of discoveries)
-                let getD p = 
-                    pvaluesExt 
-                    |> Array.sumBy (fun x -> if x <= p then 1. else 0.) 
-                //determines the number of false positives up to this p value
-                let getFP p = p * pi0 * m
-                (getFP p) / (getD p * (1. - (1. - p)**m))
+                //determines the local FDR for a given p value
+                let getFDR p = 
+                    //determines the number of pvalues that are lower or equal than p (number of discoveries)
+                    let getD p = 
+                        pvaluesExtValid 
+                        |> Array.sumBy (fun (_,x) -> if x <= p then 1. else 0.) 
+                    //determines the number of false positives up to this p value
+                    let getFP p = p * pi0 * m
+                    (getFP p) / (getD p * (1. - (1. - p)**m))
                 
-            //p values must not be sorted when this function is used. To facilitate the monotonicity smoothing, the indices are stored
-            //before the p values are sorted 
-            let indicesSorted = 
-                pvaluesExt
-                |> Array.indexed
-                |> Seq.sortBy snd 
-                |> Array.ofSeq
-                |> Array.map fst
-                
-            let monotoneQvalues = 
-                //to smoothen the q values the p values must be sorted in descending order. Array.sortDescending corrupts the sorting 
-                //when many identical p values are in the data, therefore Seq is used.
-                let pValsMonotone =
-                    pvaluesExt
-                    |> Seq.sortDescending
+                //p values must not be sorted when this function is used. To facilitate the monotonicity smoothing, the indices are stored
+                //before the p values are sorted 
+                let indicesSorted = 
+                    pvaluesExtValid
+                    |> Array.mapi (fun i (_,x) -> i,x)
+                    |> Seq.sortBy snd 
                     |> Array.ofSeq
-                //beginning from the highest p value, the q values are checked and set to the pervious minimum to ensure monotonicity
-                let rec loop i lowest acc  = 
-                    if i = pValsMonotone.Length then 
-                        acc 
-                    else 
-                        let p = pValsMonotone.[i]
-                        let q = getFDR p
-                        if q > lowest then  
-                            loop (i+1) lowest (lowest::acc)
-                        else loop (i+1) q (q::acc)
-                loop 0 1. []
+                    |> Array.map fst
                 
-            //the q values are sorted by the original order of the p value input
-            let sortedQValues = 
-                let tmp = Array.zeroCreate (int m)
-                monotoneQvalues
-                |> List.iteri (fun i x -> 
-                    tmp.[indicesSorted.[i]] <- x
-                    )
-                tmp
-            sortedQValues
+                let monotoneQvalues = 
+                    //to smoothen the q values the p values must be sorted in descending order. Array.sortDescending corrupts the sorting 
+                    //when many identical p values are in the data, therefore Seq is used.
+                    let pValsMonotone =
+                        pvaluesExtValid
+                        |> Array.map snd
+                        |> Seq.sortDescending
+                        |> Array.ofSeq
+                    //beginning from the highest p value, the q values are checked and set to the pervious minimum to ensure monotonicity
+                    let rec loop i lowest acc  = 
+                        if i = pValsMonotone.Length then 
+                            acc 
+                        else 
+                            let p = pValsMonotone.[i]
+                            let q = getFDR p
+                            if q > lowest then  
+                                loop (i+1) lowest (lowest::acc)
+                            else loop (i+1) q (q::acc)
+                    loop 0 1. []
+                
+                //the q values are sorted by the original order of the p value input
+                let sortedQValues = 
+                    let tmp = Array.zeroCreate (int m)
+                    monotoneQvalues
+                    |> List.iteri (fun i x -> 
+                        tmp.[indicesSorted.[i]] <- x
+                        )
+                    tmp
+                
+                //append nan- pvalues and sort according to index
+                let aggregateChunks =
+                    Array.map2 (fun (i,pval) qval -> i,qval) pvaluesExtValid sortedQValues
+                    |> Array.append pvaluesExtInValid 
+                    |> Array.sortBy fst
+                    |> Array.map snd
+                aggregateChunks
 
+
+        /// <summary>
+        /// Calculates q-values from given p-values and returns an array of robust qValues in the same order.
+        /// More robust for small p values when testcount is low, see Storey JD (2002) JRSS-B 64: 479-498.
+        /// nan p values are ignored and reported as nan.
+        /// </summary>
+        /// <param name="pi0">can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.</param>
+        /// <param name="pValues">sequence of p values to correct</param>
         let ofPValuesRobust (pi0:float) (pValues: float []) =
             ofPValuesRobustBy pi0 id pValues
             
+        /// <summary>
         /// Calculates q-values from given p-values and returns an array of qValues in the same order.
-        /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+        /// nan p values are ignored and reported as nan.
+        /// </summary>
+        /// <param name="pi0">can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.</param>
+        /// <param name="projection">projection function to isolate the pvalue from input type 'a</param>
+        /// <param name="pValues">sequence of p values to correct</param>
         let ofPValuesBy (pi0: float) (projection: 'a -> float) (pValues: 'a []) =
+
             let pvaluesExt = pValues |> Array.map projection
-            // total number of pvalues
-            let m = float pvaluesExt.Length
             
-            //determines the local FDR for a given p value
-            let getFDR p = 
-                //determines the number of pvalues that are lower or equal than p (number of discoveries)
-                let getD p = 
-                    pvaluesExt 
-                    |> Array.sumBy (fun x -> if x <= p then 1. else 0.) 
-                //determines the number of false positives up to this p value
-                let getFP p = p * pi0 * m
-                (getFP p) / (getD p)
+            let pvaluesExtValid =
+                pvaluesExt 
+                |> Array.indexed   
+                |> Array.filter (fun (i,p) -> not (nan.Equals p))
+
+            let pvaluesExtInValid = 
+                pvaluesExt 
+                |> Array.indexed   
+                |> Array.filter (fun (i,p) -> (nan.Equals p))
+
+            // if all pvalues are none, just return the nans
+            if pvaluesExtValid.Length = 0 then 
+                pvaluesExtInValid |> Array.map snd
+
+            else 
+                // total number of pvalues
+                let m = float pvaluesExtValid.Length
             
-            //p values must not be sorted when this function is used. To facilitate the monotonicity smoothing, the indices are stored
-            //before the p values are sorted 
-            let indicesSorted = 
-                pvaluesExt
-                |> Array.indexed
-                |> Seq.sortBy snd 
-                |> Array.ofSeq
-                |> Array.map fst
+                //determines the local FDR for a given p value
+                let getFDR p = 
+                    //determines the number of pvalues that are lower or equal than p (number of discoveries)
+                    let getD p = 
+                        pvaluesExtValid 
+                        |> Array.sumBy (fun (_,x) -> if x <= p then 1. else 0.) 
+                    //determines the number of false positives up to this p value
+                    let getFP p = p * pi0 * m
+                    (getFP p) / (getD p)
             
-            let monotoneQvalues = 
-                //to smoothen the q values the p values must be sorted in descending order. Array.sortDescending corrupts the sorting 
-                //when many identical p values are in the data, therefore Seq is used.
-                let pValsMonotone =
-                    pvaluesExt
-                    |> Seq.sortDescending
+                //p values must not be sorted when this function is used. To facilitate the monotonicity smoothing, the indices are stored
+                //before the p values are sorted 
+                let indicesSorted = 
+                    pvaluesExtValid
+                    |> Array.mapi (fun i (_,x) -> i,x)
+                    |> Seq.sortBy snd 
                     |> Array.ofSeq
-                //beginning from the highest p value, the q values are checked and set to the pervious minimum to ensure monotonicity
-                let rec loop i lowest acc  = 
-                    if i = pValsMonotone.Length then 
-                        acc 
-                    else 
-                        let p = pValsMonotone.[i]
-                        let q = getFDR p
-                        if q > lowest then  
-                            loop (i+1) lowest (lowest::acc)
-                        else loop (i+1) q (q::acc)
-                loop 0 1. []
+                    |> Array.map fst
             
-            //the q values are sorted by the original order of the p value input
-            let sortedQValues = 
-                let tmp = Array.zeroCreate (int m)
-                monotoneQvalues
-                |> List.iteri (fun i x -> 
-                    tmp.[indicesSorted.[i]] <- x
-                    )
-                tmp
-            sortedQValues
+                let monotoneQvalues = 
+                    //to smoothen the q values the p values must be sorted in descending order. Array.sortDescending corrupts the sorting 
+                    //when many identical p values are in the data, therefore Seq is used.
+                    let pValsMonotone =
+                        pvaluesExtValid
+                        |> Array.map snd
+                        |> Seq.sortDescending
+                        |> Array.ofSeq
+                    //beginning from the highest p value, the q values are checked and set to the pervious minimum to ensure monotonicity
+                    let rec loop i lowest acc  = 
+                        if i = pValsMonotone.Length then 
+                            acc 
+                        else 
+                            let p = pValsMonotone.[i]
+                            let q = getFDR p
+                            if q > lowest then  
+                                loop (i+1) lowest (lowest::acc)
+                            else loop (i+1) q (q::acc)
+                    loop 0 1. []
             
+                //the q values are sorted by the original order of the p value input
+                let sortedQValues = 
+                    let tmp = Array.zeroCreate (int m)
+                    monotoneQvalues
+                    |> List.iteri (fun i x -> 
+                        tmp.[indicesSorted.[i]] <- x
+                        )
+                    tmp
+                
+                //append nan- pvalues and sort according to index
+                let aggregateChunks =
+                    Array.map2 (fun (i,pval) qval -> i,qval) pvaluesExtValid sortedQValues
+                    |> Array.append pvaluesExtInValid 
+                    |> Array.sortBy fst
+                    |> Array.map snd
+                aggregateChunks
         
+        /// <summary>
         /// Calculates q-values from given p-values and returns an array of qValues in the same order.
-        /// 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+        /// nan p values are ignored and reported as nan.
+        /// </summary>
+        /// <param name="pi0">can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.</param>
+        /// <param name="pValues">sequence of p values to correct</param>
         let ofPValues (pi0: float) (pValues: float[]) =
             ofPValuesBy pi0 id pValues
 

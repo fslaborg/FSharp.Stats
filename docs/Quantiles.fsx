@@ -12,35 +12,26 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
+
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
+
 #endif // IPYNB
-
-
-open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 (**
 
 # Quantile
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Quantile.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Quantile.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates how to handle quantiles and QQ-Plots
 
@@ -63,6 +54,7 @@ _Note: There are many possibilities to handle ties or data that cannot be split 
 
 Let's sample 1000 data points from a normal distribution and calculate some percentiles.
 *)
+open Plotly.NET
 open System
 open FSharp.Stats
 open FSharp.Stats.Signal
@@ -96,10 +88,10 @@ let range100 = sample |> Array.filter (fun x -> x > quantile75)
 (*** hide ***)
 let quartileRangePlot =
     [|
-        Chart.Histogram(range25,"0-25",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 0-25")
-        Chart.Histogram(range50,"25-50",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 25-50")
-        Chart.Histogram(range75,"50-75",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 50-75")
-        Chart.Histogram(range100,"75-100",ShowLegend=false) |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 75-100")
+        Chart.Histogram(range25,Name="0-25",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 0-25")
+        Chart.Histogram(range50,Name="25-50",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 25-50")
+        Chart.Histogram(range75,Name="50-75",ShowLegend=false)   |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 50-75")
+        Chart.Histogram(range100,Name="75-100",ShowLegend=false) |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withXAxisStyle("",MinMax=(0.,6.)) |> Chart.withYAxisStyle("Quartil 75-100")
     |]
     |> Chart.Grid(4,1)
 
@@ -315,7 +307,7 @@ let plotFromOneSampleGauss sample =
             maximum,maximum
         ]
         |> Chart.Line
-        |> Chart.withTraceName "expected"
+        |> Chart.withTraceInfo "expected"
 
     [
         qqChart
@@ -457,6 +449,7 @@ let namesA,dataA = Array.init 20 (fun i -> $"A_%02i{i+1}",rnd.NextDouble()      
 let namesB,dataB = Array.init 20 (fun i -> $"B_%02i{i+1}",rnd.NextDouble() + 0.1) |> Array.unzip
 let namesC,dataC = Array.init 20 (fun i -> $"C_%02i{i+1}",rnd.NextDouble() / 2.0) |> Array.unzip
 
+open Plotly.NET.StyleParam
 
 let rawDataChart = 
     [
@@ -579,10 +572,10 @@ let QQPlotQNormBC = plotFrom2Populations (Array.map snd normB) (Array.map snd no
 
 let qNormPlot = 
     [
-        QQPlotRawAB  |> Chart.withTraceName "rawAB"
-        QQPlotQNormAB|> Chart.withTraceName "qnormAB"
-        QQPlotRawBC  |> Chart.withTraceName "rawBC"
-        QQPlotQNormBC|> Chart.withTraceName "qnormBC"
+        QQPlotRawAB  |> Chart.withTraceInfo "rawAB"
+        QQPlotQNormAB|> Chart.withTraceInfo "qnormAB"
+        QQPlotRawBC  |> Chart.withTraceInfo "rawBC"
+        QQPlotQNormBC|> Chart.withTraceInfo "qnormBC"
     ]
     |> Chart.Grid(2,2)
 

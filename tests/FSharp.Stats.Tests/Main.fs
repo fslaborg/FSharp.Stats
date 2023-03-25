@@ -34,6 +34,8 @@ let main argv =
 
     //================================== Array ==============================================================
     Tests.runTestsWithCLIArgs [] argv ArrayTests.medianTests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv ArrayTests.dropNanTests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv ArrayTests.linspaceTests   |> ignore
 
     //================================== Interval ===========================================================
     Tests.runTestsWithCLIArgs [] argv IntervalTests.intervalTests   |> ignore
@@ -42,6 +44,8 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv SeqTests.medianTests |> ignore
     Tests.runTestsWithCLIArgs [] argv SeqTests.meanTests   |> ignore
     Tests.runTestsWithCLIArgs [] argv SeqTests.meanQuadraticTests   |> ignore
+    Tests.runTestsWithCLIArgs [] argv SeqTests.geomspaceTests   |> ignore
+
 
     //============================= Distributions ===========================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.distanceFunctionsTests |> ignore
@@ -55,6 +59,7 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.bernoulliTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.binomialTests          |> ignore 
     //Tests.runTestsWithCLIArgs [] argv DistributionsTests.logNormal |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsEmpiricalTests.empiricalTests |> ignore
 
 
     //============================= Distributions Continuous ================================================
@@ -62,7 +67,7 @@ let main argv =
 
     //============================= Distributions Discrete ================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.hypergeometricTests      |> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.PoissonDistributionTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.poissonDistributionTests |> ignore
 
 
     //=============================== Correlation ===========================================================
@@ -86,6 +91,7 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv TestingTests.wilcoxonTestTests    |> ignore
     Tests.runTestsWithCLIArgs [] argv TestingTests.tTestTests     |> ignore
     Tests.runTestsWithCLIArgs [] argv TestingTests.SAMTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv ConfidenceIntervalTests.ci |> ignore
     
     //================================== ML =================================================================
     //SimilarityMetrics

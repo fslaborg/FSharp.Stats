@@ -12,34 +12,26 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
-#endif // IPYNB
 
 open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
+#endif // IPYNB
 
 (**
 
 # Interpolation
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Interpolation.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Interpolation.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.Stats
 
@@ -48,6 +40,7 @@ _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.
 - [Polynomial interpolation](#Polynomial-interpolation)
 - [Cubic interpolating Spline](#Cubic-interpolating-Spline)
 - [Hermite interpolation](#Hermite-interpolation)
+- [Chebyshev function approximation](#Chebyshev-function-approximation)
 
 ## Polynomial Interpolation
 
@@ -56,6 +49,8 @@ The least squares approach is not sufficient to converge to an interpolating pol
 
 *)
 
+
+open Plotly.NET
 open FSharp.Stats
 
 let xData = vector [|1.;2.;3.;4.;5.;6.|]
@@ -71,18 +66,18 @@ let interpolFunction x =
 
 let rawChart = 
     Chart.Point(xData,yData)
-    |> Chart.withTraceName "raw data"
+    |> Chart.withTraceInfo "raw data"
     
 let interpolPol = 
     let fit = [|1. .. 0.1 .. 6.|] |> Array.map (fun x -> x,interpolFunction x)
     fit
     |> Chart.Line
-    |> Chart.withTraceName "interpolating polynomial"
+    |> Chart.withTraceInfo "interpolating polynomial"
 
 let chartPol = 
     [rawChart;interpolPol] 
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -151,15 +146,15 @@ let fitLinSp = Interpolation.LinearSpline.interpolate coeffLinearSpline
 
 let splineChart =
     [
-    Chart.Point(xValues,yValues)                                           |> Chart.withTraceName "raw data"
-    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitPol x)   |> Chart.Line |> Chart.withTraceName "fitPolynomial"
-    [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitIntPo x) |> Chart.Line |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash) |> Chart.withTraceName "fitSplineLinPred"
-    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x)      |> Chart.Line |> Chart.withTraceName "fitSpline"
-    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitLinSp x) |> Chart.Line |> Chart.withTraceName "fitLinearSpline"
+    Chart.Point(xValues,yValues)                                         |> Chart.withTraceInfo "raw data"
+    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitPol x)   |> Chart.Line |> Chart.withTraceInfo "fitPolynomial"
+    [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitIntPo x) |> Chart.Line |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash) |> Chart.withTraceInfo "fitSplineLinPred"
+    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x)      |> Chart.Line |> Chart.withTraceInfo "fitSpline"
+    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitLinSp x) |> Chart.Line |> Chart.withTraceInfo "fitLinearSpline"
     ]
     |> Chart.combine
     |> Chart.withTitle "Interpolation methods"
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -174,15 +169,15 @@ splineChart |> GenericChart.toChartHTML
 //The cubic spline interpolation is continuous in f, f', and  f''.
 let derivativeChart =
     [
-        Chart.Point(xValues,yValues) |> Chart.withTraceName "raw data"
-        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x) |> Chart.Line  |> Chart.withTraceName "spline fit"
-        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getFirstDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "fst derivative"
-        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getSecondDerivative coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "snd derivative"
-        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getThirdDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceName "trd derivative"
+        Chart.Point(xValues,yValues) |> Chart.withTraceInfo "raw data"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x) |> Chart.Line  |> Chart.withTraceInfo "spline fit"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getFirstDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceInfo "fst derivative"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getSecondDerivative coeffSpline xValues x) |> Chart.Point |> Chart.withTraceInfo "snd derivative"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getThirdDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceInfo "trd derivative"
     ]
     |> Chart.combine
     |> Chart.withTitle "Cubic spline derivatives"
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -233,13 +228,13 @@ let funPolInterpol x =
 
 let splineComparison =
     [
-    Chart.Point(xDataH,yDataH) |> Chart.withTraceName "raw data"
-    [0. .. 82.] |> List.map (fun x -> x,funNaturalSpline x) |> Chart.Line  |> Chart.withTraceName "natural spline"
-    [0. .. 82.] |> List.map (fun x -> x,funHermite x      ) |> Chart.Line  |> Chart.withTraceName "hermite spline"
-    [0. .. 82.] |> List.map (fun x -> x,funPolInterpol x  ) |> Chart.Line  |> Chart.withTraceName "polynomial"
+    Chart.Point(xDataH,yDataH) |> Chart.withTraceInfo "raw data"
+    [0. .. 82.] |> List.map (fun x -> x,funNaturalSpline x) |> Chart.Line  |> Chart.withTraceInfo "natural spline"
+    [0. .. 82.] |> List.map (fun x -> x,funHermite x      ) |> Chart.Line  |> Chart.withTraceInfo "hermite spline"
+    [0. .. 82.] |> List.map (fun x -> x,funPolInterpol x  ) |> Chart.Line  |> Chart.withTraceInfo "polynomial"
     ]
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -249,3 +244,154 @@ splineComparison
 (***hide***)
 splineComparison |> GenericChart.toChartHTML
 (***include-it-raw***)
+
+
+
+(**
+
+## Chebyshev function approximation
+
+Polynomials are great when it comes to slope/area determination or the investigation of signal properties.
+When faced with an unknown (or complex) function it may be beneficial to approximate the data using polynomials, even if it does not correspond to the real model.
+
+Polynomial regression can cause difficulties if the signal is flexible and the required polynomial degree is high. Floating point errors sometimes lead to vanishing coefficients and even though the
+SSE should decrease, it does not and a strange, squiggly shape is generated. 
+Polynomial interpolation can help to obtain a robust polynomial description of the data, but is prone to Runges phenomenon. 
+
+In the next section, data is introduced that should be converted to a polynomial approximation.
+
+*)
+
+
+let xs = [|0. .. 0.2 .. 3.|]
+let ys = [|5.;5.5;6.;6.1;4.;1.;0.7;0.3;0.5;0.9;5.;9.;9.;8.;6.5;5.;|]
+
+let chebyChart =
+    Chart.Line(xs,ys,Name="raw",ShowMarkers=true)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+(*** condition: ipynb ***)
+#if IPYNB
+chebyChart
+#endif // IPYNB
+
+(***hide***)
+chebyChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+Let's fit a interpolating polynomial to the points:
+
+*)
+
+// calculates the coefficients of the interpolating polynomial
+let coeffs = 
+    Interpolation.Polynomial.coefficients (vector xs) (vector ys)
+
+// determines the y value of a given x value with the interpolating coefficients
+let interpolatingFunction x = 
+    Interpolation.Polynomial.fit coeffs x
+
+// plot the interpolated data
+let interpolChart =
+    let ys_interpol = 
+        [|0. .. 0.01 .. 3.|] 
+        |> Seq.map (fun x -> x,interpolatingFunction x)
+    Chart.Line(ys_interpol,Name="interpol")
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "xs"
+    |> Chart.withYAxisStyle "ys"
+
+let cbChart =
+    [
+    chebyChart
+    interpolChart
+    ]
+    |> Chart.combine
+
+(*** condition: ipynb ***)
+#if IPYNB
+cbChart
+#endif // IPYNB
+
+(***hide***)
+cbChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+Because of Runges phenomenon the interpolating polynomial overshoots in the outer areas of the data. It would be detrimental if this function approximation is used to investigate signal properties.
+
+To reduce this overfitting you can use x axis nodes that are spaced according to Chebyshev. Here, nodes are sparse in the center of the analysed function and are more dense in the outer areas. 
+
+*)
+
+// new x values are determined in the x axis range of the data. These should reduce overshooting behaviour.
+// since the original data consisted of 16 points, 16 nodes are initialized
+let xs_cheby = 
+    Interpolation.Approximation.chebyshevNodes (Intervals.Interval.Create(0.,3.)) 16
+
+// to get the corresponding y values to the xs_cheby a linear spline is generated that approximates the new y values
+let ys_cheby =
+    let ls = Interpolation.LinearSpline.initInterpolate xs ys
+    xs_cheby |> Vector.map (Interpolation.LinearSpline.interpolate ls)
+
+// again polynomial interpolation coefficients are determined, but here with the x and y data that correspond to the chebyshev spacing
+let coeffs_cheby = Interpolation.Polynomial.coefficients xs_cheby ys_cheby
+
+
+// Note: the upper panel can be summarized by the follwing function:
+Interpolation.Approximation.approxChebyshevPolynomialFromValues xs ys 16
+
+(**
+
+Using the determined polynomial coefficients, the standard approach for fitting can be used to plot the signal together with the function approximation. Obviously the example data 
+is difficult to approximate, but the chebyshev spacing of the x-nodes drastically reduces the overfitting in the outer areas of the signal.
+
+*)
+
+// function using the cheby_coefficients to get y values of given x value
+let interpolating_cheby x = Interpolation.Polynomial.fit coeffs_cheby x
+
+let interpolChart_cheby =
+    let ys_interpol_cheby = 
+        vector [|0. .. 0.01 .. 3.|] 
+        |> Seq.map (fun x -> x,interpolating_cheby x)
+
+    Chart.Line(ys_interpol_cheby,Name="interpol_cheby")
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "xs"
+    |> Chart.withYAxisStyle "ys"
+
+
+let cbChart_cheby =
+    [
+    chebyChart
+    interpolChart
+    Chart.Line(xs_cheby,ys_cheby,ShowMarkers=true,Name="cheby_nodes") |> Chart.withTemplate ChartTemplates.lightMirrored|> Chart.withXAxisStyle "xs"|> Chart.withYAxisStyle "ys"
+    interpolChart_cheby
+    ]
+    |> Chart.combine
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "xs"
+    |> Chart.withYAxisStyle "ys"
+
+
+(*** condition: ipynb ***)
+#if IPYNB
+cbChart_cheby
+#endif // IPYNB
+
+(***hide***)
+cbChart_cheby |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
+If a non-polynomal function should be approximated as polynomial you can use `Interpolation.Approximation.approxChebyshevPolynomial` with specifying the interval in which the function should be approximated.
+
+## Further reading
+- Amazing blog post regarding Runges phenomenon and chebyshev spacing https://www.mscroggs.co.uk/blog/57
+
+*)
+
+

@@ -4,67 +4,40 @@
 module Empirical =
     open System
 
-    ///// probability mass function    
-    //let create bandwidth data =        
-    //    let n = float (Seq.length(data))
-    //    data
-    //    |> Seq.groupBy (fun x -> floor (x / bandwidth)) 
-    //    |> Seq.map (fun (k,values) -> let mean = values |> StatisticalMeasure.mean
-    //                                  let count = float (Seq.length(values))
-    //                                  (mean,count / n) )  
-    //    |> Map.ofSeq
-
-
-
     /// Creates Pmf of a Histogram (normalize by n)
     let ofHistogram (hist:Map<_,int>) =
         let n = float (hist |> Map.fold (fun state key value -> state + value) 0)
         hist |> Seq.map (fun kv -> (kv.Key,(float kv.Value) / n )) |> Map.ofSeq
 
     /// Returns: tuple of (sorted value sequence, probability sequence)
-    let getZip (pmf:Map<float,float>) =
+    let getZip (pmf:Map<_,float>) =
         pmf |> Seq.sortBy (fun kv -> kv.Key) |> Seq.map (fun kv -> (kv.Key,kv.Value))
 
     /// Returns the total of the probabilities in the map
-    let sum (pmf:Map<float,float>) =
+    let sum (pmf:Map<_,float>) =
         pmf |> Seq.sumBy (fun kv -> kv.Value)
         
     /// Returns the largest probability in the map.
-    let maxLike (pmf:Map<float,float>) =
+    let maxLike (pmf:Map<_,float>) =
         (pmf |> Seq.maxBy (fun kv -> kv.Value)).Value
-
-
-
-
-
     
     /// Returns distinct values from pmf
-    let getXValues (pmf:Map<float,float>) =
+    let getXValues (pmf:Map<_,float>) =
         pmf |> Seq.map (fun k -> k.Key)
 
-    ///// Returns values from pmf 
-    ///// Attention: original values have been discretised
-    //let getValues (pmf:Map<float,float>) =
-    //    printfn "Attention: original values have been discretised"
-    //    pmf |> Seq.map (fun k -> Seq.initRepeatValue (int k.Value) k.Key) |> Seq.concat
-
-
     /// Returns distinct values from pmf
-    let getYValues (pmf:Map<float,float>) =
+    let getYValues (pmf:Map<_,float>) =
         pmf |> Seq.map (fun k -> k.Value)
 
-    
-
-    
     /// Gets the probability associated with the value x
-    let probabilityAt  (pmf:Map<float,float>) (x:float) =        
+    let probabilityAt  (pmf:Map<'a,float>) (x:'a) =        
         if pmf.ContainsKey(x) then
             pmf.[x]
         else
             0.            
     
     /// Gets an unsorted sequence of probabilities
-    let probabilities  (pmf:Map<float,float>) =         
+    let probabilities  (pmf:Map<'a,float>) =         
         pmf |> Seq.map (fun k -> k.Value)
 
 
@@ -78,38 +51,38 @@ module Empirical =
 
     
     /// Normalizes this PMF so the sum of all probabilities equals fraction
-    let normalizewith (fraction:float) (pmf:Map<float,float>) =
+    let normalizewith (fraction:float) (pmf:Map<_,float>) =
         let total = sum pmf
         let factor = if total <> 0. then (fraction / total) else raise (System.Exception("total probability is zero") )  
         pmf |> Seq.map (fun kv -> (kv.Key,kv.Value * factor)) |> Map.ofSeq
 
     /// Normalizes this PMF so the sum of all probabilities equals 1. 
     /// Discrete Probability Distribution
-    let normalize (pmf:Map<float,float>) =
+    let normalize (pmf:Map<_,float>) =
         let total = sum pmf         
         pmf |> Seq.map (fun kv -> (kv.Key,kv.Value / total)) |> Map.ofSeq
 
 
     /// Normalizes this PMF so the sum of all probabilities equals 100 percent 
     /// Discrete Percentage Probability Distribution
-    let normalizePercentage (pmf:Map<float,float>) =
+    let normalizePercentage (pmf:Map<_,float>) =
         let total = sum pmf         
         pmf |> Seq.map (fun kv -> (kv.Key,100. * kv.Value / total)) |> Map.ofSeq
 
     /// Normalizes this PMF by the bandwidth n/Δx
     /// Frequency Denisty Distribution
-    let normalizeBandwidth bw (pmf:Map<float,float>) =
+    let normalizeBandwidth bw (pmf:Map<_,float>) =
         pmf |> Seq.map (fun kv -> (kv.Key,kv.Value / bw)) |> Map.ofSeq
 
     /// Normalizes this PMF by the bandwidth to area equals 1.  (n/N)/Δx
     /// Probability Denisty Distribution
-    let normalizePDD bw (pmf:Map<float,float>) =
+    let normalizePDD bw (pmf:Map<_,float>) =
         let total = sum pmf         
         pmf |> Seq.map (fun kv -> (kv.Key,(kv.Value / total) / bw)) |> Map.ofSeq
 
 
     /// Chooses a random element from this PMF
-    let sampleFrom (pmf:Map<float,float>) = 
+    let sampleFrom (pmf:Map<_,float>) = 
         if pmf.Count <= 0 then raise (System.Exception("Pmf contains no values") )  
         let target = FSharp.Stats.Random.rndgen.NextFloat()
         //pmf |> Seq.map (fun kv -> (kv.Key,kv.Value)) |> Seq.scan (fun state (k,v) -> (k, v + snd state)) (0.,0.)
@@ -138,12 +111,12 @@ module Empirical =
         pmf |> Map.fold (fun state key value -> state + (value * (key - mu)**2. )) 0.
 
     /// Log transforms the probabilities
-    let log (pmf:Map<float,float>) =
+    let log (pmf:Map<_,float>) =
         let m = maxLike pmf
         pmf |> Seq.map (fun kv -> (kv.Key, log(kv.Value / m))) |> Map.ofSeq
          
     /// Exponentiates the probabilities
-    let exp (pmf:Map<float,float>) =
+    let exp (pmf:Map<_,float>) =
         let m = maxLike pmf
         pmf |> Seq.map (fun kv -> (kv.Key, exp(kv.Value - m))) |> Map.ofSeq
 
@@ -152,13 +125,16 @@ module Empirical =
     //let makeMixture (pmfs:seq<Map<float,float>>) = 
     //    pmfs |> Seq.fold (fun state elem -> Map.merge state elem (fun k (v, v') -> v * v')) Map.empty
 
-
-    /// Creates probability mass function    
-    let create bandwidth data =            
-        let halfBw = bandwidth / 2.0       
+    
+    /// Creates probability mass function of the input sequence.
+    /// The bandwidth defines the width of the bins the numbers are sorted into. 
+    /// Bin intervals are half open excluding the upper border: [lower,upper)
+    let create bandwidth data =
+        let halfBw = bandwidth / 2.0
+        let decBandwidth = decimal bandwidth
         let tmp = 
             data
-            |> Seq.groupBy (fun x -> floor (x / bandwidth)) 
+            |> Seq.groupBy (fun x -> (decimal x / decBandwidth) |> float |> floor) 
             |> Seq.map (fun (k,values) -> 
                 let count = (Seq.length(values)) |> float                                        
                 if k < 0. then
@@ -169,3 +145,70 @@ module Empirical =
         tmp    
         |> Map.ofSeq
         |> normalize
+      
+    /// Creates probability mass function of the categories in the input sequence.
+    let inline createNominal (data: seq<'a>) =
+        let tmp = 
+            data
+            |> Seq.groupBy id
+            |> Seq.map (fun (k,values) -> 
+                let count = (Seq.length(values)) |> float
+                k, count)
+            |> Seq.sortBy fst
+        tmp    
+        |> Map.ofSeq
+        |> normalize
+
+    /// Creates probability mass function of the categories in the input sequence.
+    /// A template defines the search space to exclude certain elements or to include elements that are not in the input sequence.
+    /// Frequencies are determined based only on the template set. 
+    let inline createNominalWithTemplate (template: Set<'a>) (data: seq<'a>) =
+        let tmp = 
+            data
+            |> Seq.groupBy id
+            |> Seq.map (fun (k,values) -> 
+                let count = (Seq.length(values)) |> float
+                k, count)
+            |> Seq.sortBy fst
+        let currMap = 
+            tmp    
+            |> Map.ofSeq
+        template
+        |> Seq.map (fun x -> 
+            // if the input data contains the category, add the respective frequency to the key
+            if currMap.ContainsKey x then x,currMap.[x] 
+            // if the input data does NOT contain the category, add a zero as frequency
+            else
+                x,0.
+            )
+        |> Map.ofSeq
+        |> normalize
+
+type EmpiricalDistribution() =
+
+    /// Creates probability mass function of the input sequence.
+    /// The bandwidth defines the width of the bins the numbers are sorted into. 
+    /// Bin intervals are half open excluding the upper border: [lower,upper)
+    static member create(bandwidth: float) =
+        fun (data: seq<float>) -> 
+            Empirical.create bandwidth data
+
+    /// Creates probability mass function of the categories in the input sequence.
+    /// A template defines the search space to exclude certain elements or to include elements that are not in the input sequence.
+    /// If a template is defined, frequencies are determined based only on the template set. 
+    /// Transform can be used to e.g. round values or manipulating characters (System.Char.toUpper)
+    static member createNominal(?Template: Set<'a>,?Transform: 'a -> 'a) = 
+
+        if Template.IsNone then 
+            fun (data: seq<'a>) -> 
+                if Transform.IsNone then 
+                    Empirical.createNominal data
+                else 
+                    Empirical.createNominal (data |> Seq.map Transform.Value)
+                    
+        else 
+            fun (data: seq<'a>) -> 
+                if Transform.IsNone then    
+                    Empirical.createNominalWithTemplate Template.Value data
+                else 
+                    Empirical.createNominalWithTemplate Template.Value (data |> Seq.map Transform.Value)

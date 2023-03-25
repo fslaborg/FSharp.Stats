@@ -8,6 +8,7 @@
     <Compile Include="DistanceMetrics.fs" />
     <Compile Include="TestExtensions.fs" />
     <Compile Include="Interval.fs" />
+    <Compile Include="ConfidenceInterval.fs" />
     <Compile Include="Formatting.fs" />
     <Compile Include="LinearAlgebra.fs" />
     <Compile Include="Correlation.fs" />
@@ -15,6 +16,7 @@
     <Compile Include="Distributions.fs" />
     <Compile Include="DistributionsContinuous.fs" />
     <Compile Include="DistributionsDiscrete.fs" />
+    <Compile Include="DistributionsEmpirical.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="Matrix.fs" />
     <Compile Include="RowVector.fs" />
@@ -34,10 +36,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="data/TestDataSAM.txt" CopyToOutputDirectory="PreserveNewest" />
-    <EmbeddedResource Include="data/benjaminiHochberg_Input.csv" CopyToOutputDirectory="PreserveNewest" />
-    <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR.csv" CopyToOutputDirectory="PreserveNewest" />
-    <EmbeddedResource Include="data/qvaluesWithR.csv" CopyToOutputDirectory="PreserveNewest" />
-    <EmbeddedResource Include="data/qvaluesRobustWithR.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/benjaminiHochberg_Input_nan.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR_nan.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/qvaluesWithR_nan.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/qvaluesRobustWithR_nan.csv" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/DenseMatrixFormat1NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/DenseMatrixFormat2NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/DenseMatrixFormat3NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />

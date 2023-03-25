@@ -1204,6 +1204,53 @@ module Seq =
             | :? ('T[]) as arr -> Array.copy arr
             | _ -> Seq.toArray xs
 
+[<AutoOpen>]
+module SeqExtension =
+    type Seq() =
+
+        /// <summary>
+        /// Creates an seq float with values between a given interval
+        /// </summary>
+        /// <param name="start">start value (is included)</param>
+        /// <param name="stop">end value (by default is included )</param>
+        /// <param name="Num">sets the number of elements in the seq. If not set, stepsize = 1.</param>
+        /// <param name="IncludeEndpoint">If false, the seq does not contain the stop value</param>
+        static member inline linspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : seq<float> = 
+        
+            let includeEndpoint = defaultArg IncludeEndpoint true
+
+            if includeEndpoint then 
+                let stepsize = (stop - start) / (float (num - 1))
+                Seq.init num (fun i -> stepsize * float i + start)
+            else 
+                let stepsize = (stop - start) / (float num)
+                Seq.init num (fun i -> stepsize * float i + start)
+
+
+        /// <summary>
+        /// Creates a geometric seq float with values between a given interval
+        /// </summary>
+        /// <param name="start">start value (is included)</param>
+        /// <param name="stop">end value (by default is included)</param>
+        /// <param name="Num">sets the number of elements in the seq. Defaults to 50.</param>
+        /// <param name="IncludeEndpoint">If false, the seq does not contain the stop value. Defaults to true.</param>
+        static member inline geomspace (start:float, stop:float, num:int, ?IncludeEndpoint:bool) : seq<float> = 
+            if start <= 0. || stop <= 0. then
+                failwith "Geometric space can only take positive values."
+
+            let includeEndpoint = defaultArg IncludeEndpoint true
+
+            let logStart = System.Math.Log start
+            let logStop = System.Math.Log stop
+
+            let logStep =
+                match includeEndpoint with
+                | true -> (logStop - logStart) / (float num - 1.)
+                | false -> (logStop - logStart)  / (float num)
+
+            Seq.init num (fun x -> (System.Math.Exp (logStart + float x * logStep)))
+
+
 //    // ########################################################################
 //    /// A module which implements functional matrix operations.
 //    [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]

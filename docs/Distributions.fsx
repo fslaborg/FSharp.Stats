@@ -13,19 +13,24 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
+
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
 (**
 # Probability Distributions
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Distributions.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Distributions.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial shows how to use the various types of probability distributions in FSharp.Stats.
 
@@ -115,24 +120,12 @@ List.init 3 (fun _ -> normal.Sample())
 (*** include-it ***)
 
 open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
-
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
 
 let plotNormal =
     [400. .. 600.]
     |> List.map (fun x -> x,normal.PDF x)
     |> Chart.Area
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "N(500,20) PDF"
 
 (*** condition: ipynb ***)
@@ -149,7 +142,7 @@ let plotNormalCDF =
     [400. .. 600.]
     |> List.map (fun x -> x,normal.CDF x)
     |> Chart.Area
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "N(500,20) CDF"
 
 (*** condition: ipynb ***)
@@ -230,7 +223,7 @@ let v =
     studentTParams
     |> List.map (fun (mu,tau,dof) -> Chart.Spline(pdfStudentT mu tau dof,Name=sprintf "mu=%.1f tau=%.1f dof=%.1f" mu tau dof,ShowMarkers=false))
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -265,7 +258,7 @@ let fPDFs =
     fParams
     |> List.map (fun (a,b) -> Chart.Line(pdfF a b,Name=sprintf "dof1=%.1f dof2=%.1f" a b,LineWidth=3.) )
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "Different F-Distributions PDFs, x=[0,5]"
 
 (*** condition: ipynb ***)
@@ -290,7 +283,7 @@ let fCDFs =
     fParams
     |> List.map (fun (a,b) -> Chart.Line(cdfF a b,Name=sprintf "dof1=%.1f dof2=%.1f" a b,LineWidth=3.) )
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "Different F-Distributions CDFs, x=[0,5]"
 
 (*** condition: ipynb ***)
@@ -348,7 +341,7 @@ let plotBernoulli =
     [0; 1]
     |> List.map (fun x -> x, bernoulli.PMF x)
     |> Chart.Column
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "B(0.6)"
 
 (*** condition: ipynb ***)
@@ -404,7 +397,7 @@ let plotBinomial =
     [0..30]
     |> List.map (fun x -> x,binomial.PMF x)
     |> Chart.Column
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "B(30,0.1)"
 
 (*** condition: ipynb ***)
@@ -468,7 +461,7 @@ let plotHyper =
     [0..6]
     |> List.map (fun x -> x,hyper.PMF x)
     |> Chart.Column
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withTitle "N=49, K=6, n=6"
 
 (*** condition: ipynb ***)
@@ -520,7 +513,7 @@ let plotPo =
     [0..20]
     |> List.map (fun x -> x,poisson.PMF x)
     |> Chart.Column
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
     //|> Chart.withSize(600.,400.)
     |> Chart.withTitle "Po(5.5)"
 
@@ -549,7 +542,7 @@ let gammaPlot =
     gammaParams
     |> List.map (fun (a,b) -> Chart.Point(pdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -569,7 +562,7 @@ let gammaCDFPlot=
     gammaParams
     |> List.map (fun (a,b) -> Chart.Spline(cdfGamma a b,Name=sprintf "a=%.1f b=%.1f" a b) )//,ShowMarkers=false))
     |> Chart.combine
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -585,7 +578,7 @@ gammaCDFPlot |> GenericChart.toChartHTML
 ## Empirical
 
 You can create empirically derived distributions and sample randomly from these.
-In this example 100,000 samples from a student t distribution 
+In this example 100,000 random samples from a student t distribution are drawn and visualized
 
 *)
 
@@ -596,14 +589,14 @@ let sampleDistribution =
 
 //creates an empirical distribution with bandwidth 0.1
 let empiricalDistribution = 
-    Empirical.create 0.1 sampleDistribution
+    EmpiricalDistribution.create 0.1 sampleDistribution
 
 (***hide***)
 let plotEmpirical =    
     empiricalDistribution
     |> Empirical.getZip
     |> Chart.Column
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -612,6 +605,85 @@ plotEmpirical
 
 (***hide***)
 plotEmpirical |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+(**
+### Categorical data
+You also can create probability mass functions (PMF) from categorical (nominal) data. 
+You can check for just the elements present in your input sequence, or include elements of a predefined set.
+
+*)
+
+
+let myText = 
+    "Hello World, I am a test Text with all kind of Characters!112"
+
+// Define your set of characters that should be checked for
+// Any character that is not present in these sets is neglected
+let mySmallAlphabet = "abcdefghijklmnopqrstuvwxyz" |> Set.ofSeq
+let myAlphabet      = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" |> Set.ofSeq
+let myAlphabetNum   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" |> Set.ofSeq
+
+(**
+
+These alphabets can be used to create the probability maps. 
+
+*)
+
+// takes the characters and determines their probabilities without considering non-existing characters
+let myFrequencies0 = EmpiricalDistribution.createNominal() myText
+
+// takes upper and lower case characters and determines their probability
+let myFrequencies1 = EmpiricalDistribution.createNominal(Template=myAlphabet) myText
+
+// takes upper and lower case characters and numbers and determines their probability
+let myFrequencies2 = EmpiricalDistribution.createNominal(Template=myAlphabetNum) myText
+
+// takes only lower case characters and determines their probability
+// The big M is neglected because it is not present in the template alphabet.
+let myFrequencies3 = EmpiricalDistribution.createNominal(Template=mySmallAlphabet) myText
+
+(**
+
+An additional field for transforming the input sequence may be beneficial if it does not matter if an character is lower case or upper case:
+
+*)
+// converts all characters to lower case characters and determines their probability
+let myFrequencies4 = EmpiricalDistribution.createNominal(Template=mySmallAlphabet,Transform=System.Char.ToLower) myText
+
+(**
+
+With a template set, you can access the probability of 'z' even if it is not in your original input sequence.
+
+*)
+
+myFrequencies3.['z'] //results in 0.0
+
+(**
+#### Visualization of the PMF
+*)
+
+
+let categoricalDistribution = 
+    [
+    Chart.Column(myFrequencies0 |> Map.toArray,"0_noTemplate")    |> Chart.withYAxisStyle "probability"
+    Chart.Column(myFrequencies1 |> Map.toArray,"1_bigAlphabet")   |> Chart.withYAxisStyle "probability"
+    Chart.Column(myFrequencies2 |> Map.toArray,"2_numAlphabet")   |> Chart.withYAxisStyle "probability"
+    Chart.Column(myFrequencies3 |> Map.toArray,"3_smallAlphabet") |> Chart.withYAxisStyle "probability"
+    Chart.Column(myFrequencies4 |> Map.toArray,"4_toLower + smallAlphabet") |> Chart.withYAxisStyle "probability"
+    ]
+    |> Chart.Grid(4,1)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+
+(*** condition: ipynb ***)
+#if IPYNB
+categoricalDistribution
+#endif // IPYNB
+
+(***hide***)
+categoricalDistribution |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
@@ -624,7 +696,7 @@ let xy = KernelDensity.estimate KernelDensity.Kernel.gaussian 1.0 nv
 
 let kernelChart = 
     Chart.SplineArea xy
-    |> Chart.withAxisTitles "" ""
+    |> Chart.withTemplate ChartTemplates.lightMirrored
  
 (*** condition: ipynb ***)
 #if IPYNB

@@ -402,12 +402,28 @@ let pearsonTests =
 
 [<Tests>]
 let benjaminiHochbergTests =
-    
-    let largeSetWithIds = readCsv @"benjaminiHochberg_Input.csv"
-    let largeSet        = largeSetWithIds |> Array.map snd
 
-    let largeSetWithIds_Expected = readCsv @"benjaminiHochberg_AdjustedWithR.csv"
-    let largeSet_Expected        = largeSetWithIds_Expected |> Array.map snd
+
+    let largeSetWithIdsnan = readCsv @"benjaminiHochberg_Input_nan.csv"
+    let largeSetnan        = 
+        largeSetWithIdsnan |> Array.map snd
+        
+    let largeSetWithIds        = 
+        largeSetWithIdsnan |> Array.filter (fun (_,x) -> not (nan.Equals x))
+
+    let largeSet        = 
+        largeSetnan |> Array.filter (fun x -> not (nan.Equals x))
+
+    let largeSetWithIds_Expectednan = readCsv @"benjaminiHochberg_AdjustedWithR_nan.csv"
+    let largeSet_Expectednan        = largeSetWithIds_Expectednan |> Array.map snd
+    
+    let largeSetWithIds_Expected = 
+        largeSetWithIds_Expectednan 
+        |> Array.filter (fun (_,x) -> not (nan.Equals x))
+
+    let largeSet_Expected        = 
+        largeSet_Expectednan 
+        |> Array.filter (fun x -> not (nan.Equals x))
 
     testList "Testing.MultipleTesting.BenjaminiHochberg" [
         
@@ -419,10 +435,10 @@ let benjaminiHochbergTests =
         )
 
         testCase "testBHLargeNaN" (fun () -> 
-            Expect.sequenceEqual 
-                ([nan; nan; yield! largeSet] |> MultipleTesting.benjaminiHochbergFDR |> Seq.skip 2 |> Seq.map (fun x -> Math.Round(x,9))) 
-                (largeSet_Expected |> Seq.map (fun x -> Math.Round(x,9)))
-                "adjusted pValues should be equal to the reference implementation, ignoring nan."
+            TestExtensions.sequenceEqualRoundedNaN 9
+                (largeSetnan |> MultipleTesting.benjaminiHochbergFDR) 
+                (largeSet_Expectednan |> Seq.ofArray)
+                "adjusted pValues should be equal to the reference implementation."
         )
 
         testCase "testBHLargeBy" (fun () -> 
@@ -465,14 +481,25 @@ let benjaminiHochbergTests =
 [<Tests>]
 let qValuesTest =
   
-    let largeSetWithIds = readCsv @"benjaminiHochberg_Input.csv"
-    let largeSet        = largeSetWithIds |> Array.map snd
+    let largeSetWithIdsnan = readCsv @"benjaminiHochberg_Input_nan.csv"
+    let largeSetnan = largeSetWithIdsnan |> Array.map snd
     
-    let largeSetWithIds_Expected = readCsv @"qvaluesWithR.csv"
-    let largeSet_Expected        = largeSetWithIds_Expected |> Array.map snd
+    let largeSetWithIds_Expectednan = readCsv @"qvaluesWithR_nan.csv"
+    let largeSet_Expectednan = largeSetWithIds_Expectednan |> Array.map snd
 
-    let largeSetWithIds_ExpectedRobust = readCsv @"qvaluesRobustWithR.csv"
-    let largeSet_ExpectedRobust        = largeSetWithIds_ExpectedRobust |> Array.map snd
+    let largeSetWithIds_ExpectedRobustnan = readCsv @"qvaluesRobustWithR_nan.csv"
+    let largeSet_ExpectedRobustnan = largeSetWithIds_ExpectedRobustnan |> Array.map snd
+
+    
+    let largeSet = 
+        largeSetnan |> Array.filter (fun x -> not (nan.Equals x))
+    
+    let largeSet_Expected = 
+        largeSet_Expectednan |> Array.filter (fun x -> not (nan.Equals x))
+
+    let largeSet_ExpectedRobust = 
+        largeSet_ExpectedRobustnan |> Array.filter (fun x -> not (nan.Equals x))
+
 
     testList "Testing.MultipleTesting.Qvalues" [
       
@@ -487,6 +514,17 @@ let qValuesTest =
                 "qValues should be equal to the reference implementation."
         )
 
+        testCase "ofPValues_nan" (fun () -> 
+            //tested against r qvalue package 2.26.0
+            //pi0 estimation is in closed form in r package and therefore cannot be tested 
+            //qvalue::qvalue(pvals,pi0=0.48345)
+            let pi0 = 0.48345
+            TestExtensions.sequenceEqualRoundedNaN 9
+                (largeSetnan |> MultipleTesting.Qvalues.ofPValues pi0 |> Seq.ofArray) 
+                (largeSet_Expectednan |> Seq.ofArray)
+                "qValues should be equal to the reference implementation."
+        )
+        
         testCase "ofPValuesRobust" (fun () -> 
             //tested against r qvalue package 2.26.0
             //pi0 estimation is in closed form in r package and therefore cannot be tested 
@@ -495,6 +533,17 @@ let qValuesTest =
             Expect.sequenceEqual 
                 (largeSet |> MultipleTesting.Qvalues.ofPValuesRobust pi0 |> Seq.map (fun x -> Math.Round(x,9))) 
                 (largeSet_ExpectedRobust |> Seq.map (fun x -> Math.Round(x,9)))
+                "qValues Robust should be equal to the reference implementation."
+        )
+
+        testCase "ofPValuesRobust_nan" (fun () -> 
+            //tested against r qvalue package 2.26.0
+            //pi0 estimation is in closed form in r package and therefore cannot be tested 
+            //qvalue::qvalue(pvals,pi0=0.48345,pfdr=TRUE)
+            let pi0 = 0.48345
+            TestExtensions.sequenceEqualRoundedNaN 9
+                (largeSetnan |> MultipleTesting.Qvalues.ofPValuesRobust pi0 |> Seq.ofArray) 
+                (largeSet_ExpectedRobustnan |> Seq.ofArray)
                 "qValues Robust should be equal to the reference implementation."
         )
 

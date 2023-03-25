@@ -1,3 +1,28 @@
+### 0.4.12 TBR
+* Additions:
+    * latest commit #12e3f13e
+    * [[#35d0fc11](https://github.com/fslaborg/FSharp.Stats/commit/35d0fc11bb57a0ce3d7f39c9e9bdc20e667757ef)] add chebyshev based approximation
+    * [[#e688e2be](https://github.com/fslaborg/FSharp.Stats/commit/e688e2be4a7e2f674dc6ed5167253bf90a28b2df)] add mor normalization function
+    * [[#060f696a](https://github.com/fslaborg/FSharp.Stats/commit/060f696a9e8f8bad7542bf35bb5ba885f560d574)] add EmpiricalDistribution type
+* Bugfixes:
+    * [[#32fa0c23](https://github.com/fslaborg/FSharp.Stats/commit/32fa0c23f2629dd9c149b4d98bc9c0befea86ad2)] fix floating point errors at edge cases #245
+* Documentation:
+    * [[#12e3f13e](https://github.com/fslaborg/FSharp.Stats/commit/12e3f13ec5380f6b4f49cf37b9164b19c6fc902b)] update Empirical distribution docu #245
+    * [[#14041ceb](https://github.com/fslaborg/FSharp.Stats/commit/14041cebb9a72a382efb41dc5a74ce365fcfbb8f)] add chebyshev node documenation
+    
+### 0.4.11+0c6567d4 (Released 2023-2-6)
+* Additions:
+    * latest commit #0c6567d4
+    * [[#ad67e226](https://github.com/fslaborg/FSharp.Stats/commit/ad67e22696cc194ef6f0199bea858c9f9274e98a)] add quantile normalization
+    * [[#71130762](https://github.com/fslaborg/FSharp.Stats/commit/7113076297393b42a9004c8faf1562fb37465e97)] add SAM individual features
+    * [[#0c6567d4](https://github.com/fslaborg/FSharp.Stats/commit/0c6567d4f588dd43b4322e465078ee3b4c593aca)] add matrix reader #185
+* Deletions:
+    * [[#0726f42e](https://github.com/fslaborg/FSharp.Stats/commit/0726f42e98dc58c8ddce11fde16a446e330ca524)] remove duplicate tests
+* Bugfixes:
+    * [[#9f350419](https://github.com/fslaborg/FSharp.Stats/commit/9f35041936f2cc36ecc57ebe9bbe2979b18cef53)] fix SAM permutation #243
+* Documentation
+    * [[#e7b81c1a](https://github.com/fslaborg/FSharp.Stats/commit/e7b81c1acd8f246d8a1216e604909a070dee27cf)] add normalization documentation closes #202
+ 
 ### 0.4.10+278bd95a (Released 2023-1-25)
 * Additions:
     * latest commit #278bd95a

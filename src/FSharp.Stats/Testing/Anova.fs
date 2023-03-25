@@ -120,6 +120,13 @@ module Anova =
     // #################################################################
     /// Calculates two-way ANOVA as an extension of the one-way ANOVA for two independent variables.
     let twoWayANOVA (anovaType:TwoWayAnovaModel) (samples : float array array array) =
+        let checkUnbalanced = 
+            let replicateNumbers = 
+                samples
+                |> Array.collect (Array.map (fun y -> y.Length)) 
+                |> Array.distinct 
+                |> Array.length
+            if replicateNumbers > 1 then failwithf "Unbalanced designs are not supported yet "
 
         /// Fold TODO: refector
         let inline fold f state (arr: 'T [,]) =

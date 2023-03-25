@@ -12,29 +12,18 @@ categoryindex: 0
 (*** condition: prepare ***)
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
-#r "nuget: Newtonsoft.JSON"
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: FSharpAux, 1.0.0"
 #r "nuget: Cyjs.NET"
 
-open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
 
-//some axis styling
-module Chart = 
-    let myAxis name = LinearAxis.init(Title=Title.init name,Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let myAxisRange name (min,max) = LinearAxis.init(Title=Title.init name,Range=Range.MinMax(min,max),Mirror=StyleParam.Mirror.All,Ticks=StyleParam.TickOptions.Inside,ShowGrid=false,ShowLine=true)
-    let withAxisTitles x y chart = 
-        chart 
-        |> Chart.withTemplate ChartTemplates.lightMirrored
-        |> Chart.withXAxis (myAxis x) 
-        |> Chart.withYAxis (myAxis y)
+Plotly.NET.Defaults.DefaultDisplayOptions <-
+    Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 2.0.0-preview.16"
-#r "nuget: Plotly.NET.Interactive, 2.0.0-preview.16"
+#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharpAux, 1.0.0"
 #r "nuget: FSharp.Stats"
 #r "nuget: Cyjs.NET"
@@ -43,7 +32,8 @@ module Chart =
 (**
 # Clustering
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?filepath=Clustering.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Clustering.ipynb)
+[![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates several clustering methods in FSharp.Stats and how to visualize the results with Plotly.NET.
 
@@ -88,7 +78,7 @@ each of which contains four measurements and a species identifier. Since the spe
   - The data is shuffled and an index is appended to the data label, such that each label is unique. 
 
 *)
-
+open Plotly.NET
 open FSharp.Stats
 
 let fromFileWithSep (separator:char) (filePath) =     
@@ -227,7 +217,7 @@ let dbscanPlot =
                     x.[0],x.[1])
                 |> Array.distinct //more efficient visualization; no difference in plot but in point numbers
                 |> Chart.Point 
-                |> Chart.withTraceName (sprintf "Cluster %i" i)
+                |> Chart.withTraceInfo (sprintf "Cluster %i" i)
                 )
             |> Chart.combine
         else Chart.Point []
@@ -238,7 +228,7 @@ let dbscanPlot =
             |> Seq.map (fun x -> x.[0],x.[1])  
             |> Seq.distinct //more efficient visualization; no difference in plot but in point numbers
             |> Chart.Point
-            |> Chart.withTraceName "Noise"
+            |> Chart.withTraceInfo "Noise"
         else Chart.Point []
 
     let chartname = 
@@ -251,7 +241,9 @@ let dbscanPlot =
     [chartNoise;chartCluster]
     |> Chart.combine
     |> Chart.withTitle chartname
-    |> Chart.withAxisTitles "Petal width" "Petal length"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "Petal width"
+    |> Chart.withYAxisStyle "Petal length"
     
 
 (*** condition: ipynb ***)
@@ -278,7 +270,7 @@ let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
                 |> Seq.map (fun x -> x.[0],x.[1],x.[2])
                 |> Seq.distinct //faster visualization; no difference in plot but in point number
                 |> fun x -> Chart.Scatter3D (x,StyleParam.Mode.Markers)
-                |> Chart.withTraceName (sprintf "Cluster_%i" i))
+                |> Chart.withTraceInfo (sprintf "Cluster_%i" i))
             |> Chart.combine
         else  Chart.Scatter3D ([],StyleParam.Mode.Markers)
 
@@ -288,7 +280,7 @@ let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
             |> Seq.map (fun x -> x.[0],x.[1],x.[2])  
             |> Seq.distinct //faster visualization; no difference in plot but in point number
             |> fun x -> Chart.Scatter3D (x,StyleParam.Mode.Markers)
-            |> Chart.withTraceName "Noise"
+            |> Chart.withTraceInfo "Noise"
         else Chart.Scatter3D ([],StyleParam.Mode.Markers)
 
     let chartname = 
@@ -301,8 +293,10 @@ let create3dChart (dfu:array<'a> -> array<'a> -> float) (minPts:int) (eps:float)
     [chartNoise;chartCluster]
     |> Chart.combine
     |> Chart.withTitle chartname
-    |> Chart.withAxisTitles "Petal width" "Petal length"
-    |> Chart.withZAxis (Chart.myAxis "Sepal length")
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle ("Petal width", Id = StyleParam.SubPlotId.Scene 1)
+    |> Chart.withYAxisStyle ("Petal length", Id = StyleParam.SubPlotId.Scene 1)
+    |> Chart.withYAxisStyle "Sepal length"
         
 //for faster computation you can use the squaredEuclidean distance and set your eps to its square
 let clusteredChart3D = create3dChart DistanceMetrics.Array.euclideanNaNSquared 20 (0.7**2.) petWpetLsepL 
@@ -384,7 +378,7 @@ let hLeaves =
 // takes the sorted cluster result and reports a tuple of lable and data value.
 let dataSortedByClustering =    
     hLeaves
-    |> Seq.choose (fun c -> 
+    |> List.choose (fun c -> 
         let lable  = lables.[HierarchicalClustering.getClusterId c]
         let values = HierarchicalClustering.tryGetLeafValue c
         match values with
@@ -395,7 +389,7 @@ let dataSortedByClustering =
 let hierClusteredDataHeatmap = 
     let (hlable,hdata) =
         dataSortedByClustering
-        |> Seq.unzip
+        |> List.unzip
     Chart.Heatmap(hdata,colNames=colnames,rowNames=hlable,ColorScale=colorscaleValue,ShowScale=true)
     |> Chart.withMarginSize(Left=250.)
     |> Chart.withTitle "Clustered iris data (hierarchical clustering)"
@@ -460,8 +454,10 @@ let dispersionOfK =
 let elbowChart = 
 
     Chart.Line (dispersionOfK |> Array.map (fun (k,dispersion,std) -> k,dispersion))
-    |> Chart.withYErrorStyle (dispersionOfK |> Array.map (fun (k,dispersion,std) -> std))
-    |> Chart.withAxisTitles "k" "dispersion"
+    |> Chart.withYErrorStyle (Array=(dispersionOfK |> Array.map (fun (k,dispersion,std) -> std)))
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "k"
+    |> Chart.withYAxisStyle "dispersion"
     |> Chart.withTitle "Iris data set dispersion"
 
 (*** condition: ipynb ***)
@@ -500,8 +496,10 @@ let (aicK,aicMeans,aicStd) =
 
 let aicChart = 
     Chart.Line (aicK,aicMeans)
-    |> Chart.withAxisTitles "k" "AIC"
-    |> Chart.withYErrorStyle aicStd
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "k"
+    |> Chart.withYAxisStyle "AIC"
+    |> Chart.withYErrorStyle (Array=aicStd)
 
 (*** condition: ipynb ***)
 #if IPYNB
@@ -546,13 +544,16 @@ let rawDataChart =
 
 let silhouetteIndicesChart =
     Chart.Line (sI |> Array.map (fun x -> x.ClusterNumber,x.SilhouetteIndex))
-    |> Chart.withYErrorStyle (sI |> Array.map (fun x -> x.SilhouetteIndexStDev))
+    |> Chart.withYErrorStyle (Array=(sI |> Array.map (fun x -> x.SilhouetteIndexStDev)))
 
 let combinedSilhouette =
 
     [
-    rawDataChart |> Chart.withAxisTitles "" "" |> Chart.withTraceName "raw data"
-    silhouetteIndicesChart |> Chart.withAxisTitles "k" "silhouette index" |> Chart.withTraceName "silhouette"
+    rawDataChart |> Chart.withTemplate ChartTemplates.lightMirrored |> Chart.withTraceInfo "raw data"
+    silhouetteIndicesChart 
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "k"
+    |> Chart.withYAxisStyle "silhouette index" |> Chart.withTraceInfo "silhouette"
     ]
     |> Chart.Grid(1,2)
 
@@ -593,9 +594,9 @@ let gapStatisticsData =
 let gapDataChart = 
 
     [
-    gapStatisticsData|> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "original" |> Chart.withXAxis (Chart.myAxisRange "" (-4.,10.)) |> Chart.withYAxis (Chart.myAxisRange "" (-2.5,9.))
-    (GapStatistics.PointGenerators.generateUniformPoints rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "uniform" |> Chart.withXAxis (Chart.myAxisRange "" (-4.,10.)) |> Chart.withYAxis (Chart.myAxisRange "" (-2.5,9.))
-    (GapStatistics.PointGenerators.generateUniformPointsPCA rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceName "uniform PCA" |> Chart.withXAxis (Chart.myAxisRange "" (-4.,10.)) |> Chart.withYAxis (Chart.myAxisRange "" (-2.5,9.))
+    gapStatisticsData|> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceInfo "original" |> Chart.withXAxisStyle (MinMax=(-4.,10.)) |> Chart.withYAxisStyle (MinMax=(-2.5,9.))
+    (GapStatistics.PointGenerators.generateUniformPoints rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceInfo "uniform" |> Chart.withXAxisStyle (MinMax=(-4.,10.)) |> Chart.withYAxisStyle (MinMax=(-2.5,9.))
+    (GapStatistics.PointGenerators.generateUniformPointsPCA rnd gapStatisticsData) |> Array.map (fun x -> x.[0],x.[1]) |> Chart.Point |> Chart.withTraceInfo "uniform PCA" |> Chart.withXAxisStyle (MinMax=(-4.,10.)) |> Chart.withYAxisStyle (MinMax=(-2.5,9.))
     ]
     |> Chart.Grid(1,3)
     |> Chart.withSize(800.,400.)
@@ -639,14 +640,17 @@ let gapStatisticsChart =
 
     let dispersions =
         [
-        Chart.Line (k,disp)    |> Chart.withTraceName "disp"
-        Chart.Line (k,dispRef)|> Chart.withTraceName "dispRef" |> Chart.withYErrorStyle(std)
+        Chart.Line (k,disp)    |> Chart.withTraceInfo "disp"
+        Chart.Line (k,dispRef)|> Chart.withTraceInfo "dispRef" |> Chart.withYErrorStyle(Array=std)
         ]
-        |> Chart.combine 
-        |> Chart.withAxisTitles "" "log(disp)"
+        |> Chart.combine     
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withYAxisStyle "log(disp)"
     let gaps = 
-        Chart.Line (k,gap)|> Chart.withTraceName "gaps"
-        |> Chart.withAxisTitles "k" "gaps"
+        Chart.Line (k,gap)|> Chart.withTraceInfo "gaps"    
+        |> Chart.withTemplate ChartTemplates.lightMirrored
+        |> Chart.withXAxisStyle "k"
+        |> Chart.withYAxisStyle "gaps"
     [dispersions; gaps]
     |> Chart.Grid(2,1)
 
@@ -674,8 +678,10 @@ let sK   = std |> Array.map (fun sd -> sd * sqrt(1. + 1./500.)) //bootstraps = 5
 let gapChart =
 
     Chart.Line (k,gap)
-    |> Chart.withYErrorStyle(sK)
-    |> Chart.withAxisTitles "k" "gaps"
+    |> Chart.withYErrorStyle(Array=sK)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withXAxisStyle "k"
+    |> Chart.withYAxisStyle "gaps"
     
 (***hide***)
 gapChart |> GenericChart.toChartHTML
