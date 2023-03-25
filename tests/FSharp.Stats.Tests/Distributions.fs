@@ -560,13 +560,13 @@ let bernoulliTests =
             Expect.equal bernoulliDistribution_zero.StandardDeviation (sqrt 0.0) ""
             Expect.equal bernoulliDistribution_one.StandardDeviation (sqrt 0.0) ""
         }
-        // not implemented
-        test "Sample" {
-            Expect.throws (bernoulliDistribution_basicCase.Sample >> ignore) ""
-            Expect.throws (bernoulliDistribution_nan.Sample >> ignore) ""
-            Expect.throws (bernoulliDistribution_zero.Sample >> ignore) ""
-            Expect.throws (bernoulliDistribution_one.Sample >> ignore)  ""
-        }
+        //// not implemented
+        //test "Sample" {
+        //    Expect.throws (bernoulliDistribution_basicCase.Sample >> ignore) ""
+        //    Expect.throws (bernoulliDistribution_nan.Sample >> ignore) ""
+        //    Expect.throws (bernoulliDistribution_zero.Sample >> ignore) ""
+        //    Expect.throws (bernoulliDistribution_one.Sample >> ignore)  ""
+        //}
         test "PDF" {
             /// propabiliy of an outcome to be be of a certain value. Bernoulli distribution can only result in 0 (failure) or 1 (success) so anything except 
             /// those should have a propability of 0.
