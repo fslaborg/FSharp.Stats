@@ -78,6 +78,8 @@
     <!-- Integration -->
     <Compile Include="Integration\Differentiation.fs" />
     <Compile Include="Integration\Integration.fs" />
+    <Compile Include="Optimization\OptimizationStop.fs" />
+    <Compile Include="Optimization\NelderMead.fs" />
     <Compile Include="Optimization\BrentExt.fs" />
     <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
