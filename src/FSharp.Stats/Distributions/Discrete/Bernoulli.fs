@@ -23,7 +23,7 @@ type Bernoulli =
     /// Computes the mode.
     static member Mode p =
         Bernoulli.CheckParam p
-        if p > 0.5 then 1 else 0
+        if p >= 0.5 then 1 else 0
 
     /// Computes the mean.
     static member Mean p =
@@ -43,8 +43,7 @@ type Bernoulli =
     /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
     static member Sample p = 
         Bernoulli.CheckParam p
-        if Random.rndgen.NextFloat() < p then 0 else 1
-        //failwith "Not implemented yet."
+        if Random.rndgen.NextFloat() <= p then 1 else 0
 
     // Rename PMF? https://en.wikipedia.org/wiki/Probability_mass_function
     // > A probability mass function differs from a probability density function (PDF) in that the latter is associated with continuous 
