@@ -6,7 +6,7 @@ type Distribution<'a> =
     abstract Mean              : 'a
     abstract StandardDeviation : 'a
     abstract Variance          : 'a
-    abstract CDF               :  'a -> float
+    abstract CDF               : 'a -> float
     //abstract PDFLn   : 'a -> float
     //abstract CDFLn   : 'a -> float
     abstract ToString          : unit -> string 
