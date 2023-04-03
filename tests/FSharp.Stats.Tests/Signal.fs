@@ -39,7 +39,7 @@ let outlierTests =
         Expect.floatClose Accuracy.high (Intervals.getStart a) (Intervals.getStart b) str
         Expect.floatClose Accuracy.high (Intervals.getEnd a) (Intervals.getEnd b) str
     
-    testList "OutlierTests" [
+    testList "Signal.OutlierTests" [
         testList "Z-Score" [
             testCase "Z-Score in a population" <| fun() ->
                 let s = stDevPopulation(ls) //4.745144887
@@ -85,7 +85,6 @@ let outlierTests =
         ]
     ]
 
-
 [<Tests>]
 let normalizationTests =
     
@@ -116,7 +115,7 @@ let normalizationTests =
         ]
         |> matrix
 
-    testList "NormalizationTests" [
+    testList "Signal.NormalizationTests" [
         testCase "MedianOfRatios" <| fun() ->
 
             let expectedNormalizedTable = 
@@ -165,5 +164,76 @@ let normalizationTests =
             let result = Normalization.quantile tableB
 
             TestExtensions.sequenceEqual 4 result expectedNormalizedTable "Matrix was not normalized correctly"
+    ]
+
+
+[<Tests>]
+let binningTests =
+    
+    let testData =
+        [
+        "AT5G40650", 0.6142592186244475
+        "AT5G36950", 0.02961887351477155
+        "AT4G35320", 0.5711371856687455
+        "AT1G52030", 0.13714132092557502
+        "AT1G25480", 0.1777802253955505
+        "AT1G13608", 0.1835805021082776
+        "AT5G36950", 0.02961887351477155 //duplicate
+        "AT5G06120", 0.5109225016759817
+        "AT5G49150", 0.597941654040864
+        "AT4G36770", 0.6812994122019935
+        "AT5G10780", 0.003410975374229297
+        ]
+
+    testList "Signal.BinningTests" [
+        testCase "binBy" <| fun() ->
+
+            let expected = 
+                [|
+                0.05, ["AT5G36950", 0.02961887351477155;"AT5G36950", 0.02961887351477155;"AT5G10780", 0.003410975374229297]
+                0.15, ["AT1G52030", 0.13714132092557502; "AT1G25480", 0.1777802253955505;"AT1G13608", 0.1835805021082776]
+                0.55, ["AT4G35320", 0.5711371856687455; "AT5G06120", 0.5109225016759817;  "AT5G49150", 0.597941654040864]
+                0.65, ["AT5G40650", 0.6142592186244475;"AT4G36770", 0.6812994122019935]
+                |]
+
+            let expectedBins = 
+                expected |> Array.map fst
+                
+            let expectedIds =
+                expected |> Array.map (snd >> List.map fst)
+
+            let expectedVals =
+                expected |> Array.map (snd >> List.map snd)
+
+            let actual = 
+                Signal.Binning.binBy snd 0.1 testData  
+                |> Map.map (fun a b -> List.ofSeq b)
+                |> Map.toArray
+
+            let actualBins = 
+                actual |> Array.map fst
+                
+            let actualIds =
+                actual |> Array.map (snd >> List.map fst)
+
+            let actualVals =
+                actual |> Array.map (snd >> List.map snd)
+                
+            TestExtensions.sequenceEqual 10 actualBins expectedBins "Binning was not performed correctly"
+
+            expectedVals 
+            |> Array.iteri (fun i e -> 
+                TestExtensions.sequenceEqual 10 actualVals.[i] e "Binning was not performed correctly"
+                )
+                
+            Expect.equal actualIds expectedIds "Binning was not performed correctly"
+
+        testCase "zeroBindwith" <| fun() ->
+
+            let zeroBandwidth() = 
+                Signal.Binning.binBy snd 0.0 testData |> ignore
+
+            Expect.throwsT<(System.DivideByZeroException) > zeroBandwidth "Binning was not performed correctly"
+
     ]
 

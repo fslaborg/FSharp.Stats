@@ -93,6 +93,7 @@
     <Compile Include="Signal\Normalization.fs" />
     <Compile Include="Signal\QQPlot.fs" />
     <Compile Include="Signal\Padding.fs" />
+    <Compile Include="Signal\Binning.fs" />
     <Compile Include="Signal\FFT.fs" />
     <Compile Include="Signal\Wavelet.fs" />
     <Compile Include="Signal\ContinuousWavelet.fs" />

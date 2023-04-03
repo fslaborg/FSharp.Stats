@@ -127,5 +127,10 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv FormattingTests.formatValueTests |> ignore
     Tests.runTestsWithCLIArgs [] argv FormattingTests.formatTableTests |> ignore
     Tests.runTestsWithCLIArgs [] argv FormattingTests.matrixFormattingtests |> ignore
+    
+    //================================ Signal ===============================================================
+    Tests.runTestsWithCLIArgs [] argv SignalTests.outlierTests  |> ignore
+    Tests.runTestsWithCLIArgs [] argv SignalTests.normalizationTests  |> ignore
+    Tests.runTestsWithCLIArgs [] argv SignalTests.binningTests  |> ignore
 
     0
