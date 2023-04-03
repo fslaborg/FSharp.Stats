@@ -13,7 +13,7 @@ module Binning =
     /// <param name="bandwidth">Bandwidth of the resulting bins.</param>    
     /// <param name="data">Data of type 'a with a float field to bin by.</param>    
     /// <exception cref="System.OverflowException">Thrown when the input sequence contains nan.</exeption>
-    /// <exception cref="System.OverflowException">Thrown when the input sequence contains nan.</exeption>
+    /// <exception cref="System.DivideByZeroException">Thrown when the bandwidth is set to 0.</exeption>
     let binBy (projection: 'a -> float) bandwidth (data: seq<'a>) =
         if bandwidth = 0. then raise (System.DivideByZeroException("Bandwidth cannot be 0."))
         let halfBw = bandwidth / 2.0
@@ -37,5 +37,6 @@ module Binning =
     /// <param name="bandwidth">Bandwidth of the resulting bins.</param>
     /// <param name="data">float data</param>
     /// <exception cref="System.OverflowException">Thrown when the input sequence contains nan.</exeption>
+    /// <exception cref="System.DivideByZeroException">Thrown when the bandwidth is set to 0.</exeption>
     let bin bandwidth data = 
         binBy id bandwidth data
