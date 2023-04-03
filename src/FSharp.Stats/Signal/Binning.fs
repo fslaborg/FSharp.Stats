@@ -8,12 +8,13 @@ module Binning =
 
     /// <summary> 
     /// Sorts the data into bins with given bandwidth.
+    /// <remarks> Bin intervals are half open excluding the upper border: [lower,upper)</remarks> 
     /// </summary>
     /// <param name="projection">Function to isolate the feature to bin by.</param>
     /// <param name="bandwidth">Bandwidth of the resulting bins.</param>    
-    /// <param name="data">Data of type 'a with a float field to bin by.</param>    
-    /// <exception cref="System.OverflowException">Thrown when the input sequence contains nan.</exeption>
-    /// <exception cref="System.DivideByZeroException">Thrown when the bandwidth is set to 0.</exeption>
+    /// <param name="data">Data of type a with a float field to bin by.</param>    
+    /// <exception cref="System.OverflowException">Thrown when the input sequence contains nan.</exception>
+    /// <exception cref="System.DivideByZeroException">Thrown when the bandwidth is set to 0.</exception>
     let binBy (projection: 'a -> float) bandwidth (data: seq<'a>) =
         if bandwidth = 0. then raise (System.DivideByZeroException("Bandwidth cannot be 0."))
         let halfBw = bandwidth / 2.0
@@ -32,11 +33,12 @@ module Binning =
         |> Map.ofSeq
         
     /// <summary> 
-    /// Sorts the data into bins with given bandwidth.
+    /// Sorts the data into bins with given bandwidth. 
+    /// <remarks> Bin intervals are half open excluding the upper border: [lower,upper)</remarks> 
     /// </summary>
     /// <param name="bandwidth">Bandwidth of the resulting bins.</param>
     /// <param name="data">float data</param>
-    /// <exception cref="System.OverflowException">Thrown when the input sequence contains nan.</exeption>
-    /// <exception cref="System.DivideByZeroException">Thrown when the bandwidth is set to 0.</exeption>
+    /// <exception cref="System.OverflowException">Thrown when the input sequence contains nan.</exception>
+    /// <exception cref="System.DivideByZeroException">Thrown when the bandwidth is set to 0.</exception>
     let bin bandwidth data = 
         binBy id bandwidth data

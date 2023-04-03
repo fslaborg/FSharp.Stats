@@ -185,6 +185,23 @@ let binningTests =
         "AT5G10780", 0.003410975374229297
         ]
 
+    let testData1 =
+        [
+        0.05;
+        0.1;
+        0.2;
+        0.2;
+        0.3;
+        0.3;
+        0.3;
+        0.3;
+        0.4;
+        3.0;
+        3.0;
+        4.0;
+        6.0;
+        ]
+
     testList "Signal.BinningTests" [
         testCase "binBy" <| fun() ->
 
@@ -196,28 +213,18 @@ let binningTests =
                 0.65, ["AT5G40650", 0.6142592186244475;"AT4G36770", 0.6812994122019935]
                 |]
 
-            let expectedBins = 
-                expected |> Array.map fst
-                
-            let expectedIds =
-                expected |> Array.map (snd >> List.map fst)
-
-            let expectedVals =
-                expected |> Array.map (snd >> List.map snd)
+            let expectedBins = expected |> Array.map fst
+            let expectedIds  = expected |> Array.map (snd >> List.map fst)
+            let expectedVals = expected |> Array.map (snd >> List.map snd)
 
             let actual = 
                 Signal.Binning.binBy snd 0.1 testData  
                 |> Map.map (fun a b -> List.ofSeq b)
                 |> Map.toArray
 
-            let actualBins = 
-                actual |> Array.map fst
-                
-            let actualIds =
-                actual |> Array.map (snd >> List.map fst)
-
-            let actualVals =
-                actual |> Array.map (snd >> List.map snd)
+            let actualBins = actual |> Array.map fst
+            let actualIds  = actual |> Array.map (snd >> List.map fst)
+            let actualVals = actual |> Array.map (snd >> List.map snd)
                 
             TestExtensions.sequenceEqual 10 actualBins expectedBins "Binning was not performed correctly"
 
@@ -235,5 +242,72 @@ let binningTests =
 
             Expect.throwsT<(System.DivideByZeroException) > zeroBandwidth "Binning was not performed correctly"
 
+        testCase "bin0.1" <| fun() ->
+            
+            let actual = 
+                Signal.Binning.bin 0.1 testData1
+                |> Map.map (fun a b -> List.ofSeq b)
+                |> Map.toArray
+
+            let actualBins = actual |> Array.map fst
+            let actualIds  = actual |> Array.map snd
+            let actualVals = actual |> Array.map snd
+
+            let expected = 
+                [|
+                0.05, [0.05]
+                0.15, [0.1]
+                0.25, [0.2;0.2]
+                0.35, [0.3;0.3;0.3;0.3;]
+                0.45, [0.4]
+                3.05, [3.;3.]
+                4.05, [4.]
+                6.05, [6.]
+                |]
+
+            let expectedBins = expected |> Array.map fst
+            let expectedIds  = expected |> Array.map snd
+            let expectedVals = expected |> Array.map snd
+
+            TestExtensions.sequenceEqual 10 actualBins expectedBins "Binning was not performed correctly"
+
+            expectedVals 
+            |> Array.iteri (fun i e -> 
+                TestExtensions.sequenceEqual 10 actualVals.[i] e "Binning was not performed correctly"
+                )
+                
+            Expect.equal actualIds expectedIds "Binning was not performed correctly"
+
+        testCase "bin1.0" <| fun() ->
+            
+            let actual = 
+                Signal.Binning.bin 1. testData1
+                |> Map.map (fun a b -> List.ofSeq b)
+                |> Map.toArray
+
+            let actualBins = actual |> Array.map fst
+            let actualIds  = actual |> Array.map snd
+            let actualVals = actual |> Array.map snd
+
+            let expected = 
+                [|
+                0.5, [0.05;0.1;0.2;0.2;0.3;0.3;0.3;0.3;0.4]
+                3.5, [3.;3.]
+                4.5, [4.]
+                6.5, [6.]
+                |]
+
+            let expectedBins = expected |> Array.map fst
+            let expectedIds  = expected |> Array.map snd
+            let expectedVals = expected |> Array.map snd
+
+            TestExtensions.sequenceEqual 10 actualBins expectedBins "Binning was not performed correctly"
+
+            expectedVals 
+            |> Array.iteri (fun i e -> 
+                TestExtensions.sequenceEqual 10 actualVals.[i] e "Binning was not performed correctly"
+                )
+                
+            Expect.equal actualIds expectedIds "Binning was not performed correctly"
     ]
 
