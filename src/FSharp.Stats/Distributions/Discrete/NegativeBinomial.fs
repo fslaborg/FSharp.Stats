@@ -3,14 +3,14 @@
 open System
 open FSharp.Stats
 open FSharp.Stats.Distributions
-    
-//r = number of successes
-//p = success probability
-//x = number of trials
 
 ///The distribution of the number of trials needed (x) to get the rth success in repeated independent bernoulli trials with individual probability p. 
 //Until the (x-1)th trial (r-1) successes must be achieved (binomial distribution). Therefore to get the rth success in the xth trial, you have to multiply Binom(p,x-1,r-1) by p.
-type NegativeBinomial =
+type NegativeBinomial_trials =
+    
+    //r = number of successes
+    //p = success probability
+    //x = number of trials
 
     // NegativeBinomial distribution helper functions.
     static member CheckParam r p = 
@@ -19,71 +19,162 @@ type NegativeBinomial =
 
     /// Computes the mode. Number of trials with the highest probability to obtain r successes with the last trial.
     static member Mode r p =
-        NegativeBinomial.CheckParam r p
+        NegativeBinomial_trials.CheckParam r p
         if r > 1 then
-            r + int (Math.Floor(float (r - 1) * (1.0 - p)/p))
+            if p = 0. then 
+                failwith "Mode cannot be determined if p = 0."
+            else
+                r + int (Math.Floor(float (r - 1) * (1.0 - p)/p))
         else
             1
 
     /// Computes the mean.
     static member Mean r p =
-        NegativeBinomial.CheckParam r p
-        //(float r * (1. - p)) / p
-        float r / p
+        NegativeBinomial_trials.CheckParam r p
+        if p = 0. then 
+            nan 
+        else float r / p
         
     /// Computes the variance.
     static member Variance r p =
-        NegativeBinomial.CheckParam r p
-        //(p * float r) / ((1. - p) * (1. - p))
-        (float r * (1. - p)) / (p**2.)
+        NegativeBinomial_trials.CheckParam r p
+        if p = 0. then 
+            nan 
+        else (float r * (1. - p)) / (p**2.)
         
     /// Computes the standard deviation.
     static member StandardDeviation r p =
-        sqrt (NegativeBinomial.Variance r p)
+        if p = 0. then 
+            nan 
+        else sqrt (NegativeBinomial_trials.Variance r p)
 
     /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
     static member SampleUnchecked r p =
-        let lambda = Distributions.Continuous.Gamma.SampleUnchecked (float r) p
-        let c = Math.Exp(-lambda)
- 
-        let rec loop pp kk =
-            let kk' = kk + 1
-            let pp' = pp * Random.rndgen.NextFloat()
-            if pp' >= c then
-                loop pp' kk'
-            else 
-                kk' - 1
-        
-        loop 1.0 0
+        failwithf "not implemented yet"
 
     /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
     static member Sample r p =
-        NegativeBinomial.CheckParam r p
-        NegativeBinomial.SampleUnchecked r p
-   
-    /// Computes the probability mass function.
+        NegativeBinomial_trials.CheckParam r p
+        NegativeBinomial_trials.SampleUnchecked r p
+
+    /// <summary>Computes the probability mass function</summary>
+    /// <returns>Probability of requiring x trials when r successes are required at a individual probability of p</returns>
     static member PMF r p (x: int) = 
-        NegativeBinomial.CheckParam r p
+        NegativeBinomial_trials.CheckParam r p
         if x < r then 0.
-        else 
-            //(SpecialFunctions.Binomial.coeffcient (x + r - 1) (r - 1)) * Math.Pow(1. - p, float x) * Math.Pow(p, r)
-            SpecialFunctions.Binomial.coeffcient (x - 1) (r-1) * pown p r * pown (1. - p) (x - r)
+        else SpecialFunctions.Binomial.coeffcient (x - 1) (r-1) * pown p r * pown (1. - p) (x - r)
             
 
     /// Computes the log probability mass function.
     static member PMFLn r p (x: int) = 
-        NegativeBinomial.CheckParam r p
+        NegativeBinomial_trials.CheckParam r p
         if x < r then 
             log 0.
         else 
-            //(SpecialFunctions.Binomial.coeffcientLn (x + r - 1) (r - 1)) + float x * Math.Log(1. - p) + float r * Math.Log(p) 
             SpecialFunctions.Binomial.coeffcientLn (x - 1) (r-1) + float r * log(p) + float (x - r) * log (1. - p) 
 
-    /// Computes the cumulative distribution function. P(X <= x)
+    /// <summary>Computes the cumulative distribution function. P(X <= x)</summary>
+    /// <remarks>X=the number of trials at the rth succeess</remarks>
+    /// <returns>Probability of requiring a maximum of x trials when r successes are required at a individual probability of p</returns>  
     static member CDF (r: int) (p: float) x =
-        NegativeBinomial.CheckParam r p
-        //1.0 - SpecialFunctions.Beta.lowerIncomplete(float x + 1.,float  r, 1. - p)
+        NegativeBinomial_trials.CheckParam r p
         1.0 - SpecialFunctions.Beta.lowerIncompleteRegularized ((x - float r) + 1.) (float  r) (1. - p)
+
+    /// <summary>Returns the support of the NegativeBinomial distribution: [0, max Int32).</summary>
+    static member Support r p =
+        NegativeBinomial_trials.CheckParam r p
+        (r, System.Int32.MaxValue)
+
+    /// A string representation of the distribution.
+    static member ToString r p = 
+        sprintf "NegativeBinomial_trials(r = %i, p = %f)" r p
+
+    /// Initializes a NegativeBinomial distribution
+    static member Init r p =
+        { new DiscreteDistribution<_,int> with            
+            member d.Mean              = NegativeBinomial_trials.Mean r p
+            member d.StandardDeviation = NegativeBinomial_trials.StandardDeviation r p   
+            member d.Variance          = NegativeBinomial_trials.Variance r p
+
+            member d.Mode              = NegativeBinomial_trials.Mode r p
+            member d.Sample ()         = NegativeBinomial_trials.Sample r p
+            member d.PMF x             = NegativeBinomial_trials.PMF r p x
+            member d.CDF x             = NegativeBinomial_trials.CDF r p x
+            
+            override d.ToString()  = NegativeBinomial_trials.ToString r p
+        }
+
+
+///The distribution of the number of failures (k) before the rth success in repeated independent bernoulli trials with individual probability p. 
+type NegativeBinomial_failures =
+    
+    //r = number of successes
+    //p = success probability
+    //k = number of failures
+
+    // NegativeBinomial distribution helper functions.
+    static member CheckParam r p = 
+        if r <= 0 || (p < 0. || p > 1.) then 
+            failwith "NegativeBinomial distribution should be parametrized by number of successes r > 0, sucess probability p between 0.0 and 1.0."
+    
+    /// Computes the mode. Number of failures with the highest probability to obtain r successes with the last trial.
+    static member Mode r p =
+        NegativeBinomial_failures.CheckParam r p
+        if r > 1 then
+            if p = 0. then 
+                failwith "Mode cannot be determined if p = 0."
+            else
+                int (Math.Floor(float (r - 1) * (1.0 - p)/p))
+        else
+            0
+
+    /// Computes the mean.
+    static member Mean r p =
+        NegativeBinomial_failures.CheckParam r p
+        if p = 0. then 
+            nan 
+        else (float r * (1. - p)) / p
+        
+    /// Computes the variance.
+    static member Variance r p =
+        NegativeBinomial_failures.CheckParam r p
+        if p = 0. then 
+            nan 
+        else (float r * (1. - p)) / (p**2.)
+        
+    /// Computes the standard deviation.
+    static member StandardDeviation r p =
+        if p = 0. then 
+            nan 
+        else sqrt (NegativeBinomial_failures.Variance r p)
+
+    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    static member SampleUnchecked r p =
+        failwithf "not implemented yet"
+        
+    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    static member Sample r p =
+        NegativeBinomial_failures.CheckParam r p
+        NegativeBinomial_failures.SampleUnchecked r p
+   
+    /// <summary>Computes the probability mass function</summary>
+    /// <returns>Probability of requiring k failures when r successes are required at a individual probability of p</returns>
+    static member PMF r p (k: int) = 
+        NegativeBinomial_failures.CheckParam r p
+        (SpecialFunctions.Binomial.coeffcient (k + r - 1) k) * Math.Pow(1. - p, float k) * Math.Pow(p, r)
+
+    /// <summary>Computes the log probability mass function</summary>
+    /// <returns>log probability of requiring k failures when r successes are required at a individual probability of p</returns>
+    static member PMFLn r p (k: int) = 
+        NegativeBinomial_failures.CheckParam r p
+        (SpecialFunctions.Binomial.coeffcientLn (k + r - 1) (r - 1)) + float k * Math.Log(1. - p) + float r * Math.Log(p) 
+
+    /// <summary>Computes the cumulative distribution function. P(X <= k)</summary>
+    /// <remarks>X=the number of failures before the rth succeess</remarks>
+    /// <returns>Probability of requiring a maximum of k failures when r successes are required at a individual probability of p</returns>
+    static member CDF (r: int) (p: float) k =
+        NegativeBinomial_failures.CheckParam r p
+        1.0 - SpecialFunctions.Beta.lowerIncompleteRegularized (float k + 1.) (float  r) (1. - p)
 
     ///// Fits the underlying distribution to a given set of observations.
     //static member Fit(observations:float[],?maxIter,?tolerance) =
@@ -128,25 +219,25 @@ type NegativeBinomial =
 
     /// Returns the support of the NegativeBinomial distribution: [r, max Int32).
     static member Support r p =
-        NegativeBinomial.CheckParam r p
-        (r, System.Int32.MaxValue)
+        NegativeBinomial_failures.CheckParam r p
+        (0, System.Int32.MaxValue)
 
     /// A string representation of the distribution.
     static member ToString r p = 
-        sprintf "NegativeBinomial(r = %i, p = %f)" r p
+        sprintf "NegativeBinomial_failures(r = %i, p = %f)" r p
 
     /// Initializes a NegativeBinomial distribution
     static member Init r p =
         { new DiscreteDistribution<_,int> with            
-            member d.Mean              = NegativeBinomial.Mean r p
-            member d.StandardDeviation = NegativeBinomial.StandardDeviation r p   
-            member d.Variance          = NegativeBinomial.Variance r p
+            member d.Mean              = NegativeBinomial_failures.Mean r p
+            member d.StandardDeviation = NegativeBinomial_failures.StandardDeviation r p   
+            member d.Variance          = NegativeBinomial_failures.Variance r p
 
-            member d.Mode              = NegativeBinomial.Mode r p
-            member d.Sample ()         = NegativeBinomial.Sample r p
-            member d.PMF x             = NegativeBinomial.PMF r p x
-            member d.CDF x             = NegativeBinomial.CDF r p x
+            member d.Mode              = NegativeBinomial_failures.Mode r p
+            member d.Sample ()         = NegativeBinomial_failures.Sample r p
+            member d.PMF x             = NegativeBinomial_failures.PMF r p x
+            member d.CDF x             = NegativeBinomial_failures.CDF r p x
             
-            override d.ToString()  = NegativeBinomial.ToString r p
+            override d.ToString()  = NegativeBinomial_failures.ToString r p
         }
 
