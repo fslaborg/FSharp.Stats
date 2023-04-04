@@ -46,6 +46,7 @@ _Summary:_ this tutorial shows how to use the various types of probability distr
     - [Hypergerometric distribution](#Hypergerometric-distribution)
     - [Poisson distribution](#Poisson-distribution)
     - [Gamma distribution](#Gamma-distribution)
+    - [Negative binomial distribution](#Negative-binomial-distribution)
 - [Empirical](#Empirical)
 - [Density estimation](#Density-estimation)
 - [Distance](#Distance)
@@ -572,6 +573,63 @@ gammaCDFPlot
 (***hide***)
 gammaCDFPlot |> GenericChart.toChartHTML
 (***include-it-raw***)
+
+(**
+### Negative binomial distribution
+
+_Note_: There is no unique definition of the negative binomial distribution. In definition _A_ the random variable `x` is the number of trials, while in definition _B_
+the random variable `x` is the number of failures. The definition of `r` (number of successes) and `p` (probability of each bernoulli trial) is the same for both definitions.
+In FSharp.Stats both definitions are implemented. The number of trials (A) can be modelled with `negativeBinomial_trials`, while the number of failures can be modelled with `negativeBinomial_failures`. 
+For further discussion about this issue check out [#256](https://github.com/fslaborg/FSharp.Stats/issues/256).
+
+
+#### A - Negative binomial distribution (trials)
+
+The distribution models the number of trials needed (`x`) to get the `r`<sup>th</sup> success in repeated independent Bernoulli trials.
+Until the (x-1)<sup>th</sup> trial, (r-1) successes must be accomplished, which matches the standard binomial distribution.
+Therefore, to get the `r`<sup>th</sup> success in the `x`<sup>th</sup> trial, you have to multiply `Binom(p,x-1,r-1)` by `p`.
+
+#### B - Negative binomial distribution (faiures)
+
+The distribution models the number of failures (`k`) prior to the `r`<sup>th</sup> success in repeated independent Bernoulli trials.
+Until the (k+r-1)<sup>th</sup> trial, (r-1) successes must be accomplished, which matches the standard binomial distribution.
+Therefore, to get the `r`<sup>th</sup> success after `k`<sup>th</sup> failures, you have to multiply `Binom(p,k+r-1,r-1)` by `p`.
+
+The PDF and CDF of both distributions can be converted into each other by:
+
+```
+(negativeBinomial_trials   r p).PMF x = (negativeBinomial_failures r p).PMF (x-r)
+(negativeBinomial_failures r p).PMF k = (negativeBinomial_trials   r p).PMF (k+r)
+(negativeBinomial_trials   r p).CDF x = (negativeBinomial_failures r p).CDF (x-r)
+(negativeBinomial_failures r p).CDF k = (negativeBinomial_trials   r p).CDF (k+r)
+```
+
+Task1: 
+
+> What is the probability of obtaining the third success on the 10 trial. The individual success probability is 0.09.
+
+*)
+
+//number of trials
+let x = 10
+
+//probability of the independent bernoulli trials
+let p = 0.09
+
+//number of successes
+let r = 3
+
+// number of failures 
+let k = x - 3
+
+//Solution A:
+let negB_A = Discrete.NegativeBinomial_trials.PMF r p x
+//returns 0.01356187619
+
+//Solution B:
+let negB_B = Discrete.NegativeBinomial_failures.PMF r p k
+//returns 0.01356187619
+
 
 (**
 

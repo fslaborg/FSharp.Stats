@@ -30,6 +30,28 @@ module DiscreteDistribution =
     let hypergeometric N K n =
         Discrete.Hypergeometric.Init N K n 
 
+    /// <summary> Initializes a negative binomial distribution.
+    /// The negative binomial distribution is a discrete probability distribution
+    /// that models the number of failures needed k to get the rth success in repeated 
+    /// independent Bernoulli trials with probability p.
+    /// </summary>
+    /// <param name="r">The number of success states</param>
+    /// <param name="p">The probability of each independent bernoulli trial</param>
+    /// <param name="k">The number of failures before the rth success</param>
+    let negativeBinomial_failures r p =
+        Discrete.NegativeBinomial_failures.Init r p
+
+    /// <summary> Initializes a negative binomial distribution.
+    /// The negative binomial distribution is a discrete probability distribution
+    /// that models the number of trials needed x to get the rth success in repeated 
+    /// independent Bernoulli trials with probability p.
+    /// </summary>
+    /// <param name="r">The number of success states</param>
+    /// <param name="p">The probability of each independent bernoulli trial</param>
+    /// <param name="x">The number of trials until the rth success</param>
+    let negativeBinomial_trials r p =
+        Discrete.NegativeBinomial_trials.Init r p
+
 
 //// ######
 //// Multinomial distribution
