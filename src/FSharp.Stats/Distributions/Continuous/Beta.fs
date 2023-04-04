@@ -55,12 +55,29 @@ type Beta =
         let y = Gamma.Sample beta 1.0
         x / (x + y)
 
-    /// Computes the probability density function.
+        
+    /// Computes the log probability density function.
+    static member PDFLn alpha beta x = 
+        Beta.CheckParam alpha beta
+        if x >= 0.0 && x <= 1.0 then
+            if x = 0. && alpha = 1. then  
+                log beta
+            elif x = 1. && beta = 1. then 
+                log alpha
+            else 
+                (alpha - 1.) * log x + (beta - 1.) * log (1. - x) - SpecialFunctions.Beta._betaLn alpha beta
+        else log 0.0
+        
+    /// <summary> Computes the probability density function.</summary> 
+    /// <remarks> Calls exp(PDFLn) if alpha,beta > 80</remarks> 
     static member PDF alpha beta x = 
         Beta.CheckParam alpha beta
         if x >= 0.0 && x <= 1.0 then
-            (x ** (alpha - 1.0)) * ((1.0 - x) ** (beta - 1.0)) / (SpecialFunctions.Beta._beta alpha beta)
-        else 0.0          
+            if alpha > 80 || beta > 80 then 
+                exp (Beta.PDFLn alpha beta x)
+            else 
+                (x ** (alpha - 1.0)) * ((1.0 - x) ** (beta - 1.0)) / (SpecialFunctions.Beta._beta alpha beta)
+        else 0.0    
 
     /// Computes the cumulative distribution function.
     static member CDF alpha beta x =
@@ -123,5 +140,6 @@ type Beta =
             member d.Mode              = Normal.Mode alpha beta
             member d.Sample ()         = Beta.Sample alpha beta
             member d.PDF x             = Beta.PDF alpha beta x
+            //member d.PDFLn x             = Beta.PDFLn alpha beta x
             override d.ToString()      = Normal.ToString alpha beta 
         }

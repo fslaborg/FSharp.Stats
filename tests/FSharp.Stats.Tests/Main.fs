@@ -64,6 +64,7 @@ let main argv =
 
     //============================= Distributions Continuous ================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsContinuousTests.GammaDistributionTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsContinuousTests.BetaDistributionTests  |> ignore
 
     //============================= Distributions Discrete ================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.hypergeometricTests      |> ignore
