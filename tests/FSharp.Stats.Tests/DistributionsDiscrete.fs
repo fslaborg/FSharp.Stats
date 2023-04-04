@@ -209,3 +209,192 @@ let poissonDistributionTests =
                 "Poisson Distribution Fit lambda > 30 (pma)" 
     ]
 
+
+
+[<Tests>]
+let negBinomDistribution_failuresTests =
+     
+    let negb01 = Distributions.DiscreteDistribution.negativeBinomial_failures 3 0.09
+    let negb02 = Distributions.DiscreteDistribution.negativeBinomial_failures 1 0.1
+    let negb03 = Distributions.DiscreteDistribution.negativeBinomial_failures 10 0.1 
+    let negb04 = Distributions.DiscreteDistribution.negativeBinomial_failures 10 0.0 
+    let negb05 = Distributions.DiscreteDistribution.negativeBinomial_failures 1 0.1
+    let negb06 = Distributions.DiscreteDistribution.negativeBinomial_failures 6 0.1
+
+    testList "Distributions.Discrete.NegBinom_failures" [
+        
+        //tested against Mathnet/scipy.stats.nbinom.Pmf/r dnbinom
+        testCase "PMF" <| fun () ->
+            let pmf1 = 0.01873636711 
+            let pmf2 = 0.03486784401 
+            let pmf3 = 9e-10         
+            let pmf4 = 0.0           
+            let pmf5 = 0.1           
+            let pmf6 = 0.0181098507  
+            
+            Expect.floatClose Accuracy.high (negb01.PMF 10) pmf1 "PMF should be equal"
+            Expect.floatClose Accuracy.high (negb02.PMF 10) pmf2 "PMF should be equal"
+            Expect.floatClose Accuracy.high (negb03.PMF  1) pmf3 "PMF should be equal"
+            Expect.floatClose Accuracy.high (negb04.PMF  2) pmf4 "PMF should be equal"
+            Expect.floatClose Accuracy.high (negb05.PMF  0) pmf5 "PMF should be equal"
+            Expect.floatClose Accuracy.high (negb06.PMF 49) pmf6 "PMF should be equal"
+            
+        //tested against Mathnet/scipy.stats.nbinom.Cdf/r pnbinom
+        testCase "CDF" <| fun () ->
+            let cdf1 = 0.1053608621
+            let cdf2 = 0.6861894039
+            let cdf3 = 9.999999717e-10
+            let cdf4 = 0.
+            let cdf5 = 0.1
+            let cdf6 = 0.4755642039
+            
+            Expect.floatClose Accuracy.high (negb01.CDF 10) cdf1 "CDF should be equal"
+            Expect.floatClose Accuracy.high (negb02.CDF 10) cdf2 "CDF should be equal"
+            Expect.floatClose Accuracy.high (negb03.CDF  1) cdf3 "CDF should be equal"
+            Expect.floatClose Accuracy.high (negb04.CDF  2) cdf4 "CDF should be equal"
+            Expect.floatClose Accuracy.high (negb05.CDF  0) cdf5 "CDF should be equal"
+            Expect.floatClose Accuracy.high (negb06.CDF 49) cdf6 "CDF should be equal"
+                
+
+        //tested against Mathnet and https://homepage.divms.uiowa.edu/~mbognar/applets/nb1.html
+        testCase "Mode" <| fun () ->
+            let mode1 = 20         
+            let mode2 = 0          
+            let mode3 = 80         
+            let mode6 = 45         
+            
+            let mode4() = negb04.Mode |> ignore
+            Expect.floatClose Accuracy.high (negb01.Mode) mode1 "Mode should be equal"
+            Expect.floatClose Accuracy.high (negb02.Mode) mode2 "Mode should be equal"
+            Expect.floatClose Accuracy.high (negb03.Mode) mode3 "Mode should be equal"
+            Expect.throws mode4 "Mode cannot be determined"
+            Expect.floatClose Accuracy.high (negb06.Mode) mode6 "Mode should be equal"
+                
+        //tested against Mathnet and https://homepage.divms.uiowa.edu/~mbognar/applets/nb1.html
+        testCase "Mean" <| fun () ->
+            let mean1 = 30.33333333
+            let mean2 = 9.0        
+            let mean3 = 90.0       
+            let mean4 = nan   
+            let mean6 = 54.0       
+            
+            Expect.floatClose Accuracy.high (negb01.Mean) mean1 "Mean should be equal"
+            Expect.floatClose Accuracy.high (negb02.Mean) mean2 "Mean should be equal"
+            Expect.floatClose Accuracy.high (negb03.Mean) mean3 "Mean should be equal"
+            Expect.isTrue (nan.Equals(negb04.Mean)) "Mean should be equal"
+            Expect.floatClose Accuracy.high (negb06.Mean) mean6 "Mean should be equal"
+        
+        //tested against Mathnet and https://homepage.divms.uiowa.edu/~mbognar/applets/nb1.html
+        testCase "Variance" <| fun () ->
+            let var1 = 337.037037
+            let var2 = 90.0      
+            let var3 = 900.0     
+            let var4 = nan  
+            let var6 = 540       
+            
+            Expect.floatClose Accuracy.high (negb01.Variance) var1 "Variance should be equal"
+            Expect.floatClose Accuracy.high (negb02.Variance) var2 "Variance should be equal"
+            Expect.floatClose Accuracy.high (negb03.Variance) var3 "Variance should be equal"
+            Expect.isTrue (nan.Equals(negb04.Variance)) "Variance should be equal"
+            Expect.floatClose Accuracy.high (negb06.Variance) var6 "Variance should be equal"
+                
+        //tested against Mathnet and https://homepage.divms.uiowa.edu/~mbognar/applets/nb1.html
+        testCase "StandardDeviation" <| fun () ->
+            let stdev = sqrt 337.037037
+            Expect.floatClose Accuracy.high negb01.StandardDeviation stdev "Standard deviation should be equal"
+    ]
+
+
+[<Tests>]
+let negBinomDistribution_trialsTests =
+     
+    let negb01 = Distributions.DiscreteDistribution.negativeBinomial_trials 3 0.09
+    let negb02 = Distributions.DiscreteDistribution.negativeBinomial_trials 1 0.1
+    let negb03 = Distributions.DiscreteDistribution.negativeBinomial_trials 10 0.1 
+    let negb04 = Distributions.DiscreteDistribution.negativeBinomial_trials 10 0.0 
+    let negb05 = Distributions.DiscreteDistribution.negativeBinomial_trials 1 0.1
+    let negb06 = Distributions.DiscreteDistribution.negativeBinomial_trials 6 0.1
+
+    testList "Distributions.Discrete.NegBinom_trials" [
+        
+        //tested against Mathnet/scipy.stats.nbinom.Pmf/r dnbinom
+        //tested against scipy.nbinom.pmf (10, 3,  0.09, loc=3)
+        testCase "PMF" <| fun () ->
+            let pmf1 = 0.01873636711 
+            let pmf2 = 0.03486784401 
+            let pmf3 = 9e-10         
+            let pmf4 = 0.           
+            let pmf5 = 0.1           
+            let pmf6 = 0.0181098507  
+            
+            Expect.floatClose Accuracy.high (negb01.PMF (10 + 3)) pmf1 "PMF should be equal"
+            Expect.floatClose Accuracy.high (negb02.PMF (10 + 1)) pmf2 "PMF should be equal"
+            Expect.floatClose Accuracy.high (negb03.PMF ( 1 + 10)) pmf3 "PMF should be equal"
+            Expect.floatClose Accuracy.high (negb04.PMF ( 2 + 1)) pmf4 "PMF should be equal"
+            Expect.floatClose Accuracy.high (negb05.PMF ( 0 + 1)) pmf5 "PMF should be equal"
+            Expect.floatClose Accuracy.high (negb06.PMF (49 + 6)) pmf6 "PMF should be equal"
+            
+        //tested against Mathnet/scipy.stats.nbinom.Cdf/r pnbinom
+        testCase "CDF" <| fun () ->
+            let cdf1 = 0.1053608621
+            let cdf2 = 0.6861894039
+            let cdf3 = 9.999999717e-10
+            let cdf4 = 0.
+            let cdf5 = 0.1
+            let cdf6 = 0.4755642039
+            
+            Expect.floatClose Accuracy.high (negb01.CDF (10. + 3.)) cdf1 "CDF should be equal"
+            Expect.floatClose Accuracy.high (negb02.CDF (10. + 1.)) cdf2 "CDF should be equal"
+            Expect.floatClose Accuracy.high (negb03.CDF ( 1. + 10.)) cdf3 "CDF should be equal"
+            Expect.floatClose Accuracy.high (negb04.CDF ( 2. + 10.)) cdf4 "CDF should be equal"
+            Expect.floatClose Accuracy.high (negb05.CDF ( 0. + 1.)) cdf5 "CDF should be equal"
+            Expect.floatClose Accuracy.high (negb06.CDF (49. + 6.)) cdf6 "CDF should be equal"
+                
+
+        //tested against Mathnet and https://homepage.divms.uiowa.edu/~mbognar/applets/nb1.html
+        testCase "Mode" <| fun () ->
+            let mode1 = 23         
+            let mode2 = 1          
+            let mode3 = 90         
+            let mode6 = 51         
+            
+            let mode4() = negb04.Mode |> ignore
+            Expect.floatClose Accuracy.high (negb01.Mode) mode1 "Mode should be equal"
+            Expect.floatClose Accuracy.high (negb02.Mode) mode2 "Mode should be equal"
+            Expect.floatClose Accuracy.high (negb03.Mode) mode3 "Mode should be equal"
+            Expect.throws mode4 "Mode cannot be determined"
+            Expect.floatClose Accuracy.high (negb06.Mode) mode6 "Mode should be equal"
+                
+        //tested against Mathnet and https://homepage.divms.uiowa.edu/~mbognar/applets/nb1.html
+        testCase "Mean" <| fun () ->
+            let mean1 = 33.33333333
+            let mean2 = 10.0        
+            let mean3 = 100.0       
+            let mean4 = nan   
+            let mean6 = 60.0       
+            
+            Expect.floatClose Accuracy.high (negb01.Mean) mean1 "Mean should be equal"
+            Expect.floatClose Accuracy.high (negb02.Mean) mean2 "Mean should be equal"
+            Expect.floatClose Accuracy.high (negb03.Mean) mean3 "Mean should be equal"
+            Expect.isTrue (nan.Equals(negb04.Mean)) "Mean should be equal"
+            Expect.floatClose Accuracy.high (negb06.Mean) mean6 "Mean should be equal"
+        
+        //tested against Mathnet and https://homepage.divms.uiowa.edu/~mbognar/applets/nb1.html
+        testCase "Variance" <| fun () ->
+            let var1 = 337.037037
+            let var2 = 90.0      
+            let var3 = 900.0     
+            let var4 = nan  
+            let var6 = 540       
+            
+            Expect.floatClose Accuracy.high (negb01.Variance) var1 "Variance should be equal"
+            Expect.floatClose Accuracy.high (negb02.Variance) var2 "Variance should be equal"
+            Expect.floatClose Accuracy.high (negb03.Variance) var3 "Variance should be equal"
+            Expect.isTrue (nan.Equals(negb04.Variance)) "Variance should be equal"
+            Expect.floatClose Accuracy.high (negb06.Variance) var6 "Variance should be equal"
+                
+        //tested against Mathnet and https://homepage.divms.uiowa.edu/~mbognar/applets/nb1.html
+        testCase "StandardDeviation" <| fun () ->
+            let stdev = sqrt 337.037037
+            Expect.floatClose Accuracy.high negb01.StandardDeviation stdev "Standard deviation should be equal"
+    ]

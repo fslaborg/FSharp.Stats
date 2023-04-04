@@ -69,6 +69,8 @@ let main argv =
     //============================= Distributions Discrete ================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.hypergeometricTests      |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.poissonDistributionTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.negBinomDistribution_failuresTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.negBinomDistribution_trialsTests |> ignore
 
 
     //=============================== Correlation ===========================================================
