@@ -73,12 +73,14 @@ type NegativeBinomial_trials =
         else 
             SpecialFunctions.Binomial.coeffcientLn (x - 1) (r-1) + float r * log(p) + float (x - r) * log (1. - p) 
 
-    /// <summary>Computes the cumulative distribution function. P(X <= x)</summary>
+    /// <summary>Computes the cumulative distribution function. P(X lower or equal then x)</summary>
     /// <remarks>X=the number of trials at the rth succeess</remarks>
     /// <returns>Probability of requiring a maximum of x trials when r successes are required at a individual probability of p</returns>  
     static member CDF (r: int) (p: float) x =
         NegativeBinomial_trials.CheckParam r p
-        1.0 - SpecialFunctions.Beta.lowerIncompleteRegularized ((x - float r) + 1.) (float  r) (1. - p)
+        if float r > x then 0. 
+        else
+            1.0 - SpecialFunctions.Beta.lowerIncompleteRegularized ((x - float r) + 1.) (float  r) (1. - p)
 
     /// <summary>Returns the support of the NegativeBinomial distribution: [0, max Int32).</summary>
     static member Support r p =
@@ -169,7 +171,7 @@ type NegativeBinomial_failures =
         NegativeBinomial_failures.CheckParam r p
         (SpecialFunctions.Binomial.coeffcientLn (k + r - 1) (r - 1)) + float k * Math.Log(1. - p) + float r * Math.Log(p) 
 
-    /// <summary>Computes the cumulative distribution function. P(X <= k)</summary>
+    /// <summary>Computes the cumulative distribution function. P(X lower or equal then k)</summary>
     /// <remarks>X=the number of failures before the rth succeess</remarks>
     /// <returns>Probability of requiring a maximum of k failures when r successes are required at a individual probability of p</returns>
     static member CDF (r: int) (p: float) k =

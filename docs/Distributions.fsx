@@ -579,6 +579,7 @@ gammaCDFPlot |> GenericChart.toChartHTML
 
 _Note_: There is no unique definition of the negative binomial distribution. In definition _A_ the random variable `x` is the number of trials, while in definition _B_
 the random variable `x` is the number of failures. The definition of `r` (number of successes) and `p` (probability of each bernoulli trial) is the same for both definitions.
+
 In FSharp.Stats both definitions are implemented. The number of trials (A) can be modelled with `negativeBinomial_trials`, while the number of failures can be modelled with `negativeBinomial_failures`. 
 For further discussion about this issue check out [#256](https://github.com/fslaborg/FSharp.Stats/issues/256).
 
@@ -600,12 +601,12 @@ The PDF and CDF of both distributions can be converted into each other by:
 ```
 (negativeBinomial_trials   r p).PMF x = (negativeBinomial_failures r p).PMF (x-r)
 (negativeBinomial_failures r p).PMF k = (negativeBinomial_trials   r p).PMF (k+r)
+
 (negativeBinomial_trials   r p).CDF x = (negativeBinomial_failures r p).CDF (x-r)
 (negativeBinomial_failures r p).CDF k = (negativeBinomial_trials   r p).CDF (k+r)
 ```
 
-Task1: 
-
+> Task1: 
 > What is the probability of obtaining the third success on the 10 trial. The individual success probability is 0.09.
 
 *)
@@ -630,8 +631,79 @@ let negB_A = Discrete.NegativeBinomial_trials.PMF r p x
 let negB_B = Discrete.NegativeBinomial_failures.PMF r p k
 //returns 0.01356187619
 
+(**
+
+**Comparison of PMF**
+
+
+*)
+
+let negBinom_trials =
+    Distributions.DiscreteDistribution.negativeBinomial_trials 3 0.3
+
+let negBinom_failures = 
+    Distributions.DiscreteDistribution.negativeBinomial_failures 3 0.3
+
+negBinom_trials.CDF 1
+
+
+let pmfComparison = 
+    let pmfs_trials   = [0..30] |> List.map (fun x -> x,negBinom_trials.PMF x)
+    let pmfs_failures = [0..30] |> List.map (fun x -> x,negBinom_failures.PMF x)
+    [
+         Chart.Column (pmfs_trials, Opacity=0.5, Name= "trials (x)")
+         Chart.Column (pmfs_failures, Opacity=0.5, Name= "failures (k)")
+    ]
+    |> Chart.combine
+    |> Chart.withLayoutStyle(BarMode=StyleParam.BarMode.Overlay)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withTitle "PMF"
+    |> Chart.withXAxisStyle "x or k"
+    |> Chart.withYAxisStyle "P(X=x) or P(X=k)"
+
+(*** condition: ipynb ***)
+#if IPYNB
+pmfComparison
+#endif // IPYNB
+
+(***hide***)
+pmfComparison |> GenericChart.toChartHTML
+(***include-it-raw***)
+
 
 (**
+You can clearly see, that the PMF distributions are shifted according to the number of successes because: $failures (k) = trials (x) - successes (r)$.
+
+**Comparison of CDF**
+
+
+*)
+
+let cdfComparison = 
+    let cdfs_trials   = [0..30] |> List.map (fun x -> x,negBinom_trials.CDF x)
+    let cdfs_failures = [0..30] |> List.map (fun x -> x,negBinom_failures.CDF x)
+    [
+         Chart.Column (cdfs_trials, Opacity=0.5, Name= "trials (x)")
+         Chart.Column (cdfs_failures, Opacity=0.5, Name= "failures (k)")
+    ]
+    |> Chart.combine
+    |> Chart.withLayoutStyle(BarMode=StyleParam.BarMode.Overlay)
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withTitle "CDF"
+    |> Chart.withXAxisStyle "x or k"
+    |> Chart.withYAxisStyle "P(X=x) or P(X=k)"
+
+(*** condition: ipynb ***)
+#if IPYNB
+cdfComparison
+#endif // IPYNB
+
+(***hide***)
+cdfComparison |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+You can clearly see, that the CDF distributions are shifted according to the number of successes because: $failures (k) = trials (x) - successes (r)$.
 
 ## Empirical
 
