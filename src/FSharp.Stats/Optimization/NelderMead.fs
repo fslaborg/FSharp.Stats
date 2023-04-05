@@ -29,6 +29,15 @@ module NelderMead =
                 Psi   = 0.5
                 Sigma = 0.5
             }
+        static member init delta zDelta rho chi psi sigma =
+            {
+                Delta = delta
+                ZDelta = zDelta
+                Rho   = rho
+                Chi   = chi
+                Psi   = psi
+                Sigma = sigma
+            }
 
 
     type StepType = 
