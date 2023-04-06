@@ -127,7 +127,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1818', 1818)" onmouseover="showTip(event, '1818', 1818)">
+              <code onmouseout="hideTip(event, '1833', 1833)" onmouseover="showTip(event, '1833', 1833)">
                 <p>
                   <a id="``.ctor``">
                     <a href="#``.ctor``">
@@ -136,7 +136,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1818">
+              <div class="fsdocs-tip" id="1833">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Seq<span>()</span></span></code>
@@ -203,19 +203,168 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1819', 1819)" onmouseover="showTip(event, '1819', 1819)">
+              <code onmouseout="hideTip(event, '1834', 1834)" onmouseover="showTip(event, '1834', 1834)">
                 <p>
-                  <a id="linspace">
-                    <a href="#linspace">
-                      <code><span>Seq.linspace&#32;<span><span>(<span>start,&#32;stop,&#32;?Num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
+                  <a id="geomspace">
+                    <a href="#geomspace">
+                      <code><span>Seq.geomspace&#32;<span><span>(<span>start,&#32;stop,&#32;num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1819">
+              <div class="fsdocs-tip" id="1834">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Seq.linspace&#32;<span><span>(<span>start,&#32;stop,&#32;?Num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
+                  <code><span>Seq.geomspace&#32;<span><span>(<span>start,&#32;stop,&#32;num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        start
+                      </b>
+                      :
+                      <code>float</code>
+                       - 
+                      start value (is included)
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        stop
+                      </b>
+                      :
+                      <code>float</code>
+                       - 
+                      end value (by default is included)
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        num
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        ?IncludeEndpoint
+                      </b>
+                      :
+                      <code>bool</code>
+                       - 
+                      If false, the seq does not contain the stop value. Defaults to true.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>seq&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.SeqExtension.Seq.geomspace`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.SeqExtension.Seq.geomspace\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Seq.fs#L1237-1237" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Creates a geometric seq float with values between a given interval
+ 
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  start
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  start value (is included)
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  stop
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  end value (by default is included)
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  num
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?IncludeEndpoint
+                </span>
+                :
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  If false, the seq does not contain the stop value. Defaults to true.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span>seq&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1835', 1835)" onmouseover="showTip(event, '1835', 1835)">
+                <p>
+                  <a id="linspace">
+                    <a href="#linspace">
+                      <code><span>Seq.linspace&#32;<span><span>(<span>start,&#32;stop,&#32;num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1835">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Seq.linspace&#32;<span><span>(<span>start,&#32;stop,&#32;num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
@@ -242,12 +391,10 @@
                     <br/>
                     <span>
                       <b>
-                        ?Num
+                        num
                       </b>
                       :
                       <code>int</code>
-                       - 
-                      sets the number of elements in the seq. If not set, stepsize = 1.
                     </span>
                     <br/>
                     <span>
@@ -321,16 +468,12 @@
               </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  ?Num
+                  num
                 </span>
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  sets the number of elements in the seq. If not set, stepsize = 1.
-                </p>
-              </dd>
+              <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   ?IncludeEndpoint

@@ -172,6 +172,11 @@
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
     Machine Learning
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
 </li>
                         <li class="nav-header">
   API Reference
@@ -858,13 +863,13 @@ In other words, when given one randomly selected positive instance and one rando
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs58', 192)" onmouseover="showTip(event, 'fs58', 192)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs84', 193)" onmouseover="showTip(event, 'fs84', 193)" class="id">withYAxisStyle</span><span class="pn">(</span><span class="s">&quot;FPR&quot;</span><span class="pn">,</span> <span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">1.</span><span class="pn">)</span><span class="pn">)</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs58', 194)" onmouseover="showTip(event, 'fs58', 194)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs85', 195)" onmouseover="showTip(event, 'fs85', 195)" class="id">withTitle</span> <span class="s">&quot;Binary receiver operating characteristic example&quot;</span>
 </code></pre>
-<div><div id="a41ae32e-137a-438b-8847-38dea08f3e84"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_a41ae32e137a438b884738dea08f3e84 = function() {
+<div><div id="47b4e5fd-7468-47e5-b2e6-8e72e26b9fcb"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_47b4e5fd746847e5b2e68e72e26b9fcb = function() {
     var data = [{"type":"scatter","name":"2 label ROC, AUC = 0.71","mode":"lines","x":[0.0,0.0,0.3333333333333333,0.3333333333333333,0.6666666666666666,0.6666666666666666,1.0],"y":[0.0,0.25,0.5,0.75,0.75,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"no skill","mode":"lines","x":[0.0,1.0],"y":[0.0,1.0],"marker":{},"line":{"color":"rgba(128, 128, 128, 1.0)","dash":"dash"}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"legend":{"x":0.5,"xanchor":"right","y":0.1,"yanchor":"bottom"},"xaxis":{"title":{"text":"TPR"},"range":[0.0,1.0]},"yaxis":{"title":{"text":"FPR"},"range":[0.0,1.0]},"title":{"text":"Binary receiver operating characteristic example"}};
     var config = {"responsive":true};
-    Plotly.newPlot('a41ae32e-137a-438b-8847-38dea08f3e84', data, layout, config);
+    Plotly.newPlot('47b4e5fd-7468-47e5-b2e6-8e72e26b9fcb', data, layout, config);
 };
-renderPlotly_a41ae32e137a438b884738dea08f3e84();
+renderPlotly_47b4e5fd746847e5b2e68e72e26b9fcb();
 </script></div>
 <h5><a name="Multi-label" class="anchor" href="#Multi-label">Multi-label</a></h5>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs88', 199)" onmouseover="showTip(event, 'fs88', 199)" class="id">multiLabelROC</span> <span class="o">=</span> 
@@ -899,13 +904,13 @@ renderPlotly_a41ae32e137a438b884738dea08f3e84();
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs58', 260)" onmouseover="showTip(event, 'fs58', 260)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs84', 261)" onmouseover="showTip(event, 'fs84', 261)" class="id">withYAxisStyle</span><span class="pn">(</span><span class="s">&quot;FPR&quot;</span><span class="pn">,</span> <span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">1.</span><span class="pn">)</span><span class="pn">)</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs58', 262)" onmouseover="showTip(event, 'fs58', 262)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs85', 263)" onmouseover="showTip(event, 'fs85', 263)" class="id">withTitle</span> <span class="s">&quot;Binary receiver operating characteristic example&quot;</span>
 </code></pre>
-<div><div id="41a0fccd-8cdb-4023-a4ab-793a5a4fafdd"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_41a0fccd8cdb4023a4ab793a5a4fafdd = function() {
+<div><div id="3171feae-204a-4bed-91ae-dc6c68f14052"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_3171feae204a4bed91aedc6c68f14052 = function() {
     var data = [{"type":"scatter","name":"A ROC, AUC = 0.87","mode":"lines","x":[0.0,0.0,0.0,0.0,0.0,0.2222222222222222,0.3333333333333333,0.4444444444444444,0.5555555555555556,1.0,1.0],"y":[0.0,0.2,0.4,0.6,0.6,0.6,0.8,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"B ROC, AUC = 0.97","mode":"lines","x":[0.0,0.0,0.0,0.0,0.0,0.09090909090909091,0.09090909090909091,0.18181818181818182,0.18181818181818182,0.6363636363636364,1.0],"y":[0.0,0.0,0.3333333333333333,0.6666666666666666,0.6666666666666666,0.6666666666666666,1.0,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"C ROC, AUC = 0.96","mode":"lines","x":[0.0,0.0,0.0,0.0,0.125,0.125,0.125,0.125,0.375,1.0,1.0],"y":[0.0,0.16666666666666666,0.5,0.6666666666666666,0.6666666666666666,0.6666666666666666,0.8333333333333334,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"macro-average ROC, AUC = 0.94","mode":"lines","x":[0.0,0.0,0.0,0.0,0.041666666666666664,0.14604377104377106,0.18308080808080807,0.25042087542087543,0.37079124579124584,0.8787878787878788,1.0],"y":[0.0,0.12222222222222223,0.41111111111111115,0.6444444444444444,0.6444444444444444,0.6444444444444444,0.8777777777777778,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"micro-average ROC, AUC = 0.93","mode":"lines","x":[0.0,0.0,0.0,0.0,0.03571428571428571,0.14285714285714285,0.17857142857142858,0.25,0.35714285714285715,0.8571428571428571,1.0],"y":[0.0,0.14285714285714285,0.42857142857142855,0.6428571428571429,0.6428571428571429,0.6428571428571429,0.8571428571428571,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"no skill","mode":"lines","x":[0.0,1.0],"y":[0.0,1.0],"marker":{},"line":{"color":"rgba(128, 128, 128, 1.0)","dash":"dash"}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"legend":{"x":0.5,"xanchor":"right","y":0.1,"yanchor":"bottom"},"xaxis":{"title":{"text":"TPR"},"range":[0.0,1.0]},"yaxis":{"title":{"text":"FPR"},"range":[0.0,1.0]},"title":{"text":"Binary receiver operating characteristic example"}};
     var config = {"responsive":true};
-    Plotly.newPlot('41a0fccd-8cdb-4023-a4ab-793a5a4fafdd', data, layout, config);
+    Plotly.newPlot('3171feae-204a-4bed-91ae-dc6c68f14052', data, layout, config);
 };
-renderPlotly_41a0fccd8cdb4023a4ab793a5a4fafdd();
+renderPlotly_3171feae204a4bed91aedc6c68f14052();
 </script></div>
 
                 </div>
@@ -1011,7 +1016,8 @@ from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations fo
   See also &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/arrays&quot;&gt;F# Language Guide - Arrays&lt;/a&gt;.
  &lt;/remarks&gt;</em><br /><br />--------------------<br />type Array =
   new: unit -&gt; Array
-  static member linspace: start: float * stop: float * ?Num: int * ?IncludeEndpoint: bool -&gt; float[]<br /><br />--------------------<br />new: unit -&gt; Array</div>
+  static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float array
+  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float[]<br /><br />--------------------<br />new: unit -&gt; Array</div>
 <div class="fsdocs-tip" id="fs30">val iter: action: (&#39;T -&gt; unit) -&gt; array: &#39;T[] -&gt; unit<br /><em>&lt;summary&gt;Applies the given function to each element of the array.&lt;/summary&gt;<br />&lt;param name=&quot;action&quot;&gt;The function to apply.&lt;/param&gt;<br />&lt;param name=&quot;array&quot;&gt;The input array.&lt;/param&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input array is null.&lt;/exception&gt;<br />&lt;example id=&quot;iter-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
  let inputs = [| &quot;a&quot;; &quot;b&quot;; &quot;c&quot; |]
 

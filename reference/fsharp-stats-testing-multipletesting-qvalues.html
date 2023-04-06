@@ -119,7 +119,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1662', 1662)" onmouseover="showTip(event, '1662', 1662)">
+              <code onmouseout="hideTip(event, '1675', 1675)" onmouseover="showTip(event, '1675', 1675)">
                 <p>
                   <a id="ofPValues">
                     <a href="#ofPValues">
@@ -128,7 +128,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1662">
+              <div class="fsdocs-tip" id="1675">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>ofPValues&#32;<span>pi0&#32;pValues</span></span></code>
@@ -142,6 +142,8 @@
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
                     </span>
                     <br/>
                     <span>
@@ -150,6 +152,8 @@
                       </b>
                       :
                       <code><span>float[]</span></code>
+                       - 
+                      sequence of p values to correct
                     </span>
                     <br/>
                   </ul>
@@ -173,15 +177,15 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L263-263" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L332-332" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
  Calculates q-values from given p-values and returns an array of qValues in the same order.
- 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
-
+ nan p values are ignored and reported as nan.
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -192,7 +196,11 @@
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   pValues
@@ -200,7 +208,11 @@
                 :
                 <code><span>float[]</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  sequence of p values to correct
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -216,7 +228,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1663', 1663)" onmouseover="showTip(event, '1663', 1663)">
+              <code onmouseout="hideTip(event, '1676', 1676)" onmouseover="showTip(event, '1676', 1676)">
                 <p>
                   <a id="ofPValuesBy">
                     <a href="#ofPValuesBy">
@@ -225,7 +237,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1663">
+              <div class="fsdocs-tip" id="1676">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>ofPValuesBy&#32;<span>pi0&#32;projection&#32;pValues</span></span></code>
@@ -239,6 +251,8 @@
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
                     </span>
                     <br/>
                     <span>
@@ -247,6 +261,8 @@
                       </b>
                       :
                       <code><span>'a&#32;->&#32;float</span></code>
+                       - 
+                      projection function to isolate the pvalue from input type 'a
                     </span>
                     <br/>
                     <span>
@@ -255,6 +271,8 @@
                       </b>
                       :
                       <code><span>'a[]</span></code>
+                       - 
+                      sequence of p values to correct
                     </span>
                     <br/>
                   </ul>
@@ -278,15 +296,15 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L207-207" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L248-248" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
  Calculates q-values from given p-values and returns an array of qValues in the same order.
- 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
-
+ nan p values are ignored and reported as nan.
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -297,7 +315,11 @@
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   projection
@@ -305,7 +327,11 @@
                 :
                 <code><span>'a&#32;->&#32;float</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  projection function to isolate the pvalue from input type 'a
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   pValues
@@ -313,7 +339,11 @@
                 :
                 <code><span>'a[]</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  sequence of p values to correct
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -329,7 +359,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1664', 1664)" onmouseover="showTip(event, '1664', 1664)">
+              <code onmouseout="hideTip(event, '1677', 1677)" onmouseover="showTip(event, '1677', 1677)">
                 <p>
                   <a id="ofPValuesRobust">
                     <a href="#ofPValuesRobust">
@@ -338,7 +368,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1664">
+              <div class="fsdocs-tip" id="1677">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>ofPValuesRobust&#32;<span>pi0&#32;pValues</span></span></code>
@@ -352,6 +382,8 @@
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
                     </span>
                     <br/>
                     <span>
@@ -360,6 +392,8 @@
                       </b>
                       :
                       <code><span>float[]</span></code>
+                       - 
+                      sequence of p values to correct
                     </span>
                     <br/>
                   </ul>
@@ -383,12 +417,16 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L202-202" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L238-238" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
+ Calculates q-values from given p-values and returns an array of robust qValues in the same order.
+ More robust for small p values when testcount is low, see Storey JD (2002) JRSS-B 64: 479-498.
+ nan p values are ignored and reported as nan.
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -399,7 +437,11 @@
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   pValues
@@ -407,7 +449,11 @@
                 :
                 <code><span>float[]</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  sequence of p values to correct
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -423,7 +469,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1665', 1665)" onmouseover="showTip(event, '1665', 1665)">
+              <code onmouseout="hideTip(event, '1678', 1678)" onmouseover="showTip(event, '1678', 1678)">
                 <p>
                   <a id="ofPValuesRobustBy">
                     <a href="#ofPValuesRobustBy">
@@ -432,7 +478,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1665">
+              <div class="fsdocs-tip" id="1678">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>ofPValuesRobustBy&#32;<span>pi0&#32;projection&#32;pValues</span></span></code>
@@ -446,6 +492,8 @@
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
                     </span>
                     <br/>
                     <span>
@@ -454,6 +502,8 @@
                       </b>
                       :
                       <code><span>'a&#32;->&#32;float</span></code>
+                       - 
+                      projection function to isolate the pvalue from input type 'a
                     </span>
                     <br/>
                     <span>
@@ -462,6 +512,8 @@
                       </b>
                       :
                       <code><span>'a[]</span></code>
+                       - 
+                      sequence of p values to correct
                     </span>
                     <br/>
                   </ul>
@@ -485,16 +537,16 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L147-147" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/MultipleTesting.fs#L152-152" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Calculates q-values from given p-values and returns an array of qValues in the same order.
- 'pi0' can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+ Calculates q-values from given p-values and returns an array of robust qValues in the same order.
  More robust for small p values when testcount is low, see Storey JD (2002) JRSS-B 64: 479-498.
-
+ nan p values are ignored and reported as nan.
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -505,7 +557,11 @@
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  can be calculated with 'pi0Bootstrap' or 'pi0BootstrapWithLambda'.
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   projection
@@ -513,7 +569,11 @@
                 :
                 <code><span>'a&#32;->&#32;float</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  projection function to isolate the pvalue from input type 'a
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   pValues
@@ -521,7 +581,11 @@
                 :
                 <code><span>'a[]</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  sequence of p values to correct
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -537,7 +601,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1666', 1666)" onmouseover="showTip(event, '1666', 1666)">
+              <code onmouseout="hideTip(event, '1679', 1679)" onmouseover="showTip(event, '1679', 1679)">
                 <p>
                   <a id="pi0Bootstrap">
                     <a href="#pi0Bootstrap">
@@ -546,7 +610,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1666">
+              <div class="fsdocs-tip" id="1679">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>pi0Bootstrap&#32;<span>pValues</span></span></code>
@@ -619,7 +683,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1667', 1667)" onmouseover="showTip(event, '1667', 1667)">
+              <code onmouseout="hideTip(event, '1680', 1680)" onmouseover="showTip(event, '1680', 1680)">
                 <p>
                   <a id="pi0BootstrapWithLambda">
                     <a href="#pi0BootstrapWithLambda">
@@ -628,7 +692,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1667">
+              <div class="fsdocs-tip" id="1680">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>pi0BootstrapWithLambda&#32;<span>lambda&#32;pValues</span></span></code>

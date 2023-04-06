@@ -172,6 +172,11 @@
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
     Machine Learning
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
 </li>
                         <li class="nav-header">
   API Reference
@@ -674,13 +679,13 @@ factor is achieved.</p>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 57)" onmouseover="showTip(event, 'fs26', 57)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 58)" onmouseover="showTip(event, 'fs35', 58)" class="id">withYAxisStyle</span> <span class="s">&quot;raw intensity&quot;</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 59)" onmouseover="showTip(event, 'fs26', 59)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 60)" onmouseover="showTip(event, 'fs36', 60)" class="id">withTitle</span> <span class="s">&quot;raw data&quot;</span>
 </code></pre>
-<div><div id="8e28a608-3156-4e0a-adb0-fcd30f9e296f"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_8e28a60831564e0aadb0fcd30f9e296f = function() {
+<div><div id="a94c6822-991a-488b-b494-f50f8a43fef6"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_a94c6822991a488bb494f50f8a43fef6 = function() {
     var data = [{"type":"bar","name":"raw sample1","x":[0,1,2,3,4,5],"y":[100.0,80.0,0.0,40.0,50.0,40.0],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"raw sample2","x":[0,1,2,3,4,5],"y":[130.0,200.0,50.0,50.0,45.0,50.0],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"raw sample3","x":[0,1,2,3,4,5],"y":[30.0,30.0,0.0,20.0,25.0,15.0],"orientation":"v","marker":{"pattern":{}}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"}},"yaxis":{"title":{"text":"raw intensity"}},"title":{"text":"raw data"}};
     var config = {"responsive":true};
-    Plotly.newPlot('8e28a608-3156-4e0a-adb0-fcd30f9e296f', data, layout, config);
+    Plotly.newPlot('a94c6822-991a-488b-b494-f50f8a43fef6', data, layout, config);
 };
-renderPlotly_8e28a60831564e0aadb0fcd30f9e296f();
+renderPlotly_a94c6822991a488bb494f50f8a43fef6();
 </script></div>
 <p>In the above figure you can see, that the green sample is underrepresented, and the orange is overrepresented when compared to the blue one.
 No the MOR normalization is applied. If no transformation (+1) should be applied, you can use <code>Signal.Normalization.medianOfRatios</code>.</p>
@@ -719,13 +724,13 @@ Correctionfactor for sample3 is 0.457
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 124)" onmouseover="showTip(event, 'fs26', 124)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 125)" onmouseover="showTip(event, 'fs34', 125)" class="id">withXAxisStyle</span> <span class="s">&quot;gID&quot;</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 126)" onmouseover="showTip(event, 'fs26', 126)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 127)" onmouseover="showTip(event, 'fs35', 127)" class="id">withYAxisStyle</span> <span class="s">&quot;MOR intensity&quot;</span>
 </code></pre>
-<div><div id="4f43340a-6677-47e7-aa40-15362132a0f9"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_4f43340a667747e7aa4015362132a0f9 = function() {
+<div><div id="2dd71c74-8538-4b25-a419-cf6d4effbe79"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_2dd71c7485384b25a419cf6d4effbe79 = function() {
     var data = [{"type":"bar","name":"MOR normed sample1","x":[0,1,2,3,4,5],"y":[82.15073918013081,65.72059134410465,0.0,32.860295672052324,41.07536959006541,32.860295672052324],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"MOR normed sample2","x":[0,1,2,3,4,5],"y":[77.7073168717368,119.54971826421045,29.887429566052614,29.887429566052614,26.898686609447353,29.887429566052614],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"MOR normed sample3","x":[0,1,2,3,4,5],"y":[65.66130664839933,65.66130664839933,0.0,43.77420443226622,54.717755540332774,32.830653324199666],"orientation":"v","marker":{"pattern":{}}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"}},"yaxis":{"title":{"text":"MOR intensity"}}};
     var config = {"responsive":true};
-    Plotly.newPlot('4f43340a-6677-47e7-aa40-15362132a0f9', data, layout, config);
+    Plotly.newPlot('2dd71c74-8538-4b25-a419-cf6d4effbe79', data, layout, config);
 };
-renderPlotly_4f43340a667747e7aa4015362132a0f9();
+renderPlotly_2dd71c7485384b25a419cf6d4effbe79();
 </script></div>
 <p>The normed data now shows high similarity of the individual element intensities across samples.</p>
 <h1><a name="Quantile-normalization" class="anchor" href="#Quantile-normalization">Quantile normalization</a></h1>
@@ -968,13 +973,13 @@ You can either quantile normalize data according to a given reference distributi
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 165)" onmouseover="showTip(event, 'fs26', 165)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 166)" onmouseover="showTip(event, 'fs34', 166)" class="id">withXAxisStyle</span> <span class="s">&quot;gID&quot;</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 167)" onmouseover="showTip(event, 'fs26', 167)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 168)" onmouseover="showTip(event, 'fs35', 168)" class="id">withYAxisStyle</span> <span class="s">&quot;qNorm intensity&quot;</span>
 </code></pre>
-<div><div id="f6062b87-d61c-4c38-b324-2a2883f6870e"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_f6062b87d61c4c38b3242a2883f6870e = function() {
+<div><div id="a9c3f0a4-ac6e-49d6-9f78-22abf5d69141"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_a9c3f0a4ac6e49d69f7822abf5d69141 = function() {
     var data = [{"type":"bar","name":"quantile normed sample1","x":[0,1,2,3,4,5],"y":[110.0,80.0,15.0,35.0,41.666666666666664,36.666666666666664],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"quantile normed sample2","x":[0,1,2,3,4,5],"y":[80.0,110.0,35.0,36.666666666666664,15.0,41.666666666666664],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"quantile normed sample3","x":[0,1,2,3,4,5],"y":[80.0,110.0,15.0,36.666666666666664,41.666666666666664,35.0],"orientation":"v","marker":{"pattern":{}}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"}},"yaxis":{"title":{"text":"qNorm intensity"}}};
     var config = {"responsive":true};
-    Plotly.newPlot('f6062b87-d61c-4c38-b324-2a2883f6870e', data, layout, config);
+    Plotly.newPlot('a9c3f0a4-ac6e-49d6-9f78-22abf5d69141', data, layout, config);
 };
-renderPlotly_f6062b87d61c4c38b3242a2883f6870e();
+renderPlotly_a9c3f0a4ac6e49d69f7822abf5d69141();
 </script></div>
 <p>As seen in the normalized column chart, the final samples all consists of the same values, just assigned to different row indices according to the rank within the sample.
 For data with low row count, this normalization is not appropriate because there is a severe disturbance of the intensity values. The more data is incorporated (more rows), the lower
@@ -1054,7 +1059,8 @@ from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations fo
   See also &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/arrays&quot;&gt;F# Language Guide - Arrays&lt;/a&gt;.
  &lt;/remarks&gt;</em><br /><br />--------------------<br />type Array =
   new: unit -&gt; Array
-  static member linspace: start: float * stop: float * ?Num: int * ?IncludeEndpoint: bool -&gt; float[]<br /><br />--------------------<br />new: unit -&gt; Array</div>
+  static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float array
+  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float[]<br /><br />--------------------<br />new: unit -&gt; Array</div>
 <div class="fsdocs-tip" id="fs20">val mapi: mapping: (int -&gt; &#39;T -&gt; &#39;U) -&gt; array: &#39;T[] -&gt; &#39;U[]<br /><em>&lt;summary&gt;Builds a new array whose elements are the results of applying the given function
  to each of the elements of the array. The integer index passed to the
  function indicates the index of element being transformed, starting at zero.&lt;/summary&gt;<br />&lt;param name=&quot;mapping&quot;&gt;The function to transform elements and their indices.&lt;/param&gt;<br />&lt;param name=&quot;array&quot;&gt;The input array.&lt;/param&gt;<br />&lt;returns&gt;The array of transformed elements.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input array is null.&lt;/exception&gt;<br />&lt;example id=&quot;mapi-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
@@ -1123,7 +1129,8 @@ from FSharp.Stats<br /><em>&lt;summary&gt;
 
 from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.seq`1&quot; /&gt;.&lt;/summary&gt;</em><br /><br />--------------------<br />type Seq =
   new: unit -&gt; Seq
-  static member linspace: start: float * stop: float * ?Num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;<br /><br />--------------------<br />new: unit -&gt; Seq</div>
+  static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;
+  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;<br /><br />--------------------<br />new: unit -&gt; Seq</div>
 <div class="fsdocs-tip" id="fs49">val item: index: int -&gt; source: seq&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Computes the element at the specified index in the collection.&lt;/summary&gt;<br />&lt;param name=&quot;index&quot;&gt;The index of the element to retrieve.&lt;/param&gt;<br />&lt;param name=&quot;source&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The element at the specified index of the sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input sequence is null.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.ArgumentException&quot;&gt;Thrown when the index is negative or the input sequence does not contain enough elements.&lt;/exception&gt;<br />&lt;example id=&quot;item-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
  let inputs = [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;]
 

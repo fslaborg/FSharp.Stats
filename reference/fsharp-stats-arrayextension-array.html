@@ -127,7 +127,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1744', 1744)" onmouseover="showTip(event, '1744', 1744)">
+              <code onmouseout="hideTip(event, '1757', 1757)" onmouseover="showTip(event, '1757', 1757)">
                 <p>
                   <a id="``.ctor``">
                     <a href="#``.ctor``">
@@ -136,7 +136,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1744">
+              <div class="fsdocs-tip" id="1757">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Array<span>()</span></span></code>
@@ -203,19 +203,165 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1745', 1745)" onmouseover="showTip(event, '1745', 1745)">
+              <code onmouseout="hideTip(event, '1758', 1758)" onmouseover="showTip(event, '1758', 1758)">
                 <p>
-                  <a id="linspace">
-                    <a href="#linspace">
-                      <code><span>Array.linspace&#32;<span><span>(<span>start,&#32;stop,&#32;?Num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
+                  <a id="geomspace">
+                    <a href="#geomspace">
+                      <code><span>Array.geomspace&#32;<span><span>(<span>start,&#32;stop,&#32;num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1745">
+              <div class="fsdocs-tip" id="1758">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Array.linspace&#32;<span><span>(<span>start,&#32;stop,&#32;?Num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
+                  <code><span>Array.geomspace&#32;<span><span>(<span>start,&#32;stop,&#32;num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        start
+                      </b>
+                      :
+                      <code>float</code>
+                       - 
+                      start value (is included)
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        stop
+                      </b>
+                      :
+                      <code>float</code>
+                       - 
+                      end value (by default is included)
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        num
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        ?IncludeEndpoint
+                      </b>
+                      :
+                      <code>bool</code>
+                       - 
+                      If false, the array does not contain the stop value. Defaults to true.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>float&#32;array</span></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.ArrayExtension.Array.geomspace`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.ArrayExtension.Array.geomspace\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Array.fs#L534-534" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Creates a geometric array of floats with values between a given interval
+ 
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  start
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  start value (is included)
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  stop
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  end value (by default is included)
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  num
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?IncludeEndpoint
+                </span>
+                :
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  If false, the array does not contain the stop value. Defaults to true.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span>float&#32;array</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1759', 1759)" onmouseover="showTip(event, '1759', 1759)">
+                <p>
+                  <a id="linspace">
+                    <a href="#linspace">
+                      <code><span>Array.linspace&#32;<span><span>(<span>start,&#32;stop,&#32;num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1759">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Array.linspace&#32;<span><span>(<span>start,&#32;stop,&#32;num,&#32;?IncludeEndpoint</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
@@ -242,12 +388,10 @@
                     <br/>
                     <span>
                       <b>
-                        ?Num
+                        num
                       </b>
                       :
                       <code>int</code>
-                       - 
-                      sets the number of elements in the array. If not set, stepsize = 1.
                     </span>
                     <br/>
                     <span>
@@ -318,16 +462,12 @@
               </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  ?Num
+                  num
                 </span>
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  sets the number of elements in the array. If not set, stepsize = 1.
-                </p>
-              </dd>
+              <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   ?IncludeEndpoint

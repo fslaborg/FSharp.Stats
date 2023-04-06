@@ -172,6 +172,11 @@
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
     Machine Learning
   </a>
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
 </li>
                         <li class="nav-header">
   API Reference
@@ -218,13 +223,13 @@
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs18', 53)" onmouseover="showTip(event, 'fs18', 53)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 54)" onmouseover="showTip(event, 'fs32', 54)" class="id">withXAxisStyle</span> <span class="pn">(</span><span class="s">&quot;&quot;</span><span class="pn">,</span><span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="o">-</span><span class="n">10.</span><span class="pn">,</span><span class="n">120.</span><span class="pn">)</span><span class="pn">)</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs18', 55)" onmouseover="showTip(event, 'fs18', 55)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 56)" onmouseover="showTip(event, 'fs33', 56)" class="id">withYAxisStyle</span> <span class="pn">(</span><span class="s">&quot;&quot;</span><span class="pn">,</span><span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">5.</span><span class="pn">)</span><span class="pn">)</span>
 </code></pre>
-<div><div id="e4da04e8-38c4-41bf-9123-99f87691cb9c"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_e4da04e838c441bf912399f87691cb9c = function() {
+<div><div id="dca21ee2-4440-4ab9-a295-7bdfe6d01ea2"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_dca21ee244404ab9a2957bdfe6d01ea2 = function() {
     var data = [{"type":"scatter","mode":"markers","x":[],"y":[],"marker":{},"line":{}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"shapes":[{"fillcolor":"rgba(31, 119, 180, 1.0)","type":"rect","x0":-6.0,"x1":100.0,"y0":1,"y1":2}],"xaxis":{"title":{"text":""},"range":[-10.0,120.0]},"yaxis":{"title":{"text":""},"range":[0.0,5.0]}};
     var config = {"responsive":true};
-    Plotly.newPlot('e4da04e8-38c4-41bf-9123-99f87691cb9c', data, layout, config);
+    Plotly.newPlot('dca21ee2-4440-4ab9-a295-7bdfe6d01ea2', data, layout, config);
 };
-renderPlotly_e4da04e838c441bf912399f87691cb9c();
+renderPlotly_dca21ee244404ab9a2957bdfe6d01ea2();
 </script></div>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 60)" onmouseover="showTip(event, 'fs36', 60)" class="id">collectionBy</span> <span class="o">=</span> <span class="pn">[</span><span class="pn">(</span><span class="s">&quot;a&quot;</span><span class="pn">,</span><span class="n">3.0</span><span class="pn">)</span><span class="pn">;</span> <span class="pn">(</span><span class="s">&quot;b&quot;</span><span class="pn">,</span><span class="o">-</span><span class="n">2.0</span><span class="pn">)</span><span class="pn">;</span> <span class="pn">(</span><span class="s">&quot;c&quot;</span><span class="pn">,</span><span class="n">5.0</span><span class="pn">)</span><span class="pn">;</span> <span class="pn">(</span><span class="s">&quot;d&quot;</span><span class="pn">,</span><span class="n">1.0</span><span class="pn">)</span><span class="pn">;</span> <span class="pn">(</span><span class="s">&quot;e&quot;</span><span class="pn">,</span><span class="o">-</span><span class="n">6.0</span><span class="pn">)</span><span class="pn">;</span> <span class="pn">(</span><span class="s">&quot;f&quot;</span><span class="pn">,</span><span class="n">100.0</span><span class="pn">)</span><span class="pn">]</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 61)" onmouseover="showTip(event, 'fs37', 61)" class="id">intervalByFst</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 62)" onmouseover="showTip(event, 'fs13', 62)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 63)" onmouseover="showTip(event, 'fs38', 63)" class="id">ofSeqBy</span> <span onmouseout="hideTip(event, 'fs39', 64)" onmouseover="showTip(event, 'fs39', 64)" class="fn">fst</span> <span onmouseout="hideTip(event, 'fs36', 65)" onmouseover="showTip(event, 'fs36', 65)" class="id">collectionBy</span>
@@ -243,13 +248,13 @@ renderPlotly_e4da04e838c441bf912399f87691cb9c();
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 74)" onmouseover="showTip(event, 'fs44', 74)" class="id">i03</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 75)" onmouseover="showTip(event, 'fs13', 75)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 76)" onmouseover="showTip(event, 'fs43', 76)" class="id">create</span> <span class="n">5.</span> <span class="n">10.</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 77)" onmouseover="showTip(event, 'fs45', 77)" class="id">addedInterval</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 78)" onmouseover="showTip(event, 'fs13', 78)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs46', 79)" onmouseover="showTip(event, 'fs46', 79)" class="id">add</span> <span onmouseout="hideTip(event, 'fs42', 80)" onmouseover="showTip(event, 'fs42', 80)" class="id">i02</span> <span onmouseout="hideTip(event, 'fs44', 81)" onmouseover="showTip(event, 'fs44', 81)" class="id">i03</span>
 </code></pre>
-<div><div id="5aab4e12-2e73-4cb5-9695-5c8e9bb7bae8"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_5aab4e122e734cb596955c8e9bb7bae8 = function() {
+<div><div id="74fcc0bf-11f1-42fa-848e-d7e10bd51b65"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_74fcc0bf11f142fa848ed7e10bd51b65 = function() {
     var data = [{"type":"scatter","mode":"markers","x":[],"y":[],"marker":{},"line":{}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"shapes":[{"fillcolor":"rgba(31, 119, 180, 1.0)","type":"rect","x0":6.0,"x1":8.0,"y0":1,"y1":2},{"fillcolor":"rgba(255, 127, 14, 1.0)","type":"rect","x0":5.0,"x1":10.0,"y0":3,"y1":4},{"fillcolor":"rgba(44, 160, 44, 1.0)","type":"rect","x0":11.0,"x1":18.0,"y0":5,"y1":6}],"xaxis":{"title":{},"range":[0.0,20.0]},"yaxis":{"title":{},"range":[0.0,8.0]}};
     var config = {"responsive":true};
-    Plotly.newPlot('5aab4e12-2e73-4cb5-9695-5c8e9bb7bae8', data, layout, config);
+    Plotly.newPlot('74fcc0bf-11f1-42fa-848e-d7e10bd51b65', data, layout, config);
 };
-renderPlotly_5aab4e122e734cb596955c8e9bb7bae8();
+renderPlotly_74fcc0bf11f142fa848ed7e10bd51b65();
 </script></div>
 <p><strong>Interval subtraction</strong></p>
 <p>Intervals can be subtracted (interval arithmetic definition) by:</p>
@@ -260,13 +265,13 @@ renderPlotly_5aab4e122e734cb596955c8e9bb7bae8();
 </code></pre>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs52', 143)" onmouseover="showTip(event, 'fs52', 143)" class="id">subInterval</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 144)" onmouseover="showTip(event, 'fs13', 144)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 145)" onmouseover="showTip(event, 'fs53', 145)" class="id">subtract</span> <span onmouseout="hideTip(event, 'fs42', 146)" onmouseover="showTip(event, 'fs42', 146)" class="id">i02</span> <span onmouseout="hideTip(event, 'fs44', 147)" onmouseover="showTip(event, 'fs44', 147)" class="id">i03</span>
 </code></pre>
-<div><div id="1be83cd1-48e8-4941-bd99-2bbe6e240453"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_1be83cd148e84941bd992bbe6e240453 = function() {
+<div><div id="ea3ef151-d98f-4a64-8dad-15628add54c3"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_ea3ef151d98f4a648dad15628add54c3 = function() {
     var data = [{"type":"scatter","mode":"markers","x":[],"y":[],"marker":{},"line":{}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"shapes":[{"fillcolor":"rgba(31, 119, 180, 1.0)","type":"rect","x0":6.0,"x1":8.0,"y0":1,"y1":2},{"fillcolor":"rgba(255, 127, 14, 1.0)","type":"rect","x0":5.0,"x1":10.0,"y0":3,"y1":4},{"fillcolor":"rgba(44, 160, 44, 1.0)","type":"rect","x0":-4.0,"x1":3.0,"y0":5,"y1":6}],"xaxis":{"title":{},"range":[-5.0,20.0]},"yaxis":{"title":{},"range":[0.0,8.0]}};
     var config = {"responsive":true};
-    Plotly.newPlot('1be83cd1-48e8-4941-bd99-2bbe6e240453', data, layout, config);
+    Plotly.newPlot('ea3ef151-d98f-4a64-8dad-15628add54c3', data, layout, config);
 };
-renderPlotly_1be83cd148e84941bd992bbe6e240453();
+renderPlotly_ea3ef151d98f4a648dad15628add54c3();
 </script></div>
 <p><strong>Interval intersection</strong></p>
 <p>Closed intervals include their margins. If a margin is shared between two intervals, both intervals intersect.</p>
@@ -274,13 +279,13 @@ renderPlotly_1be83cd148e84941bd992bbe6e240453();
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs56', 212)" onmouseover="showTip(event, 'fs56', 212)" class="id">i05</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 213)" onmouseover="showTip(event, 'fs13', 213)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 214)" onmouseover="showTip(event, 'fs43', 214)" class="id">create</span> <span class="n">5.</span> <span class="n">10.</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs57', 215)" onmouseover="showTip(event, 'fs57', 215)" class="id">intInterval</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 216)" onmouseover="showTip(event, 'fs13', 216)" class="m">Intervals</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs58', 217)" onmouseover="showTip(event, 'fs58', 217)" class="id">intersect</span> <span onmouseout="hideTip(event, 'fs55', 218)" onmouseover="showTip(event, 'fs55', 218)" class="id">i04</span> <span onmouseout="hideTip(event, 'fs56', 219)" onmouseover="showTip(event, 'fs56', 219)" class="id">i05</span>
 </code></pre>
-<div><div id="44e5fb38-7c13-40e0-8211-57c674a1d0a5"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_44e5fb387c1340e0821157c674a1d0a5 = function() {
+<div><div id="dfcfee32-af9a-4afe-8b7c-4027aab4d588"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_dfcfee32af9a4afe8b7c4027aab4d588 = function() {
     var data = [{"type":"scatter","mode":"markers","x":[],"y":[],"marker":{},"line":{}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"shapes":[{"fillcolor":"rgba(31, 119, 180, 1.0)","type":"rect","x0":2.0,"x1":8.0,"y0":1,"y1":2},{"fillcolor":"rgba(255, 127, 14, 1.0)","type":"rect","x0":5.0,"x1":10.0,"y0":3,"y1":4},{"fillcolor":"rgba(44, 160, 44, 1.0)","type":"rect","x0":5.0,"x1":8.0,"y0":5,"y1":6}],"xaxis":{"title":{},"range":[0.0,12.0]},"yaxis":{"title":{},"range":[0.0,8.0]}};
     var config = {"responsive":true};
-    Plotly.newPlot('44e5fb38-7c13-40e0-8211-57c674a1d0a5', data, layout, config);
+    Plotly.newPlot('dfcfee32-af9a-4afe-8b7c-4027aab4d588', data, layout, config);
 };
-renderPlotly_44e5fb387c1340e0821157c674a1d0a5();
+renderPlotly_dfcfee32af9a4afe8b7c4027aab4d588();
 </script></div>
 
                 </div>
