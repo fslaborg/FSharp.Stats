@@ -1,14 +1,23 @@
 ### 0.4.12 TBR
 * Additions:
-    * latest commit #12e3f13e
+    * latest commit #b4e05356
+    * [[#c7117ef3](https://github.com/fslaborg/FSharp.Stats/commit/c7117ef3188f81818b1b8e4d04cf381420ca8492)] add negBinom distribution #256
+    * [[#e35a3e6a](https://github.com/fslaborg/FSharp.Stats/commit/e35a3e6a06654f2fd184481f3ea50f8241abe39e)] add Signal.Binning
+    * [[#c3a98d41](https://github.com/fslaborg/FSharp.Stats/commit/c3a98d412c2f58d992d5ea0b46995b9092bae86e)] add Nelder-Mead
+    * [[#e28b4c88](https://github.com/fslaborg/FSharp.Stats/commit/e28b4c881c1789161fafb6184f77ff0b3e6526fb)] add geomspace #252
+    * [[#39e31c05](https://github.com/fslaborg/FSharp.Stats/commit/39e31c059f4ce25db75b559e56d35b38b4b5dae0)] add linspace add linspace tests #235
+    * [[#6b839083](https://github.com/fslaborg/FSharp.Stats/commit/6b839083189915d2a40110ec4fadacbd392f6919)] add shorthand to filter out nan values from array #249
     * [[#35d0fc11](https://github.com/fslaborg/FSharp.Stats/commit/35d0fc11bb57a0ce3d7f39c9e9bdc20e667757ef)] add chebyshev based approximation
     * [[#e688e2be](https://github.com/fslaborg/FSharp.Stats/commit/e688e2be4a7e2f674dc6ed5167253bf90a28b2df)] add mor normalization function
-    * [[#060f696a](https://github.com/fslaborg/FSharp.Stats/commit/060f696a9e8f8bad7542bf35bb5ba885f560d574)] add EmpiricalDistribution type
 * Bugfixes:
     * [[#32fa0c23](https://github.com/fslaborg/FSharp.Stats/commit/32fa0c23f2629dd9c149b4d98bc9c0befea86ad2)] fix floating point errors at edge cases #245
+    * [[#ef21a0fd](https://github.com/fslaborg/FSharp.Stats/commit/ef21a0fdab932dfe09022eac69c68bb39de97db9)] fix beta distribution PDF
+    * [[#baf2a52f](https://github.com/fslaborg/FSharp.Stats/commit/baf2a52f5bc442dded23e17e9dec8396416a0127)] fix neg binomial distribution #256
 * Documentation:
     * [[#12e3f13e](https://github.com/fslaborg/FSharp.Stats/commit/12e3f13ec5380f6b4f49cf37b9164b19c6fc902b)] update Empirical distribution docu #245
     * [[#14041ceb](https://github.com/fslaborg/FSharp.Stats/commit/14041cebb9a72a382efb41dc5a74ce365fcfbb8f)] add chebyshev node documenation
+    * [[#b4e05356](https://github.com/fslaborg/FSharp.Stats/commit/b4e053567bc5bbbcf9b210767cb6be974afb8cf8)] add nelder mead docu
+    * [[#4d8b0505](https://github.com/fslaborg/FSharp.Stats/commit/4d8b0505f4cda4e0dbb17c0e4cc1249cc1ba9ff6)] add negBinom docu
     
 ### 0.4.11+0c6567d4 (Released 2023-2-6)
 * Additions:

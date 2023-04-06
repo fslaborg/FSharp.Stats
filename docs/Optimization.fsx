@@ -45,6 +45,7 @@ _Summary:_ This tutorial teaches how to use optimization methods within FSharp.S
 
 
 The Nelder-Mead method (also downhill simplex method) can be used to find the minimum or maximum of an objective function.
+Please check out Mathias' blog post about the [nelder mead algorithm](https://brandewinder.com/2022/03/31/breaking-down-Nelder-Mead/).
 
 ## Quadratic function
 
