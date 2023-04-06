@@ -51,7 +51,7 @@ Please check out Mathias' blog post about the [nelder mead algorithm](https://br
 
 Task: Identify the minimum of the following function:
 
-$$f(x)=x^2-x-0.13$$
+$$f(x)=x^2-0.32x-0.13$$
 
 
 *)
@@ -161,6 +161,7 @@ startConditionsChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
+
 Now the functions minimum should be identified using the Nelder-Mead method. Default solver options are used for optimizations.
 
 *)
@@ -223,6 +224,7 @@ optimizationPathChart |> GenericChart.toChartHTML
 
 ### Auckley function
 
+The Auckley function has many valleys, with one center and global minimum at $(0,0)$.
 
 *)
 
@@ -340,8 +342,8 @@ let x3d_bea_2,y3d_bea_2,z3d_bea_2 =
 let optimizationPathChart_beale = 
     [
     bealeChart 
-    Chart.Line3D(x=x3d_bea_1,y=y3d_bea_1,z=z3d_bea_1,ShowMarkers=true)
-    Chart.Line3D(x=x3d_bea_2,y=y3d_bea_2,z=z3d_bea_2,ShowMarkers=true)
+    Chart.Line3D(x=x3d_bea_1,y=y3d_bea_1,z=z3d_bea_1,ShowMarkers=true,Name="local minimum")
+    Chart.Line3D(x=x3d_bea_2,y=y3d_bea_2,z=z3d_bea_2,ShowMarkers=true,Name="global minimum")
     ]
     |> Chart.combine    
     |> Chart.withTemplate ChartTemplates.lightMirrored
@@ -361,6 +363,7 @@ optimizationPathChart_beale |> GenericChart.toChartHTML
 
 
 (**
+
 Depending on the start conditions, the method yield a wrong, and a correct path to identify the global minimum.
 
 *)
