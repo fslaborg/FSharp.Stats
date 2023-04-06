@@ -679,13 +679,13 @@ factor is achieved.</p>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 57)" onmouseover="showTip(event, 'fs26', 57)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 58)" onmouseover="showTip(event, 'fs35', 58)" class="id">withYAxisStyle</span> <span class="s">&quot;raw intensity&quot;</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 59)" onmouseover="showTip(event, 'fs26', 59)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 60)" onmouseover="showTip(event, 'fs36', 60)" class="id">withTitle</span> <span class="s">&quot;raw data&quot;</span>
 </code></pre>
-<div><div id="5b9a151d-03dd-4b33-88bd-e78a2402d8b8"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_5b9a151d03dd4b3388bde78a2402d8b8 = function() {
+<div><div id="0c4d4d86-0830-4c5e-8ceb-336fceeb3043"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_0c4d4d8608304c5e8ceb336fceeb3043 = function() {
     var data = [{"type":"bar","name":"raw sample1","x":[0,1,2,3,4,5],"y":[100.0,80.0,0.0,40.0,50.0,40.0],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"raw sample2","x":[0,1,2,3,4,5],"y":[130.0,200.0,50.0,50.0,45.0,50.0],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"raw sample3","x":[0,1,2,3,4,5],"y":[30.0,30.0,0.0,20.0,25.0,15.0],"orientation":"v","marker":{"pattern":{}}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"}},"yaxis":{"title":{"text":"raw intensity"}},"title":{"text":"raw data"}};
     var config = {"responsive":true};
-    Plotly.newPlot('5b9a151d-03dd-4b33-88bd-e78a2402d8b8', data, layout, config);
+    Plotly.newPlot('0c4d4d86-0830-4c5e-8ceb-336fceeb3043', data, layout, config);
 };
-renderPlotly_5b9a151d03dd4b3388bde78a2402d8b8();
+renderPlotly_0c4d4d8608304c5e8ceb336fceeb3043();
 </script></div>
 <p>In the above figure you can see, that the green sample is underrepresented, and the orange is overrepresented when compared to the blue one.
 No the MOR normalization is applied. If no transformation (+1) should be applied, you can use <code>Signal.Normalization.medianOfRatios</code>.</p>
@@ -724,13 +724,13 @@ Correctionfactor for sample3 is 0.457
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 124)" onmouseover="showTip(event, 'fs26', 124)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 125)" onmouseover="showTip(event, 'fs34', 125)" class="id">withXAxisStyle</span> <span class="s">&quot;gID&quot;</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 126)" onmouseover="showTip(event, 'fs26', 126)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 127)" onmouseover="showTip(event, 'fs35', 127)" class="id">withYAxisStyle</span> <span class="s">&quot;MOR intensity&quot;</span>
 </code></pre>
-<div><div id="903fdc4d-4b9e-469d-9158-a6e3728a9672"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_903fdc4d4b9e469d9158a6e3728a9672 = function() {
+<div><div id="faf0e41d-2ec1-4026-b2c1-1d288fc696a1"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_faf0e41d2ec14026b2c11d288fc696a1 = function() {
     var data = [{"type":"bar","name":"MOR normed sample1","x":[0,1,2,3,4,5],"y":[82.15073918013081,65.72059134410465,0.0,32.860295672052324,41.07536959006541,32.860295672052324],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"MOR normed sample2","x":[0,1,2,3,4,5],"y":[77.7073168717368,119.54971826421045,29.887429566052614,29.887429566052614,26.898686609447353,29.887429566052614],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"MOR normed sample3","x":[0,1,2,3,4,5],"y":[65.66130664839933,65.66130664839933,0.0,43.77420443226622,54.717755540332774,32.830653324199666],"orientation":"v","marker":{"pattern":{}}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"}},"yaxis":{"title":{"text":"MOR intensity"}}};
     var config = {"responsive":true};
-    Plotly.newPlot('903fdc4d-4b9e-469d-9158-a6e3728a9672', data, layout, config);
+    Plotly.newPlot('faf0e41d-2ec1-4026-b2c1-1d288fc696a1', data, layout, config);
 };
-renderPlotly_903fdc4d4b9e469d9158a6e3728a9672();
+renderPlotly_faf0e41d2ec14026b2c11d288fc696a1();
 </script></div>
 <p>The normed data now shows high similarity of the individual element intensities across samples.</p>
 <h1><a name="Quantile-normalization" class="anchor" href="#Quantile-normalization">Quantile normalization</a></h1>
@@ -973,13 +973,13 @@ You can either quantile normalize data according to a given reference distributi
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 165)" onmouseover="showTip(event, 'fs26', 165)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 166)" onmouseover="showTip(event, 'fs34', 166)" class="id">withXAxisStyle</span> <span class="s">&quot;gID&quot;</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 167)" onmouseover="showTip(event, 'fs26', 167)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 168)" onmouseover="showTip(event, 'fs35', 168)" class="id">withYAxisStyle</span> <span class="s">&quot;qNorm intensity&quot;</span>
 </code></pre>
-<div><div id="ae14bb95-30ab-43d7-a3e9-fa5040771e83"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_ae14bb9530ab43d7a3e9fa5040771e83 = function() {
+<div><div id="1b050a6f-2ad2-4537-928e-af81d92afd48"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_1b050a6f2ad24537928eaf81d92afd48 = function() {
     var data = [{"type":"bar","name":"quantile normed sample1","x":[0,1,2,3,4,5],"y":[110.0,80.0,15.0,35.0,41.666666666666664,36.666666666666664],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"quantile normed sample2","x":[0,1,2,3,4,5],"y":[80.0,110.0,35.0,36.666666666666664,15.0,41.666666666666664],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"quantile normed sample3","x":[0,1,2,3,4,5],"y":[80.0,110.0,15.0,36.666666666666664,41.666666666666664,35.0],"orientation":"v","marker":{"pattern":{}}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"}},"yaxis":{"title":{"text":"qNorm intensity"}}};
     var config = {"responsive":true};
-    Plotly.newPlot('ae14bb95-30ab-43d7-a3e9-fa5040771e83', data, layout, config);
+    Plotly.newPlot('1b050a6f-2ad2-4537-928e-af81d92afd48', data, layout, config);
 };
-renderPlotly_ae14bb9530ab43d7a3e9fa5040771e83();
+renderPlotly_1b050a6f2ad24537928eaf81d92afd48();
 </script></div>
 <p>As seen in the normalized column chart, the final samples all consists of the same values, just assigned to different row indices according to the rank within the sample.
 For data with low row count, this normalization is not appropriate because there is a severe disturbance of the intensity values. The more data is incorporated (more rows), the lower
