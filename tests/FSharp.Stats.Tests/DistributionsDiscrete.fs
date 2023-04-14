@@ -140,7 +140,7 @@ let hypergeometricTests =
         test "SampleUnchecked" {
             let generateALL = Distributions.Discrete.Hypergeometric.Sample 40 20 40
             let generate50 = Array.init 50 (fun x -> Distributions.Discrete.Hypergeometric.Sample 40 20 10)
-            let numbersAreBetween_1_K = generate50 |> Array.forall (fun x -> x > 0 && x < 20)
+            let numbersAreBetween_1_K = generate50 |> Array.forall (fun x -> x >= 0 && x < 20)
             // If N = n then k = K
             Expect.equal generateALL 20 "generateALL"
             Expect.isTrue numbersAreBetween_1_K "numbersAreBetween_1_K"
