@@ -66,10 +66,10 @@ open Plotly.NET.TraceObjects
 
 let myFunction (xs: vector) = 
     let x = xs.[0]
-    x**2. - 0.32*x - 0.13
+    x**2. + 0.32*x + 0.13
 
 // initial guess for the optimization
-let x0 = vector [| -0.3|]
+let x0 = vector [| 0.95|]
 
 // default solver options
 let nmc = NelderMead.NmConfig.defaultInit()   
@@ -83,13 +83,14 @@ let optim =
  
 // optimization results as x, y, and z coordinate
 let xs,ys =
-    optim.Vectors.[0..2] |> Array.map (fun x -> x.[0],myFunction x)
+    optim.Vectors.[0..40] |> Array.map (fun x -> x.[0],myFunction x)
     |> Array.unzip
 
 let optimizationPathchart = 
     [
     Chart.Line(x=xs,y=ys,ShowMarkers=true,Name="Optimization path")
-    [-1.  .. 0.005 .. 1.] |> List.map (fun x -> x,myFunction (vector [x])) |> Chart.Line 
+    [-1.  .. 0.005 .. 1.] |> List.map (fun x -> x,myFunction (vector [x])) |> Chart.Line |> Chart.withTraceInfo "myFunction"
+    Chart.Point([|optim.SolutionVector.[0],optim.Solution|],Name="Solution") |> Chart.withMarkerStyle(Size=20,Symbol=StyleParam.MarkerSymbol.ArrowUp)
     ]
     |> Chart.combine    
     |> Chart.withTemplate ChartTemplates.lightMirrored
