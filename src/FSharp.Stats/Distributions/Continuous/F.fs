@@ -89,14 +89,15 @@ type F =
         let u = (dof1 * x) / (dof2 + dof1 * x) 
         SpecialFunctions.Beta.lowerIncompleteRegularized (dof1 * 0.5) (dof2 * 0.5) u
 
-    // /// Computes the inverse of the cumulative distribution function.
-    // static member InvCDF dof1 dof2 p =
-    //     fTCheckParam dof1 dof2
-    //     if (p <= 0.0 || p > 1.0) then
-    //         invalidArg "P" "Input must be between zero and one"
-    //     else
-    //         let u = dof2 / (dof2 + dof1 * x)
-    //         Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
+    /// Computes the inverse of the cumulative distribution function.
+    static member InvCDF dof1 dof2 x =
+        F.CheckParam dof1 dof2
+        if (x <= 0.0 || x > 1.0) then
+            invalidArg "P" "Input must be between zero and one"
+        else
+            //let u = dof2 / (dof2 + dof1 * x)
+            //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
+            failwithf "InvCDF not implemented yet"
 
     /// Returns the support of the exponential distribution: (0., Positive Infinity).
     static member Support dof1 dof2 =
@@ -114,6 +115,7 @@ type F =
             member d.StandardDeviation = F.StandardDeviation dof1 dof2
             member d.Variance          = F.Variance dof1 dof2
             member d.CDF x             = F.CDF dof1 dof2 x
+            member d.InvCDF x          = F.InvCDF dof1 dof2 x
             
             member d.Mode              = F.Mode dof1 dof2
             member d.Sample ()         = F.Sample dof1 dof2

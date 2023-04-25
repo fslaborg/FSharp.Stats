@@ -78,7 +78,7 @@ type Beta =
             else 
                 (x ** (alpha - 1.0)) * ((1.0 - x) ** (beta - 1.0)) / (SpecialFunctions.Beta._beta alpha beta)
         else 0.0    
-
+        
     /// Computes the cumulative distribution function.
     static member CDF alpha beta x =
         Beta.CheckParam alpha beta
@@ -86,6 +86,11 @@ type Beta =
         elif x > 1.0 then 1.0
         else 
             SpecialFunctions.Beta.lowerIncompleteRegularized alpha beta x
+
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF alpha beta x =
+        Beta.CheckParam alpha beta
+        failwithf "InvCDF not implemented yet"
 
     /// <summary>
     ///   Fits the underlying distribution to a given set of observations.
@@ -136,6 +141,7 @@ type Beta =
             member d.StandardDeviation = Beta.StandardDeviation alpha beta   
             member d.Variance          = Beta.Variance alpha beta
             member d.CDF x             = Beta.CDF alpha beta x         
+            member d.InvCDF x          = Beta.InvCDF alpha beta x         
             //member d.CoVariance        = Beta.CoVariance alpha beta 
             member d.Mode              = Normal.Mode alpha beta
             member d.Sample ()         = Beta.Sample alpha beta

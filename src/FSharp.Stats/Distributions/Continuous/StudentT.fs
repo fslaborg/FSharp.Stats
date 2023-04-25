@@ -65,7 +65,12 @@ type StudentT =
         let k = (x - mu) / tau
         let h = dof / (dof + (k * k))
         let ib = 0.5 * SpecialFunctions.Beta.lowerIncompleteRegularized (dof/2.0) 0.5 h
-        if x <= mu then ib else 1.0 - ib           
+        if x <= mu then ib else 1.0 - ib    
+        
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF mu tau dof x =
+        StudentT.CheckParam mu tau dof            
+        failwithf "InvCDF not implemented yet" 
 
     /// Returns the support of the exponential distribution: (Negative Infinity, Positive Infinity).
     static member Support mu tau dof =
@@ -85,6 +90,7 @@ type StudentT =
             member d.StandardDeviation = StudentT.StandardDeviation mu tau dof
             member d.Variance          = StudentT.Variance mu tau dof
             member d.CDF x             = StudentT.CDF mu tau dof x  
+            member d.InvCDF x          = StudentT.InvCDF mu tau dof x  
             
             member d.Mode              = StudentT.Mode mu tau dof
             member d.Sample ()         = StudentT.Sample mu tau dof

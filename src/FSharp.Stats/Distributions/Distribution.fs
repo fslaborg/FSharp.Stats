@@ -7,6 +7,7 @@ type Distribution<'a> =
     abstract StandardDeviation : 'a
     abstract Variance          : 'a
     abstract CDF               : 'a -> float
+    abstract InvCDF            : 'a -> float
     //abstract PDFLn   : 'a -> float
     //abstract CDFLn   : 'a -> float
     abstract ToString          : unit -> string 

@@ -110,13 +110,16 @@ type Poisson =
             System.Math.E ** (System.Math.Log lambda * float k - SpecialFunctions.Factorial._factorialLn k) * System.Math.E**(-lambda)
         else
             (lambda**float k * System.Math.E**(-lambda)) / SpecialFunctions.Factorial.factorial k
-
-
+        
     /// Computes the cumulative distribution function at x, i.e. P(X <= x).
     static member CDF lambda k =
         Poisson.CheckParam lambda        
         Gamma.upperIncompleteRegularized (k + 1.) lambda
 
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF lambda k =
+        Poisson.CheckParam lambda        
+        failwithf "InvCDF not implemented yet"
 
     /// <summary>
     ///   Fits the underlying distribution to a given set of observations.
@@ -153,6 +156,7 @@ type Poisson =
             member d.Variance          = Poisson.Variance lambda
             //member d.CoVariance        = Binomial.CoVariance p n
             member d.CDF k             = Poisson.CDF lambda k
+            member d.InvCDF k          = Poisson.InvCDF lambda k
             
             member d.Mode              = Poisson.Mode lambda
             member d.PMF k             = Poisson.PMF lambda k

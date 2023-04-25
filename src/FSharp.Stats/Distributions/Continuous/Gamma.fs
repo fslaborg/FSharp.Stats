@@ -105,15 +105,20 @@ type Gamma =
         | 1., _ -> log(beta) * (-beta*x)
         | _     -> (alpha - 1.) * log(x) - x / beta - (alpha * log(beta)
                     + SpecialFunctions.Gamma.gammaLn(alpha)) 
-
+                    
     /// Computes the cumulative distribution function.
     static member CDF alpha beta x =
         Gamma.CheckParam alpha beta
         if alpha = 0.0 && beta = 0.0 then 
             0.0
         else 
-            SpecialFunctions.Gamma.lowerIncompleteRegularized alpha (x / beta) 
-        
+            SpecialFunctions.Gamma.lowerIncompleteRegularized alpha (x / beta)
+            
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF alpha beta x =
+        Gamma.CheckParam alpha beta
+        failwithf "not implemented yet"
+
     /// Fits the underlying distribution to a given set of observations.
     static member Fit(observations:float[],?maxIter,?tolerance) =
         let maxIter = defaultArg maxIter 10000
@@ -173,6 +178,7 @@ type Gamma =
             member d.StandardDeviation = Gamma.StandardDeviation alpha beta   
             member d.Variance          = Gamma.Variance alpha beta
             member d.CDF x             = Gamma.CDF alpha beta x
+            member d.InvCDF x          = Gamma.InvCDF alpha beta x
 
             member d.Mode              = Gamma.Mode alpha beta
             member d.Sample ()         = Gamma.Sample alpha beta

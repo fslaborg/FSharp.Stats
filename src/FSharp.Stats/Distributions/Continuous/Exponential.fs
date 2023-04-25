@@ -56,12 +56,17 @@ type Exponential =
         if x >= 0.0 then
             lambda * exp(-lambda * x)
         else 0.0
-
+        
     /// Computes the cumulative distribution function.
     static member CDF lambda x =
         Exponential.CheckParam lambda
         if x < 0.0 then 0.0
         else 1.0 - exp(-lambda * x)
+
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF lambda x =
+        Exponential.CheckParam lambda
+        failwithf "InvCDF not implemented yet"
 
     /// <summary>
     ///   Fits the underlying distribution to a given set of observations.
@@ -103,6 +108,7 @@ type Exponential =
             member d.Mode              = Exponential.Mode lambda
             member d.Sample ()         = Exponential.Sample lambda
             member d.CDF x             = Exponential.CDF lambda x 
+            member d.InvCDF x          = Exponential.InvCDF lambda x 
             override d.ToString()      = Exponential.ToString lambda
         }  
 

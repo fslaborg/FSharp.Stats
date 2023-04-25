@@ -51,6 +51,9 @@ type MultivariateNormal =
     /// Computes the cumulative distribution function.
     static member CDF (mu:vector) (sigma:matrix) (x:vector) =
         failwith "Not implemented yet."
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF (mu:vector) (sigma:matrix) (x:vector) =
+        failwith "InvCDF not implemented yet."
 
     /// Initializes a multivariate normal distribution with mean mu and covariance matrix sigma       
     static member Init (mu:vector) (sigma:matrix) =
@@ -62,6 +65,7 @@ type MultivariateNormal =
             member d.Sample ()         = MultivariateNormal.Sample mu sigma
             member d.PDF x             = MultivariateNormal.PDF mu sigma x      
             member d.CDF x             = MultivariateNormal.CDF mu sigma x         
+            member d.InvCDF x             = MultivariateNormal.InvCDF mu sigma x         
             override d.ToString()      = d.ToString()
         }
 

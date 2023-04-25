@@ -66,6 +66,11 @@ type Chi =
             if x > 0. then 1.
             else 0.
         else Gamma.lowerIncompleteRegularized (dof / 2.) ((x**2.) /2.)
+
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF dof x =
+        Chi.CheckParam dof
+        failwithf "InvCDF not implemented yet"
     
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support dof =
@@ -84,6 +89,7 @@ type Chi =
             member d.StandardDeviation = Chi.StandardDeviation dof 
             member d.Variance          = Chi.Variance dof
             member d.CDF x             = Chi.CDF dof  x  
+            member d.InvCDF x          = Chi.InvCDF dof  x  
 
             member d.Mode              = Chi.Mode dof
             member d.Sample ()         = Chi.Sample dof

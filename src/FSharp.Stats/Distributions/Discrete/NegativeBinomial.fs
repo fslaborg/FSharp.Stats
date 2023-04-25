@@ -72,7 +72,7 @@ type NegativeBinomial_trials =
             log 0.
         else 
             SpecialFunctions.Binomial.coeffcientLn (x - 1) (r-1) + float r * log(p) + float (x - r) * log (1. - p) 
-
+            
     /// <summary>Computes the cumulative distribution function. P(X lower or equal then x)</summary>
     /// <remarks>X=the number of trials at the rth succeess</remarks>
     /// <returns>Probability of requiring a maximum of x trials when r successes are required at a individual probability of p</returns>  
@@ -81,6 +81,12 @@ type NegativeBinomial_trials =
         if float r > x then 0. 
         else
             1.0 - SpecialFunctions.Beta.lowerIncompleteRegularized ((x - float r) + 1.) (float  r) (1. - p)
+
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks>X=the number of trials at the rth succeess</remarks>
+    static member InvCDF (r: int) (p: float) x =
+        NegativeBinomial_trials.CheckParam r p
+        failwithf "InvCDF not implemented yet"
 
     /// <summary>Returns the support of the NegativeBinomial distribution: [0, max Int32).</summary>
     static member Support r p =
@@ -102,6 +108,7 @@ type NegativeBinomial_trials =
             member d.Sample ()         = NegativeBinomial_trials.Sample r p
             member d.PMF x             = NegativeBinomial_trials.PMF r p x
             member d.CDF x             = NegativeBinomial_trials.CDF r p x
+            member d.InvCDF x          = NegativeBinomial_trials.InvCDF r p x
             
             override d.ToString()  = NegativeBinomial_trials.ToString r p
         }
@@ -178,6 +185,12 @@ type NegativeBinomial_failures =
         NegativeBinomial_failures.CheckParam r p
         1.0 - SpecialFunctions.Beta.lowerIncompleteRegularized (float k + 1.) (float  r) (1. - p)
 
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks>X=the number of failures before the rth succeess</remarks>
+    static member InvCDF (r: int) (p: float) k =
+        NegativeBinomial_failures.CheckParam r p
+        failwithf "InvCDF not implemented yet"
+
     ///// Fits the underlying distribution to a given set of observations.
     //static member Fit(observations:float[],?maxIter,?tolerance) =
     //    let maxIter = defaultArg maxIter 10000
@@ -239,6 +252,7 @@ type NegativeBinomial_failures =
             member d.Sample ()         = NegativeBinomial_failures.Sample r p
             member d.PMF x             = NegativeBinomial_failures.PMF r p x
             member d.CDF x             = NegativeBinomial_failures.CDF r p x
+            member d.InvCDF x          = NegativeBinomial_failures.InvCDF r p x
             
             override d.ToString()  = NegativeBinomial_failures.ToString r p
         }

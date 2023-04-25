@@ -61,11 +61,16 @@ type LogNormal =
         let a = 1. / (x * sigma * sqrt (2. * Math.PI))
         let b = - ((log x - mu)**2.) / (2. * sigma * sigma)
         a * exp b
-
+        
     /// Computes the cumulative distribution function.
     static member CDF mu sigma x =
         LogNormal.CheckParam mu sigma            
         0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((log x - mu)/(sigma*(sqrt 2.0))))
+
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF mu sigma x =
+        LogNormal.CheckParam mu sigma            
+        failwithf "InvCDF not implemented yet"
  
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support mu sigma =
@@ -83,6 +88,7 @@ type LogNormal =
             member d.StandardDeviation = LogNormal.StandardDeviation mu sigma
             member d.Variance          = LogNormal.Variance mu sigma
             member d.CDF x             = LogNormal.CDF mu sigma x  
+            member d.InvCDF x          = LogNormal.InvCDF mu sigma x  
             //member d.CoVariance        = LogNormal.CoVariance  mu tau
             member d.Mode              = LogNormal.Mode mu sigma
             member d.Sample ()         = LogNormal.Sample mu sigma

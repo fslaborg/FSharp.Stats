@@ -66,7 +66,7 @@ type ChiSquared =
     //        System.Double.NegativeInfinity
     //    else
     //        ((1.0 - (dof/2.0))*System.Math.Log(2.0)) + ((dof - 1.0)*System.Math.Log(x)) - (x*x/2.0) - Gamma.gammaLn(dof/2.0)
-
+    
     /// Computes the cumulative distribution function.
     static member CDF dof x =
         ChiSquared.CheckParam dof
@@ -75,6 +75,11 @@ type ChiSquared =
             else 0.
         elif isNan x then nan
         else Gamma.lowerIncompleteRegularized (dof/2.) (x/2.)
+
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF dof x =
+        ChiSquared.CheckParam dof
+        failwithf "InvCDF not implemented yet"
 
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support dof =
@@ -93,6 +98,7 @@ type ChiSquared =
             member d.StandardDeviation = ChiSquared.StandardDeviation dof 
             member d.Variance          = ChiSquared.Variance dof
             member d.CDF x             = ChiSquared.CDF dof  x 
+            member d.InvCDF x          = ChiSquared.InvCDF dof  x 
             
             member d.Mode              = ChiSquared.Mode dof
             member d.Sample ()         = ChiSquared.Sample dof

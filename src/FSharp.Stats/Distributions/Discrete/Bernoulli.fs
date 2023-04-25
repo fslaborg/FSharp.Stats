@@ -69,6 +69,11 @@ type Bernoulli =
         // If the value x is less than 0, the probability that x is greater than the random outcome (R) of p is 0 since, R∈{0,1}.
         else 0.0
 
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF p x =
+        Bernoulli.CheckParam p
+        failwithf "InvCDF not implemented yet"
+
     /// <summary>
     ///   Fits the underlying distribution to a given set of observations.
     /// </summary>
@@ -102,6 +107,7 @@ type Bernoulli =
             member d.StandardDeviation = Bernoulli.StandardDeviation p 
             member d.Variance          = Bernoulli.Variance p
             member d.CDF x             = Bernoulli.CDF p x 
+            member d.InvCDF x          = Bernoulli.InvCDF p x 
             
             member d.Mode              = Bernoulli.Mode p
             member d.Sample ()         = Bernoulli.Sample p

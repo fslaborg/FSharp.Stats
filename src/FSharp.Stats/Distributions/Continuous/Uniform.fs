@@ -56,6 +56,11 @@ type Uniform =
         if x < min then 0.0
         elif x < max then (x - min) / (max - min)
         else 1.0
+
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF min max x =
+        Uniform.CheckParam min max
+        failwithf "InvCDF not implemented yet"
     
     /// <summary>
     ///   Fits the underlying distribution to a given set of observations.
@@ -87,6 +92,7 @@ type Uniform =
             member d.StandardDeviation = Uniform.StandardDeviation min max   
             member d.Variance          = Uniform.Variance min max
             member d.CDF x             = Uniform.CDF min max x 
+            member d.InvCDF x          = Uniform.InvCDF min max x 
             
             member d.Mode              = Uniform.Mode min max
             member d.Sample ()         = Uniform.Sample min max

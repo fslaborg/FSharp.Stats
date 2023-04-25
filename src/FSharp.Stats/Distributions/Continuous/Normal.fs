@@ -64,11 +64,16 @@ type Normal =
     static member PDF mu sigma x =
         Normal.CheckParam mu sigma
         (exp (-0.5 * (x-mu)*(x-mu) / (sigma*sigma))) / (sqrt (2.0 * Ops.pi * (sigma*sigma)))
-
+        
     /// Computes the cumulative distribution function.
     static member CDF mu sigma x =
         Normal.CheckParam mu sigma            
         0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((x - mu)/(sigma*(sqrt 2.0))))
+
+    /// Computes the quantile function (inverse cumulative distribution).
+    static member InvCDF mu sigma x =
+        Normal.CheckParam mu sigma            
+        mu + sigma * (sqrt 2.) * SpecialFunctions.Errorfunction.inverf (2. * x - 1.)
 
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support mu sigma =
@@ -87,6 +92,7 @@ type Normal =
             member d.StandardDeviation = Normal.StandardDeviation mu sigma
             member d.Variance          = Normal.Variance mu sigma
             member d.CDF x             = Normal.CDF mu sigma x
+            member d.InvCDF x          = Normal.InvCDF mu sigma x
 
             member d.Mode              = Normal.Mode mu sigma         
             member d.Sample ()         = Normal.Sample mu sigma

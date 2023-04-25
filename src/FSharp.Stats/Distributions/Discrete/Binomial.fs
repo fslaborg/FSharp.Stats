@@ -83,7 +83,7 @@ type Binomial =
         else
             exp ( (SpecialFunctions.Binomial._coeffcientLn n k) + (float k * log p + ( float (n - k)*log(1.-p) )) )
 
-
+            
     /// Computes the cumulative distribution function at x, i.e. P(X <= x).
     static member CDF p n (x:float) =
         Binomial.CheckParam p n            
@@ -94,8 +94,11 @@ type Binomial =
         else
             let k = floor x |> int 
             SpecialFunctions.Beta.lowerIncompleteRegularized (float (n-k)) (float (k + 1)) (1. - p)
-
-
+        
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF p n (x:float) =
+        Binomial.CheckParam p n            
+        failwithf "InvCDF not implemented yet"
 
     /// <summary>
     ///   Fits the underlying distribution to a given set of observations.
@@ -131,6 +134,7 @@ type Binomial =
             member d.StandardDeviation = Binomial.StandardDeviation p n
             member d.Variance          = Binomial.Variance p n
             member d.CDF x             = Binomial.CDF p n x
+            member d.InvCDF x          = Binomial.InvCDF p n x
             //member d.CoVariance        = Binomial.CoVariance p n
             member d.Mode              = Binomial.Mode p n
             member d.Sample ()         = Binomial.Sample p n

@@ -89,19 +89,10 @@ type StudentizedRange =
 
         f q r v c
 
-        //Lawal B, Applied Statistical Methods in Agriculture, Health and Life Sciences, DOI 10.1007/978-3-319-05555-8, 2014
-        //StudentizedRange.CDF 18.   2.  1. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9473 (2k accuracy) 0.9459 (1k accuracy)
-        //StudentizedRange.CDF 59.6 20.  1. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9618 (2k accuracy) 0.9459 (1k accuracy)
-        //StudentizedRange.CDF 6.08  2.  2. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9507 (2k accuracy) 0.9521 (1k accuracy)
-        //StudentizedRange.CDF 16.8 20.  2. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9503 (2k accuracy) 0.9481 (1k accuracy)
-        //StudentizedRange.CDF 4.5   2.  3. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9501 (2k accuracy) 0.9505 (1k accuracy)
-        //StudentizedRange.CDF 11.2 20.  3. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9495 (2k accuracy) 0.9495 (1k accuracy)
-        //StudentizedRange.CDF 3.93  2.  4. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9501 (2k accuracy) 0.9901 (1k accuracy)
-        //StudentizedRange.CDF 9.23 20.  4. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9499 (2k accuracy) 0.9901 (1k accuracy)
-        //StudentizedRange.CDF 3.64  2.  5. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9502 (2k accuracy)        (1k accuracy)
-        //StudentizedRange.CDF 8.21 20.  5. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9500 (2k accuracy)        (1k accuracy)
-        //StudentizedRange.CDF 3.46  2.  6. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9500 (2k accuracy)        (1k accuracy)
-        //StudentizedRange.CDF 7.59 20.  6. 1. (Some 2000.) true //Lawal expected: 0.95   observed: 0.9501 (2k accuracy)        (1k accuracy)
+    
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF q r v c =
+        failwithf "InvCDF not implemented yet"
     
     /// Initializes a studentized range distribution.     
     /// Accuracy defines the number of steps within the CDF integration (Recommended: 1k-10k, default: 2k). pValue accuracy is minimum 3 digits for v>3.
@@ -113,6 +104,7 @@ type StudentizedRange =
             member d.StandardDeviation = StudentizedRange.StandardDeviation
             member d.Variance          = StudentizedRange.Variance
             member d.CDF q             = StudentizedRange.CDF q r v c accuracy computeParallel
+            member d.InvCDF q          = StudentizedRange.InvCDF q r v c 
 
             member d.Mode              = StudentizedRange.Mode
             member d.Sample ()         = StudentizedRange.Sample()

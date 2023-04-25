@@ -119,7 +119,6 @@ type Hypergeometric =
                     acc
             loop 0 0.0
 
-
     ///// <summary>
     /////   Fits the underlying distribution to a given set of observations.
     ///// </summary>
@@ -138,15 +137,15 @@ type Hypergeometric =
     //    | Some w -> observations |> Array.weightedMean w
     //    |> Poisson.Init  
 
-
-    // /// Computes the inverse of the cumulative distribution function.
-    // static member InvCDF dof1 dof2 p =
-    //     fTCheckParam dof1 dof2
-    //     if (p <= 0.0 || p > 1.0) then
-    //         invalidArg "P" "Input must be between zero and one"
-    //     else
-    //         let u = dof2 / (dof2 + dof1 * x)
-    //         Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
+    
+    /// Computes the inverse cumulative distribution function (quantile function).
+    static member InvCDF dof1 dof2 p =
+        //if (p <= 0.0 || p > 1.0) then
+        //    invalidArg "P" "Input must be between zero and one"
+        //else
+        //    let u = dof2 / (dof2 + dof1 * x)
+        //    Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
+        failwithf "InvCDF not implemented yet"
 
     /// Returns the support of the hypergeometric distribution: (0., Positive Infinity).
     static member Support N K n =
@@ -176,6 +175,7 @@ type Hypergeometric =
             member d.StandardDeviation  = Hypergeometric.StandardDeviation N K n
             member d.Variance           = Hypergeometric.Variance N K n
             member d.CDF k              = Hypergeometric.CDF N K n k  
+            member d.InvCDF k           = Hypergeometric.InvCDF N K n k  
             
             member d.Mode               = Hypergeometric.Mode N K n
             member d.Sample ()          = Hypergeometric.Sample N K n
