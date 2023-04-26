@@ -2,6 +2,7 @@ namespace FSharp.Stats.Distributions
 
 /// Represents a histogram (map from values to integer frequencies).
 module Frequency =
+    open FSharp.Stats
 
     /// Given the list [a,b,a,c,b,b], produce a map {a:2, b:3, c:1} which contains the count of each unique item in the list
     let createGeneric list = 
@@ -66,12 +67,30 @@ module Frequency =
             | []         -> true
         issubset (histA |> Map.toList) histB
 
-    ///// Subtracts the values histogramA from histogramB
-    //let subtract (histA:Map<'a,int>) (histB:Map<'a,int>) =
-    //    Map.merge histA histB (fun k (v, v') -> v - v')
 
-    ////// Adds the values in histogramA to histogramB
-    //let add (histA:Map<'a,int>) (histB:Map<'a,int>) =
-    //    Map.merge histA histB (fun k (v, v') -> v + v')
+    /// <summary>Merges two maps into a single map. If a key exists in both maps, the value in histA is superseded by the value in histB.</summary>
+    /// <param name="histA">Frequency map A</param>
+    /// <param name="histB">Frequency map B</param>
+    /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
+    /// <remarks>This function is not commutative! (merge a b) is not equal to (merge b a)</remarks> 
+    /// <returns>New frequency map that results from merged maps histA and histB.</returns> 
+    let merge (histA: Map<_,'value>) (histB: Map<_,'value>) = 
+        Map.merge histA histB
 
+    /// <summary>Merges two maps into a single map. If a key exists in both maps, the value from histB is subtracted from the value of histA.</summary>
+    /// <param name="histA">Frequency map A</param>
+    /// <param name="histB">Frequency map B</param>
+    /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
+    /// <remarks>This function is not commutative! (subtract a b) is not equal to (subtract b a)</remarks> 
+    let inline subtract (histA: Map<_,'value>) (histB: Map<_,'value>) = 
+        Map.mergeSubtract histA histB
+    
+    /// <summary>Merges two maps into a single map. If a key exists in both maps, the value from mapB is added to the value of mapA.</summary>
+    /// <param name="histA">Frequency map A</param>
+    /// <param name="histB">Frequency map B</param>
+    /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
+    /// <remarks>This function is not commutative! (add a b) is not equal to (add b a)</remarks> 
+    /// <returns>New frequency map that results from merged maps histA and histB. Values from keys that are present in both maps are handled by f</returns> 
+    let inline add (histA: Map<_,'value>) (histB: Map<_,'value>) = 
+        Map.mergeAdd histA histB
 
