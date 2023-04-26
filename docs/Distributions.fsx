@@ -825,6 +825,8 @@ You can merge two distributions by using `Empirical.merge`, subroutines like `Em
 Merging two distributions leads to a combined distribution. If keys are present in both distributions the value at `distA` is superseded with 
 the value at `distB`.
 
+Please note, that when handling continuous data, the binning of both input distributions must be identical!
+
 *)
 
 let a =
