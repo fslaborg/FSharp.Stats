@@ -5,7 +5,7 @@
 module Map =
 
     /// <summary>Merges two maps into a single map. If a key exists in both maps, the value is determined by f with the first value being from mapA and the second originating from mapB.</summary>
-    /// <param name="f">Function to transform values if key is present in both histograms. `mapA-value &#8594; mapB-value &#8594; newValue`</param>
+    /// <param name="f">Function to transform values if key is present in both maps. `mapA-value &#8594; mapB-value &#8594; newValue`</param>
     /// <param name="mapA">Frequency map A</param>
     /// <param name="mapB">Frequency map B</param>
     /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 

@@ -167,7 +167,7 @@ let empiricalTests =
                 |> Map.toArray
                 |> Array.unzip
             let actualKeys,actualValues = 
-                Empirical.add a b 
+                Empirical.add true a b 
                 |> Map.toArray
                 |> Array.unzip
             Expect.equal expectedKeys actualKeys
@@ -181,7 +181,7 @@ let empiricalTests =
                 |> Map.toArray
                 |> Array.unzip
             let actualKeys,actualValues = 
-                Empirical.merge a b 
+                Empirical.merge true a b 
                 |> Map.toArray
                 |> Array.unzip
             Expect.equal expectedKeys actualKeys

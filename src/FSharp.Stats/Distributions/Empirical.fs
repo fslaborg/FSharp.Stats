@@ -187,32 +187,41 @@ module Empirical =
         |> normalize
         
     /// <summary>Merges two maps into a single map. If a key exists in both maps, the value is determined by f with the first value being from mapA and the second originating from mapB.</summary>
+    /// <param name="equalBandwidthOrNominal">Is the binwidth equal for both distributions? For nominal data set to true.</param>
     /// <param name="f">Function to transform values if key is present in both histograms. `histA-value &#8594; histB-value &#8594; newValue`</param>
     /// <param name="mapA">Empirical distribution A</param>
     /// <param name="mapB">Empirical distribution B</param>
     /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
     /// <remarks>This function is not commutative! (mergeBy f a b) is not equal to (mergeBy f b a)</remarks> 
     /// <returns>New frequency map that results from merged maps mapA and mapB. Values from keys that are present in both maps are handled by f</returns> 
-    let mergeBy (f: 'value -> 'value -> 'value) (histA: Map<_,'value>) (histB: Map<_,'value>) =
-        Map.mergeBy f histA histB
+    let mergeBy equalBandwidthOrNominal (f: 'value -> 'value -> 'value) (histA: Map<_,'value>) (histB: Map<_,'value>) =
+        if equalBandwidthOrNominal then
+            Map.mergeBy f histA histB
+        else 
+            failwithf "Not implemented yet. If continuous data shall be merged, bandwidth must be equal. This does not matter for nominal data!"
+            //ToDo:
+            //    Dissect both distributions and construct a new one based on given bandwidths
+            //    New bandwidth might be double the largest observed bandwidth to not miss-sort any data. 
 
     /// <summary>Merges two maps into a single map. If a key exists in both maps, the value in histA is superseded by the value in histB.</summary>
+    /// <param name="equalBandwidthOrNominal">Is the binwidth equal for both distributions? For nominal data set to true.</param>
     /// <param name="histA">Empirical distribution A</param>
     /// <param name="histB">Empirical distribution B</param>
     /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
     /// <remarks>This function is not commutative! (merge a b) is not equal to (merge b a)</remarks> 
     /// <returns>New frequency map that results from merged maps histA and histB.</returns> 
-    let merge (histA: Map<_,'value>) (histB: Map<_,'value>) =
-        Map.merge histA histB
+    let merge equalBandwidthOrNominal (histA: Map<_,'value>) (histB: Map<_,'value>) =
+        mergeBy equalBandwidthOrNominal (fun a b -> b) histA histB
 
     /// <summary>Merges two maps into a single map. If a key exists in both maps, the value from mapB is added to the value of mapA.</summary>
+    /// <param name="equalBandwidthOrNominal">Is the binwidth equal for both distributions? For nominal data set to true.</param>
     /// <param name="histA">Empirical distribution A</param>
     /// <param name="histB">Empirical distribution B</param>
     /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
     /// <remarks>This function is not commutative! (add a b) is not equal to (add b a)</remarks> 
     /// <returns>New frequency map that results from merged maps histA and histB. Values from keys that are present in both maps are handled by f</returns> 
-    let inline add (histA: Map<_,'value>) (histB: Map<_,'value>) =
-        Map.mergeAdd histA histB
+    let inline add equalBandwidthOrNominal (histA: Map<_,'value>) (histB: Map<_,'value>) =
+        mergeBy equalBandwidthOrNominal (fun a b -> a + b) histA histB
         
 
 type EmpiricalDistribution() =
