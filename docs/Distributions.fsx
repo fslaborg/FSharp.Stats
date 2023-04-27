@@ -816,6 +816,70 @@ categoricalDistribution
 categoricalDistribution |> GenericChart.toChartHTML
 (***include-it-raw***)
 
+
+(**
+### Distribution merging 
+
+You can merge two distributions by using `Empirical.merge`, subroutines like `Empirical.add`, or the generic function `Empirical.mergeBy`.
+
+Merging two distributions leads to a combined distribution. If keys are present in both distributions the value at `distA` is superseded with 
+the value at `distB`.
+
+Please note, that when handling continuous data, the binning of both input distributions must be identical! When using categorical data, 
+the binning does not matter and the parameter can be set to `true`.
+
+
+*)
+
+let a =
+    [("k1",1);("k2",3)]
+    |> Map.ofList
+
+let b =
+    [("k2",2);("k3",4)]
+    |> Map.ofList
+
+let mergedDist = Empirical.merge true a b
+
+(*** condition: ipynb ***)
+#if IPYNB
+mergedDist
+#endif // IPYNB
+
+(***hide***)
+(sprintf "mergeDist = %A" mergedDist)
+(***include-it-raw***)
+
+(**
+Adding two distributions leads to a combined distribution. If keys are present in both distributions the values at `distA` and `distB` are added.
+*)
+
+let addedDist = Empirical.add true a b
+
+(*** condition: ipynb ***)
+#if IPYNB
+addedDist
+#endif // IPYNB
+
+(***hide***)
+(sprintf "addedDist = %A" addedDist)
+(***include-it-raw***)
+
+(**
+A custom merging function can be defined:
+*)
+
+let customDist = Empirical.mergeBy true (fun valueA valueB -> valueA * valueB) a b
+
+(*** condition: ipynb ***)
+#if IPYNB
+customDist
+#endif // IPYNB
+
+(***hide***)
+(sprintf "customDist = %A" customDist)
+(***include-it-raw***)
+
 (**
 ## Density estimation
 *)

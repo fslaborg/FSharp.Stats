@@ -9,7 +9,6 @@ open TestExtensions
 [<Tests>]
 let empiricalTests =
 
-   
     let mySmallAlphabet = "abcdefghijklmnopqrstuvwxyz" |> Set.ofSeq
     let myAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" |> Set.ofSeq
     let myAlphabetNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" |> Set.ofSeq
@@ -146,5 +145,48 @@ let empiricalTests =
                 "Empirical.createNominal leads to a wrong PMF map keys" 
             TestExtensions.sequenceEqual(Accuracy.high) expectedValues actualValues
                 "Empirical.createNominal leads to a wrong PMF map values" 
+        let a = 
+            [
+                (0.2,12)
+                (0.0,5)
+                (-0.1,3)
+            ]
+            |> Map.ofList
+
+        let b = 
+            [
+                (0.2,-10)
+                (0.3,2)
+                (0.0,0)
+            ]
+            |> Map.ofList
+
+        testCase "add" <| fun () ->
+            let expectedKeys,expectedValues = 
+                Map.ofSeq [|(-0.1,3);(0.0,5);(0.2,2);(0.3,2)|]
+                |> Map.toArray
+                |> Array.unzip
+            let actualKeys,actualValues = 
+                Empirical.add true a b 
+                |> Map.toArray
+                |> Array.unzip
+            Expect.equal expectedKeys actualKeys
+                "Empirical.add leads to a wrong distribution addition" 
+            Expect.equal expectedValues actualValues
+                "Empirical.add leads to a wrong distribution addition" 
+        
+        testCase "merge" <| fun () ->
+            let expectedKeys,expectedValues = 
+                Map.ofSeq [|(-0.1,3);(0.0,0);(0.2,-10);(0.3,2)|]
+                |> Map.toArray
+                |> Array.unzip
+            let actualKeys,actualValues = 
+                Empirical.merge true a b 
+                |> Map.toArray
+                |> Array.unzip
+            Expect.equal expectedKeys actualKeys
+                "Empirical.merge leads to a wrong distribution merge" 
+            Expect.equal expectedValues actualValues
+                "Empirical.merge leads to a wrong distribution merge" 
     ]
 

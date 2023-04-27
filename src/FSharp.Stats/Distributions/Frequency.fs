@@ -2,6 +2,7 @@ namespace FSharp.Stats.Distributions
 
 /// Represents a histogram (map from values to integer frequencies).
 module Frequency =
+    open FSharp.Stats
 
     /// Given the list [a,b,a,c,b,b], produce a map {a:2, b:3, c:1} which contains the count of each unique item in the list
     let createGeneric list = 
@@ -50,7 +51,7 @@ module Frequency =
         if hist.ContainsKey(x) then
             hist.[x]
         else
-            0            
+            0
     
     /// Gets an unsorted sequence of frequencies
     let frequencies (hist:Map<_,int>) =         
@@ -60,18 +61,59 @@ module Frequency =
     let isSubset (histA:Map<_,int>) (histB:Map<_,int>) =
         let rec issubset (histA:list<float*int>) (histB:Map<float,int>) =
             match histA with
-            | head::rest -> let k,v = head
-                            let y = frequencyAt histB k                              
-                            if v > y then false else issubset rest histB
+            | head::rest -> 
+                let k,v = head
+                let y = frequencyAt histB k                              
+                if v > y then 
+                    false 
+                else 
+                    issubset rest histB
             | []         -> true
         issubset (histA |> Map.toList) histB
 
-    ///// Subtracts the values histogramA from histogramB
-    //let subtract (histA:Map<'a,int>) (histB:Map<'a,int>) =
-    //    Map.merge histA histB (fun k (v, v') -> v - v')
 
-    ////// Adds the values in histogramA to histogramB
-    //let add (histA:Map<'a,int>) (histB:Map<'a,int>) =
-    //    Map.merge histA histB (fun k (v, v') -> v + v')
+    /// <summary>Merges two histograms into a single histogram. If a key exists in both maps, the value is determined by f with the first value being from mapA and the second originating from mapB.</summary>
+    /// <param name="equalBandwidthOrNominal">Is the binwidth equal for both frequencies? For nominal data set to true.</param>
+    /// <param name="f">Function to transform values if key is present in both histograms. `mapA-value &#8594; mapB-value &#8594; newValue`</param>
+    /// <param name="mapA">Frequency map A</param>
+    /// <param name="mapB">Frequency map B</param>
+    /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
+    /// <remarks>This function is not commutative! (mergeBy f a b) is not equal to (mergeBy f b a)</remarks> 
+    /// <returns>New frequency map that results from merged maps mapA and mapB. Values from keys that are present in both maps are handled by f</returns> 
+    let mergeBy equalBandwidthOrNominal f (histA: Map<_,'value>) (histB: Map<_,'value>) =
+        if equalBandwidthOrNominal then 
+            Map.mergeBy f histA histB
+        else 
+            failwithf "Not implemented yet. If continuous data shall be merged, bandwidth must be equal. This does not matter for nominal data!"
+            //ToDo:
+            //    Dissect both frequencies and construct a new one based on given bandwidths
+            //    New bandwidth might be double the largest observed bandwidth to not miss-sort any data. 
 
+    /// <summary>Merges two histograms into a single histogram. If a key exists in both histograms, the value in histA is superseded by the value in histB.</summary>
+    /// <param name="equalBandwidthOrNominal">Is the binwidth equal for both frequencies? For nominal data set to true.</param>
+    /// <param name="histA">Frequency map A</param>
+    /// <param name="histB">Frequency map B</param>
+    /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
+    /// <remarks>This function is not commutative! (merge a b) is not equal to (merge b a)</remarks> 
+    /// <returns>New frequency map that results from merged maps histA and histB.</returns> 
+    let merge equalBandwidthOrNominal (histA: Map<_,'value>) (histB: Map<_,'value>) = 
+        mergeBy equalBandwidthOrNominal (fun a b -> b) histA histB
+
+    /// <summary>Merges two histograms into a single histogram. If a key exists in both histograms, the value from histB is subtracted from the value of histA.</summary>
+    /// <param name="equalBandwidthOrNominal">Is the binwidth equal for both frequencies? For nominal data set to true.</param>
+    /// <param name="histA">Frequency map A</param>
+    /// <param name="histB">Frequency map B</param>
+    /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
+    /// <remarks>This function is not commutative! (subtract a b) is not equal to (subtract b a)</remarks> 
+    let inline subtract equalBandwidthOrNominal (histA: Map<_,'value>) (histB: Map<_,'value>) = 
+        mergeBy equalBandwidthOrNominal (fun a b -> a - b) histA histB
+    
+    /// <summary>Merges two histograms into a single histogram. If a key exists in both histograms, the value from histA is added to the value of histB.</summary>
+    /// <param name="equalBandwidthOrNominal">Is the binwidth equal for both frequencies? For nominal data set to true.</param>
+    /// <param name="histA">Frequency map A</param>
+    /// <param name="histB">Frequency map B</param>
+    /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
+    /// <returns>New frequency map that results from merged maps histA and histB. Values from keys that are present in both maps are handled by f</returns> 
+    let inline add equalBandwidthOrNominal (histA: Map<_,'value>) (histB: Map<_,'value>) = 
+        mergeBy equalBandwidthOrNominal (fun a b -> a + b) histA histB
 
