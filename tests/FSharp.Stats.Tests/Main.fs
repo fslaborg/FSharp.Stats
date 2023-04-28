@@ -135,5 +135,6 @@ let main argv =
     Tests.runTestsWithCLIArgs [] argv SignalTests.outlierTests  |> ignore
     Tests.runTestsWithCLIArgs [] argv SignalTests.normalizationTests  |> ignore
     Tests.runTestsWithCLIArgs [] argv SignalTests.binningTests  |> ignore
+    Tests.runTestsWithCLIArgs [] argv SignalTests.paddingTests  |> ignore
 
     0

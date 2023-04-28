@@ -2,6 +2,7 @@ module SignalTests
 
 
 open Expecto
+open System
 open FSharp.Stats
 open FSharp.Stats.Signal
 open Signal.Outliers
@@ -166,7 +167,7 @@ let normalizationTests =
             TestExtensions.sequenceEqual 4 result expectedNormalizedTable "Matrix was not normalized correctly"
     ]
 
-
+    
 [<Tests>]
 let binningTests =
     
@@ -309,5 +310,36 @@ let binningTests =
                 )
                 
             Expect.equal actualIds expectedIds "Binning was not performed correctly"
+    ]
+
+
+[<Tests>]
+let paddingTests =
+    let dataLength = 20
+    let padding = 10
+
+    let data =
+        Array.init dataLength (
+            fun i ->
+                (3.0 + float i, 7.0 - float i)
+        )
+
+    testList "Signal.PaddingTests" [
+
+        testCase "pad" <| fun() ->
+
+            let expectLeadIn  = Array.init padding (fun i -> (3.0 - float (padding-i), 0.0))
+            let expectLeadOut = Array.init padding (fun i -> (3.0 + float (dataLength + i), 0.0))
+            let expectedPadded = Array.concat [expectLeadIn; data; expectLeadOut]
+
+            let padded = Padding.pad data 1.0 Double.PositiveInfinity (-) (+) padding Padding.BorderPaddingMethod.Zero Padding.InternalPaddingMethod.NaN Padding.HugeGapPaddingMethod.NaN
+
+            Expect.equal (Array.sub padded 0 padding) expectLeadIn
+            Expect.equal (Array.sub padded (padded.Length - padding) padding) expectLeadOut
+            Expect.equal (Array.sub padded padding data.Length) data "All the original data should be contained in the padded data"
+            Expect.equal padded.Length (data.Length + 2 * padding) "Length should be the original data length plus padding at each end"
+            Expect.equal (padded |> Array.sortBy fst) expectedPadded "Result should be the lead-in, whole data, then lead-out (maybe not in order?)"
+            Expect.equal padded expectedPadded "Result should be the lead-in, whole data, then lead-out"
+
     ]
 
