@@ -141,7 +141,6 @@ module Padding =
                     let paddX = addToXValue maxX ((float i + 1.) * minDistance)
                     let paddY = 0.
                     paddX,paddY)
-                    |> Array.rev
 
         let fillSpaceInBetween = 
             //interpolate the space between the two adjacent knots and add aditional points (number = (getDiff p1 p2 / minDistance) - 1)
@@ -162,7 +161,7 @@ module Padding =
             let rec loop i acc = 
                 //abort condition
                 if i = n-1 then
-                    acc 
+                    [data.[i]]::acc 
                     |> List.rev
                     |> List.concat
                 else
