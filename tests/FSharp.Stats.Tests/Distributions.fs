@@ -976,7 +976,8 @@ let FDistributionTests =
 
 
     ]
-
+    
+[<Tests>]
 let binomialTests =
     // TestCases from R: library(chi) function: dchi(x, dof)
 
@@ -1177,6 +1178,39 @@ let binomialTests =
                       
     ] 
 
+
+[<Tests>]
+let normalTests =
+
+    testList "Distributions.Continuous.Normal" [
+        testCase "InvCDF" <| fun () ->
+            //tested against Wichura, Algorithm AS 241: The Percentage Points of the Normal Distribution., 1988 
+            let expected_1 = -0.6744897501960817
+            let actual___1 = Distributions.Continuous.Normal.InvCDF 0. 1. 0.25
+            let expected_2 = -3.090232306167814
+            let actual___2 = Distributions.Continuous.Normal.InvCDF 0. 1. 0.001
+            let expected_3 = -9.262340089798408
+            let actual___3 = Distributions.Continuous.Normal.InvCDF 0. 1. 10e-20
+            let expected_4 = infinity
+            let actual___4 = Distributions.Continuous.Normal.InvCDF -300. 100. 1
+            let expected_5 = -infinity
+            let actual___5 = Distributions.Continuous.Normal.InvCDF -300. 100. 0
+            let expected_6 = -300_000.
+            let actual___6 = Distributions.Continuous.Normal.InvCDF -300_000. 5000. 0.99
+            // tested against python scipy.stats.norm.ppf()
+            let expected_7 = -288368.2606297958
+            let actual___7 = Distributions.Continuous.Normal.InvCDF -300_000. 5000. 0.99
+            
+            Expect.floatClose Accuracy.high actual___1 expected_1 "InvCDF1 gives wrong result" 
+            Expect.floatClose Accuracy.high actual___2 expected_2 "InvCDF2 gives wrong result" 
+            Expect.floatClose Accuracy.high actual___3 expected_3 "InvCDF3 gives wrong result" 
+            Expect.equal actual___4 expected_4 "InvCDF4 gives wrong result" 
+            Expect.equal actual___5 expected_5 "InvCDF5 gives wrong result" 
+            Expect.floatClose Accuracy.high actual___6 expected_6 "InvCDF6 gives wrong result" 
+            Expect.floatClose Accuracy.high actual___7 expected_7 "InvCDF7 gives wrong result" 
+        
+                      
+    ] 
 
 
 
