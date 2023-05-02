@@ -67,37 +67,37 @@ module Padding =
             let addToXValueInt (a: int) (toAdd: float) =
                 a + (int toAdd)
 
-    //padds data point at signals start and end
+    ///padds data point at signals start and end
     type BorderPaddingMethod =
-        //inserts random data points taken from the original data set
+        ///inserts random data points taken from the original data set
         | Random
-        //inserts 0.0 as y_Value
+        ///inserts 0.0 as y_Value
         | Zero
 
-    //padds data point in small gaps (e.g. a missing data point or small ranges with no data)
+    ///padds data point in small gaps (e.g. a missing data point or small ranges with no data)
     type InternalPaddingMethod =
-        //inserts random data points taken from the original data set
+        //(inserts random data points taken from the original data set
         | Random 
-        //inserts nan values
+        ///inserts nan values
         | NaN
-        //does not insert any point internally
+        ///does not insert any point internally
         | Delete
         //inserts 0.0 as y_Value
         | Zero
-        //inserts points lying on the linear interpolation of the two adjacent knots
+        ///inserts points lying on the linear interpolation of the two adjacent knots
         | LinearInterpolation
         
-    //padds data point in huge gaps (e.g. big ranges with no data)
+    ///padds data point in huge gaps (e.g. big ranges with no data)
     type HugeGapPaddingMethod =
-        //inserts random data points taken from the original data set in a huge data gap
+        ///inserts random data points taken from the original data set in a huge data gap
         | Random 
-        //inserts nan values in a huge data gap
+        ///inserts nan values in a huge data gap
         | NaN
-        //does not insert any point internally
+        ///does not insert any point internally
         | Delete
-        //inserts 0.0 as y_Value
+        ///inserts 0.0 as y_Value
         | Zero
-        //inserts points lying on the linear interpolation of the two adjacent knots
+        ///inserts points lying on the linear interpolation of the two adjacent knots
         | LinearInterpolation
 
     ///Adds additional data points to the beginning and end of data set (number: borderpadding; x_Value distance: minDistance; y_Value: random).

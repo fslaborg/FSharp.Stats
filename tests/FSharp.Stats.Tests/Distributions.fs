@@ -1190,13 +1190,13 @@ let normalTests =
             let expected_2 = -3.090232306167814
             let actual___2 = Distributions.Continuous.Normal.InvCDF 0. 1. 0.001
             let expected_3 = -9.262340089798408
-            let actual___3 = Distributions.Continuous.Normal.InvCDF 0. 1. 10e-20
+            let actual___3 = Distributions.Continuous.Normal.InvCDF 0. 1. 1e-20
             let expected_4 = infinity
             let actual___4 = Distributions.Continuous.Normal.InvCDF -300. 100. 1
             let expected_5 = -infinity
             let actual___5 = Distributions.Continuous.Normal.InvCDF -300. 100. 0
             let expected_6 = -300_000.
-            let actual___6 = Distributions.Continuous.Normal.InvCDF -300_000. 5000. 0.99
+            let actual___6 = Distributions.Continuous.Normal.InvCDF -300_000. 5000. 0.5
             // tested against python scipy.stats.norm.ppf()
             let expected_7 = -288368.2606297958
             let actual___7 = Distributions.Continuous.Normal.InvCDF -300_000. 5000. 0.99
@@ -1207,7 +1207,7 @@ let normalTests =
             Expect.equal actual___4 expected_4 "InvCDF4 gives wrong result" 
             Expect.equal actual___5 expected_5 "InvCDF5 gives wrong result" 
             Expect.floatClose Accuracy.high actual___6 expected_6 "InvCDF6 gives wrong result" 
-            Expect.floatClose Accuracy.high actual___7 expected_7 "InvCDF7 gives wrong result" 
+            Expect.floatClose Accuracy.high actual___7 expected_7 "InvCDF7 gives wrong result"
         
                       
     ] 
