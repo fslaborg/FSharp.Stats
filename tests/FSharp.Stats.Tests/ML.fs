@@ -307,3 +307,82 @@ module PCA =
                     |> matrix
                 TestExtensions.sequenceEqual Accuracy.low pca.Loadings correct "Loadings were not calculated correctly."
         ]
+module hClust = 
+    open FSharp.Stats.ML.Unsupervised
+    open System.Text.RegularExpressions 
+    open HierarchicalClustering
+    open FSharpAux
+    let datapath = @"data/testDatahClust.csv"
+    let lables,data =
+        fromFileWithSep ',' datapath
+        |> Seq.skip 1
+        |> Seq.map (fun arr -> arr.[4], [| float arr.[0]; float arr.[1]; float arr.[2]; float arr.[3]; |])
+        |> Seq.toArray
+        |> Array.mapi (fun i (lable,data) -> sprintf "%s_%i" lable i, data)
+        |> Array.unzip
+    let distance = DistanceMetrics.euclidean
+    let linker = Linker.singleLwLinker
+    let testCluster = generate<float[]> distance linker data |> Seq.item 0 |> (fun x -> x.Key)
+    let testLeaf = createClusterValue 1 [|1.;2.|]
+    let testLeaf2 = createClusterValue 2 [|3.;4.|]
+    let testSingleCluster = createCluster 1 0.4 testLeaf testLeaf2
+    let testClusterList = get testCluster |> Seq.toArray |> Array.mapi (fun i x -> i,x)
+    let cachedDist = DistanceCaching<float[]> (distance,linker)
+
+    
+    [<Tests>]
+    let hClustTests = 
+        testList "hClust Tests" [
+            testCase "simple cluster" <| fun () ->
+                let testSet =  
+                    [|(0, (0.6164414287, 5, 15)); (1, (0.4123105705, 14, 11));
+                        (2, (0.3000000119, 1, 13)); (3, (0.2645751238, 12, 6));
+                        (4, (0.2449489683, 2, 3)); (5, (0.1732050776, 10, 9));
+                        (6, (0.1414213628, 0, 4)); (7, (0.0, 7, 8))|]
+                    |> Array.map (fun (a,(b,c,d)) -> (a,((Math.round 5 b),c,d) ))
+                let actualSet = testClusterList |> Array.map (fun (a,(b,c,d)) -> (a,((Math.round 5 b),c,d) ))
+ 
+                Expect.equal actualSet testSet "clusters aren't same "
+
+            testCase "euclidean" <| fun () ->
+                let testEuclidean = euclidean [|3.;1.;5.|] [|3.;1.;5.|]
+                Expect.equal testEuclidean 0. "euclidean distance - same values check"
+                Expect.equal (euclidean [|1.;2.;4.|][|3.;-2.;4.|] |> Math.round 5) 4.47214 "euclidean distance - negative check "
+            testCase "create Clusters and Leafs "<| fun () -> 
+                let testSingleCluster = Node (1, 0.4, 2, Leaf (1, 1, [|1.0; 2.0|]), Leaf (2, 1, [|-3.0; 4.0|]))
+                let testLeaf1 = Leaf (1, 1, [|1.0; 2.0|])
+                let testLeaf2 = Leaf (2, 1, [|-3.0; 4.0|])
+                Expect.equal (createClusterValue 1 [|1.;2.|]) testLeaf1 "creating Leaf failed"
+                Expect.equal (createClusterValue 2 [|-3.;4.|]) testLeaf2 "creating Leaf failed"
+                Expect.equal (createCluster 1 0.4 testLeaf testLeaf2) testSingleCluster "creating Cluster failed "
+                Expect.equal (getClusterId testLeaf1 ) 1 "getClusterID Leaf"
+                Expect.equal (getClusterId testLeaf2 ) 2 "getClusterID Leaf"
+                Expect.equal (getClusterId testSingleCluster ) 1 "getClusterID Clust"
+            testCase "getValues" <| fun () -> 
+                let testDistances = [0.0; 0.1414213628; 0.1732050776; 0.2449489683; 0.2645751238; 0.3000000119;0.4123105705; 0.6164414287] |> List.map (fun x -> Math.round 10 x)
+                let allLeafs =   [[|5.0; 3.4; 1.5; 0.2|]; [|5.0; 3.4; 1.5; 0.2|]; [|5.0; 3.6; 1.4; 0.2|];[|5.1; 3.5; 1.4; 0.2|]; [|4.6; 3.4; 1.4; 0.3|]; [|4.6; 3.1; 1.5; 0.2|];[|4.7; 3.2; 1.3; 0.2|]; [|4.9; 3.0; 1.4; 0.2|]; [|5.4; 3.9; 1.7; 0.4|]]
+                Expect.equal (tryGetLeafValue testSingleCluster) None "tryGetLeafValue failed"
+                Expect.equal (tryGetLeafValue testLeaf) (Some [|1.0;2.0|]) "tryGetLeafValue failed"
+                Expect.equal (getClusterMemberCount testLeaf ) 1 "MemberCount off"
+                Expect.equal (getClusterMemberCount testSingleCluster ) 2 "MemberCount off"
+                Expect.equal (getClusterMemberCount testCluster) 9 "MemberCount off "
+                Expect.equal (getDistancesOfCluster testCluster|> List.map (fun x -> Math.round 10 x))  testDistances "testDistances off"
+                Expect.equal (getLeafsOfCluster testCluster ) allLeafs "Leaf retrieval failed "
+                Expect.equal (getLeafsOfCluster testLeaf ) [[|1.0; 2.0|]] "Leaf retrieval failed"
+                Expect.equal (getLeafNamesOfCluster testCluster) [8; 7; 4; 0; 6; 3; 2; 1; 5] "ID retrieve failed "
+                Expect.equal (getLeafNamesOfCluster testLeaf) [1] "ID retrieve failed"
+                Expect.equal (getLeftChild testSingleCluster ) testLeaf "left child failed"
+                Expect.equal (getRightChild testSingleCluster ) testLeaf2 "right child failed"
+                Expect.equal (getLeftChild testCluster ) (Leaf(5, 1, [|5.4; 3.9; 1.7; 0.4|])) "complex left child failed"
+                Expect.equal (getDistance testSingleCluster ) 0.4 "getDistance failed"
+                Expect.equal (getDistance testLeaf) -1. "getDistance at Leaf failed"
+                Expect.equal 
+                    (usedDistancesAndLabels testCluster  |> List.map (fun x -> (Math.round 10 (fst x) ,snd x )  ))
+                      ([(0.0, [9]); (0.1414213628, [10]); (0.1732050776, [11]);(0.2449489683, [12]); (0.2645751238, [13]); (0.3000000119, [14]);(0.4123105705, [15]); (0.6164414287, [16])] |> List.map (fun x -> (Math.round 10 (fst x) ,snd x )  ))
+                    "used Distances and Labels won't work "
+                Expect.equal 
+                    (getDistancesAndLabels testCluster  |> List.map (fun x -> (fst x ,Math.round 10 (snd x )  )))
+                      ([(9, 0.0); (10, 0.1414213628); (11, 0.1732050776); (12, 0.2449489683);(13, 0.2645751238); (14, 0.3000000119); (15, 0.4123105705);(16, 0.6164414287)]|> List.map (fun x -> (fst x ,Math.round 10 (snd x ))))
+
+                     "Distances and Labels won't work "
+        ]
