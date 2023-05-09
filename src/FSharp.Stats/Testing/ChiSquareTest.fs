@@ -36,7 +36,7 @@ module ChiSquareTest =
     open System
     open FSharp.Stats
 
-    /// Computes the Chi-Square test
+    /// Computes the Chi-Square test.
     /// n data points -> degrees of freedom = n - 1 
     let compute (degreesOfFreedom:int) (expected:seq<float>) (observed:seq<float>) =
         //let chechParams =
@@ -53,4 +53,16 @@ module ChiSquareTest =
         TestStatistics.createChiSquare chi2 (float degreesOfFreedom)
 
         
-
+    // Adapted from https://www.ling.upenn.edu/~clight/chisquared.htm
+    /// Computes a Chi-Square test for a 2 × 2 contingency table. Aka Cochran-Mantel-Haenszel (CMH) test, ger. Chi-Quadrat-Vierfeldertest.
+    let contingencyTable2x2Test trait1GroupA trait2GroupA trait1GroupB trait2GroupB =
+        let columnTrait1 = trait1GroupA + trait1GroupB
+        let columnTrait2 = trait2GroupA + trait2GroupB
+        let rowGroupA = trait1GroupA + trait2GroupA
+        let rowGroupB = trait1GroupB + trait2GroupB
+        let total = columnTrait1 + columnTrait2
+        let expFreqA1 = (rowGroupA * columnTrait1) / total
+        let expFreqA2 = (rowGroupA * columnTrait2) / total
+        let expFreqB1 = (rowGroupB * columnTrait1) / total
+        let expFreqB2 = (rowGroupB * columnTrait2) / total
+        compute 1 [expFreqA1; expFreqA2; expFreqB1; expFreqB2] [trait1GroupA; trait2GroupA; trait1GroupB; trait2GroupB]

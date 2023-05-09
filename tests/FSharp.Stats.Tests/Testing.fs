@@ -369,6 +369,21 @@ let chiSquaredTests =
         let observed = [315.;101.;80.;32.;50.] 
         let df = expected.Length - 1
         ChiSquareTest.compute df expected observed
+
+    // taken from: https://de.wikipedia.org/wiki/Chi-Quadrat-Test#Beispiele_und_Anwendungen
+    let testCaseContingency1 =
+        let trait1GroupA = 25.
+        let trait2GroupA = 25.
+        let trait1GroupB = 30.
+        let trait2GroupB = 20.
+        ChiSquareTest.contingencyTable2x2Test trait1GroupA trait2GroupA trait1GroupB trait2GroupB
+
+    let testCaseContingency2 =
+        let trait1GroupA = 250.
+        let trait2GroupA = 250.
+        let trait1GroupB = 300.
+        let trait2GroupB = 200.
+        ChiSquareTest.contingencyTable2x2Test trait1GroupA trait2GroupA trait1GroupB trait2GroupB
         
     testList "Testing.ChiSquaredTest" [
         testCase "compute" <| fun () -> 
@@ -376,7 +391,13 @@ let chiSquaredTests =
             Expect.isTrue (0.4700 = Math.Round(testCase1.Statistic,4)) "statistic should be equal."
             Expect.isTrue (0.000638 = Math.Round(testCase2.PValueRight,6)) "pValue should be equal."
             Expect.isTrue (19.461 = Math.Round(testCase2.Statistic,3)) "statistic should be equal."
-            
+        
+        testCase "contingencyTable" <| fun () ->
+            Expect.floatClose Accuracy.veryHigh (round 4 testCaseContingency1.PValueRight) 0.3149 "pValue is not about equal"
+            Expect.floatClose Accuracy.veryHigh (round 3 testCaseContingency1.Statistic) 1.01 "teststatistic is not about equal"
+
+            Expect.floatClose Accuracy.veryHigh (round 4 testCaseContingency2.PValueRight) 0.0015 "pValue is not about equal"
+            Expect.floatClose Accuracy.veryHigh (round 2 testCaseContingency2.Statistic) 10.1 "teststatistic is not about equal"
     ]
 
 [<Tests>]
