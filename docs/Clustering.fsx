@@ -15,6 +15,7 @@ categoryindex: 0
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: FSharpAux, 1.0.0"
 #r "nuget: Cyjs.NET"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -24,6 +25,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 #if IPYNB
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: Plotly.NET.Interactive, 4.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #r "nuget: FSharpAux, 1.0.0"
 #r "nuget: FSharp.Stats"
 #r "nuget: Cyjs.NET"
@@ -44,6 +46,8 @@ _Summary:_ this tutorial demonstrates several clustering methods in FSharp.Stats
  - [Density based clustering](#Density-based-clustering)
     - [DBSCAN](#DBSCAN)
  - [Hierarchical clustering](#Hierarchical-clustering)
+    - [Distance measures](#Distance-measures)
+    - [Linkages](#Linkages)
  - [Determining the optimal number of clusters](#Determining-the-optimal-number-of-clusters)
     - [Rule of thumb](#Rule-of-thumb)
     - [Elbow criterion](#Elbow-criterion)
@@ -306,22 +310,39 @@ clusteredChart3D |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
-## Hierarchical clustering
+
+## Hierarchical Clustering
+
+Clustering is grouping based on similarity to form coherent groups. The similarity is determined by measurements, for example gene expression kinetics in time series. The similarity between single entitites is then determined and they are grouped by that properties.
+*)
+(**
+
+Hierarchical Clustering (hClust) can be performed in two ways:
+
+  - **Divisive hClust**: top down approach, starts with every entity in one cluster and successively splits it into smaller groups based on their similiarity.
+  - **Agglomerative hClust**: bottom up approach, every entity is a single cluster in the beginning, and the closest entities are merged.
+
+Here, we implemented the agglomerative hClust approach. 
+The result of hierarchical Clustering is one big cluster with a tree structure, that is connected by the root. From the root, it splits recursively into clusters that are more similar to each other than to elements of other clusters. 
+The advantage of hClust in comparison to other clustering algorithm is that you don't need to specify a number of clusters beforehand. When clustering, the whole dataset is clustered once and can be split into groups either by defining a number of clusters (similar to k-means) or by specifying a similarity cutoff. 
+
+Further information can be found [here](https://fslab.org/blog/posts/clustering-hierarchical.html). 
 
 
-Hierarchical clustering results in a tree structure, that has a single cluster (node) on its root and recursively 
-splits up into clusters of elements that are more similar to each other than to elements of other clusters. 
-For generating multiple cluster results with different number of clusters, the clustering has to performed only once. 
-Subsequently a threshold can be determined which will result in the desired number of clusters.
+#### Distance measures 
+To determine the similarity between entities it is necessary to have a distance measure. 
+For those distance measures we need to know the two types of points we're dealing with: Singletons and Clusters. 
+To calculate the distance between Singletons (single entities), we use the euclidean distance. This can be switched to different distance functions (see DistanceMetrics). 
+For example, we look at the points with their respective features X and Y. Their distance is calculated with this formula (euclidean distance): 
 
-Further information can be found [here](https://fslab.org/content/tutorials/003_clustering_hierarchical.html). For network visualization follow 
-this [tutorial](https://fslab.org/content/tutorials/007_replicate-quality-control.html#Data-visualization).
+$$ x : [x1, x2, .., xn] $$ 
+$$ y : [y1, y2, .., yn] $$ 
+$$ d(x, y) = \sqrt{((x1 - y1)^2 + (x2 - y2)^2 + ... + (xn - yn)^2)} $$
 
-#### Distance measures
-There are several distance metrics, that can be used as distance function. The commonly used one probably is Euclidean distance.
+#### Linkages
 
-#### Linker
-When the distance between two clusters is calculated, there are several linkage types to choose from:
+When calculating the similarity between two entities, where at least one is an already formed cluster, there is the need for a linker instead of the basic distance function. 
+A few options are listed here:
 
   - **complete linkage**: maximal pairwise distance between the clusters (prone to break large clusters)
 
@@ -332,25 +353,24 @@ When the distance between two clusters is calculated, there are several linkage 
   - **average linkage**: average pairwise distance between the clusters (sensitive to cluster shape and size)
 
   - **median linkage**: median pairwise distance between the clusters
-
-
 *)
 
 open FSharp.Stats.ML.Unsupervised.HierarchicalClustering
-
+open Priority_Queue
 // calculates the clustering and reports a single root cluster (node), 
 // that may recursively contains further nodes
-let clusterResultH = 
-    HierarchicalClustering.generate DistanceMetrics.euclideanNaNSquared Linker.wardLwLinker data
+let distance = DistanceMetrics.euclidean
+let linker = Linker.wardLwLinker
+
+// calculates the clustering and reports a single root cluster (node)
+let result = generate<float[]> distance linker data |> Seq.item 0 |> (fun x -> x.Key)
 
 // If a desired cluster number is specified, the following function cuts the cluster according
 // to the depth, that results in the respective number of clusters (here 3). Only leaves are reported.
-let threeClustersH = HierarchicalClustering.cutHClust 3 clusterResultH
-    
+let threeClustersH = cutHClust 3 result
+
 (**
-    
-Every cluster leaf contains its raw values and an index that 
-indicates the position of the respective data point in the raw data.
+Every cluster leaf contains its raw values and an index that indicates the position of the respective data point in the raw data. 
 The index can be retrieved from leaves by HierarchicalClustering.getClusterId.
 *)
     
@@ -359,20 +379,18 @@ let inspectThreeClusters =
     |> List.map (fun cluster -> 
         cluster
         |> List.map (fun leaf -> 
-            lables.[HierarchicalClustering.getClusterId leaf]
+            lables.[getClusterId leaf]
             )
         )
     |> fun clusteredLabels -> 
         sprintf "Detailed information for %i clusters is given:" clusteredLabels.Length,clusteredLabels
-    
 (*** include-value:inspectThreeClusters ***)
-    
     
 // To recursevely flatten the cluster tree into leaves only, use flattenHClust.
 // A leaf list is reported, that does not contain any cluster membership, 
 // but is sorted by the clustering result.
 let hLeaves = 
-    clusterResultH
+    result
     |> HierarchicalClustering.flattenHClust
     
 // takes the sorted cluster result and reports a tuple of lable and data value.
@@ -390,10 +408,10 @@ let hierClusteredDataHeatmap =
     let (hlable,hdata) =
         dataSortedByClustering
         |> List.unzip
-    Chart.Heatmap(hdata,colNames=colnames,rowNames=hlable,ColorScale=colorscaleValue,ShowScale=true)
+    Chart.Heatmap(hdata,colNames=colnames,rowNames=hlable,ShowScale=true)
     |> Chart.withMarginSize(Left=250.)
     |> Chart.withTitle "Clustered iris data (hierarchical clustering)"
-
+    
 (*** condition: ipynb ***)
 #if IPYNB
 hierClusteredDataHeatmap

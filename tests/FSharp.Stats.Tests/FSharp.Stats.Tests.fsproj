@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
@@ -18,8 +18,8 @@
     <Compile Include="DistributionsDiscrete.fs" />
     <Compile Include="DistributionsEmpirical.fs" />
     <Compile Include="Vector.fs" />
-    <Compile Include="Matrix.fs" />
     <Compile Include="RowVector.fs" />
+    <Compile Include="Matrix.fs" />
     <Compile Include="ML.fs" />
     <Compile Include="Optimization.fs" />
     <Compile Include="Array.fs" />
@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="data/TestDataSAM.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/testDatahClust.csv" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/benjaminiHochberg_Input_nan.csv" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/benjaminiHochberg_AdjustedWithR_nan.csv" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/qvaluesWithR_nan.csv" CopyToOutputDirectory="PreserveNewest" />
@@ -69,6 +70,7 @@
     <PackageReference Include="Expecto" Version="9.*" />
     <PackageReference Include="YoloDev.Expecto.TestSdk" Version="0.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+    <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
     <PackageReference Include="Deedle" Version="3.0.0-beta.1" />
   </ItemGroup>
   <ItemGroup>

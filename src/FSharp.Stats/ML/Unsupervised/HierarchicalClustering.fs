@@ -2,14 +2,36 @@
 
 open System
 open System.Collections.Generic
-
+open Priority_Queue
 open FSharp.Stats
 open FSharp.Stats.ML
 
-/// Agglomerative hierarchical clustering
-module HierarchicalClustering =
+module HierarchicalClustering = 
+    let fromFileWithSep (separator:char) (filePath) =     
+        // The function is implemented using a sequence expression
+        seq {   let sr = System.IO.File.OpenText(filePath)
+                while not sr.EndOfStream do 
+                    let line = sr.ReadLine() 
+                    let words = line.Split separator//[|',';' ';'\t'|] 
+                    yield words }
+
     
-    //open FSharpAux
+
+    /// Euclidean distance of two coordinate arrays
+    type Distance<'a> = 'a -> 'a -> float
+    let inline euclidean (a1:array<'a>) (a2:array<'a>) = 
+        let dim = min a1.Length a2.Length
+        let mutable dist = LanguagePrimitives.GenericZero< 'a > 
+        for i in 0 .. (dim - 1) do
+            let x = a1.[i] - a2.[i]
+            dist <- dist + (x * x)
+        float dist
+        |> sqrt
+
+
+
+
+    
     /// The linkage criterion determines the distance between sets of observations as a function of the pairwise distances between observations
     module Linker =
         
@@ -47,33 +69,33 @@ module HierarchicalClustering =
         /// Calculates the 
         /// d(A u B, C)
         let upgmaLwLinker (mcABC:int*int*int) (dAB:float) (dAC:float) (dBC:float) =
-             let mA,mB,mC = mcABC
-             let alpa1 = float mA / float (mA + mB)
-             let alpa2 = float mB / float (mA + mB)
-             alpa1 * dAC + alpa2 * dBC
+            let mA,mB,mC = mcABC
+            let alpa1 = float mA / float (mA + mB)
+            let alpa2 = float mB / float (mA + mB)
+            alpa1 * dAC + alpa2 * dBC
 
         /// Centroid linkage criterion (UPGMA)
         /// Calculates the 
         /// d(A u B, C)
         let centroidLwLinker (mcABC:int*int*int) (dAB:float) (dAC:float) (dBC:float) =
-             let mA,mB,mC = mcABC
-             let alpa1 = float mA / float (mA + mB)
-             let alpa2 = float mB / float (mA + mB)
-             let beta  = - (float (mA * mB) / float ((mA + mB) * (mA + mB)))
-             alpa1 * dAC + alpa2 * dBC + beta * dAB
+            let mA,mB,mC = mcABC
+            let alpa1 = float mA / float (mA + mB)
+            let alpa2 = float mB / float (mA + mB)
+            let beta  = - (float (mA * mB) / float ((mA + mB) * (mA + mB)))
+            alpa1 * dAC + alpa2 * dBC + beta * dAB
 
         /// Ward linkage criterion (UPGMA)
         /// Calculates the 
         /// d(A u B, C)
         let wardLwLinker (mcABC:int*int*int) (dAB:float) (dAC:float) (dBC:float) =
-             let mA,mB,mC = 
+            let mA,mB,mC = 
                 let mA,mB,mC =mcABC
                 (float mA,float mB,float mC)
-             let mABC = mA + mB + mC
-             let alpa1 =  (mA + mC) / mABC
-             let alpa2 =  (mB + mC) / mABC
-             let beta  = - (mC / mABC)
-             alpa1 * dAC + alpa2 * dBC + beta * dAB
+            let mABC = mA + mB + mC
+            let alpa1 =  (mA + mC) / mABC
+            let alpa2 =  (mB + mC) / mABC
+            let beta  = - (mC / mABC)
+            alpa1 * dAC + alpa2 * dBC + beta * dAB
 
 
     // ######################        
@@ -84,19 +106,20 @@ module HierarchicalClustering =
         ///ID * leafCount * Tag
         | Leaf of int * int * 'T
 
-    // Returns cluster Id
+    /// Returns cluster Id
     let getClusterId (c:Cluster<'T>) =
         match c with
         | Cluster.Node(id,_,_,_,_) -> id   
         | Cluster.Leaf(id,_,_) -> id
 
+    /// Returns cleaf value
     let tryGetLeafValue (c:Cluster<'T>) =
         match c with
         | Cluster.Node(_) -> None
         | Cluster.Leaf(_,_,value) -> Some value
 
-    // Returns cluster member count
-    let private getClusterMemberCount (c:Cluster<'T>) =
+    /// Returns cluster member count
+    let getClusterMemberCount (c:Cluster<'T>) =
         match c with        
         | Cluster.Node(id,_,mc,_,_) -> mc   
         | Cluster.Leaf(id,mc,_)     -> mc
@@ -132,6 +155,17 @@ module HierarchicalClustering =
             | Leaf (_,_,l) -> [l]
         loop [] cluster
 
+    ///Returns a list of the leaf names
+    let getLeafNamesOfCluster (cluster: Cluster<'T>) =
+        let rec loop l cluster=
+            match cluster with
+            | Node (_,dist,_,c1,c2) ->
+                l
+                |> List.append (loop [] c1)
+                |> List.append (loop [] c2)
+            | Leaf (id,_,l) -> [id]
+        loop [] cluster
+        
     /// Aggregates the subbranches of a node to leafs, if the distance between them is smaller than the given distanceCutoff
     let aggregateClusterByDistance distanceCutoff (cluster: Cluster<'T>) =
         let rec aggregate cluster =
@@ -176,8 +210,8 @@ module HierarchicalClustering =
 
     /// Class for chaching already calculated distances to speed up cluster build
     type DistanceCaching<'T>
-        ( distance:DistanceMetrics.Distance<'T>,
-          linker:Linker.LancWilliamsLinker
+        ( distance:Distance<'T>,
+        linker:Linker.LancWilliamsLinker
         ) =
     
         // Dictionary chache    
@@ -217,153 +251,115 @@ module HierarchicalClustering =
 
 
 
- 
 
+    //####------------------------###
+
+
+
+
+
+
+
+
+    type ClusterIndex(c:Cluster<array<float>>) =
+        inherit FastPriorityQueueNode()
+        member this.Cluster = c
+
+        
+    let initPairsNR (cachedDist:DistanceCaching<float[]>) (arr :array<'T>) =
+        let dict = new Dictionary<Cluster<'T>,FastPriorityQueue<ClusterIndex>>()
+
+        for i=0 to arr.Length-1 do        
+        //todo
+            let tmpQueue = FastPriorityQueue<ClusterIndex>(10000)
+            let leftCluster = createClusterValue (i) arr.[i]
+            for ii=i+1 to arr.Length-1 do
+                let rightCluster = createClusterValue (ii) arr.[ii]
+                let dist = cachedDist.calcDistance leftCluster rightCluster
+                tmpQueue.Enqueue(ClusterIndex(rightCluster), float32 dist)
+            dict.Add(leftCluster,tmpQueue)
+
+        dict
+
+
+
+    let minDequeue (source: Dictionary<Cluster<array<float>>,FastPriorityQueue<ClusterIndex>>) =    
+
+        use mutable e = source.GetEnumerator()
+        if not (e.MoveNext()) then
+            invalidArg "source" LanguagePrimitives.ErrorStrings.InputSequenceEmptyString
+
+        let first = e.Current
+        let mutable accv = first
+        let accq = first.Value
+        while not (source.ContainsKey(accq.First.Cluster)) do
+            accq.Dequeue() |> ignore
+        let mutable acc = accq.First.Priority
+
+
+        while e.MoveNext() do
+            let currv = e.Current
+            let currq = currv.Value
+            if currq.Count > 0 then
+                if source.ContainsKey(currq.First.Cluster) then
+                    let curr = currq.First.Priority
+
+                    if curr < acc then
+                        acc <- curr
+                        accv <- currv
+                else
+                    currv.Value.Dequeue() 
+                    |> ignore            
+        
+        accv
+
+
+            
+
+
+
+    // Loops while all clusters are merged
+    let rec whileLoop (cachedDist:DistanceCaching<float[]>)  (source: Dictionary<Cluster<array<float>>,FastPriorityQueue<ClusterIndex>>)  (countIndex:int) =
+        if source.Count > 1 then
+            // find closest 
+            let minKv = 
+                minDequeue source 
+            let leftCluster = minKv.Key
+            let rightCluster = minKv.Value.First.Cluster
+            let dist = minKv.Value.First.Priority |> float //cachedDist.calcDistance leftCluster rightCluster
+            
+            // remove both from input dict
+            source.Remove(leftCluster) |> ignore
+            source.Remove(rightCluster) |> ignore
+
+            // Add new cluster to input
+            let cluster = createCluster (countIndex) dist leftCluster rightCluster
+            
+            //todo
+            let tmpQueue = FastPriorityQueue<ClusterIndex>(10000)
+            for kv in source do
+
+                let dist' = cachedDist.calcDistance cluster kv.Key 
+                // Add new cluster to queues
+                kv.Value.Enqueue(ClusterIndex(cluster), float32 dist')
+
+                tmpQueue.Enqueue(ClusterIndex(kv.Key), float32 dist')
+            source.Add(cluster,tmpQueue)
+
+            whileLoop cachedDist source (countIndex+1)
+        else
+            source
 
     /// Builds a hierarchy of clusters of data containing cluster labels
-    let generate<'T> (distance:DistanceMetrics.Distance<'T>) (linker:Linker.LancWilliamsLinker) (data:seq<'T>) = 
- 
+    let generate<'T> (distance:Distance<float[]>) (linker:Linker.LancWilliamsLinker) (data:array<float[]>) = 
+    
         //#region Distance Caching
-        let cachedDist = DistanceCaching<'T> (distance,linker)
-
-        //#endregion Distance Caching
+        let cachedDist = DistanceCaching<float[]> (distance,linker)
         
-        //#region Cluster Helper       
-        // Removes cluster from list
-        let removeCluster (inputList:Cluster<'T> list) (c1:Cluster<'T>) (c2:Cluster<'T>) = 
-            let idC1 = getClusterId c1
-            let idC2 = getClusterId c2
-            let rec remove (inputL:Cluster<'T> list) acc =
-                match inputL with
-                | head::tail -> let idH = getClusterId head
-                                if idH = idC1 || idH = idC2 then
-                                    remove tail acc
-                                else
-                                    remove tail (head::acc)
-                | []        -> acc |> List.rev
-            remove inputList []
-             
-              
-        // Finds cluster pair with min distance
-        let findMinDinstancePair (cachedDist:DistanceCaching<'T>) (inputList:Cluster<'T> list) =    
-            // Inner loop calculates the distance
-            let rec innerLoop oHead inputList acc =               
-                    match inputList with
-                    | head::tail -> let dist = cachedDist.calcDistance oHead head
-                                    let _,_,cmin = acc
-                                    if dist < cmin then
-                                        innerLoop oHead tail (oHead,head,dist)
-                                    else
-                                        innerLoop oHead tail acc 
-                    | []         -> acc
-            // Outer loop 
-            let rec outerLoop inputList acc=
-                match inputList with
-                | head::tail -> outerLoop tail (innerLoop head tail acc)
-                | [] -> acc    
-        
-            match inputList with
-            | h1::h2::tail -> Some(outerLoop (inputList) (h1,h2,(cachedDist.calcDistance h1 h2)))
-            | _            -> None                
+        let input = initPairsNR cachedDist data
+        whileLoop cachedDist input data.Length
 
 
-        // Loops while all clusters are merged
-        let rec whileLoop input (count:int) =
-            match (findMinDinstancePair cachedDist input) with
-            | Some(c1,c2,dist) -> //remove
-                                    let rInput = removeCluster input c1 c2
-                                    //let mCount = getClusterMemberCount c1 + getClusterMemberCount c2
-                                    let nInput = ((createCluster (count) dist c1 c2)::rInput)
-                                    whileLoop nInput (count + 1 )
-            | None             -> input
-    
-        // Create a new cluster for each data point                        
-        let clusterList = data |> Seq.mapi (fun i dp -> createClusterValue i dp) |> Seq.toList
-        // Iterate
-        (whileLoop clusterList (clusterList.Length))|> List.head
-
-
-
-
-
-    ///// Builds a hierarchy of clusters of data containing cluster labels
-    //let generate'<'T> (distance:DistanceMetrics.Distance<'T>) (linker:Linker.LancWilliamsLinker) (data:seq<'T>) = 
- 
-    //    //#region Distance Caching
-    //    let cachedDist = DistanceCaching<'T> (distance,linker)
-
-    //    //#endregion Distance Caching
-        
-    //    //#region Cluster Helper       
-    //    // Removes cluster from list
-    //    let removeCluster (inputList:List<Cluster<'T>>) (c1:Cluster<'T>) (c2:Cluster<'T>) = 
-    //        let idC1 = getClusterId c1
-    //        let idC2 = getClusterId c2
-    //        inputList.RemoveAll(fun c -> 
-    //            let cId = getClusterId c
-    //            cId = idC1 || cId = idC2 ) |> ignore
-    //        inputList
-             
-
-    //    // Finds cluster pair with min distance
-    //    let tryFindMinDistanceCluster (cachedDist:DistanceCaching<'T>) (inputList:List<Cluster<'T>>) = 
-    //        let len = inputList.Count
-            
-    //        let rec innerLoop ii c1 acc =
-    //            printfn "H ii %i" ii
-    //            if ii < len then
-    //                let c2 = inputList.[ii]
-    //                let dist = cachedDist.calcDistance c1 c2
-    //                let _,_,cmin = acc
-    //                if dist < cmin then
-    //                    innerLoop (ii+1) c1 (c1,c2,dist)
-    //                else
-    //                    innerLoop (ii+1) c1 acc
-    //            else
-    //                acc
-
-    //        let rec outerLoop i acc =
-    //            printfn "Outer i %i len %i" i len
-    //            if i < len-1 then
-    //                let acc' = innerLoop (i+1) (inputList.[i]) acc
-    //                outerLoop (i+1) acc'                    
-    //            else
-    //                acc
-
-    //        if len > 1 then
-    //            let h1 = inputList.[0]
-    //            let h2 = inputList.[1]
-    //            let d  = cachedDist.calcDistance h1 h2
-    //            Some (outerLoop 0 (h1,h2,d))
-    //        else
-    //            None
-            
-    //    // Loops while all clusters are merged
-    //    let rec whileLoop (input:List<Cluster<'T>>) (count:int) =
-    //        match (tryFindMinDistanceCluster cachedDist input) with
-    //        | Some(c1,c2,dist) -> //remove
-    //                                let tmp = removeCluster input c1 c2
-    //                                tmp.Add( createCluster (count) dist c1 c2 )
-    //                                //let mCount = getClusterMemberCount c1 + getClusterMemberCount c2
-    //                                whileLoop tmp (count + 1 )
-    //        | None             -> input
-
-    
-    //    // Create a new cluster for each data point                        
-    //    let clusterList = data |> Seq.mapi (fun i dp -> createClusterValue i dp) |> List
-    //    // Iterate
-    //    let tmp = whileLoop clusterList (clusterList.Count)
-    //    if tmp.Count > 0 then tmp.[0] else failwith "List can not be empty"
-
-
-
-
-
-
-
-
-
-    /// Returns a list of all IDs in the cluster
     let getClusterMemberLabels (cluster:Cluster<'a>) =
         let rec loop cluster (acc:int list) =
             match cluster with
@@ -372,21 +368,26 @@ module HierarchicalClustering =
         loop cluster []
 
 
-    /// Returns a flatten list containing Leafs
-    let flattenHClust (clusterTree:Cluster<'T>) = 
+
+
+    let flattenHClust (clusterTree:Cluster<float array>) = 
         let rec loop (c:Cluster<'T>) = [    
             match c with
-            | Node (id,dist,cM,lc,rc)  -> yield! loop lc
-                                          yield! loop rc
+            | Node (id,dist,cM,lc,rc)  -> 
+                yield! loop lc
+                yield! loop rc
             | Leaf (id,_,_)            -> yield c
             ]
-    
+
         loop clusterTree
 
 
-    /// Cuts a tree, as resulting from hclust, into several groups by specifying the desired number(s).
-    /// If the desired number is odd the function cut the cluster with maximal distance
-    let cutHClust (desiredNumber:int) (clusterTree:Cluster<'T>) =    
+
+
+
+
+    /// cuts tree in chosen amount of clusters
+    let cutHClust (desiredNumber:int) (clusterTree:Cluster<float array>) =    
         let getInversDistance (c:Cluster<'T>) =
             match c with
             | Node (id,dist,cM,lc,rc)  -> - dist                                                            
@@ -412,19 +413,77 @@ module HierarchicalClustering =
         loop desiredNumber [clusterTree]
         |> List.map flattenHClust
 
-       
+        
     /// Converts clusters into string seq
-    let printHClust (clusterTree:Cluster<'T>) =    
+    let printHClust (clusterTree:Cluster<float array >) =    
             let rec printLoop (c) = seq {    
                 match c with
-                | Node (id,dist,cM,lc,rc)  -> yield  sprintf "{ \"name\" : %i,\n  \"children\": [" id
-                                              yield! printLoop lc
-                                              yield  sprintf ","
-                                              yield! printLoop rc
-                                              yield  sprintf "] }" 
+                | Node (id,dist,cM,lc,rc)  -> 
+                    yield  sprintf "{ \"name\" : %i,\n  \"children\": [" id
+                    yield! printLoop lc
+                    yield  sprintf ","
+                    yield! printLoop rc
+                    yield  sprintf "] }" 
                 | Leaf (id,_,_)            -> yield  sprintf "{ \"id\" : %i,\n  \"children\": [] }" id
             }
             printLoop clusterTree
 
+    /// Converts clusters into string seq
+    let get (clusterTree:Cluster<float array >) =    
+            let rec loop (c) = seq {    
+                match c with
+                | Node (id,dist,cM,lc,rc)  -> 
+                    yield  dist,getClusterId lc, getClusterId rc
+                    yield! loop lc
+                    yield! loop rc
+                | Leaf (id,_,_)            -> ()
+            }
+            loop clusterTree
+    let getWithClusterName (clusterTree:Cluster<float array >) =    
+            let rec loop (c) = seq {    
+                match c with
+                | Node (id,dist,cM,lc,rc)  -> 
+                    yield  id,dist,getClusterId lc, getClusterId rc
+                    yield! loop lc
+                    yield! loop rc
+                | Leaf (id,_,_)            -> ()
+            }
+            loop clusterTree
+
+
+
+
+    ///Returns a list of the distances between the subclusters
+    let getDistancesAndLabels (cluster: Cluster<'T>) =
+        let rec loop l cluster=
+            match cluster with
+            | Node (id,dist,_,c1,c2) ->
+                (id,dist) :: l
+                |> List.append (loop [] c1)
+                |> List.append (loop [] c2)
+            | _ -> l
+        loop [] cluster
+
+
+    let usedDistancesAndLabels cluster = 
+        getDistancesAndLabels cluster 
+        |> List.groupBy snd 
+        |> List.map (fun (x,y) -> (x, (List.map fst y )))
+
+
+    let getLeftChild cluster = 
+        match cluster with 
+        | Node (id,dist,mc,c1,c2) -> c1
+        | Leaf (id,mc,value) -> createClusterValue id value
+
+    let getRightChild cluster =
+        match cluster with 
+        | Node (id,dist,mc,c1,c2) -> c2
+        | Leaf (id,mc,value) -> createClusterValue id value
+
+    let getDistance cluster = 
+        match cluster with 
+        | Node (id,dist,mc,c1,c2) -> dist
+        | Leaf (id,mc,value) -> -1.
 
 
