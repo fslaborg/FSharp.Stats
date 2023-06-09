@@ -70,7 +70,7 @@ type LogNormal =
     /// Computes the inverse cumulative distribution function (quantile function).
     static member InvCDF mu sigma x =
         LogNormal.CheckParam mu sigma            
-        failwithf "InvCDF not implemented yet"
+        Math.Exp (Normal.InvCDF mu sigma x)
  
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support mu sigma =
