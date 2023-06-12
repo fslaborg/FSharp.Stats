@@ -1212,6 +1212,33 @@ let normalTests =
                       
     ] 
 
+[<Tests>]
+let logNormalTests =
+
+    testList "Distributions.Continuous.LogNormal" [
+        testCase "InvCDF" <| fun () ->
+            //tested against qlnorm from R
+            let expected_1 = 0.5094162838632775
+            let actual___1 = Distributions.Continuous.LogNormal.InvCDF 0. 1. 0.25
+            let expected_2 = 0.04549138524765352
+            let actual___2 = Distributions.Continuous.LogNormal.InvCDF 0. 1. 0.001
+            let expected_3 = 9.493291347224372e-05
+            let actual___3 = Distributions.Continuous.LogNormal.InvCDF 0. 1. 1e-20
+            let expected_4 = infinity
+            let actual___4 = Distributions.Continuous.LogNormal.InvCDF 300. 100. 1
+            let expected_5 = 0.
+            let actual___5 = Distributions.Continuous.LogNormal.InvCDF 300. 100. 0
+            let expected_6 = 10686474581524.46
+            let actual___6 = Distributions.Continuous.LogNormal.InvCDF 30. 5000. 0.5
+            
+            Expect.floatClose Accuracy.high actual___1 expected_1 "InvCDF1 gives wrong result" 
+            Expect.floatClose Accuracy.high actual___2 expected_2 "InvCDF2 gives wrong result" 
+            Expect.floatClose Accuracy.high actual___3 expected_3 "InvCDF3 gives wrong result" 
+            Expect.equal actual___4 expected_4 "InvCDF4 gives wrong result" 
+            Expect.equal actual___5 expected_5 "InvCDF5 gives wrong result" 
+            Expect.floatClose Accuracy.high actual___6 expected_6 "InvCDF6 gives wrong result"         
+    ] 
+
 
 
 
