@@ -8,7 +8,7 @@ module ConfidenceInterval =
     let ciDeviation ciLevel (sample : seq<float>)=
         let n = float (Seq.length sample)
         let stDev = Seq.stDev sample
-        let t = ContinuousDistribution.getCriticalTValue (float n - 1.) (1. - ciLevel) ContinuousDistribution.TwoTailed
+        let t = Testing.TTest.getCriticalTValue (float n - 1.) (1. - ciLevel) Testing.TTest.TwoTailed
         let delta = t * stDev / sqrt (float n)
         delta
 

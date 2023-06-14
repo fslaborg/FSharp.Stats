@@ -5,7 +5,6 @@ open System
 open FSharp.Stats
 open FSharp.Stats.Distributions
 open FSharp.Stats.Distributions.Continuous
-open FSharp.Stats.Distributions.ContinuousDistribution
 
 // Defining an accuracy appropriate for testing random sampling and inference
 let fittingAccuracy : Accuracy = {absolute= 0.1 ;relative= 0.1}
@@ -18,7 +17,7 @@ let GammaDistributionTests =
         let alpha = 0.4 
         let beta  = 4.2
     
-        let d     = ContinuousDistribution.gamma alpha beta
+        let d     = Gamma.Init alpha beta
 
         let mean  = d.Mean     
         let var   = d.Variance 
@@ -145,16 +144,16 @@ let BetaDistributionTests =
         // tested against R dbeta
         testCase "PDF" <| fun () ->
 
-            let pdf_actual1 = (beta 50. 30.).PDF 0.5
-            let pdf_actual2 = (beta 1. 30.).PDF 0.5
-            let pdf_actual3 = (beta 1. 30.).PDF 0.
-            let pdf_actual4 = (beta 1. 3.).PDF 1.
-            let pdf_actual5 = (beta 600. 1.).PDF 0.
-            let pdf_actual6 = (beta 600. 1.).PDF 1.
-            let pdf_actual7 = (beta 600. 800.).PDF 0.
-            let pdf_actual8 = (beta 600. 800.).PDF 1.
-            let pdf_actual9 = (beta 600. 800.).PDF 0.11
-            let pdf_actual10 = (beta 600. 800.).PDF 0.49
+            let pdf_actual1 = (Beta.Init 50. 30.).PDF 0.5
+            let pdf_actual2 = (Beta.Init 1. 30.).PDF 0.5
+            let pdf_actual3 = (Beta.Init 1. 30.).PDF 0.
+            let pdf_actual4 = (Beta.Init 1. 3.).PDF 1.
+            let pdf_actual5 = (Beta.Init 600. 1.).PDF 0.
+            let pdf_actual6 = (Beta.Init 600. 1.).PDF 1.
+            let pdf_actual7 = (Beta.Init 600. 800.).PDF 0.
+            let pdf_actual8 = (Beta.Init 600. 800.).PDF 1.
+            let pdf_actual9 = (Beta.Init 600. 800.).PDF 0.11
+            let pdf_actual10 = (Beta.Init 600. 800.).PDF 0.49
             Expect.floatClose Accuracy.high pdf_actual1 pdf_expect1 "Beta PDF was not determined correctly."
             Expect.floatClose Accuracy.high pdf_actual2 pdf_expect2 "Beta PDF was not determined correctly."
             Expect.floatClose Accuracy.high pdf_actual3 pdf_expect3 "Beta PDF was not determined correctly."
@@ -181,16 +180,16 @@ let BetaDistributionTests =
             
         // tested against R pbeta
         testCase "CDF" <| fun () ->
-            let cdf_actual1 = (beta 50. 30.).CDF 0.5
-            let cdf_actual2 = (beta 1. 30.).CDF 0.5
-            let cdf_actual3 = (beta 1. 30.).CDF 0.
-            let cdf_actual4 = (beta 1. 3.).CDF 1.
-            let cdf_actual5 = (beta 600. 1.).CDF 0.
-            let cdf_actual6 = (beta 600. 1.).CDF 1.
-            let cdf_actual7 = (beta 600. 800.).CDF 0.
-            let cdf_actual8 = (beta 600. 800.).CDF 1.
-            let cdf_actual9 = (beta 600. 800.).CDF 0.43
-            let cdf_actual10 = (beta 600. 800.).CDF 1.49
+            let cdf_actual1 = (Beta.Init 50. 30.).CDF 0.5
+            let cdf_actual2 = (Beta.Init 1. 30.).CDF 0.5
+            let cdf_actual3 = (Beta.Init 1. 30.).CDF 0.
+            let cdf_actual4 = (Beta.Init 1. 3.).CDF 1.
+            let cdf_actual5 = (Beta.Init 600. 1.).CDF 0.
+            let cdf_actual6 = (Beta.Init 600. 1.).CDF 1.
+            let cdf_actual7 = (Beta.Init 600. 800.).CDF 0.
+            let cdf_actual8 = (Beta.Init 600. 800.).CDF 1.
+            let cdf_actual9 = (Beta.Init 600. 800.).CDF 0.43
+            let cdf_actual10 = (Beta.Init 600. 800.).CDF 1.49
 
             Expect.floatClose Accuracy.high cdf_actual1 cdf_expect1 "Beta CDF was not determined correctly."
             Expect.floatClose Accuracy.high cdf_actual2 cdf_expect2 "Beta CDF was not determined correctly."

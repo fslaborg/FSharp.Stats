@@ -2,7 +2,7 @@ namespace FSharp.Stats.Testing
 
 
 module TTest =
-
+    open System
     open FSharp.Stats
 
     /// Equal or unequal sample sizes, assume nothing about variance.
@@ -67,5 +67,29 @@ module TTest =
         let deltas = Vector.map2 (fun a b -> b - a) sample1 sample2          
         oneSample deltas 0.
 
+    /// Union type indicating whether One Tail or Two Tail Student's T critical value is desired.
+    type Tails =
+        | OneTailed
+        | TwoTailed
+
+    /// <summary>
+    /// Calculates the Student's T critical values
+    /// </summary>
+    /// <param name="df">Confidence Level</param>
+    /// <param name="significanceLevel">Significance Level</param>
+    /// <param name="tailed">One Tail vs Two Tail</param>
+    let getCriticalTValue df significanceLevel tailed =
+        let cdf t = 
+            let alpha =
+                match tailed with
+                | Tails.OneTailed -> significanceLevel
+                | Tails.TwoTailed -> significanceLevel / 2.
+            Distributions.Continuous.StudentT.Init 0. 1. df
+            |> fun d -> alpha - d.CDF t
+        Optimization.Bisection.tryFindRoot cdf 0.0000001 -1000. 0. 10000
+        |> fun tValue -> 
+            match tValue with
+                | None -> failwithf "Critical t value could not be determined (increase maxIterations or decrease lower bound)."
+                | Some t -> Math.Abs t
 
         

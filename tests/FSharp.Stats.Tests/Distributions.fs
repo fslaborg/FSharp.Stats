@@ -227,7 +227,7 @@ let chiSquaredTests =
 
             // is based on the functions from before but nevertheless should be tested, too
             testCase "chiSquared-1" <| fun () ->
-                let testCase = ContinuousDistribution.chiSquared -1.
+                let testCase = Continuous.ChiSquared.Init -1.
                 Expect.throws (fun () -> testCase.Mean |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.Variance |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.StandardDeviation |> ignore) "Should throw"
@@ -246,7 +246,7 @@ let chiSquaredTests =
                 Expect.throws (fun () -> testCase.PDF -1. |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.PDF nan |> ignore) "Should throw"
             testCase "chiSquared-infinity" <| fun () ->
-                let testCase = ContinuousDistribution.chiSquared -infinity
+                let testCase = Continuous.ChiSquared.Init -infinity
                 Expect.throws (fun () -> testCase.Mean |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.Variance |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.StandardDeviation |> ignore) "Should throw"
@@ -265,7 +265,7 @@ let chiSquaredTests =
                 Expect.throws (fun () -> testCase.PDF -1. |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.PDF nan |> ignore) "Should throw"
             testCase "chiSquaredNan" <| fun () ->
-                let testCase = ContinuousDistribution.chiSquared nan
+                let testCase = Continuous.ChiSquared.Init nan
                 Expect.throws (fun () -> testCase.Mean |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.Variance |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.StandardDeviation |> ignore) "Should throw"
@@ -284,7 +284,7 @@ let chiSquaredTests =
                 Expect.throws (fun () -> testCase.PDF -1. |> ignore) "Should throw"
                 Expect.throws (fun () -> testCase.PDF nan |> ignore) "Should throw"
             testCase "chiSquared0" <| fun () ->
-                let testCase = ContinuousDistribution.chiSquared 0.
+                let testCase = Continuous.ChiSquared.Init 0.
                 Expect.floatClose Accuracy.veryHigh testCase.Mean 0. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh testCase.Variance 0. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh testCase.StandardDeviation 0. "Should be equal"
@@ -303,7 +303,7 @@ let chiSquaredTests =
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF nan) 0. "Should be equal"
             testCase "chiSquared1" <| fun () ->
-                let testCase = ContinuousDistribution.chiSquared 1.
+                let testCase = Continuous.ChiSquared.Init 1.
                 Expect.floatClose Accuracy.veryHigh testCase.Mean 1. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh testCase.Variance 2. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh testCase.StandardDeviation (sqrt 2.) "Should be equal"
@@ -322,7 +322,7 @@ let chiSquaredTests =
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
                 Expect.isTrue (isNan <| testCase.PDF nan) "Should be equal"
             testCase "chiSquaredInfinity" <| fun () ->
-                let testCase = ContinuousDistribution.chiSquared infinity
+                let testCase = Continuous.ChiSquared.Init infinity
                 Expect.isTrue (testCase.Mean = infinity) "Should be equal"
                 Expect.isTrue (testCase.Variance = infinity) "Should be equal"
                 Expect.isTrue (testCase.StandardDeviation = infinity) "Should be equal"
@@ -408,7 +408,7 @@ let chiTests =
     ]
 
 let multivariateNormalTests =
-    let mvn = ContinuousDistribution.multivariateNormal (vector [0.;0.;0.;0.;0.]) (Matrix.identity 5)
+    let mvn = Continuous.MultivariateNormal.Init (vector [0.;0.;0.;0.;0.]) (Matrix.identity 5)
     let pdfs=
         [|
             [0.537667139546100;3.578396939725760;-0.124144348216312;0.488893770311789;-1.068870458168032]
@@ -1249,7 +1249,7 @@ let BetaDistributionTests =
     let alpha = 0.42 
     let beta  = 1.57
     
-    let d     = ContinuousDistribution.beta alpha beta
+    let d     = Continuous.Beta.Init alpha beta
 
     let mean  = Continuous.Beta.Mean alpha beta     // 0.21105527638190955
     let var   = d.Variance // 0.055689279830523512
