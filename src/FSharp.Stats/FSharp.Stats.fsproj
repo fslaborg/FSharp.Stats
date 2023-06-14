@@ -85,8 +85,8 @@
     <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
     <Compile Include="Optimization\Bisection.fs" />
-    <Compile Include="Interpolation\Polynomial.fs" />
     <!-- Interpolation -->
+    <Compile Include="Interpolation\Polynomial.fs" />
     <Compile Include="Interpolation\LinearSpline.fs" />
     <Compile Include="Interpolation\CubicSpline.fs" />
     <Compile Include="Interpolation\Approximation.fs" />
@@ -103,6 +103,7 @@
     <Compile Include="Signal\Filtering.fs" />
     <Compile Include="Signal\Convolution.fs" />
     <Compile Include="Signal\PeakDetection.fs" />
+    <!-- Distributions -->
     <Compile Include="Distributions\Distribution.fs" />
     <Compile Include="Distributions\Continuous\Normal.fs" />
     <Compile Include="Distributions\Continuous\Gamma.fs" />
@@ -121,7 +122,6 @@
     <Compile Include="Distributions\Discrete\NegativeBinomial.fs" />
     <Compile Include="Distributions\Discrete\Hypergeometric.fs" />
     <Compile Include="Distributions\Discrete\Poisson.fs" />
-    <!-- Distributions -->
     <Compile Include="Distributions\Bandwidth.fs" />
     <Compile Include="Distributions\Frequency.fs" />
     <Compile Include="Distributions\Empirical.fs" />
