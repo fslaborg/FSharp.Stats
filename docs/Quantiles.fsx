@@ -59,7 +59,7 @@ open System
 open FSharp.Stats
 open FSharp.Stats.Signal
 
-let rng = Distributions.ContinuousDistribution.normal 3. 1.
+let rng = Distributions.Continuous.Normal.Init 3. 1.
 
 let sample = Array.init 1000 (fun _ -> rng.Sample())
 
@@ -138,7 +138,7 @@ If samples sizes are unequal the quantiles of the larger data set have to be int
 
 //create samples
 let rnd = System.Random()
-let norm = Distributions.ContinuousDistribution.normal 3.0 0.5
+let norm = Distributions.Continuous.Normal.Init 3.0 0.5
 
 ///Example 1: Samples from a normal distribution
 let normalDistA = Array.init 300 (fun _ -> norm.Sample())
@@ -390,7 +390,7 @@ You also can plot your data against a distribution you can specify. You have to 
 
 // generate a sample from a lognormal distriution
 let sampleFromLogNormal =
-    let d = Distributions.ContinuousDistribution.logNormal 0. 1.
+    let d = Distributions.Continuous.LogNormal.Init 0. 1.
     Array.init 500 (fun _ -> d.Sample())
 
 // define the quantile function for the log normal distribution with parameters mu = 0 and sigma = 1

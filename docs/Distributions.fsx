@@ -88,7 +88,7 @@ open FSharp.Stats
 open FSharp.Stats.Distributions
 
 // Creates a normal distribution with µ = 500 and tau = 20 
-let normal = ContinuousDistribution.normal 500. 20.
+let normal = Continuous.Normal.Init 500. 20.
 
 // NormA: What is the probability of bread weights to be equal or lower than 470 g?
 let normA = normal.CDF 470.
@@ -161,7 +161,7 @@ plotNormalCDF |> GenericChart.toChartHTML
 Multivariate normal distributions are initialized with a mean vector and a covariance matrix.
 *)
 
-let mvn = ContinuousDistribution.multivariateNormal (vector [-1.;5.]) (matrix [[0.5;1.];[0.25;1.2]])
+let mvn = Continuous.MultivariateNormal.Init (vector [-1.;5.]) (matrix [[0.5;1.];[0.25;1.2]])
 let axisXRange = [-5. .. 0.2 .. 5.]
 let axisYRange = [ 0. .. 0.2 .. 10.]
 
@@ -714,7 +714,7 @@ In this example 100,000 random samples from a student t distribution are drawn a
 
 // Randomly taken samples; in this case from a gaussian normal distribution.
 let sampleDistribution = 
-    let template = ContinuousDistribution.normal 5. 2.
+    let template = Continuous.Normal.Init 5. 2.
     Seq.init 100000 (fun _ -> template.Sample())
 
 //creates an empirical distribution with bandwidth 0.1
@@ -911,13 +911,13 @@ Be aware that this distance measure is dependent on the actual absolute values o
 *)
 
 let distribution1 = 
-    let normal = ContinuousDistribution.normal 300. 15.
+    let normal = Continuous.Normal.Init 300. 15.
     Array.init 1000 (fun _ -> normal.Sample())
 let distribution2 =
-    let normal = ContinuousDistribution.normal 350. 20.
+    let normal = Continuous.Normal.Init 350. 20.
     Array.init 500 (fun _ -> normal.Sample())
 let distribution3 =
-    let normal = ContinuousDistribution.normal 500. 20.
+    let normal = Continuous.Normal.Init 500. 20.
     Array.init 1000 (fun _ -> normal.Sample())
 
 let pilesOfDirt =

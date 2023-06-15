@@ -116,7 +116,7 @@ let stdErrIntercept = GoodnessOfFit.standardErrorIntercept sos
 //standard error of the estimate (S)
 let stdErrEstimate  = GoodnessOfFit.standardErrorEstimate sos 
 //confidence intervals (df = n-#coefficients; a=5%)
-let criticalT   = ContinuousDistribution.getCriticalTValue (n - 2.) 0.05 ContinuousDistribution.TwoTailed
+let criticalT   = Testing.TTest.getCriticalTValue (n - 2.) 0.05 Testing.TTest.TwoTailed
 let lowerS      = slope - criticalT * stdErrSlope
 let upperS      = slope + criticalT * stdErrSlope
 let lowerI      = intercept - criticalT * stdErrIntercept
