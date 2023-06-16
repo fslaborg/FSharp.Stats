@@ -326,7 +326,7 @@ open FSharp.Stats
 open FSharp.Stats.Distributions
 
 // Assumes "tails" to be success
-let bernoulli = DiscreteDistribution.bernoulli 0.6
+let bernoulli = Discrete.Bernoulli.Init 0.6
 
 // BernA: What is the mean of a bernoulli distribution with the weighted coin?
 let bernA = bernoulli.Mean
@@ -380,7 +380,7 @@ open FSharp.Stats
 open FSharp.Stats.Distributions
 
 // Creates a binomial distribution with n=30 and p=0.90 
-let binomial = DiscreteDistribution.binomial 0.1 30
+let binomial = Discrete.Binomial.Init 0.1 30
 
 // BinoA: What is the probability of running late exactly 5 times during a 30 day month?
 let binoA = binomial.PMF 5
@@ -438,7 +438,7 @@ HypD: What is the probability that you have a maximum of 3 right ones?
 *)
 
 // Creates a hypergeometric distribution with N=49, K=6, n=6.
-let hyper = DiscreteDistribution.hypergeometric 49 6 6
+let hyper = Discrete.Hypergeometric.Init 49 6 6
 
 // HypA: What is the probability that your 6 numbers are right?
 let hypA = hyper.PMF 6
@@ -490,7 +490,7 @@ PoB: What is the probability that the lightning strikes less than 2 times?
 PoC: What is the probability that the lightning strikes more than 7 times?
 *)
 // Creates a poisson distribution with lambda=  .
-let poisson = DiscreteDistribution.poisson 5.5
+let poisson = Discrete.Poisson.Init 5.5
 
 (*** do-not-eval ***)
 // PoA: What is the probability that the lightning strikes exactly 3 times?
@@ -639,10 +639,10 @@ let negB_B = Discrete.NegativeBinomial_failures.PMF r p k
 *)
 
 let negBinom_trials =
-    Distributions.DiscreteDistribution.negativeBinomial_trials 3 0.3
+    Distributions.Discrete.NegativeBinomial_trials.Init 3 0.3
 
 let negBinom_failures = 
-    Distributions.DiscreteDistribution.negativeBinomial_failures 3 0.3
+    Distributions.Discrete.NegativeBinomial_failures.Init 3 0.3
 
 negBinom_trials.CDF 1
 
