@@ -14,11 +14,11 @@ let fittingAccuracy : Accuracy = {absolute= 0.1 ;relative= 0.1}
 [<Tests>]
 let hypergeometricTests =   
 
-    let hypergeoDistribution_basicCase = Distributions.DiscreteDistribution.hypergeometric 50 40 5
-    let hypergeoDistribution_K_equal_n = Distributions.DiscreteDistribution.hypergeometric 50 20 20
-    let hypergeoDistribution_max_K = Distributions.DiscreteDistribution.hypergeometric 50 50 20
-    let hypergeoDistribution_max_n = Distributions.DiscreteDistribution.hypergeometric 50 20 50
-    let hypergeoDistribution_max_K_n = Distributions.DiscreteDistribution.hypergeometric 50 50 50
+    let hypergeoDistribution_basicCase = Distributions.Discrete.Hypergeometric.Init 50 40 5
+    let hypergeoDistribution_K_equal_n = Distributions.Discrete.Hypergeometric.Init  50 20 20
+    let hypergeoDistribution_max_K = Distributions.Discrete.Hypergeometric.Init  50 50 20
+    let hypergeoDistribution_max_n = Distributions.Discrete.Hypergeometric.Init  50 20 50
+    let hypergeoDistribution_max_K_n = Distributions.Discrete.Hypergeometric.Init  50 50 50
     // 2022-06-23
     // https://hypergeon.wikipedia.org/wiki/Hypergeometric_distribution
     // N is population size,
@@ -153,7 +153,7 @@ let poissonDistributionTests =
      
     let lambda = 4.2
     
-    let d      = DiscreteDistribution.poisson lambda
+    let d      = Discrete.Poisson.Init lambda
 
     let mean   = d.Mean      
     let var    = d.Variance  
@@ -214,12 +214,12 @@ let poissonDistributionTests =
 [<Tests>]
 let negBinomDistribution_failuresTests =
      
-    let negb01 = Distributions.DiscreteDistribution.negativeBinomial_failures 3 0.09
-    let negb02 = Distributions.DiscreteDistribution.negativeBinomial_failures 1 0.1
-    let negb03 = Distributions.DiscreteDistribution.negativeBinomial_failures 10 0.1 
-    let negb04 = Distributions.DiscreteDistribution.negativeBinomial_failures 10 0.0 
-    let negb05 = Distributions.DiscreteDistribution.negativeBinomial_failures 1 0.1
-    let negb06 = Distributions.DiscreteDistribution.negativeBinomial_failures 6 0.1
+    let negb01 = Distributions.Discrete.NegativeBinomial_failures.Init 3 0.09
+    let negb02 = Distributions.Discrete.NegativeBinomial_failures.Init 1 0.1
+    let negb03 = Distributions.Discrete.NegativeBinomial_failures.Init 10 0.1 
+    let negb04 = Distributions.Discrete.NegativeBinomial_failures.Init 10 0.0 
+    let negb05 = Distributions.Discrete.NegativeBinomial_failures.Init 1 0.1
+    let negb06 = Distributions.Discrete.NegativeBinomial_failures.Init 6 0.1
 
     testList "Distributions.Discrete.NegBinom_failures" [
         
@@ -308,12 +308,12 @@ let negBinomDistribution_failuresTests =
 [<Tests>]
 let negBinomDistribution_trialsTests =
      
-    let negb01 = Distributions.DiscreteDistribution.negativeBinomial_trials 3 0.09
-    let negb02 = Distributions.DiscreteDistribution.negativeBinomial_trials 1 0.1
-    let negb03 = Distributions.DiscreteDistribution.negativeBinomial_trials 10 0.1 
-    let negb04 = Distributions.DiscreteDistribution.negativeBinomial_trials 10 0.0 
-    let negb05 = Distributions.DiscreteDistribution.negativeBinomial_trials 1 0.1
-    let negb06 = Distributions.DiscreteDistribution.negativeBinomial_trials 6 0.1
+    let negb01 = Distributions.Discrete.NegativeBinomial_trials.Init 3 0.09
+    let negb02 = Distributions.Discrete.NegativeBinomial_trials.Init 1 0.1
+    let negb03 = Distributions.Discrete.NegativeBinomial_trials.Init 10 0.1 
+    let negb04 = Distributions.Discrete.NegativeBinomial_trials.Init 10 0.0 
+    let negb05 = Distributions.Discrete.NegativeBinomial_trials.Init 1 0.1
+    let negb06 = Distributions.Discrete.NegativeBinomial_trials.Init 6 0.1
 
     testList "Distributions.Discrete.NegBinom_trials" [
         

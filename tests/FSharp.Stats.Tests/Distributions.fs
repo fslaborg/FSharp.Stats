@@ -509,10 +509,10 @@ let bernoulliTests =
 
     let test_basicNumber = 0.42
 
-    let bernoulliDistribution_basicCase = Distributions.DiscreteDistribution.bernoulli test_basicNumber
-    let bernoulliDistribution_nan = Distributions.DiscreteDistribution.bernoulli nan
-    let bernoulliDistribution_zero = Distributions.DiscreteDistribution.bernoulli 0.0
-    let bernoulliDistribution_one = Distributions.DiscreteDistribution.bernoulli 1.0
+    let bernoulliDistribution_basicCase = Distributions.Discrete.Bernoulli.Init test_basicNumber
+    let bernoulliDistribution_nan = Distributions.Discrete.Bernoulli.Init nan
+    let bernoulliDistribution_zero = Distributions.Discrete.Bernoulli.Init 0.0
+    let bernoulliDistribution_one = Distributions.Discrete.Bernoulli.Init 1.0
 
     // 2022-06-22
     // Wikipedia: https://de.wikipedia.org/wiki/Bernoulli-Verteilung#Definition 

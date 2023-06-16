@@ -125,7 +125,6 @@
     <Compile Include="Distributions\Bandwidth.fs" />
     <Compile Include="Distributions\Frequency.fs" />
     <Compile Include="Distributions\Empirical.fs" />
-    <Compile Include="Distributions\Discrete.fs" />
     <Compile Include="Distributions\Distance.fs" />
     <Compile Include="Distributions\KernelDensity.fs" />
     <!-- Testing -->
