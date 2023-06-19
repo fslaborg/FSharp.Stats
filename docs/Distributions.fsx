@@ -88,7 +88,7 @@ open FSharp.Stats
 open FSharp.Stats.Distributions
 
 // Creates a normal distribution with µ = 500 and tau = 20 
-let normal = ContinuousDistribution.normal 500. 20.
+let normal = Continuous.Normal.Init 500. 20.
 
 // NormA: What is the probability of bread weights to be equal or lower than 470 g?
 let normA = normal.CDF 470.
@@ -161,7 +161,7 @@ plotNormalCDF |> GenericChart.toChartHTML
 Multivariate normal distributions are initialized with a mean vector and a covariance matrix.
 *)
 
-let mvn = ContinuousDistribution.multivariateNormal (vector [-1.;5.]) (matrix [[0.5;1.];[0.25;1.2]])
+let mvn = Continuous.MultivariateNormal.Init (vector [-1.;5.]) (matrix [[0.5;1.];[0.25;1.2]])
 let axisXRange = [-5. .. 0.2 .. 5.]
 let axisYRange = [ 0. .. 0.2 .. 10.]
 
@@ -326,7 +326,7 @@ open FSharp.Stats
 open FSharp.Stats.Distributions
 
 // Assumes "tails" to be success
-let bernoulli = DiscreteDistribution.bernoulli 0.6
+let bernoulli = Discrete.Bernoulli.Init 0.6
 
 // BernA: What is the mean of a bernoulli distribution with the weighted coin?
 let bernA = bernoulli.Mean
@@ -380,7 +380,7 @@ open FSharp.Stats
 open FSharp.Stats.Distributions
 
 // Creates a binomial distribution with n=30 and p=0.90 
-let binomial = DiscreteDistribution.binomial 0.1 30
+let binomial = Discrete.Binomial.Init 0.1 30
 
 // BinoA: What is the probability of running late exactly 5 times during a 30 day month?
 let binoA = binomial.PMF 5
@@ -438,7 +438,7 @@ HypD: What is the probability that you have a maximum of 3 right ones?
 *)
 
 // Creates a hypergeometric distribution with N=49, K=6, n=6.
-let hyper = DiscreteDistribution.hypergeometric 49 6 6
+let hyper = Discrete.Hypergeometric.Init 49 6 6
 
 // HypA: What is the probability that your 6 numbers are right?
 let hypA = hyper.PMF 6
@@ -490,7 +490,7 @@ PoB: What is the probability that the lightning strikes less than 2 times?
 PoC: What is the probability that the lightning strikes more than 7 times?
 *)
 // Creates a poisson distribution with lambda=  .
-let poisson = DiscreteDistribution.poisson 5.5
+let poisson = Discrete.Poisson.Init 5.5
 
 (*** do-not-eval ***)
 // PoA: What is the probability that the lightning strikes exactly 3 times?
@@ -639,10 +639,10 @@ let negB_B = Discrete.NegativeBinomial_failures.PMF r p k
 *)
 
 let negBinom_trials =
-    Distributions.DiscreteDistribution.negativeBinomial_trials 3 0.3
+    Distributions.Discrete.NegativeBinomial_trials.Init 3 0.3
 
 let negBinom_failures = 
-    Distributions.DiscreteDistribution.negativeBinomial_failures 3 0.3
+    Distributions.Discrete.NegativeBinomial_failures.Init 3 0.3
 
 negBinom_trials.CDF 1
 
@@ -714,7 +714,7 @@ In this example 100,000 random samples from a student t distribution are drawn a
 
 // Randomly taken samples; in this case from a gaussian normal distribution.
 let sampleDistribution = 
-    let template = ContinuousDistribution.normal 5. 2.
+    let template = Continuous.Normal.Init 5. 2.
     Seq.init 100000 (fun _ -> template.Sample())
 
 //creates an empirical distribution with bandwidth 0.1
@@ -911,13 +911,13 @@ Be aware that this distance measure is dependent on the actual absolute values o
 *)
 
 let distribution1 = 
-    let normal = ContinuousDistribution.normal 300. 15.
+    let normal = Continuous.Normal.Init 300. 15.
     Array.init 1000 (fun _ -> normal.Sample())
 let distribution2 =
-    let normal = ContinuousDistribution.normal 350. 20.
+    let normal = Continuous.Normal.Init 350. 20.
     Array.init 500 (fun _ -> normal.Sample())
 let distribution3 =
-    let normal = ContinuousDistribution.normal 500. 20.
+    let normal = Continuous.Normal.Init 500. 20.
     Array.init 1000 (fun _ -> normal.Sample())
 
 let pilesOfDirt =
