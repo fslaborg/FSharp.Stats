@@ -183,6 +183,7 @@ type Gamma =
             member d.Mode              = Gamma.Mode alpha beta
             member d.Sample ()         = Gamma.Sample alpha beta
             member d.PDF x             = Gamma.PDF alpha beta x           
+            member d.Parameters        = DistributionParameters.Gamma {Alpha=alpha; Beta=beta}
             
             override d.ToString()  = Gamma.ToString alpha beta
         }

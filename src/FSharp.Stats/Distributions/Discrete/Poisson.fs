@@ -161,6 +161,7 @@ type Poisson =
             member d.Mode              = Poisson.Mode lambda
             member d.PMF k             = Poisson.PMF lambda k
             member d.Sample ()         = Poisson.Sample lambda
+            member d.Parameters        = DistributionParameters.Poisson {Lambda=lambda}
             override d.ToString()      = Poisson.ToString lambda
         }
 

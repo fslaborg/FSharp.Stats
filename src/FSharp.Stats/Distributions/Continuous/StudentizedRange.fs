@@ -107,6 +107,7 @@ type StudentizedRange =
             member d.InvCDF q          = StudentizedRange.InvCDF q r v c 
 
             member d.Mode              = StudentizedRange.Mode
+            member d.Parameters        = DistributionParameters.StudentizedRange {R=r;V=v;C=c;Accuracy=accuracy;ComputeParallel=computeParallel}
             member d.Sample ()         = StudentizedRange.Sample()
             member d.PDF x             = StudentizedRange.PDF      
             override d.ToString()      = d.ToString()

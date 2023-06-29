@@ -181,6 +181,7 @@ type Hypergeometric =
             member d.Sample ()          = Hypergeometric.Sample N K n
             member d.PMF k              = Hypergeometric.PMF N K n k
             /// Computes the cumulative distribution function at k for P(X <= k).
+            member d.Parameters        = DistributionParameters.Hypergeometric {N=N;K=K;n=n}
             override d.ToString()       = Hypergeometric.ToString N K n                   
         }
 

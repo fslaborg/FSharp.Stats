@@ -148,6 +148,7 @@ type Normal =
             member d.Mode              = Normal.Mode mu sigma         
             member d.Sample ()         = Normal.Sample mu sigma
             member d.PDF x             = Normal.PDF mu sigma x      
+            member d.Parameters        = DistributionParameters.Normal {Mean=mu;StandardDeviation=sigma}
             override d.ToString()      = Normal.ToString mu sigma
         }
 

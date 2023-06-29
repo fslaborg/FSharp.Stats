@@ -120,5 +120,6 @@ type F =
             member d.Mode              = F.Mode dof1 dof2
             member d.Sample ()         = F.Sample dof1 dof2
             member d.PDF x             = F.PDF dof1 dof2 x      
+            member d.Parameters        = DistributionParameters.F {DOF1=dof1;DOF2=dof2}
             override d.ToString()      = F.ToString dof1 dof2
         }   

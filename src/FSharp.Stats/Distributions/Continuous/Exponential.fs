@@ -107,6 +107,7 @@ type Exponential =
             
             member d.Mode              = Exponential.Mode lambda
             member d.Sample ()         = Exponential.Sample lambda
+            member d.Parameters        = DistributionParameters.Exponential {Lambda=lambda}
             member d.CDF x             = Exponential.CDF lambda x 
             member d.InvCDF x          = Exponential.InvCDF lambda x 
             override d.ToString()      = Exponential.ToString lambda

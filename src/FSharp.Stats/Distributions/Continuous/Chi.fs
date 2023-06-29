@@ -94,6 +94,7 @@ type Chi =
             member d.Mode              = Chi.Mode dof
             member d.Sample ()         = Chi.Sample dof
             member d.PDF x             = Chi.PDF dof x           
+            member d.Parameters        = DistributionParameters.Chi {DOF=dof}
             override d.ToString()      = Chi.ToString dof       
         }         
 

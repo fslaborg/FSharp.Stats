@@ -80,7 +80,6 @@ type Uniform =
         Uniform.CheckParam min max
         Intervals.create min max
 
-
     /// A string representation of the distribution.
     static member ToString min max =
         sprintf "Uniform(Lower = %f, Upper = %f)" min max
@@ -97,6 +96,7 @@ type Uniform =
             member d.Mode              = Uniform.Mode min max
             member d.Sample ()         = Uniform.Sample min max
             member d.PDF x             = Uniform.PDF min max x           
+            member d.Parameters        = DistributionParameters.Uniform {Min=min;Max=max}
             override d.ToString()      = Uniform.ToString min max        
         }   
 

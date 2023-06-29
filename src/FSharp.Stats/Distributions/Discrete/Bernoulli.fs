@@ -112,6 +112,7 @@ type Bernoulli =
             member d.Mode              = Bernoulli.Mode p
             member d.Sample ()         = Bernoulli.Sample p
             member d.PMF x             = Bernoulli.PMF p x           
+            member d.Parameters        = DistributionParameters.Bernoulli {P=p}
             override d.ToString()      = Bernoulli.ToString p        
         }   
 

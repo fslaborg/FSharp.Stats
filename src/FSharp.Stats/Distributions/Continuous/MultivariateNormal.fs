@@ -66,6 +66,7 @@ type MultivariateNormal =
             member d.PDF x             = MultivariateNormal.PDF mu sigma x      
             member d.CDF x             = MultivariateNormal.CDF mu sigma x         
             member d.InvCDF x             = MultivariateNormal.InvCDF mu sigma x         
+            member d.Parameters        = DistributionParameters.MultivariateNormal {Mean=mu;StandardDeviation=sigma}
             override d.ToString()      = d.ToString()
         }
 

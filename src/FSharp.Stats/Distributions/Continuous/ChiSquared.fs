@@ -101,6 +101,7 @@ type ChiSquared =
             member d.InvCDF x          = ChiSquared.InvCDF dof  x 
             
             member d.Mode              = ChiSquared.Mode dof
+            member d.Parameters        = DistributionParameters.ChiSquared {DOF=dof}
             member d.Sample ()         = ChiSquared.Sample dof
             member d.PDF x             = ChiSquared.PDF dof x           
             override d.ToString()      = ChiSquared.ToString dof        

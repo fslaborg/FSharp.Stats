@@ -115,6 +115,7 @@ type NegativeBinomial_trials =
             member d.Sample ()         = NegativeBinomial_trials.Sample r p
             member d.PMF x             = NegativeBinomial_trials.PMF r p x
             member d.CDF x             = NegativeBinomial_trials.CDF r p x
+            member d.Parameters        = DistributionParameters.NegativeBinomial {R=r;P=p}
             member d.InvCDF x          = NegativeBinomial_trials.InvCDF r p x
             
             override d.ToString()  = NegativeBinomial_trials.ToString r p
@@ -266,6 +267,7 @@ type NegativeBinomial_failures =
             member d.Sample ()         = NegativeBinomial_failures.Sample r p
             member d.PMF x             = NegativeBinomial_failures.PMF r p x
             member d.CDF x             = NegativeBinomial_failures.CDF r p x
+            member d.Parameters        = DistributionParameters.NegativeBinomial {R=r;P=p}
             member d.InvCDF x          = NegativeBinomial_failures.InvCDF r p x
             
             override d.ToString()  = NegativeBinomial_failures.ToString r p

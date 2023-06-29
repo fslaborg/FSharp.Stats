@@ -139,6 +139,7 @@ type Binomial =
             member d.Mode              = Binomial.Mode p n
             member d.Sample ()         = Binomial.Sample p n
             member d.PMF k             = Binomial.PMF p n k    
+            member d.Parameters        = DistributionParameters.Binomial {P=p;N=n}
             override d.ToString()      = Binomial.ToString p n
         }   
 

@@ -145,6 +145,7 @@ type Beta =
             //member d.CoVariance        = Beta.CoVariance alpha beta 
             member d.Mode              = Normal.Mode alpha beta
             member d.Sample ()         = Beta.Sample alpha beta
+            member d.Parameters        = DistributionParameters.Beta {Alpha=alpha; Beta=beta}
             member d.PDF x             = Beta.PDF alpha beta x
             //member d.PDFLn x             = Beta.PDFLn alpha beta x
             override d.ToString()      = Normal.ToString alpha beta 

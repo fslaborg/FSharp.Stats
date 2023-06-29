@@ -91,6 +91,7 @@ type LogNormal =
             member d.InvCDF x          = LogNormal.InvCDF mu sigma x  
             //member d.CoVariance        = LogNormal.CoVariance  mu tau
             member d.Mode              = LogNormal.Mode mu sigma
+            member d.Parameters        = DistributionParameters.LogNormal {Mean=mu;StandardDeviation=sigma}
             member d.Sample ()         = LogNormal.Sample mu sigma
             member d.PDF x             = LogNormal.PDF mu sigma x      
             override d.ToString()      = LogNormal.ToString mu sigma

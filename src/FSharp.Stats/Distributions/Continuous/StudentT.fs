@@ -93,6 +93,7 @@ type StudentT =
             member d.InvCDF x          = StudentT.InvCDF mu tau dof x  
             
             member d.Mode              = StudentT.Mode mu tau dof
+            member d.Parameters        = DistributionParameters.StudentT {Mean=mu;StandardDeviation=tau;DOF=dof}
             member d.Sample ()         = StudentT.Sample mu tau dof
             member d.PDF x             = StudentT.PDF mu tau dof x      
             override d.ToString()      = StudentT.ToString mu tau dof
