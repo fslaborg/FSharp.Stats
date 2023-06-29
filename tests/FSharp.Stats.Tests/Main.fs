@@ -49,29 +49,26 @@ let main argv =
 
     //============================= Distributions ===========================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.distanceFunctionsTests |> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.chiTests               |> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.chiSquaredTests        |> ignore
     //Tests.runTestsWithCLIArgs [] argv DistributionsTests.studentizedRangeTests  |> ignore //Test ommitted due to extremely long runtime of CodeCov.
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.multivariateNormalTests|> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsTests.bandWithTests|> ignore
-
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.exponentialTests       |> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.bernoulliTests |> ignore
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.binomialTests          |> ignore 
-    Tests.runTestsWithCLIArgs [] argv DistributionsTests.logNormalTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsEmpiricalTests.empiricalTests |> ignore
-
 
     //============================= Distributions Continuous ================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsContinuousTests.GammaDistributionTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsContinuousTests.BetaDistributionTests  |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsContinuousTests.chiTests               |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsContinuousTests.chiSquaredTests        |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsContinuousTests.exponentialTests       |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsContinuousTests.logNormalTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsContinuousTests.multivariateNormalTests|> ignore
 
     //============================= Distributions Discrete ================================================
     Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.hypergeometricTests      |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.poissonDistributionTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.negBinomDistribution_failuresTests |> ignore
     Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.negBinomDistribution_trialsTests |> ignore
-
+    Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.bernoulliTests |> ignore
+    Tests.runTestsWithCLIArgs [] argv DistributionsDiscreteTests.binomialTests          |> ignore 
 
     //=============================== Correlation ===========================================================
     Tests.runTestsWithCLIArgs [] argv CorrelationTests.kendallCorrelationTests |> ignore
