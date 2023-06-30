@@ -1,6 +1,6 @@
 ### 0.4.12 TBR
 * Additions:
-    * latest commit #b4e05356
+    * latest commit #46d86ad1
     * [[#c7117ef3](https://github.com/fslaborg/FSharp.Stats/commit/c7117ef3188f81818b1b8e4d04cf381420ca8492)] add negBinom distribution #256
     * [[#e35a3e6a](https://github.com/fslaborg/FSharp.Stats/commit/e35a3e6a06654f2fd184481f3ea50f8241abe39e)] add Signal.Binning
     * [[#c3a98d41](https://github.com/fslaborg/FSharp.Stats/commit/c3a98d412c2f58d992d5ea0b46995b9092bae86e)] add Nelder-Mead
@@ -9,15 +9,25 @@
     * [[#6b839083](https://github.com/fslaborg/FSharp.Stats/commit/6b839083189915d2a40110ec4fadacbd392f6919)] add shorthand to filter out nan values from array #249
     * [[#35d0fc11](https://github.com/fslaborg/FSharp.Stats/commit/35d0fc11bb57a0ce3d7f39c9e9bdc20e667757ef)] add chebyshev based approximation
     * [[#e688e2be](https://github.com/fslaborg/FSharp.Stats/commit/e688e2be4a7e2f674dc6ed5167253bf90a28b2df)] add mor normalization function
+    * [[#3d6a2201](https://github.com/fslaborg/FSharp.Stats/commit/3d6a2201c45d792d95cc127c97c377fa4bcf496c)] add normal InvCDF
+    * [[#44c80715](https://github.com/fslaborg/FSharp.Stats/commit/44c80715ec07d601bca7a86237c985c0e635da95)] add map merge #263
+    * [[#6c9eb186](https://github.com/fslaborg/FSharp.Stats/commit/6c9eb18691dbf3a07655121e3b1790fe5bbb0315)] add wichura invCDF #262
+    * [[#1ccd534b](https://github.com/fslaborg/FSharp.Stats/commit/1ccd534ba5e4633356e4aa3220f3579bc4745c00)] Added Performance Optimized hClust  #266
+    * [[#7b210363](https://github.com/fslaborg/FSharp.Stats/commit/7b210363e6dfaf590462dd7ae66a1d6bd0dee137)] add invCDF for lognormal #262
+    * [[#3a0940fa](https://github.com/fslaborg/FSharp.Stats/commit/3a0940fa85d788064a8f423865f64575bce5ca86)] add parameter field to distribution interface #271
 * Bugfixes:
     * [[#32fa0c23](https://github.com/fslaborg/FSharp.Stats/commit/32fa0c23f2629dd9c149b4d98bc9c0befea86ad2)] fix floating point errors at edge cases #245
     * [[#ef21a0fd](https://github.com/fslaborg/FSharp.Stats/commit/ef21a0fdab932dfe09022eac69c68bb39de97db9)] fix beta distribution PDF
     * [[#baf2a52f](https://github.com/fslaborg/FSharp.Stats/commit/baf2a52f5bc442dded23e17e9dec8396416a0127)] fix neg binomial distribution #256
+    * [[#e6bfe6d4](https://github.com/fslaborg/FSharp.Stats/commit/e6bfe6d4a4528cfe0fd902c78cff162e39f7234b)] fix Signal.Padding #265
 * Documentation:
     * [[#12e3f13e](https://github.com/fslaborg/FSharp.Stats/commit/12e3f13ec5380f6b4f49cf37b9164b19c6fc902b)] update Empirical distribution docu #245
     * [[#14041ceb](https://github.com/fslaborg/FSharp.Stats/commit/14041cebb9a72a382efb41dc5a74ce365fcfbb8f)] add chebyshev node documenation
     * [[#b4e05356](https://github.com/fslaborg/FSharp.Stats/commit/b4e053567bc5bbbcf9b210767cb6be974afb8cf8)] add nelder mead docu
     * [[#4d8b0505](https://github.com/fslaborg/FSharp.Stats/commit/4d8b0505f4cda4e0dbb17c0e4cc1249cc1ba9ff6)] add negBinom docu
+* Deletions:
+    * [[#cf9ece39](https://github.com/fslaborg/FSharp.Stats/commit/cf9ece398c0e2c1508a35b7e998c80f6569ac809)] remove the ContinuousDistribution module
+    * [[#6fa2a2d5](https://github.com/fslaborg/FSharp.Stats/commit/6fa2a2d5eedaebb2b5dad5ce673b7c1848ba58f1)] Remove DiscreteDistribution.fs
     
 ### 0.4.11+0c6567d4 (Released 2023-2-6)
 * Additions:
