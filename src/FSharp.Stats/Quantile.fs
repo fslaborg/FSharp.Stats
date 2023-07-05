@@ -259,11 +259,11 @@ module Quantile =
         if (q < 0. || q > 1. || data.Length = 0) then
             nan
         elif (h' <= 0 || q = 0.) then
-            if Array.exists nan.Equals data then 
+            if Array.exists isNan data then 
                 nan 
             else Array.min data
         elif (h' >= data.Length || q = 1.) then
-            if Array.exists nan.Equals data then 
+            if Array.exists isNan data then 
                 nan 
             else Array.max data
         else

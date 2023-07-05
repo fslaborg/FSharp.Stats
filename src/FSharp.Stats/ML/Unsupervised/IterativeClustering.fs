@@ -104,9 +104,7 @@ module IterativeClustering =
     
     /// calculates mean based on subset of non-nan values
     let private meanNaN (input: float []) = 
-        let isValid f = 
-            nan.Equals f || infinity.Equals f || (-infinity).Equals f 
-            |> not
+        let isValid f = not (isNan f || isInf f)
         let rec loop i sum count = 
             if i < input.Length then 
                 let current = input.[i]

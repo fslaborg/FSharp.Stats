@@ -232,11 +232,11 @@ module LinearRegression =
                     let factor = 
                         //[for l = 0 to (level - 1) do yield i-l] 
                         List.init level (fun l -> i-l)
-                        |> List.filter (fun v -> not (nan.Equals(v)))
+                        |> List.filter (not << isNan)
                         |> List.fold (fun acc c -> acc * (float c)) 1.
                     factor * coef.[i] * (pown x (i-level))
                     )
-                |> Array.filter (fun v -> not (nan.Equals(v)))
+                |> Array.filter (not << isNan)
                 |> Array.sum
                 
             /// Fits a polynomial model of user defined order to the data and returns the cooks distance for every data pair present in the

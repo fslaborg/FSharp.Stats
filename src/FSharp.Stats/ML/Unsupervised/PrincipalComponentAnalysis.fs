@@ -28,7 +28,7 @@ module PCA =
     /// The centered features of the matrix are centered around 0 and possess a standard deviation of 1.
     /// Expects a data matrix with rows representing observations and columns representing features.
     let center m = 
-        if m |> Matrix.exists (fun x -> nan.Equals(x) || infinity.Equals(x) || infNeg.Equals(x)) then 
+        if m |> Matrix.exists (fun x -> isNan x || isInf x) then 
             failwith "Computation not possible. Matrix contains invalid entries. Check for the existence of values equal to nan, infinity or -infinity."
         else
         let columnMeans =
@@ -57,7 +57,7 @@ module PCA =
     /// Computes the PCA of a column centered data matrix m.
     /// Expects a column centered data matrix m, with rows representing observations (a.k.a. samples) and columns representing features.
     let compute m =  
-        if m |> Matrix.exists (fun x -> nan.Equals(x) || infinity.Equals(x) || infNeg.Equals(x)) then 
+        if m |> Matrix.exists (fun x -> isNan x || isInf x) then 
             failwith "Computation not possible. Matrix contains invalid entries. Check for the existence of values equal to nan, infinity or -infinity."
         else
         let s,u,v = FSharp.Stats.Algebra.LinearAlgebra.SVD (m) 
