@@ -962,16 +962,16 @@ qHisto |> GenericChart.toChartHTML
 
 SAM (Significance Analysis of Microarrays) is a method developed to overcome multiple testing problems. It was proposed, but not restricted for, microarray analysis. 
 It serves as a blue print for a variety of permutation test.
-Therefore, high throughput experiments can be analysed using a combined permutation-bootstrap-method. For more in depth information see the [SAM BlogPost](https://csbiology.github.io/CSBlog/posts/7_SAM.html).
+Therefore, high throughput experiments can be analysed using a combined permutation-bootstrap-method. For more in depth information see the [SAM BlogPost](https://csbiology.github.io/CSBlog/posts/sam.html).
 *)
 
 (** 
 Data: 
 To use SAM, expression or intensity data need to be in the format (string*float[])[]), with string being the name and float array being the replicates. One way of achieving this is the following data preparation:
-<center><img style="max-width:40%" src="../img/DataStructureSAM.jpeg"></img></center>
+<center><img style="max-width:40%" src="https://csbiology.github.io/CSBlog/img/7_SAM/DataPrep.png"/></center>
 *)
 (**
-Columns are samples, here 1 and 2, representing control and factor group. Rows are transcript counts (here indicated with gene identifier).
+Columns are samples, here 1 and 2, representing control and treatment groups. Rows are transcript counts (here indicated with gene identifier).
 The next step is to read in the data, e.g. via deedle, and to create a dataframe. The rows are indexed by the sample name and the rowkeys are extracted.
 *)
 
