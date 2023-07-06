@@ -973,6 +973,7 @@ To use SAM, expression or intensity data need to be in the format (string*float[
 (**
 Columns are samples, here 1 and 2, representing control and treatment groups. Rows are transcript counts (here indicated with gene identifier).
 The next step is to read in the data, e.g. via deedle, and to create a dataframe. The rows are indexed by the sample name and the rowkeys are extracted.
+Here is the location where the dataset can be accessed: `tests\FSharp.Stats.Tests\data\TestDataSAM.txt`
 *)
 
 let df:Frame<string,string> = 
