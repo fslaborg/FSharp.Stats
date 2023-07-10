@@ -211,7 +211,7 @@ module SAM =
                             tnew
                             )
                     tt2
-                    |> Array.filter (fun t -> not (isNan t) && not (isPosInf t)) 
+                    |> Array.filter (fun t -> not (isNan t) && not (isInf t)) 
                     |> Seq.medianAbsoluteDev
                     )
                 |> fun x -> 
