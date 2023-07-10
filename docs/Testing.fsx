@@ -967,9 +967,16 @@ Therefore, high throughput experiments can be analysed using a combined permutat
 
 (** 
 Data: 
-To use SAM, expression or intensity data need to be in the format (string*float[])[]), with string being the name and float array being the replicates. One way of achieving this is the following data preparation:
+
+To use SAM, expression or intensity data need to be in the format `('id * float[])[]`, where `'id` is a generic type implementing `System.IComparable`.
+
+In this example, `'id` is the name of the gene, and float array being the replicates. 
+
+One way of achieving this is the following data preparation:
+
 <center><img style="max-width:40%" src="https://csbiology.github.io/CSBlog/img/7_SAM/DataPrep.png"/></center>
 *)
+
 (**
 Columns are samples, here 1 and 2, representing control and treatment groups. Rows are transcript counts (here indicated with gene identifier).
 The next step is to read in the data, e.g. via deedle, and to create a dataframe. The rows are indexed by the sample name and the rowkeys are extracted.
@@ -1025,7 +1032,7 @@ Besides the data itself SAM requires the definition of some parameters:
   - _random seed_: The seed is used for randomization of the permutations (System.Random()), or can be fixed to achieve the same results multiple times (e.g. System.Random(1234)).
 
 
-The `SAMResult` type summarizes all information required to construct the typical SAM plot: 
+The `SAMResult<_>` type summarizes all information required to construct the typical SAM plot: 
 
   - _s0_: fudge factor as described by Tusher et al. (2001)
   - _pi0_: {pi0 ∈ R ∣ 0 < x < 1} estimated for the determination of qvalues 
