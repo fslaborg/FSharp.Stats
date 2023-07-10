@@ -1074,8 +1074,88 @@ let comparisonMetricsTests =
             testCase "C: threshold 0-0" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][10])) (snd (expectedMetricsMap["C"][10])) "Incorrect metrics for threshold 0.0")
         ]
     ]
+    
+    
+// declaration of a custom ID type for SAM tests      
+type MyId = MyId of string
+
+let inline isSameNumber a b =
+    if isNan a && isNan b then true
+    elif isNegInf a && isNegInf b then true
+    elif isPosInf a && isPosInf b then true
+    else a = b
+    
+type SAM.SAM<'id> when 'id :> IComparable with
+    // make it convenient to swap the id from one type to another for SAM.SAM<'id>
+    static member mapId (f: 'a -> 'b) (x: SAM.SAM<'a>) : SAM.SAM<'b> = SAM.SAM<_>.Create (f x.ID) x.Ri x.Si x.Statistics x.QValue x.Foldchange x.MeanA x.StDevA x.MeanB x.StDevB
+    // make it convenient to compare the contents
+    static member areSame a b isSameId =
+        if not (isSameId a.ID b.ID) then false else
+        [
+            a.Ri        , b.Ri
+            a.Si        , b.Si
+            a.Statistics, b.Statistics
+            a.QValue    , b.QValue
+            a.Foldchange, b.Foldchange
+            a.MeanA     , b.MeanA
+            a.StDevA    , b.StDevA
+            a.MeanB     , b.MeanB
+            a.StDevB    , b.StDevB
+        ]
+        |> List.forall (fun (a,b) -> isSameNumber a b)
+  
+type SAM.SAMResult<'id> when 'id :> IComparable with
+    // make it convenient to swap the id from one type to another for SAM.SAMResult<'id>
+    static member mapId (f: 'a -> 'b) (x: SAM.SAMResult<'a>) : SAM.SAMResult<'b> =
+        SAM.SAMResult<_>.Create
+          x.S0
+          x.Pi0
+          x.Delta
+          x.UpperCut
+          x.LowerCut
+          (x.PosSigBioitem       |> Array.map (SAM.SAM<_>.mapId f))
+          (x.NegSigBioitem       |> Array.map (SAM.SAM<_>.mapId f))
+          (x.NonSigBioitem       |> Array.map (SAM.SAM<_>.mapId f))
+          (x.AveragePermutations |> Array.map (SAM.SAM<_>.mapId f))
+          x.FDR
+          x.SigCalledCount
+          x.MedianFalsePositivesCount
+
+    static member areSame a b isSameId =
+        let individualValuesAreSame =
+            [
+                a.S0                       , b.S0
+                a.Pi0                      , b.Pi0
+                a.Delta                    , b.Delta
+                a.UpperCut                 , b.UpperCut
+                a.LowerCut                 , b.LowerCut
+                a.FDR                      , b.FDR
+                a.SigCalledCount           , b.SigCalledCount
+                a.MedianFalsePositivesCount, b.MedianFalsePositivesCount
+                
+            ]
+            |> List.forall (fun (a,b) -> isSameNumber a b)
+        if not individualValuesAreSame then false else
+        let permsAreSame =
+            Array.zip a.AveragePermutations b.AveragePermutations
+            |> Array.forall (fun (a,b) -> isSameId a.ID b.ID && SAM.SAM.areSame a b isSameId)
+        if not permsAreSame then false else
+        let nonSigAreSame =
+            Array.zip a.NonSigBioitem b.NonSigBioitem
+            |> Array.forall (fun (a,b) -> isSameId a.ID b.ID && SAM.SAM.areSame a b isSameId)
+        if not nonSigAreSame then false else
+        let negSigAreSame =
+            Array.zip a.NegSigBioitem b.NegSigBioitem
+            |> Array.forall (fun (a,b) -> isSameId a.ID b.ID && SAM.SAM.areSame a b isSameId)
+        if not negSigAreSame then false else
+        let posSigAreSame =
+            Array.zip a.PosSigBioitem b.PosSigBioitem
+            |> Array.forall (fun (a,b) -> isSameId a.ID b.ID && SAM.SAM.areSame a b isSameId)
+        if not posSigAreSame then false else
+        true
+        
 [<Tests>]
- let SAMTests = 
+let SAMTests = 
      // data preparation 
      let df:Frame<string,string> = 
          Frame.ReadCsv(@"data/TestDataSAM.txt",hasHeaders=true,separators = "\t")
@@ -1106,6 +1186,11 @@ let comparisonMetricsTests =
 
 
      let result1 = FSharp.Stats.Testing.SAM.twoClassUnpaired 100 0.05 data1 data2 (System.Random(27))
+     let result1NonStringId =
+        let data1 = data1 |> Array.map (fun (id,rest) -> MyId id, rest)
+        let data2 = data2 |> Array.map (fun (id,rest) -> MyId id, rest)
+        FSharp.Stats.Testing.SAM.twoClassUnpaired 100 0.05 data1 data2 (System.Random(27))
+         
      let result2 = twoClassUnpaired 100 0.05 data1 data2 (System.Random(1337))
      let result3 = twoClassUnpaired 100 0.05 corrected1 corrected2 (System.Random(1337))
      let result4 = twoClassUnpaired 100 0.05 data1 data1 (System.Random(27))
@@ -1150,4 +1235,8 @@ let comparisonMetricsTests =
              Expect.floatClose Accuracy.low (result4.NegSigBioitem |> Array.length |> float ) 0. "NegSigBioitems should be equal."   
              Expect.floatClose Accuracy.low (result4.MedianFalsePositivesCount |> float ) 0. "medFP should be equal."   
 
-             ]
+         testCase "non string ID type doesn't affect results" <| fun () ->
+             let result1 : SAMResult<MyId> = SAMResult.mapId MyId result1
+             Expect.isTrue (SAMResult.areSame result1 result1NonStringId (=)) "the ID type being other than string shouldn't affect the results"
+            
+     ]
