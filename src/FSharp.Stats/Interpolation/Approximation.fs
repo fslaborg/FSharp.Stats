@@ -15,7 +15,7 @@ module Approximation =
             raise (System.ArgumentException("x and y are of different length!"))
         // Remove nan on both sides
         let xy = (Seq.map2 ( fun x y -> (x,y) ) x y )
-                 |> Seq.filter  ( fun (x,y) -> not(nan.Equals(x) && nan.Equals(y)) )
+                 |> Seq.filter  ( fun (x,y) -> not(isNan x && isNan y))
                  // sort byx
                  |> Seq.sortBy  ( fun (x,y) -> x)
                  |> Seq.groupBy ( fun (x,y) -> x)

@@ -32,10 +32,10 @@ module Polynomial =
         Array.init (order + 1) (fun i -> 
             let factor = 
                 List.init level (fun l -> i-l)
-                |> List.filter (fun v -> not (nan.Equals(v)))
+                |> List.filter (not << isNan)
                 |> List.fold (fun acc c -> acc * (float c)) 1.
             factor * coef.[i] * (pown x (i-level))
             )
-        |> Array.filter (fun v -> not (nan.Equals(v)))
+        |> Array.filter (not << isNan)
         |> Array.sum
 

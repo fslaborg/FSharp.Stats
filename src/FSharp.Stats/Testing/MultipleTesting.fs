@@ -155,12 +155,12 @@ module MultipleTesting =
             let pvaluesExtValid =
                 pvaluesExt 
                 |> Array.indexed   
-                |> Array.filter (fun (i,p) -> not (nan.Equals p))
+                |> Array.filter (fun (i,p) -> not (isNan p))
 
             let pvaluesExtInValid = 
                 pvaluesExt 
                 |> Array.indexed   
-                |> Array.filter (fun (i,p) -> (nan.Equals p))
+                |> Array.filter (fun (i,p) -> (isNan p))
 
             // if all pvalues are none, just return the nans
             if pvaluesExtValid.Length = 0 then 
@@ -252,12 +252,12 @@ module MultipleTesting =
             let pvaluesExtValid =
                 pvaluesExt 
                 |> Array.indexed   
-                |> Array.filter (fun (i,p) -> not (nan.Equals p))
+                |> Array.filter (fun (i,p) -> not (isNan p))
 
             let pvaluesExtInValid = 
                 pvaluesExt 
                 |> Array.indexed   
-                |> Array.filter (fun (i,p) -> (nan.Equals p))
+                |> Array.filter (fun (i,p) -> (isNan p))
 
             // if all pvalues are none, just return the nans
             if pvaluesExtValid.Length = 0 then 

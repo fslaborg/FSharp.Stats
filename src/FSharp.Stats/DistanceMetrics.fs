@@ -60,8 +60,8 @@ module DistanceMetrics =
             let mutable dist = 0.
             for i in 0 .. (dim - 1) do
                 let x = v1.[i] - v2.[i]
-                if not (nan.Equals (x)) then
-                    dist <- dist + (x |> System.Math.Abs)
+                if not (isNan x) then
+                    dist <- dist + System.Math.Abs x
             dist
  
     module Array = 
@@ -92,7 +92,7 @@ module DistanceMetrics =
             let mutable dist = 0.0
             for i in 0 .. (dim - 1) do
                 let x = a1.[i] - a2.[i]
-                if not (nan.Equals (x)) then
+                if not (isNan x) then
                     dist <- dist + (x * x)
             float dist
 
@@ -114,8 +114,8 @@ module DistanceMetrics =
             let mutable dist = 0.0
             for i in 0 .. (dim - 1) do 
                 let x = a1.[i] - a2.[i]
-                if not (nan.Equals (x)) then
-                    dist <- dist + (x |> System.Math.Abs)
+                if not (isNan x) then
+                    dist <- dist + System.Math.Abs x
             dist
 
         
