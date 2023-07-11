@@ -40,9 +40,9 @@ module SAM =
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// Type that contains all info regarding SAM for each sample
-    type SAM = {
+    type SAM<'id> when 'id :> System.IComparable = {
         /// identification of bioitem
-        ID : string
+        ID : 'id
         /// relative diffence of mean
         Ri : float
         /// pooled standard error 
@@ -66,7 +66,7 @@ module SAM =
 
     // Result after calculating SAM
     /// SAM Result containing all information  
-    type SAMResult = {
+    type SAMResult<'id> when 'id :> System.IComparable = {
         /// small positive constant for independent variance of statistic
         S0 : float
         /// coefficient to avoid overestimation of FDR
@@ -78,13 +78,13 @@ module SAM =
         /// first Statistic where the difference of observed and expected is greater than delta
         LowerCut : float
         /// Array of all positively regulated bioitems at given FDR 
-        PosSigBioitem : SAM []
+        PosSigBioitem : SAM<'id> []
         /// Array of all negatively regulated bioitems at given FDR 
-        NegSigBioitem : SAM []
+        NegSigBioitem : SAM<'id> []
         /// Array of nonsignificant/unchanged bioitems at given FDR 
-        NonSigBioitem : SAM []
+        NonSigBioitem : SAM<'id> []
         /// Array of the expected values using the average of permutations
-        AveragePermutations : SAM []
+        AveragePermutations : SAM<'id> []
         /// False Discovery Rate 
         FDR : float
         /// Amount of bioitems called significant (positive and negative) in the dataset at given FDR
@@ -122,13 +122,14 @@ module SAM =
         medianCorrectedData
 
     /// t-test statistic for observed statistics, used as default. 
-    let getObservedStats (s0:float) (dataA:(string*float[])[]) (dataB:(string*float[])[])=
+    let getObservedStats (s0:float) (dataA:('id * float[])[]) (dataB:('id * float[])[])=
 
-        let calcStats (a:string*float[]) (b:string*float[]) =  
+        let calcStats (a:'id * float[]) (b:'id * float[]) =  
             // test is arrays are same length
-            if (fst a) <> (fst b) then failwithf "row identifier do not match"
+            let idA, idB = fst a, fst b
+            if idA <> idB then failwithf $"row identifier do not match: %s{string idA} <> %s{string idB}"
             // get name of observed sample
-            let idOfBioitem = fst a 
+            let idOfBioitem = idA 
             // get datapoints 
             let dataA = snd a
             let dataB = snd b
@@ -158,7 +159,7 @@ module SAM =
             let statistic = ri / (si + s0) 
 
         
-            SAM.Create idOfBioitem ri si statistic nan fc ma stDevA mb stDevB
+            SAM<'id>.Create idOfBioitem ri si statistic nan fc ma stDevA mb stDevB
 
         Array.map2 (fun a b -> calcStats a b) dataA dataB
 
@@ -170,7 +171,7 @@ module SAM =
         /// S0 estimation 
         // the s0 percentiles used in R! are [|0. .. 0.05 .. 1.|] 
         // can be changed to users preference 
-        let estS0 (values:SAM[]) (s0perc: float []) = 
+        let estS0 (values:SAM<_>[]) (s0perc: float []) = 
             // tt is Statistics (Score) 
             // si is Si(Standard Deviation)
             let tt = values |> Array.map (fun x -> x.Statistics)
@@ -233,7 +234,7 @@ module SAM =
 
         /// default permutation method. 
         /// create permutations using Fisher Yates Shuffling 
-        let getPermutations iterations s0 (dataA:(string*float[])[]) (dataB:(string*float[])[]) rnd =
+        let getPermutations iterations s0 (dataA:('id * float[])[]) (dataB:('id * float[])[]) rnd =
             let dataset = 
                 dataA
                 |> Array.mapi (fun i (id,data) -> 
@@ -263,15 +264,15 @@ module SAM =
 
         /// expected Stats are the scores/values obtained from the permutations via averaging
         // ID stays unchanged
-        let getExpectedStats (expStats:SAM[][]) =
+        let getExpectedStats (expStats:SAM<'id>[][]) =
            let iterations = expStats.Length
            let expAvgStats =
                expStats
                |> Array.map (Array.sortBy (fun x -> x.Statistics))
                |> JaggedArray.transpose
                |> Array.map (fun tt -> 
-                               let (id',ri',si',di') = tt |> Array.fold (fun (id,ri,si,di) t -> t.ID,ri+t.Ri,si+t.Si,di + t.Statistics) ("",0.,0.,0.)  
-                               SAM.Create id' (ri' / float iterations) (si' / float iterations) (di' / float iterations) nan nan nan nan nan nan 
+                               let (id',ri',si',di') = tt |> Array.fold (fun (id,ri,si,di) t -> t.ID,ri+t.Ri,si+t.Si,di + t.Statistics) (Unchecked.defaultof<_>,0.,0.,0.)  
+                               SAM<'id>.Create id' (ri' / float iterations) (si' / float iterations) (di' / float iterations) nan nan nan nan nan nan 
                             )
 
            expAvgStats       
@@ -295,7 +296,7 @@ module SAM =
         //    arr |> countIf (fun x -> x.Statistics > cuthigh || x.Statistics < cutlow) 
     
         /// estimate pi0 using the quantile method. Helps to not overestimate the False Discovery Rate 
-        let estimatePi0 (obsStats:SAM []) (expStats:SAM[][]) =
+        let estimatePi0 (obsStats:SAM<_> []) (expStats:SAM<_>[][]) =
             let perms =
                 expStats
                 |> Array.collect (fun x -> x |> Array.map (fun y -> y.Statistics)) 
@@ -327,7 +328,7 @@ module SAM =
     
         /// default in R!. Calculates asymmetric cuts for each delta present. 
         // can be substituted with symmetric cuts (not implemented yet) 
-        let getDeltaAndAsymmCuts (obsStats : SAM[]) (expAvgStats: SAM[]) =
+        let getDeltaAndAsymmCuts (obsStats : SAM<_>[]) (expAvgStats: SAM<_>[]) =
             let getDelta (_,_,delta) = delta
             // di' are sorted Statistics from the observed (measured) values 
             let di' = obsStats |> Array.sortBy (fun x -> x.Statistics)
@@ -491,7 +492,7 @@ module SAM =
             let cut1,cut2 = cut
 
             // function for counting 
-            let countIf' (arr : SAM[]) =
+            let countIf' (arr : SAM<_>[]) =
                 let mutable counter = 0
                 for i=0 to arr.Length-1 do
                     if arr.[i].Statistics > cut2 || arr.[i].Statistics < cut1 then
@@ -509,7 +510,7 @@ module SAM =
         let getSignificantBioitem cut obsStats = 
             let cut1,cut2 = cut
 
-            let countIf' (arr : SAM[]) =
+            let countIf' (arr : SAM<_>[]) =
                 let mutable counter = 0
                 for i=0 to arr.Length-1 do
                     if arr.[i].Statistics > cut2 || arr.[i].Statistics < cut1 then
@@ -560,9 +561,9 @@ module SAM =
 
         match smallestCutForFDR,delta with 
         | ((0.,0.),100000.) ->
-            let defaultIfNoSignificance:SAM[]= [||]
+            let defaultIfNoSignificance:SAM<_>[]= [||]
             printfn "No significant results were found"
-            SAMResult.Create s0 pi0 delta 0. 0. defaultIfNoSignificance defaultIfNoSignificance obsStats expAvgStats 0. 0 0 
+            SAMResult<_>.Create s0 pi0 delta 0. 0. defaultIfNoSignificance defaultIfNoSignificance obsStats expAvgStats 0. 0 0 
         | _ -> 
             let negCutToFDR = 
                 fdrsPerCut
@@ -624,7 +625,7 @@ module SAM =
             let delta = chosenDelta 
 
 
-            SAMResult.Create s0 pi0 delta upperCut lowerCut PosSigBioitem NegSigBioitem NonSigBioitem expAvgStats medianFDR significantBioitems medianFalsePos 
+            SAMResult<_>.Create s0 pi0 delta upperCut lowerCut PosSigBioitem NegSigBioitem NonSigBioitem expAvgStats medianFDR significantBioitems medianFalsePos 
 
 // Workflow of SAM (default mode)  
 
