@@ -83,7 +83,7 @@ module LinearRegression =
                 ///     LinearRegression.OrdinaryLeastSquares.Linear.RTO.coefficient xData yData 
                 /// </code> 
                 /// </example>
-                let coefficient (xData : float list) (yData : float list) =
+                let coefficient (xData : seq<float>) (yData : seq<float>) =
                     coefficientOfVector (vector xData) (vector yData)
                 
                 /// <summary>
