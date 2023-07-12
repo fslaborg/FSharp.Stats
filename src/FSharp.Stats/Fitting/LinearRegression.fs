@@ -40,26 +40,87 @@ module LinearRegression =
             /// Regression through the origin (y : x -> bx)
             module RTO =
             
-                /// Calculates the coefficients for linear regression through the origin 
-                let coefficientOfVector (x : Vector<float>) (y : Vector<float>) =
-                    if x.Length <> y.Length then
+                /// <summary>
+                ///   Calculates the slope of a regression line through the origin  
+                /// </summary>
+                /// <param name="xData">vector of x values</param>
+                /// <param name="yData">vector of y values</param>
+                /// <returns>Slope of the regression line through the origin</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|0.;1.;2.;3.;4.;5.;|]
+                /// // some measured feature, that theoretically is zero at day 0
+                /// let yData = vector [|1.;5.;9.;13.;17.;18.;|]
+                /// 
+                /// // Estimate the slope of the regression line.
+                /// let coefficients = 
+                ///     LinearRegression.OrdinaryLeastSquares.Linear.coefficient xData yData 
+                /// </code> 
+                /// </example>
+                let coefficientOfVector (xData : Vector<float>) (yData : Vector<float>) =
+                    if xData.Length <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
-                    let numerator   = Seq.zip x y |> Seq.sumBy (fun (x,y) -> x * y)
-                    let denominator = x |> Seq.sumBy (fun x -> x * x)
+                    let numerator   = Seq.zip xData yData |> Seq.sumBy (fun (x,y) -> x * y)
+                    let denominator = xData |> Seq.sumBy (fun x -> x * x)
                     numerator / denominator
 
-                /// Calculates the coefficients for linear regression through the origin 
-                let coefficient (x : float list) (y : float list) =
-                    coefficientOfVector (vector x) (vector y)
+                /// <summary>
+                ///   Calculates the slope of a regression line through the origin  
+                /// </summary>
+                /// <param name="xData">vector of x values</param>
+                /// <param name="yData">vector of y values</param>
+                /// <returns>Slope of the regression line through the origin</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|0.;1.;2.;3.;4.;5.;|]
+                /// // some measured feature, that theoretically is zero at day 0
+                /// let yData = vector [|1.;5.;9.;13.;17.;18.;|]
+                /// 
+                /// // Estimate the slope of the regression line.
+                /// let coefficients = 
+                ///     LinearRegression.OrdinaryLeastSquares.Linear.RTO.coefficient xData yData 
+                /// </code> 
+                /// </example>
+                let coefficient (xData : float list) (yData : float list) =
+                    coefficientOfVector (vector xData) (vector yData)
                 
-                /// Returns the regression function
-                /// coefficient is beta only
+                /// <summary>
+                ///   Returns the regression function of a line through the origin
+                /// </summary>
+                /// <param name="coef">The functions slope</param>
+                /// <returns>Function that takes a x value and returns the predicted y value</returns>
+                /// <example> 
+                /// <code> 
+                /// let mySlope = 17.8
+                ///
+                /// // get the fítting function that fits through the origin
+                /// let myF = 
+                ///     LinearRegression.OrdinaryLeastSquares.Linear.RTO.fitFunc mySlope
+                ///
+                /// // Returns predicted y value at x=6 using a line with intercept=0 and slope=17.8
+                /// myF 6.
+                /// </code> 
+                /// </example>
                 let fitFunc (coef: float) =            
                     fun x -> coef * x
                 
 
-                /// Fit to x
-                /// coefficient is beta only
+                /// <summary>
+                ///   Predicts the y value for a given slope and x value (intercept=0)
+                /// </summary>
+                /// <param name="coef">The functions slope</param>
+                /// <param name="x">x value of which the corresponding y value should be predicted</param>
+                /// <returns>predicted y value</returns>
+                /// <example> 
+                /// <code> 
+                /// let mySlope = 17.8
+                ///
+                /// // Returns predicted y value at x=6 using a line with intercept=0 and slope=17.8
+                /// LinearRegression.OrdinaryLeastSquares.Linear.RTO.fit mySlope 6.
+                /// </code> 
+                /// </example>
                 let fit (coef: float) (x:float) =            
                     coef * x
 
@@ -179,7 +240,25 @@ module LinearRegression =
                 Matrix.init vec.Length (order+1) (fun m order -> pown vec.[m] order) 
                 //Matrix. ofRowVector (vector [ for i = 0 to (vec.Count - 1) do yield (vandermondeRow order vec.[i]) ])
             
-            /// Calculates the coefficients for polynomial regression
+            /// <summary>
+            ///   Calculates the polynomial coefficients for polynomial regression. 
+            /// </summary>
+            /// <param name="order">order of the polynomial (1 = linear, 2 = quadratic, ... )</param>
+            /// <param name="xData">vector of x values</param>
+            /// <param name="yData">vector of y values</param>
+            /// <returns>vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]</returns>
+            /// <example> 
+            /// <code> 
+            /// // e.g. days since a certain event
+            /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+            /// // e.g. temperature measured at noon of the days specified in xData 
+            /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+            /// 
+            /// // Estimate the three coefficients of a quadratic polynomial.
+            /// let coefficients = 
+            ///     LinearRegression.OrdinaryLeastSquares.Polynomial.coefficients 2 xData yData 
+            /// </code> 
+            /// </example>
             let coefficient order (xData : Vector<float>) (yData : Vector<float>) =
                 if xData.Length <> yData.Length then
                     raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -192,22 +271,44 @@ module LinearRegression =
                 let Aty = A.Transpose * yData
                 Algebra.LinearAlgebra.LeastSquares AtA Aty        
 
-            /// Calculates the coefficients for polynomial regression with given weighting
+            /// <summary>
+            ///   Calculates the polynomial coefficients for polynomial regression with a given point weighting. 
+            /// </summary>
+            /// <param name="order">order of the polynomial (1 = linear, 2 = quadratic, ... )</param>
+            /// <param name="weighting">Vector of weightings that define the releveance of each point for fitting.</param>
+            /// <param name="xData">vector of x values</param>
+            /// <param name="yData">vector of y values</param>
+            /// <returns>vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]</returns>
+            /// <example> 
+            /// <code> 
+            /// // e.g. days since a certain event
+            /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+            /// // e.g. temperature measured at noon of the days specified in xData 
+            /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+            /// 
+            /// // Estimate the three coefficients of a quadratic polynomial.
+            /// let coefficients = 
+            ///     LinearRegression.OrdinaryLeastSquares.Polynomial.coefficients 2 xData yData 
+            /// </code> 
+            /// </example>
             let coefficientsWithWeighting order (weighting : Vector<float>) (xData : Vector<float>) (yData : Vector<float>) = 
                 if xData.Length <> yData.Length || xData.Length <> weighting.Length then
                     raise (System.ArgumentException("vector x,y and weighting have to be the same size!"))
                 let A = 
-                    let includeWeighting weighting order =
-                        Matrix.init (order + 1) (order + 1) (fun i j -> 
-                                                                Vector.map2 (fun x w -> w * (pown x (i + j))) xData weighting 
-                                                                |> Vector.sum
-                                                            )
-                    includeWeighting weighting order
+                    Matrix.init 
+                        (order + 1) 
+                        (order + 1) 
+                        (fun i j -> 
+                            Vector.map2 (fun x w -> w * (pown x (i + j))) xData weighting 
+                            |> Vector.sum
+                        )
                 let b = 
-                    Vector.init (order + 1) (fun i -> 
-                                                Vector.map3 (fun x y w -> w * (pown x i) * y) xData yData weighting 
-                                                |> Vector.sum
-                                            )
+                    Vector.init 
+                        (order + 1) 
+                        (fun i -> 
+                            Vector.map3 (fun x y w -> w * (pown x i) * y) xData yData weighting 
+                            |> Vector.sum
+                        )
                 Algebra.LinearAlgebra.SolveLinearSystem A b   
 
             /////takes vector of data with n>1 replicates and gives a vector of weightings based on the variance in measurements ( 1/var(i..j) )
@@ -221,11 +322,54 @@ module LinearRegression =
             //        else raise (System.ArgumentException("data length no multiple of replicate number!")) 
             //    Vector.init (yData.Length / numberOfReplicates) (fun i -> 1. / var.[i])
                         
-            /// Fit to x
+            /// <summary>
+            ///   takes polynomial coefficients and x value to predict the corresponding y value
+            /// </summary>
+            /// <param name="order">order of the polynomial (1 = linear, 2 = quadratic, ... )</param>
+            /// <param name="coef">vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]</param>
+            /// <param name="x">x value of which the corresponding y value should be predicted</param>
+            /// <returns>predicted y value with given polynomial coefficients at X=x</returns>
+            /// <example> 
+            /// <code> 
+            /// // e.g. days since a certain event
+            /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+            /// // e.g. temperature measured at noon of the days specified in xData 
+            /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+            /// 
+            /// // Define the polynomial coefficients.
+            /// let coefficients = 
+            ///     LinearRegression.OrdinaryLeastSquares.Polynomial.coefficients xData yData 
+            /// 
+            /// // Predict the temperature value at midnight between day 1 and 2. 
+            /// LinearRegression.OrdinaryLeastSquares.Polynomial.fit coefficients 1.5
+            /// </code> 
+            /// </example>
+            /// <remarks>If all coefficients are nonzero, the order is equal to the length of the coefficient vector!</remarks>
             let fit (order) (coef : Vector<float>) (x:float) =            
                 Vector.dot coef (vandermondeRow order x)
 
-            ///gets derivative at x with given polynomial coefficients. Level1 = fst derivative; Level2 = smd derivative ...
+            /// <summary>
+            ///   calculates derivative values at X=x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...
+            /// </summary>
+            /// <param name="coef">vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]</param>
+            /// <param name="level">depth of derivative: 1 = slope, 2 = curvature, ... </param>
+            /// <param name="x">x value of which the corresponding y value should be predicted</param>
+            /// <returns>predicted derivative with given polynomial coefficients at X=x</returns>
+            /// <example> 
+            /// <code> 
+            /// // e.g. days since a certain event
+            /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+            /// // e.g. temperature measured at noon of the days specified in xData 
+            /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+            /// 
+            /// // Estimate the polynomial coefficients
+            /// let coefficients = 
+            ///     LinearRegression.OrdinaryLeastSquares.Polynomial.coefficients xData yData 
+            /// 
+            /// // Predict the curvature of the regression function at midnight between day 1 and 2. 
+            /// LinearRegression.OrdinaryLeastSquares.Polynomial.getDerivative coefficients 2 1.5
+            /// </code> 
+            /// </example>
             let getDerivative (*(order: int)*) (coef: Vector<float>) (level: int) (x: float) =
                 let order = coef.Length - 1
                 Array.init (order + 1) (fun i -> 
@@ -238,9 +382,27 @@ module LinearRegression =
                     )
                 |> Array.filter (not << isNan)
                 |> Array.sum
-                
-            /// Fits a polynomial model of user defined order to the data and returns the cooks distance for every data pair present in the
-            /// input collections as an estimator for the influence of each data point in coefficient estimation.  
+
+            /// <summary>
+            ///   Fits a polynomial model of user defined order to the data and returns the cooks distance for every data pair present in the
+            ///   input collections as an estimator for the influence of each data point in coefficient estimation.  
+            /// </summary>
+            /// <param name="order">order of the polynomial (1 = linear, 2 = quadratic, ... )</param>
+            /// <param name="xData">vector of x values</param>
+            /// <param name="yData">vector of y values</param>
+            /// <returns>returns collection of cooks distances for each data point</returns>
+            /// <example> 
+            /// <code> 
+            /// // e.g. days since a certain event
+            /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+            /// // e.g. temperature measured at noon of the days specified in xData 
+            /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+            ///
+            /// // Returns distances for a quadratic polynomial
+            /// let distances = 
+            ///     LinearRegression.OrdinaryLeastSquares.Polynomial.cooksDistance 2 xData yData 
+            /// </code> 
+            /// </example>
             let cooksDistance order (xData : Vector<float>) (yData : Vector<float>) =
                 if xData.Length <> yData.Length then
                     raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -253,11 +415,11 @@ module LinearRegression =
                 let MSE = squaredDeviations |> Vector.sum |> fun sumOfSquares -> sumOfSquares / (float xData.Length)         
                 // compute cooksDistance for every Point in the dataSet
                 squaredDeviations 
-                |> FSharp.Stats.Vector.mapi (fun i squaredDev -> 
-                                                let fstFactor = squaredDev / (MSE * float coeffs.Length)
-                                                let sndFactor = leverages.[i] / ((1. - leverages.[i]) ** 2.)
-                                                fstFactor * sndFactor
-                                            )
+                |> Vector.mapi (fun i squaredDev -> 
+                    let fstFactor = squaredDev / (MSE * float coeffs.Length)
+                    let sndFactor = leverages.[i] / ((1. - leverages.[i]) ** 2.)
+                    fstFactor * sndFactor
+                )
                                    
             // <summary>
             // Find the model parameters ? such that X*? with predictor X becomes as close to response Y as possible, with least squares residuals.
@@ -269,8 +431,26 @@ module LinearRegression =
         /// Simple linear regression y : x -> a + bx
         module Linear =
 
-            //(http://195.134.76.37/applets/AppletTheil/Appl_Theil2.html)
-            ///Calculates theil's incomplete method in the form of [|intercept; slope;|]
+            /// <summary>
+            ///   Calculates simple linear regression coefficients using theil's incomplete method in the form of [|intercept; slope;|]
+            /// </summary>
+            /// <param name="xData">vector of x values</param>
+            /// <param name="yData">vector of y values</param>
+            /// <returns>vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]</returns>
+            /// <example> 
+            /// <code> 
+            /// // e.g. days since experiment start
+            /// let xData = vector [|1. .. 100.|]
+            /// // e.g. plant size in cm
+            /// let yData = vector [|4.;7.;8.;9.;7.;11.; ...|]
+            /// 
+            /// // Estimate the intercept and slope of a line, that fits the data.
+            /// let coefficients = 
+            ///     LinearRegression.RobustRegression.Linear.theilEstimator xData yData 
+            /// </code> 
+            /// </example>
+            /// <remarks>Not robust if data count is low!</remarks>
+            /// <remarks>http://195.134.76.37/applets/AppletTheil/Appl_Theil2.html</remarks>
             let theilEstimator (xData: Vector<float>) (yData: Vector<float>)= 
                 //sort data in ascending order (xData)
                 let data =
@@ -304,8 +484,25 @@ module LinearRegression =
 
                 vector [|intercept;slope|]
 
-
-            ///Calculates the robust Theil-Sen estimator for linear regression in the form of [|intercept; slope;|]
+            /// <summary>
+            ///   Calculates simple linear regression coefficients using the Theil-Sen estimator in the form of [|intercept; slope;|]
+            /// </summary>
+            /// <param name="xData">vector of x values</param>
+            /// <param name="yData">vector of y values</param>
+            /// <returns>vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]</returns>
+            /// <example> 
+            /// <code> 
+            /// // e.g. days since experiment start
+            /// let xData = vector [|1. .. 100.|]
+            /// // e.g. plant size in cm
+            /// let yData = vector [|4.;7.;8.;9.;7.;11.; ...|]
+            /// 
+            /// // Estimate the intercept and slope of a line, that fits the data.
+            /// let coefficients = 
+            ///     LinearRegression.RobustRegression.Linear.theilSenEstimator xData yData 
+            /// </code> 
+            /// </example>
+            /// <remarks>Not robust if data count is low!</remarks>
             let theilSenEstimator (xData: Vector<float>) (yData: Vector<float>) =
                 let xLength = xData.Length
 
@@ -332,4 +529,26 @@ module LinearRegression =
                 theilEstimator filteredXData filteredYData
 
 
-            let fit = OrdinaryLeastSquares.Linear.Univariable.fit
+            /// <summary>
+            ///   Takes vector of [intercept; slope] and x value to predict the corresponding y value
+            /// </summary>
+            /// <param name="coef">vector of coefficients, sorted as [intercept;slope]</param>
+            /// <param name="x">x value of which the corresponding y value should be predicted</param>
+            /// <returns>predicted y value with given coefficients at X=x</returns>
+            /// <example> 
+            /// <code> 
+            /// // e.g. days since experiment start
+            /// let xData = vector [|1. .. 100.|]
+            /// // e.g. plant size in cm
+            /// let yData = vector [|4.;7.;8.;9.;7.;11.; ...|]
+            /// 
+            /// // Estimate the intercept and slope of a line, that fits the data.
+            /// let coefficients = 
+            ///     LinearRegression.RobustRegression.Linear.theilEstimator xData yData
+            ///
+            /// // Predict the size on day 10.5
+            /// LinearRegression.RobustRegression.Linear.fit coefficients 10.5 
+            /// </code> 
+            /// </example>
+            /// <remarks>Equal to OrdinaryLeastSquares.Linear.Univariable.fit!</remarks>
+            let fit coef x = OrdinaryLeastSquares.Linear.Univariable.fit coef x

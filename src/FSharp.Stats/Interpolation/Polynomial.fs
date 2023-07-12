@@ -23,7 +23,7 @@ module Polynomial =
     /// // e.g. e.g. temperature measured at noon of the days specified in xData 
     /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
     /// 
-    /// // Define the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+    /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
     /// let coefficients = 
     ///     Interpolation.Polynomial.coefficients xData yData 
     /// </code> 
@@ -52,7 +52,7 @@ module Polynomial =
     /// // e.g. temperature measured at noon of the days specified in xData 
     /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
     /// 
-    /// // Define the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+    /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
     /// let coefficients = 
     ///     Interpolation.Polynomial.coefficients xData yData 
     /// 
@@ -77,7 +77,7 @@ module Polynomial =
     /// // e.g. temperature measured at noon of the days specified in xData 
     /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
     /// 
-    /// // Define the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+    /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
     /// let coefficients = 
     ///     Interpolation.Polynomial.coefficients xData yData 
     /// 
