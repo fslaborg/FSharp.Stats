@@ -77,9 +77,9 @@ build targets are defined in the modules of /build/build.fsproj.
 
 Some interesting targets may be:
 
-`./build.cmd runtests` will build the project and run tests
-`./build.cmd watchdocs` will build the project, run tests, and build and host a local version of the documentation.
-`./build.cmd release` will start the full release pipeline.
+  - `./build.cmd runtests` will build the project and run tests
+  - `./build.cmd watchdocs` will build the project, run tests, and build and host a local version of the documentation.
+  - `./build.cmd release` will start the full release pipeline.
 
 
 ## Library license

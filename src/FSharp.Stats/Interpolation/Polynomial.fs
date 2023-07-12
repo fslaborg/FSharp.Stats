@@ -3,12 +3,16 @@
 open FSharp.Stats
 open FSharp.Stats.Algebra
 
+/// <summary>
+///   Calculates polynomials that interpolatethe two dimensional data. The polynomial order is equal to the number of data points - 1.
+/// </summary>
+/// <remarks>
+///   In general a polynomial with degree = datapointNumber - 1 is flexible enough to interpolate all datapoints.
+///   But polynomial regression with degree = datapointNumber - 1 cannot be used for polynomial interpolation 
+///   because the least squares approach is not sufficient to converge interpolating.
+/// </remarks>
 module Polynomial =
     
-    // In general a polynomial with degree = datapointNumber - 1 is flexible enough to interpolate all datapoints.
-    // But polynomial regression with degree = datapointNumber - 1 cannot be used for polynomial interpolation 
-    // because the least squares approach is not sufficient to converge interpolating.
-
     /// <summary>
     ///   Calculates the polynomial coefficients for interpolating the given unsorted data. 
     /// </summary>

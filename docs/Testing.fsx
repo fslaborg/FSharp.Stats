@@ -885,7 +885,9 @@ bhValues |> GenericChart.toChartHTML
 
 ### Q Value
 
-See q value blog post at [fslabs](https://fslab.org/).
+A q value defines the proportion of false positives there are within all discoveries that were called significant up to the current item. 
+It serves as multiple testing correction procedure if a great proportion of tests are reported to be significant, and therefore Benjamini-Hochberg-correction would underestimate the true positive test results.
+Qvalues with pi0 = 1 is equivalent to Benjamini-Hochber-Method. For an extensive introduction and application example, see q value blog post at [fslabs](https://fslab.org/).
 
 $m = \#tests$
 

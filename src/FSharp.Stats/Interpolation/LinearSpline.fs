@@ -118,7 +118,6 @@ module LinearSpline =
         Array.sort2InPlaceByKeys 0 (x'.Length) x' y'
         initInterpolateSorted x' y'
 
-    /// Interpolate at point x
     /// <summary>
     ///   Predicts the y value at point x. A straight line is fitted between the neighboring x values given.
     /// </summary>

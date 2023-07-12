@@ -1,10 +1,9 @@
 namespace FSharp.Stats.Fitting
 
 
-(*
-
-we estimate the relationship of one variable with another by expressing one in terms of a linear function of the other.
-*)
+/// <summary>
+///   Linear regression is used to estimate the relationship of one variable (y) with another (x) by expressing y in terms of a linear function of x.
+/// </summary>
 module LinearRegression =    
 
     open FSharp.Stats
@@ -32,12 +31,19 @@ module LinearRegression =
 //        let p = X.QR().Solve(y)
 //        let (a,b) = (p.[0], p.[1])
 
+    /// <summary>
+    ///   OLS regression aims to minimise the sum of squared y intercepts between the original and predicted points at each x value.
+    /// </summary>
     module OrdinaryLeastSquares = 
           
-        /// Simple linear regression y : x -> a + bx
+        /// <summary>
+        ///   Simple linear regression using straight lines:  f(x) =  a + bx.
+        /// </summary>
         module Linear = 
-        
-            /// Regression through the origin (y : x -> bx)
+
+            /// <summary>
+            /// Fits straight regression lines through the origin f(x) = bx.
+            /// </summary>
             module RTO =
             
                 /// <summary>
@@ -124,6 +130,9 @@ module LinearRegression =
                 let fit (coef: float) (x:float) =            
                     coef * x
 
+            /// <summary>
+            ///   Univariable handles two dimensional x,y data.
+            /// </summary>
             module Univariable =    
                 /// Calculates the coefficients for linear regression
                 /// in the form of [|intercept; slope;|]
@@ -177,7 +186,9 @@ module LinearRegression =
                                                     let sndFactor = leverages.[i] / ((1. - leverages.[i]) ** 2.)
                                                     fstFactor * sndFactor
                                                 )
-
+            /// <summary>
+            ///   Univariable handles multi dimensional data where a vector of independent x values should be used to predict a single y value.
+            /// </summary>
             module Multivariable =           
                 /// Calculates the coefficients for linear regression
                 /// in the form of [|intercept; slope;|]
@@ -228,9 +239,11 @@ module LinearRegression =
                     let tmp :Vector<float> = Vector.init (x.Length+1) (fun i -> if i = 0 then 1. else x.[i-1])
                     Vector.dot tmp coef 
 
-
-        /// Simple polynomial regression
+        /// <summary>
+        ///   Linear regression using polynomials as regression function:  f(x) =  a + bx + cx^2 + ....
+        /// </summary>
         module Polynomial =
+
             //http://www.wolframalpha.com/input/?i=Vandermonde%20matrix&lk=1&a=ClashPrefs_%2aMathWorld.VandermondeMatrix-
             let private vandermondeRow (order) (x:float) = 
                 //DenseVector.OfEnumerable (seq { for i = 0 to order do yield x**(float i) })
@@ -425,14 +438,19 @@ module LinearRegression =
             // Find the model parameters ? such that X*? with predictor X becomes as close to response Y as possible, with least squares residuals.
             // Uses a singular value decomposition and is therefore more numerically stable (especially if ill-conditioned) than the normal equations or QR but also slower.
             // </summary>            
-    
+
+    /// <summary>
+    ///   Robust regression does not necessarily minimize the distance of the fitting function to the input data points (least squares), but has alternative aims (non-parametric).
+    /// </summary>
     module RobustRegression =
         
-        /// Simple linear regression y : x -> a + bx
+        /// <summary>
+        ///   Simple linear regression using straight lines:  f(x) =  a + bx.
+        /// </summary>
         module Linear =
 
             /// <summary>
-            ///   Calculates simple linear regression coefficients using theil's incomplete method in the form of [|intercept; slope;|]
+            ///   Calculates simple linear regression coefficients using theil's incomplete method in the form of [|intercept; slope;|]. Performs well if outlier corrupt the regression line.
             /// </summary>
             /// <param name="xData">vector of x values</param>
             /// <param name="yData">vector of y values</param>
@@ -449,8 +467,7 @@ module LinearRegression =
             ///     LinearRegression.RobustRegression.Linear.theilEstimator xData yData 
             /// </code> 
             /// </example>
-            /// <remarks>Not robust if data count is low!</remarks>
-            /// <remarks>http://195.134.76.37/applets/AppletTheil/Appl_Theil2.html</remarks>
+            /// <remarks>Not robust if data count is low! http://195.134.76.37/applets/AppletTheil/Appl_Theil2.html</remarks>
             let theilEstimator (xData: Vector<float>) (yData: Vector<float>)= 
                 //sort data in ascending order (xData)
                 let data =
@@ -485,7 +502,7 @@ module LinearRegression =
                 vector [|intercept;slope|]
 
             /// <summary>
-            ///   Calculates simple linear regression coefficients using the Theil-Sen estimator in the form of [|intercept; slope;|]
+            ///   Calculates simple linear regression coefficients using the Theil-Sen estimator in the form of [|intercept; slope;|]. Performs well if outlier corrupt the regression line.
             /// </summary>
             /// <param name="xData">vector of x values</param>
             /// <param name="yData">vector of y values</param>
