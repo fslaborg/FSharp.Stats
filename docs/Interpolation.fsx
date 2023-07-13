@@ -38,7 +38,8 @@ _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.
 ### Table of contents
 
 - [Polynomial interpolation](#Polynomial-interpolation)
-- [Cubic interpolating Spline](#Cubic-interpolating-Spline)
+- [Cubic interpolating spline](#Cubic-spline-interpolation)
+- [Akima interpolating spline](#Akima-spline-interpolation)
 - [Hermite interpolation](#Hermite-interpolation)
 - [Chebyshev function approximation](#Chebyshev-function-approximation)
 
@@ -89,7 +90,7 @@ chartPol |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
-## Cubic interpolating Spline
+## Cubic spline interpolation
 
 Splines are flexible strips of wood, that were used by shipbuilders to draw smooth shapes. In graphics and mathematics a piecewise cubic polynomial (order = 3) is called spline.
 The curvature (second derivative) of a cubic polynomial is proportional to its tense energy and in spline theory the curvature is minimized. Therefore, the resulting function is very smooth.
@@ -107,7 +108,7 @@ To solve for the spline coefficients it is necessary to define two additional co
 
  - clamped spline: `f'` at first and last knot are set by user
 
-In general, piecewise cubic splines only are defined within the region defined by the used x values.
+In general, piecewise cubic splines only are defined within the region defined by the used x values. Using `predict` with x values outside this range, uses the slopes and intersects of the nearest knot and utilizes them for prediction.
 
 ### Related information
  - [Cubic Spline Interpolation](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
@@ -126,31 +127,33 @@ let yValues = vector [1.;8.;6.;3.;7.;1.]
 
 //calculates the spline coefficients for a natural spline
 let coeffSpline = 
-    CubicSpline.Simple.coefficients CubicSpline.Simple.BoundaryCondition.Natural xValues yValues
+    CubicSpline.fit CubicSpline.BoundaryCondition.Natural xValues yValues
+
 //cubic interpolating splines are only defined within the region defined in xValues
-let fit  x = 
-    CubicSpline.Simple.fit coeffSpline xValues x
+let fitFunctionWithinRange  x = 
+    CubicSpline.predictWithinRange coeffSpline xValues x
+
 //to fit x_Values that are out of the region defined in xValues
 //fits the interpolation spline with linear prediction at borderknots
-let fitIntPo x = 
-    CubicSpline.Simple.fitWithLinearPrediction coeffSpline xValues x
+let fitFunction x = 
+    CubicSpline.predict coeffSpline xValues x
 
 //to compare the spline fit with an interpolating polynomial:
 let coeffPolynomial = 
     Interpolation.Polynomial.coefficients xValues yValues
-let fitPol x = 
+let fitFunctionPol x = 
     Interpolation.Polynomial.fit coeffPolynomial x
 //A linear spline draws straight lines to interpolate all data
 let coeffLinearSpline = Interpolation.LinearSpline.initInterpolate (Array.ofSeq xValues) (Array.ofSeq yValues)
-let fitLinSp = Interpolation.LinearSpline.interpolate coeffLinearSpline
+let fitFunctionLinSp = Interpolation.LinearSpline.interpolate coeffLinearSpline
 
 let splineChart =
     [
-    Chart.Point(xValues,yValues)                                         |> Chart.withTraceInfo "raw data"
-    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitPol x)   |> Chart.Line |> Chart.withTraceInfo "fitPolynomial"
-    [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitIntPo x) |> Chart.Line |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash) |> Chart.withTraceInfo "fitSplineLinPred"
-    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x)      |> Chart.Line |> Chart.withTraceInfo "fitSpline"
-    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitLinSp x) |> Chart.Line |> Chart.withTraceInfo "fitLinearSpline"
+    Chart.Point(xValues,yValues)                                        |> Chart.withTraceInfo "raw data"
+    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitFunctionPol x)        |> Chart.Line |> Chart.withTraceInfo "fitPolynomial"
+    [-1. .. 0.1 .. 8.] |> List.map (fun x -> x,fitFunction x)           |> Chart.Line |> Chart.withLineStyle(Dash=StyleParam.DrawingStyle.Dash) |> Chart.withTraceInfo "fitSpline"
+    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitFunctionWithinRange x)|> Chart.Line |> Chart.withTraceInfo "fitSpline_withinRange"
+    [ 1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitFunctionLinSp x)      |> Chart.Line |> Chart.withTraceInfo "fitLinearSpline"
     ]
     |> Chart.combine
     |> Chart.withTitle "Interpolation methods"
@@ -170,10 +173,10 @@ splineChart |> GenericChart.toChartHTML
 let derivativeChart =
     [
         Chart.Point(xValues,yValues) |> Chart.withTraceInfo "raw data"
-        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,fit x) |> Chart.Line  |> Chart.withTraceInfo "spline fit"
-        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getFirstDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceInfo "fst derivative"
-        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getSecondDerivative coeffSpline xValues x) |> Chart.Point |> Chart.withTraceInfo "snd derivative"
-        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.Simple.getThirdDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceInfo "trd derivative"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,fitFunction x) |> Chart.Line  |> Chart.withTraceInfo "spline fit"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.getFirstDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceInfo "fst derivative"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.getSecondDerivative coeffSpline xValues x) |> Chart.Point |> Chart.withTraceInfo "snd derivative"
+        [1. .. 0.1 .. 6.] |> List.map (fun x -> x,CubicSpline.getThirdDerivative  coeffSpline xValues x) |> Chart.Point |> Chart.withTraceInfo "trd derivative"
     ]
     |> Chart.combine
     |> Chart.withTitle "Cubic spline derivatives"
@@ -189,6 +192,54 @@ derivativeChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
+## Akima spline interpolation
+
+Akima splines are highly connected to default cubic spline interpolation. The main difference is the missing constraint of curvature continuity. This enhanced curvature flexibility diminishes oscillations of the 
+interpolating piecewise cubic splines.
+
+*)
+
+let xVal = [|1. .. 10.|]
+let yVal = [|1.;-0.5;2.;2.;2.;3.;3.;3.;5.;4.|]
+
+let akimaCoeffs = Akima.fit xVal yVal
+
+let akima = 
+    [0. .. 0.1 .. 11.]
+    |> List.map (fun x -> 
+        x,Akima.predict akimaCoeffs x)
+    |> Chart.Line
+
+let cubicCoeffs = CubicSpline.fit CubicSpline.BoundaryCondition.Natural (vector xVal) (vector yVal)
+
+let cubicSpline = 
+    [0. .. 0.1 .. 11.]
+    |> List.map (fun x -> 
+        x,CubicSpline.predict cubicCoeffs (vector xVal) x)
+    |> Chart.Line
+
+let akimaChart = 
+    [
+        Chart.Point(xVal,yVal,Name="data")
+        cubicSpline |> Chart.withTraceInfo "cubic spline"
+        akima |> Chart.withTraceInfo "akima spline"
+    ]
+    |> Chart.combine
+    |> Chart.withTitle "Cubic spline derivatives"
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+(*** condition: ipynb ***)
+#if IPYNB
+akimaChart
+#endif // IPYNB
+
+(***hide***)
+akimaChart |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+
+(**
 ## Hermite interpolation
 
 In Hermite interpolation the user can define the slopes of the function in the knots. This is especially useful if the function is oscillating and thereby generates local minima/maxima.
@@ -201,7 +252,6 @@ Intuitively the slope of a knot should be between the slopes of the adjacent str
 
 open FSharp.Stats
 open FSharp.Stats.Interpolation
-open FSharp.Stats.Interpolation.CubicSpline
 open Plotly.NET
 
 //example from http://www.korf.co.uk/spline.pdf
@@ -209,13 +259,13 @@ let xDataH = vector [0.;10.;30.;50.;70.;80.;82.]
 let yDataH = vector [150.;200.;200.;200.;180.;100.;0.]
 
 //Get slopes for Hermite spline. Try to fit a monotone function.
-let tryMonotoneSlope = Simple.Hermite.getSlopesTryMonotonicity xDataH yDataH    
+let tryMonotoneSlope = CubicSpline.Hermite.getSlopesTryMonotonicity xDataH yDataH    
 //get function for Hermite spline
-let funHermite = Simple.Hermite.cubicHermite xDataH yDataH tryMonotoneSlope
+let funHermite = CubicSpline.Hermite.cubicHermite xDataH yDataH tryMonotoneSlope
 
 //get coefficients and function for a classic natural spline
-let coeffSpl = Simple.coefficients Simple.BoundaryCondition.Natural xDataH yDataH
-let funNaturalSpline x = Simple.fit coeffSpl xDataH x
+let coeffSpl = CubicSpline.fit CubicSpline.BoundaryCondition.Natural xDataH yDataH
+let funNaturalSpline x = CubicSpline.predict coeffSpl xDataH x
 
 //get coefficients and function for a classic polynomial interpolation
 let coeffPolInterpol = 

@@ -111,6 +111,7 @@ let main argv =
     //================================== Interpolation ============================================================
     Tests.runTestsWithCLIArgs [] argv InterpolationTests.cubicInterpolationTests           |> ignore
     Tests.runTestsWithCLIArgs [] argv InterpolationTests.polynomialInterpolationTests      |> ignore
+    Tests.runTestsWithCLIArgs [] argv InterpolationTests.akimaInterpolationTests           |> ignore
     
     
     //================================== Integration ============================================================
