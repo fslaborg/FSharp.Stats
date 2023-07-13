@@ -5,7 +5,7 @@ open FSharp.Stats
 
 module Akima =
 
-    type SplineCoefficients = {
+    type SplineCoef = {
         /// sample points (N+1), sorted ascending
         XValues : float []
         /// Zero order spline coefficients (N)
@@ -23,7 +23,7 @@ module Akima =
 
     // For reference see: http://www.dorn.org/uni/sls/kap06/f08_01.htm
     ///
-    let fitHermiteSorted (xValues:float []) (yValues:float []) (firstDerivatives:float []) = 
+    let interpolateHermiteSorted (xValues:float []) (yValues:float []) (firstDerivatives:float []) = 
         if xValues.Length <> yValues.Length || xValues.Length <> firstDerivatives.Length then
             failwith "input arrays differ in length"
         elif
@@ -41,14 +41,14 @@ module Akima =
             c1.[i] <- firstDerivatives.[i]
             c2.[i] <- (3.*(yValues.[i+1] - yValues.[i])/w - 2. * firstDerivatives.[i] - firstDerivatives.[i+1])/w 
             c3.[i] <- (2.*(yValues.[i] - yValues.[i+1])/w +      firstDerivatives.[i] + firstDerivatives.[i+1])/ww 
-        SplineCoefficients.Create xValues c0 c1 c2 c3
+        SplineCoef.Create xValues c0 c1 c2 c3
         
     let internal leftSegmentIdx arr value = 
         LinearSpline.leftSegmentIdx arr value
 
     //For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm
     ///
-    let fit (xValues:float []) (yValues:float []) =
+    let interpolate (xValues:float []) (yValues:float []) =
         if xValues.Length <> yValues.Length then
             failwith "input arrays differ in length"
         elif
@@ -80,31 +80,31 @@ module Akima =
             tmp.[xValues.Length-2] <- Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-2) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
             tmp.[xValues.Length-1] <- Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-2) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
             tmp
-        fitHermiteSorted xValues yValues dd
+        interpolateHermiteSorted xValues yValues dd
     
     ///
-    let predict (splineCoeffs: SplineCoefficients) xVal =
+    let predict (splineCoeffs: SplineCoef) xVal =
         let k = leftSegmentIdx splineCoeffs.XValues xVal 
         let x = xVal - splineCoeffs.XValues.[k]
         splineCoeffs.C0.[k] + x*(splineCoeffs.C1.[k] + x*(splineCoeffs.C2.[k] + x*splineCoeffs.C3.[k]))
 
 
     ///
-    let getFirstDerivative (splineCoeffs: SplineCoefficients) xVal =
+    let getFirstDerivative (splineCoeffs: SplineCoef) xVal =
         let k = leftSegmentIdx splineCoeffs.XValues xVal 
         let x = xVal - splineCoeffs.XValues.[k]
         splineCoeffs.C1.[k] + x*(2.*splineCoeffs.C2.[k] + x*3.*splineCoeffs.C3.[k])
 
 
     ///
-    let getSecondDerivative (splineCoeffs:SplineCoefficients) xVal =
+    let getSecondDerivative (splineCoeffs:SplineCoef) xVal =
         let k = leftSegmentIdx splineCoeffs.XValues xVal 
         let x = xVal - splineCoeffs.XValues.[k]
         2.*splineCoeffs.C2.[k] + x*6.*splineCoeffs.C3.[k]
 
 
     ///
-    let computeIndefiniteIntegral (splineCoeffs:SplineCoefficients) = 
+    let computeIndefiniteIntegral (splineCoeffs:SplineCoef) = 
         let integral = 
             let tmp = Array.zeroCreate splineCoeffs.C0.Length
             for i = 0 to tmp.Length-2 do
@@ -114,7 +114,7 @@ module Akima =
         integral
 
     ///
-    let integrate (splineCoeffs:SplineCoefficients) xVal = 
+    let integrate (splineCoeffs:SplineCoef) xVal = 
         let integral = computeIndefiniteIntegral splineCoeffs 
         let k = leftSegmentIdx splineCoeffs.XValues xVal 
         let x = xVal - splineCoeffs.XValues.[k]

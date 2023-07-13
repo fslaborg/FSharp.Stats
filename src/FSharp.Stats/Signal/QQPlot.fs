@@ -51,13 +51,13 @@ module QQPlot =
                 ((sampleALength,Seq.sort sampleA),(sampleBLength,Seq.sort sampleB)) 
             else ((sampleBLength,Seq.sort sampleB),(sampleALength,Seq.sort sampleA))
 
-        let linearSpl = LinearSpline.initInterpolate [|0. .. float bN - 1.|] (Array.ofSeq bigSet)
+        let linearSpl = LinearSpline.interpolate [|0. .. float bN - 1.|] (Array.ofSeq bigSet)
         let stepwidth = float (bN-1) / float (sN-1)
         
         let approxbigSet = 
             Array.init sN (fun i -> 
                 let xV = (float i) * stepwidth
-                let yV = LinearSpline.interpolate linearSpl xV
+                let yV = LinearSpline.predict linearSpl xV
                 yV
             )
         

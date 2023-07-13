@@ -2,6 +2,7 @@ namespace FSharp.Stats.Interpolation
 
 open System
 open FSharp.Stats
+open FSharp.Stats.Interpolation
 
 module Approximation =
     
@@ -31,8 +32,9 @@ module Approximation =
         let ny = xy |> Seq.map ( fun (x,y) -> y) |> Seq.toArray
 
         
-        let interPol = Interpolation.LinearSpline.initInterpolateInplace nx ny
-        v |> Seq.map (fun x ->  Interpolation.LinearSpline.interpolate interPol x )
+        let interPol = 
+            LinearSpline.interpolate nx ny
+        v |> Seq.map (fun x -> LinearSpline.predict interPol x )
 
     /// Creates ordered x values in chebyshev spacing to remove runges phenomenon when approximating a given function
     // www.mscroggs.co.uk/blog/57
@@ -55,17 +57,17 @@ module Approximation =
     let approxPolynomial (f: float -> float) (i: Intervals.Interval<float>) (n: int) = 
         let xVal = equalNodes i n 
         let yVal = Vector.map f xVal
-        Polynomial.coefficients xVal yVal
+        Polynomial.interpolate xVal yVal
 
     /// Determines polynomial coefficients to approximate the given function with n equally spaced nodes.
     /// Use Polynomial.fit to get a polynomial function of the coefficients.
     let approxPolynomialFromValues xs ys (n: int) = 
         let i = Intervals.ofSeq xs
-        let linearSplineCoeff = LinearSpline.initInterpolate (Array.ofSeq xs) (Array.ofSeq ys)
-        let f = LinearSpline.interpolate linearSplineCoeff
+        let linearSplineCoeff = LinearSpline.interpolate (Array.ofSeq xs) (Array.ofSeq ys)
+        let f = LinearSpline.predict linearSplineCoeff
         let xVal = equalNodes i n 
         let yVal = Vector.map f xVal
-        Polynomial.coefficients xVal yVal
+        Polynomial.interpolate xVal yVal
 
     /// Determines polynomial coefficients to approximate the given function with n nodes, spaced according to chebyshev
     /// Use Polynomial.fit to get a polynomial function of the coefficients.
@@ -73,18 +75,18 @@ module Approximation =
     let approxChebyshevPolynomial (f: float -> float) (i: Intervals.Interval<float>) (n: int) = 
         let xVal = chebyshevNodes i n 
         let yVal = Vector.map f xVal
-        Polynomial.coefficients xVal yVal
+        Polynomial.interpolate xVal yVal
 
     /// Determines polynomial coefficients to approximate the function defined by the given values with n nodes, spaced according to chebyshev
     /// Use Polynomial.fit to get a polynomial function of the coefficients.
     // www.mscroggs.co.uk/blog/57
     let approxChebyshevPolynomialFromValues xs ys (n: int) = 
         let i = Intervals.ofSeq xs
-        let linearSplineCoeff = LinearSpline.initInterpolate (Array.ofSeq xs) (Array.ofSeq ys)
-        let f = LinearSpline.interpolate linearSplineCoeff
+        let linearSplineCoeff = LinearSpline.interpolate (Array.ofSeq xs) (Array.ofSeq ys)
+        let f = LinearSpline.predict linearSplineCoeff
         let xVal = chebyshevNodes i n 
         let yVal = Vector.map f xVal
-        Polynomial.coefficients xVal yVal
+        Polynomial.interpolate xVal yVal
 
     
 

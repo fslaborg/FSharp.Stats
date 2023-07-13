@@ -54,7 +54,7 @@ module LinearSpline =
     /// </code> 
     /// </example>
     /// <remarks>The intersects (C0) correspond to the input y values.</remarks>
-    let initInterpolateSorted (xData: array<float>) (yData: array<float>) =
+    let interpolateSorted (xData: array<float>) (yData: array<float>) =
         if xData.Length <> yData.Length then
             failwith "input arrays differ in length"
         if xData.Length < 2 then
@@ -64,6 +64,10 @@ module LinearSpline =
             Array.init (xData.Length - 1) (fun i -> (yData.[i + 1] - yData.[i]) / (xData.[i + 1] - xData.[i]) )
 
         LinearSplineCoef.Create xData yData c1
+
+    [<Obsolete("Use interpolateSorted instead!")>]
+    let initInterpolateSorted xData yData= 
+        interpolateSorted xData yData
 
     /// <summary>
     ///   Returns the linear spline interpolation coefficients from unsorted x,y data. Works in place and modifies input sequences!
@@ -84,12 +88,16 @@ module LinearSpline =
     /// </code> 
     /// </example>
     /// <remarks>Works in place!</remarks>
-    let initInterpolateInplace (xData: array<float>) (yData: array<float>) =
+    let interpolateInplace (xData: array<float>) (yData: array<float>) =
         if xData.Length <> yData.Length then
             failwith "input arrays differ in length"
 
         Array.sort2InPlaceByKeys 0 (xData.Length) xData yData
-        initInterpolateSorted xData yData
+        interpolateSorted xData yData
+
+    [<Obsolete("Use interpolateInplace instead!")>]
+    let initInterpolateInplace xData yData= 
+        interpolateInplace xData yData
 
     /// <summary>
     ///   Returns the linear spline interpolation coefficients from unsorted x,y data.
@@ -109,14 +117,18 @@ module LinearSpline =
     ///     Interpolation.initInterpolate xData yData 
     /// </code> 
     /// </example>
-    let initInterpolate (xData: array<float>) (yData: array<float>) =
+    let interpolate (xData: array<float>) (yData: array<float>) =
         if xData.Length <> yData.Length then
             failwith "input arrays differ in length"
         
         let x' = Array.copy xData
         let y' = Array.copy yData
         Array.sort2InPlaceByKeys 0 (x'.Length) x' y'
-        initInterpolateSorted x' y'
+        interpolateSorted x' y'
+
+    [<Obsolete("Use interpolate instead!")>]
+    let initInterpolate xData yData= 
+        interpolate xData yData
 
     /// <summary>
     ///   Predicts the y value at point x. A straight line is fitted between the neighboring x values given.
@@ -140,7 +152,7 @@ module LinearSpline =
     /// </code> 
     /// </example>
     /// <remarks>X values that don't not lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
-    let interpolate (lsc: LinearSplineCoef) x =
+    let predict (lsc: LinearSplineCoef) x =
         let k = leftSegmentIdx lsc.XValues x
         lsc.C0.[k] + (x - lsc.XValues.[k]) * lsc.C1.[k]        
 
@@ -168,4 +180,4 @@ module LinearSpline =
     /// <remarks>X values that don't lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
     let differentiate (lsc:LinearSplineCoef) x =
         let k = leftSegmentIdx lsc.XValues x
-        lsc.C1.[k]        
+        lsc.C1.[k]

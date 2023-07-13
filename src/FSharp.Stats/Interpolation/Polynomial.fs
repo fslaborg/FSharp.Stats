@@ -1,5 +1,6 @@
 ﻿namespace FSharp.Stats.Interpolation
 
+open System
 open FSharp.Stats
 open FSharp.Stats.Algebra
 
@@ -13,6 +14,14 @@ open FSharp.Stats.Algebra
 /// </remarks>
 module Polynomial =
     
+    /// contains polynomial coefficients sorted from intercept to highest order factor
+    type PolynomialCoef = {
+        /// <summary>
+        /// vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]
+        /// </summary>
+        C0_CX : Vector<float>
+        } with static member Create c = {C0_CX = c}
+
     /// <summary>
     ///   Calculates the polynomial coefficients for interpolating the given unsorted data. 
     /// </summary>
@@ -32,7 +41,7 @@ module Polynomial =
     ///     Interpolation.Polynomial.coefficients xData yData 
     /// </code> 
     /// </example>
-    let coefficients (xData: Vector<float>) (yData: Vector<float>) =
+    let interpolate (xData: Vector<float>) (yData: Vector<float>) =
         if xData.Length <> yData.Length then
             raise (System.ArgumentException("vector x and y have to be the same size!"))
         let order = xData.Length - 1
@@ -41,12 +50,12 @@ module Polynomial =
                 pown xData.[i] j
                 )
         let b = yData
-        LinearAlgebra.SolveLinearSystem A b
+        PolynomialCoef.Create (LinearAlgebra.SolveLinearSystem A b)
         
     /// <summary>
     ///   takes polynomial coefficients and x value to predict the corresponding interpolating y value
     /// </summary>
-    /// <param name="coef">vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]</param>
+    /// <param name="coef">polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]</param>
     /// <param name="x">x value of which the corresponding y value should be predicted</param>
     /// <returns>predicted y value with given polynomial coefficients at X=x</returns>
     /// <example> 
@@ -64,13 +73,13 @@ module Polynomial =
     /// Interpolation.Polynomial.fit coefficients 1.5
     /// </code> 
     /// </example>
-    let fit (coef : Vector<float>) (x:float) =
-        coef |> Vector.foldi (fun i acc c -> acc + (c * (pown x i))) 0.
+    let predict (coef: PolynomialCoef) (x:float) =
+        coef.C0_CX |> Vector.foldi (fun i acc c -> acc + (c * (pown x i))) 0.
 
     /// <summary>
     ///   calculates derivative values at X=x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...
     /// </summary>
-    /// <param name="coef">vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]</param>
+    /// <param name="coef">polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]</param>
     /// <param name="level">depth of derivative: 1 = slope, 2 = curvature, ... </param>
     /// <param name="x">x value of which the corresponding y value should be predicted</param>
     /// <returns>predicted derivative with given polynomial coefficients at X=x</returns>
@@ -89,15 +98,22 @@ module Polynomial =
     /// Interpolation.Polynomial.getDerivative coefficients 2 1.5
     /// </code> 
     /// </example>
-    let getDerivative (coef: Vector<float>) (level: int) (x: float) =
-        let order = coef.Length - 1
+    let getDerivative (coef: PolynomialCoef) (level: int) (x: float) =
+        let order = coef.C0_CX.Length - 1
         Array.init (order + 1) (fun i -> 
             let factor = 
                 List.init level (fun l -> i-l)
                 |> List.filter (not << isNan)
                 |> List.fold (fun acc c -> acc * (float c)) 1.
-            factor * coef.[i] * (pown x (i-level))
+            factor * coef.C0_CX.[i] * (pown x (i-level))
             )
         |> Array.filter (not << isNan)
         |> Array.sum
 
+    [<Obsolete("Use Polynomial.interpolate instead!")>]
+    let coefficients xData yData= 
+        (interpolate xData yData).C0_CX
+
+    [<Obsolete("Use Polynomial.predict instead!")>]
+    let fit coef x = 
+        predict (PolynomialCoef.Create coef) x

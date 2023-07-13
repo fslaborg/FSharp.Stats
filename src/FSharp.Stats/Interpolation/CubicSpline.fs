@@ -18,10 +18,15 @@ module CubicSpline =
         | Quadratic
         ///f' at first and last knot are set by user
         | Clamped
-              
+
+    type CubicSplineCoef = {
+        XData : vector
+        C0_3 : vector} with
+            static member Create x c = {XData=x;C0_3=c}
+
     /// computes all coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
     /// where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)
-    let fit (boundaryCondition: BoundaryCondition) (xValues: Vector<float>) (yValues: Vector<float>) =
+    let interpolate (boundaryCondition: BoundaryCondition) (xValues: Vector<float>) (yValues: Vector<float>) =
         //f(x)   = ax³+bx²+cx+d
         //f'(x)  = 3ax²+2bx+c
         //f''(x) = 6ax+2b
@@ -189,11 +194,12 @@ module CubicSpline =
         let A = Matrix.ofJaggedArray equations
         let b = Vector.ofArray solutions
 
-        Algebra.LinearAlgebra.SolveLinearSystem A b 
+        let coeffs = Algebra.LinearAlgebra.SolveLinearSystem A b 
+        CubicSplineCoef.Create xValues coeffs
         
     ///Fits a cubic spline with given coefficients. Only defined within the range of the given xValues
-    let predictWithinRange (coefficients: Vector<float>) (xValues: Vector<float>) x =
-        let sortedX = xValues |> Seq.sort
+    let predictWithinRange (coefficients: CubicSplineCoef) x =
+        let sortedX = coefficients.XData |> Seq.sort
         let intervalNumber =
                 
             if x > Seq.last sortedX || x < Seq.head sortedX then 
@@ -207,29 +213,29 @@ module CubicSpline =
                 |> fun nextInterval -> nextInterval - 1
             
         let yValue = 
-            coefficients.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
-            coefficients.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
-            coefficients.[4 * intervalNumber + 2] * x          +    //c*x
-            coefficients.[4 * intervalNumber + 3]                   //d
+            coefficients.C0_3.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
+            coefficients.C0_3.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
+            coefficients.C0_3.[4 * intervalNumber + 2] * x          +    //c*x
+            coefficients.C0_3.[4 * intervalNumber + 3]                   //d
             
         yValue
 
     ///fits a cubic spline fit even outside of the interval defined in xValues by linear interpolation of slope given by border knots
-    let predict (coefficients: Vector<float>) (xValues: Vector<float>) x =
-        let sortedX = xValues |> Seq.sort
-        let xHead = xValues |> Seq.head
-        let xLast = xValues |> Seq.last
+    let predict (coefficients: CubicSplineCoef) x =
+        let sortedX = coefficients.XData |> Seq.sort
+        let xHead = coefficients.XData |> Seq.head
+        let xLast = coefficients.XData |> Seq.last
             
         let intercept intervalNumber x = 
-            coefficients.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
-            coefficients.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
-            coefficients.[4 * intervalNumber + 2] * x          +    //c*x
-            coefficients.[4 * intervalNumber + 3]                   //d           
+            coefficients.C0_3.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
+            coefficients.C0_3.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
+            coefficients.C0_3.[4 * intervalNumber + 2] * x          +    //c*x
+            coefficients.C0_3.[4 * intervalNumber + 3]                   //d           
             
-        let slope intervalNumber x= 
-            3. * coefficients.[4 * intervalNumber + 0] * (pown x 2) +   //3a*x²
-            2. * coefficients.[4 * intervalNumber + 1] * x +            //2b*x
-            coefficients.[4 * intervalNumber + 2]                       //c
+        let slope intervalNumber x = 
+            3. * coefficients.C0_3.[4 * intervalNumber + 0] * (pown x 2) +   //3a*x²
+            2. * coefficients.C0_3.[4 * intervalNumber + 1] * x +            //2b*x
+            coefficients.C0_3.[4 * intervalNumber + 2]                       //c
 
         if x >= Seq.last sortedX then 
             let intervalNr = Seq.length sortedX - 2
@@ -242,10 +248,10 @@ module CubicSpline =
             let y = intercept intervalNr xHead + diffX * (slope intervalNr xHead)
             y
         else
-            predictWithinRange coefficients xValues x
+            predictWithinRange coefficients x
 
-    let private getDerivative order (coefficients: Vector<float>) (xValues: Vector<float>) x =
-        let sortedX = xValues |> Seq.sort
+    let internal getDerivative order (coefficients: CubicSplineCoef) x =
+        let sortedX = coefficients.XData |> Seq.sort
         let intervalNumber =
             if x >= Seq.last sortedX then 
                 Seq.length sortedX - 2
@@ -258,36 +264,91 @@ module CubicSpline =
         match order with
         | d when d = 1 ->
             let firstDerivative = 
-                3. * coefficients.[4 * intervalNumber + 0] * (pown x 2) +   //3a*x²
-                2. * coefficients.[4 * intervalNumber + 1] * x +            //2b*x
-                coefficients.[4 * intervalNumber + 2]                       //c          
+                3. * coefficients.C0_3.[4 * intervalNumber + 0] * (pown x 2) +   //3a*x²
+                2. * coefficients.C0_3.[4 * intervalNumber + 1] * x +            //2b*x
+                coefficients.C0_3.[4 * intervalNumber + 2]                       //c          
             firstDerivative
         | d when d = 2 ->
             let secondDerivative = 
-                6. * coefficients.[4 * intervalNumber + 0] * x +   //6ax
-                2. * coefficients.[4 * intervalNumber + 1]         //2b      
+                6. * coefficients.C0_3.[4 * intervalNumber + 0] * x +   //6ax
+                2. * coefficients.C0_3.[4 * intervalNumber + 1]         //2b      
             secondDerivative
         | d when d = 3 ->
             let thirdDerivative = 
-                6. * coefficients.[4 * intervalNumber + 0]  //6a     
+                6. * coefficients.C0_3.[4 * intervalNumber + 0]  //6a     
             thirdDerivative
         | _ -> failwithf "for cubic splines no derivative > 3 is defined"
 
-    let getFirstDerivative (coefficients: Vector<float>) (xValues: Vector<float>) x =
-        getDerivative 1 coefficients xValues x
+    let getFirstDerivative (coefficients: CubicSplineCoef) x =
+        getDerivative 1 coefficients x
 
-    let getSecondDerivative (coefficients: Vector<float>) (xValues: Vector<float>) x =
-        getDerivative 2 coefficients xValues x    
+    let getSecondDerivative (coefficients: CubicSplineCoef) x =
+        getDerivative 2 coefficients x    
         
-    let getThirdDerivative (coefficients: Vector<float>) (xValues: Vector<float>) x =
-        getDerivative 3 coefficients xValues x
+    let getThirdDerivative (coefficients: CubicSplineCoef) x =
+        getDerivative 3 coefficients x
 
     module Hermite =
 
+        type HermiteCoef = {
+            /// sample points, sorted ascending
+            XValues : vector
+            /// Zero order spline coefficients, intersects, y values
+            YValues : vector
+            /// First order spline coefficients, slopes at knots
+            Slopes : vector
+            } with 
+                static member Create xValues yValues slopes  = {
+                    XValues=xValues;YValues=yValues;Slopes=slopes
+                    }
+
+        let interpolate (xData: Vector<float>) (yData: Vector<float>) = 
+            let slopes = 
+                Vector.init xData.Length (fun i ->
+                    if i = 0 then
+                        (yData.[i] - yData.[i+1]) / (xData.[i] - xData.[i+1])
+                    elif i = xData.Length - 1 then 
+                        (yData.[i] - yData.[i-1]) / (xData.[i] - xData.[i-1])
+                    else 
+                        let s1 = (yData.[i] - yData.[i+1]) / (xData.[i] - xData.[i+1])
+                        let s2 = (yData.[i] - yData.[i-1]) / (xData.[i] - xData.[i-1])
+                        (s1 + s2) / 2.
+                    )
+            HermiteCoef.Create xData yData slopes
+
+        ///if the knots are monotone in/decreasing, the spline also is monotone (http://www.korf.co.uk/spline.pdf)
+        let interpolateTryMonotonicity (xData: Vector<float>) (yData: Vector<float>) =
+            let calcSlope i =
+                let s1 = (xData.[i+1] - xData.[i]) / (yData.[i+1] - yData.[i])
+                let s2 = (xData.[i] - xData.[i-1]) / (yData.[i] - yData.[i-1])
+                2. / (s1 + s2)
+
+            let rec loop i acc =
+                if i = xData.Length - 1 then
+                    let s1 = (3. * (yData.[i] - yData.[i-1])) / (2. * (xData.[i] - xData.[i-1]))
+                    let s2 = calcSlope (i-1) / 2.
+                    let tmp = s1 - s2
+                    (tmp::acc) |> List.rev
+                else 
+                    let tmp = calcSlope i
+                    if ((yData.[i] - yData.[i-1]) * (yData.[i+1] - yData.[i])) <= 0. then 
+                        loop (i+1) (0.::acc)
+                    else 
+                        loop (i+1) (tmp::acc)
+
+            let slopeAtFstKnot = 
+                let s1 = (3. * (yData.[1] - yData.[0])) / (2. * (xData.[1] - xData.[0]))
+                let s2 = calcSlope 1 / 2.
+                let slope = s1 - s2
+                slope
+ 
+            let slopes = loop 1 [slopeAtFstKnot] 
+            HermiteCoef.Create xData yData (slopes |> vector)
+
         ///calculates a function to interpolate between the datapoints with given slopes (yData').
         ///the data has to be sorted ascending
-        let cubicHermite (xData: Vector<float>) (yData: Vector<float>) (yData': Vector<float>) =
-            let n = xData.Length
+        let predict (coef: HermiteCoef) x =
+            let n = coef.XValues.Length
 
             let phi0 t tAdd1 x =
                 let tmp = (x - t) / (tAdd1 - t)
@@ -310,26 +371,23 @@ module CubicSpline =
                 a * b 
 
             let calculate index x =
-                let ph0 = yData.[index]    * phi0 xData.[index] xData.[index+1] x
-                let ph1 = yData.[index+1]  * phi1 xData.[index] xData.[index+1] x
-                let ps0 = yData'.[index]   * psi0 xData.[index] xData.[index+1] x
-                let ps1 = yData'.[index+1] * psi1 xData.[index] xData.[index+1] x
+                let ph0 = coef.YValues.[index]    * phi0 coef.XValues.[index] coef.XValues.[index+1] x
+                let ph1 = coef.YValues.[index+1]  * phi1 coef.XValues.[index] coef.XValues.[index+1] x
+                let ps0 = coef.Slopes.[index]   * psi0 coef.XValues.[index] coef.XValues.[index+1] x
+                let ps1 = coef.Slopes.[index+1] * psi1 coef.XValues.[index] coef.XValues.[index+1] x
                 ph0 + ph1 + ps0 + ps1
 
-
-            (fun t ->
-                if t = Seq.last xData then 
-                    Seq.last yData
-                else                 
-                    let i = 
-                        match Array.tryFindIndexBack (fun xs -> xs <= t) (xData |> Vector.toArray) with 
-                        | Some x -> x 
-                        | None   -> failwith "The given xValue is out of the range defined in xData"
-                    calculate i t
-                )              
-        
+            if x = Seq.last coef.XValues then 
+                Seq.last coef.YValues
+            else                 
+                let i = 
+                    match Array.tryFindIndexBack (fun xs -> xs <= x) (coef.XValues |> Vector.toArray) with 
+                    | Some x -> x 
+                    | None   -> failwith "The given xValue is out of the range defined in xData"
+                calculate i x
 
         ///calculates the slopes by averaging the slopes of neighbouring tangents
+        [<Obsolete("Use interpolate instead to get slopes")>]
         let getSimpleSlopes (xData: Vector<float>) (yData: Vector<float>) = 
             Vector.init xData.Length (fun i ->
                 if i = 0 then
@@ -340,9 +398,10 @@ module CubicSpline =
                     let s1 = (yData.[i] - yData.[i+1]) / (xData.[i] - xData.[i+1])
                     let s2 = (yData.[i] - yData.[i-1]) / (xData.[i] - xData.[i-1])
                     (s1 + s2) / 2.
-                                        )
+                )
 
         ///if the knots are monotone in/decreasing, the spline also is monotone (http://www.korf.co.uk/spline.pdf)
+        [<Obsolete("Use interpolateTryMonotonicity instead")>]
         let getSlopesTryMonotonicity (xData: Vector<float>) (yData: Vector<float>) =
             let calcSlope i =
                 let s1 = (xData.[i+1] - xData.[i]) / (yData.[i+1] - yData.[i])
@@ -376,59 +435,62 @@ module CubicSpline =
     
         [<Obsolete("Use Interpolation.CubicSpline.coefficients instead!")>]
         let coefficients (boundaryCondition: BoundaryCondition) (xValues: Vector<float>) (yValues: Vector<float>) =
-            fit boundaryCondition xValues yValues 
+            interpolate boundaryCondition xValues yValues 
     
         [<Obsolete("Use Interpolation.CubicSpline.predictWithinRange instead!")>]
         let fit (coefficients: Vector<float>) (xValues: Vector<float>) x =
-            predictWithinRange coefficients xValues
+            predictWithinRange (CubicSplineCoef.Create xValues coefficients) x
     
         [<Obsolete("Use Interpolation.CubicSpline.predict instead!")>]
         let fitWithLinearPrediction (coefficients: Vector<float>) (xValues: Vector<float>) x =
-            predict coefficients xValues
+            predict (CubicSplineCoef.Create xValues coefficients) x
     
         [<Obsolete("Use Interpolation.CubicSpline.getFirstDerivative instead!")>]
         let getFirstDerivative (coefficients: Vector<float>) (xValues: Vector<float>) x =
-            getFirstDerivative coefficients xValues
+            getFirstDerivative (CubicSplineCoef.Create xValues coefficients)
     
         [<Obsolete("Use Interpolation.CubicSpline.getSecondDerivative instead!")>]
         let getSecondDerivative (coefficients: Vector<float>) (xValues: Vector<float>) x =
-            getSecondDerivative coefficients xValues
+            getSecondDerivative (CubicSplineCoef.Create xValues coefficients)
     
         [<Obsolete("Use Interpolation.CubicSpline.getThirdDerivative instead!")>]
         let getThirdDerivative (coefficients: Vector<float>) (xValues: Vector<float>) x =
-            getThirdDerivative coefficients xValues
+            getThirdDerivative (CubicSplineCoef.Create xValues coefficients)
     
     [<Obsolete("Use Interpolation.Akima instead!")>]
     module Differentiable = 
     
-        [<Obsolete("Use Interpolation.Akima.fitHermiteSorted instead!")>]
+        [<Obsolete("Use Interpolation.Akima.interpolateHermiteSorted instead!")>]
         let interpolateHermiteSorted (xValues:float []) (yValues:float []) (firstDerivatives:float []) = 
-            Akima.fitHermiteSorted xValues yValues firstDerivatives
+            Akima.interpolateHermiteSorted xValues yValues firstDerivatives
     
-        [<Obsolete("Use Interpolation.Akima.fit instead!")>]
+        [<Obsolete("Use Interpolation.Akima.interpolate instead!")>]
         let coefficients (xValues:float []) (yValues:float []) =
-            Akima.fit xValues yValues
+            Akima.interpolate xValues yValues
     
         [<Obsolete("Use Interpolation.Akima.predict instead!")>]
-        let interpolateAtX (splineCoeffs: Akima.SplineCoefficients) xVal =
+        let interpolateAtX (splineCoeffs: Akima.SplineCoef) xVal =
             Akima.predict splineCoeffs xVal
     
         [<Obsolete("Use Interpolation.Akima.getFirstDerivative instead!")>]
-        let firstDerivative (splineCoeffs: Akima.SplineCoefficients) xVal =
+        let firstDerivative (splineCoeffs: Akima.SplineCoef) xVal =
             Akima.getFirstDerivative splineCoeffs xVal
     
         [<Obsolete("Use Interpolation.Akima.secondDerivative instead!")>]
-        let secondDerivative (splineCoeffs: Akima.SplineCoefficients) xVal =
+        let secondDerivative (splineCoeffs: Akima.SplineCoef) xVal =
             Akima.getSecondDerivative splineCoeffs xVal
     
         [<Obsolete("Use Interpolation.Akima.computeIndefiniteIntegral instead!")>]
-        let computeIndefiniteIntegral (splineCoeffs: Akima.SplineCoefficients) = 
+        let computeIndefiniteIntegral (splineCoeffs: Akima.SplineCoef) = 
             Akima.computeIndefiniteIntegral splineCoeffs
     
         [<Obsolete("Use Interpolation.Akima.integrate instead!")>]
-        let integrate (splineCoeffs: Akima.SplineCoefficients) xVal = 
+        let integrate (splineCoeffs: Akima.SplineCoef) xVal = 
             Akima.integrate splineCoeffs xVal
     
         [<Obsolete("Use Interpolation.Akima.definiteIntegral instead!")>]
         let definiteIntegral (integrateF: float -> float) xVal1 xVal2 =
             Akima.definiteIntegral xVal1 xVal2
+
+
+

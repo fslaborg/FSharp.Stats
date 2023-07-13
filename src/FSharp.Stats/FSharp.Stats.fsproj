@@ -90,6 +90,7 @@
     <Compile Include="Interpolation\LinearSpline.fs" />
     <Compile Include="Interpolation\Akima.fs" />
     <Compile Include="Interpolation\CubicSpline.fs" />
+    <Compile Include="Interpolation\Interpolation.fs" />
     <Compile Include="Interpolation\Approximation.fs" />
     <!-- Signal -->
     <Compile Include="Signal\Normalization.fs" />
