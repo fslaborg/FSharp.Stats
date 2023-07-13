@@ -27,7 +27,7 @@ module LinearSpline =
                 C1      = c1;
                 }
 
-    let private leftSegmentIdx arr value = 
+    let internal leftSegmentIdx arr value = 
         let idx = 
             let tmp = Array.BinarySearch(arr, value)
             let idx = if tmp < 0 then ~~~tmp-1 else tmp
