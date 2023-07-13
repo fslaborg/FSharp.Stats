@@ -95,8 +95,8 @@
     <div>
       <p class="fsdocs-summary">
         
- Simple polynomial regression
-
+   Linear regression using polynomials as regression function:  f(x) =  a + bx + cx^2 + ....
+ 
       </p>
     </div>
   </div>
@@ -119,7 +119,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1353', 1353)" onmouseover="showTip(event, '1353', 1353)">
+              <code onmouseout="hideTip(event, '1345', 1345)" onmouseover="showTip(event, '1345', 1345)">
                 <p>
                   <a id="coefficient">
                     <a href="#coefficient">
@@ -128,7 +128,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1353">
+              <div class="fsdocs-tip" id="1345">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>coefficient&#32;<span>order&#32;xData&#32;yData</span></span></code>
@@ -142,6 +142,8 @@
                       </b>
                       :
                       <code>int</code>
+                       - 
+                      order of the polynomial (1 = linear, 2 = quadratic, ... )
                     </span>
                     <br/>
                     <span>
@@ -150,6 +152,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of x values
                     </span>
                     <br/>
                     <span>
@@ -158,6 +162,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of y values
                     </span>
                     <br/>
                   </ul>
@@ -166,6 +172,7 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
                   </span>
+                  vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]
                   <br/>
                 </div>
               </div>
@@ -181,14 +188,14 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L183-183" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L275-275" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Calculates the coefficients for polynomial regression
-
+   Calculates the polynomial coefficients for polynomial regression. 
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -199,7 +206,11 @@
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  order of the polynomial (1 = linear, 2 = quadratic, ... )
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   xData
@@ -207,7 +218,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of x values
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   yData
@@ -215,7 +230,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of y values
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -224,14 +243,32 @@
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the three coefficients of a quadratic polynomial.
+ let coefficients = 
+     LinearRegression.OrdinaryLeastSquares.Polynomial.coefficients 2 xData yData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1354', 1354)" onmouseover="showTip(event, '1354', 1354)">
+              <code onmouseout="hideTip(event, '1346', 1346)" onmouseover="showTip(event, '1346', 1346)">
                 <p>
                   <a id="coefficientsWithWeighting">
                     <a href="#coefficientsWithWeighting">
@@ -240,7 +277,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1354">
+              <div class="fsdocs-tip" id="1346">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>coefficientsWithWeighting&#32;<span>order&#32;weighting&#32;xData&#32;yData</span></span></code>
@@ -254,6 +291,8 @@
                       </b>
                       :
                       <code>int</code>
+                       - 
+                      order of the polynomial (1 = linear, 2 = quadratic, ... )
                     </span>
                     <br/>
                     <span>
@@ -262,6 +301,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      Vector of weightings that define the releveance of each point for fitting.
                     </span>
                     <br/>
                     <span>
@@ -270,6 +311,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of x values
                     </span>
                     <br/>
                     <span>
@@ -278,6 +321,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of y values
                     </span>
                     <br/>
                   </ul>
@@ -286,6 +331,7 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
                   </span>
+                  vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]
                   <br/>
                 </div>
               </div>
@@ -301,14 +347,14 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L196-196" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L307-307" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Calculates the coefficients for polynomial regression with given weighting
-
+   Calculates the polynomial coefficients for polynomial regression with a given point weighting. 
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -319,7 +365,11 @@
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  order of the polynomial (1 = linear, 2 = quadratic, ... )
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   weighting
@@ -327,7 +377,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  Vector of weightings that define the releveance of each point for fitting.
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   xData
@@ -335,7 +389,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of x values
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   yData
@@ -343,7 +401,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of y values
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -352,14 +414,32 @@
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the three coefficients of a quadratic polynomial.
+ let coefficients = 
+     LinearRegression.OrdinaryLeastSquares.Polynomial.coefficients 2 xData yData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1355', 1355)" onmouseover="showTip(event, '1355', 1355)">
+              <code onmouseout="hideTip(event, '1347', 1347)" onmouseover="showTip(event, '1347', 1347)">
                 <p>
                   <a id="cooksDistance">
                     <a href="#cooksDistance">
@@ -368,7 +448,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1355">
+              <div class="fsdocs-tip" id="1347">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>cooksDistance&#32;<span>order&#32;xData&#32;yData</span></span></code>
@@ -382,6 +462,8 @@
                       </b>
                       :
                       <code>int</code>
+                       - 
+                      order of the polynomial (1 = linear, 2 = quadratic, ... )
                     </span>
                     <br/>
                     <span>
@@ -390,6 +472,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of x values
                     </span>
                     <br/>
                     <span>
@@ -398,6 +482,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of y values
                     </span>
                     <br/>
                   </ul>
@@ -406,6 +492,7 @@
                     Returns: 
                     <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
                   </span>
+                  returns collection of cooks distances for each data point
                   <br/>
                 </div>
               </div>
@@ -421,15 +508,15 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L244-244" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L419-419" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Fits a polynomial model of user defined order to the data and returns the cooks distance for every data pair present in the
- input collections as an estimator for the influence of each data point in coefficient estimation.  
-
+   Fits a polynomial model of user defined order to the data and returns the cooks distance for every data pair present in the
+   input collections as an estimator for the influence of each data point in coefficient estimation.  
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -440,7 +527,11 @@
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  order of the polynomial (1 = linear, 2 = quadratic, ... )
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   xData
@@ -448,7 +539,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of x values
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   yData
@@ -456,7 +551,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of y values
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -465,14 +564,32 @@
                 </span>
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  returns collection of cooks distances for each data point
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+
+ // Returns distances for a quadratic polynomial
+ let distances = 
+     LinearRegression.OrdinaryLeastSquares.Polynomial.cooksDistance 2 xData yData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1356', 1356)" onmouseover="showTip(event, '1356', 1356)">
+              <code onmouseout="hideTip(event, '1348', 1348)" onmouseover="showTip(event, '1348', 1348)">
                 <p>
                   <a id="fit">
                     <a href="#fit">
@@ -481,7 +598,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1356">
+              <div class="fsdocs-tip" id="1348">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>fit&#32;<span>order&#32;coef&#32;x</span></span></code>
@@ -495,6 +612,8 @@
                       </b>
                       :
                       <code>int</code>
+                       - 
+                      order of the polynomial (1 = linear, 2 = quadratic, ... )
                     </span>
                     <br/>
                     <span>
@@ -503,6 +622,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]
                     </span>
                     <br/>
                     <span>
@@ -511,6 +632,8 @@
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      x value of which the corresponding y value should be predicted
                     </span>
                     <br/>
                   </ul>
@@ -519,6 +642,7 @@
                     Returns: 
                     <code>float</code>
                   </span>
+                  predicted y value with given polynomial coefficients at X=x
                   <br/>
                 </div>
               </div>
@@ -534,16 +658,19 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L225-225" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L361-361" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Fit to x
-
+   takes polynomial coefficients and x value to predict the corresponding y value
+ 
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              If all coefficients are nonzero, the order is equal to the length of the coefficient vector!
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -552,7 +679,11 @@
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  order of the polynomial (1 = linear, 2 = quadratic, ... )
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   coef
@@ -560,7 +691,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   x
@@ -568,7 +703,11 @@
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  x value of which the corresponding y value should be predicted
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -577,14 +716,35 @@
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  predicted y value with given polynomial coefficients at X=x
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Define the polynomial coefficients.
+ let coefficients = 
+     LinearRegression.OrdinaryLeastSquares.Polynomial.coefficients xData yData 
+ 
+ // Predict the temperature value at midnight between day 1 and 2. 
+ LinearRegression.OrdinaryLeastSquares.Polynomial.fit coefficients 1.5</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1357', 1357)" onmouseover="showTip(event, '1357', 1357)">
+              <code onmouseout="hideTip(event, '1349', 1349)" onmouseover="showTip(event, '1349', 1349)">
                 <p>
                   <a id="getDerivative">
                     <a href="#getDerivative">
@@ -593,7 +753,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1357">
+              <div class="fsdocs-tip" id="1349">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getDerivative&#32;<span>coef&#32;level&#32;x</span></span></code>
@@ -607,6 +767,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]
                     </span>
                     <br/>
                     <span>
@@ -615,6 +777,8 @@
                       </b>
                       :
                       <code>int</code>
+                       - 
+                      depth of derivative: 1 = slope, 2 = curvature, ... 
                     </span>
                     <br/>
                     <span>
@@ -623,6 +787,8 @@
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      x value of which the corresponding y value should be predicted
                     </span>
                     <br/>
                   </ul>
@@ -631,6 +797,7 @@
                     Returns: 
                     <code>float</code>
                   </span>
+                  predicted derivative with given polynomial coefficients at X=x
                   <br/>
                 </div>
               </div>
@@ -646,14 +813,14 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L229-229" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L386-386" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
-gets derivative at x with given polynomial coefficients. Level1 = fst derivative; Level2 = smd derivative ...
-
+   calculates derivative values at X=x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -664,7 +831,11 @@ gets derivative at x with given polynomial coefficients. Level1 = fst derivative
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   level
@@ -672,7 +843,11 @@ gets derivative at x with given polynomial coefficients. Level1 = fst derivative
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  depth of derivative: 1 = slope, 2 = curvature, ... 
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   x
@@ -680,7 +855,11 @@ gets derivative at x with given polynomial coefficients. Level1 = fst derivative
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  x value of which the corresponding y value should be predicted
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -689,8 +868,29 @@ gets derivative at x with given polynomial coefficients. Level1 = fst derivative
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  predicted derivative with given polynomial coefficients at X=x
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the polynomial coefficients
+ let coefficients = 
+     LinearRegression.OrdinaryLeastSquares.Polynomial.coefficients xData yData 
+ 
+ // Predict the curvature of the regression function at midnight between day 1 and 2. 
+ LinearRegression.OrdinaryLeastSquares.Polynomial.getDerivative coefficients 2 1.5</code></pre>
+            </p>
           </td>
         </tr>
       </tbody>

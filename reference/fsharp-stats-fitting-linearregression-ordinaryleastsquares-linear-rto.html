@@ -95,8 +95,8 @@
     <div>
       <p class="fsdocs-summary">
         
- Regression through the origin (y : x -> bx)
-
+ Fits straight regression lines through the origin f(x) = bx.
+ 
       </p>
     </div>
   </div>
@@ -119,37 +119,41 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1342', 1342)" onmouseover="showTip(event, '1342', 1342)">
+              <code onmouseout="hideTip(event, '1334', 1334)" onmouseover="showTip(event, '1334', 1334)">
                 <p>
                   <a id="coefficient">
                     <a href="#coefficient">
-                      <code><span>coefficient&#32;<span>x&#32;y</span></span></code>
+                      <code><span>coefficient&#32;<span>xData&#32;yData</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1342">
+              <div class="fsdocs-tip" id="1334">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>coefficient&#32;<span>x&#32;y</span></span></code>
+                  <code><span>coefficient&#32;<span>xData&#32;yData</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        x
+                        xData
                       </b>
                       :
-                      <code><span>float&#32;list</span></code>
+                      <code><span>seq&lt;float&gt;</span></code>
+                       - 
+                      vector of x values
                     </span>
                     <br/>
                     <span>
                       <b>
-                        y
+                        yData
                       </b>
                       :
-                      <code><span>float&#32;list</span></code>
+                      <code><span>seq&lt;float&gt;</span></code>
+                       - 
+                      vector of y values
                     </span>
                     <br/>
                   </ul>
@@ -158,6 +162,7 @@
                     Returns: 
                     <code>float</code>
                   </span>
+                  Slope of the regression line through the origin
                   <br/>
                 </div>
               </div>
@@ -173,33 +178,41 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L52-52" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L92-92" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Calculates the coefficients for linear regression through the origin 
-
+   Calculates the slope of a regression line through the origin  
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  x
+                  xData
                 </span>
                 :
-                <code><span>float&#32;list</span></code>
+                <code><span>seq&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of x values
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  y
+                  yData
                 </span>
                 :
-                <code><span>float&#32;list</span></code>
+                <code><span>seq&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of y values
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -208,44 +221,66 @@
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Slope of the regression line through the origin
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|0.;1.;2.;3.;4.;5.;|]
+ // some measured feature, that theoretically is zero at day 0
+ let yData = vector [|1.;5.;9.;13.;17.;18.;|]
+ 
+ // Estimate the slope of the regression line.
+ let coefficients = 
+     LinearRegression.OrdinaryLeastSquares.Linear.RTO.coefficient xData yData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1343', 1343)" onmouseover="showTip(event, '1343', 1343)">
+              <code onmouseout="hideTip(event, '1335', 1335)" onmouseover="showTip(event, '1335', 1335)">
                 <p>
                   <a id="coefficientOfVector">
                     <a href="#coefficientOfVector">
-                      <code><span>coefficientOfVector&#32;<span>x&#32;y</span></span></code>
+                      <code><span>coefficientOfVector&#32;<span>xData&#32;yData</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1343">
+              <div class="fsdocs-tip" id="1335">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>coefficientOfVector&#32;<span>x&#32;y</span></span></code>
+                  <code><span>coefficientOfVector&#32;<span>xData&#32;yData</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        x
+                        xData
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of x values
                     </span>
                     <br/>
                     <span>
                       <b>
-                        y
+                        yData
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of y values
                     </span>
                     <br/>
                   </ul>
@@ -254,6 +289,7 @@
                     Returns: 
                     <code>float</code>
                   </span>
+                  Slope of the regression line through the origin
                   <br/>
                 </div>
               </div>
@@ -269,33 +305,41 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L44-44" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L67-67" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Calculates the coefficients for linear regression through the origin 
-
+   Calculates the slope of a regression line through the origin  
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  x
+                  xData
                 </span>
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of x values
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  y
+                  yData
                 </span>
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of y values
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -304,14 +348,32 @@
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Slope of the regression line through the origin
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|0.;1.;2.;3.;4.;5.;|]
+ // some measured feature, that theoretically is zero at day 0
+ let yData = vector [|1.;5.;9.;13.;17.;18.;|]
+ 
+ // Estimate the slope of the regression line.
+ let coefficients = 
+     LinearRegression.OrdinaryLeastSquares.Linear.coefficient xData yData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1344', 1344)" onmouseover="showTip(event, '1344', 1344)">
+              <code onmouseout="hideTip(event, '1336', 1336)" onmouseover="showTip(event, '1336', 1336)">
                 <p>
                   <a id="fit">
                     <a href="#fit">
@@ -320,7 +382,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1344">
+              <div class="fsdocs-tip" id="1336">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>fit&#32;<span>coef&#32;x</span></span></code>
@@ -334,6 +396,8 @@
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      The functions slope
                     </span>
                     <br/>
                     <span>
@@ -342,6 +406,8 @@
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      x value of which the corresponding y value should be predicted
                     </span>
                     <br/>
                   </ul>
@@ -350,6 +416,7 @@
                     Returns: 
                     <code>float</code>
                   </span>
+                  predicted y value
                   <br/>
                 </div>
               </div>
@@ -365,15 +432,14 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L63-63" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L130-130" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Fit to x
- coefficient is beta only
-
+   Predicts the y value for a given slope and x value (intercept=0)
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -384,7 +450,11 @@
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The functions slope
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   x
@@ -392,7 +462,11 @@
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  x value of which the corresponding y value should be predicted
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -401,14 +475,28 @@
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  predicted y value
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ let mySlope = 17.8
+
+ // Returns predicted y value at x=6 using a line with intercept=0 and slope=17.8
+ LinearRegression.OrdinaryLeastSquares.Linear.RTO.fit mySlope 6.</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1345', 1345)" onmouseover="showTip(event, '1345', 1345)">
+              <code onmouseout="hideTip(event, '1337', 1337)" onmouseover="showTip(event, '1337', 1337)">
                 <p>
                   <a id="fitFunc">
                     <a href="#fitFunc">
@@ -417,7 +505,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1345">
+              <div class="fsdocs-tip" id="1337">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>fitFunc&#32;<span>coef&#32;x</span></span></code>
@@ -431,6 +519,8 @@
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      The functions slope
                     </span>
                     <br/>
                     <span>
@@ -447,6 +537,7 @@
                     Returns: 
                     <code>float</code>
                   </span>
+                  Function that takes a x value and returns the predicted y value
                   <br/>
                 </div>
               </div>
@@ -462,15 +553,14 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L57-57" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L112-112" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Returns the regression function
- coefficient is beta only
-
+   Returns the regression function of a line through the origin
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -481,7 +571,11 @@
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The functions slope
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   x
@@ -498,8 +592,26 @@
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Function that takes a x value and returns the predicted y value
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ let mySlope = 17.8
+
+ // get the f�tting function that fits through the origin
+ let myF = 
+     LinearRegression.OrdinaryLeastSquares.Linear.RTO.fitFunc mySlope
+
+ // Returns predicted y value at x=6 using a line with intercept=0 and slope=17.8
+ myF 6.</code></pre>
+            </p>
           </td>
         </tr>
       </tbody>

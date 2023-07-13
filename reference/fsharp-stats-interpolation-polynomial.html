@@ -89,8 +89,17 @@
     <div>
       <p class="fsdocs-summary">
         
+   Calculates polynomials that interpolatethe two dimensional data. The polynomial order is equal to the number of data points - 1.
+ 
       </p>
     </div>
+    <p class="fsdocs-remarks">
+      
+   In general a polynomial with degree = datapointNumber - 1 is flexible enough to interpolate all datapoints.
+   But polynomial regression with degree = datapointNumber - 1 cannot be used for polynomial interpolation 
+   because the least squares approach is not sufficient to converge interpolating.
+ 
+    </p>
   </div>
   <div>
     <h3>
@@ -111,7 +120,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1460', 1460)" onmouseover="showTip(event, '1460', 1460)">
+              <code onmouseout="hideTip(event, '1451', 1451)" onmouseover="showTip(event, '1451', 1451)">
                 <p>
                   <a id="coefficients">
                     <a href="#coefficients">
@@ -120,7 +129,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1460">
+              <div class="fsdocs-tip" id="1451">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>coefficients&#32;<span>xData&#32;yData</span></span></code>
@@ -134,6 +143,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of x values
                     </span>
                     <br/>
                     <span>
@@ -142,6 +153,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of y values
                     </span>
                     <br/>
                   </ul>
@@ -150,6 +163,7 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
                   </span>
+                  vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]
                   <br/>
                 </div>
               </div>
@@ -165,16 +179,19 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/Polynomial.fs#L14-14" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/Polynomial.fs#L35-35" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
-calculates the polynomial coefficients for interpolating the given unsorted data. No duplicates allowed!
-
+   Calculates the polynomial coefficients for interpolating the given unsorted data. 
+ 
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              No duplicates allowed!
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -183,7 +200,11 @@ calculates the polynomial coefficients for interpolating the given unsorted data
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of x values
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   yData
@@ -191,7 +212,11 @@ calculates the polynomial coefficients for interpolating the given unsorted data
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of y values
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -200,14 +225,32 @@ calculates the polynomial coefficients for interpolating the given unsorted data
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+ let coefficients = 
+     Interpolation.Polynomial.coefficients xData yData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1461', 1461)" onmouseover="showTip(event, '1461', 1461)">
+              <code onmouseout="hideTip(event, '1452', 1452)" onmouseover="showTip(event, '1452', 1452)">
                 <p>
                   <a id="fit">
                     <a href="#fit">
@@ -216,7 +259,7 @@ calculates the polynomial coefficients for interpolating the given unsorted data
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1461">
+              <div class="fsdocs-tip" id="1452">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>fit&#32;<span>coef&#32;x</span></span></code>
@@ -230,6 +273,8 @@ calculates the polynomial coefficients for interpolating the given unsorted data
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]
                     </span>
                     <br/>
                     <span>
@@ -238,6 +283,8 @@ calculates the polynomial coefficients for interpolating the given unsorted data
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      x value of which the corresponding y value should be predicted
                     </span>
                     <br/>
                   </ul>
@@ -246,6 +293,7 @@ calculates the polynomial coefficients for interpolating the given unsorted data
                     Returns: 
                     <code>float</code>
                   </span>
+                  predicted y value with given polynomial coefficients at X=x
                   <br/>
                 </div>
               </div>
@@ -261,14 +309,14 @@ calculates the polynomial coefficients for interpolating the given unsorted data
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/Polynomial.fs#L26-26" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/Polynomial.fs#L67-67" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
-takes polynomial coefficients and x value to get the corresponding interpolating y
-
+   takes polynomial coefficients and x value to predict the corresponding interpolating y value
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -279,7 +327,11 @@ takes polynomial coefficients and x value to get the corresponding interpolating
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   x
@@ -287,7 +339,11 @@ takes polynomial coefficients and x value to get the corresponding interpolating
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  x value of which the corresponding y value should be predicted
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -296,14 +352,35 @@ takes polynomial coefficients and x value to get the corresponding interpolating
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  predicted y value with given polynomial coefficients at X=x
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+ let coefficients = 
+     Interpolation.Polynomial.coefficients xData yData 
+ 
+ // Predict the temperature value at midnight between day 1 and 2. 
+ Interpolation.Polynomial.fit coefficients 1.5</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1462', 1462)" onmouseover="showTip(event, '1462', 1462)">
+              <code onmouseout="hideTip(event, '1453', 1453)" onmouseover="showTip(event, '1453', 1453)">
                 <p>
                   <a id="getDerivative">
                     <a href="#getDerivative">
@@ -312,7 +389,7 @@ takes polynomial coefficients and x value to get the corresponding interpolating
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1462">
+              <div class="fsdocs-tip" id="1453">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getDerivative&#32;<span>coef&#32;level&#32;x</span></span></code>
@@ -326,6 +403,8 @@ takes polynomial coefficients and x value to get the corresponding interpolating
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]
                     </span>
                     <br/>
                     <span>
@@ -334,6 +413,8 @@ takes polynomial coefficients and x value to get the corresponding interpolating
                       </b>
                       :
                       <code>int</code>
+                       - 
+                      depth of derivative: 1 = slope, 2 = curvature, ... 
                     </span>
                     <br/>
                     <span>
@@ -342,6 +423,8 @@ takes polynomial coefficients and x value to get the corresponding interpolating
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      x value of which the corresponding y value should be predicted
                     </span>
                     <br/>
                   </ul>
@@ -350,6 +433,7 @@ takes polynomial coefficients and x value to get the corresponding interpolating
                     Returns: 
                     <code>float</code>
                   </span>
+                  predicted derivative with given polynomial coefficients at X=x
                   <br/>
                 </div>
               </div>
@@ -365,14 +449,14 @@ takes polynomial coefficients and x value to get the corresponding interpolating
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/Polynomial.fs#L30-30" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation/Polynomial.fs#L92-92" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
-calculates derivatives at x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...
-
+   calculates derivative values at X=x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -383,7 +467,11 @@ calculates derivatives at x with given polynomial coefficients. Level 1 = fst de
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   level
@@ -391,7 +479,11 @@ calculates derivatives at x with given polynomial coefficients. Level 1 = fst de
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  depth of derivative: 1 = slope, 2 = curvature, ... 
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   x
@@ -399,7 +491,11 @@ calculates derivatives at x with given polynomial coefficients. Level 1 = fst de
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  x value of which the corresponding y value should be predicted
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -408,8 +504,29 @@ calculates derivatives at x with given polynomial coefficients. Level 1 = fst de
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  predicted derivative with given polynomial coefficients at X=x
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+ let coefficients = 
+     Interpolation.Polynomial.coefficients xData yData 
+ 
+ // Predict the curvature of the interpolating function at midnight between day 1 and 2. 
+ Interpolation.Polynomial.getDerivative coefficients 2 1.5</code></pre>
+            </p>
           </td>
         </tr>
       </tbody>

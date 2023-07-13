@@ -125,7 +125,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2353', 2353)" onmouseover="showTip(event, '2353', 2353)">
+              <code onmouseout="hideTip(event, '2426', 2426)" onmouseover="showTip(event, '2426', 2426)">
                 <p>
                   <a id="CDF">
                     <a href="#CDF">
@@ -134,7 +134,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2353">
+              <div class="fsdocs-tip" id="2426">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.CDF<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span>&#32;<span>(<span>x</span>)</span></span></span></code>
@@ -243,7 +243,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2354', 2354)" onmouseover="showTip(event, '2354', 2354)">
+              <code onmouseout="hideTip(event, '2427', 2427)" onmouseover="showTip(event, '2427', 2427)">
                 <p>
                   <a id="CheckParam">
                     <a href="#CheckParam">
@@ -252,7 +252,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2354">
+              <div class="fsdocs-tip" id="2427">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.CheckParam<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span></span></span></code>
@@ -323,7 +323,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2355', 2355)" onmouseover="showTip(event, '2355', 2355)">
+              <code onmouseout="hideTip(event, '2428', 2428)" onmouseover="showTip(event, '2428', 2428)">
                 <p>
                   <a id="Init">
                     <a href="#Init">
@@ -332,7 +332,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2355">
+              <div class="fsdocs-tip" id="2428">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.Init<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span></span></span></code>
@@ -346,6 +346,8 @@ The distribution of the number of trials needed (x) to get the rth success in re
                       </b>
                       :
                       <code>int</code>
+                       - 
+                      The number of success states
                     </span>
                     <br/>
                     <span>
@@ -354,6 +356,8 @@ The distribution of the number of trials needed (x) to get the rth success in re
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      The probability of each independent bernoulli trial
                     </span>
                     <br/>
                   </ul>
@@ -377,16 +381,131 @@ The distribution of the number of trials needed (x) to get the rth success in re
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/NegativeBinomial.fs#L95-95" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/NegativeBinomial.fs#L108-108" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Initializes a NegativeBinomial distribution
-
+                 Initializes a negative binomial distribution.
+ The negative binomial distribution is a discrete probability distribution
+ that models the number of trials needed x to get the rth success in repeated 
+ independent Bernoulli trials with probability p.
+ 
               </p>
             </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  r
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The number of success states
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  p
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The probability of each independent bernoulli trial
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-distributions-discretedistribution-2.html">DiscreteDistribution</a>&lt;<span>float,&#32;int</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2429', 2429)" onmouseover="showTip(event, '2429', 2429)">
+                <p>
+                  <a id="InvCDF">
+                    <a href="#InvCDF">
+                      <code><span>NegativeBinomial_trials.InvCDF<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span>&#32;<span>(<span>x</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2429">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>NegativeBinomial_trials.InvCDF<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span>&#32;<span>(<span>x</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        r
+                      </b>
+                      :
+                      <code>int</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        p
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'b</code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Distributions.Discrete.NegativeBinomial_trials.InvCDF``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.NegativeBinomial_trials.InvCDF``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/NegativeBinomial.fs#L87-87" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                Computes the inverse cumulative distribution function (quantile function).
+              </p>
+            </div>
+            <p class="fsdocs-remarks">
+              X=the number of trials at the rth succeess
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -404,13 +523,21 @@ The distribution of the number of trials needed (x) to get the rth success in re
                 <code>float</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-distributions-discretedistribution-2.html">DiscreteDistribution</a>&lt;<span>float,&#32;int</span>&gt;</span></code>
+                <code>'b</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -419,7 +546,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2356', 2356)" onmouseover="showTip(event, '2356', 2356)">
+              <code onmouseout="hideTip(event, '2430', 2430)" onmouseover="showTip(event, '2430', 2430)">
                 <p>
                   <a id="Mean">
                     <a href="#Mean">
@@ -428,7 +555,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2356">
+              <div class="fsdocs-tip" id="2430">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.Mean<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span></span></span></code>
@@ -515,7 +642,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2357', 2357)" onmouseover="showTip(event, '2357', 2357)">
+              <code onmouseout="hideTip(event, '2431', 2431)" onmouseover="showTip(event, '2431', 2431)">
                 <p>
                   <a id="Mode">
                     <a href="#Mode">
@@ -524,7 +651,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2357">
+              <div class="fsdocs-tip" id="2431">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.Mode<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span></span></span></code>
@@ -611,7 +738,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2358', 2358)" onmouseover="showTip(event, '2358', 2358)">
+              <code onmouseout="hideTip(event, '2432', 2432)" onmouseover="showTip(event, '2432', 2432)">
                 <p>
                   <a id="PMF">
                     <a href="#PMF">
@@ -620,7 +747,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2358">
+              <div class="fsdocs-tip" id="2432">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.PMF<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span>&#32;<span>(<span>x</span>)</span></span></span></code>
@@ -726,7 +853,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2359', 2359)" onmouseover="showTip(event, '2359', 2359)">
+              <code onmouseout="hideTip(event, '2433', 2433)" onmouseover="showTip(event, '2433', 2433)">
                 <p>
                   <a id="PMFLn">
                     <a href="#PMFLn">
@@ -735,7 +862,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2359">
+              <div class="fsdocs-tip" id="2433">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.PMFLn<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span>&#32;<span>(<span>x</span>)</span></span></span></code>
@@ -838,7 +965,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2360', 2360)" onmouseover="showTip(event, '2360', 2360)">
+              <code onmouseout="hideTip(event, '2434', 2434)" onmouseover="showTip(event, '2434', 2434)">
                 <p>
                   <a id="Sample">
                     <a href="#Sample">
@@ -847,7 +974,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2360">
+              <div class="fsdocs-tip" id="2434">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.Sample<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span></span></span></code>
@@ -934,7 +1061,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2361', 2361)" onmouseover="showTip(event, '2361', 2361)">
+              <code onmouseout="hideTip(event, '2435', 2435)" onmouseover="showTip(event, '2435', 2435)">
                 <p>
                   <a id="SampleUnchecked">
                     <a href="#SampleUnchecked">
@@ -943,7 +1070,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2361">
+              <div class="fsdocs-tip" id="2435">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.SampleUnchecked<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span></span></span></code>
@@ -1030,7 +1157,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2362', 2362)" onmouseover="showTip(event, '2362', 2362)">
+              <code onmouseout="hideTip(event, '2436', 2436)" onmouseover="showTip(event, '2436', 2436)">
                 <p>
                   <a id="StandardDeviation">
                     <a href="#StandardDeviation">
@@ -1039,7 +1166,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2362">
+              <div class="fsdocs-tip" id="2436">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.StandardDeviation<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span></span></span></code>
@@ -1126,7 +1253,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2363', 2363)" onmouseover="showTip(event, '2363', 2363)">
+              <code onmouseout="hideTip(event, '2437', 2437)" onmouseover="showTip(event, '2437', 2437)">
                 <p>
                   <a id="Support">
                     <a href="#Support">
@@ -1135,7 +1262,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2363">
+              <div class="fsdocs-tip" id="2437">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.Support<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span></span></span></code>
@@ -1180,7 +1307,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/NegativeBinomial.fs#L86-86" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/NegativeBinomial.fs#L92-92" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -1220,7 +1347,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2364', 2364)" onmouseover="showTip(event, '2364', 2364)">
+              <code onmouseout="hideTip(event, '2438', 2438)" onmouseover="showTip(event, '2438', 2438)">
                 <p>
                   <a id="ToString">
                     <a href="#ToString">
@@ -1229,7 +1356,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2364">
+              <div class="fsdocs-tip" id="2438">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.ToString<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span></span></span></code>
@@ -1274,7 +1401,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/NegativeBinomial.fs#L91-91" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/NegativeBinomial.fs#L97-97" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -1316,7 +1443,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2365', 2365)" onmouseover="showTip(event, '2365', 2365)">
+              <code onmouseout="hideTip(event, '2439', 2439)" onmouseover="showTip(event, '2439', 2439)">
                 <p>
                   <a id="Variance">
                     <a href="#Variance">
@@ -1325,7 +1452,7 @@ The distribution of the number of trials needed (x) to get the rth success in re
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2365">
+              <div class="fsdocs-tip" id="2439">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>NegativeBinomial_trials.Variance<span><span>(<span>r</span>)</span>&#32;<span>(<span>p</span>)</span></span></span></code>

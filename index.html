@@ -227,70 +227,70 @@
 <span class="k">open</span> <span onmouseout="hideTip(event, 'fs9', 16)" onmouseover="showTip(event, 'fs9', 16)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 17)" onmouseover="showTip(event, 'fs10', 17)" class="id">Stats</span>
 
 <span class="c">// initialize a normal distribution with mean 25 and standard deviation 0.1</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="id">normalDistribution</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs12', 19)" onmouseover="showTip(event, 'fs12', 19)" class="id">Distributions</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 20)" onmouseover="showTip(event, 'fs13', 20)" class="m">ContinuousDistribution</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 21)" onmouseover="showTip(event, 'fs14', 21)" class="id">normal</span> <span class="n">25.</span> <span class="n">0.1</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="id">normalDistribution</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs12', 19)" onmouseover="showTip(event, 'fs12', 19)" class="id">Distributions</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 20)" onmouseover="showTip(event, 'fs13', 20)" class="id">Continuous</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 21)" onmouseover="showTip(event, 'fs14', 21)" class="rt">Normal</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 22)" onmouseover="showTip(event, 'fs15', 22)" class="id">Init</span> <span class="n">25.</span> <span class="n">0.1</span>
 
 <span class="c">// draw independently 30 times from the given distribution </span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 22)" onmouseover="showTip(event, 'fs15', 22)" class="id">sample</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs16', 23)" onmouseover="showTip(event, 'fs16', 23)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs17', 24)" onmouseover="showTip(event, 'fs17', 24)" class="id">init</span> <span class="n">30</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs11', 25)" onmouseover="showTip(event, 'fs11', 25)" class="id">normalDistribution</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 26)" onmouseover="showTip(event, 'fs18', 26)" class="id">Sample</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 23)" onmouseover="showTip(event, 'fs16', 23)" class="id">sample</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 24)" onmouseover="showTip(event, 'fs17', 24)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 25)" onmouseover="showTip(event, 'fs18', 25)" class="id">init</span> <span class="n">30</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs11', 26)" onmouseover="showTip(event, 'fs11', 26)" class="id">normalDistribution</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 27)" onmouseover="showTip(event, 'fs19', 27)" class="id">Sample</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>[|25.0107458; 24.9561893; 25.00541221; 25.04439456; 24.95547259; 24.99217044;
-  24.79399314; 25.28291247; 24.95890751; 24.97495239; 25.03725262; 25.00524962;
-  24.94539313; 25.0174614; 25.0406909; 24.91905725; 24.94370086; 24.96132943;
-  24.8729283; 24.91692154; 25.14742619; 24.9574721; 25.06119961; 25.09028601;
-  24.92679409; 24.99661659; 24.82402905; 24.83175615; 25.11749326; 25.04076305|]</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>[|25.16644417; 25.09963134; 25.03174051; 24.95766537; 25.07218366; 25.30631495;
+  24.89906309; 25.11147022; 25.0509928; 25.05843542; 24.88626542; 25.02953794;
+  25.03030215; 24.99404636; 25.00942273; 25.0894887; 24.87064393; 24.99378876;
+  24.7980427; 25.09246729; 24.87383415; 25.12640866; 24.87708247; 24.85870257;
+  24.9876798; 24.88704888; 25.04093332; 25.03330788; 24.90138947; 25.16315637|]</code></pre></td></tr></table>
 <h3><a name="Basic-descriptive-statistics" class="anchor" href="#Basic-descriptive-statistics">Basic descriptive statistics</a></h3>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// calculate the mean of the given sample</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 27)" onmouseover="showTip(event, 'fs19', 27)" class="id">mean</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 28)" onmouseover="showTip(event, 'fs20', 28)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 29)" onmouseover="showTip(event, 'fs21', 29)" class="id">mean</span> <span onmouseout="hideTip(event, 'fs15', 30)" onmouseover="showTip(event, 'fs15', 30)" class="id">sample</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 28)" onmouseover="showTip(event, 'fs20', 28)" class="id">mean</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs21', 29)" onmouseover="showTip(event, 'fs21', 29)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 30)" onmouseover="showTip(event, 'fs22', 30)" class="id">mean</span> <span onmouseout="hideTip(event, 'fs16', 31)" onmouseover="showTip(event, 'fs16', 31)" class="id">sample</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>24.98763238</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>25.00991637</code></pre></td></tr></table>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// calculate the bessel corrected sample standard deviation of the given sample</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs22', 31)" onmouseover="showTip(event, 'fs22', 31)" class="id">stDev</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 32)" onmouseover="showTip(event, 'fs20', 32)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs23', 33)" onmouseover="showTip(event, 'fs23', 33)" class="id">stDev</span> <span onmouseout="hideTip(event, 'fs15', 34)" onmouseover="showTip(event, 'fs15', 34)" class="id">sample</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 32)" onmouseover="showTip(event, 'fs23', 32)" class="id">stDev</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs21', 33)" onmouseover="showTip(event, 'fs21', 33)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 34)" onmouseover="showTip(event, 'fs24', 34)" class="id">stDev</span> <span onmouseout="hideTip(event, 'fs16', 35)" onmouseover="showTip(event, 'fs16', 35)" class="id">sample</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>0.09869092698</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.1134299894</code></pre></td></tr></table>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// calculate the coefficient of variation of the given sample </span>
 <span class="c">// Attention: CV is valid only if a hypothetical real zero value exists for the data.</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 35)" onmouseover="showTip(event, 'fs24', 35)" class="id">cv</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 36)" onmouseover="showTip(event, 'fs20', 36)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs25', 37)" onmouseover="showTip(event, 'fs25', 37)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs15', 38)" onmouseover="showTip(event, 'fs15', 38)" class="id">sample</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 36)" onmouseover="showTip(event, 'fs25', 36)" class="id">cv</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs21', 37)" onmouseover="showTip(event, 'fs21', 37)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 38)" onmouseover="showTip(event, 'fs26', 38)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs16', 39)" onmouseover="showTip(event, 'fs16', 39)" class="id">sample</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>0.00394959096</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.004535400588</code></pre></td></tr></table>
 <h3><a name="Vectors-Matrices-and-linear-algebra" class="anchor" href="#Vectors-Matrices-and-linear-algebra">Vectors, Matrices and linear algebra</a></h3>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// create a vector </span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 39)" onmouseover="showTip(event, 'fs26', 39)" class="id">vecB</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 40)" onmouseover="showTip(event, 'fs27', 40)" class="fn">vector</span> <span class="pn">[</span><span class="n">19.</span><span class="pn">;</span><span class="n">11.</span><span class="pn">;</span><span class="n">35.</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 40)" onmouseover="showTip(event, 'fs27', 40)" class="id">vecB</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs28', 41)" onmouseover="showTip(event, 'fs28', 41)" class="fn">vector</span> <span class="pn">[</span><span class="n">19.</span><span class="pn">;</span><span class="n">11.</span><span class="pn">;</span><span class="n">35.</span><span class="pn">]</span>
 
 <span class="c">// create a matrix </span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 41)" onmouseover="showTip(event, 'fs28', 41)" class="id">matA</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 42)" onmouseover="showTip(event, 'fs29', 42)" class="fn">matrix</span> <span class="pn">[</span><span class="pn">[</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">0.</span><span class="pn">]</span><span class="pn">;</span><span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">]</span><span class="pn">;</span><span class="pn">[</span><span class="n">5.</span><span class="pn">;</span><span class="n">0.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">]</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 42)" onmouseover="showTip(event, 'fs29', 42)" class="id">matA</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs30', 43)" onmouseover="showTip(event, 'fs30', 43)" class="fn">matrix</span> <span class="pn">[</span><span class="pn">[</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">0.</span><span class="pn">]</span><span class="pn">;</span><span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">]</span><span class="pn">;</span><span class="pn">[</span><span class="n">5.</span><span class="pn">;</span><span class="n">0.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">]</span><span class="pn">]</span>
 
 <span class="c">// solve the linear system of equations</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 43)" onmouseover="showTip(event, 'fs30', 43)" class="id">vecX</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 44)" onmouseover="showTip(event, 'fs9', 44)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 45)" onmouseover="showTip(event, 'fs10', 45)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 46)" onmouseover="showTip(event, 'fs31', 46)" class="id">Algebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 47)" onmouseover="showTip(event, 'fs32', 47)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 48)" onmouseover="showTip(event, 'fs33', 48)" class="id">SolveLinearSystem</span> <span onmouseout="hideTip(event, 'fs28', 49)" onmouseover="showTip(event, 'fs28', 49)" class="id">matA</span> <span onmouseout="hideTip(event, 'fs26', 50)" onmouseover="showTip(event, 'fs26', 50)" class="id">vecB</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 44)" onmouseover="showTip(event, 'fs31', 44)" class="id">vecX</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 45)" onmouseover="showTip(event, 'fs9', 45)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 46)" onmouseover="showTip(event, 'fs10', 46)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 47)" onmouseover="showTip(event, 'fs32', 47)" class="id">Algebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 48)" onmouseover="showTip(event, 'fs33', 48)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 49)" onmouseover="showTip(event, 'fs34', 49)" class="id">SolveLinearSystem</span> <span onmouseout="hideTip(event, 'fs29', 50)" onmouseover="showTip(event, 'fs29', 50)" class="id">matA</span> <span onmouseout="hideTip(event, 'fs27', 51)" onmouseover="showTip(event, 'fs27', 51)" class="id">vecB</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>vector [|5.0; 1.0; 2.0|]</code></pre></td></tr></table>
 <h3><a name="Interpolation" class="anchor" href="#Interpolation">Interpolation</a></h3>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs34', 51)" onmouseover="showTip(event, 'fs34', 51)" class="id">xData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 52)" onmouseover="showTip(event, 'fs27', 52)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span> <span class="o">..</span> <span class="n">10.</span><span class="pn">|]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 53)" onmouseover="showTip(event, 'fs35', 53)" class="id">yData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 54)" onmouseover="showTip(event, 'fs27', 54)" class="fn">vector</span> <span class="pn">[|</span><span class="n">4.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">9.</span><span class="pn">;</span><span class="n">12.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">30.</span><span class="pn">|]</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 52)" onmouseover="showTip(event, 'fs35', 52)" class="id">xData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs28', 53)" onmouseover="showTip(event, 'fs28', 53)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span> <span class="o">..</span> <span class="n">10.</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 54)" onmouseover="showTip(event, 'fs36', 54)" class="id">yData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs28', 55)" onmouseover="showTip(event, 'fs28', 55)" class="fn">vector</span> <span class="pn">[|</span><span class="n">4.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">9.</span><span class="pn">;</span><span class="n">12.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">30.</span><span class="pn">|]</span>
 
 <span class="c">// get coefficients of interpolating polynomial</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 55)" onmouseover="showTip(event, 'fs36', 55)" class="id">interpolatingCoefficients</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs37', 56)" onmouseover="showTip(event, 'fs37', 56)" class="id">Interpolation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 57)" onmouseover="showTip(event, 'fs38', 57)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 58)" onmouseover="showTip(event, 'fs39', 58)" class="id">coefficients</span> <span onmouseout="hideTip(event, 'fs34', 59)" onmouseover="showTip(event, 'fs34', 59)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs35', 60)" onmouseover="showTip(event, 'fs35', 60)" class="id">yData</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 56)" onmouseover="showTip(event, 'fs37', 56)" class="id">interpolatingCoefficients</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs38', 57)" onmouseover="showTip(event, 'fs38', 57)" class="id">Interpolation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 58)" onmouseover="showTip(event, 'fs39', 58)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 59)" onmouseover="showTip(event, 'fs40', 59)" class="id">coefficients</span> <span onmouseout="hideTip(event, 'fs35', 60)" onmouseover="showTip(event, 'fs35', 60)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs36', 61)" onmouseover="showTip(event, 'fs36', 61)" class="id">yData</span>
 
 <span class="c">// get fitting function of interpolating polynomial</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 61)" onmouseover="showTip(event, 'fs40', 61)" class="fn">interpolFitFunc</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs37', 62)" onmouseover="showTip(event, 'fs37', 62)" class="id">Interpolation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 63)" onmouseover="showTip(event, 'fs38', 63)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 64)" onmouseover="showTip(event, 'fs41', 64)" class="id">fit</span> <span onmouseout="hideTip(event, 'fs36', 65)" onmouseover="showTip(event, 'fs36', 65)" class="id">interpolatingCoefficients</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 62)" onmouseover="showTip(event, 'fs41', 62)" class="fn">interpolFitFunc</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs38', 63)" onmouseover="showTip(event, 'fs38', 63)" class="id">Interpolation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 64)" onmouseover="showTip(event, 'fs39', 64)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 65)" onmouseover="showTip(event, 'fs42', 65)" class="id">fit</span> <span onmouseout="hideTip(event, 'fs37', 66)" onmouseover="showTip(event, 'fs37', 66)" class="id">interpolatingCoefficients</span>
 </code></pre>
 <h3><a name="Regression" class="anchor" href="#Regression">Regression</a></h3>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// get coefficients of 3rd order regression polynomial</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs49', 77)" onmouseover="showTip(event, 'fs49', 77)" class="id">regressionCoefficients</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs50', 78)" onmouseover="showTip(event, 'fs50', 78)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 79)" onmouseover="showTip(event, 'fs51', 79)" class="m">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 80)" onmouseover="showTip(event, 'fs52', 80)" class="m">OrdinaryLeastSquares</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 81)" onmouseover="showTip(event, 'fs53', 81)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 82)" onmouseover="showTip(event, 'fs54', 82)" class="id">coefficient</span> <span class="n">3</span> <span onmouseout="hideTip(event, 'fs34', 83)" onmouseover="showTip(event, 'fs34', 83)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs35', 84)" onmouseover="showTip(event, 'fs35', 84)" class="id">yData</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs50', 78)" onmouseover="showTip(event, 'fs50', 78)" class="id">regressionCoefficients</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs51', 79)" onmouseover="showTip(event, 'fs51', 79)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 80)" onmouseover="showTip(event, 'fs52', 80)" class="m">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 81)" onmouseover="showTip(event, 'fs53', 81)" class="m">OrdinaryLeastSquares</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 82)" onmouseover="showTip(event, 'fs54', 82)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs55', 83)" onmouseover="showTip(event, 'fs55', 83)" class="id">coefficient</span> <span class="n">3</span> <span onmouseout="hideTip(event, 'fs35', 84)" onmouseover="showTip(event, 'fs35', 84)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs36', 85)" onmouseover="showTip(event, 'fs36', 85)" class="id">yData</span>
     
 <span class="c">// get fitting function of 3rd order regression polynomial</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs55', 85)" onmouseover="showTip(event, 'fs55', 85)" class="fn">regressionFitFunc</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs50', 86)" onmouseover="showTip(event, 'fs50', 86)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 87)" onmouseover="showTip(event, 'fs51', 87)" class="m">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 88)" onmouseover="showTip(event, 'fs52', 88)" class="m">OrdinaryLeastSquares</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 89)" onmouseover="showTip(event, 'fs53', 89)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs56', 90)" onmouseover="showTip(event, 'fs56', 90)" class="id">fit</span> <span class="n">3</span> <span onmouseout="hideTip(event, 'fs49', 91)" onmouseover="showTip(event, 'fs49', 91)" class="id">regressionCoefficients</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs56', 86)" onmouseover="showTip(event, 'fs56', 86)" class="fn">regressionFitFunc</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs51', 87)" onmouseover="showTip(event, 'fs51', 87)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 88)" onmouseover="showTip(event, 'fs52', 88)" class="m">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 89)" onmouseover="showTip(event, 'fs53', 89)" class="m">OrdinaryLeastSquares</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 90)" onmouseover="showTip(event, 'fs54', 90)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs57', 91)" onmouseover="showTip(event, 'fs57', 91)" class="id">fit</span> <span class="n">3</span> <span onmouseout="hideTip(event, 'fs50', 92)" onmouseover="showTip(event, 'fs50', 92)" class="id">regressionCoefficients</span>
 </code></pre>
 <p>The resulting interpolating and regression polynomials are plotted below using <a href="https://github.com/plotly/Plotly.NET">Plotly.NET</a>.</p>
-<div><div id="9f346a84-b56a-4cfe-a3af-3428c138b651"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_9f346a84b56a4cfea3af3428c138b651 = function() {
+<div><div id="2461803d-b8ad-4b76-9874-9c706be24c3b"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_2461803db8ad4b7698749c706be24c3b = function() {
     var data = [{"type":"scatter","mode":"markers","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.0,7.0,9.0,12.0,15.0,17.0,16.0,23.0,5.0,30.0],"marker":{},"line":{}},{"type":"scatter","name":"interpol polynomial","mode":"lines","x":[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7000000000000002,1.8,1.9,2.0,2.1,2.2,2.3,2.4000000000000004,2.5,2.6,2.7,2.8,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5,3.6,3.7,3.8000000000000003,3.9000000000000004,4.0,4.1,4.2,4.300000000000001,4.4,4.5,4.6,4.7,4.800000000000001,4.9,5.0,5.1000000000000005,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.800000000000001,5.9,6.0,6.1000000000000005,6.2,6.300000000000001,6.4,6.5,6.6000000000000005,6.7,6.800000000000001,6.9,7.0,7.1000000000000005,7.2,7.300000000000001,7.4,7.5,7.6000000000000005,7.7,7.800000000000001,7.9,8.0,8.100000000000001,8.2,8.3,8.4,8.5,8.600000000000001,8.7,8.8,8.9,9.0,9.1,9.200000000000001,9.3,9.4,9.5,9.6,9.700000000000001,9.8,9.9,10.0],"y":[4.000000000000001,9.677506472156333,12.653219225718779,13.75671890177262,13.633243955273898,12.77432250979497,11.544644300783702,10.205497566308734,8.93507799031007,7.845959513350153,6.999999999869821,6.42093838892843,6.104924057464143,6.0292036910343665,6.159175987077711,6.454010009655073,6.8710089726980925,7.368887650777605,7.9101185023215645,8.462488940393584,8.999999999931159,9.503224928489665,9.959234969522889,10.361188813081526,10.707671859104721,11.001861572164998,11.250585804686779,11.463332027729962,11.65125693426279,11.82623786981651,11.99999999984226,12.183346040407116,12.385508761437677,12.613640317522254,12.872446771072987,13.163970947132157,13.487521996702753,13.839745747247207,14.214826086318453,14.604804251938276,15.000000000008185,15.389516175080644,15.76180623363689,16.105282754741893,16.40894392329028,16.66299438484384,16.859436748995904,16.99261035953168,17.05965475859557,17.0608765366851,17.000000000274667,16.88428428221232,16.724492185723648,16.534699174324487,16.33193451551415,16.135650635002094,15.967021260876209,15.84807391416689,15.800667750590947,15.845333673809364,16.000000000283762,16.27863381183124,16.68983541771013,17.235431126406183,17.90911774727283,18.695220947440248,19.567638733045897,20.489050961172325,21.410485862812493,22.271345113927964,23.000000000494765,23.515082714991877,23.727608730230713,23.544078661798267,22.87072081968654,21.6190490736044,19.712924365827348,17.097322550602257,13.749025895434897,9.689470805518795,5.000000000582077,-0.16021656058728695,-5.533311078208499,-10.738599672098644,-15.244901069090702,-18.338958740700036,-19.08961464453023,-16.307363767409697,-8.498899353435263,6.183761200867593,30.000000001396984],"marker":{},"line":{}},{"type":"scatter","name":"regression polynomial","mode":"lines","x":[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7000000000000002,1.8,1.9,2.0,2.1,2.2,2.3,2.4000000000000004,2.5,2.6,2.7,2.8,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5,3.6,3.7,3.8000000000000003,3.9000000000000004,4.0,4.1,4.2,4.300000000000001,4.4,4.5,4.6,4.7,4.800000000000001,4.9,5.0,5.1000000000000005,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.800000000000001,5.9,6.0,6.1000000000000005,6.2,6.300000000000001,6.4,6.5,6.6000000000000005,6.7,6.800000000000001,6.9,7.0,7.1000000000000005,7.2,7.300000000000001,7.4,7.5,7.6000000000000005,7.7,7.800000000000001,7.9,8.0,8.100000000000001,8.2,8.3,8.4,8.5,8.600000000000001,8.7,8.8,8.9,9.0,9.1,9.200000000000001,9.3,9.4,9.5,9.6,9.700000000000001,9.8,9.9,10.0],"y":[2.422377622374652,3.079641025638399,3.7109743589720567,4.316939393937402,4.8980979020962,5.45501165501023,5.988242424241262,6.498351981351064,6.985902097901411,7.451454545454075,7.895571095570825,8.318813519813437,8.721743589743683,9.104923076923328,9.468913752914151,9.814277389277926,10.141575757576415,10.451370629371397,10.744223776224642,11.020696969697926,11.281351981353014,11.52675058275168,11.757454545455701,11.974025641026845,12.177025641026882,12.367016317017589,12.544559440560732,12.71021678321809,12.864550116551424,13.00812121212252,13.141491841493135,13.265223776225053,13.37987878788004,13.486018648019876,13.584205128206317,13.675000000001146,13.758965034966135,13.836662004663053,13.908652680653672,13.97549883449976,14.037762237763115,14.096004662005464,14.150787878788615,14.202673659674321,14.252223776224362,14.30000000000051,14.346564102564535,14.392477855478216,14.438303030303306,14.484601398601598,14.531934731934847,14.580864801864838,14.631953379953327,14.685762237762116,14.74285314685294,14.803787878787599,14.86912820512785,14.939435897435477,15.01527272727223,15.097200466199919,15.185780885780275,15.28157575757507,15.385146853146125,15.497055944055163,15.617864801863988,15.748135198134342,15.888428904428004,16.03930769230677,16.2013333333324,16.37506759906664,16.561072261071295,16.75990909090813,16.972139860138903,17.198326340325387,17.439030303029384,17.694813519812634,17.96623776223693,18.253864801864005,18.558256410255687,18.879974358973698,19.21958041957984,19.57763636363586,19.954703962703576,20.35134498834472,20.768121212121073,21.20559440559441,21.664326340326497,22.144878787879108,22.647813519813994,23.173692307693003,23.72307692307784],"marker":{},"line":{}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}}};
     var config = {"responsive":true};
-    Plotly.newPlot('9f346a84-b56a-4cfe-a3af-3428c138b651', data, layout, config);
+    Plotly.newPlot('2461803d-b8ad-4b76-9874-9c706be24c3b', data, layout, config);
 };
-renderPlotly_9f346a84b56a4cfea3af3428c138b651();
+renderPlotly_2461803db8ad4b7698749c706be24c3b();
 </script></div>
 <h2><a name="Samples-amp-documentation" class="anchor" href="#Samples-amp-documentation">Samples &amp; documentation</a></h2>
 <p>The library comes with comprehensible documentation.
@@ -350,20 +350,24 @@ Sets how plotly is referenced in the head of html docs.
 <div class="fsdocs-tip" id="fs10">namespace FSharp.Stats</div>
 <div class="fsdocs-tip" id="fs11">val normalDistribution: Distributions.ContinuousDistribution&lt;float,float&gt;</div>
 <div class="fsdocs-tip" id="fs12">namespace FSharp.Stats.Distributions</div>
-<div class="fsdocs-tip" id="fs13">Multiple items<br />module ContinuousDistribution
-
-from FSharp.Stats.Distributions<br /><br />--------------------<br />type ContinuousDistribution&lt;&#39;a,&#39;b&gt; =
-  inherit Distribution&lt;&#39;a&gt;
-  abstract PDF: &#39;b -&gt; float
-  abstract Sample: unit -&gt; &#39;b
-  abstract Mode: &#39;b<br /><em>&lt;summary&gt;
- Interface for continuous probability distributions.
+<div class="fsdocs-tip" id="fs13">namespace FSharp.Stats.Distributions.Continuous</div>
+<div class="fsdocs-tip" id="fs14">type Normal =
+  static member CDF: mu: float -&gt; sigma: float -&gt; x: float -&gt; float
+  static member CheckParam: mu: float -&gt; sigma: float -&gt; unit
+  static member Estimate: samples: seq&lt;float&gt; -&gt; ContinuousDistribution&lt;float,float&gt;
+  static member Init: mu: float -&gt; sigma: float -&gt; ContinuousDistribution&lt;float,float&gt;
+  static member InvCDF: mu: float -&gt; sigma: float -&gt; p: float -&gt; float
+  static member Mean: mu: float -&gt; sigma: float -&gt; float
+  static member Mode: mu: float -&gt; sigma: float -&gt; float
+  static member PDF: mu: float -&gt; sigma: float -&gt; x: float -&gt; float
+  static member Sample: mu: float -&gt; sigma: float -&gt; float
+  static member SampleUnchecked: mu: float -&gt; sigma: float -&gt; float
+  ...<br /><em>&lt;summary&gt;
+ Normal distribution.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs14">val normal: mu: float -&gt; sigma: float -&gt; Distributions.ContinuousDistribution&lt;float,float&gt;<br /><em>&lt;summary&gt;
- Initializes a Normal distribution        
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs15">val sample: float[]</div>
-<div class="fsdocs-tip" id="fs16">Multiple items<br />module Array
+<div class="fsdocs-tip" id="fs15">static member Distributions.Continuous.Normal.Init: mu: float -&gt; sigma: float -&gt; Distributions.ContinuousDistribution&lt;float,float&gt;</div>
+<div class="fsdocs-tip" id="fs16">val sample: float[]</div>
+<div class="fsdocs-tip" id="fs17">Multiple items<br />module Array
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
  Module to compute common statistical measure on array
@@ -375,16 +379,16 @@ from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations fo
   new: unit -&gt; Array
   static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float array
   static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float[]<br /><br />--------------------<br />new: unit -&gt; Array</div>
-<div class="fsdocs-tip" id="fs17">val init: count: int -&gt; initializer: (int -&gt; &#39;T) -&gt; &#39;T[]<br /><em>&lt;summary&gt;Creates an array given the dimension and a generator function to compute the elements.&lt;/summary&gt;<br />&lt;param name=&quot;count&quot;&gt;The number of elements to initialize.&lt;/param&gt;<br />&lt;param name=&quot;initializer&quot;&gt;The function to generate the initial values for each index.&lt;/param&gt;<br />&lt;returns&gt;The created array.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentException&quot;&gt;Thrown when count is negative.&lt;/exception&gt;<br />&lt;example id=&quot;init-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
+<div class="fsdocs-tip" id="fs18">val init: count: int -&gt; initializer: (int -&gt; &#39;T) -&gt; &#39;T[]<br /><em>&lt;summary&gt;Creates an array given the dimension and a generator function to compute the elements.&lt;/summary&gt;<br />&lt;param name=&quot;count&quot;&gt;The number of elements to initialize.&lt;/param&gt;<br />&lt;param name=&quot;initializer&quot;&gt;The function to generate the initial values for each index.&lt;/param&gt;<br />&lt;returns&gt;The created array.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentException&quot;&gt;Thrown when count is negative.&lt;/exception&gt;<br />&lt;example id=&quot;init-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
  Array.init 4 (fun v -&amp;gt; v + 5)
  &lt;/code&gt;
  Evaluates to &lt;c&gt;[| 5; 6; 7; 8 |]&lt;/c&gt;&lt;/example&gt;<br />&lt;example id=&quot;init-2&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
  Array.init -5 (fun v -&amp;gt; v + 5)
  &lt;/code&gt;
  Throws &lt;c&gt;ArgumentException&lt;/c&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs18">abstract Distributions.ContinuousDistribution.Sample: unit -&gt; &#39;b</div>
-<div class="fsdocs-tip" id="fs19">val mean: float</div>
-<div class="fsdocs-tip" id="fs20">Multiple items<br />module Seq
+<div class="fsdocs-tip" id="fs19">abstract Distributions.ContinuousDistribution.Sample: unit -&gt; &#39;b</div>
+<div class="fsdocs-tip" id="fs20">val mean: float</div>
+<div class="fsdocs-tip" id="fs21">Multiple items<br />module Seq
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
  Module to compute common statistical measure
@@ -394,45 +398,72 @@ from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations fo
   new: unit -&gt; Seq
   static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;
   static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;<br /><br />--------------------<br />new: unit -&gt; Seq</div>
-<div class="fsdocs-tip" id="fs21">val mean: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (+) and member get_Zero and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs22">val mean: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (+) and member get_Zero and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
    Computes the population mean (Normalized by N)
  &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns default value if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;population mean (Normalized by N)&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs22">val stDev: float</div>
-<div class="fsdocs-tip" id="fs23">val stDev: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/) and member Sqrt)<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs23">val stDev: float</div>
+<div class="fsdocs-tip" id="fs24">val stDev: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/) and member Sqrt)<br /><em>&lt;summary&gt;
    Computes the sample standard deviation
  &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;standard deviation of a sample (Bessel&#39;s correction by N-1)&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs24">val cv: float</div>
-<div class="fsdocs-tip" id="fs25">val cv: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member Sqrt and member (+) and member (/) and member (/))<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs25">val cv: float</div>
+<div class="fsdocs-tip" id="fs26">val cv: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member Sqrt and member (+) and member (/) and member (/))<br /><em>&lt;summary&gt;
    Computes the Coefficient of Variation of a sample (Bessel&#39;s correction by N-1)
  &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;Coefficient of Variation of a sample (Bessel&#39;s correction by N-1)&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs26">val vecB: Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs27">Multiple items<br />val vector: l: seq&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><br />--------------------<br />type vector = Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs28">val matA: Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs29">Multiple items<br />val matrix: ll: seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs30">val vecX: Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs31">namespace FSharp.Stats.Algebra</div>
-<div class="fsdocs-tip" id="fs32">Multiple items<br />module LinearAlgebra
+<div class="fsdocs-tip" id="fs27">val vecB: Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs28">Multiple items<br />val vector: l: seq&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><br />--------------------<br />type vector = Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs29">val matA: Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs30">Multiple items<br />val matrix: ll: seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs31">val vecX: Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs32">namespace FSharp.Stats.Algebra</div>
+<div class="fsdocs-tip" id="fs33">Multiple items<br />module LinearAlgebra
 
 from FSharp.Stats.Algebra<br /><br />--------------------<br />type LinearAlgebra =
   new: unit -&gt; LinearAlgebra
   static member nullspace: ?Accuracy: float -&gt; (Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;)<br /><br />--------------------<br />new: unit -&gt; Algebra.LinearAlgebra</div>
-<div class="fsdocs-tip" id="fs33">val SolveLinearSystem: A: matrix -&gt; b: vector -&gt; Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs34">val xData: Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs35">val yData: Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs36">val interpolatingCoefficients: Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs37">namespace FSharp.Stats.Interpolation</div>
-<div class="fsdocs-tip" id="fs38">module Polynomial
+<div class="fsdocs-tip" id="fs34">val SolveLinearSystem: A: matrix -&gt; b: vector -&gt; Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs35">val xData: Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs36">val yData: Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs37">val interpolatingCoefficients: Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs38">namespace FSharp.Stats.Interpolation</div>
+<div class="fsdocs-tip" id="fs39">module Polynomial
 
-from FSharp.Stats.Interpolation</div>
-<div class="fsdocs-tip" id="fs39">val coefficients: xData: Vector&lt;float&gt; -&gt; yData: Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><em>&lt;summary&gt;
-calculates the polynomial coefficients for interpolating the given unsorted data. No duplicates allowed!
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs40">val interpolFitFunc: (float -&gt; float)</div>
-<div class="fsdocs-tip" id="fs41">val fit: coef: Vector&lt;float&gt; -&gt; x: float -&gt; float<br /><em>&lt;summary&gt;
-takes polynomial coefficients and x value to get the corresponding interpolating y
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs42">val interpolChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs43">Multiple items<br />module List
+from FSharp.Stats.Interpolation<br /><em>&lt;summary&gt;
+   Calculates polynomials that interpolatethe two dimensional data. The polynomial order is equal to the number of data points - 1.
+ &lt;/summary&gt;<br />&lt;remarks&gt;
+   In general a polynomial with degree = datapointNumber - 1 is flexible enough to interpolate all datapoints.
+   But polynomial regression with degree = datapointNumber - 1 cannot be used for polynomial interpolation 
+   because the least squares approach is not sufficient to converge interpolating.
+ &lt;/remarks&gt;</em></div>
+<div class="fsdocs-tip" id="fs40">val coefficients: xData: Vector&lt;float&gt; -&gt; yData: Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><em>&lt;summary&gt;
+   Calculates the polynomial coefficients for interpolating the given unsorted data. 
+ &lt;/summary&gt;<br />&lt;remarks&gt;No duplicates allowed!&lt;/remarks&gt;<br />&lt;param name=&quot;xData&quot;&gt;vector of x values&lt;/param&gt;<br />&lt;param name=&quot;yData&quot;&gt;vector of y values&lt;/param&gt;<br />&lt;returns&gt;vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt; 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+ let coefficients = 
+     Interpolation.Polynomial.coefficients xData yData 
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs41">val interpolFitFunc: (float -&gt; float)</div>
+<div class="fsdocs-tip" id="fs42">val fit: coef: Vector&lt;float&gt; -&gt; x: float -&gt; float<br /><em>&lt;summary&gt;
+   takes polynomial coefficients and x value to predict the corresponding interpolating y value
+ &lt;/summary&gt;<br />&lt;param name=&quot;coef&quot;&gt;vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]&lt;/param&gt;<br />&lt;param name=&quot;x&quot;&gt;x value of which the corresponding y value should be predicted&lt;/param&gt;<br />&lt;returns&gt;predicted y value with given polynomial coefficients at X=x&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt; 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+ let coefficients = 
+     Interpolation.Polynomial.coefficients xData yData 
+ 
+ // Predict the temperature value at midnight between day 1 and 2. 
+ Interpolation.Polynomial.fit coefficients 1.5
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs43">val interpolChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs44">Multiple items<br />module List
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
  Module to compute common statistical measure on list
@@ -460,16 +491,16 @@ from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations fo
  the notation &lt;c&gt;[1;2;3]&lt;/c&gt;. Use the values in the &lt;c&gt;List&lt;/c&gt; module to manipulate 
  values of this type, or pattern match against the values directly.
  &lt;/remarks&gt;<br />&lt;exclude /&gt;</em><br /><br />--------------------<br />new: unit -&gt; List</div>
-<div class="fsdocs-tip" id="fs44">val map: mapping: (&#39;T -&gt; &#39;U) -&gt; list: &#39;T list -&gt; &#39;U list<br /><em>&lt;summary&gt;Builds a new collection whose elements are the results of applying the given function
+<div class="fsdocs-tip" id="fs45">val map: mapping: (&#39;T -&gt; &#39;U) -&gt; list: &#39;T list -&gt; &#39;U list<br /><em>&lt;summary&gt;Builds a new collection whose elements are the results of applying the given function
  to each of the elements of the collection.&lt;/summary&gt;<br />&lt;param name=&quot;mapping&quot;&gt;The function to transform elements from the input list.&lt;/param&gt;<br />&lt;param name=&quot;list&quot;&gt;The input list.&lt;/param&gt;<br />&lt;returns&gt;The list of transformed elements.&lt;/returns&gt;<br />&lt;example id=&quot;map-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
  let inputs = [ &quot;a&quot;; &quot;bbb&quot;; &quot;cc&quot; ]
 
  inputs |&amp;gt; List.map (fun x -&amp;gt; x.Length)
  &lt;/code&gt;
  Evaluates to &lt;c&gt;[ 1; 3; 2 ]&lt;/c&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs45">val x: float</div>
-<div class="fsdocs-tip" id="fs46">val data: (float * float) list</div>
-<div class="fsdocs-tip" id="fs47">type Chart =
+<div class="fsdocs-tip" id="fs46">val x: float</div>
+<div class="fsdocs-tip" id="fs47">val data: (float * float) list</div>
+<div class="fsdocs-tip" id="fs48">type Chart =
   static member AnnotatedHeatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * annotationText: seq&lt;#seq&lt;string&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;&#39;a3&gt; * ?MultiX: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?XGap: int * ?Y: seq&lt;&#39;a4&gt; * ?MultiY: seq&lt;seq&lt;&#39;a4&gt;&gt; * ?YGap: int * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 1 overload
   static member Area: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?FillColor: Color * ?FillPatternShape: PatternShape * ?FillPattern: Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
   static member Bar: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;&#39;a1&gt; * ?MultiKeys: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
@@ -481,43 +512,68 @@ from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations fo
   static member Funnel: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Width: float * ?Offset: float * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?Orientation: Orientation * ?AlignmentGroup: string * ?OffsetGroup: string * ?MarkerColor: Color * ?MarkerOutline: Line * ?Marker: Marker * ?TextInfo: TextInfo * ?ConnectorLineColor: Color * ?ConnectorLineStyle: DrawingStyle * ?ConnectorFillColor: Color * ?ConnectorLine: Line * ?Connector: FunnelConnector * ?InsideTextFont: Font * ?OutsideTextFont: Font * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
   static member Heatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?X: seq&lt;&#39;a2&gt; * ?MultiX: seq&lt;seq&lt;&#39;a2&gt;&gt; * ?Y: seq&lt;&#39;a3&gt; * ?MultiY: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?XGap: int * ?YGap: int * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
   ...</div>
-<div class="fsdocs-tip" id="fs48">static member Chart.Line: xy: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?LineColor: Color * ?LineColorScale: StyleParam.Colorscale * ?LineWidth: float * ?LineDash: StyleParam.DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?Fill: StyleParam.Fill * ?FillColor: Color * ?FillPattern: TraceObjects.Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)<br />static member Chart.Line: x: seq&lt;#System.IConvertible&gt; * y: seq&lt;#System.IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?LineColor: Color * ?LineColorScale: StyleParam.Colorscale * ?LineWidth: float * ?LineDash: StyleParam.DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?Fill: StyleParam.Fill * ?FillColor: Color * ?FillPattern: TraceObjects.Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)</div>
-<div class="fsdocs-tip" id="fs49">val regressionCoefficients: Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs50">namespace FSharp.Stats.Fitting</div>
-<div class="fsdocs-tip" id="fs51">module LinearRegression
+<div class="fsdocs-tip" id="fs49">static member Chart.Line: xy: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?LineColor: Color * ?LineColorScale: StyleParam.Colorscale * ?LineWidth: float * ?LineDash: StyleParam.DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?Fill: StyleParam.Fill * ?FillColor: Color * ?FillPattern: TraceObjects.Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)<br />static member Chart.Line: x: seq&lt;#System.IConvertible&gt; * y: seq&lt;#System.IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?LineColor: Color * ?LineColorScale: StyleParam.Colorscale * ?LineWidth: float * ?LineDash: StyleParam.DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?Fill: StyleParam.Fill * ?FillColor: Color * ?FillPattern: TraceObjects.Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)</div>
+<div class="fsdocs-tip" id="fs50">val regressionCoefficients: Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs51">namespace FSharp.Stats.Fitting</div>
+<div class="fsdocs-tip" id="fs52">module LinearRegression
 
-from FSharp.Stats.Fitting</div>
-<div class="fsdocs-tip" id="fs52">module OrdinaryLeastSquares
+from FSharp.Stats.Fitting<br /><em>&lt;summary&gt;
+   Linear regression is used to estimate the relationship of one variable (y) with another (x) by expressing y in terms of a linear function of x.
+ &lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs53">module OrdinaryLeastSquares
 
-from FSharp.Stats.Fitting.LinearRegression</div>
-<div class="fsdocs-tip" id="fs53">module Polynomial
+from FSharp.Stats.Fitting.LinearRegression<br /><em>&lt;summary&gt;
+   OLS regression aims to minimise the sum of squared y intercepts between the original and predicted points at each x value.
+ &lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs54">module Polynomial
 
 from FSharp.Stats.Fitting.LinearRegression.OrdinaryLeastSquares<br /><em>&lt;summary&gt;
- Simple polynomial regression
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs54">val coefficient: order: int -&gt; xData: Vector&lt;float&gt; -&gt; yData: Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><em>&lt;summary&gt;
- Calculates the coefficients for polynomial regression
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs55">val regressionFitFunc: (float -&gt; float)</div>
-<div class="fsdocs-tip" id="fs56">val fit: order: int -&gt; coef: Vector&lt;float&gt; -&gt; x: float -&gt; float<br /><em>&lt;summary&gt;
- Fit to x
-&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs57">val regressionChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs58">val combinedChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs59">val rawChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs60">static member Chart.Point: xy: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)<br />static member Chart.Point: x: seq&lt;#System.IConvertible&gt; * y: seq&lt;#System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)</div>
-<div class="fsdocs-tip" id="fs61">static member Chart.combine: gCharts: seq&lt;GenericChart.GenericChart&gt; -&gt; GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs62">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs63">module ChartTemplates
+   Linear regression using polynomials as regression function:  f(x) =  a + bx + cx^2 + ....
+ &lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs55">val coefficient: order: int -&gt; xData: Vector&lt;float&gt; -&gt; yData: Vector&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><em>&lt;summary&gt;
+   Calculates the polynomial coefficients for polynomial regression. 
+ &lt;/summary&gt;<br />&lt;param name=&quot;order&quot;&gt;order of the polynomial (1 = linear, 2 = quadratic, ... )&lt;/param&gt;<br />&lt;param name=&quot;xData&quot;&gt;vector of x values&lt;/param&gt;<br />&lt;param name=&quot;yData&quot;&gt;vector of y values&lt;/param&gt;<br />&lt;returns&gt;vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt; 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the three coefficients of a quadratic polynomial.
+ let coefficients = 
+     LinearRegression.OrdinaryLeastSquares.Polynomial.coefficients 2 xData yData 
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs56">val regressionFitFunc: (float -&gt; float)</div>
+<div class="fsdocs-tip" id="fs57">val fit: order: int -&gt; coef: Vector&lt;float&gt; -&gt; x: float -&gt; float<br /><em>&lt;summary&gt;
+   takes polynomial coefficients and x value to predict the corresponding y value
+ &lt;/summary&gt;<br />&lt;param name=&quot;order&quot;&gt;order of the polynomial (1 = linear, 2 = quadratic, ... )&lt;/param&gt;<br />&lt;param name=&quot;coef&quot;&gt;vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]&lt;/param&gt;<br />&lt;param name=&quot;x&quot;&gt;x value of which the corresponding y value should be predicted&lt;/param&gt;<br />&lt;returns&gt;predicted y value with given polynomial coefficients at X=x&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt; 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Define the polynomial coefficients.
+ let coefficients = 
+     LinearRegression.OrdinaryLeastSquares.Polynomial.coefficients xData yData 
+ 
+ // Predict the temperature value at midnight between day 1 and 2. 
+ LinearRegression.OrdinaryLeastSquares.Polynomial.fit coefficients 1.5
+ &lt;/code&gt;&lt;/example&gt;<br />&lt;remarks&gt;If all coefficients are nonzero, the order is equal to the length of the coefficient vector!&lt;/remarks&gt;</em></div>
+<div class="fsdocs-tip" id="fs58">val regressionChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs59">val combinedChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs60">val rawChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs61">static member Chart.Point: xy: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)<br />static member Chart.Point: x: seq&lt;#System.IConvertible&gt; * y: seq&lt;#System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)</div>
+<div class="fsdocs-tip" id="fs62">static member Chart.combine: gCharts: seq&lt;GenericChart.GenericChart&gt; -&gt; GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs63">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs64">module ChartTemplates
 
 from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs64">val lightMirrored: Template</div>
-<div class="fsdocs-tip" id="fs65">module GenericChart
+<div class="fsdocs-tip" id="fs65">val lightMirrored: Template</div>
+<div class="fsdocs-tip" id="fs66">module GenericChart
 
 from Plotly.NET<br /><em>&lt;summary&gt;
  Module to represent a GenericChart
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs66">val toChartHTML: gChart: GenericChart.GenericChart -&gt; string</div>
+<div class="fsdocs-tip" id="fs67">val toChartHTML: gChart: GenericChart.GenericChart -&gt; string</div>
 
     </div>
 
