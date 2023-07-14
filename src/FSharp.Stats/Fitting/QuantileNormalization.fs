@@ -1,8 +1,7 @@
 namespace FSharp.Stats.Fitting
 
-(*
-Module for quantile normalization
-*)
+
+[<System.Obsolete("Use Signal.Normalization.quantile matrix.Transpose instead!")>]
 module QuantileNormalization =    
 
     open FSharp.Stats
@@ -11,6 +10,7 @@ module QuantileNormalization =
     // http://en.wikipedia.org/wiki/Quantile_normalization
     // technique for making two distributions or more identical in statistical properties.
     // to normalize two or more distributions to each other, rank the original values and group them by rank, then set to the average of the original values.         
+    [<System.Obsolete("use Signal.Normalization.quantile matrix.Transpose instead!")>]
     let quantileNorm (colSeq : seq<array<float>>) =
         
         // Helper function to group RankedValue by rank and calculate average of orignal values
@@ -39,6 +39,3 @@ module QuantileNormalization =
         rawRanks
         |> Seq.map (fun col -> 
                         col |> Array.map (fun (r,v) -> if rankValueMap.ContainsKey r then rankValueMap.[r] else nan ))
-            
-
-
