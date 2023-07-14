@@ -40,7 +40,7 @@ _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.
 - [Summary](#Summary)
 - [Polynomial interpolation](#Polynomial-interpolation)
 - [Cubic interpolating spline](#Cubic-spline-interpolation)
-- [Akima interpolating spline](#Akima-spline-interpolation)
+- [Akima interpolating subspline](#Akima-subspline-interpolation)
 - [Hermite interpolation](#Hermite-interpolation)
 - [Chebyshev function approximation](#Chebyshev-function-approximation)
 
@@ -54,7 +54,7 @@ from x values (or x vectors in multivariate interpolation) not contained in the 
 - Polynomial interpolation
 - Hermite spline interpolation
 - Cubic spline interpolation with 5 boundary conditions
-- Akima spline interpolation
+- Akima subspline interpolation
 
 The following code snippet summarizes all interpolation methods. In the following sections, every method is discussed in detail!
 
@@ -69,7 +69,7 @@ let testDataY = [|0.;-1.;0.;0.;0.;0.;1.;1.;3.;3.5|]
 
 
 let coefLinear     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.LinearSpline)
-let coefAkima      = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.AkimaSpline)
+let coefAkima      = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.AkimaSubSpline)
 let coefCubicNa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline CubicSpline.BoundaryCondition.Natural)
 let coefCubicPe    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline CubicSpline.BoundaryCondition.Periodic)
 let coefCubicNo    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline CubicSpline.BoundaryCondition.NotAKnot)
@@ -257,10 +257,10 @@ derivativeChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**
-## Akima spline interpolation
+## Akima subspline interpolation
 
-Akima splines are highly connected to default cubic spline interpolation. The main difference is the missing constraint of curvature continuity. This enhanced curvature flexibility diminishes oscillations of the 
-interpolating piecewise cubic splines.
+Akima subsplines are highly connected to default cubic spline interpolation. The main difference is the missing constraint of curvature continuity. This enhanced curvature flexibility diminishes oscillations of the 
+interpolating piecewise cubic subsplines. Subsplines differ from regular splines because they are discontinuous in the second derivative. See http://www.dorn.org/uni/sls/kap06/f08_0204.htm for more information.
 
 *)
 
