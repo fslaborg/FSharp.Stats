@@ -31,7 +31,7 @@ module Akima =
     /// <summary>
     ///   Computes coefficients for piecewise interpolating subsplines.
     /// </summary>
-    /// <param name="xValues">x values that are sorted ascending</param>
+    /// <param name="xValues">x values that are sorted ascending. Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)</param>
     /// <param name="yValues">function value at x values</param>
     /// <param name="firstDerivatives">first derivatives at x values</param>
     /// <returns>Coefficients that define the interpolating function.</returns>
@@ -75,6 +75,7 @@ module Akima =
     /// <summary>
     ///   Computes coefficients for piecewise interpolating subsplines.
     /// </summary>
+    /// <param name="xValues">Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)</param>
     /// <param name="yValues">function value at x values</param>
     /// <returns>Coefficients that define the interpolating function.</returns>
     /// <example> 
@@ -187,7 +188,6 @@ module Akima =
         let k = leftSegmentIdx splineCoeffs.XValues xVal 
         let x = xVal - splineCoeffs.XValues.[k]
         splineCoeffs.C1.[k] + x*(2.*splineCoeffs.C2.[k] + x*3.*splineCoeffs.C3.[k])
-
 
     /// <summary>
     ///   Returns function that takes x value and predicts the corresponding interpolating curvature. 

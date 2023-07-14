@@ -455,7 +455,7 @@ let coeffs_cheby = Interpolation.Polynomial.interpolate xs_cheby ys_cheby
 
 
 // Note: the upper panel can be summarized by the follwing function:
-Interpolation.Approximation.approxChebyshevPolynomialFromValues xs ys 16
+Interpolation.Approximation.approxWithPolynomialFromValues(xData=xs,yData=ys,n=16,spacing=Approximation.Spacing.Chebyshev)
 
 (**
 
@@ -502,7 +502,7 @@ cbChart_cheby |> GenericChart.toChartHTML
 
 
 (**
-If a non-polynomal function should be approximated as polynomial you can use `Interpolation.Approximation.approxChebyshevPolynomial` with specifying the interval in which the function should be approximated.
+If a non-polynomal function should be approximated as polynomial you can use `Interpolation.Approximation.approxWithPolynomial` with specifying the interval in which the function should be approximated.
 
 ## Further reading
 - Amazing blog post regarding Runges phenomenon and chebyshev spacing https://www.mscroggs.co.uk/blog/57

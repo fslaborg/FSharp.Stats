@@ -2,7 +2,6 @@
 
 open System
 open FSharp.Stats
-open FSharp.Stats
 
 /// <summary>
 ///   Lets the user choose between 5 interpolation methods. One simply connects dots (LinearSpline), one forms a single interpolating polynomial (Polynomial, and three of them employ piecewise cubic polynomials.
@@ -31,7 +30,8 @@ type InterpolationMethod =
     ///   Creates a spline as piecewise cubic polynomials.
     /// </summary>
     | HermiteSpline
-
+    
+[<RequireQualifiedAccess>]
 type InterpolationCoefficients =
     | LinearSplineCoef     of LinearSpline.LinearSplineCoef
     | PolynomialCoef       of Polynomial.PolynomialCoef
@@ -39,6 +39,9 @@ type InterpolationCoefficients =
     | AkimaSubSplineCoef   of Akima.SubSplineCoef
     | HermiteSplineCoef    of CubicSpline.Hermite.HermiteCoef
 
+/// <summary>
+///   This type contains functionalities to perform various interpolation methods for two dimensional data
+/// </summary>
 type Interpolation() = 
 
     /// <summary>
@@ -64,11 +67,11 @@ type Interpolation() =
     static member interpolate(xValues,yValues,method) = 
         let interpolate (method: InterpolationMethod) xData yData = 
             match method with
-            | InterpolationMethod.LinearSpline      -> LinearSpline.interpolate xData yData |> LinearSplineCoef
-            | InterpolationMethod.Polynomial        -> Polynomial.interpolate (vector xData) (vector yData) |> PolynomialCoef
-            | InterpolationMethod.CubicSpline bc    -> CubicSpline.interpolate bc (vector xData) (vector yData) |> CubicSplineCoef
-            | InterpolationMethod.AkimaSubSpline    -> Akima.interpolate xData yData |> AkimaSubSplineCoef
-            | InterpolationMethod.HermiteSpline     -> CubicSpline.Hermite.interpolate (vector xData) (vector yData) |> HermiteSplineCoef
+            | InterpolationMethod.LinearSpline      -> LinearSpline.interpolate xData yData |> InterpolationCoefficients.LinearSplineCoef
+            | InterpolationMethod.Polynomial        -> Polynomial.interpolate (vector xData) (vector yData) |> InterpolationCoefficients.PolynomialCoef
+            | InterpolationMethod.CubicSpline bc    -> CubicSpline.interpolate bc (vector xData) (vector yData) |> InterpolationCoefficients.CubicSplineCoef
+            | InterpolationMethod.AkimaSubSpline    -> Akima.interpolate xData yData |> InterpolationCoefficients.AkimaSubSplineCoef
+            | InterpolationMethod.HermiteSpline     -> CubicSpline.Hermite.interpolate (vector xData) (vector yData) |> InterpolationCoefficients.HermiteSplineCoef
         interpolate method xValues yValues 
 
     /// <summary>

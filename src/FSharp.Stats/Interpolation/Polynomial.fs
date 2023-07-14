@@ -26,7 +26,7 @@ module Polynomial =
     ///   Calculates the polynomial coefficients for interpolating the given unsorted data. 
     /// </summary>
     /// <remarks>No duplicates allowed!</remarks>
-    /// <param name="xData">vector of x values</param>
+    /// <param name="xData">Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)</param>
     /// <param name="yData">vector of y values</param>
     /// <returns>vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]</returns>
     /// <example> 

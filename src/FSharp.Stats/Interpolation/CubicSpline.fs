@@ -2,6 +2,10 @@ namespace FSharp.Stats.Interpolation
 
 open System
 
+/// <summary>
+///   Cubic splines interpolate two dimensional data by applying piecewise cubic polynomials that are continuous at the input coordinates (knots).
+///   The function itself, the first- and second derivative are continuous at the knots.
+/// </summary>
 module CubicSpline = 
     open FSharp.Stats
 
@@ -35,6 +39,7 @@ module CubicSpline =
     ///   where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)
     /// </summary>
     /// <param name="boundaryCondition">Condition that defines how slopes and curvatures are defined at the left- and rightmost knot</param>
+    /// <param name="xValues">Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)</param>
     /// <param name="yValues">function value at x values</param>
     /// <returns>Coefficients that define the interpolating function.</returns>
     /// <example> 
@@ -460,6 +465,7 @@ module CubicSpline =
         ///   Computes coefficients for piecewise interpolating splines.
         ///   The x data has to be sorted ascending.
         /// </summary>
+        /// <param name="xData">Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)</param>
         /// <param name="yData">function value at x values</param>
         /// <returns>Coefficients that define the interpolating function.</returns>
         /// <example> 

@@ -54,6 +54,7 @@ module LinearSpline =
     /// </code> 
     /// </example>
     /// <remarks>The intersects (C0) correspond to the input y values.</remarks>
+    /// <remarks>Must not contain duplicate x values. Use Approximation.regularizeValues to preprocess data!</remarks>
     let interpolateSorted (xData: array<float>) (yData: array<float>) =
         if xData.Length <> yData.Length then
             failwith "input arrays differ in length"
@@ -88,6 +89,7 @@ module LinearSpline =
     /// </code> 
     /// </example>
     /// <remarks>Works in place!</remarks>
+    /// <remarks>Must not contain duplicate x values. Use Approximation.regularizeValues to preprocess data!</remarks>
     let interpolateInplace (xData: array<float>) (yData: array<float>) =
         if xData.Length <> yData.Length then
             failwith "input arrays differ in length"
@@ -117,6 +119,7 @@ module LinearSpline =
     ///     Interpolation.initInterpolate xData yData 
     /// </code> 
     /// </example>
+    /// <remarks>Must not contain duplicate x values. Use Approximation.regularizeValues to preprocess data!</remarks>
     let interpolate (xData: array<float>) (yData: array<float>) =
         if xData.Length <> yData.Length then
             failwith "input arrays differ in length"
