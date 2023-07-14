@@ -6,7 +6,7 @@ module CubicSpline =
     open FSharp.Stats
 
     type BoundaryCondition =
-        ///most used spline variant: f'' at borders is set to 0
+        ///<summary>most used spline variant: f'' at borders is set to 0</summary>
         | Natural
         ///f' at first point is the same as f' at the last point
         | Periodic
@@ -18,14 +18,37 @@ module CubicSpline =
         | Quadratic
         ///f' at first and last knot are set by user
         | Clamped
-
+    
+    /// <summary>
+    /// Contains x data, y data (c0), slopes (c1), curvatures (c2), and the third derivative at each knot
+    /// </summary>
     type CubicSplineCoef = {
         XData : vector
+        /// <summary>
+        /// vector of [a0;b0;c0;d0;a1;b1;...;d(n-2)] where f_n(x) = (an)x^3 + (bn)x^2 + (cn)x + (dn)
+        /// </summary>
         C0_3 : vector} with
             static member Create x c = {XData=x;C0_3=c}
 
-    /// computes all coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
-    /// where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)
+    /// <summary>
+    ///   Computes coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
+    ///   where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)
+    /// </summary>
+    /// <param name="boundaryCondition">Condition that defines how slopes and curvatures are defined at the left- and rightmost knot</param>
+    /// <param name="yValues">function value at x values</param>
+    /// <returns>Coefficients that define the interpolating function.</returns>
+    /// <example> 
+    /// <code> 
+    /// // e.g. days since a certain event
+    /// let xData = vector [|0.;1.;5.;4.;3.;|]
+    /// // some measured feature
+    /// let yData = vector [|1.;5.;4.;13.;17.|]
+    ///
+    /// // get coefficients for piecewise interpolating cubic polynomials
+    /// let coefficients = 
+    ///     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+    /// </code> 
+    /// </example>
     let interpolate (boundaryCondition: BoundaryCondition) (xValues: Vector<float>) (yValues: Vector<float>) =
         //f(x)   = ax³+bx²+cx+d
         //f'(x)  = 3ax²+2bx+c
@@ -196,8 +219,33 @@ module CubicSpline =
 
         let coeffs = Algebra.LinearAlgebra.SolveLinearSystem A b 
         CubicSplineCoef.Create xValues coeffs
-        
-    ///Fits a cubic spline with given coefficients. Only defined within the range of the given xValues
+
+    /// <summary>
+    ///   Returns function that takes x value (that lies within the range of input x values) and predicts the corresponding interpolating y value.
+    /// </summary>
+    /// <param name="coefficients">Interpolation functions coefficients.</param>
+    /// <param name="x">X value of which the y value should be predicted.</param>
+    /// <returns>Function that takes an x value and returns function value.</returns>
+    /// <example> 
+    /// <code> 
+    /// // e.g. days since a certain event
+    /// let xData = vector [|0.;1.;5.;4.;3.;|]
+    /// // some measured feature
+    /// let yData = vector [|1.;5.;4.;13.;17.|]
+    /// 
+    /// // get coefficients for piecewise interpolating cubic polynomials
+    /// let coefficients = 
+    ///     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+    ///
+    /// // get interpolating value
+    /// let func = CubicSpline.predictWithinRange(coefLinSpl)
+    ///
+    /// // get function value at x=3.4
+    /// func 3.4
+    ///
+    /// </code> 
+    /// </example>
+    /// <remarks>Only defined within the range of the given xValues!</remarks>
     let predictWithinRange (coefficients: CubicSplineCoef) x =
         let sortedX = coefficients.XData |> Seq.sort
         let intervalNumber =
@@ -220,7 +268,32 @@ module CubicSpline =
             
         yValue
 
-    ///fits a cubic spline fit even outside of the interval defined in xValues by linear interpolation of slope given by border knots
+    /// <summary>
+    ///   Returns function that takes x value and predicts the corresponding interpolating y value.
+    /// </summary>
+    /// <param name="coefficients">Interpolation functions coefficients.</param>
+    /// <param name="x">X value of which the y value should be predicted.</param>
+    /// <returns>Function that takes an x value and returns function value.</returns>
+    /// <example> 
+    /// <code> 
+    /// // e.g. days since a certain event
+    /// let xData = vector [|0.;1.;5.;4.;3.;|]
+    /// // some measured feature
+    /// let yData = vector [|1.;5.;4.;13.;17.|]
+    /// 
+    /// // get coefficients for piecewise interpolating cubic polynomials
+    /// let coefficients = 
+    ///     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+    ///
+    /// // get interpolating function 
+    /// let func = CubicSpline.predict(coefLinSpl)
+    ///
+    /// // get function value at x=3.4
+    /// func 3.4
+    ///
+    /// </code> 
+    /// </example>
+    /// <remarks>x values outside of the xValue range are predicted by straight lines defined by the nearest knot!</remarks>
     let predict (coefficients: CubicSplineCoef) x =
         let sortedX = coefficients.XData |> Seq.sort
         let xHead = coefficients.XData |> Seq.head
@@ -279,15 +352,96 @@ module CubicSpline =
             thirdDerivative
         | _ -> failwithf "for cubic splines no derivative > 3 is defined"
 
+    /// <summary>
+    ///   Returns function that takes x value and predicts the corresponding slope.
+    /// </summary>
+    /// <param name="coefficients">Interpolation functions coefficients.</param>
+    /// <param name="x">X value of which the slope should be predicted.</param>
+    /// <returns>Function that takes an x value and returns the function slope.</returns>
+    /// <example> 
+    /// <code> 
+    /// // e.g. days since a certain event
+    /// let xData = vector [|0.;1.;5.;4.;3.;|]
+    /// // some measured feature
+    /// let yData = vector [|1.;5.;4.;13.;17.|]
+    /// 
+    /// // get coefficients for piecewise interpolating cubic polynomials
+    /// let coefficients = 
+    ///     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+    ///
+    /// // get slope function
+    /// let func = CubicSpline.getFirstDerivative(coefLinSpl)
+    ///
+    /// // get slope at x=3.4
+    /// func 3.4
+    ///
+    /// </code> 
+    /// </example>
+    /// <remarks>x values outside of the xValue range are predicted by straight lines defined by the nearest knot!</remarks>
     let getFirstDerivative (coefficients: CubicSplineCoef) x =
         getDerivative 1 coefficients x
 
+    /// <summary>
+    ///   Returns function that takes x value and predicts the corresponding curvature.
+    /// </summary>
+    /// <param name="coefficients">Interpolation functions coefficients.</param>
+    /// <param name="x">X value of which the curvature should be predicted.</param>
+    /// <returns>Function that takes an x value and returns the function curvature.</returns>
+    /// <example> 
+    /// <code> 
+    /// // e.g. days since a certain event
+    /// let xData = vector [|0.;1.;5.;4.;3.;|]
+    /// // some measured feature
+    /// let yData = vector [|1.;5.;4.;13.;17.|]
+    /// 
+    /// // get coefficients for piecewise interpolating cubic polynomials
+    /// let coefficients = 
+    ///     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+    ///
+    /// // get curvature function
+    /// let func = CubicSpline.getSecondDerivative(coefLinSpl)
+    ///
+    /// // get curvature at x=3.4
+    /// func 3.4
+    ///
+    /// </code> 
+    /// </example>
+    /// <remarks>x values outside of the xValue range are predicted by straight lines defined by the nearest knot!</remarks>
     let getSecondDerivative (coefficients: CubicSplineCoef) x =
         getDerivative 2 coefficients x    
         
+    /// <summary>
+    ///   Returns function that takes x value and predicts the corresponding third derivative.
+    /// </summary>
+    /// <param name="coefficients">Interpolation functions coefficients.</param>
+    /// <param name="x">X value of which the y value should be predicted.</param>
+    /// <returns>Function that takes an x value and returns the function third derivative.</returns>
+    /// <example> 
+    /// <code> 
+    /// // e.g. days since a certain event
+    /// let xData = vector [|0.;1.;5.;4.;3.;|]
+    /// // some measured feature
+    /// let yData = vector [|1.;5.;4.;13.;17.|]
+    /// 
+    /// // get coefficients for piecewise interpolating cubic polynomials
+    /// let coefficients = 
+    ///     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+    ///
+    /// // get third derivative function
+    /// let func = CubicSpline.getThirdDerivative(coefLinSpl)
+    ///
+    /// // get third derivative at x=3.4
+    /// func 3.4
+    ///
+    /// </code> 
+    /// </example>
+    /// <remarks>x values outside of the xValue range are predicted by straight lines defined by the nearest knot!</remarks>
     let getThirdDerivative (coefficients: CubicSplineCoef) x =
         getDerivative 3 coefficients x
 
+    /// <summary>
+    /// Hermite cubic splines are defined by the function values and their slopes (first derivatives). If the slopws are unknown, they must be estimated.
+    /// </summary>
     module Hermite =
 
         type HermiteCoef = {
@@ -302,6 +456,26 @@ module CubicSpline =
                     XValues=xValues;YValues=yValues;Slopes=slopes
                     }
 
+        /// <summary>
+        ///   Computes coefficients for piecewise interpolating splines.
+        ///   The x data has to be sorted ascending.
+        /// </summary>
+        /// <param name="yData">function value at x values</param>
+        /// <returns>Coefficients that define the interpolating function.</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. days since a certain event
+        /// let xData = vector [|0.;1.;5.;4.;3.;|]
+        /// // some measured feature
+        /// let yData = vector [|1.;5.;4.;13.;17.|]
+        ///
+        /// // get coefficients for piecewise interpolating cubic polynomials
+        /// let coefficients = 
+        ///     CubicSpline.Hermite.interpolate xData yData
+        ///
+        /// </code> 
+        /// </example>
+        /// <remarks>Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations!</remarks>
         let interpolate (xData: Vector<float>) (yData: Vector<float>) = 
             let slopes = 
                 Vector.init xData.Length (fun i ->
@@ -316,7 +490,27 @@ module CubicSpline =
                     )
             HermiteCoef.Create xData yData slopes
 
-        ///if the knots are monotone in/decreasing, the spline also is monotone (http://www.korf.co.uk/spline.pdf)
+        /// <summary>
+        ///   Computes coefficients for piecewise interpolating splines. 
+        ///   If the knots are monotone in/decreasing, the spline also is monotone (http://www.korf.co.uk/spline.pdf)        
+        ///   The x data has to be sorted ascending
+        /// </summary>
+        /// <param name="yData">function value at x values</param>
+        /// <returns>Coefficients that define the interpolating function.</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. days since a certain event
+        /// let xData = vector [|0.;1.;5.;4.;3.;|]
+        /// // some measured feature
+        /// let yData = vector [|1.;5.;6.;13.;13.1|]
+        ///
+        /// // get coefficients for piecewise interpolating cubic polynomials
+        /// let coefficients = 
+        ///     CubicSpline.Hermite.interpolateTryMonotonicity xData yData
+        ///
+        /// </code> 
+        /// </example>
+        /// <remarks>Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations!</remarks>
         let interpolateTryMonotonicity (xData: Vector<float>) (yData: Vector<float>) =
             let calcSlope i =
                 let s1 = (xData.[i+1] - xData.[i]) / (yData.[i+1] - yData.[i])
@@ -345,8 +539,32 @@ module CubicSpline =
             let slopes = loop 1 [slopeAtFstKnot] 
             HermiteCoef.Create xData yData (slopes |> vector)
 
-        ///calculates a function to interpolate between the datapoints with given slopes (yData').
-        ///the data has to be sorted ascending
+
+        /// <summary>
+        ///   Returns function that takes x value and predicts the corresponding interpolating y value. 
+        /// </summary>
+        /// <param name="coefficients">Interpolation functions coefficients.</param>
+        /// <param name="x">X value of which the y value should be predicted.</param>
+        /// <returns>Function that takes an x value and returns function value.</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. days since a certain event
+        /// let xData = vector [|0.;1.;5.;4.;3.;|]
+        /// // some measured feature
+        /// let yData = vector [|1.;5.;4.;13.;17.|]
+        /// 
+        /// // get coefficients for piecewise interpolating cubic polynomials
+        /// let coefficients = 
+        ///     CubicSpline.Hermite.interpolate xData yData
+        ///
+        /// // get interpolating function 
+        /// let func = CubicSpline.Hermite.predict coefLinSpl
+        ///
+        /// // get function value at x=3.4
+        /// func 3.4
+        /// </code> 
+        /// </example>
+        /// <remarks>x values outside of the xValue range are predicted by straight lines defined by the nearest knot!</remarks>
         let predict (coef: HermiteCoef) x =
             let n = coef.XValues.Length
 
@@ -469,23 +687,23 @@ module CubicSpline =
             Akima.interpolate xValues yValues
     
         [<Obsolete("Use Interpolation.Akima.predict instead!")>]
-        let interpolateAtX (splineCoeffs: Akima.SplineCoef) xVal =
+        let interpolateAtX (splineCoeffs: Akima.SubSplineCoef) xVal =
             Akima.predict splineCoeffs xVal
     
         [<Obsolete("Use Interpolation.Akima.getFirstDerivative instead!")>]
-        let firstDerivative (splineCoeffs: Akima.SplineCoef) xVal =
+        let firstDerivative (splineCoeffs: Akima.SubSplineCoef) xVal =
             Akima.getFirstDerivative splineCoeffs xVal
     
         [<Obsolete("Use Interpolation.Akima.secondDerivative instead!")>]
-        let secondDerivative (splineCoeffs: Akima.SplineCoef) xVal =
+        let secondDerivative (splineCoeffs: Akima.SubSplineCoef) xVal =
             Akima.getSecondDerivative splineCoeffs xVal
     
         [<Obsolete("Use Interpolation.Akima.computeIndefiniteIntegral instead!")>]
-        let computeIndefiniteIntegral (splineCoeffs: Akima.SplineCoef) = 
+        let computeIndefiniteIntegral (splineCoeffs: Akima.SubSplineCoef) = 
             Akima.computeIndefiniteIntegral splineCoeffs
     
         [<Obsolete("Use Interpolation.Akima.integrate instead!")>]
-        let integrate (splineCoeffs: Akima.SplineCoef) xVal = 
+        let integrate (splineCoeffs: Akima.SubSplineCoef) xVal = 
             Akima.integrate splineCoeffs xVal
     
         [<Obsolete("Use Interpolation.Akima.definiteIntegral instead!")>]
