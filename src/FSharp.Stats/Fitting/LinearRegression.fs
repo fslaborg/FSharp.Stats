@@ -133,9 +133,26 @@ module LinearRegression =
             /// <summary>
             ///   Univariable handles two dimensional x,y data.
             /// </summary>
-            module Univariable =    
-                /// Calculates the coefficients for linear regression
-                /// in the form of [|intercept; slope;|]
+            module Univariable =
+
+                /// <summary>
+                ///   Calculates the intercept and slope for a straight line fitting the data. Linear regression minimizes the sum of squared residuals.
+                /// </summary>
+                /// <param name="xData">vector of x values</param>
+                /// <param name="yData">vector of y values</param>
+                /// <returns>vector of [intercept; slope]</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                /// // e.g. some measured feature 
+                /// let yData = vector [|4.;7.;9.;10.;11.;15.|]
+                /// 
+                /// // Estimate the coefficients of a straight line fitting the given data
+                /// let coefficients = 
+                ///     Univariable.coefficient xData yData 
+                /// </code> 
+                /// </example>
                 let coefficient (xData : Vector<float>) (yData : Vector<float>) =
                     if xData.Length <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -143,8 +160,24 @@ module LinearRegression =
                     let X = Matrix.init N 2 (fun m x ->  if x = 0 then 1. else xData.[m] )
                     Algebra.LinearAlgebra.LeastSquares X yData
 
-                /// Calculates the coefficients for linear regression
-                /// in the form of [|intercept; slope;|] using Cholesky Decomposition
+                /// <summary>
+                ///   Calculates the intercept and slope for a straight line fitting the data using Cholesky Decomposition. Linear regression minimizes the sum of squared residuals.
+                /// </summary>
+                /// <param name="xData">vector of x values</param>
+                /// <param name="yData">vector of y values</param>
+                /// <returns>vector of [intercept; slope]</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                /// // e.g. some measured feature 
+                /// let yData = vector [|4.;7.;9.;10.;11.;15.|]
+                /// 
+                /// // Estimate the coefficients of a straight line fitting the given data
+                /// let coefficients = 
+                ///     Univariable.coefficientCholesky xData yData 
+                /// </code> 
+                /// </example>
                 let coefficientCholesky (xData: Vector<float>) (yData: Vector<float>) =
                     if xData.NumRows <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -154,21 +187,74 @@ module LinearRegression =
 
                     Algebra.LinearAlgebra.LeastSquaresCholesky X yData
 
-                /// Calculates the coefficients for linear regression through a specified point (xC,yC) 
+                /// <summary>
+                ///   Calculates the intercept and slope for a straight line fitting the data and passing through a specified point (xC,yC) . Linear regression minimizes the sum of squared residuals.
+                /// </summary>
+                /// <param name="xData">vector of x values</param>
+                /// <param name="yData">vector of y values</param>
+                /// <returns>vector of [intercept; slope]</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                /// // e.g. some measured feature 
+                /// let yData = vector [|4.;7.;9.;10.;11.;15.|]
+                /// 
+                /// // Estimate the coefficients of a straight line fitting the given data
+                /// let coefficients = 
+                ///     Univariable.coefficientConstrained xData yData (6.,15.)
+                /// </code> 
+                /// </example>
                 let coefficientConstrained (xData : Vector<float>) (yData : Vector<float>) ((xC,yC): float*float) =
                     let xTransformed = xData |> Vector.map (fun x -> x - xC)
                     let yTransformed = yData |> Vector.map (fun y -> y - yC)
                     let slope = RTO.coefficientOfVector xTransformed yTransformed
                     [|- xC * slope - yC;slope|]
                 
-                /// Fit to x
+                /// <summary>
+                ///   Takes intercept and slope of simple linear regression to predict the corresponding y value.
+                /// </summary>
+                /// <param name="coef">vector of [intercept;slope] (e.g. determined by Univariable.coefficient)</param>
+                /// <param name="x">x value of which the corresponding y value should be predicted</param>
+                /// <returns>predicted y value with given coefficients at X=x</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                /// // e.g. some measured feature 
+                /// let yData = vector [|4.;7.;9.;10.;11.;15.|]
+                /// 
+                /// // Estimate the coefficients of a straight line fitting the given data
+                /// let coefficients = 
+                ///     Univariable.coefficient xData yData 
+                ///
+                /// // Predict the feature at midnight between day 1 and 2. 
+                /// Univariable.fit coefficients 1.5
+                /// </code> 
+                /// </example>
                 let fit (coef : Vector<float>) (x:float) =
                     if coef.Length <> 2 then
                         raise (System.ArgumentException("Coefficient has to be [a;b]!"))
                     coef.[0] + coef.[1] * x
         
-                /// Fits a model (y(x) = b + m * x) to the data and returns the cooks distance for every data pair present in the
-                /// input collections as an estimator for the influence of each data point in coefficient estimation.  
+                /// <summary>
+                ///   Fits a model f(x) = b + m * x) to the data and returns the cooks distance for every data pair present in the
+                ///   input collections as an estimator for the influence of each data point in coefficient estimation.
+                /// </summary>
+                /// <param name="xData">vector of x values</param>
+                /// <param name="yData">vector of y values</param>
+                /// <returns>Collection of cooks distances for every input coordinate.</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                /// // e.g. some measured feature 
+                /// let yData = vector [|4.;7.;9.;10.;11.;15.|]
+                /// 
+                /// let distances = 
+                ///     Univariable.cooksDistance xData yData 
+                /// </code> 
+                /// </example>
                 let cooksDistance (xData : Vector<float>) (yData : Vector<float>) =
                     if xData.Length <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -181,17 +267,49 @@ module LinearRegression =
                     let MSE = squaredDeviations |> Vector.sum |> fun sumOfSquares -> sumOfSquares / (float xData.Length)         
                     // compute cooksDistance for every Point in the dataSet
                     squaredDeviations 
-                    |> FSharp.Stats.Vector.mapi (fun i squaredDev -> 
-                                                    let fstFactor = squaredDev / (MSE * float coeffs.Length)
-                                                    let sndFactor = leverages.[i] / ((1. - leverages.[i]) ** 2.)
-                                                    fstFactor * sndFactor
-                                                )
+                    |> Vector.mapi (fun i squaredDev -> 
+                        let fstFactor = squaredDev / (MSE * float coeffs.Length)
+                        let sndFactor = leverages.[i] / ((1. - leverages.[i]) ** 2.)
+                        fstFactor * sndFactor
+                    )
+
             /// <summary>
-            ///   Univariable handles multi dimensional data where a vector of independent x values should be used to predict a single y value.
+            ///   Multivariable handles multi dimensional data where a vector of independent x values should be used to predict a single y value.
             /// </summary>
             module Multivariable =           
-                /// Calculates the coefficients for linear regression
-                /// in the form of [|intercept; slope;|]
+
+                /// <summary>
+                ///   Calculates the coefficients for a straight line fitting the data. Linear regression minimizes the sum of squared residuals.
+                /// </summary>
+                /// <param name="xData">matrix of x vectors</param>
+                /// <param name="yData">vector of y values</param>
+                /// <returns>vector of linear coefficients</returns>
+                /// <example> 
+                /// <code> 
+                ///   let xVectorMulti =
+                ///       [
+                ///       [1.; 1. ;2.  ]
+                ///       [2.; 0.5;6.  ]
+                ///       [3.; 0.8;10. ]
+                ///       [4.; 2. ;14. ]
+                ///       [5.; 4. ;18. ]
+                ///       [6.; 3. ;22. ]
+                ///       ]
+                ///       |> Matrix.ofJaggedSeq
+                ///   
+                ///   // Here the x values are transformed. In most cases the y values are just provided.
+                ///   let yVectorMulti = 
+                ///       let transformX (x:Matrix<float>) =
+                ///           x
+                ///           |> Matrix.mapiRows (fun _ v -> 100. + (v.[0] * 2.5) + (v.[1] * 4.) + (v.[2] * 0.5))
+                ///       xVectorMulti
+                ///       |> transformX
+                ///       |> vector
+                ///   
+                ///   let coefficientsMV = 
+                ///       Multivariable.coefficients xVectorMulti yVectorMulti
+                /// </code> 
+                /// </example>
                 let coefficients (xData : Matrix<float>) (yData : Vector<float>) =
                     if xData.NumRows <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -200,8 +318,38 @@ module LinearRegression =
                     let X = Matrix.init m (n+1) (fun m n ->  if n = 0 then 1. else xData.[m,n-1] )
                     Algebra.LinearAlgebra.LeastSquares X yData
 
-                /// Calculates the coefficients for linear regression
-                /// in the form of [|intercept; slope;|] using Cholesky Decomposition
+                /// <summary>
+                ///   Calculates the coefficients for a straight line fitting the data using Cholesky Decomposition. Linear regression minimizes the sum of squared residuals.
+                /// </summary>
+                /// <param name="xData">matrix of x vectors</param>
+                /// <param name="yData">vector of y values</param>
+                /// <returns>vector of linear coefficients</returns>
+                /// <example> 
+                /// <code> 
+                ///   let xVectorMulti =
+                ///       [
+                ///       [1.; 1. ;2.  ]
+                ///       [2.; 0.5;6.  ]
+                ///       [3.; 0.8;10. ]
+                ///       [4.; 2. ;14. ]
+                ///       [5.; 4. ;18. ]
+                ///       [6.; 3. ;22. ]
+                ///       ]
+                ///       |> Matrix.ofJaggedSeq
+                ///   
+                ///   // Here the x values are transformed. In most cases the y values are just provided.
+                ///   let yVectorMulti = 
+                ///       let transformX (x:Matrix<float>) =
+                ///           x
+                ///           |> Matrix.mapiRows (fun _ v -> 100. + (v.[0] * 2.5) + (v.[1] * 4.) + (v.[2] * 0.5))
+                ///       xVectorMulti
+                ///       |> transformX
+                ///       |> vector
+                ///   
+                ///   let coefficientsMV = 
+                ///       Multivariable.coefficientsCholesky xVectorMulti yVectorMulti
+                /// </code> 
+                /// </example>
                 let coefficientsCholesky (xData: Matrix<float>) (yData: Vector<float>) =
                     if xData.NumRows <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -211,14 +359,48 @@ module LinearRegression =
                             (fun i j -> if j = 0 then 1.0 else xData.[i, j - 1])
 
                     Algebra.LinearAlgebra.LeastSquaresCholesky X yData
-
-                /// Fit to x
-                let fit (coef : Vector<float>) (x:Vector<float>) =
-                    let tmp :Vector<float> = Vector.init (x.Length+1) (fun i -> if i = 0 then 1. else x.[i-1])
+                
+                /// <summary>
+                ///   Takes linear coefficients and x vector to predict the corresponding y value.
+                /// </summary>
+                /// <param name="coef">Coefficients from linear regression.</param>
+                /// <param name="c">x vector for which the y value should be predicted</param>
+                /// <returns>predicted y value with given coefficients at X=x</returns>
+                /// <example> 
+                /// <code> 
+                ///   let xVectorMulti =
+                ///       [
+                ///       [1.; 1. ;2.  ]
+                ///       [2.; 0.5;6.  ]
+                ///       [3.; 0.8;10. ]
+                ///       [4.; 2. ;14. ]
+                ///       [5.; 4. ;18. ]
+                ///       [6.; 3. ;22. ]
+                ///       ]
+                ///       |> Matrix.ofJaggedSeq
+                ///   
+                ///   // Here the x values are transformed. In most cases the y values are just provided.
+                ///   let yVectorMulti = 
+                ///       let transformX (x:Matrix<float>) =
+                ///           x
+                ///           |> Matrix.mapiRows (fun _ v -> 100. + (v.[0] * 2.5) + (v.[1] * 4.) + (v.[2] * 0.5))
+                ///       xVectorMulti
+                ///       |> transformX
+                ///       |> vector
+                ///   
+                ///   let coefficientsMV = 
+                ///       Multivariable.coefficients xVectorMulti yVectorMulti
+                ///
+                ///   let fittingFunctionMV x = 
+                ///       Multivariable.fit coefficientsMV x
+                /// </code> 
+                /// </example>
+                let fit (coef: Vector<float>) (x: Vector<float>) =
+                    let tmp: Vector<float> = Vector.init (x.Length+1) (fun i -> if i = 0 then 1. else x.[i-1])
                     Vector.dot tmp coef 
             
             module RidgeRegression =           
-
+                
                 let coefficients lambda (xData : Matrix<float>) (yData : Vector<float>) =
                     if xData.NumRows <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -336,7 +518,7 @@ module LinearRegression =
             //    Vector.init (yData.Length / numberOfReplicates) (fun i -> 1. / var.[i])
                         
             /// <summary>
-            ///   takes polynomial coefficients and x value to predict the corresponding y value
+            ///   Takes polynomial coefficients and x value to predict the corresponding y value.
             /// </summary>
             /// <param name="order">order of the polynomial (1 = linear, 2 = quadratic, ... )</param>
             /// <param name="coef">vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]</param>
