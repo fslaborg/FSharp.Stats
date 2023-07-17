@@ -413,8 +413,8 @@ module NonLinearRegression =
             let initialParamGuess =
                 let yLn = yData |> Array.map (fun x -> Math.Log(x)) |> vector
                 let linearReg = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fit (vector xData) yLn
-                let a = exp linearReg.[0]
-                let b = linearReg.[1]
+                let a = exp linearReg.Constant
+                let b = linearReg.Linear
                 [|a;b|]
 
             {

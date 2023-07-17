@@ -210,7 +210,7 @@ module GoodnessOfFit =
             open LinearRegression.OrdinaryLeastSquares.Linear
             module RTO = 
                 /// 
-                let calculateANOVA (coef : float) x y =                
+                let calculateANOVA (coef : LinearRegression.Coefficients) x y =                
                     calculateANOVA 1 (LinearRegression.OrdinaryLeastSquares.Linear.RTO.predictFunc coef) x y 
 
             module Univariable = 
@@ -298,7 +298,7 @@ module GoodnessOfFit =
                                         |> vector
                                     let coefTmp = LinearRegression.OrdinaryLeastSquares.Polynomial.fit order xTmp yTmp
                                     let error = 
-                                        let yFit = LinearRegression.OrdinaryLeastSquares.Polynomial.predict order coefTmp (float xData.[x])
+                                        let yFit = LinearRegression.OrdinaryLeastSquares.Polynomial.predict coefTmp (float xData.[x])
                                         pown (yFit - yData.[x]) 2 
                                     error
                                 )
@@ -349,7 +349,7 @@ module GoodnessOfFit =
                             let dataLeftOut = x
                             let fit = 
                                 Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.fit order (vector subX) (vector subY)
-                                |> fun coeffs -> Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.predict order coeffs
+                                |> fun coeffs -> Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.predict coeffs
                             dataLeftOut
                             |> Array.map (fun (xLO,yLO) -> pown (fit xLO - yLO) 2)
                             |> Array.sum
