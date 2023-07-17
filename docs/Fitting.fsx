@@ -71,21 +71,21 @@ let yData = vector [|4.;7.;9.;12.;15.;17.;16.;23.;5.;30.|]
 
 //Least squares simple linear regression
 let coefficientsLinearLS = 
-    OrdinaryLeastSquares.Linear.Univariable.coefficient xData yData
-let fittingFunctionLinearLS x = 
-    OrdinaryLeastSquares.Linear.Univariable.fit coefficientsLinearLS x
+    OrdinaryLeastSquares.Linear.Univariable.fit xData yData
+let predictionFunctionLinearLS x = 
+    OrdinaryLeastSquares.Linear.Univariable.predict coefficientsLinearLS x
 
 //Robust simple linear regression
 let coefficientsLinearRobust = 
     RobustRegression.Linear.theilSenEstimator xData yData 
-let fittingFunctionLinearRobust x = 
-    RobustRegression.Linear.fit coefficientsLinearRobust x
+let predictionFunctionLinearRobust x = 
+    RobustRegression.Linear.predict coefficientsLinearRobust x
 
 //least squares simple linear regression through the origin
 let coefficientsLinearRTO = 
-    OrdinaryLeastSquares.Linear.RTO.coefficientOfVector xData yData 
-let fittingFunctionLinearRTO x = 
-    OrdinaryLeastSquares.Linear.RTO.fit coefficientsLinearRTO x
+    OrdinaryLeastSquares.Linear.RTO.fitOfVector xData yData 
+let predictionFunctionLinearRTO x = 
+    OrdinaryLeastSquares.Linear.RTO.predict coefficientsLinearRTO x
 
 
 
@@ -93,29 +93,29 @@ let rawChart =
     Chart.Point(xData,yData)
     |> Chart.withTraceInfo "raw data"
     
-let fittingLS = 
+let predictionLS = 
     let fit = 
         [|0. .. 11.|] 
-        |> Array.map (fun x -> x,fittingFunctionLinearLS x)
+        |> Array.map (fun x -> x,predictionFunctionLinearLS x)
     Chart.Line(fit)
     |> Chart.withTraceInfo "least squares (LS)"
 
-let fittingRobust = 
+let predictionRobust = 
     let fit = 
         [|0. .. 11.|] 
-        |> Array.map (fun x -> x,fittingFunctionLinearRobust x)
+        |> Array.map (fun x -> x,predictionFunctionLinearRobust x)
     Chart.Line(fit)
     |> Chart.withTraceInfo "TheilSen estimator"
 
-let fittingRTO = 
+let predictionRTO = 
     let fit = 
         [|0. .. 11.|] 
-        |> Array.map (fun x -> x,fittingFunctionLinearRTO x)
+        |> Array.map (fun x -> x,predictionFunctionLinearRTO x)
     Chart.Line(fit)
     |> Chart.withTraceInfo "LS through origin"
 
 let simpleLinearChart =
-    [rawChart;fittingLS;fittingRTO;fittingRobust;] 
+    [rawChart;predictionLS;predictionRTO;predictionRobust;] 
     |> Chart.combine
     |> Chart.withTemplate ChartTemplates.lightMirrored
 
@@ -153,9 +153,9 @@ let yVectorMulti =
     |> vector
 
 let coefficientsMV = 
-    OrdinaryLeastSquares.Linear.Multivariable.coefficients xVectorMulti yVectorMulti
-let fittingFunctionMV x = 
-    OrdinaryLeastSquares.Linear.Multivariable.fit coefficientsMV x
+    OrdinaryLeastSquares.Linear.Multivariable.fit xVectorMulti yVectorMulti
+let predictionFunctionMV x = 
+    OrdinaryLeastSquares.Linear.Multivariable.predict coefficientsMV x
 
 (**
 
@@ -176,9 +176,9 @@ let yDataP = vector [|4.;7.;9.;8.;6.;3.;2.;5.;6.;8.;|]
 //define the order the polynomial should have (order 3: f(x) = ax^3 + bx^2 + cx + d)
 let order = 3
 let coefficientsPol = 
-    OrdinaryLeastSquares.Polynomial.coefficient order xDataP yDataP 
-let fittingFunctionPol x = 
-    OrdinaryLeastSquares.Polynomial.fit order coefficientsPol x
+    OrdinaryLeastSquares.Polynomial.fit order xDataP yDataP 
+let predictionFunctionPol x = 
+    OrdinaryLeastSquares.Polynomial.predict order coefficientsPol x
 
 //weighted least squares polynomial regression
 //If heteroscedasticity is assumed or the impact of single datapoints should be 
@@ -190,9 +190,9 @@ let orderP = 3
 //define the weighting vector
 let weights = yDataP |> Vector.map (fun y -> 1. / y)
 let coefficientsPolW = 
-    OrdinaryLeastSquares.Polynomial.coefficientsWithWeighting orderP weights xDataP yDataP 
-let fittingFunctionPolW x = 
-    OrdinaryLeastSquares.Polynomial.fit orderP coefficientsPolW x
+    OrdinaryLeastSquares.Polynomial.fitWithWeighting orderP weights xDataP yDataP 
+let predictionFunctionPolW x = 
+    OrdinaryLeastSquares.Polynomial.predict orderP coefficientsPolW x
 
 let rawChartP = 
     Chart.Point(xDataP,yDataP)
@@ -201,14 +201,14 @@ let rawChartP =
 let fittingPol = 
     let fit = 
         [|1. .. 0.1 .. 10.|] 
-        |> Array.map (fun x -> x,fittingFunctionPol x)
+        |> Array.map (fun x -> x,predictionFunctionPol x)
     Chart.Line(fit)
     |> Chart.withTraceInfo "order = 3"
 
 let fittingPolW = 
     let fit = 
         [|1. .. 0.1 .. 10.|] 
-        |> Array.map (fun x -> x,fittingFunctionPolW x)
+        |> Array.map (fun x -> x,predictionFunctionPolW x)
     Chart.Line(fit)
     |> Chart.withTraceInfo "order = 3 weigthed"
 
@@ -314,7 +314,7 @@ let initialParamGuess (xData:float []) (yData:float [])=
     //(prone to least-squares-deviations at high y_Values)
     let yLn = yData |> Array.map (fun x -> Math.Log(x)) |> vector
     let linearReg = 
-        LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient (vector xData) yLn
+        LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fit (vector xData) yLn
     //calculates the parameters back into the exponential representation
     let a = exp linearReg.[0]
     let b = linearReg.[1]

@@ -412,7 +412,7 @@ module NonLinearRegression =
             //gets the linear representation of the problem and solves it by simple linear regression
             let initialParamGuess =
                 let yLn = yData |> Array.map (fun x -> Math.Log(x)) |> vector
-                let linearReg = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient (vector xData) yLn
+                let linearReg = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fit (vector xData) yLn
                 let a = exp linearReg.[0]
                 let b = linearReg.[1]
                 [|a;b|]

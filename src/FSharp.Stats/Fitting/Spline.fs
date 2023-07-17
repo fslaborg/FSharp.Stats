@@ -7,22 +7,22 @@ module Spline =
     open FSharp.Stats.Algebra
 
     /// Some preprocessing of the input data
-    let private preprocess (data : (float*float) []) =
+    let internal preprocess (data : (float*float) []) =
         if Array.length data < 3 then failwith "Too little input points"
         data 
         |> Seq.sortBy fst
         |> Array.ofSeq
           
-    let private preprocessBasis (data : float []) =
+    let internal preprocessBasis (data : float []) =
        if Array.length data < 3 then failwith "Too little input points"
        data |> Array.distinct |> Array.sort 
  
-    let private checkSmoothingParameter l =
+    let internal checkSmoothingParameter l =
         if l < 0. then failwith "smoothing parameter should be positive"
     
     /// Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts.
     /// The resulting function takes lambda (regularization parameter) and a x_Value as input. 
-    let smoothingSpline (data: (float*float) []) (basispts : float [])=
+    let smoothingSpline (data: (float*float) []) (basispts: float []) =
         //https://robjhyndman.com/etc5410/splines.pdf
         // Some preprocessing
         let basistmp = preprocessBasis basispts

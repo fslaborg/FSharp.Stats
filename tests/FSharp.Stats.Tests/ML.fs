@@ -320,7 +320,7 @@ module hClust =
         |> Seq.toArray
         |> Array.mapi (fun i (lable,data) -> sprintf "%s_%i" lable i, data)
         |> Array.unzip
-    let distance = DistanceMetrics.euclidean
+    let distance = FSharp.Stats.DistanceMetrics.euclidean
     let linker = Linker.singleLwLinker
     let testCluster = generate<float[]> distance linker data |> Seq.item 0 |> (fun x -> x.Key)
     let testLeaf = createClusterValue 1 [|1.;2.|]

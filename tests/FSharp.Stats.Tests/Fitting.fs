@@ -40,13 +40,13 @@ let leastSquaresCholeskyTests =
     testList "Least Squares with Cholesky" [
         testCase "Univariable Regression" (fun () ->
             let expectedCoefficients = [3.; 2.]
-            let coeffcientsCholesky = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficientCholesky (vector xs) yVector
+            let coeffcientsCholesky = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fitCholesky (vector xs) yVector
             Expect.floatClose Accuracy.low coeffcientsCholesky.[0] expectedCoefficients.[0] "Coefficient should be equal"
             Expect.floatClose Accuracy.low coeffcientsCholesky.[1] expectedCoefficients.[1] "Coefficient should be equal"
         )
         testCase "Multivariable Regression" (fun () ->
             let expectedCoefficients = [3.; 2.; 1.]
-            let coeffcientsCholesky = LinearRegression.OrdinaryLeastSquares.Linear.Multivariable.coefficientsCholesky xData yData
+            let coeffcientsCholesky = LinearRegression.OrdinaryLeastSquares.Linear.Multivariable.fitCholesky xData yData
             Expect.floatClose Accuracy.low coeffcientsCholesky.[0] expectedCoefficients.[0] "Coefficient should be equal"
             Expect.floatClose Accuracy.low coeffcientsCholesky.[1] expectedCoefficients.[1] "Coefficient should be equal"
             Expect.floatClose Accuracy.low coeffcientsCholesky.[2] expectedCoefficients.[2] "Coefficient should be equal"
