@@ -227,7 +227,7 @@ module LinearRegression =
                     let xTransformed = xData |> Vector.map (fun x -> x - xC)
                     let yTransformed = yData |> Vector.map (fun y -> y - yC)
                     let slope = RTO.fitOfVector xTransformed yTransformed
-                    [|- xC * slope - yC;slope|]
+                    let intercept = yC - xC * slope
 
                 
                 [<Obsolete("Use Univariable.fitConstrained instead.")>]
