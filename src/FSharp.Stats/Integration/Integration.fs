@@ -155,7 +155,7 @@ type NumericalIntegrationMethod =
 /// Definite integral approximation
 type NumericalIntegration() = 
     
-    /// Returns a function that approximates the definite integral of the input function (float -> float) with the given `method` for partitions of equal size `partitions` in an inclusive closed interval [`intervalStart`, `intervalEnd`]
+    /// Returns a function that approximates the definite integral of the input function (float -&gt; float) with the given `method` for partitions of equal size `partitions` in an inclusive closed interval [`intervalStart`, `intervalEnd`]
     static member definiteIntegral(
         /// the numerical integration approximation method to use
         method: NumericalIntegrationMethod,

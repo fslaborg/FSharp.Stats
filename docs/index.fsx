@@ -119,11 +119,11 @@ let yData = vector [|4.;7.;9.;12.;15.;17.;16.;23.;5.;30.|]
 
 // get coefficients of interpolating polynomial
 let interpolatingCoefficients = 
-    Interpolation.Polynomial.coefficients xData yData
+    Interpolation.Polynomial.interpolate xData yData
 
 // get fitting function of interpolating polynomial
 let interpolFitFunc = 
-    Interpolation.Polynomial.fit interpolatingCoefficients
+    Interpolation.Polynomial.predict interpolatingCoefficients
 
 (*** hide ***)
 // create line chart of interpolating polynomial
@@ -138,17 +138,17 @@ let interpolChart =
 
 // get coefficients of 3rd order regression polynomial
 let regressionCoefficients = 
-    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.coefficient 3 xData yData
+    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.fit 3 xData yData
     
 // get fitting function of 3rd order regression polynomial
-let regressionFitFunc = 
-    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.fit 3 regressionCoefficients
+let regressionPredictionFunc = 
+    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.predict regressionCoefficients
 
 (*** hide ***)
 // create line chart of regression polynomial
 let regressionChart = 
     [1. .. 0.1 .. 10.] 
-    |> List.map (fun x -> x,regressionFitFunc x)
+    |> List.map (fun x -> x,regressionPredictionFunc x)
     |> fun data -> Chart.Line(data,Name="regression polynomial")
 
 let combinedChart =

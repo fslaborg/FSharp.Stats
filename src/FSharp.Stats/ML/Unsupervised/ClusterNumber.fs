@@ -284,7 +284,7 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
         [<Obsolete("Use logDispersionKMeansInitRandom instead.")>]
         let logDispersionKMeans_initRandom = logDispersionKMeansInitRandom
 
-        ////[<Obsolete("Use [logDispersionKMeans_initCvMax] instead.")>]
+        ////[Obsolete("Use [logDispersionKMeans_initCvMax] instead.")]
         //// Calculate log(sum_i(within-cluster_i sum of squares around cluster_i mean)) of kmeans clustering result.
         //let logDispersionKMeans_initCvMax_old = 
         //    let aggregator = IterativeClustering.avgCentroid

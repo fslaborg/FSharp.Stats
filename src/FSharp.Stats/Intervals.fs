@@ -177,7 +177,7 @@ module Intervals =
 
             
 
-    /// Get the value at a given percentage within (0.0 - 1.0) or outside (< 0.0, > 1.0) of the interval. Rounding to nearest neighbour occurs when needed.
+    /// Get the value at a given percentage within (0.0 - 1.0) or outside (&lt; 0.0, &gt; 1.0) of the interval. Rounding to nearest neighbour occurs when needed.
     let inline getValueAt percentage interval =        
         match trySize interval with
         | Some size -> percentage * (float size)
@@ -200,7 +200,7 @@ module Intervals =
 
 
 ///// <summary> 
-/////   Get a percentage how far inside (0.0 - 1.0) or outside (< 0.0, > 1.0) the interval a certain value lies. 
+/////   Get a percentage how far inside (0.0 - 1.0) or outside (&lt; 0.0, &gt; 1.0) the interval a certain value lies. 
 /////   For single intervals, '1.0' is returned when inside the interval, '-1.0' otherwise. 
 ///// </summary> 
 ///// <param name="position">The position value to get the percentage for.</param> 
@@ -267,7 +267,7 @@ module Intervals =
 //
 ///// <summary> 
 /////   Returns a scaled version of the current interval, but prevents the interval from exceeding the values specified in a passed limit. 
-/////   This is useful to prevent <see cref="ArgumentOutOfRangeException" /> during calculations for certain types. 
+/////   This is useful to prevent ArgumentOutOfRangeException during calculations for certain types. 
 ///// </summary> 
 ///// <param name="scale"> 
 /////   Percentage to scale the interval up or down. 

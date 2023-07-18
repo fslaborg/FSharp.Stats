@@ -59,10 +59,10 @@ let x = vector [|1. .. 10.|]
 let y = vector [|4.;10.;9.;7.;13.;17.;16.;23.;15.;30.|]
 
 ///linear regression line fitting function
-let coefficients = Linear.Univariable.coefficient x y
-let fitFunc = Linear.Univariable.fit coefficients
+let coefficients = Linear.Univariable.fit x y
+let predictFunc = Linear.Univariable.predict coefficients
 
-let fittedValues = x |> Seq.map fitFunc
+let fittedValues = x |> Seq.map predictFunc
 
 
 let chart =
@@ -87,7 +87,7 @@ Various quality parameters can be accessed via the `GoodnessOfFit` module:
 *)
 
 //In the following some quality/interval/significance values are computed:
-let sos         = GoodnessOfFit.calculateSumOfSquares fitFunc x y
+let sos         = GoodnessOfFit.calculateSumOfSquares predictFunc x y
 let n           = sos.Count
 let meanX       = sos.MeanX
 let meanY       = sos.MeanY
@@ -189,10 +189,10 @@ let yData = vector [|4.;10.;9.;7.;13.;17.;16.;23.;15.;30.|]
 let values = Seq.zip xData yData
 
 ///linear regression line fitting function
-let coeffs = Linear.Univariable.coefficient xData yData
-let fit = Linear.Univariable.fit coeffs
+let coeffs = Linear.Univariable.fit xData yData
+let predictionFunction = Linear.Univariable.predict coeffs
 
-let fitValues = xData |> Seq.map (fun xi -> xi,(fit xi))
+let fitValues = xData |> Seq.map (fun xi -> xi,(predictionFunction xi))
 
 ///calculate confidence band errors for every x value
 let confidence = 
@@ -203,7 +203,7 @@ let confidence =
 let (lower,upper) = 
     xData 
     |> Vector.toArray
-    |> Array.mapi (fun i xi -> (fit xi) - confidence.[i],(fit xi) + confidence.[i]) 
+    |> Array.mapi (fun i xi -> (predictionFunction xi) - confidence.[i],(predictionFunction xi) + confidence.[i]) 
     |> Array.unzip
 
 let rangePlot = 
@@ -248,7 +248,7 @@ let newConfidence =
 let (newLower,newUpper) = 
     newXValues 
     |> Vector.toArray
-    |> Array.mapi (fun i xi -> (fit xi) - newConfidence.[i],(fit xi) + newConfidence.[i]) 
+    |> Array.mapi (fun i xi -> (predictionFunction xi) - newConfidence.[i],(predictionFunction xi) + newConfidence.[i]) 
     |> Array.unzip
 
 let linePlot =
@@ -287,7 +287,7 @@ let prediction =
 let (pLower,pUpper) = 
     predictionXValues 
     |> Vector.toArray
-    |> Array.mapi (fun i xi -> (fit xi) - prediction.[i],(fit xi) + prediction.[i]) 
+    |> Array.mapi (fun i xi -> (predictionFunction xi) - prediction.[i],(predictionFunction xi) + prediction.[i]) 
     |> Array.unzip
 
 let predictionPlot =

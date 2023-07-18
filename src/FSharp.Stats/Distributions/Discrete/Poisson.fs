@@ -111,7 +111,7 @@ type Poisson =
         else
             (lambda**float k * System.Math.E**(-lambda)) / SpecialFunctions.Factorial.factorial k
         
-    /// Computes the cumulative distribution function at x, i.e. P(X <= x).
+    /// Computes the cumulative distribution function at x, i.e. P(X &lt;= x).
     static member CDF lambda k =
         Poisson.CheckParam lambda        
         Gamma.upperIncompleteRegularized (k + 1.) lambda

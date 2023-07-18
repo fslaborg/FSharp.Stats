@@ -102,7 +102,7 @@ module Padding =
 
     ///Adds additional data points to the beginning and end of data set (number: borderpadding; x_Value distance: minDistance; y_Value: random).
     ///Between every pair of data point where the difference in x_Values is greater than minDistance, additional datapoints are generated as defined in internalPaddingMethod.
-    ///If huge data chunks are missing (missing gap < maxDistance), data points are added as defined in hugeGapPaddingMethod.
+    ///If huge data chunks are missing (missing gap &lt; maxDistance), data points are added as defined in hugeGapPaddingMethod.
     ///default: internalPaddingMethod=LinearInterpolation; hugeGapPaddingMethod=Random (like in border cases)
     ///getDiff: get the difference in x_Values as float representation (if 'a is float then (-))
     ///addToXValue: function that adds a float to the x_Value (if 'a is float then (+))

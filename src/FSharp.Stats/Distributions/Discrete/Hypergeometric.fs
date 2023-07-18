@@ -98,7 +98,7 @@ type Hypergeometric =
         else
             exp ((SpecialFunctions.Binomial._coeffcientLn K k) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial._coeffcientLn N n)
         
-    /// Computes the cumulative distribution function at x, i.e. P(X <= x).
+    /// Computes the cumulative distribution function at x, i.e. P(X &lt;= x).
     static member CDF N K n x =
         Hypergeometric.CheckParam N K n
         //Hypergeometric.CheckParam_k N K n k
@@ -180,7 +180,7 @@ type Hypergeometric =
             member d.Mode               = Hypergeometric.Mode N K n
             member d.Sample ()          = Hypergeometric.Sample N K n
             member d.PMF k              = Hypergeometric.PMF N K n k
-            /// Computes the cumulative distribution function at k for P(X <= k).
+            /// Computes the cumulative distribution function at k for P(X &lt;= k).
             member d.Parameters        = DistributionParameters.Hypergeometric {N=N;K=K;n=n}
             override d.ToString()       = Hypergeometric.ToString N K n                   
         }

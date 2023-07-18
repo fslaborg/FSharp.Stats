@@ -112,8 +112,8 @@ module LinearAlgebra =
         LinearAlgebraManaged.Inverse a
 
     /// Given A[m,n] and B[m] solves AX = B for X[n].
-    /// When m=>n, have over constrained system, finds least squares solution for X.
-    /// When m<n, have under constrained system, finds least norm solution for X.
+    /// When m =&gt; n, have over constrained system, finds least squares solution for X.
+    /// When m &lt; n, have under constrained system, finds least norm solution for X.
     let LeastSquares a b =
         //if HaveService() then LinearAlgebraService.leastSquares a b
         //                    else LinearAlgebraManaged.leastSquares a b
@@ -143,8 +143,8 @@ module LinearAlgebra =
       
 
     /// Given A[m,n] finds Q[m,m] and R[k,n] where k = min m n.
-    /// Have A = Q.R  when m<=n.
-    /// Have A = Q.RX when m>n and RX[m,n] is R[n,n] row extended with (m-n) zero rows.
+    /// Have A = Q.R  when m &lt; =n.
+    /// Have A = Q.RX when m &gt; n and RX[m,n] is R[n,n] row extended with (m-n) zero rows.
     let QR a = 
         //if HaveService() then LinearAlgebraService.QR a
         //                    else LinearAlgebraManaged.QR a

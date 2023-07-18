@@ -70,10 +70,10 @@ let yV = vector [1.;20.;51.;40.;37.;6.;-10.;-5.;0.;10.]
 
 // the fitting function fits a polynomial of order 'order' to the training data set (xTrain and yTrain) and applies it to xTest
 let getFitFuncPolynomial xTrain yTrain (xTest:RowVector<float>) order = 
-    let xDat = xTrain |> Matrix.toVector
-    let coeffs  = Polynomial.coefficient order xDat yTrain
-    let fit     = Polynomial.fit order coeffs (xTest.[0])
-    fit
+    let xDat             = xTrain |> Matrix.toVector
+    let coeffs           = Polynomial.fit order xDat yTrain
+    let predictFunction  = Polynomial.predict  coeffs (xTest.[0])
+    predictFunction
 
 open Plotly.NET
 
@@ -84,10 +84,10 @@ let rawchart() =
 let chartOrderOpt = 
     [1 .. 2 .. 10]
     |> List.map (fun order -> 
-        let coeffs = Polynomial.coefficient order xV yV
-        let fit = Polynomial.fit order coeffs
+        let coeffs = Polynomial.fit order xV yV
+        let predictFunction = Polynomial.predict coeffs
         [1. .. 0.2 .. 10.]
-        |> List.map (fun x -> x,fit x)
+        |> List.map (fun x -> x,predictFunction x)
         |> Chart.Line
         |> Chart.withTraceInfo (sprintf "order=%i" order)
         )

@@ -174,7 +174,7 @@ module PostHoc =
 
     
     /// Dunnetts post hoc test compares groups to one control group (multiple-to-one comparison). 
-    /// Returns if the groups defined in the contrast differ significantly (already multi comparison corrected for FWER<a) 
+    /// Returns if the groups defined in the contrast differ significantly (already multi comparison corrected for FWER &lt; a) 
     /// Critical value tables can be found in Testing.Tables
     let dunnetts (contrastMatrix:float[][]) (data:float[][]) (criticalTable:Matrix<float>) =
         // Sample sizes

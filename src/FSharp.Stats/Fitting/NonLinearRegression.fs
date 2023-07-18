@@ -412,9 +412,9 @@ module NonLinearRegression =
             //gets the linear representation of the problem and solves it by simple linear regression
             let initialParamGuess =
                 let yLn = yData |> Array.map (fun x -> Math.Log(x)) |> vector
-                let linearReg = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient (vector xData) yLn
-                let a = exp linearReg.[0]
-                let b = linearReg.[1]
+                let linearReg = LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fit (vector xData) yLn
+                let a = exp linearReg.Constant
+                let b = linearReg.Linear
                 [|a;b|]
 
             {
@@ -746,7 +746,7 @@ module NonLinearRegression =
                     |> fst
                 createSolverOption 0.001 0.001 10000 [|a;b;c;m|]
             
-            /// 4 parameter richards curve with minimum at 0; d <> 1
+            /// 4 parameter richards curve with minimum at 0; d &lt;&gt; 1
             let richards =
                 {
                 ParameterNames= [|"upper asymptote";"growth rate";"inflection point x";"d (influences inflection y)"|]

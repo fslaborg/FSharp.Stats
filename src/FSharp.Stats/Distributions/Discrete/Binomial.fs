@@ -84,7 +84,7 @@ type Binomial =
             exp ( (SpecialFunctions.Binomial._coeffcientLn n k) + (float k * log p + ( float (n - k)*log(1.-p) )) )
 
             
-    /// Computes the cumulative distribution function at x, i.e. P(X <= x).
+    /// Computes the cumulative distribution function at x, i.e. P(X &lt;= x).
     static member CDF p n (x:float) =
         Binomial.CheckParam p n            
         if (x < 0.) then 

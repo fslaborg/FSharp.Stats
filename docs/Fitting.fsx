@@ -40,6 +40,7 @@ _Summary:_ this tutorial will walk through several ways of fitting data with FSh
 
 ### Table of contents
  - [Linear Regression](#Linear-Regression)
+    - [Summary](#Summary)
     - [Simple Linear Regression](#Simple-Linear-Regression)
         - [Univariable](#Univariable)
         - [Multivariable](#Multivariable)
@@ -52,6 +53,81 @@ _Summary:_ this tutorial will walk through several ways of fitting data with FSh
 
 In Linear Regression a linear system of equations is generated. The coefficients obtained by the solution to this equation 
 system minimize the squared distances from the regression curve to the data points. These distances are also known as residuals (or least squares).
+
+### Summary
+
+
+With the `FSharp.Stats.Fitting.LinearRegression` module you can apply various regression methods. A `LinearRegression` type provides many common methods for fitting two- or multi dimensional data. These include
+
+- Simple linear regression (fitting a straight line to the data)
+- Polynomial regression (fitting a polynomial of specified order/degree) to the data
+- Robust regression (fitting a straight line to the data and ignoring outliers)
+
+The following code snippet summarizes many regression methods. In the following sections, every method is discussed in detail!
+
+*)
+
+open Plotly.NET
+open FSharp.Stats
+open FSharp.Stats.Fitting
+
+let testDataX = vector [|1. .. 10.|]
+
+let testDataY = vector [|0.;-1.;0.;0.;0.;0.;1.;1.;3.;3.5|]
+
+// simple linear regression with a straight line through the data
+let coefSimpL    = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear)
+// simple linear regression with a straight line through the origin (0,0)
+let coefSimpLRTO = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear,Constraint = Constraint.RegressionThroughOrigin)
+// simple linear regression with a straight line through the coordinate 9,1.
+let coefSimpLXY  = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear,Constraint = Constraint.RegressionThroughXY (9.,1.))
+// fits a polynomial of degree 1 (equivalent to simple linear regression)
+let coefPoly_1   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 1)
+// fits a quadratic polynomial
+let coefPoly_2   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 2)
+// fits a cubic polynomial
+let coefPoly_3   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 3)
+// fits a cubic polynomial with weighted points
+let coefPoly_3w  = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 3, Weighting = (vector [1.;1.;1.;1.;2.;2.;2.;10.;1.;1.]))
+// fits a straight line that is insensitive to outliers
+let coefRobTh    = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Robust RobustEstimator.Theil)
+// fits a straight line that is insensitive to outliers
+let coefRobThSen = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Robust RobustEstimator.TheilSen)
+
+// f(x) = -0.167 + -0.096x + -0.001x^2 + 0.005x^3
+let functionStringPoly3 = coefPoly_3.ToString()
+
+let regressionComparison =
+    [
+        Chart.Point(testDataX,testDataY,Name="data")
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefSimpL   ) x)  |> Chart.Line |> Chart.withTraceInfo "SimpL"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefSimpLRTO) x)  |> Chart.Line |> Chart.withTraceInfo "SimpL Origin"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefSimpLXY ) x)  |> Chart.Line |> Chart.withTraceInfo "SimpL 9,1"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefPoly_1  ) x)  |> Chart.Line |> Chart.withTraceInfo "Poly 1"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefPoly_2  ) x)  |> Chart.Line |> Chart.withTraceInfo "Poly 2"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefPoly_3  ) x)  |> Chart.Line |> Chart.withTraceInfo "Poly 3"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefPoly_3w ) x)  |> Chart.Line |> Chart.withTraceInfo "Poly 3 weight"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefRobTh   ) x)  |> Chart.Line |> Chart.withTraceInfo "Robust Theil"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefRobThSen) x)  |> Chart.Line |> Chart.withTraceInfo "Robust TheilSen"
+    ]
+    |> Chart.combine
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withAnnotation(LayoutObjects.Annotation.init(X = 9.5,Y = 3.1,XAnchor = StyleParam.XAnchorPosition.Right,Text = functionStringPoly3))  
+    |> Chart.withXAxisStyle("x data")
+    |> Chart.withYAxisStyle("y data")
+    |> Chart.withSize(800.,600.)
+
+
+(*** condition: ipynb ***)
+#if IPYNB
+regressionComparison
+#endif // IPYNB
+
+(***hide***)
+regressionComparison |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
 
 ### Simple Linear Regression
 
@@ -71,21 +147,21 @@ let yData = vector [|4.;7.;9.;12.;15.;17.;16.;23.;5.;30.|]
 
 //Least squares simple linear regression
 let coefficientsLinearLS = 
-    OrdinaryLeastSquares.Linear.Univariable.coefficient xData yData
-let fittingFunctionLinearLS x = 
-    OrdinaryLeastSquares.Linear.Univariable.fit coefficientsLinearLS x
+    OrdinaryLeastSquares.Linear.Univariable.fit xData yData
+let predictionFunctionLinearLS x = 
+    OrdinaryLeastSquares.Linear.Univariable.predict coefficientsLinearLS x
 
 //Robust simple linear regression
 let coefficientsLinearRobust = 
     RobustRegression.Linear.theilSenEstimator xData yData 
-let fittingFunctionLinearRobust x = 
-    RobustRegression.Linear.fit coefficientsLinearRobust x
+let predictionFunctionLinearRobust x = 
+    RobustRegression.Linear.predict coefficientsLinearRobust x
 
 //least squares simple linear regression through the origin
 let coefficientsLinearRTO = 
-    OrdinaryLeastSquares.Linear.RTO.coefficientOfVector xData yData 
-let fittingFunctionLinearRTO x = 
-    OrdinaryLeastSquares.Linear.RTO.fit coefficientsLinearRTO x
+    OrdinaryLeastSquares.Linear.RTO.fitOfVector xData yData 
+let predictionFunctionLinearRTO x = 
+    OrdinaryLeastSquares.Linear.RTO.predict coefficientsLinearRTO x
 
 
 
@@ -93,29 +169,29 @@ let rawChart =
     Chart.Point(xData,yData)
     |> Chart.withTraceInfo "raw data"
     
-let fittingLS = 
+let predictionLS = 
     let fit = 
         [|0. .. 11.|] 
-        |> Array.map (fun x -> x,fittingFunctionLinearLS x)
+        |> Array.map (fun x -> x,predictionFunctionLinearLS x)
     Chart.Line(fit)
     |> Chart.withTraceInfo "least squares (LS)"
 
-let fittingRobust = 
+let predictionRobust = 
     let fit = 
         [|0. .. 11.|] 
-        |> Array.map (fun x -> x,fittingFunctionLinearRobust x)
+        |> Array.map (fun x -> x,predictionFunctionLinearRobust x)
     Chart.Line(fit)
     |> Chart.withTraceInfo "TheilSen estimator"
 
-let fittingRTO = 
+let predictionRTO = 
     let fit = 
         [|0. .. 11.|] 
-        |> Array.map (fun x -> x,fittingFunctionLinearRTO x)
+        |> Array.map (fun x -> x,predictionFunctionLinearRTO x)
     Chart.Line(fit)
     |> Chart.withTraceInfo "LS through origin"
 
 let simpleLinearChart =
-    [rawChart;fittingLS;fittingRTO;fittingRobust;] 
+    [rawChart;predictionLS;predictionRTO;predictionRobust;] 
     |> Chart.combine
     |> Chart.withTemplate ChartTemplates.lightMirrored
 
@@ -153,9 +229,9 @@ let yVectorMulti =
     |> vector
 
 let coefficientsMV = 
-    OrdinaryLeastSquares.Linear.Multivariable.coefficients xVectorMulti yVectorMulti
-let fittingFunctionMV x = 
-    OrdinaryLeastSquares.Linear.Multivariable.fit coefficientsMV x
+    OrdinaryLeastSquares.Linear.Multivariable.fit xVectorMulti yVectorMulti
+let predictionFunctionMV x = 
+    OrdinaryLeastSquares.Linear.Multivariable.predict coefficientsMV x
 
 (**
 
@@ -176,9 +252,9 @@ let yDataP = vector [|4.;7.;9.;8.;6.;3.;2.;5.;6.;8.;|]
 //define the order the polynomial should have (order 3: f(x) = ax^3 + bx^2 + cx + d)
 let order = 3
 let coefficientsPol = 
-    OrdinaryLeastSquares.Polynomial.coefficient order xDataP yDataP 
-let fittingFunctionPol x = 
-    OrdinaryLeastSquares.Polynomial.fit order coefficientsPol x
+    OrdinaryLeastSquares.Polynomial.fit order xDataP yDataP 
+let predictionFunctionPol x = 
+    OrdinaryLeastSquares.Polynomial.predict coefficientsPol x
 
 //weighted least squares polynomial regression
 //If heteroscedasticity is assumed or the impact of single datapoints should be 
@@ -190,9 +266,9 @@ let orderP = 3
 //define the weighting vector
 let weights = yDataP |> Vector.map (fun y -> 1. / y)
 let coefficientsPolW = 
-    OrdinaryLeastSquares.Polynomial.coefficientsWithWeighting orderP weights xDataP yDataP 
-let fittingFunctionPolW x = 
-    OrdinaryLeastSquares.Polynomial.fit orderP coefficientsPolW x
+    OrdinaryLeastSquares.Polynomial.fitWithWeighting orderP weights xDataP yDataP 
+let predictionFunctionPolW x = 
+    OrdinaryLeastSquares.Polynomial.predict coefficientsPolW x
 
 let rawChartP = 
     Chart.Point(xDataP,yDataP)
@@ -201,14 +277,14 @@ let rawChartP =
 let fittingPol = 
     let fit = 
         [|1. .. 0.1 .. 10.|] 
-        |> Array.map (fun x -> x,fittingFunctionPol x)
+        |> Array.map (fun x -> x,predictionFunctionPol x)
     Chart.Line(fit)
     |> Chart.withTraceInfo "order = 3"
 
 let fittingPolW = 
     let fit = 
         [|1. .. 0.1 .. 10.|] 
-        |> Array.map (fun x -> x,fittingFunctionPolW x)
+        |> Array.map (fun x -> x,predictionFunctionPolW x)
     Chart.Line(fit)
     |> Chart.withTraceInfo "order = 3 weigthed"
 
@@ -314,7 +390,7 @@ let initialParamGuess (xData:float []) (yData:float [])=
     //(prone to least-squares-deviations at high y_Values)
     let yLn = yData |> Array.map (fun x -> Math.Log(x)) |> vector
     let linearReg = 
-        LinearRegression.OrdinaryLeastSquares.Linear.Univariable.coefficient (vector xData) yLn
+        LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fit (vector xData) yLn
     //calculates the parameters back into the exponential representation
     let a = exp linearReg.[0]
     let b = linearReg.[1]

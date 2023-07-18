@@ -72,7 +72,7 @@ module CrossValidation =
     /// yData: yData vector
     /// fit: x and y data lead to function that maps a xData row vector to a y-coordinate,
     /// error: defines the error of the fitted y-coordinate and the actual y-coordinate,
-    /// getStDev: function that calculates the standard deviation from a seq<^T>. (Seq.stDev)
+    /// getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)
     let inline repeatedKFold< ^T when ^T : (static member ( + ) : ^T * ^T -> ^T) 
                     and  ^T : (static member DivideByInt : ^T*int -> ^T) 
                     and  ^T : (static member Zero : ^T)> 
@@ -158,7 +158,7 @@ module CrossValidation =
     /// yData: yData vector
     /// fit: x and y data lead to function that maps a xData row vector to a y-coordinate,
     /// error: defines the error of the fitted y-coordinate and the actual y-coordinate,
-    /// getStDev: function that calculates the standard deviation from a seq<^T>. (Seq.stDev)
+    /// getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)
     let inline shuffelAndSplit< ^T when ^T : (static member ( + ) : ^T * ^T -> ^T) 
                     and  ^T : (static member DivideByInt : ^T*int -> ^T) 
                     and  ^T : (static member Zero : ^T)>

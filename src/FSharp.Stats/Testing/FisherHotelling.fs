@@ -1,7 +1,7 @@
 namespace FSharp.Stats.Testing
 
 
-/// Fisher-Z transformation for Pearson correlation coefficient after Hotelling (1953) for n< 50
+/// Fisher-Z transformation for Pearson correlation coefficient after Hotelling (1953) for n &lt; 50
 module FisherHotelling =
 
     open FSharp.Stats
@@ -15,7 +15,7 @@ module FisherHotelling =
         1. / sqrt(float(n-3))
 
     /// Fisher-Z transformation for Pearson correlation coefficient    
-    /// after Hotelling (1953) for n < 50
+    /// after Hotelling (1953) for n &lt; 50
     let private transformFisherHotellingZ r n =
         let hotelling r z = z - ( ( 3.*z + r) / (4.*(n-1.) ) )
         let z = transformFisherZ  r                
@@ -28,7 +28,7 @@ module FisherHotelling =
 
 
     /// Standart deviation Fisher-Z transformation for Pearson correlation coefficient
-    /// after Hotelling (1953) for n< 50
+    /// after Hotelling (1953) for n &lt; 50
     let private stdFisherHotellingZ n =
         if n < 1 then
             //printfn "Parameter warning: not n < 1"
