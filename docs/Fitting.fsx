@@ -40,6 +40,7 @@ _Summary:_ this tutorial will walk through several ways of fitting data with FSh
 
 ### Table of contents
  - [Linear Regression](#Linear-Regression)
+    - [Summary](#Summary)
     - [Simple Linear Regression](#Simple-Linear-Regression)
         - [Univariable](#Univariable)
         - [Multivariable](#Multivariable)
@@ -52,6 +53,81 @@ _Summary:_ this tutorial will walk through several ways of fitting data with FSh
 
 In Linear Regression a linear system of equations is generated. The coefficients obtained by the solution to this equation 
 system minimize the squared distances from the regression curve to the data points. These distances are also known as residuals (or least squares).
+
+### Summary
+
+
+With the `FSharp.Stats.Fitting.LinearRegression` module you can apply various regression methods. A `LinearRegression` type provides many common methods for fitting two- or multi dimensional data. These include
+
+- Simple linear regression (fitting a straight line to the data)
+- Polynomial regression (fitting a polynomial of specified order/degree) to the data
+- Robust regression (fitting a straight line to the data and ignoring outliers)
+
+The following code snippet summarizes many regression methods. In the following sections, every method is discussed in detail!
+
+*)
+
+open Plotly.NET
+open FSharp.Stats
+open FSharp.Stats.Fitting
+
+let testDataX = vector [|1. .. 10.|]
+
+let testDataY = vector [|0.;-1.;0.;0.;0.;0.;1.;1.;3.;3.5|]
+
+// simple linear regression with a straight line through the data
+let coefSimpL    = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear)
+// simple linear regression with a straight line through the origin (0,0)
+let coefSimpLRTO = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear,Constraint = Constraint.RegressionThroughOrigin)
+// simple linear regression with a straight line through the coordinate 9,1.
+let coefSimpLXY  = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear,Constraint = Constraint.RegressionThroughXY (9.,1.))
+// fits a polynomial of degree 1 (equivalent to simple linear regression)
+let coefPoly_1   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 1)
+// fits a quadratic polynomial
+let coefPoly_2   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 2)
+// fits a cubic polynomial
+let coefPoly_3   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 3)
+// fits a cubic polynomial with weighted points
+let coefPoly_3w  = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 3, Weighting = (vector [1.;1.;1.;1.;2.;2.;2.;10.;1.;1.]))
+// fits a straight line that is insensitive to outliers
+let coefRobTh    = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Robust RobustEstimator.Theil)
+// fits a straight line that is insensitive to outliers
+let coefRobThSen = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Robust RobustEstimator.TheilSen)
+
+// f(x) = -0.167 + -0.096x + -0.001x^2 + 0.005x^3
+let functionStringPoly3 = coefPoly_3.ToString()
+
+let regressionComparison =
+    [
+        Chart.Point(testDataX,testDataY,Name="data")
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefSimpL   ) x)  |> Chart.Line |> Chart.withTraceInfo "SimpL"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefSimpLRTO) x)  |> Chart.Line |> Chart.withTraceInfo "SimpL Origin"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefSimpLXY ) x)  |> Chart.Line |> Chart.withTraceInfo "SimpL 9,1"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefPoly_1  ) x)  |> Chart.Line |> Chart.withTraceInfo "Poly 1"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefPoly_2  ) x)  |> Chart.Line |> Chart.withTraceInfo "Poly 2"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefPoly_3  ) x)  |> Chart.Line |> Chart.withTraceInfo "Poly 3"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefPoly_3w ) x)  |> Chart.Line |> Chart.withTraceInfo "Poly 3 weight"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefRobTh   ) x)  |> Chart.Line |> Chart.withTraceInfo "Robust Theil"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,LinearRegression.predict(coefRobThSen) x)  |> Chart.Line |> Chart.withTraceInfo "Robust TheilSen"
+    ]
+    |> Chart.combine
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+    |> Chart.withAnnotation(LayoutObjects.Annotation.init(X = 9.5,Y = 3.1,XAnchor = StyleParam.XAnchorPosition.Right,Text = functionStringPoly3))  
+    |> Chart.withXAxisStyle("x data")
+    |> Chart.withYAxisStyle("y data")
+    |> Chart.withSize(800.,600.)
+
+
+(*** condition: ipynb ***)
+#if IPYNB
+regressionComparison
+#endif // IPYNB
+
+(***hide***)
+regressionComparison |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
 
 ### Simple Linear Regression
 
@@ -178,7 +254,7 @@ let order = 3
 let coefficientsPol = 
     OrdinaryLeastSquares.Polynomial.fit order xDataP yDataP 
 let predictionFunctionPol x = 
-    OrdinaryLeastSquares.Polynomial.predict order coefficientsPol x
+    OrdinaryLeastSquares.Polynomial.predict coefficientsPol x
 
 //weighted least squares polynomial regression
 //If heteroscedasticity is assumed or the impact of single datapoints should be 
@@ -192,7 +268,7 @@ let weights = yDataP |> Vector.map (fun y -> 1. / y)
 let coefficientsPolW = 
     OrdinaryLeastSquares.Polynomial.fitWithWeighting orderP weights xDataP yDataP 
 let predictionFunctionPolW x = 
-    OrdinaryLeastSquares.Polynomial.predict orderP coefficientsPolW x
+    OrdinaryLeastSquares.Polynomial.predict coefficientsPolW x
 
 let rawChartP = 
     Chart.Point(xDataP,yDataP)

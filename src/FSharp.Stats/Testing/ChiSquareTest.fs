@@ -9,7 +9,7 @@
 /// <para>
 ///   A chi-square test (also chi-squared or χ2  test) is any statistical
 ///   hypothesis test in which the sampling distribution of the test statistic
-///   is a <see cref="ChiSquareDistribution">chi-square distribution</see> when
+///   is a ChiSquareDistribution when
 ///   the null hypothesis is true, or any in which this is asymptotically true,
 ///   meaning that the sampling distribution (if the null hypothesis is true) 
 ///   can be made to approximate a chi-square distribution as closely as desired
@@ -37,7 +37,7 @@ module ChiSquareTest =
     open FSharp.Stats
 
     /// Computes the Chi-Square test
-    /// n data points -> degrees of freedom = n - 1 
+    /// n data points -&gt; degrees of freedom = n - 1 
     let compute (degreesOfFreedom:int) (expected:seq<float>) (observed:seq<float>) =
         //let chechParams =
         //    if expected |> Seq.exists (fun x -> abs x < 5.) then printfn "Warning: A value less than 5 is present in expected values. Results may not be correct!"

@@ -57,7 +57,7 @@ type Bernoulli =
         | 1 -> p
         | _ -> 0.0
 
-    /// Computes the cumulative distribution function. P(X>=k)
+    /// Computes the cumulative distribution function. P(X &gt;= k)
     static member CDF p x =
         Bernoulli.CheckParam p
         // Summary: This cdf calculates the probability, that value x is greater or equal to a random value (R) taken from the bernoulli distribution.

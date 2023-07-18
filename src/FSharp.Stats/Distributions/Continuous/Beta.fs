@@ -69,7 +69,7 @@ type Beta =
         else log 0.0
         
     /// <summary> Computes the probability density function.</summary> 
-    /// <remarks> Calls exp(PDFLn) if alpha,beta > 80</remarks> 
+    /// <remarks> Calls exp(PDFLn) if alpha,beta &gt; 80</remarks> 
     static member PDF alpha beta x = 
         Beta.CheckParam alpha beta
         if x >= 0.0 && x <= 1.0 then

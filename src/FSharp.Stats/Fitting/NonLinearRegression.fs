@@ -746,7 +746,7 @@ module NonLinearRegression =
                     |> fst
                 createSolverOption 0.001 0.001 10000 [|a;b;c;m|]
             
-            /// 4 parameter richards curve with minimum at 0; d <> 1
+            /// 4 parameter richards curve with minimum at 0; d &lt;&gt; 1
             let richards =
                 {
                 ParameterNames= [|"upper asymptote";"growth rate";"inflection point x";"d (influences inflection y)"|]

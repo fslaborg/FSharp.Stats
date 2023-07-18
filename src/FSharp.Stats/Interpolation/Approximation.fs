@@ -11,6 +11,7 @@ module Approximation =
     type Spacing = 
         | Equally
         | Chebyshev
+
     /// <summary>
     ///   Zips x and y values, sorts them by x values and applies a given function to y values of x duplicate (like R! regularize.values).
     ///   1. pairs x-y values 
@@ -38,7 +39,7 @@ module Approximation =
         xy
 
     /// <summary>
-    ///   Return a sequence of points which interpolate the given data points by straight lines.    
+    ///   Return a sequence of points which interpolate the given data points by straight lines.
     /// </summary> 
     /// <param name="xData">unsorted x values</param>
     /// <param name="yData">y values of corresponding x values</param>

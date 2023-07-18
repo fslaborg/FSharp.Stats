@@ -151,7 +151,7 @@ let generationTime = log(2.) / slope
 
 
 let fittedValues = 
-    let f = OrdinaryLeastSquares.Linear.Univariable.predict (vector [|14.03859475; 1.515073487|])
+    let f = OrdinaryLeastSquares.Linear.Univariable.predict (Coefficients (vector [14.03859475; 1.515073487]))
     logPhaseX |> Seq.map (fun x -> x,f x)
 
 let chartLinearRegression =

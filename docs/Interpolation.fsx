@@ -48,7 +48,7 @@ _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.
 ## Summary
 
 With the `FSharp.Stats.Interpolation` module you can apply various interpolation methods. While interpolating functions always go through the input points (knots), methods to predict function values 
-from x values (or x vectors in multivariate interpolation) not contained in the input, vary greatly. A `Interpolation` type provides all available methods for interpolation of two dimensional data. These include
+from x values (or x vectors in multivariate interpolation) not contained in the input, vary greatly. A `Interpolation` type provides many common methods for interpolation of two dimensional data. These include
 
 - Linear spline interpolation (connecting knots by straight lines)
 - Polynomial interpolation
@@ -92,7 +92,7 @@ let interpolationComparison =
     |> Chart.combine
     |> Chart.withTemplate ChartTemplates.lightMirrored
     |> Chart.withXAxisStyle("x data")
-    |> Chart.withYAxisStyle("x data")
+    |> Chart.withYAxisStyle("y data")
     |> Chart.withSize(800.,600.)
 
 

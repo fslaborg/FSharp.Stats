@@ -142,7 +142,7 @@ let regressionCoefficients =
     
 // get fitting function of 3rd order regression polynomial
 let regressionPredictionFunc = 
-    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.predict 3 regressionCoefficients
+    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.predict regressionCoefficients
 
 (*** hide ***)
 // create line chart of regression polynomial
