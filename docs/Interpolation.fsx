@@ -61,7 +61,7 @@ The following code snippet summarizes all interpolation methods. In the followin
 *)
 
 open Plotly.NET
-open FSharp.Stats.Interpolation
+open FSharp.Stats
 
 let testDataX = [|1. .. 10.|]
 
@@ -70,10 +70,10 @@ let testDataY = [|0.;-1.;0.;0.;0.;0.;1.;1.;3.;3.5|]
 
 let coefLinear     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.LinearSpline)
 let coefAkima      = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.AkimaSubSpline)
-let coefCubicNa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline CubicSpline.BoundaryCondition.Natural)
-let coefCubicPe    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline CubicSpline.BoundaryCondition.Periodic)
-let coefCubicNo    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline CubicSpline.BoundaryCondition.NotAKnot)
-let coefCubicPa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline CubicSpline.BoundaryCondition.Parabolic)
+let coefCubicNa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Natural)
+let coefCubicPe    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Periodic)
+let coefCubicNo    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.NotAKnot)
+let coefCubicPa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Parabolic)
 let coefHermite    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline)
 let coefPolynomial = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.Polynomial)
 

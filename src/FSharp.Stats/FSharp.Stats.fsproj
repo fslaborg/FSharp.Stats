@@ -86,12 +86,7 @@
     <Compile Include="Optimization\GradientDescent.fs" />
     <Compile Include="Optimization\Bisection.fs" />
     <!-- Interpolation -->
-    <Compile Include="Interpolation\Polynomial.fs" />
-    <Compile Include="Interpolation\LinearSpline.fs" />
-    <Compile Include="Interpolation\Akima.fs" />
-    <Compile Include="Interpolation\CubicSpline.fs" />
-    <Compile Include="Interpolation\Interpolation.fs" />
-    <Compile Include="Interpolation\Approximation.fs" />
+    <Compile Include="Interpolation.fs" />
     <!-- Signal -->
     <Compile Include="Signal\Normalization.fs" />
     <Compile Include="Signal\QQPlot.fs" />
@@ -182,5 +177,8 @@
     <PackageReference Include="FSharpAux.IO" Version="2.0.0" />
     <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interpolation\" />
   </ItemGroup>
 </Project>
