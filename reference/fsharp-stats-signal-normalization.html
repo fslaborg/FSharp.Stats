@@ -128,13 +128,13 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L22-22" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L42-42" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Summary of the median of ratios (mor) normalization with normed data and determined correctionfactors.
+ Summary of the median of ratios (mor) normalization with normed data, determined correctionfactors, and transformation function.
 
               </p>
             </div>
@@ -162,7 +162,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1569', 1569)" onmouseover="showTip(event, '1569', 1569)">
+              <code onmouseout="hideTip(event, '1562', 1562)" onmouseover="showTip(event, '1562', 1562)">
                 <p>
                   <a id="medianOfRatios">
                     <a href="#medianOfRatios">
@@ -171,7 +171,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1569">
+              <div class="fsdocs-tip" id="1562">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>medianOfRatios&#32;<span>data</span></span></code>
@@ -185,6 +185,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      data matrix with columns as features (samples,time points) and rows as measured entities (genes,proteins).
                     </span>
                     <br/>
                   </ul>
@@ -193,6 +195,7 @@
                     Returns: 
                     <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-normalization-morresult.html">MorResult</a></code>
                   </span>
+                  Normalized data matrix with correction factors and normalization function.
                   <br/>
                 </div>
               </div>
@@ -208,16 +211,15 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L53-53" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L93-93" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
-
- Rows are genes, columns are samples
-
+   Median of ratios normalization As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md . 
+   Rows are genes, columns are samples
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -228,7 +230,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  data matrix with columns as features (samples,time points) and rows as measured entities (genes,proteins).
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -237,14 +243,27 @@
                 </span>
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-normalization-morresult.html">MorResult</a></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Normalized data matrix with correction factors and normalization function.
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   // raw data with proteins as rows and samples as columns
+   let myData = Matrix.init 500 5 (fun _ _ -&gt; rnd.NextDouble())
+   let normedData = Normalization.medianOfRatios myData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1570', 1570)" onmouseover="showTip(event, '1570', 1570)">
+              <code onmouseout="hideTip(event, '1563', 1563)" onmouseover="showTip(event, '1563', 1563)">
                 <p>
                   <a id="medianOfRatiosBy">
                     <a href="#medianOfRatiosBy">
@@ -253,7 +272,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1570">
+              <div class="fsdocs-tip" id="1563">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>medianOfRatiosBy&#32;<span>f&#32;data</span></span></code>
@@ -267,6 +286,8 @@
                       </b>
                       :
                       <code><span>float&#32;->&#32;float</span></code>
+                       - 
+                      The transformation function is applied on all values of the matrix before calculating the normalization factors.
                     </span>
                     <br/>
                     <span>
@@ -275,6 +296,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      data matrix with columns as features (samples,time points) and rows as measured entities (genes,proteins).
                     </span>
                     <br/>
                   </ul>
@@ -283,6 +306,7 @@
                     Returns: 
                     <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-normalization-morresult.html">MorResult</a></code>
                   </span>
+                  Normalized data matrix with correction factors and normalization function.
                   <br/>
                 </div>
               </div>
@@ -298,18 +322,15 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L33-33" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L62-62" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
-
- Rows are genes, columns are samples
-
- The additional function is applied on all values of the matrix when calculating the normalization factors. By this, a zero in the original dataset will still remain zero.
-
+   Median of ratios normalization As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md . 
+   Rows are genes, columns are samples
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -320,7 +341,11 @@
                 :
                 <code><span>float&#32;->&#32;float</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The transformation function is applied on all values of the matrix before calculating the normalization factors.
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   data
@@ -328,7 +353,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  data matrix with columns as features (samples,time points) and rows as measured entities (genes,proteins).
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -337,14 +366,27 @@
                 </span>
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-normalization-morresult.html">MorResult</a></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Normalized data matrix with correction factors and normalization function.
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   // raw data with proteins as rows and samples as columns
+   let myData = Matrix.init 500 5 (fun _ _ -&gt; rnd.NextDouble())
+   let normedData = Normalization.medianOfRatiosBy (fun x -&gt; ln (x+1)) myData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1571', 1571)" onmouseover="showTip(event, '1571', 1571)">
+              <code onmouseout="hideTip(event, '1564', 1564)" onmouseover="showTip(event, '1564', 1564)">
                 <p>
                   <a id="medianOfRatiosWide">
                     <a href="#medianOfRatiosWide">
@@ -353,7 +395,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1571">
+              <div class="fsdocs-tip" id="1564">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>medianOfRatiosWide&#32;<span>data</span></span></code>
@@ -367,6 +409,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      data matrix with columns as measured entities and rows as features (samples,time points) (genes,proteins).
                     </span>
                     <br/>
                   </ul>
@@ -375,6 +419,7 @@
                     Returns: 
                     <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-normalization-morresult.html">MorResult</a></code>
                   </span>
+                  Normalized data matrix with correction factors and normalization function.
                   <br/>
                 </div>
               </div>
@@ -390,16 +435,15 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L81-81" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L140-140" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
-
- Columns are genes, rows are samples
-
+   Median of ratios normalization As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md . 
+   Columns are genes, rows are samples
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -410,7 +454,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  data matrix with columns as measured entities and rows as features (samples,time points) (genes,proteins).
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -419,14 +467,27 @@
                 </span>
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-normalization-morresult.html">MorResult</a></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Normalized data matrix with correction factors and normalization function.
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   // raw data with proteins as columns and samples as rows
+   let myData = Matrix.init 5 500 (fun _ _ -&gt; rnd.NextDouble())
+   let normedData = Normalization.medianOfRatiosWide myData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1572', 1572)" onmouseover="showTip(event, '1572', 1572)">
+              <code onmouseout="hideTip(event, '1565', 1565)" onmouseover="showTip(event, '1565', 1565)">
                 <p>
                   <a id="medianOfRatiosWideBy">
                     <a href="#medianOfRatiosWideBy">
@@ -435,7 +496,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1572">
+              <div class="fsdocs-tip" id="1565">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>medianOfRatiosWideBy&#32;<span>f&#32;data</span></span></code>
@@ -449,6 +510,8 @@
                       </b>
                       :
                       <code><span>float&#32;->&#32;float</span></code>
+                       - 
+                      The transformation function is applied on all values of the matrix before calculating the normalization factors.
                     </span>
                     <br/>
                     <span>
@@ -457,6 +520,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      data matrix with columns as measured entities and rows as features (samples,time points) (genes,proteins).
                     </span>
                     <br/>
                   </ul>
@@ -465,6 +530,7 @@
                     Returns: 
                     <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-normalization-morresult.html">MorResult</a></code>
                   </span>
+                  Normalized data matrix with correction factors and normalization function.
                   <br/>
                 </div>
               </div>
@@ -480,18 +546,15 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L61-61" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L110-110" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md 
-
- Columns are genes, rows are samples
-
- The additional function is applied on all values of the matrix when calculating the normalization factors. By this, a zero in the original dataset will still remain zero.
-
+   Median of ratios normalization As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md . 
+   Columns are genes, rows are samples
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -502,7 +565,11 @@
                 :
                 <code><span>float&#32;->&#32;float</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  The transformation function is applied on all values of the matrix before calculating the normalization factors.
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   data
@@ -510,7 +577,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  data matrix with columns as measured entities and rows as features (samples,time points) (genes,proteins).
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -519,14 +590,27 @@
                 </span>
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-normalization-morresult.html">MorResult</a></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Normalized data matrix with correction factors and normalization function.
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   // raw data with proteins as columns and samples as rows
+   let myData = Matrix.init 5 500 (fun _ _ -&gt; rnd.NextDouble())
+   let normedData = Normalization.medianOfRatiosWideBy (fun x -&gt; ln (x+1)) myData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1573', 1573)" onmouseover="showTip(event, '1573', 1573)">
+              <code onmouseout="hideTip(event, '1566', 1566)" onmouseover="showTip(event, '1566', 1566)">
                 <p>
                   <a id="quantile">
                     <a href="#quantile">
@@ -535,7 +619,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1573">
+              <div class="fsdocs-tip" id="1566">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>quantile&#32;<span>data</span></span></code>
@@ -549,6 +633,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      data matrix with columns as measured entities and rows as features (samples,time points) (genes,proteins).
                     </span>
                     <br/>
                   </ul>
@@ -557,6 +643,7 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
                   </span>
+                  Normalized data matrix.
                   <br/>
                 </div>
               </div>
@@ -572,16 +659,16 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L87-87" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L157-157" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Quantile normalization with equal number of elements for each sample.
-
- Rows are genes, columns are samples
-
+   Quantile normalization with equal number of elements (rows) for each sample (column). 
+   Column mean and column standard deviation are qual after normalization.
+   Rows are genes, columns are samples.
+ 
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -592,7 +679,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  data matrix with columns as measured entities and rows as features (samples,time points) (genes,proteins).
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -601,14 +692,27 @@
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Normalized data matrix.
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   // raw data with proteins as rows and samples as columns
+   let myData = Matrix.init 500 5 (fun _ _ -&gt; rnd.NextDouble())
+   let normedData = Normalization.quantile myData</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1574', 1574)" onmouseover="showTip(event, '1574', 1574)">
+              <code onmouseout="hideTip(event, '1567', 1567)" onmouseover="showTip(event, '1567', 1567)">
                 <p>
                   <a id="zScoreTransform">
                     <a href="#zScoreTransform">
@@ -617,7 +721,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1574">
+              <div class="fsdocs-tip" id="1567">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>zScoreTransform&#32;<span>yVal</span></span></code>
@@ -639,6 +743,7 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
                   </span>
+                  transformed yData in unchanged order
                   <br/>
                 </div>
               </div>
@@ -654,16 +759,19 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L16-16" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L36-36" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- z normalization using the sample standard deviation
-
+   z score normalization/transformation using the sample standard deviation. Rarely used since variance is not equal to 1.
+ 
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              Bortz J., Schuster C., Statistik für Human- und Sozialwissenschaftler, 7 (2010), p. 35
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -681,14 +789,26 @@
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  transformed yData in unchanged order
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   // transform data, such that data has zero mean and sample standard deviation of 1
+   Normalization.zScoreTransform (vector [|1.1;5.3;-9.0;13.2;17.3;-2.3|])</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1575', 1575)" onmouseover="showTip(event, '1575', 1575)">
+              <code onmouseout="hideTip(event, '1568', 1568)" onmouseover="showTip(event, '1568', 1568)">
                 <p>
                   <a id="zScoreTransformPopulation">
                     <a href="#zScoreTransformPopulation">
@@ -697,7 +817,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1575">
+              <div class="fsdocs-tip" id="1568">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>zScoreTransformPopulation&#32;<span>yVal</span></span></code>
@@ -719,6 +839,7 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
                   </span>
+                  transformed yData in unchanged order
                   <br/>
                 </div>
               </div>
@@ -734,16 +855,19 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L9-9" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Normalization.fs#L19-19" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- z normalization using the population standard deviation
-
+   z score normalization/transformation using the population standard deviation.
+ 
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              Bortz J., Schuster C., Statistik für Human- und Sozialwissenschaftler, 7 (2010), p. 35
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -761,8 +885,20 @@
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  transformed yData in unchanged order
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   // transform data, such that data has zero mean and population standard deviation of  
+   Normalization.zScoreTransformPopulation (vector [|1.1;5.3;-9.0;13.2;17.3;-2.3|])</code></pre>
+            </p>
           </td>
         </tr>
       </tbody>

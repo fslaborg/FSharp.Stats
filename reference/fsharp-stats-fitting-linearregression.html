@@ -72,7 +72,7 @@
                 <div class="container" id="fsdocs-content">
                     <div>
   <h2>
-    LinearRegression Module
+    LinearRegression Type
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
@@ -84,94 +84,605 @@
     <dt>
       Assembly: FSharp.Stats.dll
     </dt>
+    <dt>
+      Base Type: 
+      <code>obj</code>
+    </dt>
   </dl>
   <div class="fsdocs-xmldoc">
     <div>
       <p class="fsdocs-summary">
         
-   Linear regression is used to estimate the relationship of one variable (y) with another (x) by expressing y in terms of a linear function of x.
+   This LinearRegression type summarized the most common fitting procedures.
  
       </p>
     </div>
+    <h5 class="fsdocs-example-header">
+      Example
+    </h5>
+    <p class="fsdocs-example">
+      <pre><code class=""> 
+   // e.g. days since experiment start
+   let xData = vector [|1. .. 100.|]
+   // e.g. plant size in cm
+   let yData = vector [|4.;7.;8.;9.;7.;11.; ...|]
+   
+   // Estimate the intercept and slope of a line, that fits the data.
+   let coefficientsSimpleLinear = 
+       LinearRegression.fit(xData,yData,FittingMethod=Fitting.Method.SimpleLinear,Constraint=Fitting.Constraint.RegressionThroughOrigin)
+   
+   // Predict the size on day 10.5
+   LinearRegression.predict(coefficientsSimpleLinear) 10.5</code></pre>
+    </p>
   </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
   <div>
     <h3>
-      Nested modules
+      Constructors
     </h3>
-    <table class="table outer-list fsdocs-entity-list">
+    <table class="table outer-list fsdocs-member-list">
       <thead>
         <tr>
-          <td>
-            Modules
+          <td class="fsdocs-member-list-header">
+            Constructor
           </td>
-          <td>
+          <td class="fsdocs-member-list-header">
             Description
           </td>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="fsdocs-entity-name">
-            <p>
-              <a name="OrdinaryLeastSquares">
-                <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregression-ordinaryleastsquares.html">
-                  OrdinaryLeastSquares
-                </a>
-              </a>
-            </p>
-          </td>
-          <td class="fsdocs-entity-xmldoc">
+          <td class="fsdocs-member-usage">
             <div>
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FSharp.Stats.Fitting.LinearRegression.OrdinaryLeastSquares`')">
+              <code onmouseout="hideTip(event, '2528', 2528)" onmouseover="showTip(event, '2528', 2528)">
+                <p>
+                  <a id="``.ctor``">
+                    <a href="#``.ctor``">
+                      <code><span>LinearRegression<span>()</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2528">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>LinearRegression<span>()</span></span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregression.html">LinearRegression</a></code>
+                  </span>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Fitting.LinearRegression.#ctor`')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FSharp.Stats.Fitting.LinearRegression.OrdinaryLeastSquares\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Fitting.LinearRegression.#ctor\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L37-37" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L894-894" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
-   OLS regression aims to minimise the sum of squared y intercepts between the original and predicted points at each x value.
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregression.html">LinearRegression</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div></div>
+  <div>
+    <h3>
+      Static members
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Static member
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2529', 2529)" onmouseover="showTip(event, '2529', 2529)">
+                <p>
+                  <a id="fit">
+                    <a href="#fit">
+                      <code><span>LinearRegression.fit&#32;<span><span>(<span>xData,&#32;yData,&#32;?FittingMethod</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2529">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>LinearRegression.fit&#32;<span><span>(<span>xData,&#32;yData,&#32;?FittingMethod</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        xData
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                       - 
+                      matrix of x vectors
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        yData
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of y values
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        ?FittingMethod
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-method.html">Method</a></code>
+                       - 
+                      Multivariate regression currently just supports Fitting.SimpleLinear (straight line).
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregressionmodule-coefficients.html">Coefficients</a></code>
+                  </span>
+                  Linear regression coefficients for multivariate regression.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Fitting.LinearRegression.fit`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Fitting.LinearRegression.fit\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L992-992" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+   Determines coefficients for multivariate linear regression.
  
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              Default is simple linear regression fitting without constraints.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  xData
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  matrix of x vectors
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  yData
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of y values
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?FittingMethod
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-method.html">Method</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  Multivariate regression currently just supports Fitting.SimpleLinear (straight line).
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregressionmodule-coefficients.html">Coefficients</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Linear regression coefficients for multivariate regression.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   // x vectors
+   let xData = 
+       matrix [
+           [1.; 1. ;2.  ]
+           [2.; 0.5;6.  ]
+           [3.; 0.8;10. ]
+           [4.; 2. ;14. ]
+           [5.; 4. ;18. ]
+           [6.; 3. ;22. ]
+       ]
+   // measured feature
+   let yData = vector [107.5; 110.0; 115.7; 125.0; 137.5; 138.0]
+   
+   // Estimate linear coefficients for a straight line that fits the data.
+   let coefficientsSimpleLinear = 
+       LinearRegression.fit(xData, yData)</code></pre>
+            </p>
           </td>
         </tr>
         <tr>
-          <td class="fsdocs-entity-name">
-            <p>
-              <a name="RobustRegression">
-                <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregression-robustregression.html">
-                  RobustRegression
-                </a>
-              </a>
-            </p>
-          </td>
-          <td class="fsdocs-entity-xmldoc">
+          <td class="fsdocs-member-usage">
             <div>
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FSharp.Stats.Fitting.LinearRegression.RobustRegression`')">
+              <code onmouseout="hideTip(event, '2530', 2530)" onmouseover="showTip(event, '2530', 2530)">
+                <p>
+                  <a id="fit">
+                    <a href="#fit">
+                      <code><span>LinearRegression.fit&#32;<span><span>(<span>xData,&#32;yData,&#32;?FittingMethod,&#32;?Constraint,&#32;?Weighting</span>)</span></span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2530">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>LinearRegression.fit&#32;<span><span>(<span>xData,&#32;yData,&#32;?FittingMethod,&#32;?Constraint,&#32;?Weighting</span>)</span></span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        xData
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                       - 
+                      vector of x values
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        yData
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      vector of y values
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        ?FittingMethod
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-method.html">Method</a></code>
+                       - 
+                      Either Fitting.SimpleLinear (straight line), Fitting.Polynomial (polynomial), or Fitting.Robust (outlier insensitive straight line).
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        ?Constraint
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-constraint-1.html">Constraint</a>&lt;<span>float&#32;*&#32;float</span>&gt;</span></code>
+                       - 
+                      Either Fitting.Unconstrained, Fitting.RegressionThroughOrigin, or Fitting.RegressionThroughXY (x,y) with x,y beeing coordinates that the line must pass.
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        ?Weighting
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                       - 
+                      If a pointwise weight should be attached, a weight vector can be given, that is in the same order as x/y values.
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregressionmodule-coefficients.html">Coefficients</a></code>
+                  </span>
+                  Linear regression coefficients.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Fitting.LinearRegression.fit`')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FSharp.Stats.Fitting.LinearRegression.RobustRegression\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Fitting.LinearRegression.fit\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L445-445" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L926-926" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
-   Robust regression does not necessarily minimize the distance of the fitting function to the input data points (least squares), but has alternative aims (non-parametric).
+   Determines coefficients for univariate linear regression.
  
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              Default is simple linear regression fitting without constraints.
+            </p>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  xData
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of x values
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  yData
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  vector of y values
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?FittingMethod
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-method.html">Method</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  Either Fitting.SimpleLinear (straight line), Fitting.Polynomial (polynomial), or Fitting.Robust (outlier insensitive straight line).
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?Constraint
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-constraint-1.html">Constraint</a>&lt;<span>float&#32;*&#32;float</span>&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  Either Fitting.Unconstrained, Fitting.RegressionThroughOrigin, or Fitting.RegressionThroughXY (x,y) with x,y beeing coordinates that the line must pass.
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  ?Weighting
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  If a pointwise weight should be attached, a weight vector can be given, that is in the same order as x/y values.
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregressionmodule-coefficients.html">Coefficients</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Linear regression coefficients.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   // e.g. days since experiment start
+   let xData = vector [|1.; 2.; 3.; 4.; 5.; 6. |]
+   // e.g. plant size in cm
+   let yData = vector [|4.; 7.; 8.; 9.; 7.; 11.|]
+   
+   // Estimate the intercept and slope of a line, that fits the data.
+   let coefficientsSimpleLinear = 
+       LinearRegression.fit(xData,yData,FittingMethod=Fitting.Method.SimpleLinear,Constraint=Fitting.Constraint.RegressionThroughXY (1.,2.))
+   
+   // Estimate the coefficients of a cubic polynomial that fits the data with the given point weighting.
+   let coefficientsPolynomial = 
+       LinearRegression.fit(xData, yData, FittingMethod=Fitting.Method.Polynomial 3, Weighting = vector [2.; 1.; 0.5.; 1.; 1.; 1.])
+   
+   // Estimate the intercept and slope of a line, that fits the data and ignore outliers.
+   let coefficientsRobust = 
+       LinearRegression.fit(xData,yData,FittingMethod=Fitting.Method.Robust Fitting.RobustEstimator.Theil)</code></pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2531', 2531)" onmouseover="showTip(event, '2531', 2531)">
+                <p>
+                  <a id="predict">
+                    <a href="#predict">
+                      <code><span>LinearRegression.predict&#32;<span>coeff</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2531">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>LinearRegression.predict&#32;<span>coeff</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        coeff
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregressionmodule-coefficients.html">Coefficients</a></code>
+                       - 
+                      Linear regression coefficients (e.g. from LinearRegression.fit())
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>'a&#32;->&#32;float</span></code>
+                  </span>
+                  Prediction function that takes an x value or x vector and predicts its corresponding y value.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Fitting.LinearRegression.predict``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Fitting.LinearRegression.predict``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L1026-1026" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+   Creates prediction function for linear regression.
+ 
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  coeff
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregressionmodule-coefficients.html">Coefficients</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  Linear regression coefficients (e.g. from LinearRegression.fit())
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span>'a&#32;->&#32;float</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Prediction function that takes an x value or x vector and predicts its corresponding y value.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   // e.g. days since experiment start
+   let xData = vector [|1.; 2.; 3.; 4.; 5.; 6. |]
+   // e.g. plant size in cm
+   let yData = vector [|4.; 7.; 8.; 9.; 7.; 11.|]
+   
+   // Estimate the intercept and slope of a line, that fits the data.
+   let coefficientsSimpleLinear = 
+       LinearRegression.fit(xData,yData,FittingMethod=Fitting.Method.SimpleLinear,Constraint=Fitting.Constraint.RegressionThroughOrigin)
+   
+   // Predict the size on day 10.5
+   LinearRegression.predict(coefficientsSimpleLinear) 10.5</code></pre>
+            </p>
           </td>
         </tr>
       </tbody>
