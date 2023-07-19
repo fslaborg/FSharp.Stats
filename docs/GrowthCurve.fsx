@@ -140,7 +140,7 @@ let logPhaseY = vector cellCountLn.[3..11]
 
 // regression coefficients as [intercept;slope]
 let regressionCoeffs =
-    OrdinaryLeastSquares.Linear.Univariable.fit logPhaseX logPhaseY
+    OLS.Linear.Univariable.fit logPhaseX logPhaseY
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
@@ -151,7 +151,7 @@ let generationTime = log(2.) / slope
 
 
 let fittedValues = 
-    let f = OrdinaryLeastSquares.Linear.Univariable.predict (Coefficients (vector [14.03859475; 1.515073487]))
+    let f = OLS.Linear.Univariable.predict (Coefficients (vector [14.03859475; 1.515073487]))
     logPhaseX |> Seq.map (fun x -> x,f x)
 
 let chartLinearRegression =
@@ -851,7 +851,7 @@ Parameters:
 
 ### Fit function
 *)
-let combinedChart =
+let combinedGrowthChart =
     [
         
         Chart.Point(time,cellCountLn) |> Chart.withTraceInfo "log count"
@@ -871,11 +871,11 @@ let combinedChart =
 
 (*** condition: ipynb ***)
 #if IPYNB
-combinedChart
+combinedGrowthChart
 #endif // IPYNB
 
 (***hide***)
-combinedChart |> GenericChart.toChartHTML
+combinedGrowthChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 (**

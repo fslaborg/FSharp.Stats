@@ -50,8 +50,8 @@ Consider this simple linear regression:
 *)
 open FSharp.Stats
 open FSharp.Stats.Fitting
-open LinearRegression.OrdinaryLeastSquares
-open GoodnessOfFit.OrdinaryLeastSquares.Linear.Univariable
+open LinearRegression.OLS
+open GoodnessOfFit.OLS.Linear.Univariable
 open FSharp.Stats.Distributions
 
 //data sorted by x values
@@ -322,7 +322,7 @@ Because outliers have a strong influence to D of all other points as well, the t
 
 *)
 
-open LinearRegression.OrdinaryLeastSquares.Linear
+open LinearRegression.OLS.Linear
 
 let xD = vector [|1. .. 10.|]
 let yD = vector [|4.;6.;9.;7.;13.;17.;16.;23.;14.;26.|]

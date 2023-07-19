@@ -204,14 +204,14 @@ module GoodnessOfFit =
            Testing.Anova.createAnovaVariationSource dfE MSE nan          Testing.Anova.VariationSource.Residual   nan sse;
            Testing.Anova.createAnovaVariationSource dfT MST nan          Testing.Anova.VariationSource.Total      nan sst;|]
 
-    module OrdinaryLeastSquares =
+    module OLS =
 
         module Linear =
-            open LinearRegression.OrdinaryLeastSquares.Linear
+            open LinearRegression.OLS.Linear
             module RTO = 
                 /// 
                 let calculateANOVA (coef : LinearRegression.Coefficients) x y =                
-                    calculateANOVA 1 (LinearRegression.OrdinaryLeastSquares.Linear.RTO.predictFunc coef) x y 
+                    calculateANOVA 1 (LinearRegression.OLS.Linear.RTO.predictFunc coef) x y 
 
             module Univariable = 
 
@@ -296,9 +296,9 @@ module GoodnessOfFit =
                                         |> Seq.toList
                                         |> fun yDat -> yDat.[..x-1]@yDat.[x+1..]
                                         |> vector
-                                    let coefTmp = LinearRegression.OrdinaryLeastSquares.Polynomial.fit order xTmp yTmp
+                                    let coefTmp = LinearRegression.OLS.Polynomial.fit order xTmp yTmp
                                     let error = 
-                                        let yFit = LinearRegression.OrdinaryLeastSquares.Polynomial.predict coefTmp (float xData.[x])
+                                        let yFit = LinearRegression.OLS.Polynomial.predict coefTmp (float xData.[x])
                                         pown (yFit - yData.[x]) 2 
                                     error
                                 )
@@ -348,8 +348,8 @@ module GoodnessOfFit =
                                 |> Array.unzip
                             let dataLeftOut = x
                             let fit = 
-                                Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.fit order (vector subX) (vector subY)
-                                |> fun coeffs -> Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.predict coeffs
+                                Fitting.LinearRegression.OLS.Polynomial.fit order (vector subX) (vector subY)
+                                |> fun coeffs -> Fitting.LinearRegression.OLS.Polynomial.predict coeffs
                             dataLeftOut
                             |> Array.map (fun (xLO,yLO) -> pown (fit xLO - yLO) 2)
                             |> Array.sum

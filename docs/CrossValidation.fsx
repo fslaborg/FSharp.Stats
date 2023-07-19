@@ -63,7 +63,7 @@ let's first create some polynomial fits to cross validate:
 open Plotly.NET
 open FSharp.Stats
 open FSharp.Stats.Fitting
-open LinearRegression.OrdinaryLeastSquares
+open LinearRegression.OLS
 
 let xV = vector [1. .. 10.]                            
 let yV = vector [1.;20.;51.;40.;37.;6.;-10.;-5.;0.;10.]

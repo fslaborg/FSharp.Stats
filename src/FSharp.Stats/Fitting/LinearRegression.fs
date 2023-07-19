@@ -83,7 +83,7 @@ module LinearRegression =
     /// <summary>
     ///   Ordinary Least Squares (OLS) regression aims to minimise the sum of squared y intercepts between the original and predicted points at each x value.
     /// </summary>
-    module OrdinaryLeastSquares = 
+    module OLS = 
           
         /// <summary>
         ///   Simple linear regression using straight lines:  f(x) =  a + bx.
@@ -110,7 +110,7 @@ module LinearRegression =
                 ///   
                 ///   // Estimate the slope of the regression line.
                 ///   let coefficients = 
-                ///       LinearRegression.OrdinaryLeastSquares.Linear.fit xData yData 
+                ///       LinearRegression.OLS.Linear.fit xData yData 
                 /// </code> 
                 /// </example>
                 let fitOfVector (xData : Vector<float>) (yData : Vector<float>) =
@@ -140,7 +140,7 @@ module LinearRegression =
                 ///   
                 ///   // Estimate the slope of the regression line.
                 ///   let coefficients = 
-                ///       LinearRegression.OrdinaryLeastSquares.Linear.RTO.fit xData yData 
+                ///       LinearRegression.OLS.Linear.RTO.fit xData yData 
                 ///   </code> 
                 /// </example>
                 let fit (xData : seq<float>) (yData : seq<float>) =
@@ -161,7 +161,7 @@ module LinearRegression =
                 ///   
                 ///   // get the fítting function that fits through the origin
                 ///   let myF = 
-                ///       LinearRegression.OrdinaryLeastSquares.Linear.RTO.predictFunc mySlope
+                ///       LinearRegression.OLS.Linear.RTO.predictFunc mySlope
                 ///   
                 ///   // Returns predicted y value at x=6 using a line with intercept=0 and slope=17.8
                 ///   myF 6.
@@ -181,7 +181,7 @@ module LinearRegression =
                 ///   let mySlope = 17.8
                 ///   
                 ///   // Returns predicted y value at x=6 using a line with intercept=0 and slope=17.8
-                ///   LinearRegression.OrdinaryLeastSquares.Linear.RTO.predict mySlope 6.
+                ///   LinearRegression.OLS.Linear.RTO.predict mySlope 6.
                 /// </code> 
                 /// </example>
                 let predict (coef: Coefficients) (x: float) =            
@@ -529,7 +529,7 @@ module LinearRegression =
             ///   
             ///   // Estimate the three coefficients of a quadratic polynomial.
             ///   let coefficients = 
-            ///       LinearRegression.OrdinaryLeastSquares.Polynomial.fit 2 xData yData 
+            ///       LinearRegression.OLS.Polynomial.fit 2 xData yData 
             /// </code> 
             /// </example>
             let fit order (xData : Vector<float>) (yData : Vector<float>) =
@@ -565,7 +565,7 @@ module LinearRegression =
             ///   
             ///   // Estimate the three coefficients of a quadratic polynomial.
             ///   let coefficients = 
-            ///       LinearRegression.OrdinaryLeastSquares.Polynomial.fit 2 xData yData 
+            ///       LinearRegression.OLS.Polynomial.fit 2 xData yData 
             /// </code> 
             /// </example>
             let fitWithWeighting order (weighting : Vector<float>) (xData : Vector<float>) (yData : Vector<float>) = 
@@ -619,10 +619,10 @@ module LinearRegression =
             ///   
             ///   // Define the polynomial coefficients.
             ///   let coefficients = 
-            ///       LinearRegression.OrdinaryLeastSquares.Polynomial.fit xData yData 
+            ///       LinearRegression.OLS.Polynomial.fit xData yData 
             ///   
             ///   // Predict the temperature value at midnight between day 1 and 2. 
-            ///   LinearRegression.OrdinaryLeastSquares.Polynomial.predict coefficients 1.5
+            ///   LinearRegression.OLS.Polynomial.predict coefficients 1.5
             /// </code> 
             /// </example>
             /// <remarks>If all coefficients are nonzero, the order is equal to the length of the coefficient vector!</remarks>
@@ -645,10 +645,10 @@ module LinearRegression =
             ///   
             ///   // Estimate the polynomial coefficients
             ///   let coefficients = 
-            ///       LinearRegression.OrdinaryLeastSquares.Polynomial.fit xData yData 
+            ///       LinearRegression.OLS.Polynomial.fit xData yData 
             ///   
             ///   // Predict the curvature of the regression function at midnight between day 1 and 2. 
-            ///   LinearRegression.OrdinaryLeastSquares.Polynomial.getDerivative coefficients 2 1.5
+            ///   LinearRegression.OLS.Polynomial.getDerivative coefficients 2 1.5
             /// </code> 
             /// </example>
             let getDerivative (*(order: int)*) (coef: Coefficients) (level: int) (x: float) =
@@ -681,7 +681,7 @@ module LinearRegression =
             ///   
             ///   // Returns distances for a quadratic polynomial
             ///   let distances = 
-            ///       LinearRegression.OrdinaryLeastSquares.Polynomial.cooksDistance 2 xData yData 
+            ///       LinearRegression.OLS.Polynomial.cooksDistance 2 xData yData 
             /// </code> 
             /// </example>
             let cooksDistance order (xData : Vector<float>) (yData : Vector<float>) =
@@ -830,8 +830,8 @@ module LinearRegression =
             ///   LinearRegression.RobustRegression.Linear.predict coefficients 10.5 
             /// </code> 
             /// </example>
-            /// <remarks>Equal to OrdinaryLeastSquares.Linear.Univariable.predict!</remarks>
-            let predict (coef: Coefficients) (x: float) = OrdinaryLeastSquares.Linear.Univariable.predict coef x
+            /// <remarks>Equal to OLS.Linear.Univariable.predict!</remarks>
+            let predict (coef: Coefficients) (x: float) = OLS.Linear.Univariable.predict coef x
 
             [<Obsolete("Use Linear.predict instead.")>]
             let fit coef x = 
@@ -935,19 +935,19 @@ type LinearRegression() =
             | None -> 
                 match _constraint with
                 | Constraint.Unconstrained ->
-                    LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fit xData yData
+                    LinearRegression.OLS.Linear.Univariable.fit xData yData
                 | Constraint.RegressionThroughOrigin -> 
-                    LinearRegression.OrdinaryLeastSquares.Linear.RTO.fit (vector xData) (vector yData)
+                    LinearRegression.OLS.Linear.RTO.fit (vector xData) (vector yData)
                 | Constraint.RegressionThroughXY coordinate -> 
-                    LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fitConstrained (vector xData) (vector yData) coordinate
+                    LinearRegression.OLS.Linear.Univariable.fitConstrained (vector xData) (vector yData) coordinate
             | _ -> failwithf "Weighted simple linear regression is not yet implemented! Use polynomial weighted regression with degree 1 instead."
 
         | Method.Polynomial o -> 
             match _constraint with 
             | Constraint.Unconstrained -> 
                 match Weighting with 
-                | Some w -> LinearRegression.OrdinaryLeastSquares.Polynomial.fitWithWeighting o w xData yData
-                | None -> LinearRegression.OrdinaryLeastSquares.Polynomial.fit o xData yData
+                | Some w -> LinearRegression.OLS.Polynomial.fitWithWeighting o w xData yData
+                | None -> LinearRegression.OLS.Polynomial.fit o xData yData
             | _ -> failwithf "Constrained polynomial regression is not yet implemented!"
 
         | Method.Robust r -> 
@@ -995,12 +995,12 @@ type LinearRegression() =
         
         match _fittingMethod with 
         | Method.SimpleLinear ->
-            LinearRegression.OrdinaryLeastSquares.Linear.Multivariable.fit xData yData
+            LinearRegression.OLS.Linear.Multivariable.fit xData yData
         | _ -> failwithf "NYI"
         
     //static member predict(coeff: LinearRegression.Coefficients, ?FittingMethod: Method) =
     //    (fun (x: float) - 
-    //        LinearRegression.OrdinaryLeastSquares.Polynomial.predict coeff x)
+    //        LinearRegression.OLS.Polynomial.predict coeff x)
 
     /// <summary>
     ///   Creates prediction function for linear regression.

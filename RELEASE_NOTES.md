@@ -1,4 +1,12 @@
-### 0.4.12 TBR
+### 0.5.0 TBD
+* Additions:
+    * add various XML comments in FSharp.Stats.Interpolation FSharp.Stats.Fitting
+    * separate CubicSpline.Simple and CubicSpline.Akima
+    * major refactor of Fitting and Interpolation module
+    * addition of LinearRegression and Interpolation type
+    * [[#e884a75e](https://github.com/fslaborg/FSharp.Stats/commit/e884a75e92c84372f0e727192e6419c9c591a3cd)] update FSharpAux version
+    
+### 0.4.12-preview.3
 * Additions:
     * latest commit #46d86ad1
     * [[#c7117ef3](https://github.com/fslaborg/FSharp.Stats/commit/c7117ef3188f81818b1b8e4d04cf381420ca8492)] add negBinom distribution #256

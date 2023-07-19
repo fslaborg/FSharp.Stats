@@ -288,7 +288,7 @@ let transformedData =
     |> Array.map (fun wavelet -> ContinuousWavelet.transform paddedData (-) 1000 wavelet)
 
 ///combining the raw and transformed data in one chart
-let combinedChart =
+let combinedSignalChart =
     //CWT-chart
     let heatmap =
         let rowNames,colNames = 
@@ -319,11 +319,11 @@ let combinedChart =
 
 (*** condition: ipynb ***)
 #if IPYNB
-combinedChart
+combinedSignalChart
 #endif // IPYNB
 
 (***hide***)
-combinedChart |> GenericChart.toChartHTML
+combinedSignalChart |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 

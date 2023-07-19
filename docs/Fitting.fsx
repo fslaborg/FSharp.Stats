@@ -147,9 +147,9 @@ let yData = vector [|4.;7.;9.;12.;15.;17.;16.;23.;5.;30.|]
 
 //Least squares simple linear regression
 let coefficientsLinearLS = 
-    OrdinaryLeastSquares.Linear.Univariable.fit xData yData
+    OLS.Linear.Univariable.fit xData yData
 let predictionFunctionLinearLS x = 
-    OrdinaryLeastSquares.Linear.Univariable.predict coefficientsLinearLS x
+    OLS.Linear.Univariable.predict coefficientsLinearLS x
 
 //Robust simple linear regression
 let coefficientsLinearRobust = 
@@ -159,9 +159,9 @@ let predictionFunctionLinearRobust x =
 
 //least squares simple linear regression through the origin
 let coefficientsLinearRTO = 
-    OrdinaryLeastSquares.Linear.RTO.fitOfVector xData yData 
+    OLS.Linear.RTO.fitOfVector xData yData 
 let predictionFunctionLinearRTO x = 
-    OrdinaryLeastSquares.Linear.RTO.predict coefficientsLinearRTO x
+    OLS.Linear.RTO.predict coefficientsLinearRTO x
 
 
 
@@ -229,9 +229,9 @@ let yVectorMulti =
     |> vector
 
 let coefficientsMV = 
-    OrdinaryLeastSquares.Linear.Multivariable.fit xVectorMulti yVectorMulti
+    OLS.Linear.Multivariable.fit xVectorMulti yVectorMulti
 let predictionFunctionMV x = 
-    OrdinaryLeastSquares.Linear.Multivariable.predict coefficientsMV x
+    OLS.Linear.Multivariable.predict coefficientsMV x
 
 (**
 
@@ -252,9 +252,9 @@ let yDataP = vector [|4.;7.;9.;8.;6.;3.;2.;5.;6.;8.;|]
 //define the order the polynomial should have (order 3: f(x) = ax^3 + bx^2 + cx + d)
 let order = 3
 let coefficientsPol = 
-    OrdinaryLeastSquares.Polynomial.fit order xDataP yDataP 
+    OLS.Polynomial.fit order xDataP yDataP 
 let predictionFunctionPol x = 
-    OrdinaryLeastSquares.Polynomial.predict coefficientsPol x
+    OLS.Polynomial.predict coefficientsPol x
 
 //weighted least squares polynomial regression
 //If heteroscedasticity is assumed or the impact of single datapoints should be 
@@ -266,9 +266,9 @@ let orderP = 3
 //define the weighting vector
 let weights = yDataP |> Vector.map (fun y -> 1. / y)
 let coefficientsPolW = 
-    OrdinaryLeastSquares.Polynomial.fitWithWeighting orderP weights xDataP yDataP 
+    OLS.Polynomial.fitWithWeighting orderP weights xDataP yDataP 
 let predictionFunctionPolW x = 
-    OrdinaryLeastSquares.Polynomial.predict coefficientsPolW x
+    OLS.Polynomial.predict coefficientsPolW x
 
 let rawChartP = 
     Chart.Point(xDataP,yDataP)
@@ -390,7 +390,7 @@ let initialParamGuess (xData:float []) (yData:float [])=
     //(prone to least-squares-deviations at high y_Values)
     let yLn = yData |> Array.map (fun x -> Math.Log(x)) |> vector
     let linearReg = 
-        LinearRegression.OrdinaryLeastSquares.Linear.Univariable.fit (vector xData) yLn
+        LinearRegression.OLS.Linear.Univariable.fit (vector xData) yLn
     //calculates the parameters back into the exponential representation
     let a = exp linearReg.[0]
     let b = linearReg.[1]

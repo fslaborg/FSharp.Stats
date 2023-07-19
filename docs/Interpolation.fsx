@@ -80,13 +80,13 @@ let coefPolynomial = Interpolation.interpolate(testDataX,testDataY,Interpolation
 let interpolationComparison =
     [
         Chart.Point(testDataX,testDataY,Name="data")
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefLinear) x)  |> Chart.Line |> Chart.withTraceInfo "Linear"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefAkima) x)   |> Chart.Line |> Chart.withTraceInfo "Akima"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicNa) x) |> Chart.Line |> Chart.withTraceInfo "Cubic_natural"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicPe) x) |> Chart.Line |> Chart.withTraceInfo "Cubic_periodic"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicNo) x) |> Chart.Line |> Chart.withTraceInfo "Cubic_notaknot"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicPa) x) |> Chart.Line |> Chart.withTraceInfo "Cubic_parabolic"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefHermite) x) |> Chart.Line |> Chart.withTraceInfo "Hermite"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefLinear)     x) |> Chart.Line |> Chart.withTraceInfo "Linear"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefAkima)      x) |> Chart.Line |> Chart.withTraceInfo "Akima"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicNa)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_natural"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicPe)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_periodic"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicNo)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_notaknot"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicPa)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_parabolic"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefHermite)    x) |> Chart.Line |> Chart.withTraceInfo "Hermite"
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefPolynomial) x) |> Chart.Line |> Chart.withTraceInfo "Polynomial"
     ]
     |> Chart.combine
@@ -335,10 +335,10 @@ let funNaturalSpline x = CubicSpline.predict coeffSpl x
 //get coefficients and function for a classic polynomial interpolation
 let coeffPolInterpol = 
     //let neutralWeights = Vector.init 7 (fun x -> 1.)
-    //Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.coefficientsWithWeighting 6 neutralWeights xDataH yDataH
+    //Fitting.LinearRegression.OLS.Polynomial.coefficientsWithWeighting 6 neutralWeights xDataH yDataH
     Interpolation.Polynomial.interpolate xDataH yDataH
 let funPolInterpol x = 
-    //Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.fit 6 coeffPolInterpol x
+    //Fitting.LinearRegression.OLS.Polynomial.fit 6 coeffPolInterpol x
     Interpolation.Polynomial.predict coeffPolInterpol x
 
 let splineComparison =

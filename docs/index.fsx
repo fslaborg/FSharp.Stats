@@ -141,7 +141,7 @@ let regressionCoefficients =
     Fitting.LinearRegression.fit(xData,yData,FittingMethod=Fitting.Method.Polynomial 3)
     
 // get fitting function of 3rd order regression polynomial
-let regressionPredictionFunc = 
+let regressionPredictionFunc: float -> float = 
     Fitting.LinearRegression.predict regressionCoefficients
 
 (*** hide ***)
@@ -151,19 +151,22 @@ let regressionChart =
     |> List.map (fun x -> x,regressionPredictionFunc x)
     |> fun data -> Chart.Line(data,Name="regression polynomial")
 
-let combinedChart =
+let combChart =
     let rawChart = Chart.Point(xData,yData)
     [rawChart;interpolChart;regressionChart]
     |> Chart.combine
     |> Chart.withTemplate ChartTemplates.lightMirrored
 
 (**
+
 The resulting interpolating and regression polynomials are plotted below using [Plotly.NET](https://github.com/plotly/Plotly.NET).
 
-*)   
+*)
+
 (***hide***)
-combinedChart |> GenericChart.toChartHTML
+combChart |> GenericChart.toChartHTML
 (***include-it-raw***)
+
 (**
 
 
