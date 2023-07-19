@@ -25,7 +25,29 @@ module Interpolation =
             /// vector of polynomial coefficients sorted as [constant;linear;quadratic;...]
             /// </summary>
             C0_CX : Vector<float>
-            } with static member Create c = {C0_CX = c}
+            } with 
+                static member Create c = {C0_CX = c}
+                /// <summary>
+                ///   takes x value to predict the corresponding interpolating y value
+                /// </summary>
+                /// <param name="x">x value of which the corresponding y value should be predicted</param>
+                /// <returns>predicted y value with given polynomial coefficients at X=x</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                /// // e.g. temperature measured at noon of the days specified in xData 
+                /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+                /// 
+                /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+                /// let coefficients = 
+                ///     Interpolation.Polynomial.coefficients xData yData 
+                /// 
+                /// // Predict the temperature value at midnight between day 1 and 2. 
+                /// coefficients.Predict 1.5
+                /// </code> 
+                /// </example>
+                member this.Predict = fun x -> this.C0_CX |> Vector.foldi (fun i acc c -> acc + (c * (pown x i))) 0.
 
         /// <summary>
         ///   Calculates the polynomial coefficients for interpolating the given unsorted data. 
@@ -79,7 +101,8 @@ module Interpolation =
         /// </code> 
         /// </example>
         let predict (coef: PolynomialCoef) (x:float) =
-            coef.C0_CX |> Vector.foldi (fun i acc c -> acc + (c * (pown x i))) 0.
+            //coef.C0_CX |> Vector.foldi (fun i acc c -> acc + (c * (pown x i))) 0.
+            coef.Predict x
 
         /// <summary>
         ///   calculates derivative values at X=x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...
@@ -133,6 +156,13 @@ module Interpolation =
     
         open FSharp.Stats
 
+        let internal leftSegmentIdx arr value = 
+            let idx = 
+                let tmp = Array.BinarySearch(arr, value)
+                let idx = if tmp < 0 then ~~~tmp-1 else tmp
+                idx
+            Math.Min(arr.Length-2,Math.Max(idx, 0))
+
         /// <summary>
         ///   Record type that contains the x-knots, intersects (C0) and slopes (C1) of each interval.
         /// </summary>
@@ -149,15 +179,32 @@ module Interpolation =
                     C0      = c0;
                     C1      = c1;
                     }
+                /// <summary>
+                ///   Predicts the y value at point x. A straight line is fitted between the neighboring x values given.
+                /// </summary>
+                /// <param name="x">X value at which the corresponding y value should be predicted</param>
+                /// <returns>Y value corresponding to the given x value.</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|0.;1.;5.;4.;3.;|]
+                /// // some measured feature
+                /// let yData = vector [|1.;5.;4.;13.;17.|]
+                /// 
+                /// // get slopes and intersects for interpolating straight lines
+                /// let coefficients = 
+                ///     Interpolation.initInterpolate xData yData 
+                ///
+                /// // get y value at 3.4
+                /// coefficients.Predict 3.4 
+                /// </code> 
+                /// </example>
+                /// <remarks>X values that don't not lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
+                member this.Predict = 
+                    fun x -> 
+                        let k = leftSegmentIdx this.XValues x
+                        this.C0.[k] + (x - this.XValues.[k]) * this.C1.[k] 
 
-        let internal leftSegmentIdx arr value = 
-            let idx = 
-                let tmp = Array.BinarySearch(arr, value)
-                let idx = if tmp < 0 then ~~~tmp-1 else tmp
-                idx
-            Math.Min(arr.Length-2,Math.Max(idx, 0))
-
-    
         /// <summary>
         ///   Returns the linear spline interpolation coefficients from x,y data that is sorted ascending according to x values.
         /// </summary>
@@ -279,8 +326,9 @@ module Interpolation =
         /// </example>
         /// <remarks>X values that don't not lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
         let predict (lsc: LinearSplineCoef) x =
-            let k = leftSegmentIdx lsc.XValues x
-            lsc.C0.[k] + (x - lsc.XValues.[k]) * lsc.C1.[k]        
+            //let k = leftSegmentIdx lsc.XValues x
+            //lsc.C0.[k] + (x - lsc.XValues.[k]) * lsc.C1.[k]     
+            lsc.Predict x
 
         /// <summary>
         ///   Predicts the slope at point x. Since linear splines are lines between each pair of adjacend knots, the slope of the function within the interval of adjacent knots is constant.
@@ -304,7 +352,7 @@ module Interpolation =
         /// </code> 
         /// </example>
         /// <remarks>X values that don't lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
-        let differentiate (lsc:LinearSplineCoef) x =
+        let differentiate (lsc: LinearSplineCoef) x =
             let k = leftSegmentIdx lsc.XValues x
             lsc.C1.[k]
 
@@ -333,6 +381,33 @@ module Interpolation =
                 static member Create xValues c0 c1 c2 c3 = {
                     XValues=xValues;C0=c0;C1=c1;C2=c2;C3=c3 
                     }
+                /// <summary>
+                ///   Returns function that takes x value and predicts the corresponding interpolating y value. 
+                /// </summary>
+                /// <param name="xVal">X value of which the y value should be predicted.</param>
+                /// <returns>Function that takes an x value and returns function value.</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|0.;1.;5.;4.;3.;|]
+                /// // some measured feature
+                /// let yData = vector [|1.;5.;4.;13.;17.|]
+                ///
+                /// // get coefficients for piecewise interpolating cubic polynomials
+                /// let coefficients = 
+                ///     Akima.interpolate xData yData
+                ///
+                /// // get function value at x=3.4
+                /// coefficients.Predict 3.4
+                /// </code> 
+                /// </example>
+                /// <remarks>Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.</remarks>
+                member this.Predict = 
+                    fun x ->             
+                        let k = LinearSpline.leftSegmentIdx this.XValues x 
+                        let x = x - this.XValues.[k]
+                        this.C0.[k] + x*(this.C1.[k] + x*(this.C2.[k] + x*this.C3.[k]))
+
 
         /// <summary>
         ///   Computes coefficients for piecewise interpolating subsplines.
@@ -374,9 +449,6 @@ module Interpolation =
                 c2.[i] <- (3.*(yValues.[i+1] - yValues.[i])/w - 2. * firstDerivatives.[i] - firstDerivatives.[i+1])/w 
                 c3.[i] <- (2.*(yValues.[i] - yValues.[i+1])/w +      firstDerivatives.[i] + firstDerivatives.[i+1])/ww 
             SubSplineCoef.Create xValues c0 c1 c2 c3
-        
-        let internal leftSegmentIdx arr value = 
-            LinearSpline.leftSegmentIdx arr value
 
         /// <summary>
         ///   Computes coefficients for piecewise interpolating subsplines.
@@ -459,10 +531,10 @@ module Interpolation =
         /// </example>
         /// <remarks>Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.</remarks>
         let predict (splineCoeffs: SubSplineCoef) xVal =
-            let k = leftSegmentIdx splineCoeffs.XValues xVal 
-            let x = xVal - splineCoeffs.XValues.[k]
-            splineCoeffs.C0.[k] + x*(splineCoeffs.C1.[k] + x*(splineCoeffs.C2.[k] + x*splineCoeffs.C3.[k]))
-
+            //let k = LinearSpline.leftSegmentIdx splineCoeffs.XValues xVal 
+            //let x = xVal - splineCoeffs.XValues.[k]
+            //splineCoeffs.C0.[k] + x*(splineCoeffs.C1.[k] + x*(splineCoeffs.C2.[k] + x*splineCoeffs.C3.[k]))
+            splineCoeffs.Predict xVal
 
         /// <summary>
         ///   Returns function that takes x value and predicts the corresponding slope. 
@@ -491,7 +563,7 @@ module Interpolation =
         /// </example>
         /// <remarks>Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.</remarks>
         let getFirstDerivative (splineCoeffs: SubSplineCoef) xVal =
-            let k = leftSegmentIdx splineCoeffs.XValues xVal 
+            let k = LinearSpline.leftSegmentIdx splineCoeffs.XValues xVal 
             let x = xVal - splineCoeffs.XValues.[k]
             splineCoeffs.C1.[k] + x*(2.*splineCoeffs.C2.[k] + x*3.*splineCoeffs.C3.[k])
 
@@ -522,7 +594,7 @@ module Interpolation =
         /// </example>
         /// <remarks>Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.</remarks>
         let getSecondDerivative (splineCoeffs: SubSplineCoef) xVal =
-            let k = leftSegmentIdx splineCoeffs.XValues xVal 
+            let k = LinearSpline.leftSegmentIdx splineCoeffs.XValues xVal 
             let x = xVal - splineCoeffs.XValues.[k]
             2.*splineCoeffs.C2.[k] + x*6.*splineCoeffs.C3.[k]
 
@@ -543,7 +615,7 @@ module Interpolation =
         /// <returns>Integral (area under the curve) from x=0 to x=xVal</returns>
         let integrate (splineCoeffs: SubSplineCoef) xVal = 
             let integral = computeIndefiniteIntegral splineCoeffs 
-            let k = leftSegmentIdx splineCoeffs.XValues xVal 
+            let k = LinearSpline.leftSegmentIdx splineCoeffs.XValues xVal 
             let x = xVal - splineCoeffs.XValues.[k]
             integral.[k] + x*(splineCoeffs.C0.[k] + x*(splineCoeffs.C1.[k]/2. + x*(splineCoeffs.C2.[k]/3. + x*splineCoeffs.C3.[k]/4.)))
         
@@ -590,6 +662,103 @@ module Interpolation =
             /// </summary>
             C0_3 : vector} with
                 static member Create x c = {XData=x;C0_3=c}
+
+                /// <summary>
+                ///   Returns function that takes x value (that lies within the range of input x values) and predicts the corresponding interpolating y value.
+                /// </summary>
+                /// <param name="x">X value of which the y value should be predicted.</param>
+                /// <returns>Function that takes an x value and returns function value.</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|0.;1.;5.;4.;3.;|]
+                /// // some measured feature
+                /// let yData = vector [|1.;5.;4.;13.;17.|]
+                /// 
+                /// // get coefficients for piecewise interpolating cubic polynomials
+                /// let coefficients = 
+                ///     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+                ///
+                /// // get function value at x=3.4
+                /// coefficients.PredictWithinRange 3.4
+                ///
+                /// </code> 
+                /// </example>
+                /// <remarks>Only defined within the range of the given xValues!</remarks>
+                member this.PredictWithinRange =
+                    fun x ->             
+                        let sortedX = this.XData |> Seq.sort
+                        let intervalNumber =
+                
+                            if x > Seq.last sortedX || x < Seq.head sortedX then 
+                                failwith "Spline is not defined outside of the interval of the xValues"
+                
+                            if x = Seq.last sortedX then 
+                                Seq.length sortedX - 2
+                            else
+                                sortedX
+                                |> Seq.findIndex(fun xKnot -> (xKnot - x) > 0.)
+                                |> fun nextInterval -> nextInterval - 1
+            
+                        let yValue = 
+                            this.C0_3.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
+                            this.C0_3.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
+                            this.C0_3.[4 * intervalNumber + 2] * x          +    //c*x
+                            this.C0_3.[4 * intervalNumber + 3]                   //d
+            
+                        yValue
+                        
+                /// <summary>
+                ///   Returns function that takes x value and predicts the corresponding interpolating y value.
+                /// </summary>
+                /// <param name="x">X value of which the y value should be predicted.</param>
+                /// <returns>Function that takes an x value and returns function value.</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|0.;1.;5.;4.;3.;|]
+                /// // some measured feature
+                /// let yData = vector [|1.;5.;4.;13.;17.|]
+                /// 
+                /// // get coefficients for piecewise interpolating cubic polynomials
+                /// let coefficients = 
+                ///     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+                ///
+                /// // get function value at x=3.4
+                /// coefficients.Predict 3.4
+                ///
+                /// </code> 
+                /// </example>
+                /// <remarks>x values outside of the xValue range are predicted by straight lines defined by the nearest knot!</remarks>
+                member this.Predict =
+                    fun x -> 
+                        let sortedX = this.XData |> Seq.sort
+                        let xHead = this.XData |> Seq.head
+                        let xLast = this.XData |> Seq.last
+            
+                        let intercept intervalNumber x = 
+                            this.C0_3.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
+                            this.C0_3.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
+                            this.C0_3.[4 * intervalNumber + 2] * x          +    //c*x
+                            this.C0_3.[4 * intervalNumber + 3]                   //d           
+            
+                        let slope intervalNumber x = 
+                            3. * this.C0_3.[4 * intervalNumber + 0] * (pown x 2) +   //3a*x²
+                            2. * this.C0_3.[4 * intervalNumber + 1] * x +            //2b*x
+                            this.C0_3.[4 * intervalNumber + 2]                       //c
+
+                        if x >= Seq.last sortedX then 
+                            let intervalNr = Seq.length sortedX - 2
+                            let diffX = x - xLast
+                            let y = intercept intervalNr xLast + diffX * (slope intervalNr xLast)
+                            y
+                        elif x < Seq.head sortedX then 
+                            let intervalNr = 0
+                            let diffX = x - xHead
+                            let y = intercept intervalNr xHead + diffX * (slope intervalNr xHead)
+                            y
+                        else
+                            this.PredictWithinRange x
 
         /// <summary>
         ///   Computes coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
@@ -809,26 +978,7 @@ module Interpolation =
         /// </example>
         /// <remarks>Only defined within the range of the given xValues!</remarks>
         let predictWithinRange (coefficients: CubicSplineCoef) x =
-            let sortedX = coefficients.XData |> Seq.sort
-            let intervalNumber =
-                
-                if x > Seq.last sortedX || x < Seq.head sortedX then 
-                    failwith "Spline is not defined outside of the interval of the xValues"
-                
-                if x = Seq.last sortedX then 
-                    Seq.length sortedX - 2
-                else
-                    sortedX
-                    |> Seq.findIndex(fun xKnot -> (xKnot - x) > 0.)
-                    |> fun nextInterval -> nextInterval - 1
-            
-            let yValue = 
-                coefficients.C0_3.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
-                coefficients.C0_3.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
-                coefficients.C0_3.[4 * intervalNumber + 2] * x          +    //c*x
-                coefficients.C0_3.[4 * intervalNumber + 3]                   //d
-            
-            yValue
+            coefficients.PredictWithinRange x
 
         /// <summary>
         ///   Returns function that takes x value and predicts the corresponding interpolating y value.
@@ -857,33 +1007,7 @@ module Interpolation =
         /// </example>
         /// <remarks>x values outside of the xValue range are predicted by straight lines defined by the nearest knot!</remarks>
         let predict (coefficients: CubicSplineCoef) x =
-            let sortedX = coefficients.XData |> Seq.sort
-            let xHead = coefficients.XData |> Seq.head
-            let xLast = coefficients.XData |> Seq.last
-            
-            let intercept intervalNumber x = 
-                coefficients.C0_3.[4 * intervalNumber + 0] * (pown x 3) +    //a*x³
-                coefficients.C0_3.[4 * intervalNumber + 1] * (pown x 2) +    //b*x²
-                coefficients.C0_3.[4 * intervalNumber + 2] * x          +    //c*x
-                coefficients.C0_3.[4 * intervalNumber + 3]                   //d           
-            
-            let slope intervalNumber x = 
-                3. * coefficients.C0_3.[4 * intervalNumber + 0] * (pown x 2) +   //3a*x²
-                2. * coefficients.C0_3.[4 * intervalNumber + 1] * x +            //2b*x
-                coefficients.C0_3.[4 * intervalNumber + 2]                       //c
-
-            if x >= Seq.last sortedX then 
-                let intervalNr = Seq.length sortedX - 2
-                let diffX = x - xLast
-                let y = intercept intervalNr xLast + diffX * (slope intervalNr xLast)
-                y
-            elif x < Seq.head sortedX then 
-                let intervalNr = 0
-                let diffX = x - xHead
-                let y = intercept intervalNr xHead + diffX * (slope intervalNr xHead)
-                y
-            else
-                predictWithinRange coefficients x
+            coefficients.Predict x
 
         let internal getDerivative order (coefficients: CubicSplineCoef) x =
             let sortedX = coefficients.XData |> Seq.sort
@@ -1018,6 +1142,68 @@ module Interpolation =
                         XValues=xValues;YValues=yValues;Slopes=slopes
                         }
 
+                    /// <summary>
+                    ///   Returns function that takes x value and predicts the corresponding interpolating y value. 
+                    /// </summary>
+                    /// <param name="x">X value of which the y value should be predicted.</param>
+                    /// <returns>Function that takes an x value and returns function value.</returns>
+                    /// <example> 
+                    /// <code> 
+                    /// // e.g. days since a certain event
+                    /// let xData = vector [|0.;1.;5.;4.;3.;|]
+                    /// // some measured feature
+                    /// let yData = vector [|1.;5.;4.;13.;17.|]
+                    /// 
+                    /// // get coefficients for piecewise interpolating cubic polynomials
+                    /// let coefficients = 
+                    ///     CubicSpline.Hermite.interpolate xData yData
+                    ///
+                    /// // get function value at x=3.4
+                    /// coefficients.Predict 3.4
+                    /// </code> 
+                    /// </example>
+                    /// <remarks>x values outside of the xValue range are predicted by straight lines defined by the nearest knot!</remarks>
+                    member this.Predict = 
+                        fun x ->                 
+                            let n = this.XValues.Length
+
+                            let phi0 t tAdd1 x =
+                                let tmp = (x - t) / (tAdd1 - t)
+                                2. * (pown tmp 3) - 3. * (pown tmp 2) + 1.
+                           
+                            let phi1 t tAdd1 x =
+                                let tmp = (x - t) / (tAdd1 - t)
+                                - 2. * (pown tmp 3) + 3. * (pown tmp 2)    
+
+                            let psi0 t tAdd1 x =
+                                let tmp = (x - t) / (tAdd1 - t)
+                                let a = tAdd1 - t
+                                let b = (pown tmp 3) - 2. * (pown tmp 2) + tmp
+                                a * b
+                
+                            let psi1 t tAdd1 x =
+                                let tmp = (x - t) / (tAdd1 - t)
+                                let a = tAdd1 - t
+                                let b = (pown tmp 3) - (pown tmp 2)
+                                a * b 
+
+                            let calculate index x =
+                                let ph0 = this.YValues.[index]    * phi0 this.XValues.[index] this.XValues.[index+1] x
+                                let ph1 = this.YValues.[index+1]  * phi1 this.XValues.[index] this.XValues.[index+1] x
+                                let ps0 = this.Slopes.[index]   * psi0 this.XValues.[index] this.XValues.[index+1] x
+                                let ps1 = this.Slopes.[index+1] * psi1 this.XValues.[index] this.XValues.[index+1] x
+                                ph0 + ph1 + ps0 + ps1
+
+                            if x = Seq.last this.XValues then 
+                                Seq.last this.YValues
+                            else                 
+                                let i = 
+                                    match Array.tryFindIndexBack (fun xs -> xs <= x) (this.XValues |> Vector.toArray) with 
+                                    | Some x -> x 
+                                    | None   -> failwith "The given xValue is out of the range defined in xData"
+                                calculate i x
+                            
+
             /// <summary>
             ///   Computes coefficients for piecewise interpolating splines.
             ///   The x data has to be sorted ascending.
@@ -1129,43 +1315,7 @@ module Interpolation =
             /// </example>
             /// <remarks>x values outside of the xValue range are predicted by straight lines defined by the nearest knot!</remarks>
             let predict (coef: HermiteCoef) x =
-                let n = coef.XValues.Length
-
-                let phi0 t tAdd1 x =
-                    let tmp = (x - t) / (tAdd1 - t)
-                    2. * (pown tmp 3) - 3. * (pown tmp 2) + 1.
-                           
-                let phi1 t tAdd1 x =
-                    let tmp = (x - t) / (tAdd1 - t)
-                    - 2. * (pown tmp 3) + 3. * (pown tmp 2)    
-
-                let psi0 t tAdd1 x =
-                    let tmp = (x - t) / (tAdd1 - t)
-                    let a = tAdd1 - t
-                    let b = (pown tmp 3) - 2. * (pown tmp 2) + tmp
-                    a * b
-                
-                let psi1 t tAdd1 x =
-                    let tmp = (x - t) / (tAdd1 - t)
-                    let a = tAdd1 - t
-                    let b = (pown tmp 3) - (pown tmp 2)
-                    a * b 
-
-                let calculate index x =
-                    let ph0 = coef.YValues.[index]    * phi0 coef.XValues.[index] coef.XValues.[index+1] x
-                    let ph1 = coef.YValues.[index+1]  * phi1 coef.XValues.[index] coef.XValues.[index+1] x
-                    let ps0 = coef.Slopes.[index]   * psi0 coef.XValues.[index] coef.XValues.[index+1] x
-                    let ps1 = coef.Slopes.[index+1] * psi1 coef.XValues.[index] coef.XValues.[index+1] x
-                    ph0 + ph1 + ps0 + ps1
-
-                if x = Seq.last coef.XValues then 
-                    Seq.last coef.YValues
-                else                 
-                    let i = 
-                        match Array.tryFindIndexBack (fun xs -> xs <= x) (coef.XValues |> Vector.toArray) with 
-                        | Some x -> x 
-                        | None   -> failwith "The given xValue is out of the range defined in xData"
-                    calculate i x
+                coef.Predict x
 
             ///calculates the slopes by averaging the slopes of neighbouring tangents
             [<Obsolete("Use interpolate instead to get slopes")>]
@@ -1282,6 +1432,7 @@ module Interpolation =
         type Spacing = 
             | Equally
             | Chebyshev
+
         /// <summary>
         ///   Zips x and y values, sorts them by x values and applies a given function to y values of x duplicate (like R! regularize.values).
         ///   1. pairs x-y values 
@@ -1424,8 +1575,8 @@ module Interpolation =
     //            x,myFunction x)
     //        |> List.unzip
         
-    //    let olscoef = OrdinaryLeastSquares.Polynomial.coefficient n (vector x) (vector y)
-    //    let olsfit = OrdinaryLeastSquares.Polynomial.fit n olscoef
+    //    let olscoef = OLS.Polynomial.coefficient n (vector x) (vector y)
+    //    let olsfit = OLS.Polynomial.fit n olscoef
 
     //    [
     //        getCh myFunction |> Chart.withLineStyle(Width=4.,Color=Color.fromHex "2ca02c") |> Chart.withTraceName "original"
