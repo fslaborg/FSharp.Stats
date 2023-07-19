@@ -7,20 +7,63 @@ open FSharp.Stats
 /// <summary>
 ///   Linear regression is used to estimate the relationship of one variable (y) with another (x) by expressing y in terms of a linear function of x.
 /// </summary>
-module LinearRegression =    
-        
+module LinearRegression =
+
+    //http://www.wolframalpha.com/input/?i=Vandermonde%20matrix&lk=1&a=ClashPrefs_%2aMathWorld.VandermondeMatrix-
+    let internal vandermondeRow (order) (x:float) = 
+        //DenseVector.OfEnumerable (seq { for i = 0 to order do yield x**(float i) })
+        Vector.init (order+1) (fun i -> pown x i)
+
+    let internal vandermondeMatrix (order) (vec : Vector<float>) =
+        Matrix.init vec.Length (order+1) (fun m order -> pown vec.[m] order) 
+        //Matrix. ofRowVector (vector [ for i = 0 to (vec.Count - 1) do yield (vandermondeRow order vec.[i]) ])
+            
+    /// <summary>
+    ///   Polynomial coefficients with various properties are stored within this type.
+    /// </summary>
     type Coefficients(coefficients: vector) =
         let n = coefficients.Length
+        
+        /// <summary>Contains polynomial coefficients as vector in the form of [constant; linear; quadratic; cubic].</summary>
         member this.Coefficients            = coefficients
+        
+        /// <summary>Number of polynomial coefficients (degree + 1).</summary>
         member this.Count                   = n
+        
+        /// <summary>Polynomial degree of the polynomial (coefficient count - 1)</summary>
         member this.Degree                  = n - 1
+        
+        /// <summary>Constant (first-degree) coefficient of the polynomial a + bx + cx^2 + dx^3 .. --&gt; a</summary>
         member this.Constant                = if n = 0 then 0. else coefficients.[0]
+        
+        /// <summary>Linear (second-degree) coefficient of the polynomial a + bx + cx^2 + dx^3 .. --&gt; b</summary>
         member this.Linear                  = if n < 2 then 0. else coefficients.[1]
+        
+        /// <summary>Quadratic (third-degree) coefficient of the polynomial a + bx + cx^2 + dx^3 .. --&gt; c</summary>
         member this.Quadratic               = if n < 3 then 0. else coefficients.[2]
+        
+        /// <summary>Cubic (fourth-degree) coefficient of the polynomial a + bx + cx^2 + dx^3 .. --&gt; d</summary>
         member this.Cubic                   = if n < 4 then 0. else coefficients.[3]
+        
+        /// <summary>Highest degree coefficient</summary>
         member this.Leading                 = if n = 0 then 0. else Seq.last coefficients
+        
+        /// <summary>Get coefficient of specified degree term.</summary>
         member this.getCoefficient degree   = coefficients.[degree]
-        member this.Item degree             = coefficients.[degree] 
+        
+        /// <summary>Get coefficient of specified degree term.</summary>
+        member this.Item degree             = coefficients.[degree]
+        
+        /// <summary>Gets a x value and predicts the corresponding y value for the given polynomial coefficients.</summary>
+        member this.Predict (x: float)      = 
+            Vector.dot coefficients (vandermondeRow this.Degree x)
+        
+        /// <summary>Gets a x value vector and predicts the corresponding y value for the given polynomial coefficients.</summary>
+        member this.Predict (x: vector)     = 
+            let tmp = Vector.init (x.Length + 1) (fun i -> if i = 0 then 1. else x.[i-1])
+            Vector.dot tmp coefficients
+        
+        /// <summary>Prints the polynomial function in a human readable form.</summary>
         override this.ToString()            = 
             let body = 
                 coefficients 
@@ -31,8 +74,10 @@ module LinearRegression =
                     ) 
                 |> String.concat " + " 
             "f(x) = " + body
-
+        
         static member Init(coefficients) = Coefficients(coefficients)
+        
+        /// <summary>Initializes Coefficients type with an empty vector.</summary>
         static member Empty() = Coefficients(vector [])
 
     /// <summary>
@@ -468,15 +513,6 @@ module LinearRegression =
         /// </summary>
         module Polynomial =
 
-            //http://www.wolframalpha.com/input/?i=Vandermonde%20matrix&lk=1&a=ClashPrefs_%2aMathWorld.VandermondeMatrix-
-            let private vandermondeRow (order) (x:float) = 
-                //DenseVector.OfEnumerable (seq { for i = 0 to order do yield x**(float i) })
-                Vector.init (order+1) (fun i -> pown x i)        
-
-            let private vandermondeMatrix (order) (vec : Vector<float>) =        
-                Matrix.init vec.Length (order+1) (fun m order -> pown vec.[m] order) 
-                //Matrix. ofRowVector (vector [ for i = 0 to (vec.Count - 1) do yield (vandermondeRow order vec.[i]) ])
-            
             /// <summary>
             ///   Calculates the polynomial coefficients for polynomial regression. 
             /// </summary>
@@ -990,6 +1026,6 @@ type LinearRegression() =
     static member predict(coeff: LinearRegression.Coefficients) =
         fun x -> 
            match box x with 
-           | :? float as s -> LinearRegression.OrdinaryLeastSquares.Polynomial.predict coeff s
-           | :? vector as v -> LinearRegression.OrdinaryLeastSquares.Linear.Multivariable.predict coeff v
+           | :? float as s -> coeff.Predict s
+           | :? vector as v -> coeff.Predict v
            | _ -> failwithf "Only floats or vectors are allowed as input!"

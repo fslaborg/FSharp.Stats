@@ -4,7 +4,9 @@ open System
 open FSharp.Stats
 open FSharp.Stats.Algebra
 
-
+/// <summary>
+///   This module contains functionalities to perform various interpolation methods for two dimensional data.
+/// </summary>
 module Interpolation = 
 
     /// <summary>
@@ -20,7 +22,7 @@ module Interpolation =
         /// contains polynomial coefficients sorted from intercept to highest order factor
         type PolynomialCoef = {
             /// <summary>
-            /// vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]
+            /// vector of polynomial coefficients sorted as [constant;linear;quadratic;...]
             /// </summary>
             C0_CX : Vector<float>
             } with static member Create c = {C0_CX = c}
@@ -31,7 +33,7 @@ module Interpolation =
         /// <remarks>No duplicates allowed!</remarks>
         /// <param name="xData">Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)</param>
         /// <param name="yData">vector of y values</param>
-        /// <returns>vector of polynomial coefficients sorted as [intercept;constant;quadratic;...]</returns>
+        /// <returns>vector of polynomial coefficients sorted as [constant;linear;quadratic;...]</returns>
         /// <example> 
         /// <code> 
         /// // e.g. days since a certain event
@@ -58,7 +60,7 @@ module Interpolation =
         /// <summary>
         ///   takes polynomial coefficients and x value to predict the corresponding interpolating y value
         /// </summary>
-        /// <param name="coef">polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]</param>
+        /// <param name="coef">polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [constant;linear;quadratic;...]</param>
         /// <param name="x">x value of which the corresponding y value should be predicted</param>
         /// <returns>predicted y value with given polynomial coefficients at X=x</returns>
         /// <example> 
@@ -82,7 +84,7 @@ module Interpolation =
         /// <summary>
         ///   calculates derivative values at X=x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...
         /// </summary>
-        /// <param name="coef">polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]</param>
+        /// <param name="coef">polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [constant;linear;quadratic;...]</param>
         /// <param name="level">depth of derivative: 1 = slope, 2 = curvature, ... </param>
         /// <param name="x">x value of which the corresponding y value should be predicted</param>
         /// <returns>predicted derivative with given polynomial coefficients at X=x</returns>
@@ -1469,7 +1471,8 @@ type InterpolationMethod =
     ///   Creates a spline as piecewise cubic polynomials.
     /// </summary>
     | HermiteSpline
-    
+
+/// <summary>This type summarizes coefficient types from various interpolation methods.</summary>
 [<RequireQualifiedAccess>]
 type InterpolationCoefficients =
     | LinearSplineCoef     of LinearSpline.LinearSplineCoef
@@ -1479,7 +1482,7 @@ type InterpolationCoefficients =
     | HermiteSplineCoef    of CubicSpline.Hermite.HermiteCoef
 
 /// <summary>
-///   This type contains functionalities to perform various interpolation methods for two dimensional data
+///   This type contains functionalities to perform various interpolation methods for two dimensional data. It summarizes functions contained within the interpolation module.
 /// </summary>
 type Interpolation() = 
 

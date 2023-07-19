@@ -138,11 +138,11 @@ let interpolChart =
 
 // get coefficients of 3rd order regression polynomial
 let regressionCoefficients = 
-    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.fit 3 xData yData
+    Fitting.LinearRegression.fit(xData,yData,FittingMethod=Fitting.Method.Polynomial 3)
     
 // get fitting function of 3rd order regression polynomial
 let regressionPredictionFunc = 
-    Fitting.LinearRegression.OrdinaryLeastSquares.Polynomial.predict regressionCoefficients
+    Fitting.LinearRegression.predict regressionCoefficients
 
 (*** hide ***)
 // create line chart of regression polynomial

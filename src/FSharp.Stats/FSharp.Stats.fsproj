@@ -85,7 +85,6 @@
     <!-- Optimization -->
     <Compile Include="Optimization\GradientDescent.fs" />
     <Compile Include="Optimization\Bisection.fs" />
-    <!-- Interpolation -->
     <Compile Include="Interpolation.fs" />
     <!-- Signal -->
     <Compile Include="Signal\Normalization.fs" />
@@ -177,8 +176,5 @@
     <PackageReference Include="FSharpAux.IO" Version="2.0.0" />
     <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interpolation\" />
   </ItemGroup>
 </Project>
