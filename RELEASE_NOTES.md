@@ -1,8 +1,9 @@
 ### 0.5.0 TBD
 * Additions:
     * add various XML comments in FSharp.Stats.Interpolation FSharp.Stats.Fitting
-    * separate CubicSpline.Simple and CubicSpline.Akima
-    * major refactor of Fitting and Interpolation module
+    * BREAKING: major refactor of Fitting and Interpolation module
+      * separate CubicSpline.Simple and CubicSpline.Akima
+      * rename coefficient to fit and fit to predict
     * addition of LinearRegression and Interpolation type
     * [[#e884a75e](https://github.com/fslaborg/FSharp.Stats/commit/e884a75e92c84372f0e727192e6419c9c591a3cd)] update FSharpAux version
     

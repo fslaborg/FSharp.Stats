@@ -44,7 +44,7 @@ _Summary:_ this tutorial demonstrates multiple ways of data normalization accros
 ### Table of contents
  - [Introduction](#Introduction)
  - [Median of Ratios](#Median-of-ratios)
- - [Quantile](#Quantile)
+ - [Quantile normalization](#Quantile-normalization)
 
 ## Introduction
 
