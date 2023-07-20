@@ -3,6 +3,7 @@
 open System
 
 module Intervals =
+
     /// Closed interval [Start,End]
     type Interval<'a> = 
         | ClosedInterval of 'a * 'a
@@ -18,7 +19,30 @@ module Intervals =
             | ClosedInterval (_,max) -> Some max
             | Empty -> None
 
-        static member inline Create (min,max) = ClosedInterval (min,max)
+        member inline this.TryToTuple = 
+            match this with 
+            | ClosedInterval (min,max) -> Some (min,max)
+            | Empty -> None
+
+        member inline this.ToTuple() = 
+            match this with 
+            | ClosedInterval (min,max) -> (min,max)
+            | Empty -> failwithf "Interval was empty!"
+        
+        member inline this.GetStart() = 
+            match this with
+            | ClosedInterval (min,_) -> min
+            | Empty -> failwithf "Interval was empty!"
+        
+        member inline this.GetEnd() = 
+            match this with
+            | ClosedInterval (_,max) -> max
+            | Empty -> failwithf "Interval was empty!"
+
+        static member inline Create (min,max) =     
+            if min > max then failwithf "Interval start must be lower than interval end!"
+            ClosedInterval (min,max)
+
 
     /// Creates closed interval [min,max] by given min and max
     let inline create min max =
@@ -190,7 +214,11 @@ module Intervals =
         | ClosedInterval (min,max) -> value >= min && value <= max                                      
         | Empty -> false        
         
-        
+type Intervals<'a> =
+
+    static member a = 2.
+    
+
 // ####################################################
 
 // interval tree
