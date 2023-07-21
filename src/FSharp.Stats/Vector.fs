@@ -290,12 +290,12 @@ module Vector =
                 let current = items.[index]
                 loop (index+1) (min current minimum) (max current maximum)
             else
-                Intervals.create minimum maximum          
+                Interval.CreateClosed<'a> (minimum,maximum)
         //Init by fist value
         if items.Length > 1 then
             loop 1 items.[0] items.[0] 
         else
-            Intervals.Interval.Empty
+            Interval.Empty
 
     /// Computes the population mean (Normalized by N)            
     let inline mean (items:Vector<'T>) = 

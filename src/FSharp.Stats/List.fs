@@ -8,11 +8,11 @@ module List =
         let rec loop l (minimum) (maximum) =
             match l with
             | h::t -> loop t (min h minimum) (max h maximum)
-            | [] -> Intervals.create minimum maximum          
+            | [] -> Interval.CreateClosed<'a> (minimum,maximum)
         //Init by fist value
         match items with
         | h::t  -> loop t h h
-        | [] -> Intervals.Interval.Empty
+        | [] -> Interval.Empty
 
     /// computes the population mean (normalized by n)
     let inline mean (items: 'T list) =

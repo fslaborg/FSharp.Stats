@@ -7,19 +7,19 @@ module Seq =
 
     module OpsS = SpecializedGenericImpl
 
-    let range (items:seq<_>) =
+    let inline range (items:seq<_>) =
         use e = items.GetEnumerator()
         let rec loop (minimum) (maximum) =
             match e.MoveNext() with
             | true  -> loop (min e.Current minimum) (max e.Current maximum)
-            | false -> Intervals.create minimum maximum          
+            | false -> Interval.CreateClosed<'a> (minimum,maximum)
         //Init by fist value
         match e.MoveNext() with
         | true  -> loop e.Current e.Current
-        | false -> Intervals.Interval.Empty
+        | false -> Interval.Empty
 
 
-    let rangeBy f (items:seq<_>) =
+    let inline rangeBy f (items:seq<_>) =
         use e = items.GetEnumerator()
         let rec loop minimum maximum minimumV maximumV =
             match e.MoveNext() with
@@ -28,13 +28,13 @@ module Seq =
                 let mmin,mminV = if current < minimum then current,e.Current else minimum,minimumV
                 let mmax,mmaxV = if current > maximum then current,e.Current else maximum,maximumV
                 loop mmin mmax mminV mmaxV
-            | false -> Intervals.create minimumV maximumV          
+            | false -> Interval.CreateClosed<'a> (minimumV,maximumV)
         //Init by fist value
         match e.MoveNext() with
         | true  -> 
             let current = f e.Current
             loop current current e.Current e.Current
-        | false -> Intervals.Interval.Empty
+        | false -> Interval.Empty
 
 
     // #region means

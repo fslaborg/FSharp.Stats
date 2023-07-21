@@ -78,7 +78,7 @@ type Uniform =
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support min max =
         Uniform.CheckParam min max
-        Intervals.create min max
+        Interval.CreateClosed<float> (min,max)
 
     /// A string representation of the distribution.
     static member ToString min max =

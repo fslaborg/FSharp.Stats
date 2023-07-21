@@ -1480,7 +1480,7 @@ module Interpolation =
         /// <param name="n">number of points that should be placed within the interval (incl. start and end)</param>
         /// <returns>Collection of chebyshev spaced x values.</returns>
         /// <remarks>www.mscroggs.co.uk/blog/57</remarks>
-        let chebyshevNodes (interval: Intervals.Interval<float>) n = 
+        let chebyshevNodes (interval: Interval<float>) n = 
             let center = 0.5 * (interval.TryStart.Value + interval.TryEnd.Value)
             let halfrange = 0.5 * (interval.TryEnd.Value - interval.TryStart.Value) 
             Array.init n (fun i -> 
@@ -1495,8 +1495,8 @@ module Interpolation =
         /// <param name="interval">start and end value of interpolation range</param>
         /// <param name="n">number of points that should be placed within the interval (incl. start and end)</param>
         /// <returns>Collection of equally spaced x values.</returns>
-        let equalNodes (interval: Intervals.Interval<float>) n = 
-            let range = Intervals.getSize interval
+        let equalNodes (interval: Interval<float>) n = 
+            let range = Interval.getSize interval
             Vector.init n (fun k -> interval.TryStart.Value + float k * range / (float n - 1.))
     
 
@@ -1511,7 +1511,7 @@ module Interpolation =
         /// <param name="n">number of points that should be placed within the interval (incl. start and end)</param>
         /// <param name="spacing">X values can be spaced equally or according to chebyshev.</param>
         /// <returns>Coefficients for polynomial interpolation. Use Polynomial.fit to predict function values.</returns>
-        static member approxWithPolynomial (f: float -> float,i: Intervals.Interval<float>,n: int,spacing: Approximation.Spacing) = 
+        static member approxWithPolynomial (f: float -> float,i: Interval<float>,n: int,spacing: Approximation.Spacing) = 
             match spacing with
             | Approximation.Equally -> 
                 let xVal = Approximation.equalNodes i n 
@@ -1534,14 +1534,14 @@ module Interpolation =
         static member approxWithPolynomialFromValues (xData: seq<float>,yData: seq<float>,n: int,spacing: Approximation.Spacing) = 
             match spacing with
             | Approximation.Equally -> 
-                let i = Intervals.ofSeq xData
+                let i = Interval.ofSeq xData
                 let linearSplineCoeff = LinearSpline.interpolate (Array.ofSeq xData) (Array.ofSeq yData)
                 let f = LinearSpline.predict linearSplineCoeff
                 let xVal = Approximation.equalNodes i n 
                 let yVal = Vector.map f xVal
                 Polynomial.interpolate xVal yVal
             | Approximation.Chebyshev ->    
-                let i = Intervals.ofSeq xData
+                let i = Interval.ofSeq xData
                 let linearSplineCoeff = LinearSpline.interpolate (Array.ofSeq xData) (Array.ofSeq yData)
                 let f = LinearSpline.predict linearSplineCoeff
                 let xVal = Approximation.chebyshevNodes i n 

@@ -4,13 +4,7 @@ open System
 
 /// Closed interval [Start,End]
 [<RequireQualifiedAccess>]
-type Interval<'a when 
-        'a : (static member Zero: 'a) and 
-        'a : (static member (/) : 'a -> 'a -> 'a) and 
-        'a : (static member (-) : 'a -> 'a -> 'a) and
-        'a : (static member (+) : 'a -> 'a -> 'a) and
-        //'a :> System.IComparable and
-        'a : comparison> = 
+type Interval<'a when 'a : comparison> = 
 
     /// <summary>[start,end] includes endpoints</summary>
     | Closed    of 'a * 'a
@@ -31,7 +25,6 @@ type Interval<'a when
         | Interval.RightOpen (min,max) -> value >= min && value <  max
         | Empty -> false
     
-    member inline this.Zero = LanguagePrimitives.GenericZero< 'a >
 
     member inline this.TryStart = 
         match this with
@@ -64,7 +57,7 @@ type Interval<'a when
         | LeftOpen   (min,max) -> (min,max)
         | RightOpen  (min,max) -> (min,max)
         | Open       (min,max) -> (min,max)
-        | Empty -> this.Zero / this.Zero,this.Zero / this.Zero
+        | Empty -> failwithf "Interval was empty!"
         
     member inline this.GetStart() = 
         match this with
@@ -72,7 +65,7 @@ type Interval<'a when
         | LeftOpen   (min,_) -> min
         | RightOpen  (min,_) -> min
         | Open       (min,_) -> min
-        | Empty -> this.Zero / this.Zero
+        | Empty -> failwithf "Interval was empty!"
         
     member inline this.GetEnd() = 
         match this with
@@ -80,7 +73,7 @@ type Interval<'a when
         | LeftOpen   (_,max) -> max
         | RightOpen  (_,max) -> max
         | Open       (_,max) -> max
-        | Empty -> this.Zero / this.Zero
+        | Empty -> failwithf "Interval was empty!"
 
     static member inline CreateClosed (min,max) =     
         if min > max then failwithf "Interval start must be lower or equal to interval end!"
@@ -125,59 +118,6 @@ type Interval<'a when
     static member inline ofSeq (source:seq<'a>) = 
         Interval.ofSeqBy id source
 
-    /// Creates closed interval [min,max] by given start and size
-    static member inline createClosedOfSize min size =
-        Interval.Closed (min, min + size)
-
-    /// Creates open interval (min,max) by given start and size
-    static member inline createOpenOfSize (min: 'a) (size: 'a): Interval<'a>=
-        let z = LanguagePrimitives.GenericZero< 'a >
-        if size = z then 
-            Interval.Empty 
-        else Interval.Open (min, min + size)
-
-    /// Creates closed interval [min,max] by given start and size
-    static member inline createLeftOpenOfSize min size =
-        let z = LanguagePrimitives.GenericZero< 'a >
-        if size = z then 
-            Interval.Empty 
-        else Interval.LeftOpen (min, min + size)
-
-    /// Creates closed interval [min,max] by given start and size
-    static member inline createRightOpenOfSize min size =
-        let z = LanguagePrimitives.GenericZero< 'a >
-        if size = z then 
-            Interval.Empty 
-        else Interval.RightOpen (min, min + size)
-
-    /// Returns the size of an Interval [min,max] (max - min)
-    member inline this.getSize() =
-        match this with
-        | Interval.Closed (min,max) -> max - min
-        | Interval.Open (min,max) -> max - min
-        | Interval.LeftOpen (min,max) -> max - min
-        | Interval.RightOpen (min,max) -> max - min
-        | Empty -> this.Zero / this.Zero
-    
-    /// Returns the range of an Interval [min,max] (projection max - projection min)
-    member inline this.getSizeBy (projection:'a -> 'b) =
-        let zero = LanguagePrimitives.GenericZero< 'b >
-        match this with
-        | Interval.Closed    (min,max) -> projection max - projection min
-        | Interval.Open      (min,max) -> projection max - projection min
-        | Interval.LeftOpen  (min,max) -> projection max - projection min
-        | Interval.RightOpen (min,max) -> projection max - projection min
-        | Empty -> zero / zero
-        
-    /// Returns the size of an closed interval
-    member inline this.trySize() =
-        match this with
-        | Interval.Closed    (min,max) -> Some(max - min)
-        | Interval.Open      (min,max) -> Some(max - min)
-        | Interval.LeftOpen  (min,max) -> Some(max - min)
-        | Interval.RightOpen (min,max) -> Some(max - min)
-        | Empty -> None
-
     /// Returns the interval as a string
     member inline this.ToString() =
         match this with
@@ -188,10 +128,79 @@ type Interval<'a when
         | Empty -> "[empty]"
 
 
+
+
 module Interval =
+
+    [<Obsolete("Use Interval.CreateClosed instead")>]
+    let inline create min max = 
+        Interval.Closed (min,max)
         
-    /// Add two given intervals.
-    let inline add a b =
+    let inline values (interval: Interval<'a>) = 
+        interval.ToTuple()
+        
+    let inline getStart (interval: Interval<'a>) =
+        interval.GetStart()
+
+    let inline getEnd (interval: Interval<'a>) =
+        interval.GetEnd()
+
+    /// Creates closed interval [min,max] by given start and size
+    let inline createClosedOfSize min size =
+        Interval.Closed (min, min + size)
+
+    /// Creates open interval (min,max) by given start and size
+    let inline createOpenOfSize (min: 'a) (size: 'a): Interval<'a>=
+        let z = LanguagePrimitives.GenericZero< 'a >
+        if size = z then 
+            Interval.Empty 
+        else Interval.Open (min, min + size)
+
+    /// Creates closed interval [min,max] by given start and size
+    let inline createLeftOpenOfSize min size =
+        let z = LanguagePrimitives.GenericZero< 'a >
+        if size = z then 
+            Interval.Empty 
+        else Interval.LeftOpen (min, min + size)
+
+    /// Creates closed interval [min,max] by given start and size
+    let inline createRightOpenOfSize min size =
+        let z = LanguagePrimitives.GenericZero< 'a >
+        if size = z then 
+            Interval.Empty 
+        else Interval.RightOpen (min, min + size)
+
+    /// Returns the size of an Interval [min,max] (max - min)
+    let inline getSize interval =
+        let z = LanguagePrimitives.GenericZero< 'a >
+        match interval with
+        | Interval.Closed (min,max) -> max - min
+        | Interval.Open (min,max) -> max - min
+        | Interval.LeftOpen (min,max) -> max - min
+        | Interval.RightOpen (min,max) -> max - min
+        | Interval.Empty -> z / z
+    
+    /// Returns the range of an Interval [min,max] (projection max - projection min)
+    let inline getSizeBy (projection:'a -> 'b) (interval: Interval<'a>) =
+        let zero = LanguagePrimitives.GenericZero< 'b >
+        match interval with
+        | Interval.Closed    (min,max) -> projection max - projection min
+        | Interval.Open      (min,max) -> projection max - projection min
+        | Interval.LeftOpen  (min,max) -> projection max - projection min
+        | Interval.RightOpen (min,max) -> projection max - projection min
+        | Interval.Empty -> zero / zero
+        
+    /// Returns the size of an closed interval
+    let inline trySize interval =
+        match interval with
+        | Interval.Closed    (min,max) -> Some(max - min)
+        | Interval.Open      (min,max) -> Some(max - min)
+        | Interval.LeftOpen  (min,max) -> Some(max - min)
+        | Interval.RightOpen (min,max) -> Some(max - min)
+        | Interval.Empty -> None
+
+    /// Add two given intervals. Note: Throws an Error if the addition results in an invalid interval (e.g. end < start)
+    let inline add (a: Interval<'a>) b =
         match a,b with
         | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) 
             -> Interval.Closed (minA + minB, maxA + maxB)
@@ -199,8 +208,8 @@ module Interval =
         | Interval.Empty, Interval.Closed (min,max) -> b
         | Interval.Empty,Interval.Empty -> Interval.Empty
                 
-    /// Subtract a given interval from the other interval.
-    let inline subtract a b =
+    /// Subtract a given interval from the other interval. Note: Throws an Error if the addition results in an invalid interval (e.g. end < start)
+    let inline subtract (a: Interval<'a>) b =
         match a,b with
         | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) 
             -> Interval.Closed (minA - maxB, maxA - minB)
@@ -211,7 +220,8 @@ module Interval =
     // a0----a1
     //     b0-----b1
     /// Checking for intersection of both intervals
-    let inline isIntersection a b =
+    // ToDo: tests!
+    let inline isIntersection (a: Interval<'a>) b =
         match a,b with
         | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) -> minA <= maxB && minB <= maxA
         | Interval.Closed (minA,maxA), Interval.Open (minB,maxB) -> minA < maxB && minB < maxA
@@ -241,7 +251,7 @@ module Interval =
         
 
     /// Returns the intersection of this interval with another.
-    let inline intersect a b =
+    let inline intersect (a: Interval<'a>) b =
         if not (isIntersection a b) then
             None
         else
@@ -259,7 +269,7 @@ module Interval =
 
     /// Get the value at a given percentage within (0.0 - 1.0) or outside (&lt; 0.0, &gt; 1.0) of the interval. Rounding to nearest neighbour occurs when needed.
     let inline getValueAt percentage (interval: Interval<'a>) =        
-        match interval.trySize() with
+        match trySize interval with
         | Some size -> float (interval.GetStart()) + percentage * float size
         | None      -> nan
 

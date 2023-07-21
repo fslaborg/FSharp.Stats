@@ -37,8 +37,8 @@ let outlierTests =
 
 
     let compareIntervals a b (str:string) =
-        Expect.floatClose Accuracy.high (Intervals.getStart a) (Intervals.getStart b) str
-        Expect.floatClose Accuracy.high (Intervals.getEnd a) (Intervals.getEnd b) str
+        Expect.floatClose Accuracy.high (Interval.getStart a) (Interval.getStart b) str
+        Expect.floatClose Accuracy.high (Interval.getEnd a) (Interval.getEnd b) str
     
     testList "Signal.OutlierTests" [
         testList "Z-Score" [
@@ -59,11 +59,11 @@ let outlierTests =
                 TestExtensions.sequenceEqual Accuracy.high (zScoresOfSample ls) zLsSample "Z-Score of a sample was calculated incorrectly"
                 
             testCase "Population interval by Z-Score" <| fun()->
-                let populationInterval = Intervals.create -0.3635434661 3.432572444
+                let populationInterval = Interval.CreateClosed (-0.3635434661,3.432572444)
                 compareIntervals (populationIntervalByZScore -0.3 0.5 ls) populationInterval "Z-Score interval in a population was calculated incorrectly"
 
             testCase "Sample interval by Z-Score" <| fun()->
-                let sampleInterval = Intervals.create -0.4405465671 3.560910945
+                let sampleInterval = Interval.CreateClosed (-0.4405465671,3.560910945)
                 compareIntervals (sampleIntervalByZscore -0.3 0.5 ls) sampleInterval "Z-Score interval in a sample was calculated incorrectly"
         ]
 

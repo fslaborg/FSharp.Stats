@@ -16,4 +16,4 @@ module ConfidenceInterval =
     let ci ciLevel (sample : seq<float>)=
         let mean  = Seq.mean  sample
         let delta = ciDeviation ciLevel sample
-        Intervals.create (mean - delta) (mean + delta)
+        Interval.CreateClosed<float> ((mean - delta),(mean + delta))
