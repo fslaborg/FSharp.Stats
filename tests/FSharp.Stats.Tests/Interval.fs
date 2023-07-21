@@ -3,7 +3,7 @@
 open Expecto
 
 open FSharp.Stats
-open FSharp.Stats.Intervals
+open FSharp.Stats.Interval
 open TestExtensions
 
 [<Tests>]
@@ -13,46 +13,45 @@ let intervalTests =
     testList "Intervals" [
         
         testCase "create" (fun _ -> 
-            Expect.equal 1 1 "Instantiation of Intervals.Interval is incorrect"
 
-            let expected = Interval.ClosedInterval (-5.,5.)
-            let actual = Intervals.create -5. 5.
-            Expect.equal expected actual "Instantiation of Intervals.Interval is incorrect"
+            let expected = Interval.Closed (-5.,5.)
+            let actual = Interval.CreateClosed (-5.,5.)
+            Expect.equal expected actual "Instantiation of Interval.Closed is incorrect"
         
             //let expectedError() = Intervals.create 5. -5. |> ignore
             //Expect.throws expectedError "Interval maximum must be greater than minimum"
         )
         
         testCase "ofSeq" (fun _ -> 
-            let expected = Intervals.create -5. 5.
-            let actual = Intervals.ofSeq [3.;-0.;-5.;0.;0.;5.]
+            let expected = Interval.Closed (-5.,5.)
+            let actual = Interval.ofSeq [3.;-0.;-5.;0.;0.;5.]
             Expect.equal actual expected "Wrong interval was extracted from sequence"
 
-            let expectedInt = Intervals.create 5 5
-            let actualInt = Intervals.ofSeq [5;5;5;5;5;]
+            let expectedInt = Interval.Closed (-5,5)
+            let actualInt = Interval.ofSeq [5;5;5;5;5;]
             Expect.equal actualInt expectedInt "Wrong interval was extracted from sequence"
 
-            let nanCase() = Intervals.ofSeq [3.;nan;-0.;-5.;0.;0.;5.] |> ignore
+            let nanCase() = Interval.ofSeq [3.;nan;-0.;-5.;0.;0.;5.] |> ignore
             Expect.throws nanCase "collections containing nan should fail to return a valid interval"
         
-            let expectedInf = Intervals.create -5. infinity
-            let actualInf = Intervals.ofSeq [3.;infinity;-0.;-5.;infinity;0.;0.;5.]
+            let expectedInf = Interval.Closed (-5.,infinity)
+            let actualInf = Interval.ofSeq [3.;infinity;-0.;-5.;infinity;0.;0.;5.]
             Expect.equal actualInf expectedInf "infinity should be upper margin of interval"
         
-            let expectedInfNeg = Intervals.create -infinity 5.
-            let actualInfNeg = Intervals.ofSeq [3.;-infinity;-0.;-5.;0.;0.;-infinity;5.]
+            let expectedInfNeg = Interval.Closed (-infinity,5.)
+            let actualInfNeg = Interval.ofSeq [3.;-infinity;-0.;-5.;0.;0.;-infinity;5.]
             Expect.equal actualInfNeg expectedInfNeg "-infinity should be lower margin of interval"
         
-            let expectedInfs = Intervals.create -infinity infinity
-            let actualInfs = Intervals.ofSeq [3.;infinity;-0.;-5.;0.;0.;-infinity;5.]
+            let expectedInfs = Interval.Closed (-infinity,infinity)
+            let actualInfs = Interval.ofSeq [3.;infinity;-0.;-5.;0.;0.;-infinity;5.]
             Expect.equal actualInfs expectedInfs "-infinity and infinity should be interval margins"
         
-            let expectedEmpty = Intervals.Interval.Empty
-            let actualEmpty = Intervals.ofSeq []
+            let expectedEmpty = Interval.Empty
+            let actualEmpty = Interval.ofSeq []
             Expect.equal actualEmpty expectedEmpty "Interval should be empty"
             
-            let expectedStr = Intervals.create "aavbsd" "z"
-            let actualStr = Intervals.ofSeq ["asd";"bcd";"aavbsd";"z"]
+            let expectedStr = Interval.Closed ("aavbsd","z")
+            let actualStr = Interval.ofSeq ["asd";"bcd";"aavbsd";"z"]
             Expect.equal actualStr expectedStr "Interval of strings is incorrect"
             
             let expectedChar = Intervals.create 'f' 'r'
