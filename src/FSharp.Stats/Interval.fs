@@ -76,19 +76,19 @@ type Interval<'a when 'a : comparison> =
         | Empty -> failwithf "Interval was empty!"
 
     static member inline CreateClosed (min,max) =     
-        if min > max then failwithf "Interval start must be lower or equal to interval end!"
+        //if min > max then failwithf "Interval start must be lower or equal to interval end!" //[1,2,3] < [2,1,4] returns true but is invalid!
         Closed (min,max)
 
     static member inline CreateLeftOpen (min,max) =     
-        if min >= max then failwithf "Interval start must be lower than interval end!"
+        //if min >= max then failwithf "Interval start must be lower than interval end!" //[1,2,3] < [2,1,4] returns true but is invalid!
         LeftOpen (min,max)
 
     static member inline CreateRightOpen (min,max) =     
-        if min >= max then failwithf "Interval start must be lower than interval end!"
+        //if min >= max then failwithf "Interval start must be lower than interval end!" //[1,2,3] < [2,1,4] returns true but is invalid!
         RightOpen (min,max)
-
+        
     static member inline CreateOpen (min,max) =     
-        if min >= max then failwithf "Interval start must be lower than interval end!"
+        //if min >= max then failwithf "Interval start must be lower than interval end!" //[1,2,3] < [2,1,4] returns true but is invalid!
         Open (min,max)
 
     static member inline ofSeqBy (projection:'a -> 'b) (source:seq<'a>) =
@@ -119,7 +119,7 @@ type Interval<'a when 'a : comparison> =
         Interval.ofSeqBy id source
 
     /// Returns the interval as a string
-    member inline this.ToString() =
+    override this.ToString() =
         match this with
         | Interval.Closed    (min,max) -> sprintf "[%A,%A]" min max
         | Interval.Open      (min,max) -> sprintf "(%A,%A)" min max
@@ -199,7 +199,7 @@ module Interval =
         | Interval.RightOpen (min,max) -> Some(max - min)
         | Interval.Empty -> None
 
-    /// Add two given intervals. Note: Throws an Error if the addition results in an invalid interval (e.g. end < start)
+    /// Add two given intervals. 
     let inline add (a: Interval<'a>) b =
         match a,b with
         | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) 
@@ -207,8 +207,9 @@ module Interval =
         | Interval.Closed (min,max), Interval.Empty -> a
         | Interval.Empty, Interval.Closed (min,max) -> b
         | Interval.Empty,Interval.Empty -> Interval.Empty
+        | _ -> failwithf "Addition of (half) open intervals is not supported!"
                 
-    /// Subtract a given interval from the other interval. Note: Throws an Error if the addition results in an invalid interval (e.g. end < start)
+    /// Subtract a given interval from the other interval.
     let inline subtract (a: Interval<'a>) b =
         match a,b with
         | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) 
@@ -216,11 +217,11 @@ module Interval =
         | Interval.Closed (min,max), Interval.Empty -> a
         | Interval.Empty, Interval.Closed (min,max) -> b
         | Interval.Empty,Interval.Empty -> Interval.Empty
+        | _ -> failwithf "Subtraction of (half) open intervals is not supported!"
         
     // a0----a1
     //     b0-----b1
     /// Checking for intersection of both intervals
-    // ToDo: tests!
     let inline isIntersection (a: Interval<'a>) b =
         match a,b with
         | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) -> minA <= maxB && minB <= maxA
@@ -236,11 +237,11 @@ module Interval =
         | Interval.LeftOpen (minA,maxA), Interval.Closed (minB,maxB) -> minA < maxB && minB <= maxA
         | Interval.LeftOpen (minA,maxA), Interval.Open (minB,maxB) -> minA < maxB && minB < maxA
         | Interval.LeftOpen (minA,maxA), Interval.RightOpen (minB,maxB) -> minA <= maxB && minB <= maxA
-        | Interval.LeftOpen (minA,maxA), Interval.LeftOpen (minB,maxB) -> minA < maxB && minB <= maxA
+        | Interval.LeftOpen (minA,maxA), Interval.LeftOpen (minB,maxB) -> minA < maxB && minB < maxA
         | Interval.LeftOpen (_,_), Interval.Empty -> false
         | Interval.RightOpen (minA,maxA), Interval.Closed (minB,maxB) -> minA <= maxB && minB < maxA
         | Interval.RightOpen (minA,maxA), Interval.Open (minB,maxB) -> minA < maxB && minB < maxA
-        | Interval.RightOpen (minA,maxA), Interval.RightOpen (minB,maxB) -> minA <= maxB && minB < maxA
+        | Interval.RightOpen (minA,maxA), Interval.RightOpen (minB,maxB) -> minA < maxB && minB < maxA
         | Interval.RightOpen (minA,maxA), Interval.LeftOpen (minB,maxB) -> minA <= maxB && minB <= maxA
         | Interval.RightOpen (_,_), Interval.Empty -> false
         | Interval.Empty, Interval.Closed (_,_) -> false
@@ -253,19 +254,41 @@ module Interval =
     /// Returns the intersection of this interval with another.
     let inline intersect (a: Interval<'a>) b =
         if not (isIntersection a b) then
-            None
+            Interval.Empty
         else
             match a,b with
-            | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) 
-                -> if not (minA <= maxB && minB <= maxA) then
-                        None
-                   else
-                        let min' = max minA minB
-                        let max' = min maxA maxB
-                        Interval.Closed (min',max') |> Some
-            | Interval.Closed (min,max), Interval.Empty -> None
-            | Interval.Empty, Interval.Closed (min,max) -> None
-            | Interval.Empty,Interval.Empty -> Some (Interval.Empty)
+            | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) -> 
+                if not (minA <= maxB && minB <= maxA) then
+                        Interval.Empty
+                else
+                    let min' = max minA minB
+                    let max' = min maxA maxB
+                    Interval.Closed (min',max') 
+            | Interval.Closed (min,max), Interval.Empty -> Interval.Empty
+            | Interval.Empty, Interval.Closed (min,max) -> Interval.Empty
+            | Interval.Empty,Interval.Empty -> Interval.Empty
+            | Interval.LeftOpen (minA,maxA), Interval.LeftOpen (minB,maxB) -> 
+                if not (minA < maxB && minB < maxA) then
+                        Interval.Empty
+                else
+                    let min' = max minA minB
+                    let max' = min maxA maxB
+                    Interval.LeftOpen (min',max')
+            | Interval.RightOpen (minA,maxA), Interval.RightOpen (minB,maxB) ->
+                if not (minA < maxB && minB < maxA) then
+                        Interval.Empty
+                else
+                    let min' = max minA minB
+                    let max' = min maxA maxB
+                    Interval.RightOpen (min',max')
+            | Interval.Open (minA,maxA), Interval.Open (minB,maxB) ->
+                if not (minA < maxB && minB < maxA) then
+                        Interval.Empty
+                else
+                    let min' = max minA minB
+                    let max' = min maxA maxB
+                    Interval.Open (min',max')
+            | _ -> failwithf "Intersection of mixed interval types is not supported!"
 
     /// Get the value at a given percentage within (0.0 - 1.0) or outside (&lt; 0.0, &gt; 1.0) of the interval. Rounding to nearest neighbour occurs when needed.
     let inline getValueAt percentage (interval: Interval<'a>) =        

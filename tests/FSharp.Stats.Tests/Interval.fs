@@ -289,6 +289,88 @@ let intervalTests =
                 Interval.isIntersection i1 i2
             let expectedStrT = true
             Expect.equal actualStrT expectedStrT "String intervals do intersect"
+
+            
+            let i1 = Interval.CreateOpen<float> (1.,2.)
+            let i2 = Interval.CreateOpen<float> (2.,3.)
+            let i3 = Interval.CreateClosed<float> (2.,3.)
+            let i4 = Interval.CreateClosed<float> (3.,4.)
+            let i5 = Interval.CreateLeftOpen<float> (2.,3.)
+            let i6 = Interval.CreateLeftOpen<float> (1.,2.)
+            let i7 = Interval.CreateRightOpen<float> (2.,3.)
+            let i8 = Interval.CreateRightOpen<float> (3.,4.)
+            
+            Expect.equal (Interval.isIntersection i1 i1) true  "(i1 i1) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i1 i2) false "(i1 i2) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i1 i3) false "(i1 i3) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i1 i4) false "(i1 i4) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i1 i5) false "(i1 i5) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i1 i6) true  "(i1 i6) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i1 i7) false "(i1 i7) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i1 i8) false "(i1 i8) Intervals do not intersect"
+
+            Expect.equal (Interval.isIntersection i2 i1) false "(i2 i1) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i2 i2) true  "(i2 i2) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i2 i3) true  "(i2 i3) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i2 i4) false "(i2 i4) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i2 i5) true  "(i2 i5) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i2 i6) false "(i2 i6) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i2 i7) true  "(i2 i7) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i2 i8) false "(i2 i8) Intervals do not intersect"
+
+            Expect.equal (Interval.isIntersection i3 i1) false "(i3 i1) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i3 i2) true  "(i3 i2) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i3 i3) true  "(i3 i3) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i3 i4) true  "(i3 i4) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i3 i5) true  "(i3 i5) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i3 i6) true  "(i3 i6) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i3 i7) true  "(i3 i7) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i3 i8) true  "(i3 i8) Intervals do intersect"
+            
+            Expect.equal (Interval.isIntersection i4 i1) false "(i4 i1) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i4 i2) false "(i4 i2) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i4 i3) true  "(i4 i3) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i4 i4) true  "(i4 i4) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i4 i5) true  "(i4 i5) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i4 i6) false "(i4 i6) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i4 i7) false "(i4 i7) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i4 i8) true  "(i4 i8) Intervals do intersect"
+
+            Expect.equal (Interval.isIntersection i5 i1) false "(i5 i1) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i5 i2) true  "(i5 i2) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i5 i3) true  "(i5 i3) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i5 i4) true  "(i5 i4) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i5 i5) true  "(i5 i5) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i5 i6) false "(i5 i6) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i5 i7) true  "(i5 i7) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i5 i8) true  "(i5 i8) Intervals do intersect"
+
+            Expect.equal (Interval.isIntersection i6 i1) true "(i6 i1) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i6 i2) false "(i6 i2) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i6 i3) true  "(i6 i3) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i6 i4) false "(i6 i4) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i6 i5) false "(i6 i5) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i6 i6) true  "(i6 i6) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i6 i7) true  "(i6 i7) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i6 i8) false "(i6 i8) Intervals do not intersect"
+
+            Expect.equal (Interval.isIntersection i7 i1) false "(i7 i1) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i7 i2) true  "(i7 i2) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i7 i3) true  "(i7 i3) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i7 i4) false "(i7 i4) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i7 i5) true  "(i7 i5) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i7 i6) true  "(i7 i6) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i7 i7) true  "(i7 i7) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i7 i8) false "(i7 i8) Intervals do not intersect"
+
+            Expect.equal (Interval.isIntersection i8 i1) false "(i8 i1) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i8 i2) false "(i8 i2) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i8 i3) true  "(i8 i3) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i8 i4) true  "(i8 i4) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i8 i5) true  "(i8 i5) Intervals do intersect"
+            Expect.equal (Interval.isIntersection i8 i6) false "(i8 i6) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i8 i7) false "(i8 i7) Intervals do not intersect"
+            Expect.equal (Interval.isIntersection i8 i8) true  "(i8 i8) Intervals do intersect"
             )
 
         
@@ -298,56 +380,56 @@ let intervalTests =
                 let i1 = Interval.CreateClosed<float> (-5.,5.5)
                 let i2 = Interval.CreateClosed<float> (-3.,0.)
                 Interval.intersect i1 i2
-            let expected = Some (Interval.CreateClosed<float> (-3.,0.))
+            let expected = (Interval.CreateClosed<float> (-3.,0.))
             Expect.equal actual expected "Interval intersect is calculated incorrectly"
 
             let actualFalse = 
                 let i1 = Interval.CreateClosed<float> (-5.,5.5)
                 let i2 = Interval.CreateClosed<float> (-infinity,-6.)
                 Interval.intersect i1 i2
-            let expectedFalse = None
-            Expect.equal actual expected "Interval intersect is calculated incorrectly"
+            let expectedFalse = Interval.Empty
+            Expect.equal actualFalse expectedFalse "Interval intersect is calculated incorrectly"
 
             let actual2 = 
                 let i1 = Interval.CreateClosed<float> (-5.,5.5)
                 let i2 = Interval.CreateClosed<float> (-infinity,2.)
                 Interval.intersect i1 i2
-            let expected2 = Some (Interval.CreateClosed<float> (-5.,2.))
+            let expected2 = Interval.CreateClosed<float> (-5.,2.)
             Expect.equal actual2 expected2 "Intervals do intersect"
             
             let actualCE = 
                 let i1 = Interval.CreateClosed<float> (-5.,5.5)
                 let i2 = Interval.Empty
                 Interval.intersect i1 i2
-            let expectedCE = None
+            let expectedCE = Interval.Empty
             Expect.equal actualCE expectedCE "Intervals do not intersect"
             
             let actualEC = 
                 let i1 = Interval.Empty
                 let i2 = Interval.CreateClosed<float> (-3.,0.)
                 Interval.intersect i1 i2
-            let expectedEC = None
+            let expectedEC = Interval.Empty
             Expect.equal actualEC expectedEC "Empty intervals do not intersect"
             
             let actualEE = 
                 let i1 = Interval.Empty
                 let i2 = Interval.Empty
                 Interval.intersect i1 i2
-            let expectedEE = Some Interval.Empty
+            let expectedEE = Interval.Empty
             Expect.equal actualEE expectedEE "Empty intervals do intersect"
             
             let actualStr = 
                 let i1 = Interval.CreateClosed<string> ("a","d")
                 let i2 = Interval.CreateClosed<string> ("de","e")
                 Interval.intersect i1 i2
-            let expectedStr = None
+            let expectedStr = Interval.Empty
             Expect.equal actualStr expectedStr "String intervals do not intersect"
             
             let actualStrT = 
                 let i1 = Interval.CreateClosed<string> ("a","d")
                 let i2 = Interval.CreateClosed<string> ("d","e")
                 Interval.intersect i1 i2
-            let expectedStrT = Some (Interval.CreateClosed<string> ("d","d"))
+            let expectedStrT = Interval.CreateClosed<string> ("d","d")
             Expect.equal actualStrT expectedStrT "String intervals do intersect"
             )
 
