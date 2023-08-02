@@ -22,13 +22,18 @@ FSharp.Stats is a multipurpose project for statistical testing, linear algebra, 
 
 #### Fitting
   - <a href="https://fslab.org/FSharp.Stats/Fitting.html#Linear-Regression">Linear regression</a>
+    - <a href="https://fslab.org/FSharp.Stats/Fitting.html#Simple-Linear-Regression">Simple linear regression (weighted and constrained)</a>
+    - <a href="https://fslab.org/FSharp.Stats/Fitting.html#Polynomial-Regression">Polynomial regression (weighted and constrained)</a>
   - <a href="https://fslab.org/FSharp.Stats/Fitting.html#Nonlinear-Regression">Nonlinear regression</a>
   - <a href="https://fslab.org/FSharp.Stats/Fitting.html#Smoothing-spline">Spline regression</a>
   - <a href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">Goodness of fit</a>
 
 #### Interpolation
+  - <a href="https://fslab.org/FSharp.Stats/Interpolation.html#Polynomial-Interpolation">Linear spline interpolation</a>
   - <a href="https://fslab.org/FSharp.Stats/Interpolation.html#Polynomial-Interpolation">Polynomial interpolation</a>
-  - <a href="https://fslab.org/FSharp.Stats/Interpolation.html#Cubic-interpolating-Spline">Spline interpolation</a>
+  - <a href="https://fslab.org/FSharp.Stats/Interpolation.html#Cubic-interpolating-Spline">Cubic spline interpolation</a>
+  - <a href="https://fslab.org/FSharp.Stats/Interpolation.html">Akima subspline interpolation</a>
+  - <a href="https://fslab.org/FSharp.Stats/Interpolation.html">Hermite subspline interpolation</a>
 
 
 #### Signal processing

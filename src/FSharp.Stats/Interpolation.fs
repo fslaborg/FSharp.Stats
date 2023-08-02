@@ -650,7 +650,7 @@ module Interpolation =
             ///first and last polynomial are quadratic, not cubic
             | Quadratic
             ///f' at first and last knot are set by user
-            | Clamped
+            | Clamped of (float*float)
     
         /// <summary>
         /// Contains x data, y data (c0), slopes (c1), curvatures (c2), and the third derivative at each knot
@@ -912,15 +912,17 @@ module Interpolation =
                 
                     [|(tmp1,0.);(tmp2,0.)|]
                 
-                | Clamped -> //user defined border f''
-                    failwith "Not implemented yet. Slopes m1 and m2 have to be set by user"
-                    ////first condition: f''0(x0) = m1
-                    //tmp1.[0] <- 6. * firstX
-                    //tmp1.[1] <- 2.
-                    ////second condition: f''n-1(xn) = m2
-                    //tmp2.[4 * (intervalNumber - 1) + 0] <- 6. * lastX
-                    //tmp2.[4 * (intervalNumber - 1) + 1] <- 2.
-                    //[|(tmp1,m1);(tmp2,m2)|]
+                | Clamped (m1,m2)-> //user defined border f'
+                    //first condition: f'0(x0) = m1
+                    tmp1.[0] <- 3. * (pown firstX 2)
+                    tmp1.[1] <- 2. * firstX
+                    tmp1.[2] <- 1.
+
+                    //second condition: f'n-1(xn) = m2
+                    tmp2.[4 * (intervalNumber - 1) + 0] <- 3. * (pown lastX 2)
+                    tmp2.[4 * (intervalNumber - 1) + 1] <- 2. * lastX
+                    tmp2.[4 * (intervalNumber - 1) + 2] <- 1.
+                    [|(tmp1,m1);(tmp2,m2)|]
 
             let (equations,solutions) =
                 let interPolConstraints =

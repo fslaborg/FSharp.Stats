@@ -67,13 +67,13 @@ let testDataX = [|1. .. 10.|]
 
 let testDataY = [|0.;-1.;0.;0.;0.;0.;1.;1.;3.;3.5|]
 
-
-let coefLinear     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.LinearSpline)
-let coefAkima      = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.AkimaSubSpline)
-let coefCubicNa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Natural)
-let coefCubicPe    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Periodic)
-let coefCubicNo    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.NotAKnot)
-let coefCubicPa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Parabolic)
+let coefLinear     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.LinearSpline) // Straight lines passing all points
+let coefAkima      = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.AkimaSubSpline) // Akima cubic subspline
+let coefCubicNa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Natural) // cubic spline with f'' at borders is set to 0
+let coefCubicPe    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Periodic) // cubic spline with equal f' at borders
+let coefCubicNo    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.NotAKnot) // cubic spline with continous f''' at second and penultimate knot
+let coefCubicPa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Parabolic) // cubic spline with quadratic polynomial at borders
+let coefCubicCl    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline (Interpolation.CubicSpline.BoundaryCondition.Clamped (0,-1))) // cubic spline with border f' set to 0 and -1
 let coefHermite    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline)
 let coefPolynomial = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.Polynomial)
 
@@ -86,6 +86,7 @@ let interpolationComparison =
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicPe)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_periodic"
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicNo)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_notaknot"
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicPa)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_parabolic"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicCl)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_clamped"
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefHermite)    x) |> Chart.Line |> Chart.withTraceInfo "Hermite"
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefPolynomial) x) |> Chart.Line |> Chart.withTraceInfo "Polynomial"
     ]
