@@ -11,7 +11,7 @@ module Outliers =
         let firstQ = Quantile.compute 0.25 d
         let thirdQ = Quantile.compute 0.75 d 
         let iqr = System.Math.Abs (thirdQ - firstQ)
-        Intervals.create (firstQ - k * iqr) (thirdQ + k * iqr) 
+        Interval.CreateClosed<float> ((firstQ - k * iqr),(thirdQ + k * iqr))
         
         
     /// Returns Z Score for an individual point. 
@@ -32,7 +32,7 @@ module Outliers =
     let populationIntervalByZScore (minZ:float) (maxZ:float) (ls:list<float>) =
         let m = List.mean ls
         let s = stDevPopulation(ls)
-        Intervals.create (minZ * s + m) (maxZ * s + m)
+        Interval.CreateClosed<float> ((minZ * s + m),(maxZ * s + m))
     
     ///Returns a list of Z scores of a sample
     let zScoresOfSample (ls:list<float>) =
@@ -44,7 +44,7 @@ module Outliers =
     let sampleIntervalByZscore (minZ:float) (maxZ:float) (ls:list<float>) =
         let m = List.mean ls
         let s = stDev(ls)
-        Intervals.create (minZ * s + m) (maxZ * s + m)
+        Interval.CreateClosed<float> ((minZ * s + m),(maxZ * s + m))
 
     ///Returns Mahalanobi's distance for an individual observation in a matrix.
     ///dataSource - Sample or Population.

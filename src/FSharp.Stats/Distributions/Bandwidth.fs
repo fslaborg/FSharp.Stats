@@ -46,7 +46,7 @@ module Bandwidth =
             |> Seq.filter (fun v -> not (isInf v))
 
         let interval = Seq.range data' 
-        let dmin,dmax = Intervals.values interval
+        let dmin,dmax = Interval.values interval
         
         fromBinNumber dmin dmax (float(Seq.length(data)))
         

@@ -119,7 +119,7 @@ type Binomial =
     /// Returns the support of the Binomial distribution: (0., n).
     static member Support p n =
         Binomial.CheckParam p n
-        Intervals.create 0 n
+        Interval.CreateClosed<int> (0,n)
 
 
     /// A string representation of the distribution.

@@ -141,7 +141,7 @@ type Poisson =
     /// Returns the support interval for this distribution.
     static member Support lambda =
         Poisson.CheckParam lambda
-        Intervals.create 0 System.Int32.MaxValue
+        Interval.CreateClosed<int> (0,System.Int32.MaxValue)
 
     /// A string representation of the distribution.
     static member ToString lambda =

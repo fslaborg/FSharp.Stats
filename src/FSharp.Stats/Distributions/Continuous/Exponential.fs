@@ -90,7 +90,7 @@ type Exponential =
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support lambda =
         Exponential.CheckParam lambda
-        Intervals.create 0.0 System.Double.PositiveInfinity
+        Interval.CreateClosed<float> (0.0,System.Double.PositiveInfinity)
 
 
     /// A string representation of the distribution.

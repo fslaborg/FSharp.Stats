@@ -133,7 +133,7 @@ module KernelDensity =
     
 
     let estimateWithWeight weights kernel bandwidth data =
-        let _from,_to = Array.range data |> Intervals.values
+        let _from,_to = Array.range data |> Interval.values
         estimateWith 3 _from _to 512 weights kernel bandwidth data
 
     
@@ -143,7 +143,7 @@ module KernelDensity =
 
 
     let estimate kernel bandwidth data =
-        let _from,_to = Array.range data |> Intervals.values
+        let _from,_to = Array.range data |> Interval.values
         let weights = Array.create data.Length (1./float data.Length)
         estimateWith 3 _from _to 512 weights kernel bandwidth data
 

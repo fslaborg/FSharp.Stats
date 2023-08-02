@@ -150,7 +150,7 @@ type Hypergeometric =
     /// Returns the support of the hypergeometric distribution: (0., Positive Infinity).
     static member Support N K n =
         Hypergeometric.CheckParam N K n
-        Intervals.create (max 0 (n + K - N) ) (min K n)
+        Interval.CreateClosed<int> ((max 0 (n + K - N) ),(min K n))
 
 
     

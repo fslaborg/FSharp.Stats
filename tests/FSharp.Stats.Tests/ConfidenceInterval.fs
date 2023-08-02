@@ -21,8 +21,8 @@ let ci =
             let ex_min = -0.414473646404
             let ex_max =  0.8861069797373
             let ac_interval = ConfidenceInterval.ci 0.95 xs
-            let ac_min = Intervals.getStart ac_interval
-            let ac_max = Intervals.getEnd ac_interval
+            let ac_min = Interval.getStart ac_interval
+            let ac_max = Interval.getEnd ac_interval
             Expect.floatClose Accuracy.medium ac_min ex_min "Should be equal (double precision)"
             Expect.floatClose Accuracy.medium ac_max ex_max "Should be equal (double precision)"
 
@@ -30,8 +30,8 @@ let ci =
             let ex_min = 0.21914192348
             let ex_max = 0.2524914098533
             let ac_interval = ConfidenceInterval.ci 0.05 xs
-            let ac_min = Intervals.getStart ac_interval
-            let ac_max = Intervals.getEnd ac_interval
+            let ac_min = Interval.getStart ac_interval
+            let ac_max = Interval.getEnd ac_interval
             Expect.floatClose Accuracy.high ac_min ex_min "Should be equal (double precision)"
             Expect.floatClose Accuracy.high ac_max ex_max "Should be equal (double precision)"
     ]

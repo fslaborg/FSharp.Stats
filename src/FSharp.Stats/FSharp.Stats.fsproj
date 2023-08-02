@@ -35,7 +35,7 @@
     <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="ServiceLocator.fs" />
-    <Compile Include="Intervals.fs" />
+    <Compile Include="Interval.fs" />
     <Compile Include="Permutation.fs" />
     <Compile Include="BigRational.fs" />
     <Compile Include="INumeric.fs" />

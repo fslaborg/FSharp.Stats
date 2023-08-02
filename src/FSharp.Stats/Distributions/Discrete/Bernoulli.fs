@@ -94,7 +94,7 @@ type Bernoulli =
     /// Returns the support of the bernoulli distribution: {0, 1}.
     static member Support p =
         Bernoulli.CheckParam p
-        Intervals.create 0 1 
+        Interval.CreateClosed<int> (0,1) 
 
     /// A string representation of the distribution.
     static member ToString p =

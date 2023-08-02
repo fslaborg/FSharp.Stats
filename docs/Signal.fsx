@@ -73,15 +73,15 @@ let sampleO1 = [|45.;42.;45.5;43.;47.;51.;34.;45.;44.;46.;48.;37.;46.;|]
 
 let outlierBordersO1 = Signal.Outliers.tukey 1.5 sampleO1
 
-let lowerBorderO1 = Intervals.getStart outlierBordersO1
+let lowerBorderO1 = Interval.getStart outlierBordersO1
 // result: 37.16667
 
-let upperBorderO1 = Intervals.getEnd outlierBordersO1
+let upperBorderO1 = Interval.getEnd outlierBordersO1
 // result: 51.83333
 
 let (inside,outside) =
     sampleO1 
-    |> Array.partition (fun x -> Intervals.liesInInterval x outlierBordersO1)
+    |> Array.partition (fun x -> outlierBordersO1.liesInInterval x)
 
 let tukeyOutlierChart =
     [

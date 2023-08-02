@@ -12,12 +12,12 @@ module Array =
                 let current = a.[index]
                 loop (index+1) (min current minimum) (max current maximum)
             else
-                Intervals.create minimum maximum          
+                Interval.CreateClosed<'a> (minimum,maximum)
         //Init by fist value
         if a.Length > 1 then
             loop 1 a.[0] a.[0] 
         else
-            Intervals.Interval.Empty
+            Interval.Empty
 
 
     // Swaps items of left and right index

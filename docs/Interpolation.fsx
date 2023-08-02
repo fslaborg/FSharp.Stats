@@ -444,7 +444,7 @@ To reduce this overfitting you can use x axis nodes that are spaced according to
 // new x values are determined in the x axis range of the data. These should reduce overshooting behaviour.
 // since the original data consisted of 16 points, 16 nodes are initialized
 let xs_cheby = 
-    Interpolation.Approximation.chebyshevNodes (Intervals.Interval<float>.Create(0.,3.)) 16
+    Interpolation.Approximation.chebyshevNodes (Interval.CreateClosed(0.,3.)) 16
 
 // to get the corresponding y values to the xs_cheby a linear spline is generated that approximates the new y values
 let ys_cheby =
