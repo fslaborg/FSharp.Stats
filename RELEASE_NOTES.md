@@ -1,11 +1,13 @@
-### 0.5.0 TBD
+### 0.5.0 (Released 2022-8-4)
 * Additions:
-    * add various XML comments in FSharp.Stats.Interpolation FSharp.Stats.Fitting
+    * add various XML comments in Interpolation and Fitting modules
     * BREAKING: major refactor of Fitting and Interpolation module
       * separate CubicSpline.Simple and CubicSpline.Akima
       * rename coefficient to fit and fit to predict
     * addition of LinearRegression and Interpolation type
+    * [[#8ab0975](https://github.com/fslaborg/FSharp.Stats/commit/8ab0975e53933d27d894fc67651d0f01d924b6eb)] addition of clamped cubic spline
     * [[#e884a75e](https://github.com/fslaborg/FSharp.Stats/commit/e884a75e92c84372f0e727192e6419c9c591a3cd)] update FSharpAux version
+    * update interval type
     
 ### 0.4.12-preview.3
 * Additions:
