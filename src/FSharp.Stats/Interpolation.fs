@@ -47,7 +47,116 @@ module Interpolation =
                 /// coefficients.Predict 1.5
                 /// </code> 
                 /// </example>
+
                 member this.Predict = fun x -> this.C0_CX |> Vector.foldi (fun i acc c -> acc + (c * (pown x i))) 0.
+                /// <summary>
+                ///   Determines the coefficients of the derivative of the given polynomial. Level 1 = fst derivative, level 2 = snd derivative, ... . The resulting polynomial is `level` degrees lower than the original polynomial.
+                /// </summary>
+                /// <param name="level">Level of differentiation: 1 = fst derivative, 2 = snd derivative, ... .</param>
+                /// <returns>Coefficients of the derivative polynomial</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                /// // e.g. temperature measured at noon of the days specified in xData 
+                /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+                /// 
+                /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+                /// let coefficients = 
+                ///     Interpolation.Polynomial.coefficients xData yData 
+                /// 
+                /// // Get curvature function coefficients. 
+                /// Interpolation.Polynomial.Differentiate 2
+                /// </code> 
+                /// </example>
+                member this.Differentiate level = 
+                    let order = this.C0_CX.Length - 1
+                    let coeffs = 
+                        Vector.init (order + 1 - level) (fun i -> 
+                            let factor = 
+                                List.init level (fun l -> i+l+1)
+                                |> List.fold (fun acc c -> acc * (float c)) 1.
+                            factor * this.C0_CX.[i+level]
+                            )
+                    PolynomialCoef.Create coeffs
+
+                /// <summary>
+                ///   calculates derivative values at X=x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...
+                /// </summary>
+                /// <param name="level">depth of derivative: 1 = slope, 2 = curvature, ... </param>
+                /// <param name="x">x value of which the corresponding y value should be predicted</param>
+                /// <returns>predicted derivative with given polynomial coefficients at X=x</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                /// // e.g. temperature measured at noon of the days specified in xData 
+                /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+                /// 
+                /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+                /// let coefficients = 
+                ///     Interpolation.Polynomial.coefficients xData yData 
+                /// 
+                /// // Predict the curvature of the interpolating function at midnight between day 1 and 2. 
+                /// Interpolation.Polynomial.GetDerivative 2 1.5
+                /// </code> 
+                /// </example>
+                member this.GetDerivative level x = 
+                    let derivativeCoeffs = this.Differentiate level
+                    derivativeCoeffs.Predict x
+
+                /// <summary>
+                ///   Determines the coefficients of the integral of the given polynomial. The resulting polynomial is one degree higher than the original polynomial.
+                /// </summary>
+                /// <returns>Coefficients of the integral polynomial</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                /// // e.g. temperature measured at noon of the days specified in xData 
+                /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+                /// 
+                /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+                /// let coefficients = 
+                ///     Interpolation.Polynomial.coefficients xData yData 
+                /// 
+                /// // Get integral function coefficients. 
+                /// Interpolation.Polynomial.Integrate()
+                /// </code> 
+                /// </example>
+                member this.Integrate() =  
+                    let order = this.C0_CX.Length - 1
+                    let coeffs =     
+                        Vector.init (order + 2) (fun i -> 
+                            if i = 0 then 0. else 
+                            (1. / float i) * this.C0_CX.[i - 1])
+                    PolynomialCoef.Create coeffs
+
+                /// <summary>
+                ///   calculates the area under the curve from x=x1 to x=x2 with given polynomial coefficients. 
+                /// </summary>
+                /// <param name="x1">start x value</param>
+                /// <param name="x2">end x value</param>
+                /// <returns>integral of the polynomial in the range defined by x1 and x2</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                /// // e.g. temperature measured at noon of the days specified in xData 
+                /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+                /// 
+                /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+                /// let coefficients = 
+                ///     Interpolation.Polynomial.coefficients xData yData 
+                /// 
+                /// // Get area under the curve between x=0 and x=2. 
+                /// Interpolation.Polynomial.GetIntegralBetween 0. 2.
+                /// </code> 
+                /// </example>
+                member this.GetIntegralBetween x1 x2 = 
+                    let integralCoeffs = this.Integrate()
+                    integralCoeffs.Predict x2 - integralCoeffs.Predict x1
+                    
 
         /// <summary>
         ///   Calculates the polynomial coefficients for interpolating the given unsorted data. 
@@ -105,6 +214,30 @@ module Interpolation =
             coef.Predict x
 
         /// <summary>
+        ///   Determines the coefficients of the derivative of the given polynomial. Level 1 = fst derivative, level 2 = snd derivative, ... . The resulting polynomial is `level` degrees lower than the original polynomial.
+        /// </summary>
+        /// <param name="coef">polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [constant;linear;quadratic;...]</param>
+        /// <param name="level">Level of differentiation: 1 = fst derivative, 2 = snd derivative, ... .</param>
+        /// <returns>Coefficients of the derivative polynomial</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. days since a certain event
+        /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+        /// // e.g. temperature measured at noon of the days specified in xData 
+        /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+        /// 
+        /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+        /// let coefficients = 
+        ///     Interpolation.Polynomial.coefficients xData yData 
+        /// 
+        /// // Get curvature function coefficients. 
+        /// Interpolation.Polynomial.differentiate coefficients 2
+        /// </code> 
+        /// </example>
+        let differentiate (coef: PolynomialCoef) (level: int) =
+            coef.Differentiate level
+
+        /// <summary>
         ///   calculates derivative values at X=x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...
         /// </summary>
         /// <param name="coef">polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [constant;linear;quadratic;...]</param>
@@ -127,16 +260,55 @@ module Interpolation =
         /// </code> 
         /// </example>
         let getDerivative (coef: PolynomialCoef) (level: int) (x: float) =
-            let order = coef.C0_CX.Length - 1
-            Array.init (order + 1) (fun i -> 
-                let factor = 
-                    List.init level (fun l -> i-l)
-                    |> List.filter (not << isNan)
-                    |> List.fold (fun acc c -> acc * (float c)) 1.
-                factor * coef.C0_CX.[i] * (pown x (i-level))
-                )
-            |> Array.filter (not << isNan)
-            |> Array.sum
+            coef.GetDerivative level x
+
+        /// <summary>
+        ///   Determines the coefficients of the integral of the given polynomial. The resulting polynomial is one degree higher than the original polynomial.
+        /// </summary>
+        /// <param name="coef">polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [constant;linear;quadratic;...]</param>
+        /// <returns>Coefficients of the integral polynomial</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. days since a certain event
+        /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+        /// // e.g. temperature measured at noon of the days specified in xData 
+        /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+        /// 
+        /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+        /// let coefficients = 
+        ///     Interpolation.Polynomial.coefficients xData yData 
+        /// 
+        /// // Get integral function coefficients. 
+        /// Interpolation.Polynomial.integrate coefficients
+        /// </code> 
+        /// </example>
+        let integrate (coef: PolynomialCoef) =
+            coef.Integrate()
+        
+        /// <summary>
+        ///   calculates the area under the curve from x=x1 to x=x2 with given polynomial coefficients. 
+        /// </summary>
+        /// <param name="coef">polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [constant;linear;quadratic;...]</param>
+        /// <param name="x1">start x value</param>
+        /// <param name="x2">end x value</param>
+        /// <returns>integral of the polynomial in the range defined by x1 and x2</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. days since a certain event
+        /// let xData = vector [|1.;2.;3.;4.;5.;6.|]
+        /// // e.g. temperature measured at noon of the days specified in xData 
+        /// let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+        /// 
+        /// // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+        /// let coefficients = 
+        ///     Interpolation.Polynomial.coefficients xData yData 
+        /// 
+        /// // Get area under the curve between x=0 and x=2. 
+        /// Interpolation.Polynomial.getIntegral coefficients 0. 2.
+        /// </code> 
+        /// </example>
+        let getIntegralBetween (coef: PolynomialCoef) x1 x2 =
+            coef.GetIntegralBetween x1 x2
 
         [<Obsolete("Use Polynomial.interpolate instead!")>]
         let coefficients xData yData= 
@@ -203,7 +375,47 @@ module Interpolation =
                 member this.Predict = 
                     fun x -> 
                         let k = leftSegmentIdx this.XValues x
-                        this.C0.[k] + (x - this.XValues.[k]) * this.C1.[k] 
+                        this.C0.[k] + (x - this.XValues.[k]) * this.C1.[k]
+                        
+                /// <summary>
+                ///   Determines the coefficients of the derivative of the given linear spline.
+                /// </summary>
+                /// <returns>Coefficients of the fst derivative of the linear spline</returns>
+                member this.Differentiate() = 
+                    LinearSplineCoef.Create this.XValues (Array.append this.C1 [|Array.last this.C1|]) (Array.zeroCreate this.C0.Length)
+                
+                /// <summary>
+                ///   Calculates slope values at X=x with given linear spline coefficients.
+                /// </summary>
+                /// <param name="x">x value of which the corresponding y value should be predicted</param>
+                /// <returns>predicted slope of given linear spline at X=x</returns>
+                member this.getDerivative x = 
+                    let derivativeCoefs = this.Differentiate()
+                    derivativeCoefs.Predict x
+
+                //member this.getIntegralBetween x1 x2 = 
+                //    let getIntegralAt x = 
+                //        //segment from 0 to xValues[0] if xValues[0] > 0
+                //        //if negative its more complex!
+                //        let fstSegment = 
+                //            let x0 = 0.
+                //            let y0 = this.Predict x0
+                //            let x1 = this.XValues.[0]
+                //            let y1 = this.Predict XValues.[0]
+                //            1.
+                //        let upTo =
+                //            Array.init (k-1) (fun segmentIndex -> 
+                //                let yRange = 1
+                //                let xRange = 1
+                //                1
+                //                )
+                //        let rest = 
+                //            let k = leftSegmentIdx this.XValues x
+                //            this.C0.[k] + (x - this.XValues.[k]) * this.C1.[k]
+                //            
+                //        upTo + rest
+                //
+                //    getIntegralAt x2 - getIntegralAt x1
 
         /// <summary>
         ///   Returns the linear spline interpolation coefficients from x,y data that is sorted ascending according to x values.
@@ -1633,6 +1845,28 @@ type InterpolationCoefficients =
     | CubicSplineCoef      of CubicSpline.CubicSplineCoef
     | AkimaSubSplineCoef   of Akima.SubSplineCoef
     | HermiteSplineCoef    of CubicSpline.Hermite.HermiteCoef
+    with 
+        member this.GetLinearSplineCoef() = 
+            match this with 
+            | LinearSplineCoef x   -> x
+            | _ -> failwithf "Interpolation coefficients are not from linear spline."
+        member this.GetPolynomialCoef() = 
+            match this with 
+            | PolynomialCoef     x -> x 
+            | _ -> failwithf "Interpolation coefficients are not from polynomial."
+        member this.GetCubicSplineCoef() = 
+            match this with 
+            | CubicSplineCoef    x -> x 
+            | _ -> failwithf "Interpolation coefficients are not from cubic spline."
+        member this.GetAkimaSubSplineCoef() = 
+            match this with 
+            | AkimaSubSplineCoef x -> x 
+            | _ -> failwithf "Interpolation coefficients are not from Akima subspline."
+        member this.GetHermiteSplineCoef() = 
+            match this with 
+            | HermiteSplineCoef  x -> x 
+            | _ -> failwithf "Interpolation coefficients are not from Hermite spline."
+
 
 /// <summary>
 ///   This type contains functionalities to perform various interpolation methods for two dimensional data. It summarizes functions contained within the interpolation module.
@@ -1781,4 +2015,42 @@ type Interpolation() =
             | InterpolationCoefficients.CubicSplineCoef c     -> CubicSpline.getSecondDerivative c x
             | InterpolationCoefficients.AkimaSubSplineCoef c  -> Akima.getSecondDerivative c x
             | InterpolationCoefficients.HermiteSplineCoef c   -> failwithf "Derivative not yet implemented for Hermite spline"
+        (fun x -> diff coef x)
+
+    /// <summary>
+    ///   Takes interpolation coefficients to create a function that calculates the curvature of the interpolation function.
+    /// </summary>
+    /// <param name="coef">Interpolation coefficients</param>
+    /// <returns>Function that takes an x value and returns the corresponding curvature.</returns>
+    /// <example> 
+    /// <code> 
+    /// // e.g. days since a certain event
+    /// let xData = vector [|0.;1.;5.;4.;3.;|]
+    /// // some measured feature
+    /// let yData = vector [|1.;5.;4.;13.;17.|]
+    /// 
+    /// // get slopes and intersects for interpolating straight lines
+    /// let coefficients = 
+    ///     Interpolation.interpolate(xData,yData,InterpolationMethod.Polynomial)
+    /// 
+    /// // get coefficients for interpolating polynomial
+    /// let coef = Interpolation.interpolate(xData,yData,InterpolationMethod.PolynomialCoef)
+    ///
+    /// // get second derivative
+    /// let func = Interpolation.getSecondDerivative(coef)
+    ///
+    /// // get curvature at x=3.4
+    /// func 3.4
+    ///
+    /// </code> 
+    /// </example>
+    /// <remarks>X values that don't lie within the range of the input x values, may fail or are predicted using the nearest interpolation line!</remarks>
+    static member getIntegralBetween(coef,x1,x2) = 
+        let diff (coefs: InterpolationCoefficients) x = 
+            match coefs with
+            | InterpolationCoefficients.LinearSplineCoef c    -> failwithf "Integral not yet implemented for Linear spline"
+            | InterpolationCoefficients.PolynomialCoef c      -> c.GetIntegralBetween x1 x2
+            | InterpolationCoefficients.CubicSplineCoef c     -> failwithf "Integral not yet implemented for Cubic spline"
+            | InterpolationCoefficients.AkimaSubSplineCoef c  -> Akima.integrate c x
+            | InterpolationCoefficients.HermiteSplineCoef c   -> failwithf "Integral not yet implemented for Hermite spline"
         (fun x -> diff coef x)
