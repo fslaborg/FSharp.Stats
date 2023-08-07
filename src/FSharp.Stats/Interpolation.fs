@@ -2046,11 +2046,10 @@ type Interpolation() =
     /// </example>
     /// <remarks>X values that don't lie within the range of the input x values, may fail or are predicted using the nearest interpolation line!</remarks>
     static member getIntegralBetween(coef,x1,x2) = 
-        let diff (coefs: InterpolationCoefficients) x = 
-            match coefs with
-            | InterpolationCoefficients.LinearSplineCoef c    -> failwithf "Integral not yet implemented for Linear spline"
-            | InterpolationCoefficients.PolynomialCoef c      -> c.GetIntegralBetween x1 x2
-            | InterpolationCoefficients.CubicSplineCoef c     -> failwithf "Integral not yet implemented for Cubic spline"
-            | InterpolationCoefficients.AkimaSubSplineCoef c  -> Akima.integrate c x
-            | InterpolationCoefficients.HermiteSplineCoef c   -> failwithf "Integral not yet implemented for Hermite spline"
-        (fun x -> diff coef x)
+        match coef with
+        | InterpolationCoefficients.LinearSplineCoef c    -> failwithf "Integral not yet implemented for Linear spline"
+        | InterpolationCoefficients.PolynomialCoef c      -> c.GetIntegralBetween x1 x2
+        | InterpolationCoefficients.CubicSplineCoef c     -> failwithf "Integral not yet implemented for Cubic spline"
+        | InterpolationCoefficients.AkimaSubSplineCoef c  -> Akima.integrate c x2 - Akima.integrate c x1
+        | InterpolationCoefficients.HermiteSplineCoef c   -> failwithf "Integral not yet implemented for Hermite spline"
+
