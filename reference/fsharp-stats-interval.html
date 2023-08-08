@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>SAMHelper (FSharp.Stats)</title>
+    <title>Interval (FSharp.Stats)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
@@ -72,23 +72,17 @@
                 <div class="container" id="fsdocs-content">
                     <div>
   <h2>
-    SAMHelper Module
+    Interval Module
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing.html">
-        FSharp.Stats.Testing
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
+        FSharp.Stats
       </a>
     </dt>
     <dt>
       Assembly: FSharp.Stats.dll
-    </dt>
-    <dt>
-      Parent Module: 
-      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam.html">
-        SAM
-      </a>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
@@ -117,37 +111,886 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1697', 1697)" onmouseover="showTip(event, '1697', 1697)">
+              <code onmouseout="hideTip(event, '438', 438)" onmouseover="showTip(event, '438', 438)">
                 <p>
-                  <a id="estimatePi0">
-                    <a href="#estimatePi0">
-                      <code><span>estimatePi0&#32;<span>obsStats&#32;expStats</span></span></code>
+                  <a id="add">
+                    <a href="#add">
+                      <code><span>add&#32;<span>a&#32;b</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1697">
+              <div class="fsdocs-tip" id="438">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>estimatePi0&#32;<span>obsStats&#32;expStats</span></span></code>
+                  <code><span>add&#32;<span>a&#32;b</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        obsStats
+                        a
                       </b>
                       :
-                      <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span></code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        expStats
+                        b
                       </b>
                       :
-                      <code><span><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'b&gt;</span>[]</span>[]</span></code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  ^a
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.add``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.add``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L203-203" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Add two given intervals. 
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  a
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  b
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '439', 439)" onmouseover="showTip(event, '439', 439)">
+                <p>
+                  <a id="createClosedOfSize">
+                    <a href="#createClosedOfSize">
+                      <code><span>createClosedOfSize&#32;<span>min&#32;size</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="439">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>createClosedOfSize&#32;<span>min&#32;size</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        min
+                      </b>
+                      :
+                      <code>^a</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        size
+                      </b>
+                      :
+                      <code>^b</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createClosedOfSize``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createClosedOfSize``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L149-149" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Creates closed interval [min,max] by given start and size
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  min
+                </span>
+                :
+                <code>^a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  size
+                </span>
+                :
+                <code>^b</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '440', 440)" onmouseover="showTip(event, '440', 440)">
+                <p>
+                  <a id="createLeftOpenOfSize">
+                    <a href="#createLeftOpenOfSize">
+                      <code><span>createLeftOpenOfSize&#32;<span>min&#32;size</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="440">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>createLeftOpenOfSize&#32;<span>min&#32;size</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        min
+                      </b>
+                      :
+                      <code>^b</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        size
+                      </b>
+                      :
+                      <code>^a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^b&gt;</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createLeftOpenOfSize``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createLeftOpenOfSize``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L160-160" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Creates closed interval [min,max] by given start and size
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  min
+                </span>
+                :
+                <code>^b</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  size
+                </span>
+                :
+                <code>^a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '441', 441)" onmouseover="showTip(event, '441', 441)">
+                <p>
+                  <a id="createOpenOfSize">
+                    <a href="#createOpenOfSize">
+                      <code><span>createOpenOfSize&#32;<span>min&#32;size</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="441">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>createOpenOfSize&#32;<span>min&#32;size</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        min
+                      </b>
+                      :
+                      <code>^a</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        size
+                      </b>
+                      :
+                      <code>^a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  ^a
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createOpenOfSize``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createOpenOfSize``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L153-153" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Creates open interval (min,max) by given start and size
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  min
+                </span>
+                :
+                <code>^a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  size
+                </span>
+                :
+                <code>^a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '442', 442)" onmouseover="showTip(event, '442', 442)">
+                <p>
+                  <a id="createRightOpenOfSize">
+                    <a href="#createRightOpenOfSize">
+                      <code><span>createRightOpenOfSize&#32;<span>min&#32;size</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="442">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>createRightOpenOfSize&#32;<span>min&#32;size</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        min
+                      </b>
+                      :
+                      <code>^b</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        size
+                      </b>
+                      :
+                      <code>^a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^b&gt;</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createRightOpenOfSize``2```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createRightOpenOfSize``2\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L167-167" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Creates closed interval [min,max] by given start and size
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  min
+                </span>
+                :
+                <code>^b</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  size
+                </span>
+                :
+                <code>^a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^b&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '443', 443)" onmouseover="showTip(event, '443', 443)">
+                <p>
+                  <a id="getEnd">
+                    <a href="#getEnd">
+                      <code><span>getEnd&#32;<span>interval</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="443">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>getEnd&#32;<span>interval</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        interval
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'a</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;a
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getEnd``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getEnd``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L145-145" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  interval
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '444', 444)" onmouseover="showTip(event, '444', 444)">
+                <p>
+                  <a id="getSize">
+                    <a href="#getSize">
+                      <code><span>getSize&#32;<span>interval</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="444">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>getSize&#32;<span>interval</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        interval
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^b</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  ^a, ^b, ^a
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getSize``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getSize``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L174-174" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Returns the size of an Interval [min,max] (max - min)
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  interval
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>^b</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '445', 445)" onmouseover="showTip(event, '445', 445)">
+                <p>
+                  <a id="getSizeBy">
+                    <a href="#getSizeBy">
+                      <code><span>getSizeBy&#32;<span>projection&#32;interval</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="445">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>getSizeBy&#32;<span>projection&#32;interval</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        projection
+                      </b>
+                      :
+                      <code><span>'a&#32;->&#32;^b</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        interval
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>^c</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getSizeBy``3```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getSizeBy``3\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L184-184" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+ Returns the range of an Interval [min,max] (projection max - projection min)
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  projection
+                </span>
+                :
+                <code><span>'a&#32;->&#32;^b</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  interval
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>^c</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '446', 446)" onmouseover="showTip(event, '446', 446)">
+                <p>
+                  <a id="getStart">
+                    <a href="#getStart">
+                      <code><span>getStart&#32;<span>interval</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="446">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>getStart&#32;<span>interval</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        interval
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'a</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;a
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getStart``1```')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getStart``1\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L142-142" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  interval
+                </span>
+                :
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '447', 447)" onmouseover="showTip(event, '447', 447)">
+                <p>
+                  <a id="getValueAt">
+                    <a href="#getValueAt">
+                      <code><span>getValueAt&#32;<span>percentage&#32;interval</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="447">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>getValueAt&#32;<span>percentage&#32;interval</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        percentage
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        interval
+                      </b>
+                      :
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -157,45 +1000,48 @@
                     <code>float</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.estimatePi0``2```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getValueAt``2```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.estimatePi0``2\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getValueAt``2\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L299-299" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L294-294" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- estimate pi0 using the quantile method. Helps to not overestimate the False Discovery Rate 
+ Get the value at a given percentage within (0.0 - 1.0) or outside (&lt; 0.0, &gt; 1.0) of the interval. Rounding to nearest neighbour occurs when needed.
 
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  obsStats
+                  percentage
                 </span>
                 :
-                <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span></code>
+                <code>float</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  expStats
+                  interval
                 </span>
                 :
-                <code><span><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'b&gt;</span>[]</span>[]</span></code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -213,117 +1059,90 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1698', 1698)" onmouseover="showTip(event, '1698', 1698)">
+              <code onmouseout="hideTip(event, '448', 448)" onmouseover="showTip(event, '448', 448)">
                 <p>
-                  <a id="fdrsPerCut">
-                    <a href="#fdrsPerCut">
-                      <code><span>fdrsPerCut&#32;<span>cuts&#32;expStats&#32;obsStats&#32;pi0</span></span></code>
+                  <a id="intersect">
+                    <a href="#intersect">
+                      <code><span>intersect&#32;<span>a&#32;b</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1698">
+              <div class="fsdocs-tip" id="448">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>fdrsPerCut&#32;<span>cuts&#32;expStats&#32;obsStats&#32;pi0</span></span></code>
+                  <code><span>intersect&#32;<span>a&#32;b</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        cuts
+                        a
                       </b>
                       :
-                      <code><span><span>(<span><span>(<span>float&#32;*&#32;float</span>)</span>&#32;*&#32;'a</span>)</span>[]</span></code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        expStats
+                        b
                       </b>
                       :
-                      <code><span><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'b&gt;</span>[]</span>[]</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        obsStats
-                      </b>
-                      :
-                      <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'c&gt;</span>[]</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        pi0
-                      </b>
-                      :
-                      <code>float</code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><span>(<span><span>(<span>float&#32;*&#32;float</span>)</span>&#32;*&#32;float</span>)</span>[]</span></code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;a
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.fdrsPerCut``3```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.intersect``1```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.fdrsPerCut``3\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.intersect``1\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L416-416" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L255-255" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Calculate the FDR for each cut 
+ Returns the intersection of this interval with another.
 
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  cuts
+                  a
                 </span>
                 :
-                <code><span><span>(<span><span>(<span>float&#32;*&#32;float</span>)</span>&#32;*&#32;'a</span>)</span>[]</span></code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  expStats
+                  b
                 </span>
                 :
-                <code><span><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'b&gt;</span>[]</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  obsStats
-                </span>
-                :
-                <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'c&gt;</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  pi0
-                </span>
-                :
-                <code>float</code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -332,7 +1151,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><span>(<span><span>(<span>float&#32;*&#32;float</span>)</span>&#32;*&#32;float</span>)</span>[]</span></code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -341,85 +1160,90 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1699', 1699)" onmouseover="showTip(event, '1699', 1699)">
+              <code onmouseout="hideTip(event, '449', 449)" onmouseover="showTip(event, '449', 449)">
                 <p>
-                  <a id="getDeltaAndAsymmCuts">
-                    <a href="#getDeltaAndAsymmCuts">
-                      <code><span>getDeltaAndAsymmCuts&#32;<span>obsStats&#32;expAvgStats</span></span></code>
+                  <a id="isIntersection">
+                    <a href="#isIntersection">
+                      <code><span>isIntersection&#32;<span>a&#32;b</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1699">
+              <div class="fsdocs-tip" id="449">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>getDeltaAndAsymmCuts&#32;<span>obsStats&#32;expAvgStats</span></span></code>
+                  <code><span>isIntersection&#32;<span>a&#32;b</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        obsStats
+                        a
                       </b>
                       :
-                      <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span></code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        expAvgStats
+                        b
                       </b>
                       :
-                      <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'b&gt;</span>[]</span></code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><span>(<span><span>(<span>float&#32;*&#32;float</span>)</span>&#32;*&#32;float</span>)</span>[]</span></code>
+                    <code>bool</code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;a
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.getDeltaAndAsymmCuts``2```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.isIntersection``1```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.getDeltaAndAsymmCuts``2\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.isIntersection``1\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L331-331" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L225-225" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- default in R!. Calculates asymmetric cuts for each delta present. 
+ Checking for intersection of both intervals
 
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  obsStats
+                  a
                 </span>
                 :
-                <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span></code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  expAvgStats
+                  b
                 </span>
                 :
-                <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'b&gt;</span>[]</span></code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -428,7 +1252,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><span>(<span><span>(<span>float&#32;*&#32;float</span>)</span>&#32;*&#32;float</span>)</span>[]</span></code>
+                <code>bool</code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -437,102 +1261,90 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1700', 1700)" onmouseover="showTip(event, '1700', 1700)">
+              <code onmouseout="hideTip(event, '450', 450)" onmouseover="showTip(event, '450', 450)">
                 <p>
-                  <a id="getMedianFalsePositives">
-                    <a href="#getMedianFalsePositives">
-                      <code><span>getMedianFalsePositives&#32;<span><span>(<span>arg1,&#32;arg2</span>)</span>&#32;expStats</span></span></code>
+                  <a id="subtract">
+                    <a href="#subtract">
+                      <code><span>subtract&#32;<span>a&#32;b</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1700">
+              <div class="fsdocs-tip" id="450">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>getMedianFalsePositives&#32;<span><span>(<span>arg1,&#32;arg2</span>)</span>&#32;expStats</span></span></code>
+                  <code><span>subtract&#32;<span>a&#32;b</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        arg0
+                        a
                       </b>
                       :
-                      <code>float</code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        arg1
+                        b
                       </b>
                       :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        expStats
-                      </b>
-                      :
-                      <code><span><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span>[]</span></code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>float</code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  ^a
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.getMedianFalsePositives``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.subtract``1```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.getMedianFalsePositives``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.subtract``1\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L373-373" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L213-213" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- median false positives are obtained by counting how many statistics (from permuted data) fall outside of the cuts by chance.
- Permuted data should show no effect/change, therefor the ones that do are false positive 
+ Subtract a given interval from the other interval.
 
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  arg0
+                  a
                 </span>
                 :
-                <code>float</code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  arg1
+                  b
                 </span>
                 :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  expStats
-                </span>
-                :
-                <code><span><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span>[]</span></code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -541,7 +1353,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>float</code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -550,53 +1362,40 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1701', 1701)" onmouseover="showTip(event, '1701', 1701)">
+              <code onmouseout="hideTip(event, '451', 451)" onmouseover="showTip(event, '451', 451)">
                 <p>
-                  <a id="getMedianFdr">
-                    <a href="#getMedianFdr">
-                      <code><span>getMedianFdr&#32;<span>pi0&#32;medianFalsePos&#32;significantBioitems</span></span></code>
+                  <a id="trySize">
+                    <a href="#trySize">
+                      <code><span>trySize&#32;<span>interval</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1701">
+              <div class="fsdocs-tip" id="451">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>getMedianFdr&#32;<span>pi0&#32;medianFalsePos&#32;significantBioitems</span></span></code>
+                  <code><span>trySize&#32;<span>interval</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        pi0
+                        interval
                       </b>
                       :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        medianFalsePos
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        significantBioitems
-                      </b>
-                      :
-                      <code>float</code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>float</code>
+                    <code><span>^b&#32;option</span></code>
                   </span>
+                  <br/>
+                  Modifiers: 
+                  inline
                   <br/>
                 </div>
               </div>
@@ -604,47 +1403,31 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Testing.SAM.SAMHelper.getMedianFdr`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.trySize``2```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.getMedianFdr\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.trySize``2\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L386-386" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L194-194" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- calculate the median False Discovery Rate
+ Returns the size of an closed interval
 
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  pi0
+                  interval
                 </span>
                 :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  medianFalsePos
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  significantBioitems
-                </span>
-                :
-                <code>float</code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -653,7 +1436,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>float</code>
+                <code><span>^b&#32;option</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -662,101 +1445,72 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1702', 1702)" onmouseover="showTip(event, '1702', 1702)">
+              <code onmouseout="hideTip(event, '452', 452)" onmouseover="showTip(event, '452', 452)">
                 <p>
-                  <a id="getQvalues">
-                    <a href="#getQvalues">
-                      <code><span>getQvalues&#32;<span>obsStats&#32;negativeCut&#32;positiveCut</span></span></code>
+                  <a id="values">
+                    <a href="#values">
+                      <code><span>values&#32;<span>interval</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1702">
+              <div class="fsdocs-tip" id="452">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>getQvalues&#32;<span>obsStats&#32;negativeCut&#32;positiveCut</span></span></code>
+                  <code><span>values&#32;<span>interval</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        obsStats
+                        interval
                       </b>
                       :
-                      <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        negativeCut
-                      </b>
-                      :
-                      <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        positiveCut
-                      </b>
-                      :
-                      <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span></code>
+                    <code><span>'a&#32;*&#32;'a</span></code>
                   </span>
                   <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                  Type parameters: 
+                  &#39;a
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.getQvalues``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.values``1```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.getQvalues``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.values``1\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L464-464" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L139-139" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- returns the value for each sample where it is firstly called significantly different. 
-
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  obsStats
+                  interval
                 </span>
                 :
-                <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  negativeCut
-                </span>
-                :
-                <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  positiveCut
-                </span>
-                :
-                <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -765,647 +1519,7 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '1703', 1703)" onmouseover="showTip(event, '1703', 1703)">
-                <p>
-                  <a id="getSignificantBioitem">
-                    <a href="#getSignificantBioitem">
-                      <code><span>getSignificantBioitem&#32;<span><span>(<span>arg1,&#32;arg2</span>)</span>&#32;obsStats</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1703">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>getSignificantBioitem&#32;<span><span>(<span>arg1,&#32;arg2</span>)</span>&#32;obsStats</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        arg0
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        arg1
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        obsStats
-                      </b>
-                      :
-                      <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>int</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.getSignificantBioitem``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.getSignificantBioitem``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L381-381" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- amount of Bioitems that are more extreme than the cuts and therefor are called significant 
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  arg0
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  arg1
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  obsStats
-                </span>
-                :
-                <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'a&gt;</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>int</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '1704', 1704)" onmouseover="showTip(event, '1704', 1704)">
-                <p>
-                  <a id="monotonizeDecreasing">
-                    <a href="#monotonizeDecreasing">
-                      <code><span>monotonizeDecreasing&#32;<span>accessionFun&#32;replaceFun&#32;input</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1704">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>monotonizeDecreasing&#32;<span>accessionFun&#32;replaceFun&#32;input</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        accessionFun
-                      </b>
-                      :
-                      <code><span>'a&#32;->&#32;float</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        replaceFun
-                      </b>
-                      :
-                      <code><span>'a&#32;->&#32;float&#32;->&#32;'a</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        input
-                      </b>
-                      :
-                      <code><span>'a[]</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span>'a[]</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.monotonizeDecreasing``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.monotonizeDecreasing``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L321-321" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- ensures continuous decrease of data. 
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  accessionFun
-                </span>
-                :
-                <code><span>'a&#32;->&#32;float</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  replaceFun
-                </span>
-                :
-                <code><span>'a&#32;->&#32;float&#32;->&#32;'a</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  input
-                </span>
-                :
-                <code><span>'a[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span>'a[]</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '1705', 1705)" onmouseover="showTip(event, '1705', 1705)">
-                <p>
-                  <a id="monotonizeIncreasing">
-                    <a href="#monotonizeIncreasing">
-                      <code><span>monotonizeIncreasing&#32;<span>accessionFun&#32;replaceFun&#32;input</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1705">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>monotonizeIncreasing&#32;<span>accessionFun&#32;replaceFun&#32;input</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        accessionFun
-                      </b>
-                      :
-                      <code><span>'a&#32;->&#32;float</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        replaceFun
-                      </b>
-                      :
-                      <code><span>'a&#32;->&#32;float&#32;->&#32;'a</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        input
-                      </b>
-                      :
-                      <code><span>'a[]</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span>'a[]</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.monotonizeIncreasing``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.monotonizeIncreasing``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L313-313" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- ensures continuous increase of data. 
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  accessionFun
-                </span>
-                :
-                <code><span>'a&#32;->&#32;float</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  replaceFun
-                </span>
-                :
-                <code><span>'a&#32;->&#32;float&#32;->&#32;'a</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  input
-                </span>
-                :
-                <code><span>'a[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span>'a[]</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '1706', 1706)" onmouseover="showTip(event, '1706', 1706)">
-                <p>
-                  <a id="negCutToFDR">
-                    <a href="#negCutToFDR">
-                      <code><span>negCutToFDR&#32;<span>fdrsPerCut</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1706">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>negCutToFDR&#32;<span>fdrsPerCut</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        fdrsPerCut
-                      </b>
-                      :
-                      <code><span><span>(<span><span>(<span>'a&#32;*&#32;'b</span>)</span>&#32;*&#32;float</span>)</span>[]</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><span>(<span>'a&#32;*&#32;float</span>)</span>[]</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.negCutToFDR``2```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.negCutToFDR``2\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L429-429" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- obtain negative cut for chosen FDR
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  fdrsPerCut
-                </span>
-                :
-                <code><span><span>(<span><span>(<span>'a&#32;*&#32;'b</span>)</span>&#32;*&#32;float</span>)</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><span>(<span>'a&#32;*&#32;float</span>)</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '1707', 1707)" onmouseover="showTip(event, '1707', 1707)">
-                <p>
-                  <a id="posCutToFDR">
-                    <a href="#posCutToFDR">
-                      <code><span>posCutToFDR&#32;<span>fdrsPerCut</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1707">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>posCutToFDR&#32;<span>fdrsPerCut</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        fdrsPerCut
-                      </b>
-                      :
-                      <code><span><span>(<span><span>(<span>'a&#32;*&#32;'b</span>)</span>&#32;*&#32;float</span>)</span>[]</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><span>(<span>'b&#32;*&#32;float</span>)</span>[]</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.posCutToFDR``2```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.posCutToFDR``2\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L441-441" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- obtain positive cut for chosen FDR 
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  fdrsPerCut
-                </span>
-                :
-                <code><span><span>(<span><span>(<span>'a&#32;*&#32;'b</span>)</span>&#32;*&#32;float</span>)</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><span>(<span>'b&#32;*&#32;float</span>)</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '1708', 1708)" onmouseover="showTip(event, '1708', 1708)">
-                <p>
-                  <a id="smallestCutAndDeltaForFDR">
-                    <a href="#smallestCutAndDeltaForFDR">
-                      <code><span>smallestCutAndDeltaForFDR&#32;<span>cuts&#32;expStats&#32;obsStats&#32;fdr&#32;pi0</span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="1708">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>smallestCutAndDeltaForFDR&#32;<span>cuts&#32;expStats&#32;obsStats&#32;fdr&#32;pi0</span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        cuts
-                      </b>
-                      :
-                      <code><span><span>(<span><span>(<span>float&#32;*&#32;float</span>)</span>&#32;*&#32;'a</span>)</span>[]</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        expStats
-                      </b>
-                      :
-                      <code><span><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'b&gt;</span>[]</span>[]</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        obsStats
-                      </b>
-                      :
-                      <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'c&gt;</span>[]</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        fdr
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        pi0
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><span>(<span>float&#32;*&#32;float</span>)</span>&#32;*&#32;'a</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Testing.SAM.SAMHelper.smallestCutAndDeltaForFDR``3```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Testing.SAM.SAMHelper.smallestCutAndDeltaForFDR``3\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Testing/SAM.fs#L398-398" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- get the smallest cut and corresponding delta for chosen FDR 
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  cuts
-                </span>
-                :
-                <code><span><span>(<span><span>(<span>float&#32;*&#32;float</span>)</span>&#32;*&#32;'a</span>)</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  expStats
-                </span>
-                :
-                <code><span><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'b&gt;</span>[]</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  obsStats
-                </span>
-                :
-                <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-testing-sam-sam-1.html">SAM</a>&lt;'c&gt;</span>[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  fdr
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  pi0
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><span>(<span>float&#32;*&#32;float</span>)</span>&#32;*&#32;'a</span></code>
+                <code><span>'a&#32;*&#32;'a</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>

@@ -139,7 +139,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1832', 1832)" onmouseover="showTip(event, '1832', 1832)">
+              <code onmouseout="hideTip(event, '1835', 1835)" onmouseover="showTip(event, '1835', 1835)">
                 <p>
                   <a id="C0_CX">
                     <a href="#C0_CX">
@@ -148,7 +148,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1832">
+              <div class="fsdocs-tip" id="1835">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code>C0_CX</code>
@@ -210,7 +210,455 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1833', 1833)" onmouseover="showTip(event, '1833', 1833)">
+              <code onmouseout="hideTip(event, '1836', 1836)" onmouseover="showTip(event, '1836', 1836)">
+                <p>
+                  <a id="Differentiate">
+                    <a href="#Differentiate">
+                      <code><span>this.Differentiate</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1836">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.Differentiate</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        level
+                      </b>
+                      :
+                      <code>int</code>
+                       - 
+                      Level of differentiation: 1 = fst derivative, 2 = snd derivative, ... .
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-polynomial-polynomialcoef.html">PolynomialCoef</a></code>
+                  </span>
+                  Coefficients of the derivative polynomial
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Polynomial.PolynomialCoef.Differentiate`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Polynomial.PolynomialCoef.Differentiate\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L72-72" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+   Determines the coefficients of the derivative of the given polynomial. Level 1 = fst derivative, level 2 = snd derivative, ... . The resulting polynomial is `level` degrees lower than the original polynomial.
+ 
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  level
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  Level of differentiation: 1 = fst derivative, 2 = snd derivative, ... .
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-polynomial-polynomialcoef.html">PolynomialCoef</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Coefficients of the derivative polynomial
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+ let coefficients = 
+     Interpolation.Polynomial.coefficients xData yData 
+ 
+ // Get curvature function coefficients. 
+ Interpolation.Polynomial.Differentiate 2</code></pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1837', 1837)" onmouseover="showTip(event, '1837', 1837)">
+                <p>
+                  <a id="GetDerivative">
+                    <a href="#GetDerivative">
+                      <code><span>this.GetDerivative</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1837">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.GetDerivative</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        level
+                      </b>
+                      :
+                      <code>int</code>
+                       - 
+                      depth of derivative: 1 = slope, 2 = curvature, ... 
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x
+                      </b>
+                      :
+                      <code>float</code>
+                       - 
+                      x value of which the corresponding y value should be predicted
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  predicted derivative with given polynomial coefficients at X=x
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Polynomial.PolynomialCoef.GetDerivative`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Polynomial.PolynomialCoef.GetDerivative\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L104-104" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+   calculates derivative values at X=x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...
+ 
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  level
+                </span>
+                :
+                <code>int</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  depth of derivative: 1 = slope, 2 = curvature, ... 
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  x value of which the corresponding y value should be predicted
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  predicted derivative with given polynomial coefficients at X=x
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+ let coefficients = 
+     Interpolation.Polynomial.coefficients xData yData 
+ 
+ // Predict the curvature of the interpolating function at midnight between day 1 and 2. 
+ Interpolation.Polynomial.GetDerivative 2 1.5</code></pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1838', 1838)" onmouseover="showTip(event, '1838', 1838)">
+                <p>
+                  <a id="GetIntegralBetween">
+                    <a href="#GetIntegralBetween">
+                      <code><span>this.GetIntegralBetween</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1838">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.GetIntegralBetween</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        x1
+                      </b>
+                      :
+                      <code>float</code>
+                       - 
+                      start x value
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        x2
+                      </b>
+                      :
+                      <code>float</code>
+                       - 
+                      end x value
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  integral of the polynomial in the range defined by x1 and x2
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Polynomial.PolynomialCoef.GetIntegralBetween`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Polynomial.PolynomialCoef.GetIntegralBetween\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L156-156" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+   calculates the area under the curve from x=x1 to x=x2 with given polynomial coefficients. 
+ 
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x1
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  start x value
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  x2
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  end x value
+                </p>
+              </dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  integral of the polynomial in the range defined by x1 and x2
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+ let coefficients = 
+     Interpolation.Polynomial.coefficients xData yData 
+ 
+ // Get area under the curve between x=0 and x=2. 
+ Interpolation.Polynomial.GetIntegralBetween 0. 2.</code></pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1839', 1839)" onmouseover="showTip(event, '1839', 1839)">
+                <p>
+                  <a id="Integrate">
+                    <a href="#Integrate">
+                      <code><span>this.Integrate</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="1839">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.Integrate</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-polynomial-polynomialcoef.html">PolynomialCoef</a></code>
+                  </span>
+                  Coefficients of the integral polynomial
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Polynomial.PolynomialCoef.Integrate`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Polynomial.PolynomialCoef.Integrate\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L127-127" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+   Determines the coefficients of the integral of the given polynomial. The resulting polynomial is one degree higher than the original polynomial.
+ 
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-polynomial-polynomialcoef.html">PolynomialCoef</a></code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Coefficients of the integral polynomial
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+ // e.g. days since a certain event
+ let xData = vector [|1.;2.;3.;4.;5.;6.|]
+ // e.g. temperature measured at noon of the days specified in xData 
+ let yData = vector [|4.;7.;9.;8.;7.;9.;|]
+ 
+ // Estimate the polynomial coefficients. In Interpolation the order is equal to the data length - 1.
+ let coefficients = 
+     Interpolation.Polynomial.coefficients xData yData 
+ 
+ // Get integral function coefficients. 
+ Interpolation.Polynomial.Integrate()</code></pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '1840', 1840)" onmouseover="showTip(event, '1840', 1840)">
                 <p>
                   <a id="Predict">
                     <a href="#Predict">
@@ -219,7 +667,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1833">
+              <div class="fsdocs-tip" id="1840">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>this.Predict</span></code>
@@ -245,7 +693,7 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L50-50" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L51-51" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -309,7 +757,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1834', 1834)" onmouseover="showTip(event, '1834', 1834)">
+              <code onmouseout="hideTip(event, '1841', 1841)" onmouseover="showTip(event, '1841', 1841)">
                 <p>
                   <a id="Create">
                     <a href="#Create">
@@ -318,7 +766,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1834">
+              <div class="fsdocs-tip" id="1841">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>PolynomialCoef.Create<span><span>(<span>c</span>)</span></span></span></code>

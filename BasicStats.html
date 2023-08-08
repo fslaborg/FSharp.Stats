@@ -314,12 +314,12 @@ which takes an additional converter function:</p>
     <span class="pn">[</span><span class="n">10.</span><span class="pn">;</span> <span class="n">2.</span><span class="pn">;</span> <span class="n">19.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">6.</span><span class="pn">;</span> <span class="n">23.</span><span class="pn">;</span> <span class="n">47.</span><span class="pn">;</span> <span class="n">24.</span><span class="pn">;</span> <span class="n">54.</span><span class="pn">;</span> <span class="n">77.</span><span class="pn">;</span><span class="pn">]</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 35)" onmouseover="showTip(event, 'fs4', 35)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 36)" onmouseover="showTip(event, 'fs24', 36)" class="id">rangeBy</span> <span onmouseout="hideTip(event, 'fs6', 37)" onmouseover="showTip(event, 'fs6', 37)" class="fn">float</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>ClosedInterval (2.0, 77.0)</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>Closed (2.0, 77.0)</code></pre></td></tr></table>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 38)" onmouseover="showTip(event, 'fs25', 38)" class="id">range2</span> <span class="o">=</span> 
     <span class="pn">[</span><span class="n">10</span><span class="pn">;</span> <span class="n">2</span><span class="pn">;</span> <span class="n">19</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">6</span><span class="pn">;</span> <span class="n">23</span><span class="pn">;</span> <span class="n">47</span><span class="pn">;</span> <span class="n">24</span><span class="pn">;</span> <span class="n">54</span><span class="pn">;</span> <span class="n">77</span><span class="pn">;</span><span class="pn">]</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs4', 39)" onmouseover="showTip(event, 'fs4', 39)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 40)" onmouseover="showTip(event, 'fs24', 40)" class="id">rangeBy</span> <span onmouseout="hideTip(event, 'fs6', 41)" onmouseover="showTip(event, 'fs6', 41)" class="fn">float</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>ClosedInterval (2.0, 77.0)</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>Closed (2.0, 77.0)</code></pre></td></tr></table>
 <h3><a name="Variance-and-Standard-Deviation" class="anchor" href="#Variance-and-Standard-Deviation">Variance and Standard Deviation</a></h3>
 <p>The <a href="https://en.wikipedia.org/wiki/Variance">variance</a></p>
 <p><span class="math">\(s_N^2 = \frac{1}{N} \sum_{i=1}^N \left(x_i - \bar{x}\right)^2\)</span></p>
@@ -424,9 +424,9 @@ type float = System.Double<br /><em>&lt;summary&gt;An abbreviation for the CLI t
 <div class="fsdocs-tip" id="fs22">val meanGeometricBy: f: (&#39;T -&gt; &#39;a) -&gt; items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (+) and member Log and member get_Zero and member DivideByInt and member Exp and member (/))<br /><em>&lt;summary&gt;
    Computes gemetric mean
  &lt;/summary&gt;<br />&lt;param name=&quot;f&quot;&gt;A function applied to transform each element of the sequence.&lt;/param&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;gemetric mean&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs23">val range1: Intervals.Interval&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs24">val rangeBy: f: (&#39;a -&gt; &#39;b) -&gt; items: seq&lt;&#39;a&gt; -&gt; Intervals.Interval&lt;&#39;a&gt; (requires comparison)</div>
-<div class="fsdocs-tip" id="fs25">val range2: Intervals.Interval&lt;int&gt;</div>
+<div class="fsdocs-tip" id="fs23">val range1: Interval&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs24">val rangeBy: f: (&#39;a -&gt; &#39;a0) -&gt; items: seq&lt;&#39;a&gt; -&gt; Interval&lt;&#39;a&gt; (requires comparison and comparison)</div>
+<div class="fsdocs-tip" id="fs25">val range2: Interval&lt;int&gt;</div>
 <div class="fsdocs-tip" id="fs26">val data: float[]</div>
 <div class="fsdocs-tip" id="fs27">val varPopulation: float</div>
 <div class="fsdocs-tip" id="fs28">val varPopulation: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/))<br /><em>&lt;summary&gt;

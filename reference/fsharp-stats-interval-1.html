@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Poisson (FSharp.Stats)</title>
+    <title>Interval<'a> (FSharp.Stats)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
@@ -72,13 +72,13 @@
                 <div class="container" id="fsdocs-content">
                     <div>
   <h2>
-    Poisson Type
+    Interval<'a> Type
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-distributions-discrete.html">
-        FSharp.Stats.Distributions.Discrete
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
+        FSharp.Stats
       </a>
     </dt>
     <dt>
@@ -88,12 +88,24 @@
       Base Type: 
       <code>obj</code>
     </dt>
+    <dt>
+      All Interfaces: 
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span>&gt;</span></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralequatable">IStructuralEquatable</a></code>
+      , 
+      <code><span><a href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span>&gt;</span></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></code>
+      , 
+      <code><a href="https://docs.microsoft.com/dotnet/api/system.collections.istructuralcomparable">IStructuralComparable</a></code>
+    </dt>
   </dl>
   <div class="fsdocs-xmldoc">
     <div>
       <p class="fsdocs-summary">
         
-Poisson distribution
+ Closed interval [Start,End]
 
       </p>
     </div>
@@ -101,11 +113,806 @@ Poisson distribution
   <div></div>
   <div></div>
   <div></div>
+  <div>
+    <h3>
+      Union cases
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Union case
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2084', 2084)" onmouseover="showTip(event, '2084', 2084)">
+                <p>
+                  <a id="Closed">
+                    <a href="#Closed">
+                      <code><span>Closed(<span>'a,&#32;'a</span>)</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2084">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Closed(<span>'a,&#32;'a</span>)</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        Item1
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        Item2
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L10-10" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                [start,end] includes endpoints
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  Item1
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  Item2
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2085', 2085)" onmouseover="showTip(event, '2085', 2085)">
+                <p>
+                  <a id="Empty">
+                    <a href="#Empty">
+                      <code><span>Empty</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2085">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Empty</span></code>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L17-17" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2086', 2086)" onmouseover="showTip(event, '2086', 2086)">
+                <p>
+                  <a id="LeftOpen">
+                    <a href="#LeftOpen">
+                      <code><span>LeftOpen(<span>'a,&#32;'a</span>)</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2086">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>LeftOpen(<span>'a,&#32;'a</span>)</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        Item1
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        Item2
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L12-12" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                (start,end] includes right endpoints
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  Item1
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  Item2
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2087', 2087)" onmouseover="showTip(event, '2087', 2087)">
+                <p>
+                  <a id="Open">
+                    <a href="#Open">
+                      <code><span>Open(<span>'a,&#32;'a</span>)</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2087">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>Open(<span>'a,&#32;'a</span>)</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        Item1
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        Item2
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L16-16" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                (start,end) endpoints are excluded
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  Item1
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  Item2
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2088', 2088)" onmouseover="showTip(event, '2088', 2088)">
+                <p>
+                  <a id="RightOpen">
+                    <a href="#RightOpen">
+                      <code><span>RightOpen(<span>'a,&#32;'a</span>)</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2088">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>RightOpen(<span>'a,&#32;'a</span>)</span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        Item1
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        Item2
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L14-14" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                [start,end) includes leftendpoints
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  Item1
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  Item2
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div></div>
   <div></div>
   <div></div>
-  <div></div>
-  <div></div>
+  <div>
+    <h3>
+      Instance members
+    </h3>
+    <table class="table outer-list fsdocs-member-list">
+      <thead>
+        <tr>
+          <td class="fsdocs-member-list-header">
+            Instance member
+          </td>
+          <td class="fsdocs-member-list-header">
+            Description
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2089', 2089)" onmouseover="showTip(event, '2089', 2089)">
+                <p>
+                  <a id="GetEnd">
+                    <a href="#GetEnd">
+                      <code><span>this.GetEnd</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2089">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.GetEnd</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'a</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('``cref:M:FSharp.Stats.Interval`1.GetEnd``')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval`1.GetEnd\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L70-70" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2090', 2090)" onmouseover="showTip(event, '2090', 2090)">
+                <p>
+                  <a id="GetStart">
+                    <a href="#GetStart">
+                      <code><span>this.GetStart</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2090">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.GetStart</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>'a</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('``cref:M:FSharp.Stats.Interval`1.GetStart``')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval`1.GetStart\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L62-62" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2091', 2091)" onmouseover="showTip(event, '2091', 2091)">
+                <p>
+                  <a id="ToTuple">
+                    <a href="#ToTuple">
+                      <code><span>this.ToTuple</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2091">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.ToTuple</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>'a&#32;*&#32;'a</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('``cref:M:FSharp.Stats.Interval`1.ToTuple``')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval`1.ToTuple\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L54-54" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span>'a&#32;*&#32;'a</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2092', 2092)" onmouseover="showTip(event, '2092', 2092)">
+                <p>
+                  <a id="TryEnd">
+                    <a href="#TryEnd">
+                      <code><span>this.TryEnd</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2092">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.TryEnd</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>'a&#32;option</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('``cref:P:FSharp.Stats.Interval`1.TryEnd``')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:FSharp.Stats.Interval`1.TryEnd\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L37-37" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span>'a&#32;option</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2093', 2093)" onmouseover="showTip(event, '2093', 2093)">
+                <p>
+                  <a id="TryStart">
+                    <a href="#TryStart">
+                      <code><span>this.TryStart</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2093">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.TryStart</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span>'a&#32;option</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('``cref:P:FSharp.Stats.Interval`1.TryStart``')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:FSharp.Stats.Interval`1.TryStart\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L29-29" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span>'a&#32;option</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2094', 2094)" onmouseover="showTip(event, '2094', 2094)">
+                <p>
+                  <a id="TryToTuple">
+                    <a href="#TryToTuple">
+                      <code><span>this.TryToTuple</span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2094">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.TryToTuple</span></code>
+                  <br/>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><span>(<span>'a&#32;*&#32;'a</span>)</span>&#32;option</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('``cref:P:FSharp.Stats.Interval`1.TryToTuple``')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'P:FSharp.Stats.Interval`1.TryToTuple\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L45-45" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><span>(<span>'a&#32;*&#32;'a</span>)</span>&#32;option</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2095', 2095)" onmouseover="showTip(event, '2095', 2095)">
+                <p>
+                  <a id="liesInInterval">
+                    <a href="#liesInInterval">
+                      <code><span>this.liesInInterval&#32;<span>value</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2095">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>this.liesInInterval&#32;<span>value</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        value
+                      </b>
+                      :
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>bool</code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('``cref:M:FSharp.Stats.Interval`1.liesInInterval``')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval`1.liesInInterval\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L20-20" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+   Does the given value lie in the interval or not.
+
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  value
+                </span>
+                :
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>bool</code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div>
     <h3>
       Static members
@@ -125,45 +932,48 @@ Poisson distribution
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2510', 2510)" onmouseover="showTip(event, '2510', 2510)">
+              <code onmouseout="hideTip(event, '2096', 2096)" onmouseover="showTip(event, '2096', 2096)">
                 <p>
-                  <a id="CDF">
-                    <a href="#CDF">
-                      <code><span>Poisson.CDF<span><span>(<span>lambda</span>)</span>&#32;<span>(<span>k</span>)</span></span></span></code>
+                  <a id="CreateClosed">
+                    <a href="#CreateClosed">
+                      <code><span>Interval.CreateClosed<span><span>(<span>min,&#32;max</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2510">
+              <div class="fsdocs-tip" id="2096">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Poisson.CDF<span><span>(<span>lambda</span>)</span>&#32;<span>(<span>k</span>)</span></span></span></code>
+                  <code><span>Interval.CreateClosed<span><span>(<span>min,&#32;max</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        lambda
+                        min
                       </b>
                       :
-                      <code>float</code>
+                      <code>'b</code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        k
+                        max
                       </b>
                       :
-                      <code>float</code>
+                      <code>'b</code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>float</code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'b&gt;</span></code>
                   </span>
+                  <br/>
+                  Modifiers: 
+                  inline
                   <br/>
                 </div>
               </div>
@@ -171,39 +981,37 @@ Poisson distribution
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.CDF`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval`1.CreateClosed``1```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.CDF\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval`1.CreateClosed``1\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L115-115" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L78-78" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Computes the cumulative distribution function at x, i.e. P(X &lt;= x).
-
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  lambda
+                  min
                 </span>
                 :
-                <code>float</code>
+                <code>'b</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  k
+                  max
                 </span>
                 :
-                <code>float</code>
+                <code>'b</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -212,7 +1020,7 @@ Poisson distribution
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>float</code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'b&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -221,455 +1029,34 @@ Poisson distribution
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2511', 2511)" onmouseover="showTip(event, '2511', 2511)">
+              <code onmouseout="hideTip(event, '2097', 2097)" onmouseover="showTip(event, '2097', 2097)">
                 <p>
-                  <a id="CheckParam">
-                    <a href="#CheckParam">
-                      <code><span>Poisson.CheckParam<span><span>(<span>lambda</span>)</span></span></span></code>
+                  <a id="CreateLeftOpen">
+                    <a href="#CreateLeftOpen">
+                      <code><span>Interval.CreateLeftOpen<span><span>(<span>min,&#32;max</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2511">
+              <div class="fsdocs-tip" id="2097">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Poisson.CheckParam<span><span>(<span>lambda</span>)</span></span></span></code>
+                  <code><span>Interval.CreateLeftOpen<span><span>(<span>min,&#32;max</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        lambda
+                        min
                       </b>
                       :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.CheckParam`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.CheckParam\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L23-23" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  lambda
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '2512', 2512)" onmouseover="showTip(event, '2512', 2512)">
-                <p>
-                  <a id="Entropy">
-                    <a href="#Entropy">
-                      <code><span>Poisson.Entropy<span><span>(<span>lambda</span>)</span></span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="2512">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>Poisson.Entropy<span><span>(<span>lambda</span>)</span></span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        lambda
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>float</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.Entropy`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.Entropy\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L52-52" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-   Computes the entropy for this distribution.
- 
-              </p>
-            </div>
-            <p class="fsdocs-remarks">
-                   
-   It's an approximation and better for large lambda.
- 
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  lambda
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '2513', 2513)" onmouseover="showTip(event, '2513', 2513)">
-                <p>
-                  <a id="Estimate">
-                    <a href="#Estimate">
-                      <code><span>Poisson.Estimate<span><span>(<span>observations,&#32;?weights</span>)</span></span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="2513">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>Poisson.Estimate<span><span>(<span>observations,&#32;?weights</span>)</span></span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        observations
-                      </b>
-                      :
-                      <code><span>float[]</span></code>
+                      <code>'a</code>
                     </span>
                     <br/>
                     <span>
                       <b>
-                        ?weights
-                      </b>
-                      :
-                      <code><span>float[]</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-distributions-discretedistribution-2.html">DiscreteDistribution</a>&lt;<span>float,&#32;int</span>&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.Estimate`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.Estimate\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L135-135" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-   Estimates a new Poisson distribution from a given set of observations.
- 
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  observations
-                </span>
-                :
-                <code><span>float[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  ?weights
-                </span>
-                :
-                <code><span>float[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-distributions-discretedistribution-2.html">DiscreteDistribution</a>&lt;<span>float,&#32;int</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '2514', 2514)" onmouseover="showTip(event, '2514', 2514)">
-                <p>
-                  <a id="Fit">
-                    <a href="#Fit">
-                      <code><span>Poisson.Fit<span><span>(<span>observations,&#32;?weights</span>)</span></span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="2514">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>Poisson.Fit<span><span>(<span>observations,&#32;?weights</span>)</span></span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        observations
-                      </b>
-                      :
-                      <code><span>float[]</span></code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        ?weights
-                      </b>
-                      :
-                      <code><span>float[]</span></code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>float</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.Fit`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.Fit\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L127-127" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-   Fits the underlying distribution to a given set of observations.
- 
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  observations
-                </span>
-                :
-                <code><span>float[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  ?weights
-                </span>
-                :
-                <code><span>float[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '2515', 2515)" onmouseover="showTip(event, '2515', 2515)">
-                <p>
-                  <a id="Init">
-                    <a href="#Init">
-                      <code><span>Poisson.Init<span><span>(<span>lambda</span>)</span></span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="2515">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>Poisson.Init<span><span>(<span>lambda</span>)</span></span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        lambda
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-distributions-discretedistribution-2.html">DiscreteDistribution</a>&lt;<span>float,&#32;int</span>&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.Init`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.Init\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L152-152" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- Initializes a Binomial distribution 
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  lambda
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-distributions-discretedistribution-2.html">DiscreteDistribution</a>&lt;<span>float,&#32;int</span>&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '2516', 2516)" onmouseover="showTip(event, '2516', 2516)">
-                <p>
-                  <a id="InvCDF">
-                    <a href="#InvCDF">
-                      <code><span>Poisson.InvCDF<span><span>(<span>lambda</span>)</span>&#32;<span>(<span>k</span>)</span></span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="2516">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>Poisson.InvCDF<span><span>(<span>lambda</span>)</span>&#32;<span>(<span>k</span>)</span></span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        lambda
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        k
+                        max
                       </b>
                       :
                       <code>'a</code>
@@ -679,8 +1066,11 @@ Poisson distribution
                   <br/>
                   <span>
                     Returns: 
-                    <code>'b</code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                   </span>
+                  <br/>
+                  Modifiers: 
+                  inline
                   <br/>
                 </div>
               </div>
@@ -688,36 +1078,34 @@ Poisson distribution
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Distributions.Discrete.Poisson.InvCDF``2```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval`1.CreateLeftOpen``1```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.InvCDF``2\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval`1.CreateLeftOpen``1\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L120-120" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L82-82" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Computes the inverse cumulative distribution function (quantile function).
-
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  lambda
+                  min
                 </span>
                 :
-                <code>float</code>
+                <code>'a</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  k
+                  max
                 </span>
                 :
                 <code>'a</code>
@@ -729,7 +1117,7 @@ Poisson distribution
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>'b</code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -738,37 +1126,48 @@ Poisson distribution
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2517', 2517)" onmouseover="showTip(event, '2517', 2517)">
+              <code onmouseout="hideTip(event, '2098', 2098)" onmouseover="showTip(event, '2098', 2098)">
                 <p>
-                  <a id="Mean">
-                    <a href="#Mean">
-                      <code><span>Poisson.Mean<span><span>(<span>lambda</span>)</span></span></span></code>
+                  <a id="CreateOpen">
+                    <a href="#CreateOpen">
+                      <code><span>Interval.CreateOpen<span><span>(<span>min,&#32;max</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2517">
+              <div class="fsdocs-tip" id="2098">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Poisson.Mean<span><span>(<span>lambda</span>)</span></span></span></code>
+                  <code><span>Interval.CreateOpen<span><span>(<span>min,&#32;max</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        lambda
+                        min
                       </b>
                       :
-                      <code>float</code>
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        max
+                      </b>
+                      :
+                      <code>'a</code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>float</code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                   </span>
+                  <br/>
+                  Modifiers: 
+                  inline
                   <br/>
                 </div>
               </div>
@@ -776,31 +1175,37 @@ Poisson distribution
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.Mean`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval`1.CreateOpen``1```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.Mean\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval`1.CreateOpen``1\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L31-31" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L90-90" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Computes the mean.
-
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  lambda
+                  min
                 </span>
                 :
-                <code>float</code>
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  max
+                </span>
+                :
+                <code>'a</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -809,7 +1214,7 @@ Poisson distribution
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>float</code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -818,37 +1223,48 @@ Poisson distribution
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2518', 2518)" onmouseover="showTip(event, '2518', 2518)">
+              <code onmouseout="hideTip(event, '2099', 2099)" onmouseover="showTip(event, '2099', 2099)">
                 <p>
-                  <a id="Mode">
-                    <a href="#Mode">
-                      <code><span>Poisson.Mode<span><span>(<span>lambda</span>)</span></span></span></code>
+                  <a id="CreateRightOpen">
+                    <a href="#CreateRightOpen">
+                      <code><span>Interval.CreateRightOpen<span><span>(<span>min,&#32;max</span>)</span></span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2518">
+              <div class="fsdocs-tip" id="2099">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Poisson.Mode<span><span>(<span>lambda</span>)</span></span></span></code>
+                  <code><span>Interval.CreateRightOpen<span><span>(<span>min,&#32;max</span>)</span></span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        lambda
+                        min
                       </b>
                       :
-                      <code>float</code>
+                      <code>'a</code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        max
+                      </b>
+                      :
+                      <code>'a</code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>int</code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                   </span>
+                  <br/>
+                  Modifiers: 
+                  inline
                   <br/>
                 </div>
               </div>
@@ -856,31 +1272,37 @@ Poisson distribution
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.Mode`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval`1.CreateRightOpen``1```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.Mode\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval`1.CreateRightOpen``1\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L26-26" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L86-86" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Computes the mode.
-
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  lambda
+                  min
                 </span>
                 :
-                <code>float</code>
+                <code>'a</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  max
+                </span>
+                :
+                <code>'a</code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -889,7 +1311,7 @@ Poisson distribution
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>int</code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -898,45 +1320,40 @@ Poisson distribution
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2519', 2519)" onmouseover="showTip(event, '2519', 2519)">
+              <code onmouseout="hideTip(event, '2100', 2100)" onmouseover="showTip(event, '2100', 2100)">
                 <p>
-                  <a id="PMF">
-                    <a href="#PMF">
-                      <code><span>Poisson.PMF<span><span>(<span>lambda</span>)</span>&#32;<span>(<span>k</span>)</span></span></span></code>
+                  <a id="ofSeq">
+                    <a href="#ofSeq">
+                      <code><span>Interval.ofSeq&#32;<span>source</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2519">
+              <div class="fsdocs-tip" id="2100">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Poisson.PMF<span><span>(<span>lambda</span>)</span>&#32;<span>(<span>k</span>)</span></span></span></code>
+                  <code><span>Interval.ofSeq&#32;<span>source</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        lambda
+                        source
                       </b>
                       :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        k
-                      </b>
-                      :
-                      <code>int</code>
+                      <code><span>seq&lt;'a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>float</code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                   </span>
+                  <br/>
+                  Modifiers: 
+                  inline
                   <br/>
                 </div>
               </div>
@@ -944,39 +1361,29 @@ Poisson distribution
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.PMF`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('``cref:M:FSharp.Stats.Interval`1.ofSeq``')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.PMF\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval`1.ofSeq\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L108-108" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L118-118" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Computes the probability density function at k, i.e. P(K = k)
-
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  lambda
+                  source
                 </span>
                 :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  k
-                </span>
-                :
-                <code>int</code>
+                <code><span>seq&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -985,7 +1392,7 @@ Poisson distribution
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>float</code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
@@ -994,37 +1401,48 @@ Poisson distribution
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2520', 2520)" onmouseover="showTip(event, '2520', 2520)">
+              <code onmouseout="hideTip(event, '2101', 2101)" onmouseover="showTip(event, '2101', 2101)">
                 <p>
-                  <a id="Sample">
-                    <a href="#Sample">
-                      <code><span>Poisson.Sample<span><span>(<span>lambda</span>)</span></span></span></code>
+                  <a id="ofSeqBy">
+                    <a href="#ofSeqBy">
+                      <code><span>Interval.ofSeqBy&#32;<span>projection&#32;source</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2520">
+              <div class="fsdocs-tip" id="2101">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>Poisson.Sample<span><span>(<span>lambda</span>)</span></span></span></code>
+                  <code><span>Interval.ofSeqBy&#32;<span>projection&#32;source</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        lambda
+                        projection
                       </b>
                       :
-                      <code>float</code>
+                      <code><span>'a&#32;->&#32;'b</span></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        source
+                      </b>
+                      :
+                      <code><span>seq&lt;'a&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>int</code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                   </span>
+                  <br/>
+                  Modifiers: 
+                  inline
                   <br/>
                 </div>
               </div>
@@ -1032,31 +1450,37 @@ Poisson distribution
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.Sample`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval`1.ofSeqBy``1```')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.Sample\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval`1.ofSeqBy``1\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L103-103" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L94-94" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
- Produces a random sample using the current random number generator (from GetSampleGenerator()).
-
               </p>
             </div>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  lambda
+                  projection
                 </span>
                 :
-                <code>float</code>
+                <code><span>'a&#32;->&#32;'b</span></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  source
+                </span>
+                :
+                <code><span>seq&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-param-docs"></dd>
             </dl>
@@ -1065,327 +1489,7 @@ Poisson distribution
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code>int</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '2521', 2521)" onmouseover="showTip(event, '2521', 2521)">
-                <p>
-                  <a id="StandardDeviation">
-                    <a href="#StandardDeviation">
-                      <code><span>Poisson.StandardDeviation<span><span>(<span>lambda</span>)</span></span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="2521">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>Poisson.StandardDeviation<span><span>(<span>lambda</span>)</span></span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        lambda
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>float</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.StandardDeviation`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.StandardDeviation\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L41-41" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- Computes the standard deviation.
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  lambda
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '2522', 2522)" onmouseover="showTip(event, '2522', 2522)">
-                <p>
-                  <a id="Support">
-                    <a href="#Support">
-                      <code><span>Poisson.Support<span><span>(<span>lambda</span>)</span></span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="2522">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>Poisson.Support<span><span>(<span>lambda</span>)</span></span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        lambda
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;int&gt;</span></code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.Support`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.Support\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L142-142" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- Returns the support interval for this distribution.
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  lambda
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;int&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '2523', 2523)" onmouseover="showTip(event, '2523', 2523)">
-                <p>
-                  <a id="ToString">
-                    <a href="#ToString">
-                      <code><span>Poisson.ToString<span><span>(<span>lambda</span>)</span></span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="2523">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>Poisson.ToString<span><span>(<span>lambda</span>)</span></span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        lambda
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>string</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.ToString`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.ToString\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L147-147" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- A string representation of the distribution.
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  lambda
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>string</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
-          </td>
-        </tr>
-        <tr>
-          <td class="fsdocs-member-usage">
-            <div>
-              <code onmouseout="hideTip(event, '2524', 2524)" onmouseover="showTip(event, '2524', 2524)">
-                <p>
-                  <a id="Variance">
-                    <a href="#Variance">
-                      <code><span>Poisson.Variance<span><span>(<span>lambda</span>)</span></span></span></code>
-                    </a>
-                  </a>
-                </p>
-              </code>
-              <div class="fsdocs-tip" id="2524">
-                <div class="member-tooltip">
-                  Full Usage: 
-                  <code><span>Poisson.Variance<span><span>(<span>lambda</span>)</span></span></span></code>
-                  <br/>
-                  <br/>
-                  Parameters: 
-                  <ul>
-                    <span>
-                      <b>
-                        lambda
-                      </b>
-                      :
-                      <code>float</code>
-                    </span>
-                    <br/>
-                  </ul>
-                  <br/>
-                  <span>
-                    Returns: 
-                    <code>float</code>
-                  </span>
-                  <br/>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Distributions.Discrete.Poisson.Variance`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Distributions.Discrete.Poisson.Variance\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Distributions/Discrete/Poisson.fs#L36-36" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- Computes the variance.
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  lambda
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
               </dt>
               <dd class="fsdocs-return-docs"></dd>
             </dl>
