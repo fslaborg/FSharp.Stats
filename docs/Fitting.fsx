@@ -75,24 +75,16 @@ let testDataX = vector [|1. .. 10.|]
 
 let testDataY = vector [|0.;-1.;0.;0.;0.;0.;1.;1.;3.;3.5|]
 
-// simple linear regression with a straight line through the data
-let coefSimpL    = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear)
-// simple linear regression with a straight line through the origin (0,0)
-let coefSimpLRTO = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear,Constraint = Constraint.RegressionThroughOrigin)
-// simple linear regression with a straight line through the coordinate 9,1.
-let coefSimpLXY  = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear,Constraint = Constraint.RegressionThroughXY (9.,1.))
-// fits a polynomial of degree 1 (equivalent to simple linear regression)
-let coefPoly_1   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 1)
-// fits a quadratic polynomial
-let coefPoly_2   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 2)
-// fits a cubic polynomial
-let coefPoly_3   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 3)
-// fits a cubic polynomial with weighted points
-let coefPoly_3w  = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 3, Weighting = (vector [1.;1.;1.;1.;2.;2.;2.;10.;1.;1.]))
-// fits a straight line that is insensitive to outliers
-let coefRobTh    = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Robust RobustEstimator.Theil)
-// fits a straight line that is insensitive to outliers
-let coefRobThSen = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Robust RobustEstimator.TheilSen)
+
+let coefSimpL    = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear) // simple linear regression with a straight line through the data
+let coefSimpLRTO = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear,Constraint = Constraint.RegressionThroughOrigin) // simple linear regression with a straight line through the origin (0,0)
+let coefSimpLXY  = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.SimpleLinear,Constraint = Constraint.RegressionThroughXY (9.,1.)) // simple linear regression with a straight line through the coordinate 9,1.
+let coefPoly_1   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 1) // fits a polynomial of degree 1 (equivalent to simple linear regression)
+let coefPoly_2   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 2) // fits a quadratic polynomial
+let coefPoly_3   = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 3) // fits a cubic polynomial
+let coefPoly_3w  = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Polynomial 3, Weighting = (vector [1.;1.;1.;1.;2.;2.;2.;10.;1.;1.])) // fits a cubic polynomial with weighted points
+let coefRobTh    = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Robust RobustEstimator.Theil) // fits a straight line that is insensitive to outliers
+let coefRobThSen = LinearRegression.fit(testDataX, testDataY, FittingMethod = Method.Robust RobustEstimator.TheilSen) // fits a straight line that is insensitive to outliers
 
 // f(x) = -0.167 + -0.096x + -0.001x^2 + 0.005x^3
 let functionStringPoly3 = coefPoly_3.ToString()

@@ -66,7 +66,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <PackageReference Include="altcover" Version="8.2.837" />
+    <PackageReference Include="altcover" Version="8.6.68" />
     <PackageReference Include="Expecto" Version="10.*" />
     <PackageReference Include="YoloDev.Expecto.TestSdk" Version="0.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />

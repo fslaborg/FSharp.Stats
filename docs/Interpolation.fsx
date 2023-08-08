@@ -67,15 +67,16 @@ let testDataX = [|1. .. 10.|]
 
 let testDataY = [|0.;-1.;0.;0.;0.;0.;1.;1.;3.;3.5|]
 
-let coefLinear     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.LinearSpline) // Straight lines passing all points
-let coefAkima      = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.AkimaSubSpline) // Akima cubic subspline
-let coefCubicNa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Natural) // cubic spline with f'' at borders is set to 0
-let coefCubicPe    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Periodic) // cubic spline with equal f' at borders
-let coefCubicNo    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.NotAKnot) // cubic spline with continous f''' at second and penultimate knot
-let coefCubicPa    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Parabolic) // cubic spline with quadratic polynomial at borders
-let coefCubicCl    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline (Interpolation.CubicSpline.BoundaryCondition.Clamped (0,-1))) // cubic spline with border f' set to 0 and -1
-let coefHermite    = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline)
-let coefPolynomial = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.Polynomial)
+let coefLinear      = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.LinearSpline) // Straight lines passing all points
+let coefAkima       = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.AkimaSubSpline) // Akima cubic subspline
+let coefCubicNa     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Natural) // cubic spline with f'' at borders is set to 0
+let coefCubicPe     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Periodic) // cubic spline with equal f' at borders
+let coefCubicNo     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.NotAKnot) // cubic spline with continous f''' at second and penultimate knot
+let coefCubicPa     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Parabolic) // cubic spline with quadratic polynomial at borders
+let coefCubicCl     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline (Interpolation.CubicSpline.BoundaryCondition.Clamped (0,-1))) // cubic spline with border f' set to 0 and -1
+let coefHermite     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline)
+let coefPolynomial  = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.Polynomial) // interpolating polynomial 
+let coefApproximate = Interpolation.Approximation.approxWithPolynomialFromValues(testDataX,testDataY,10,Interpolation.Approximation.Spacing.Chebyshev) //interpolating polynomial of degree 9 with knots spaced according to Chebysehv
 
 let interpolationComparison =
     [
@@ -89,6 +90,7 @@ let interpolationComparison =
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicCl)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_clamped"
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefHermite)    x) |> Chart.Line |> Chart.withTraceInfo "Hermite"
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefPolynomial) x) |> Chart.Line |> Chart.withTraceInfo "Polynomial"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,coefApproximate.Predict x)               |> Chart.Line |> Chart.withTraceInfo "Chebyshev"
     ]
     |> Chart.combine
     |> Chart.withTemplate ChartTemplates.lightMirrored
@@ -444,7 +446,7 @@ To reduce this overfitting you can use x axis nodes that are spaced according to
 // new x values are determined in the x axis range of the data. These should reduce overshooting behaviour.
 // since the original data consisted of 16 points, 16 nodes are initialized
 let xs_cheby = 
-    Interpolation.Approximation.chebyshevNodes (Interval.CreateClosed(0.,3.)) 16
+    Interpolation.Approximation.chebyshevNodes (Interval.CreateClosed<float>(0.,3.)) 16
 
 // to get the corresponding y values to the xs_cheby a linear spline is generated that approximates the new y values
 let ys_cheby =
