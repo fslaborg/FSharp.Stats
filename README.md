@@ -35,13 +35,11 @@ FSharp.Stats is a multipurpose project for statistical testing, linear algebra, 
   - <a href="https://fslab.org/FSharp.Stats/Interpolation.html">Akima subspline interpolation</a>
   - <a href="https://fslab.org/FSharp.Stats/Interpolation.html">Hermite subspline interpolation</a>
 
-
 #### Signal processing
   - <a href="https://fslab.org/FSharp.Stats/Signal.html#Continuous-Wavelet">Continuous wavelet transform</a>
   - <a href="https://fslab.org/FSharp.Stats/Signal.html">Smoothing filters</a>
   - Peak detection
 
-  
 #### Linear Algebra
   - Singular value decomposition
   
