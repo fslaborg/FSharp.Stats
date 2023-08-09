@@ -195,3 +195,4 @@ docsrc/tools/FSharp.Formatting.svclog
 
 .ionide
 /codeCov.txt
+*.exn
