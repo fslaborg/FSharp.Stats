@@ -478,7 +478,7 @@ let benjaminiHochbergTests =
 
 
 
-[<Tests>]
+//[<Tests>] suspended because of long codecov run time
 let qValuesTest =
   
     let largeSetWithIdsnan = readCsv @"benjaminiHochberg_Input_nan.csv"

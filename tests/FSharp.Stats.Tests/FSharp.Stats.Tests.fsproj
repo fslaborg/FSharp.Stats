@@ -69,7 +69,7 @@
     <PackageReference Include="altcover" Version="8.6.68" />
     <PackageReference Include="Expecto" Version="10.*" />
     <PackageReference Include="YoloDev.Expecto.TestSdk" Version="0.*" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
     <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
     <PackageReference Include="Deedle" Version="3.0.0" />
   </ItemGroup>
