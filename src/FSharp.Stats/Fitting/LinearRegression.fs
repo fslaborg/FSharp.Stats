@@ -1006,8 +1006,8 @@ type LinearRegression() =
     ///   Creates prediction function for linear regression.
     /// </summary>
     /// <param name="coeff">Linear regression coefficients (e.g. from LinearRegression.fit())</param>
-    /// <param name="x">x value/vector of which the corresponding y value should be predicted</param>
-    /// <returns>Prediction function that takes an x value or x vector and predicts its corresponding y value.</returns>
+    /// <param name="x">x value of which the corresponding y value should be predicted</param>
+    /// <returns>Prediction function that takes an x value and predicts its corresponding y value.</returns>
     /// <example> 
     /// <code> 
     ///   // e.g. days since experiment start
@@ -1023,9 +1023,45 @@ type LinearRegression() =
     ///   LinearRegression.predict(coefficientsSimpleLinear) 10.5
     /// </code> 
     /// </example>
-    static member predict(coeff: LinearRegression.Coefficients) =
-        fun x -> 
-           match box x with 
-           | :? float as s -> coeff.Predict s
-           | :? vector as v -> coeff.Predict v
-           | _ -> failwithf "Only floats or vectors are allowed as input!"
+    static member predict(coeff: LinearRegression.Coefficients) (xValue: float) =
+        coeff.Predict xValue
+
+    /// <summary>
+    ///   Creates prediction function for multivariate linear regression.
+    /// </summary>
+    /// <param name="coeff">Multivariate linear regression coefficients (e.g. from LinearRegression.fit())</param>
+    /// <param name="x">x value of which the corresponding y value should be predicted</param>
+    /// <returns>Prediction function that takes an x vector and predicts its corresponding y value.</returns>
+    /// <example> 
+    /// <code> 
+    ///   let xVectorMulti =
+    ///       [
+    ///       [1.; 1. ;2.  ]
+    ///       [2.; 0.5;6.  ]
+    ///       [3.; 0.8;10. ]
+    ///       [4.; 2. ;14. ]
+    ///       [5.; 4. ;18. ]
+    ///       [6.; 3. ;22. ]
+    ///       ]
+    ///       |> Matrix.ofJaggedSeq
+    ///   
+    ///   // Here the x values are transformed. In most cases the y values are just provided.
+    ///   let yVectorMulti = 
+    ///       let transformX (x) =
+    ///           x
+    ///           |> Matrix.mapiRows (fun _ v -> 100. + (v.[0] * 2.5) + (v.[1] * 4.) + (v.[2] * 0.5))
+    ///       xVectorMulti
+    ///       |> transformX
+    ///       |> vector
+    ///   
+    ///   // Estimate the intercept and slope of a line, that fits the data.
+    ///   let coefficientsSimpleLinear = 
+    ///       LinearRegression.fit(xVectorMulti,yVectorMulti,FittingMethod=Fitting.Method.SimpleLinear)
+    ///   
+    ///   // Predict the size on day 10.5
+    ///   LinearRegression.predictMultivariate(coefficientsSimpleLinear) (vector [1.;2.;3.;])
+    /// </code> 
+    /// </example>
+    static member predictMultivariate(coeff: LinearRegression.Coefficients) (xVector: vector) =
+        coeff.Predict xVector
+        
