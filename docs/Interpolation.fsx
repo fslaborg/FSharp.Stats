@@ -74,23 +74,27 @@ let coefCubicPe     = Interpolation.interpolate(testDataX,testDataY,Interpolatio
 let coefCubicNo     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.NotAKnot) // cubic spline with continous f''' at second and penultimate knot
 let coefCubicPa     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Parabolic) // cubic spline with quadratic polynomial at borders
 let coefCubicCl     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline (Interpolation.CubicSpline.BoundaryCondition.Clamped (0,-1))) // cubic spline with border f' set to 0 and -1
-let coefHermite     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline)
+let coefHermite     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline HermiteMethod.CSpline)
+let coefHermiteMono = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline HermiteMethod.TryMonotonicity)
+let coefHermiteSlop = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline (HermiteMethod.WithSlopes (vector [0.;0.;0.;0.;0.;0.;])))
 let coefPolynomial  = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.Polynomial) // interpolating polynomial 
 let coefApproximate = Interpolation.Approximation.approxWithPolynomialFromValues(testDataX,testDataY,10,Interpolation.Approximation.Spacing.Chebyshev) //interpolating polynomial of degree 9 with knots spaced according to Chebysehv
 
 let interpolationComparison =
     [
         Chart.Point(testDataX,testDataY,Name="data")
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefLinear)     x) |> Chart.Line |> Chart.withTraceInfo "Linear"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefAkima)      x) |> Chart.Line |> Chart.withTraceInfo "Akima"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicNa)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_natural"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicPe)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_periodic"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicNo)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_notaknot"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicPa)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_parabolic"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicCl)    x) |> Chart.Line |> Chart.withTraceInfo "Cubic_clamped"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefHermite)    x) |> Chart.Line |> Chart.withTraceInfo "Hermite"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefPolynomial) x) |> Chart.Line |> Chart.withTraceInfo "Polynomial"
-        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,coefApproximate.Predict x)               |> Chart.Line |> Chart.withTraceInfo "Chebyshev"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefLinear)      x) |> Chart.Line |> Chart.withTraceInfo "Linear"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefAkima)       x) |> Chart.Line |> Chart.withTraceInfo "Akima"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicNa)     x) |> Chart.Line |> Chart.withTraceInfo "Cubic_natural"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicPe)     x) |> Chart.Line |> Chart.withTraceInfo "Cubic_periodic"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicNo)     x) |> Chart.Line |> Chart.withTraceInfo "Cubic_notaknot"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicPa)     x) |> Chart.Line |> Chart.withTraceInfo "Cubic_parabolic"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicCl)     x) |> Chart.Line |> Chart.withTraceInfo "Cubic_clamped"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefHermite)     x) |> Chart.Line |> Chart.withTraceInfo "Hermite cSpline"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefHermiteMono) x) |> Chart.Line |> Chart.withTraceInfo "Hermite monotone"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefHermiteSlop) x) |> Chart.Line |> Chart.withTraceInfo "Hermite slope"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefPolynomial)  x) |> Chart.Line |> Chart.withTraceInfo "Polynomial"
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,coefApproximate.Predict x)                |> Chart.Line |> Chart.withTraceInfo "Chebyshev"
     ]
     |> Chart.combine
     |> Chart.withTemplate ChartTemplates.lightMirrored

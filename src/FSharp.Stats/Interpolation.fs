@@ -972,6 +972,208 @@ module Interpolation =
                         else
                             this.PredictWithinRange x
 
+        /// creates 2*(n-1) equation-solution pairs, that set the y value to the given y values
+        let internal getInterpolatingConstraints (xValues: Vector<float>) (yValues: Vector<float>) =
+
+            let (xVal,yVal) =
+                let indices =
+                    xValues
+                    |> Seq.indexed
+                    |> Seq.sortBy snd
+                    |> Seq.map fst
+                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
+                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
+                sortedXValues,sortedYValues
+
+            let intervalNumber = xVal.Length - 1
+
+            let interpolatingConstraints intervalIndex (x:float) (y:float) =
+                let tmp = Array.zeroCreate (4 * intervalNumber) 
+                tmp.[4 * intervalIndex + 0] <- pown x 3  
+                tmp.[4 * intervalIndex + 1] <- pown x 2 
+                tmp.[4 * intervalIndex + 2] <- x
+                tmp.[4 * intervalIndex + 3] <- 1.
+                (tmp,y)
+
+            let (equations,solutions) =
+                [|0 .. intervalNumber - 1|]
+                |> Array.map (fun i -> 
+                    [|
+                    interpolatingConstraints i xVal.[i] yVal.[i]
+                    interpolatingConstraints i xVal.[i+1] yVal.[i+1]
+                    |])
+                |> Array.concat
+                |> Array.unzip
+            (equations,solutions)
+            
+        /// creates 2*(n-1) equation-solution pairs, that set the slope at all knots to the specified value
+        let internal getFstDerivativeConstraints (xValues: Vector<float>) (yValues: Vector<float>) (slopes: Vector<float>) =
+
+            let (xVal,yVal,c1) =
+                let indices =
+                    xValues
+                    |> Seq.indexed
+                    |> Seq.sortBy snd
+                    |> Seq.map fst
+                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
+                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
+                let sortedslopes = indices |> Seq.map (fun i -> slopes.[i]) |> vector
+                sortedXValues,sortedYValues,sortedslopes
+
+            let intervalNumber = xVal.Length - 1
+
+            let lgs1 = 
+                Array.init intervalNumber (fun i -> 
+                    let tmp1 = Array.zeroCreate (4 * intervalNumber)
+                    tmp1.[4 * i + 0] <- 3. * (pown xVal.[i] 2)
+                    tmp1.[4 * i + 1] <- 2. * xVal.[i]
+                    tmp1.[4 * i + 2] <- 1.
+                    tmp1,c1.[i])
+
+            //set derivative at knots equal
+            let lgs2 = 
+                Array.init intervalNumber (fun i ->  
+                    let tmp1 = Array.zeroCreate (4 * intervalNumber)
+                    tmp1.[4 * i + 0] <- 3. * (pown xVal.[i+1] 2)
+                    tmp1.[4 * i + 1] <- 2. * xVal.[i+1]
+                    tmp1.[4 * i + 2] <- 1.
+                    tmp1,c1.[i+1])
+                
+            let (equations,solutions) =
+                [|lgs1;lgs2|] |> Array.concat
+                |> Array.unzip
+            (equations,solutions)
+            
+        /// creates n-1 equation-solution pairs, that define the slope at the inner knots to be equal
+        let internal getFstDerivativeConstraintsDefault (xValues: Vector<float>) (yValues: Vector<float>) =
+
+            let (xVal,yVal) =
+                let indices =
+                    xValues
+                    |> Seq.indexed
+                    |> Seq.sortBy snd
+                    |> Seq.map fst
+                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
+                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
+                sortedXValues,sortedYValues
+
+            let intervalNumber = xVal.Length - 1
+
+            let slopes = 
+                Array.init (intervalNumber-1) (fun i  -> 
+                    let f'a = 3. * (pown xValues.[i+1] 2)
+                    let f'b = 2. * xValues.[i+1]
+                    let f'c = 1.
+                    
+                    let tmp1 = Array.zeroCreate (4 * intervalNumber)
+                    tmp1.[4 * i + 0] <- f'a
+                    tmp1.[4 * i + 1] <- f'b
+                    tmp1.[4 * i + 2] <- f'c
+                    tmp1.[4 * i + 4] <- - f'a
+                    tmp1.[4 * i + 5] <- - f'b
+                    tmp1.[4 * i + 6] <- - f'c
+                    tmp1,0.)
+                
+            let (equations,solutions) =
+                slopes
+                |> Array.unzip
+            (equations,solutions)
+            
+        /// creates 2*(n-1) equation-solution pairs, that set the curvature at all knots to the specified value
+        let internal getSndDerivativeConstraints (xValues: Vector<float>) (yValues: Vector<float>) (curvature: Vector<float>) =
+
+            let (xVal,yVal,c2) =
+                let indices =
+                    xValues
+                    |> Seq.indexed
+                    |> Seq.sortBy snd
+                    |> Seq.map fst
+                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
+                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
+                let sortedslopes = indices |> Seq.map (fun i -> curvature.[i]) |> vector
+                sortedXValues,sortedYValues,sortedslopes
+
+            let intervalNumber = xVal.Length - 1
+
+            let lgs1 = 
+                Array.init intervalNumber (fun i -> 
+                    let tmp1 = Array.zeroCreate (4 * intervalNumber)
+                    tmp1.[4 * i + 0] <- 6. * xValues.[i]
+                    tmp1.[4 * i + 1] <- 2.
+                    tmp1,c2.[i])
+                
+            let lgs2 = 
+                Array.init intervalNumber (fun i -> 
+                    let tmp1 = Array.zeroCreate (4 * intervalNumber)
+                    tmp1.[4 * i + 0] <- 6. * xValues.[i+1]
+                    tmp1.[4 * i + 1] <- 2.
+                    tmp1,c2.[i+1])
+
+            let (equations,solutions) =
+                [|lgs1;lgs2|]
+                |> Array.concat
+                |> Array.unzip
+            (equations,solutions)
+
+        /// creates n-1 equation-solution pairs, that define the curvature at the inner knots to be equal
+        let internal getSndDerivativeConstraintsDefault (xValues: Vector<float>) (yValues: Vector<float>) =
+
+            let (xVal,yVal) =
+                let indices =
+                    xValues
+                    |> Seq.indexed
+                    |> Seq.sortBy snd
+                    |> Seq.map fst
+                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
+                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
+                sortedXValues,sortedYValues
+
+            let intervalNumber = xVal.Length - 1
+
+            let secondDerivativeConstraints =
+                Array.init (intervalNumber-1) (fun i -> 
+                    let f''a = 6. * xValues.[i+1]
+                    let f''b = 2.
+                    let tmp1 = Array.zeroCreate (4 * intervalNumber)
+                    tmp1.[4 * i + 0] <- f''a
+                    tmp1.[4 * i + 1] <- f''b
+                    tmp1.[4 * i + 4] <- - f''a
+                    tmp1.[4 * i + 5] <- - f''b
+                    tmp1,0.)
+                
+            let (equations,solutions) =
+                secondDerivativeConstraints
+                |> Array.unzip
+            (equations,solutions)
+        
+        /// <summary>
+        ///   Interpolates x and y coordinates with given slopes at the knots. Curvature cannot be set anymore
+        /// </summary>
+        let interpolateWithSlopes x y slopes = 
+            let interpol,i = getInterpolatingConstraints x y 
+            let slopes,s = getFstDerivativeConstraints x y slopes
+            let (equations,solutions) = 
+                [|interpol;slopes|] |> Array.concat, [|i;s|] |> Array.concat
+            let A = Matrix.ofJaggedArray equations
+            let b = Vector.ofArray solutions
+
+            let coeffs = Algebra.LinearAlgebra.SolveLinearSystem A b 
+            CubicSplineCoef.Create x coeffs
+
+        /// <summary>
+        ///   Interpolates x and y coordinates with given slopes at the knots. Probably makes no sense because slope isnt continuous anymore/// <summary>
+        /// </summary>
+        let interpolateWithCurvature x y curvatures = 
+            let interpol,i = getInterpolatingConstraints x y 
+            let curv,c = getSndDerivativeConstraints x y curvatures
+            let (equations,solutions) = 
+                [|interpol;curv|] |> Array.concat, [|i;c|] |> Array.concat
+            let A = Matrix.ofJaggedArray equations
+            let b = Vector.ofArray solutions
+
+            let coeffs = Algebra.LinearAlgebra.SolveLinearSystem A b 
+            CubicSplineCoef.Create x coeffs
+
         /// <summary>
         ///   Computes coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
         ///   where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)
@@ -1164,6 +1366,7 @@ module Interpolation =
 
             let coeffs = Algebra.LinearAlgebra.SolveLinearSystem A b 
             CubicSplineCoef.Create xValues coeffs
+
 
         /// <summary>
         ///   Returns function that takes x value (that lies within the range of input x values) and predicts the corresponding interpolating y value.
@@ -1417,7 +1620,7 @@ module Interpolation =
                                     | None   -> failwith "The given xValue is out of the range defined in xData"
                                 calculate i x
                             
-
+                            
             /// <summary>
             ///   Computes coefficients for piecewise interpolating splines.
             ///   The x data has to be sorted ascending.
@@ -1438,7 +1641,7 @@ module Interpolation =
             ///
             /// </code> 
             /// </example>
-            /// <remarks>Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations!</remarks>
+            /// <remarks>Second derivative (curvature) is NOT necessarily continuous at knots to allow higher flexibility to reduce oscillations!</remarks>
             let interpolate (xData: Vector<float>) (yData: Vector<float>) = 
                 let slopes = 
                     Vector.init xData.Length (fun i ->
@@ -1451,6 +1654,18 @@ module Interpolation =
                             let s2 = (yData.[i] - yData.[i-1]) / (xData.[i] - xData.[i-1])
                             (s1 + s2) / 2.
                         )
+                HermiteCoef.Create xData yData slopes
+
+            /// <summary>
+            ///   Computes coefficients for piecewise interpolating splines.
+            ///   The x data has to be sorted ascending.
+            /// </summary>
+            /// <param name="xData">Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)</param>
+            /// <param name="yData">function value at x values</param>
+            /// <param name="slopes">slopes at x values</param>
+            /// <returns>Coefficients that define the interpolating function.</returns>
+            /// <remarks>Second derivative (curvature) is NOT necessarily continuous at knots to allow higher flexibility to reduce oscillations!</remarks>
+            let interpolateWithSlopes (xData: Vector<float>) (yData: Vector<float>) (slopes: Vector<float>) = 
                 HermiteCoef.Create xData yData slopes
 
             /// <summary>
@@ -1809,6 +2024,23 @@ module Interpolation =
 
 open Interpolation
 
+[<RequireQualifiedAccess>]
+type HermiteMethod = 
+    /// <summary>
+    ///   Default hermite spline (cSpline)
+    /// </summary>
+    | CSpline
+    /// <summary>
+    ///   Creates a spline from x,y coordinates. x,y coordinates are interpolated by cubic polynomialsbetween two knots.
+    ///   The slope at each knot is defined by a input slope vector.
+    /// </summary>
+    | WithSlopes of vector
+    /// <summary>
+    ///   Creates a spline from x,y coordinates. x,y coordinates are interpolated by cubic polynomialsbetween two knots.
+    ///   If a region in the raw data is monotone, the resulting interpolator is monotone as well.
+    /// </summary>
+    | TryMonotonicity
+
 /// <summary>
 ///   Lets the user choose between 5 interpolation methods. One simply connects dots (LinearSpline), one forms a single interpolating polynomial (Polynomial, and three of them employ piecewise cubic polynomials.
 /// </summary>
@@ -1833,9 +2065,11 @@ type InterpolationMethod =
     /// </summary>
     | AkimaSubSpline
     /// <summary>
-    ///   Creates a spline as piecewise cubic polynomials.
+    ///   Creates a spline as piecewise cubic polynomials with given slope.
     /// </summary>
-    | HermiteSpline
+    /// <param name="HermiteMethod" choose between cSpline, given slopes or monotonicity when appropriate</param>
+    | HermiteSpline of HermiteMethod
+
 
 /// <summary>This type summarizes coefficient types from various interpolation methods.</summary>
 [<RequireQualifiedAccess>]
@@ -1900,7 +2134,11 @@ type Interpolation() =
             | InterpolationMethod.Polynomial        -> Polynomial.interpolate (vector xData) (vector yData) |> InterpolationCoefficients.PolynomialCoef
             | InterpolationMethod.CubicSpline bc    -> CubicSpline.interpolate bc (vector xData) (vector yData) |> InterpolationCoefficients.CubicSplineCoef
             | InterpolationMethod.AkimaSubSpline    -> Akima.interpolate xData yData |> InterpolationCoefficients.AkimaSubSplineCoef
-            | InterpolationMethod.HermiteSpline     -> CubicSpline.Hermite.interpolate (vector xData) (vector yData) |> InterpolationCoefficients.HermiteSplineCoef
+            | InterpolationMethod.HermiteSpline s   -> 
+                match s with
+                | HermiteMethod.CSpline           -> CubicSpline.Hermite.interpolate (vector xData) (vector yData) |> InterpolationCoefficients.HermiteSplineCoef
+                | HermiteMethod.WithSlopes s      -> CubicSpline.Hermite.interpolateWithSlopes (vector xData) (vector yData) s |> InterpolationCoefficients.HermiteSplineCoef
+                | HermiteMethod.TryMonotonicity   -> CubicSpline.Hermite.interpolateTryMonotonicity (vector xData) (vector yData) |> InterpolationCoefficients.HermiteSplineCoef
         interpolate method xValues yValues 
 
     /// <summary>
