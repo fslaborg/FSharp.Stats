@@ -712,7 +712,7 @@ module Interpolation =
                 tmp.[0]          <- Integration.Differentiation.differentiateThreePoint xValues yValues 0 0 1 2
                 tmp.[1]          <- Integration.Differentiation.differentiateThreePoint xValues yValues 1 0 1 2 
                 tmp.[xValues.Length-2] <- Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-2) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
-                tmp.[xValues.Length-1] <- Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-2) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
+                tmp.[xValues.Length-1] <- Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-1) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
                 tmp
             interpolateHermiteSorted xValues yValues dd
     
@@ -863,6 +863,8 @@ module Interpolation =
             | Quadratic
             ///f' at first and last knot are set by user
             | Clamped of (float*float)
+            ///f'' at first and last knot are set by user
+            | SecondDerivative of (float*float)
     
         /// <summary>
         /// Contains x data, y data (c0), slopes (c1), curvatures (c2), and the third derivative at each knot
@@ -1336,6 +1338,15 @@ module Interpolation =
                     tmp2.[4 * (intervalNumber - 1) + 0] <- 3. * (pown lastX 2)
                     tmp2.[4 * (intervalNumber - 1) + 1] <- 2. * lastX
                     tmp2.[4 * (intervalNumber - 1) + 2] <- 1.
+                    [|(tmp1,m1);(tmp2,m2)|]
+                | SecondDerivative (m1,m2)-> //user defined border f''
+                    //first condition: f''0(x0) = m1
+                    tmp1.[0] <- 6. * firstX
+                    tmp1.[1] <- 2.
+
+                    //second condition: f''n-1(xn) = m2
+                    tmp2.[4 * (intervalNumber - 1) + 0] <- 6. * lastX
+                    tmp2.[4 * (intervalNumber - 1) + 1] <- 2.
                     [|(tmp1,m1);(tmp2,m2)|]
 
             let (equations,solutions) =
@@ -2080,6 +2091,13 @@ type InterpolationCoefficients =
     | AkimaSubSplineCoef   of Akima.SubSplineCoef
     | HermiteSplineCoef    of CubicSpline.Hermite.HermiteCoef
     with 
+        member this.Predict x =
+            match this with
+            | LinearSplineCoef   c -> LinearSpline.predict c x
+            | PolynomialCoef     c -> Polynomial.predict c x 
+            | CubicSplineCoef    c -> CubicSpline.predict c x 
+            | AkimaSubSplineCoef c -> Akima.predict c x 
+            | HermiteSplineCoef  c -> CubicSpline.Hermite.predict c x
         member this.GetLinearSplineCoef() = 
             match this with 
             | LinearSplineCoef x   -> x
