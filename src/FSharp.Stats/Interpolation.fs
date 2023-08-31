@@ -365,7 +365,7 @@ module Interpolation =
                 /// 
                 /// // get slopes and intersects for interpolating straight lines
                 /// let coefficients = 
-                ///     Interpolation.initInterpolate xData yData 
+                ///     Interpolation.LinearSpline.interpolate xData yData 
                 ///
                 /// // get y value at 3.4
                 /// coefficients.Predict 3.4 
@@ -432,7 +432,7 @@ module Interpolation =
         /// 
         /// // get slopes and intersects for interpolating straight lines
         /// let coefficients = 
-        ///     Interpolation.initInterpolateSorted xData yData 
+        ///     Interpolation.LinearSpline.interpolateSorted xData yData 
         /// </code> 
         /// </example>
         /// <remarks>The intersects (C0) correspond to the input y values.</remarks>
@@ -467,7 +467,7 @@ module Interpolation =
         /// 
         /// // get slopes and intersects for interpolating straight lines
         /// let coefficients = 
-        ///     Interpolation.initInterpolateInplace xData yData 
+        ///     Interpolation.LinearSpline.interpolateInplace xData yData 
         /// </code> 
         /// </example>
         /// <remarks>Works in place!</remarks>
@@ -498,7 +498,7 @@ module Interpolation =
         /// 
         /// // get slopes and intersects for interpolating straight lines
         /// let coefficients = 
-        ///     Interpolation.initInterpolate xData yData 
+        ///     Interpolation.LinearSpline.interpolate xData yData 
         /// </code> 
         /// </example>
         /// <remarks>Must not contain duplicate x values. Use Approximation.regularizeValues to preprocess data!</remarks>
@@ -530,15 +530,191 @@ module Interpolation =
         /// 
         /// // get slopes and intersects for interpolating straight lines
         /// let coefficients = 
-        ///     Interpolation.initInterpolate xData yData 
+        ///     Interpolation.LinearSpline.initInterpolate xData yData 
+        ///
+        /// // get y value at 3.4
+        /// Interpolation.LinearSpline.interpolate coefficients 3.4 
+        /// </code> 
+        /// </example>
+        /// <remarks>X values that don't not lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
+        let predict (lsc: LinearSplineCoef) x =
+            //let k = leftSegmentIdx lsc.XValues x
+            //lsc.C0.[k] + (x - lsc.XValues.[k]) * lsc.C1.[k]     
+            lsc.Predict x
+
+        /// <summary>
+        ///   Predicts the slope at point x. Since linear splines are lines between each pair of adjacend knots, the slope of the function within the interval of adjacent knots is constant.
+        /// </summary>
+        /// <param name="lsc">Linear spline coefficients given as input x values, intersects, and slopes.</param>
+        /// <param name="x">X value at which the corresponding slope should be predicted</param>
+        /// <returns>Slope of the function at the given x value.</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. days since a certain event
+        /// let xData = vector [|0.;1.;5.;4.;3.;|]
+        /// // some measured feature
+        /// let yData = vector [|1.;5.;4.;13.;17.|]
+        /// 
+        /// // get slopes and intersects for interpolating straight lines
+        /// let coefficients = 
+        ///     Interpolation.LinearSpline.initInterpolate xData yData 
+        ///
+        /// // get slope at 3.4
+        /// Interpolation.LinearSpline.differentiate coefficients 3.4 
+        /// </code> 
+        /// </example>
+        /// <remarks>X values that don't lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
+        let differentiate (lsc: LinearSplineCoef) x =
+            let k = leftSegmentIdx lsc.XValues x
+            lsc.C1.[k]
+
+    /// <summary>
+    ///   Module to create linear splines from x,y coordinates. x,y coordinates are interpolated by straight lines between two knots.
+    /// </summary>
+    /// <remarks>Equivalent to interval-wise simple linear regression between any neighbouring pair of data.</remarks>
+    module Step = 
+
+        let internal leftSegmentIdxStep arr value = 
+            let idx = 
+                let tmp = Array.BinarySearch(arr, value)
+                let idx = if tmp < 0 then ~~~tmp-1 else tmp
+                idx
+            Math.Min(arr.Length-1,Math.Max(idx, 0))
+
+        /// <summary>
+        ///   Record type that contains the x-knots, intersects (C0) and slopes (C1) of each interval.
+        /// </summary>
+        /// <remarks>Equivalent to interval-wise simple linear regression between any neighbouring pair of data.</remarks>
+        type StepCoef = {
+            /// sample points (n+1), sorted ascending
+            XValues : float []
+            /// Zero order spline coefficients (n), corresponding to line intersects
+            C0 : float []} with
+                static member Create xValues c0 = {
+                    XValues = xValues;
+                    C0      = c0;
+                    }
+                /// <summary>
+                ///   Predicts the y value at point x. A straight line is fitted between the neighboring x values given.
+                /// </summary>
+                /// <param name="x">X value at which the corresponding y value should be predicted</param>
+                /// <returns>Y value corresponding to the given x value.</returns>
+                /// <example> 
+                /// <code> 
+                /// // e.g. days since a certain event
+                /// let xData = vector [|0.;1.;5.;4.;3.;|]
+                /// // some measured feature
+                /// let yData = vector [|1.;5.;4.;13.;17.|]
+                /// 
+                /// // get slopes and intersects for interpolating straight lines
+                /// let coefficients = 
+                ///     Interpolation.Step.interpolate xData yData 
+                ///
+                /// // get y value at 3.4
+                /// coefficients.Predict 3.4 
+                /// </code> 
+                /// </example>
+                /// <remarks>X values that don't not lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
+                member this.Predict = 
+                    fun x -> 
+                        //if x > Seq.last this.XValues then Seq.last this.C0
+                        //else
+                        let k = leftSegmentIdxStep this.XValues x
+                        this.C0.[k]
+                        
+                /// <summary>
+                ///   Determines the coefficients of the derivative of the given step function.
+                /// </summary>
+                /// <returns>Coefficients of the fst derivative of the linear spline</returns>
+                member this.Differentiate() = 
+                    StepCoef.Create this.XValues (Array.zeroCreate this.C0.Length)
+                
+                /// <summary>
+                ///   Calculates slope values at X=x with given step function coefficients.
+                /// </summary>
+                /// <param name="x">x value of which the corresponding y value slope should be predicted</param>
+                /// <returns>predicted slope of given step function at X=x</returns>
+                member this.getDerivative x = 
+                    0.
+
+        /// <summary>
+        ///   Returns the step function coefficients from x,y data that is sorted ascending according to x values.
+        /// </summary>
+        /// <param name="xData">Collection of ascending x values</param>
+        /// <param name="yData">Collection of y values</param>
+        /// <returns>x-values and intersects of step function</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. days since a certain event
+        /// let xData = vector [|0.;1.;2.;3.;4.;5.;|]
+        /// // some measured feature
+        /// let yData = vector [|1.;5.;9.;13.;17.;18.;|]
+        /// 
+        /// // get intersects for interpolating step function
+        /// let coefficients = 
+        ///     Interpolation.Step.interpolateSorted xData yData 
+        /// </code> 
+        /// </example>
+        /// <remarks>The intersects (C0) correspond to the input y values.</remarks>
+        /// <remarks>Must not contain duplicate x values. Use Approximation.regularizeValues to preprocess data!</remarks>
+        let interpolateSorted (xData: array<float>) (yData: array<float>) =
+            if xData.Length <> yData.Length then
+                failwith "input arrays differ in length"  
+
+            StepCoef.Create xData yData
+
+        /// <summary>
+        ///   Returns the step function interpolation coefficients from unsorted x,y data.
+        /// </summary>
+        /// <param name="xData">Collection of x values.</param>
+        /// <param name="yData">Collection of y values.</param>
+        /// <returns>x-values and intersects of interpolating step function</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. days since a certain event
+        /// let xData = vector [|0.;1.;5.;4.;3.;|]
+        /// // some measured feature
+        /// let yData = vector [|1.;5.;4.;13.;17.|]
+        /// 
+        /// // get slopes for interpolating step lines
+        /// let coefficients = 
+        ///     Interpolation.Step.interpolate xData yData 
+        /// </code> 
+        /// </example>
+        /// <remarks>Must not contain duplicate x values. Use Approximation.regularizeValues to preprocess data!</remarks>
+        let interpolate (xData: array<float>) (yData: array<float>) =
+            if xData.Length <> yData.Length then
+                failwith "input arrays differ in length"
+        
+            let x' = Array.copy xData
+            let y' = Array.copy yData
+            Array.sort2InPlaceByKeys 0 (x'.Length) x' y'
+            interpolateSorted x' y'
+
+        /// <summary>
+        ///   Predicts the y value at point x. A straight horizontal step line is drawn at x0,y0 to the next neighboring x value.
+        /// </summary>
+        /// <param name="lsc">Step functioncoefficients given as input x values and intersects.</param>
+        /// <param name="x">X value at which the corresponding y value should be predicted</param>
+        /// <returns>Y value corresponding to the given x value.</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. days since a certain event
+        /// let xData = vector [|0.;1.;5.;4.;3.;|]
+        /// // some measured feature
+        /// let yData = vector [|1.;5.;4.;13.;17.|]
+        /// 
+        /// // get slopes and intersects for interpolating straight lines
+        /// let coefficients = 
+        ///     Interpolation.Step.interpolate xData yData 
         ///
         /// // get y value at 3.4
         /// Interpolation.interpolate coefficients 3.4 
         /// </code> 
         /// </example>
         /// <remarks>X values that don't not lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
-        let predict (lsc: LinearSplineCoef) x =
-            //let k = leftSegmentIdx lsc.XValues x
+        let predict (lsc: StepCoef) x =
+            //let k = leftSegmentIdxStep lsc.XValues x
             //lsc.C0.[k] + (x - lsc.XValues.[k]) * lsc.C1.[k]     
             lsc.Predict x
 
@@ -564,9 +740,8 @@ module Interpolation =
         /// </code> 
         /// </example>
         /// <remarks>X values that don't lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
-        let differentiate (lsc: LinearSplineCoef) x =
-            let k = leftSegmentIdx lsc.XValues x
-            lsc.C1.[k]
+        let differentiate (lsc: StepCoef) x =
+            0.
 
 
     /// <summary>
@@ -688,33 +863,38 @@ module Interpolation =
             elif
                 xValues.Length < 5 then
                 failwith "input arrays are too small to perform a spline interpolation" 
+        
+            let x' = Array.copy xValues
+            let y' = Array.copy yValues
+            Array.sort2InPlaceByKeys 0 (x'.Length) x' y'
+
             // prepare divided differences (diff) and weights (we)
             let diff = 
-                let tmp = Array.zeroCreate (xValues.Length-1)
+                let tmp = Array.zeroCreate (x'.Length-1)
                 for i = 0 to tmp.Length-1 do
-                    tmp.[i] <- (yValues.[i+1] - yValues.[i])/(xValues.[i+1] - xValues.[i])
+                    tmp.[i] <- (y'.[i+1] - y'.[i])/(x'.[i+1] - x'.[i])
                 tmp
             let we  = 
-                let tmp = Array.zeroCreate (xValues.Length-1)
+                let tmp = Array.zeroCreate (x'.Length-1)
                 for i = 1 to tmp.Length-1 do
                     tmp.[i] <- (diff.[i]-diff.[i-1]) |> abs 
                 tmp
             // prepare Hermite interpolation scheme   
             let dd = 
-                let tmp = Array.zeroCreate xValues.Length
+                let tmp = Array.zeroCreate x'.Length
                 for i = 2 to tmp.Length-3 do 
                     let ddi = 
                         if Precision.almostEqualNorm we.[i-1] 0.0 && Precision.almostEqualNorm we.[i+1] 0.0 then
-                            (((xValues.[i + 1] - xValues.[i])*diff.[i - 1]) + ((xValues.[i] - xValues.[i - 1])*diff.[i]))/(xValues.[i + 1] - xValues.[i - 1])
+                            (((x'.[i + 1] - x'.[i])*diff.[i - 1]) + ((x'.[i] - x'.[i - 1])*diff.[i]))/(x'.[i + 1] - x'.[i - 1])
                         else
                             ((we.[i + 1]*diff.[i - 1]) + (we.[i - 1]*diff.[i]))/(we.[i + 1] + we.[i - 1])
                     tmp.[i] <- ddi 
-                tmp.[0]          <- Integration.Differentiation.differentiateThreePoint xValues yValues 0 0 1 2
-                tmp.[1]          <- Integration.Differentiation.differentiateThreePoint xValues yValues 1 0 1 2 
-                tmp.[xValues.Length-2] <- Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-2) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
-                tmp.[xValues.Length-1] <- Integration.Differentiation.differentiateThreePoint xValues yValues (xValues.Length-1) (xValues.Length-3) (xValues.Length-2) (xValues.Length-1)
+                tmp.[0]          <- Integration.Differentiation.differentiateThreePoint x' y' 0 0 1 2
+                tmp.[1]          <- Integration.Differentiation.differentiateThreePoint x' y' 1 0 1 2 
+                tmp.[x'.Length-2] <- Integration.Differentiation.differentiateThreePoint x' y' (x'.Length-2) (x'.Length-3) (x'.Length-2) (x'.Length-1)
+                tmp.[x'.Length-1] <- Integration.Differentiation.differentiateThreePoint x' y' (x'.Length-1) (x'.Length-3) (x'.Length-2) (x'.Length-1)
                 tmp
-            interpolateHermiteSorted xValues yValues dd
+            interpolateHermiteSorted x' y' dd
     
         /// <summary>
         ///   Returns function that takes x value and predicts the corresponding interpolating y value. 
@@ -1151,9 +1331,17 @@ module Interpolation =
         /// <summary>
         ///   Interpolates x and y coordinates with given slopes at the knots. Curvature cannot be set anymore
         /// </summary>
-        let interpolateWithSlopes x y slopes = 
-            let interpol,i = getInterpolatingConstraints x y 
-            let slopes,s = getFstDerivativeConstraints x y slopes
+        let interpolateWithSlopes (x: vector) (y: vector) (slopes: vector) = 
+            
+            let x',y',s' = 
+                let order = x |> Seq.indexed |> Seq.sortBy snd |> Seq.map fst
+                let l = Seq.length order
+                Vector.init l (fun i -> x.[order |> Seq.item i]),
+                Vector.init l (fun i -> y.[order |> Seq.item i]),
+                Vector.init l (fun i -> slopes.[order |> Seq.item i])
+
+            let interpol,i = getInterpolatingConstraints x' y'
+            let slopes,s = getFstDerivativeConstraints x' y' s'
             let (equations,solutions) = 
                 [|interpol;slopes|] |> Array.concat, [|i;s|] |> Array.concat
             let A = Matrix.ofJaggedArray equations
@@ -1165,9 +1353,15 @@ module Interpolation =
         /// <summary>
         ///   Interpolates x and y coordinates with given slopes at the knots. Probably makes no sense because slope isnt continuous anymore/// <summary>
         /// </summary>
-        let interpolateWithCurvature x y curvatures = 
-            let interpol,i = getInterpolatingConstraints x y 
-            let curv,c = getSndDerivativeConstraints x y curvatures
+        let interpolateWithCurvature (x: vector) (y: vector) (curvatures: vector) = 
+            let x',y',c' = 
+                let order = x |> Seq.indexed |> Seq.sortBy snd |> Seq.map fst
+                let l = Seq.length order
+                Vector.init l (fun i -> x.[order |> Seq.item i]),
+                Vector.init l (fun i -> y.[order |> Seq.item i]),
+                Vector.init l (fun i -> curvatures.[order |> Seq.item i])
+            let interpol,i = getInterpolatingConstraints x' y' 
+            let curv,c = getSndDerivativeConstraints x' y' c'
             let (equations,solutions) = 
                 [|interpol;curv|] |> Array.concat, [|i;c|] |> Array.concat
             let A = Matrix.ofJaggedArray equations
@@ -1202,14 +1396,13 @@ module Interpolation =
             //f''(x) = 6ax+2b
 
             let (xVal,yVal) =
-                let indices =
+                let order =
                     xValues
                     |> Seq.indexed
                     |> Seq.sortBy snd
                     |> Seq.map fst
-                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
-                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
-                sortedXValues,sortedYValues
+                Vector.init xValues.Length (fun i -> xValues.[Seq.item i order]),
+                Vector.init xValues.Length (fun i -> yValues.[Seq.item i order])
 
             let intervalNumber = xVal.Length - 1
 
@@ -1376,7 +1569,7 @@ module Interpolation =
             let b = Vector.ofArray solutions
 
             let coeffs = Algebra.LinearAlgebra.SolveLinearSystem A b 
-            CubicSplineCoef.Create xValues coeffs
+            CubicSplineCoef.Create xVal coeffs
 
 
         /// <summary>
@@ -1622,19 +1815,66 @@ module Interpolation =
                                 let ps1 = this.Slopes.[index+1] * psi1 this.XValues.[index] this.XValues.[index+1] x
                                 ph0 + ph1 + ps0 + ps1
 
-                            if x = Seq.last this.XValues then 
-                                Seq.last this.YValues
-                            else                 
+                            let first = Seq.head this.XValues
+                            let last  = Seq.last this.XValues
+                            match x with
+                            | t when x >= last -> calculate (this.XValues.Length - 2) x
+                            | t when x <= first -> calculate 0 x
+                            | _ ->    
                                 let i = 
                                     match Array.tryFindIndexBack (fun xs -> xs <= x) (this.XValues |> Vector.toArray) with 
                                     | Some x -> x 
                                     | None   -> failwith "The given xValue is out of the range defined in xData"
                                 calculate i x
+
+                            //if x = last then 
+                            //    Seq.last this.YValues
+                            //else                 
+                            //    let i = 
+                            //        match Array.tryFindIndexBack (fun xs -> xs <= x) (this.XValues |> Vector.toArray) with 
+                            //        | Some x -> x 
+                            //        | None   -> failwith "The given xValue is out of the range defined in xData"
+                            //    calculate i x
                             
                             
             /// <summary>
             ///   Computes coefficients for piecewise interpolating splines.
             ///   The x data has to be sorted ascending.
+            /// </summary>
+            /// <param name="xData">Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)</param>
+            /// <param name="yData">function value at x values</param>
+            /// <returns>Coefficients that define the interpolating function.</returns>
+            /// <example> 
+            /// <code> 
+            /// // e.g. days since a certain event
+            /// let xData = vector [|0.;1.;5.;4.;3.;|]
+            /// // some measured feature
+            /// let yData = vector [|1.;5.;4.;13.;17.|]
+            ///
+            /// // get coefficients for piecewise interpolating cubic polynomials
+            /// let coefficients = 
+            ///     CubicSpline.Hermite.interpolateSorted xData yData
+            ///
+            /// </code> 
+            /// </example>
+            /// <remarks>Second derivative (curvature) is NOT necessarily continuous at knots to allow higher flexibility to reduce oscillations!</remarks>
+            let interpolateSorted (xData: Vector<float>) (yData: Vector<float>) = 
+               
+                let slopes = 
+                    Vector.init xData.Length (fun i ->
+                        if i = 0 then
+                            (yData.[i] - yData.[i+1]) / (xData.[i] - xData.[i+1])
+                        elif i = xData.Length - 1 then 
+                            (yData.[i] - yData.[i-1]) / (xData.[i] - xData.[i-1])
+                        else 
+                            let s1 = (yData.[i] - yData.[i+1]) / (xData.[i] - xData.[i+1])
+                            let s2 = (yData.[i] - yData.[i-1]) / (xData.[i] - xData.[i-1])
+                            (s1 + s2) / 2.
+                        )
+                HermiteCoef.Create xData yData slopes
+
+            /// <summary>
+            ///   Computes coefficients for piecewise interpolating splines.
             /// </summary>
             /// <param name="xData">Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)</param>
             /// <param name="yData">function value at x values</param>
@@ -1654,18 +1894,28 @@ module Interpolation =
             /// </example>
             /// <remarks>Second derivative (curvature) is NOT necessarily continuous at knots to allow higher flexibility to reduce oscillations!</remarks>
             let interpolate (xData: Vector<float>) (yData: Vector<float>) = 
+                
+                let (xVal,yVal) =
+                    let order =
+                        xData
+                        |> Seq.indexed
+                        |> Seq.sortBy snd
+                        |> Seq.map fst
+                    Vector.init xData.Length (fun i -> xData.[Seq.item i order]),
+                    Vector.init xData.Length (fun i -> yData.[Seq.item i order])
+                
                 let slopes = 
-                    Vector.init xData.Length (fun i ->
+                    Vector.init xVal.Length (fun i ->
                         if i = 0 then
-                            (yData.[i] - yData.[i+1]) / (xData.[i] - xData.[i+1])
-                        elif i = xData.Length - 1 then 
-                            (yData.[i] - yData.[i-1]) / (xData.[i] - xData.[i-1])
+                            (yVal.[i] - yVal.[i+1]) / (xVal.[i] - xVal.[i+1])
+                        elif i = xVal.Length - 1 then 
+                            (yVal.[i] - yVal.[i-1]) / (xVal.[i] - xVal.[i-1])
                         else 
-                            let s1 = (yData.[i] - yData.[i+1]) / (xData.[i] - xData.[i+1])
-                            let s2 = (yData.[i] - yData.[i-1]) / (xData.[i] - xData.[i-1])
+                            let s1 = (yVal.[i] - yVal.[i+1]) / (xVal.[i] - xVal.[i+1])
+                            let s2 = (yVal.[i] - yVal.[i-1]) / (xVal.[i] - xVal.[i-1])
                             (s1 + s2) / 2.
                         )
-                HermiteCoef.Create xData yData slopes
+                HermiteCoef.Create xVal yVal slopes
 
             /// <summary>
             ///   Computes coefficients for piecewise interpolating splines.
@@ -1677,11 +1927,20 @@ module Interpolation =
             /// <returns>Coefficients that define the interpolating function.</returns>
             /// <remarks>Second derivative (curvature) is NOT necessarily continuous at knots to allow higher flexibility to reduce oscillations!</remarks>
             let interpolateWithSlopes (xData: Vector<float>) (yData: Vector<float>) (slopes: Vector<float>) = 
-                HermiteCoef.Create xData yData slopes
+                let (xData',yData',slopes') =
+                    let order =
+                        xData
+                        |> Seq.indexed
+                        |> Seq.sortBy snd
+                        |> Seq.map fst
+                    Vector.init xData.Length (fun i -> xData.[Seq.item i order]),
+                    Vector.init xData.Length (fun i -> yData.[Seq.item i order]),
+                    Vector.init xData.Length (fun i -> slopes.[Seq.item i order])
+                HermiteCoef.Create xData' yData' slopes'
 
             /// <summary>
             ///   Computes coefficients for piecewise interpolating splines. 
-            ///   If the knots are monotone in/decreasing, the spline also is monotone (http://www.korf.co.uk/spline.pdf)        
+            ///   If the knots are monotone in/decreasing, the spline also is monotone (CJC Kruger method)
             ///   The x data has to be sorted ascending
             /// </summary>
             /// <param name="yData">function value at x values</param>
@@ -1695,38 +1954,49 @@ module Interpolation =
             ///
             /// // get coefficients for piecewise interpolating cubic polynomials
             /// let coefficients = 
-            ///     CubicSpline.Hermite.interpolateTryMonotonicity xData yData
+            ///     CubicSpline.Hermite.interpolatePreserveMonotonicity xData yData
             ///
             /// </code> 
             /// </example>
-            /// <remarks>Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations!</remarks>
-            let interpolateTryMonotonicity (xData: Vector<float>) (yData: Vector<float>) =
+            /// <remarks>Second derivative (curvature) is NOT necessarily continuous at knots to allow higher flexibility to reduce oscillations!</remarks>
+            /// <remarks>Constrained Cubic Spline Interpolation for Chemical Engineering Applications by CJC Kruger </remarks>
+            let interpolatePreserveMonotonicity (xData: Vector<float>) (yData: Vector<float>) =
+                
+                let (xVal,yVal) =
+                    let order =
+                        xData
+                        |> Seq.indexed
+                        |> Seq.sortBy snd
+                        |> Seq.map fst
+                    Vector.init xData.Length (fun i -> xData.[Seq.item i order]),
+                    Vector.init xData.Length (fun i -> yData.[Seq.item i order])
+
                 let calcSlope i =
-                    let s1 = (xData.[i+1] - xData.[i]) / (yData.[i+1] - yData.[i])
-                    let s2 = (xData.[i] - xData.[i-1]) / (yData.[i] - yData.[i-1])
+                    let s1 = (xVal.[i+1] - xVal.[i]) / (yVal.[i+1] - yVal.[i])
+                    let s2 = (xVal.[i] - xVal.[i-1]) / (yVal.[i] - yVal.[i-1])
                     2. / (s1 + s2)
 
                 let rec loop i acc =
-                    if i = xData.Length - 1 then
-                        let s1 = (3. * (yData.[i] - yData.[i-1])) / (2. * (xData.[i] - xData.[i-1]))
+                    if i = xVal.Length - 1 then
+                        let s1 = (3. * (yVal.[i] - yVal.[i-1])) / (2. * (xVal.[i] - xVal.[i-1]))
                         let s2 = calcSlope (i-1) / 2.
                         let tmp = s1 - s2
                         (tmp::acc) |> List.rev
                     else 
                         let tmp = calcSlope i
-                        if ((yData.[i] - yData.[i-1]) * (yData.[i+1] - yData.[i])) <= 0. then 
+                        if ((yVal.[i] - yVal.[i-1]) * (yVal.[i+1] - yVal.[i])) <= 0. then 
                             loop (i+1) (0.::acc)
                         else 
                             loop (i+1) (tmp::acc)
 
                 let slopeAtFstKnot = 
-                    let s1 = (3. * (yData.[1] - yData.[0])) / (2. * (xData.[1] - xData.[0]))
+                    let s1 = (3. * (yVal.[1] - yVal.[0])) / (2. * (xVal.[1] - xVal.[0]))
                     let s2 = calcSlope 1 / 2.
                     let slope = s1 - s2
                     slope
  
                 let slopes = loop 1 [slopeAtFstKnot] 
-                HermiteCoef.Create xData yData (slopes |> vector)
+                HermiteCoef.Create xVal yVal (slopes |> vector)
 
 
             /// <summary>
@@ -1772,7 +2042,7 @@ module Interpolation =
                     )
 
             ///if the knots are monotone in/decreasing, the spline also is monotone (http://www.korf.co.uk/spline.pdf)
-            [<Obsolete("Use interpolateTryMonotonicity instead")>]
+            [<Obsolete("Use interpolatePreserveMonotonicity instead")>]
             let getSlopesTryMonotonicity (xData: Vector<float>) (yData: Vector<float>) =
                 let calcSlope i =
                     let s1 = (xData.[i+1] - xData.[i]) / (yData.[i+1] - yData.[i])
@@ -2047,16 +2317,20 @@ type HermiteMethod =
     /// </summary>
     | WithSlopes of vector
     /// <summary>
-    ///   Creates a spline from x,y coordinates. x,y coordinates are interpolated by cubic polynomialsbetween two knots.
+    ///   Creates a spline from x,y coordinates. x,y coordinates are interpolated by cubic polynomials between two knots.
     ///   If a region in the raw data is monotone, the resulting interpolator is monotone as well.
     /// </summary>
-    | TryMonotonicity
+    | PreserveMonotonicity
 
 /// <summary>
 ///   Lets the user choose between 5 interpolation methods. One simply connects dots (LinearSpline), one forms a single interpolating polynomial (Polynomial, and three of them employ piecewise cubic polynomials.
 /// </summary>
 [<RequireQualifiedAccess>]
 type InterpolationMethod =
+    /// <summary>
+    ///   Creates a step function from x,y coordinates. Coordinates are interpolated by straight horizontal lines between two knots.
+    /// </summary>
+    | Step
     /// <summary>
     ///   Creates a linear spline from x,y coordinates. x,y coordinates are interpolated by straight lines between two knots.
     ///   Equivalent to interval-wise simple linear regression between any neighbouring pair of data.
@@ -2085,6 +2359,7 @@ type InterpolationMethod =
 /// <summary>This type summarizes coefficient types from various interpolation methods.</summary>
 [<RequireQualifiedAccess>]
 type InterpolationCoefficients =
+    | StepCoef             of Step.StepCoef
     | LinearSplineCoef     of LinearSpline.LinearSplineCoef
     | PolynomialCoef       of Polynomial.PolynomialCoef
     | CubicSplineCoef      of CubicSpline.CubicSplineCoef
@@ -2093,11 +2368,16 @@ type InterpolationCoefficients =
     with 
         member this.Predict x =
             match this with
+            | StepCoef           c -> Step.predict c x
             | LinearSplineCoef   c -> LinearSpline.predict c x
             | PolynomialCoef     c -> Polynomial.predict c x 
             | CubicSplineCoef    c -> CubicSpline.predict c x 
             | AkimaSubSplineCoef c -> Akima.predict c x 
             | HermiteSplineCoef  c -> CubicSpline.Hermite.predict c x
+        member this.GetStepCoef() = 
+            match this with 
+            | StepCoef x   -> x
+            | _ -> failwithf "Interpolation coefficients are not from step function."
         member this.GetLinearSplineCoef() = 
             match this with 
             | LinearSplineCoef x   -> x
@@ -2148,6 +2428,7 @@ type Interpolation() =
     static member interpolate(xValues,yValues,method) = 
         let interpolate (method: InterpolationMethod) xData yData = 
             match method with
+            | InterpolationMethod.Step              -> Step.interpolate xData yData |> InterpolationCoefficients.StepCoef
             | InterpolationMethod.LinearSpline      -> LinearSpline.interpolate xData yData |> InterpolationCoefficients.LinearSplineCoef
             | InterpolationMethod.Polynomial        -> Polynomial.interpolate (vector xData) (vector yData) |> InterpolationCoefficients.PolynomialCoef
             | InterpolationMethod.CubicSpline bc    -> CubicSpline.interpolate bc (vector xData) (vector yData) |> InterpolationCoefficients.CubicSplineCoef
@@ -2156,7 +2437,7 @@ type Interpolation() =
                 match s with
                 | HermiteMethod.CSpline           -> CubicSpline.Hermite.interpolate (vector xData) (vector yData) |> InterpolationCoefficients.HermiteSplineCoef
                 | HermiteMethod.WithSlopes s      -> CubicSpline.Hermite.interpolateWithSlopes (vector xData) (vector yData) s |> InterpolationCoefficients.HermiteSplineCoef
-                | HermiteMethod.TryMonotonicity   -> CubicSpline.Hermite.interpolateTryMonotonicity (vector xData) (vector yData) |> InterpolationCoefficients.HermiteSplineCoef
+                | HermiteMethod.PreserveMonotonicity   -> CubicSpline.Hermite.interpolatePreserveMonotonicity (vector xData) (vector yData) |> InterpolationCoefficients.HermiteSplineCoef
         interpolate method xValues yValues 
 
     /// <summary>
@@ -2190,6 +2471,7 @@ type Interpolation() =
     static member predict(coef) = 
         let predict (coefs: InterpolationCoefficients) x = 
             match coefs with
+            | InterpolationCoefficients.StepCoef c            -> Step.predict c x
             | InterpolationCoefficients.LinearSplineCoef c    -> LinearSpline.predict c x
             | InterpolationCoefficients.PolynomialCoef c      -> Polynomial.predict c x
             | InterpolationCoefficients.CubicSplineCoef c     -> CubicSpline.predict c x
@@ -2228,6 +2510,7 @@ type Interpolation() =
     static member getFirstDerivative(coef) = 
         let diff (coefs: InterpolationCoefficients) x = 
             match coefs with
+            | InterpolationCoefficients.StepCoef c            -> 0.
             | InterpolationCoefficients.LinearSplineCoef c    -> LinearSpline.differentiate c x
             | InterpolationCoefficients.PolynomialCoef c      -> Polynomial.getDerivative c 1 x
             | InterpolationCoefficients.CubicSplineCoef c     -> CubicSpline.getFirstDerivative c x
@@ -2266,6 +2549,7 @@ type Interpolation() =
     static member getSecondDerivative(coef) = 
         let diff (coefs: InterpolationCoefficients) x = 
             match coefs with
+            | InterpolationCoefficients.StepCoef c            -> 0.
             | InterpolationCoefficients.LinearSplineCoef c    -> 0.
             | InterpolationCoefficients.PolynomialCoef c      -> Polynomial.getDerivative c 2 x
             | InterpolationCoefficients.CubicSplineCoef c     -> CubicSpline.getSecondDerivative c x
@@ -2303,6 +2587,7 @@ type Interpolation() =
     /// <remarks>X values that don't lie within the range of the input x values, may fail or are predicted using the nearest interpolation line!</remarks>
     static member getIntegralBetween(coef,x1,x2) = 
         match coef with
+        | InterpolationCoefficients.StepCoef c    -> failwithf "Integral not yet implemented for Step function"
         | InterpolationCoefficients.LinearSplineCoef c    -> failwithf "Integral not yet implemented for Linear spline"
         | InterpolationCoefficients.PolynomialCoef c      -> c.GetIntegralBetween x1 x2
         | InterpolationCoefficients.CubicSplineCoef c     -> failwithf "Integral not yet implemented for Cubic spline"
