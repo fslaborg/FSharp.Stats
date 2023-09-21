@@ -75,7 +75,7 @@ let coefCubicNo     = Interpolation.interpolate(testDataX,testDataY,Interpolatio
 let coefCubicPa     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Parabolic) // cubic spline with quadratic polynomial at borders
 let coefCubicCl     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline (Interpolation.CubicSpline.BoundaryCondition.Clamped (0,-1))) // cubic spline with border f' set to 0 and -1
 let coefHermite     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline HermiteMethod.CSpline)
-let coefHermiteMono = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline HermiteMethod.TryMonotonicity)
+let coefHermiteMono = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline HermiteMethod.PreserveMonotonicity)
 let coefHermiteSlop = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline (HermiteMethod.WithSlopes (vector [0.;0.;0.;0.;0.;0.;])))
 let coefPolynomial  = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.Polynomial) // interpolating polynomial 
 let coefApproximate = Interpolation.Approximation.approxWithPolynomialFromValues(testDataX,testDataY,10,Interpolation.Approximation.Spacing.Chebyshev) //interpolating polynomial of degree 9 with knots spaced according to Chebysehv
@@ -331,7 +331,7 @@ let xDataH = vector [0.;10.;30.;50.;70.;80.;82.]
 let yDataH = vector [150.;200.;200.;200.;180.;100.;0.]
 
 //Get slopes for Hermite spline. Try to interpolate a monotone function.
-let tryMonotoneSlope = CubicSpline.Hermite.interpolateTryMonotonicity xDataH yDataH    
+let tryMonotoneSlope = CubicSpline.Hermite.interpolatePreserveMonotonicity xDataH yDataH    
 //get function for Hermite spline
 let funHermite = fun x -> CubicSpline.Hermite.predict tryMonotoneSlope x
 

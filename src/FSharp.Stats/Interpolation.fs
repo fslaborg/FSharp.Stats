@@ -1351,7 +1351,7 @@ module Interpolation =
             CubicSplineCoef.Create x coeffs
 
         /// <summary>
-        ///   Interpolates x and y coordinates with given slopes at the knots. Probably makes no sense because slope isnt continuous anymore/// <summary>
+        ///   Interpolates x and y coordinates with given slopes at the knots. Probably makes no sense because slope isnt continuous anymore
         /// </summary>
         let interpolateWithCurvature (x: vector) (y: vector) (curvatures: vector) = 
             let x',y',c' = 
@@ -2352,7 +2352,7 @@ type InterpolationMethod =
     /// <summary>
     ///   Creates a spline as piecewise cubic polynomials with given slope.
     /// </summary>
-    /// <param name="HermiteMethod" choose between cSpline, given slopes or monotonicity when appropriate</param>
+    /// <param name="HermiteMethod">choose between cSpline, given slopes or monotonicity when appropriate</param>
     | HermiteSpline of HermiteMethod
 
 
@@ -2558,33 +2558,12 @@ type Interpolation() =
         (fun x -> diff coef x)
 
     /// <summary>
-    ///   Takes interpolation coefficients to create a function that calculates the curvature of the interpolation function.
+    ///   Takes interpolation coefficients and two x values to calculate the area under the curve within the region flanked by x1 and x2.
     /// </summary>
     /// <param name="coef">Interpolation coefficients</param>
-    /// <returns>Function that takes an x value and returns the corresponding curvature.</returns>
-    /// <example> 
-    /// <code> 
-    /// // e.g. days since a certain event
-    /// let xData = vector [|0.;1.;5.;4.;3.;|]
-    /// // some measured feature
-    /// let yData = vector [|1.;5.;4.;13.;17.|]
-    /// 
-    /// // get slopes and intersects for interpolating straight lines
-    /// let coefficients = 
-    ///     Interpolation.interpolate(xData,yData,InterpolationMethod.Polynomial)
-    /// 
-    /// // get coefficients for interpolating polynomial
-    /// let coef = Interpolation.interpolate(xData,yData,InterpolationMethod.PolynomialCoef)
-    ///
-    /// // get second derivative
-    /// let func = Interpolation.getSecondDerivative(coef)
-    ///
-    /// // get curvature at x=3.4
-    /// func 3.4
-    ///
-    /// </code> 
-    /// </example>
-    /// <remarks>X values that don't lie within the range of the input x values, may fail or are predicted using the nearest interpolation line!</remarks>
+    /// <param name="x1">interval start</param>
+    /// <param name="x2">interval end</param>
+    /// <returns>area under the curve between x1 and x2</returns>
     static member getIntegralBetween(coef,x1,x2) = 
         match coef with
         | InterpolationCoefficients.StepCoef c    -> failwithf "Integral not yet implemented for Step function"

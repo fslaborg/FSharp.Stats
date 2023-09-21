@@ -860,13 +860,12 @@ let pValues =
     |] |> Array.sort
 
 let pValsAdj =
-    MultipleTesting.benjaminiHochbergFDRBy (fun x -> "",x) pValues
-    |> List.rev
+    MultipleTesting.benjaminiHochbergFDR pValues
 
 let bhValues =
     [
         Chart.Line(pValues,pValues,Name="diagonal")
-        Chart.Line(pValsAdj,Name="adj")
+        Chart.Line(pValues,pValsAdj,Name="adj")
     ]
     |> Chart.combine
     |> Chart.withXAxisStyle "pValue" 
