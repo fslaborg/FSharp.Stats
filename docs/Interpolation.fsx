@@ -65,8 +65,9 @@ open FSharp.Stats
 
 let testDataX = [|1. .. 10.|]
 
-let testDataY = [|0.;-1.;0.;0.;0.;0.;1.;1.;3.;3.5|]
+let testDataY = [|0.5;-1.;0.;0.;0.;0.;1.;1.;3.;3.5|]
 
+let coefStep        = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.Step) // step function
 let coefLinear      = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.LinearSpline) // Straight lines passing all points
 let coefAkima       = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.AkimaSubSpline) // Akima cubic subspline
 let coefCubicNa     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline Interpolation.CubicSpline.BoundaryCondition.Natural) // cubic spline with f'' at borders is set to 0
@@ -76,13 +77,14 @@ let coefCubicPa     = Interpolation.interpolate(testDataX,testDataY,Interpolatio
 let coefCubicCl     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.CubicSpline (Interpolation.CubicSpline.BoundaryCondition.Clamped (0,-1))) // cubic spline with border f' set to 0 and -1
 let coefHermite     = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline HermiteMethod.CSpline)
 let coefHermiteMono = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline HermiteMethod.PreserveMonotonicity)
-let coefHermiteSlop = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline (HermiteMethod.WithSlopes (vector [0.;0.;0.;0.;0.;0.;])))
+let coefHermiteSlop = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.HermiteSpline (HermiteMethod.WithSlopes (vector [0.;0.;0.;0.;0.;0.;0.;0.;0.;0.])))
 let coefPolynomial  = Interpolation.interpolate(testDataX,testDataY,InterpolationMethod.Polynomial) // interpolating polynomial 
 let coefApproximate = Interpolation.Approximation.approxWithPolynomialFromValues(testDataX,testDataY,10,Interpolation.Approximation.Spacing.Chebyshev) //interpolating polynomial of degree 9 with knots spaced according to Chebysehv
 
 let interpolationComparison =
     [
         Chart.Point(testDataX,testDataY,Name="data")
+        [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefStep)        x) |> Chart.Line |> Chart.withTraceInfo "Step"
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefLinear)      x) |> Chart.Line |> Chart.withTraceInfo "Linear"
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefAkima)       x) |> Chart.Line |> Chart.withTraceInfo "Akima"
         [1. .. 0.01 .. 10.] |> List.map (fun x -> x,Interpolation.predict(coefCubicNa)     x) |> Chart.Line |> Chart.withTraceInfo "Cubic_natural"
@@ -101,8 +103,6 @@ let interpolationComparison =
     |> Chart.withXAxisStyle("x data")
     |> Chart.withYAxisStyle("y data")
     |> Chart.withSize(800.,600.)
-
-
 
 (*** condition: ipynb ***)
 #if IPYNB
