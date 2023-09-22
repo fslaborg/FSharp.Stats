@@ -173,7 +173,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '427', 427)" onmouseover="showTip(event, '427', 427)">
+              <code onmouseout="hideTip(event, '431', 431)" onmouseover="showTip(event, '431', 431)">
                 <p>
                   <a id="differentiate">
                     <a href="#differentiate">
@@ -182,7 +182,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="427">
+              <div class="fsdocs-tip" id="431">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>differentiate&#32;<span>lsc&#32;x</span></span></code>
@@ -296,17 +296,17 @@
  
  // get slopes and intersects for interpolating straight lines
  let coefficients = 
-     Interpolation.initInterpolate xData yData 
+     Interpolation.LinearSpline.initInterpolate xData yData 
 
  // get slope at 3.4
- Interpolation.differentiate coefficients 3.4</code></pre>
+ Interpolation.LinearSpline.differentiate coefficients 3.4</code></pre>
             </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '428', 428)" onmouseover="showTip(event, '428', 428)">
+              <code onmouseout="hideTip(event, '432', 432)" onmouseover="showTip(event, '432', 432)">
                 <p>
                   <a id="interpolate">
                     <a href="#interpolate">
@@ -315,7 +315,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="428">
+              <div class="fsdocs-tip" id="432">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>interpolate&#32;<span>xData&#32;yData</span></span></code>
@@ -429,14 +429,14 @@
  
  // get slopes and intersects for interpolating straight lines
  let coefficients = 
-     Interpolation.initInterpolate xData yData</code></pre>
+     Interpolation.LinearSpline.interpolate xData yData</code></pre>
             </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '429', 429)" onmouseover="showTip(event, '429', 429)">
+              <code onmouseout="hideTip(event, '433', 433)" onmouseover="showTip(event, '433', 433)">
                 <p>
                   <a id="interpolateInplace">
                     <a href="#interpolateInplace">
@@ -445,7 +445,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="429">
+              <div class="fsdocs-tip" id="433">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>interpolateInplace&#32;<span>xData&#32;yData</span></span></code>
@@ -559,14 +559,14 @@
  
  // get slopes and intersects for interpolating straight lines
  let coefficients = 
-     Interpolation.initInterpolateInplace xData yData</code></pre>
+     Interpolation.LinearSpline.interpolateInplace xData yData</code></pre>
             </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '430', 430)" onmouseover="showTip(event, '430', 430)">
+              <code onmouseout="hideTip(event, '434', 434)" onmouseover="showTip(event, '434', 434)">
                 <p>
                   <a id="interpolateSorted">
                     <a href="#interpolateSorted">
@@ -575,7 +575,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="430">
+              <div class="fsdocs-tip" id="434">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>interpolateSorted&#32;<span>xData&#32;yData</span></span></code>
@@ -689,14 +689,14 @@
  
  // get slopes and intersects for interpolating straight lines
  let coefficients = 
-     Interpolation.initInterpolateSorted xData yData</code></pre>
+     Interpolation.LinearSpline.interpolateSorted xData yData</code></pre>
             </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '431', 431)" onmouseover="showTip(event, '431', 431)">
+              <code onmouseout="hideTip(event, '435', 435)" onmouseover="showTip(event, '435', 435)">
                 <p>
                   <a id="predict">
                     <a href="#predict">
@@ -705,7 +705,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="431">
+              <div class="fsdocs-tip" id="435">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>predict&#32;<span>lsc&#32;x</span></span></code>
@@ -819,10 +819,10 @@
  
  // get slopes and intersects for interpolating straight lines
  let coefficients = 
-     Interpolation.initInterpolate xData yData 
+     Interpolation.LinearSpline.initInterpolate xData yData 
 
  // get y value at 3.4
- Interpolation.interpolate coefficients 3.4</code></pre>
+ Interpolation.LinearSpline.interpolate coefficients 3.4</code></pre>
             </p>
           </td>
         </tr>

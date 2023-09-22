@@ -140,7 +140,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2560', 2560)" onmouseover="showTip(event, '2560', 2560)">
+              <code onmouseout="hideTip(event, '2582', 2582)" onmouseover="showTip(event, '2582', 2582)">
                 <p>
                   <a id="``.ctor``">
                     <a href="#``.ctor``">
@@ -149,7 +149,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2560">
+              <div class="fsdocs-tip" id="2582">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>LinearRegression<span>()</span></span></code>
@@ -216,7 +216,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2561', 2561)" onmouseover="showTip(event, '2561', 2561)">
+              <code onmouseout="hideTip(event, '2583', 2583)" onmouseover="showTip(event, '2583', 2583)">
                 <p>
                   <a id="fit">
                     <a href="#fit">
@@ -225,7 +225,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2561">
+              <div class="fsdocs-tip" id="2583">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>LinearRegression.fit&#32;<span><span>(<span>xData,&#32;yData,&#32;?FittingMethod</span>)</span></span></span></code>
@@ -376,7 +376,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2562', 2562)" onmouseover="showTip(event, '2562', 2562)">
+              <code onmouseout="hideTip(event, '2584', 2584)" onmouseover="showTip(event, '2584', 2584)">
                 <p>
                   <a id="fit">
                     <a href="#fit">
@@ -385,7 +385,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2562">
+              <div class="fsdocs-tip" id="2584">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>LinearRegression.fit&#32;<span><span>(<span>xData,&#32;yData,&#32;?FittingMethod,&#32;?Constraint,&#32;?Weighting</span>)</span></span></span></code>
@@ -580,19 +580,19 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '2563', 2563)" onmouseover="showTip(event, '2563', 2563)">
+              <code onmouseout="hideTip(event, '2585', 2585)" onmouseover="showTip(event, '2585', 2585)">
                 <p>
                   <a id="predict">
                     <a href="#predict">
-                      <code><span>LinearRegression.predict&#32;<span>coeff</span></span></code>
+                      <code><span>LinearRegression.predict&#32;<span>coeff&#32;xValue</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="2563">
+              <div class="fsdocs-tip" id="2585">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>LinearRegression.predict&#32;<span>coeff</span></span></code>
+                  <code><span>LinearRegression.predict&#32;<span>coeff&#32;xValue</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
@@ -607,13 +607,21 @@
                       Linear regression coefficients (e.g. from LinearRegression.fit())
                     </span>
                     <br/>
+                    <span>
+                      <b>
+                        xValue
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span>'a&#32;->&#32;float</span></code>
+                    <code>float</code>
                   </span>
-                  Prediction function that takes an x value or x vector and predicts its corresponding y value.
+                  Prediction function that takes an x value and predicts its corresponding y value.
                   <br/>
                 </div>
               </div>
@@ -621,11 +629,11 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Fitting.LinearRegression.predict``1```')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Fitting.LinearRegression.predict`')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Fitting.LinearRegression.predict``1\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Fitting.LinearRegression.predict\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
@@ -652,17 +660,25 @@
                   Linear regression coefficients (e.g. from LinearRegression.fit())
                 </p>
               </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  xValue
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span>'a&#32;->&#32;float</span></code>
+                <code>float</code>
               </dt>
               <dd class="fsdocs-return-docs">
                 <p>
-                  Prediction function that takes an x value or x vector and predicts its corresponding y value.
+                  Prediction function that takes an x value and predicts its corresponding y value.
                 </p>
               </dd>
             </dl>
@@ -682,6 +698,145 @@
    
    // Predict the size on day 10.5
    LinearRegression.predict(coefficientsSimpleLinear) 10.5</code></pre>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '2586', 2586)" onmouseover="showTip(event, '2586', 2586)">
+                <p>
+                  <a id="predictMultivariate">
+                    <a href="#predictMultivariate">
+                      <code><span>LinearRegression.predictMultivariate&#32;<span>coeff&#32;xVector</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="2586">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>LinearRegression.predictMultivariate&#32;<span>coeff&#32;xVector</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        coeff
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregressionmodule-coefficients.html">Coefficients</a></code>
+                       - 
+                      Multivariate linear regression coefficients (e.g. from LinearRegression.fit())
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        xVector
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code>float</code>
+                  </span>
+                  Prediction function that takes an x vector and predicts its corresponding y value.
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Fitting.LinearRegression.predictMultivariate`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Fitting.LinearRegression.predictMultivariate\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Fitting/LinearRegression.fs#L1065-1065" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+   Creates prediction function for multivariate linear regression.
+ 
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  coeff
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-fitting-linearregressionmodule-coefficients.html">Coefficients</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  Multivariate linear regression coefficients (e.g. from LinearRegression.fit())
+                </p>
+              </dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  xVector
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Prediction function that takes an x vector and predicts its corresponding y value.
+                </p>
+              </dd>
+            </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""> 
+   let xVectorMulti =
+       [
+       [1.; 1. ;2.  ]
+       [2.; 0.5;6.  ]
+       [3.; 0.8;10. ]
+       [4.; 2. ;14. ]
+       [5.; 4. ;18. ]
+       [6.; 3. ;22. ]
+       ]
+       |&gt; Matrix.ofJaggedSeq
+   
+   // Here the x values are transformed. In most cases the y values are just provided.
+   let yVectorMulti = 
+       let transformX (x) =
+           x
+           |&gt; Matrix.mapiRows (fun _ v -&gt; 100. + (v.[0] * 2.5) + (v.[1] * 4.) + (v.[2] * 0.5))
+       xVectorMulti
+       |&gt; transformX
+       |&gt; vector
+   
+   // Estimate the intercept and slope of a line, that fits the data.
+   let coefficientsSimpleLinear = 
+       LinearRegression.fit(xVectorMulti,yVectorMulti,FittingMethod=Fitting.Method.SimpleLinear)
+   
+   // Predict the size on day 10.5
+   LinearRegression.predictMultivariate(coefficientsSimpleLinear) (vector [1.;2.;3.;])</code></pre>
             </p>
           </td>
         </tr>
