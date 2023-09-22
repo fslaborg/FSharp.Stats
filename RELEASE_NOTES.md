@@ -1,5 +1,15 @@
+### 0.5.1 TBP
+* Additions:
+    * latest commit #a51357f1
+    * [[#414d461e](https://github.com/fslaborg/FSharp.Stats/commit/414d461e9bee40f5fed53994e196f59ccee8272e)] add cubic spline with slopes
+    * [[#6a9038e9](https://github.com/fslaborg/FSharp.Stats/commit/6a9038e9b2c04da4ec35bb4e65f35adecd55c158)] add interpolation differentiation add interpolation integration
+    * [[#8fb5d6dd](https://github.com/fslaborg/FSharp.Stats/commit/8fb5d6dd07ff213a4e91b618fb2e654bc6147985)] add step interpolation
+* Bugfixes:
+    * [[#0ac2a52d](https://github.com/fslaborg/FSharp.Stats/commit/0ac2a52de81b3a8fe973af37e35b7b6e48973160)] fix Akima interpolation
+
 ### 0.5.0 (Released 2022-8-4)
 * Additions:
+    * latest commit #8ae34d07
     * add various XML comments in Interpolation and Fitting modules
     * BREAKING: major refactor of Fitting and Interpolation module
       * separate CubicSpline.Simple and CubicSpline.Akima
