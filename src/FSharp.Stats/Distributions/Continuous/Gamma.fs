@@ -163,7 +163,7 @@ type Gamma =
     /// Returns the support of the gamma distribution: (0, Positive Infinity).
     static member Support alpha beta =
         Gamma.CheckParam alpha beta
-        Interval.CreateRightOpen<float>(0.0, Double.PositiveInfinity)
+        Interval.CreateOpen<float>(0.0, Double.PositiveInfinity)
 
     /// A string representation of the distribution.
     static member ToString alpha beta = 
