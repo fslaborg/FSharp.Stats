@@ -40,30 +40,75 @@ type Hypergeometric =
         if k > K then failwith "k cannot exceed K."
         if k > n then failwith "k cannot exceed n."
 
-    /// Computes the mode.
+    /// <summary>Computes the mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="N"></param>
+    /// <param name="K"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode N K n =
         Hypergeometric.CheckParam N K n
         (n + 1)*(K + 1)/(N + 2);
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="N"></param>
+    /// <param name="K"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean N K n =
         Hypergeometric.CheckParam N K n
 
         float (K * n) / float N
 
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="N"></param>
+    /// <param name="K"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance N K n =
         Hypergeometric.CheckParam N K n
         float (n * K * (N - n) * (N - K)) / float ((N * N * (N - 1)))
 
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="N"></param>
+    /// <param name="K"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation N K n =
         Hypergeometric.CheckParam N K n
         sqrt (Hypergeometric.Variance N K n)
             
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-    /// No parameter checking!
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).<br />No parameter checking!</summary>
+    /// <remarks></remarks>
+    /// <param name="SampleUnchecked"></param>
+    /// <param name="N"></param>
+    /// <param name="K"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member internal SampleUnchecked N K n =            
         let rec loop N K n x =
             if 0 = n then
@@ -79,7 +124,16 @@ type Hypergeometric =
         loop N K n 0
             
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()) and returns the number of success states `k`.
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()) and returns the number of success states `k`.</summary>
+    /// <remarks></remarks>
+    /// <param name="N"></param>
+    /// <param name="K"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample N K n =
         Hypergeometric.CheckParam N K n
         Hypergeometric.SampleUnchecked N K n
@@ -89,7 +143,17 @@ type Hypergeometric =
     // > A probability mass function differs from a probability density function (PDF) in that the latter is associated with continuous 
     // > rather than discrete random variables. A PDF must be integrated over an interval to yield a probability.
 
-    /// Computes the probability mass function at k for P(X = k).
+    /// <summary>Computes the probability mass function at k for P(X = k).</summary>
+    /// <remarks></remarks>
+    /// <param name="N"></param>
+    /// <param name="K"></param>
+    /// <param name="n"></param>
+    /// <param name="k"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PMF N K n k =
         Hypergeometric.CheckParam N K n
         Hypergeometric.CheckParam_k N K n k
@@ -98,7 +162,17 @@ type Hypergeometric =
         else
             exp ((SpecialFunctions.Binomial._coeffcientLn K k) + (SpecialFunctions.Binomial._coeffcientLn (N-K) (n-k)) - SpecialFunctions.Binomial._coeffcientLn N n)
         
-    /// Computes the cumulative distribution function at x, i.e. P(X &lt;= x).
+    /// <summary>Computes the cumulative distribution function at x, i.e. P(X &lt;= x).</summary>
+    /// <remarks></remarks>
+    /// <param name="N"></param>
+    /// <param name="K"></param>
+    /// <param name="n"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF N K n x =
         Hypergeometric.CheckParam N K n
         //Hypergeometric.CheckParam_k N K n k
@@ -138,7 +212,16 @@ type Hypergeometric =
     //    |> Poisson.Init  
 
     
-    /// Computes the inverse cumulative distribution function (quantile function).
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF dof1 dof2 p =
         //if (p <= 0.0 || p > 1.0) then
         //    invalidArg "P" "Input must be between zero and one"
@@ -147,7 +230,16 @@ type Hypergeometric =
         //    Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
         failwithf "InvCDF not implemented yet"
 
-    /// Returns the support of the hypergeometric distribution: (0., Positive Infinity).
+    /// <summary>Returns the support of the hypergeometric distribution: (0., Positive Infinity).</summary>
+    /// <remarks></remarks>
+    /// <param name="N"></param>
+    /// <param name="K"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support N K n =
         Hypergeometric.CheckParam N K n
         Interval.CreateClosed<int> ((max 0 (n + K - N) ),(min K n))
@@ -161,14 +253,16 @@ type Hypergeometric =
     
     /// <summary> Initializes a hypergeometric distribution.
     /// 
-    /// The hypergeometric distribution is a discrete probability distribution
-    /// that describes the probability of `k` successes (random draws for which the object
-    /// drawn has a specified feature) in `n` draws, without replacement, from a finite
-    /// population of size `N` that contains exactly `K` objects with that feature,
-    /// wherein each draw is either a success (`1.0`) or a failure (`0.0`).</summary>
-    /// <param name="N">The population size</param>
-    /// <param name="K">The number of success states in the population</param>
-    /// <param name="n">The number of draws</param>
+    /// <summary>The hypergeometric distribution is a discrete probability distribution<br />that describes the probability of `k` successes (random draws for which the object<br />drawn has a specified feature) in `n` draws, without replacement, from a finite<br />population of size `N` that contains exactly `K` objects with that feature,<br />wherein each draw is either a success (`1.0`) or a failure (`0.0`).</summary><br /><param name="N">The population size</param><br /><param name="K">The number of success states in the population</param><br /><param name="n">The number of draws</param></summary>
+    /// <remarks></remarks>
+    /// <param name="N"></param>
+    /// <param name="K"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init N K n =
         { new DiscreteDistribution<float,int> with
             member d.Mean               = Hypergeometric.Mean N K n

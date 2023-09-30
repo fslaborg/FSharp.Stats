@@ -17,7 +17,15 @@ type Beta =
         if alpha <= 0.0 || beta <= 0.0 then 
             failwith "Beta distribution should be parametrized by alpha > 0.0, beta > 0.0."    
 
-    /// Computes the mode.
+    /// <summary>Computes the mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode alpha beta =
         Beta.CheckParam alpha beta
         match alpha,beta with
@@ -32,22 +40,54 @@ type Beta =
         | 1.,1. -> 0.
         | _ -> (alpha - 1.)/(alpha + beta - 2.)
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean alpha beta =
         Beta.CheckParam alpha beta
         alpha / (alpha + beta)
 
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance alpha beta =
         Beta.CheckParam alpha beta
         (alpha * beta) / ((alpha + beta) * (alpha + beta) * (alpha + beta + 1.0))
 
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation alpha beta =
         Beta.CheckParam alpha beta
         sqrt ((alpha * beta) / ((alpha + beta) * (alpha + beta) * (alpha + beta + 1.0)))
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample alpha beta = 
         // Source: fsmathtools
         Beta.CheckParam alpha beta
@@ -56,7 +96,16 @@ type Beta =
         x / (x + y)
 
         
-    /// Computes the log probability density function.
+    /// <summary>Computes the log probability density function.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PDFLn alpha beta x = 
         Beta.CheckParam alpha beta
         if x >= 0.0 && x <= 1.0 then
@@ -79,7 +128,16 @@ type Beta =
                 (x ** (alpha - 1.0)) * ((1.0 - x) ** (beta - 1.0)) / (SpecialFunctions.Beta._beta alpha beta)
         else 0.0    
         
-    /// Computes the cumulative distribution function.
+    /// <summary>Computes the cumulative distribution function.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF alpha beta x =
         Beta.CheckParam alpha beta
         if x < 0.0 then 0.0
@@ -87,7 +145,16 @@ type Beta =
         else 
             SpecialFunctions.Beta.lowerIncompleteRegularized alpha beta x
 
-    /// Computes the inverse cumulative distribution function (quantile function).
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF alpha beta x =
         Beta.CheckParam alpha beta
         failwithf "InvCDF not implemented yet"
@@ -125,16 +192,40 @@ type Beta =
         | Some w -> Beta.Fit (observations,w)
         |> fun (a,b) -> Beta.Init a b  
 
-    /// Returns the support of the exponential distribution: [0.0, 1.0).
+    /// <summary>Returns the support of the exponential distribution: [0.0, 1.0).</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support alpha beta =
         Beta.CheckParam alpha beta
         (0.0, 1.0)
     
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString alpha beta =
         sprintf "Beta(α = %f, β = %f)" alpha beta
 
-    /// Initializes a Beta distribution
+    /// <summary>Initializes a Beta distribution</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init alpha beta =
         { new ContinuousDistribution<float,float> with
             member d.Mean              = Beta.Mean alpha beta

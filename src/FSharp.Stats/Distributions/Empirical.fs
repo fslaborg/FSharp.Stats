@@ -58,26 +58,22 @@ module Empirical =
         let factor = if total <> 0. then (fraction / total) else raise (System.Exception("total probability is zero") )  
         pmf |> Seq.map (fun kv -> (kv.Key,kv.Value * factor)) |> Map.ofSeq
 
-    /// Normalizes this PMF so the sum of all probabilities equals 1. 
-    /// Discrete Probability Distribution
+    /// Normalizes this PMF so the sum of all probabilities equals 1. <br />Discrete Probability Distribution
     let normalize (pmf:Map<_,float>) =
         let total = sum pmf         
         pmf |> Seq.map (fun kv -> (kv.Key,kv.Value / total)) |> Map.ofSeq
 
 
-    /// Normalizes this PMF so the sum of all probabilities equals 100 percent 
-    /// Discrete Percentage Probability Distribution
+    /// Normalizes this PMF so the sum of all probabilities equals 100 percent <br />Discrete Percentage Probability Distribution
     let normalizePercentage (pmf:Map<_,float>) =
         let total = sum pmf         
         pmf |> Seq.map (fun kv -> (kv.Key,100. * kv.Value / total)) |> Map.ofSeq
 
-    /// Normalizes this PMF by the bandwidth n/Δx
-    /// Frequency Denisty Distribution
+    /// Normalizes this PMF by the bandwidth n/Δx<br />Frequency Denisty Distribution
     let normalizeBandwidth bw (pmf:Map<_,float>) =
         pmf |> Seq.map (fun kv -> (kv.Key,kv.Value / bw)) |> Map.ofSeq
 
-    /// Normalizes this PMF by the bandwidth to area equals 1.  (n/N)/Δx
-    /// Probability Denisty Distribution
+    /// Normalizes this PMF by the bandwidth to area equals 1.  (n/N)/Δx<br />Probability Denisty Distribution
     let normalizePDD bw (pmf:Map<_,float>) =
         let total = sum pmf         
         pmf |> Seq.map (fun kv -> (kv.Key,(kv.Value / total) / bw)) |> Map.ofSeq
@@ -128,9 +124,7 @@ module Empirical =
     //    pmfs |> Seq.fold (fun state elem -> Map.merge state elem (fun k (v, v') -> v * v')) Map.empty
 
     
-    /// Creates probability mass function of the input sequence.
-    /// The bandwidth defines the width of the bins the numbers are sorted into. 
-    /// Bin intervals are half open excluding the upper border: [lower,upper)
+    /// Creates probability mass function of the input sequence.<br />The bandwidth defines the width of the bins the numbers are sorted into. <br />Bin intervals are half open excluding the upper border: [lower,upper)
     let create bandwidth data =
         let halfBw = bandwidth / 2.0
         let decBandwidth = decimal bandwidth
@@ -161,9 +155,7 @@ module Empirical =
         |> Map.ofSeq
         |> normalize
 
-    /// Creates probability mass function of the categories in the input sequence.
-    /// A template defines the search space to exclude certain elements or to include elements that are not in the input sequence.
-    /// Frequencies are determined based only on the template set. 
+    /// Creates probability mass function of the categories in the input sequence.<br />A template defines the search space to exclude certain elements or to include elements that are not in the input sequence.<br />Frequencies are determined based only on the template set. 
     let inline createNominalWithTemplate (template: Set<'a>) (data: seq<'a>) =
         let tmp = 
             data
@@ -226,9 +218,7 @@ module Empirical =
 
 type EmpiricalDistribution() =
     
-    /// Creates probability mass function of the input sequence.
-    /// The bandwidth defines the width of the bins the numbers are sorted into. 
-    /// Bin intervals are half open excluding the upper border: [lower,upper)
+    /// Creates probability mass function of the input sequence.<br />The bandwidth defines the width of the bins the numbers are sorted into. <br />Bin intervals are half open excluding the upper border: [lower,upper)
     static member create(bandwidth: float) =
         fun (data: seq<float>) -> 
             Empirical.create bandwidth data
@@ -253,10 +243,7 @@ type EmpiricalDistribution() =
     //    fun histA histB -> 
     //        Empirical.add histA histB
 
-    /// Creates probability mass function of the categories in the input sequence.
-    /// A template defines the search space to exclude certain elements or to include elements that are not in the input sequence.
-    /// If a template is defined, frequencies are determined based only on the template set. 
-    /// Transform can be used to e.g. round values or manipulating characters (System.Char.toUpper)
+    /// Creates probability mass function of the categories in the input sequence.<br />A template defines the search space to exclude certain elements or to include elements that are not in the input sequence.<br />If a template is defined, frequencies are determined based only on the template set. <br />Transform can be used to e.g. round values or manipulating characters (System.Char.toUpper)
     static member createNominal(?Template: Set<'a>,?Transform: 'a -> 'a) = 
 
         if Template.IsNone then 

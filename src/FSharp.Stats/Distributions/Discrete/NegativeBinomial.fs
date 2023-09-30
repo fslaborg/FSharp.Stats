@@ -17,7 +17,15 @@ type NegativeBinomial_trials =
         if r <= 0 || (p < 0. || p > 1.) then 
             failwith "NegativeBinomial distribution should be parametrized by number of successes r > 0, sucess probability p between 0.0 and 1.0."
 
-    /// Computes the mode. Number of trials with the highest probability to obtain r successes with the last trial.
+    /// <summary>Computes the mode. Number of trials with the highest probability to obtain r successes with the last trial.</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode r p =
         NegativeBinomial_trials.CheckParam r p
         if r > 1 then
@@ -28,31 +36,71 @@ type NegativeBinomial_trials =
         else
             1
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean r p =
         NegativeBinomial_trials.CheckParam r p
         if p = 0. then 
             nan 
         else float r / p
         
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance r p =
         NegativeBinomial_trials.CheckParam r p
         if p = 0. then 
             nan 
         else (float r * (1. - p)) / (p**2.)
         
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation r p =
         if p = 0. then 
             nan 
         else sqrt (NegativeBinomial_trials.Variance r p)
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member SampleUnchecked r p =
         failwithf "not implemented yet"
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample r p =
         NegativeBinomial_trials.CheckParam r p
         NegativeBinomial_trials.SampleUnchecked r p
@@ -93,18 +141,28 @@ type NegativeBinomial_trials =
         NegativeBinomial_trials.CheckParam r p
         (r, System.Int32.MaxValue)
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString r p = 
         sprintf "NegativeBinomial_trials(r = %i, p = %f)" r p
 
     /// <summary> Initializes a negative binomial distribution.
-    /// The negative binomial distribution is a discrete probability distribution
-    /// that models the number of trials needed x to get the rth success in repeated 
-    /// independent Bernoulli trials with probability p.
-    /// </summary>
-    /// <param name="r">The number of success states</param>
-    /// <param name="p">The probability of each independent bernoulli trial</param>
-    /// <param name="x">The number of trials until the rth success</param>
+    /// <summary>The negative binomial distribution is a discrete probability distribution<br />that models the number of trials needed x to get the rth success in repeated <br />independent Bernoulli trials with probability p.<br /></summary><br /><param name="r">The number of success states</param><br /><param name="p">The probability of each independent bernoulli trial</param><br /><param name="x">The number of trials until the rth success</param></summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init r p =
         { new DiscreteDistribution<_,int> with            
             member d.Mean              = NegativeBinomial_trials.Mean r p
@@ -134,7 +192,15 @@ type NegativeBinomial_failures =
         if r <= 0 || (p < 0. || p > 1.) then 
             failwith "NegativeBinomial distribution should be parametrized by number of successes r > 0, sucess probability p between 0.0 and 1.0."
     
-    /// Computes the mode. Number of failures with the highest probability to obtain r successes with the last trial.
+    /// <summary>Computes the mode. Number of failures with the highest probability to obtain r successes with the last trial.</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode r p =
         NegativeBinomial_failures.CheckParam r p
         if r > 1 then
@@ -145,31 +211,71 @@ type NegativeBinomial_failures =
         else
             0
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean r p =
         NegativeBinomial_failures.CheckParam r p
         if p = 0. then 
             nan 
         else (float r * (1. - p)) / p
         
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance r p =
         NegativeBinomial_failures.CheckParam r p
         if p = 0. then 
             nan 
         else (float r * (1. - p)) / (p**2.)
         
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation r p =
         if p = 0. then 
             nan 
         else sqrt (NegativeBinomial_failures.Variance r p)
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member SampleUnchecked r p =
         failwithf "not implemented yet"
         
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample r p =
         NegativeBinomial_failures.CheckParam r p
         NegativeBinomial_failures.SampleUnchecked r p
@@ -240,23 +346,41 @@ type NegativeBinomial_failures =
     //    let alpha,beta = NegativeBinomial.Fit(observations,maxIter,tol)
     //    NegativeBinomial.Init alpha beta 
 
-    /// Returns the support of the NegativeBinomial distribution: [r, max Int32).
+    /// <summary>Returns the support of the NegativeBinomial distribution: [r, max Int32).</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support r p =
         NegativeBinomial_failures.CheckParam r p
         (0, System.Int32.MaxValue)
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString r p = 
         sprintf "NegativeBinomial_failures(r = %i, p = %f)" r p
 
     /// <summary> Initializes a negative binomial distribution.
-    /// The negative binomial distribution is a discrete probability distribution
-    /// that models the number of failures needed k to get the rth success in repeated 
-    /// independent Bernoulli trials with probability p.
-    /// </summary>
-    /// <param name="r">The number of success states</param>
-    /// <param name="p">The probability of each independent bernoulli trial</param>
-    /// <param name="k">The number of failures before the rth success</param>
+    /// <summary>The negative binomial distribution is a discrete probability distribution<br />that models the number of failures needed k to get the rth success in repeated <br />independent Bernoulli trials with probability p.<br /></summary><br /><param name="r">The number of success states</param><br /><param name="p">The probability of each independent bernoulli trial</param><br /><param name="k">The number of failures before the rth success</param></summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init r p =
         { new DiscreteDistribution<_,int> with            
             member d.Mean              = NegativeBinomial_failures.Mean r p

@@ -19,27 +19,62 @@ type Exponential =
         if lambda <= 0.0 then 
             failwith "Exponential distribution should be parametrized by lambda > 0.0."
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode lambda =
         Exponential.CheckParam lambda
         0.0
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean lambda =
         Exponential.CheckParam lambda
         1.0 / lambda
 
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance lambda =
         Exponential.CheckParam lambda
         1.0 / (lambda * lambda)
 
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation lambda =
         Exponential.CheckParam lambda
         1.0 / lambda
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample lambda = 
         // Source: fsmathtools
         Exponential.CheckParam lambda
@@ -50,20 +85,44 @@ type Exponential =
         (- log r)/lambda
             
 
-    /// Computes the probability density function.
+    /// <summary>Computes the probability density function.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PDF lambda x = 
         Exponential.CheckParam lambda
         if x >= 0.0 then
             lambda * exp(-lambda * x)
         else 0.0
         
-    /// Computes the cumulative distribution function.
+    /// <summary>Computes the cumulative distribution function.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF lambda x =
         Exponential.CheckParam lambda
         if x < 0.0 then 0.0
         else 1.0 - exp(-lambda * x)
 
-    /// Computes the inverse cumulative distribution function (quantile function).
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF lambda x =
         Exponential.CheckParam lambda
         failwithf "InvCDF not implemented yet"
@@ -87,17 +146,38 @@ type Exponential =
         |> Exponential.Init  
 
 
-    /// Returns the support of the exponential distribution: [0, Positive Infinity).
+    /// <summary>Returns the support of the exponential distribution: [0, Positive Infinity).</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support lambda =
         Exponential.CheckParam lambda
         Interval.CreateClosed<float> (0.0,System.Double.PositiveInfinity)
 
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString lambda =
         sprintf "Exponential(λ = %f)" lambda
 
-    /// Initializes a Exponential distribution    
+    /// <summary>Initializes a Exponential distribution    </summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init lambda = 
         { new ContinuousDistribution<float,float> with
             member d.Mean              = Exponential.Mean lambda

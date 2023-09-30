@@ -20,31 +20,74 @@ type ChiSquared =
         if System.Double.IsNaN(dof)  || dof < 0. then 
             failwith "ChiSquared distribution should be parametrized by degrees of Freedom in [0,inf]."
 
-    /// Computes the mode.
+    /// <summary>Computes the mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode dof =
         ChiSquared.CheckParam dof
         max (dof - 2.)  0.
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean dof =
         ChiSquared.CheckParam dof
         dof
 
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance dof =
         ChiSquared.CheckParam dof
         dof * 2.
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation dof =
         ChiSquared.CheckParam dof
         sqrt (dof * 2.)
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample dof =
         ChiSquared.CheckParam dof
         //rndgen.NextFloat() * (max - min) + min
         raise (NotImplementedException())
 
-    /// Computes the probability density function.
+    /// <summary>Computes the probability density function.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PDF dof x =
         ChiSquared.CheckParam dof
         if x < 0.0 || dof < 1. then
@@ -67,7 +110,15 @@ type ChiSquared =
     //    else
     //        ((1.0 - (dof/2.0))*System.Math.Log(2.0)) + ((dof - 1.0)*System.Math.Log(x)) - (x*x/2.0) - Gamma.gammaLn(dof/2.0)
     
-    /// Computes the cumulative distribution function.
+    /// <summary>Computes the cumulative distribution function.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF dof x =
         ChiSquared.CheckParam dof
         if dof = 0. then 
@@ -76,22 +127,51 @@ type ChiSquared =
         elif isNan x then nan
         else Gamma.lowerIncompleteRegularized (dof/2.) (x/2.)
 
-    /// Computes the inverse cumulative distribution function (quantile function).
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF dof x =
         ChiSquared.CheckParam dof
         failwithf "InvCDF not implemented yet"
 
-    /// Returns the support of the exponential distribution: [0, Positive Infinity).
+    /// <summary>Returns the support of the exponential distribution: [0, Positive Infinity).</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support dof =
         ChiSquared.CheckParam dof
         Interval.CreateClosed<float> (0.,System.Double.PositiveInfinity)
 
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString dof =
         sprintf "ChiSquared(dof = %f)" dof
 
-    /// Initializes a ChiSquared distribution 
+    /// <summary>Initializes a ChiSquared distribution </summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init dof =
         { new ContinuousDistribution<float,float> with
             member d.Mean              = ChiSquared.Mean dof

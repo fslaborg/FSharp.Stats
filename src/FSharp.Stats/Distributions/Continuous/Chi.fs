@@ -15,37 +15,80 @@ type Chi =
         if System.Double.IsNaN(dof)  || dof < 0. then 
             failwith "Chi distribution should be parametrized by degrees of Freedom in [0,inf)."
     
-    /// Computes the mode.
+    /// <summary>Computes the mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode dof =
         Chi.CheckParam dof
         sqrt(dof - 1.0)
         
         
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean dof =
         Chi.CheckParam dof
         sqrt 2. * ((Gamma._gamma ((dof + 1.) / 2.))/(Gamma._gamma (dof / 2.)))
     
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance dof =
         Chi.CheckParam dof
         let mean = sqrt 2. * ((Gamma._gamma ((dof + 1.) / 2.))/(Gamma._gamma (dof / 2.)))
         dof - pown mean 2
     
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation dof =
         Chi.CheckParam dof
         let mean = sqrt 2. * ((Gamma._gamma ((dof + 1.) / 2.))/(Gamma._gamma (dof / 2.)))
         let var = dof - pown mean 2
         sqrt var
     
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample dof =
         Chi.CheckParam dof
         //rndgen.NextFloat() * (max - min) + min
         raise (NotImplementedException())
 
-    /// Computes the probability density function.
+    /// <summary>Computes the probability density function.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PDF dof x =
         Chi.CheckParam dof
         if x < 0.0 || dof < 1. then
@@ -59,7 +102,15 @@ type Chi =
             let pdffunction = fraction*(ex1*ex2)
             pdffunction 
     
-    /// Computes the cumulative distribution function.
+    /// <summary>Computes the cumulative distribution function.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF dof x =
         Chi.CheckParam dof
         if dof = 0. then 
@@ -67,22 +118,51 @@ type Chi =
             else 0.
         else Gamma.lowerIncompleteRegularized (dof / 2.) ((x**2.) /2.)
 
-    /// Computes the inverse cumulative distribution function (quantile function).
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF dof x =
         Chi.CheckParam dof
         failwithf "InvCDF not implemented yet"
     
-    /// Returns the support of the exponential distribution: [0, Positive Infinity).
+    /// <summary>Returns the support of the exponential distribution: [0, Positive Infinity).</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support dof =
         Chi.CheckParam dof
         (0., System.Double.PositiveInfinity)
 
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString dof =
         sprintf "Chi(dof = %f" dof
 
-    /// Initializes a Chi distribution 
+    /// <summary>Initializes a Chi distribution </summary>
+    /// <remarks></remarks>
+    /// <param name="dof"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init dof =
         { new ContinuousDistribution<float,float> with
             member d.Mean              = Chi.Mean dof
