@@ -13,6 +13,7 @@ module Padding =
         /// <summary>average spacing of the data points</summary>
         /// <remarks></remarks>
         /// <param name="data"></param>
+        /// <param name="getDiff"></param>
         /// <returns></returns>
         /// <example>
         /// <code>
@@ -47,6 +48,7 @@ module Padding =
         /// <summary>minimum spacing of the data points</summary>
         /// <remarks></remarks>
         /// <param name="data"></param>
+        /// <param name="getDiff"></param>
         /// <returns></returns>
         /// <example>
         /// <code>
