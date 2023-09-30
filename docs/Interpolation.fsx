@@ -42,6 +42,7 @@ _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.
 - [Cubic interpolating spline](#Cubic-spline-interpolation)
 - [Akima interpolating subspline](#Akima-subspline-interpolation)
 - [Hermite interpolation](#Hermite-interpolation)
+- [Bezier interpolation](#Bezier-interpolation)
 - [Chebyshev function approximation](#Chebyshev-function-approximation)
 
 
@@ -365,6 +366,48 @@ splineComparison
 
 (***hide***)
 splineComparison |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+
+(**
+## Bezier interpolation
+
+In Bezier interpolation the user can define control points in order to interpolate between points.
+
+*)
+
+open FSharp.Stats
+open FSharp.Stats.Interpolation
+open Plotly.NET
+
+let bezierInterpolation =
+    let t = 0.3
+    let p0 = vector [|1.;1.;1.|] //point 0 that should be traversed
+    let c0 = vector [|1.5;2.1;2.|] //control point 0
+    let c1 = vector [|5.8;1.6;1.4|] //control point 1
+    let p1 = vector [|3.;2.;0.|] //point 1 that should be traversed
+    let to3Dpoint (v : vector) = v[0],v[1],v[2]
+    let interpolate = Bezier.interpolate [|p0;c0;c1;p1|] >> to3Dpoint
+
+    [
+        Chart.Point3D([p0.[0]],[p0.[1]],[p0.[2]],Name="Point_0",MarkerColor=Color.fromHex "#1f77b4") |> Chart.withMarkerStyle(Size=12)
+        Chart.Point3D([c0.[0]],[c0.[1]],[c0.[2]],Name="Control_0",MarkerColor=Color.fromHex "#ff7f0e")|> Chart.withMarkerStyle(Size=10)
+        Chart.Point3D([c1.[0]],[c1.[1]],[c1.[2]],Name="Control_1",MarkerColor=Color.fromHex "#ff7f0e")|> Chart.withMarkerStyle(Size=10)
+        Chart.Point3D([p1.[0]],[p1.[1]],[p1.[2]],Name="Point_1",MarkerColor=Color.fromHex "#1f77b4") |> Chart.withMarkerStyle(Size=12)
+
+        [0. .. 0.01 .. 1.] |> List.map interpolate |> Chart.Line3D |> Chart.withTraceInfo "Bezier" |> Chart.withLineStyle(Color=Color.fromHex "#1f77b4",Width=10.)
+    ]
+    |> Chart.combine
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+(*** condition: ipynb ***)
+#if IPYNB
+bezierInterpolation
+#endif // IPYNB
+
+(***hide***)
+bezierInterpolation |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 
