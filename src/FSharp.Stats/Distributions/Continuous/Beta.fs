@@ -128,8 +128,8 @@ type Beta =
     /// Returns the support of the exponential distribution: [0.0, 1.0).
     static member Support alpha beta =
         Beta.CheckParam alpha beta
-        (0.0, 1.0)
-    
+        Interval.CreateRightOpen<float>(0.0, 1.0)
+
     /// A string representation of the distribution.
     static member ToString alpha beta =
         sprintf "Beta(α = %f, β = %f)" alpha beta

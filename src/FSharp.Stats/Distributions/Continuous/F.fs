@@ -102,7 +102,7 @@ type F =
     /// Returns the support of the exponential distribution: (0., Positive Infinity).
     static member Support dof1 dof2 =
         F.CheckParam dof1 dof2
-        (0., System.Double.PositiveInfinity)
+        Interval.CreateRightOpen<float>(0., Double.PositiveInfinity)
      
     /// A string representation of the distribution.
     static member ToString dof1 dof2 =

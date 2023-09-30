@@ -129,7 +129,7 @@ type Normal =
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support mu sigma =
         Normal.CheckParam mu sigma
-        (System.Double.NegativeInfinity, System.Double.PositiveInfinity)
+        Interval.CreateRightOpen<float>(Double.NegativeInfinity, Double.PositiveInfinity)
 
 
     /// A string representation of the distribution.

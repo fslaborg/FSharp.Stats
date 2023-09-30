@@ -163,7 +163,7 @@ type Gamma =
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support alpha beta =
         Gamma.CheckParam alpha beta
-        (0.0, System.Double.PositiveInfinity)
+        Interval.CreateRightOpen<float>(0.0, Double.PositiveInfinity)
 
     /// A string representation of the distribution.
     static member ToString alpha beta = 

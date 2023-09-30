@@ -1039,10 +1039,11 @@ let FDistributionTests =
             let dof2            = 25.
             let testcase    = 
                 Continuous.F.Support dof1 dof2
-            let r_value     = (0., System.Double.PositiveInfinity)
+            let r_value     = Interval.CreateRightOpen<float>(0., System.Double.PositiveInfinity)
 
             Expect.isTrue
-                ((fst testcase=fst r_value) && (snd testcase=snd r_value))
+                ((testcase.GetStart() = r_value.GetStart()) &&
+                ( testcase.GetEnd() =  r_value.GetEnd()))
                 "Continuous.F.Support does not return the expected Tupel"
         
         testCase "Continuous.F.Support_infinity" <| fun () ->
@@ -1050,10 +1051,11 @@ let FDistributionTests =
             let dof2            = infinity
             let testcase    = 
                 Continuous.F.Support dof1 dof2
-            let r_value     = (0., System.Double.PositiveInfinity)
+            let r_value     = Interval.CreateRightOpen<float>(0., Double.PositiveInfinity)
 
             Expect.isTrue
-                ((fst testcase=fst r_value) && (snd testcase=snd r_value))
+                ((testcase.GetStart() = r_value.GetStart()) &&
+                (testcase.GetEnd() = r_value.GetEnd()))
                 "Continuous.F.Support does not return the expected Tupel"
 
 
