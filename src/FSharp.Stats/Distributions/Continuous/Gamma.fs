@@ -160,7 +160,7 @@ type Gamma =
         let alpha,beta = Gamma.Fit(observations,maxIter,tol)
         Gamma.Init alpha beta 
 
-    /// Returns the support of the exponential distribution: (0, Positive Infinity).
+    /// Returns the support of the gamma distribution: (0, Positive Infinity).
     static member Support alpha beta =
         Gamma.CheckParam alpha beta
         Interval.CreateRightOpen<float>(0.0, Double.PositiveInfinity)
