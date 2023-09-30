@@ -467,7 +467,7 @@ let data2DChart =
 let padding = 11
 
 let paddedData2D =
-    //padding the data points with 50 artificial random points on each side
+    //padding the data points with 11 artificial random points on each side
     Padding.Discrete.ThreeDimensional.pad data2D padding Padding.Discrete.ThreeDimensional.Random
 
 let marrWavelet = 
