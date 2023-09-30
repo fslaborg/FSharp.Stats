@@ -12,7 +12,21 @@ module DistanceMetrics =
 
     module Vector =
         
-        /// Hamming distance between 2 vectors
+        /// <summary>Calculates Hamming distance between 2 vectors</summary>
+        /// <remarks>Note, distance between Nan and Nan is equal to 1</remarks>
+        /// <param name="v1">first vector</param>
+        /// <param name="v2">second vector</param>
+        /// <returns>Hamming distance between elements of given vectors</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. v1 and v2 initialization
+        /// let v1 = vector [1; 2; 3]
+        /// let s2 = vector [9; 2; 3]
+        /// 
+        /// // Apply the hamming to v1 and v2
+        /// Vector.hamming v1 v2
+        /// </code> 
+        /// </example>
         let inline hamming (v1: Vector<'a>) (v2: Vector<'a>) =
             let mutable dist = 0
             
@@ -77,7 +91,21 @@ module DistanceMetrics =
  
     module Array =
         
-        /// Hamming distance of two coordinate arrays
+        /// <summary>Calculates Hamming distance of two coordinate arrays</summary>
+        /// <remarks>Note, distance between Nan and Nan is equal to 1</remarks>
+        /// <param name="a1">first array</param>
+        /// <param name="a2">second array</param>
+        /// <returns>Hamming distance between elements of given arrays</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. a1 and a2 initialization
+        /// let a1 = [|1; 2; 3|]
+        /// let a2 = [|9; 2; 3|]
+        /// 
+        /// // Apply the hamming to a1 and a2
+        /// Array.hamming a1 a2
+        /// </code> 
+        /// </example>
         let inline hamming (a1: array<'a>) (a2: array<'a>) =
             let mutable dist = 0
             
@@ -141,7 +169,21 @@ module DistanceMetrics =
                     dist <- dist + System.Math.Abs x
             dist
 
-    /// Hamming distance of two coordinate items
+    /// <summary>Calculates Hamming distance of two coordinate items</summary>
+    /// <remarks>Note, distance between Nan and Nan is equal to 1</remarks>
+    /// <param name="s1">first sequence</param>
+    /// <param name="s2">second sequence</param>
+    /// <returns>Hamming distance between elements of given sequences</returns>
+    /// <example> 
+    /// <code> 
+    /// // e.g. s1 and s2 initialization
+    /// let s1 = seq {1; 2; 3}
+    /// let s2 = seq {9; 2; 3}
+    /// 
+    /// // Apply the hamming to s1 and s2
+    /// hamming s1 s2
+    /// </code> 
+    /// </example>
     let inline hamming (s1: 'a) (s2: 'a) =
         match Seq.length s1 <> Seq.length s2 with
         | true -> failwith "Inputs are not of equal length"
