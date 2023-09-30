@@ -212,7 +212,7 @@ type Normal =
     /// </example>
     static member Support mu sigma =
         Normal.CheckParam mu sigma
-        (System.Double.NegativeInfinity, System.Double.PositiveInfinity)
+        Interval.CreateRightOpen<float>(Double.NegativeInfinity, Double.PositiveInfinity)
 
 
     /// <summary>A string representation of the distribution.</summary>

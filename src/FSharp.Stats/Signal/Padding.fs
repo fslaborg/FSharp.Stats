@@ -381,15 +381,22 @@ module Padding =
 
             [leftPadding;data;rightPadding] |> Array.concat
 
-        /// <summary>Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).</summary>
+        /// <summary>Adds additional data points with value zero to the beginning and end of the given data.</summary>
         /// <remarks></remarks>
-        /// <param name="data"></param>
-        /// <param name="borderpadding"></param>
+        /// <param name="data">An array of values</param>
+        /// <param name="borderpadding">The number of points to add to each end</param>
         /// <returns></returns>
         /// <example>
-        /// <code>
-        /// </code>
-        /// </example>
+        /// <code> 
+        ///  let data = [|0.1; 0.2; 0.3; 0.4|]
+        ///            
+        ///  let padding = 2
+        ///       
+        ///  // padding the data points with 2 artificial zero-valued points on each side
+        ///  let paddedData =Padding.Discrete.padZero data padding
+        ///  
+        /// </code> 
+        /// </example>        
         let inline padZero (data : 'a []) (borderpadding : int) =
             let padding = 
                 Array.zeroCreate borderpadding 
@@ -397,22 +404,39 @@ module Padding =
 
 
         module ThreeDimensional =
-
+            
             type Padding3DMethod =
-                //adds zeros to the Array2D borders 
+                /// <summary>
+                /// Adds zeros to the Array2D borders 
+                /// </summary>
                 | Zero
-                //adds random data points taken from the original data to the Array2D borders
+                /// <summary>
+                /// Adds random data points taken from the original data to the Array2D borders
+                /// </summary>
                 | Random
-        
-            /// <summary>padds artificial data points to the borders of the given Array2D. increment=1; n=borderpadding</summary>
-            /// <remarks></remarks>
-            /// <param name="data"></param>
-            /// <param name="borderpadding"></param>
-            /// <param name="paddingMethod"></param>
-            /// <returns></returns>
-            /// <example>
-            /// <code>
-            /// </code>
+            
+            /// <summary>
+            /// Pads artificial data points to the borders of the given two dimensional array.
+            /// </summary>
+            /// <param name="data">A two dimensional array</param>
+            /// <param name="borderpadding">The number of points to add to each side</param>
+            /// <param name="paddingMethod">The padding method to use</param>
+            /// <returns>A two dimensional array, containing the data of the original array padded with artificial data points on each side.</returns>
+            /// <example> 
+            /// <code> 
+            ///  let data2D =
+            ///            let rnd = System.Random()
+            ///            Array2D.init 50 50 (fun i j -> 
+            ///            if (i,j) = (15,15) then 5.
+            ///            elif (i,j) = (35,35) then -5.
+            ///            else rnd.NextDouble())
+            /// 
+            ///  let padding = 11
+            ///       
+            ///  // padding the data points with 11 artificial random points on each side
+            ///  let paddedData2D =Padding.Discrete.ThreeDimensional.pad data2D padding Padding.Discrete.ThreeDimensional.Random
+            ///  
+            /// </code> 
             /// </example>
             let inline pad (data: 'a [,]) (borderpadding: int) (paddingMethod : Padding3DMethod) : float [,]=
                 //TODO: change data input from float to 'a

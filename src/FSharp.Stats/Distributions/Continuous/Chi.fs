@@ -141,7 +141,7 @@ type Chi =
     /// </example>
     static member Support dof =
         Chi.CheckParam dof
-        (0., System.Double.PositiveInfinity)
+        Interval.CreateRightOpen<float>(0.0, Double.PositiveInfinity)
 
 
     /// <summary>A string representation of the distribution.</summary>

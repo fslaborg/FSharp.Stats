@@ -147,17 +147,19 @@ type Exponential =
 
 
     /// <summary>Returns the support of the exponential distribution: [0, Positive Infinity).</summary>
-    /// <remarks></remarks>
     /// <param name="lambda"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
     /// </code>
     /// </example>
+    [<Obsolete("Please use the function without the superfluous lambda parameter")>]
     static member Support lambda =
         Exponential.CheckParam lambda
-        Interval.CreateClosed<float> (0.0,System.Double.PositiveInfinity)
+        Interval.CreateRightOpen<float> (0.0, Double.PositiveInfinity)
 
+    static member Support () =
+        Interval.CreateRightOpen<float> (0.0, Double.PositiveInfinity)
 
     /// <summary>A string representation of the distribution.</summary>
     /// <remarks></remarks>

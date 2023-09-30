@@ -2135,6 +2135,28 @@ module Interpolation =
 
 
     /// <summary>
+    ///   Bezier interpolates data between 2 points using a number of control points, which determine the degree of the interpolated curve.
+    /// </summary>
+    module Bezier =
+        let inline lerp (p1: vector) (p2: vector) (t: float) =
+            p1 + t * (p2 - p1)
+
+        /// <summary>
+        ///   This implements Bezier interpolation using De Casteljau's algorithm.
+        /// </summary>
+        /// <param name="values">an array containg the starting point, the control points, and the end point to use for interpolation</param>
+        /// <returns>The generated interpolation function</returns>
+        let interpolate (values: vector []): (float -> vector) =
+            if values.Length < 2 then invalidArg (nameof values) "There must be at least 2 points"
+            fun t ->
+                let results = Array.copy values
+                let degree = results.Length-2
+                for n = degree downto 0 do
+                    for i = 0 to n do
+                        results[i] <- lerp results[i] results[i+1] t
+                results[0]
+
+    /// <summary>
     /// Approximation
     /// </summary>
     module Approximation =

@@ -5,6 +5,7 @@ open Expecto
 open System
 open FSharp.Stats
 open FSharp.Stats.Signal
+open FSharp.Stats.Signal.Padding.Discrete
 open Signal.Outliers
 open TestExtensions
 
@@ -315,6 +316,7 @@ let binningTests =
 
 [<Tests>]
 let paddingTests =
+    let rnd = System.Random()
     let dataLength = 20
     let padding = 10
 
@@ -323,7 +325,13 @@ let paddingTests =
             fun i ->
                 (3.0 + float i, 7.0 - float i)
         )
-
+    
+    let randomTwoDimensionalArray dimension1Length dimension2Length  =
+        Array2D.init dimension1Length dimension2Length (fun _ _ -> rnd.NextDouble())
+    
+    let randomArray length =
+        Array.init length (fun _ -> rnd.NextDouble())
+             
     testList "Signal.PaddingTests" [
 
         testCase "pad" <| fun() ->
@@ -340,6 +348,58 @@ let paddingTests =
             Expect.equal padded.Length (data.Length + 2 * padding) "Length should be the original data length plus padding at each end"
             Expect.equal (padded |> Array.sortBy fst) expectedPadded "Result should be the lead-in, whole data, then lead-out (maybe not in order?)"
             Expect.equal padded expectedPadded "Result should be the lead-in, whole data, then lead-out"
-
-    ]
-
+            
+        testCase "three dimensional pad with zeroes" <| fun() ->
+            let originalDimension1 = 30
+            let originalDimension2 = 40
+            let originalData = randomTwoDimensionalArray originalDimension1 originalDimension2
+            
+            let newHeight = (originalDimension1 + 2 * padding)
+            let newWidth = (originalDimension2 + 2 * padding)
+            let isPointInOriginalData i j =
+                (i >= padding && i < originalDimension1 + padding) &&
+                (j >= padding && j < originalDimension2 + padding)
+            
+            let expected =
+                        Array2D.init newHeight newWidth (fun i j -> 
+                        if isPointInOriginalData i j 
+                            then originalData[i-padding, j-padding]
+                        else 0.)
+            
+            let paddedData2D = ThreeDimensional.pad originalData padding ThreeDimensional.Zero
+            
+            Expect.equal paddedData2D expected "padded data is incorrect" 
+        
+        
+        testCase "three dimensional pad with random padding" <| fun() ->
+            let originalHeight = 30
+            let originalWidth = 40
+            
+            let originalData = randomTwoDimensionalArray originalHeight originalWidth
+                        
+            let newHeight = (originalHeight + 2 * padding)
+            let newWidth = (originalWidth + 2 * padding)
+            let flattenToArray (arr: 'T [,]) = arr |> Seq.cast<'T> |> Seq.toArray
+            
+            let paddedData2D = ThreeDimensional.pad originalData padding ThreeDimensional.Random
+            
+            Expect.equal paddedData2D.Length (newHeight * newWidth) "padded data length incorrect"
+            // All the padded values should belong to the original data set
+            Expect.containsAll (originalData |> flattenToArray) (paddedData2D |> flattenToArray) "padded data contains item not in original data"
+        
+        
+        testCase "padZero to discrete data" <| fun() ->
+            let originalData = randomArray dataLength
+            let newLength = (dataLength + 2 * padding)
+            let isPointInOriginalData i =
+                (i >= padding && i < dataLength + padding)
+                
+            let expected = Array.init newLength (fun i -> if isPointInOriginalData i 
+                                                          then originalData[i-padding]
+                                                          else 0.)
+            
+            let paddedData = padZero originalData padding
+            
+            Expect.equal paddedData expected "padded data incorrect"
+        ]
+    

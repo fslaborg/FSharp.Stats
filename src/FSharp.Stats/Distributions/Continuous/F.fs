@@ -11,14 +11,22 @@ open FSharp.Stats.Ops
 // wiki: "https://en.wikipedia.org/wiki/F-distribution"
 // ######
 
+/// F-distribution purely functional helper functions.
+module internal F_Helpers =
+ let assertValidDof name dof1 =
+        if isNan(dof1) || dof1 <= 0.0 then
+            failwithf "Invalid definition of freedom %s \"%A\".%s"
+                name
+                dof1
+                "It must not be NaN and it must be positive"
 
 /// F-distribution
 type F =
-    
+
     // F-distribution helper functions.
-    static member CheckParam dof1 dof2 = 
-        if dof1 <= 0.0 || dof2 <= 0.0 || isNan(dof1) || isNan(dof2) then 
-            failwith "F-distribution should be parametrized by dof1 and dof2 > 0.0. and <> nan"
+    static member CheckParam (dof1) (dof2) : unit = 
+        dof1 |> F_Helpers.assertValidDof "dof1"
+        dof2 |> F_Helpers.assertValidDof "dof2"
 
     static member private CheckX x = 
         if x<0. || isNan(x) then 
@@ -166,19 +174,21 @@ type F =
             //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
             failwithf "InvCDF not implemented yet"
 
-    /// <summary>Returns the support of the exponential distribution: (0., Positive Infinity).</summary>
     /// <remarks></remarks>
     /// <param name="dof1"></param>
-    /// <param name="dof2"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
+    /// Returns the support of the exponential distribution: if dof1 = 1 then (0., Positive Infinity) else [0., Positive Infinity).
+    static member Support dof1 =
+        dof1 |> F_Helpers.assertValidDof "dof1"
+        if dof1 = 1 then
+            Interval.CreateOpen<float>(0.0, Double.PositiveInfinity)
+        else
+            Interval.CreateRightOpen<float>(0.0, Double.PositiveInfinity)
     /// </code>
     /// </example>
-    static member Support dof1 dof2 =
-        F.CheckParam dof1 dof2
-        (0., System.Double.PositiveInfinity)
-     
+
     /// <summary>A string representation of the distribution.</summary>
     /// <remarks></remarks>
     /// <param name="dof1"></param>

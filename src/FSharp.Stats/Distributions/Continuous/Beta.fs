@@ -203,8 +203,8 @@ type Beta =
     /// </example>
     static member Support alpha beta =
         Beta.CheckParam alpha beta
-        (0.0, 1.0)
-    
+        Interval.CreateRightOpen<float>(0.0, 1.0)
+
     /// <summary>A string representation of the distribution.</summary>
     /// <remarks></remarks>
     /// <param name="alpha"></param>

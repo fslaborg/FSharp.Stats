@@ -159,7 +159,7 @@ type StudentT =
     /// </example>
     static member Support mu tau dof =
         StudentT.CheckParam mu tau dof
-        (System.Double.NegativeInfinity, System.Double.PositiveInfinity)
+        Interval.CreateOpen<float>(Double.NegativeInfinity, Double.PositiveInfinity)
 
     /// <summary>A string representation of the distribution.</summary>
     /// <remarks></remarks>

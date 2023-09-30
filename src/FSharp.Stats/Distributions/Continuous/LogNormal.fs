@@ -139,7 +139,7 @@ type LogNormal =
         LogNormal.CheckParam mu sigma            
         Math.Exp (Normal.InvCDF mu sigma x)
  
-    /// <summary>Returns the support of the exponential distribution: [0, Positive Infinity).</summary>
+    /// <summary>Returns the support of the log normal distribution: [0, Positive Infinity).</summary>
     /// <remarks></remarks>
     /// <param name="mu"></param>
     /// <param name="sigma"></param>
@@ -150,7 +150,7 @@ type LogNormal =
     /// </example>
     static member Support mu sigma =
         LogNormal.CheckParam mu sigma
-        (0., System.Double.PositiveInfinity)
+        Interval.CreateOpen<float>(0., Double.PositiveInfinity)
 
     /// <summary>A string representation of the distribution.</summary>
     /// <remarks></remarks>

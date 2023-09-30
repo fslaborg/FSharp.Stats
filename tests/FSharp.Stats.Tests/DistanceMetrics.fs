@@ -1,10 +1,101 @@
 ﻿module DistanceMetricsTests
 open Expecto
-open System
 open FSharp.Stats
 open FSharp.Stats.DistanceMetrics
 open FSharp.Stats.DistanceMetrics.Vector
 open FSharp.Stats.DistanceMetrics.Array
+
+[<Tests>]
+let hammingfunctiontests =
+    testList "DistanceMetrics.hamming" [
+        testCase "hamming" <| fun () ->
+            let seq1 = seq {0;0;0;0}
+            let seq2 = seq {1;1;1;1}
+            let distance = DistanceMetrics.hamming seq1 seq2 
+            Expect.equal distance 4 "Should be equal"
+        testCase "hamming0" <| fun () ->
+            let seq1 = seq {0.0;0.0;0.0;0.0}
+            let seq2 = seq {0.0;0.0;0.0;0.0}
+            let distance = DistanceMetrics.hamming seq1 seq2 
+            Expect.equal distance 0 "Should be equal"
+        testCase "hamminginfinity" <| fun () ->
+            let seq1 = seq {infinity;-infinity}
+            let seq2 = seq {infinity;-infinity}
+            let distance = DistanceMetrics.hamming seq1 seq2 
+            Expect.equal distance 0 "Should be equal"
+        testCase "hammingcharacters" <| fun () ->
+            let seq1 = seq {"a";"b";"c"}
+            let seq2 = seq {"a";"b";"c"}
+            let distance = DistanceMetrics.hamming seq1 seq2 
+            Expect.equal distance 0 "Should be equal"
+        testCase "hamminglists" <| fun () ->
+            let l1 = [1.0;2.0]
+            let l2 = [1.0;3.0]
+            let distance = DistanceMetrics.hamming l1 l2 
+            Expect.equal distance 1 "Should be equal"
+        testCase "hammingstrings" <| fun () ->
+            let s1 = "karolin"
+            let s2 = "kathrin"
+            let distance = DistanceMetrics.hamming s1 s2 
+            Expect.equal distance 3 "Should be equal"
+        testCase "hammingexception" <| fun () ->
+            let seq1 = seq {0}
+            let seq2 = seq {1;1}
+            Expect.throws (fun () -> DistanceMetrics.hamming seq1 seq2 |> ignore) "Should throw"
+    ]
+    
+[<Tests>]
+let hammingvecfunctiontests =
+    testList "DistanceMetrics.hammingvector" [
+        testCase "hamming" <| fun () ->
+            let v1 = vector [0;0;0;0]
+            let v2 = vector [1;1;1;1]
+            let distance = DistanceMetrics.Vector.hamming v1 v2 
+            Expect.equal distance 4 "Should be equal"
+        testCase "hamming0" <| fun () ->
+            let v1 = vector [0.0;0.0;0.0;0.0]
+            let v2 = vector [0.0;0.0;0.0;0.0]
+            let distance = DistanceMetrics.Vector.hamming v1 v2
+            Expect.equal distance 0 "Should be equal"
+        testCase "hamminginfinity" <| fun () ->
+            let v1 = vector [infinity;-infinity]
+            let v2 = vector [infinity;-infinity]
+            let distance = DistanceMetrics.Vector.hamming v1 v2 
+            Expect.equal distance 0 "Should be equal"
+        testCase "hammingexception" <| fun () ->
+            let v1 = vector [0]
+            let v2 = vector [1;1]
+            Expect.throws (fun () -> DistanceMetrics.Vector.hamming v1 v2 |> ignore) "Should throw"
+    ]
+    
+[<Tests>]
+let hammingarrayfunctiontests =
+    testList "DistanceMetrics.hammingarray" [
+        testCase "hamming" <| fun () ->
+            let a1 = [|0;0;0;0|]
+            let a2 = [|1;1;1;1|]
+            let distance = DistanceMetrics.Array.hamming a1 a2 
+            Expect.equal distance 4 "Should be equal"
+        testCase "hamming0" <| fun () ->
+            let a1 = [|0.0;0.0;0.0;0.0|]
+            let a2 = [|0.0;0.0;0.0;0.0|]
+            let distance = DistanceMetrics.Array.hamming a1 a2 
+            Expect.equal distance 0 "Should be equal"
+        testCase "hamminginfinity" <| fun () ->
+            let a1 = [|infinity;-infinity|]
+            let a2 = [|infinity;-infinity|]
+            let distance = DistanceMetrics.Array.hamming a1 a2 
+            Expect.equal distance 0 "Should be equal"
+        testCase "hammingcharacters" <| fun () ->
+            let a1 = [|"a";"b";"c"|]
+            let a2 = [|"a";"b";"c"|]
+            let distance = DistanceMetrics.Array.hamming a1 a2 
+            Expect.equal distance 0 "Should be equal"
+        testCase "hammingexception" <| fun () ->
+            let a1 = [|0|]
+            let a2 = [|1;1|]
+            Expect.throws (fun () -> DistanceMetrics.Array.hamming a1 a2 |> ignore) "Should throw"
+    ]
 
 [<Tests>]
 let euclidianseqfunctiontests =
