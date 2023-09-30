@@ -88,10 +88,13 @@ type Exponential =
 
 
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
+    [<Obsolete("Please use the function without the superfluous lambda parameter")>]
     static member Support lambda =
         Exponential.CheckParam lambda
-        Interval.CreateClosed<float> (0.0,System.Double.PositiveInfinity)
+        Interval.CreateRightOpen<float> (0.0, Double.PositiveInfinity)
 
+    static member Support () =
+        Interval.CreateRightOpen<float> (0.0, Double.PositiveInfinity)
 
     /// A string representation of the distribution.
     static member ToString lambda =
