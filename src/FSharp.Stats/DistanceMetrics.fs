@@ -10,7 +10,32 @@ module DistanceMetrics =
     /// Signiture type for distance functions
     type Distance<'a> = 'a -> 'a -> float
 
-    module Vector = 
+    module Vector =
+        
+        /// <summary>Calculates Hamming distance between 2 vectors</summary>
+        /// <remarks>Note, distance between Nan and Nan is equal to 1</remarks>
+        /// <param name="v1">first vector</param>
+        /// <param name="v2">second vector</param>
+        /// <returns>Hamming distance between elements of given vectors</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. v1 and v2 initialization
+        /// let v1 = vector [1; 2; 3]
+        /// let s2 = vector [9; 2; 3]
+        /// 
+        /// // Apply the hamming to v1 and v2
+        /// Vector.hamming v1 v2
+        /// </code> 
+        /// </example>
+        let inline hamming (v1: Vector<'a>) (v2: Vector<'a>) =
+            let mutable dist = 0
+            
+            match v1.Length <> v2.Length with
+            | true -> failwith "Inputs are not of equal length"
+            | _    ->
+                for i in 0 .. v1.Length - 1 do
+                    if (v1[i] <> v2[i]) then dist <- dist + 1
+            dist
         
         /// Euclidean distance between 2 vectors
         let inline euclidean (v1:Vector<'a>) (v2:Vector<'a>) = 
@@ -64,7 +89,33 @@ module DistanceMetrics =
                     dist <- dist + System.Math.Abs x
             dist
  
-    module Array = 
+    module Array =
+        
+        /// <summary>Calculates Hamming distance of two coordinate arrays</summary>
+        /// <remarks>Note, distance between Nan and Nan is equal to 1</remarks>
+        /// <param name="a1">first array</param>
+        /// <param name="a2">second array</param>
+        /// <returns>Hamming distance between elements of given arrays</returns>
+        /// <example> 
+        /// <code> 
+        /// // e.g. a1 and a2 initialization
+        /// let a1 = [|1; 2; 3|]
+        /// let a2 = [|9; 2; 3|]
+        /// 
+        /// // Apply the hamming to a1 and a2
+        /// Array.hamming a1 a2
+        /// </code> 
+        /// </example>
+        let inline hamming (a1: array<'a>) (a2: array<'a>) =
+            let mutable dist = 0
+            
+            match a1.Length <> a2.Length with
+            | true -> failwith "Inputs are not of equal length"
+            | _    ->
+                for i in 0 .. a1.Length - 1 do
+                    if (a1[i] <> a2[i]) then dist <- dist + 1
+            dist
+            
         
         /// Euclidean distance of two coordinate arrays
         let inline euclidean (a1:array<'a>) (a2:array<'a>) = 
@@ -118,8 +169,29 @@ module DistanceMetrics =
                     dist <- dist + System.Math.Abs x
             dist
 
-        
-
+    /// <summary>Calculates Hamming distance of two coordinate items</summary>
+    /// <remarks>Note, distance between Nan and Nan is equal to 1</remarks>
+    /// <param name="s1">first sequence</param>
+    /// <param name="s2">second sequence</param>
+    /// <returns>Hamming distance between elements of given sequences</returns>
+    /// <example> 
+    /// <code> 
+    /// // e.g. s1 and s2 initialization
+    /// let s1 = seq {1; 2; 3}
+    /// let s2 = seq {9; 2; 3}
+    /// 
+    /// // Apply the hamming to s1 and s2
+    /// hamming s1 s2
+    /// </code> 
+    /// </example>
+    let inline hamming (s1: 'a) (s2: 'a) =
+        match Seq.length s1 <> Seq.length s2 with
+        | true -> failwith "Inputs are not of equal length"
+        | _    ->
+            Seq.zip s1 s2
+            |> Seq.filter (fun (c1, c2) -> c1 <> c2)
+            |> Seq.length
+    
     /// Euclidean distance of two coordinate sequences
     let inline euclidean (s1:seq<'a>) (s2:seq<'a>) = 
         Seq.zip s1 s2
