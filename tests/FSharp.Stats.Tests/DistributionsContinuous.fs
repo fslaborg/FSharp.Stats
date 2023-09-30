@@ -1038,7 +1038,7 @@ let FDistributionTests =
             let dof1            = 10.
             let dof2            = 25.
             let testcase    = 
-                Continuous.F.Support dof1 dof2
+                Continuous.F.Support dof1
             let r_value     = Interval.CreateRightOpen<float>(0., System.Double.PositiveInfinity)
 
             Expect.isTrue
@@ -1050,7 +1050,7 @@ let FDistributionTests =
             let dof1            = infinity
             let dof2            = infinity
             let testcase    = 
-                Continuous.F.Support dof1 dof2
+                Continuous.F.Support dof1
             let r_value     = Interval.CreateRightOpen<float>(0., Double.PositiveInfinity)
 
             Expect.isTrue
@@ -1058,6 +1058,53 @@ let FDistributionTests =
                 (testcase.GetEnd() = r_value.GetEnd()))
                 "Continuous.F.Support does not return the expected Tupel"
 
+        testCase "Continuous.F.Support_when_dof1_equals_1" <| fun() ->
+            // Arrange
+            let dof1 = 1.0
+
+            // Act
+            let result =
+                F.Support dof1
+
+            // Assert
+            match result with
+            | Interval.Open (start, end_) ->
+                Expect.equal
+                    start
+                    0.0
+                    "Expectation on \"Start\":"
+                Expect.equal
+                    end_
+                    Double.PositiveInfinity
+                    "Expectation on \"End\":"
+            | other ->
+                Expect.isTrue
+                    false
+                    (sprintf "Expected a fully open range (true), but it was %A (false)" other)
+
+        testCase "Continuous.F.Support_when_dof1_is_not_equal_to_1" <| fun() ->
+            // Arrange
+            let dof1 = 2.0
+
+            // Act
+            let result =
+                F.Support dof1
+
+            // Assert
+            match result with
+            | Interval.RightOpen (start, end_) ->
+                Expect.equal
+                    start
+                    0.0
+                    "Expectation on \"Start\":"
+                Expect.equal
+                    end_
+                    Double.PositiveInfinity
+                    "Expectation on \"End\":"
+            | other ->
+                Expect.isTrue
+                    false
+                    (sprintf "Expected a right open range (true), but it was %A (false)" other)
 
     ]
     
