@@ -10,7 +10,18 @@ module DistanceMetrics =
     /// Signiture type for distance functions
     type Distance<'a> = 'a -> 'a -> float
 
-    module Vector = 
+    module Vector =
+        
+        /// Hamming distance between 2 vectors
+        let inline hamming (v1: Vector<'a>) (v2: Vector<'a>) =
+            let mutable dist = 0
+            
+            match v1.Length <> v2.Length with
+            | true -> failwith "Inputs are not of equal length"
+            | _    ->
+                for i in 0 .. v1.Length - 1 do
+                    if (v1[i] <> v2[i]) then dist <- dist + 1
+            dist
         
         /// Euclidean distance between 2 vectors
         let inline euclidean (v1:Vector<'a>) (v2:Vector<'a>) = 
@@ -64,7 +75,19 @@ module DistanceMetrics =
                     dist <- dist + System.Math.Abs x
             dist
  
-    module Array = 
+    module Array =
+        
+        /// Hamming distance of two coordinate arrays
+        let inline hamming (a1: array<'a>) (a2: array<'a>) =
+            let mutable dist = 0
+            
+            match a1.Length <> a2.Length with
+            | true -> failwith "Inputs are not of equal length"
+            | _    ->
+                for i in 0 .. a1.Length - 1 do
+                    if (a1[i] <> a2[i]) then dist <- dist + 1
+            dist
+            
         
         /// Euclidean distance of two coordinate arrays
         let inline euclidean (a1:array<'a>) (a2:array<'a>) = 
@@ -118,8 +141,15 @@ module DistanceMetrics =
                     dist <- dist + System.Math.Abs x
             dist
 
-        
-
+    /// Hamming distance of two coordinate items
+    let inline hamming (s1: 'a) (s2: 'a) =
+        match Seq.length s1 <> Seq.length s2 with
+        | true -> failwith "Inputs are not of equal length"
+        | _    ->
+            Seq.zip s1 s2
+            |> Seq.filter (fun (c1, c2) -> c1 <> c2)
+            |> Seq.length
+    
     /// Euclidean distance of two coordinate sequences
     let inline euclidean (s1:seq<'a>) (s2:seq<'a>) = 
         Seq.zip s1 s2
