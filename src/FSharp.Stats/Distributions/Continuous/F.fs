@@ -18,7 +18,7 @@ module internal F_Helpers =
             failwithf "Invalid definition of freedom %s \"%A\".%s"
                 name
                 dof1
-                "It must not be NaN and"
+                "It must not be NaN and it must be positive"
 
 /// F-distribution
 type F =
