@@ -13,14 +13,31 @@ module FFT =
         arr
 
 
-    /// Applying the given function to each of the elements of the array and returns the value in place.
+    /// <summary>Applying the given function to each of the elements of the array and returns the value in place.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapInPlace"></param>
+    /// <param name="f"></param>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let private mapInPlace f (arr:array<'T>) =
         for i=0 to Array.length arr-1 do
             arr.[i] <- f arr.[i]
         arr
 
 
-    /// Reorder the elements of the input array in lexicographic order by the bits of their indices
+    /// <summary>Reorder the elements of the input array in lexicographic order by the bits of their indices</summary>
+    /// <remarks></remarks>
+    /// <param name="bitrev"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let private bitrev a =
         let n = Array.length a
         let mutable j = 0
@@ -71,7 +88,7 @@ module FFT =
         | _ -> Complex.Zero
 
 
-    /// Bluestein’s convolution algorith
+    /// Bluesteinï¿½s convolution algorith
     let private bluestein a = 
     
         let bluesteinSequence n = 
@@ -128,12 +145,26 @@ module FFT =
         a
 
 
-    /// No scaling in forward direction.
+    /// <summary>No scaling in forward direction.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let asymmetricScalingInPlace (a:array<float>) =
         a
 
 
-    /// Universal; Symmetric scaling and common exponent (used in Maple) Default InverseExponent
+    /// <summary>Universal; Symmetric scaling and common exponent (used in Maple) Default InverseExponent</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let symmetricScalingInPlace (a:array<float>) =
         let scalingFactor = 1.0 / float a.Length |> sqrt
         for i=0 to (a.Length-1) do
@@ -143,7 +174,14 @@ module FFT =
 
 
 
-    /// Only scale by 1/N in the inverse direction; No scaling in forward direction.
+    /// <summary>Only scale by 1/N in the inverse direction; No scaling in forward direction.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inverseAsymmetricScalingInPlace (a:array<float>) =
         let scalingFactor = 1.0 / float a.Length |> sqrt
         for i=0 to (a.Length-1) do
@@ -151,7 +189,14 @@ module FFT =
         a
 
 
-    /// Universal; Symmetric scaling and common exponent (used in Maple) Default
+    /// <summary>Universal; Symmetric scaling and common exponent (used in Maple) Default</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inverseSymmetricScalingInPlace (a:array<float>) =
         let scalingFactor = 1.0 / float a.Length
         for i=0 to (a.Length-1) do

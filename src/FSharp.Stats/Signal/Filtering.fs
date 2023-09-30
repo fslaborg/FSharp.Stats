@@ -41,8 +41,7 @@ module Filtering =
 
 
 
-    /// Smooth (and optionally differentiate) data with a Savitzky-Golay filter.
-    /// The Savitzky-Golay filter is a type of low-pass filter and removes high frequency noise from data.
+    /// Smooth (and optionally differentiate) data with a Savitzky-Golay filter.<br />The Savitzky-Golay filter is a type of low-pass filter and removes high frequency noise from data.
     //  Parameters
     //  ----------
     //  data : array_like, shape (N,)
@@ -101,11 +100,17 @@ module Filtering =
     let savitzky_golay (windowSize:int) (order:int) deriv rate (data:float[]) =
         savitzkyGolay windowSize order deriv rate data
 
-    // Method is based on: https://doi.org/10.1021/ac0600196
-    /// Estimates the autocorrelation at lag 1 of a blank signal (containing only noise). Subsequently, the signal of interest is smoothed
-    /// several times by a savitzky golay filter using constant polynomial order and variing windowWidth. For each iteration, the deviation
-    /// of the smoothed to the original signal is computed and the autocorrelation at lag 1 of this residual noise is computed. The function returns the optimized
-    /// window width yielding a autocorrelation at lag 1 closest to the value computed for the blank signal.
+    /// <summary>Estimates the autocorrelation at lag 1 of a blank signal (containing only noise). Subsequently, the signal of interest is smoothed<br />several times by a savitzky golay filter using constant polynomial order and variing windowWidth. For each iteration, the deviation<br />of the smoothed to the original signal is computed and the autocorrelation at lag 1 of this residual noise is computed. The function returns the optimized<br />window width yielding a autocorrelation at lag 1 closest to the value computed for the blank signal.</summary>
+    /// <remarks>Method is based on: https://doi.org/10.1021/ac0600196</remarks>
+    /// <param name="polOrder"></param>
+    /// <param name="windowWidthToTest"></param>
+    /// <param name="blankSignal"></param>
+    /// <param name="signalOfInterest"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let optimizeWindowWidth polOrder (windowWidthToTest:int[]) (blankSignal:float[]) (signalOfInterest:float[]) =
         let signalOfInterest' = signalOfInterest |> vector
         let noiseAutoCorr = Correlation.Vector.autoCorrelation 1 (blankSignal |> vector)

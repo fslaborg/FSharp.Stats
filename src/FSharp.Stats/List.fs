@@ -14,7 +14,14 @@ module List =
         | h::t  -> loop t h h
         | [] -> Interval.Empty
 
-    /// computes the population mean (normalized by n)
+    /// <summary>computes the population mean (normalized by n)</summary>
+    /// <remarks></remarks>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline mean (items: 'T list) =
         let zero = LanguagePrimitives.GenericZero<'T>
         let one = LanguagePrimitives.GenericOne<'T>
@@ -22,14 +29,27 @@ module List =
         |> List.fold (fun (n,sum) x -> one + n,sum + x) (zero,zero)
         |> fun (n,sum) -> sum / n
 
-    /// Calculate the median of a list of items.
-    /// The result is a tuple of two items whose mean is the median.
+    /// <summary>Calculate the median of a list of items.<br />The result is a tuple of two items whose mean is the median.</summary>
+    /// <remarks></remarks>
+    /// <param name="xs"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline median (xs: 'T list) =
         let one = LanguagePrimitives.GenericOne<'T>
-        /// Partition list into three piles; less-than, equal and greater-than
-        /// x:    Current pivot
-        /// xs:   Sublist to partition
-        /// cont: Continuation function
+        /// <summary>Partition list into three piles; less-than, equal and greater-than<br />x:    Current pivot<br />xs:   Sublist to partition<br />cont: Continuation function</summary>
+        /// <remarks></remarks>
+        /// <param name="partition"></param>
+        /// <param name="x"></param>
+        /// <param name="xs"></param>
+        /// <param name="cont"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let rec partition x xs cont =
             match xs with
             | [] ->
@@ -50,10 +70,17 @@ module List =
                     // place item in greater-than pile
                     partition x ys (fun lts n1 eqs n2 gts n3 ->
                         cont lts n1 eqs n2 (y::gts) (n3+1))
-        /// Partition input and recurse into the part than contains the median
-        /// before: Number of elements before this sublist.
-        /// xs:     Current sublist.
-        /// after:  Number of elements after this sublist.
+        /// <summary>Partition input and recurse into the part than contains the median<br />before: Number of elements before this sublist.<br />xs:     Current sublist.<br />after:  Number of elements after this sublist.</summary>
+        /// <remarks></remarks>
+        /// <param name="loop"></param>
+        /// <param name="before"></param>
+        /// <param name="xs"></param>
+        /// <param name="after"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let rec loop before xs after =
             match xs with
             | [] -> failwith "Median of empty list"
@@ -103,7 +130,7 @@ module List =
     /// 
     /// // To get the population covariance between x and y:
     /// xy |> List.covPopulationOfPairs // evaluates to 347.92
-    /// </code> 
+    /// </code>
     /// </example>
     let inline covPopulationOfPairs (list:list<'T * 'T>) : 'U =
         list
@@ -127,7 +154,7 @@ module List =
     ///            {| x = 45.; y = 28. |} ]
     /// 
     /// xy |> List.covPopulationBy (fun x -> x.x, x.y) // evaluates to 347.92
-    /// </code> 
+    /// </code>
     /// </example>
     let inline covPopulationBy f (list: 'T list) : 'U =
         list
@@ -160,7 +187,7 @@ module List =
     /// 
     /// // To get the sample covariance between x and y:
     /// xy |> List.covOfPairs // evaluates to 434.90
-    /// </code> 
+    /// </code>
     /// </example>
     let inline covOfPairs (list:list<'T * 'T>) : 'U =
         list
@@ -184,7 +211,7 @@ module List =
     ///            {| x = 45.; y = 28. |} ]
     /// 
     /// xy |> List.covBy (fun x -> x.x, x.y) // evaluates to 434.90
-    /// </code> 
+    /// </code>
     /// </example>
     let inline covBy f (list: 'T list) : 'U =
         list

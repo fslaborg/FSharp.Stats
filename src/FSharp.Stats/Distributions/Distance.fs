@@ -20,29 +20,72 @@ module Distance =
 
 
 
-        /// Basic square function
+        /// <summary>Basic square function</summary>
+        /// <remarks></remarks>
+        /// <param name="square"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let private square x = x * x
 
-        /// For value x, find index of the smallest value in sorted array which is larger than it
+        /// <summary>For value x, find index of the smallest value in sorted array which is larger than it</summary>
+        /// <remarks></remarks>
+        /// <param name="getCDFIndices"></param>
+        /// <param name="values"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let private getCDFIndices (values : float []) x =
             match Array.tryFindIndex (fun e -> e > x) values with
             | Some x -> x
             | None -> values.Length
 
-        /// Returns the index mapping required to sort the values from small to large
+        /// <summary>Returns the index mapping required to sort the values from small to large</summary>
+        /// <remarks></remarks>
+        /// <param name="getSortedIndices"></param>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let private getSortedIndices (values : float []) =
             values
             |> Array.indexed
             |> Array.sortBy snd
             |> Array.map fst
 
-        /// Sort given values by the order of the indices
+        /// <summary>Sort given values by the order of the indices</summary>
+        /// <remarks></remarks>
+        /// <param name="sortByIndices"></param>
+        /// <param name="indices"></param>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let private sortByIndices indices (values : float []) =
             indices 
             |> Array.map (fun i -> values.[i])
 
 
-        /// Computes the normalized positions of allValues between the values of the distribution vs
+        /// <summary>Computes the normalized positions of allValues between the values of the distribution vs</summary>
+        /// <remarks></remarks>
+        /// <param name="getCDF"></param>
+        /// <param name="vs"></param>
+        /// <param name="allValues"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let private getCDF (vs : float []) (allValues : float []) = 
             let len = vs.Length |> float
             let sorted = vs |> Array.sort 
@@ -53,7 +96,17 @@ module Distance =
             cdfIndices
             |> Array.map (fun i -> (float i) / len)
 
-        /// Computes the weight-normalized positions of allValues between the values of the distribution vs
+        /// <summary>Computes the weight-normalized positions of allValues between the values of the distribution vs</summary>
+        /// <remarks></remarks>
+        /// <param name="getWeightedCDF"></param>
+        /// <param name="vs"></param>
+        /// <param name="weights"></param>
+        /// <param name="allValues"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let private getWeightedCDF (vs : float []) weights (allValues : float []) = 
             let len = vs.Length
             let sortIndices = vs |> getSortedIndices
@@ -69,7 +122,18 @@ module Distance =
             |> Array.map (fun x -> x / cumulativeWeights.[len])
 
 
-        /// Computes the distance between the two cumulative distributions
+        /// <summary>Computes the distance between the two cumulative distributions</summary>
+        /// <remarks></remarks>
+        /// <param name="computeDistanceOfCDFs"></param>
+        /// <param name="p"></param>
+        /// <param name="xCDFs"></param>
+        /// <param name="yCDFs"></param>
+        /// <param name="deltas"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let private computeDistanceOfCDFs p xCDFs yCDFs deltas = 
             match p with
             | 0 -> failwith "p can't be 0"
@@ -105,7 +169,16 @@ module Distance =
                 failwithf "Weights are not allowed to be negative but were negative for distribution %s" xy
 
 
-        /// Distance between two 1D distributions. p has to be positive
+        /// <summary>Distance between two 1D distributions. p has to be positive</summary>
+        /// <remarks></remarks>
+        /// <param name="p"></param>
+        /// <param name="xs"></param>
+        /// <param name="ys"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let cdfDistance p (xs : float []) (ys : float []) =
 
             if xs.Length = 0 then failwith "Given distribtuion xs is empty"
@@ -129,7 +202,18 @@ module Distance =
 
             computeDistanceOfCDFs p xCDFs yCDFs deltas
 
-        /// Distance between two 1D distributions. p has to be positive
+        /// <summary>Distance between two 1D distributions. p has to be positive</summary>
+        /// <remarks></remarks>
+        /// <param name="p"></param>
+        /// <param name="xs"></param>
+        /// <param name="ys"></param>
+        /// <param name="xWeights"></param>
+        /// <param name="yWeights "></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let cdfDistanceWeighted p (xs : float []) (ys : float [])  xWeights yWeights =
 
             if xs.Length = 0 then failwith "Given distribtuion xs is empty"
@@ -157,20 +241,56 @@ module Distance =
 
 
 
-        /// Wasserstein distance between two 1D distributions
+        /// <summary>Wasserstein distance between two 1D distributions</summary>
+        /// <remarks></remarks>
+        /// <param name="xs"></param>
+        /// <param name="ys"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let wassersteinDistance (xs : float []) (ys : float []) =
             cdfDistance 1 xs ys
 
-        /// Weighted Wasserstein Distance between two 1D distributions
+        /// <summary>Weighted Wasserstein Distance between two 1D distributions</summary>
+        /// <remarks></remarks>
+        /// <param name="xs"></param>
+        /// <param name="ys"></param>
+        /// <param name="xWeights"></param>
+        /// <param name="yWeights"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let wassersteinDistanceWeighted (xs : float []) (ys : float []) xWeights yWeights =
             cdfDistanceWeighted 1 xs ys xWeights yWeights
 
-        /// Energy distance between two 1D distributions
+        /// <summary>Energy distance between two 1D distributions</summary>
+        /// <remarks></remarks>
+        /// <param name="xs"></param>
+        /// <param name="ys"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let energyDistance (xs : float []) (ys : float []) =
             cdfDistance 2 xs ys
             |> ((*) (sqrt 2.)) 
 
-        /// Weighted Energy Distance between two 1D distributions
+        /// <summary>Weighted Energy Distance between two 1D distributions</summary>
+        /// <remarks></remarks>
+        /// <param name="xs"></param>
+        /// <param name="ys"></param>
+        /// <param name="xWeights"></param>
+        /// <param name="yWeights"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let energyDistanceWeighted (xs : float []) (ys : float []) xWeights yWeights =
             cdfDistanceWeighted 2 xs ys xWeights yWeights
             |> ((*) (sqrt 2.)) 

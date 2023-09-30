@@ -16,7 +16,15 @@ module Errorfunction =
 
     open System
 
-    /// Computes the error function. Note that this implementation has only been verified to have a relative error of around 1e-5.
+    /// <summary>Computes the error function. Note that this implementation has only been verified to have a relative error of around 1e-5.</summary>
+    /// <remarks></remarks>
+    /// <param name="Erf"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let rec Erf x =
         // Reference: Abramowitz and Stegun - Handbook of Mathematical Functions, p299.
         if x < 0.0 then
@@ -31,7 +39,15 @@ module Errorfunction =
             let t = 1.0 / (1.0 + p*x)
             1.0 - (exp (-(x*x))) * t * (a1 + t*(a2 + t*(a3 + t*(a4 + t*a5))))
 
-    /// Computes the complement of the error function. Note that this implementation has only been verified to have a relative error of around 1e-4.
+    /// <summary>Computes the complement of the error function. Note that this implementation has only been verified to have a relative error of around 1e-4.</summary>
+    /// <remarks></remarks>
+    /// <param name="Erfc"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let rec Erfc x =
         // Reference: Abramowitz and Stegun - Handbook of Mathematical Functions, p299.
         if x < 0.0 then
@@ -81,8 +97,14 @@ module Errorfunction =
     let private c = [|-1.970840454; -1.62490649; 3.429567803; 1.641345311|]
     let private d = [|1.; 3.543889200; 1.637067800|]
  
-    /// inverse of error function. uses newton refinement; from https://libit.sourceforge.net/
-    /// accuracy to the fifth digit
+    /// <summary>inverse of error function. uses newton refinement; from https://libit.sourceforge.net/<br />accuracy to the fifth digit</summary>
+    /// <remarks></remarks>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inverf x = 
         match x with
         | x when x = -1. -> -infinity
@@ -109,7 +131,13 @@ module Errorfunction =
             let r'' = r' - (Erf(r') - z')/(2./sqrtPi * exp(-r' * r'))
             r'' - (Erf(r'') - z')/(2./sqrtPi *exp(-r'' * r''))
 
-    /// inverse of complementary error function
-    /// accuracy to the fifth digit
+    /// <summary>inverse of complementary error function<br />accuracy to the fifth digit</summary>
+    /// <remarks></remarks>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inverfc x =
         inverf (1. - x)

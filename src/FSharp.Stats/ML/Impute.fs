@@ -33,7 +33,14 @@ module Impute =
     type MatrixBaseImputation<'a,'b> = seq<'a> -> 'a -> int -> 'b
 
 
-    /// Imputation by random sampling from the input vector
+    /// <summary>Imputation by random sampling from the input vector</summary>
+    /// <remarks></remarks>
+    /// <param name="rnd"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let rnd (rnd:System.Random) :  VectorBaseImputation<'a> =        
         fun fdata index ->
             let farr = Array.ofSeq fdata
@@ -63,7 +70,14 @@ module Impute =
     //            failwithf "Vector needs at least two non-missing value"
 
 
-    /// Imputation by k-nearest neighbour
+    /// <summary>Imputation by k-nearest neighbour</summary>
+    /// <remarks></remarks>
+    /// <param name="k"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let kNearestImpute k : MatrixBaseImputation<float[],float> = 
         fun data arr index ->
         
@@ -82,7 +96,16 @@ module Impute =
             tmpArr.[index]
 
 
-    /// Imputes column-wise by vector-based imputation
+    /// <summary>Imputes column-wise by vector-based imputation</summary>
+    /// <remarks></remarks>
+    /// <param name="impute"></param>
+    /// <param name="isMissing"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let imputeColWiseBy (impute: VectorBaseImputation<'a>) isMissing (data : seq<#seq<'a>>) =        
         data
         |> JaggedArray.ofJaggedSeq
@@ -96,7 +119,16 @@ module Impute =
         |> JaggedArray.transpose             
     
 
-    /// Imputes row-wise by vector-based imputation
+    /// <summary>Imputes row-wise by vector-based imputation</summary>
+    /// <remarks></remarks>
+    /// <param name="impute"></param>
+    /// <param name="isMissing"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let imputeRowWiseBy (impute: VectorBaseImputation<'a>) isMissing (data : seq<#seq<'a>>) =        
         data
         |> JaggedArray.ofJaggedSeq
@@ -108,7 +140,16 @@ module Impute =
                         )    
 
 
-    /// Imputes rows by matrix-based imputation
+    /// <summary>Imputes rows by matrix-based imputation</summary>
+    /// <remarks></remarks>
+    /// <param name="impute"></param>
+    /// <param name="isMissing"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let imputeBy (impute: MatrixBaseImputation<'a[],'a>) isMissing data =        
         let fData = 
             data

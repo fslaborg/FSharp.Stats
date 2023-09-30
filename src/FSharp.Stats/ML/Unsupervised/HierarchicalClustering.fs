@@ -40,43 +40,91 @@ module HierarchicalClustering =
         /// D(A u B,C) = alpa1 d(A,C) +  alpa2 d(B,C) + beta d(A,B) + gamma |d(A,C) - d(BC))|
         type LancWilliamsLinker = int*int*int -> float -> float-> float-> float
 
-        /// Single linkage criterion
-        /// Calculates the minimal distance between all elements of a cluster
-        /// d(A u B, C)
+        /// <summary>Single linkage criterion<br />Calculates the minimal distance between all elements of a cluster<br />d(A u B, C)</summary>
+        /// <remarks></remarks>
+        /// <param name="mcABC"></param>
+        /// <param name="dAB"></param>
+        /// <param name="dAC"></param>
+        /// <param name="dBC"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let singleLwLinker (mcABC:int*int*int) (dAB:float) (dAC:float) (dBC:float) =
             //0.5 * dAC + 0.5 * dBC + 0.0 * dAB + (- 0.5 * abs(dAC - dBC))
             0.5 * dAC + 0.5 * dBC + (- 0.5 * abs(dAC - dBC))
 
-        /// Complete linkage criterion
-        /// Calculates the 
-        /// d(A u B, C)
+        /// <summary>Complete linkage criterion<br />Calculates the <br />d(A u B, C)</summary>
+        /// <remarks></remarks>
+        /// <param name="mcABC"></param>
+        /// <param name="dAB"></param>
+        /// <param name="dAC"></param>
+        /// <param name="dBC"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let completeLwLinker (mcABC:int*int*int) (dAB:float) (dAC:float) (dBC:float) =
             0.5 * dAC + 0.5 * dBC + (0.5 * abs(dAC - dBC))
     
-        /// Median linkage criterion
-        /// Calculates the 
-        /// d(A u B, C)
+        /// <summary>Median linkage criterion<br />Calculates the <br />d(A u B, C)</summary>
+        /// <remarks></remarks>
+        /// <param name="mcABC"></param>
+        /// <param name="dAB"></param>
+        /// <param name="dAC"></param>
+        /// <param name="dBC"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let medianLwLinker (mcABC:int*int*int) (dAB:float) (dAC:float) (dBC:float) =
             0.5 * dAC + 0.5 * dBC + (- 1./4.) * dAB
 
-        /// Weighted Group Average linkage criterion
-        /// Calculates the 
-        /// d(A u B, C)
+        /// <summary>Weighted Group Average linkage criterion<br />Calculates the <br />d(A u B, C)</summary>
+        /// <remarks></remarks>
+        /// <param name="mcABC"></param>
+        /// <param name="dAB"></param>
+        /// <param name="dAC"></param>
+        /// <param name="dBC"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let weightedGroupAverageLwLinker (mcABC:int*int*int) (dAB:float) (dAC:float) (dBC:float) =
             0.5 * dAC + 0.5 * dBC
     
-        /// Unweighted Group Average linkage criterion (UPGMA)
-        /// Calculates the 
-        /// d(A u B, C)
+        /// <summary>Unweighted Group Average linkage criterion (UPGMA)<br />Calculates the <br />d(A u B, C)</summary>
+        /// <remarks></remarks>
+        /// <param name="mcABC"></param>
+        /// <param name="dAB"></param>
+        /// <param name="dAC"></param>
+        /// <param name="dBC"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let upgmaLwLinker (mcABC:int*int*int) (dAB:float) (dAC:float) (dBC:float) =
             let mA,mB,mC = mcABC
             let alpa1 = float mA / float (mA + mB)
             let alpa2 = float mB / float (mA + mB)
             alpa1 * dAC + alpa2 * dBC
 
-        /// Centroid linkage criterion (UPGMA)
-        /// Calculates the 
-        /// d(A u B, C)
+        /// <summary>Centroid linkage criterion (UPGMA)<br />Calculates the <br />d(A u B, C)</summary>
+        /// <remarks></remarks>
+        /// <param name="mcABC"></param>
+        /// <param name="dAB"></param>
+        /// <param name="dAC"></param>
+        /// <param name="dBC"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let centroidLwLinker (mcABC:int*int*int) (dAB:float) (dAC:float) (dBC:float) =
             let mA,mB,mC = mcABC
             let alpa1 = float mA / float (mA + mB)
@@ -84,9 +132,17 @@ module HierarchicalClustering =
             let beta  = - (float (mA * mB) / float ((mA + mB) * (mA + mB)))
             alpa1 * dAC + alpa2 * dBC + beta * dAB
 
-        /// Ward linkage criterion (UPGMA)
-        /// Calculates the 
-        /// d(A u B, C)
+        /// <summary>Ward linkage criterion (UPGMA)<br />Calculates the <br />d(A u B, C)</summary>
+        /// <remarks></remarks>
+        /// <param name="mcABC"></param>
+        /// <param name="dAB"></param>
+        /// <param name="dAC"></param>
+        /// <param name="dBC"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let wardLwLinker (mcABC:int*int*int) (dAB:float) (dAC:float) (dBC:float) =
             let mA,mB,mC = 
                 let mA,mB,mC =mcABC
@@ -106,19 +162,40 @@ module HierarchicalClustering =
         ///ID * leafCount * Tag
         | Leaf of int * int * 'T
 
-    /// Returns cluster Id
+    /// <summary>Returns cluster Id</summary>
+    /// <remarks></remarks>
+    /// <param name="c"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getClusterId (c:Cluster<'T>) =
         match c with
         | Cluster.Node(id,_,_,_,_) -> id   
         | Cluster.Leaf(id,_,_) -> id
 
-    /// Returns cleaf value
+    /// <summary>Returns cleaf value</summary>
+    /// <remarks></remarks>
+    /// <param name="c"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let tryGetLeafValue (c:Cluster<'T>) =
         match c with
         | Cluster.Node(_) -> None
         | Cluster.Leaf(_,_,value) -> Some value
 
-    /// Returns cluster member count
+    /// <summary>Returns cluster member count</summary>
+    /// <remarks></remarks>
+    /// <param name="c"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getClusterMemberCount (c:Cluster<'T>) =
         match c with        
         | Cluster.Node(id,_,mc,_,_) -> mc   
@@ -129,11 +206,26 @@ module HierarchicalClustering =
         let leaveCount = getClusterMemberCount left + getClusterMemberCount right
         Cluster.Node(id, dist, leaveCount, left, right)
 
-    /// Create a cluster Leaf
+    /// <summary>Create a cluster Leaf</summary>
+    /// <remarks></remarks>
+    /// <param name="id"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let createClusterValue (id:int) (value:'T) =
         Cluster.Leaf(id,1,value)
 
-    ///Returns a list of the distances between the subclusters
+    /// <summary>Returns a list of the distances between the subclusters</summary>
+    /// <remarks></remarks>
+    /// <param name="cluster"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getDistancesOfCluster (cluster: Cluster<'T>) =
         let rec loop l cluster=
             match cluster with
@@ -144,7 +236,14 @@ module HierarchicalClustering =
             | _ -> l
         loop [] cluster
 
-    ///Returns a list of the leaf names
+    /// <summary>Returns a list of the leaf names</summary>
+    /// <remarks></remarks>
+    /// <param name="cluster"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getLeafsOfCluster (cluster: Cluster<'T>) =
         let rec loop l cluster=
             match cluster with
@@ -155,7 +254,14 @@ module HierarchicalClustering =
             | Leaf (_,_,l) -> [l]
         loop [] cluster
 
-    ///Returns a list of the leaf names
+    /// <summary>Returns a list of the leaf names</summary>
+    /// <remarks></remarks>
+    /// <param name="cluster"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getLeafNamesOfCluster (cluster: Cluster<'T>) =
         let rec loop l cluster=
             match cluster with
@@ -166,7 +272,15 @@ module HierarchicalClustering =
             | Leaf (id,_,l) -> [id]
         loop [] cluster
         
-    /// Aggregates the subbranches of a node to leafs, if the distance between them is smaller than the given distanceCutoff
+    /// <summary>Aggregates the subbranches of a node to leafs, if the distance between them is smaller than the given distanceCutoff</summary>
+    /// <remarks></remarks>
+    /// <param name="distanceCutoff"></param>
+    /// <param name="cluster"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let aggregateClusterByDistance distanceCutoff (cluster: Cluster<'T>) =
         let rec aggregate cluster =
             match cluster with
@@ -183,7 +297,15 @@ module HierarchicalClustering =
         loop cluster
     
 
-    /// Aggregates the subbranches of a node to leafs, if the predicate function taking the distance and the number of subLeafs returns true
+    /// <summary>Aggregates the subbranches of a node to leafs, if the predicate function taking the distance and the number of subLeafs returns true</summary>
+    /// <remarks></remarks>
+    /// <param name="predicate"></param>
+    /// <param name="cluster"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let aggregateClusterBy (predicate : float -> int -> bool) (cluster: Cluster<'T>) =
         let rec aggregate cluster =
             match cluster with
@@ -199,7 +321,15 @@ module HierarchicalClustering =
             | Leaf (id,x,name) -> Leaf (id,x,[name])
         loop cluster
 
-    /// Maps the tags of the leafs of the cluster by applying a given mapping function
+    /// <summary>Maps the tags of the leafs of the cluster by applying a given mapping function</summary>
+    /// <remarks></remarks>
+    /// <param name="mapF"></param>
+    /// <param name="cluster"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mapClusterLeaftags (mapF : 'T -> 'U) (cluster: Cluster<'T>) =
         let rec loop cluster =
             match cluster with
@@ -386,7 +516,15 @@ module HierarchicalClustering =
 
 
 
-    /// cuts tree in chosen amount of clusters
+    /// <summary>cuts tree in chosen amount of clusters</summary>
+    /// <remarks></remarks>
+    /// <param name="desiredNumber"></param>
+    /// <param name="clusterTree"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let cutHClust (desiredNumber:int) (clusterTree:Cluster<float array>) =    
         let getInversDistance (c:Cluster<'T>) =
             match c with
@@ -414,7 +552,14 @@ module HierarchicalClustering =
         |> List.map flattenHClust
 
         
-    /// Converts clusters into string seq
+    /// <summary>Converts clusters into string seq</summary>
+    /// <remarks></remarks>
+    /// <param name="clusterTree"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let printHClust (clusterTree:Cluster<float array >) =    
             let rec printLoop (c) = seq {    
                 match c with
@@ -428,7 +573,14 @@ module HierarchicalClustering =
             }
             printLoop clusterTree
 
-    /// Converts clusters into string seq
+    /// <summary>Converts clusters into string seq</summary>
+    /// <remarks></remarks>
+    /// <param name="clusterTree"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let get (clusterTree:Cluster<float array >) =    
             let rec loop (c) = seq {    
                 match c with
@@ -453,7 +605,14 @@ module HierarchicalClustering =
 
 
 
-    ///Returns a list of the distances between the subclusters
+    /// <summary>Returns a list of the distances between the subclusters</summary>
+    /// <remarks></remarks>
+    /// <param name="cluster"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getDistancesAndLabels (cluster: Cluster<'T>) =
         let rec loop l cluster=
             match cluster with

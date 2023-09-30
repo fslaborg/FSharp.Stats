@@ -145,32 +145,70 @@ module Interval =
     let inline getEnd (interval: Interval<'a>) =
         interval.GetEnd()
 
-    /// Creates closed interval [min,max] by given start and size
+    /// <summary>Creates closed interval [min,max] by given start and size</summary>
+    /// <remarks></remarks>
+    /// <param name="min"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline createClosedOfSize min size =
         Interval.Closed (min, min + size)
 
-    /// Creates open interval (min,max) by given start and size
+    /// <summary>Creates open interval (min,max) by given start and size</summary>
+    /// <remarks></remarks>
+    /// <param name="min"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline createOpenOfSize (min: 'a) (size: 'a): Interval<'a>=
         let z = LanguagePrimitives.GenericZero< 'a >
         if size = z then 
             Interval.Empty 
         else Interval.Open (min, min + size)
 
-    /// Creates closed interval [min,max] by given start and size
+    /// <summary>Creates closed interval [min,max] by given start and size</summary>
+    /// <remarks></remarks>
+    /// <param name="min"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline createLeftOpenOfSize min size =
         let z = LanguagePrimitives.GenericZero< 'a >
         if size = z then 
             Interval.Empty 
         else Interval.LeftOpen (min, min + size)
 
-    /// Creates closed interval [min,max] by given start and size
+    /// <summary>Creates closed interval [min,max] by given start and size</summary>
+    /// <remarks></remarks>
+    /// <param name="min"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline createRightOpenOfSize min size =
         let z = LanguagePrimitives.GenericZero< 'a >
         if size = z then 
             Interval.Empty 
         else Interval.RightOpen (min, min + size)
 
-    /// Returns the size of an Interval [min,max] (max - min)
+    /// <summary>Returns the size of an Interval [min,max] (max - min)</summary>
+    /// <remarks></remarks>
+    /// <param name="interval"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline getSize interval =
         let z = LanguagePrimitives.GenericZero< 'a >
         match interval with
@@ -180,7 +218,15 @@ module Interval =
         | Interval.RightOpen (min,max) -> max - min
         | Interval.Empty -> z / z
     
-    /// Returns the range of an Interval [min,max] (projection max - projection min)
+    /// <summary>Returns the range of an Interval [min,max] (projection max - projection min)</summary>
+    /// <remarks></remarks>
+    /// <param name="projection"></param>
+    /// <param name="interval"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline getSizeBy (projection:'a -> 'b) (interval: Interval<'a>) =
         let zero = LanguagePrimitives.GenericZero< 'b >
         match interval with
@@ -190,7 +236,14 @@ module Interval =
         | Interval.RightOpen (min,max) -> projection max - projection min
         | Interval.Empty -> zero / zero
         
-    /// Returns the size of an closed interval
+    /// <summary>Returns the size of an closed interval</summary>
+    /// <remarks></remarks>
+    /// <param name="interval"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline trySize interval =
         match interval with
         | Interval.Closed    (min,max) -> Some(max - min)
@@ -199,7 +252,15 @@ module Interval =
         | Interval.RightOpen (min,max) -> Some(max - min)
         | Interval.Empty -> None
 
-    /// Add two given intervals. 
+    /// <summary>Add two given intervals. </summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline add (a: Interval<'a>) b =
         match a,b with
         | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) 
@@ -209,7 +270,15 @@ module Interval =
         | Interval.Empty,Interval.Empty -> Interval.Empty
         | _ -> failwithf "Addition of (half) open intervals is not supported!"
                 
-    /// Subtract a given interval from the other interval.
+    /// <summary>Subtract a given interval from the other interval.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline subtract (a: Interval<'a>) b =
         match a,b with
         | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) 
@@ -221,7 +290,15 @@ module Interval =
         
     // a0----a1
     //     b0-----b1
-    /// Checking for intersection of both intervals
+    /// <summary>Checking for intersection of both intervals</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline isIntersection (a: Interval<'a>) b =
         match a,b with
         | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) -> minA <= maxB && minB <= maxA
@@ -251,7 +328,15 @@ module Interval =
         | Interval.Empty,Interval.Empty -> true
         
 
-    /// Returns the intersection of this interval with another.
+    /// <summary>Returns the intersection of this interval with another.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline intersect (a: Interval<'a>) b =
         if not (isIntersection a b) then
             Interval.Empty
@@ -290,7 +375,15 @@ module Interval =
                     Interval.Open (min',max')
             | _ -> failwithf "Intersection of mixed interval types is not supported!"
 
-    /// Get the value at a given percentage within (0.0 - 1.0) or outside (&lt; 0.0, &gt; 1.0) of the interval. Rounding to nearest neighbour occurs when needed.
+    /// <summary>Get the value at a given percentage within (0.0 - 1.0) or outside (&lt; 0.0, &gt; 1.0) of the interval. Rounding to nearest neighbour occurs when needed.</summary>
+    /// <remarks></remarks>
+    /// <param name="percentage"></param>
+    /// <param name="interval"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline getValueAt percentage (interval: Interval<'a>) =        
         match trySize interval with
         | Some size -> float (interval.GetStart()) + percentage * float size

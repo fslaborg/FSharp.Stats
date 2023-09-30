@@ -10,7 +10,14 @@ module Padding =
 
     module HelperFunctions =
 
-        ///average spacing of the data points
+        /// <summary>average spacing of the data points</summary>
+        /// <remarks></remarks>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline getAvgSpacing (data : ('a * float) []) (getDiff: 'a -> 'a -> float) = 
             let n = data.Length
             ///minimal x_Value
@@ -19,7 +26,14 @@ module Padding =
             let maxX = data |> Array.last |> fst
             (getDiff maxX minX) / (float n)
 
-        ///median spacing of the data points
+        /// <summary>median spacing of the data points</summary>
+        /// <remarks></remarks>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline getMedianSpacing (data : ('a * float) []) (getDiff: 'a -> 'a -> float) = 
             let n = data.Length
             ///get median spacing
@@ -30,7 +44,14 @@ module Padding =
                 |> fun intervals -> intervals.[int (n / 2) - 1]
             median
         
-        ///minimum spacing of the data points
+        /// <summary>minimum spacing of the data points</summary>
+        /// <remarks></remarks>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline getMinimumSpacing (data : ('a * float) []) (getDiff: 'a -> 'a -> float) = 
             let n = data.Length
             [|1 .. n - 1|]
@@ -39,31 +60,87 @@ module Padding =
 
         module Time =
 
-            ///getDiff: calculates the time span between the two events as total minutes (float)
+            /// <summary>getDiff: calculates the time span between the two events as total minutes (float)</summary>
+            /// <remarks></remarks>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let getDiffMinutes (a: DateTime) (b: DateTime) =
                 a - b
                 |> fun x -> x.TotalMinutes 
-            ///addToXValue: adds minutes to the date
+            /// <summary>addToXValue: adds minutes to the date</summary>
+            /// <remarks></remarks>
+            /// <param name="dt"></param>
+            /// <param name="minutes"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let addToXValueMinutes (dt: DateTime) (minutes: float) =
                 dt.AddMinutes(minutes)
-            ///addToXValue: adds minutes to the date
+            /// <summary>addToXValue: adds minutes to the date</summary>
+            /// <remarks></remarks>
+            /// <param name="dt"></param>
+            /// <param name="hours"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let addToXValueHours (dt: DateTime) (hours: float) =
                 dt.AddHours(hours)    
 
         module Float =
 
-            ///getDiff: calculates the difference of the two events (-)
+            /// <summary>getDiff: calculates the difference of the two events (-)</summary>
+            /// <remarks></remarks>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let getDiffFloat (a: float) (b: float) =
                 a - b
-            ///addToXValue: adds toAdd to a (+)
+            /// <summary>addToXValue: adds toAdd to a (+)</summary>
+            /// <remarks></remarks>
+            /// <param name="a"></param>
+            /// <param name="toAdd"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let addToXValueFloat (a: float) (toAdd: float) =
                 a + toAdd
 
         module Int =
-            ///getDiff: calculates the difference of the two events
+            /// <summary>getDiff: calculates the difference of the two events</summary>
+            /// <remarks></remarks>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let getDiffInt (a: int) (b: int) =
                 (float a) - (float b)
-            ///addToXValue: adds toAdd to a
+            /// <summary>addToXValue: adds toAdd to a</summary>
+            /// <remarks></remarks>
+            /// <param name="a"></param>
+            /// <param name="toAdd"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let addToXValueInt (a: int) (toAdd: float) =
                 a + (int toAdd)
 
@@ -100,12 +177,22 @@ module Padding =
         ///inserts points lying on the linear interpolation of the two adjacent knots
         | LinearInterpolation
 
-    ///Adds additional data points to the beginning and end of data set (number: borderpadding; x_Value distance: minDistance; y_Value: random).
-    ///Between every pair of data point where the difference in x_Values is greater than minDistance, additional datapoints are generated as defined in internalPaddingMethod.
-    ///If huge data chunks are missing (missing gap &lt; maxDistance), data points are added as defined in hugeGapPaddingMethod.
-    ///default: internalPaddingMethod=LinearInterpolation; hugeGapPaddingMethod=Random (like in border cases)
-    ///getDiff: get the difference in x_Values as float representation (if 'a is float then (-))
-    ///addToXValue: function that adds a float to the x_Value (if 'a is float then (+))
+    /// <summary>Adds additional data points to the beginning and end of data set (number: borderpadding; x_Value distance: minDistance; y_Value: random).<br/>Between every pair of data point where the difference in x_Values is greater than minDistance, additional datapoints are generated as defined in internalPaddingMethod.<br/>If huge data chunks are missing (missing gap &lt; maxDistance), data points are added as defined in hugeGapPaddingMethod.</summary>
+    /// <remarks>default: internalPaddingMethod=LinearInterpolation; hugeGapPaddingMethod=Random (like in border cases)</remarks>
+    /// <param name="data"></param>
+    /// <param name="minDistance"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="getDiff">get the difference in x_Values as float representation (if 'a is float then (-))</param>
+    /// <param name="addToXValue">function that adds a float to the x_Value (if 'a is float then (+))</param>
+    /// <param name="borderpadding"></param>
+    /// <param name="borderPaddingMethod"></param>
+    /// <param name="internalPaddingMethod"></param>
+    /// <param name="hugeGapPaddingMethod"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline pad (data : ('a * float) []) (minDistance: float) (maxDistance : float) (getDiff: 'a -> 'a -> float) (addToXValue : 'a -> float -> 'a) (borderpadding : int) (borderPaddingMethod: BorderPaddingMethod) (internalPaddingMethod: InternalPaddingMethod) (hugeGapPaddingMethod: HugeGapPaddingMethod) =
         let rnd = System.Random()
         let n = data.Length
@@ -266,7 +353,15 @@ module Padding =
     module Discrete =
 
         
-        ///Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).
+        /// <summary>Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).</summary>
+        /// <remarks></remarks>
+        /// <param name="data"></param>
+        /// <param name="borderpadding"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline padRnd (data : 'a []) (borderpadding : int) =
             let rnd = System.Random()
             let n = data.Length
@@ -284,7 +379,15 @@ module Padding =
 
             [leftPadding;data;rightPadding] |> Array.concat
 
-        ///Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).
+        /// <summary>Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).</summary>
+        /// <remarks></remarks>
+        /// <param name="data"></param>
+        /// <param name="borderpadding"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline padZero (data : 'a []) (borderpadding : int) =
             let padding = 
                 Array.zeroCreate borderpadding 
@@ -299,7 +402,16 @@ module Padding =
                 //adds random data points taken from the original data to the Array2D borders
                 | Random
         
-            /// padds artificial data points to the borders of the given Array2D. increment=1; n=borderpadding
+            /// <summary>padds artificial data points to the borders of the given Array2D. increment=1; n=borderpadding</summary>
+            /// <remarks></remarks>
+            /// <param name="data"></param>
+            /// <param name="borderpadding"></param>
+            /// <param name="paddingMethod"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let inline pad (data: 'a [,]) (borderpadding: int) (paddingMethod : Padding3DMethod) : float [,]=
                 //TODO: change data input from float to 'a
                 let rnd = System.Random()    

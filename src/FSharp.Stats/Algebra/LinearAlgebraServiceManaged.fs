@@ -106,8 +106,14 @@ module LinearAlgebraManaged =
         lres.Transpose  // REVIEW optimize this so we don't have to take transpose ...
     
 
-    /// For a matrix A, the LU factorization is a pair of lower triangular matrix L and upper triangular matrix U so that A = L*U.
-    /// The pivot function encode a permutation operation such for a matrix P P*A = L*U.
+    /// <summary>For a matrix A, the LU factorization is a pair of lower triangular matrix L and upper triangular matrix U so that A = L*U.<br />The pivot function encode a permutation operation such for a matrix P P*A = L*U.</summary>
+    /// <remarks></remarks>
+    /// <param name="A"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let LU A =
         let (nA,mA) = matrixDims A
         if nA<>mA then invalidArg "Matrix" "lu: not square"
@@ -148,14 +154,30 @@ module LinearAlgebraManaged =
         (((*P.Length,*)Permutation.ofArray P),L + Matrix.identity nA,U)
         //(P, L + (Matrix.identity nA), U)
     
-    /// Solves a system of linear equations, AX = B, with A LU factorized.
+    /// <summary>Solves a system of linear equations, AX = B, with A LU factorized.</summary>
+    /// <remarks></remarks>
+    /// <param name="A"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let SolveLinearSystem (A:matrix) (b:vector) =
         let (n,m) = matrixDims A
         if n <> m then invalidArg "Matrix" "Matrix must be square." 
         let P,L,U = LU A
         (SolveTriangularLinearSystem U (SolveTriangularLinearSystem L (b.Permute P) true) false)
 
-    /// Solves a system of linear equations, Ax = b, with A LU factorized.        
+    /// <summary>Solves a system of linear equations, Ax = b, with A LU factorized.        </summary>
+    /// <remarks></remarks>
+    /// <param name="A"></param>
+    /// <param name="B"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let SolveLinearSystems (A:matrix) (B:matrix) =
         let (n,m) = matrixDims A
         if n <> m then invalidArg "Matrix" "Matrix must be square." 
@@ -168,14 +190,35 @@ module LinearAlgebraManaged =
         let P,L,U = LU A
         (SolveTriangularLinearSystems U (SolveTriangularLinearSystems L ((Matrix.identity n).PermuteRows P) true) false)
         
-    /// Generates a unit vector [1 0 .. 0 ].
+    /// <summary>Generates a unit vector [1 0 .. 0 ].</summary>
+    /// <remarks></remarks>
+    /// <param name="k"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let unitV k = let e = Vector.create k 0.0 in e.[0] <- 1.0; e
 
-    /// Computes the sign of a floating point number.
+    /// <summary>Computes the sign of a floating point number.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let sign (f: float) = float (System.Math.Sign f)                    // REVIEW put in float library.
 
-    /// This method computes and performs a Householder reflection. It will change the
-    /// input matrix and return the reflection vector.
+    /// <summary>This method computes and performs a Householder reflection. It will change the<br />input matrix and return the reflection vector.</summary>
+    /// <remarks></remarks>
+    /// <param name="A"></param>
+    /// <param name="i"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let HouseholderTransform (A:matrix) (i:int) =
         // REVIEW do this using views and get rid of the i.
         let (n,m) = matrixDims A
@@ -192,7 +235,14 @@ module LinearAlgebraManaged =
                 A.[l,k] <- A.[l,k] - 2.0 * v.[l-i] * v'A.[k-i]
         v                                                              // Return reflection vector.
 
-    /// QR factorization function for dense matrices
+    /// <summary>QR factorization function for dense matrices</summary>
+    /// <remarks></remarks>
+    /// <param name="A"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let QRDense (A:matrix) =
         let (n,m) = matrixDims A
         let mutable Q = Matrix.identity n // Keeps track of the orthogonal matrix.
@@ -219,10 +269,26 @@ module LinearAlgebraManaged =
             UpdateQ Q v
         Q,R
 
-    /// QR factorization function for sparse matrices, returns Q as a product of givens rotations and R as upper triangular
+    /// <summary>QR factorization function for sparse matrices, returns Q as a product of givens rotations and R as upper triangular</summary>
+    /// <remarks></remarks>
+    /// <param name="A"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let QRSparse (A:SparseMatrix<float>) =
 
-        /// Copies the row of a Sparsematrix into a Sparsevector
+        /// <summary>Copies the row of a Sparsematrix into a Sparsevector</summary>
+        /// <remarks></remarks>
+        /// <param name="nnz"></param>
+        /// <param name="offset"></param>
+        /// <param name="A"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let CopyRow (nnz:int) (offset:int) (A:SparseMatrix<float>) =
             let sparseVector = ResizeArray<(int*float)>()
             for i=nnz-1 downto 0 do
@@ -231,7 +297,15 @@ module LinearAlgebraManaged =
                     sparseVector.Insert(0, entry)
             sparseVector
         
-        /// Returns "value" with the sign of "sign"
+        /// <summary>Returns "value" with the sign of "sign"</summary>
+        /// <remarks></remarks>
+        /// <param name="value"></param>
+        /// <param name="sign"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let Copysign (value:float) (sign:float) =
             if (sign >= 0.0) then
                 abs(value)
@@ -247,7 +321,14 @@ module LinearAlgebraManaged =
             else
                 Copysign (1.0/c) s
 
-        /// Apply the givens rotation on 2 Sparsevectors
+        /// <summary>Apply the givens rotation on 2 Sparsevectors</summary>
+        /// <remarks></remarks>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let ApplyGivens (x : ResizeArray<(int*float)>) (y : ResizeArray<(int*float)>) = 
             let a = snd x.[0]
             let b = snd y.[0]
@@ -387,7 +468,14 @@ module LinearAlgebraManaged =
         let QOut = Matrix.initSparse m n QSeq
         QOut, ROut
 
-    /// Matches the union type of the matrix and invokes the according QR factorization function
+    /// <summary>Matches the union type of the matrix and invokes the according QR factorization function</summary>
+    /// <remarks></remarks>
+    /// <param name="A"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let QR (A:matrix) =
         match A with
             | SparseRepr A -> QRSparse(A)
@@ -485,7 +573,14 @@ module LinearAlgebraManaged =
             SolveTriangularLinearSystem upper gamma false
         beta
 
-    /// computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
+    /// <summary>computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches</summary>
+    /// <remarks></remarks>
+    /// <param name="designMatrix"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let hatMatrix (designMatrix: Matrix<float>) = 
         let qm,R = QR designMatrix
         let q1 = qm.GetSlice ((Some 0),(Some (qm.NumRows-1)),(Some 0),(Some (R.NumCols-1)))
@@ -493,12 +588,25 @@ module LinearAlgebraManaged =
         q1 * q1.Transpose
 
     
-    /// computes the leverages of every dataPoint of a dataSet given by the diagonal of the hat matrix. 
+    /// <summary>computes the leverages of every dataPoint of a dataSet given by the diagonal of the hat matrix. </summary>
+    /// <remarks></remarks>
+    /// <param name="hatMatrix"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let leverageBy (hatMatrix: Matrix<float>) = 
         hatMatrix.Diagonal
 
-    /// computes the leverage directly by QR decomposition of the designmatrix used in ordinary least squares approaches
-    /// and computing of the diagnonal entries of the Hat matrix, known as the leverages of the regressors
+    /// <summary>computes the leverage directly by QR decomposition of the designmatrix used in ordinary least squares approaches<br />and computing of the diagnonal entries of the Hat matrix, known as the leverages of the regressors</summary>
+    /// <remarks></remarks>
+    /// <param name="designMatrix"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let leverage (designMatrix: Matrix<float>) = 
         let qm,R = QR designMatrix
         let q1 = qm.GetSlice ((Some 0),(Some (qm.NumRows-1)),(Some 0),(Some (R.NumCols-1)))
@@ -511,7 +619,14 @@ module LinearAlgebraManaged =
         leverage
         
 
-    /// Calculates the pseudo inverse of the matrix
+    /// <summary>Calculates the pseudo inverse of the matrix</summary>
+    /// <remarks></remarks>
+    /// <param name="matrix"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let pseudoInvers (matrix:Matrix<float>) =
         let (m,n) = matrixDims matrix
         // Is this an overdetermined or underdetermined system?

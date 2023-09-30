@@ -26,8 +26,16 @@ module Array =
         items.[left]  <- items.[right]
         items.[right] <- tmp
 
-    /// Arranges the items between the left and right border, that all items left of the pivot element are smaller and bigger on the right.
-    /// Function works in place and returns the index of the pivote element (using Lomuto's partitioning algorithm)
+    /// <summary>Arranges the items between the left and right border, that all items left of the pivot element are smaller and bigger on the right.<br />Function works in place and returns the index of the pivote element (using Lomuto's partitioning algorithm)</summary>
+    /// <remarks></remarks>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline partitionSortInPlace left right (items:array<'T>) =   
         let random = Random.rndgen
         let pivotIndex = left + random.NextInt() % (right - left + 1)
@@ -66,8 +74,17 @@ module Array =
                 swapInPlace (i + 1) pivotIndex' items // swap back the pivot
                 i + 1
 
-    /// Finds the kth smallest element in an unordered array (note that k is ONE-based)
-    /// Works in place and can change the order of the elements in the input array
+    /// <summary>Finds the kth smallest element in an unordered array (note that k is ONE-based)<br />Works in place and can change the order of the elements in the input array</summary>
+    /// <remarks></remarks>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <param name="k"></param>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline quickSelectInPlaceWith left right k (arr:array<'T>) : 'T =  
         let rec loop left right k (arr:array<'T>) : 'T =
             if ( left = right ) then
@@ -88,8 +105,15 @@ module Array =
         loop left right k arr
 
 
-    /// Finds the kth smallest element in an unordered array (note that k is ONE-based)
-    /// Works in place and can change the order of the elements in the input array
+    /// <summary>Finds the kth smallest element in an unordered array (note that k is ONE-based)<br />Works in place and can change the order of the elements in the input array</summary>
+    /// <remarks></remarks>
+    /// <param name="k"></param>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline quickSelectInPlace k (items:array<'T>) : 'T =
         if k <= 0 then
             Array.min items
@@ -99,7 +123,15 @@ module Array =
             quickSelectInPlaceWith 0 (items.Length - 1) k items
 
 
-    /// Finds the kth smallest element in an unordered array (note that k is ONE-based)
+    /// <summary>Finds the kth smallest element in an unordered array (note that k is ONE-based)</summary>
+    /// <remarks></remarks>
+    /// <param name="k"></param>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline quickSelect k (items:array<'T>) =
         if k <= 0 then
             Array.min items
@@ -218,7 +250,15 @@ module Array =
     //    else
     //        quickSelect' items 0 (items.Length - 1) k'
     
-    /// Computes the Weighted Mean
+    /// <summary>Computes the Weighted Mean</summary>
+    /// <remarks></remarks>
+    /// <param name="weights"></param>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline weightedMean (weights:array<'T>) (items:array<'T>) =
         // DimensionMismatchException
         if (items.Length <> weights.Length) then
@@ -232,7 +272,15 @@ module Array =
 
         sum / weight 
     
-    /// Computes the Variance N-1 
+    /// <summary>Computes the Variance N-1 </summary>
+    /// <remarks></remarks>
+    /// <param name="mean"></param>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline varOf mean (items:array<'T>) =
         
         let mutable variance = LanguagePrimitives.GenericZero< 'T > 
@@ -244,7 +292,16 @@ module Array =
         variance / float (items.Length - 1)
 
 
-    /// Computes the Weighted Variance
+    /// <summary>Computes the Weighted Variance</summary>
+    /// <remarks></remarks>
+    /// <param name="mean"></param>
+    /// <param name="weights"></param>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline weightedVariance mean (weights:array<'T>) (items:array<'T>) =
         // DimensionMismatchException
         if (items.Length <> weights.Length) then
@@ -267,7 +324,14 @@ module Array =
 
 
 
-    /// Computes the sample median
+    /// <summary>Computes the sample median</summary>
+    /// <remarks></remarks>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline median (items:array<'T>) =
 
         let zero = LanguagePrimitives.GenericZero< 'T > 
@@ -318,25 +382,48 @@ module Array =
         else
             zero / zero    
 
-    /// Median absolute deviation (MAD)
+    /// <summary>Median absolute deviation (MAD)</summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let medianAbsoluteDev (data : float []) =       
         let med = median data
         data
         |> Array.map (fun x -> abs ( x - med ))
         |> median
 
-    // When we sample with replacement, the two sample values are independent.
-    // Practically, this means that what we get on the first one doesn't affect what we get on the second.
-    // Mathematically, this means that the covariance between the two is zero
-    /// Samples from an array of obj wit replacement (with putting back)
+    /// <summary>Samples from an array of obj wit replacement (with putting back)</summary>
+    /// <remarks>When we sample with replacement, the two sample values are independent.</remarks>
+    /// <remarks>Practically, this means that what we get on the first one doesn't affect what we get on the second.</remarks>
+    /// <remarks>Mathematically, this means that the covariance between the two is zero</remarks>
+    /// <param name="rnd"></param>
+    /// <param name="source"></param>
+    /// <param name="k"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let sampleWithReplacement (rnd:System.Random) (source:array<_>) (k:int) =
         if source.Length < 1 then failwithf "Source must not be empty."     
         Array.init k (fun _ -> source.[rnd.Next(0,source.Length)]) // Error fixed: previously source.Length-1
 
 
 
-    // Implementation according to: http://krkadev.blogspot.de/2010/08/random-numbers-without-repetition.html
-    /// Samples from an array of obj without replacement (without putting back)
+    /// <summary>Samples from an array of obj without replacement (without putting back)</summary>
+    /// <remarks>Implementation according to: http://krkadev.blogspot.de/2010/08/random-numbers-without-repetition.html</remarks>
+    /// <param name="rnd"></param>
+    /// <param name="source"></param>
+    /// <param name="k"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let sampleWithOutReplacement (rnd:System.Random) (source:array<_>) (k:int) =
         let n = source.Length
         let used = new System.Collections.Generic.Dictionary<int,int>()
@@ -353,7 +440,14 @@ module Array =
 
 
 
-    /// Shuffels the input array (method: Fisher-Yates)
+    /// <summary>Shuffels the input array (method: Fisher-Yates)</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let shuffleFisherYates (arr : _[]) =
         let tmpArr = Array.copy arr
         let random = Random.rndgen //new System.Random()
@@ -366,7 +460,14 @@ module Array =
             tmpArr.[i - 1] <- tmp
         tmpArr  
 
-    /// Shuffels the input array (method: Fisher-Yates) in place
+    /// <summary>Shuffels the input array (method: Fisher-Yates) in place</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let shuffleFisherYatesInPlace (arr : _[]) =
         let random = Random.rndgen //new System.Random()
         for i = arr.Length downto 1 do
@@ -379,7 +480,16 @@ module Array =
         arr  
 
 
-    /// Generates array sequence (like R! seq.int)
+    /// <summary>Generates array sequence (like R! seq.int)</summary>
+    /// <remarks></remarks>
+    /// <param name="from"></param>
+    /// <param name="tto"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let seqInit (from:float) (tto:float) (length:int) =
         let stepWidth = (tto - from) / (float length - 1.)
         Array.init length ( fun x -> (float x * stepWidth) + from)  
@@ -414,7 +524,7 @@ module Array =
     /// 
     /// // To get the population covariance between x and y:
     /// xy |> Array.covPopulationOfPairs // evaluates to 347.92
-    /// </code> 
+    /// </code>
     /// </example>
     let inline covPopulationOfPairs (array:array<'T * 'T>) : 'U =
         array
@@ -438,7 +548,7 @@ module Array =
     ///             {| x = 45.; y = 28. |} |]
     /// 
     /// xy |> Array.covPopulationBy (fun x -> x.x, x.y) // evaluates to 347.92
-    /// </code> 
+    /// </code>
     /// </example>
     let inline covPopulationBy f (array: 'T array) : 'U =
         array
@@ -471,7 +581,7 @@ module Array =
     /// 
     /// // To get the sample covariance between x and y:
     /// xy |> Array.covOfPairs // evaluates to 434.90
-    /// </code> 
+    /// </code>
     /// </example>
     let inline covOfPairs (array:array<'T * 'T>) : 'U =
         array
@@ -495,14 +605,21 @@ module Array =
     ///             {| x = 45.; y = 28. |} |]
     /// 
     /// xy |> Array.covBy (fun x -> x.x, x.y) // evaluates to 434.90
-    /// </code> 
+    /// </code>
     /// </example>
     let inline covBy f (array: 'T array) : 'U =
         array
         |> Array.map f
         |> covOfPairs
 
-    /// Filters out all nan values from an array
+    /// <summary>Filters out all nan values from an array</summary>
+    /// <remarks></remarks>
+    /// <param name="array"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let dropNaN (array: float array) =
         array 
         |> Array.filter (System.Double.IsNaN >> not)

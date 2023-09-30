@@ -3,22 +3,53 @@
 [<AutoOpen>]
 module JaggedArray =
 
-    /// Creates an jagged array with the given dimensions and a generator function to compute the elements
+    /// <summary>Creates an jagged array with the given dimensions and a generator function to compute the elements</summary>
+    /// <remarks></remarks>
+    /// <param name="rowN"></param>
+    /// <param name="colN"></param>
+    /// <param name="f"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let init rowN colN f =
         Array.init rowN (fun rowi ->
             Array.init colN (fun coli -> f rowi coli)) 
 
-    /// Creates an jagged array where the entries are initially the default value Unchecked.defaultof
+    /// <summary>Creates an jagged array where the entries are initially the default value Unchecked.defaultof</summary>
+    /// <remarks></remarks>
+    /// <param name="rowN"></param>
+    /// <param name="colN"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let zeroCreate rowN colN = 
         Array.init rowN (fun _ -> Array.zeroCreate colN)
 
-    /// Copies the jagged array
+    /// <summary>Copies the jagged array</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let copy (arr : _[][]) = 
         Array.init arr.Length (fun i ->
             Array.copy arr.[i]
             )    
 
-    /// Transposes a jagged array
+    /// <summary>Transposes a jagged array</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let transpose (arr: 'T [][]) =
         if arr.Length > 0 then 
             let colSize = arr.[0].Length
@@ -26,7 +57,14 @@ module JaggedArray =
         else
             arr
     
-    /// Converts from an Array2D into an jagged array
+    /// <summary>Converts from an Array2D into an jagged array</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toArray2D (arr: 'T [][]) =
         let n = arr.Length
         if n > 0 then 
@@ -35,80 +73,187 @@ module JaggedArray =
         else
             Array2D.zeroCreate 0 0    
 
-    /// Converts a jagged array into an Array2D
+    /// <summary>Converts a jagged array into an Array2D</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ofArray2D (arr:'T[,]) =
         let n,m = Array2D.length1 arr,Array2D.length2 arr
         Array.init n (fun i ->
                 Array.init m (fun j -> arr.[i,j])) 
 
-    /// Converts a jagged list into a jagged array
+    /// <summary>Converts a jagged list into a jagged array</summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ofJaggedList (data: 'T list list) =
         data
         |> List.map (fun l -> l |> Array.ofList)
         |> Array.ofList
 
-    /// Converts a jagged array into a jagged list
+    /// <summary>Converts a jagged array into a jagged list</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toJaggedList (arr: 'T [][]) =
         arr
         |> Array.map (fun a -> a |> List.ofArray)
         |> List.ofArray
 
-    /// Converts a jagged Seq into a jagged array
+    /// <summary>Converts a jagged Seq into a jagged array</summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ofJaggedSeq (data: seq<#seq<'T>>) =
         data
         |> Seq.map (fun s -> s |> Array.ofSeq)
         |> Array.ofSeq
 
-    /// Converts a jagged array into a jagged seq
+    /// <summary>Converts a jagged array into a jagged seq</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toJaggedSeq (arr: 'T [][]) =
         arr
         |> Seq.map (fun s -> s |> Array.toSeq) 
 
-    /// Builds a new jagged array whose inner arrays are the results of applying the given function to each of their elements.
+    /// <summary>Builds a new jagged array whose inner arrays are the results of applying the given function to each of their elements.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="jArray"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map (mapping: 'T -> 'U) (jArray : 'T[][]) =
         jArray
         |> Array.map (fun x -> x |> Array.map mapping)
 
-    /// Builds a new jagged array whose inner arrays are the results of applying the given function to the corresponding elements of the inner arrays of the two jagged arrays pairwise. 
-    /// All corresponding inner arrays must be of the same length, otherwise ArgumentException is raised.
+    /// <summary>Builds a new jagged array whose inner arrays are the results of applying the given function to the corresponding elements of the inner arrays of the two jagged arrays pairwise. <br />All corresponding inner arrays must be of the same length, otherwise ArgumentException is raised.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="jArray1"></param>
+    /// <param name="jArray2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map2 (mapping: 'T1 -> 'T2 -> 'U) (jArray1 : 'T1[][]) (jArray2 : 'T2[][]) = 
         jArray1
         |> Array.mapi (fun index x -> (Array.map2 mapping x jArray2.[index]))
 
-    /// Builds a new jagged array whose inner arrays are the results of applying the given function to the corresponding elements of the inner arrays of the tree jagged arrays triplewise. 
-    /// All corresponding inner arrays must be of the same length, otherwise ArgumentException is raised.
+    /// <summary>Builds a new jagged array whose inner arrays are the results of applying the given function to the corresponding elements of the inner arrays of the tree jagged arrays triplewise. <br />All corresponding inner arrays must be of the same length, otherwise ArgumentException is raised.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="jArray1"></param>
+    /// <param name="jArray2"></param>
+    /// <param name="jArray3"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map3 (mapping : 'T1 -> 'T2 -> 'T3 -> 'U) (jArray1 : 'T1[][]) (jArray2 : 'T2[][]) (jArray3 : 'T3[][]) =
         jArray1 |> Array.mapi (fun index x -> (Array.map3 mapping x jArray2.[index] jArray3.[index]))
 
-    ///Builds a new jagged array whose inner arrays are the results of applying the given function to each of their elements. The integer index passed to the function indicates the index of element in the inner array being transformed.
+    /// <summary>Builds a new jagged array whose inner arrays are the results of applying the given function to each of their elements. The integer index passed to the function indicates the index of element in the inner array being transformed.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="jArray"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mapi (mapping: int -> 'T -> 'U) (jArray : 'T[][]) =
         jArray
         |> Array.map (fun x -> x |> Array.mapi mapping)
 
-    ///Applies a function to each element of the inner arrays of the jagged array, threading an accumulator argument through the computation.
+    /// <summary>Applies a function to each element of the inner arrays of the jagged array, threading an accumulator argument through the computation.</summary>
+    /// <remarks></remarks>
+    /// <param name="folder"></param>
+    /// <param name="state"></param>
+    /// <param name="jArray"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let innerFold (folder: 'State -> 'T -> 'State) (state: 'State) (jArray : 'T[][]) =
         jArray
         |> Array.map (fun x -> x |> Array.fold folder state )
 
     ///Applies a function to each element of the inner arrays of the jagged array, threading an accumulator argument through the computation. 
-    ///A second function is the applied to each result of the predeceding computation, again passing an accumulater through the computation 
+    /// <summary>A second function is the applied to each result of the predeceding computation, again passing an accumulater through the computation </summary>
+    /// <remarks></remarks>
+    /// <param name="innerFolder"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let fold (innerFolder : 'State1 -> 'T -> 'State1) (outerFolder : 'State2 -> 'State1 -> 'State2) (innerState : 'State1) (outerState : 'State2) ((jArray : 'T[][])) =
         jArray
         |> innerFold innerFolder innerState
         |> Array.fold outerFolder outerState
 
-    ///Returns a new jagged array whose inner arrays only contain the elements for which the given predicate returns true
+    /// <summary>Returns a new jagged array whose inner arrays only contain the elements for which the given predicate returns true</summary>
+    /// <remarks></remarks>
+    /// <param name="predicate"></param>
+    /// <param name="jArray"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let innerFilter (predicate: 'T -> bool) (jArray: 'T[][]) =
         jArray
         |> Array.map (fun x -> x |> Array.filter predicate)
 
-    ///Applies the given function to each element in the inner arrays of the jagged array. Returns the jagged array whose inner arrays are comprised of the results x for each element where the function returns Some(x)
+    /// <summary>Applies the given function to each element in the inner arrays of the jagged array. Returns the jagged array whose inner arrays are comprised of the results x for each element where the function returns Some(x)</summary>
+    /// <remarks></remarks>
+    /// <param name="chooser"></param>
+    /// <param name="jArray"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let innerChoose (chooser: 'T -> 'U option) (jArray: 'T[][]) =
         jArray
         |> Array.map (fun x -> x |> Array.choose chooser)
 
 
-    /// Shuffles each column of a jagged array separately (method: Fisher-Yates) in place
+    /// <summary>Shuffles each column of a jagged array separately (method: Fisher-Yates) in place</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let shuffleColumnWiseInPlace (arr: 'T [][]) =
         if arr.Length > 0 then 
             let rowCount    = arr.Length
@@ -128,7 +273,14 @@ module JaggedArray =
             arr
 
 
-    /// Shuffles each row of a jagged array separately (method: Fisher-Yates) in place
+    /// <summary>Shuffles each row of a jagged array separately (method: Fisher-Yates) in place</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let shuffleRowWiseInPlace (arr: 'T [][]) =
         if arr.Length > 0 then 
             let rowCount    = arr.Length
@@ -148,7 +300,14 @@ module JaggedArray =
             arr
 
 
-    /// Shuffels a jagged array (method: Fisher-Yates) in place
+    /// <summary>Shuffels a jagged array (method: Fisher-Yates) in place</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let shuffleInPlace (arr: 'T [][]) =
         if arr.Length > 0 then 
             let rowCount    = arr.Length
@@ -167,7 +326,14 @@ module JaggedArray =
         else
             arr
 
-    /// Shuffles each column of a jagged array separately (method: Fisher-Yates)
+    /// <summary>Shuffles each column of a jagged array separately (method: Fisher-Yates)</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let shuffleColumnWise (arr: 'T [][]) =
         let arr' = copy arr
         if arr.Length > 0 then 
@@ -188,7 +354,14 @@ module JaggedArray =
             arr'
 
 
-    /// Shuffles each row of a jagged array separately (method: Fisher-Yates)
+    /// <summary>Shuffles each row of a jagged array separately (method: Fisher-Yates)</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let shuffleRowWise (arr: 'T [][]) =
         let arr' = copy arr
         if arr.Length > 0 then 
@@ -209,7 +382,14 @@ module JaggedArray =
             arr'
 
 
-    /// Shuffels a jagged array (method: Fisher-Yates)
+    /// <summary>Shuffels a jagged array (method: Fisher-Yates)</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let shuffle (arr: 'T [][]) =
         let arr' = copy arr
         if arr.Length > 0 then 
@@ -266,45 +446,110 @@ module JaggedList =
         data
         |> Seq.map (fun s -> s |> List.toSeq) 
 
-    /// Builds a new jagged list whose inner lists are the results of applying the given function to each of their elements.
+    /// <summary>Builds a new jagged list whose inner lists are the results of applying the given function to each of their elements.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="jlist"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map (mapping: 'T -> 'U) (jlist : 'T list list) =
         jlist
         |> List.map (fun x -> x |> List.map mapping)
 
-    /// Builds a new jagged list whose inner lists are the results of applying the given function to the corresponding elements of the inner lists of the two jagged lists pairwise. 
-    /// All corresponding inner lists must be of the same length, otherwise ArgumentException is raised.
+    /// <summary>Builds a new jagged list whose inner lists are the results of applying the given function to the corresponding elements of the inner lists of the two jagged lists pairwise. <br />All corresponding inner lists must be of the same length, otherwise ArgumentException is raised.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="jlist1"></param>
+    /// <param name="jlist2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map2 (mapping: 'T1 -> 'T2 -> 'U) (jlist1 : 'T1 list list) (jlist2 : 'T2 list list) = 
         jlist1
         |> List.mapi (fun index x -> (List.map2 mapping x jlist2.[index]))
 
-    /// Builds a new jagged list whose inner lists are the results of applying the given function to the corresponding elements of the inner lists of the tree jagged lists triplewise. 
-    /// All corresponding inner lists must be of the same length, otherwise ArgumentException is raised.
+    /// <summary>Builds a new jagged list whose inner lists are the results of applying the given function to the corresponding elements of the inner lists of the tree jagged lists triplewise. <br />All corresponding inner lists must be of the same length, otherwise ArgumentException is raised.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="jlist1"></param>
+    /// <param name="jlist2"></param>
+    /// <param name="jlist3"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map3 (mapping : 'T1 -> 'T2 -> 'T3 -> 'U) (jlist1 : 'T1 list list) (jlist2 : 'T2 list list) (jlist3 : 'T3 list list) =
         jlist1 |> List.mapi (fun index x -> (List.map3 mapping x jlist2.[index] jlist3.[index]))
 
-    ///Builds a new jagged list whose inner lists are the results of applying the given function to each of their elements. The integer index passed to the function indicates the index of element in the inner list being transformed.
+    /// <summary>Builds a new jagged list whose inner lists are the results of applying the given function to each of their elements. The integer index passed to the function indicates the index of element in the inner list being transformed.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="jlist"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mapi (mapping: int -> 'T -> 'U) (jlist : 'T list list) =
         jlist
         |> List.map (fun x -> x |> List.mapi mapping)
 
-    ///Applies a function to each element of the inner lists of the jagged list, threading an accumulator argument through the computation.
+    /// <summary>Applies a function to each element of the inner lists of the jagged list, threading an accumulator argument through the computation.</summary>
+    /// <remarks></remarks>
+    /// <param name="folder"></param>
+    /// <param name="state"></param>
+    /// <param name="jlist"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let innerFold (folder: 'State -> 'T -> 'State) (state: 'State) (jlist : 'T list list) =
         jlist
         |> List.map (fun x -> x |> List.fold folder state )
 
     ///Applies a function to each element of the inner lists of the jagged list, threading an accumulator argument through the computation. 
-    ///A second function is the applied to each result of the predeceding computation, again passing an accumulater through the computation 
+    /// <summary>A second function is the applied to each result of the predeceding computation, again passing an accumulater through the computation </summary>
+    /// <remarks></remarks>
+    /// <param name="innerFolder"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let fold (innerFolder : 'State1 -> 'T -> 'State1) (outerFolder : 'State2 -> 'State1 -> 'State2) (innerState : 'State1) (outerState : 'State2) ((jlist : 'T list list)) =
         jlist
         |> innerFold innerFolder innerState
         |> List.fold outerFolder outerState
 
-    ///Returns a new jagged list whose inner lists only contain the elements for which the given predicate returns true
+    /// <summary>Returns a new jagged list whose inner lists only contain the elements for which the given predicate returns true</summary>
+    /// <remarks></remarks>
+    /// <param name="predicate"></param>
+    /// <param name="jlist"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let innerFilter (predicate: 'T -> bool) (jlist: 'T list list) =
         jlist
         |> List.map (fun x -> x |> List.filter predicate)
 
-    ///Applies the given function to each element in the inner lists of the jagged List. Returns the jagged list whose inner lists are comprised of the results x for each element where the function returns Some(x)
+    /// <summary>Applies the given function to each element in the inner lists of the jagged List. Returns the jagged list whose inner lists are comprised of the results x for each element where the function returns Some(x)</summary>
+    /// <remarks></remarks>
+    /// <param name="chooser"></param>
+    /// <param name="jlist"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let innerChoose (chooser: 'T -> 'U option) (jlist: 'T list list) =
         jlist
         |> List.map (fun x -> x |> List.choose chooser)

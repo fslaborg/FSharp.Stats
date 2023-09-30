@@ -24,9 +24,14 @@ module PCA =
         }
     
 
-    /// Normalizes each feature by substracting the corresponing mean followed by a division by its standard deviation.
-    /// The centered features of the matrix are centered around 0 and possess a standard deviation of 1.
-    /// Expects a data matrix with rows representing observations and columns representing features.
+    /// <summary>Normalizes each feature by substracting the corresponing mean followed by a division by its standard deviation.<br />The centered features of the matrix are centered around 0 and possess a standard deviation of 1.<br />Expects a data matrix with rows representing observations and columns representing features.</summary>
+    /// <remarks></remarks>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let center m = 
         if m |> Matrix.exists (fun x -> isNan x || isInf x) then 
             failwith "Computation not possible. Matrix contains invalid entries. Check for the existence of values equal to nan, infinity or -infinity."
@@ -54,8 +59,14 @@ module PCA =
             |> Matrix.mapi (fun i j x -> x / stabwMatrix.[i,j] )
         centeredM
 
-    /// Computes the PCA of a column centered data matrix m.
-    /// Expects a column centered data matrix m, with rows representing observations (a.k.a. samples) and columns representing features.
+    /// <summary>Computes the PCA of a column centered data matrix m.<br />Expects a column centered data matrix m, with rows representing observations (a.k.a. samples) and columns representing features.</summary>
+    /// <remarks></remarks>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let compute m =  
         if m |> Matrix.exists (fun x -> isNan x || isInf x) then 
             failwith "Computation not possible. Matrix contains invalid entries. Check for the existence of values equal to nan, infinity or -infinity."

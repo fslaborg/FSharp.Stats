@@ -8,7 +8,14 @@ module ClusterNumber =
 
     open FSharp.Stats.ML.Unsupervised.IterativeClustering
     
-    /// Simple estimator for number of cluster (k) // can be used as the upper bound for other methods
+    /// <summary>Simple estimator for number of cluster (k) // can be used as the upper bound for other methods</summary>
+    /// <remarks></remarks>
+    /// <param name="observations"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let kRuleOfThumb observations = 
         let ruleOfThumb (n:int) = sqrt (float n / 2.)
         ruleOfThumb (Seq.length observations)
@@ -16,7 +23,14 @@ module ClusterNumber =
     [<Obsolete("Use kRuleOfThumb instead.")>]
     let k_ruleOfThumb observations = kRuleOfThumb observations
 
-    /// Akaike Information Criterion (AIC)
+    /// <summary>Akaike Information Criterion (AIC)</summary>
+    /// <remarks></remarks>
+    /// <param name="bootstraps"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let calcAIC (bootstraps:int) (iClustering:int->KClusteringResult<float []>) maxK   =   
         let AICFromClusterResult (cr:KClusteringResult<'a []>) =
             let rss = cr.ClosestDistances |> Array.sumBy (fun (fst,snd) -> snd * snd) //snd
@@ -50,8 +64,14 @@ module ClusterNumber =
         SilhouetteIndexStDev= std
         }
 
-    /// Calculates the silhouette score for a clustered data set where the coordinates of each data point is given as float [].
-    /// The index ranges from -1 (bad clustering result) to 1 (perfekt clustering result)
+    /// <summary>Calculates the silhouette score for a clustered data set where the coordinates of each data point is given as float [].<br />The index ranges from -1 (bad clustering result) to 1 (perfekt clustering result)</summary>
+    /// <remarks></remarks>
+    /// <param name="clusteredData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let silhouetteIndex (clusteredData:float [] [] []) =
         let averageDistance (item: float []) (cluster:float[][]) =
             cluster 
@@ -86,8 +106,17 @@ module ClusterNumber =
                 |> fun sISum -> sISum / float count
         silhouetteIndexK
         
-    /// The silhouette index can be used to determine the optimal cluster number in k means clustering.
-    /// bootstraps indicates the number the k means clustering is performed for each k and maxK indicated the maximal cluster number.
+    /// <summary>The silhouette index can be used to determine the optimal cluster number in k means clustering.<br />bootstraps indicates the number the k means clustering is performed for each k and maxK indicated the maximal cluster number.</summary>
+    /// <remarks></remarks>
+    /// <param name="bootstraps"></param>
+    /// <param name="iClustering"></param>
+    /// <param name="data"></param>
+    /// <param name="maxK"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let silhouetteIndexKMeans (bootstraps:int) (iClustering:int -> KClusteringResult<float []>) (data:float [] []) maxK =
         [|2..maxK|]
         |> Array.map (fun k ->
@@ -188,7 +217,14 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
 
     module PointGenerators =
     
-        /// Generate uniform points within the range of `data`.
+        /// <summary>Generate uniform points within the range of `data`.</summary>
+        /// <remarks></remarks>
+        /// <param name="rnd"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let generateUniformPoints (rnd:System.Random) =   
             fun (data:array<float[]>) -> 
                 let min = matrix data |> Matrix.mapiCols (fun i x -> Seq.min x) |> Array.ofSeq

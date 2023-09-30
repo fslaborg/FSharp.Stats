@@ -99,8 +99,14 @@ module QQPlot =
             inverseCDF pi,x
             )
 
-    /// Computes the quantile quantile coordinates of a sample distributions against a normal distribution. 
-    /// The sample can be standardized between 0 and 1.
+    /// <summary>Computes the quantile quantile coordinates of a sample distributions against a normal distribution. <br />The sample can be standardized between 0 and 1.</summary>
+    /// <remarks></remarks>
+    /// <param name="fromSampleToUniform method standardizeSample (sample:seq<float>)  "></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let internal fromSampleToUniform method standardizeSample (sample:seq<float>)  =
 
         let sampleLength = Seq.length sample |> float
@@ -128,7 +134,14 @@ module QQPlot =
             pi,x
             )
 
-    /// Computes the quantile quantile coordinates of a sample distributions against a specified inverseCDF function. You can derive an inverse CDF of any statistical distribution.
+    /// <summary>Computes the quantile quantile coordinates of a sample distributions against a specified inverseCDF function. You can derive an inverse CDF of any statistical distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="fromSampleToInverseCDF method invCDF (sample:seq<float>)  "></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let internal fromSampleToInverseCDF method invCDF (sample:seq<float>)  =
 
         let sampleLength = Seq.length sample |> float

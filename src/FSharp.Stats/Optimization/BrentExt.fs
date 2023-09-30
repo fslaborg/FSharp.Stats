@@ -6,10 +6,34 @@ module Brent =
     /// (3.9 - sqrt(5)) / 2
     let private goldSectionRatio = 0.831966011250105
     
-    /// TO-DO: Refactor to global (ops)
+    /// <summary>TO-DO: Refactor to global (ops)</summary>
+    /// <remarks></remarks>
+    /// <param name="doubleEpsilon"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let private doubleEpsilon = 1.11022302462516E-16
 
-    /// Compute stepsize
+    /// <summary>Compute stepsize</summary>
+    /// <remarks></remarks>
+    /// <param name="computeNewStep"></param>
+    /// <param name="x"></param>
+    /// <param name="v"></param>
+    /// <param name="w"></param>
+    /// <param name="fx"></param>
+    /// <param name="fv"></param>
+    /// <param name="fw"></param>
+    /// <param name="tolAct"></param>
+    /// <param name="lowerBound"></param>
+    /// <param name="upperBound"></param>
+    /// <param name="middleRange"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let private computeNewStep x v w fx fv fw tolAct lowerBound upperBound middleRange = 
 
         let newStep = 
@@ -39,7 +63,18 @@ module Brent =
         else 
             newStep'
 
-    /// Finds the minimum in the given function between the lower and upper boundary with given tolerance via brent search. Returns None if maxiterations are reached.
+    /// <summary>Finds the minimum in the given function between the lower and upper boundary with given tolerance via brent search. Returns None if maxiterations are reached.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="lowerBound"></param>
+    /// <param name="upperBound"></param>
+    /// <param name="tolerance"></param>
+    /// <param name="maxIterations"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let minimizeWith f lowerBound upperBound tolerance maxIterations = 
         
         if Double.IsNaN lowerBound || Double.IsInfinity lowerBound then
@@ -104,16 +139,45 @@ module Brent =
         //Initialize loop
         mainLoop 0 v v v fv fv fv lowerBound upperBound
 
-    /// Finds the minimum in the given function between the lower and upper boundary with tolerance 10^-7 via brent search. Returns None if 100 iterations are reached.   
+    /// <summary>Finds the minimum in the given function between the lower and upper boundary with tolerance 10^-7 via brent search. Returns None if 100 iterations are reached.   </summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="lowerBound"></param>
+    /// <param name="upperBound"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let minimize f lowerBound upperBound = 
         minimizeWith f lowerBound upperBound 1.0E-7 100
 
-    /// Finds the maximum in the given function between the lower and upper boundary with given tolerance via brent search. Returns None if maxiterations are reached.
+    /// <summary>Finds the maximum in the given function between the lower and upper boundary with given tolerance via brent search. Returns None if maxiterations are reached.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="lowerBound"></param>
+    /// <param name="upperBound"></param>
+    /// <param name="tolerance"></param>
+    /// <param name="maxIterations"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let maximizeWith f lowerBound upperBound tolerance maxIterations =
         let f' = fun x -> - f x
         minimizeWith f' lowerBound upperBound tolerance maxIterations
 
-    /// Finds the maximum in the given function between the lower and upper boundary with tolerance 10^-7 via brent search. Returns None if 100 iterations are reached.   
+    /// <summary>Finds the maximum in the given function between the lower and upper boundary with tolerance 10^-7 via brent search. Returns None if 100 iterations are reached.   </summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="lowerBound"></param>
+    /// <param name="upperBound"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let maximize f lowerBound upperBound =
         let f' = fun x -> - f x
         minimizeWith f' lowerBound upperBound 1.0E-7 100

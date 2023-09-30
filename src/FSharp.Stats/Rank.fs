@@ -2,7 +2,14 @@
 
 module Rank =
 
-    /// Comparer that sorts nan at the end of a collection
+    /// <summary>Comparer that sorts nan at the end of a collection</summary>
+    /// <remarks></remarks>
+    /// <param name="compNaNLast"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline internal compNaNLast<'T when 'T :> System.IComparable> =
         //if typeof<'T>.Name="Double"
         let comparison = 
@@ -16,11 +23,30 @@ module Rank =
             )
         System.Collections.Generic.Comparer<'T>.Create(comparison)
 
-    /// Comparer that sorts nan at the start of a collection
+    /// <summary>Comparer that sorts nan at the start of a collection</summary>
+    /// <remarks></remarks>
+    /// <param name="compNaNFirst"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline internal compNaNFirst<'U when 'U :> System.IComparable> = 
         System.Collections.Generic.Comparer.Default
         
-    /// Ranks each entry of the given unsorted data array. Use 'breakTies function to break ties
+    /// <summary>Ranks each entry of the given unsorted data array. Use 'breakTies function to break ties</summary>
+    /// <remarks></remarks>
+    /// <param name="rank"></param>
+    /// <param name="breakTies"></param>
+    /// <param name="convert"></param>
+    /// <param name="comparer"></param>
+    /// <param name="rankNanWithNan"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline internal rank (breakTies: int -> int -> float) (convert: int -> float) (comparer: System.Collections.Generic.Comparer<'b>) (rankNanWithNan: bool) (data:'a []) : float [] =
         let data' = Array.copy data
         let ranks = Array.zeroCreate data.Length
@@ -72,8 +98,7 @@ open Rank
 
 /// The rank of a number is its size relative to other values in a sequence
 type Rank() = 
-    /// Ranks each entry of the given unsorted data array.
-    /// Permutation with increasing values at each index of ties. Nans can be sorted as minimal or maximal values (default: maximal). Nans can be assigned to nan ranks (default: true)
+    /// Ranks each entry of the given unsorted data array.<br />Permutation with increasing values at each index of ties. Nans can be sorted as minimal or maximal values (default: maximal). Nans can be assigned to nan ranks (default: true)
     static member RankFirst(?NanIsMaximum,?RankNanWithNan) =
         let orderNanLast = defaultArg NanIsMaximum true
         let setNanToNan = defaultArg RankNanWithNan true
@@ -96,8 +121,7 @@ type Rank() =
                 
             ranks
             
-    /// Ranks each entry of the given unsorted data array.
-    /// Ties are replaced by their minimum. Nans can be sorted as minimal or maximal values (default: maximal). Nans can be assigned to nan ranks (default: true)
+    /// Ranks each entry of the given unsorted data array.<br />Ties are replaced by their minimum. Nans can be sorted as minimal or maximal values (default: maximal). Nans can be assigned to nan ranks (default: true)
     static member RankMin(?NanIsMaximum,?RankNanWithNan) =
         let orderNanLast = defaultArg NanIsMaximum true
         let setNanToNan = defaultArg RankNanWithNan true
@@ -109,8 +133,7 @@ type Rank() =
             rank minTies float comparer setNanToNan data
             
 
-    /// Ranks each entry of the given unsorted data array.
-    /// Ties are replaced by their maximum. Nans can be sorted as minimal or maximal values (default: maximal). Nans can be assigned to nan ranks (default: true)
+    /// Ranks each entry of the given unsorted data array.<br />Ties are replaced by their maximum. Nans can be sorted as minimal or maximal values (default: maximal). Nans can be assigned to nan ranks (default: true)
     static member RankMax(?NanIsMaximum,?RankNanWithNan) =
         let orderNanLast = defaultArg NanIsMaximum true
         let setNanToNan = defaultArg RankNanWithNan true
@@ -120,8 +143,7 @@ type Rank() =
         fun (data:array<_>) -> 
             rank maxTies float comparer setNanToNan data
 
-    /// Ranks each entry of the given unsorted data array.
-    /// Ties are replaced by ther average ranks. Nans can be sorted as minimal or maximal values (default: maximal). Nans can be assigned to nan ranks (default: true)
+    /// Ranks each entry of the given unsorted data array.<br />Ties are replaced by ther average ranks. Nans can be sorted as minimal or maximal values (default: maximal). Nans can be assigned to nan ranks (default: true)
     static member RankAverage(?NanIsMaximum,?RankNanWithNan) =
         let orderNanLast = defaultArg NanIsMaximum true
         let setNanToNan = defaultArg RankNanWithNan true

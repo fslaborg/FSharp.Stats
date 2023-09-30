@@ -255,7 +255,14 @@ module Seq =
 
     // ##### ##### ##### ##### #####
     // Median 
-    /// Sample Median
+    /// <summary>Sample Median</summary>
+    /// <remarks></remarks>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline median (items:seq<'T>) =
         let swapInPlace left right (items:array<'T>) =
             let tmp = items.[left]
@@ -512,7 +519,14 @@ module Seq =
    
 
 
-    /// Computes the standard error of the mean (SEM) with bessel corrected sample standard deviation    
+    /// <summary>Computes the standard error of the mean (SEM) with bessel corrected sample standard deviation    </summary>
+    /// <remarks></remarks>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline sem (items:seq<'T>) =
         stDev items / sqrt (float (Seq.length items))
 
@@ -676,8 +690,13 @@ module Seq =
     /// let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
     /// 
     /// // To get the population covariance between x and y:
-    /// xy |> Seq.covPopulationOfPairs // evaluates to 347.92
-    /// </code> 
+    /// <summary>xy |> Seq.covPopulationOfPairs // evaluates to 347.92<br /></code> <br /></example></summary>
+    /// <remarks></remarks>
+    /// <param name="seq"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
     /// </example>
     let inline covPopulationOfPairs (seq:seq<'T * 'T>) : 'U =
             seq
@@ -703,7 +722,7 @@ module Seq =
     ///            {| x = 45.; y = 28. |} ]
     /// 
     /// xy |> Seq.covPopulationBy (fun x -> x.x, x.y) // evaluates to 347.92
-    /// </code> 
+    /// </code>
     /// </example>
     let inline covPopulationBy f (seq: 'T seq) : 'U =
         seq
@@ -746,8 +765,13 @@ module Seq =
     /// let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
     /// 
     /// // To get the sample covariance between x and y:
-    /// xy |> Seq.covOfPairs // evaluates to 434.90
-    /// </code> 
+    /// <summary>xy |> Seq.covOfPairs // evaluates to 434.90<br /></code> <br /></example></summary>
+    /// <remarks></remarks>
+    /// <param name="seq"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
     /// </example>
     let inline covOfPairs (seq:seq<'T * 'T>) : 'U =
         seq
@@ -772,7 +796,7 @@ module Seq =
     ///            {| x = 45.; y = 28. |} ]
     /// 
     /// xy |> Seq.covBy (fun x -> x.x, x.y) // evaluates to 434.90
-    /// </code> 
+    /// </code>
     /// </example>
     let inline covBy f (seq: 'T seq) : 'U =
         seq
@@ -974,7 +998,14 @@ module Seq =
 
 
 
-    /// Median absolute deviation (MAD)
+    /// <summary>Median absolute deviation (MAD)</summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let medianAbsoluteDev (data:seq<float>) =        
         let data' = data |> Seq.toArray
         let m' = median data'
@@ -1007,7 +1038,14 @@ module Seq =
 //
 //    
 
-    /// Returns SummeryStats of deq with N, mean, sum-of-squares, minimum and maximum
+    /// <summary>Returns SummeryStats of deq with N, mean, sum-of-squares, minimum and maximum</summary>
+    /// <remarks></remarks>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline stats (items:seq<'T>) =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'T > 
@@ -1037,7 +1075,15 @@ module Seq =
 
 
 
-    /// calculates the sample means with a given number of replicates present in the sequence
+    /// <summary>calculates the sample means with a given number of replicates present in the sequence</summary>
+    /// <remarks></remarks>
+    /// <param name="rep"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline getMeanOfReplicates rep (data:seq<'a>) =
         if ( Seq.length data ) % rep = 0 then
             data
@@ -1045,7 +1091,15 @@ module Seq =
             |> Seq.map mean
         else failwithf "sequence length is no multiple of replicate number"
        
-    /// calculates the sample standard deviations with a given number of replicates present in the sequence
+    /// <summary>calculates the sample standard deviations with a given number of replicates present in the sequence</summary>
+    /// <remarks></remarks>
+    /// <param name="rep"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline getStDevOfReplicates rep (data:seq<'a>) =
         if ( Seq.length data ) % rep = 0 then
             data
@@ -1053,7 +1107,15 @@ module Seq =
             |> Seq.map stDev
         else failwithf "sequence length is no multiple of replicate number"
 
-    /// calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence
+    /// <summary>calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence</summary>
+    /// <remarks></remarks>
+    /// <param name="rep"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline getCvOfReplicates rep (data:seq<'a>) =
         if ( Seq.length data ) % rep = 0 then
             data
@@ -1192,13 +1254,29 @@ module Seq =
         let pooledStDevPopulation (data:seq<#seq<float>>) = 
             sqrt (pooledVarPopulation data)
 
-        ///Converts the input sequence to an array if it not already is an array.
+        /// <summary>Converts the input sequence to an array if it not already is an array.</summary>
+        /// <remarks></remarks>
+        /// <param name="toArrayQuick"></param>
+        /// <param name="xs"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline internal toArrayQuick (xs: seq<'T>) =
             match xs with
             | :? ('T[]) as arr -> arr
             | _ -> Seq.toArray xs
 
-        ///Like toArrayQuick but if the input sequence is an array already, it is copied to a new one to not interfere with inplace operations
+        /// <summary>Like toArrayQuick but if the input sequence is an array already, it is copied to a new one to not interfere with inplace operations</summary>
+        /// <remarks></remarks>
+        /// <param name="toArrayCopyQuick"></param>
+        /// <param name="xs"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline internal toArrayCopyQuick (xs: seq<'T>) =
             match xs with
             | :? ('T[]) as arr -> Array.copy arr

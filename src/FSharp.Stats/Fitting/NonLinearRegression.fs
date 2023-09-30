@@ -44,7 +44,17 @@ module NonLinearRegression =
     let createSolverOption minimumDeltaValue minimumDeltaParameters maximumIterations initialParamGuess = {
         MinimumDeltaValue = minimumDeltaValue; MinimumDeltaParameters = minimumDeltaParameters; MaximumIterations = maximumIterations; InitialParamGuess=initialParamGuess}
 
-    /// Returns the residual sum of squares (RSS) as a measure of discrepancy between the data and the used estimation model.
+    /// <summary>Returns the residual sum of squares (RSS) as a measure of discrepancy between the data and the used estimation model.</summary>
+    /// <remarks></remarks>
+    /// <param name="model"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="paramVector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getRSS (model: Model) (xData: float[]) (yData: float []) (paramVector: Vector<float>) =
         let sumOfSquaredResiduals =
             Array.fold2 (fun acc xValue yValue ->  
@@ -64,14 +74,37 @@ module NonLinearRegression =
             Matrix.setRow jacobian i gradient            
         jacobian
 
-    /// Returns the residual vector, each row i contains the difference between the yEst_i and the yData_i. 
+    /// <summary>Returns the residual vector, each row i contains the difference between the yEst_i and the yData_i. </summary>
+    /// <remarks></remarks>
+    /// <param name="model"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="paramVector"></param>
+    /// <param name="residualVector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let updateResidualVectorInPlace (model: Model) (xData: float[]) (yData: float []) (paramVector: Vector<float>) (residualVector: Vector<float>) = 
         for i = 0 to xData.Length-1 do 
             let yValueEst = model.GetFunctionValue paramVector xData.[i]
             residualVector.[i] <- (yValueEst - yData.[i])
         residualVector
 
-    /// Returns true if convergence criteria are met or a user defined number of iiterations has been carried out
+    /// <summary>Returns true if convergence criteria are met or a user defined number of iiterations has been carried out</summary>
+    /// <remarks></remarks>
+    /// <param name="currentValueRSS"></param>
+    /// <param name="newValueRSS"></param>
+    /// <param name="iterationCount"></param>
+    /// <param name="currentParamGuess"></param>
+    /// <param name="newParamGuess"></param>
+    /// <param name="solverOptions"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let shouldTerminate (currentValueRSS: float) (newValueRSS: float) (iterationCount:int) (currentParamGuess:Vector<float>) 
             (newParamGuess:Vector<float>) (solverOptions: SolverOptions)  = 
         //abs (newValueRSS-currentValueRSS) <= solverOptions.MinimumDeltaValue ||
@@ -86,8 +119,17 @@ module NonLinearRegression =
         |> not     
         
     module GaussNewton = 
-        /// Returns an collection of parameter vectors as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
-        /// model function. 
+        /// <summary>Returns an collection of parameter vectors as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given <br />model function. </summary>
+        /// <remarks></remarks>
+        /// <param name="model"></param>
+        /// <param name="solverOptions"></param>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) (xData: float[]) (yData: float []) = 
             let paramsAtIteration = new ResizeArray<vector>()
             let initialParamGuess = Vector.ofArray solverOptions.InitialParamGuess
@@ -110,16 +152,36 @@ module NonLinearRegression =
                     loop jacobian' residualVector' currentParamGuess' currentValueRSS' paramsAtIteration
             loop jacobian residualVector initialParamGuess initialValueRSS paramsAtIteration
         
-        /// Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
-        /// model function. 
+        /// <summary>Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given <br />model function. </summary>
+        /// <remarks></remarks>
+        /// <param name="model"></param>
+        /// <param name="solverOptions"></param>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let estimatedParams (model: Model) (solverOptions: SolverOptions) (xData: float[]) (yData: float []) = 
             let estParams = estimatedParamsVerbose model solverOptions xData yData
             estParams.[estParams.Count-1]
 
     module LevenbergMarquardt = 
 
-        /// Returns an collection of parameter vectors as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
-        /// model function. 
+        /// <summary>Returns an collection of parameter vectors as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given <br />model function. </summary>
+        /// <remarks></remarks>
+        /// <param name="model"></param>
+        /// <param name="solverOptions"></param>
+        /// <param name="lambdaInitial"></param>
+        /// <param name="lambdaFactor"></param>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (xData: float[]) (yData: float []) = 
             let paramsAtIteration = new ResizeArray<vector>()
             let initialParamGuess = Vector.ofArray solverOptions.InitialParamGuess
@@ -148,8 +210,19 @@ module NonLinearRegression =
                     loop lambda' jacobian' residualVector' currentParamGuess currentValueRSS paramsAtIteration
             loop lambdaInitial jacobian residualVector initialParamGuess initialValueRSS paramsAtIteration
 
-        /// Returns a parameter vector as a possible solution for least square based nonlinear fitting of a given dataset (xData, yData) with a given 
-        /// model function. 
+        /// <summary>Returns a parameter vector as a possible solution for least square based nonlinear fitting of a given dataset (xData, yData) with a given <br />model function. </summary>
+        /// <remarks></remarks>
+        /// <param name="model"></param>
+        /// <param name="solverOptions"></param>
+        /// <param name="lambdaInitial"></param>
+        /// <param name="lambdaFactor"></param>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let estimatedParams (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (xData: float[]) (yData: float []) = 
             let estParams = estimatedParamsVerbose model solverOptions  lambdaInitial lambdaFactor xData yData
             estParams.[estParams.Count-1]
@@ -197,8 +270,21 @@ module NonLinearRegression =
         let private scaleGradient (scaleFactors: vector) (gradient:vector) =
             Vector.cptMul scaleFactors gradient
         
-        /// Returns an collection of parameter vectors as a possible solution for least square based nonlinear fitting of a given dataset (xData, yData) with a given 
-        /// model function. 
+        /// <summary>Returns an collection of parameter vectors as a possible solution for least square based nonlinear fitting of a given dataset (xData, yData) with a given <br />model function. </summary>
+        /// <remarks></remarks>
+        /// <param name="model"></param>
+        /// <param name="solverOptions"></param>
+        /// <param name="lambdaInitial"></param>
+        /// <param name="lambdaFactor"></param>
+        /// <param name="lowerBound"></param>
+        /// <param name="upperBound"></param>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (lowerBound: vector) (upperBound: vector) (xData: float[]) (yData: float []) = 
             let paramsAtIteration = new ResizeArray<vector>()
             let initialParamGuess = Vector.ofArray solverOptions.InitialParamGuess
@@ -230,14 +316,40 @@ module NonLinearRegression =
                     loop lambda' jacobian' residualVector' currentParamGuessExt currentParamGuessInt currentValueRSS paramsAtIteration
             loop lambdaInitial jacobian residualVector initialParamGuess internalParamsGuess initialValueRSS paramsAtIteration
         
-        /// Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given 
-        /// model function. 
+        /// <summary>Returns a parameter vector as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given <br />model function. </summary>
+        /// <remarks></remarks>
+        /// <param name="model"></param>
+        /// <param name="solverOptions"></param>
+        /// <param name="lambdaInitial"></param>
+        /// <param name="lambdaFactor"></param>
+        /// <param name="lowerBound"></param>
+        /// <param name="upperBound"></param>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let estimatedParams (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (lowerBound: vector) (upperBound: vector) (xData: float[]) (yData: float []) = 
             let estParams = estimatedParamsVerbose model solverOptions  lambdaInitial lambdaFactor (lowerBound: vector) (upperBound: vector) xData yData
             estParams.[estParams.Count-1]
         
-        /// Returns a parameter vector tupled with its residual sum of squares (RSS) as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given
-        /// model function.
+        /// <summary>Returns a parameter vector tupled with its residual sum of squares (RSS) as a possible solution for linear least square based nonlinear fitting of a given dataset (xData, yData) with a given<br />model function.</summary>
+        /// <remarks></remarks>
+        /// <param name="model"></param>
+        /// <param name="solverOptions"></param>
+        /// <param name="lambdaInitial"></param>
+        /// <param name="lambdaFactor"></param>
+        /// <param name="lowerBound"></param>
+        /// <param name="upperBound"></param>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let estimatedParamsWithRSS (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (lowerBound: vector) (upperBound: vector) (xData: float[]) (yData: float []) =
             let estParams = estimatedParamsVerbose model solverOptions lambdaInitial lambdaFactor lowerBound upperBound xData yData
             estParams
@@ -260,9 +372,14 @@ module NonLinearRegression =
                 )
             data.[indexSmallest]
 
-        /// Returns an estimate for an initial parameter for the linear least square estimator for a given dataset (xData, yData).
-        /// The initial estimation is intended for a logistic function.
-        /// The returned parameters are the max y value, the steepness of the curve and the x value in the middle of the slope.
+        /// <summary>Returns an estimate for an initial parameter for the linear least square estimator for a given dataset (xData, yData).<br />The initial estimation is intended for a logistic function.<br />The returned parameters are the max y value, the steepness of the curve and the x value in the middle of the slope.</summary>
+        /// <remarks></remarks>
+        /// <param name="xData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let initialParam (xData: float[]) (yData: float[]) (cutoffPercentage: float)=
             let xRange = ((xData |> Array.max) - (xData |> Array.min))
             let yRange = ((yData |> Array.max) - (yData |> Array.min))
@@ -316,9 +433,16 @@ module NonLinearRegression =
             let steepness = abs slope
             [|maxY; steepness; midX|]
 
-        /// Returns an estimate for an initial parameter for the linear least square estimator for a given dataset (xData, yData).
-        /// The steepness is given as an array and not estimated. An initial estimate is returned for every given steepness.
-        /// The initial estimation is intended for a logistic function.
+        /// <summary>Returns an estimate for an initial parameter for the linear least square estimator for a given dataset (xData, yData).<br />The steepness is given as an array and not estimated. An initial estimate is returned for every given steepness.<br />The initial estimation is intended for a logistic function.</summary>
+        /// <remarks></remarks>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <param name="steepnessRange"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let initialParamsOverRange (xData: float[]) (yData: float[]) (steepnessRange: float []) =
             // works the same as initialParam for mid point estimation
             let yRange = abs ((yData |> Array.max) - (yData |> Array.min))
@@ -407,7 +531,14 @@ module NonLinearRegression =
                     gradientVector)    
             createModel parameterNames getFunctionValues getGradientValues
 
-        ///Takes the result of the linearization as initialGuessParams
+        /// <summary>Takes the result of the linearization as initialGuessParams</summary>
+        /// <remarks></remarks>
+        /// <param name="xData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let expSolverOptions (xData:float []) (yData:float [])= 
             //gets the linear representation of the problem and solves it by simple linear regression
             let initialParamGuess =
@@ -453,7 +584,14 @@ module NonLinearRegression =
             createModel parameterNames getFunctionValues getGradientValues
 
         
-        ///Takes the result of the linearization as initialGuessParams
+        /// <summary>Takes the result of the linearization as initialGuessParams</summary>
+        /// <remarks></remarks>
+        /// <param name="sample"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let logNormalOptions (sample:float []) = 
             //gets the linear representation of the problem and solves it by simple linear regression
             let initialParamGuess =
@@ -485,9 +623,18 @@ module NonLinearRegression =
 
     
         /////////////////////////
-        /// Exponentially modified Gaussian (EMG) of the form "y =  ((amp*std)/tau) * sqrt(PI/2.) * exp(1./2. * ((std/tau)**2.) - ((x-meanX)/tau)) * Erfc((1./sqrt(2.)) * ((std/tau)-((x-meanX)/std)))"
-
-
+        /// <summary>Exponentially modified Gaussian (EMG) of the form "y =  ((amp*std)/tau) * sqrt(PI/2.) * exp(1./2. * ((std/tau)**2.) - ((x-meanX)/tau)) * Erfc((1./sqrt(2.)) * ((std/tau)-((x-meanX)/std)))"</summary>
+        /// <remarks></remarks>
+        /// <param name="findZ"></param>
+        /// <param name="initMeanX"></param>
+        /// <param name="initStdev"></param>
+        /// <param name="initTau"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let private findZ initMeanX initStdev initTau x =
             1./sqrt(2.) * ((initStdev/initTau) - ((x - initMeanX) / initStdev))
 
@@ -531,7 +678,18 @@ module NonLinearRegression =
                                     gradientVector.[3] <-  (a * exp((-0.5 * (-xValue + m + s**2./t)**2.)/s**2. + 0.5 * (s/t)**2. - xValue/t + m/t) * s * (1. * s + ( (exp( (0.5 * (-xValue + m + s**2. / t)**2.)/s**2.)) * (-1.25331 * s**2. + (1.25331 * xValue - 1.25331 * m - 1.25331 * t) * t) * FSharp.Stats.SpecialFunctions.Errorfunction.Erfc((-0.707107 * (xValue - m))/s + (0.707107 * s)/t))/t))/t**3.              
 
                                     gradientVector 
-                                /// TODO: Derivation is causing arithmetic overflows, do again with erfcx.
+                                /// <summary>TODO: Derivation is causing arithmetic overflows, do again with erfcx.</summary>
+                                /// <remarks></remarks>
+                                /// <param name="a"></param>
+                                /// <param name="m"></param>
+                                /// <param name="s"></param>
+                                /// <param name="t"></param>
+                                /// <param name="xValue"></param>
+                                /// <returns></returns>
+                                /// <example>
+                                /// <code>
+                                /// </code>
+                                /// </example>
                                 let delleyGradient a m s t xValue =
                                     gradientVector.[0] <- (1.25331 * s * exp(0.5 * (((s/t) - ((xValue - m)/s))**2.) - ((0.5 * ((xValue - m)**2.))/(s**2.))) * SpecialFunctions.Errorfunction.Erfc(0.707107 * ((s/t) - ((xValue - m)/s)))) / t
                             
@@ -728,7 +886,17 @@ module NonLinearRegression =
                         gradientVector)
                 }
 
-            /// determines the solver options for cell count growth data (must be in log space). For untransformed data use 'id' as transform.
+            /// <summary>determines the solver options for cell count growth data (must be in log space). For untransformed data use 'id' as transform.</summary>
+            /// <remarks></remarks>
+            /// <param name="xData"></param>
+            /// <param name="yDataLog"></param>
+            /// <param name="expectedGenerationTime"></param>
+            /// <param name="usedLogTransform"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let getSolverOptionsGompertz (xData :float []) (yDataLog :float []) expectedGenerationTime (usedLogTransform: float -> float) =
                 // lower asymptote
                 let a = Seq.min yDataLog
