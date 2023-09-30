@@ -91,7 +91,7 @@ type NegativeBinomial_trials =
     /// <summary>Returns the support of the NegativeBinomial distribution: [0, max Int32).</summary>
     static member Support r p =
         NegativeBinomial_trials.CheckParam r p
-        (r, System.Int32.MaxValue)
+        Interval.CreateRightOpen<int>(r, Int32.MaxValue)
 
     /// A string representation of the distribution.
     static member ToString r p = 

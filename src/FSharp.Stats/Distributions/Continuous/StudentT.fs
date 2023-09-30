@@ -75,7 +75,7 @@ type StudentT =
     /// Returns the support of the exponential distribution: (Negative Infinity, Positive Infinity).
     static member Support mu tau dof =
         StudentT.CheckParam mu tau dof
-        (System.Double.NegativeInfinity, System.Double.PositiveInfinity)
+        Interval.CreateOpen<float>(Double.NegativeInfinity, Double.PositiveInfinity)
 
     /// A string representation of the distribution.
     static member ToString mu tau dof =

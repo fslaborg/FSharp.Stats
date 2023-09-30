@@ -75,7 +75,7 @@ type Chi =
     /// Returns the support of the exponential distribution: [0, Positive Infinity).
     static member Support dof =
         Chi.CheckParam dof
-        (0., System.Double.PositiveInfinity)
+        Interval.CreateRightOpen<float>(0.0, Double.PositiveInfinity)
 
 
     /// A string representation of the distribution.
