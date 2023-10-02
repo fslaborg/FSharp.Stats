@@ -6,7 +6,9 @@ module Precision =
    
     /// <summary>Compares two float values and determines if they differ by no more than specified by the maximum error.</summary>
     /// <remarks></remarks>
-    /// <param name="maximumError a b  "></param>
+    /// <param name="maximumError"></param>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
     /// <returns></returns>
     /// <example>
     /// <code>

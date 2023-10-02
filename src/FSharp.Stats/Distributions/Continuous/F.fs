@@ -174,20 +174,21 @@ type F =
             //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
             failwithf "InvCDF not implemented yet"
 
+    
+    /// <summary>Returns the support of the exponential distribution: if dof1 = 1 then (0., Positive Infinity) else [0., Positive Infinity).</summary>
     /// <remarks></remarks>
     /// <param name="dof1"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
-    /// Returns the support of the exponential distribution: if dof1 = 1 then (0., Positive Infinity) else [0., Positive Infinity).
+    /// </code>
+    /// </example>
     static member Support dof1 =
         dof1 |> F_Helpers.assertValidDof "dof1"
         if dof1 = 1 then
             Interval.CreateOpen<float>(0.0, Double.PositiveInfinity)
         else
             Interval.CreateRightOpen<float>(0.0, Double.PositiveInfinity)
-    /// </code>
-    /// </example>
 
     /// <summary>A string representation of the distribution.</summary>
     /// <remarks></remarks>

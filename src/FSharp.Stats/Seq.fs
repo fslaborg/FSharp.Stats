@@ -690,12 +690,8 @@ module Seq =
     /// let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
     /// 
     /// // To get the population covariance between x and y:
-    /// <summary>xy |> Seq.covPopulationOfPairs // evaluates to 347.92<br /></code> <br /></example></summary>
-    /// <remarks></remarks>
-    /// <param name="seq"></param>
+    /// xy |> Seq.covPopulationOfPairs // evaluates to 347.92
     /// <returns></returns>
-    /// <example>
-    /// <code>
     /// </code>
     /// </example>
     let inline covPopulationOfPairs (seq:seq<'T * 'T>) : 'U =
@@ -765,12 +761,8 @@ module Seq =
     /// let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
     /// 
     /// // To get the sample covariance between x and y:
-    /// <summary>xy |> Seq.covOfPairs // evaluates to 434.90<br /></code> <br /></example></summary>
+    /// xy |> Seq.covOfPairs // evaluates to 434.90
     /// <remarks></remarks>
-    /// <param name="seq"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
     /// </code>
     /// </example>
     let inline covOfPairs (seq:seq<'T * 'T>) : 'U =
