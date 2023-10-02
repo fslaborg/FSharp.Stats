@@ -625,7 +625,6 @@ module NonLinearRegression =
         /////////////////////////
         /// <summary>Exponentially modified Gaussian (EMG) of the form "y =  ((amp*std)/tau) * sqrt(PI/2.) * exp(1./2. * ((std/tau)**2.) - ((x-meanX)/tau)) * Erfc((1./sqrt(2.)) * ((std/tau)-((x-meanX)/std)))"</summary>
         /// <remarks></remarks>
-        /// <param name="findZ"></param>
         /// <param name="initMeanX"></param>
         /// <param name="initStdev"></param>
         /// <param name="initTau"></param>

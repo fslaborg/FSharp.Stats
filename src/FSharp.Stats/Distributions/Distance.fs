@@ -22,7 +22,6 @@ module Distance =
 
         /// <summary>Basic square function</summary>
         /// <remarks></remarks>
-        /// <param name="square"></param>
         /// <param name="x"></param>
         /// <returns></returns>
         /// <example>
@@ -33,7 +32,6 @@ module Distance =
 
         /// <summary>For value x, find index of the smallest value in sorted array which is larger than it</summary>
         /// <remarks></remarks>
-        /// <param name="getCDFIndices"></param>
         /// <param name="values"></param>
         /// <param name="x"></param>
         /// <returns></returns>
@@ -48,7 +46,6 @@ module Distance =
 
         /// <summary>Returns the index mapping required to sort the values from small to large</summary>
         /// <remarks></remarks>
-        /// <param name="getSortedIndices"></param>
         /// <param name="values"></param>
         /// <returns></returns>
         /// <example>
@@ -63,7 +60,6 @@ module Distance =
 
         /// <summary>Sort given values by the order of the indices</summary>
         /// <remarks></remarks>
-        /// <param name="sortByIndices"></param>
         /// <param name="indices"></param>
         /// <param name="values"></param>
         /// <returns></returns>
@@ -78,7 +74,6 @@ module Distance =
 
         /// <summary>Computes the normalized positions of allValues between the values of the distribution vs</summary>
         /// <remarks></remarks>
-        /// <param name="getCDF"></param>
         /// <param name="vs"></param>
         /// <param name="allValues"></param>
         /// <returns></returns>
@@ -98,7 +93,6 @@ module Distance =
 
         /// <summary>Computes the weight-normalized positions of allValues between the values of the distribution vs</summary>
         /// <remarks></remarks>
-        /// <param name="getWeightedCDF"></param>
         /// <param name="vs"></param>
         /// <param name="weights"></param>
         /// <param name="allValues"></param>
@@ -124,7 +118,6 @@ module Distance =
 
         /// <summary>Computes the distance between the two cumulative distributions</summary>
         /// <remarks></remarks>
-        /// <param name="computeDistanceOfCDFs"></param>
         /// <param name="p"></param>
         /// <param name="xCDFs"></param>
         /// <param name="yCDFs"></param>

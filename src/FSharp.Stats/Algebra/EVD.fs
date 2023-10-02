@@ -6,7 +6,6 @@ module EVD =
     
     /// <summary>Symmetric Householder reduction to tridiagonal form.</summary>
     /// <remarks></remarks>
-    /// <param name="tred2Inplace"></param>
     /// <param name="d"></param>
     /// <param name="e"></param>
     /// <param name="v"></param>
@@ -109,7 +108,6 @@ module EVD =
 
     /// <summary>Symmetric tridiagonal QL algorithm.</summary>
     /// <remarks></remarks>
-    /// <param name="tql2Inplace"></param>
     /// <param name="d"></param>
     /// <param name="e"></param>
     /// <param name="v"></param>

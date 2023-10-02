@@ -15,7 +15,6 @@ module FFT =
 
     /// <summary>Applying the given function to each of the elements of the array and returns the value in place.</summary>
     /// <remarks></remarks>
-    /// <param name="mapInPlace"></param>
     /// <param name="f"></param>
     /// <param name="arr"></param>
     /// <returns></returns>
@@ -31,7 +30,6 @@ module FFT =
 
     /// <summary>Reorder the elements of the input array in lexicographic order by the bits of their indices</summary>
     /// <remarks></remarks>
-    /// <param name="bitrev"></param>
     /// <param name="a"></param>
     /// <returns></returns>
     /// <example>
@@ -88,7 +86,7 @@ module FFT =
         | _ -> Complex.Zero
 
 
-    /// Bluestein�s convolution algorith
+    /// Bluesteins convolution algorith
     let private bluestein a = 
     
         let bluesteinSequence n = 

@@ -93,7 +93,6 @@ module KernelDensity =
 
     /// <summary>Applying the given function to each of the elements of the array and returns the value in place.</summary>
     /// <remarks></remarks>
-    /// <param name="mapInPlace"></param>
     /// <param name="f"></param>
     /// <param name="arr"></param>
     /// <returns></returns>

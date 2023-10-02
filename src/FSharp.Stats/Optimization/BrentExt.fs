@@ -8,7 +8,6 @@ module Brent =
     
     /// <summary>TO-DO: Refactor to global (ops)</summary>
     /// <remarks></remarks>
-    /// <param name="doubleEpsilon"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -18,7 +17,6 @@ module Brent =
 
     /// <summary>Compute stepsize</summary>
     /// <remarks></remarks>
-    /// <param name="computeNewStep"></param>
     /// <param name="x"></param>
     /// <param name="v"></param>
     /// <param name="w"></param>

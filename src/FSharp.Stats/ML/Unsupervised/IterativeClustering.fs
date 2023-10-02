@@ -114,7 +114,6 @@ module IterativeClustering =
     
     /// <summary>calculates mean based on subset of non-nan values</summary>
     /// <remarks></remarks>
-    /// <param name="meanNaN"></param>
     /// <param name="input"></param>
     /// <returns></returns>
     /// <example>
