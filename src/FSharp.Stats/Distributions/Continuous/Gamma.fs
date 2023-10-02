@@ -25,7 +25,15 @@ type Gamma =
         if alpha <= 0.0 || beta <= 0.0 then 
             failwith "Gamma distribution should be parametrized by alpha > 0.0, beta > 0.0."
 
-    /// Computes the mode.
+    /// <summary>Computes the mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode alpha beta =
         Gamma.CheckParam alpha beta
         if Double.IsPositiveInfinity(beta) then
@@ -37,21 +45,53 @@ type Gamma =
             //2./sqrt alpha
 
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean alpha beta =
         Gamma.CheckParam alpha beta
         alpha * beta
         
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance alpha beta =
         Gamma.CheckParam alpha beta
         alpha * (beta * beta)
         
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation alpha beta =
         sqrt (Gamma.Variance alpha beta)
         
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member SampleUnchecked alpha beta = 
         // Source: fsmathtools (same in MN)
         let mutable a = alpha
@@ -80,13 +120,30 @@ type Gamma =
             else gammaSample()
         alphafix * gammaSample() * beta
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample alpha beta = 
         // Source: fsmathtools (same in MN)
         Gamma.CheckParam alpha beta
         Gamma.SampleUnchecked alpha beta
         
-    /// Computes the probability density function.
+    /// <summary>Computes the probability density function.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PDF alpha beta x = 
         Gamma.CheckParam alpha beta
         match alpha,beta with
@@ -95,7 +152,16 @@ type Gamma =
         | 1., _ -> beta * exp(-beta*x)
         | _ -> Gamma.PDFLn alpha beta x |> exp
        
-    /// Computes the log probability density function.
+    /// <summary>Computes the log probability density function.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PDFLn alpha beta x = 
         Gamma.CheckParam alpha beta
         //shape rate
@@ -106,7 +172,16 @@ type Gamma =
         | _     -> (alpha - 1.) * log(x) - x / beta - (alpha * log(beta)
                     + SpecialFunctions.Gamma.gammaLn(alpha)) 
                     
-    /// Computes the cumulative distribution function.
+    /// <summary>Computes the cumulative distribution function.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF alpha beta x =
         Gamma.CheckParam alpha beta
         if alpha = 0.0 && beta = 0.0 then 
@@ -114,7 +189,16 @@ type Gamma =
         else 
             SpecialFunctions.Gamma.lowerIncompleteRegularized alpha (x / beta)
             
-    /// Computes the inverse cumulative distribution function (quantile function).
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF alpha beta x =
         Gamma.CheckParam alpha beta
         failwithf "not implemented yet"
@@ -160,18 +244,40 @@ type Gamma =
         let alpha,beta = Gamma.Fit(observations,maxIter,tol)
         Gamma.Init alpha beta 
 
-    /// Returns the support of the gamma distribution: (0, Positive Infinity).
+    /// <summary>Returns the support of the gamma distribution: [0, Positive Infinity).</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support alpha beta =
         Gamma.CheckParam alpha beta
         Interval.CreateOpen<float>(0.0, Double.PositiveInfinity)
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString alpha beta = 
         sprintf "Gamma(α = %f, β = %f)" alpha beta
 
-    /// Initializes a Gamma distribution
-    /// alpha = shape (k) 
-    /// beta  = scale || 1 / rate (θ)
+    /// <summary>Initializes a Gamma distribution<br />alpha = shape (k) <br />beta  = scale || 1 / rate (θ)</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="beta"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init alpha beta =
         { new ContinuousDistribution<float,float> with            
             member d.Mean              = Gamma.Mean alpha beta
@@ -188,16 +294,28 @@ type Gamma =
             override d.ToString()  = Gamma.ToString alpha beta
         }
 
-    /// Initializes a Gamma distribution
-    /// alpha = shape (k) 
-    /// beta  = scale || 1 / rate (θ)
+    /// <summary>Initializes a Gamma distribution<br />alpha = shape (k) <br />beta  = scale || 1 / rate (θ)</summary>
+    /// <remarks></remarks>
+    /// <param name="shape"></param>
+    /// <param name="rate"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member FromRate shape rate =
         let alpha = shape
         let beta = 1. / rate 
         Gamma.Init alpha beta
 
-    /// Initializes a Gamma distribution
-    /// alpha = shape (k) 
-    /// beta  = scale || 1 / rate (θ)
+    /// <summary>Initializes a Gamma distribution<br />alpha = shape (k) <br />beta  = scale || 1 / rate (θ)</summary>
+    /// <remarks></remarks>
+    /// <param name="alpha"></param>
+    /// <param name="mean"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member FromMean alpha mean =
         Gamma.Init alpha (mean / alpha)

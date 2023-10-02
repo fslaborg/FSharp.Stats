@@ -371,7 +371,17 @@ namespace FSharp.Stats
             assignArray m f arr;
             mkVecGU ops arr
 
-        /// Create a matrix from a sparse sequence 
+        /// <summary>Create a matrix from a sparse sequence </summary>
+        /// <remarks></remarks>
+        /// <param name="maxi"></param>
+        /// <param name="maxj"></param>
+        /// <param name="ops"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let initSparseMatrixGU maxi maxj ops s = 
 
             (* nb. could use sorted dictionary but that is in System.dll *)
@@ -1362,7 +1372,16 @@ namespace FSharp.Stats
             | DenseRepr a -> GU.nonzeroEntriesDenseMatrixGU a 
             | SparseRepr a -> GU.nonZeroEntriesSparseMatrixGU a 
 
-        /// Merge two sorted sequences
+        /// <summary>Merge two sorted sequences</summary>
+        /// <remarks></remarks>
+        /// <param name="cf"></param>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let mergeSorted cf (s1: seq<'T>) (s2: seq<'b>) =
             seq { use e1 = s1.GetEnumerator()
                   use e2 = s2.GetEnumerator()
@@ -2048,7 +2067,16 @@ namespace FSharp.Stats
         let inR    ((a,b) : range) i = a <= i && i <= b
         ///Returns row of index i of matrix a as a vector
         let getRowM  (a:Matrix<_>) i = createRVx (opsM a) a.NumCols (fun j -> a.[i,j])
-        ///Replaces row of index j of matrix a with values of vector v, if vector length matches rowsize
+        /// <summary>Replaces row of index j of matrix a with values of vector v, if vector length matches rowsize</summary>
+        /// <remarks></remarks>
+        /// <param name="a"></param>
+        /// <param name="i"></param>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let setRowM (a:Matrix<_>) i (v:Vector<_>) = 
             if a.NumCols = v.Length then
                 let l = v.Length-1
@@ -2060,7 +2088,16 @@ namespace FSharp.Stats
                 failwith ("Can't set row, vector is shorter than matrix column number")
         ///Returns col of index i of matrix a as a vector
         let getColM  (a:Matrix<_>) j = createVx (opsM a) a.NumRows (fun i -> a.[i,j])
-        ///Replaces column of index i of matrix a with values of vector v, if vector length matches columnsize
+        /// <summary>Replaces column of index i of matrix a with values of vector v, if vector length matches columnsize</summary>
+        /// <remarks></remarks>
+        /// <param name="a"></param>
+        /// <param name="j"></param>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let setColM (a:Matrix<_>) j (v:Vector<_>) = 
             if a.NumCols = v.Length then
                 let l = v.Length-1

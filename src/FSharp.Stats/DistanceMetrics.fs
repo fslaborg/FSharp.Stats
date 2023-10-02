@@ -37,7 +37,6 @@ module DistanceMetrics =
                     if (v1[i] <> v2[i]) then dist <- dist + 1
             dist
         
-        /// Euclidean distance between 2 vectors
         let inline euclidean (v1:Vector<'a>) (v2:Vector<'a>) = 
             let dim = min v1.Length v2.Length
             let mutable dist = LanguagePrimitives.GenericZero< 'a > 
@@ -48,7 +47,15 @@ module DistanceMetrics =
             |> sqrt
         
 
-        /// Squared Euclidean distance between 2 vectors
+        /// <summary>Squared Euclidean distance between 2 vectors</summary>
+        /// <remarks></remarks>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline euclideanSquared (v1:Vector<'a>) (v2:Vector<'a>) = 
             let dim = min v1.Length v2.Length
             let mutable dist = LanguagePrimitives.GenericZero< 'a >
@@ -57,7 +64,15 @@ module DistanceMetrics =
                 dist <- dist + (x * x)
             float dist
         
-        /// Euclidean distance between 2 vectors (ignores nan) 
+        /// <summary>Euclidean distance between 2 vectors (ignores nan) </summary>
+        /// <remarks></remarks>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let euclideanNaN (v1:Vector<float>) (v2:Vector<float>) = 
             let dim = min v1.Length v2.Length
             let mutable dist = 0.0 
@@ -67,7 +82,15 @@ module DistanceMetrics =
                     dist <- dist + (x * x)
             sqrt dist 
 
-        /// Cityblock distance of two vectors
+        /// <summary>Cityblock distance of two vectors</summary>
+        /// <remarks></remarks>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline cityblock (v1:Vector<'a>) (v2:Vector<'a>) = 
             let dim = min v1.Length v2.Length
             let mutable dist = LanguagePrimitives.GenericZero< 'a > 
@@ -79,7 +102,15 @@ module DistanceMetrics =
                 dist <- dist + x
             float dist
 
-        /// Cityblock distance of two vectors
+        /// <summary>Cityblock distance of two vectors</summary>
+        /// <remarks></remarks>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline cityblockNaN (v1:Vector<float>) (v2:Vector<float>) = 
             let dim = min v1.Length v2.Length
             let mutable dist = 0.
@@ -117,7 +148,15 @@ module DistanceMetrics =
             dist
             
         
-        /// Euclidean distance of two coordinate arrays
+        /// <summary>Euclidean distance of two coordinate arrays</summary>
+        /// <remarks></remarks>
+        /// <param name="a1"></param>
+        /// <param name="a2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline euclidean (a1:array<'a>) (a2:array<'a>) = 
             let dim = min a1.Length a2.Length
             let mutable dist = LanguagePrimitives.GenericZero< 'a > 
@@ -127,7 +166,15 @@ module DistanceMetrics =
             float dist
             |> sqrt         
         
-        /// Euclidean distance of two coordinate float arrays (ignores nan)
+        /// <summary>Euclidean distance of two coordinate float arrays (ignores nan)</summary>
+        /// <remarks></remarks>
+        /// <param name="a1"></param>
+        /// <param name="a2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let euclideanNaN (a1:array<float>) (a2:array<float>) =                     
             let dim = min a1.Length a2.Length
             let mutable dist = 0.0 
@@ -137,7 +184,15 @@ module DistanceMetrics =
                     dist <- dist + (x * x)
             sqrt dist 
 
-        /// Squared Euclidean distance of two coordinate float arrays (ignores nan)
+        /// <summary>Squared Euclidean distance of two coordinate float arrays (ignores nan)</summary>
+        /// <remarks></remarks>
+        /// <param name="a1"></param>
+        /// <param name="a2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let euclideanNaNSquared (a1:array<float>) (a2:array<float>) =               
             let dim = min a1.Length a2.Length
             let mutable dist = 0.0
@@ -147,7 +202,15 @@ module DistanceMetrics =
                     dist <- dist + (x * x)
             float dist
 
-        /// Cityblock distance of two coordinate arrays
+        /// <summary>Cityblock distance of two coordinate arrays</summary>
+        /// <remarks></remarks>
+        /// <param name="a1"></param>
+        /// <param name="a2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline cityblock (a1:array<'a>) (a2:array<'a>) = 
             let dim = min a1.Length a2.Length
             let mutable dist = LanguagePrimitives.GenericZero< 'a > 
@@ -159,7 +222,15 @@ module DistanceMetrics =
                 dist <- dist + x
             float dist
 
-        /// Cityblock distance of two coordinate float arrays (ignores nan)
+        /// <summary>Cityblock distance of two coordinate float arrays (ignores nan)</summary>
+        /// <remarks></remarks>
+        /// <param name="a1"></param>
+        /// <param name="a2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let cityblockNaN (a1:array<float>) (a2:array<float>) = 
             let dim = min a1.Length a2.Length
             let mutable dist = 0.0
@@ -192,7 +263,15 @@ module DistanceMetrics =
             |> Seq.filter (fun (c1, c2) -> c1 <> c2)
             |> Seq.length
     
-    /// Euclidean distance of two coordinate sequences
+    /// <summary>Euclidean distance of two coordinate sequences</summary>
+    /// <remarks></remarks>
+    /// <param name="s1"></param>
+    /// <param name="s2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline euclidean (s1:seq<'a>) (s2:seq<'a>) = 
         Seq.zip s1 s2
         |> Seq.fold (fun acc (c1,c2) -> 
@@ -201,7 +280,15 @@ module DistanceMetrics =
         |> sqrt
        
         
-    /// Euclidean distance of two coordinate float sequences (ignores nan)
+    /// <summary>Euclidean distance of two coordinate float sequences (ignores nan)</summary>
+    /// <remarks></remarks>
+    /// <param name="s1"></param>
+    /// <param name="s2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let euclideanNaN (s1:seq<float>) (s2:seq<float>) =    
         Seq.zip s1 s2
         |> Seq.fold (fun acc (c1,c2) -> 
@@ -213,7 +300,15 @@ module DistanceMetrics =
                                
         |> sqrt
             
-    /// Squared Euclidean distance of two coordinate float sequences (ignores nan)
+    /// <summary>Squared Euclidean distance of two coordinate float sequences (ignores nan)</summary>
+    /// <remarks></remarks>
+    /// <param name="s1"></param>
+    /// <param name="s2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let euclideanNaNSquared (s1:seq<float>) (s2:seq<float>) =            
         Seq.zip s1 s2
         |> Seq.fold (fun acc (c1,c2) -> 
@@ -223,7 +318,15 @@ module DistanceMetrics =
                             else acc    
                     ) 0.
                                
-    /// Cityblock distance of two coordinate float sequences
+    /// <summary>Cityblock distance of two coordinate float sequences</summary>
+    /// <remarks></remarks>
+    /// <param name="s1"></param>
+    /// <param name="s2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline cityblock (s1:seq<'a>) (s2:seq<'a>) = 
         Seq.zip s1 s2
         |> Seq.fold (fun acc (c1,c2) ->
@@ -233,7 +336,15 @@ module DistanceMetrics =
                     ) LanguagePrimitives.GenericZero< 'a > 
         |> float
 
-    /// Cityblock distance of two coordinate float sequences
+    /// <summary>Cityblock distance of two coordinate float sequences</summary>
+    /// <remarks></remarks>
+    /// <param name="s1"></param>
+    /// <param name="s2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let cityblockNaN (s1:seq<float>) (s2:seq<float>) = 
         Seq.zip s1 s2
         |> Seq.fold (fun acc (c1,c2) ->
@@ -255,7 +366,15 @@ module DistanceMetrics =
         elif two < three then two
         else three
 
-    /// Levenshtein distance between
+    /// <summary>Levenshtein distance between</summary>
+    /// <remarks></remarks>
+    /// <param name="s"></param>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let wagnerFischerLazy (s: string) (t: string) =
         let m = s.Length
         let n = t.Length

@@ -12,26 +12,56 @@ module ContinuousWavelet =
     module HelperFunctions =
 
         module Time =
-            ///getDiff: calculates the time span between the two events as total minutes (float)
+            /// <summary>getDiff: calculates the time span between the two events as total minutes (float)</summary>
+            /// <remarks></remarks>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let getDiffMinutes (a: DateTime) (b: DateTime) =
                 a - b
                 |> fun x -> x.TotalMinutes 
 
         module Float =
-            ///getDiff: calculates the difference of the two events (-)
+            /// <summary>getDiff: calculates the difference of the two events (-)</summary>
+            /// <remarks></remarks>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let getDiffFloat (a: float) (b: float) =
                 a - b
 
         module Int =
-            ///getDiff: calculates the difference of the two events
+            /// <summary>getDiff: calculates the difference of the two events</summary>
+            /// <remarks></remarks>
+            /// <param name="a"></param>
+            /// <param name="b"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let getDiffInt (a: int) (b: int) =
                 (float a) - (float b)
 
-    ///calculates the continuous wavelet transform: 
-    ///data: data to transform (x_Value,y_Value) [];
-    ///getDiff: get the difference in x_Values as float representation (if 'a is float then (-))
-    ///borderpadding: define the number of points padded to the beginning and end of the data (has to be the same as used in padding)
-    ///wavelet: used wavelet
+    /// <summary>calculates the continuous wavelet transform</summary>
+    /// <remarks></remarks>
+    /// <param name="paddedData">data to transform (x_Value,y_Value) []</param>
+    /// <param name="getDiff">get the difference in x_Values as float representation (if 'a is float then (-))</param>
+    /// <param name="borderpadding">define the number of points padded to the beginning and end of the data (has to be the same as used in padding)</param>
+    /// <param name="wavelet">used wavelet</param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline transform (paddedData : ('a * float) []) (getDiff: 'a -> 'a -> float) (borderpadding : int) (wavelet: Wavelet.Ricker) =
         let n = paddedData.Length
         let rickerPadd = wavelet.PaddingArea
@@ -72,7 +102,15 @@ module ContinuousWavelet =
             currentX,energycorrection correlationValue 
             )
 
-    ///minDistance is half the median spacing; maxDistance is 10 times the median spacing; internal padding=linear interpolation; hugeGap padding=random
+    /// <summary>minDistance is half the median spacing; maxDistance is 10 times the median spacing; internal padding=linear interpolation; hugeGap padding=random</summary>
+    /// <remarks></remarks>
+    /// <param name="rawData"></param>
+    /// <param name="wavelet"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let transformDefault (rawData : (float * float) []) (wavelet: Wavelet.Ricker) =
         let n = rawData.Length
         let spacing =
@@ -92,7 +130,15 @@ module ContinuousWavelet =
             Padding.pad rawData minDistance maxDistance (-) (+) paddingArea Padding.BorderPaddingMethod.Random Padding.InternalPaddingMethod.LinearInterpolation Padding.HugeGapPaddingMethod.Random
         transform paddedData (-) paddingArea wavelet
 
-    ///minDistance is half the overall minimum spacing; maxDistance is infinity; internal padding=zero; hugeGap padding=zero (but redundant)
+    /// <summary>minDistance is half the overall minimum spacing; maxDistance is infinity; internal padding=zero; hugeGap padding=zero (but redundant)</summary>
+    /// <remarks></remarks>
+    /// <param name="rawData"></param>
+    /// <param name="wavelet"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let transformDefaultZero (rawData : (float * float) []) (wavelet: Wavelet.Ricker) =
         let n = rawData.Length
         let spacing =
@@ -112,7 +158,16 @@ module ContinuousWavelet =
 
     module Discrete = 
         
-        //performs a continuous wavelet transform on discrete data. (paddingNumber = borderpadding)
+        /// <summary>performs a continuous wavelet transform on discrete data. (paddingNumber = borderpadding)</summary>
+        /// <remarks></remarks>
+        /// <param name="paddedData"></param>
+        /// <param name="borderpadding"></param>
+        /// <param name="wavelet"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline transform (paddedData: 'a []) (borderpadding: int) (wavelet: Wavelet.Ricker) =
             let n = paddedData.Length - borderpadding * 2
             let offset = wavelet.PaddingArea |> int
@@ -130,8 +185,17 @@ module ContinuousWavelet =
 
         module ThreeDimensional =
             
-            //performs a continuous wavelet transform on discrete data. (paddingNumber = borderpadding)
-            let inline transform (paddedData: 'a [,]) (borderpadding: int) (wavelet: Wavelet.Marr) =
+            /// <summary>performs a continuous wavelet transform on discrete data. (paddingNumber = borderpadding)</summary>
+            /// <remarks></remarks>
+            /// <param name="paddedData"></param>
+            /// <param name="borderpadding"></param>
+            /// <param name="wavelet"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
+           let inline transform (paddedData: 'a [,]) (borderpadding: int) (wavelet: Wavelet.Marr) =
                     let resolutionPixelfst = (Array2D.length1 paddedData) - borderpadding * 2
                     let resolutionPixelsnd = (Array2D.length2 paddedData) - borderpadding * 2
                     let offset = wavelet.PaddingArea |> ceil |> int

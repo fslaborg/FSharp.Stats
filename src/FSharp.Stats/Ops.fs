@@ -44,46 +44,111 @@ module Ops =
     ///// Float NaN.
     //let NaN = System.Double.NaN
     
-    /// Returns the logarithm for x in base 2.
+    /// <summary>Returns the logarithm for x in base 2.</summary>
+    /// <remarks></remarks>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let log2 x = System.Math.Log(x, 2.0)
     
-    /// Returns the logarithm for x in base 10.
+    /// <summary>Returns the logarithm for x in base 10.</summary>
+    /// <remarks></remarks>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let log10 x = System.Math.Log10(x)    
 
     /// Returs true if x is nan (generics) equality
     //let inline isNan< ^T when ^T : equality > (num:^T) :  bool = num <> num
     let inline isNan num = num <> num
 
-    /// Returs true if x is infinity (generics)
+    /// <summary>Returs true if x is infinity (generics)</summary>
+    /// <remarks></remarks>
+    /// <param name="isInf"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline isInf< ^T when ^T : 
         (static member IsInfinity : ^T -> bool)> (num:^T) :bool =
       (^T : (static member IsInfinity : ^T -> bool) (num))
 
-    /// Returs true if x is positive infinity (generics)
+    /// <summary>Returs true if x is positive infinity (generics)</summary>
+    /// <remarks></remarks>
+    /// <param name="isPosInf"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline isPosInf< ^T when ^T : 
         (static member IsPositiveInfinity : ^T -> bool)> (num:^T) :bool =
       (^T : (static member IsPositiveInfinity : ^T -> bool) (num))
     
-    /// Returs true if x is positive infinity (generics)
+    /// <summary>Returs true if x is positive infinity (generics)</summary>
+    /// <remarks></remarks>
+    /// <param name="isNegInf"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline isNegInf< ^T when ^T : 
         (static member IsNegativeInfinity : ^T -> bool)> (num:^T) :bool =
       (^T : (static member IsNegativeInfinity : ^T -> bool) (num))
 
-    /// Returns the reverted log2 (2^x)
+    /// <summary>Returns the reverted log2 (2^x)</summary>
+    /// <remarks></remarks>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let revLog2 x = 2.**x
 
-    /// Returns x squared (x^2)
+    /// <summary>Returns x squared (x^2)</summary>
+    /// <remarks></remarks>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline square x = x * x
 
     ///
     let arsinh x =  
         x + sqrt(square x + 1.) |> log
 
-    /// Rounds a double-precision floating-point value to a specified number of fractional digits.  
+    /// <summary>Rounds a double-precision floating-point value to a specified number of fractional digits.  </summary>
+    /// <remarks></remarks>
+    /// <param name="digits"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let round (digits:int) (x:float) =
         System.Math.Round(x, digits)
     
-    /// Signum function, assigns a positive sign to a with respect to the signing of b. 
+    /// <summary>Signum function, assigns a positive sign to a with respect to the signing of b. </summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let signum (a:float) (b:float) =
         if b >= 0. then 
             if a >= 0. then a else -a

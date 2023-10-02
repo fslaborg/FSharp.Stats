@@ -6,7 +6,15 @@ module Spline =
     open FSharp.Stats
     open FSharp.Stats.Algebra
 
-    /// Some preprocessing of the input data
+    /// <summary>Some preprocessing of the input data</summary>
+    /// <remarks></remarks>
+    /// <param name="preprocess"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let internal preprocess (data : (float*float) []) =
         if Array.length data < 3 then failwith "Too little input points"
         data 
@@ -20,8 +28,14 @@ module Spline =
     let internal checkSmoothingParameter l =
         if l < 0. then failwith "smoothing parameter should be positive"
     
-    /// Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts.
-    /// The resulting function takes lambda (regularization parameter) and a x_Value as input. 
+    /// <summary>Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts.<br />The resulting function takes lambda (regularization parameter) and a x_Value as input. </summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let smoothingSpline (data: (float*float) []) (basispts: float []) =
         //https://robjhyndman.com/etc5410/splines.pdf
         // Some preprocessing

@@ -17,7 +17,16 @@ open FSharp.Stats.Integration
 /// method from: QUANTILES FROM THE MAXIMUM STUDENTIZED RANGE DISTRIBUTION, Ferreira, Rev. Mat. Estat., v.25, n.1, p.117-135, 2007
 /// table from: Tables of range and studentized range, Harter, 1960 and Lawal B, Applied Statistical Methods in Agriculture, Health and Life Sciences, DOI 10.1007/978-3-319-05555-8, 2014
 type StudentizedRange =
-    /// Studentized range distribution helper functions.
+    /// <summary>tudentized range distribution helper functions.</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="r"></param>
+    /// <param name="v"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CheckParam q r v = 
         if  System.Double.IsNaN(q) || 
             System.Double.IsNaN(r) || 
@@ -51,10 +60,19 @@ type StudentizedRange =
     static member PDF =
         failwithf "Not implemented yet"
 
-    /// Computes the cumulative density function.
-    /// Accuracy defines the number of steps within the integration (Recommended: 1k-10k, default: 2k). pValue accuracy is minimum 3 digits for v>3 at pValue=0.05.
-    /// q:qValue r:number of treatments v:df (n-r) c:1.
-    /// Integration can be performed in parallel using PSeq
+    /// <summary>Computes the cumulative density function.<br />Accuracy defines the number of steps within the integration (Recommended: 1k-10k, default: 2k). pValue accuracy is minimum 3 digits for v>3 at pValue=0.05.<br />q:qValue r:number of treatments v:df (n-r) c:1.<br />Integration can be performed in parallel using PSeq</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="r"></param>
+    /// <param name="v"></param>
+    /// <param name="c"></param>
+    /// <param name="accuracy"></param>
+    /// <param name="computeParallel"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF q r v c accuracy computeParallel =
         // An alternative (not implemented) algorithm makes use of t statistic to approximate q quite accurate: 
         // An accurate, non-iterativeapproximation for studentizedrange quantiles John R. Gleason ,Computational Statistics & Data Analysis 31 (1999) 147           
@@ -90,14 +108,32 @@ type StudentizedRange =
         f q r v c
 
     
-    /// Computes the inverse cumulative distribution function (quantile function).
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="r"></param>
+    /// <param name="v"></param>
+    /// <param name="c"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF q r v c =
         failwithf "InvCDF not implemented yet"
     
-    /// Initializes a studentized range distribution.     
-    /// Accuracy defines the number of steps within the CDF integration (Recommended: 1k-10k, default: 2k). pValue accuracy is minimum 3 digits for v>3.
-    /// q:qValue r:number of treatments v:df (n-r) c:1.   
-    /// Integration can be performed in parallel using PSeq
+    /// <summary>Initializes a studentized range distribution.     <br />Accuracy defines the number of steps within the CDF integration (Recommended: 1k-10k, default: 2k). pValue accuracy is minimum 3 digits for v>3.<br />q:qValue r:number of treatments v:df (n-r) c:1.   <br />Integration can be performed in parallel using PSeq</summary>
+    /// <remarks></remarks>
+    /// <param name="r"></param>
+    /// <param name="v"></param>
+    /// <param name="c"></param>
+    /// <param name="accuracy"></param>
+    /// <param name="computeParallel"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init r v c accuracy computeParallel =
         { new ContinuousDistribution<float,float> with
             member d.Mean              = StudentizedRange.Mean

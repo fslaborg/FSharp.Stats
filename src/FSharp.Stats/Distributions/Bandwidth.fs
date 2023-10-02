@@ -9,28 +9,67 @@ module Bandwidth =
     /// Compute the number of bins for a histogram
     module BinNumber =
         
-        /// Compute the number of bins from bandwidth
+        /// <summary>Compute the number of bins from bandwidth</summary>
+        /// <remarks></remarks>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="bw"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let fromBandwidth (min,max) bw =            
             ceil ((max - min) / bw)
             
-        /// Square-root choice
+        /// <summary>Square-root choice</summary>
+        /// <remarks></remarks>
+        /// <param name="ndataLength"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let sqrt ndataLength =
             sqrt ndataLength
 
 
-        /// Sturges' formula is derived from a binomial distribution and implicitly assumes an approximately normal distribution.
+        /// <summary>Sturges' formula is derived from a binomial distribution and implicitly assumes an approximately normal distribution.</summary>
+        /// <remarks></remarks>
+        /// <param name="ndataLength"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let sturges ndataLength =
             ceil (1. + log2 ndataLength)
 
 
-        ///The Rice Rule is presented as a simple alternative to Sturges's rule.
+        /// <summary>The Rice Rule is presented as a simple alternative to Sturges's rule.</summary>
+        /// <remarks></remarks>
+        /// <param name="ndataLength"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let riceRule ndataLength =            
             ceil (2. * (ndataLength ** (1./3.)))
 
 
     
     
-    /// Calculates the bandwidth from min max and number of bins
+    /// <summary>Calculates the bandwidth from min max and number of bins</summary>
+    /// <remarks></remarks>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    /// <param name="nBins"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline fromBinNumber min max nBins =
         let tmp = (float nBins)
         if tmp < 0. then raise (System.ArgumentException("need at least 2 data points")) 
@@ -38,7 +77,14 @@ module Bandwidth =
             (max - min ) / tmp
 
     
-    /// Simple bandwidth for histogram
+    /// <summary>Simple bandwidth for histogram</summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let forHistogram data =
         let data' =
             data
@@ -51,7 +97,14 @@ module Bandwidth =
         fromBinNumber dmin dmax (float(Seq.length(data)))
         
 
-    /// Calcultes bandwidth according to Scott's normal reference rule
+    /// <summary>Calcultes bandwidth according to Scott's normal reference rule</summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let scottNormal (data:float[]) =
         let xLength = float data.Length
         if (xLength < 2. ) then raise (System.ArgumentException("need at least 2 data points"))
@@ -59,7 +112,14 @@ module Bandwidth =
         (3.5 * ssd) / (xLength ** (1./3.))
 
 
-    /// Calcultes bandwidth based on the Freedman–Diaconis rule
+    /// <summary>Calcultes bandwidth based on the Freedman–Diaconis rule</summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let freedmanDiaconis (data:float[]) =
         let xLength = float data.Length
         if (xLength < 2. ) then raise (System.ArgumentException("need at least 2 data points"))
@@ -69,7 +129,14 @@ module Bandwidth =
 
     //  It defaults to 0.9 times the minimum of the standard deviation and the interquartile range divided by 1.34 times
     //  the sample size to the negative one-fifth power (= Silverman's ‘rule of thumb’, Silverman (1986, page 48, eqn (3.31)) unless the quartiles coincide when a positive result will be guaranteed.
-    /// Implements Silverman's ‘rule of thumb’ for choosing the bandwidth of a Gaussian kernel density estimator.
+    /// <summary>Implements Silverman's ‘rule of thumb’ for choosing the bandwidth of a Gaussian kernel density estimator.</summary>
+    /// <remarks></remarks>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let nrd0 (x:float[]) =
         let xLength = x.Length
         if (xLength < 2 ) then raise (System.ArgumentException("need at least 2 data points"))
@@ -91,7 +158,15 @@ module Bandwidth =
 
     //  Scott and Terrell, 1987 || Silverman, 1986
     //  implementaion according to R! bw.ucv 
-    /// Least squares cross-validation of bandwidth (unbiased)
+    /// <summary>Least squares cross-validation of bandwidth (unbiased)</summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <param name="numberOfBins"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let uLSCV (data:float[]) (numberOfBins:option<int>) =
         // <- bandwidth counts 
         let bandUcvBin (h:float) (n:int) (nbin:int) (d:float) (x:int[]) =

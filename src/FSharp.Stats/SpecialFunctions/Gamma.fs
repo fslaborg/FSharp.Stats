@@ -214,13 +214,27 @@ module Gamma =
             elif (x < a+1.0) then 1.0 - gser a x
             else gcf a x
     
-    /// Returns the lower incomplete gamma function
-    /// gamma(a,x) = int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.
+    /// <summary>Returns the lower incomplete gamma function<br />gamma(a,x) = int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let lowerIncomplete a x =
         (lowerIncompleteRegularized a x) * gamma(a)
 
-    /// Returns the upper incomplete gamma function
-    /// Gamma(a,x) = int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.
+    /// <summary>Returns the upper incomplete gamma function<br />Gamma(a,x) = int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let upperIncomplete a x =
         (upperIncompleteRegularized a x) * gamma(a)
 

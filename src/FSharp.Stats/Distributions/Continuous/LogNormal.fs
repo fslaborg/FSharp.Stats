@@ -18,28 +18,68 @@ type LogNormal =
         if System.Double.IsNaN(mu) || sigma < 0.0 then 
             failwith "Log-Normal distribution should be parametrized by tau > 0.0."
 
-    /// Computes the mode.
+    /// <summary>Computes the mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode mu sigma =
         LogNormal.CheckParam mu sigma
         exp(mu - (sigma*sigma))
     
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean mu sigma =
         LogNormal.CheckParam mu sigma
         exp(mu + (sigma*sigma/2.0))
 
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance mu sigma =
         LogNormal.CheckParam mu sigma
         (exp(sigma * sigma) - 1.) * (exp(2. * mu + sigma * sigma))
 
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation mu sigma =
         LogNormal.CheckParam mu sigma
         let tau2 =  sigma * sigma
         sqrt (exp(tau2) - 1.0) * exp(mu + mu + tau2)
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample mu sigma =
         // Source: fsmathtools
         LogNormal.CheckParam mu sigma
@@ -54,7 +94,16 @@ type LogNormal =
         exp (sigma * v1 * fac + mu)
         //failwith "Not implemented yet."
 
-    /// Computes the probability density function.
+    /// <summary>Computes the probability density function.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PDF mu sigma x =
         LogNormal.CheckParam mu sigma
         if x <= 0. then failwithf "x must by > 0."
@@ -62,26 +111,68 @@ type LogNormal =
         let b = - ((log x - mu)**2.) / (2. * sigma * sigma)
         a * exp b
         
-    /// Computes the cumulative distribution function.
+    /// <summary>Computes the cumulative distribution function.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF mu sigma x =
         LogNormal.CheckParam mu sigma            
         0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((log x - mu)/(sigma*(sqrt 2.0))))
 
-    /// Computes the inverse cumulative distribution function (quantile function).
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF mu sigma x =
         LogNormal.CheckParam mu sigma            
         Math.Exp (Normal.InvCDF mu sigma x)
  
-    /// Returns the support of the log normal distribution: (0, Positive Infinity).
+    /// <summary>Returns the support of the log normal distribution: [0, Positive Infinity).</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support mu sigma =
         LogNormal.CheckParam mu sigma
         Interval.CreateOpen<float>(0., Double.PositiveInfinity)
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString mu sigma =
         sprintf "LogNormal(μ = %f, σ = %f)" mu sigma
 
-    /// Initializes a Normal distribution 
+    /// <summary>Initializes a Normal distribution </summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init mu sigma =
         { new ContinuousDistribution<float,float> with
             member d.Mean              = LogNormal.Mean mu sigma
@@ -97,7 +188,14 @@ type LogNormal =
             override d.ToString()      = LogNormal.ToString mu sigma
         }
 
-    /// Estimates the log-normal distribution parameters from sample data with maximum-likelihood.
+    /// <summary>Estimates the log-normal distribution parameters from sample data with maximum-likelihood.</summary>
+    /// <remarks></remarks>
+    /// <param name="samples"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Estimate samples =
         let s = 
             samples

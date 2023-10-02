@@ -63,7 +63,15 @@ module RowVector =
     let of_array arr = ofArray arr
     [<Obsolete("Use toArray instead.")>]
     let to_array m   = toArray m
-    ///Builds a new rowvector whose elements are the results of applying the given function to each of the elements of the rowvector.
+    /// <summary>Builds a new rowvector whose elements are the results of applying the given function to each of the elements of the rowvector.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="rowvec"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map mapping (rowvec:rowvec) = RVG.map mapping rowvec
     
 

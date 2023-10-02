@@ -20,7 +20,14 @@ module Wavelet =
         RickerValues: float []
         }
 
-    ///creation function for Ricker
+    /// <summary>creation function for Ricker</summary>
+    /// <remarks></remarks>
+    /// <param name="scale"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let createRicker scale =  
         let rickerFun x = 
             let xx = pown x 2
@@ -53,7 +60,14 @@ module Wavelet =
         MarrValues      : float [,]
                         }
     
-    ///creation function for Marr
+    /// <summary>creation function for Marr</summary>
+    /// <remarks></remarks>
+    /// <param name="radius"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let createMarr (radius : float) = 
         let functionMarr x (y : float) s = 
             let squareX = pown x 2

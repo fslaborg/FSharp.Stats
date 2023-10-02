@@ -20,27 +20,62 @@ type Bernoulli =
     static member CheckParam p = 
         if p < 0.0 || p > 1.0 then failwith "Bernoulli distribution should be parametrized by p in [0.0, 1.0]."
 
-    /// Computes the mode.
+    /// <summary>Computes the mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode p =
         Bernoulli.CheckParam p
         if p >= 0.5 then 1 else 0
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean p =
         Bernoulli.CheckParam p
         p
 
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance p =
         Bernoulli.CheckParam p
         p * (1.0 - p)
 
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation p =
         Bernoulli.CheckParam p
         sqrt (p * (1.0 - p))
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample p = 
         Bernoulli.CheckParam p
         if Random.rndgen.NextFloat() <= p then 1 else 0
@@ -49,7 +84,15 @@ type Bernoulli =
     // > A probability mass function differs from a probability density function (PDF) in that the latter is associated with continuous 
     // > rather than discrete random variables. A PDF must be integrated over an interval to yield a probability.
 
-    /// Computes the probability density function.
+    /// <summary>Computes the probability density function.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PMF p x =
         Bernoulli.CheckParam p
         match x with
@@ -57,7 +100,15 @@ type Bernoulli =
         | 1 -> p
         | _ -> 0.0
 
-    /// Computes the cumulative distribution function. P(X &gt;= k)
+    /// <summary>Computes the cumulative distribution function. P(X &gt;= k)</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF p x =
         Bernoulli.CheckParam p
         // Summary: This cdf calculates the probability, that value x is greater or equal to a random value (R) taken from the bernoulli distribution.
@@ -69,7 +120,15 @@ type Bernoulli =
         // If the value x is less than 0, the probability that x is greater than the random outcome (R) of p is 0 since, R∈{0,1}.
         else 0.0
 
-    /// Computes the inverse cumulative distribution function (quantile function).
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF p x =
         Bernoulli.CheckParam p
         failwithf "InvCDF not implemented yet"
@@ -91,16 +150,37 @@ type Bernoulli =
         | Some w -> observations |> Array.weightedMean w
         |> Bernoulli.Init  
 
-    /// Returns the support of the bernoulli distribution: {0, 1}.
+    /// <summary>Returns the support of the bernoulli distribution: {0, 1}.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support p =
         Bernoulli.CheckParam p
         Interval.CreateClosed<int> (0,1) 
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString p =
         sprintf "Bernoulli(p = %f)" p
 
-    /// Initializes a uniform distribution 
+    /// <summary>Initializes a uniform distribution </summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init p =
         { new DiscreteDistribution<float,int> with
             member d.Mean              = Bernoulli.Mean p

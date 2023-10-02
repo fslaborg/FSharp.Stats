@@ -50,7 +50,14 @@ module Matrix =
         let ofColSeq sources  = MS.seqCM sources
         let init lengthRow lengthCol initializer = MS.initM  lengthRow lengthCol initializer
         let ofArray2D (array: 'T[,])  : Matrix<'T> = MS.arrayM array
-        ///Creates a sparse matrix based on the CSR format
+        /// <summary>Creates a sparse matrix based on the CSR format</summary>
+        /// <remarks></remarks>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let sparseOfArray2D (array: 'T[,]) : Matrix<'T> = MS.arraySM array
         let toArray2D (matrix:Matrix<_>) = Array2D.init matrix.NumRows matrix.NumCols (fun i j -> get matrix i j)
         let toJaggedArray (m:Matrix<_>) = [|for i=0 to m.NumRows-1 do yield (Array.init m.NumCols (fun j -> get m i j))|]
@@ -69,71 +76,219 @@ module Matrix =
         let constDiag n x = MS.constDiagM n x
 
         // Operators
-        /// Performs a element wise addition of matrices matrix1 and matrix2 (matrix1 + matrix2).
-        /// Only usable if both matrices have the same dimensions.
+        /// <summary>Performs a element wise addition of matrices matrix1 and matrix2 (matrix1 + matrix2).<br />Only usable if both matrices have the same dimensions.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let add matrix1 matrix2 = MS.addM matrix1 matrix2
-        /// Performs a element wise substraction of matrices matrix1 and matrix2 (matrix1 - matrix2).
-        /// Only usable if both matrices have the same dimensions.
+        /// <summary>Performs a element wise substraction of matrices matrix1 and matrix2 (matrix1 - matrix2).<br />Only usable if both matrices have the same dimensions.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let sub matrix1 matrix2 = MS.subM matrix1 matrix2
-        /// Performs a left sided matrix multiplication of matrices matrix1 and matrix2 (matrix1 * matrix2).
-        /// Only usable if both matrices have the same dimensions.
+        /// <summary>Performs a left sided matrix multiplication of matrices matrix1 and matrix2 (matrix1 * matrix2).<br />Only usable if both matrices have the same dimensions.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let mul matrix1 matrix2 = MS.mulM matrix1 matrix2
-        /// Performs a matrix multiplication of the 1*n rowVector and the m*n matrix (rowVector*matrix).
-        /// Only usable if column number (n) of the vector equals the row number (m) of the matrix.
+        /// <summary>Performs a matrix multiplication of the 1*n rowVector and the m*n matrix (rowVector*matrix).<br />Only usable if column number (n) of the vector equals the row number (m) of the matrix.</summary>
+        /// <remarks></remarks>
+        /// <param name="rowVector"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let mulRV rowVector matrix = MS.mulRVM rowVector matrix
-        /// Performs a matrix multiplication of a m*n matrix and the m*1 vector (matrix*vector).
-        /// Only usable if column number (n) of the matrix equals the row number (m) of the vector.
+        /// <summary>Performs a matrix multiplication of a m*n matrix and the m*1 vector (matrix*vector).<br />Only usable if column number (n) of the matrix equals the row number (m) of the vector.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let mulV matrix vector = MS.mulMV matrix vector
-        /// Performs a element wise multiplication of matrices matrix1 and matrix2 (matrix1 * matrix2, Hadamard-Product).
-        /// Only usable if both matrices have the same dimensions.
+        /// <summary>Performs a element wise multiplication of matrices matrix1 and matrix2 (matrix1 * matrix2, Hadamard-Product).<br />Only usable if both matrices have the same dimensions.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let cptMul matrix1 matrix2 = MS.cptMulM matrix1 matrix2
-        /// Performs a element wise comparison of matrices matrix1 and matrix2 always preserving the greater value.
-        /// Only usable if both matrices have the same dimensions.
+        /// <summary>Performs a element wise comparison of matrices matrix1 and matrix2 always preserving the greater value.<br />Only usable if both matrices have the same dimensions.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let cptMax matrix1 matrix2 = MS.cptMaxM matrix1 matrix2
-        /// Performs a element wise comparison of matrices matrix1 and matrix2 always preserving the smaller value.
-        /// Only usable if both matrices have the same dimensions.
+        /// <summary>Performs a element wise comparison of matrices matrix1 and matrix2 always preserving the smaller value.<br />Only usable if both matrices have the same dimensions.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let cptMin matrix1 matrix2 = MS.cptMinM matrix1 matrix2
-        /// Builds a new matrix where the elements are the result of multiplying every element of the given matrix with the given value
+        /// <summary>Builds a new matrix where the elements are the result of multiplying every element of the given matrix with the given value</summary>
+        /// <remarks></remarks>
+        /// <param name="value"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let scale value matrix = MS.scaleM value matrix
-        /// Performs a dot product of matrices matrix1 and matrix2.
-        /// Only usable if both matrices have the same dimensions.
+        /// <summary>Performs a dot product of matrices matrix1 and matrix2.<br />Only usable if both matrices have the same dimensions.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let dot matrix1 matrix2 = MS.dotM matrix1 matrix2
-        /// Scales the matrix by element wise mulitplication with minus 1.
+        /// <summary>Scales the matrix by element wise mulitplication with minus 1.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let neg matrix = MS.negM matrix
-        /// Computes the trace of the matrix by summing elements of the diagonal.
-        /// Only usable if the matrix is a square matrix (m*m).
+        /// <summary>Computes the trace of the matrix by summing elements of the diagonal.<br />Only usable if the matrix is a square matrix (m*m).</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let trace matrix = MS.traceM matrix
-        /// Computes the sum of all matrix elements.
+        /// <summary>Computes the sum of all matrix elements.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let sum matrix = MS.sumM matrix
-        /// Computes the product of all matrix elements.
+        /// <summary>Computes the product of all matrix elements.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let prod matrix = MS.prodM matrix
-        ///Frobenius matrix norm
+        /// <summary>Frobenius matrix norm</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let norm matrix = MS.normM matrix
-        /// Returns the transpose of the matrix.
+        /// <summary>Returns the transpose of the matrix.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let transpose matrix = MS.transM matrix
-        /// Performs an element wise addition of matrices matrix1 and matrix2 (matrix1 + matrix2).
-        /// Attention: the output overrides matrix1.
-        /// Only usable if both matrices have the same dimensions.
+        /// <summary>Performs an element wise addition of matrices matrix1 and matrix2 (matrix1 + matrix2).<br />Attention: the output overrides matrix1.<br />Only usable if both matrices have the same dimensions.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inplaceAdd matrix1 matrix2 = MS.inplaceAddM matrix1 matrix2
-        /// Performs an element wise substraction of matrices matrix1 and matrix2 (matrix1 - matrix2).
-        /// Attention: the output overrides matrix1.
-        /// Only usable if both matrices have the same dimensions.
+        /// <summary>Performs an element wise substraction of matrices matrix1 and matrix2 (matrix1 - matrix2).<br />Attention: the output overrides matrix1.<br />Only usable if both matrices have the same dimensions.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inplaceSub matrix1 matrix2 = MS.inplaceSubM matrix1 matrix2
-        /// Iterates the given Matrix row wise and applies the function predicate element wise.
-        /// The iteration stops and returns true if an element satisfies the condition or false when the end of
-        /// the matrix is reached.
+        /// <summary>Iterates the given Matrix row wise and applies the function predicate element wise.<br />The iteration stops and returns true if an element satisfies the condition or false when the end of<br />the matrix is reached.</summary>
+        /// <remarks></remarks>
+        /// <param name="predicate"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let exists predicate matrix = MS.existsM  predicate matrix
-        /// Iterates the given Matrix row wise and applies the function predicate element wise.
-        /// The iteration stops and returns false if an element fails the condition or true when the end of
-        /// the matrix is reached.
+        /// <summary>Iterates the given Matrix row wise and applies the function predicate element wise.<br />The iteration stops and returns false if an element fails the condition or true when the end of<br />the matrix is reached.</summary>
+        /// <remarks></remarks>
+        /// <param name="predicate"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let forall predicate matrix = MS.forallM  predicate matrix
-        /// Iterates the given Matrix row wise and applies the function predicate element wise.
-        /// The iteration stops and returns true if an element satisfies the condition or false when the end of
-        /// the matrix is reached.
+        /// <summary>Iterates the given Matrix row wise and applies the function predicate element wise.<br />The iteration stops and returns true if an element satisfies the condition or false when the end of<br />the matrix is reached.</summary>
+        /// <remarks></remarks>
+        /// <param name="predicate"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let existsi predicate matrix = MS.existsiM  predicate matrix
-        /// Iterates the given Matrix row wise and applies the function predicate element wise.
-        /// The iteration stops and returns false if an element fails the condition or true when the end of
-        /// the matrix is reached.
+        /// <summary>Iterates the given Matrix row wise and applies the function predicate element wise.<br />The iteration stops and returns false if an element fails the condition or true when the end of<br />the matrix is reached.</summary>
+        /// <remarks></remarks>
+        /// <param name="predicate"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let foralli predicate matrix = MS.foralliM predicate matrix
         ///
         let map mapping matrix = MS.mapM mapping matrix
@@ -148,7 +303,14 @@ module Matrix =
         let getDiag matrix = MS.getDiagnM matrix 0
         ///
         let toDense matrix = MS.toDenseM matrix
-        ///Creates a sparse matrix based on the CSR format
+        /// <summary>Creates a sparse matrix based on the CSR format</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let toSparse matrix = MS.toSparseM matrix
         ///
         let initDense lengthRow lengthCol source = MS.initDenseM lengthRow lengthCol source
@@ -162,13 +324,47 @@ module Matrix =
         let compare matrix1 matrix2 = MS.compareM LanguagePrimitives.GenericComparer matrix1 matrix2
         ///
         let hash matrix = MS.hashM LanguagePrimitives.GenericEqualityComparer matrix
-        ///Returns row of given index of a matrix
+        /// <summary>Returns row of given index of a matrix</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let getRow matrix index = MS.getRowM matrix index
-        ///Replaces row of given index of a matrix with values of a vector, if vector length matches rowsize
+        /// <summary>Replaces row of given index of a matrix with values of a vector, if vector length matches rowsize</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <param name="index"></param>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let setRow (matrix:Matrix<_>) index (vector:Vector<_>) = MS.setRowM matrix index vector
-        ///Returns col of given index of a matrix
+        /// <summary>Returns col of given index of a matrix</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let getCol matrix index = MS.getColM matrix index
-        ///Replaces column of given index of a matrix with values of a vector, if vector length matches columnsize
+        /// <summary>Replaces column of given index of a matrix with values of a vector, if vector length matches columnsize</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <param name="index"></param>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let setCol (matrix:Matrix<_>) index (vector:Vector<_>) = MS.setColM matrix index vector
         ///
         let getCols matrix column1 column2 = MS.getColsM matrix (column1,column1+column2-1)
@@ -180,13 +376,38 @@ module Matrix =
         let ofRowVector rowVector = MS.rowvecM rowVector
         ///
         let ofVector vector = MS.vectorM vector
-        /// takes the first column of the matrix as vector
+        /// <summary>takes the first column of the matrix as vector</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let toVector matrix = MS.toVectorM matrix
-        /// takes the first row of the matrix as rowvector
+        /// <summary>takes the first row of the matrix as rowvector</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let toRowVector matrix = MS.toRowVectorM matrix
         ///
         let toScalar matrix = MS.toScalarM matrix
-        /// reads matrix from delimiter separated file
+        /// <summary>reads matrix from delimiter separated file</summary>
+        /// <remarks></remarks>
+        /// <param name="path"></param>
+        /// <param name="separator"></param>
+        /// <param name="removeHeaderRow"></param>
+        /// <param name="removeHeaderCol"></param>
+        /// <param name="transform"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let readCSV (path: string) (separator: char) (removeHeaderRow: bool) (removeHeaderCol: bool) (transform: string -> 'a) = 
             IO.File.ReadAllLines(path)
             |> fun x -> 
@@ -253,13 +474,29 @@ module Matrix =
                 for rowi=0 to matrix.NumRows-1 do
                 yield f (seq [for coli=0 to matrix.NumCols-1 do yield matrix.[rowi,coli]])
             ]
-        /// Applies mapping function along row axis
+        /// <summary>Applies mapping function along row axis</summary>
+        /// <remarks></remarks>
+        /// <param name="mapping"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let mapRows (mapping: RowVector<'a> -> 'b) (matrix: Matrix<'a>) =
             Vector.Generic.init matrix.NumRows (fun rowi ->
                 mapping (getRow matrix rowi)
             )
 
-        /// Maps every matrix row using the position dependent function
+        /// <summary>Maps every matrix row using the position dependent function</summary>
+        /// <remarks></remarks>
+        /// <param name="mapping"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let mapiRows (mapping: int -> RowVector<'a> -> 'b) (matrix: Matrix<'a>) =
             Vector.Generic.init matrix.NumRows (fun rowi ->
                 mapping rowi (getRow matrix rowi)
@@ -273,17 +510,40 @@ module Matrix =
                 for coli=0 to matrix.NumCols-1 do
                 yield f (seq [for rowi=0 to matrix.NumRows-1 do yield matrix.[rowi,coli]])
             ]
-        /// Applies mapping function along column axis
+        /// <summary>Applies mapping function along column axis</summary>
+        /// <remarks></remarks>
+        /// <param name="mapping"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let mapCols (mapping: Vector<'a> -> 'b) (matrix: Matrix<'a>) =
             RowVector.Generic.init matrix.NumCols (fun coli ->
                  mapping (getCol matrix coli)
             )
-        /// Maps every matrix column using the position dependant function
+        /// <summary>Maps every matrix column using the position dependant function</summary>
+        /// <remarks></remarks>
+        /// <param name="mapping"></param>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let mapiCols (mapping: int -> Vector<'a> -> 'b) (matrix: Matrix<'a>) =
             RowVector.Generic.init matrix.NumCols (fun coli ->
                 mapping coli (getCol matrix coli)
             )
-        /// Iterates the given Matrix row wise and places every element in a new vector with length n*m.
+        /// <summary>Iterates the given Matrix row wise and places every element in a new vector with length n*m.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let flattenRowWise (matrix: Matrix<'a>) =
             let tmp = FSharp.Stats.Vector.Generic.zeroCreate (matrix.NumRows*matrix.NumCols)
             for m = 0 to matrix.NumRows-1 do
@@ -291,7 +551,14 @@ module Matrix =
                     tmp.[m*matrix.NumCols+n] <- matrix.[m,n]
             tmp
 
-        /// Iterates the given Matrix column wise and places every element in a new vector with length n*m.
+        /// <summary>Iterates the given Matrix column wise and places every element in a new vector with length n*m.</summary>
+        /// <remarks></remarks>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let flattenColWise (matrix: Matrix<'a>) =
             matrix.Transpose |> flattenRowWise
         
@@ -320,13 +587,44 @@ module Matrix =
     let ofJaggedColSeq   xss   = DS.colSeqDenseMatrixDS    xss |> MS.dense
     ///returns a dense matrix with the inner arrays of the input jagged array as its rows
     let ofJaggedArray    xss   = DS.arrayDenseMatrixDS    xss |> MS.dense
-    ///returns a dense matrix with the inner arrays of the input jagged array as its columns
+    /// <summary>returns a dense matrix with the inner arrays of the input jagged array as its columns</summary>
+    /// <remarks></remarks>
+    /// <param name="xss   "></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ofJaggedColArray xss   = DS.colArrayDenseMatrixDS    xss |> MS.dense
-    ///returns a dense matrix with the inner rowvectors of the input vector as its rows
+    /// <summary>returns a dense matrix with the inner rowvectors of the input vector as its rows</summary>
+    /// <remarks></remarks>
+    /// <param name="rows"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ofRows (rows: Vector<RowVector<'T>>) = DS.seqDenseMatrixDS rows |> MS.dense
-    ///returns a dense matrix with the inner vectors of the input rowvector as its columns
+    /// <summary>returns a dense matrix with the inner vectors of the input rowvector as its columns</summary>
+    /// <remarks></remarks>
+    /// <param name="cols"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ofCols (cols: RowVector<Vector<'T>>) = DS.colSeqDenseMatrixDS cols |> MS.dense
-    /// reads matrix from delimiter separated file
+    /// <summary>reads matrix from delimiter separated file</summary>
+    /// <remarks></remarks>
+    /// <param name="path"></param>
+    /// <param name="separator"></param>
+    /// <param name="removeHeaderRow"></param>
+    /// <param name="removeHeaderCol"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let readCSV (path: string) (separator: char) (removeHeaderRow: bool) (removeHeaderCol: bool) = 
         IO.File.ReadAllLines(path)
         |> fun x -> 
@@ -354,17 +652,45 @@ module Matrix =
     let ofScalar x     = DS.scalarDenseMatrixDS x |> MS.dense
     ///
     let ofArray2D arr : matrix = MG.ofArray2D arr
-    ///Creates a sparse matrix based on the CSR format
+    /// <summary>Creates a sparse matrix based on the CSR format</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let sparseOfArray2D arr : matrix = MG.sparseOfArray2D arr
     ///
     let toArray2D (m : matrix) = MG.toArray2D m
     ///
     let toJaggedArray (m: matrix) = MG.toJaggedArray m
-    /// converts the matrix into an array of column arrays
+    /// <summary>converts the matrix into an array of column arrays</summary>
+    /// <remarks></remarks>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toJaggedColArray (m: matrix) = MG.toJaggedColArray m
-    ///converts the matrix into an seq of row seqs
+    /// <summary>converts the matrix into an seq of row seqs</summary>
+    /// <remarks></remarks>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toJaggedSeq (m: matrix) = MG.toJaggedSeq m
-    /// converts the matrix into an seq of column seqs
+    /// <summary>converts the matrix into an seq of column seqs</summary>
+    /// <remarks></remarks>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toJaggedColSeq (m: matrix) = MG.toJaggedColSeq m
     ///
     let getDiagN  (a:matrix) n = MG.getDiagN a n
@@ -372,111 +698,356 @@ module Matrix =
     let getDiag  (a:matrix) = MG.getDiag a
 
     // Operators
-    /// Performs a element wise addition of matrices a and b (a+b).
-    /// Only usable if both matrices have the same dimensions.
+    /// <summary>Performs a element wise addition of matrices a and b (a+b).<br />Only usable if both matrices have the same dimensions.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let add (a:matrix) (b:matrix) = MS.addM a b
-    /// Performs a element wise substraction of matrices a and b (a-b).
-    /// Only usable if both matrices have the same dimensions.
+    /// <summary>Performs a element wise substraction of matrices a and b (a-b).<br />Only usable if both matrices have the same dimensions.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let sub (a:matrix) (b:matrix) = MS.subM a b
-    /// Performs a left sided matrix multiplication of a and b (a*b).
-    /// Only usable if both matrices have the same dimensions.
+    /// <summary>Performs a left sided matrix multiplication of a and b (a*b).<br />Only usable if both matrices have the same dimensions.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mul (a:matrix) (b:matrix) = MS.mulM a b
-    /// Performs a matrix multiplication m*n matrix a and the m*1 vector b (a*b).
-    /// Only usable if column number (n) of the matrix equals the row number (m) of the vector.
+    /// <summary>Performs a matrix multiplication m*n matrix a and the m*1 vector b (a*b).<br />Only usable if column number (n) of the matrix equals the row number (m) of the vector.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mulV (a:matrix) (b:vector) = MS.mulMV a b
-    /// Performs a matrix multiplication of the 1*n rowvector a and the m*n matrix b (a*b).
-    /// Only usable if column number (n) of the vector equals the row number (m) of the matrix.
+    /// <summary>Performs a matrix multiplication of the 1*n rowvector a and the m*n matrix b (a*b).<br />Only usable if column number (n) of the vector equals the row number (m) of the matrix.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mulRV (a:rowvec) (b:matrix) = MS.mulRVM a b
-    /// Performs a element wise multiplication of matrices a and b (a+b, Hadamard-Product).
-    /// Only usable if both matrices have the same dimensions.
+    /// <summary>Performs a element wise multiplication of matrices a and b (a+b, Hadamard-Product).<br />Only usable if both matrices have the same dimensions.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let cptMul (a:matrix) (b:matrix) = MS.cptMulM a b
-    /// Performs a element wise comparison of matrices a and b always preserving the greater value.
-    /// Only usable if both matrices have the same dimensions.
+    /// <summary>Performs a element wise comparison of matrices a and b always preserving the greater value.<br />Only usable if both matrices have the same dimensions.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let cptMax (a:matrix) (b:matrix) = MS.cptMaxM a b
-    /// Performs a element wise comparison of matrices a and b always preserving the smaller value.
-    /// Only usable if both matrices have the same dimensions.
+    /// <summary>Performs a element wise comparison of matrices a and b always preserving the smaller value.<br />Only usable if both matrices have the same dimensions.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let cptMin (a:matrix) (b:matrix) = MS.cptMinM a b
-    /// Builds a new matrix where the elements are the result of multiplying every element of the given matrix with the given value
+    /// <summary>Builds a new matrix where the elements are the result of multiplying every element of the given matrix with the given value</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let scale a (b:matrix) = MS.scaleM a b
-    /// Scales matrix a by element wise mulitplication with minus 1.
+    /// <summary>Scales matrix a by element wise mulitplication with minus 1.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let neg (a:matrix) = MS.negM a
-    /// Computes the trace of matrix a by summing elements of the diagonal.
-    /// Only usable if matrices a is a square matrix (m*m).
+    /// <summary>Computes the trace of matrix a by summing elements of the diagonal.<br />Only usable if matrices a is a square matrix (m*m).</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let trace (a:matrix) = MS.traceM a
-    /// Returns the transpose of matrix a
+    /// <summary>Returns the transpose of matrix a</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let transpose (a:matrix) = MG.transpose a
-    /// Iterates the given Matrix row wise and applies function f element wise.
-    /// The iteration stops and returns false if an element fails the condition or true when the end of
-    /// the matrix is reached.
+    /// <summary>Iterates the given Matrix row wise and applies function f element wise.<br />The iteration stops and returns false if an element fails the condition or true when the end of<br />the matrix is reached.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let forall f (a:matrix) = MG.forall f a
-    /// Iterates the given Matrix row wise and applies function f element wise.
-    /// The iteration stops and returns true if an element satisfies the condition or false when the end of
-    /// the matrix is reached.
+    /// <summary>Iterates the given Matrix row wise and applies function f element wise.<br />The iteration stops and returns true if an element satisfies the condition or false when the end of<br />the matrix is reached.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let exists f (a:matrix) = MG.exists f a
-    /// Iterates the given Matrix row wise and applies function f element wise.
-    /// The iteration stops and returns false if an element fails the condition or true when the end of
-    /// the matrix is reached.
+    /// <summary>Iterates the given Matrix row wise and applies function f element wise.<br />The iteration stops and returns false if an element fails the condition or true when the end of<br />the matrix is reached.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let foralli f (a:matrix) = MG.foralli f a
-    /// Iterates the given Matrix row wise and applies function f element wise.
-    /// The iteration stops and returns true if an element satisfies the condition or false when the end of
-    /// the matrix is reached.
+    /// <summary>Iterates the given Matrix row wise and applies function f element wise.<br />The iteration stops and returns true if an element satisfies the condition or false when the end of<br />the matrix is reached.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let existsi f (a:matrix) = MG.existsi f a
     let x = List.fold
-    /// Builds a new matrix whose elements are the result of row wise applying the given function on each element of a.
+    /// <summary>Builds a new matrix whose elements are the result of row wise applying the given function on each element of a.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map f (a:matrix) = MG.map f a
-    /// Builds a new matrix whose elements are identical to the elements of a.
+    /// <summary>Builds a new matrix whose elements are identical to the elements of a.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let copy (a:matrix) = MG.copy a
-    /// Builds a new matrix whose elements are the result of row wise applying the given function on each element of a. The integer index
-    /// passed to the function indicates the index (from 0) the of the element being transformed.
+    /// <summary>Builds a new matrix whose elements are the result of row wise applying the given function on each element of a. The integer index<br />passed to the function indicates the index (from 0) the of the element being transformed.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mapi f (a:matrix) : matrix = MG.mapi f a
-    /// Applies a function f row wise to each element of the matrix, threading an accumulator argument through the computation.
-    /// The fold function takes the second argument, and applies the function f to it and the first element of the matrix.
-    /// Then, it feeds this result into the function f along with the second element, and so on. It returns the final result.
-    /// If the input function is f and the elements are i0...iN, then this function computes f (... (f s i0) i1 ...) iN.
+    /// <summary>Applies a function f row wise to each element of the matrix, threading an accumulator argument through the computation.<br />The fold function takes the second argument, and applies the function f to it and the first element of the matrix.<br />Then, it feeds this result into the function f along with the second element, and so on. It returns the final result.<br />If the input function is f and the elements are i0...iN, then this function computes f (... (f s i0) i1 ...) iN.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="z"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let fold f z (a:matrix) = MG.fold f z a
-    /// Applies a function f row wise to each element of the matrix, threading an accumulator argument through the computation.
-    /// The fold function takes the second argument, and applies the function f to it and the first element of the matrix.
-    /// Then, it feeds this result into the function f along with the second element, and so on. It returns the final result.
-    /// If the input function is f and the elements are i0...iN, then this function computes f (... (f s i0) i1 ...) iN.
-    /// The integers indicies passed to the function indicate row and column position (from 0) the of the element being transformed.
+    /// <summary>Applies a function f row wise to each element of the matrix, threading an accumulator argument through the computation.<br />The fold function takes the second argument, and applies the function f to it and the first element of the matrix.<br />Then, it feeds this result into the function f along with the second element, and so on. It returns the final result.<br />If the input function is f and the elements are i0...iN, then this function computes f (... (f s i0) i1 ...) iN.<br />The integers indicies passed to the function indicate row and column position (from 0) the of the element being transformed.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="z"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let foldi f z (a:matrix) = MG.foldi f z a
-    /// Transforms the matrix a to a dense matrix representation
+    /// <summary>Transforms the matrix a to a dense matrix representation</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toDense (a:matrix) = MG.toDense a
-    /// Transforms the matrix a to a sparse matrix representation
+    /// <summary>Transforms the matrix a to a sparse matrix representation</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toSparse (a:matrix) = MG.toSparse a
-    /// Creates a dense matrix with i rows and j columns. All values are initialized to the value of a.
+    /// <summary>Creates a dense matrix with i rows and j columns. All values are initialized to the value of a.</summary>
+    /// <remarks></remarks>
+    /// <param name="i"></param>
+    /// <param name="j"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let initDense i j a : matrix = MG.initDense i j a
-    /// Creates a sparse matrix with i rows and j columns. All values are initialized to the value of a.
+    /// <summary>Creates a sparse matrix with i rows and j columns. All values are initialized to the value of a.</summary>
+    /// <remarks></remarks>
+    /// <param name="i"></param>
+    /// <param name="j"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let initSparse i j a : matrix = MG.initSparse i j a
-    /// Iterates the m*n matrix a row wise and returns a list of tuples (mi,ni,v) containing non zero elements of a
-    /// and their row (m) and column (n) indicies.
+    /// <summary>Iterates the m*n matrix a row wise and returns a list of tuples (mi,ni,v) containing non zero elements of a<br />and their row (m) and column (n) indicies.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let nonzero_entries (a:matrix) = MG.nonzeroEntries a
-    /// Creates a dense matrix with i rows and j columns. All values are initialized to yero (0.).
+    /// <summary>Creates a dense matrix with i rows and j columns. All values are initialized to yero (0.).</summary>
+    /// <remarks></remarks>
+    /// <param name="m"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let zero m n = DS.zeroDenseMatrixDS m n |> MS.dense
-    /// Creates a dense identiy m*m matrix. A identity matrix is always squared and the elements are set to zero exept elements
-    /// on the diagonal, which are set to 1.
-    /// e.g.
-    /// [[1.;0.;0.]
-    ///  [0.;1.;0.]
-    ///  [0.;0.;1.]]
+    /// <summary>Creates a dense identiy m*m matrix. A identity matrix is always squared and the elements are set to zero exept elements<br />on the diagonal, which are set to 1.<br />e.g.<br />[[1.;0.;0.]<br /> [0.;1.;0.]<br /> [0.;0.;1.]]</summary>
+    /// <remarks></remarks>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let identity m : matrix = MG.identity m
-    /// Creates a dense matrix with i rows and j columns. All values are initialized to one (1.).
+    /// <summary>Creates a dense matrix with i rows and j columns. All values are initialized to one (1.).</summary>
+    /// <remarks></remarks>
+    /// <param name="m"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ones m n = create m n 1.0
-    /// Returns row of index i of matrix a
+    /// <summary>Returns row of index i of matrix a</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="i"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getRow (a:matrix) i = MG.getRow a i
-    /// Replaces row of index i of matrix a with values of vector v, if vector length matches rowsize
+    /// <summary>Replaces row of index i of matrix a with values of vector v, if vector length matches rowsize</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="i"></param>
+    /// <param name="v"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let setRow (a:Matrix<_>) i (v:Vector<_>) = MG.setRow a i v
-    /// Returns col of index j of matrix a
+    /// <summary>Returns col of index j of matrix a</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="j"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getCol (a:matrix) j = MG.getCol a j
-    /// Replaces column of index j of matrix a with values of vector v, if vector length matches columnsize
+    /// <summary>Replaces column of index j of matrix a with values of vector v, if vector length matches columnsize</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="j"></param>
+    /// <param name="v"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let setCol (a:Matrix<_>) j (v:Vector<_>) = MG.setCol a j v
-    /// Accesses the m*n matrix a and returns a total of j2 Columns starting from column index j1. The Result is a new
-    /// m*j2 matrix.
-    /// Only usable if (j1+j2-1) does not exceed n.
+    /// <summary>Accesses the m*n matrix a and returns a total of j2 Columns starting from column index j1. The Result is a new<br />m*j2 matrix.<br />Only usable if (j1+j2-1) does not exceed n.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="j1"></param>
+    /// <param name="j2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getCols (a:matrix) j1 j2 = MG.getCols a j1 j2
-    /// Accesses the m*n matrix a and returns a total of i2 rows starting from row index i1. The Result is a new
-    /// i2*n matrix.
-    /// Only usable if (i1+i2-1) does not exceed m.
+    /// <summary>Accesses the m*n matrix a and returns a total of i2 rows starting from row index i1. The Result is a new<br />i2*n matrix.<br />Only usable if (i1+i2-1) does not exceed m.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="i1"></param>
+    /// <param name="i2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getRows (a:matrix) i1 i2 = MG.getRows a i1 i2
 
     let countBy f (a:matrix) =
@@ -493,9 +1064,18 @@ module Matrix =
                 else loop (ir+1) (ic+1) (if f a.[ir,ic] then acc + 1 else acc)
         loop 0 0 0
 
-    /// Accesses the m*n matrix a and returns a total of i2 rows and j2 columns starting from row index i1 and colum index j1. The Result is a new
-    /// i2*j2 matrix.
-    /// Only usable if (i1+i2-1) does not exceed m and (j1+j2-1) does not exceed n.
+    /// <summary>Accesses the m*n matrix a and returns a total of i2 rows and j2 columns starting from row index i1 and colum index j1. The Result is a new<br />i2*j2 matrix.<br />Only usable if (i1+i2-1) does not exceed m and (j1+j2-1) does not exceed n.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="i1"></param>
+    /// <param name="j1"></param>
+    /// <param name="i2"></param>
+    /// <param name="j2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getRegion (a:matrix) i1 j1 i2 j2 = MG.getRegion a i1 j1 i2 j2
     let rowRange (a:Matrix<_>) = (0,a.NumRows - 1)
     let colRange (a:Matrix<_>) = (0,a.NumCols - 1)
@@ -567,8 +1147,14 @@ module Matrix =
     //----------------------------------------------------------------------------
     // Stats
 
-    /// Returns upper triangular Matrix by setting all values beneath the diagonal to Zero.
-    /// Warning: triangular matrices can only be computed for square input matrices.
+    /// <summary>Returns upper triangular Matrix by setting all values beneath the diagonal to Zero.<br />Warning: triangular matrices can only be computed for square input matrices.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getUpperTriangular (a:Matrix<float>) =
         let nA = a.NumCols
         let mA = a.NumRows
@@ -577,8 +1163,14 @@ module Matrix =
         a
         |> mapi (fun n m x -> if n > m then 0. else x )
 
-    /// Returns lower triangular Matrix by setting all values beneath the diagonal to Zero.
-    /// Warning: triangular matrices can only be computed for square input matrices.
+    /// <summary>Returns lower triangular Matrix by setting all values beneath the diagonal to Zero.<br />Warning: triangular matrices can only be computed for square input matrices.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getLowerTriangular (a:Matrix<float>)  =
         let nA = a.NumCols
         let mA = a.NumRows
@@ -587,36 +1179,78 @@ module Matrix =
         a
         |> mapi (fun n m x -> if n < m then 0. else x )
 
-    /// Returns diagonal matrix by setting all values beneath and above the diagonal to Zero.
-    /// Warning: diagonal matrices can only be computed for square input matrices.
+    /// <summary>Returns diagonal matrix by setting all values beneath and above the diagonal to Zero.<br />Warning: diagonal matrices can only be computed for square input matrices.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toDiagonal (a:Matrix<float>) =
         getDiag a
         |> diag
 
-    /// Computes the row wise sums of a Matrix
+    /// <summary>Computes the row wise sums of a Matrix</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let sumRows (a:matrix) =
         a
         |> foldByRow (fun acc r -> acc + r ) (Vector.zeroCreate a.NumRows)
 
-    /// Computes the column wise sums of a Matrix
+    /// <summary>Computes the column wise sums of a Matrix</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let sumColumns (a:matrix) =
         a
         |> foldByCol (fun acc r -> acc + r ) (RowVector.zero a.NumCols)
 
-    /// Computes the row wise mean of a Matrix
+    /// <summary>Computes the row wise mean of a Matrix</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let meanRowWise (a:matrix) =
         a
         |> sumRows
         |> Vector.map (fun sum -> sum / (a.NumCols |> float))
 
-    /// Computes the Column wise mean of a Matrix
+    /// <summary>Computes the Column wise mean of a Matrix</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let meanColumnWise (a:matrix) =
         a
         |> sumColumns
         |> RowVector.map (fun sum -> sum / (a.NumRows |> float))
     
     ///Computes mean in the specified orientation
-    /// orientation - "RowWise" or "ColWise"
+    /// <summary>orientation - "RowWise" or "ColWise"</summary>
+    /// <remarks></remarks>
+    /// <param name="orientation"></param>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let meanAsSeq (orientation:Orientation) (a:matrix) = 
         match orientation with
         | RowWise -> meanRowWise a    |> seq
@@ -625,38 +1259,70 @@ module Matrix =
     /// computes the column specific covariance matrix of a data matrix as described at:
     // http://stattrek.com/matrix-algebra/covariance-matrix.aspx
     let columnCovarianceMatrixOf df (dataMatrix:Matrix<float>) =
-        /// Step 1:
-        /// contains the deviation scores for the data matrix
+        /// Step 1:<br />contains the deviation scores for the data matrix
         let devMatrix =
             let ident = ones dataMatrix.NumRows dataMatrix.NumRows
             dataMatrix - (ident * dataMatrix |> map (fun elem -> elem / float dataMatrix.NumRows))
-        /// Step 2:
-        /// Compute devMatrix' * devMatrix, the k x k deviation sums of squares and cross products matrix for x.
+        /// Step 2:<br />Compute devMatrix' * devMatrix, the k x k deviation sums of squares and cross products matrix for x.
         let devMTdevM =
             devMatrix.Transpose * devMatrix
-        /// Step 3:
-        /// Then, divide each term in the deviation sums of squares and cross product matrix by n to create the variance-covariance matrix. That is:
+        /// Step 3:<br />Then, divide each term in the deviation sums of squares and cross product matrix by n to create the variance-covariance matrix. That is:
         devMTdevM |> map (fun elem -> elem / (float df))
 
-    /// computes the column specific population covariance matrix of a data matrix
+    /// <summary>computes the column specific population covariance matrix of a data matrix</summary>
+    /// <remarks></remarks>
+    /// <param name="dataMatrix"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let columnPopulationCovarianceMatrixOf (dataMatrix:Matrix<float>) =
         columnCovarianceMatrixOf dataMatrix.NumRows dataMatrix
 
-    /// computes the column specific sample covariance matrix of a data matrix
+    /// <summary>computes the column specific sample covariance matrix of a data matrix</summary>
+    /// <remarks></remarks>
+    /// <param name="dataMatrix"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let columnSampleCovarianceMatrixOf (dataMatrix:Matrix<float>) =
         columnCovarianceMatrixOf (dataMatrix.NumRows-1) dataMatrix
 
-    /// computes the row specific population covariance matrix of a data matrix
+    /// <summary>computes the row specific population covariance matrix of a data matrix</summary>
+    /// <remarks></remarks>
+    /// <param name="dataMatrix"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let rowPopulationCovarianceMatrixOf (dataMatrix:Matrix<float>) =
         columnCovarianceMatrixOf dataMatrix.Transpose.NumRows dataMatrix.Transpose
 
-    /// computes the row specific sample covariance matrix of a data matrix
+    /// <summary>computes the row specific sample covariance matrix of a data matrix</summary>
+    /// <remarks></remarks>
+    /// <param name="dataMatrix"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let rowSampleCovarianceMatrixOf (dataMatrix:Matrix<float>) =
         columnCovarianceMatrixOf (dataMatrix.Transpose.NumRows-1) dataMatrix.Transpose
 
-    /// computes the orientation and dataSource specific covariance matrix of a dataMatrix\
-    /// dataSource - "Sample" or "Population". \
-    /// orientation - "RowWise" or "ColWise" 
+    /// <summary>computes the orientation and dataSource specific covariance matrix of a dataMatrix\<br />dataSource - "Sample" or "Population". \<br />orientation - "RowWise" or "ColWise" </summary>
+    /// <remarks></remarks>
+    /// <param name="dataSource"></param>
+    /// <param name="orientation"></param>
+    /// <param name="dataMatrix"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let covarianceMatrixOf (dataSource:DataSource) (orientation:Orientation) (dataMatrix:matrix) :matrix =
         match dataSource with
         |Sample ->
@@ -669,31 +1335,85 @@ module Matrix =
             |ColWise ->columnPopulationCovarianceMatrixOf dataMatrix
     //----------------------------------------------------------------------------
 
-    /// Applies function f along row axis
+    /// <summary>Applies function f along row axis</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mapRows f (m:matrix) = Generic.mapRows f m
     /// Applies function f along row axis
     [<Obsolete("Use Matrix.mapRows instead")>]
     let enumerateRowWise f (m:matrix) = Generic.mapRows f m
 
-    /// Maps every matrix row using the position dependant function
+    /// <summary>Maps every matrix row using the position dependant function</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mapiRows (f: int -> rowvec -> 'b) (m:matrix) = Generic.mapiRows f m
     
-    /// Applies function f along column axis
+    /// <summary>Applies function f along column axis</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mapCols f (m:matrix) = Generic.mapCols f m
     /// Applies function f along column axis
     [<Obsolete("Use Matrix.mapCols instead")>]
     let enumerateColumnWise f (m:matrix) = Generic.mapCols f m
 
-    /// Maps every matrix column using the position dependant function
+    /// <summary>Maps every matrix column using the position dependant function</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mapiCols (f: int -> vector -> 'b) (m:matrix) = Generic.mapiCols f m
 
-    /// Iterates the given Matrix row wise and places every element in a new vector with length n*m.
+    /// <summary>Iterates the given Matrix row wise and places every element in a new vector with length n*m.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let flattenRowWise (a: matrix) = Generic.flattenRowWise a
 
-    /// Iterates the given Matrix column wise and places every element in a new vector with length n*m.
+    /// <summary>Iterates the given Matrix column wise and places every element in a new vector with length n*m.</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let flattenColWise (a: matrix) = Generic.flattenColWise a
 
-    /// Removes a row at a given index
+    /// <summary>Removes a row at a given index</summary>
+    /// <remarks></remarks>
+    /// <param name="index"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let removeRowAt (index:int) (m:Matrix<'T>) : Matrix<'T> =
         let nRows,nCols = m.Dimensions
         //let nm = Matrix.Generic.zero (nRows-1) nCols
@@ -712,10 +1432,14 @@ module Matrix =
         loop (nRows-2) (nRows-1)
 
     /// <summary>
-    /// Returns a matrix without the rows for which the given predicate returns false
-    /// </summary>
-    /// <param name="rowPredicate">The predicate function based on which the rows should be filtered. The resulting matrix will only contain rows for which this function returns true </param>
-    /// <param name="m">The matrix to filter rows from</param>
+    /// <summary>Returns a matrix without the rows for which the given predicate returns false<br /></summary><br /><param name="rowPredicate">The predicate function based on which the rows should be filtered. The resulting matrix will only contain rows for which this function returns true </param><br /><param name="m">The matrix to filter rows from</param></summary>
+    /// <remarks></remarks>
+    /// <param name="rowPredicate"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let filterRows (rowPredicate: (RowVector<'T> -> bool)) (m:Matrix<'T>) : Matrix<'T> =
         let validRows =
             [|
@@ -728,10 +1452,14 @@ module Matrix =
         )
 
     /// <summary>
-    /// Returns a matrix without the cols for which the given predicate returns false
-    /// </summary>
-    /// <param name="colPredicate">The predicate function based on which the cols should be filtered. The resulting matrix will only contain rows for which this function returns true </param>
-    /// <param name="m">The matrix to filter cols from</param>
+    /// <summary>Returns a matrix without the cols for which the given predicate returns false<br /></summary><br /><param name="colPredicate">The predicate function based on which the cols should be filtered. The resulting matrix will only contain rows for which this function returns true </param><br /><param name="m">The matrix to filter cols from</param></summary>
+    /// <remarks></remarks>
+    /// <param name="colPredicate"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let filterCols (colPredicate: (Vector<'T> -> bool)) (m:Matrix<'T>) : Matrix<'T> =
         let validCols =
             [|
@@ -743,7 +1471,15 @@ module Matrix =
             m.[r,validCols.[c]]
         )
 
-    /// Removes a column at a given index
+    /// <summary>Removes a column at a given index</summary>
+    /// <remarks></remarks>
+    /// <param name="index"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let removeColAt index (m:Matrix<_>) =
         let nRows,nCols = m.Dimensions
         //let nm = Matrix.Generic.zero nRows (nCols-1)
@@ -761,7 +1497,15 @@ module Matrix =
 
         loop (nRows-2) (nRows-1)
 
-    /// Splits a matrix along row direction according to given indices. Returns (matrix including rows according to indices, rest)
+    /// <summary>Splits a matrix along row direction according to given indices. Returns (matrix including rows according to indices, rest)</summary>
+    /// <remarks></remarks>
+    /// <param name="indices"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let splitRows (indices:int[]) (m:Matrix<_>) =
 
         let nRows,nCols = m.Dimensions
@@ -784,7 +1528,15 @@ module Matrix =
 
         loop (nRows-1-indices.Length) (indices.Length-1) (nRows-1)
 
-    /// Splits a matrix along column direction according to given indices. Returns (matrix including cols according to indices, rest)
+    /// <summary>Splits a matrix along column direction according to given indices. Returns (matrix including cols according to indices, rest)</summary>
+    /// <remarks></remarks>
+    /// <param name="indices"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let splitCols (indices:int[]) (m:Matrix<_>) =
         let nRows,nCols = m.Dimensions
         //let nm  = Matrix.Generic.zero nRows (nCols-indices.Length)

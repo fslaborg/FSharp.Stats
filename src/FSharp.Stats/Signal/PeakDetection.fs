@@ -7,11 +7,17 @@ open System
 
 module PeakDetection =
     
-    /// TODO: Add FSharpAux reference
-    /// Iterates the data array beginning from the startIdx. 
-    /// The step size and direction are implied by magnitude and sign of stepSize. The function returns
-    /// the idx of the first value for which predicate returns true or the end/start of the collection
-    /// is reached (returning None). 
+    /// <summary>TODO: Add FSharpAux reference<br />Iterates the data array beginning from the startIdx. <br />The step size and direction are implied by magnitude and sign of stepSize. The function returns<br />the idx of the first value for which predicate returns true or the end/start of the collection<br />is reached (returning None). </summary>
+    /// <remarks></remarks>
+    /// <param name="predicate"></param>
+    /// <param name="stepSize"></param>
+    /// <param name="startIdx"></param>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let iterUntil (predicate: 'T -> bool) stepSize startIdx (arr: 'T []) =
         let rec loop  (arr: 'T []) currentIdx =
             if currentIdx <= 0 then None
@@ -22,12 +28,17 @@ module PeakDetection =
                 | _               -> loop arr (currentIdx+stepSize) 
         loop arr startIdx 
 
-    /// TODO: Add FSharpAux reference
-    /// Iterates the data array beginning from the startIdx. 
-    /// The step size and direction are implied by magnitude and sign of stepSize. The function returns
-    /// the idx of the first value for which predicate returns true or the end/start of the collection
-    /// is reached (returning None). The predicate function takes the idx of the current value as an additional
-    /// parameter.
+    /// <summary>TODO: Add FSharpAux reference<br />Iterates the data array beginning from the startIdx. <br />The step size and direction are implied by magnitude and sign of stepSize. The function returns<br />the idx of the first value for which predicate returns true or the end/start of the collection<br />is reached (returning None). The predicate function takes the idx of the current value as an additional<br />parameter.</summary>
+    /// <remarks></remarks>
+    /// <param name="predicate"></param>
+    /// <param name="stepSize"></param>
+    /// <param name="startIdx"></param>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let iterUntili (predicate: int -> 'T -> bool) stepSize startIdx (arr: 'T []) =
         let rec loop  (arr: 'T []) currentIdx =
             if currentIdx <= 0 then None
@@ -91,7 +102,16 @@ module PeakDetection =
         YData               = yData               
         }    
 
-    /// Returns a collection local maxima. Attention: The algorithm is very sensitive to noise and behaves irregulary for negative Y-values.
+    /// <summary>Returns a collection local maxima. Attention: The algorithm is very sensitive to noise and behaves irregulary for negative Y-values.</summary>
+    /// <remarks></remarks>
+    /// <param name="yThreshold"></param>
+    /// <param name="xData"></param>
+    /// <param name="smoothYData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let localMaxima yThreshold (xData:float[]) (smoothYData:float[]) =
         if xData.Length <= 5 then [||]
         else       
@@ -104,7 +124,16 @@ module PeakDetection =
                 yield (xData.[i], smoothYData.[i])
             |]  
     
-    /// Returns a collection of indices corresponding to local maxima. Attention: The algorithm is very sensitive to noise and behaves irregulary for negative Y-values.
+    /// <summary>Returns a collection of indices corresponding to local maxima. Attention: The algorithm is very sensitive to noise and behaves irregulary for negative Y-values.</summary>
+    /// <remarks></remarks>
+    /// <param name="yThreshold"></param>
+    /// <param name="xData"></param>
+    /// <param name="smoothYData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let localMaximaIdx yThreshold (xData:float[]) (smoothYData:float[]) =
         if xData.Length <= 5 then [||]
         else       
@@ -117,7 +146,15 @@ module PeakDetection =
                 yield i
             |]  
 
-    /// Returns a collection of local minima. Attention: The algorithm is very sensitive to noise   
+    /// <summary>Returns a collection of local minima. Attention: The algorithm is very sensitive to noise   </summary>
+    /// <remarks></remarks>
+    /// <param name="xData"></param>
+    /// <param name="smoothYData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let localMinima (xData:float[]) (smoothYData:float[]) =
         if xData.Length <= 5 then [||]
         else
@@ -130,7 +167,15 @@ module PeakDetection =
                 yield (xData.[i], smoothYData.[i])
             |]    
 
-    /// Returns a collection of indices corresponding to local minima. Attention: The algorithm is very sensitive to noise   
+    /// <summary>Returns a collection of indices corresponding to local minima. Attention: The algorithm is very sensitive to noise   </summary>
+    /// <remarks></remarks>
+    /// <param name="xData"></param>
+    /// <param name="smoothYData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let localMinimaIdx (xData:float[]) (smoothYData:float[]) =
         if xData.Length <= 5 then [||]
         else
@@ -143,7 +188,16 @@ module PeakDetection =
                 yield i
             |]    
 
-    /// Returns Index of the highestPeak flanking a given x value (xt)
+    /// <summary>Returns Index of the highestPeak flanking a given x value (xt)</summary>
+    /// <remarks></remarks>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="xt"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let idxOfHighestPeakBy (xData: float []) (yData: float []) xt = 
         let idxHigh = 
             xData |> Array.tryFindIndex (fun x -> x > xt) // faster as binary search
@@ -162,7 +216,16 @@ module PeakDetection =
                     idxLow.Value
             else idxHigh.Value
                 
-    /// Returns Index of the highestPeak flanking a given mzValue
+    /// <summary>Returns Index of the highestPeak flanking a given mzValue</summary>
+    /// <remarks></remarks>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="xt"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let idxOfClosestPeakBy (xData: float []) (yData: float []) xt = 
         if xData |> Array.isEmpty then 0
         else
@@ -171,7 +234,17 @@ module PeakDetection =
         |> Array.minBy (fun (value,idx) -> value)
         |> fun (value,idx) -> idx
 
-    /// Returns a collection of local Maxima and Minima. Attention: The algorithm is very sensitive to noise   
+    /// <summary>Returns a collection of local Maxima and Minima. Attention: The algorithm is very sensitive to noise   </summary>
+    /// <remarks></remarks>
+    /// <param name="negYThreshold"></param>
+    /// <param name="posYThreshold"></param>
+    /// <param name="xData"></param>
+    /// <param name="smoothYData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let labelPeaks negYThreshold posYThreshold (xData:float[]) (smoothYData:float[]) =
         if xData.Length <= 5 then [||]
         else
@@ -234,9 +307,20 @@ module PeakDetection =
         let closestRightLiftOffIdx labeledSndDevData peakIdx = 
             closestLiftOffIdx (+1) labeledSndDevData peakIdx
 
-        /// Given a noisy data set, the labled negative second derivative, the index of a putative peak and the index of the peak lift of position, the function iterates
-        /// in the direction given by the step parameter and returns a tuple. The first value of the tuple indicates if the peak is isolated (true indicates yes) and the second value is the 
-        /// index index of the determined peak end. 
+        /// <summary>Given a noisy data set, the labled negative second derivative, the index of a putative peak and the index of the peak lift of position, the function iterates<br />in the direction given by the step parameter and returns a tuple. The first value of the tuple indicates if the peak is isolated (true indicates yes) and the second value is the <br />index index of the determined peak end. </summary>
+        /// <remarks></remarks>
+        /// <param name="step"></param>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <param name="smoothedYData"></param>
+        /// <param name="labeledSndDevData"></param>
+        /// <param name="closestPeakIdx"></param>
+        /// <param name="closestLiftOffIdx"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let tryFindPeakEnd step (xData: float []) (yData: float []) (smoothedYData: float []) (labeledSndDevData: Tag<Extrema,(float*float)> []) (closestPeakIdx: int) (closestLiftOffIdx: int option) =
             ///
             let signalBorderBy (step:int) =
@@ -244,9 +328,19 @@ module PeakDetection =
                     xData.Length-1
                 else 
                     0
-            /// Inspects the sourrounding of the peak. The function walks in the direction given by the step parameter. The function accumulates all
-            /// lift offs till till the next peak or the end of the signal trace is reached. Returns the last index, the number of lift offs and a bool
-            /// indicating if a flanking peak is present.
+            /// <summary>Inspects the sourrounding of the peak. The function walks in the direction given by the step parameter. The function accumulates all<br />lift offs till till the next peak or the end of the signal trace is reached. Returns the last index, the number of lift offs and a bool<br />indicating if a flanking peak is present.</summary>
+            /// <remarks></remarks>
+            /// <param name="loopF"></param>
+            /// <param name="step"></param>
+            /// <param name="labeledSndDevData"></param>
+            /// <param name="currentIdx"></param>
+            /// <param name="kLiftOffs"></param>
+            /// <param name="hasFlankingPeak"></param>
+            /// <returns></returns>
+            /// <example>
+            /// <code>
+            /// </code>
+            /// </example>
             let rec loopF step (labeledSndDevData: Tag<Extrema,(float*float)> []) (currentIdx: int) (kLiftOffs: int) (hasFlankingPeak:bool) = 
                 if currentIdx = signalBorderBy step then 
                     currentIdx, kLiftOffs, hasFlankingPeak
@@ -294,15 +388,35 @@ module PeakDetection =
                     | Option.None   -> signalBorderBy step 
                     | Option.Some x -> x
           
-        /// Given a noisy data set, the labled negative second derivative, the index of a putative peak and the index of the peak lift of position, the function iterates
-        /// in the positive direction returns a tuple. The first value of the tuple indicates if the peak is isolated (true indicates yes) and the second value is the 
-        /// index index of the determined peak end. 
+        /// <summary>Given a noisy data set, the labled negative second derivative, the index of a putative peak and the index of the peak lift of position, the function iterates<br />in the positive direction returns a tuple. The first value of the tuple indicates if the peak is isolated (true indicates yes) and the second value is the <br />index index of the determined peak end. </summary>
+        /// <remarks></remarks>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <param name="smoothedYData"></param>
+        /// <param name="labeledSndDevData"></param>
+        /// <param name="closestPeakIdx"></param>
+        /// <param name="closestLiftOffIdx"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let findLeftBorderOf (xData: float []) (yData: float []) smoothedYData (labeledSndDevData: Tag<Extrema,(float*float)> []) (closestPeakIdx: int) (closestLiftOffIdx: int option) =
             tryFindPeakEnd (-1) xData yData smoothedYData labeledSndDevData closestPeakIdx closestLiftOffIdx
 
-        /// Given a noisy data set, the labled negative second derivative, the index of a putative peak and the index of the peak lift of position, the function iterates
-        /// in the positive direction returns a tuple. The first value of the tuple indicates if the peak is isolated (true indicates yes) and the second value is the 
-        /// index index of the determined peak end. 
+        /// <summary>Given a noisy data set, the labled negative second derivative, the index of a putative peak and the index of the peak lift of position, the function iterates<br />in the positive direction returns a tuple. The first value of the tuple indicates if the peak is isolated (true indicates yes) and the second value is the <br />index index of the determined peak end. </summary>
+        /// <remarks></remarks>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <param name="smoothedYData"></param>
+        /// <param name="labeledSndDevData"></param>
+        /// <param name="closestPeakIdx"></param>
+        /// <param name="closestLiftOffIdx"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let findRightBorderOf (xData: float []) (yData: float []) smoothedYData (labeledSndDevData: Tag<Extrema,(float*float)> []) (closestPeakIdx: int) (closestLiftOffIdx: int option) =
             tryFindPeakEnd (1) xData yData smoothedYData labeledSndDevData closestPeakIdx closestLiftOffIdx
 

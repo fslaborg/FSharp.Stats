@@ -20,27 +20,67 @@ type Normal =
         if System.Double.IsNaN(mu) || sigma < 0.0 then 
             failwith "Normal distribution should be parametrized by sigma > 0.0."
 
-    /// Computes the mode.
+    /// <summary>Computes the mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode mu sigma =
         Normal.CheckParam mu sigma
         mu
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean mu sigma =
         Normal.CheckParam mu sigma
         mu
 
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance mu sigma =
         Normal.CheckParam mu sigma
         sigma*sigma
 
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation mu sigma =
         Normal.CheckParam mu sigma
         sigma
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member SampleUnchecked mu sigma =
         // Source: fsmathtools
         let mutable v1 = 2.0 * Random.rndgen.NextFloat() - 1.0
@@ -54,23 +94,58 @@ type Normal =
         (sigma * v1 * fac + mu)
         //failwith "Not implemented yet."
     
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample mu sigma =
         // Source: fsmathtools
         Normal.CheckParam mu sigma
         Normal.SampleUnchecked mu sigma
         
-    /// Computes the probability density function.
+    /// <summary>Computes the probability density function.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PDF mu sigma x =
         Normal.CheckParam mu sigma
         (exp (-0.5 * (x-mu)*(x-mu) / (sigma*sigma))) / (sqrt (2.0 * Ops.pi * (sigma*sigma)))
         
-    /// Computes the cumulative distribution function.
+    /// <summary>Computes the cumulative distribution function.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF mu sigma x =
         Normal.CheckParam mu sigma            
         0.5 * (1.0 + SpecialFunctions.Errorfunction.Erf((x - mu)/(sigma*(sqrt 2.0))))
 
-    /// Computes the quantile function (inverse cumulative distribution).
+    /// <summary>Computes the quantile function (inverse cumulative distribution).</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <param name="p"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF mu sigma p =
         Normal.CheckParam mu sigma
         //ALGORITHM AS241 from "Wichura, Algorithm AS 241: The Percentage Points of the Normal Distribution., 1988"
@@ -126,17 +201,41 @@ type Normal =
 
 
 
-    /// Returns the support of the exponential distribution: [0, Positive Infinity).
+    /// <summary>Returns the support of the exponential distribution: [0, Positive Infinity).</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support mu sigma =
         Normal.CheckParam mu sigma
         Interval.CreateRightOpen<float>(Double.NegativeInfinity, Double.PositiveInfinity)
 
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString mu sigma =
         sprintf "Normal(μ = %f, σ = %f)" mu sigma
 
-    /// Initializes a Normal distribution        
+    /// <summary>Initializes a Normal distribution        </summary>
+    /// <remarks></remarks>
+    /// <param name="mu"></param>
+    /// <param name="sigma"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init mu sigma =
         { new ContinuousDistribution<float,float> with
             member d.Mean              = Normal.Mean mu sigma
@@ -152,7 +251,14 @@ type Normal =
             override d.ToString()      = Normal.ToString mu sigma
         }
 
-    /// Estimates the Normal distribution parameters from sample data with maximum-likelihood.
+    /// <summary>Estimates the Normal distribution parameters from sample data with maximum-likelihood.</summary>
+    /// <remarks></remarks>
+    /// <param name="samples"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Estimate samples =
         let s   = Seq.stats samples
         let mu  = SummaryStats.mean s

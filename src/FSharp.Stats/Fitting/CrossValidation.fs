@@ -14,12 +14,26 @@ module CrossValidation =
 
     module Error =
     
-        /// Computes sum of squared residuals (SSR)
+        /// <summary>Computes sum of squared residuals (SSR)</summary>
+        /// <remarks></remarks>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let ssr (y:Vector<float>) (p:Vector<float>)=
             let residuals = y-p 
             residuals.Transpose * residuals
 
-        /// Computes root mean square error (RMSE)
+        /// <summary>Computes root mean square error (RMSE)</summary>
+        /// <remarks></remarks>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let rmse (y:Vector<float>) (p:Vector<float>)=
             sqrt((ssr y p)/(double y.Length))
 
@@ -65,14 +79,14 @@ module CrossValidation =
         |> PSeq.withDegreeOfParallelism degreeOfParallelism
         |> Seq.average
 
-    /// Computes a repeated k fold cross-validation,
-    /// k: training set size (and number of iterations),
-    /// iterations: number of random subset creation,
-    /// xData: rowwise x-coordinate matrix,
-    /// yData: yData vector
-    /// fit: x and y data lead to function that maps a xData row vector to a y-coordinate,
-    /// error: defines the error of the fitted y-coordinate and the actual y-coordinate,
-    /// getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)
+    /// <summary>Computes a repeated k fold cross-validation,<br />k: training set size (and number of iterations),<br />iterations: number of random subset creation,<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps a xData row vector to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate,<br />getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)</summary>
+    /// <remarks></remarks>
+    /// <param name="repeatedKFold"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline repeatedKFold< ^T when ^T : (static member ( + ) : ^T * ^T -> ^T) 
                     and  ^T : (static member DivideByInt : ^T*int -> ^T) 
                     and  ^T : (static member Zero : ^T)> 
@@ -112,23 +126,32 @@ module CrossValidation =
         |> fun errorSeq -> 
             createCrossValidationResult (Seq.average errorSeq) (getStDev errorSeq)
 
-    /// Computes a k fold cross-validation,
-    /// k: training set size (and number of iterations),
-    /// xData: rowwise x-coordinate matrix,
-    /// yData: yData vector
-    /// fit: x and y data lead to function that maps a rowwise matrix of xCoordinates to a y-coordinate,
-    /// error: defines the error of the fitted y-coordinate and the actual y-coordinate
+    /// <summary>Computes a k fold cross-validation,<br />k: training set size (and number of iterations),<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps a rowwise matrix of xCoordinates to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate</summary>
+    /// <remarks></remarks>
+    /// <param name="k"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="fit"></param>
+    /// <param name="error"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline kFold k (xData:Matrix< ^T >) (yData:Vector< ^T >)
         (fit: Matrix< ^T > -> Vector< ^T > -> RowVector< ^T > -> ^T)
         (error: ^T -> ^T -> ^T) =
         repeatedKFold k 1 xData yData fit error (fun s -> Seq.head s)
         |> fun r -> r.Error
 
-    /// Computes a leave one out cross-validation
-    /// xData: rowwise x-coordinate matrix,
-    /// yData: yData vector
-    /// fit: x and y data lead to function that maps an xData row vector to a y-coordinate,
-    /// error: defines the error of the fitted y-coordinate and the actual y-coordinate
+    /// <summary>Computes a leave one out cross-validation<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps an xData row vector to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate</summary>
+    /// <remarks></remarks>
+    /// <param name="loocv"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline loocv< ^T when ^T : (static member ( + ) : ^T * ^T -> ^T) 
             and  ^T : (static member DivideByInt : ^T*int -> ^T) 
             and  ^T : (static member Zero : ^T)> 
@@ -151,14 +174,14 @@ module CrossValidation =
             )
         |> List.average    
 
-    /// Computes a repeated shuffel-and-split cross validation
-    /// p: percentage of training set size from original size,
-    /// iterations: number of random subset creation,
-    /// xData: rowwise x-coordinate matrix,
-    /// yData: yData vector
-    /// fit: x and y data lead to function that maps a xData row vector to a y-coordinate,
-    /// error: defines the error of the fitted y-coordinate and the actual y-coordinate,
-    /// getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)
+    /// <summary>Computes a repeated shuffel-and-split cross validation<br />p: percentage of training set size from original size,<br />iterations: number of random subset creation,<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps a xData row vector to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate,<br />getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)</summary>
+    /// <remarks></remarks>
+    /// <param name="shuffelAndSplit"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline shuffelAndSplit< ^T when ^T : (static member ( + ) : ^T * ^T -> ^T) 
                     and  ^T : (static member DivideByInt : ^T*int -> ^T) 
                     and  ^T : (static member Zero : ^T)>

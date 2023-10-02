@@ -50,8 +50,14 @@ module GoodnessOfFit =
     let stDevY (sumOfSquares:SumOfSquares) =
         sumOfSquares.Error / (sumOfSquares.Count - 2.) |> sqrt
 
-    /// Standard error if the estimate 
-    /// Square root of variance s2y,x
+    /// <summary>Standard error if the estimate <br />Square root of variance s2y,x</summary>
+    /// <remarks></remarks>
+    /// <param name="sumOfSquares"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let standardErrorEstimate (sumOfSquares:SumOfSquares) =
         sumOfSquares.Error / (sumOfSquares.Count - 2.) |> sqrt
      
@@ -61,7 +67,14 @@ module GoodnessOfFit =
         ( sumOfSquares.Error / (sumOfSquares.Count - 2.) ) / sumOfSquares.SSxx
         |> sqrt
 
-    /// Standard error of slope (beta)    
+    /// <summary>Standard error of slope (beta)    </summary>
+    /// <remarks></remarks>
+    /// <param name="sumOfSquares"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let standardErrorSlope (sumOfSquares:SumOfSquares) =
         (sumOfSquares.Error / (sumOfSquares.Count - 2.)) / sumOfSquares.SSxx 
         |> sqrt
@@ -74,7 +87,14 @@ module GoodnessOfFit =
         s2yx * ((1./sumOfSquares.Count) + (mx2/sumOfSquares.SSxx))
         |> sqrt
 
-    /// Standard error of intercept (alpha)
+    /// <summary>Standard error of intercept (alpha)</summary>
+    /// <remarks></remarks>
+    /// <param name="sumOfSquares"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let standardErrorIntercept (sumOfSquares:SumOfSquares) =
          let s2yx = sumOfSquares.Error / (sumOfSquares.Count - 2.) 
          let mx2  = sumOfSquares.MeanX*sumOfSquares.MeanX
@@ -120,7 +140,16 @@ module GoodnessOfFit =
                         ) (0.,0.)
         ((SST - SSE) / SST)
  
-    /// Gets the adjusted coefficient of determination, as known as the R-Squared (R²adj). It is adjusted by the number of used variables (not including the constant term) (https://ebrary.net/1008/economics/adjusted_coefficient_determination_adjusted)
+    /// <summary>Gets the adjusted coefficient of determination, as known as the R-Squared (R²adj). It is adjusted by the number of used variables (not including the constant term) (https://ebrary.net/1008/economics/adjusted_coefficient_determination_adjusted)</summary>
+    /// <remarks></remarks>
+    /// <param name="actual"></param>
+    /// <param name="expected"></param>
+    /// <param name="variables"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let calculateDeterminationAdj (actual:seq<float>) (expected:seq<float>) (variables:int) =
         let dataLength = Seq.length actual |> float
         let tmpAdj = (1. - calculateDeterminationFromValue actual expected) * (dataLength - 1.) / (dataLength - 1. - (float variables))
@@ -138,33 +167,73 @@ module GoodnessOfFit =
     let calcBIC (k:float) n sse = 
         n * log (sse/n) + k * log (n) 
     
-    /// Calculates the residuals
+    /// <summary>Calculates the residuals</summary>
+    /// <remarks></remarks>
+    /// <param name="fitFunc"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getResiduals (fitFunc:float -> float) (xData : Vector<float>) (yData : Vector<float>) = 
         Seq.map2 (fun x y -> let yEstimated = fitFunc x
                              (y - yEstimated) ) xData yData
 
-    /// Calculates SSE: sum of squares of errors
-    /// also: unexplained sum of squares; residual sum of squares   
+    /// <summary>Calculates SSE: sum of squares of errors<br />also: unexplained sum of squares; residual sum of squares   </summary>
+    /// <remarks></remarks>
+    /// <param name="fitFunc"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let calculateSSE (fitFunc:float -> float) (xData : Vector<float>) (yData : Vector<float>) = 
         Seq.map2 (fun x y -> let yEstimated = fitFunc x
                              (y - yEstimated) * (y - yEstimated) ) xData yData
         |> Seq.sum
 
-    /// Calculates SSR: sum of squares regression.
-    /// also: explained sum of squares
+    /// <summary>Calculates SSR: sum of squares regression.<br />also: explained sum of squares</summary>
+    /// <remarks></remarks>
+    /// <param name="fitFunc"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let calculateSSR (fitFunc:float -> float) (xData : Vector<float>) (yData : Vector<float>) = 
         let meanY = Seq.mean yData
         yData |> Seq.mapi (fun i y -> (fitFunc xData.[i] - meanY)**2.) |> Seq.sum
 
-    /// Calculates SST: sum of squares total.
-    /// also: total sum of squares
+    /// <summary>Calculates SST: sum of squares total.<br />also: total sum of squares</summary>
+    /// <remarks></remarks>
+    /// <param name="yData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let calculateSST (yData : Vector<float>) = 
         let meanY = Seq.mean yData
         yData 
         |> Seq.sumBy (fun y -> pown (y - meanY) 2)
 
-    /// explained = total - unexplained
-
+    /// <summary>explained = total - unexplained</summary>
+    /// <remarks></remarks>
+    /// <param name="order"></param>
+    /// <param name="fitFunc"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let calculateANOVA (order:int) (fitFunc:float -> float)  (xData : Vector<float>) (yData : Vector<float>) = 
         let meanY = Seq.mean yData
         let sst,sse =
@@ -221,7 +290,16 @@ module GoodnessOfFit =
                     let fitFunction x = coef.[0] + coef.[1] * x 
                     calculateANOVA 1 fitFunction xData yData 
                 
-                ///returns a function, that reports the confidence y_intercept for a given x value
+                /// <summary>returns a function, that reports the confidence y_intercept for a given x value</summary>
+                /// <remarks></remarks>
+                /// <param name="xData"></param>
+                /// <param name="yData"></param>
+                /// <param name="confidenceLevel"></param>
+                /// <returns></returns>
+                /// <example>
+                /// <code>
+                /// </code>
+                /// </example>
                 let calculateConfidenceBandError (xData : Vector<float>) (yData : Vector<float>) confidenceLevel = 
                     if xData.Length <> yData.Length then
                         raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -282,7 +360,16 @@ module GoodnessOfFit =
             [<Obsolete("Use Fitting.CrossValidation instead")>]
             module CrossValidation =
                 
-                ///calculates LeaveOneOutCrossValidation
+                /// <summary>calculates LeaveOneOutCrossValidation</summary>
+                /// <remarks></remarks>
+                /// <param name="xData"></param>
+                /// <param name="yData"></param>
+                /// <param name="order"></param>
+                /// <returns></returns>
+                /// <example>
+                /// <code>
+                /// </code>
+                /// </example>
                 let loocv (xData:Vector<float>) (yData:Vector<float>) order =
                     [0..xData.Length-1]
                     |> List.map (fun x ->
@@ -307,7 +394,17 @@ module GoodnessOfFit =
 
                 ///k-fold cross validation
                 ///Calculates the average SSE of given data, the order used to fit the polynomial and the subset you want to leave out (k).
-                ///Consider to choose k that n%k=0 for equally bin sizes.
+                /// <summary>Consider to choose k that n%k=0 for equally bin sizes.</summary>
+                /// <remarks></remarks>
+                /// <param name="xData"></param>
+                /// <param name="yData"></param>
+                /// <param name="order"></param>
+                /// <param name="k"></param>
+                /// <returns></returns>
+                /// <example>
+                /// <code>
+                /// </code>
+                /// </example>
                 let kfcv (xData:Vector<float>) (yData:Vector<float>) order k =
                     let zippedData =    
                         Seq.zip xData yData 
