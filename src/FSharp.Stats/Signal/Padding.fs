@@ -266,7 +266,23 @@ module Padding =
     module Discrete =
 
         
-        ///Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).
+        /// <summary>
+        /// Adds additional random data points to the beginning and end of the given data. Values are
+        /// taken at random from the original data.
+        /// </summary>
+        /// <param name="data">An array of values</param>
+        /// <param name="borderpadding">The number of points to add to each end</param>
+        /// <example>
+        /// <code> 
+        ///  let data = [|0.1; 0.2; 0.3; 0.4|]
+        ///            
+        ///  let padding = 2
+        ///       
+        ///  // padding the data points with 2 artificial random-valued points on each side
+        ///  let paddedData = Padding.Discrete.padRnd data padding
+        ///  
+        /// </code> 
+        /// </example>        
         let inline padRnd (data : 'a []) (borderpadding : int) =
             let rnd = System.Random()
             let n = data.Length
@@ -276,7 +292,7 @@ module Padding =
                     let paddY = data.[rnd.Next(0,n)] //n+1
                     paddY)
                     |> Array.rev
-            ///adds 'borderpadding' number of random data points to the rigth
+            ///adds 'borderpadding' number of random data points to the right
             let rightPadding    = 
                 Array.init borderpadding (fun i -> 
                     let paddY = data.[rnd.Next(0,n)] //n+1
@@ -296,7 +312,7 @@ module Padding =
         ///  let padding = 2
         ///       
         ///  // padding the data points with 2 artificial zero-valued points on each side
-        ///  let paddedData =Padding.Discrete.padZero data padding
+        ///  let paddedData = Padding.Discrete.padZero data padding
         ///  
         /// </code> 
         /// </example>        
@@ -337,7 +353,7 @@ module Padding =
             ///  let padding = 11
             ///       
             ///  // padding the data points with 11 artificial random points on each side
-            ///  let paddedData2D =Padding.Discrete.ThreeDimensional.pad data2D padding Padding.Discrete.ThreeDimensional.Random
+            ///  let paddedData2D = Padding.Discrete.ThreeDimensional.pad data2D padding Padding.Discrete.ThreeDimensional.Random
             ///  
             /// </code> 
             /// </example>
