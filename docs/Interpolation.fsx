@@ -373,7 +373,11 @@ splineComparison |> GenericChart.toChartHTML
 (**
 ## Bezier interpolation
 
-In Bezier interpolation the user can define control points in order to interpolate between points.
+In Bezier interpolation the user can define control points in order to interpolate between points. The first and last point (within the given coordinate sequence) are interpolated, while all others serve as control points that stretch the connection.
+If there is just one control point (coordinate collection length=3) the resulting curve is quadratic, two control points create a cubic curve etc.. Nested LERPs are used to identify the desired y-value from an given x value.
+
+![LERP Bezier curve](https://user-images.githubusercontent.com/28917670/269846999-33c7540a-f25d-4c28-9624-a3dd96cc9068.png)
+
 
 *)
 
@@ -421,7 +425,6 @@ Bezier interpolation is not limited to 2D points, it can be also be used to inte
 *)
 
 let bezierInterpolation3d =
-    let t = 0.3
     let p0 = vector [|1.;1.;1.|] //point 0 that should be traversed
     let c0 = vector [|1.5;2.1;2.|] //control point 0
     let c1 = vector [|5.8;1.6;1.4|] //control point 1

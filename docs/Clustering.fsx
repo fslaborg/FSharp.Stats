@@ -42,10 +42,10 @@ _Summary:_ this tutorial demonstrates several clustering methods in FSharp.Stats
 ### Table of contents
 
  - [Iterative Clustering](#Iterative-Clustering)
-    - [k-means clustering](k-means-clustering)
+    - [k-means clustering](#k-means-clustering)
  - [Density based clustering](#Density-based-clustering)
     - [DBSCAN](#DBSCAN)
- - [Hierarchical clustering](#Hierarchical-clustering)
+ - [Hierarchical clustering](#Hierarchical-Clustering)
     - [Distance measures](#Distance-measures)
     - [Linkages](#Linkages)
  - [Determining the optimal number of clusters](#Determining-the-optimal-number-of-clusters)
