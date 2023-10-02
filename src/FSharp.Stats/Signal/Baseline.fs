@@ -6,7 +6,15 @@ open FSharp.Stats
 
 module Baseline =
 
-    /// Creates a diagonal 2-D array with the given order and set all diagonal values to x
+    /// <summary>Creates a diagonal 2-D array with the given order and set all diagonal values to x</summary>
+    /// <remarks></remarks>
+    /// <param name="order"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let diag order x =
         let arr = Array2D.zeroCreate order order
         for i=0 to (order-1) do 
@@ -31,7 +39,17 @@ module Baseline =
     // p = 0.05   ->  Weighting of positive residuals 
     // maxiter = 10 or 20
     
-    /// Asymmetric Least Squares Smoothing by P. Eilers and H. Boelens in 2005
+    /// <summary>Asymmetric Least Squares Smoothing by P. Eilers and H. Boelens in 2005</summary>
+    /// <remarks></remarks>
+    /// <param name="maxiter"></param>
+    /// <param name="lambda"></param>
+    /// <param name="p"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let baselineAls (maxiter:int) (lambda:int) (p:float) (data:float[]) =
         let dMatrix' = 
             let dMatrix = Matrix.ofArray2D (diff 2 (diag data.Length 1.))                            

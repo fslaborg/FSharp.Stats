@@ -23,26 +23,91 @@ module Vector =
     module Generic = 
         
         module OpsS = SpecializedGenericImpl
-        ///Returns the value of the vector a at the given index i
+        /// <summary>Returns the value of the vector a at the given index i</summary>
+        /// <remarks></remarks>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let get (vector:Vector<'T>) index  = vector.[index]
-        ///Sets the value x to the vector a at the given index i
+        /// <summary>Sets the value x to the vector a at the given index i</summary>
+        /// <remarks></remarks>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let set (vector:Vector<'T>) index value  = vector.[index] <- value
-        ///Returns length of vector v
+        /// <summary>Returns length of vector v</summary>
+        /// <remarks></remarks>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let length (vector:Vector<'T>) = vector.Length
-        ///Creates vector from list xss
+        /// <summary>Creates vector from list xss</summary>
+        /// <remarks></remarks>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let ofList list = OpsS.listV list
-        ///Creates vector from seq xss
+        /// <summary>Creates vector from seq xss</summary>
+        /// <remarks></remarks>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let ofSeq source = OpsS.seqV source
-        ///Initializes vector with count members, based on function f
+        /// <summary>Initializes vector with count members, based on function f</summary>
+        /// <remarks></remarks>
+        /// <param name="count"></param>
+        /// <param name="initializer"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let init count initializer = OpsS.initV count initializer
         let initNumeric count f = OpsS.createNumericV count f
         let ofArray array = OpsS.arrayV array
         let toArray (vector:Vector<'T>) = Array.init vector.Length (get vector)
-        ///Creates vector of length count and fills it with value
+        /// <summary>Creates vector of length count and fills it with value</summary>
+        /// <remarks></remarks>
+        /// <param name="count"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let create count value = OpsS.constV count value
-        ///Creates a vector of length count and fills it with zeros
+        /// <summary>Creates a vector of length count and fills it with zeros</summary>
+        /// <remarks></remarks>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let zeroCreate count = OpsS.zeroV count
-        ///Creates a vector of length count and fills it with ones
+        /// <summary>Creates a vector of length count and fills it with ones</summary>
+        /// <remarks></remarks>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let oneCreate count = OpsS.createNumericV count (fun ops _ -> ops.One)
         [<Obsolete("Use zeroCreate instead.")>]
         let zero count = OpsS.zeroV count
@@ -57,7 +122,15 @@ module Vector =
         let cptMax vector1 vector2 = OpsS.cptMaxV vector1 vector2
         let cptMin vector1 vector2 = OpsS.cptMinV vector1 vector2
         let scale a b = OpsS.scaleV a b
-        ///Dot product of the two vectors
+        /// <summary>Dot product of the two vectors</summary>
+        /// <remarks></remarks>
+        /// <param name="vector1"></param>
+        /// <param name="vector2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let dot vector1 vector2 = OpsS.dotV vector1 vector2
         let neg vector = OpsS.negV vector 
         let transpose vector = OpsS.transV vector 
@@ -95,7 +168,14 @@ module Vector =
         let inplaceAssign f vector = OpsS.assignV f vector
         [<Obsolete("Use inplaceAssign instead.")>]
         let inplace_assign f a = OpsS.assignV f a
-        ///Sum of all elements of the vector a
+        /// <summary>Sum of all elements of the vector a</summary>
+        /// <remarks></remarks>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let sum (a:Vector<_>) = let ops = a.ElementOps in fold (fun x y -> ops.Add(x,y)) ops.Zero a
         let prod (a:Vector<_>) = let ops = a.ElementOps in fold (fun x y -> ops.Multiply(x,y)) ops.One a
 
@@ -121,22 +201,75 @@ module Vector =
     module VG = Generic
     module VecDS = DoubleImpl
     module VecGU = GenericImpl
-    ///Returns the value of the vector at the given index 
+    /// <summary>Returns the value of the vector at the given index </summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let get (vector:vector) index = VG.get vector index 
-    ///Sets the value to the vector at the given index 
+    /// <summary>Sets the value to the vector at the given index </summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <param name="index"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let set (vector:vector) index value = VG.set vector index value
-    ///Returns length of vector
+    /// <summary>Returns length of vector</summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let length (vector:vector) = VG.length vector
-    ///Returns length of vector
+    /// <summary>Returns length of vector</summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let nRows (vector:vector) = VG.length vector
     ///Returns length of vector
     [<Obsolete("Use length instead.")>]
     let nrows (vector:vector) = VG.length vector
-    ///Initiates vector of length count and fills it by applying initializer function on indices
+    /// <summary>Initiates vector of length count and fills it by applying initializer function on indices</summary>
+    /// <remarks></remarks>
+    /// <param name="count"></param>
+    /// <param name="initializer"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let init count initializer = VecDS.createVecDS count initializer
-    ///Creates vector with values of array
+    /// <summary>Creates vector with values of array</summary>
+    /// <remarks></remarks>
+    /// <param name="array"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ofArray array : vector = VG.ofArray array
-    ///Creates array with values of vector
+    /// <summary>Creates array with values of vector</summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toArray (vector : vector) = VG.toArray vector
 
     type range = int * int
@@ -160,83 +293,317 @@ module Vector =
     let range n1 n2 = let r = (n1,n2) in init (countR  r) (fun i -> float(idxR r i)) 
 
     let rangef a b c = let r = (a,b,c) in init (countRF r) (fun i -> idxRF r i)
-    ///Creates vector with values of list 
+    /// <summary>Creates vector with values of list </summary>
+    /// <remarks></remarks>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ofList list = VecDS.listVecDS list
-    ///Creates vector with values of sequence
+    /// <summary>Creates vector with values of sequence</summary>
+    /// <remarks></remarks>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ofSeq source = VecDS.seqVecDS source
     ///Creates vector of length count and fills it with value 
     let create  count value  = VecDS.constVecDS count value
-    ///Creates one dimensional vector of value
+    /// <summary>Creates one dimensional vector of value</summary>
+    /// <remarks></remarks>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let ofScalar value = VecDS.scalarVecDS value
-    ///Builds a new vector whose elements are the results of adding the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    /// <summary>Builds a new vector whose elements are the results of adding the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.</summary>
+    /// <remarks></remarks>
+    /// <param name="vector1"></param>
+    /// <param name="vector2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let add vector1 vector2 = VecDS.addVecDS vector1 vector2
-    ///Builds a new vector whose elements are the results of substracting the corresponding elements of vector2 from vector1. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    /// <summary>Builds a new vector whose elements are the results of substracting the corresponding elements of vector2 from vector1. The two input vectors must have the same lengths, otherwise ArgumentException is raised.</summary>
+    /// <remarks></remarks>
+    /// <param name="vector1"></param>
+    /// <param name="vector2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let sub vector1 vector2 = VecDS.subVecDS vector1 vector2
     let mulRVV vector1 vector2 = VecDS.mulRowVecVecDS vector1 vector2
     let mulVRV vector1 vector2 = VecDS.mulVecRowVecDS vector1 vector2
-    ///Builds a new vector whose elements are the results of multiplying the corresponding elements of the given vectors. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    /// <summary>Builds a new vector whose elements are the results of multiplying the corresponding elements of the given vectors. The two input vectors must have the same lengths, otherwise ArgumentException is raised.</summary>
+    /// <remarks></remarks>
+    /// <param name="vector1"></param>
+    /// <param name="vector2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let cptMul vector1 vector2 = VecDS.cptMulVecDS vector1 vector2
     let cptMax vector1 vector2 = VecDS.cptMaxVecDS vector1 vector2
     let cptMin vector1 vector2 = VecDS.cptMinVecDS vector1 vector2
-    ///Builds a new vector whose elements are the results of multiplying the given scalar with each of the elements of the vector.
+    /// <summary>Builds a new vector whose elements are the results of multiplying the given scalar with each of the elements of the vector.</summary>
+    /// <remarks></remarks>
+    /// <param name="scalar"></param>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let scale scalar vector = VecDS.scaleVecDS scalar vector
-    ///Builds a new vector whose elements are the results of multiplying -1 with each of the elements of the vector.
+    /// <summary>Builds a new vector whose elements are the results of multiplying -1 with each of the elements of the vector.</summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let neg vector = VecDS.negVecDS vector
-    ///Dot product of the two vectors
+    /// <summary>Dot product of the two vectors</summary>
+    /// <remarks></remarks>
+    /// <param name="vector1"></param>
+    /// <param name="vector2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let dot vector1 vector2 = VecDS.dotVecDS vector1 vector2
     let transpose (vector:vector) = VG.transpose vector
     let exists predicate (vector:vector) = VG.exists predicate vector
     let forall predicate (vector:vector) = VG.forall predicate vector
     let existsi predicate (vector:vector) = VG.existsi predicate vector
     let foralli predicate (vector:vector) = VG.foralli predicate vector
-    ///Builds a new vector whose elements are the results of applying the given function to each of the elements of the vector.
+    /// <summary>Builds a new vector whose elements are the results of applying the given function to each of the elements of the vector.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map mapping (vector:vector) = VG.map mapping vector
-    ///Builds a new vector whose elements are the results of applying the given function to the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    /// <summary>Builds a new vector whose elements are the results of applying the given function to the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="vector1"></param>
+    /// <param name="vector2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map2 mapping (vector1:vector) (vector2:vector) = VG.map2 mapping vector1 vector2
-    ///Builds a new vector whose elements are the results of applying the given function to the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.
+    /// <summary>Builds a new vector whose elements are the results of applying the given function to the corresponding elements of the two vectors pairwise. The two input vectors must have the same lengths, otherwise ArgumentException is raised.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="vector1"></param>
+    /// <param name="vector2"></param>
+    /// <param name="vector3"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let map3 mapping (vector1:vector) (vector2:vector) (vector3:vector) = VG.map3 mapping vector1 vector2 vector3
-    ///Builds a new vector that contains the elements of the given vector.
+    /// <summary>Builds a new vector that contains the elements of the given vector.</summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let copy (vector:vector) = VG.copy vector
-    ///Builds a new vector whose elements are the results of applying the given function to each of the elements of the vector and their corresponding index.
+    /// <summary>Builds a new vector whose elements are the results of applying the given function to each of the elements of the vector and their corresponding index.</summary>
+    /// <remarks></remarks>
+    /// <param name="mapping"></param>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mapi mapping (vector:vector) : vector = VG.mapi mapping vector
-    ///Applies a function to each element of the vector, threading an accumulator argument through the computation.
+    /// <summary>Applies a function to each element of the vector, threading an accumulator argument through the computation.</summary>
+    /// <remarks></remarks>
+    /// <param name="folder"></param>
+    /// <param name="state"></param>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let fold folder (state:'State) (vector:vector) = VG.fold folder state vector
-    ///Applies a function to each element of the vector and their corresponding index, threading an accumulator argument through the computation.
+    /// <summary>Applies a function to each element of the vector and their corresponding index, threading an accumulator argument through the computation.</summary>
+    /// <remarks></remarks>
+    /// <param name="folder"></param>
+    /// <param name="state"></param>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let foldi folder (state:'State) (vector:vector) = VG.foldi folder state vector
-    ///Creates a vector of length count and fills it with zeros
+    /// <summary>Creates a vector of length count and fills it with zeros</summary>
+    /// <remarks></remarks>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let zeroCreate count = create count 0.0
-    ///Creates a vector of length count and fills it with ones
+    /// <summary>Creates a vector of length count and fills it with ones</summary>
+    /// <remarks></remarks>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let oneCreate count = create count 1.0
     [<Obsolete("Use zeroCreate instead.")>]
     let zero count = create count 0.0
     [<Obsolete("Use oneCreate instead.")>]
     let ones count = create count 1.0
-    ///Sum of all elements of the vector
+    /// <summary>Sum of all elements of the vector</summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let sum vector = VecDS.sumVecDS vector
-    ///Product of all elements of the vector
+    /// <summary>Product of all elements of the vector</summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let prod vector = fold (fun x y -> x * y) 1.0 vector
-    ///Euklidian norm of the vector
+    /// <summary>Euklidian norm of the vector</summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let norm (vector:vector) = sqrt (fold (fun x y -> x + y * y) 0.0 vector) (* fixed *)
-    ///Builds a new vector whose elements are the results of exponentiating each of the elements of the vector with n.
+    /// <summary>Builds a new vector whose elements are the results of exponentiating each of the elements of the vector with n.</summary>
+    /// <remarks></remarks>
+    /// <param name="n"></param>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let toThePower n vector = map (fun x -> x ** n) vector
     [<Obsolete("Use toThePower instead.")>]
     let cptPow vector y = map (fun x -> x ** y) vector
-    ///Applies the given function to each of the indexes of the vector. No new vector is created.
+    /// <summary>Applies the given function to each of the indexes of the vector. No new vector is created.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inplaceAssign f (vector:vector) = VG.inplaceAssign f vector
-    ///Applies the given function to each of the elements of the vector. No new vector is created.
+    /// <summary>Applies the given function to each of the elements of the vector. No new vector is created.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inplaceMap f (vector:vector) = VG.inplaceMap f vector
-    ///Applies the given function to each of the elements of the vector and their corresponding index. No new vector is created.
+    /// <summary>Applies the given function to each of the elements of the vector and their corresponding index. No new vector is created.</summary>
+    /// <remarks></remarks>
+    /// <param name="f"></param>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inplaceMapi f (vector:vector) = VG.inplaceMapi f vector
-    ///Add values of vector2 to values of vector1. Vector2 stays unchanged.
+    /// <summary>Add values of vector2 to values of vector1. Vector2 stays unchanged.</summary>
+    /// <remarks></remarks>
+    /// <param name="vector1"></param>
+    /// <param name="vector2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inplaceAdd vector1 vector2 = VecDS.inplaceAddVecDS vector1 vector2
-    ///Substract values of vector2 from values of vector1. Vector2 stays unchanged.
+    /// <summary>Substract values of vector2 from values of vector1. Vector2 stays unchanged.</summary>
+    /// <remarks></remarks>
+    /// <param name="vector1"></param>
+    /// <param name="vector2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inplaceSub vector1 vector2 = VecDS.inplaceSubVecDS vector1 vector2
-    ///Multiply values of vector1 with values of vector2. Vector2 stays unchanged.
+    /// <summary>Multiply values of vector1 with values of vector2. Vector2 stays unchanged.</summary>
+    /// <remarks></remarks>
+    /// <param name="vector1"></param>
+    /// <param name="vector2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inplaceCptMul vector1 vector2 = VecDS.inplaceCptMulVecDS vector1 vector2
-    ///Multiply values of vector with scalar.
+    /// <summary>Multiply values of vector with scalar.</summary>
+    /// <remarks></remarks>
+    /// <param name="scalar"></param>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inplaceScale scalar vector = VecDS.inplaceScaleVecDS scalar vector
     ///Applies the given function to each of the indexes of the vector.
-    ///Builds vector of Length 1 from value x
+    /// <summary>Builds vector of Length 1 from value x</summary>
+    /// <remarks></remarks>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let singleton x = ofScalar x
     [<Obsolete("Use inplaceAssign instead.")>]
     let inplace_assign  f (v:vector) = VG.inplaceAssign f v
@@ -280,7 +647,14 @@ module Vector =
     // Stats
     //----------------------------------------------------------------------------
     
-    /// Returns the raw data array without copy
+    /// <summary>Returns the raw data array without copy</summary>
+    /// <remarks></remarks>
+    /// <param name="vector"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let raw (vector:Vector<'T>) = vector.Values
 
     //
@@ -297,7 +671,14 @@ module Vector =
         else
             Interval.Empty
 
-    /// Computes the population mean (Normalized by N)            
+    /// <summary>Computes the population mean (Normalized by N)            </summary>
+    /// <remarks></remarks>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline mean (items:Vector<'T>) = 
         let ops  = items.ElementOps
         let zero = ops.Zero
@@ -310,16 +691,37 @@ module Vector =
         loop 0 zero zero
 
 
-    /// Computes the sample median
+    /// <summary>Computes the sample median</summary>
+    /// <remarks></remarks>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline median (items:Vector<'T>) =
         items.Values |> Array.median
         
-    /// Median absolute deviation (MAD)
+    /// <summary>Median absolute deviation (MAD)</summary>
+    /// <remarks></remarks>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let medianAbsoluteDev (items : vector) =       
         items.Values |> Array.medianAbsoluteDev
 
     
-    /// Returns SummaryStats of vector with N, mean, sum-of-squares, minimum and maximum
+    /// <summary>Returns SummaryStats of vector with N, mean, sum-of-squares, minimum and maximum</summary>
+    /// <remarks></remarks>
+    /// <param name="items"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline stats (items:Vector<'T>) =
         let zero = LanguagePrimitives.GenericZero< 'T > 
         let one = LanguagePrimitives.GenericOne< 'T >        
@@ -343,30 +745,78 @@ module Vector =
             SummaryStats.createSummaryStats zero uNan uNan uNan uNan
 
 
-    /// Returns an estimator of the population covariance of two random variables v1 and v2 
+    /// <summary>Returns an estimator of the population covariance of two random variables v1 and v2 </summary>
+    /// <remarks></remarks>
+    /// <param name="v1"></param>
+    /// <param name="v2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let covPopulation (v1:vector) (v2:vector) = 
         Seq.covPopulation v1 v2
 
-    /// Returns the sample covariance of two random variables v1 and v2. (Bessel's correction by N-1) 
+    /// <summary>Returns the sample covariance of two random variables v1 and v2. (Bessel's correction by N-1) </summary>
+    /// <remarks></remarks>
+    /// <param name="v1"></param>
+    /// <param name="v2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let cov (v1:vector) (v2:vector) = 
         Seq.cov v1 v2
 
-    /// calculates the sample means with a given number of replicates present in the sequence
+    /// <summary>calculates the sample means with a given number of replicates present in the sequence</summary>
+    /// <remarks></remarks>
+    /// <param name="rep"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getMeanOfReplicates rep (data:vector) =
         Seq.getMeanOfReplicates rep data
         |> ofSeq 
 
-    /// calculates the sample standard deviations with a given number of replicates present in the sequence
+    /// <summary>calculates the sample standard deviations with a given number of replicates present in the sequence</summary>
+    /// <remarks></remarks>
+    /// <param name="rep"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getStDevOfReplicates rep (data:vector) =
         Seq.getStDevOfReplicates rep data
         |> ofSeq 
 
-    /// calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence
+    /// <summary>calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence</summary>
+    /// <remarks></remarks>
+    /// <param name="rep"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getCvOfReplicates rep (data:vector) =
         Seq.getCvOfReplicates rep data
         |> ofSeq 
 
-    /// Splits a vector according to given indices. Returns (vector including values according to indices, rest)
+    /// <summary>Splits a vector according to given indices. Returns (vector including values according to indices, rest)</summary>
+    /// <remarks></remarks>
+    /// <param name="indices"></param>
+    /// <param name="v"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let splitVector (indices:int[]) (v:Vector<_>) =
         let len = v.Length
         //let nv  = Vector.Generic.zero (len-indices.Length)
@@ -390,7 +840,14 @@ module Vector =
     /// Module to compute common statistical measure on 
     module SummaryStats = 
 
-        /// Returns SummaryStats of vector with N, mean, sum-of-squares, minimum and maximum
+        /// <summary>Returns SummaryStats of vector with N, mean, sum-of-squares, minimum and maximum</summary>
+        /// <remarks></remarks>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let ofVector (a:Vector<'a>) = stats a
 
 

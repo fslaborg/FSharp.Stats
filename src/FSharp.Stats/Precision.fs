@@ -4,7 +4,16 @@
 /// Module to estimate different quantile measures
 module Precision =
    
-    /// Compares two float values and determines if they differ by no more than specified by the maximum error.
+    /// <summary>Compares two float values and determines if they differ by no more than specified by the maximum error.</summary>
+    /// <remarks></remarks>
+    /// <param name="maximumError"></param>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let almostEqualNormRelative maximumError a b  = 
         if a |> isInf || b |> isInf then
             a = b 
@@ -15,7 +24,15 @@ module Precision =
         else 
             false 
 
-    /// Compares two float values and determines if they differ by no more than 10.*(2.**(-52.).
+    /// <summary>Compares two float values and determines if they differ by no more than 10.*(2.**(-52.).</summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let almostEqualNorm a b = 
         almostEqualNormRelative (10.*(2.**(-52.))) a b 
         

@@ -42,6 +42,7 @@ _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.
 - [Cubic interpolating spline](#Cubic-spline-interpolation)
 - [Akima interpolating subspline](#Akima-subspline-interpolation)
 - [Hermite interpolation](#Hermite-interpolation)
+- [Bezier interpolation](#Bezier-interpolation)
 - [Chebyshev function approximation](#Chebyshev-function-approximation)
 
 
@@ -365,6 +366,90 @@ splineComparison
 
 (***hide***)
 splineComparison |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+
+
+(**
+## Bezier interpolation
+
+In Bezier interpolation the user can define control points in order to interpolate between points. The first and last point (within the given coordinate sequence) are interpolated, while all others serve as control points that stretch the connection.
+If there is just one control point (coordinate collection length=3) the resulting curve is quadratic, two control points create a cubic curve etc.. Nested LERPs are used to identify the desired y-value from an given x value.
+
+![LERP Bezier curve](https://user-images.githubusercontent.com/28917670/269846999-33c7540a-f25d-4c28-9624-a3dd96cc9068.png)
+
+
+*)
+
+open FSharp.Stats
+open FSharp.Stats.Interpolation
+open Plotly.NET
+
+let bezierInterpolation =
+    let t = 0.3
+    let p0 = vector [|3.;0.|] //point 0 that should be traversed
+    let c0 = vector [|-1.5;8.|] //control point 0
+    let c1 = vector [|1.5;9.|] //control point 1
+    let c2 = vector [|6.5;-1.5|] //control point 2
+    let c3 = vector [|13.5;4.|] //control point 3
+    let p1 = vector [|10.;5.|] //point 1 that should be traversed
+    let toPoint (v : vector) = v[0],v[1]
+    let interpolate = Bezier.interpolate [|p0;c0;c1;c2;c3;p1|] >> toPoint
+
+    [
+        Chart.Point([p0.[0]],[p0.[1]],Name="Point_0",MarkerColor=Color.fromHex "#1f77b4") |> Chart.withMarkerStyle(Size=12)
+        Chart.Point([c0.[0]],[c0.[1]],Name="Control_0",MarkerColor=Color.fromHex "#ff7f0e")|> Chart.withMarkerStyle(Size=10)
+        Chart.Point([c1.[0]],[c1.[1]],Name="Control_1",MarkerColor=Color.fromHex "#ff7f0e")|> Chart.withMarkerStyle(Size=10)
+        Chart.Point([c2.[0]],[c2.[1]],Name="Control_2",MarkerColor=Color.fromHex "#ff7f0e")|> Chart.withMarkerStyle(Size=10)
+        Chart.Point([c3.[0]],[c3.[1]],Name="Control_3",MarkerColor=Color.fromHex "#ff7f0e")|> Chart.withMarkerStyle(Size=10)
+        Chart.Point([p1.[0]],[p1.[1]],Name="Point_1",MarkerColor=Color.fromHex "#1f77b4") |> Chart.withMarkerStyle(Size=12)
+
+        [0. .. 0.01 .. 1.] |> List.map interpolate |> Chart.Line |> Chart.withTraceInfo "Bezier" |> Chart.withLineStyle(Color=Color.fromHex "#1f77b4")
+    ]
+    |> Chart.combine
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+(*** condition: ipynb ***)
+#if IPYNB
+bezierInterpolation
+#endif // IPYNB
+
+(***hide***)
+bezierInterpolation |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+
+Bezier interpolation is not limited to 2D points, it can be also be used to interpolate vectors.
+
+*)
+
+let bezierInterpolation3d =
+    let p0 = vector [|1.;1.;1.|] //point 0 that should be traversed
+    let c0 = vector [|1.5;2.1;2.|] //control point 0
+    let c1 = vector [|5.8;1.6;1.4|] //control point 1
+    let p1 = vector [|3.;2.;0.|] //point 1 that should be traversed
+    let to3Dpoint (v : vector) = v[0],v[1],v[2]
+    let interpolate = Bezier.interpolate [|p0;c0;c1;p1|] >> to3Dpoint
+
+    [
+        Chart.Point3D([p0.[0]],[p0.[1]],[p0.[2]],Name="Point_0",MarkerColor=Color.fromHex "#1f77b4") |> Chart.withMarkerStyle(Size=12)
+        Chart.Point3D([c0.[0]],[c0.[1]],[c0.[2]],Name="Control_0",MarkerColor=Color.fromHex "#ff7f0e")|> Chart.withMarkerStyle(Size=10)
+        Chart.Point3D([c1.[0]],[c1.[1]],[c1.[2]],Name="Control_1",MarkerColor=Color.fromHex "#ff7f0e")|> Chart.withMarkerStyle(Size=10)
+        Chart.Point3D([p1.[0]],[p1.[1]],[p1.[2]],Name="Point_1",MarkerColor=Color.fromHex "#1f77b4") |> Chart.withMarkerStyle(Size=12)
+
+        [0. .. 0.01 .. 1.] |> List.map interpolate |> Chart.Line3D |> Chart.withTraceInfo "Bezier" |> Chart.withLineStyle(Color=Color.fromHex "#1f77b4",Width=10.)
+    ]
+    |> Chart.combine
+    |> Chart.withTemplate ChartTemplates.lightMirrored
+
+(*** condition: ipynb ***)
+#if IPYNB
+bezierInterpolation3d
+#endif // IPYNB
+
+(***hide***)
+bezierInterpolation3d |> GenericChart.toChartHTML
 (***include-it-raw***)
 
 

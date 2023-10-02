@@ -42,10 +42,10 @@ _Summary:_ this tutorial demonstrates several clustering methods in FSharp.Stats
 ### Table of contents
 
  - [Iterative Clustering](#Iterative-Clustering)
-    - [k-means clustering](k-means-clustering)
+    - [k-means clustering](#k-means-clustering)
  - [Density based clustering](#Density-based-clustering)
     - [DBSCAN](#DBSCAN)
- - [Hierarchical clustering](#Hierarchical-clustering)
+ - [Hierarchical clustering](#Hierarchical-Clustering)
     - [Distance measures](#Distance-measures)
     - [Linkages](#Linkages)
  - [Determining the optimal number of clusters](#Determining-the-optimal-number-of-clusters)
@@ -139,7 +139,7 @@ all data points are assigned to their nearest centroid, the algorithm iterativel
 that minimizes the dispersion of every of the k clusters. For cluster number determination see below (Determining the optimal 
 number of clusters).
 
-Further information can be found [here](https://fslab.org/content/tutorials/002_clustering_kMeans.html).
+Further information can be found [here](https://fslab.org/blog/posts/clustering-kmeans.html).
 *)
 
 open FSharp.Stats.ML.Unsupervised
@@ -191,7 +191,7 @@ let getBestkMeansClustering data k bootstraps =
 
 ### DBSCAN
 
-Further information can be found [here](https://fslab.org/content/tutorials/004_clustering_DBSCAN.html).
+Further information can be found [here](https://fslab.org/blog/posts/clustering-dbscan.html).
 
 *)
 //four dimensional clustering with sepal length, petal length, sepal width and petal width

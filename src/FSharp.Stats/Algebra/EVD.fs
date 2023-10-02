@@ -4,7 +4,16 @@ open FSharp.Stats
 
 module EVD =
     
-    /// Symmetric Householder reduction to tridiagonal form.
+    /// <summary>Symmetric Householder reduction to tridiagonal form.</summary>
+    /// <remarks></remarks>
+    /// <param name="d"></param>
+    /// <param name="e"></param>
+    /// <param name="v"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let private tred2Inplace (d:float[]) (e:float[]) (v:float [,]) =
     
         // This is derived from the Algol procedures tred2 by
@@ -97,7 +106,16 @@ module EVD =
         e.[0] <- 0.0
 
 
-    /// Symmetric tridiagonal QL algorithm.
+    /// <summary>Symmetric tridiagonal QL algorithm.</summary>
+    /// <remarks></remarks>
+    /// <param name="d"></param>
+    /// <param name="e"></param>
+    /// <param name="v"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let private tql2Inplace (d:float[]) (e:float[]) (v:float [,]) =
 
         // This is derived from the Algol procedures tql2, by
@@ -206,7 +224,14 @@ module EVD =
                     v.[j,i] <- v.[j,k]
                     v.[j,k] <- p
 
-    /// Computes the 
+    /// <summary>Computes the </summary>
+    /// <remarks></remarks>
+    /// <param name="a"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let symmetricEvd (a:float[,]) =
         
         // number of columns in A

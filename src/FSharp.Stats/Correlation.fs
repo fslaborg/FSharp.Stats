@@ -40,7 +40,15 @@ module Correlation =
     /// Contains correlation functions optimized for sequences
     [<AutoOpen>]
     module Seq = 
-        /// Calculates the pearson correlation of two samples. Homoscedasticity must be assumed.
+        /// <summary>Calculates the pearson correlation of two samples. Homoscedasticity must be assumed.</summary>
+        /// <remarks></remarks>
+        /// <param name="seq1"></param>
+        /// <param name="seq2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline pearson (seq1:seq<'T>) (seq2:seq<'T>) : float =
             if Seq.length seq1 <> Seq.length seq2 then failwithf "input arguments are not the same length"
             let seq1' = seq1 |> Seq.map float
@@ -85,7 +93,7 @@ module Correlation =
         /// 
         /// // To get the correlation between x and y:
         /// xy |> Seq.pearsonOfPairs // evaluates to 0.9997053729
-        /// </code> 
+        /// </code>
         /// </example>
         let inline pearsonOfPairs (seq:seq<'T * 'T>) = 
             seq
@@ -102,7 +110,7 @@ module Correlation =
         /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
         /// <param name="seq">The input sequence.</param>
         /// <returns>The pearson correlation.</returns>
-        /// <example> 
+        /// <example>
         /// <code>
         /// // To get the correlation between A and B observations:
         /// let ab = [ {| A = 312.7; B = 315.5 |}
@@ -111,14 +119,23 @@ module Correlation =
         ///            {| A = 34.7; B = 32.2 |} ]
         /// 
         /// ab |> Seq.pearsonBy (fun x -> x.A, x.B) // evaluates to 0.9997053729
-        /// </code> 
+        /// </code>
         /// </example>
         let inline pearsonBy f (seq: 'T seq) =
             seq
             |> Seq.map f
             |> pearsonOfPairs
 
-        /// weighted pearson correlation (http://sci.tech-archive.net/Archive/sci.stat.math/2006-02/msg00171.html)
+        /// <summary>weighted pearson correlation (http://sci.tech-archive.net/Archive/sci.stat.math/2006-02/msg00171.html)</summary>
+        /// <remarks></remarks>
+        /// <param name="seq1"></param>
+        /// <param name="seq2"></param>
+        /// <param name="weights"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let inline pearsonWeighted (seq1:seq<'T>) (seq2:seq<'T>) (weights:seq<'T>) : float =
             // TODO: solve in a prettier coding fashion
             if Seq.length seq1 <> Seq.length seq2 || Seq.length seq2 <> Seq.length weights then failwithf "input arguments are not the same length"
@@ -233,7 +250,7 @@ module Correlation =
         /// 
         /// // To get the correlation between x and y:
         /// xy |> Seq.spearmanOfPairs // evaluates to 0.5
-        /// </code> 
+        /// </code>
         /// </example>
         let inline spearmanOfPairs (seq:seq<'T * 'T>) = 
             seq
@@ -265,7 +282,15 @@ module Correlation =
             |> Seq.map f
             |> spearmanOfPairs
 
-        /// Kendall Correlation Coefficient 
+        /// <summary>Kendall Correlation Coefficient </summary>
+        /// <remarks></remarks>
+        /// <param name="setA"></param>
+        /// <param name="setB"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let kendall (setA:_[]) (setB:_[]) =
             let lengthArray = Array.length setA
             let inline kendallCorrFun (setA:_[]) (setB:_[]) =
@@ -321,7 +346,7 @@ module Correlation =
         /// 
         /// // To get the correlation between x and y:
         /// xy |> Seq.kendallOfPairs // evaluates to 0.4666666667
-        /// </code> 
+        /// </code>
         /// </example>
         let inline kendallOfPairs (seq:seq<'T * 'T>) = 
             seq
@@ -356,7 +381,15 @@ module Correlation =
             |> Seq.map f
             |> kendallOfPairs
 
-        /// Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.
+        /// <summary>Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.</summary>
+        /// <remarks></remarks>
+        /// <param name="seq1"></param>
+        /// <param name="seq2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let bicor seq1 seq2 = 
             
             let xs,ys  = seq1 |> Array.ofSeq, seq2 |> Array.ofSeq
@@ -391,7 +424,7 @@ module Correlation =
         /// 
         /// // To get the correlation between x and y:
         /// xy |> Seq.bicorOfPairs // evaluates to -0.9303913046
-        /// </code> 
+        /// </code>
         /// </example>
         let inline bicorOfPairs seq = 
             seq
@@ -427,8 +460,17 @@ module Correlation =
     [<AutoOpen>]
     module Vector =
 
-        /// computes the sample correlation of two signal at a given lag.
-        /// was tested in comparison to: https://www.wessa.net/rwasp_autocorrelation.wasp
+        /// <summary>computes the sample correlation of two signal at a given lag.<br />was tested in comparison to: https://www.wessa.net/rwasp_autocorrelation.wasp</summary>
+        /// <remarks></remarks>
+        /// <param name="corrF"></param>
+        /// <param name="lag"></param>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let correlationOf (corrF: vector -> vector -> float) lag (v1:vector) (v2:vector) = 
             if v1.Length <> v2.Length then failwithf "Vectors need to have the same length."
             if lag >= v1.Length then failwithf "lag must be smaller than input length"
@@ -436,23 +478,65 @@ module Correlation =
             let v2' = v2.[lag..] 
             corrF v1' v2'
 
-        /// computes the sample auto correlation (using pearson correlation) of a signal at a given lag.
+        /// <summary>computes the sample auto correlation (using pearson correlation) of a signal at a given lag.</summary>
+        /// <remarks></remarks>
+        /// <param name="lag"></param>
+        /// <param name="v1"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let autoCorrelation lag v1 = 
             correlationOf pearson lag v1 v1
 
-        /// computes the sample auto corvariance of a signal at a given lag.
+        /// <summary>computes the sample auto corvariance of a signal at a given lag.</summary>
+        /// <remarks></remarks>
+        /// <param name="lag"></param>
+        /// <param name="seq"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let autoCovariance lag seq = 
             correlationOf Vector.cov lag seq seq
 
-        /// computes the normalized (using pearson correlation) cross-correlation of signals v1 and v2 at a given lag.
+        /// <summary>computes the normalized (using pearson correlation) cross-correlation of signals v1 and v2 at a given lag.</summary>
+        /// <remarks></remarks>
+        /// <param name="lag"></param>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let normalizedXCorr lag v1 v2 = 
             correlationOf pearson lag v1 v2
 
-        /// computes the unnormalized (using only the dot product) cross-correlation of signals v1 and v2 at a given lag.
+        /// <summary>computes the unnormalized (using only the dot product) cross-correlation of signals v1 and v2 at a given lag.</summary>
+        /// <remarks></remarks>
+        /// <param name="lag"></param>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let xCorr lag v1 v2 = 
             correlationOf Vector.dot lag v1 v2
 
-        /// Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.
+        /// <summary>Biweighted Midcorrelation. This is a median based correlation measure which is more robust against outliers.</summary>
+        /// <remarks></remarks>
+        /// <param name="vec1"></param>
+        /// <param name="vec2"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let bicor (vec1:vector) (vec2:vector) = 
             
             let xs,ys  = vec1.Values, vec2.Values
@@ -477,7 +561,15 @@ module Correlation =
     module Matrix =
     
         // Implemented according to the R package "MatrixCorrelation"
-        /// Computes the rv2 coefficient.  
+        /// <summary>Computes the rv2 coefficient.  </summary>
+        /// <remarks></remarks>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let rv2 (x: matrix) (y: matrix) =
             let xxt = x*x.Transpose 
             let yyt = y*y.Transpose 
@@ -488,7 +580,15 @@ module Correlation =
             let deno2 = yyt |> Matrix.map (fun x -> x**2.) |> Matrix.sum |> sqrt 
             num / (deno1 * deno2)
         
-        ///computes a matrix that contains the metric given by the corrFunction parameter applied rowwise for every row against every other row of the input matrix
+        /// <summary>computes a matrix that contains the metric given by the corrFunction parameter applied rowwise for every row against every other row of the input matrix</summary>
+        /// <remarks></remarks>
+        /// <param name="corrFunction"></param>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let rowWiseCorrelationMatrix (corrFunction : seq<float> -> seq<float> -> float) (m : matrix) =
             let vectors = Matrix.toJaggedArray m
             let result : float [] [] = [|for i=0 to vectors.Length-1 do yield (Array.init vectors.Length (fun innerIndex -> if i=innerIndex then 1. else 0.))|]
@@ -499,23 +599,52 @@ module Correlation =
                     result.[j].[i] <- corr
             result |> matrix
 
-        ///computes a matrix that contains the metric given by the corrFunction parameter applied columnwise for every column against every other column of the input matrix
+        /// <summary>computes a matrix that contains the metric given by the corrFunction parameter applied columnwise for every column against every other column of the input matrix</summary>
+        /// <remarks></remarks>
+        /// <param name="corrFunction"></param>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let columnWiseCorrelationMatrix (corrFunction : seq<float> -> seq<float> -> float) (m : Matrix<float>) =
             m
             |> Matrix.transpose
             |> (rowWiseCorrelationMatrix corrFunction)
 
-        ///computes the rowwise pearson correlation matrix for the input matrix
+        /// <summary>computes the rowwise pearson correlation matrix for the input matrix</summary>
+        /// <remarks></remarks>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let rowWisePearson (m:Matrix<float>) =
             m
             |> rowWiseCorrelationMatrix Seq.pearson
 
-       ///computes the columnwise pearson correlation matrix for the input matrix
+       /// <summary>computes the columnwise pearson correlation matrix for the input matrix</summary>
+        /// <remarks></remarks>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let columnWisePearson (m:Matrix<float>) =
             m
             |> columnWiseCorrelationMatrix Seq.pearson
 
-        /// Computes the rowwise biweighted midcorrelation matrix for the input matrix 
+        /// <summary>Computes the rowwise biweighted midcorrelation matrix for the input matrix </summary>
+        /// <remarks></remarks>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let rowWiseBicor (m : matrix) =
 
             let vectors = Matrix.toJaggedArray m
@@ -548,7 +677,14 @@ module Correlation =
                     result.[j].[i] <- corr
             result |> matrix
 
-        /// Computes the columnwise biweighted midcorrelation matrix for the input matrix 
+        /// <summary>Computes the columnwise biweighted midcorrelation matrix for the input matrix </summary>
+        /// <remarks></remarks>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let columnWiseBicor (m : matrix) =
             m
             |> Matrix.transpose

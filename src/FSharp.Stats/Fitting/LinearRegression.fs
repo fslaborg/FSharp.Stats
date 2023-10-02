@@ -159,7 +159,7 @@ module LinearRegression =
                 /// <code> 
                 ///   let mySlope = 17.8
                 ///   
-                ///   // get the fítting function that fits through the origin
+                ///   // get the fï¿½tting function that fits through the origin
                 ///   let myF = 
                 ///       LinearRegression.OLS.Linear.RTO.predictFunc mySlope
                 ///   
@@ -503,7 +503,15 @@ module LinearRegression =
                 let coefficients lambda (xData : Matrix<float>) (yData : Vector<float>) = 
                     (fit lambda xData yData).Coefficients
 
-                /// Fit to x
+                /// <summary>Fit to x</summary>
+                /// <remarks></remarks>
+                /// <param name="coef"></param>
+                /// <param name="x"></param>
+                /// <returns></returns>
+                /// <example>
+                /// <code>
+                /// </code>
+                /// </example>
                 let predict (coef : Coefficients) (x:Vector<float>) =
                     let tmp :Vector<float> = Vector.init (x.Length+1) (fun i -> if i = 0 then 1. else x.[i-1])
                     Vector.dot tmp coef.Coefficients 

@@ -24,7 +24,15 @@ type Binomial =
         if n < 0 || p < 0. || p > 1. || isNan(p) then 
             failwith "Binomial distribution should be parametrized by n > 0.0 and 0 ≤ p ≤ 1."
 
-    /// Computes the mode.
+    /// <summary>Computes the mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode p n =
         Binomial.CheckParam p n
         match p with
@@ -32,24 +40,56 @@ type Binomial =
         | 0.  -> 0
         | _   -> floor (float(n + 1) * p) |> int
     
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean p n =
         Binomial.CheckParam p n
         (float n) * p
 
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance p n =
         Binomial.CheckParam p n
         p * (1.0 - p) * float n
 
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation p n =
         Binomial.CheckParam p n
         sqrt (Binomial.Variance p n)
             
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-    /// No parameter checking!
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).<br />No parameter checking!</summary>
+    /// <remarks></remarks>
+    /// <param name="SampleUnchecked"></param>
+    /// <param name="p"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member internal SampleUnchecked p n =          
         let rec loop n k =
             if n = 0 then k
@@ -67,13 +107,30 @@ type Binomial =
         //loop p n 0
             
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample p n =
         Binomial.CheckParam p n
         Binomial.SampleUnchecked p n
 
         
-    /// Computes the probability mass function at k, i.e. P(K = k)
+    /// <summary>Computes the probability mass function at k, i.e. P(K = k)</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="n"></param>
+    /// <param name="k"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PMF p n k =
         Binomial.CheckParam  p n
         if k < 0 || k > n then
@@ -116,18 +173,42 @@ type Binomial =
         |> fun p -> Binomial.Init p n  
 
 
-    /// Returns the support of the Binomial distribution: (0., n).
+    /// <summary>Returns the support of the Binomial distribution: (0., n).</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support p n =
         Binomial.CheckParam p n
         Interval.CreateClosed<int> (0,n)
 
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString p n =
         sprintf "Binomial(p = %f, n = %i)" p n
 
 
-    /// Initializes a Binomial distribution
+    /// <summary>Initializes a Binomial distribution</summary>
+    /// <remarks></remarks>
+    /// <param name="p"></param>
+    /// <param name="n"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init p n =
         { new DiscreteDistribution<float,int> with
             member d.Mean              = Binomial.Mean p n

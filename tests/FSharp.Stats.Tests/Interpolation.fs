@@ -91,6 +91,52 @@ let polynomialInterpolationTests =
             TestExtensions.sequenceEqual(Accuracy.high) coeffs.C0_CX expectedCoeffs "Coefficients should be equal (double precision)"
         ]
 
+[<Tests>]
+let BezierInterpolationTests =
+    testList "Interpolation.Bezier" [
+
+        testCase "Bezier Interpolation of degree 1" <| fun() ->
+            // Without control point, this is just linear interpolation
+            let p0 = vector [|1.;1.;1.|] //point 0 that should be traversed
+            let p1 = vector [|3.;2.;0.|] //point 1 that should be traversed
+            let data = [|p0;p1|]
+            let interpolate = Bezier.interpolate data
+            let expectedMiddle = p0 + 0.5 * (p1 - p0)
+            TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.) p0 "Initial point should be equal (double precision)"
+            TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.5) expectedMiddle "Middle point should be equal (double precision)"
+            TestExtensions.sequenceEqual(Accuracy.high) (interpolate 1.) p1 "Final point should be equal (double precision)"
+
+        testCase "Bezier Interpolation of degree 2" <| fun() ->
+            let p0 = vector [|1.;1.;1.|] //point 0 that should be traversed
+            let c0 = vector [|1.1;2.1;2.|] //control point 0
+            let p1 = vector [|3.;2.;0.|] //point 1 that should be traversed
+            let data = [|p0;c0;p1|]
+            let interpolate = Bezier.interpolate data
+            let a = p0 + 0.5 * (c0 - p0)
+            let b = c0 + 0.5 * (p1 - c0)
+            let expectedMiddle = a + 0.5 * (b - a)
+            TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.) p0 "Initial point should be equal (double precision)"
+            TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.5) expectedMiddle "Middle point should be equal (double precision)"
+            TestExtensions.sequenceEqual(Accuracy.high) (interpolate 1.) p1 "Final point should be equal (double precision)"
+
+        testCase "Bezier Interpolation of degree 3" <| fun() ->
+            let p0 = vector [|1.;1.;1.|] //point 0 that should be traversed
+            let c0 = vector [|1.1;2.1;2.|] //control point 0
+            let c1 = vector [|3.8;1.6;1.4|] //control point 1
+            let p1 = vector [|3.;2.;0.|] //point 1 that should be traversed
+            let data = [|p0;c0;c1;p1|]
+            let interpolate = Bezier.interpolate data
+            let a = p0 + 0.5 * (c0 - p0)
+            let b = c0 + 0.5 * (c1 - c0)
+            let c = c1 + 0.5 * (p1 - c1)
+            let d = a + 0.5 * (b - a)
+            let e = b + 0.5 * (c - b)
+            let expectedMiddle = d + 0.5 * (e - d)
+            TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.) p0 "Initial point should be equal (double precision)"
+            TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.5) expectedMiddle "Middle point should be equal (double precision)"
+            TestExtensions.sequenceEqual(Accuracy.high) (interpolate 1.) p1 "Final point should be equal (double precision)"
+
+    ]
 
 
 

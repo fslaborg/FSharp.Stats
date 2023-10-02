@@ -22,8 +22,15 @@ module Quantile =
     module InPlace =
 
         
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
-        /// Approximately median-unbiased regardless of the sample distribution.
+        /// <summary>Estimates the q-th quantile from the unsorted data array. (in place)<br />Approximately median-unbiased regardless of the sample distribution.</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let computeInplace q (data:array<_>) =
         
             let h  = ((float data.Length + 1./3.)*q + 1./3.)
@@ -41,7 +48,15 @@ module Quantile =
                 a + (h - float h') * (b - a);    
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// <summary>Estimates the q-th quantile from the unsorted data array. (in place)</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let empiricalInvCdfInPLace q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q + 0.5
@@ -51,7 +66,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// <summary>Estimates the q-th quantile from the unsorted data array. (in place)</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let empiricalInvCdfAverageInPLace q (data:array<_>) =
 
             let f q (data:array<_>) =
@@ -63,7 +86,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// <summary>Estimates the q-th quantile from the unsorted data array. (in place)</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let nearestInPLace q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q
@@ -73,7 +104,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// <summary>Estimates the q-th quantile from the unsorted data array. (in place)</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let californiaInPLace q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float data.Length * q
@@ -85,7 +124,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// <summary>Estimates the q-th quantile from the unsorted data array. (in place)</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let hazenInPLace q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float data.Length * q + 0.5
@@ -97,7 +144,15 @@ module Quantile =
             quantileHelper f q data        
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// <summary>Estimates the q-th quantile from the unsorted data array. (in place)</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let nistInPLace q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float (data.Length+1) * q
@@ -109,7 +164,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// <summary>Estimates the q-th quantile from the unsorted data array. (in place)</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let modeInPLace q (data:array<_>) =
             let f q (data:array<_>) =                
                 let h  = float (data.Length-1) * q + 1.
@@ -121,7 +184,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the unsorted data array. (in place)
+        /// <summary>Estimates the q-th quantile from the unsorted data array. (in place)</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let normalInPLace q (data:array<_>) =
             let f q (data:array<'a>) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
@@ -137,8 +208,15 @@ module Quantile =
     module OfSorted =
 
         /// ! Input needs to be sorted !
-        /// Estimates the q-th quantile from the sorted data array.
-        /// Approximately median-unbiased regardless of the sample distribution.
+        /// <summary>Estimates the q-th quantile from the sorted data array.<br />Approximately median-unbiased regardless of the sample distribution.</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let compute q (data:array<_>) =
         
             let h  = ((float data.Length + 1./3.)*q + 1./3.)
@@ -156,7 +234,15 @@ module Quantile =
                 a + (h - float h') * (b - a);    
 
 
-        /// Estimates the q-th quantile from the sorted data array.
+        /// <summary>Estimates the q-th quantile from the sorted data array.</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let empiricalInvCdf q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q + 0.5
@@ -165,7 +251,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the sorted data array.
+        /// <summary>Estimates the q-th quantile from the sorted data array.</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let empiricalInvCdfAverage q (data:array<_>) =
 
             let f q (data:array<_>) =
@@ -177,7 +271,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the sorted data array.
+        /// <summary>Estimates the q-th quantile from the sorted data array.</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let nearest q (data:array<_>) =
             let f q (data:array<_>) =
                 let h = float data.Length * q
@@ -186,7 +288,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the sorted data array.
+        /// <summary>Estimates the q-th quantile from the sorted data array.</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let california q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float data.Length * q
@@ -198,7 +308,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the sorted data array.
+        /// <summary>Estimates the q-th quantile from the sorted data array.</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let hazen q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float data.Length * q + 0.5
@@ -210,7 +328,15 @@ module Quantile =
             quantileHelper f q data        
 
 
-        /// Estimates the q-th quantile from the sorted data array.
+        /// <summary>Estimates the q-th quantile from the sorted data array.</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let nist q (data:array<_>) =
             let f q (data:array<_>) =
                 let h  = float (data.Length+1) * q
@@ -222,7 +348,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the sorted data array.
+        /// <summary>Estimates the q-th quantile from the sorted data array.</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let mode q (data:array<_>) =
             let f q (data:array<_>) =                
                 let h  = float (data.Length-1) * q + 1.
@@ -234,7 +368,15 @@ module Quantile =
             quantileHelper f q data
 
 
-        /// Estimates the q-th quantile from the sorted data array.
+        /// <summary>Estimates the q-th quantile from the sorted data array.</summary>
+        /// <remarks></remarks>
+        /// <param name="q"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let normal q (data:array<_>) =
             let f q (data:array<'a>) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
@@ -249,8 +391,15 @@ module Quantile =
 
     // ++++++++++++++++++++++++++++++++++++
 
-    /// Estimates the q-th quantile from the unsorted data.
-    /// Approximately median-unbiased regardless of the sample distribution.
+    /// <summary>Estimates the q-th quantile from the unsorted data.<br />Approximately median-unbiased regardless of the sample distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let inline compute q (data:seq<_>) =
         let data = Seq.UtilityFunctions.toArrayCopyQuick data
         let h  = ((float data.Length + 1./3.)*q + 1./3.)
@@ -271,50 +420,113 @@ module Quantile =
             let b = Array.quickSelectInPlace (h'+1) data
             a + (h - float h') * (b - a); 
 
-    /// Estimates the q-th quantile from the unsorted data.
+    /// <summary>Estimates the q-th quantile from the unsorted data.</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let empiricalInvCdf q (data:seq<_>) =
         let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.empiricalInvCdfInPLace q data'
     
     
-    /// Estimates the q-th quantile from the unsorted data.
+    /// <summary>Estimates the q-th quantile from the unsorted data.</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let empiricalInvCdfAverage q (data:seq<_>) =
         let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.empiricalInvCdfAverageInPLace q data'        
 
 
-    /// Estimates the q-th quantile from the unsorted data.
+    /// <summary>Estimates the q-th quantile from the unsorted data.</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let nearest q (data:seq<_>) =
         let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.nearestInPLace q data'   
         
      
-    /// Estimates the q-th quantile from the unsorted data.
+    /// <summary>Estimates the q-th quantile from the unsorted data.</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let california q (data:seq<_>) =
         let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.californiaInPLace q data'
     
     
-    /// Estimates the q-th quantile from the unsorted data.
+    /// <summary>Estimates the q-th quantile from the unsorted data.</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let hazen q (data:seq<_>) =
         let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.hazenInPLace q data'        
 
 
-    /// Estimates the q-th quantile from the unsorted data.
+    /// <summary>Estimates the q-th quantile from the unsorted data.</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let nist q (data:seq<_>) =
         let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.nistInPLace q data'
     
     
-    /// Estimates the q-th quantile from the unsorted data.
-    /// R! default
+    /// <summary>Estimates the q-th quantile from the unsorted data.<br />R! default</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mode q (data:seq<_>) =
         let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.modeInPLace q data'        
     
     
-    /// Estimates the q-th quantile from the unsorted data.
+    /// <summary>Estimates the q-th quantile from the unsorted data.</summary>
+    /// <remarks></remarks>
+    /// <param name="q"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let normal q (data:seq<_>) =
         let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.normalInPLace q data'
@@ -328,9 +540,16 @@ module Quantile =
         (qf 0.75 data) - (qf 0.25 data)
         
 
-    /// Computes percentiles
-    /// percentiles: Each percentile must be between 0.0 and 1.0 (inclusive)
-    /// CalcMethod should be ofSorted array
+    /// <summary>Computes percentiles<br />percentiles: Each percentile must be between 0.0 and 1.0 (inclusive)<br />CalcMethod should be ofSorted array</summary>
+    /// <remarks></remarks>
+    /// <param name="(calcMethod)"></param>
+    /// <param name="percentile"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let computePercentiles (calcMethod) (percentile:seq<float>) (data:seq<float>) =
         let data' = data |> Seq.toArray |> Array.sort
         let qtf = fun q -> calcMethod q data'

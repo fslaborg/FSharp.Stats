@@ -46,9 +46,23 @@ module Random =
             member x.NextFloat() =x.rnd.NextDouble()
         end
 
-    /// The uniform random source used for sampling functions.
+    /// <summary>The uniform random source used for sampling functions.</summary>
+    /// <remarks></remarks>
+    /// <param name="rndgen"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let mutable rndgen = new RandThreadSafe() :> IRandom
-    /// Sets the random number generator used for sampling.
+    /// <summary>Sets the random number generator used for sampling.</summary>
+    /// <remarks></remarks>
+    /// <param name="rg"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let SetSampleGenerator rg = rndgen <- rg
     /// Returns the random number generator used for sampling.
     let GetSampleGenerator () = rndgen

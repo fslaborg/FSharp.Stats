@@ -4,7 +4,14 @@ namespace FSharp.Stats.Distributions
 module Frequency =
     open FSharp.Stats
 
-    /// Given the list [a,b,a,c,b,b], produce a map {a:2, b:3, c:1} which contains the count of each unique item in the list
+    /// <summary>Given the list [a,b,a,c,b,b], produce a map {a:2, b:3, c:1} which contains the count of each unique item in the list</summary>
+    /// <remarks></remarks>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let createGeneric list = 
         let rec histogram' list' dict' =
             match list' with
@@ -15,7 +22,15 @@ module Frequency =
                 | None        -> histogram' xs (Map.add x 1 dict')
         histogram' list Map.empty
         
-    /// Creates probability mass function (histogram)    
+    /// <summary>Creates probability mass function (histogram)    </summary>
+    /// <remarks></remarks>
+    /// <param name="bandwidth"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let create bandwidth data =            
         let halfBw = bandwidth / 2.0       
         data
@@ -28,36 +43,87 @@ module Frequency =
                 ((k + 1.) * bandwidth) - halfBw, count)  
         |> Map.ofSeq
        
-    /// Returns tuple of (sorted value sequence, frequence sequence)
+    /// <summary>Returns tuple of (sorted value sequence, frequence sequence)</summary>
+    /// <remarks></remarks>
+    /// <param name="hist"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let getZip (hist:Map<_,int>) =
         hist |> Seq.sortBy (fun kv -> kv.Key) |> Seq.map (fun kv -> (kv.Key,kv.Value))
 
-    /// Returns the total of the frequencies in the map
+    /// <summary>Returns the total of the frequencies in the map</summary>
+    /// <remarks></remarks>
+    /// <param name="hist"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let sum (hist:Map<_,int>) =
         hist |> Seq.sumBy (fun kv -> kv.Value)
     
-    /// Returns the average of the frequencies in the map
+    /// <summary>Returns the average of the frequencies in the map</summary>
+    /// <remarks></remarks>
+    /// <param name="hist"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let average (hist:Map<_,int>) =
         hist
         |> Map.fold (fun (sum,count) k v -> sum + v, count + 1 ) (0,0)
         |> fun (sum,count) -> float sum / (float count)
 
-    /// Gets the largest frequency in the map.
+    /// <summary>Gets the largest frequency in the map.</summary>
+    /// <remarks></remarks>
+    /// <param name="hist"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let maxLike (hist:Map<_,int>) =
         (hist |> Seq.maxBy (fun kv -> kv.Value)).Value
         
-    /// Gets the frequency associated with the value x
+    /// <summary>Gets the frequency associated with the value x</summary>
+    /// <remarks></remarks>
+    /// <param name="hist"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let frequencyAt (hist:Map<'a,int>) (x:'a) =        
         if hist.ContainsKey(x) then
             hist.[x]
         else
             0
     
-    /// Gets an unsorted sequence of frequencies
+    /// <summary>Gets an unsorted sequence of frequencies</summary>
+    /// <remarks></remarks>
+    /// <param name="hist"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let frequencies (hist:Map<_,int>) =         
         hist |> Seq.map (fun k -> k.Value)
 
-    /// Checks whether the values in this histogram A are a subset of the values in the histogram B
+    /// <summary>Checks whether the values in this histogram A are a subset of the values in the histogram B</summary>
+    /// <remarks></remarks>
+    /// <param name="histA"></param>
+    /// <param name="histB"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let isSubset (histA:Map<_,int>) (histB:Map<_,int>) =
         let rec issubset (histA:list<float*int>) (histB:Map<float,int>) =
             match histA with

@@ -11,27 +11,51 @@ open FSharp.Stats.Ops
 // wiki: "https://en.wikipedia.org/wiki/F-distribution"
 // ######
 
+/// F-distribution purely functional helper functions.
+module internal F_Helpers =
+ let assertValidDof name dof1 =
+        if isNan(dof1) || dof1 <= 0.0 then
+            failwithf "Invalid definition of freedom %s \"%A\".%s"
+                name
+                dof1
+                "It must not be NaN and it must be positive"
 
 /// F-distribution
 type F =
-    
+
     // F-distribution helper functions.
-    static member CheckParam dof1 dof2 = 
-        if dof1 <= 0.0 || dof2 <= 0.0 || isNan(dof1) || isNan(dof2) then 
-            failwith "F-distribution should be parametrized by dof1 and dof2 > 0.0. and <> nan"
+    static member CheckParam (dof1) (dof2) : unit = 
+        dof1 |> F_Helpers.assertValidDof "dof1"
+        dof2 |> F_Helpers.assertValidDof "dof2"
 
     static member private CheckX x = 
         if x<0. || isNan(x) then 
             failwith "X cannot be a negative value or nan"
 
-    /// Computes the Mode.
+    /// <summary>Computes the Mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode dof1 dof2 =
         F.CheckParam dof1 dof2
         if (dof1 <= 2) then raise (NotSupportedException())        
         
         (dof2*(dof1 - 2.0))/(dof1*(dof2 + 2.0))
         
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean dof1 dof2 =
         F.CheckParam dof1 dof2
         if dof2 <= 2. then
@@ -39,7 +63,15 @@ type F =
         else
             dof2 / (dof2 - 2.0)
 
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance dof1 dof2 =
         F.CheckParam dof1 dof2
         if dof2 <= 4. then
@@ -48,20 +80,45 @@ type F =
             (2.0 * dof2 * dof2 * (dof1 + dof2 - 2.)) /
                         (dof1 * (dof2 - 2.) * (dof2 - 2.) * (dof2 - 4.))
 
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation dof1 dof2 =
         F.CheckParam dof1 dof2
         sqrt (F.Variance dof1 dof2)
             
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample dof1 dof2 =
         F.CheckParam dof1 dof2
         let gamma1 = Gamma.Sample (dof1 / 2.0) 2.0
         let gamma2 = Gamma.Sample (dof2 / 2.0) 2.0
         gamma1 / gamma2
 
-    /// Computes the probability density function.
+    /// <summary>Computes the probability density function.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member PDF dof1 dof2 x =
         F.CheckParam dof1 dof2
         F.CheckX x
@@ -78,7 +135,16 @@ type F =
             let b = SpecialFunctions.Beta.beta (dof1 * 0.5) (dof2 * 0.5)                
             (1./b) * (Math.Pow(dof1/dof2, (dof1/2.))) * (Math.Pow(x, ((dof1/2.)-1.))) *(Math.Pow((1.+x*(dof1/dof2),(-1.*((dof1+dof2)/2.)))))
 
-    /// Computes the cumulative distribution function.
+    /// <summary>Computes the cumulative distribution function.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF dof1 dof2 x =
         F.CheckParam dof1 dof2
         F.CheckX x
@@ -89,7 +155,16 @@ type F =
         let u = (dof1 * x) / (dof2 + dof1 * x) 
         SpecialFunctions.Beta.lowerIncompleteRegularized (dof1 * 0.5) (dof2 * 0.5) u
 
-    /// Computes the inverse of the cumulative distribution function.
+    /// <summary>Computes the inverse of the cumulative distribution function.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF dof1 dof2 x =
         F.CheckParam dof1 dof2
         if (x <= 0.0 || x > 1.0) then
@@ -99,16 +174,43 @@ type F =
             //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
             failwithf "InvCDF not implemented yet"
 
-    /// Returns the support of the exponential distribution: (0., Positive Infinity).
-    static member Support dof1 dof2 =
-        F.CheckParam dof1 dof2
-        (0., System.Double.PositiveInfinity)
-     
-    /// A string representation of the distribution.
+    
+    /// <summary>Returns the support of the exponential distribution: if dof1 = 1 then (0., Positive Infinity) else [0., Positive Infinity).</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
+    static member Support dof1 =
+        dof1 |> F_Helpers.assertValidDof "dof1"
+        if dof1 = 1 then
+            Interval.CreateOpen<float>(0.0, Double.PositiveInfinity)
+        else
+            Interval.CreateRightOpen<float>(0.0, Double.PositiveInfinity)
+
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString dof1 dof2 =
         sprintf "FisherSnedecor(d1 = %f, d2 = %f" dof1 dof2
     
-    /// Initializes a F-distribution         
+    /// <summary>Initializes a F-distribution         </summary>
+    /// <remarks></remarks>
+    /// <param name="dof1"></param>
+    /// <param name="dof2"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init dof1 dof2 =
         { new ContinuousDistribution<float,float> with
             member d.Mean              = F.Mean dof1 dof2

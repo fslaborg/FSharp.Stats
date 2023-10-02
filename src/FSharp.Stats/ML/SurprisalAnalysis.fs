@@ -29,7 +29,14 @@ module SurprisalAnalysis =
     ///performs Surprisal Analysis on the input matrix A. For meaningfull results, A should be 
     ///of the following form:
     ///The rows contain measurements for a single unique entity,
-    ///corresponding to timepoints represented by the columns
+    /// <summary>corresponding to timepoints represented by the columns</summary>
+    /// <remarks></remarks>
+    /// <param name="A"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let compute (A:Matrix<float>) : SAResult=
         //perform SVD
         let sv,lsv,rsv = thinSVD A

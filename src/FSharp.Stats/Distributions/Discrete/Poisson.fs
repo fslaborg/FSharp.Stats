@@ -22,22 +22,50 @@ type Poisson =
     // Poisson distribution helper functions.
     static member CheckParam lambda = if lambda <= 0. then failwith "Poisson distribution should be parametrized by lambda > 0."
 
-    /// Computes the mode.
+    /// <summary>Computes the mode.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mode lambda =
         Poisson.CheckParam lambda
         floor lambda |> int
 
-    /// Computes the mean.
+    /// <summary>Computes the mean.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Mean lambda =
         Poisson.CheckParam lambda
         lambda
 
-    /// Computes the variance.
+    /// <summary>Computes the variance.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Variance lambda =
         Poisson.CheckParam lambda
         lambda
 
-    /// Computes the standard deviation.
+    /// <summary>Computes the standard deviation.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member StandardDeviation lambda =
         Poisson.CheckParam lambda
         lambda |> sqrt
@@ -56,8 +84,15 @@ type Poisson =
                         - 19. / (360. * lambda * lambda * lambda);        
             
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-    /// No parameter checking!
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).<br />No parameter checking!</summary>
+    /// <remarks></remarks>
+    /// <param name="SampleUnchecked"></param>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member internal SampleUnchecked lambda =            
         let rec knuth p l k =
             // Knuth, 1969.            
@@ -99,7 +134,14 @@ type Poisson =
             pa c alpha beta k 
              
 
-    /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
+    /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Sample lambda =
         Poisson.CheckParam lambda
         Poisson.SampleUnchecked lambda
@@ -111,12 +153,28 @@ type Poisson =
         else
             (lambda**float k * System.Math.E**(-lambda)) / SpecialFunctions.Factorial.factorial k
         
-    /// Computes the cumulative distribution function at x, i.e. P(X &lt;= x).
+    /// <summary>Computes the cumulative distribution function at x, i.e. P(X &lt;= x).</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <param name="k"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member CDF lambda k =
         Poisson.CheckParam lambda        
         Gamma.upperIncompleteRegularized (k + 1.) lambda
 
-    /// Computes the inverse cumulative distribution function (quantile function).
+    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <param name="k"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member InvCDF lambda k =
         Poisson.CheckParam lambda        
         failwithf "InvCDF not implemented yet"
@@ -138,17 +196,38 @@ type Poisson =
         | Some w -> observations |> Array.weightedMean w
         |> Poisson.Init  
 
-    /// Returns the support interval for this distribution.
+    /// <summary>Returns the support interval for this distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Support lambda =
         Poisson.CheckParam lambda
         Interval.CreateClosed<int> (0,System.Int32.MaxValue)
 
-    /// A string representation of the distribution.
+    /// <summary>A string representation of the distribution.</summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member ToString lambda =
         sprintf "Poisson(λ = %f)" lambda
     
 
-    /// Initializes a Binomial distribution 
+    /// <summary>Initializes a Binomial distribution </summary>
+    /// <remarks></remarks>
+    /// <param name="lambda"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     static member Init lambda =
         { new DiscreteDistribution<float,int> with
             member d.Mean              = Poisson.Mean lambda

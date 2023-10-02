@@ -56,7 +56,17 @@ module LogisticRegression =
 
     module Univariable = 
 
-        /// Calculates the weights for logistic regression.
+        /// <summary>Calculates the weights for logistic regression.</summary>
+        /// <remarks></remarks>
+        /// <param name="epsilon"></param>
+        /// <param name="alpha"></param>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let fit epsilon alpha (xData : Vector<float>) (yData : Vector<float>) =
             if xData.Length <> yData.Length then
                 raise (System.ArgumentException("vector x and y have to be the same size!"))
@@ -87,7 +97,14 @@ module LogisticRegression =
         let coefficient epsilon alpha (xData : Vector<float>) (yData : Vector<float>) = 
             fit epsilon alpha xData yData
 
-        /// Returns the regression function
+        /// <summary>Returns the regression function</summary>
+        /// <remarks></remarks>
+        /// <param name="coef"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let predict (coef: Vector<float>) x= 
             predict coef (Vector.singleton x)
 
@@ -101,7 +118,17 @@ module LogisticRegression =
 
     module Multivariable = 
 
-        /// Calculates the weights for logistic regression.
+        /// <summary>Calculates the weights for logistic regression.</summary>
+        /// <remarks></remarks>
+        /// <param name="epsilon"></param>
+        /// <param name="alpha"></param>
+        /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let fit epsilon alpha (xData : Matrix<float>) (yData : Vector<float>) =
             if (xData.NumRows) <> yData.Length then
                 raise (System.ArgumentException("columns of matrix x and vector y have to be the same size!"))
@@ -132,7 +159,14 @@ module LogisticRegression =
         let coefficient epsilon alpha (xData : Matrix<float>) (yData : Vector<float>) = 
             fit epsilon alpha xData yData
 
-        /// Returns the regression function
+        /// <summary>Returns the regression function</summary>
+        /// <remarks></remarks>
+        /// <param name="coef"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let predictFunc (coef: Vector<float>) = 
             fun (x:Vector<float>) -> predict coef x
                 
@@ -140,7 +174,14 @@ module LogisticRegression =
         let fitFunc (coef: Vector<float>) = 
             predictFunc coef
 
-        /// Returns the regression function
+        /// <summary>Returns the regression function</summary>
+        /// <remarks></remarks>
+        /// <param name="coef"></param>
+        /// <returns></returns>
+        /// <example>
+        /// <code>
+        /// </code>
+        /// </example>
         let predict (coef: Vector<float>) (x: Vector<float>)= 
             predict coef x
 

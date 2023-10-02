@@ -29,7 +29,17 @@ module IterativeClustering =
         }
 
 
-    /// Creates a k-clustering  result
+    /// <summary>Creates a k-clustering  result</summary>
+    /// <remarks></remarks>
+    /// <param name="centroids"></param>
+    /// <param name="classifier"></param>
+    /// <param name="closestDistances"></param>
+    /// <param name="distanceMetric"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let createKClusteringResult centroids classifier closestDistances distanceMetric =
         {Centroids = centroids; Classifier = classifier; ClosestDistances = closestDistances; DistanceMetric = distanceMetric;}
 
@@ -102,7 +112,14 @@ module IterativeClustering =
 //        |> Seq.map (fun rowI -> dmatrix.Row(rowI).ToArray())
 //        |> Seq.toArray
     
-    /// calculates mean based on subset of non-nan values
+    /// <summary>calculates mean based on subset of non-nan values</summary>
+    /// <remarks></remarks>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let private meanNaN (input: float []) = 
         let isValid f = not (isNan f || isInf f)
         let rec loop i sum count = 
@@ -194,7 +211,16 @@ module IterativeClustering =
         |> Array.minBy (fun centroid -> dist (snd centroid) datapoint)         
 
 
-    /// Calculates the distance from the data point to the centroid 
+    /// <summary>Calculates the distance from the data point to the centroid </summary>
+    /// <remarks></remarks>
+    /// <param name="dist"></param>
+    /// <param name="lCentroids"></param>
+    /// <param name="datapoint"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let nearestDistance (dist: Distance<'a>) (lCentroids:array<'a>) (datapoint:'a) =
         lCentroids
         |> Array.map (fun centroid -> dist (centroid) datapoint)
@@ -202,8 +228,16 @@ module IterativeClustering =
  
     
     
-    /// Calculates the average squared distance from the data points
-    /// to the cluster centroid (also refered to as error)
+    /// <summary>Calculates the average squared distance from the data points<br />to the cluster centroid (also refered to as error)</summary>
+    /// <remarks></remarks>
+    /// <param name="dist"></param>
+    /// <param name="lCentroids"></param>
+    /// <param name="dataset"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let Dispersion (dist: Distance<'a>) (lCentroids:list<'a>) (dataset: 'a seq) =        
         let classifier = fun datapoint -> 
             lCentroids 
@@ -213,8 +247,14 @@ module IterativeClustering =
         |> Seq.averageBy (fun x -> x * x)
 
 
-    /// Calculates the average squared distance from the data points
-    /// to the cluster centroid (also refered to as error)
+    /// <summary>Calculates the average squared distance from the data points<br />to the cluster centroid (also refered to as error)</summary>
+    /// <remarks></remarks>
+    /// <param name="kmeansResult"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
     let DispersionOfClusterResult (kmeansResult:KClusteringResult<'a>) =                
         kmeansResult.ClosestDistances
         |> Seq.averageBy (fun (index,dist) -> dist * dist)
