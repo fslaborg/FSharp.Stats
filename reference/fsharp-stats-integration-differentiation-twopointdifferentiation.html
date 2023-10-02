@@ -121,7 +121,7 @@ Choosing a small number h, h represents a small change in x, and it can be eithe
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1447', 1447)" onmouseover="showTip(event, '1447', 1447)">
+              <code onmouseout="hideTip(event, '1452', 1452)" onmouseover="showTip(event, '1452', 1452)">
                 <p>
                   <a id="differentiate">
                     <a href="#differentiate">
@@ -130,7 +130,7 @@ Choosing a small number h, h represents a small change in x, and it can be eithe
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1447">
+              <div class="fsdocs-tip" id="1452">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>differentiate&#32;<span>h&#32;f&#32;x</span></span></code>
@@ -144,6 +144,8 @@ Choosing a small number h, h represents a small change in x, and it can be eithe
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      window for the difference calculation
                     </span>
                     <br/>
                     <span>
@@ -152,6 +154,8 @@ Choosing a small number h, h represents a small change in x, and it can be eithe
                       </b>
                       :
                       <code><span>float&#32;->&#32;float</span></code>
+                       - 
+                      f is the function for which to calculate numerical differentiation.
                     </span>
                     <br/>
                     <span>
@@ -160,6 +164,8 @@ Choosing a small number h, h represents a small change in x, and it can be eithe
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      x is the point at which the difference between "x and x+h"/"x-h and x+h" is calculated.
                     </span>
                     <br/>
                   </ul>
@@ -168,6 +174,7 @@ Choosing a small number h, h represents a small change in x, and it can be eithe
                     Returns: 
                     <code>float</code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -183,17 +190,17 @@ Choosing a small number h, h represents a small change in x, and it can be eithe
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Integration/Differentiation.fs#L52-52" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Integration/Differentiation.fs#L72-72" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
-Returns the approximation of f'(x) at x by calculating the two point differentiation.
-h is the window for the difference calculation. f is the function for which to calculate numerical differentiation. x is the point at which the difference between "x and x+h"/"x-h and x+h" is calculated.
-
+                Returns the approximation of f'(x) at x by calculating the two point differentiation.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -202,7 +209,11 @@ h is the window for the difference calculation. f is the function for which to c
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  window for the difference calculation
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   f
@@ -210,7 +221,11 @@ h is the window for the difference calculation. f is the function for which to c
                 :
                 <code><span>float&#32;->&#32;float</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  f is the function for which to calculate numerical differentiation.
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   x
@@ -218,7 +233,11 @@ h is the window for the difference calculation. f is the function for which to c
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  x is the point at which the difference between "x and x+h"/"x-h and x+h" is calculated.
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -227,14 +246,24 @@ h is the window for the difference calculation. f is the function for which to c
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1448', 1448)" onmouseover="showTip(event, '1448', 1448)">
+              <code onmouseout="hideTip(event, '1453', 1453)" onmouseover="showTip(event, '1453', 1453)">
                 <p>
                   <a id="differentiateOptimalH">
                     <a href="#differentiateOptimalH">
@@ -243,7 +272,7 @@ h is the window for the difference calculation. f is the function for which to c
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1448">
+              <div class="fsdocs-tip" id="1453">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>differentiateOptimalH&#32;<span>f&#32;x</span></span></code>
@@ -288,17 +317,12 @@ h is the window for the difference calculation. f is the function for which to c
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Integration/Differentiation.fs#L88-88" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Integration/Differentiation.fs#L118-118" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
-Returns the approximation of f'(x) at x by calculating the two point differentiation.
-Calculates optimal h for the "differentiate"-function from a preset, suggested array.
-h is tested from h = 0.01 to 5e^-100 in [|0.01; 0.005; 0.001; 0.0005; 0.0001 ..|]-increments. 
-f is the function and x the point at which numerical differentiation is calculated.
-
               </p>
             </div>
             <dl class="fsdocs-params">
@@ -333,7 +357,7 @@ f is the function and x the point at which numerical differentiation is calculat
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1449', 1449)" onmouseover="showTip(event, '1449', 1449)">
+              <code onmouseout="hideTip(event, '1454', 1454)" onmouseover="showTip(event, '1454', 1454)">
                 <p>
                   <a id="differentiateOptimalHBy">
                     <a href="#differentiateOptimalHBy">
@@ -342,7 +366,7 @@ f is the function and x the point at which numerical differentiation is calculat
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1449">
+              <div class="fsdocs-tip" id="1454">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>differentiateOptimalHBy&#32;<span>hArr&#32;f&#32;x</span></span></code>
@@ -356,6 +380,8 @@ f is the function and x the point at which numerical differentiation is calculat
                       </b>
                       :
                       <code><span>float[]</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -364,6 +390,8 @@ f is the function and x the point at which numerical differentiation is calculat
                       </b>
                       :
                       <code><span>float&#32;->&#32;float</span></code>
+                       - 
+                      function for which numerical differentiation is calculated.
                     </span>
                     <br/>
                     <span>
@@ -372,6 +400,8 @@ f is the function and x the point at which numerical differentiation is calculat
                       </b>
                       :
                       <code>float</code>
+                       - 
+                      x is the point at which numerical differentiation is calculated.
                     </span>
                     <br/>
                   </ul>
@@ -380,6 +410,7 @@ f is the function and x the point at which numerical differentiation is calculat
                     Returns: 
                     <code>float</code>
                   </span>
+                  Returns the approximation of f'(x) at x by calculating the two point differentiation.
                   <br/>
                 </div>
               </div>
@@ -395,18 +426,17 @@ f is the function and x the point at which numerical differentiation is calculat
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Integration/Differentiation.fs#L81-81" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Integration/Differentiation.fs#L115-115" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
-Returns the approximation of f'(x) at x by calculating the two point differentiation.
-Finds optimal h from all values given in hArr and calculates "differentiate" -function.
-f is the function and x the point at which numerical differentiation is calculated.
-
+                Finds optimal h from all values given in hArr and calculates "differentiate" -function.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -415,7 +445,11 @@ f is the function and x the point at which numerical differentiation is calculat
                 :
                 <code><span>float[]</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   f
@@ -423,7 +457,11 @@ f is the function and x the point at which numerical differentiation is calculat
                 :
                 <code><span>float&#32;->&#32;float</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  function for which numerical differentiation is calculated.
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   x
@@ -431,7 +469,11 @@ f is the function and x the point at which numerical differentiation is calculat
                 :
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  x is the point at which numerical differentiation is calculated.
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -440,8 +482,18 @@ f is the function and x the point at which numerical differentiation is calculat
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  Returns the approximation of f'(x) at x by calculating the two point differentiation.
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
       </tbody>

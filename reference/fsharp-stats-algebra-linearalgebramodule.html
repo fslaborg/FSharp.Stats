@@ -160,7 +160,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1215', 1215)" onmouseover="showTip(event, '1215', 1215)">
+              <code onmouseout="hideTip(event, '1220', 1220)" onmouseover="showTip(event, '1220', 1220)">
                 <p>
                   <a id="Cholesky">
                     <a href="#Cholesky">
@@ -169,7 +169,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1215">
+              <div class="fsdocs-tip" id="1220">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Cholesky&#32;<span>a</span></span></code>
@@ -183,6 +183,8 @@
                       </b>
                       :
                       <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -191,6 +193,7 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -206,18 +209,17 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L132-132" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L190-190" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Given A[n,n] real symmetric positive definite.
- Finds the cholesky decomposition L such that L' * L = A.
- May fail if not positive definite.
-
+                Given A[n,n] real symmetric positive definite.<br />Finds the cholesky decomposition L such that L' * L = A.<br />May fail if not positive definite.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -226,7 +228,11 @@
                 :
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -235,14 +241,24 @@
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1216', 1216)" onmouseover="showTip(event, '1216', 1216)">
+              <code onmouseout="hideTip(event, '1221', 1221)" onmouseover="showTip(event, '1221', 1221)">
                 <p>
                   <a id="Determinant">
                     <a href="#Determinant">
@@ -251,7 +267,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1216">
+              <div class="fsdocs-tip" id="1221">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Determinant&#32;<span>A</span></span></code>
@@ -265,6 +281,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -273,6 +291,7 @@
                     Returns: 
                     <code>float</code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -288,17 +307,17 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L214-214" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L330-330" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Compute the determinant of a matrix by performing an LU decomposition since if A = P'LU,
- then det(A) = det(P') * det(L) * det(U).
-
+                Compute the determinant of a matrix by performing an LU decomposition since if A = P'LU,<br />then det(A) = det(P') * det(L) * det(U).
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -307,7 +326,11 @@
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -316,14 +339,24 @@
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1217', 1217)" onmouseover="showTip(event, '1217', 1217)">
+              <code onmouseout="hideTip(event, '1222', 1222)" onmouseover="showTip(event, '1222', 1222)">
                 <p>
                   <a id="EVD">
                     <a href="#EVD">
@@ -332,7 +365,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1217">
+              <div class="fsdocs-tip" id="1222">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>EVD&#32;<span>m</span></span></code>
@@ -369,7 +402,7 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L72-72" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L93-93" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -385,7 +418,14 @@ where lambda(j) is its eigenvalue.
 The computed eigenvectors are normalized to have Euclidean norm
 equal to 1 and largest component real. Uses the LAPACK subroutine dgeev with arguments JOBVR = 'V' and JOBVL = 'N'
 
-Returns the real (first array) and imaginary (second array) parts of the eigenvalues and a matrix containing the corresponding eigenvectors
+ <summary>Returns the real (first array) and imaginary (second array) parts of the eigenvalues and a matrix containing the corresponding eigenvectors</summary>
+ <remarks></remarks>
+ <param name="m"></param>
+ <returns></returns>
+ <example>
+ <code>
+ </code>
+ </example>
 
               </p>
             </div>
@@ -413,7 +453,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1218', 1218)" onmouseover="showTip(event, '1218', 1218)">
+              <code onmouseout="hideTip(event, '1223', 1223)" onmouseover="showTip(event, '1223', 1223)">
                 <p>
                   <a id="EigenSpectrumWhenSymmetric">
                     <a href="#EigenSpectrumWhenSymmetric">
@@ -422,7 +462,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1218">
+              <div class="fsdocs-tip" id="1223">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>EigenSpectrumWhenSymmetric&#32;<span>a</span></span></code>
@@ -436,6 +476,8 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -444,6 +486,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                     Returns: 
                     <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span>&#32;*&#32;<span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -459,18 +502,17 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L100-100" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L136-136" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Compute eigenvalues and eigenvectors for a real symmetric matrix.
- Returns arrays of the values and vectors (both based on reals).
- This call may fail.
-
+                Compute eigenvalues and eigenvectors for a real symmetric matrix.<br />Returns arrays of the values and vectors (both based on reals).<br />This call may fail.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -479,7 +521,11 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -488,14 +534,24 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 </span>
                 <code><span><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span>&#32;*&#32;<span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1219', 1219)" onmouseover="showTip(event, '1219', 1219)">
+              <code onmouseout="hideTip(event, '1224', 1224)" onmouseover="showTip(event, '1224', 1224)">
                 <p>
                   <a id="EigenValues">
                     <a href="#EigenValues">
@@ -504,7 +560,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1219">
+              <div class="fsdocs-tip" id="1224">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>EigenValues&#32;<span>m</span></span></code>
@@ -518,6 +574,8 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                       </b>
                       :
                       <code>'a</code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -526,6 +584,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                     Returns: 
                     <code>'b</code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -541,18 +600,17 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L80-80" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L106-106" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Compute eigenvalues of a square real matrix.
- Returns arrays containing the eigenvalues which may be complex.
- This call may fail.
-
+                Compute eigenvalues of a square real matrix.<br />Returns arrays containing the eigenvalues which may be complex.<br />This call may fail.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -561,7 +619,11 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 :
                 <code>'a</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -570,14 +632,24 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 </span>
                 <code>'b</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1220', 1220)" onmouseover="showTip(event, '1220', 1220)">
+              <code onmouseout="hideTip(event, '1225', 1225)" onmouseover="showTip(event, '1225', 1225)">
                 <p>
                   <a id="EigenValuesWhenSymmetric">
                     <a href="#EigenValuesWhenSymmetric">
@@ -586,7 +658,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1220">
+              <div class="fsdocs-tip" id="1225">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>EigenValuesWhenSymmetric&#32;<span>a</span></span></code>
@@ -600,6 +672,8 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                       </b>
                       :
                       <code>'a</code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -608,6 +682,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                     Returns: 
                     <code>'b</code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -623,18 +698,17 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L90-90" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L121-121" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Compute eigenvalues for a real symmetric matrix.
- Returns array of real eigenvalues.
- This call may fail.
-
+                Compute eigenvalues for a real symmetric matrix.<br />Returns array of real eigenvalues.<br />This call may fail.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -643,7 +717,11 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 :
                 <code>'a</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -652,14 +730,24 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 </span>
                 <code>'b</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1221', 1221)" onmouseover="showTip(event, '1221', 1221)">
+              <code onmouseout="hideTip(event, '1226', 1226)" onmouseover="showTip(event, '1226', 1226)">
                 <p>
                   <a id="Hessenberg">
                     <a href="#Hessenberg">
@@ -668,7 +756,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1221">
+              <div class="fsdocs-tip" id="1226">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Hessenberg&#32;<span>A</span></span></code>
@@ -705,7 +793,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L189-189" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L279-279" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -737,7 +825,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1222', 1222)" onmouseover="showTip(event, '1222', 1222)">
+              <code onmouseout="hideTip(event, '1227', 1227)" onmouseover="showTip(event, '1227', 1227)">
                 <p>
                   <a id="Inverse">
                     <a href="#Inverse">
@@ -746,7 +834,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1222">
+              <div class="fsdocs-tip" id="1227">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Inverse&#32;<span>a</span></span></code>
@@ -760,6 +848,8 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -768,6 +858,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -783,17 +874,17 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L109-109" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L151-151" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Given A[n,n] find it's inverse.
- This call may fail.
-
+                Given A[n,n] find it's inverse.<br />This call may fail.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -802,7 +893,11 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -811,14 +906,24 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1223', 1223)" onmouseover="showTip(event, '1223', 1223)">
+              <code onmouseout="hideTip(event, '1228', 1228)" onmouseover="showTip(event, '1228', 1228)">
                 <p>
                   <a id="LU">
                     <a href="#LU">
@@ -827,7 +932,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1223">
+              <div class="fsdocs-tip" id="1228">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>LU&#32;<span>a</span></span></code>
@@ -841,6 +946,8 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -849,6 +956,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                     Returns: 
                     <code><span><span>(<span>int&#32;->&#32;int</span>)</span>&#32;*&#32;<span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span>&#32;*&#32;<span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -864,17 +972,17 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L139-139" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L203-203" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Given A[n,n] real matrix.
- Finds P,L,U such that L*U = P*A with L,U lower/upper triangular.
-
+                Given A[n,n] real matrix.<br />Finds P,L,U such that L*U = P*A with L,U lower/upper triangular.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -883,7 +991,11 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -892,14 +1004,24 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 </span>
                 <code><span><span>(<span>int&#32;->&#32;int</span>)</span>&#32;*&#32;<span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span>&#32;*&#32;<span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1224', 1224)" onmouseover="showTip(event, '1224', 1224)">
+              <code onmouseout="hideTip(event, '1229', 1229)" onmouseover="showTip(event, '1229', 1229)">
                 <p>
                   <a id="LeastSquares">
                     <a href="#LeastSquares">
@@ -908,7 +1030,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1224">
+              <div class="fsdocs-tip" id="1229">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>LeastSquares&#32;<span>a&#32;b</span></span></code>
@@ -922,6 +1044,8 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -930,6 +1054,8 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                       </b>
                       :
                       <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -938,6 +1064,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -953,18 +1080,17 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L117-117" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L165-165" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Given A[m,n] and B[m] solves AX = B for X[n].
- When m =&gt; n, have over constrained system, finds least squares solution for X.
- When m &lt; n, have under constrained system, finds least norm solution for X.
-
+                Given A[m,n] and B[m] solves AX = B for X[n].<br />When m => n, have over constrained system, finds least squares solution for X.<br />When m < n, have under constrained system, finds least norm solution for X.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -973,7 +1099,11 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   b
@@ -981,7 +1111,11 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 :
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -990,14 +1124,24 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1225', 1225)" onmouseover="showTip(event, '1225', 1225)">
+              <code onmouseout="hideTip(event, '1230', 1230)" onmouseover="showTip(event, '1230', 1230)">
                 <p>
                   <a id="LeastSquaresCholesky">
                     <a href="#LeastSquaresCholesky">
@@ -1006,7 +1150,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1225">
+              <div class="fsdocs-tip" id="1230">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>LeastSquaresCholesky&#32;<span>a&#32;b</span></span></code>
@@ -1020,6 +1164,8 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -1028,6 +1174,8 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -1036,6 +1184,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -1051,19 +1200,17 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L126-126" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L179-179" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Given A[m,n] and b[m] solves AX = b for X[n].
- When the system is under constrained,
- for example when the columns of A are not linearly independent,
- then it will not give sensible results.
-
+                Given A[m,n] and b[m] solves AX = b for X[n].<br />When the system is under constrained,<br />for example when the columns of A are not linearly independent,<br />then it will not give sensible results.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1072,7 +1219,11 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   b
@@ -1080,7 +1231,11 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -1089,14 +1244,24 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1226', 1226)" onmouseover="showTip(event, '1226', 1226)">
+              <code onmouseout="hideTip(event, '1231', 1231)" onmouseover="showTip(event, '1231', 1231)">
                 <p>
                   <a id="QR">
                     <a href="#QR">
@@ -1105,7 +1270,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1226">
+              <div class="fsdocs-tip" id="1231">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>QR&#32;<span>a</span></span></code>
@@ -1119,6 +1284,8 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                       </b>
                       :
                       <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -1127,6 +1294,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -1142,18 +1310,17 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L148-148" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L217-217" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Given A[m,n] finds Q[m,m] and R[k,n] where k = min m n.
- Have A = Q.R  when m &lt; =n.
- Have A = Q.RX when m &gt; n and RX[m,n] is R[n,n] row extended with (m-n) zero rows.
-
+                Given A[m,n] finds Q[m,m] and R[k,n] where k = min m n.<br />Have A = Q.R  when m < =n.<br />Have A = Q.RX when m > n and RX[m,n] is R[n,n] row extended with (m-n) zero rows.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1162,7 +1329,11 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 :
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -1171,14 +1342,24 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a>&#32;*&#32;<a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1227', 1227)" onmouseover="showTip(event, '1227', 1227)">
+              <code onmouseout="hideTip(event, '1232', 1232)" onmouseover="showTip(event, '1232', 1232)">
                 <p>
                   <a id="SVD">
                     <a href="#SVD">
@@ -1187,7 +1368,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1227">
+              <div class="fsdocs-tip" id="1232">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>SVD&#32;<span>a</span></span></code>
@@ -1224,7 +1405,7 @@ Returns the real (first array) and imaginary (second array) parts of the eigenva
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L159-159" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L235-235" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -1235,7 +1416,14 @@ Returns the full Singular Value Decomposition of the input MxN matrix
 A : A = U * SIGMA * V**T in the tuple (S, U, V**T), 
 
 where S is an array containing the diagonal elements of SIGMA.
-uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
+ <summary>uses the LAPACK routine dgesdd with the argument JOBZ = 'A'</summary>
+ <remarks></remarks>
+ <param name="a"></param>
+ <returns></returns>
+ <example>
+ <code>
+ </code>
+ </example>
 
               </p>
             </div>
@@ -1263,7 +1451,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1228', 1228)" onmouseover="showTip(event, '1228', 1228)">
+              <code onmouseout="hideTip(event, '1233', 1233)" onmouseover="showTip(event, '1233', 1233)">
                 <p>
                   <a id="Service">
                     <a href="#Service">
@@ -1272,7 +1460,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1228">
+              <div class="fsdocs-tip" id="1233">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>Service&#32;<span>()</span></span></code>
@@ -1341,7 +1529,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1229', 1229)" onmouseover="showTip(event, '1229', 1229)">
+              <code onmouseout="hideTip(event, '1234', 1234)" onmouseover="showTip(event, '1234', 1234)">
                 <p>
                   <a id="SolveLinearSystem">
                     <a href="#SolveLinearSystem">
@@ -1350,7 +1538,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1229">
+              <div class="fsdocs-tip" id="1234">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>SolveLinearSystem&#32;<span>A&#32;b</span></span></code>
@@ -1435,7 +1623,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1230', 1230)" onmouseover="showTip(event, '1230', 1230)">
+              <code onmouseout="hideTip(event, '1235', 1235)" onmouseover="showTip(event, '1235', 1235)">
                 <p>
                   <a id="SolveLinearSystems">
                     <a href="#SolveLinearSystems">
@@ -1444,7 +1632,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1230">
+              <div class="fsdocs-tip" id="1235">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>SolveLinearSystems&#32;<span>A&#32;B</span></span></code>
@@ -1529,7 +1717,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1231', 1231)" onmouseover="showTip(event, '1231', 1231)">
+              <code onmouseout="hideTip(event, '1236', 1236)" onmouseover="showTip(event, '1236', 1236)">
                 <p>
                   <a id="SolveTriangularLinearSystem">
                     <a href="#SolveTriangularLinearSystem">
@@ -1538,7 +1726,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1231">
+              <div class="fsdocs-tip" id="1236">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>SolveTriangularLinearSystem&#32;<span>A&#32;b&#32;isLower</span></span></code>
@@ -1639,7 +1827,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1232', 1232)" onmouseover="showTip(event, '1232', 1232)">
+              <code onmouseout="hideTip(event, '1237', 1237)" onmouseover="showTip(event, '1237', 1237)">
                 <p>
                   <a id="SolveTriangularLinearSystems">
                     <a href="#SolveTriangularLinearSystems">
@@ -1648,7 +1836,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1232">
+              <div class="fsdocs-tip" id="1237">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>SolveTriangularLinearSystems&#32;<span>A&#32;B&#32;isLower</span></span></code>
@@ -1749,7 +1937,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1233', 1233)" onmouseover="showTip(event, '1233', 1233)">
+              <code onmouseout="hideTip(event, '1238', 1238)" onmouseover="showTip(event, '1238', 1238)">
                 <p>
                   <a id="hatmatrix">
                     <a href="#hatmatrix">
@@ -1758,7 +1946,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1233">
+              <div class="fsdocs-tip" id="1238">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>hatmatrix&#32;<span>A</span></span></code>
@@ -1772,6 +1960,8 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -1780,6 +1970,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -1795,16 +1986,17 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L195-195" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L292-292" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
-
+                computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1813,7 +2005,11 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -1822,14 +2018,24 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1234', 1234)" onmouseover="showTip(event, '1234', 1234)">
+              <code onmouseout="hideTip(event, '1239', 1239)" onmouseover="showTip(event, '1239', 1239)">
                 <p>
                   <a id="leverage">
                     <a href="#leverage">
@@ -1838,7 +2044,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1234">
+              <div class="fsdocs-tip" id="1239">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>leverage&#32;<span>A</span></span></code>
@@ -1852,6 +2058,8 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -1860,6 +2068,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                     Returns: 
                     <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -1875,17 +2084,17 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L204-204" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L314-314" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- computes the leverage directly by QR decomposition of the designmatrix used in ordinary least squares approaches
- and computing of the diagnonal entries of the Hat matrix, known as the leverages of the regressors
-
+                computes the leverage directly by QR decomposition of the designmatrix used in ordinary least squares approaches<br />and computing of the diagnonal entries of the Hat matrix, known as the leverages of the regressors
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1894,7 +2103,11 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -1903,14 +2116,24 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 </span>
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1235', 1235)" onmouseover="showTip(event, '1235', 1235)">
+              <code onmouseout="hideTip(event, '1240', 1240)" onmouseover="showTip(event, '1240', 1240)">
                 <p>
                   <a id="leverageBy">
                     <a href="#leverageBy">
@@ -1919,7 +2142,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1235">
+              <div class="fsdocs-tip" id="1240">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>leverageBy&#32;<span>A</span></span></code>
@@ -1933,6 +2156,8 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -1941,6 +2166,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -1956,16 +2182,17 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L199-199" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L303-303" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
-
+                computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -1974,7 +2201,11 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -1983,14 +2214,24 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1236', 1236)" onmouseover="showTip(event, '1236', 1236)">
+              <code onmouseout="hideTip(event, '1241', 1241)" onmouseover="showTip(event, '1241', 1241)">
                 <p>
                   <a id="preDivideByMatrix">
                     <a href="#preDivideByMatrix">
@@ -1999,7 +2240,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1236">
+              <div class="fsdocs-tip" id="1241">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>preDivideByMatrix&#32;<span>a&#32;b</span></span></code>
@@ -2013,6 +2254,8 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                       </b>
                       :
                       <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -2021,6 +2264,8 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                       </b>
                       :
                       <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -2029,6 +2274,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -2044,17 +2290,17 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L56-56" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L70-70" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Given A[n,m] and B[n,k] solve for X[m,k] such that AX = B
- This call may fail.
-
+                Given A[n,m] and B[n,k] solve for X[m,k] such that AX = B<br />This call may fail.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -2063,7 +2309,11 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 :
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   b
@@ -2071,7 +2321,11 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 :
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -2080,14 +2334,24 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1237', 1237)" onmouseover="showTip(event, '1237', 1237)">
+              <code onmouseout="hideTip(event, '1242', 1242)" onmouseover="showTip(event, '1242', 1242)">
                 <p>
                   <a id="preDivideByVector">
                     <a href="#preDivideByVector">
@@ -2096,7 +2360,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1237">
+              <div class="fsdocs-tip" id="1242">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>preDivideByVector&#32;<span>A&#32;b</span></span></code>
@@ -2110,6 +2374,8 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                       </b>
                       :
                       <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -2118,6 +2384,8 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                       </b>
                       :
                       <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -2126,6 +2394,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -2141,17 +2410,17 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L48-48" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L55-55" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Given A[n,m] and B[n] solve for x[m] such that Ax = B
- This call may fail.
-
+                Given A[n,m] and B[n] solve for x[m] such that Ax = B<br />This call may fail.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -2160,7 +2429,11 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 :
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix.html">matrix</a></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   b
@@ -2168,7 +2441,11 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 :
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -2177,14 +2454,24 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 </span>
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1238', 1238)" onmouseover="showTip(event, '1238', 1238)">
+              <code onmouseout="hideTip(event, '1243', 1243)" onmouseover="showTip(event, '1243', 1243)">
                 <p>
                   <a id="spectralNorm">
                     <a href="#spectralNorm">
@@ -2193,7 +2480,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1238">
+              <div class="fsdocs-tip" id="1243">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>spectralNorm&#32;<span>a</span></span></code>
@@ -2207,6 +2494,8 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -2215,6 +2504,7 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                     Returns: 
                     <code>float</code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -2230,16 +2520,17 @@ uses the LAPACK routine dgesdd with the argument JOBZ = 'A'
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L167-167" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L250-250" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
-spectral norm of a matrix (for Frobenius norm use Matrix.norm)
-
+                spectral norm of a matrix (for Frobenius norm use Matrix.norm)
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -2248,7 +2539,11 @@ spectral norm of a matrix (for Frobenius norm use Matrix.norm)
                 :
                 <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-matrix-1.html">Matrix</a>&lt;float&gt;</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -2257,14 +2552,24 @@ spectral norm of a matrix (for Frobenius norm use Matrix.norm)
                 </span>
                 <code>float</code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1239', 1239)" onmouseover="showTip(event, '1239', 1239)">
+              <code onmouseout="hideTip(event, '1244', 1244)" onmouseover="showTip(event, '1244', 1244)">
                 <p>
                   <a id="thinSVD">
                     <a href="#thinSVD">
@@ -2273,7 +2578,7 @@ spectral norm of a matrix (for Frobenius norm use Matrix.norm)
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1239">
+              <div class="fsdocs-tip" id="1244">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>thinSVD&#32;<span>a</span></span></code>
@@ -2310,7 +2615,7 @@ spectral norm of a matrix (for Frobenius norm use Matrix.norm)
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L182-182" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Algebra/LinearAlgebra.fs#L272-272" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -2322,7 +2627,14 @@ A = U * SIGMA * V**T in the tuple (S, U, V),
 
 where S is an array containing the diagonal elements of SIGMA.
 The first min(M,N) columns of U and the first min(M,N) rows of V**T are returned in the arrays U and VT;
-uses the LAPACK routine dgesdd with the argument JOBZ = 'S'
+ <summary>uses the LAPACK routine dgesdd with the argument JOBZ = 'S'</summary>
+ <remarks></remarks>
+ <param name="a"></param>
+ <returns></returns>
+ <example>
+ <code>
+ </code>
+ </example>
 
               </p>
             </div>

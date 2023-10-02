@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Bisection (FSharp.Stats)</title>
+    <title>Bezier (FSharp.Stats)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
     <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
@@ -72,23 +72,31 @@
                 <div class="container" id="fsdocs-content">
                     <div>
   <h2>
-    Bisection Module
+    Bezier Module
   </h2>
   <dl class="fsdocs-metadata">
     <dt>
       Namespace: 
-      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-optimization.html">
-        FSharp.Stats.Optimization
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats.html">
+        FSharp.Stats
       </a>
     </dt>
     <dt>
       Assembly: FSharp.Stats.dll
+    </dt>
+    <dt>
+      Parent Module: 
+      <a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule.html">
+        Interpolation
+      </a>
     </dt>
   </dl>
   <div class="fsdocs-xmldoc">
     <div>
       <p class="fsdocs-summary">
         
+   Bezier interpolates data between 2 points using a number of control points, which determine the degree of the interpolated curve.
+ 
       </p>
     </div>
   </div>
@@ -111,80 +119,40 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1537', 1537)" onmouseover="showTip(event, '1537', 1537)">
+              <code onmouseout="hideTip(event, '421', 421)" onmouseover="showTip(event, '421', 421)">
                 <p>
-                  <a id="tryFindRoot">
-                    <a href="#tryFindRoot">
-                      <code><span>tryFindRoot&#32;<span>func&#32;accuracy&#32;lowerBound&#32;upperBound&#32;maxIter</span></span></code>
+                  <a id="interpolate">
+                    <a href="#interpolate">
+                      <code><span>interpolate&#32;<span>values</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1537">
+              <div class="fsdocs-tip" id="421">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>tryFindRoot&#32;<span>func&#32;accuracy&#32;lowerBound&#32;upperBound&#32;maxIter</span></span></code>
+                  <code><span>interpolate&#32;<span>values</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        func
+                        values
                       </b>
                       :
-                      <code><span>float&#32;->&#32;float</span></code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a>[]</span></code>
                        - 
-                      
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        accuracy
-                      </b>
-                      :
-                      <code>float</code>
-                       - 
-                      
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        lowerBound
-                      </b>
-                      :
-                      <code>float</code>
-                       - 
-                      
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        upperBound
-                      </b>
-                      :
-                      <code>float</code>
-                       - 
-                      
-                    </span>
-                    <br/>
-                    <span>
-                      <b>
-                        maxIter
-                      </b>
-                      :
-                      <code>int</code>
-                       - 
-                      
+                      an array containg the starting point, the control points, and the end point to use for interpolation
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span>float&#32;option</span></code>
+                    <code><span>float&#32;->&#32;<a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></span></code>
                   </span>
-                  
+                  The generated interpolation function
                   <br/>
                 </div>
               </div>
@@ -192,84 +160,35 @@
           </td>
           <td class="fsdocs-member-xmldoc">
             <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Optimization.Bisection.tryFindRoot`')">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Bezier.interpolate`')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
               </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Optimization.Bisection.tryFindRoot\'/>')">
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Bezier.interpolate\'/>')">
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Optimization/Bisection.fs#L17-17" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L2149-2149" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                Finds the value in an interval for which a given function returns a value close to 0 
+                
+   This implements Bezier interpolation using De Casteljau's algorithm.
+ 
               </p>
             </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
-                  func
+                  values
                 </span>
                 :
-                <code><span>float&#32;->&#32;float</span></code>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a>[]</span></code>
               </dt>
               <dd class="fsdocs-param-docs">
                 <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  accuracy
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  lowerBound
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  upperBound
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  maxIter
-                </span>
-                :
-                <code>int</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
+                  an array containg the starting point, the control points, and the end point to use for interpolation
                 </p>
               </dd>
             </dl>
@@ -278,20 +197,127 @@
                 <span class="fsdocs-return-name">
                   Returns: 
                 </span>
-                <code><span>float&#32;option</span></code>
+                <code><span>float&#32;->&#32;<a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></span></code>
               </dt>
               <dd class="fsdocs-return-docs">
                 <p>
-                  
+                  The generated interpolation function
                 </p>
               </dd>
             </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="fsdocs-member-usage">
+            <div>
+              <code onmouseout="hideTip(event, '422', 422)" onmouseover="showTip(event, '422', 422)">
+                <p>
+                  <a id="lerp">
+                    <a href="#lerp">
+                      <code><span>lerp&#32;<span>p1&#32;p2&#32;t</span></span></code>
+                    </a>
+                  </a>
+                </p>
+              </code>
+              <div class="fsdocs-tip" id="422">
+                <div class="member-tooltip">
+                  Full Usage: 
+                  <code><span>lerp&#32;<span>p1&#32;p2&#32;t</span></span></code>
+                  <br/>
+                  <br/>
+                  Parameters: 
+                  <ul>
+                    <span>
+                      <b>
+                        p1
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        p2
+                      </b>
+                      :
+                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                    </span>
+                    <br/>
+                    <span>
+                      <b>
+                        t
+                      </b>
+                      :
+                      <code>float</code>
+                    </span>
+                    <br/>
+                  </ul>
+                  <br/>
+                  <span>
+                    Returns: 
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                  </span>
+                  <br/>
+                  Modifiers: 
+                  inline
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="fsdocs-member-xmldoc">
+            <div class="fsdocs-summary">
+              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Bezier.lerp`')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+              </div>
+              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Bezier.lerp\'/>')">
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+              </div>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L2141-2141" class="fsdocs-source-link" title="Source on GitHub">
+                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
+                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              </a>
+              <p class="fsdocs-summary">
+                
+              </p>
+            </div>
+            <dl class="fsdocs-params">
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  p1
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  p2
+                </span>
+                :
+                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+              <dt class="fsdocs-param">
+                <span class="fsdocs-param-name">
+                  t
+                </span>
+                :
+                <code>float</code>
+              </dt>
+              <dd class="fsdocs-param-docs"></dd>
+            </dl>
+            <dl class="fsdocs-returns">
+              <dt>
+                <span class="fsdocs-return-name">
+                  Returns: 
+                </span>
+                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+              </dt>
+              <dd class="fsdocs-return-docs"></dd>
+            </dl>
           </td>
         </tr>
       </tbody>

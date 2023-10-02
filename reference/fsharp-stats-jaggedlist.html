@@ -111,7 +111,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '485', 485)" onmouseover="showTip(event, '485', 485)">
+              <code onmouseout="hideTip(event, '490', 490)" onmouseover="showTip(event, '490', 490)">
                 <p>
                   <a id="fold">
                     <a href="#fold">
@@ -120,7 +120,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="485">
+              <div class="fsdocs-tip" id="490">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>fold&#32;<span>innerFolder&#32;outerFolder&#32;innerState&#32;outerState&#32;jlist</span></span></code>
@@ -189,14 +189,21 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L297-297" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L526-526" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
                 
 Applies a function to each element of the inner lists of the jagged list, threading an accumulator argument through the computation. 
-A second function is the applied to each result of the predeceding computation, again passing an accumulater through the computation 
+ <summary>A second function is the applied to each result of the predeceding computation, again passing an accumulater through the computation </summary>
+ <remarks></remarks>
+ <param name="innerFolder"></param>
+ <returns></returns>
+ <example>
+ <code>
+ </code>
+ </example>
 
               </p>
             </div>
@@ -256,7 +263,7 @@ A second function is the applied to each result of the predeceding computation, 
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '486', 486)" onmouseover="showTip(event, '486', 486)">
+              <code onmouseout="hideTip(event, '491', 491)" onmouseover="showTip(event, '491', 491)">
                 <p>
                   <a id="innerChoose">
                     <a href="#innerChoose">
@@ -265,7 +272,7 @@ A second function is the applied to each result of the predeceding computation, 
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="486">
+              <div class="fsdocs-tip" id="491">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>innerChoose&#32;<span>chooser&#32;jlist</span></span></code>
@@ -279,6 +286,8 @@ A second function is the applied to each result of the predeceding computation, 
                       </b>
                       :
                       <code><span>'T&#32;->&#32;<span>'U&#32;option</span></span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -287,6 +296,8 @@ A second function is the applied to each result of the predeceding computation, 
                       </b>
                       :
                       <code><span><span>'T&#32;list</span>&#32;list</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -295,6 +306,7 @@ A second function is the applied to each result of the predeceding computation, 
                     Returns: 
                     <code><span><span>'U&#32;list</span>&#32;list</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -310,16 +322,17 @@ A second function is the applied to each result of the predeceding computation, 
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L308-308" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L553-553" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
-Applies the given function to each element in the inner lists of the jagged List. Returns the jagged list whose inner lists are comprised of the results x for each element where the function returns Some(x)
-
+                Applies the given function to each element in the inner lists of the jagged List. Returns the jagged list whose inner lists are comprised of the results x for each element where the function returns Some(x)
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -328,7 +341,11 @@ Applies the given function to each element in the inner lists of the jagged List
                 :
                 <code><span>'T&#32;->&#32;<span>'U&#32;option</span></span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   jlist
@@ -336,7 +353,11 @@ Applies the given function to each element in the inner lists of the jagged List
                 :
                 <code><span><span>'T&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -345,14 +366,24 @@ Applies the given function to each element in the inner lists of the jagged List
                 </span>
                 <code><span><span>'U&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '487', 487)" onmouseover="showTip(event, '487', 487)">
+              <code onmouseout="hideTip(event, '492', 492)" onmouseover="showTip(event, '492', 492)">
                 <p>
                   <a id="innerFilter">
                     <a href="#innerFilter">
@@ -361,7 +392,7 @@ Applies the given function to each element in the inner lists of the jagged List
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="487">
+              <div class="fsdocs-tip" id="492">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>innerFilter&#32;<span>predicate&#32;jlist</span></span></code>
@@ -375,6 +406,8 @@ Applies the given function to each element in the inner lists of the jagged List
                       </b>
                       :
                       <code><span>'T&#32;->&#32;bool</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -383,6 +416,8 @@ Applies the given function to each element in the inner lists of the jagged List
                       </b>
                       :
                       <code><span><span>'T&#32;list</span>&#32;list</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -391,6 +426,7 @@ Applies the given function to each element in the inner lists of the jagged List
                     Returns: 
                     <code><span><span>'T&#32;list</span>&#32;list</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -406,16 +442,17 @@ Applies the given function to each element in the inner lists of the jagged List
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L303-303" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L540-540" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
-Returns a new jagged list whose inner lists only contain the elements for which the given predicate returns true
-
+                Returns a new jagged list whose inner lists only contain the elements for which the given predicate returns true
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -424,7 +461,11 @@ Returns a new jagged list whose inner lists only contain the elements for which 
                 :
                 <code><span>'T&#32;->&#32;bool</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   jlist
@@ -432,7 +473,11 @@ Returns a new jagged list whose inner lists only contain the elements for which 
                 :
                 <code><span><span>'T&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -441,14 +486,24 @@ Returns a new jagged list whose inner lists only contain the elements for which 
                 </span>
                 <code><span><span>'T&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '488', 488)" onmouseover="showTip(event, '488', 488)">
+              <code onmouseout="hideTip(event, '493', 493)" onmouseover="showTip(event, '493', 493)">
                 <p>
                   <a id="innerFold">
                     <a href="#innerFold">
@@ -457,7 +512,7 @@ Returns a new jagged list whose inner lists only contain the elements for which 
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="488">
+              <div class="fsdocs-tip" id="493">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>innerFold&#32;<span>folder&#32;state&#32;jlist</span></span></code>
@@ -471,6 +526,8 @@ Returns a new jagged list whose inner lists only contain the elements for which 
                       </b>
                       :
                       <code><span>'State&#32;->&#32;'T&#32;->&#32;'State</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -479,6 +536,8 @@ Returns a new jagged list whose inner lists only contain the elements for which 
                       </b>
                       :
                       <code>'State</code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -487,6 +546,8 @@ Returns a new jagged list whose inner lists only contain the elements for which 
                       </b>
                       :
                       <code><span><span>'T&#32;list</span>&#32;list</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -495,6 +556,7 @@ Returns a new jagged list whose inner lists only contain the elements for which 
                     Returns: 
                     <code><span>'State&#32;list</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -510,16 +572,17 @@ Returns a new jagged list whose inner lists only contain the elements for which 
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L291-291" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L513-513" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
-Applies a function to each element of the inner lists of the jagged list, threading an accumulator argument through the computation.
-
+                Applies a function to each element of the inner lists of the jagged list, threading an accumulator argument through the computation.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -528,7 +591,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span>'State&#32;->&#32;'T&#32;->&#32;'State</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   state
@@ -536,7 +603,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code>'State</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   jlist
@@ -544,7 +615,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span><span>'T&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -553,14 +628,24 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 </span>
                 <code><span>'State&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '489', 489)" onmouseover="showTip(event, '489', 489)">
+              <code onmouseout="hideTip(event, '494', 494)" onmouseover="showTip(event, '494', 494)">
                 <p>
                   <a id="map">
                     <a href="#map">
@@ -569,7 +654,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="489">
+              <div class="fsdocs-tip" id="494">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>map&#32;<span>mapping&#32;jlist</span></span></code>
@@ -583,6 +668,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span>'T&#32;->&#32;'U</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -591,6 +678,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span><span>'T&#32;list</span>&#32;list</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -599,6 +688,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
                     Returns: 
                     <code><span><span>'U&#32;list</span>&#32;list</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -614,16 +704,17 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L270-270" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L458-458" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Builds a new jagged list whose inner lists are the results of applying the given function to each of their elements.
-
+                Builds a new jagged list whose inner lists are the results of applying the given function to each of their elements.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -632,7 +723,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span>'T&#32;->&#32;'U</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   jlist
@@ -640,7 +735,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span><span>'T&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -649,14 +748,24 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 </span>
                 <code><span><span>'U&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '490', 490)" onmouseover="showTip(event, '490', 490)">
+              <code onmouseout="hideTip(event, '495', 495)" onmouseover="showTip(event, '495', 495)">
                 <p>
                   <a id="map2">
                     <a href="#map2">
@@ -665,7 +774,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="490">
+              <div class="fsdocs-tip" id="495">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>map2&#32;<span>mapping&#32;jlist1&#32;jlist2</span></span></code>
@@ -679,6 +788,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span>'T1&#32;->&#32;'T2&#32;->&#32;'U</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -687,6 +798,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span><span>'T1&#32;list</span>&#32;list</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -695,6 +808,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span><span>'T2&#32;list</span>&#32;list</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -703,6 +818,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
                     Returns: 
                     <code><span><span>'U&#32;list</span>&#32;list</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -718,17 +834,17 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L276-276" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L472-472" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Builds a new jagged list whose inner lists are the results of applying the given function to the corresponding elements of the inner lists of the two jagged lists pairwise. 
- All corresponding inner lists must be of the same length, otherwise ArgumentException is raised.
-
+                Builds a new jagged list whose inner lists are the results of applying the given function to the corresponding elements of the inner lists of the two jagged lists pairwise. <br />All corresponding inner lists must be of the same length, otherwise ArgumentException is raised.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -737,7 +853,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span>'T1&#32;->&#32;'T2&#32;->&#32;'U</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   jlist1
@@ -745,7 +865,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span><span>'T1&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   jlist2
@@ -753,7 +877,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span><span>'T2&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -762,14 +890,24 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 </span>
                 <code><span><span>'U&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '491', 491)" onmouseover="showTip(event, '491', 491)">
+              <code onmouseout="hideTip(event, '496', 496)" onmouseover="showTip(event, '496', 496)">
                 <p>
                   <a id="map3">
                     <a href="#map3">
@@ -778,7 +916,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="491">
+              <div class="fsdocs-tip" id="496">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>map3&#32;<span>mapping&#32;jlist1&#32;jlist2&#32;jlist3</span></span></code>
@@ -792,6 +930,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span>'T1&#32;->&#32;'T2&#32;->&#32;'T3&#32;->&#32;'U</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -800,6 +940,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span><span>'T1&#32;list</span>&#32;list</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -808,6 +950,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span><span>'T2&#32;list</span>&#32;list</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -816,6 +960,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span><span>'T3&#32;list</span>&#32;list</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -824,6 +970,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
                     Returns: 
                     <code><span><span>'U&#32;list</span>&#32;list</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -839,17 +986,17 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L282-282" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L487-487" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
- Builds a new jagged list whose inner lists are the results of applying the given function to the corresponding elements of the inner lists of the tree jagged lists triplewise. 
- All corresponding inner lists must be of the same length, otherwise ArgumentException is raised.
-
+                Builds a new jagged list whose inner lists are the results of applying the given function to the corresponding elements of the inner lists of the tree jagged lists triplewise. <br />All corresponding inner lists must be of the same length, otherwise ArgumentException is raised.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -858,7 +1005,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span>'T1&#32;->&#32;'T2&#32;->&#32;'T3&#32;->&#32;'U</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   jlist1
@@ -866,7 +1017,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span><span>'T1&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   jlist2
@@ -874,7 +1029,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span><span>'T2&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   jlist3
@@ -882,7 +1041,11 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 :
                 <code><span><span>'T3&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -891,14 +1054,24 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 </span>
                 <code><span><span>'U&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '492', 492)" onmouseover="showTip(event, '492', 492)">
+              <code onmouseout="hideTip(event, '497', 497)" onmouseover="showTip(event, '497', 497)">
                 <p>
                   <a id="mapi">
                     <a href="#mapi">
@@ -907,7 +1080,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="492">
+              <div class="fsdocs-tip" id="497">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>mapi&#32;<span>mapping&#32;jlist</span></span></code>
@@ -921,6 +1094,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span>int&#32;->&#32;'T&#32;->&#32;'U</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -929,6 +1104,8 @@ Applies a function to each element of the inner lists of the jagged list, thread
                       </b>
                       :
                       <code><span><span>'T&#32;list</span>&#32;list</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -937,6 +1114,7 @@ Applies a function to each element of the inner lists of the jagged list, thread
                     Returns: 
                     <code><span><span>'U&#32;list</span>&#32;list</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -952,16 +1130,17 @@ Applies a function to each element of the inner lists of the jagged list, thread
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L286-286" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L499-499" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
-Builds a new jagged list whose inner lists are the results of applying the given function to each of their elements. The integer index passed to the function indicates the index of element in the inner list being transformed.
-
+                Builds a new jagged list whose inner lists are the results of applying the given function to each of their elements. The integer index passed to the function indicates the index of element in the inner list being transformed.
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -970,7 +1149,11 @@ Builds a new jagged list whose inner lists are the results of applying the given
                 :
                 <code><span>int&#32;->&#32;'T&#32;->&#32;'U</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   jlist
@@ -978,7 +1161,11 @@ Builds a new jagged list whose inner lists are the results of applying the given
                 :
                 <code><span><span>'T&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -987,14 +1174,24 @@ Builds a new jagged list whose inner lists are the results of applying the given
                 </span>
                 <code><span><span>'U&#32;list</span>&#32;list</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '493', 493)" onmouseover="showTip(event, '493', 493)">
+              <code onmouseout="hideTip(event, '498', 498)" onmouseover="showTip(event, '498', 498)">
                 <p>
                   <a id="ofJaggedArray">
                     <a href="#ofJaggedArray">
@@ -1003,7 +1200,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="493">
+              <div class="fsdocs-tip" id="498">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>ofJaggedArray&#32;<span>arr</span></span></code>
@@ -1040,7 +1237,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L253-253" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L433-433" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -1072,7 +1269,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '494', 494)" onmouseover="showTip(event, '494', 494)">
+              <code onmouseout="hideTip(event, '499', 499)" onmouseover="showTip(event, '499', 499)">
                 <p>
                   <a id="ofJaggedSeq">
                     <a href="#ofJaggedSeq">
@@ -1081,7 +1278,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="494">
+              <div class="fsdocs-tip" id="499">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>ofJaggedSeq&#32;<span>data</span></span></code>
@@ -1118,7 +1315,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L259-259" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L439-439" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -1150,7 +1347,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '495', 495)" onmouseover="showTip(event, '495', 495)">
+              <code onmouseout="hideTip(event, '500', 500)" onmouseover="showTip(event, '500', 500)">
                 <p>
                   <a id="toJaggedList">
                     <a href="#toJaggedList">
@@ -1159,7 +1356,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="495">
+              <div class="fsdocs-tip" id="500">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>toJaggedList&#32;<span>data</span></span></code>
@@ -1196,7 +1393,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L246-246" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L426-426" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -1228,7 +1425,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '496', 496)" onmouseover="showTip(event, '496', 496)">
+              <code onmouseout="hideTip(event, '501', 501)" onmouseover="showTip(event, '501', 501)">
                 <p>
                   <a id="toJaggedSeq">
                     <a href="#toJaggedSeq">
@@ -1237,7 +1434,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="496">
+              <div class="fsdocs-tip" id="501">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>toJaggedSeq&#32;<span>data</span></span></code>
@@ -1274,7 +1471,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L265-265" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L445-445" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -1306,7 +1503,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '497', 497)" onmouseover="showTip(event, '497', 497)">
+              <code onmouseout="hideTip(event, '502', 502)" onmouseover="showTip(event, '502', 502)">
                 <p>
                   <a id="transpose">
                     <a href="#transpose">
@@ -1315,7 +1512,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="497">
+              <div class="fsdocs-tip" id="502">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>transpose&#32;<span>data</span></span></code>
@@ -1352,7 +1549,7 @@ Builds a new jagged list whose inner lists are the results of applying the given
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L238-238" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/JaggedArray.fs#L418-418" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>

@@ -251,8 +251,8 @@ _________________________________________________________
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     1.000     5.000
-2     |    2.000     2.000     3.000     4.000     2.000
+1     |    1.000     2.000     3.000     3.000     5.000
+2     |    3.000     2.000     3.000     4.000     3.000
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
@@ -277,8 +277,8 @@ _________________________________________________________
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     2.603     5.000
-2     |    3.467     2.000     3.000     4.000     3.080
+1     |    1.000     2.000     3.000     -0.39     5.000
+2     |    2.168     2.000     3.000     4.000     1.140
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
@@ -287,8 +287,8 @@ _________________________________________________________
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     4.374     5.000
-2     |    3.501     2.000     3.000     4.000     5.000
+1     |    1.000     2.000     3.000     4.421     5.000
+2     |    1.935     2.000     3.000     4.000     5.000
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
@@ -362,13 +362,9 @@ type float = System.Double<br /><em>&lt;summary&gt;An abbreviation for the CLI t
  The unit of measure is erased in compiled code and when values of this type
  are analyzed using reflection. The type is representationally equivalent to
  &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category index=&quot;6&quot;&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
-<div class="fsdocs-tip" id="fs27">val kNearestImpute: k: int -&gt; data: seq&lt;float[]&gt; -&gt; arr: float[] -&gt; index: int -&gt; float<br /><em>&lt;summary&gt;
- Imputation by k-nearest neighbour
-&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs27">val kNearestImpute: k: int -&gt; data: seq&lt;float[]&gt; -&gt; arr: float[] -&gt; index: int -&gt; float<br /><em>&lt;summary&gt;Imputation by k-nearest neighbour&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;k&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs28">val imputedData: float[][]</div>
-<div class="fsdocs-tip" id="fs29">val imputeBy: impute: Impute.MatrixBaseImputation&lt;&#39;a[],&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;
- Imputes rows by matrix-based imputation
-&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs29">val imputeBy: impute: Impute.MatrixBaseImputation&lt;&#39;a[],&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;Imputes rows by matrix-based imputation&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;impute&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;isMissing&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs30">module Ops
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
@@ -379,9 +375,7 @@ from FSharp.Stats<br /><em>&lt;summary&gt;
 &lt;/summary&gt;</em></div>
 <div class="fsdocs-tip" id="fs32">val imputedDataMatrix: string</div>
 <div class="fsdocs-tip" id="fs33">val rnd: (seq&lt;float&gt; -&gt; int -&gt; float)</div>
-<div class="fsdocs-tip" id="fs34">val rnd: rnd: System.Random -&gt; fdata: seq&lt;&#39;a&gt; -&gt; index: int -&gt; &#39;a<br /><em>&lt;summary&gt;
- Imputation by random sampling from the input vector
-&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs34">val rnd: rnd: System.Random -&gt; fdata: seq&lt;&#39;a&gt; -&gt; index: int -&gt; &#39;a<br /><em>&lt;summary&gt;Imputation by random sampling from the input vector&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;rnd&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs35">namespace System</div>
 <div class="fsdocs-tip" id="fs36">Multiple items<br />type Random =
   new: unit -&gt; unit + 1 overload
@@ -392,13 +386,9 @@ from FSharp.Stats<br /><em>&lt;summary&gt;
   member NextSingle: unit -&gt; float32
   static member Shared: Random<br /><em>&lt;summary&gt;Represents a pseudo-random number generator, which is an algorithm that produces a sequence of numbers that meet certain statistical requirements for randomness.&lt;/summary&gt;</em><br /><br />--------------------<br />System.Random() : System.Random<br />System.Random(Seed: int) : System.Random</div>
 <div class="fsdocs-tip" id="fs37">val rndRowWise: float[][]</div>
-<div class="fsdocs-tip" id="fs38">val imputeRowWiseBy: impute: Impute.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;
- Imputes row-wise by vector-based imputation
-&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs38">val imputeRowWiseBy: impute: Impute.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;Imputes row-wise by vector-based imputation&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;impute&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;isMissing&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs39">val rndColWise: float[][]</div>
-<div class="fsdocs-tip" id="fs40">val imputeColWiseBy: impute: Impute.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;
- Imputes column-wise by vector-based imputation
-&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs40">val imputeColWiseBy: impute: Impute.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;Imputes column-wise by vector-based imputation&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;impute&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;isMissing&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs41">val rndRowDataMatrix: string</div>
 <div class="fsdocs-tip" id="fs42">val rndColDataMatrix: string</div>
 <div class="fsdocs-tip" id="fs43">val normalRowWise: float[][]</div>

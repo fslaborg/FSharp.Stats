@@ -130,7 +130,7 @@ Continuous wavelet transform on non discrete data
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/ContinuousWavelet.fs#L113-113" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/ContinuousWavelet.fs#L159-159" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -192,7 +192,7 @@ Continuous wavelet transform on non discrete data
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1554', 1554)" onmouseover="showTip(event, '1554', 1554)">
+              <code onmouseout="hideTip(event, '1559', 1559)" onmouseover="showTip(event, '1559', 1559)">
                 <p>
                   <a id="transform">
                     <a href="#transform">
@@ -201,7 +201,7 @@ Continuous wavelet transform on non discrete data
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1554">
+              <div class="fsdocs-tip" id="1559">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>transform&#32;<span>paddedData&#32;getDiff&#32;borderpadding&#32;wavelet</span></span></code>
@@ -215,6 +215,8 @@ Continuous wavelet transform on non discrete data
                       </b>
                       :
                       <code><span><span>(<span>'a&#32;*&#32;float</span>)</span>[]</span></code>
+                       - 
+                      data to transform (x_Value,y_Value) []
                     </span>
                     <br/>
                     <span>
@@ -223,6 +225,8 @@ Continuous wavelet transform on non discrete data
                       </b>
                       :
                       <code><span>'a&#32;->&#32;'a&#32;->&#32;float</span></code>
+                       - 
+                      get the difference in x_Values as float representation (if 'a is float then (-))
                     </span>
                     <br/>
                     <span>
@@ -231,6 +235,8 @@ Continuous wavelet transform on non discrete data
                       </b>
                       :
                       <code>int</code>
+                       - 
+                      define the number of points padded to the beginning and end of the data (has to be the same as used in padding)
                     </span>
                     <br/>
                     <span>
@@ -239,6 +245,8 @@ Continuous wavelet transform on non discrete data
                       </b>
                       :
                       <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-wavelet-ricker.html">Ricker</a></code>
+                       - 
+                      used wavelet
                     </span>
                     <br/>
                   </ul>
@@ -247,6 +255,7 @@ Continuous wavelet transform on non discrete data
                     Returns: 
                     <code><span><span>(<span>'a&#32;*&#32;float</span>)</span>[]</span></code>
                   </span>
+                  
                   <br/>
                   Modifiers: 
                   inline
@@ -267,20 +276,17 @@ Continuous wavelet transform on non discrete data
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/ContinuousWavelet.fs#L35-35" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/ContinuousWavelet.fs#L65-65" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
-calculates the continuous wavelet transform: 
-data: data to transform (x_Value,y_Value) [];
-getDiff: get the difference in x_Values as float representation (if 'a is float then (-))
-borderpadding: define the number of points padded to the beginning and end of the data (has to be the same as used in padding)
-wavelet: used wavelet
-
+                calculates the continuous wavelet transform
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -289,7 +295,11 @@ wavelet: used wavelet
                 :
                 <code><span><span>(<span>'a&#32;*&#32;float</span>)</span>[]</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  data to transform (x_Value,y_Value) []
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   getDiff
@@ -297,7 +307,11 @@ wavelet: used wavelet
                 :
                 <code><span>'a&#32;->&#32;'a&#32;->&#32;float</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  get the difference in x_Values as float representation (if 'a is float then (-))
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   borderpadding
@@ -305,7 +319,11 @@ wavelet: used wavelet
                 :
                 <code>int</code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  define the number of points padded to the beginning and end of the data (has to be the same as used in padding)
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   wavelet
@@ -313,7 +331,11 @@ wavelet: used wavelet
                 :
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-wavelet-ricker.html">Ricker</a></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  used wavelet
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -322,14 +344,24 @@ wavelet: used wavelet
                 </span>
                 <code><span><span>(<span>'a&#32;*&#32;float</span>)</span>[]</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1555', 1555)" onmouseover="showTip(event, '1555', 1555)">
+              <code onmouseout="hideTip(event, '1560', 1560)" onmouseover="showTip(event, '1560', 1560)">
                 <p>
                   <a id="transformDefault">
                     <a href="#transformDefault">
@@ -338,7 +370,7 @@ wavelet: used wavelet
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1555">
+              <div class="fsdocs-tip" id="1560">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>transformDefault&#32;<span>rawData&#32;wavelet</span></span></code>
@@ -352,6 +384,8 @@ wavelet: used wavelet
                       </b>
                       :
                       <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -360,6 +394,8 @@ wavelet: used wavelet
                       </b>
                       :
                       <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-wavelet-ricker.html">Ricker</a></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -368,6 +404,7 @@ wavelet: used wavelet
                     Returns: 
                     <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -383,16 +420,17 @@ wavelet: used wavelet
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/ContinuousWavelet.fs#L76-76" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/ContinuousWavelet.fs#L114-114" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
-minDistance is half the median spacing; maxDistance is 10 times the median spacing; internal padding=linear interpolation; hugeGap padding=random
-
+                minDistance is half the median spacing; maxDistance is 10 times the median spacing; internal padding=linear interpolation; hugeGap padding=random
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -401,7 +439,11 @@ minDistance is half the median spacing; maxDistance is 10 times the median spaci
                 :
                 <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   wavelet
@@ -409,7 +451,11 @@ minDistance is half the median spacing; maxDistance is 10 times the median spaci
                 :
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-wavelet-ricker.html">Ricker</a></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -418,14 +464,24 @@ minDistance is half the median spacing; maxDistance is 10 times the median spaci
                 </span>
                 <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1556', 1556)" onmouseover="showTip(event, '1556', 1556)">
+              <code onmouseout="hideTip(event, '1561', 1561)" onmouseover="showTip(event, '1561', 1561)">
                 <p>
                   <a id="transformDefaultZero">
                     <a href="#transformDefaultZero">
@@ -434,7 +490,7 @@ minDistance is half the median spacing; maxDistance is 10 times the median spaci
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1556">
+              <div class="fsdocs-tip" id="1561">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>transformDefaultZero&#32;<span>rawData&#32;wavelet</span></span></code>
@@ -448,6 +504,8 @@ minDistance is half the median spacing; maxDistance is 10 times the median spaci
                       </b>
                       :
                       <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -456,6 +514,8 @@ minDistance is half the median spacing; maxDistance is 10 times the median spaci
                       </b>
                       :
                       <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-wavelet-ricker.html">Ricker</a></code>
+                       - 
+                      
                     </span>
                     <br/>
                   </ul>
@@ -464,6 +524,7 @@ minDistance is half the median spacing; maxDistance is 10 times the median spaci
                     Returns: 
                     <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
                   </span>
+                  
                   <br/>
                 </div>
               </div>
@@ -479,16 +540,17 @@ minDistance is half the median spacing; maxDistance is 10 times the median spaci
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/ContinuousWavelet.fs#L96-96" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/ContinuousWavelet.fs#L142-142" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                
-minDistance is half the overall minimum spacing; maxDistance is infinity; internal padding=zero; hugeGap padding=zero (but redundant)
-
+                minDistance is half the overall minimum spacing; maxDistance is infinity; internal padding=zero; hugeGap padding=zero (but redundant)
               </p>
             </div>
+            <p class="fsdocs-remarks">
+              
+            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -497,7 +559,11 @@ minDistance is half the overall minimum spacing; maxDistance is infinity; intern
                 :
                 <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
                   wavelet
@@ -505,7 +571,11 @@ minDistance is half the overall minimum spacing; maxDistance is infinity; intern
                 :
                 <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-signal-wavelet-ricker.html">Ricker</a></code>
               </dt>
-              <dd class="fsdocs-param-docs"></dd>
+              <dd class="fsdocs-param-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
             <dl class="fsdocs-returns">
               <dt>
@@ -514,8 +584,18 @@ minDistance is half the overall minimum spacing; maxDistance is infinity; intern
                 </span>
                 <code><span><span>(<span>float&#32;*&#32;float</span>)</span>[]</span></code>
               </dt>
-              <dd class="fsdocs-return-docs"></dd>
+              <dd class="fsdocs-return-docs">
+                <p>
+                  
+                </p>
+              </dd>
             </dl>
+            <h5 class="fsdocs-example-header">
+              Example
+            </h5>
+            <p class="fsdocs-example" id="example">
+              <pre><code class=""></code></pre>
+            </p>
           </td>
         </tr>
       </tbody>
