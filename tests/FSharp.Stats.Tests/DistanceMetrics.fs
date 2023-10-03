@@ -463,3 +463,201 @@ let Levenshteindistancetest =
             Expect.equal distance 0 "should be equal"
     
     ]
+
+[<Tests>]
+let minkowskiseqfunctiontests =
+    testList "DistanceMetrics.minkowskisequence" [
+        testCase "minkowskiNoValue" <| fun () ->
+            let seq1 = seq {0.001; -2.0; 0.0; 10_000.0}
+            let seq2 = seq {2.0; -10.0; 0.0; 1.0}
+            let distance = DistanceMetrics.minkowski seq1 seq2 0
+            Expect.isTrue distance.IsNone "No Value"        
+
+        testCase "minkowskiVsEuclidian" <| fun () ->
+            let seq1 = seq {0.001; -2.0; 0.0; 10_000.0}            
+            let seq2 = seq {2.0; -10.0; 0.0; 1.0} 
+            let distance = DistanceMetrics.minkowski seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 9999.0034 "Should be equal"
+              
+        testCase "minkowskiOrder3" <| fun () ->
+            let seq1 = seq {0.001; -2.0; 0.0; 1.5}            
+            let seq2 = seq {2.0; -10.0; 0.5; 1.0} 
+            let distance = DistanceMetrics.minkowski seq1 seq2 3
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 8.04267819780 "Should be equal"
+              
+        testCase "minkowskiOrder5" <| fun () ->
+            let seq1 = seq {0.001; -2.0; 0.0; 1.5}            
+            let seq2 = seq {2.0; -10.0; 0.5; 1.0} 
+            let distance = DistanceMetrics.minkowski seq1 seq2 5
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 8.00156104008 "Should be equal"
+        
+        testCase "minkowskiLengths" <| fun () ->        
+            let seq1 = seq {0.001; -2.0; 0.0; 1.5}            
+            let seq2 = seq {2.0; -10.0; 0.5; 1.0; 1_000.0; 6.0; 7.} // last elements are ignored
+            let distance = DistanceMetrics.minkowski seq1 seq2 5
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 8.00156104008 "Should be equal"
+
+        testCase "minkowskiWithNaN" <| fun () ->
+            let seq1 = seq {0.001; -2.0; 0.0; nan}      
+            let seq2 = seq {2.0; -10.0; 0.0; 1.0; 0.0} 
+            let distance = DistanceMetrics.minkowski seq1 seq2 3
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.isTrue (nan.Equals(distance.Value)) "Distance should be NaN"
+
+        testCase "minkowskiNaN" <| fun () ->
+            let seq1 = seq {0.001; -2.0; 0.0; 10_000.0; nan}   
+            let seq2 = seq {2.0; -10.0; 0.0; 1.0; 0.0} 
+            let distance = DistanceMetrics.minkowskiNaN seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 9999.0034 "Should be equal"
+                
+        testCase "minkowskiInf" <| fun () ->
+            let seq1 = seq {0.001; -2.0; -infinity; infinity}
+            let seq2 = seq {2.0;-10.0;0.0;1.0}
+            let distance = DistanceMetrics.minkowski seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.equal distance.Value infinity "Should be equal"
+                
+        testCase "minkowski0" <| fun () ->
+            let seq1 = seq {0.0; 0.0; 0.0; 0.0}
+            let seq2 = seq {0.0; 0.0; 0.0; 0.0}
+            let distance = DistanceMetrics.minkowski seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"         
+            Expect.floatClose Accuracy.high distance.Value 0.0 "Should be equal"        
+    ]
+
+[<Tests>]
+let minkowskivectorfunctiontests =
+    testList "DistanceMetrics.minkowskivector" [
+        testCase "minkowskiNoValue" <| fun () ->
+            let seq1 = vector [0.001; -2.0; 0.0; 10_000.0]
+            let seq2 = vector [2.0; -10.0; 0.0; 1.0]
+            let distance = Vector.minkowski seq1 seq2 0
+            Expect.isTrue distance.IsNone "No Value"        
+
+        testCase "minkowskiVsEuclidian" <| fun () ->
+            let seq1 = vector [0.001; -2.0; 0.0; 10_000.0]        
+            let seq2 = vector [2.0; -10.0; 0.0; 1.0]
+            let distance = Vector.minkowski seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 9999.0034 "Should be equal"
+              
+        testCase "minkowskiOrder3" <| fun () ->
+            let seq1 = vector [0.001; -2.0; 0.0; 1.5]            
+            let seq2 = vector [2.0; -10.0; 0.5; 1.0]
+            let distance = Vector.minkowski seq1 seq2 3
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 8.04267819780 "Should be equal"
+              
+        testCase "minkowskiOrder5" <| fun () ->
+            let seq1 = vector [0.001; -2.0; 0.0; 1.5]           
+            let seq2 = vector [2.0; -10.0; 0.5; 1.0]
+            let distance = Vector.minkowski seq1 seq2 5
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 8.00156104008 "Should be equal"
+        
+        testCase "minkowskiLengths" <| fun () ->        
+            let seq1 = vector [0.001; -2.0; 0.0; 1.5]          
+            let seq2 = vector [2.0; -10.0; 0.5; 1.0; 1_000.0; 6.0; 7.0]// last elements are ignored
+            let distance = Vector.minkowski seq1 seq2 5
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 8.00156104008 "Should be equal"
+
+        testCase "minkowskiWithNaN" <| fun () ->
+            let seq1 = vector [0.001; -2.0; 0.0; nan]     
+            let seq2 = vector [2.0; -10.0; 0.0; 1.0; 0.0]
+            let distance = Vector.minkowski seq1 seq2 3
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.isTrue (nan.Equals(distance.Value)) "Distance should be NaN"
+
+        testCase "minkowskiNaN" <| fun () ->
+            let seq1 = vector [0.001; -2.0; 0.0; 10_000.0; nan]  
+            let seq2 = vector [2.0; -10.0; 0.0; 1.0; 0.0]
+            let distance = Vector.minkowskiNaN seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 9999.0034 "Should be equal"
+                
+        testCase "minkowskiInf" <| fun () ->
+            let seq1 = vector [0.001; -2.0; -infinity; infinity]
+            let seq2 = vector [2.0;-10.0;0.0;1.0]
+            let distance = Vector.minkowski seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.equal distance.Value infinity "Should be equal"
+                
+        testCase "minkowski0" <| fun () ->
+            let seq1 = vector [0.0; 0.0; 0.0; 0.0]
+            let seq2 = vector [0.0; 0.0; 0.0; 0.0]
+            let distance = Vector.minkowski seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"         
+            Expect.floatClose Accuracy.high distance.Value 0.0 "Should be equal"        
+    ]
+
+[<Tests>]
+let minkowskiarrayfunctiontests =
+    testList "DistanceMetrics.minkowskiarray" [
+        testCase "minkowskiNoValue" <| fun () ->
+            let seq1 = [|0.001; -2.0; 0.0; 10_000.0|]
+            let seq2 = [|2.0; -10.0; 0.0; 1.0|]
+            let distance = Array.minkowski seq1 seq2 0
+            Expect.isTrue distance.IsNone "No Value"        
+
+        testCase "minkowskiVsEuclidian" <| fun () ->
+            let seq1 = [|0.001; -2.0; 0.0; 10_000.0|]        
+            let seq2 = [|2.0; -10.0; 0.0; 1.0|]
+            let distance = Array.minkowski seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 9999.0034 "Should be equal"
+              
+        testCase "minkowskiOrder3" <| fun () ->
+            let seq1 = [|0.001; -2.0; 0.0; 1.5|]            
+            let seq2 = [|2.0; -10.0; 0.5; 1.0|]
+            let distance = Array.minkowski seq1 seq2 3
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 8.04267819780 "Should be equal"
+              
+        testCase "minkowskiOrder5" <| fun () ->
+            let seq1 = [|0.001; -2.0; 0.0; 1.5|]           
+            let seq2 = [|2.0; -10.0; 0.5; 1.0|]
+            let distance = Array.minkowski seq1 seq2 5
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 8.00156104008 "Should be equal"
+        
+        testCase "minkowskiLengths" <| fun () ->        
+            let seq1 = [|0.001; -2.0; 0.0; 1.5|]          
+            let seq2 = [|2.0; -10.0; 0.5; 1.0; 1_000.0; 6.0; 7.0|] // last elements are ignored
+            let distance = Array.minkowski seq1 seq2 5
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 8.00156104008 "Should be equal"
+
+        testCase "minkowskiWithNaN" <| fun () ->
+            let seq1 = [|0.001; -2.0; 0.0; nan|]     
+            let seq2 = [|2.0; -10.0; 0.0; 1.0; 0.0|]
+            let distance = Array.minkowski seq1 seq2 3
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.isTrue (nan.Equals(distance.Value)) "Distance should be NaN"
+
+        testCase "minkowskiNaN" <| fun () ->
+            let seq1 = [|0.001; -2.0; 0.0; 10_000.0; nan|]  
+            let seq2 = [|2.0; -10.0; 0.0; 1.0; 0.0|]
+            let distance = Array.minkowskiNaN seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.floatClose Accuracy.high distance.Value 9999.0034 "Should be equal"
+                
+        testCase "minkowskiInf" <| fun () ->
+            let seq1 = [|0.001; -2.0; -infinity; infinity|]
+            let seq2 = [|2.0;-10.0;0.0;1.0|]
+            let distance = Array.minkowski seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"
+            Expect.equal distance.Value infinity "Should be equal"
+                
+        testCase "minkowski0" <| fun () ->
+            let seq1 = [|0.0; 0.0; 0.0; 0.0|]
+            let seq2 = [|0.0; 0.0; 0.0; 0.0|]
+            let distance = Array.minkowski seq1 seq2 2
+            Expect.isTrue distance.IsSome "Has Value"         
+            Expect.floatClose Accuracy.high distance.Value 0.0 "Should be equal"        
+    ]
