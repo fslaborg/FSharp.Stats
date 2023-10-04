@@ -401,5 +401,15 @@ let paddingTests =
             let paddedData = padZero originalData padding
             
             Expect.equal paddedData expected "padded data incorrect"
+        
+        testCase "padRnd to discrete data" <| fun() ->
+            let originalData = randomArray dataLength
+            let newLength = (dataLength + 2 * padding)
+                
+            let paddedData = padRnd originalData padding
+            
+            Expect.equal paddedData.Length newLength "padded data length incorrect"
+            // All the padded values should belong to the original data set
+            Expect.containsAll originalData paddedData "padded data contains item not in original data"
         ]
     
