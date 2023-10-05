@@ -86,15 +86,15 @@ module DistanceMetrics =
             for i in 0 .. (dim - 1) do
                 let x = v1.[i] - v2.[i]
                 if not (isNan x) then
-                    dist <- dist + System.Math.Abs x
+                    dist <- dist + abs x
             dist
 
-        /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two vectors (ignores nan), of order `p`.</summary>
+        /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two vectors of order `p`.</summary>
         /// <remarks>The two vectors need not have equal lengths: when one vectors is exhausted any remaining elements in the other vectors are ignored.</remarks>
         /// <param name="s1">first vector</param>
         /// <param name="s2">second vector</param>
-        /// <param name="p">integer constrained to `p >= 1`</param>
-        /// <returns>Minkowski distance between elements of given vectors</returns>
+        /// <param name="p">float constrained to `p > 0`</param>
+        /// <returns>Minkowski distance between elements of given vectors. Returns NaN if vectors contain NaN.</returns>
         /// <example> 
         /// <code> 
         /// // e.g. v1 and v2 initialization
@@ -105,33 +105,35 @@ module DistanceMetrics =
         /// Vector.minkowski v1 v2 3
         /// </code> 
         /// </example>
-        let inline minkowski (v1: Vector<'a>) (v2: Vector<'a>) (p: int) : float option =
-            if p < 1 then
+        let inline minkowski (v1: Vector<'a>) (v2: Vector<'a>) (p: float) : float option =
+            if p <= 0.0 then
                 None
             else
                 let dim = min v1.Length v2.Length
-                let mutable acc = 0.0
+                let mutable dist = 0.0
 
                 for i in 0 .. (dim - 1) do
-                    let abs = 
+                    let diff = 
                         if v1.[i] > v2.[i] then
                             v1.[i] - v2.[i] 
                         else
                             v2.[i] - v1.[i]
 
-                    let d = System.Math.Pow (abs, p)  
-                    acc <- acc + d
+                    let d = diff ** p
+                    dist <- dist + d
 
-                let invP = 1.0 / float p
-                Some (System.Math.Pow (acc, invP))
+                if p >= 1.0 then
+                    Some (dist ** (1.0 / p))
+                else
+                    Some dist
 
-        /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two vectors (ignores nan), of order `p`.</summary>
+        /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two vectors (ignores NaN) of order `p`.</summary>
         /// <remarks>Non-regular differences between the sequences are ignored.
         /// The two vectors need not have equal lengths: when one vectors is exhausted any remaining elements in the other vectors are ignored.</remarks>
         /// <param name="s1">first vector</param>
         /// <param name="s2">second vector</param>
-        /// <param name="p">integer constrained to `p >= 1`</param>
-        /// <returns>Minkowski distance between elements of given vectors</returns>
+        /// <param name="p">float constrained to `p > 0`</param>
+        /// <returns>Minkowski distance between elements of given vectors.</returns>
         /// <example> 
         /// <code> 
         /// // e.g. v1 and v2 initialization
@@ -142,23 +144,24 @@ module DistanceMetrics =
         /// Vector.minkowskiNaN v1 v2 3
         /// </code> 
         /// </example>
-        let inline minkowskiNaN (v1: Vector<float>) (v2: Vector<float>) (p: int) : float option =
-            if p < 1 then
+        let inline minkowskiNaN (v1: Vector<float>) (v2: Vector<float>) (p: float) : float option =
+            if p <= 0.0 then
                 None
             else
                 let dim = min v1.Length v2.Length
-                let mutable acc = 0.0
+                let mutable dist = 0.0
 
                 for i in 0 .. (dim - 1) do
-                    let abs = System.Math.Abs (v1.[i] - v2.[i])
-
-                    let d = System.Math.Pow (abs, p)  
+                    let diff = abs (v1.[i] - v2.[i])
+                    let d = diff ** p
                     
                     if not (isNan d) then
-                        acc <- acc + d
+                        dist <- dist + d
 
-                let invP = 1.0 / float p
-                Some (System.Math.Pow (acc, invP))
+                if p >= 1.0 then
+                    Some (dist ** (1.0 / p))
+                else
+                    Some dist
  
     module Array =
         
@@ -240,12 +243,12 @@ module DistanceMetrics =
                     dist <- dist + System.Math.Abs x
             dist
 
-        /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two arrays (ignores nan), of order `p`.</summary>
+        /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two arrays of order `p`.</summary>
         /// <remarks>The two arrays need not have equal lengths: when one array is exhausted any remaining elements in the other array are ignored.</remarks>
         /// <param name="s1">first array</param>
         /// <param name="s2">second array</param>
-        /// <param name="p">integer constrained to `p >= 1`</param>
-        /// <returns>Minkowski distance between elements of given arrays</returns>
+        /// <param name="p">float constrained to `p > 0`</param>
+        /// <returns>Minkowski distance between elements of given arrays. Returns NaN if arrays contain NaN.</returns>
         /// <example> 
         /// <code> 
         /// // e.g. a1 and a2 initialization
@@ -256,33 +259,35 @@ module DistanceMetrics =
         /// Array.minkowski a1 a2 3
         /// </code> 
         /// </example>
-        let inline minkowski (a1: array<'a>) (a2: array<'a>) (p: int) : float option =
-            if p < 1 then
+        let inline minkowski (a1: array<'a>) (a2: array<'a>) (p: float) : float option =
+            if p <= 0.0 then
                 None
             else
                 let dim = min a1.Length a2.Length
-                let mutable acc = 0.0
+                let mutable dist = 0.0
 
                 for i in 0 .. (dim - 1) do
-                    let abs = 
+                    let diff = 
                         if a1.[i] > a2.[i] then
                             a1.[i] - a2.[i] 
                         else
                             a2.[i] - a1.[i]
 
-                    let d = System.Math.Pow (abs, p)
-                    acc <- acc + d
+                    let d = diff ** p
+                    dist <- dist + d
 
-                let invP = 1.0 / float p
-                Some (System.Math.Pow (acc, invP))
+                if p >= 1.0 then
+                    Some (dist ** (1.0 / p))
+                else
+                    Some dist
 
-        /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two arrays (ignores nan), of order `p`.</summary>
+        /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two arrays (ignores NaN) of order `p`.</summary>
         /// <remarks>Non-regular differences between the sequences are ignored.
         /// The two arrays need not have equal lengths: when one array is exhausted any remaining elements in the other array are ignored.</remarks>
         /// <param name="s1">first array</param>
         /// <param name="s2">second array</param>
-        /// <param name="p">integer constrained to `p >= 1`</param>
-        /// <returns>Minkowski distance between elements of given arrays</returns>
+        /// <param name="p">float constrained to `p > 0`</param>
+        /// <returns>Minkowski distance between elements of given arrays.</returns>
         /// <example> 
         /// <code> 
         /// // e.g. a1 and a2 initialization
@@ -293,22 +298,24 @@ module DistanceMetrics =
         /// Array.minkowskiNaN a1 a2 3
         /// </code> 
         /// </example>
-        let inline minkowskiNaN (a1: array<float>) (a2: array<float>) (p: int) : float option =
-            if p < 1 then
+        let inline minkowskiNaN (a1: array<float>) (a2: array<float>) (p: float) : float option =
+            if p <= 0.0 then
                 None
             else
                 let dim = min a1.Length a2.Length
-                let mutable acc = 0.0
+                let mutable dist = 0.0
 
                 for i in 0 .. (dim - 1) do
-                    let diff = System.Math.Abs (a1.[i] - a2.[i])
-                    let d = System.Math.Pow (diff, p)  
+                    let diff = abs (a1.[i] - a2.[i])
+                    let d = diff ** p
                     
                     if not (isNan d) then
-                        acc <- acc + d
+                        dist <- dist + d
 
-                let invP = 1.0 / float p
-                Some (System.Math.Pow (acc, invP))
+                if p >= 1.0 then
+                    Some (dist ** (1.0 / p))
+                else
+                    Some dist
 
 
     /// <summary>Calculates Hamming distance of two coordinate items</summary>
@@ -419,12 +426,12 @@ module DistanceMetrics =
         dist (m, n)
 
  
-    /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two sequence (ignores nan), of order `p`.</summary>
+    /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two sequence of order `p`.</summary>
     /// <remarks>The two sequences need not have equal lengths: when one sequence is exhausted any remaining elements in the other sequence are ignored.</remarks>
     /// <param name="s1">first sequence</param>
     /// <param name="s2">second sequence</param>
-    /// <param name="p">integer constrained to `p >= 1`</param>
-    /// <returns>Minkowski distance between elements of given sequences</returns>
+    /// <param name="p">float constrained to `p > 0`</param>
+    /// <returns>Minkowski distance between elements of given sequences. Returns NaN if sequences contain NaN.</returns>
     /// <example> 
     /// <code> 
     /// // e.g. a1 and a2 initialization
@@ -435,8 +442,8 @@ module DistanceMetrics =
     /// minkowski s1 s2 3
     /// </code> 
     /// </example>
-    let inline minkowski (s1: seq<'a>) (s2: seq<'a>) (p: int) =
-        if p < 1 then
+    let inline minkowski (s1: seq<'a>) (s2: seq<'a>) (p: float) =
+        if p <=0.0 then
             None
         else
             let dist =
@@ -449,21 +456,23 @@ module DistanceMetrics =
                         else
                             y - x
 
-                    let d = System.Math.Pow (diff, p)
+                    let d = diff ** p
                     acc + d)
                     0.0
 
-            let invP = 1.0 / float p
-            Some (System.Math.Pow(dist, invP))
+            if p >= 1.0 then
+                Some (dist ** (1.0 / p))
+            else
+                Some dist
 
    
-    /// The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two sequences, of order `p`.
+    /// The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two sequences (ignores NaN) of order `p`.
     /// <remarks>Non-regular differences between the sequences are ignored.
     /// The two sequences need not have equal lengths: when one sequence is exhausted any remaining elements in the other sequence are ignored.</remarks>
     /// <param name="s1">first sequence</param>
     /// <param name="s2">second sequence</param>
-    /// <param name="p">integer constrained to `p >= 1`</param>
-    /// <returns>Minkowski distance between elements of given sequences</returns>
+    /// <param name="p">float constrained to `p > 0`</param>
+    /// <returns>Minkowski distance between elements of given sequences.</returns>
     /// <example> 
     /// <code> 
     /// // e.g. a1 and a2 initialization
@@ -473,8 +482,8 @@ module DistanceMetrics =
     /// // Apply the minkowski distance to s1 and s2
     /// minkowskiNaN s1 s2 3
     /// </code> 
-    let inline minkowskiNaN (s1: seq<'a>) (s2: seq<'a>) (p: int) =
-        if p < 1 then
+    let inline minkowskiNaN (s1: seq<'a>) (s2: seq<'a>) (p: float) =
+        if p <= 0.0 then
             None
         else
             let dist =
@@ -487,15 +496,17 @@ module DistanceMetrics =
                         else
                             y - x
 
-                    let d = System.Math.Pow (diff, p)
+                    let d = diff ** p
                     if not (nan.Equals d) then
                         acc + d
                     else
                         acc)
                     0.0
 
-            let invP = 1.0 / float p
-            Some (System.Math.Pow(dist, invP))
+            if p >= 1.0 then
+                Some (dist ** (1.0 / p))
+            else
+                Some dist
 
 
 
