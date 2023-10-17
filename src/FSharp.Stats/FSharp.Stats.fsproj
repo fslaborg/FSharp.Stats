@@ -162,6 +162,7 @@
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
     <Compile Include="ML\Unsupervised\DbScan.fs" />
     <Compile Include="ML\Unsupervised\ClusterNumber.fs" />
+    <Compile Include="ML\Unsupervised\KNN.fs" />
     <!-- MISC -->
     <Compile Include="FSIPrinters.fs" />
     <Compile Include="ConfidenceInterval.fs" />

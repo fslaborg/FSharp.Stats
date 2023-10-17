@@ -386,3 +386,118 @@ module hClust =
 
                      "Distances and Labels won't work "
         ]
+
+module KNN =
+    open FSharp.Stats.ML.Unsupervised
+    open FSharp.Stats.ML.Unsupervised.KNN.Array
+
+    [<Tests>]
+    let knnTests = 
+        testList "KNN Tests" [
+            testCase "blueVsRedPoints" <| fun () ->                
+                let blues =
+                    [| 
+                        [ 2.0; 4.0 ]
+                        [ 1.0; 3.0 ]
+                        [ 2.0; 4.0 ]
+                        [ 3.0; 2.0 ]
+                        [ 2.0; 1.0 ]
+                    |] |> Array.map (fun p -> LabeledPoint<float list, string>.create(p, "red"))                
+                let reds =
+                    [| 
+                        [ 5.0; 6.0 ]
+                        [ 4.0; 5.0 ]
+                        [ 4.0; 6.0 ]
+                        [ 6.0; 6.0 ]
+                        [ 5.0; 4.0 ]
+                    |] |> Array.map (fun p -> LabeledPoint<float list, string>.create(p, "blue"))  
+
+                let labeledPoints = Array.append blues reds
+                let prediction = predict  FSharp.Stats.DistanceMetrics.euclidean labeledPoints
+
+                let predicted = prediction 3 [3.0; 3.0]
+
+                Expect.isTrue predicted.IsSome "Has Label"
+                Expect.equal predicted.Value "red" "label should be red"
+
+                let predicted = prediction 3 [6.0; 6.0]
+
+                Expect.isTrue predicted.IsSome "Has Label"
+                Expect.equal predicted.Value "blue" "label should be blue"
+
+            testCase "symmetricallyDistributedPoints" <| fun () ->
+                let points = Array.init 20 (fun idx -> 0.1 * float idx)
+
+                let blues =
+                    points |> Array.map (fun p -> LabeledPoint<float, string>.create(p, "blue"))
+                let reds =
+                    points |> Array.map (fun p -> LabeledPoint<float, string>.create(-p, "red"))  
+
+                let labeledPoints = Array.append blues reds
+
+                let distance a b = abs (a - b)
+                let prediction = KNN.Array.predict distance labeledPoints
+
+                // '0' is an ambigious case due to the symmetry. may deppend on initial sorting, ...
+                for sample in 1..100 do
+                    let predicted = prediction 3 (float sample)
+                    Expect.isTrue predicted.IsSome "Has Label"
+                    Expect.equal predicted.Value "blue" "label should be blue"
+                    
+                    let predicted = prediction 3 (float -sample)
+                    Expect.isTrue predicted.IsSome "Has Label"
+                    Expect.equal predicted.Value "red" "label should be red"
+
+            testCase "symmetricallyDistributedPointsWithClassifier" <| fun () ->
+                let points = Array.init 200 (fun idx -> 0.1 * float idx)
+
+                let labeledPoints = Map [
+                    "blue", points;
+                    "red", points |> Array.map (fun p -> -p)
+                ]
+                
+                let distance a b = abs (a - b)
+                let knnClassifier = KNN.Classifier(distance, 5)
+                knnClassifier.fit(labeledPoints)
+
+                let positiveSamples = Array.init 100 (fun idx -> float (idx + 1))
+                let negativeSamples = Array.init 100 (fun idx -> float -(idx + 1))
+
+                let positivePredictions = knnClassifier.predict positiveSamples
+                let negativePredictions = knnClassifier.predict negativeSamples
+
+                (positivePredictions, negativePredictions)
+                ||> Array.zip
+                |> Array.iter (fun (posLabel, negLabel) ->                
+                    Expect.isTrue posLabel.IsSome "Has Label"
+                    Expect.equal posLabel.Value "blue" "label should be blue"
+                    
+                    Expect.isTrue negLabel.IsSome "Has Label"
+                    Expect.equal negLabel.Value "red" "label should be red"
+                )
+
+            
+            // testCase "symmetricallyDistributedPointsPARALLEL" <| fun () ->
+            //     let points = Array.init 20 (fun idx -> 0.1 * float idx)
+
+            //     let blues =
+            //         points |> Array.map (fun p -> LabeledPoint<float, string>.create(p, "blue"))
+            //     let reds =
+            //         points |> Array.map (fun p -> LabeledPoint<float, string>.create(-p, "red"))  
+
+            //     let labeledPoints = Array.append blues reds
+
+            //     let distance a b = abs (a - b)
+            //     let prediction = KNN.Array.predict distance labeledPoints
+
+            //     Array.init 200 (fun idx -> 1.0 + float idx * float (sign idx))
+            //     |>  Array.Parallel.iter (fun x -> 
+            //         let prediction = KNN.Array.Parallel.predictInRef distance &labeledPoints 3 x
+                    
+            //         Expect.isTrue prediction.IsSome "Has Label"
+            //         Expect.equal prediction.Value "blue" "label should be blue"
+            //     )
+             
+
+            ]
+    
