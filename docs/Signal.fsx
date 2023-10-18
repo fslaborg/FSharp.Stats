@@ -271,7 +271,12 @@ By increasing the dimensions (scale) of the wavelet function, different frequenc
 In contrast to the Fourier transform, that gives a perfect frequency resolution but no time resolution, the CWT is capable of mediating between the two opposing 
 properties of time resolution and frequency resolution (Heisenberg's uncertainty principle).
 
-For further information please visit [The Wavelet Tutorial](http://web.iitd.ac.in/~sumeet/WaveletTutorial.pdf).
+For further information please visit [The Wavelet Tutorial](http://web.iitd.ac.in/~sumeet/WaveletTutorial.pdf) or the following publications:
+
+- A Practical Guide to Wavelet Analysis, Torrence & Compo, American Meteorological Society, 1998
+
+- Climate Signal Detection Using Wavelet Transform: How to Make a Time Series Sing, Lau & Weng, American Meteorological Society, 1995
+
 *)
 
 open FSharp.Stats
