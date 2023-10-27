@@ -390,12 +390,14 @@ module hClust =
 module KNN =
     open FSharp.Stats.ML.Unsupervised
     open FSharp.Stats.ML.Unsupervised.KNN.Array
+    open FSharp.Stats.ML.Unsupervised.KNN.Seq
+    open FSharp.Stats.Vector
 
     [<Tests>]
     let knnTests = 
         testList "KNN Tests" [
-            testCase "blueVsRedPoints" <| fun () ->                
-                let blues =
+            testCase "Array.blueVsRedPoints" <| fun () ->                
+                let reds =
                     [| 
                         [ 2.0; 4.0 ]
                         [ 1.0; 3.0 ]
@@ -403,7 +405,7 @@ module KNN =
                         [ 3.0; 2.0 ]
                         [ 2.0; 1.0 ]
                     |] |> Array.map (fun p -> LabeledPoint<float list, string>.create(p, "red"))                
-                let reds =
+                let blues =
                     [| 
                         [ 5.0; 6.0 ]
                         [ 4.0; 5.0 ]
@@ -412,8 +414,8 @@ module KNN =
                         [ 5.0; 4.0 ]
                     |] |> Array.map (fun p -> LabeledPoint<float list, string>.create(p, "blue"))  
 
-                let labeledPoints = Array.append blues reds
-                let prediction = predict  FSharp.Stats.DistanceMetrics.euclidean labeledPoints
+                let labeledPoints = Array.append reds blues
+                let prediction = KNN.Array.predict FSharp.Stats.DistanceMetrics.euclidean labeledPoints
 
                 let predicted = prediction 3 [3.0; 3.0]
 
@@ -425,30 +427,63 @@ module KNN =
                 Expect.isTrue predicted.IsSome "Has Label"
                 Expect.equal predicted.Value "blue" "label should be blue"
 
-            testCase "symmetricallyDistributedPoints" <| fun () ->
-                let points = Array.init 20 (fun idx -> 0.1 * float idx)
+            
+            testCase "Seq.blueVsRedPoints" <| fun () ->
+                let points = seq {
+                        vector [ 2.0; 4.0 ]
+                        vector [ 1.0; 3.0 ]
+                        vector [ 2.0; 4.0 ]
+                        vector [ 3.0; 2.0 ]
+                        vector [ 2.0; 1.0 ]
+                        vector [ 5.0; 6.0 ]
+                        vector [ 4.0; 5.0 ]
+                        vector [ 4.0; 6.0 ]
+                        vector [ 6.0; 6.0 ]
+                        vector [ 5.0; 4.0 ]
+                    }
+                let labels = seq { "red"; "red"; "red"; "red"; "red"; "blue"; "blue"; "blue"; "blue"; "blue" }
+                let prediction = KNN.Seq.predict FSharp.Stats.DistanceMetrics.Vector.euclidean points labels 3
 
-                let blues =
-                    points |> Array.map (fun p -> LabeledPoint<float, string>.create(p, "blue"))
-                let reds =
-                    points |> Array.map (fun p -> LabeledPoint<float, string>.create(-p, "red"))  
+                let predicted = prediction (vector [3.0; 3.0])
 
-                let labeledPoints = Array.append blues reds
+                Expect.isTrue predicted.IsSome "Has Label"
+                Expect.equal predicted.Value "red" "label should be red"
 
-                let distance a b = abs (a - b)
-                let prediction = KNN.Array.predict distance labeledPoints
+                let predicted = prediction (vector [6.0; 6.0])
 
-                // '0' is an ambigious case due to the symmetry. may deppend on initial sorting, ...
-                for sample in 1..100 do
-                    let predicted = prediction 3 (float sample)
-                    Expect.isTrue predicted.IsSome "Has Label"
-                    Expect.equal predicted.Value "blue" "label should be blue"
-                    
-                    let predicted = prediction 3 (float -sample)
-                    Expect.isTrue predicted.IsSome "Has Label"
-                    Expect.equal predicted.Value "red" "label should be red"
+                Expect.isTrue predicted.IsSome "Has Label"
+                Expect.equal predicted.Value "blue" "label should be blue"
 
-            testCase "symmetricallyDistributedPointsWithClassifier" <| fun () ->
+            testCase "KnnClassifier.blueVsRedPoints" <| fun () ->
+                let knnClassifier = KNN.Classifier(FSharp.Stats.DistanceMetrics.euclidean, 3)
+
+                let reds  = [| [ 2.0; 4.0 ]; [ 1.0; 3.0 ]; [ 2.0; 4.0 ]; [ 3.0; 2.0 ]; [ 2.0; 1.0 ] |]
+                let blues = [| [ 5.0; 6.0 ]; [ 4.0; 5.0 ]; [ 4.0; 6.0 ]; [ 6.0; 6.0 ]; [ 5.0; 4.0 ] |]
+
+                let labeledPoints = Map [ "blue", blues; "red", reds ]
+                knnClassifier.fit(labeledPoints)
+
+                let color  = knnClassifier.predict [3.0; 3.0]
+                Expect.isTrue color.IsSome "Has Label"
+                Expect.equal color.Value "red" "label should be red"
+                
+                let color  = knnClassifier.predict [6.0; 6.0]
+                Expect.isTrue color.IsSome "Has Label"
+                Expect.equal color.Value "blue" "label should be blue"
+
+                let points = Array.append reds blues
+                let labels = [| "red"; "red"; "red"; "red"; "red"; "blue"; "blue"; "blue"; "blue"; "blue" |]
+                knnClassifier.fit(points, labels)
+
+                let color  = knnClassifier.predict [3.0; 3.0]
+                Expect.isTrue color.IsSome "Has Label"
+                Expect.equal color.Value "red" "label should be red"
+                
+                let color  = knnClassifier.predict [6.0; 6.0]
+                Expect.isTrue color.IsSome "Has Label"
+                Expect.equal color.Value "blue" "label should be blue"
+
+            testCase "KnnClassifier.1d" <| fun () ->
                 let points = Array.init 200 (fun idx -> 0.1 * float idx)
 
                 let labeledPoints = Map [
@@ -460,8 +495,8 @@ module KNN =
                 let knnClassifier = KNN.Classifier(distance, 5)
                 knnClassifier.fit(labeledPoints)
 
-                let positiveSamples = Array.init 100 (fun idx -> float (idx + 1))
-                let negativeSamples = Array.init 100 (fun idx -> float -(idx + 1))
+                let positiveSamples = Array.init 300 (fun idx -> float (idx + 1))
+                let negativeSamples = Array.init 300 (fun idx -> float -(idx + 1))
 
                 let positivePredictions = knnClassifier.predict positiveSamples
                 let negativePredictions = knnClassifier.predict negativeSamples
@@ -474,30 +509,6 @@ module KNN =
                     
                     Expect.isTrue negLabel.IsSome "Has Label"
                     Expect.equal negLabel.Value "red" "label should be red"
-                )
-
-            
-            // testCase "symmetricallyDistributedPointsPARALLEL" <| fun () ->
-            //     let points = Array.init 20 (fun idx -> 0.1 * float idx)
-
-            //     let blues =
-            //         points |> Array.map (fun p -> LabeledPoint<float, string>.create(p, "blue"))
-            //     let reds =
-            //         points |> Array.map (fun p -> LabeledPoint<float, string>.create(-p, "red"))  
-
-            //     let labeledPoints = Array.append blues reds
-
-            //     let distance a b = abs (a - b)
-            //     let prediction = KNN.Array.predict distance labeledPoints
-
-            //     Array.init 200 (fun idx -> 1.0 + float idx * float (sign idx))
-            //     |>  Array.Parallel.iter (fun x -> 
-            //         let prediction = KNN.Array.Parallel.predictInRef distance &labeledPoints 3 x
-                    
-            //         Expect.isTrue prediction.IsSome "Has Label"
-            //         Expect.equal prediction.Value "blue" "label should be blue"
-            //     )
-             
-
+                )        
             ]
     
