@@ -404,7 +404,7 @@ module KNN =
                         [ 2.0; 4.0 ]
                         [ 3.0; 2.0 ]
                         [ 2.0; 1.0 ]
-                    |] |> Array.map (fun p -> LabeledPoint<float list, string>.create(p, "red"))                
+                    |] |> Array.map (fun p -> (p, "red"))                
                 let blues =
                     [| 
                         [ 5.0; 6.0 ]
@@ -412,7 +412,7 @@ module KNN =
                         [ 4.0; 6.0 ]
                         [ 6.0; 6.0 ]
                         [ 5.0; 4.0 ]
-                    |] |> Array.map (fun p -> LabeledPoint<float list, string>.create(p, "blue"))  
+                    |] |> Array.map (fun p -> (p, "blue"))  
 
                 let labeledPoints = Array.append reds blues
                 let prediction = KNN.Array.predict FSharp.Stats.DistanceMetrics.euclidean labeledPoints
@@ -442,7 +442,8 @@ module KNN =
                         vector [ 5.0; 4.0 ]
                     }
                 let labels = seq { "red"; "red"; "red"; "red"; "red"; "blue"; "blue"; "blue"; "blue"; "blue" }
-                let prediction = KNN.Seq.predict FSharp.Stats.DistanceMetrics.Vector.euclidean points labels 3
+                let labeledPoints = Seq.zip points labels
+                let prediction = KNN.Seq.predict FSharp.Stats.DistanceMetrics.Vector.euclidean labeledPoints 3
 
                 let predicted = prediction (vector [3.0; 3.0])
 
