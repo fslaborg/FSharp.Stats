@@ -386,3 +386,130 @@ module hClust =
 
                      "Distances and Labels won't work "
         ]
+
+module KNN =
+    open FSharp.Stats.ML.Unsupervised
+    open FSharp.Stats.ML.Unsupervised.KNN.Array
+    open FSharp.Stats.ML.Unsupervised.KNN.Seq
+    open FSharp.Stats.Vector
+
+    [<Tests>]
+    let knnTests = 
+        testList "KNN Tests" [
+            testCase "Array.blueVsRedPoints" <| fun () ->                
+                let reds =
+                    [| 
+                        [ 2.0; 4.0 ]
+                        [ 1.0; 3.0 ]
+                        [ 2.0; 4.0 ]
+                        [ 3.0; 2.0 ]
+                        [ 2.0; 1.0 ]
+                    |] |> Array.map (fun p -> (p, "red"))                
+                let blues =
+                    [| 
+                        [ 5.0; 6.0 ]
+                        [ 4.0; 5.0 ]
+                        [ 4.0; 6.0 ]
+                        [ 6.0; 6.0 ]
+                        [ 5.0; 4.0 ]
+                    |] |> Array.map (fun p -> (p, "blue"))  
+
+                let labeledPoints = Array.append reds blues
+                let prediction = KNN.Array.predict FSharp.Stats.DistanceMetrics.euclidean labeledPoints
+
+                let predicted = prediction 3 [3.0; 3.0]
+
+                Expect.isTrue predicted.IsSome "Has Label"
+                Expect.equal predicted.Value "red" "label should be red"
+
+                let predicted = prediction 3 [6.0; 6.0]
+
+                Expect.isTrue predicted.IsSome "Has Label"
+                Expect.equal predicted.Value "blue" "label should be blue"
+
+            
+            testCase "Seq.blueVsRedPoints" <| fun () ->
+                let points = seq {
+                        vector [ 2.0; 4.0 ]
+                        vector [ 1.0; 3.0 ]
+                        vector [ 2.0; 4.0 ]
+                        vector [ 3.0; 2.0 ]
+                        vector [ 2.0; 1.0 ]
+                        vector [ 5.0; 6.0 ]
+                        vector [ 4.0; 5.0 ]
+                        vector [ 4.0; 6.0 ]
+                        vector [ 6.0; 6.0 ]
+                        vector [ 5.0; 4.0 ]
+                    }
+                let labels = seq { "red"; "red"; "red"; "red"; "red"; "blue"; "blue"; "blue"; "blue"; "blue" }
+                let labeledPoints = Seq.zip points labels
+                let prediction = KNN.Seq.predict FSharp.Stats.DistanceMetrics.Vector.euclidean labeledPoints 3
+
+                let predicted = prediction (vector [3.0; 3.0])
+
+                Expect.isTrue predicted.IsSome "Has Label"
+                Expect.equal predicted.Value "red" "label should be red"
+
+                let predicted = prediction (vector [6.0; 6.0])
+
+                Expect.isTrue predicted.IsSome "Has Label"
+                Expect.equal predicted.Value "blue" "label should be blue"
+
+            testCase "KnnClassifier.blueVsRedPoints" <| fun () ->
+                let knnClassifier = KNN.Classifier(FSharp.Stats.DistanceMetrics.euclidean, 3)
+
+                let reds  = [| [ 2.0; 4.0 ]; [ 1.0; 3.0 ]; [ 2.0; 4.0 ]; [ 3.0; 2.0 ]; [ 2.0; 1.0 ] |]
+                let blues = [| [ 5.0; 6.0 ]; [ 4.0; 5.0 ]; [ 4.0; 6.0 ]; [ 6.0; 6.0 ]; [ 5.0; 4.0 ] |]
+
+                let labeledPoints = Map [ "blue", blues; "red", reds ]
+                knnClassifier.fit(labeledPoints)
+
+                let color  = knnClassifier.predict [3.0; 3.0]
+                Expect.isTrue color.IsSome "Has Label"
+                Expect.equal color.Value "red" "label should be red"
+                
+                let color  = knnClassifier.predict [6.0; 6.0]
+                Expect.isTrue color.IsSome "Has Label"
+                Expect.equal color.Value "blue" "label should be blue"
+
+                let points = Array.append reds blues
+                let labels = [| "red"; "red"; "red"; "red"; "red"; "blue"; "blue"; "blue"; "blue"; "blue" |]
+                knnClassifier.fit(points, labels)
+
+                let color  = knnClassifier.predict [3.0; 3.0]
+                Expect.isTrue color.IsSome "Has Label"
+                Expect.equal color.Value "red" "label should be red"
+                
+                let color  = knnClassifier.predict [6.0; 6.0]
+                Expect.isTrue color.IsSome "Has Label"
+                Expect.equal color.Value "blue" "label should be blue"
+
+            testCase "KnnClassifier.1d" <| fun () ->
+                let points = Array.init 200 (fun idx -> 0.1 * float idx)
+
+                let labeledPoints = Map [
+                    "blue", points;
+                    "red", points |> Array.map (fun p -> -p)
+                ]
+                
+                let distance a b = abs (a - b)
+                let knnClassifier = KNN.Classifier(distance, 5)
+                knnClassifier.fit(labeledPoints)
+
+                let positiveSamples = Array.init 300 (fun idx -> float (idx + 1))
+                let negativeSamples = Array.init 300 (fun idx -> float -(idx + 1))
+
+                let positivePredictions = knnClassifier.predict positiveSamples
+                let negativePredictions = knnClassifier.predict negativeSamples
+
+                (positivePredictions, negativePredictions)
+                ||> Array.zip
+                |> Array.iter (fun (posLabel, negLabel) ->                
+                    Expect.isTrue posLabel.IsSome "Has Label"
+                    Expect.equal posLabel.Value "blue" "label should be blue"
+                    
+                    Expect.isTrue negLabel.IsSome "Has Label"
+                    Expect.equal negLabel.Value "red" "label should be red"
+                )        
+            ]
+    
