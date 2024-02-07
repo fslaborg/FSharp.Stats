@@ -9,8 +9,6 @@
 
 FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.
 
-<br>
-
 ### Amongst others, following functionalities are covered:
 
 #### Descriptive statistics
@@ -95,4 +93,8 @@ The library is available under Apache 2.0. For more information see the License 
 
 FSharp.Stats can be cited using its [zenodo record](https://zenodo.org/record/7568568). 
 
+Global FSharp.Stats reference:
 > Benedikt Venn, Lukas Weil, Kevin Schneider, David Zimmer & Timo Mühlhaus. (2022). fslaborg/FSharp.Stats. Zenodo. https://doi.org/10.5281/zenodo.6337056 
+
+Latest release reference (0.5.0):
+> Benedikt Venn, Lukas Weil, Kevin Schneider, David Zimmer & Timo Mühlhaus. (2023). fslaborg/FSharp.Stats: Release 0.5.0 (0.5.0). Zenodo. https://doi.org/10.5281/zenodo.8215188
