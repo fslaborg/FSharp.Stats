@@ -139,7 +139,68 @@ module ClusterNumber =
         )
 
 
-     
+    /// <summary>Calculates Normalized Mutual Information as a measure for clustering quality</summary>
+    /// <remarks>The correctLabels and Clustered Labels must have the same length</remarks>
+    /// <param name="correctLabels">True data labels represented by integers</param>
+    /// <param name="clusteredLabels">Cluster indices represented by integers</param>
+    /// <returns>Returns a NMI between 0 and 1. With 1 being a perfect match.</returns>
+    /// <example>
+    /// <code>
+    ///    let trueLabels = [|"blue";"blue";"yellow";"red";"yellow"|]
+    ///    let trueLabelsAsInt = [|1; 1; 3; 2; 3|]
+    ///    let clusteredLabels = [|6; 6; 5; 5; 5|]
+    ///    let nmi = calcNMI trueLabelsAsInt clusteredLabels
+    ///    //results in 0.77897
+    /// </code>
+    /// </example>
+    let calcNMI (correctLabels: int[]) (clusteredLabels: int[]) =
+        if correctLabels.Length <> clusteredLabels.Length then failwithf "sequences must be of equal length"
+        let f (correctLabels: int[], clusteredLabels: int[], label1, label2) =
+            let compare =
+                let mutable correct = 0        
+                for i in 0 .. correctLabels.Length-1 do
+                    if correctLabels.[i] = label1 && clusteredLabels.[i]= label2 then correct <- correct+1
+                correct
+            float compare
+        let compareall (f1: int[], f2: int[]) =
+            [|for label1 in (f1 |> Array.distinct) do
+                [|for label2 in (f2 |> Array.distinct) do
+                    f (f1,f2, label1, label2)|]|]
+        let contingencyMatrix: Matrix<float> = compareall (correctLabels, clusteredLabels) |> matrix
+                
+        let rowSum =
+            contingencyMatrix
+            |> Matrix.Generic.mapRows (Seq.sum) 
+            |> Vector.toArray
+        let colSum =
+            contingencyMatrix
+            |> Matrix.Generic.mapCols (Seq.sum)
+            |> RowVector.toArray
+        let totalSum =
+            contingencyMatrix
+            |> Matrix.Generic.sum
+
+        let pi = Array.map (fun i -> i /  totalSum) rowSum
+        let pj = Array.map  (fun j -> j /  totalSum) colSum
+
+        let mutualInfo = 
+                [|for i in 0 .. rowSum.Length-1 do
+                    for j in 0 .. colSum.Length-1 do
+                        let pxy = contingencyMatrix.[i, j] / (totalSum)
+                        if pxy > 0.0 then yield pxy * log(pxy / (pi.[i] * pj.[j]))
+                        else yield 0.0 |]
+                |> Array.sum
+
+        let normalizedMutualInformation (pi, pj, mutualInfo) =
+            let entropyTrue = 
+                Array.sumBy (fun p -> if p = 0.0 then 0.0 else -p * log(p)) pi
+            
+            let entropyPredicted = 
+                Array.sumBy (fun p -> if p = 0.0 then 0.0 else -p * log(p)) pj
+            
+            let nmi = 2.0 * mutualInfo / (entropyTrue + entropyPredicted)
+            nmi
+        normalizedMutualInformation (pi, pj, mutualInfo)     
 
 module GapStatistics = 
     
@@ -356,65 +417,3 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
         [<Obsolete("Use logDispersionKMeansInitCvMax instead.")>]
         let logDispersionKMeans_initCvMax = logDispersionKMeansInitCvMax
 
-    /// <summary>Calculates Normalized Mutual Information as a measure for clustering quality</summary>
-    /// <remarks>The correctLabels and Clustered Labels must have the same length</remarks>
-    /// <param name="correctLabels">True data labels represented by integers</param>
-    /// <param name="clusteredLabels">Cluster indices represented by integers</param>
-    /// <returns>Returns a NMI between 0 and 1. With 1 being a perfect match.</returns>
-    /// <example>
-    /// <code>
-    ///    let trueLabels = [|"blue";"blue";"yellow";"red";"yellow"|]
-    ///    let trueLabelsAsInt = [|1; 1; 3; 2; 3|]
-    ///    let clusteredLabels = [|6; 6; 5; 5; 5|]
-    ///    let nmi = calcNMI trueLabelsAsInt clusteredLabels
-    ///    //results in
-    /// </code>
-    /// </example>
-    let calcNMI (correctLabels: int[]) (clusteredLabels: int[]) =
-        if correctLabels.Length <> clusteredLabels.Length then failwithf "sequences must be of equal length"
-        let f (correctLabels: int[], clusteredLabels: int[], label1, label2) =
-            let compare =
-                let mutable correct = 0        
-                for i in 0 .. correctLabels.Length-1 do
-                    if correctLabels.[i] = label1 && clusteredLabels.[i]= label2 then correct <- correct+1
-                correct
-            float compare
-        let compareall (f1: int[], f2: int[]) =
-            [|for label1 in (f1 |> Array.distinct) do
-                [|for label2 in (f2 |> Array.distinct) do
-                    f (f1,f2, label1, label2)|]|]
-        let contingencyMatrix: Matrix<float> = compareall (correctLabels, clusteredLabels) |> matrix
-                
-        let rowSum =
-            contingencyMatrix
-            |> Matrix.Generic.mapRows (Seq.sum) 
-            |> Vector.toArray
-        let colSum =
-            contingencyMatrix
-            |> Matrix.Generic.mapCols (Seq.sum)
-            |> RowVector.toArray
-        let totalSum =
-            contingencyMatrix
-            |> Matrix.Generic.sum
-
-        let pi = Array.map (fun i -> i /  totalSum) rowSum
-        let pj = Array.map  (fun j -> j /  totalSum) colSum
-
-        let mutualInfo = 
-                [|for i in 0 .. rowSum.Length-1 do
-                    for j in 0 .. colSum.Length-1 do
-                        let pxy = contingencyMatrix.[i, j] / (totalSum)
-                        if pxy > 0.0 then yield pxy * log(pxy / (pi.[i] * pj.[j]))
-                        else yield 0.0 |]
-                |> Array.sum
-
-        let normalizedMutualInformation (pi, pj, mutualInfo) =
-            let entropyTrue = 
-                Array.sumBy (fun p -> if p = 0.0 then 0.0 else -p * log(p)) pi
-            
-            let entropyPredicted = 
-                Array.sumBy (fun p -> if p = 0.0 then 0.0 else -p * log(p)) pj
-            
-            let nmi = 2.0 * mutualInfo / (entropyTrue + entropyPredicted)
-            nmi
-        normalizedMutualInformation (pi, pj, mutualInfo)

@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DistanceMetrics.fs" />
+    <Compile Include="Clusternumber.fs" />
     <Compile Include="TestExtensions.fs" />
     <Compile Include="Interval.fs" />
     <Compile Include="ConfidenceInterval.fs" />
