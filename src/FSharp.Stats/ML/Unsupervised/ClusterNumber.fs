@@ -154,53 +154,68 @@ module ClusterNumber =
     /// </code>
     /// </example>
     let calcNMI (correctLabels: int[]) (clusteredLabels: int[]) =
+        
         if correctLabels.Length <> clusteredLabels.Length then failwithf "sequences must be of equal length"
-        let f (correctLabels: int[], clusteredLabels: int[], label1, label2) =
+
+        let f (correctLabels: int[]) (clusteredLabels: int[]) label1 label2 =
             let compare =
-                let mutable correct = 0        
+                let mutable correct = 0
                 for i in 0 .. correctLabels.Length-1 do
-                    if correctLabels.[i] = label1 && clusteredLabels.[i]= label2 then correct <- correct+1
+                    if correctLabels.[i] = label1 && clusteredLabels.[i] = label2 then correct <- correct + 1
                 correct
             float compare
-        let compareall (f1: int[], f2: int[]) =
-            [|for label1 in (f1 |> Array.distinct) do
-                [|for label2 in (f2 |> Array.distinct) do
-                    f (f1,f2, label1, label2)|]|]
-        let contingencyMatrix: Matrix<float> = compareall (correctLabels, clusteredLabels) |> matrix
+
+        let compareall (f1: int[]) (f2: int[]) =
+            let f1Distinct = f1 |> Array.distinct
+            let f2Distinct = f2 |> Array.distinct
+            f1Distinct
+            |> Array.map (fun label1 -> 
+                f2Distinct
+                |> Array.map (fun label2 -> 
+                    f f1 f2 label1 label2
+                )
+            )
+
+        let contingencyMatrix: Matrix<float> = compareall correctLabels clusteredLabels |> matrix
                 
         let rowSum =
             contingencyMatrix
-            |> Matrix.Generic.mapRows (Seq.sum) 
+            |> Matrix.Generic.mapRows Seq.sum
             |> Vector.toArray
+
         let colSum =
             contingencyMatrix
-            |> Matrix.Generic.mapCols (Seq.sum)
+            |> Matrix.Generic.mapCols Seq.sum
             |> RowVector.toArray
+
         let totalSum =
             contingencyMatrix
             |> Matrix.Generic.sum
 
-        let pi = Array.map (fun i -> i /  totalSum) rowSum
-        let pj = Array.map  (fun j -> j /  totalSum) colSum
+        let pi = Array.map (fun i -> i / totalSum) rowSum
+
+        let pj = Array.map (fun j -> j / totalSum) colSum
 
         let mutualInfo = 
-                [|for i in 0 .. rowSum.Length-1 do
-                    for j in 0 .. colSum.Length-1 do
-                        let pxy = contingencyMatrix.[i, j] / (totalSum)
-                        if pxy > 0.0 then yield pxy * log(pxy / (pi.[i] * pj.[j]))
-                        else yield 0.0 |]
-                |> Array.sum
+            [|for i in 0 .. rowSum.Length-1 do
+                for j in 0 .. colSum.Length-1 do
+                    let pxy = contingencyMatrix.[i, j] / totalSum
+                    if pxy > 0.0 then yield pxy * log(pxy / (pi.[i] * pj.[j]))
+                    else yield 0.0 
+            |]
+            |> Array.sum
 
-        let normalizedMutualInformation (pi, pj, mutualInfo) =
+        let normalizedMutualInformation =
             let entropyTrue = 
                 Array.sumBy (fun p -> if p = 0.0 then 0.0 else -p * log(p)) pi
             
             let entropyPredicted = 
                 Array.sumBy (fun p -> if p = 0.0 then 0.0 else -p * log(p)) pj
             
-            let nmi = 2.0 * mutualInfo / (entropyTrue + entropyPredicted)
-            nmi
-        normalizedMutualInformation (pi, pj, mutualInfo)     
+            2.0 * mutualInfo / (entropyTrue + entropyPredicted)
+
+        normalizedMutualInformation
+
 
 module GapStatistics = 
     
