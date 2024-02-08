@@ -152,6 +152,7 @@
     <Compile Include="Fitting\LogisticRegression.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
     <Compile Include="Fitting\Spline.fs" />
+    <Compile Include="Fitting\GeneralisedLinearModel.fs" />
     <!-- ML -->
     <Compile Include="ML\SurprisalAnalysis.fs" />
     <Compile Include="ML\SimilarityMetrics.fs" />
@@ -170,7 +171,8 @@
     <None Include="Playground.fsx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="../../lib/*.dll" PackagePath="netlib_LAPACK"></Content>
+    <Content Include="../../lib/*.dll" PackagePath="netlib_LAPACK">
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharpAux.Core" Version="2.0.0" />
