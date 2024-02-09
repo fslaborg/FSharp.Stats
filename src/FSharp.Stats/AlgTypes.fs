@@ -2099,7 +2099,7 @@ namespace FSharp.Stats
         /// </code>
         /// </example>
         let setColM (a:Matrix<_>) j (v:Vector<_>) = 
-            if a.NumCols = v.Length then
+            if a.NumRows = v.Length then
                 let l = v.Length-1
                 for i = 0 to l do
                     a.[i,j] <- v.[i]

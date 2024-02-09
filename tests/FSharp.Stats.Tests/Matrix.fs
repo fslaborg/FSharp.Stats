@@ -1133,10 +1133,44 @@ let floatImplementationDenseTests =
                     Expect.equal actual expected "Matrix.setCol did not return the correct vector"
 
                 testCase "Setting column out of col range using Matrix.setCol should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.setRow testSquareMatrixA 1337 testVectorA |> ignore) "Setting column out of col range using Matrix.setCol did not fail although it should"
+                    Expect.throws (fun () -> Matrix.setCol testSquareMatrixA 1337 testVectorA |> ignore) "Setting column out of col range using Matrix.setCol did not fail although it should"
                 
                 testCase "Setting column with vector of wrong length using Matrix.setCol should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.setRow testSquareMatrixA 1 testVector1LowerDiag |> ignore) "Setting row with vector of wrong length using Matrix.setRow did not fail although it should"
+                    Expect.throws (fun () -> Matrix.setCol testSquareMatrixA 1 testVector1LowerDiag |> ignore) "Setting row with vector of wrong length using Matrix.setRow did not fail although it should"
+
+                testCase "Set Column non square" <| fun () ->
+
+                    let test2x3MatrixNonSquare : Matrix<float> =
+                        let values =
+                            Array2D.init
+                                2
+                                3
+                                (fun i j ->
+                                    0.
+                                )
+                        Matrix.DenseRepr
+                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
+
+                    Matrix.setCol test2x3MatrixNonSquare 0 ([1.;1.]|>Vector.ofList)
+
+                    let expected =
+                        let rows = 
+                            [|
+                                [|1.;0.;0.|]
+                                [|1.;0.;0.|]
+                            |]
+                        let values =
+                            Array2D.init
+                                2
+                                3
+                                (fun i j ->
+                                    rows.[i].[j]
+                                )
+                        Matrix.DenseRepr
+                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
+
+                    Expect.equal test2x3MatrixNonSquare expected "Matrix.setCol did not return the correct vector for non square Matrix"
+
 
             ]
             testList "getCols" [
