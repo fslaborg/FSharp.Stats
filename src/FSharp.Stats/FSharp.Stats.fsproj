@@ -115,6 +115,7 @@
     <Compile Include="Distributions\Continuous\ChiSquared.fs" />
     <Compile Include="Distributions\Discrete\Bernoulli.fs" />
     <Compile Include="Distributions\Discrete\Binomial.fs" />
+    <Compile Include="Distributions\Discrete\Multinomial.fs" />
     <Compile Include="Distributions\Discrete\NegativeBinomial.fs" />
     <Compile Include="Distributions\Discrete\Hypergeometric.fs" />
     <Compile Include="Distributions\Discrete\Poisson.fs" />
