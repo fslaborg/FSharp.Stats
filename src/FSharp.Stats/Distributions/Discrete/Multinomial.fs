@@ -19,6 +19,10 @@ type Multinomial =
             p < 0. || p > 1. || isNan(p)
         if (p |> Seq.map checkBetween |> Seq.exists id) then 
             failwith "Multinomial distribution should be parametrized by 0 ≤ p_i ≤ 1."
+        
+        let pSum = Seq.sum p
+        if Math.Round(pSum,15) <> 1. then 
+            failwithf "Multinomial distribution: The sum of probabilities should sum up to 1 but sums up to %.16f" pSum
     
     /// <summary>Computes the mean vector</summary>
     /// <remarks></remarks>

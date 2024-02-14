@@ -347,81 +347,50 @@ let binomialTests =
 
 
 
-//[<Tests>]
-//let multinomialTests =
-//    // TestCases from R stats: dmultinom(prob, x)
-//
-//    testList "Distributions.Discrete.Multinominal" [
-//        testCase "Binomial.Mean_n=0" <| fun () ->
-//            let testCase    = Discrete.Multinomial.Mean 0.5 0
-//            let r_value  = 0
-//            Expect.equal
-//                testCase
-//                r_value
-//                "Multinominal mean with n=0 does not yield the expected value of 0" 
-//        
-//        testCase "Binomial.Mean" <| fun () ->
-//            let testCase    = Discrete.Multinomial.Mean 0.5 500
-//            let r_value  = 250
-//            Expect.equal
-//                testCase
-//                r_value
-//                "Multinominal mean with n=500 and p=0.5 does not yield the expected value of 250" 
-//
-//        testCase "Binomial.Variance_n=0" <| fun () ->
-//            let testCase    = Discrete.Multinomial.Variance 0.5 0
-//            let r_value     = 0
-//            Expect.equal
-//                testCase
-//                r_value
-//                "Multinominal Variance with n=0 a does not yield the expected value of 0" 
-//
-//        testCase "Binomial.Variance" <| fun () ->
-//            let testCase    = Discrete.Multinomial.Variance 0.69 420
-//            let r_value     = 89.838
-//            Expect.floatClose 
-//                Accuracy.high
-//                testCase
-//                r_value
-//                "Multinominal Variance with n=420 and p=0.69 does not yield the expected value of 89.838" 
-//
-//        testCase "Binomial.StandardDeviation" <| fun () ->
-//            let testCase    = Discrete.Multinomial.StandardDeviation 0.69 420
-//            let r_value     = 9.478291
-//            Expect.floatClose
-//                Accuracy.high
-//                testCase
-//                r_value
-//                "Multinominal StandardDeviation with n=420 and p=0.69 does not yield the expected value of 9.478291" 
-//            
-//        testCase "Binomial.PMF" <| fun () ->
-//            let testCase    = Discrete.Multinomial.PMF 0.69 420 237
-//            let r_value     = 4.064494e-08
-//            Expect.floatClose
-//                Accuracy.low
-//                testCase
-//                r_value
-//                "Binomial.PMF with n=420, p=0.69 and k=237 does not equal the expectd 4.064494e-08"
-//
-//        testCase "Binomial.PMF_n=0" <| fun () ->
-//            let testCase    = Discrete.Multinomial.PMF 0.69 0 237
-//            let r_value     = 0
-//            Expect.floatClose
-//                Accuracy.low
-//                testCase
-//                r_value
-//                "Binomial.PMF with n=0, p=0.69 and k=237 does not equal the expectd 0"
-//
-//        testCase "Binomial.PMF_k<0" <| fun () ->
-//            let testCase    = Discrete.Multinomial.PMF 0.69 420 -10
-//            let r_value     = 0
-//            Expect.floatClose
-//                Accuracy.low
-//                testCase
-//                r_value
-//                "Binomial.PMF with n=420, p=0.69 and k=-10 does not equal the expectd 0"
-//    ] 
-//
+[<Tests>]
+let multinomialTests =
+    // TestCases from R stats: dmultinom(prob, x)
+    let prob1 = vector [0.2;0.4;0.4;0.]
+    let x1 = Vector.Generic.ofList [2;4;2;0]
+
+    let prob2 = vector [0.02;0.04;0.02;0.;0.01;0.1;0.81]
+    let x2 = Vector.Generic.ofList [2;4;2;0;1;10;100]
+    testList "Distributions.Discrete.Multinominal" [
+        testCase "Mean" <| fun () ->
+            let testCase = Discrete.Multinomial.Mean prob1 100
+            let means    = vector [20.;40.;40.;0.]
+            TestExtensions.TestExtensions.sequenceEqual Accuracy.veryHigh
+                testCase
+                means
+                "Multinominal mean vector is incorrect" 
+
+        testCase "Variance" <| fun () ->
+            let testCase    = Discrete.Multinomial.Variance prob2 119
+            let variances   = vector [2.3324;4.5696;2.3324;0;1.1781;10.71;18.3141]
+            TestExtensions.TestExtensions.sequenceEqual Accuracy.veryHigh
+                testCase
+                variances
+                "Multinominal Variance vector is incorrect" 
+
+        testCase "PMF1" <| fun () ->
+            let testCase = Discrete.Multinomial.PMF prob1 x1
+            let pmf      = 0.0688128
+            Expect.floatClose
+                Accuracy.veryHigh
+                testCase
+                pmf
+                "Multinominal.PMF is incorrect"
+
+        testCase "PMF2" <| fun () ->
+            let testCase = Discrete.Multinomial.PMF prob2 x2
+            let pmf      = 0.0004954918510266295
+            Expect.floatClose
+                Accuracy.veryHigh
+                testCase
+                pmf
+                "Multinominal.PMF is incorrect"
+    ] 
+
 [<Tests>]
 let hypergeometricTests =   
 

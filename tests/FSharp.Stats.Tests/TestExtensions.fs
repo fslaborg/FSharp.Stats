@@ -16,11 +16,13 @@
             
         static member sequenceEqual(accuracy: Expecto.Accuracy) =
             fun actual expected message -> 
+                if Seq.length actual <> Seq.length expected then Expect.isTrue false message
                 Seq.iter2 (fun a b -> Expect.floatClose accuracy a b message) actual expected
             
         static member sequenceEqualRoundedNaN (digits: int) =
             let round (v:float) = System.Math.Round(v,digits)
             fun actual expected message -> 
+                if Seq.length actual <> Seq.length expected then Expect.isTrue false message
                 Seq.iter2 (fun a b -> 
                     if nan.Equals a then 
                         Expect.isTrue (nan.Equals b) message
