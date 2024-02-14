@@ -345,6 +345,83 @@ let binomialTests =
                       
     ] 
 
+
+
+//[<Tests>]
+//let multinomialTests =
+//    // TestCases from R stats: dmultinom(prob, x)
+//
+//    testList "Distributions.Discrete.Multinominal" [
+//        testCase "Binomial.Mean_n=0" <| fun () ->
+//            let testCase    = Discrete.Multinomial.Mean 0.5 0
+//            let r_value  = 0
+//            Expect.equal
+//                testCase
+//                r_value
+//                "Multinominal mean with n=0 does not yield the expected value of 0" 
+//        
+//        testCase "Binomial.Mean" <| fun () ->
+//            let testCase    = Discrete.Multinomial.Mean 0.5 500
+//            let r_value  = 250
+//            Expect.equal
+//                testCase
+//                r_value
+//                "Multinominal mean with n=500 and p=0.5 does not yield the expected value of 250" 
+//
+//        testCase "Binomial.Variance_n=0" <| fun () ->
+//            let testCase    = Discrete.Multinomial.Variance 0.5 0
+//            let r_value     = 0
+//            Expect.equal
+//                testCase
+//                r_value
+//                "Multinominal Variance with n=0 a does not yield the expected value of 0" 
+//
+//        testCase "Binomial.Variance" <| fun () ->
+//            let testCase    = Discrete.Multinomial.Variance 0.69 420
+//            let r_value     = 89.838
+//            Expect.floatClose 
+//                Accuracy.high
+//                testCase
+//                r_value
+//                "Multinominal Variance with n=420 and p=0.69 does not yield the expected value of 89.838" 
+//
+//        testCase "Binomial.StandardDeviation" <| fun () ->
+//            let testCase    = Discrete.Multinomial.StandardDeviation 0.69 420
+//            let r_value     = 9.478291
+//            Expect.floatClose
+//                Accuracy.high
+//                testCase
+//                r_value
+//                "Multinominal StandardDeviation with n=420 and p=0.69 does not yield the expected value of 9.478291" 
+//            
+//        testCase "Binomial.PMF" <| fun () ->
+//            let testCase    = Discrete.Multinomial.PMF 0.69 420 237
+//            let r_value     = 4.064494e-08
+//            Expect.floatClose
+//                Accuracy.low
+//                testCase
+//                r_value
+//                "Binomial.PMF with n=420, p=0.69 and k=237 does not equal the expectd 4.064494e-08"
+//
+//        testCase "Binomial.PMF_n=0" <| fun () ->
+//            let testCase    = Discrete.Multinomial.PMF 0.69 0 237
+//            let r_value     = 0
+//            Expect.floatClose
+//                Accuracy.low
+//                testCase
+//                r_value
+//                "Binomial.PMF with n=0, p=0.69 and k=237 does not equal the expectd 0"
+//
+//        testCase "Binomial.PMF_k<0" <| fun () ->
+//            let testCase    = Discrete.Multinomial.PMF 0.69 420 -10
+//            let r_value     = 0
+//            Expect.floatClose
+//                Accuracy.low
+//                testCase
+//                r_value
+//                "Binomial.PMF with n=420, p=0.69 and k=-10 does not equal the expectd 0"
+//    ] 
+//
 [<Tests>]
 let hypergeometricTests =   
 
