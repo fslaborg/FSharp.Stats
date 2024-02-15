@@ -14,7 +14,7 @@ type Multinomial =
     // Multinomial distribution helper functions.
     static member CheckParam (p: vector) n  = 
         if n < 0 then
-            failwith "Multinomial distribution should be parametrized by n > 0."
+            failwith "Multinomial distribution should be parametrized by n >= 0."
         let checkBetween p =
             p < 0. || p > 1. || isNan(p)
         if (p |> Seq.map checkBetween |> Seq.exists id) then 
@@ -102,18 +102,12 @@ type Multinomial =
         Multinomial.CheckParam p n
         if p.Length <> x.Length then failwithf "Probability vector must be of same size as success vector!"
         Seq.iter2 (fun pi xi -> if pi = 0. && xi <> 0 then failwithf "At least one probability of 0. is associated with a success event! This is impossible") p x
-        
         Multinomial.PMF_Unchecked p x
 
     /// Computes the cumulative distribution.
     static member CDF p n (x:float) =
         Multinomial.CheckParam p n
         failwithf "not implemented yet, difficult for multinomial results!"
-
-    /// Computes the inverse cumulative distribution function (quantile function).
-    static member InvCDF p n (x:float) =
-        Multinomial.CheckParam p n            
-        failwithf "InvCDF not implemented yet"
 
     /// <summary>Returns the support of the Multinomial distribution: for each x: [0, n].</summary>
     /// <remarks></remarks>

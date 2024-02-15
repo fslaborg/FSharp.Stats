@@ -372,16 +372,14 @@ let multinomialTests =
                 variances
                 "Multinominal Variance vector is incorrect" 
 
-        testCase "PMF1" <| fun () ->
+        testCase "PMF" <| fun () ->
             let testCase = Discrete.Multinomial.PMF prob1 x1
-            let pmf      = 0.0688128
+            let pmf      = 0.0688128000
             Expect.floatClose
                 Accuracy.veryHigh
                 testCase
                 pmf
                 "Multinominal.PMF is incorrect"
-
-        testCase "PMF2" <| fun () ->
             let testCase = Discrete.Multinomial.PMF prob2 x2
             let pmf      = 0.0004954918510266295
             Expect.floatClose
@@ -389,6 +387,38 @@ let multinomialTests =
                 testCase
                 pmf
                 "Multinominal.PMF is incorrect"
+            let prob1 = vector [0.1;0.4;0.5]
+            let x = Vector.Generic.ofList [0;0;0]
+            let testCase3 = Discrete.Multinomial.PMF prob1 x
+            Expect.floatClose
+                Accuracy.veryHigh
+                testCase3
+                1.
+                "Multinominal.PMF is incorrect"
+                
+        testCase "Checks.pSum1" <| fun () ->
+            let prob2 = vector [0.1;0.3;0.5]
+            let x = Vector.Generic.ofList [1;2;3]
+            let testCase() = Discrete.Multinomial.PMF prob2 x
+            Expect.throws (fun _ -> testCase() |> ignore) "p does not sum up to 1 but no error is thrown"
+            
+        testCase "Checks.UnequalInputLength" <| fun () ->
+            let prob3 = vector [0.1;0.4;0.5;0]
+            let x = Vector.Generic.ofList [1;2;3]
+            let testCase() = Discrete.Multinomial.PMF prob3 x
+            Expect.throws (fun _ -> testCase() |> ignore) "input vectors are of unequal length"
+            
+        testCase "Checks.WrongProb" <| fun () ->
+            let prob4 = vector [1.;-0.5;0.5]
+            let x = Vector.Generic.ofList [1;2;3]
+            let testCase() = Discrete.Multinomial.PMF prob4 x
+            Expect.throws (fun _ -> testCase() |> ignore) "probabilities are negative"
+
+        testCase "Checks.SuccessAtProb0" <| fun () ->
+            let prob5 = vector [0.5;0;0.5]
+            let x = Vector.Generic.ofList [1;2;3]
+            let testCase() = Discrete.Multinomial.PMF prob5 x
+            Expect.throws (fun _ -> testCase() |> ignore) "probabilities of 0 is associated to success event"
     ] 
 
 [<Tests>]
