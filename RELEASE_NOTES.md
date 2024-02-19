@@ -1,10 +1,20 @@
 ### 0.5.1 TBP
 * Additions:
-    * latest commit #a51357f1
+    * latest commit #54feda1a
+    * [[#7aa79c61](https://github.com/fslaborg/FSharp.Stats/commit/7aa79c61d71534623276d4a709a7f5d2ce0ff796)] add multinomial distribution
+    * [[#bb43b03b](https://github.com/fslaborg/FSharp.Stats/commit/bb43b03bc2c13d05ee0c975e79c5fe2bcba75ba2)] add NMI
+    * [[#9919c4d5](https://github.com/fslaborg/FSharp.Stats/commit/9919c4d5c5efd8b0c222ade67ce73083ebc3286c)] documentation, tests, clean up
+    * [[#4b6f1cf7](https://github.com/fslaborg/FSharp.Stats/commit/4b6f1cf783b79b34e2d2c9d682c21d55f8606f6b)] add KNN classifier and logic to ML Unsupervised
+    * [[#9ba92b6f](https://github.com/fslaborg/FSharp.Stats/commit/9ba92b6f47043d7a7ccdc933a18dad4f2ce705df)] add minkowski distance
+    * [[#65a0a690](https://github.com/fslaborg/FSharp.Stats/commit/65a0a6900576a6a7fe1ecaaf150102592de5bca7)] add Bezier interpolation
+    * [[#b7792aeb](https://github.com/fslaborg/FSharp.Stats/commit/b7792aeb705fc404530ce15849f818ff139b4f76)] add hamming distance functions
+    * [[#94716bd1](https://github.com/fslaborg/FSharp.Stats/commit/94716bd1bde514539e142058f152492b0549bb92)] Using `Interval` instead of tuples in distr.'s supports
+    * [[#59eaf551](https://github.com/fslaborg/FSharp.Stats/commit/59eaf551b4ebb804d733763e3e7281747ba01873)] add step interpolation docu
     * [[#414d461e](https://github.com/fslaborg/FSharp.Stats/commit/414d461e9bee40f5fed53994e196f59ccee8272e)] add cubic spline with slopes
     * [[#6a9038e9](https://github.com/fslaborg/FSharp.Stats/commit/6a9038e9b2c04da4ec35bb4e65f35adecd55c158)] add interpolation differentiation add interpolation integration
     * [[#8fb5d6dd](https://github.com/fslaborg/FSharp.Stats/commit/8fb5d6dd07ff213a4e91b618fb2e654bc6147985)] add step interpolation
 * Bugfixes:
+    * [[#63d8aa19](https://github.com/fslaborg/FSharp.Stats/commit/63d8aa19e2ac73af1baf818b52a58ec3f9472c30)] fix setColM as seen in #315
     * [[#0ac2a52d](https://github.com/fslaborg/FSharp.Stats/commit/0ac2a52de81b3a8fe973af37e35b7b6e48973160)] fix Akima interpolation
 
 ### 0.5.0 (Released 2022-8-4)
