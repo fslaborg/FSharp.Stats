@@ -46,7 +46,7 @@ module KNN =
                     |> fst
 
                 Some label
-
+        
     module Seq =
 
         /// <summary>
@@ -183,7 +183,7 @@ module KNN =
         /// <summary>
         /// Fit the constructed `KNN.Classifier`, i.e. provide the points with their labels, used for the prediction.
         /// </summary>
-        /// <param name="labeledPoints">the array of classified (or labeled) points [in the format "Map<label, point array>"],
+        /// <param name="labeledPoints">the array of classified (or labeled) points [in the format "Map&lt;label, point array&gt;"],
         /// used for the classification</param>
         /// <example> 
         /// <code>
