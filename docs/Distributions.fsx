@@ -43,6 +43,7 @@ _Summary:_ this tutorial shows how to use the various types of probability distr
 - [Discrete](#Discrete)
     - [Bernoulli distribution](#Bernoulli-distribution)
     - [Binomial distribution](#Binomial-distribution)
+    - [Multinomial distribution](#Multinomial-distribution)
     - [Hypergerometric distribution](#Hypergerometric-distribution)
     - [Poisson distribution](#Poisson-distribution)
     - [Gamma distribution](#Gamma-distribution)
@@ -704,6 +705,67 @@ cdfComparison |> GenericChart.toChartHTML
 
 (**
 You can clearly see, that the CDF distributions are shifted according to the number of successes because: $failures (k) = trials (x) - successes (r)$.
+
+
+
+
+### Multinomial distribution
+
+The multinomial distribution is a generic version of the binomial distribution. While for binomial, the probabilities for a single success state is of interest, the multinomial distribution 
+deals with multiple exact success events.
+
+Example: There are people from 3 different towns: _3 from town A_, _7 from town B_, and _20 from town C_. When 5 people are randomly chosen, what is the probability, to obtain exactly _1 from town A_, 
+_1 from town B_, and _3 from town C_? The individual success probabilities can be easily accessed _p(A)=5/30_, _p(B)=7/30_, and _p(C)=20/30_.
+
+*)
+
+// probabilities for all individual success states 
+let multiNomProb = vector [(3./30.); (7./30.); (20./30.)]
+
+// the success combination that is of interest
+let multiNomKs   = Vector.Generic.ofList [1; 1; 3]
+
+// gives the probability of obtaining exactly the pattern 1,1,3
+let mNom = Discrete.Multinomial.PMF multiNomProb multiNomKs
+
+
+(***hide***)
+(sprintf "The probability to chose 1 person from town A, 1 from B, and 3 from C is: %.4f" mNom)
+(***include-it-raw***)
+
+(**
+
+**Relation to binomial distribution**
+
+Input vectors of length 2 correspond to the binomial distribution. The following examples are identical. While for binomial it is required to input the total number (n), for the 
+multinomial distribution you have to give the corresponding anto-probability:
+
+*)
+
+let mNom_bin_A = (Discrete.Binomial.PMF 0.123 200 20)
+let mNom_bin_B = Discrete.Multinomial.PMF (vector [|0.123; 0.877|]) (Vector.Generic.ofArray [|20; 180|])
+
+mNom_bin_A //0.0556956956889893
+mNom_bin_B //0.0556956956889898
+
+
+(**
+A cumulative density function (CDF) is not defined properly, as you do not know which success statement is of interest. If you want to investigate how probable it is to see at least 3 
+people of town C you would have to calculate the sum all possible combinations that result in this constellation:
+
+```
+Discrete.Multinomial.PMF multiNomProb [1;1;3]
+Discrete.Multinomial.PMF multiNomProb [2;0;3]
+Discrete.Multinomial.PMF multiNomProb [0;2;3]
+Discrete.Multinomial.PMF multiNomProb [1;0;4]
+Discrete.Multinomial.PMF multiNomProb [0;1;4]
+Discrete.Multinomial.PMF multiNomProb [0;0;5]
+```
+
+The cumulative probability is 0.7901234.
+
+It may be that in future, a dedicated CDF functionality is added that requests the index of the success state of interest and sums up all possible combination probabilities.
+
 
 ## Empirical
 

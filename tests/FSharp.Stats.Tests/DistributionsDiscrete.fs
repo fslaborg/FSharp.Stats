@@ -144,6 +144,7 @@ let binomialTests =
 
     testList "Distributions.Discrete.Binominal" [
         // Values taken from R 4.0.3 
+        // dbinom(k,n,p)
         testCase "Parameters" <| fun () ->
             let param = 
                 match (Discrete.Binomial.Init 0.1 3).Parameters with
@@ -233,12 +234,28 @@ let binomialTests =
             
         testCase "Binomial.PMF" <| fun () ->
             let testCase    = Discrete.Binomial.PMF 0.69 420 237
-            let r_value     = 4.064494e-08
+            let r_value     = 1.741364593002809e-08
             Expect.floatClose
-                Accuracy.low
+                Accuracy.high
                 testCase
                 r_value
-                "Binomial.PMF with n=420, p=0.69 and k=237 does not equal the expectd 4.064494e-08"
+                "Binomial.PMF with n=420, p=0.69 and k=237 does not equal the expectd 1.741364593002809e-08"
+               
+            let testCase2    = Discrete.Binomial.PMF 0.5 10 5
+            let r_value2     = 0.2460937500001213
+            Expect.floatClose
+                Accuracy.medium
+                testCase2
+                r_value2
+                "Binomial.PMF with n=10, p=0.5 and k=5 does not equal the expectd 0.2460937500001213"
+
+            let testCase3    = Discrete.Binomial.PMF 0.123 200 20
+            let r_value3     = 0.0556956956889893
+            Expect.floatClose
+                Accuracy.high
+                testCase3
+                r_value3
+                "Binomial.PMF with n=10, p=0.5 and k=5 does not equal the expectd 0.2460937500001213"
 
         testCase "Binomial.PMF_n=0" <| fun () ->
             let testCase    = Discrete.Binomial.PMF 0.69 0 237
@@ -257,21 +274,37 @@ let binomialTests =
                 testCase
                 r_value
                 "Binomial.PMF with n=420, p=0.69 and k=-10 does not equal the expectd 0"
-
+                
         testCase "Binomial.CDF"<| fun () ->
             let testCase = Discrete.Binomial.CDF 0.69 420 237
-            let r_value = 9.341312e-08
+            let r_value = 4.064494106136236e-08
             Expect.floatClose
-                Accuracy.low
+                Accuracy.high
                 testCase
                 r_value
-                "Binomial.CDF with n=420, p=0.69 and k=237 does not equal the expectd 9.341312e-08"
+                "Binomial.CDF with n=420, p=0.69 and k=237 does not equal the expectd 4.064494096e-08"
+        
+            let testCase2 = Discrete.Binomial.CDF 0.5 10 5
+            let r_value2 = 0.6230468749999999
+            Expect.floatClose
+                Accuracy.high
+                testCase2
+                r_value2
+                "Binomial.CDF with n=420, p=0.69 and k=237 does not equal the expectd 0.6230468749999999"
+        
+            let testCase3 = Discrete.Binomial.CDF 0.123 200 20
+            let r_value3 = 0.1901991220393886
+            Expect.floatClose
+                Accuracy.high
+                testCase3
+                r_value3
+                "Binomial.CDF with n=420, p=0.69 and k=237 does not equal the expectd 0.1901991220393886"
         
         testCase "Binomial.CDF_n=0"<| fun () ->
             let testCase = Discrete.Binomial.CDF 0.69 0 237
             let r_value = 1.
             Expect.floatClose
-                Accuracy.low
+                Accuracy.high
                 testCase
                 r_value
                 "Binomial.CDF with n=0, p=0.69 and k=237 does not equal the expectd 1."
@@ -280,7 +313,7 @@ let binomialTests =
             let testCase = Discrete.Binomial.CDF 0.69 420 0
             let r_value = 2.354569e-214
             Expect.floatClose
-                Accuracy.low
+                Accuracy.high
                 testCase
                 r_value
                 "Binomial.CDF with n=420, p=0.69 and k=0 does not equal the expectd 2.354569e-214"
@@ -289,7 +322,7 @@ let binomialTests =
             let testCase = Discrete.Binomial.CDF 0.69 420 -10
             let r_value = 0. 
             Expect.floatClose
-                Accuracy.low
+                Accuracy.high
                 testCase
                 r_value
                 "Binomial.CDF with n=420, p=0.69 and k=-10 does not equal the expectd 0."
@@ -298,7 +331,7 @@ let binomialTests =
             let testCase = Discrete.Binomial.CDF 0.69 420 (-infinity)
             let r_value = 0.
             Expect.floatClose
-                Accuracy.low
+                Accuracy.high
                 testCase
                 r_value
                 "Binomial.CDF with n=420, p=0.69 and k=--infinity does not equal the expectd 0."
@@ -307,7 +340,7 @@ let binomialTests =
             let testCase = Discrete.Binomial.CDF 0.69 420 (infinity)
             let r_value = 1. 
             Expect.floatClose
-                Accuracy.low
+                Accuracy.high
                 testCase
                 r_value
                 "Binomial.CDF with n=420, p=0.69 and k=-infinity does not equal the expectd 1."   
@@ -395,6 +428,24 @@ let multinomialTests =
                 testCase3
                 1.
                 "Multinominal.PMF is incorrect"
+
+            let testCase4    = Discrete.Multinomial.PMF (vector [|0.5; 0.5|]) (Vector.Generic.ofArray [|5; 5|])
+            let r_value4     = 0.2460937500001213
+            Expect.floatClose
+                Accuracy.high
+                testCase4
+                r_value4
+                "Multinomial.PMF (vector [|0.5; 0.5|]) (Vector.Generic.ofArray [|5; 5|]) should result in Binomial.PMF 0.5 10 5"
+
+        
+            let testCase5    = Discrete.Multinomial.PMF (vector [|0.123; 0.877|]) (Vector.Generic.ofArray [|20; 180|])
+            Expect.floatClose
+                Accuracy.high
+                testCase5
+                (Discrete.Binomial.PMF 0.123 200 20)
+                "Discrete.Multinomial.PMF (vector [|0.123; 0.877|]) (Vector.Generic.ofArray [|20; 180|])should result in Discrete.Binomial.PMF 0.123 200 20"
+
+
                 
         testCase "Checks.pSum1" <| fun () ->
             let prob2 = vector [0.1;0.3;0.5]
