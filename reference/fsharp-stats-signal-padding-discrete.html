@@ -134,7 +134,7 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L406-406" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L414-414" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -166,7 +166,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1596', 1596)" onmouseover="showTip(event, '1596', 1596)">
+              <code onmouseout="hideTip(event, '1605', 1605)" onmouseover="showTip(event, '1605', 1605)">
                 <p>
                   <a id="padRnd">
                     <a href="#padRnd">
@@ -175,7 +175,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1596">
+              <div class="fsdocs-tip" id="1605">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>padRnd&#32;<span>data&#32;borderpadding</span></span></code>
@@ -190,7 +190,7 @@
                       :
                       <code><span>'a[]</span></code>
                        - 
-                      
+                      An array of values
                     </span>
                     <br/>
                     <span>
@@ -200,7 +200,7 @@
                       :
                       <code>int</code>
                        - 
-                      
+                      The number of points to add to each end
                     </span>
                     <br/>
                   </ul>
@@ -209,7 +209,6 @@
                     Returns: 
                     <code><span>'a[]</span></code>
                   </span>
-                  
                   <br/>
                   Modifiers: 
                   inline
@@ -230,17 +229,17 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L367-367" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L375-375" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
               <p class="fsdocs-summary">
-                Adds additional data points to the beginning and end of data set (number: borderpadding; y_Value: random).
+                
+ Adds additional random data points to the beginning and end of the given data. Values are
+ taken at random from the original data.
+ 
               </p>
             </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
             <dl class="fsdocs-params">
               <dt class="fsdocs-param">
                 <span class="fsdocs-param-name">
@@ -251,7 +250,7 @@
               </dt>
               <dd class="fsdocs-param-docs">
                 <p>
-                  
+                  An array of values
                 </p>
               </dd>
               <dt class="fsdocs-param">
@@ -263,7 +262,7 @@
               </dt>
               <dd class="fsdocs-param-docs">
                 <p>
-                  
+                  The number of points to add to each end
                 </p>
               </dd>
             </dl>
@@ -274,24 +273,26 @@
                 </span>
                 <code><span>'a[]</span></code>
               </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
+              <dd class="fsdocs-return-docs"></dd>
             </dl>
             <h5 class="fsdocs-example-header">
               Example
             </h5>
             <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
+              <pre><code class=""> 
+  let data = [|0.1; 0.2; 0.3; 0.4|]
+            
+  let padding = 2
+       
+  // padding the data points with 2 artificial random-valued points on each side
+  let paddedData = Padding.Discrete.padRnd data padding</code></pre>
             </p>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '1597', 1597)" onmouseover="showTip(event, '1597', 1597)">
+              <code onmouseout="hideTip(event, '1606', 1606)" onmouseover="showTip(event, '1606', 1606)">
                 <p>
                   <a id="padZero">
                     <a href="#padZero">
@@ -300,7 +301,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="1597">
+              <div class="fsdocs-tip" id="1606">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>padZero&#32;<span>data&#32;borderpadding</span></span></code>
@@ -355,7 +356,7 @@
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L400-400" class="fsdocs-source-link" title="Source on GitHub">
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Signal/Padding.fs#L408-408" class="fsdocs-source-link" title="Source on GitHub">
                 <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
                 <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
               </a>
@@ -415,7 +416,7 @@
   let padding = 2
        
   // padding the data points with 2 artificial zero-valued points on each side
-  let paddedData =Padding.Discrete.padZero data padding</code></pre>
+  let paddedData = Padding.Discrete.padZero data padding</code></pre>
             </p>
           </td>
         </tr>
