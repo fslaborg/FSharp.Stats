@@ -46,7 +46,7 @@
     <Compile Include="Array.fs" />
     <Compile Include="List.fs" />
     <Compile Include="Map.fs" />
-    <Compile Include="JaggedArray.fs" />
+    <Compile Include="JaggedCollection.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="RowVector.fs" />
     <Compile Include="Matrix.fs" />
@@ -180,6 +180,6 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="../../README.md" Pack="true" PackagePath="\"/>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>

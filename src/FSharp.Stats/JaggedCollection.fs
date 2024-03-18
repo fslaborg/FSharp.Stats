@@ -42,8 +42,23 @@ module JaggedArray =
             Array.copy arr.[i]
             )    
 
+    /// <summary>Transposes a jagged array (unchecked)</summary>
+    /// <remarks>The resulting row count is determined by first collection length!</remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
+    let transpose_ (arr: 'T [][]) =
+        if arr.Length > 0 then 
+            let colSize = arr.[0].Length
+            Array.init colSize (fun rowI -> Array.init (arr.Length) (fun colI -> (arr.[colI].[rowI])))
+        else
+            arr
+
     /// <summary>Transposes a jagged array</summary>
-    /// <remarks></remarks>
+    /// <remarks>inner collections (rows) have to be of equal length</remarks>
     /// <param name="arr"></param>
     /// <returns></returns>
     /// <example>
@@ -51,11 +66,10 @@ module JaggedArray =
     /// </code>
     /// </example>
     let transpose (arr: 'T [][]) =
-        if arr.Length > 0 then 
-            let colSize = arr.[0].Length
-            Array.init (colSize) (fun rowI ->  Array.init (arr.Length) (fun colI -> (arr.[colI].[rowI])))
-        else
-            arr
+        let colSize = 
+            let sizes = arr |> Array.distinctBy Array.length
+            if sizes.Length <> 1 then failwithf "All inner collections (rows) have to be of equal length!" else sizes.[0].Length
+        transpose_ arr
     
     /// <summary>Converts from an Array2D into an jagged array</summary>
     /// <remarks></remarks>
@@ -96,7 +110,7 @@ module JaggedArray =
     /// </example>
     let ofJaggedList (data: 'T list list) =
         data
-        |> List.map (fun l -> l |> Array.ofList)
+        |> List.map Array.ofList
         |> Array.ofList
 
     /// <summary>Converts a jagged array into a jagged list</summary>
@@ -109,7 +123,7 @@ module JaggedArray =
     /// </example>
     let toJaggedList (arr: 'T [][]) =
         arr
-        |> Array.map (fun a -> a |> List.ofArray)
+        |> Array.map List.ofArray
         |> List.ofArray
 
     /// <summary>Converts a jagged Seq into a jagged array</summary>
@@ -122,7 +136,7 @@ module JaggedArray =
     /// </example>
     let ofJaggedSeq (data: seq<#seq<'T>>) =
         data
-        |> Seq.map (fun s -> s |> Array.ofSeq)
+        |> Seq.map Array.ofSeq
         |> Array.ofSeq
 
     /// <summary>Converts a jagged array into a jagged seq</summary>
@@ -135,7 +149,7 @@ module JaggedArray =
     /// </example>
     let toJaggedSeq (arr: 'T [][]) =
         arr
-        |> Seq.map (fun s -> s |> Array.toSeq) 
+        |> Seq.map Array.toSeq
 
     /// <summary>Builds a new jagged array whose inner arrays are the results of applying the given function to each of their elements.</summary>
     /// <remarks></remarks>
@@ -148,7 +162,7 @@ module JaggedArray =
     /// </example>
     let map (mapping: 'T -> 'U) (jArray : 'T[][]) =
         jArray
-        |> Array.map (fun x -> x |> Array.map mapping)
+        |> Array.map (Array.map mapping)
 
     /// <summary>Builds a new jagged array whose inner arrays are the results of applying the given function to the corresponding elements of the inner arrays of the two jagged arrays pairwise. <br />All corresponding inner arrays must be of the same length, otherwise ArgumentException is raised.</summary>
     /// <remarks></remarks>
@@ -413,35 +427,80 @@ module JaggedArray =
 [<AutoOpen>]
 module JaggedList =
     
-
-    // Transposes a jagged array
-    let transpose (data: 'T list list) =
+    /// <summary>Transposes a jagged list (unchecked)</summary>
+    /// <remarks>The resulting row count is determined by first collection length!</remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
+    let transpose_ (data: 'T list list) =
         let rec transpose = function
             | (_::_)::_ as M -> List.map List.head M :: transpose (List.map List.tail M)
             | _ -> []
         transpose data
 
+    /// <summary>Transposes a jagged list</summary>
+    /// <remarks>all inner collections (rows) have to be of equal length</remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>
+    let transpose (data: 'T list list) =
+        let colSizes = data |> List.map List.length
+        if (colSizes |> List.distinct |> List.length) <> 1 then failwithf "All inner collections (rows) have to be of equal length!"
+        transpose_ data
 
-    // Converts a jagged list into a jagged array     
+    /// <summary>Converts a jagged list into a jagged array </summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>   
     let toJaggedList (data: 'T list list) =
         data
         |> List.map (fun l -> l |> Array.ofList)
         |> Array.ofList
 
-
-    // Converts a jagged array into a jagged list
+    /// <summary>Converts a jagged array into a jagged list</summary>
+    /// <remarks></remarks>
+    /// <param name="arr"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>   
     let ofJaggedArray (arr: 'T [][]) =
         arr
         |> Array.map (fun a -> a |> List.ofArray)
         |> List.ofArray
 
-    // Converts a jagged Seq into a jagged list
+    /// <summary>Converts a jagged Seq into a jagged list</summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>   
     let ofJaggedSeq (data: seq<#seq<'T>>) =
         data
         |> Seq.map (fun s -> s |> List.ofSeq)
         |> List.ofSeq
 
-    // Converts a jagged list into a jagged seq
+    /// <summary>Converts a jagged list into a jagged seq</summary>
+    /// <remarks></remarks>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <example>
+    /// <code>
+    /// </code>
+    /// </example>   
     let toJaggedSeq (data: 'T list list) =
         data
         |> Seq.map (fun s -> s |> List.toSeq) 
