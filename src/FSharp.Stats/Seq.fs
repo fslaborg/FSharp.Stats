@@ -2,6 +2,7 @@ namespace FSharp.Stats
 
 
 /// Module to compute common statistical measure
+[<RequireQualifiedAccess>]
 module Seq = 
 
     module OpsS = SpecializedGenericImpl

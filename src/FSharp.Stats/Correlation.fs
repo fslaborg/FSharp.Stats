@@ -38,6 +38,7 @@ module Correlation =
             |> (/) ((value - med) * weight)
 
     /// Contains correlation functions optimized for sequences
+    [<RequireQualifiedAccess>]
     module Seq = 
         /// <summary>Calculates the pearson correlation of two samples. Homoscedasticity must be assumed.</summary>
         /// <remarks></remarks>

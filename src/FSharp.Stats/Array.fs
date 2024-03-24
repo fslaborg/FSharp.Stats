@@ -2,6 +2,7 @@
 
 
 /// Module to compute common statistical measure on array
+[<RequireQualifiedAccess>]
 module Array =
 
 
