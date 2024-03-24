@@ -44,7 +44,7 @@ module Outliers =
     /// </example>
     let zScoresOfPopulation (ls:list<float>) =
         let m = List.mean ls
-        let s = stDevPopulation(ls)
+        let s = Seq.stDevPopulation(ls)
         [for x in ls -> zScore x m s]
 
 
@@ -60,7 +60,7 @@ module Outliers =
     /// </example>
     let populationIntervalByZScore (minZ:float) (maxZ:float) (ls:list<float>) =
         let m = List.mean ls
-        let s = stDevPopulation(ls)
+        let s = Seq.stDevPopulation(ls)
         Interval.CreateClosed<float> ((minZ * s + m),(maxZ * s + m))
     
     /// <summary>Returns a list of Z scores of a sample</summary>
@@ -73,7 +73,7 @@ module Outliers =
     /// </example>
     let zScoresOfSample (ls:list<float>) =
         let m = List.mean ls
-        let s = stDev(ls)
+        let s = Seq.stDev(ls)
         [for x in ls -> zScore x m s]
 
     /// <summary>Returns a sample interval according to desired max and min Z Score values    </summary>
@@ -88,7 +88,7 @@ module Outliers =
     /// </example>
     let sampleIntervalByZscore (minZ:float) (maxZ:float) (ls:list<float>) =
         let m = List.mean ls
-        let s = stDev(ls)
+        let s = Seq.stDev(ls)
         Interval.CreateClosed<float> ((minZ * s + m),(maxZ * s + m))
 
     ///Returns Mahalanobi's distance for an individual observation in a matrix.

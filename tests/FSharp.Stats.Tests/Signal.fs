@@ -12,7 +12,7 @@ open TestExtensions
 [<Tests>]
 let outlierTests =
     let ls = [-1.4; -1.4; -1.3; -7.9; 9.4; -1.5; 5.0; 7.0; 1.1; 1.6]
-    let m = mean ls //1.06
+    let m = List.mean ls //1.06
     
     let dataRow =
         [
@@ -44,11 +44,11 @@ let outlierTests =
     testList "Signal.OutlierTests" [
         testList "Z-Score" [
             testCase "Z-Score in a population" <| fun() ->
-                let s = stDevPopulation(ls) //4.745144887
+                let s = Seq.stDevPopulation(ls) //4.745144887
                 Expect.floatClose Accuracy.high (zScore -1.4 m s) -0.5184246337 "Z-Score in a population was calculated incorrectly"
 
             testCase "Z-Score in a sample" <| fun()->
-                let sSample = stDev(ls)
+                let sSample = Seq.stDev(ls)
                 Expect.floatClose Accuracy.high (zScore -1.4 m sSample) -0.4918207913 "Z-Score in a sample was calculated incorrectly"
                 
             testCase "Z-Scores of a population" <| fun()->

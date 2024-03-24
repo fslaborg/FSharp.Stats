@@ -2,7 +2,6 @@
 
 
 /// Module to compute common statistical measure on array
-[<AutoOpen>]
 module Array =
 
 

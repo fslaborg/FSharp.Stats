@@ -2,7 +2,6 @@
 
 
 /// Module to compute common statistical measure on list
-[<AutoOpen>]
 module List =
     let range (items:list<_>) =        
         let rec loop l (minimum) (maximum) =

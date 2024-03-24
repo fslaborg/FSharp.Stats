@@ -1,20 +1,14 @@
-//namespace Microsoft.FSharp.Math // old namespace
 namespace FSharp.Stats
 
 #nowarn "60" // implementations in augmentations
 #nowarn "69" // implementations in augmentations
 
-//open Microsoft.FSharp.Math
 open System
-open System.Globalization
 open System.Collections
-open System.Collections.Generic
-open System.Diagnostics
-
 
 //----------------------------------------------------------------------------
 // module Vector
-//--------------------------------------------------------------------------*)
+//----------------------------------------------------------------------------
       
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 //Basic vector operations
@@ -24,22 +18,14 @@ module Vector =
         
         module OpsS = SpecializedGenericImpl
         /// <summary>Returns the value of the vector a at the given index i</summary>
-        /// <remarks></remarks>
-        /// <param name="vector"></param>
-        /// <returns></returns>
-        /// <example>
-        /// <code>
-        /// </code>
-        /// </example>
+        /// <param name="vector">vector to get value for</param>
+        /// <param name="index">index in the vector to get value for</param>
+        /// <returns>the value at index</returns>
         let get (vector:Vector<'T>) index  = vector.[index]
-        /// <summary>Sets the value x to the vector a at the given index i</summary>
-        /// <remarks></remarks>
-        /// <param name="vector"></param>
-        /// <returns></returns>
-        /// <example>
-        /// <code>
-        /// </code>
-        /// </example>
+        /// <summary>Sets the value to the vector a at the given index</summary>
+        /// <param name="vector">vector to set value for</param>
+        /// <param name="index">index in the vector to set value for</param>
+        /// <param name="value">value to set in the vector</param>
         let set (vector:Vector<'T>) index value  = vector.[index] <- value
         /// <summary>Returns length of vector v</summary>
         /// <remarks></remarks>
@@ -664,7 +650,7 @@ module Vector =
                 let current = items.[index]
                 loop (index+1) (min current minimum) (max current maximum)
             else
-                Interval.CreateClosed<'a> (minimum,maximum)
+                Interval.CreateClosed<_> (minimum,maximum)
         //Init by fist value
         if items.Length > 1 then
             loop 1 items.[0] items.[0] 
@@ -870,8 +856,8 @@ module VectorExtension =
         /// Creates an vector with values between a given interval
         /// </summary>
         /// <param name="start">start value (is included)</param>
-        /// <param name="stop">end value (by default is included )</param>
-        /// <param name="Num">sets the number of elements in the vector. If not set, stepsize = 1.</param>
+        /// <param name="stop">end value (by default is included)</param>
+        /// <param name="num">sets the number of elements in the vector. If not set, stepsize = 1.</param>
         /// <param name="IncludeEndpoint">If false, the vector does not contain the stop value</param>
         static member linspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : vector = 
         
@@ -884,7 +870,7 @@ module VectorExtension =
         /// </summary>
         /// <param name="start">start value (is included)</param>
         /// <param name="stop">end value (by default is included)</param>
-        /// <param name="Num">sets the number of elements in the vector. Defaults to 50.</param>
+        /// <param name="num">sets the number of elements in the vector. Defaults to 50.</param>
         /// <param name="IncludeEndpoint">If false, the vector does not contain the stop value. Defaults to true.</param>
         static member geomspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : vector = 
             let includeEndpoint = defaultArg IncludeEndpoint true

@@ -2,7 +2,6 @@ namespace FSharp.Stats
 
 
 /// Module to compute common statistical measure
-[<AutoOpen>]
 module Seq = 
 
     module OpsS = SpecializedGenericImpl
