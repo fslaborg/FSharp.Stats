@@ -193,7 +193,8 @@ module DistanceMetrics =
                     Some (dist ** (1.0 / p))
                 else
                     Some dist
- 
+    
+    [<RequireQualifiedAccess>]    
     module Array =
         
         /// <summary>Calculates Hamming distance of two coordinate arrays</summary>

@@ -1,10 +1,7 @@
 // (c) Microsoft Corporation 2005-2009.
 
-//namespace Microsoft.FSharp.Math.LinearAlgebra // old namespace
 namespace FSharp.Stats.Algebra
 
-//open Microsoft.FSharp.Math
-//open Microsoft.FSharp.Math. Bindings.Internals.NativeUtilities
 open FSharp.Stats
 /// This module is for internal use only.
 module LinearAlgebraManaged = 

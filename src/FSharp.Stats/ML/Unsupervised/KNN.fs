@@ -6,6 +6,7 @@ module KNN =
 
     open FSharp.Stats.DistanceMetrics
 
+    [<RequireQualifiedAccess>]    
     module Array =
 
         /// <summary>
@@ -46,7 +47,8 @@ module KNN =
                     |> fst
 
                 Some label
-        
+
+    [<RequireQualifiedAccess>]
     module Seq =
 
         /// <summary>

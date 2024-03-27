@@ -38,7 +38,7 @@ module Correlation =
             |> (/) ((value - med) * weight)
 
     /// Contains correlation functions optimized for sequences
-    [<AutoOpen>]
+    [<RequireQualifiedAccess>]
     module Seq = 
         /// <summary>Calculates the pearson correlation of two samples. Homoscedasticity must be assumed.</summary>
         /// <remarks></remarks>
@@ -488,7 +488,7 @@ module Correlation =
         /// </code>
         /// </example>
         let autoCorrelation lag v1 = 
-            correlationOf pearson lag v1 v1
+            correlationOf Seq.pearson lag v1 v1
 
         /// <summary>computes the sample auto corvariance of a signal at a given lag.</summary>
         /// <remarks></remarks>
@@ -513,7 +513,7 @@ module Correlation =
         /// </code>
         /// </example>
         let normalizedXCorr lag v1 v2 = 
-            correlationOf pearson lag v1 v2
+            correlationOf Seq.pearson lag v1 v2
 
         /// <summary>computes the unnormalized (using only the dot product) cross-correlation of signals v1 and v2 at a given lag.</summary>
         /// <remarks></remarks>

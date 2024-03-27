@@ -14,15 +14,12 @@
 //    RV   = row vector (dense)
 
 
-//namespace Microsoft.FSharp.Math // old namespace
 namespace FSharp.Stats
 
     #nowarn "60" // implementations in augmentations
     #nowarn "69" // implementations in augmentations
 
-    //open Microsoft.FSharp.Math
     open System
-    open System.Globalization
     open System.Collections
     open System.Collections.Generic
     open System.Diagnostics
@@ -2131,7 +2128,7 @@ namespace FSharp.Stats
 
 //----------------------------------------------------------------------------
 // type Matrix<'T> augmentation 
-//--------------------------------------------------------------------------*)
+//----------------------------------------------------------------------------
 // Interface implementation
 
     type Matrix<'T> with
@@ -2384,7 +2381,7 @@ namespace FSharp.Stats
 
 //----------------------------------------------------------------------------
 // type Vector<'T> augmentation
-//--------------------------------------------------------------------------*)
+//----------------------------------------------------------------------------
 // Interface implementation
 
     type Vector<'T> with
@@ -2458,7 +2455,7 @@ namespace FSharp.Stats
 
 //----------------------------------------------------------------------------
 // type RowVector<'T> augmentation
-//--------------------------------------------------------------------------*)
+//----------------------------------------------------------------------------
 
     type RowVector<'T> with
         static member ( +  )(a: RowVector<'T>,b) = SpecializedGenericImpl.addRV a b

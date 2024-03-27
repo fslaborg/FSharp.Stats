@@ -55,7 +55,8 @@ module DistanceMetrics =
         /// </example>
         let cityblockNaN (v1:Vector<float>) (v2:Vector<float>) = 
             DistanceMetrics.Vector.cityblockNaN v1 v2
- 
+    
+    [<RequireQualifiedAccess>]
     module Array = 
         
         [<Obsolete("Use FSharp.Stats.DistanceMetrics.Array.euclidean instead")>]

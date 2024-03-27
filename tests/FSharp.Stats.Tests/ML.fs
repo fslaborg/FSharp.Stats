@@ -389,9 +389,6 @@ module hClust =
 
 module KNN =
     open FSharp.Stats.ML.Unsupervised
-    open FSharp.Stats.ML.Unsupervised.KNN.Array
-    open FSharp.Stats.ML.Unsupervised.KNN.Seq
-    open FSharp.Stats.Vector
 
     [<Tests>]
     let knnTests = 
