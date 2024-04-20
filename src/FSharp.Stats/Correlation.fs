@@ -283,15 +283,21 @@ module Correlation =
             |> spearmanOfPairs
 
         /// <summary>Kendall Correlation Coefficient </summary>
-        /// <remarks></remarks>
-        /// <param name="setA"></param>
-        /// <param name="setB"></param>
-        /// <returns></returns>
+        /// <remarks>Computes Kendall rank correlation coefficient between two sequences of observations.</remarks>
+        /// <param name="seq1">The first sequence of observations.</param>
+        /// <param name="seq2">The second sequence of observations.</param>
+        /// <returns>Kendall rank correlation coefficient of setA and setB</returns>
         /// <example>
         /// <code>
+        /// let x = [5.05;6.75;3.21;2.66]
+        /// let y = [1.65;26.5;-0.64;6.95]
+        ///
+        /// Seq.kendall x y // evaluates to 0.3333333333
         /// </code>
         /// </example>
-        let kendall (setA:_[]) (setB:_[]) =
+        let kendall seq1 seq2 =
+            let setA = Array.ofSeq seq1
+            let setB = Array.ofSeq seq2
             let lengthArray = Array.length setA
             let inline kendallCorrFun (setA:_[]) (setB:_[]) =
                 let rec loop i j cCon cDisc cTieA cTieB cPairs =      
@@ -440,7 +446,7 @@ module Correlation =
         /// </summary>
         /// <param name="f">A function applied to transform each element of the sequence into a tuple of paired observations.</param>
         /// <param name="seq">The input sequence.</param>
-        /// <returns>The kendall correlation coefficient.</returns>
+        /// <returns>The Biweighted Midcorrelation.</returns>
         /// <example>
         /// <code>
         /// // To get the correlation between A and B observations:
