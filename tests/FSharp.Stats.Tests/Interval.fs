@@ -256,8 +256,8 @@ let intervalTests =
             Expect.equal actualFalse expectedFalse "Intervals do not intersect"
             
             let actualFalse2 = 
-                let i1 = Interval.Open (3,5)
-                let i2 = Interval.Open (5,9)
+                let i1 = Interval.RightOpen (3,5)
+                let i2 = Interval.LeftOpen (5,9)
                 Interval.isIntersection i1 i2
             Expect.equal actualFalse2 false "Intervals (3,5) and (5,9) do not intersect"
             
