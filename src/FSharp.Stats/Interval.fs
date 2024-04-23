@@ -288,92 +288,156 @@ module Interval =
         | Interval.Empty,Interval.Empty -> Interval.Empty
         | _ -> failwithf "Subtraction of (half) open intervals is not supported!"
         
-    // a0----a1
-    //     b0-----b1
-    /// <summary>Checking for intersection of both intervals</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let inline isIntersection (a: Interval<'a>) b =
+
+    /// <summary>Checks if two intervals intersect</summary>
+    /// <param name="a">The first interval</param>
+    /// <param name="b">The second interval</param>
+    /// <returns>True if the intervals intersect, false otherwise</returns>
+    let inline isIntersection a b =
         match a,b with
+        | Interval.Empty, Interval.Empty  -> true
+        | Interval.Empty, _ | _, Interval.Empty -> false
         | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) -> minA <= maxB && minB <= maxA
-        | Interval.Closed (minA,maxA), Interval.Open (minB,maxB) -> minA < maxB && minB < maxA
-        | Interval.Closed (minA,maxA), Interval.RightOpen (minB,maxB) -> minA < maxB && minB <= maxA
-        | Interval.Closed (minA,maxA), Interval.LeftOpen (minB,maxB) -> minA <= maxB && minB < maxA
-        | Interval.Closed (_,_), Interval.Empty -> false
-        | Interval.Open (minA,maxA), Interval.Closed (minB,maxB) -> minA < maxB && minB < maxA
-        | Interval.Open (minA,maxA), Interval.Open (minB,maxB) -> minA < maxB && minB < maxA
-        | Interval.Open (minA,maxA), Interval.RightOpen (minB,maxB) -> minA < maxB && minB < maxA
-        | Interval.Open (minA,maxA), Interval.LeftOpen (minB,maxB) -> minA < maxB && minB < maxA
-        | Interval.Open (_,_), Interval.Empty -> false
-        | Interval.LeftOpen (minA,maxA), Interval.Closed (minB,maxB) -> minA < maxB && minB <= maxA
-        | Interval.LeftOpen (minA,maxA), Interval.Open (minB,maxB) -> minA < maxB && minB < maxA
-        | Interval.LeftOpen (minA,maxA), Interval.RightOpen (minB,maxB) -> minA <= maxB && minB <= maxA
-        | Interval.LeftOpen (minA,maxA), Interval.LeftOpen (minB,maxB) -> minA < maxB && minB < maxA
-        | Interval.LeftOpen (_,_), Interval.Empty -> false
-        | Interval.RightOpen (minA,maxA), Interval.Closed (minB,maxB) -> minA <= maxB && minB < maxA
-        | Interval.RightOpen (minA,maxA), Interval.Open (minB,maxB) -> minA < maxB && minB < maxA
-        | Interval.RightOpen (minA,maxA), Interval.RightOpen (minB,maxB) -> minA < maxB && minB < maxA
-        | Interval.RightOpen (minA,maxA), Interval.LeftOpen (minB,maxB) -> minA <= maxB && minB <= maxA
-        | Interval.RightOpen (_,_), Interval.Empty -> false
-        | Interval.Empty, Interval.Closed (_,_) -> false
-        | Interval.Empty, Interval.Open (_,_) -> false
-        | Interval.Empty, Interval.LeftOpen (_,_) -> false
-        | Interval.Empty, Interval.RightOpen (_,_) -> false
-        | Interval.Empty,Interval.Empty -> true
+        | Interval.Open (minA,maxA), Interval.Open (minB,maxB) 
+        | Interval.LeftOpen (minA,maxA), Interval.LeftOpen (minB,maxB)
+        | Interval.RightOpen (minA,maxA), Interval.RightOpen (minB,maxB) -> minA < maxB && minB < maxA && max minA minB < min maxA maxB
+        | Interval.Open (minB,maxB), Interval.Closed (minA,maxA)
+        | Interval.Closed (minA,maxA), Interval.Open (minB,maxB) -> (minB < minA && maxB > minA) || (minB >= minA && ((maxB <= maxA && minB <> maxB) || (minB < maxA && maxB > maxA)))
+        | Interval.RightOpen (minB,maxB), Interval.Closed (minA,maxA)
+        | Interval.Closed (minA,maxA), Interval.RightOpen (minB,maxB) -> minA < maxB && minB <= maxA && not (maxB <= maxA && max minA minB = maxB)
+        | Interval.LeftOpen (minB,maxB), Interval.Closed (minA,maxA)
+        | Interval.Closed (minA,maxA), Interval.LeftOpen (minB,maxB) -> minA <= maxB && minB < maxA && not (minB >= minA && min maxA maxB = minB)
+        | Interval.RightOpen (minB,maxB), Interval.Open (minA,maxA)
+        | Interval.Open (minA,maxA), Interval.RightOpen (minB,maxB) -> minA < maxB && minB < maxA && not ((minB > minA && min maxA maxB = minB) || min maxA maxB = minA)
+        | Interval.LeftOpen (minB,maxB), Interval.Open (minA,maxA)
+        | Interval.Open (minA,maxA), Interval.LeftOpen (minB,maxB) -> minA < maxB && minB < maxA && not((maxB < maxA && max minA minB = maxB) || max minA minB = maxA)
+        | Interval.RightOpen (minB,maxB), Interval.LeftOpen (minA,maxA)
+        | Interval.LeftOpen (minA,maxA), Interval.RightOpen (minB,maxB) -> minA <= maxB && minB <= maxA && not((maxB <= maxA && (minA = maxB || (minA < minB && minB = maxB)) || minA = maxA))
         
 
-    /// <summary>Returns the intersection of this interval with another.</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let inline intersect (a: Interval<'a>) b =
-        if not (isIntersection a b) then
-            Interval.Empty
-        else
-            match a,b with
-            | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) -> 
-                if not (minA <= maxB && minB <= maxA) then
+    /// <summary>Returns the intersection of two intervals</summary>
+    /// <param name="a">The first interval</param>
+    /// <param name="b">The second interval</param>
+    /// <returns>The intersection of the two intervals</returns>
+    /// <exception cref="System.Exception">Thrown when trying to intersect mixed interval types</exception>
+    let inline intersect a b =
+        match a,b with
+        | Interval.Empty, _ | _, Interval.Empty -> Interval.Empty
+        | Interval.Closed (minA,maxA), Interval.Closed (minB,maxB) -> 
+            if minA <= maxB && minB <= maxA then 
+                Interval.Closed(max minA minB, min maxA maxB)
+            else 
+                Interval.Empty
+        | Interval.Open (minA,maxA), Interval.Open (minB,maxB) -> 
+            let min' = max minA minB
+            let max' = min maxA maxB
+            if min' < max' then 
+                Interval.Open(min',max')
+            else 
+                Interval.Empty
+        | Interval.LeftOpen (minA,maxA), Interval.LeftOpen (minB,maxB) -> 
+            let min' = max minA minB
+            let max' = min maxA maxB
+            if min' < max' then 
+                Interval.LeftOpen(min',max')
+            else 
+                Interval.Empty
+        | Interval.RightOpen (minA,maxA), Interval.RightOpen (minB,maxB) -> 
+            let min' = max minA minB
+            let max' = min maxA maxB
+            if min' < max' then 
+                Interval.RightOpen(min',max')
+            else 
+                Interval.Empty
+        | Interval.Open (minB,maxB), Interval.Closed (minA,maxA)
+        | Interval.Closed (minA,maxA), Interval.Open (minB,maxB) -> 
+            if minB >= minA then 
+                if maxB <= maxA then 
+                    if minB = maxB then 
                         Interval.Empty
+                    else
+                        Interval.Open(minB,maxB)
+                elif minB >= maxA then 
+                    Interval.Empty
                 else
-                    let min' = max minA minB
-                    let max' = min maxA maxB
-                    Interval.Closed (min',max') 
-            | Interval.Closed (min,max), Interval.Empty -> Interval.Empty
-            | Interval.Empty, Interval.Closed (min,max) -> Interval.Empty
-            | Interval.Empty,Interval.Empty -> Interval.Empty
-            | Interval.LeftOpen (minA,maxA), Interval.LeftOpen (minB,maxB) -> 
-                if not (minA < maxB && minB < maxA) then
+                    Interval.LeftOpen(minB,maxA)
+            else
+                if maxB <= maxA then 
+                    if maxB <= minA then 
                         Interval.Empty
+                    else
+                        Interval.RightOpen(minA,maxB)
+                else Interval.Closed(minA,maxA)
+        | Interval.RightOpen (minB,maxB), Interval.Closed (minA,maxA)
+        | Interval.Closed (minA,maxA), Interval.RightOpen (minB,maxB) ->
+            let min' = max minA minB
+            if maxB <= maxA then 
+                if min' >= maxB then 
+                    Interval.Empty
                 else
-                    let min' = max minA minB
-                    let max' = min maxA maxB
-                    Interval.LeftOpen (min',max')
-            | Interval.RightOpen (minA,maxA), Interval.RightOpen (minB,maxB) ->
-                if not (minA < maxB && minB < maxA) then
+                    Interval.RightOpen(min',maxB)
+            elif min' <= maxA then
+                Interval.Closed(min',maxA)
+            else 
+                Interval.Empty
+        | Interval.LeftOpen (minB,maxB), Interval.Closed (minA,maxA)
+        | Interval.Closed (minA,maxA), Interval.LeftOpen (minB,maxB) ->
+            let max' = min maxA maxB
+            if minB >= minA then 
+                if max' <= minB then 
+                    Interval.Empty
+                else
+                    Interval.LeftOpen(minB,max')
+            elif minA <= max' then
+                Interval.Closed(minA,max')
+            else 
+                Interval.Empty
+        | Interval.RightOpen (minB,maxB), Interval.Open (minA,maxA)
+        | Interval.Open (minA,maxA), Interval.RightOpen (minB,maxB) ->
+            let max' = min maxA maxB
+            if minB > minA then 
+                if max' <= minB then 
+                    Interval.Empty
+                else
+                    Interval.RightOpen(minB,max')
+            elif minA >= max' then 
+                Interval.Empty
+            else
+                Interval.Open(minA,max')
+        | Interval.LeftOpen (minB,maxB), Interval.Open (minA,maxA)
+        | Interval.Open (minA,maxA), Interval.LeftOpen (minB,maxB) -> 
+            let min' = max minA minB
+            if maxB < maxA then 
+                if min' >= maxB then 
+                    Interval.Empty
+                else
+                    Interval.LeftOpen(min',maxB)
+            elif min' >= maxA then
+                Interval.Empty
+            else 
+                Interval.Open(min',maxA)
+        | Interval.RightOpen (minB,maxB), Interval.LeftOpen (minA,maxA)
+        | Interval.LeftOpen (minA,maxA), Interval.RightOpen (minB,maxB) -> 
+            if maxB <= maxA then
+                if minA >= minB then 
+                    if minA >= maxB then 
                         Interval.Empty
+                    else
+                        Interval.Open(minA,maxB)
+                elif minB >= maxB then 
+                    Interval.Empty
                 else
-                    let min' = max minA minB
-                    let max' = min maxA maxB
-                    Interval.RightOpen (min',max')
-            | Interval.Open (minA,maxA), Interval.Open (minB,maxB) ->
-                if not (minA < maxB && minB < maxA) then
+                    Interval.RightOpen(minB,maxB)
+            else    
+                if minA >= minB then 
+                    if minA >= maxA then 
                         Interval.Empty
-                else
-                    let min' = max minA minB
-                    let max' = min maxA maxB
-                    Interval.Open (min',max')
-            | _ -> failwithf "Intersection of mixed interval types is not supported!"
+                    else
+                        Interval.LeftOpen(minA,maxA)
+                elif minB <= maxA then
+                    Interval.Closed(minB,maxA)
+                else 
+                    Interval.Empty    
 
     /// <summary>Get the value at a given percentage within (0.0 - 1.0) or outside (&lt; 0.0, &gt; 1.0) of the interval. Rounding to nearest neighbour occurs when needed.</summary>
     /// <remarks></remarks>

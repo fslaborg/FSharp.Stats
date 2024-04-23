@@ -253,7 +253,13 @@ let intervalTests =
                 let i2 = Interval.CreateClosed<float> (-infinity,-6.)
                 Interval.isIntersection i1 i2
             let expectedFalse = false
-            Expect.equal actual expected "Intervals do not intersect"
+            Expect.equal actualFalse expectedFalse "Intervals do not intersect"
+            
+            let actualFalse2 = 
+                let i1 = Interval.Open (3,5)
+                let i2 = Interval.Open (5,9)
+                Interval.isIntersection i1 i2
+            Expect.equal actualFalse2 false "Intervals (3,5) and (5,9) do not intersect"
             
             let actualCE = 
                 let i1 = Interval.CreateClosed<float> (-5.,5.5)
@@ -431,6 +437,155 @@ let intervalTests =
                 Interval.intersect i1 i2
             let expectedStrT = Interval.CreateClosed<string> ("d","d")
             Expect.equal actualStrT expectedStrT "String intervals do intersect"
+
+            let actualCO1 = 
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateOpen<int> (1,4)
+                Interval.intersect i1 i2
+            let expectedCO1 = Interval.CreateRightOpen<int> (3,4)
+            Expect.equal actualCO1 expectedCO1 "Interval intersect is calculated incorrectly"
+
+            let actualCO2 = 
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateOpen<int> (4,7)
+                Interval.intersect i1 i2
+            let expectedCO2 = Interval.CreateLeftOpen<int> (4,6)
+            Expect.equal actualCO2 expectedCO2 "Interval intersect is calculated incorrectly"
+
+            let actualCO3 = 
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateOpen<int> (4,5)
+                Interval.intersect i1 i2
+            let expectedCO3 = Interval.CreateOpen<int> (4,5)
+            Expect.equal actualCO3 expectedCO3 "Interval intersect is calculated incorrectly"
+
+            let actualCO4 = 
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateOpen<int> (1,7)
+                Interval.intersect i1 i2
+            let expectedCO4 = Interval.CreateClosed<int> (3,6)
+            Expect.equal actualCO4 expectedCO4 "Interval intersect is calculated incorrectly"
+
+            let actualCO5 = 
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateOpen<int> (1,3)
+                Interval.intersect i1 i2
+            let expectedCO5 = Interval.Empty
+            Expect.equal actualCO5 expectedCO5 "Interval intersect is calculated incorrectly"
+
+            let actualCLO1 =
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateLeftOpen<int> (1,4)
+                Interval.intersect i1 i2
+            let expectedCLO1 = Interval.CreateClosed<int> (3,4)
+            Expect.equal actualCLO1 expectedCLO1 "Interval intersect is calculated incorrectly"
+
+            let actualCLO2 =
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateLeftOpen<int> (4,7)
+                Interval.intersect i1 i2
+            let expectedCLO2 = Interval.CreateLeftOpen<int> (4,6)
+            Expect.equal actualCLO2 expectedCLO2 "Interval intersect is calculated incorrectly"
+
+            let actualCLO3 =
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateLeftOpen<int> (4,5)
+                Interval.intersect i1 i2
+            let expectedCLO3 = Interval.CreateLeftOpen<int> (4,5)
+            Expect.equal actualCLO3 expectedCLO3 "Interval intersect is calculated incorrectly"
+
+            let actualCLO4 =
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateLeftOpen<int> (1,7)
+                Interval.intersect i1 i2
+            let expectedCLO4 = Interval.CreateClosed<int> (3,6)
+            Expect.equal actualCLO4 expectedCLO4 "Interval intersect is calculated incorrectly"
+
+            let actualCLO5 =
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateLeftOpen<int> (1,3)
+                Interval.intersect i1 i2
+            let expectedCLO5 = Interval.CreateClosed<int> (3,3)
+            Expect.equal actualCLO5 expectedCLO5 "Interval intersect is calculated incorrectly"
+
+            let actualCRO1 = 
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (1,4)
+                Interval.intersect i1 i2
+            let expectedCRO1 = Interval.CreateRightOpen<int> (3,4)
+            Expect.equal actualCRO1 expectedCRO1 "Interval intersect is calculated incorrectly"
+
+            let actualCRO2 = 
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (4,7)
+                Interval.intersect i1 i2
+            let expectedCRO2 = Interval.CreateClosed<int> (4,6)
+            Expect.equal actualCRO2 expectedCRO2 "Interval intersect is calculated incorrectly"
+
+            let actualCRO3 = 
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (4,5)
+                Interval.intersect i1 i2
+            let expectedCRO3 = Interval.CreateRightOpen<int> (4,5)
+            Expect.equal actualCRO3 expectedCRO3 "Interval intersect is calculated incorrectly"
+
+            let actualCRO4 = 
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (1,7)
+                Interval.intersect i1 i2
+            let expectedCRO4 = Interval.CreateClosed<int> (3,6)
+            Expect.equal actualCRO4 expectedCRO4 "Interval intersect is calculated incorrectly"
+
+            let actualCRO5 = 
+                let i1 = Interval.CreateClosed<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (1,3)
+                Interval.intersect i1 i2
+            let expectedCRO5 = Interval.Empty
+            Expect.equal actualCRO5 expectedCRO5 "Interval intersect is calculated incorrectly"
+
+            let actualROLO1 = 
+                let i1 = Interval.CreateLeftOpen<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (1,4)
+                Interval.intersect i1 i2
+            let expectedROLO1 = Interval.CreateOpen<int> (3,4)
+            Expect.equal actualROLO1 expectedROLO1 "Interval intersect is calculated incorrectly"
+
+            let actualROLO2 = 
+                let i1 = Interval.CreateLeftOpen<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (4,7)
+                Interval.intersect i1 i2
+            let expectedROLO2 = Interval.CreateClosed<int> (4,6)
+            Expect.equal actualROLO2 expectedROLO2 "Interval intersect is calculated incorrectly"
+
+            let actualROLO3 = 
+                let i1 = Interval.CreateLeftOpen<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (4,5)
+                Interval.intersect i1 i2
+            let expectedROLO3 = Interval.CreateRightOpen<int> (4,5)
+            Expect.equal actualROLO3 expectedROLO3 "Interval intersect is calculated incorrectly"
+
+            let actualROLO4 = 
+                let i1 = Interval.CreateLeftOpen<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (1,7)
+                Interval.intersect i1 i2
+            let expectedROLO4 = Interval.CreateLeftOpen<int> (3,6)
+            Expect.equal actualROLO4 expectedROLO4 "Interval intersect is calculated incorrectly"
+
+            let actualROLO5 = 
+                let i1 = Interval.CreateLeftOpen<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (1,3)
+                Interval.intersect i1 i2
+            let expectedROLO5 = Interval.Empty
+            Expect.equal actualROLO5 expectedROLO5 "Interval intersect is calculated incorrectly"
+
+            let actualROLO6 =
+                let i1 = Interval.CreateLeftOpen<int> (3,6)
+                let i2 = Interval.CreateRightOpen<int> (6,9)
+                Interval.intersect i1 i2
+            let expectedROLO6 = Interval.CreateClosed<int> (6,6)
+            Expect.equal actualROLO6 expectedROLO6 "Interval intersect is calculated incorrectly"
+
+                
             )
 
 
