@@ -281,17 +281,17 @@ module Array =
     /// <code>
     /// </code>
     /// </example>
-    let inline varOf mean (items: 'T []) =
+    let inline varOf mean (items: 'T []) : 'T =
         
-        let mutable variance = LanguagePrimitives.GenericZero
-        let mutable length = LanguagePrimitives.GenericZero
+        let mutable variance = LanguagePrimitives.GenericZero<'T>
+        let mutable length = LanguagePrimitives.GenericZero<'T>
                 
         for i = 0 to items.Length-1 do
             let z = items[i] - mean
             variance <- variance + (z * z)
-            length <- length + LanguagePrimitives.GenericOne
+            length <- length + LanguagePrimitives.GenericOne<'T>
         
-        variance / (length - LanguagePrimitives.GenericOne)
+        variance / (length - LanguagePrimitives.GenericOne<'T>)
 
 
     /// <summary>Computes the Weighted Variance</summary>
