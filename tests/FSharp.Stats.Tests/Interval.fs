@@ -15,7 +15,7 @@ let intervalTests =
         testCase "create" (fun _ -> 
 
             let expected = Interval.Closed (-5.,5.)
-            let actual = Interval.CreateClosed (-5.,5.)
+            let actual = Interval.Closed (-5.,5.)
             Expect.equal expected actual "Instantiation of Interval.Closed is incorrect"
         
             //let expectedError() = Intervals.create 5. -5. |> ignore

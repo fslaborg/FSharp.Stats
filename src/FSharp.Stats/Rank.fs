@@ -32,7 +32,7 @@ module Rank =
     /// </code>
     /// </example>
     let inline internal compNaNFirst<'U when 'U :> System.IComparable> = 
-        System.Collections.Generic.Comparer.Default
+        System.Collections.Generic.Comparer<'U>.Default
         
     /// <summary>Ranks each entry of the given unsorted data array. Use 'breakTies function to break ties</summary>
     /// <remarks></remarks>

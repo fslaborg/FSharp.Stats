@@ -49,7 +49,9 @@
             s.Replace("\r\n","\n").Split("\n")
         |> Array.skip 1
         |> Array.map (fun x -> 
-            x.Split(", ") |> fun ([|a;b|]) -> a, float b
+            match x.Split(", ") with
+            | [|a;b|] -> a, float b
+            | _ -> failwith "invalid csv format"
          )
 
  

@@ -602,7 +602,7 @@ module Matrix =
     /// <code>
     /// </code>
     /// </example>
-    let ofRows (rows: Vector<RowVector<'T>>) = DS.seqDenseMatrixDS rows |> MS.dense
+    let ofRows (rows: Vector<RowVector<_>>) = DS.seqDenseMatrixDS rows |> MS.dense
     /// <summary>returns a dense matrix with the inner vectors of the input rowvector as its columns</summary>
     /// <remarks></remarks>
     /// <param name="cols"></param>
@@ -611,7 +611,7 @@ module Matrix =
     /// <code>
     /// </code>
     /// </example>
-    let ofCols (cols: RowVector<Vector<'T>>) = DS.colSeqDenseMatrixDS cols |> MS.dense
+    let ofCols (cols: RowVector<Vector<_>>) = DS.colSeqDenseMatrixDS cols |> MS.dense
     /// <summary>reads matrix from delimiter separated file</summary>
     /// <remarks></remarks>
     /// <param name="path"></param>
