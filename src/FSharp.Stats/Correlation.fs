@@ -423,10 +423,10 @@ module Correlation =
         
         /// <summary>Kendall Correlation Coefficient</summary>
         /// <remarks>Computes Kendall rank correlation coefficient between two sequences of observations. Tau-a is used to acount for ties.
-        /// $/tau_a = (n_c - n_d) / n_0$
-        /// - $n_c$: number of concordant pairs
-        /// - $n_d$: number of discordant pairs
-        /// - $n_0$: number of pairs of observations
+        /// tau_a = (n_c - n_d) / n_0 where 
+        /// n_c is the number of concordant pairs, 
+        /// n_d is the number of discordant pairs, and
+        /// n_0 = n*(n-1)/2 where n is the number of observations.
         /// </remarks>
         /// <param name="seq1">The first sequence of observations.</param>
         /// <param name="seq2">The second sequence of observations.</param>
@@ -446,12 +446,12 @@ module Correlation =
 
         /// <summary>Kendall Correlation Coefficient</summary>
         /// <remarks>Computes Kendall rank correlation coefficient between two sequences of observations. Tau-b is used to acount for ties.
-        /// $/tau_b = (n_c - n_d) / sqrt((n_0 - n_1) * (n_0 - n_2))$
-        /// - $n_c$: number of concordant pairs
-        /// - $n_d$: number of discordant pairs
-        /// - $n_0$: number of pairs of observations
-        /// - $n_1$: number of pairs of observations with the same x value
-        /// - $n_2$: number of pairs of observations with the same y value
+        /// tau_b = (n_c - n_d) / sqrt((n_0 - n_1) * (n_0 - n_2)) where
+        /// n_c is number of concordant pairs, 
+        /// n_d is number of discordant pairs, 
+        /// n_0 = n*(n-1)/2 where n is the number of observations,
+        /// n_1 = sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value,
+        /// n_2 = sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.
         /// </remarks>
         /// <param name="seq1">The first sequence of observations.</param>
         /// <param name="seq2">The second sequence of observations.</param>
@@ -471,12 +471,11 @@ module Correlation =
         
         /// <summary>Kendall Correlation Coefficient</summary>
         /// <remarks>Computes Kendall rank correlation coefficient between two sequences of observations. Tau-c is used to acount for ties which is prefered to tau-b when x and y have a different number of possible values.
-        /// $/tau_c = 2(n_c - n_d) / (n^2 * (m-1)/m)$
-        /// - $n_c$: number of concordant pairs
-        /// - $n_d$: number of discordant pairs
-        /// - $n_1$: number of pairs of observations with the same x value
-        /// - $n_2$: number of pairs of observations with the same y value
-        /// - $m$: min(distinct x, distinct y)
+        /// tau_c = 2(n_c - n_d) / (n^2 * (m-1)/m) where
+        /// n_c is number of concordant pairs,
+        /// n_d is number of discordant pairs,
+        /// n is the number of observations,
+        /// m = min(distinct x, distinct y).
         /// </remarks>
         /// <param name="seq1">The first sequence of observations.</param>
         /// <param name="seq2">The second sequence of observations.</param>
@@ -498,12 +497,12 @@ module Correlation =
 
         /// <summary>Kendall Correlation Coefficient</summary>
         /// <remarks>Computes Kendall rank correlation coefficient between two sequences of observations. Tau-b is used to acount for ties.
-        /// $/tau_b = (n_c - n_d) / sqrt((n_0 - n_1) * (n_0 - n_2))$
-        /// - $n_c$: number of concordant pairs
-        /// - $n_d$: number of discordant pairs
-        /// - $n_0$: number of pairs of observations
-        /// - $n_1$: number of pairs of observations with the same x value
-        /// - $n_2$: number of pairs of observations with the same y value
+        /// tau_b = (n_c - n_d) / sqrt((n_0 - n_1) * (n_0 - n_2)) where
+        /// n_c is number of concordant pairs,
+        /// n_d is number of discordant pairs,
+        /// n_0 = n*(n-1)/2 where n is the number of observations,
+        /// n_1 = sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value,
+        /// n_2 = sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.
         /// </remarks>
         /// <param name="seq1">The first sequence of observations.</param>
         /// <param name="seq2">The second sequence of observations.</param>
