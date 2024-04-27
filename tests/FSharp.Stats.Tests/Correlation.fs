@@ -230,9 +230,17 @@ let inline makeTestList listName caseName corr prop cases =
     |> testList $"Correlation.Seq.{listName}"
 
 [<Tests>]
-let kendallTauBDoubles = TestData.doubles |> makeTestList "kendall" "Double" Seq.kendall (fun x -> x.KendallB)
+let kendallTauADoubles = TestData.doubles |> makeTestList "kendallTauA" "Double" Seq.kendallTauA (fun x -> x.KendallA)
 [<Tests>]
-let kendallTauBInts = TestData.ints |> makeTestList "kendall" "Int" Seq.kendall (fun x -> x.KendallB)
+let kendallTauAInts = TestData.ints |> makeTestList "kendallTauA" "Int" Seq.kendallTauA (fun x -> x.KendallA)
+[<Tests>]
+let kendallTauBDoubles = TestData.doubles |> makeTestList "kendallTauB" "Double" Seq.kendall (fun x -> x.KendallB)
+[<Tests>]
+let kendallTauBInts = TestData.ints |> makeTestList "kendallTauB" "Int" Seq.kendall (fun x -> x.KendallB)
+[<Tests>]
+let kendallTauCDoubles = TestData.doubles |> makeTestList "kendallTauC" "Double" Seq.kendallTauC (fun x -> x.KendallC)
+[<Tests>]
+let kendallTauCInts = TestData.ints |> makeTestList "kendallTauC" "Int" Seq.kendallTauC (fun x -> x.KendallC)
 [<Tests>]
 let pearsonDoubles = TestData.doubles |> makeTestList "pearson" "Double" Seq.pearson (fun x -> x.Pearson)
 [<Tests>]
