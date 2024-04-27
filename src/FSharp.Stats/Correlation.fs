@@ -422,7 +422,7 @@ module Correlation =
                 tau x y pq n0 n1 n2 
         
         /// <summary>Kendall Correlation Coefficient</summary>
-        /// <remarks>Computes Kendall rank correlation coefficient between two sequences of observations. Tau-a is used to acount for ties.
+        /// <remarks>Computes Kendall Tau-A rank correlation coefficient between two sequences of observations. No adjustment is made for ties.
         /// tau_a = (n_c - n_d) / n_0 where 
         /// n_c is the number of concordant pairs, 
         /// n_d is the number of discordant pairs, and
@@ -445,17 +445,17 @@ module Correlation =
             kendallTau Kendall.tauA setA setB
 
         /// <summary>Kendall Correlation Coefficient</summary>
-        /// <remarks>Computes Kendall rank correlation coefficient between two sequences of observations. Tau-b is used to acount for ties.
+        /// <remarks>Computes Kendall Tau-B rank correlation coefficient between two sequences of observations. Tau-b is used to adjust for ties.
         /// tau_b = (n_c - n_d) / sqrt((n_0 - n_1) * (n_0 - n_2)) where
         /// n_c is number of concordant pairs, 
         /// n_d is number of discordant pairs, 
         /// n_0 = n*(n-1)/2 where n is the number of observations,
-        /// n_1 = sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value,
-        /// n_2 = sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.
+        /// n_1 = sum_i(t_i(t_i-1)/2) where t_i is the number of pairs of observations with the same x value,
+        /// n_2 = sum_i(u_i(u_i-1)/2) where u_i is the number of pairs of observations with the same y value.
         /// </remarks>
         /// <param name="seq1">The first sequence of observations.</param>
         /// <param name="seq2">The second sequence of observations.</param>
-        /// <returns>Kendall rank correlation coefficient of setA and setB</returns>
+        /// <returns>Kendall Tau-B rank correlation coefficient of setA and setB</returns>
         /// <example>
         /// <code>
         /// let x = [5.05;6.75;3.21;2.66]
@@ -470,7 +470,7 @@ module Correlation =
             kendallTau Kendall.tauB setA setB
         
         /// <summary>Kendall Correlation Coefficient</summary>
-        /// <remarks>Computes Kendall rank correlation coefficient between two sequences of observations. Tau-c is used to acount for ties which is prefered to tau-b when x and y have a different number of possible values.
+        /// <remarks>Computes Kendall Tau-C rank correlation coefficient between two sequences of observations. Tau-c is used to adjust for ties which is prefered to tau-b when x and y have a different number of possible values.
         /// tau_c = 2(n_c - n_d) / (n^2 * (m-1)/m) where
         /// n_c is number of concordant pairs,
         /// n_d is number of discordant pairs,
@@ -479,7 +479,7 @@ module Correlation =
         /// </remarks>
         /// <param name="seq1">The first sequence of observations.</param>
         /// <param name="seq2">The second sequence of observations.</param>
-        /// <returns>Kendall rank correlation coefficient of setA and setB</returns>
+        /// <returns>Kendall Tau-C rank correlation coefficient of setA and setB</returns>
         /// <example>
         /// <code>
         /// let x = [1;1;1;2;2;2;3;3;3]
@@ -496,17 +496,11 @@ module Correlation =
             kendallTau Kendall.tauC setA setB
 
         /// <summary>Kendall Correlation Coefficient</summary>
-        /// <remarks>Computes Kendall rank correlation coefficient between two sequences of observations. Tau-b is used to acount for ties.
-        /// tau_b = (n_c - n_d) / sqrt((n_0 - n_1) * (n_0 - n_2)) where
-        /// n_c is number of concordant pairs,
-        /// n_d is number of discordant pairs,
-        /// n_0 = n*(n-1)/2 where n is the number of observations,
-        /// n_1 = sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value,
-        /// n_2 = sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.
+        /// <remarks>Computes Kendall Tau-B rank correlation coefficient between two sequences of observations.
         /// </remarks>
         /// <param name="seq1">The first sequence of observations.</param>
         /// <param name="seq2">The second sequence of observations.</param>
-        /// <returns>Kendall rank correlation coefficient of setA and setB</returns>
+        /// <returns>Kendall Tau-B rank correlation coefficient of setA and setB</returns>
         /// <example>
         /// <code>
         /// let x = [5.05;6.75;3.21;2.66]
