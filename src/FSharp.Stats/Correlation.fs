@@ -361,9 +361,6 @@ module Correlation =
             // - Count the number of concordant and discordant pairs.
             // - Count the number of ties in x, y, and both.
             // - Calculate the tau statistic.
-            //   - tau a: no adjustment for ties.
-            //   - tau b: adjustment for ties in x.
-            //   - tau c: adjustment for ties in x and y.
             if x.Length <> y.Length then
                 invalidArg "y" "The input arrays must have the same length"
             elif x.Length = 0 then
