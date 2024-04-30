@@ -70,6 +70,20 @@ let linspaceTests =
             let expected = Array.linspace(start= -3.5,stop= 30.1,num=6,IncludeEndpoint=false)
             let actual = [|-3.5;  2.1;  7.7; 13.3; 18.9; 24.5|]
             TestExtensions.sequenceEqual (Accuracy.high) actual expected "linspace results in wrong array"
-      
-        
+    ]
+
+
+[<Tests>]
+let varianceTests =
+    testList "Array" [
+        testCase "variance float" <| fun () ->
+            let testArray = [|1.; 2.; 3.; 4.; 5.|]
+            let expected = 2.5
+            let actual = Array.varOf (Array.average testArray) testArray
+            Expect.floatClose Accuracy.high actual expected "Variance is incorrect"
+        testCase "variance float32" <| fun () ->
+            let testArray = [|1.f; 2.f; 3.f; 4.f; 5.f|]
+            let expected = 2.5f
+            let actual : float32 = Array.varOf (Array.average testArray) testArray
+            Expect.floatClose Accuracy.high (float actual) (float expected) "Variance is incorrect"
     ]

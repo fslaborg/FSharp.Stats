@@ -166,7 +166,7 @@ module Ops =
         
 
 
-    let inline nthroot n (A:'T) : 'U =
+    let inline nthroot n A : 'U =
         let rec f x =
             let m = n - 1
             let m' = multByInt32 x m

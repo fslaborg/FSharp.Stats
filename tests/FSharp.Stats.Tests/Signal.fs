@@ -60,11 +60,11 @@ let outlierTests =
                 TestExtensions.sequenceEqual Accuracy.high (zScoresOfSample ls) zLsSample "Z-Score of a sample was calculated incorrectly"
                 
             testCase "Population interval by Z-Score" <| fun()->
-                let populationInterval = Interval.CreateClosed (-0.3635434661,3.432572444)
+                let populationInterval = Interval.Closed (-0.3635434661,3.432572444)
                 compareIntervals (populationIntervalByZScore -0.3 0.5 ls) populationInterval "Z-Score interval in a population was calculated incorrectly"
 
             testCase "Sample interval by Z-Score" <| fun()->
-                let sampleInterval = Interval.CreateClosed (-0.4405465671,3.560910945)
+                let sampleInterval = Interval.Closed (-0.4405465671,3.560910945)
                 compareIntervals (sampleIntervalByZscore -0.3 0.5 ls) sampleInterval "Z-Score interval in a sample was calculated incorrectly"
         ]
 

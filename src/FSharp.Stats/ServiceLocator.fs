@@ -183,7 +183,7 @@ module ServiceLocator =
             | ServiceDisabled                          -> "Disabled"           
             | ServiceEnabledFailed                     -> "Failed to start"
             | ServiceEnabledUninitialised              -> "Will auto enable on demand"
-            | ServiceEnabledOK (service,justification) -> "Enabled\n" ^ justification
+            | ServiceEnabledOK (service,justification) -> "Enabled\n" + justification
 
   
 

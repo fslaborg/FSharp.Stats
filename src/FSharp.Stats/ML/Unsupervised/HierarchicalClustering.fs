@@ -391,20 +391,20 @@ module HierarchicalClustering =
 
 
 
-    type ClusterIndex(c:Cluster<array<float>>) =
+    type ClusterIndex<'T>(c:Cluster<'T>) =
         inherit FastPriorityQueueNode()
         member this.Cluster = c
 
         
-    let initPairsNR (cachedDist:DistanceCaching<float[]>) (arr :array<'T>) =
-        let dict = new Dictionary<Cluster<'T>,FastPriorityQueue<ClusterIndex>>()
+    let initPairsNR (cachedDist:DistanceCaching<'T>) (arr :array<'T>) =
+        let dict = new Dictionary<Cluster<'T>,FastPriorityQueue<ClusterIndex<_>>>()
 
         for i=0 to arr.Length-1 do        
         //todo
-            let tmpQueue = FastPriorityQueue<ClusterIndex>(10000)
-            let leftCluster = createClusterValue (i) arr.[i]
+            let tmpQueue = FastPriorityQueue<ClusterIndex<'T>>(10000)
+            let leftCluster : 'T Cluster = createClusterValue (i) arr.[i]
             for ii=i+1 to arr.Length-1 do
-                let rightCluster = createClusterValue (ii) arr.[ii]
+                let rightCluster : 'T Cluster = createClusterValue (ii) arr.[ii]
                 let dist = cachedDist.calcDistance leftCluster rightCluster
                 tmpQueue.Enqueue(ClusterIndex(rightCluster), float32 dist)
             dict.Add(leftCluster,tmpQueue)
@@ -413,11 +413,11 @@ module HierarchicalClustering =
 
 
 
-    let minDequeue (source: Dictionary<Cluster<array<float>>,FastPriorityQueue<ClusterIndex>>) =    
+    let minDequeue (source: Dictionary<Cluster<'T>,FastPriorityQueue<ClusterIndex<_>>>) =    
 
         use mutable e = source.GetEnumerator()
         if not (e.MoveNext()) then
-            invalidArg "source" LanguagePrimitives.ErrorStrings.InputSequenceEmptyString
+            invalidArg "source" "The input sequence was empty."
 
         let first = e.Current
         let mutable accv = first
@@ -449,11 +449,10 @@ module HierarchicalClustering =
 
 
     // Loops while all clusters are merged
-    let rec whileLoop (cachedDist:DistanceCaching<float[]>)  (source: Dictionary<Cluster<array<float>>,FastPriorityQueue<ClusterIndex>>)  (countIndex:int) =
+    let rec whileLoop (cachedDist:DistanceCaching<'T>)  (source: Dictionary<Cluster<'T>,FastPriorityQueue<ClusterIndex<_>>>)  (countIndex:int) =
         if source.Count > 1 then
             // find closest 
-            let minKv = 
-                minDequeue source 
+            let minKv = minDequeue source 
             let leftCluster = minKv.Key
             let rightCluster = minKv.Value.First.Cluster
             let dist = minKv.Value.First.Priority |> float //cachedDist.calcDistance leftCluster rightCluster
@@ -466,7 +465,7 @@ module HierarchicalClustering =
             let cluster = createCluster (countIndex) dist leftCluster rightCluster
             
             //todo
-            let tmpQueue = FastPriorityQueue<ClusterIndex>(10000)
+            let tmpQueue = FastPriorityQueue<ClusterIndex<_>>(10000)
             for kv in source do
 
                 let dist' = cachedDist.calcDistance cluster kv.Key 
@@ -481,10 +480,10 @@ module HierarchicalClustering =
             source
 
     /// Builds a hierarchy of clusters of data containing cluster labels
-    let generate<'T> (distance:Distance<float[]>) (linker:Linker.LancWilliamsLinker) (data:array<float[]>) = 
+    let generate<'T when 'T:equality> (distance:Distance<'T>) (linker:Linker.LancWilliamsLinker) (data:'T[]) = 
     
         //#region Distance Caching
-        let cachedDist = DistanceCaching<float[]> (distance,linker)
+        let cachedDist = DistanceCaching<'T> (distance,linker)
         
         let input = initPairsNR cachedDist data
         whileLoop cachedDist input data.Length
@@ -500,7 +499,7 @@ module HierarchicalClustering =
 
 
 
-    let flattenHClust (clusterTree:Cluster<float array>) = 
+    let flattenHClust (clusterTree:Cluster<'T>) = 
         let rec loop (c:Cluster<'T>) = [    
             match c with
             | Node (id,dist,cM,lc,rc)  -> 
@@ -525,7 +524,7 @@ module HierarchicalClustering =
     /// <code>
     /// </code>
     /// </example>
-    let cutHClust (desiredNumber:int) (clusterTree:Cluster<float array>) =    
+    let cutHClust (desiredNumber:int) (clusterTree:Cluster<'T>) =    
         let getInversDistance (c:Cluster<'T>) =
             match c with
             | Node (id,dist,cM,lc,rc)  -> - dist                                                            
@@ -560,7 +559,7 @@ module HierarchicalClustering =
     /// <code>
     /// </code>
     /// </example>
-    let printHClust (clusterTree:Cluster<float array >) =    
+    let printHClust (clusterTree:Cluster<'T>) =    
             let rec printLoop (c) = seq {    
                 match c with
                 | Node (id,dist,cM,lc,rc)  -> 
@@ -581,7 +580,7 @@ module HierarchicalClustering =
     /// <code>
     /// </code>
     /// </example>
-    let get (clusterTree:Cluster<float array >) =    
+    let get (clusterTree:Cluster<'T>) =    
             let rec loop (c) = seq {    
                 match c with
                 | Node (id,dist,cM,lc,rc)  -> 
@@ -591,7 +590,7 @@ module HierarchicalClustering =
                 | Leaf (id,_,_)            -> ()
             }
             loop clusterTree
-    let getWithClusterName (clusterTree:Cluster<float array >) =    
+    let getWithClusterName (clusterTree:Cluster<'T>) =    
             let rec loop (c) = seq {    
                 match c with
                 | Node (id,dist,cM,lc,rc)  -> 

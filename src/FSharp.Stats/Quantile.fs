@@ -6,7 +6,7 @@ module Quantile =
 
     type QuantileFunction<'a> =  float -> array<'a> -> float
 
-    let private quantileHelper (quatileF : QuantileFunction<'a>) q (data:array<'a>) =
+    let inline private quantileHelper (quatileF : QuantileFunction<'a>) q (data:array<'a>) =
 
         if (q < 0. || q > 1. || data.Length = 0) then
             nan
@@ -194,7 +194,7 @@ module Quantile =
         /// </code>
         /// </example>
         let normalInPLace q (data:array<_>) =
-            let f q (data:array<'a>) =                
+            let f q (data:_[]) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
                 let h' = int h
                 let a = Array.quickSelectInPlace (h') data |> float //TM
@@ -378,7 +378,7 @@ module Quantile =
         /// </code>
         /// </example>
         let normal q (data:array<_>) =
-            let f q (data:array<'a>) =                
+            let f q (data:float[]) =                
                 let h  = (float data.Length + 0.25) * q + 0.375
                 let h' = int h
                 let a = data.[ max (h' - 1) 0]
@@ -527,7 +527,7 @@ module Quantile =
     /// <code>
     /// </code>
     /// </example>
-    let normal q (data:seq<_>) =
+    let normal q (data:float seq) =
         let data' = Seq.UtilityFunctions.toArrayCopyQuick data
         InPlace.normalInPLace q data'
 
