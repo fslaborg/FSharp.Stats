@@ -84,8 +84,8 @@ module Seq =
             match e.MoveNext(),w.MoveNext() with
             | true,true   -> loop (n + 1 ) (eAcc + e.Current * w.Current) (wAcc + w.Current)
             | false,false -> if (n > 0) then eAcc / wAcc else (zero / zero)
-            | _ -> failwithf "The items and weights must have the same length"
-        loop 0 LanguagePrimitives.GenericZero< 'U >
+            | _ -> invalidOp "The items and weights must have the same length"
+        loop 0 zero zero
 
     /// <summary>
     ///   Computes harmonic mean
