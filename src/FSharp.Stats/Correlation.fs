@@ -440,7 +440,7 @@ module Correlation =
         let kendallTauA seq1 seq2 = 
             let setA = Array.ofSeq seq1
             let setB = Array.ofSeq seq2
-            if setB.Length <> setA.Length then invalidArg "seq2" "The input arrays must have the same length"
+            if setB.Length <> setA.Length then invalidArg "seq2" "The input sequences must have the same length"
             kendallTau Kendall.tauA setA setB
 
         /// <summary>Kendall Correlation Coefficient</summary>
@@ -468,7 +468,7 @@ module Correlation =
         let kendallTauB seq1 seq2 = 
             let setA = Array.ofSeq seq1
             let setB = Array.ofSeq seq2
-            if setB.Length <> setA.Length then invalidArg "seq2" "The input arrays must have the same length"
+            if setB.Length <> setA.Length then invalidArg "seq2" "The input sequences must have the same length"
             kendallTau Kendall.tauB setA setB
         
         /// <summary>Kendall Correlation Coefficient</summary>
@@ -497,7 +497,7 @@ module Correlation =
         let kendallTauC seq1 seq2 = 
             let setA = Array.ofSeq seq1
             let setB = Array.ofSeq seq2
-            if setB.Length <> setA.Length then invalidArg "seq2" "The input arrays must have the same length"
+            if setB.Length <> setA.Length then invalidArg "seq2" "The input sequences must have the same length"
             kendallTau Kendall.tauC setA setB
 
             
