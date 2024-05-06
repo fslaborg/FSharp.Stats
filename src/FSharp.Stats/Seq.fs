@@ -1,24 +1,48 @@
 namespace FSharp.Stats
 
 
-/// Module to compute common statistical measure
+/// <summary>
+/// Module to compute common statistical measures.
+/// </summary>
 [<RequireQualifiedAccess>]
 module Seq = 
 
     module OpsS = SpecializedGenericImpl
 
+    /// <summary>
+    /// Computes the range of the input sequence.
+    /// </summary>
+    /// <param name="items">The input sequence.</param>
+    /// <returns>The range of the input sequence as an <see cref="Interval{T}"/>.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1; 2; 3; 4; 5]
+    /// let r = Seq.range values // returns Interval.Closed(1, 5)
+    /// </code>
+    /// </example>
     let inline range (items:seq<_>) =
         use e = items.GetEnumerator()
         let rec loop (minimum) (maximum) =
             match e.MoveNext() with
             | true  -> loop (min e.Current minimum) (max e.Current maximum)
             | false -> Interval.CreateClosed<'a> (minimum,maximum)
-        //Init by fist value
+        //Init by first value
         match e.MoveNext() with
         | true  -> loop e.Current e.Current
         | false -> Interval.Empty
 
-
+    /// <summary>
+    /// Computes the range of the input sequence by applying a function to each element.
+    /// </summary>
+    /// <param name="f">A function applied to transform each element of the sequence.</param>
+    /// <param name="items">The input sequence.</param>
+    /// <returns>The range of the transformed input sequence as an <see cref="Interval{T}"/>.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1; 2; 3; 4; 5]
+    /// let r = Seq.rangeBy (fun x -> x * 2) values // returns Interval.Closed(2, 10)
+    /// </code>
+    /// </example>
     let inline rangeBy f (items:seq<_>) =
         use e = items.GetEnumerator()
         let rec loop minimum maximum minimumV maximumV =
@@ -29,7 +53,7 @@ module Seq =
                 let mmax,mmaxV = if current > maximum then current,e.Current else maximum,maximumV
                 loop mmin mmax mminV mmaxV
             | false -> Interval.CreateClosed<'a> (minimumV,maximumV)
-        //Init by fist value
+        //Init by first value
         match e.MoveNext() with
         | true  -> 
             let current = f e.Current
@@ -40,12 +64,18 @@ module Seq =
     // #region means
 
     /// <summary>
-    ///   Computes the population mean (Normalized by N)
+    /// Computes the population mean (Normalized by N).
     /// </summary>
-    ///
     /// <param name="items">The input sequence.</param>
-    /// <remarks>Returns default value if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population mean (Normalized by N)</returns>   
+    /// <returns>The population mean (Normalized by N).</returns>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
+    /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let m = Seq.mean values // returns 3.0
+    /// </code>
+    /// </example>
     let inline mean (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -57,13 +87,19 @@ module Seq =
 
 
     /// <summary>
-    ///   Computes the population mean (Normalized by N)s
+    /// Computes the population mean (Normalized by N) by applying a function to each element.
     /// </summary>
-    ///
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
+    /// <returns>The population mean (Normalized by N) of the transformed sequence.</returns>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population mean (Normalized by N)</returns>   
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let m = Seq.meanBy (fun x -> x * 2.0) values // returns 6.0
+    /// </code>
+    /// </example>
     let inline meanBy (f : 'T -> ^U) (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -72,10 +108,22 @@ module Seq =
             | true  -> loop (n + 1 ) (acc + f e.Current)
             | false -> if (n > 0) then LanguagePrimitives.DivideByInt< 'U > acc n else (zero / zero)     
         loop 0 zero
-
+    
     /// <summary>
-    ///   Computes the Weighted Mean of the given values.
+    /// Computes the Weighted Mean of the given values.
     /// </summary>
+    /// <param name="weights">The sequence of weights.</param>
+    /// <param name="items">The input sequence.</param>
+    /// <returns>The weighted mean of the input sequence.</returns>
+    /// <exception cref="System.ArgumentException">Thrown when the items and weights sequences have different lengths.</exception>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let weights = [0.1; 0.2; 0.3; 0.2; 0.2]
+    /// let m = Seq.weightedMean weights values // returns 3.2
+    /// </code>
+    /// </example>
     let inline weightedMean (weights:seq<'T>) (items:seq<'T>) =
         use e = items.GetEnumerator()
         use w = weights.GetEnumerator()
@@ -88,12 +136,18 @@ module Seq =
         loop 0 zero zero
 
     /// <summary>
-    ///   Computes harmonic mean
+    /// Computes the harmonic mean.
     /// </summary>
-    ///
     /// <param name="items">The input sequence.</param>
+    /// <returns>The harmonic mean of the input sequence.</returns>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>harmonic mean</returns>   
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let m = Seq.meanHarmonic values // returns approximately 2.18978
+    /// </code>
+    /// </example>
     let inline meanHarmonic (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -104,15 +158,20 @@ module Seq =
             | false -> if (LanguagePrimitives.GenericGreaterThan n zero) then (n / acc) else (zero / zero)
         loop zero zero 
 
-
     /// <summary>
-    ///   Computes harmonic mean
+    /// Computes the harmonic mean by applying a function to each element.
     /// </summary>
-    ///
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
+    /// <returns>The harmonic mean of the transformed input sequence.</returns>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>harmonic mean</returns>   
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let m = Seq.meanHarmonicBy (fun x -> x * 2.0) values // returns approximately 4.37956
+    /// </code>
+    /// </example>
     let inline meanHarmonicBy (f : 'T -> ^U) (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -123,14 +182,19 @@ module Seq =
             | false -> if (LanguagePrimitives.GenericGreaterThan n zero) then (n / acc) else (zero / zero)
         loop zero zero                 
 
-
     /// <summary>
-    ///   Computes gemetric mean
+    /// Computes the geometric mean.
     /// </summary>
-    ///
     /// <param name="items">The input sequence.</param>
+    /// <returns>The geometric mean of the input sequence.</returns>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>gemetric mean</returns>   
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let m = Seq.meanGeometric values // returns approximately 2.60517
+    /// </code>
+    /// </example>
     let inline meanGeometric (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -143,13 +207,19 @@ module Seq =
         
 
     /// <summary>
-    ///   Computes gemetric mean
+    /// Computes the geometric mean by applying a function to each element.
     /// </summary>
-    ///
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
+    /// <returns>The geometric mean of the transformed input sequence.</returns>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>gemetric mean</returns>   
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let m = Seq.meanGeometricBy (fun x -> x * 2.0) values // returns approximately 5.21034
+    /// </code>
+    /// </example>
     let inline meanGeometricBy f (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -160,14 +230,15 @@ module Seq =
                 if (n > 0) then exp (LanguagePrimitives.DivideByInt< 'U > acc n) else (zero / zero)            
         loop 0 zero     
 
-
     /// <summary>
-    ///   Computes quadratic mean
+    /// Computes the quadratic mean.
     /// </summary>
-    ///
     /// <param name="items">The input sequence.</param>
+    /// <returns>The quadratic mean of the input sequence.</returns>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>quadratic mean</returns>   
+    /// <example>
+    /// <code>
     let inline meanQuadratic (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -180,13 +251,19 @@ module Seq =
         
 
     /// <summary>
-    ///   Computes quadratic mean
+    /// Computes the quadratic mean by applying a function to each element.
     /// </summary>
-    ///
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
+    /// <returns>The quadratic mean of the transformed input sequence.</returns>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>quadratic mean</returns>   
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let m = Seq.meanQuadraticBy (fun x -> x * 2.0) values // returns approximately 4.69041576
+    /// </code>
+    /// </example>
     let inline meanQuadraticBy f (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -204,14 +281,20 @@ module Seq =
 //    // Computes the mean of the means of several subsample
 
 
-
     /// <summary>
-    ///   Computes the truncated (trimmed) mean where x percent of the highest, and x percent of the lowest values are discarded (total 2x)
+    /// Computes the truncated (trimmed) mean where x percent of the highest, and x percent of the lowest values are discarded (total 2x).
     /// </summary>
-    ///
-    /// <param name="items">The input sequence.</param>
+    /// <param name="percent">The percentage of values to discard from each end.</param>
+    /// <param name="data">The input sequence.</param>
+    /// <returns>The truncated (trimmed) mean of the input sequence.</returns>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>truncated (trimmed) mean</returns>  
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let m = Seq.meanTruncated 0.2 values // returns 3.0
+    /// </code>
+    /// </example>
     let inline meanTruncated  (percent:float) (data:seq<'T>) : 'U  =
         let zero = LanguagePrimitives.GenericZero< 'U > 
         let n = Seq.length(data)
@@ -226,15 +309,21 @@ module Seq =
         else
             (zero / zero)  
                  
-    
     /// <summary>
-    ///   Computes the truncated (trimmed) mean
+    /// Computes the truncated (trimmed) mean by applying a function to each element.
     /// </summary>
-    ///
-    /// <param name="items">The input sequence.</param>
-    /// <param name="f">A function applied to transform each element of the sequence.</param>    
+    /// <param name="f">A function applied to transform each element of the sequence.</param>
+    /// <param name="percent">The percentage of values to discard from each end.</param>
+    /// <param name="data">The input sequence.</param>
+    /// <returns>The truncated (trimmed) mean of the transformed input sequence.</returns>
+    /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>truncated (trimmed) mean</returns>  
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let m = Seq.meanTruncatedBy (fun x -> x * 2.0) 0.2 values // returns 7.0
+    /// </code>
+    /// </example>
     let inline meanTruncatedBy  (f : 'T -> ^U) (percent:float) (data:seq<'T>) : 'U  =
         let zero = LanguagePrimitives.GenericZero< 'U > 
         let n = Seq.length(data)
@@ -255,12 +344,15 @@ module Seq =
 
     // ##### ##### ##### ##### #####
     // Median 
-    /// <summary>Sample Median</summary>
-    /// <remarks></remarks>
-    /// <param name="items"></param>
-    /// <returns></returns>
+    /// <summary>
+    /// Computes the sample median.
+    /// </summary>
+    /// <param name="items">The input sequence.</param>
+    /// <returns>The sample median of the input sequence.</returns>
     /// <example>
     /// <code>
+    /// let values = [1; 2; 3; 4; 5]
+    /// let m = Seq.median values // returns 3
     /// </code>
     /// </example>
     let inline median (items:seq<'T>) =
@@ -363,13 +455,19 @@ module Seq =
 
     // #region standard deviation, variance and coefficient of variation      
 
+
     /// <summary>
-    ///   Computes the sample variance (Bessel's correction by N-1)
+    /// Computes the sample variance (Bessel's correction by N-1).
     /// </summary>
-    ///
     /// <param name="items">The input sequence.</param>
+    /// <returns>The sample variance (Bessel's correction by N-1) of the input sequence.</returns>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>variance of a sample (Bessel's correction by N-1)</returns> 
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let v = Seq.var values // returns 2.5
+    /// </code>
+    /// </example>
     let inline var (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -388,15 +486,19 @@ module Seq =
                 else (zero / zero)
         loop 0 zero zero 
 
-
     /// <summary>
-    ///   Computes the sample variance (Bessel's correction by N-1)
+    /// Computes the sample variance (Bessel's correction by N-1) by applying a function to each element.
     /// </summary>
-    ///
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
+    /// <returns>The sample variance (Bessel's correction by N-1) of the transformed input sequence.</returns>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>variance of a sample (Bessel's correction by N-1)</returns> 
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let v = Seq.varBy (fun x -> x * 2.0) values // returns 10.0
+    /// </code>
+    /// </example>
     let inline varBy f (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -418,12 +520,17 @@ module Seq =
 
 
     /// <summary>
-    ///   Computes variance of the given values (denominator N)
+    /// Computes the population variance estimator (denominator N).
     /// </summary>
-    ///    
     /// <param name="items">The input sequence.</param>
+    /// <returns>The population variance estimator (denominator N) of the input sequence.</returns>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population variance estimator (denominator N)</returns> 
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let v = Seq.varPopulation values // returns 2.0
+    /// </code>
+    /// </example>
     let inline varPopulation (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -442,15 +549,19 @@ module Seq =
                 else (zero / zero)
         loop 0 zero zero 
 
-
     /// <summary>
-    ///   Computes variance of the given values (denominator N)
+    /// Computes the population variance estimator (denominator N) by applying a function to each element.
     /// </summary>
-    ///    
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population variance estimator (denominator N)</returns> 
+    /// <returns>The population variance estimator (denominator N) of the transformed input sequence.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let v = Seq.varPopulationBy (fun x -> x * 2.0) values // returns 8.0
+    /// </code>
+    /// </example>
     let inline varPopulationBy f (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -471,83 +582,99 @@ module Seq =
         loop 0 zero zero 
 
 
-
     /// <summary>
-    ///   Computes the sample standard deviation
+    /// Computes the sample standard deviation.
     /// </summary>
-    ///
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>standard deviation of a sample (Bessel's correction by N-1)</returns> 
+    /// <returns>The sample standard deviation (Bessel's correction by N-1) of the input sequence.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let sd = Seq.stDev values // returns approximately 1.58114
+    /// </code>
+    /// </example>
     let inline stDev (items:seq<'T>) : 'U  =
         sqrt ( var items )
 
 
     /// <summary>
-    ///   Computes the sample standard deviation
+    /// Computes the sample standard deviation by applying a function to each element.
     /// </summary>
-    ///
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>standard deviation of a sample (Bessel's correction by N-1)</returns> 
+    /// <returns>The sample standard deviation (Bessel's correction by N-1) of the transformed input sequence.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let sd = Seq.stDevBy (fun x -> x * 2.0) values // returns approximately 3.16228
+    /// </code>
+    /// </example>
     let inline stDevBy f (items:seq<'T>) : 'U  =
         sqrt ( varBy f items )    
 
 
     /// <summary>
-    ///   Computes the population standard deviation (denominator = N)
+    /// Computes the population standard deviation (denominator = N).
     /// </summary>
-    ///
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population standard deviation (denominator = N)</returns>     
+    /// <returns>The population standard deviation (denominator = N) of the input sequence.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let sd = Seq.stDevPopulation values // returns approximately 1.41421
+    /// </code>
+    /// </example>
     let inline stDevPopulation (items:seq<'T>) : 'U  =
         sqrt (varPopulation items)
 
 
     /// <summary>
-    ///   Computes the population standard deviation (denominator = N)
+    /// Computes the population standard deviation (denominator = N) by applying a function to each element.
     /// </summary>
-    ///
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population standard deviation (denominator = N)</returns>     
+    /// <returns>The population standard deviation (denominator = N) of the transformed input sequence.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let sd = Seq.stDevPopulationBy (fun x -> x * 2.0) values // returns approximately 2.82843
+    /// </code>
+    /// </example>
     let inline stDevPopulationBy f (items:seq<'T>) : 'U  =
         sqrt (varPopulationBy f items)
    
 
-
-    /// <summary>Computes the standard error of the mean (SEM) with bessel corrected sample standard deviation    </summary>
-    /// <remarks></remarks>
-    /// <param name="items"></param>
-    /// <returns></returns>
+    /// <summary>
+    /// Computes the standard error of the mean (SEM) with Bessel corrected sample standard deviation.
+    /// </summary>
+    /// <param name="items">The input sequence.</param>
+    /// <returns>The standard error of the mean (SEM) of the input sequence.</returns>
     /// <example>
     /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let sem = Seq.sem values // returns approximately 0.70711
     /// </code>
     /// </example>
     let inline sem (items:seq<'T>) =
         stDev items / sqrt (float (Seq.length items))
 
-
-
-
-
-
-
-
-
-
-
-
+    
     /// <summary>
-    ///   Computes the Coefficient of Variation of a sample (Bessel's correction by N-1)
+    /// Computes the Coefficient of Variation of a sample (Bessel's correction by N-1).
     /// </summary>
-    ///
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>Coefficient of Variation of a sample (Bessel's correction by N-1)</returns> 
+    /// <returns>The Coefficient of Variation of a sample (Bessel's correction by N-1) of the input sequence.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let cv = Seq.cv values // returns approximately 0.52705
+    /// </code>
+    /// </example>
     let inline cv (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -569,13 +696,18 @@ module Seq =
 
 
     /// <summary>
-    ///   Computes the Coefficient of Variation of a sample (Bessel's correction by N-1)
+    /// Computes the Coefficient of Variation of a sample (Bessel's correction by N-1) by applying a function to each element.
     /// </summary>
-    ///
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>Coefficient of Variation of a sample (Bessel's correction by N-1)</returns> 
+    /// <returns>The Coefficient of Variation of a sample (Bessel's correction by N-1) of the transformed input sequence.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let cv = Seq.cvBy (fun x -> x * 2.0) values // returns approximately 0.52705
+    /// </code>
+    /// </example>
     let inline cvBy f (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -595,16 +727,19 @@ module Seq =
                     sd / m1
                 else (zero / zero)
         loop 0 zero zero   
-        
-
-
+            
     /// <summary>
-    ///   Computes the Coefficient of Variation of the population (population standard deviation)
+    /// Computes the Coefficient of Variation of the population (population standard deviation).
     /// </summary>
-    ///
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>Coefficient of Variation of the population</returns> 
+    /// <returns>The Coefficient of Variation of the population of the input sequence.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let cv = Seq.cvPopulation values // returns approximately 0.47140
+    /// </code>
+    /// </example>>
     let inline cvPopulation (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -626,13 +761,18 @@ module Seq =
 
 
     /// <summary>
-    ///   Computes the Coefficient of Variation of the population (population standard deviation)
+    /// Computes the Coefficient of Variation of the population (population standard deviation) by applying a function to each element.
     /// </summary>
-    ///
     /// <param name="f">A function applied to transform each element of the sequence.</param>
     /// <param name="items">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>Coefficient of Variation of the population</returns> 
+    /// <returns>The Coefficient of Variation of the population of the transformed input sequence.</returns>
+    /// <example>
+    /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let cv = Seq.cvPopulationBy (fun x -> x * 2.0) values // returns approximately 0.47140
+    /// </code>
+    /// </example>
     let inline cvPopulationBy f (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -653,15 +793,22 @@ module Seq =
                 else (zero / zero)
         loop 0 zero zero 
 
- 
+
     /// <summary>
-    ///   Computes the population covariance of two random variables
+    /// Computes the population covariance of two random variables.
     /// </summary>
-    ///    
     /// <param name="seq1">The first input sequence.</param>
     /// <param name="seq2">The second input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population covariance estimator (denominator N)</returns> 
+    /// <returns>The population covariance estimator (denominator N) of the two input sequences.</returns>
+    /// <exception cref="System.ArgumentException">Thrown when the input sequences have different lengths.</exception>
+    /// <example>
+    /// <code>
+    /// let x = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let y = [2.0; 4.0; 6.0; 8.0; 10.0]
+    /// let cov = Seq.covPopulation x y // returns 4.0
+    /// </code>
+    /// </example>
     let inline covPopulation (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
         let v1 = seq1 |> OpsS.seqV
         let v2 = seq2 |> OpsS.seqV
@@ -677,21 +824,16 @@ module Seq =
         div (mul - (div (sumX * sumY) v1.Length)) v1.Length 
 
     /// <summary>
-    ///   Computes the population covariance of two random variables.
-    ///   The covariance will be calculated between the paired observations.
+    /// Computes the population covariance of two random variables.
+    /// The covariance will be calculated between the paired observations.
     /// </summary>
     /// <param name="seq">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population covariance estimator (denominator N)</returns> 
-    /// <example> 
-    /// <code> 
-    /// // Consider a sequence of paired x and y values:
-    /// // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
-    /// let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
-    /// 
-    /// // To get the population covariance between x and y:
-    /// xy |> Seq.covPopulationOfPairs // evaluates to 347.92
-    /// <returns></returns>
+    /// <returns>The population covariance estimator (denominator N) of the paired observations.</returns>
+    /// <example>
+    /// <code>
+    /// let xy = [(1.0, 2.0); (2.0, 4.0); (3.0, 6.0); (4.0, 8.0); (5.0, 10.0)]
+    /// let cov = Seq.covPopulationOfPairs xy // returns 4.0
     /// </code>
     /// </example>
     let inline covPopulationOfPairs (seq:seq<'T * 'T>) : 'U =
@@ -700,24 +842,17 @@ module Seq =
             |> Array.unzip
             ||> covPopulation
 
-
     /// <summary>
-    ///   Computes the population covariance of two random variables generated by applying a function to the input sequence.
+    /// Computes the population covariance of two random variables generated by applying a function to the input sequence.
     /// </summary>
     /// <param name="f">A function applied to transform each element of the input sequence into a tuple of paired observations.</param>
     /// <param name="seq">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>population covariance estimator (denominator N)</returns> 
-    /// <example> 
-    /// <code> 
-    /// // To get the population covariance between x and y observations:
-    /// let xy = [ {| x = 5.; y = 2. |}
-    ///            {| x = 12.; y = 8. |}
-    ///            {| x = 18.; y = 18. |}
-    ///            {| x = -23.; y = -20. |} 
-    ///            {| x = 45.; y = 28. |} ]
-    /// 
-    /// xy |> Seq.covPopulationBy (fun x -> x.x, x.y) // evaluates to 347.92
+    /// <returns>The population covariance estimator (denominator N) of the transformed input sequence.</returns>
+    /// <example>
+    /// <code>
+    /// let data = [{| X = 1.0; Y = 2.0 |}; {| X = 2.0; Y = 4.0 |}; {| X = 3.0; Y = 6.0 |}; {| X = 4.0; Y = 8.0 |}; {| X = 5.0; Y = 10.0 |}]
+    /// let cov = data |> Seq.covPopulationBy (fun d -> d.X, d.Y) // returns 4.0
     /// </code>
     /// </example>
     let inline covPopulationBy f (seq: 'T seq) : 'U =
@@ -726,13 +861,20 @@ module Seq =
         |> covPopulationOfPairs
 
     /// <summary>
-    ///   Computes the sample covariance of two random variables
+    /// Computes the sample covariance of two random variables.
     /// </summary>
-    ///    
     /// <param name="seq1">The first input sequence.</param>
     /// <param name="seq2">The second input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>sample covariance estimator (Bessel's correction by N-1)</returns> 
+    /// <returns>The sample covariance estimator (Bessel's correction by N-1) of the two input sequences.</returns>
+    /// <exception cref="System.ArgumentException">Thrown when the input sequences have different lengths.</exception>
+    /// <example>
+    /// <code>
+    /// let x = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let y = [2.0; 4.0; 6.0; 8.0; 10.0]
+    /// let cov = Seq.cov x y // returns 5.0
+    /// </code>
+    /// </example>
     let inline cov (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
         let v1 = seq1 |> OpsS.seqV
         let v2 = seq2 |> OpsS.seqV
@@ -748,14 +890,14 @@ module Seq =
         div (mul - (div (sumX * sumY) v1.Length)) (v1.Length - 1) 
 
     /// <summary>
-    ///   Computes the sample covariance of two random variables.
-    ///   The covariance will be calculated between the paired observations.    
+    /// Computes the sample covariance of two random variables.
+    /// The covariance will be calculated between the paired observations.
     /// </summary>
     /// <param name="seq">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>sample covariance estimator (Bessel's correction by N-1)</returns>
-    /// <example> 
-    /// <code> 
+    /// <returns>The sample covariance estimator (Bessel's correction by N-1) of the paired observations.</returns>
+    /// <example>
+    /// <code>
     /// // Consider a sequence of paired x and y values:
     /// // [(x1, y1); (x2, y2); (x3, y3); (x4, y4); ... ]
     /// let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
@@ -772,14 +914,14 @@ module Seq =
         ||> cov
 
     /// <summary>
-    ///   Computes the sample covariance of two random variables generated by applying a function to the input sequence.
+    /// Computes the sample covariance of two random variables generated by applying a function to the input sequence.
     /// </summary>
     /// <param name="f">A function applied to transform each element of the input sequence into a tuple of paired observations.</param>
     /// <param name="seq">The input sequence.</param>
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-    /// <returns>sample covariance estimator (Bessel's correction by N-1)</returns>
-    /// <example> 
-    /// <code> 
+    /// <returns>The sample covariance estimator (Bessel's correction by N-1) of the transformed input sequence.</returns>
+    /// <example>
+    /// <code>
     /// // To get the sample covariance between x and y observations:
     /// let xy = [ {| x = 5.; y = 2. |}
     ///            {| x = 12.; y = 8. |}
@@ -795,7 +937,7 @@ module Seq =
         |> Seq.map f
         |> covOfPairs
 
-//    // #endregion standard deviation, variance and coefficient of variation
+        //    // #endregion standard deviation, variance and coefficient of variation
 //    
 //
 //    /// <summary>
@@ -987,15 +1129,15 @@ module Seq =
 //        
 //        m4 / (m2 * m2) - 3.
 
-
-
-
-    /// <summary>Median absolute deviation (MAD)</summary>
-    /// <remarks></remarks>
-    /// <param name="data"></param>
-    /// <returns></returns>
+    /// <summary>
+    /// Computes the median absolute deviation (MAD).
+    /// </summary>
+    /// <param name="data">The input sequence.</param>
+    /// <returns>The median absolute deviation (MAD) of the input sequence.</returns>
     /// <example>
     /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let mad = Seq.medianAbsoluteDev values // returns 1.0
     /// </code>
     /// </example>
     let medianAbsoluteDev (data:seq<float>) =        
@@ -1005,9 +1147,7 @@ module Seq =
         |> Array.map (fun x -> abs ( x - m' ))
         |> median
         
-
-
-//    /// Average absolute deviation (Normalized by N)
+        //    /// Average absolute deviation (Normalized by N)
 //    let populationAverageDev (data) =        
 //        let filterSeq =
 //            data |> Seq.filter (fun x -> not (System.Double.IsNaN x))
@@ -1029,13 +1169,21 @@ module Seq =
 //        else nan    
 //
 //    
-
-    /// <summary>Returns SummeryStats of deq with N, mean, sum-of-squares, minimum and maximum</summary>
-    /// <remarks></remarks>
-    /// <param name="items"></param>
-    /// <returns></returns>
+    /// <summary>
+    /// Returns SummaryStats of the input sequence with N, mean, sum-of-squares, minimum and maximum.
+    /// </summary>
+    /// <param name="items">The input sequence.</param>
+    /// <returns>The SummaryStats of the input sequence.</returns>
     /// <example>
     /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let stats = Seq.stats values
+    /// // returns SummaryStats with:
+    /// //   N = 5
+    /// //   Mean = 3.0
+    /// //   SumOfSquares = 55.0
+    /// //   Minimum = 1.0
+    /// //   Maximum = 5.0
     /// </code>
     /// </example>
     let inline stats (items:seq<'T>) =
@@ -1046,36 +1194,35 @@ module Seq =
         let rec loop n (minimum) (maximum) m1 m2 =
             match e.MoveNext() with
             | true  -> 
-                let current  = e.Current
-                let delta    = current - m1               
-                let deltaN  = (delta / n)
+                let current = e.Current
+                let delta = current - m1               
+                let deltaN = (delta / n)
                 //let delta_n2 = deltaN * deltaN
-                let m1'    = m1 + deltaN            
+                let m1' = m1 + deltaN            
                 let m2' = m2 + delta * deltaN * (n-one)
                 loop (n + one) (min current minimum) (max current maximum) m1' m2'
-
             | false -> SummaryStats.createSummaryStats (n-one) m1 m2 minimum maximum
 
-        //Init by fist value        
+        //Init by first value        
         match e.MoveNext() with
         | true -> loop one e.Current e.Current zero zero 
         | false ->
             let uNan = zero / zero 
             SummaryStats.createSummaryStats zero uNan uNan uNan uNan
 
-
-
-
-
-    /// <summary>calculates the sample means with a given number of replicates present in the sequence</summary>
-    /// <remarks></remarks>
-    /// <param name="rep"></param>
-    /// <param name="data"></param>
-    /// <returns></returns>
+    /// <summary>
+    /// Calculates the sample means with a given number of replicates present in the sequence.
+    /// </summary>
+    /// <param name="rep">The number of replicates.</param>
+    /// <param name="data">The input sequence.</param>
+    /// <returns>A sequence of sample means for each replicate group.</returns>
+    /// <exception cref="System.ArgumentException">Thrown when the sequence length is not a multiple of the replicate number.</exception>
     /// <example>
     /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0; 6.0]
+    /// let means = Seq.getMeanOfReplicates 2 values // returns seq [1.5; 3.5; 5.5]
     /// </code>
-    /// </example>
+    /// </example>>
     let inline getMeanOfReplicates rep (data:seq<'a>) =
         if ( Seq.length data ) % rep = 0 then
             data
@@ -1083,13 +1230,17 @@ module Seq =
             |> Seq.map mean
         else failwithf "sequence length is no multiple of replicate number"
        
-    /// <summary>calculates the sample standard deviations with a given number of replicates present in the sequence</summary>
-    /// <remarks></remarks>
-    /// <param name="rep"></param>
-    /// <param name="data"></param>
-    /// <returns></returns>
+    /// <summary>
+    /// Calculates the sample standard deviations with a given number of replicates present in the sequence.
+    /// </summary>
+    /// <param name="rep">The number of replicates.</param>
+    /// <param name="data">The input sequence.</param>
+    /// <returns>A sequence of sample standard deviations for each replicate group.</returns>
+    /// <exception cref="System.ArgumentException">Thrown when the sequence length is not a multiple of the replicate number.</exception>
     /// <example>
     /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0; 6.0]
+    /// let stDevs = Seq.getStDevOfReplicates 2 values // returns seq [0.7071067812; 0.7071067812; 0.7071067812]
     /// </code>
     /// </example>
     let inline getStDevOfReplicates rep (data:seq<'a>) =
@@ -1098,14 +1249,18 @@ module Seq =
             |> Seq.chunkBySize rep
             |> Seq.map stDev
         else failwithf "sequence length is no multiple of replicate number"
-
-    /// <summary>calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence</summary>
-    /// <remarks></remarks>
-    /// <param name="rep"></param>
-    /// <param name="data"></param>
-    /// <returns></returns>
+    
+    /// <summary>
+    /// Calculates the coefficient of variation based on the sample standard deviations with a given number of replicates present in the sequence.
+    /// </summary>
+    /// <param name="rep">The number of replicates.</param>
+    /// <param name="data">The input sequence.</param>
+    /// <returns>A sequence of coefficients of variation for each replicate group.</returns>
+    /// <exception cref="System.ArgumentException">Thrown when the sequence length is not a multiple of the replicate number.</exception>
     /// <example>
     /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0; 6.0]
+    /// let cvs = Seq.getCvOfReplicates 2 values // returns seq [0.4714045208; 0.2020305089; 0.1285648693]
     /// </code>
     /// </example>
     let inline getCvOfReplicates rep (data:seq<'a>) =
@@ -1117,49 +1272,41 @@ module Seq =
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // ########################################################################
     /// A module which implements helper functions to provide special statistical measures
     module UtilityFunctions =
         
         /// <summary>
-        ///   Computes sum of squares
+        /// Computes the sum of squares.
         /// </summary>
-        ///
-        /// <param name="items">seq of float</param>
+        /// <param name="xData">The observed values.</param>
+        /// <param name="exData">The expected values.</param>
+        /// <returns>The sum of squares.</returns>
         /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
-        /// <returns>sum of squares</returns> 
+        /// <example>
+        /// <code>
+        /// let observed = [1.0; 2.0; 3.0; 4.0; 5.0]
+        /// let expected = [2.0; 3.0; 4.0; 5.0; 6.0]
+        /// let ss = UtilityFunctions.sumOfSquares observed expected // returns 5.0
+        /// </code>
+        /// </example>
         let sumOfSquares (xData:seq<float>) (exData:seq<float>) =
             let xX = Seq.zip xData exData 
             Seq.fold (fun acc (x,ex) -> acc + square (x - ex)) 0. xX
 
-
         /// <summary>
-        ///   Computes the pooled variance of the given values
+        /// Computes the pooled variance of the given values.
         /// </summary>
-        /// 
-        /// <param name="sizes">The number of samples</param>
-        /// <param name="variances">The population variances for each samples.</param>
+        /// <param name="sizes">The number of samples for each group.</param>
+        /// <param name="variances">The population variances for each group.</param>
+        /// <returns>The pooled variance.</returns>
+        /// <example>
+        /// <code>
+        /// let sizes = [10; 20; 15]
+        /// let variances = [2.5; 3.2; 1.8]
+        /// let pooledVar = UtilityFunctions.pooledVarOf sizes variances // returns 2.411111
+        /// </code>
+        /// </example>>
         let pooledVarOf (sizes:seq<int>) (variances:seq<float>) =            
             
             let var,n =
@@ -1169,10 +1316,19 @@ module Seq =
                                                                   (varAcc + var,nAcc + n)) (0., 0.)  
             var / n 
 
-
         /// <summary>
-        ///   Computes the pooled variance of the given values
+        /// Computes the pooled variance of the given values.
         /// </summary>
+        /// <param name="data">A sequence of sequences representing the data groups.</param>
+        /// <returns>The pooled variance.</returns>
+        /// <example>
+        /// <code>
+        /// let group1 = [1.0; 2.0; 3.0; 4.0; 5.0]
+        /// let group2 = [2.0; 4.0; 6.0; 8.0; 10.0]
+        /// let group3 = [3.0; 6.0; 9.0; 12.0; 15.0]
+        /// let pooledVar = UtilityFunctions.pooledVar [group1; group2; group3] // returns 7.466667
+        /// </code>
+        /// </example>
         let pooledVar (data:seq<#seq<float>>) =
             let sizes = data |> Seq.map Seq.length            
             
@@ -1184,11 +1340,18 @@ module Seq =
             var / n 
 
         /// <summary>
-        ///   Computes the pooled population variance of the given values (Bessel's correction by N-1)
+        /// Computes the pooled population variance of the given values (Bessel's correction by N-1).
         /// </summary>
-        /// 
-        /// <param name="sizes">The number of samples</param>
-        /// <param name="variances">The population variances for each samples.</param>
+        /// <param name="sizes">The number of samples for each group.</param>
+        /// <param name="variances">The population variances for each group.</param>
+        /// <returns>The pooled population variance.</returns>
+        /// <example>
+        /// <code>
+        /// let sizes = [10; 20; 15]
+        /// let variances = [2.5; 3.2; 1.8]
+        /// let pooledVarPop = UtilityFunctions.pooledVarPopulationOf sizes variances // returns 2.583333
+        /// </code>
+        /// </example>>
         let pooledVarPopulationOf (sizes:seq<int>) (variances:seq<float>) =            
             
             let var,n =
@@ -1200,8 +1363,18 @@ module Seq =
 
 
         /// <summary>
-        ///   Computes the pooled population variance of the given values (Bessel's correction by N-1)
+        /// Computes the pooled population variance of the given values (Bessel's correction by N-1).
         /// </summary>
+        /// <param name="data">A sequence of sequences representing the data groups.</param>
+        /// <returns>The pooled population variance.</returns>
+        /// <example>
+        /// <code>
+        /// let group1 = [1.0; 2.0; 3.0; 4.0; 5.0]
+        /// let group2 = [2.0; 4.0; 6.0; 8.0; 10.0]
+        /// let group3 = [3.0; 6.0; 9.0; 12.0; 15.0]
+        /// let pooledVarPop = UtilityFunctions.pooledVarPopulation [group1; group2; group3] // returns 9.333333
+        /// </code>
+        /// </example>
         let pooledVarPopulation (data:seq<#seq<float>>) =
             let sizes = data |> Seq.map Seq.length            
             
@@ -1214,45 +1387,79 @@ module Seq =
 
 
         /// <summary>
-        ///   Computes the pooled standard deviation of the given values
+        /// Computes the pooled standard deviation of the given values.
         /// </summary>
-        ///
-        /// <param name="sizes">The number of samples</param>
-        /// <param name="variances">The population variances for each samples.</param>       
+        /// <param name="sizes">The number of samples for each group.</param>
+        /// <param name="variances">The population variances for each group.</param>
+        /// <returns>The pooled standard deviation.</returns>
+        /// <example>
+        /// <code>
+        /// let sizes = [10; 20; 15]
+        /// let variances = [2.5; 3.2; 1.8]
+        /// let pooledStDev = UtilityFunctions.pooledStDevOf sizes variances // returns 1.552775
+        /// </code>
+        /// </example> 
         let pooledStDevOf (sizes:seq<int>) (variances:seq<float>) =  
             sqrt (pooledVarOf sizes variances)
 
 
         /// <summary>
-        ///   Computes the pooled standard deviation of the given values.
-        /// </summary>       
+        /// Computes the pooled standard deviation of the given values.
+        /// </summary>
+        /// <param name="data">A sequence of sequences representing the data groups.</param>
+        /// <returns>The pooled standard deviation.</returns>
+        /// <example>
+        /// <code>
+        /// let group1 = [1.0; 2.0; 3.0; 4.0; 5.0]
+        /// let group2 = [2.0; 4.0; 6.0; 8.0; 10.0]
+        /// let group3 = [3.0; 6.0; 9.0; 12.0; 15.0]
+        /// let pooledStDev = UtilityFunctions.pooledStDev [group1; group2; group3] // returns 2.732520
+        /// </code>
+        /// </example>
         let pooledStDev (data:seq<#seq<float>>) = 
             sqrt (pooledVar data)
 
-
         /// <summary>
-        ///   Computes the pooled population standard deviation of the given values (Bessel's correction by N-1)
+        /// Computes the pooled population standard deviation of the given values (Bessel's correction by N-1).
         /// </summary>
-        ///
-        /// <param name="sizes">The number of samples</param>
-        /// <param name="variances">The population variances for each samples.</param>       
+        /// <param name="sizes">The number of samples for each group.</param>
+        /// <param name="variances">The population variances for each group.</param>
+        /// <returns>The pooled population standard deviation.</returns>
+        /// <example>
+        /// <code>
+        /// let sizes = [10; 20; 15]
+        /// let variances = [2.5; 3.2; 1.8]
+        /// let pooledStDevPop = UtilityFunctions.pooledStDevPopulationOf sizes variances // returns 1.607275
+        /// </code>
+        /// </example> 
         let pooledStDevPopulationOf (sizes:seq<int>) (variances:seq<float>) =  
             sqrt (pooledVarPopulationOf sizes variances)
 
-
         /// <summary>
-        ///   Computes the pooled population standard deviation of the given values (Bessel's correction by N-1)
-        /// </summary>       
+        /// Computes the pooled population standard deviation of the given values (Bessel's correction by N-1).
+        /// </summary>
+        /// <param name="data">A sequence of sequences representing the data groups.</param>
+        /// <returns>The pooled population standard deviation.</returns>
+        /// <example>
+        /// <code>
+        /// let group1 = [1.0; 2.0; 3.0; 4.0; 5.0]
+        /// let group2 = [2.0; 4.0; 6.0; 8.0; 10.0]
+        /// let group3 = [3.0; 6.0; 9.0; 12.0; 15.0]
+        /// let pooledStDevPop = UtilityFunctions.pooledStDevPopulation [group1; group2; group3] // returns 3.055050
+        /// </code>
+        /// </example>     
         let pooledStDevPopulation (data:seq<#seq<float>>) = 
             sqrt (pooledVarPopulation data)
 
-        /// <summary>Converts the input sequence to an array if it not already is an array.</summary>
-        /// <remarks></remarks>
-        /// <param name="toArrayQuick"></param>
-        /// <param name="xs"></param>
-        /// <returns></returns>
+        /// <summary>
+        /// Converts the input sequence to an array if it is not already an array.
+        /// </summary>
+        /// <param name="xs">The input sequence.</param>
+        /// <returns>An array containing the elements of the input sequence.</returns>
         /// <example>
         /// <code>
+        /// let seq = [1; 2; 3; 4; 5]
+        /// let arr = UtilityFunctions.toArrayQuick seq // returns [|1; 2; 3; 4; 5|]
         /// </code>
         /// </example>
         let inline internal toArrayQuick (xs: seq<'T>) =
@@ -1260,13 +1467,15 @@ module Seq =
             | :? ('T[]) as arr -> arr
             | _ -> Seq.toArray xs
 
-        /// <summary>Like toArrayQuick but if the input sequence is an array already, it is copied to a new one to not interfere with inplace operations</summary>
-        /// <remarks></remarks>
-        /// <param name="toArrayCopyQuick"></param>
-        /// <param name="xs"></param>
-        /// <returns></returns>
+        /// <summary>
+        /// Converts the input sequence to an array if it is not already an array. If the input sequence is already an array, it is copied to a new array.
+        /// </summary>
+        /// <param name="xs">The input sequence.</param>
+        /// <returns>A new array containing the elements of the input sequence.</returns>
         /// <example>
         /// <code>
+        /// let arr = [|1; 2; 3; 4; 5|]
+        /// let newArr = UtilityFunctions.toArrayCopyQuick arr // returns a new array [|1; 2; 3; 4; 5|]
         /// </code>
         /// </example>
         let inline internal toArrayCopyQuick (xs: seq<'T>) =
@@ -1277,14 +1486,20 @@ module Seq =
 [<AutoOpen>]
 module SeqExtension =
     type Seq() =
-
+       
         /// <summary>
-        /// Creates an seq float with values between a given interval
+        /// Creates a sequence of floats with values between a given interval.
         /// </summary>
-        /// <param name="start">start value (is included)</param>
-        /// <param name="stop">end value (by default is included )</param>
-        /// <param name="Num">sets the number of elements in the seq. If not set, stepsize = 1.</param>
-        /// <param name="IncludeEndpoint">If false, the seq does not contain the stop value</param>
+        /// <param name="start">The start value (inclusive).</param>
+        /// <param name="stop">The end value (by default inclusive).</param>
+        /// <param name="num">The number of elements in the sequence. If not set, stepsize = 1.</param>
+        /// <param name="IncludeEndpoint">If false, the sequence does not contain the stop value.</param>
+        /// <returns>A sequence of floats between the specified interval.</returns>
+        /// <example>
+        /// <code>
+        /// let values = Seq.linspace(0.0, 1.0, 5) // returns seq [0.0; 0.25; 0.5; 0.75; 1.0]
+        /// </code>
+        /// </example>>
         static member inline linspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : seq<float> = 
         
             let includeEndpoint = defaultArg IncludeEndpoint true
@@ -1298,12 +1513,19 @@ module SeqExtension =
 
 
         /// <summary>
-        /// Creates a geometric seq float with values between a given interval
+        /// Creates a geometric sequence of floats with values between a given interval.
         /// </summary>
-        /// <param name="start">start value (is included)</param>
-        /// <param name="stop">end value (by default is included)</param>
-        /// <param name="Num">sets the number of elements in the seq. Defaults to 50.</param>
-        /// <param name="IncludeEndpoint">If false, the seq does not contain the stop value. Defaults to true.</param>
+        /// <param name="start">The start value (inclusive).</param>
+        /// <param name="stop">The end value (by default inclusive).</param>
+        /// <param name="num">The number of elements in the sequence. Defaults to 50.</param>
+        /// <param name="IncludeEndpoint">If false, the sequence does not contain the stop value. Defaults to true.</param>
+        /// <returns>A geometric sequence of floats between the specified interval.</returns>
+        /// <exception cref="System.Exception">Thrown when start or stop is less than or equal to zero.</exception>
+        /// <example>
+        /// <code>
+        /// let values = Seq.geomspace(1.0, 100.0, 5) // returns seq [1.0; 3.16227766; 10.0; 31.6227766; 100.0]
+        /// </code>
+        /// </example>
         static member inline geomspace (start:float, stop:float, num:int, ?IncludeEndpoint:bool) : seq<float> = 
             if start <= 0. || stop <= 0. then
                 failwith "Geometric space can only take positive values."
