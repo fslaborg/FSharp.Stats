@@ -32,7 +32,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Correlation.ipynb)
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
-_Summary_: This tutorial demonstrates how to autocorrelate a signal in FSharp.Stats
+_Summary_: This tutorial demonstrates how to calculate correlation coefficients in FSharp.Stats
 
 ### Table of contents
 
@@ -76,6 +76,77 @@ table
 (***hide***)
 table |> GenericChart.toChartHTML
 (***include-it-raw***)
+
+(**
+
+The [Kendall correlation coefficient](https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient) calculated by `Seq.kendall` is the Kendall Tau-b coefficient. Three variants are available: 
+
+- `Seq.kendallTauA`: Kendall's Tau-a. Defined as:
+
+  $$\tau_a = \frac{n_c - n_d}{n(n-1)/2}$$
+
+  where $n_c$ is the number of concordant pairs, $n_d$ is the number of discordant pairs, and $n$ is the sample size. Tau-a does not make adjustments for ties.
+
+- `Seq.kendallTauB`: Kendall's Tau-b (this is the default used by `Seq.kendall`). Defined as:  
+
+  $$\tau_b = \frac{n_c - n_d}{\sqrt{(n_0 - n_1)(n_0 - n_2)}}$$
+  
+  where $n_0 = n(n-1)/2$, $n_1 = \sum_i t_i(t_i-1)/2$, and $n_2 = \sum_j u_j(u_j-1)/2$. Here $t_i$ is the number of tied values in the $i$th group of ties for the first quantity and $u_j$ is the number of tied values in the $j$th group of ties for the second quantity. Tau-b makes adjustments for ties.
+
+- `Seq.kendallTauC`: Kendall's Tau-c. Defined as:
+
+  $$\tau_c = \frac{2(n_c - n_d)}{n^2(m-1)/m}$$
+  
+  where $m = \min(r,s)$ and $r$ and $s$ are the number of distinct items in each sequence. Tau-c makes an adjustment for set size in addition to ties.
+
+Here's an example illustrating the differences:
+
+*)
+
+// Sequences with no ties
+let seqA = [1. .. 10.0]  
+let seqB = seqA |> List.map sin
+
+let noTiesTauA = Seq.kendallTauA seqA seqB 
+let noTiesTauB = Seq.kendallTauB seqA seqB
+let noTiesTauC = Seq.kendallTauC seqA seqB
+
+// Sequences with ties
+let seqC = [1.;2.;2.;3.;4.]
+let seqD = [1.;1.;1.;4.;4.]  
+
+let tiesTauA = Seq.kendallTauA seqC seqD 
+let tiesTauB = Seq.kendallTauB seqC seqD 
+let tiesTauC = Seq.kendallTauC seqC seqD 
+
+let tableKendall = 
+    let header = ["<b>Correlation measure</b>";"value"]
+    let rows = 
+        [
+            ["Tau-a (no ties)"; sprintf "%3f" noTiesTauA]
+            ["Tau-b (no ties)"; sprintf "%3f" noTiesTauB]
+            ["Tau-c (no ties)"; sprintf "%3f" noTiesTauC]
+            ["Tau-a (ties)";    sprintf "%3f" tiesTauA]
+            ["Tau-b (ties)";    sprintf "%3f" tiesTauB]
+            ["Tau-c (ties)";    sprintf "%3f" tiesTauC]
+        ]
+    Chart.Table(header, rows, HeaderFillColor = Color.fromHex "#deebf7", CellsFillColor= Color.fromString "lightgrey")
+
+(*** condition: ipynb ***)
+#if IPYNB
+tableKendall
+#endif // IPYNB
+
+(***hide***)
+tableKendall |> GenericChart.toChartHTML
+(***include-it-raw***)
+
+(**
+
+As seen, when there are no ties, all three variants give the same result. But with ties present, Tau-b and Tau-c make adjustments and can give different values from Tau-a. `Seq.kendall` uses Tau-b as it is the most commonly used variant.
+
+*)
+
 
 (**
 

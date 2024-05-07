@@ -282,11 +282,239 @@ module Correlation =
             |> Seq.map f
             |> spearmanOfPairs
 
-        /// <summary>Kendall Correlation Coefficient </summary>
-        /// <remarks>Computes Kendall rank correlation coefficient between two sequences of observations.</remarks>
+            
+        module internal Kendall = 
+            // x: 'a[] -> y: 'b[] -> pq: float -> n0: int -> n1: int -> n2: int -> 'c
+            // - x: The first array of observations.
+            // - y: The second array of observations.
+            // - pq: Number of concordant minues the number of discordant pairs.
+            // - n0: n(n-1)/2 or (n choose 2), where n is the number of observations.
+            // - n1: sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.
+            // - n2: sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.
+            
+            /// <summary>
+            /// Tau A - Make no adjustments for ties
+            /// </summary>
+            /// <param name="x">The first array of observations.</param>
+            /// <param name="y">The second array of observations.</param>
+            /// <param name="pq">Number of concordant minues the number of discordant pairs.</param>
+            /// <param name="n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
+            /// <param name="n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
+            /// <param name="n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
+            /// <returns>The Kendall tau A statistic.</returns>
+            let tauA _x _y pq n0 _n1 _n2  = pq / float n0
+            /// <summary>
+            /// Tau B - Adjust for ties. tau_b = pq / sqrt((n0 - n1)(n0 - n2))
+            /// </summary>
+            /// <param name="x">The first array of observations.</param>
+            /// <param name="y">The second array of observations.</param>
+            /// <param name="pq">Number of concordant minues the number of discordant pairs.</param>
+            /// <param name="n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
+            /// <param name="n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
+            /// <param name="n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
+            /// <returns>The Kendall tau B statistic.</returns>
+            let tauB _x _y pq n0 n1 n2 =
+                if n0 = n1 || n0 = n2 then nan else
+                pq / sqrt (float (n0 - n1) * float (n0 - n2))
+            /// <summary>
+            /// Tau C - Adjust for ties in x and y. tau_c = 2pq / (n^2 * (m-1)/m) where m = min(distinct x, distinct y)
+            /// </summary>
+            /// <param name="x">The first array of observations.</param>
+            /// <param name="y">The second array of observations.</param>
+            /// <param name="pq">Number of concordant minues the number of discordant pairs.</param>
+            /// <param name="n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
+            /// <param name="n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
+            /// <param name="n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
+            /// <returns>The Kendall tau C statistic.</returns>
+            let tauC (x : _[]) y pq _n0 _n1 _n2 = 
+                let n = x.Length
+                if n = 0 then nan else 
+                let m = min (x |> Seq.distinct |> Seq.length) (y |> Seq.distinct |> Seq.length) |> double
+                let d = double(n*n)*(m-1.)/m
+                2.0*pq / d
+
+        /// <summary>
+        /// Computes the Kendall rank correlation coefficient between two sequences of observations. Tau function is provided as a parameter. 
+        /// </summary>
+        /// <remarks>
+        /// The Kendall rank correlation coefficient is a statistic used to measure the ordinal association between two measured quantities.
+        /// It is a measure of rank correlation: the similarity of the orderings of the data when ranked by each of the quantities.
+        /// </remarks>
+        /// <param name="tau">
+        /// The Kendall tau function to use. x: 'a[] -> y: 'b[] -> pq: float -> n0: int -> n1: int -> n2: int -> 'c 
+        /// <list>
+        /// <item><term>x: </term><description>The first array of observations.</description></item>
+        /// <item><term>y: </term><description>The second array of observations.</description></item>
+        /// <item><term>pq: </term><description>Number of concordant minues the number of discordant pairs.</description></item>
+        /// <item><term>n0: </term><description>n(n-1)/2 or (n choose 2), where n is the number of observations.</description></item>
+        /// <item><term>n1: </term><description>sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</description></item>
+        /// <item><term>n2: </term><description>sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</description></item>
+        /// </list>
+        /// The function would generally return the Kendall tau statistic, however, this setup to allow for returning other values, p-values, multiple statistics, etc.
+        /// </param>
+        /// <param name="x"> The first sequence of observations. </param>
+        /// <param name="y"> The second sequence of observations. </param>
+        let internal kendallTau tau (x: 'a[]) (y: 'b[]) =
+            // Kendall's tau using the O(n log n) algorithm of Knight (1966).
+            // - Initial sort by x, then by y.
+            // - Count the number of swaps needed to sort by y.
+            // - Count the number of concordant and discordant pairs.
+            // - Count the number of ties in x, y, and both.
+            // - Calculate the tau statistic.
+            let n = min x.Length y.Length
+            if n = 0 then
+                tau x y nan 0 0 0
+            else
+                let a = [| 0 .. n - 1 |]
+                let sortedIdx = a |> Array.sortBy (fun a -> x.[a], y.[a])
+                let rec mergesort offset length =
+                    match length with 
+                    | 1 -> 0
+                    | 2 -> 
+                        if y.[sortedIdx.[offset]] <= y.[sortedIdx.[offset + 1]] then
+                            0
+                        else
+                            Array.swapInPlace offset (offset + 1) sortedIdx
+                            1
+                    | _ ->
+                        let leftLength = length / 2
+                        let rightLength = length - leftLength
+                        let middleIndex = offset + leftLength
+                        let swaps = mergesort offset leftLength + mergesort middleIndex rightLength
+                        if y.[sortedIdx.[middleIndex - 1]] < y.[sortedIdx.[middleIndex]] then
+                            swaps
+                        else
+                            let rec merge i r l swaps =
+                                if r < leftLength || l < rightLength then
+                                    if l >= rightLength || (r < leftLength && y.[sortedIdx.[offset + r]] <= y.[sortedIdx.[middleIndex + l]]) then
+                                        let d = i - r |> max 0
+                                        let swaps = swaps + d
+                                        a.[i] <- sortedIdx.[offset + r]
+                                        merge (i + 1) (r + 1) l swaps
+                                    else
+                                        let d = (offset + i) - (middleIndex + l) |> max 0
+                                        let swaps = swaps + d
+                                        a.[i] <- sortedIdx.[middleIndex + l]
+                                        merge (i + 1) r (l + 1) swaps
+                                else
+                                    swaps
+                            let swaps = merge 0 0 0 swaps
+                            Array.blit a 0 sortedIdx offset length
+                            swaps
+                let tallyTies noTie = 
+                    let mutable k = 0
+                    let mutable sum = 0
+                    for i in 1 .. n - 1 do
+                        if noTie k i then
+                            sum <- sum + (i - k) * (i - k - 1) / 2
+                            k <- i
+                    sum + (n - k) * (n - k - 1) / 2
+                let n3 = tallyTies (fun k i -> x.[sortedIdx.[k]] <> x.[sortedIdx.[i]] || y.[sortedIdx.[k]] <> y.[sortedIdx.[i]])
+                let n1 = tallyTies (fun k i -> x.[sortedIdx.[k]] <> x.[sortedIdx.[i]])
+                let swaps = mergesort 0 n
+                let n2 = tallyTies (fun k i -> y.[sortedIdx.[k]] <> y.[sortedIdx.[i]])
+                let n0 = n * (n - 1) / 2
+                let pq = ((float (n0 - n1 - n2 + n3)) - 2.0 * float swaps)
+                tau x y pq n0 n1 n2 
+        
+        /// <summary>Kendall Correlation Coefficient</summary>
+        /// <remarks>Computes Kendall Tau-a rank correlation coefficient between two sequences of observations. No adjustment is made for ties.
+        /// tau_a = (n_c - n_d) / n_0, where 
+        /// <list>
+        /// <item><term>n_c: </term><description>Number of concordant pairs.</description></item>
+        /// <item><term>n_d: </term><description>Number of discordant pairs.</description></item>
+        /// <item><term>n_0: </term><description>n*(n-1)/2 where n is the number of observations.</description></item>
+        /// </list>
+        /// </remarks>
         /// <param name="seq1">The first sequence of observations.</param>
         /// <param name="seq2">The second sequence of observations.</param>
-        /// <returns>Kendall rank correlation coefficient of setA and setB</returns>
+        /// <returns>Kendall Tau-a rank correlation coefficient of setA and setB</returns>
+        /// <example>
+        /// <code>
+        /// let x = [5.05;6.75;3.21;2.66]
+        /// let y = [1.65;26.5;-0.64;6.95]
+        ///
+        /// Seq.kendallTauA x y // evaluates to 0.3333333333
+        /// </code>
+        /// </example>
+        let kendallTauA seq1 seq2 = 
+            let setA = Array.ofSeq seq1
+            let setB = Array.ofSeq seq2
+            if setB.Length <> setA.Length then invalidArg "seq2" "The input sequences must have the same length"
+            kendallTau Kendall.tauA setA setB
+
+        /// <summary>Kendall Correlation Coefficient</summary>
+        /// <remarks>Computes Kendall Tau-b rank correlation coefficient between two sequences of observations. Tau-b is used to adjust for ties.
+        /// tau_b = (n_c - n_d) / sqrt((n_0 - n_1) * (n_0 - n_2)), where
+        /// <list>
+        /// <item><term>n_c: </term><description>Number of concordant pairs.</description></item>
+        /// <item><term>n_d: </term><description>Number of discordant pairs.</description></item>
+        /// <item><term>n_0: </term><description>n*(n-1)/2 where n is the number of observations.</description></item>
+        /// <item><term>n_1: </term><description>sum_i(t_i(t_i-1)/2) where t_i is the number of pairs of observations with the same x value.</description></item>
+        /// <item><term>n_2: </term><description>sum_i(u_i(u_i-1)/2) where u_i is the number of pairs of observations with the same y value.</description></item>
+        /// </list>
+        /// </remarks>
+        /// <param name="seq1">The first sequence of observations.</param>
+        /// <param name="seq2">The second sequence of observations.</param>
+        /// <returns>Kendall Tau-b rank correlation coefficient of seq1 and seq2</returns>
+        /// <example>
+        /// <code>
+        /// let x = [5.05;6.75;3.21;2.66]
+        /// let y = [1.65;26.5;-0.64;6.95]
+        ///
+        /// Seq.kendallTauB x y // evaluates to 0.3333333333
+        /// </code>
+        /// </example>
+        let kendallTauB seq1 seq2 = 
+            let setA = Array.ofSeq seq1
+            let setB = Array.ofSeq seq2
+            if setB.Length <> setA.Length then invalidArg "seq2" "The input sequences must have the same length"
+            kendallTau Kendall.tauB setA setB
+        
+        /// <summary>Kendall Correlation Coefficient</summary>
+        /// <remarks>Computes Kendall Tau-c rank correlation coefficient between two sequences of observations. Tau-c is used to adjust for ties which is preferred to Tau-b when x and y have a different number of possible values.
+        /// tau_c = 2(n_c - n_d) / (n^2 * (m-1)/m), where
+        /// <list>
+        /// <item><term>n_c: </term><description>Number of concordant pairs.</description></item>
+        /// <item><term>n_d: </term><description>Number of discordant pairs.</description></item>
+        /// <item><term>n: </term><description>The number of observations.</description></item>
+        /// <item><term>m: </term><description>The lesser of the distinct x count and distinct y count.</description></item>
+        /// </list>
+        /// </remarks>
+        /// <param name="seq1">The first sequence of observations.</param>
+        /// <param name="seq2">The second sequence of observations.</param>
+        /// <returns>Kendall Tau-c rank correlation coefficient of seq1 and seq2</returns>
+        /// <example>
+        /// <code>
+        /// let x = [1;1;1;2;2;2;3;3;3]
+        /// let y = [2;2;4;4;6;6;8;8;10]
+        ///
+        /// Seq.kendallTauA x y // evaluates to 0.7222222222
+        /// Seq.kendallTauB x y // evaluates to 0.8845379627
+        /// Seq.kendallTauC x y // evaluates to 0.962962963
+        /// </code>
+        /// </example>
+        let kendallTauC seq1 seq2 = 
+            let setA = Array.ofSeq seq1
+            let setB = Array.ofSeq seq2
+            if setB.Length <> setA.Length then invalidArg "seq2" "The input sequences must have the same length"
+            kendallTau Kendall.tauC setA setB
+
+            
+        /// <summary>Kendall Correlation Coefficient</summary>
+        /// <remarks>This is an alias to <see cref="kendallTauB"/>. Computes Kendall Tau-b rank correlation coefficient between two sequences of observations. Tau-b is used to adjust for ties.
+        /// tau_b = (n_c - n_d) / sqrt((n_0 - n_1) * (n_0 - n_2)), where
+        /// <list>
+        /// <item><term>n_c: </term><description>Number of concordant pairs.</description></item>
+        /// <item><term>n_d: </term><description>Number of discordant pairs.</description></item>
+        /// <item><term>n_0: </term><description>n*(n-1)/2 where n is the number of observations.</description></item>
+        /// <item><term>n_1: </term><description>sum_i(t_i(t_i-1)/2) where t_i is the number of pairs of observations with the same x value.</description></item>
+        /// <item><term>n_2: </term><description>sum_i(u_i(u_i-1)/2) where u_i is the number of pairs of observations with the same y value.</description></item>
+        /// </list>
+        /// </remarks>
+        /// <param name="seq1">The first sequence of observations.</param>
+        /// <param name="seq2">The second sequence of observations.</param>
+        /// <returns>Kendall Tau-b rank correlation coefficient of seq1 and seq2</returns>
         /// <example>
         /// <code>
         /// let x = [5.05;6.75;3.21;2.66]
@@ -295,48 +523,8 @@ module Correlation =
         /// Seq.kendall x y // evaluates to 0.3333333333
         /// </code>
         /// </example>
-        let kendall seq1 seq2 =
-            let setA = Array.ofSeq seq1
-            let setB = Array.ofSeq seq2
-            let lengthArray = Array.length setA
-            let inline kendallCorrFun (setA:_[]) (setB:_[]) =
-                let rec loop i j cCon cDisc cTieA cTieB cPairs =      
-                    if i < lengthArray - 1 then
-                        if j <= lengthArray - 1 then
-                            if j > i then
-                                if (setA.[i] > setA.[j] && setB.[i] > setB.[j]) || (setA.[i] < setA.[j] && setB.[i] < setB.[j]) then
-                                    loop i (j+1) (cCon + 1.0) cDisc cTieA cTieB (cPairs + 1.0)
+        let kendall seq1 seq2 = kendallTauB seq1 seq2
 
-                                elif (setA.[i] > setA.[j] && setB.[i] < setB.[j]) || (setA.[i] < setA.[j] && setB.[i] > setB.[j]) then
-                                    loop i (j+1) cCon (cDisc + 1.0) cTieA cTieB (cPairs + 1.0)
-
-                                else
-                                    if (setA.[i] = setA.[j]) then
-                                        loop i (j+1) cCon cDisc (cTieA + 1.0) cTieB (cPairs + 1.0)
-
-                                    else
-                                        loop i (j+1) cCon cDisc cTieA (cTieB + 1.0) (cPairs + 1.0)
-                            else
-                                loop i (j+1) cCon cDisc cTieA cTieB cPairs
-
-                        else 
-                            loop (i+1) 1 cCon cDisc cTieA cTieB cPairs
-
-                    else
-                        let floatLength = lengthArray |> float
-
-                        if (cTieA <> 0.0) || (cTieB <> 0.0) then
-                            let n = (floatLength * (floatLength - 1.0)) / 2.0
-                            let n1 = (cTieA * (cTieA - 1.0)) / 2.0
-                            let n2 = (cTieB * (cTieB - 1.0)) / 2.0
-                            (cCon - cDisc) / (sqrt ((n - n1) * (n - n2)))
-                
-                        else
-                            (cCon - cDisc) / ((floatLength * (floatLength - 1.0)) / 2.0)
-                
-                loop 0 1 0.0 0.0 0.0 0.0 0.0
-
-            kendallCorrFun (FSharp.Stats.Rank.RankFirst() setA ) (FSharp.Stats.Rank.RankFirst() setB )
 
         /// <summary>
         /// Calculates the kendall correlation coefficient of two samples given as a sequence of paired values. 
