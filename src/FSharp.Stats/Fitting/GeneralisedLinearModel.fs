@@ -224,6 +224,7 @@ module IrLS =
         for k = 0 to m - 1 do
             let gVariance = varianceFunction (g.[k])
             if gVariance = 0.0 then
+                printfn "Variance= 0.0 -> Exit"
                 System.Environment.Exit(0)
             W.[k, k] <- gprime.[k] * gprime.[k] / gVariance
 
@@ -233,14 +234,14 @@ module IrLS =
         let AtWA: Matrix<float>     = AtW * A
         let AtWAInv: Matrix<float>  = Algebra.LinearAlgebra.Inverse AtWA
 
-        let x = (AtWAInv * AtW) * z
+        let x_new = (AtWAInv * AtW) * z
 
         //Calculate the cost of this step
         let cost:float = 
-            x - x_old 
+            x_new - x_old 
             |> Vector.norm
 
-        cost,x_old,x,AtWAInv
+        cost,x_old,x_new,AtWAInv
 
     let solveIrls (A: Matrix<float>) (b: Vector<float>) (maxIter: int) (mDistributionFamily: GlmDistributionFamily) (mTol: float) =
         let loopTilIter (A: Matrix<float>) (b: Vector<float>) (mDistributionFamily: GlmDistributionFamily) (maxIter: int) (mTol: float) (costFunction: Matrix<float> -> Matrix<float> -> Vector<float> -> GlmDistributionFamily -> Vector<float> -> float * Vector<float> * Vector<float> * Matrix<float>) = 
@@ -262,12 +263,11 @@ module IrLS =
                     
                     let (cost: float),(x_old: Vector<float>),(x: Vector<float>),(AtWAInv:Matrix<float>) = costFunction A At b mDistributionFamily x
 
-                    if loopCount%10 = 0 then
-                        printfn $"Iteration {loopCount}, Cost {cost}"
+                    //if loopCount%10 = 0 then
+                    printfn $"Iteration {loopCount}, Cost {cost}"
                     
                     if cost < mTol then
                         x_old,x,AtWAInv
-
                     else
                         loopTilMaxIter x x_old AtWAInv (loopCount+1)
             
