@@ -40,7 +40,7 @@ module Seq =
     /// <example>
     /// <code>
     /// let values = [1; 2; 3; 4; 5]
-    /// let r = Seq.rangeBy (fun x -> x * 2) values // returns Interval.Closed(2, 10)
+    /// let r = Seq.rangeBy (fun x -> x * 2) values // returns Interval.Closed(1, 5)
     /// </code>
     /// </example>
     let inline rangeBy f (items:seq<_>) =
@@ -239,6 +239,10 @@ module Seq =
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
     /// <example>
     /// <code>
+    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+    /// let m = Seq.meanQuadratic values // returns approximately 3.31662
+    /// </code>
+    /// </example>
     let inline meanQuadratic (items:seq<'T>) : 'U  =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero< 'U > 
@@ -291,8 +295,8 @@ module Seq =
     /// <remarks>Returns NaN if data is empty or if any entry is NaN.</remarks>
     /// <example>
     /// <code>
-    /// let values = [1.0; 2.0; 3.0; 4.0; 5.0]
-    /// let m = Seq.meanTruncated 0.2 values // returns 3.0
+    /// let values = {1.0 .. 10.0}
+    /// let m = Seq.meanTruncated 0.2 values // returns mean of {3.0 .. 8.0} or 5.5 
     /// </code>
     /// </example>
     let inline meanTruncated  (proportion:float) (data:seq<'T>) : 'T  =
@@ -903,8 +907,7 @@ module Seq =
     /// let xy = [(5., 2.); (12., 8.); (18., 18.); (-23., -20.); (45., 28.)]
     /// 
     /// // To get the sample covariance between x and y:
-    /// xy |> Seq.covOfPairs // evaluates to 434.90
-    /// <remarks></remarks>
+    /// xy |> Seq.covOfPairs // evaluates to 434.9
     /// </code>
     /// </example>
     let inline covOfPairs (seq:seq<'T * 'T>) : 'U =
@@ -1180,8 +1183,8 @@ module Seq =
     /// let stats = Seq.stats values
     /// // returns SummaryStats with:
     /// //   N = 5
-    /// //   Mean = 3.0
-    /// //   SumOfSquares = 55.0
+    /// //   Mean = 3.5
+    /// //   SumOfSquares = 5.0
     /// //   Minimum = 1.0
     /// //   Maximum = 5.0
     /// </code>
@@ -1287,7 +1290,7 @@ module Seq =
         /// <code>
         /// let observed = [1.0; 2.0; 3.0; 4.0; 5.0]
         /// let expected = [2.0; 3.0; 4.0; 5.0; 6.0]
-        /// let ss = UtilityFunctions.sumOfSquares observed expected // returns 5.0
+        /// let ss = Seq.UtilityFunctions.sumOfSquares observed expected // returns 5.0
         /// </code>
         /// </example>
         let sumOfSquares (xData:seq<float>) (exData:seq<float>) =
@@ -1304,7 +1307,7 @@ module Seq =
         /// <code>
         /// let sizes = [10; 20; 15]
         /// let variances = [2.5; 3.2; 1.8]
-        /// let pooledVar = UtilityFunctions.pooledVarOf sizes variances // returns 2.411111
+        /// let pooledVar = Seq.UtilityFunctions.pooledVarOf sizes variances // returns 2.411111
         /// </code>
         /// </example>>
         let pooledVarOf (sizes:seq<int>) (variances:seq<float>) =            
@@ -1326,7 +1329,7 @@ module Seq =
         /// let group1 = [1.0; 2.0; 3.0; 4.0; 5.0]
         /// let group2 = [2.0; 4.0; 6.0; 8.0; 10.0]
         /// let group3 = [3.0; 6.0; 9.0; 12.0; 15.0]
-        /// let pooledVar = UtilityFunctions.pooledVar [group1; group2; group3] // returns 7.466667
+        /// let pooledVar = Seq.UtilityFunctions.pooledVar [group1; group2; group3] // returns 7.466667
         /// </code>
         /// </example>
         let pooledVar (data:seq<#seq<float>>) =
@@ -1349,7 +1352,7 @@ module Seq =
         /// <code>
         /// let sizes = [10; 20; 15]
         /// let variances = [2.5; 3.2; 1.8]
-        /// let pooledVarPop = UtilityFunctions.pooledVarPopulationOf sizes variances // returns 2.583333
+        /// let pooledVarPop = Seq.UtilityFunctions.pooledVarPopulationOf sizes variances // returns 2.583333
         /// </code>
         /// </example>>
         let pooledVarPopulationOf (sizes:seq<int>) (variances:seq<float>) =            
@@ -1372,7 +1375,7 @@ module Seq =
         /// let group1 = [1.0; 2.0; 3.0; 4.0; 5.0]
         /// let group2 = [2.0; 4.0; 6.0; 8.0; 10.0]
         /// let group3 = [3.0; 6.0; 9.0; 12.0; 15.0]
-        /// let pooledVarPop = UtilityFunctions.pooledVarPopulation [group1; group2; group3] // returns 9.333333
+        /// let pooledVarPop = Seq.UtilityFunctions.pooledVarPopulation [group1; group2; group3] // returns 9.333333
         /// </code>
         /// </example>
         let pooledVarPopulation (data:seq<#seq<float>>) =
@@ -1396,7 +1399,7 @@ module Seq =
         /// <code>
         /// let sizes = [10; 20; 15]
         /// let variances = [2.5; 3.2; 1.8]
-        /// let pooledStDev = UtilityFunctions.pooledStDevOf sizes variances // returns 1.552775
+        /// let pooledStDev =Seq. UtilityFunctions.pooledStDevOf sizes variances // returns 1.552775
         /// </code>
         /// </example> 
         let pooledStDevOf (sizes:seq<int>) (variances:seq<float>) =  
@@ -1413,7 +1416,7 @@ module Seq =
         /// let group1 = [1.0; 2.0; 3.0; 4.0; 5.0]
         /// let group2 = [2.0; 4.0; 6.0; 8.0; 10.0]
         /// let group3 = [3.0; 6.0; 9.0; 12.0; 15.0]
-        /// let pooledStDev = UtilityFunctions.pooledStDev [group1; group2; group3] // returns 2.732520
+        /// let pooledStDev = Seq.UtilityFunctions.pooledStDev [group1; group2; group3] // returns 2.732520
         /// </code>
         /// </example>
         let pooledStDev (data:seq<#seq<float>>) = 
@@ -1429,7 +1432,7 @@ module Seq =
         /// <code>
         /// let sizes = [10; 20; 15]
         /// let variances = [2.5; 3.2; 1.8]
-        /// let pooledStDevPop = UtilityFunctions.pooledStDevPopulationOf sizes variances // returns 1.607275
+        /// let pooledStDevPop = Seq.UtilityFunctions.pooledStDevPopulationOf sizes variances // returns 1.607275
         /// </code>
         /// </example> 
         let pooledStDevPopulationOf (sizes:seq<int>) (variances:seq<float>) =  
@@ -1445,39 +1448,19 @@ module Seq =
         /// let group1 = [1.0; 2.0; 3.0; 4.0; 5.0]
         /// let group2 = [2.0; 4.0; 6.0; 8.0; 10.0]
         /// let group3 = [3.0; 6.0; 9.0; 12.0; 15.0]
-        /// let pooledStDevPop = UtilityFunctions.pooledStDevPopulation [group1; group2; group3] // returns 3.055050
+        /// let pooledStDevPop = Seq.UtilityFunctions.pooledStDevPopulation [group1; group2; group3] // returns 3.055050
         /// </code>
         /// </example>     
         let pooledStDevPopulation (data:seq<#seq<float>>) = 
             sqrt (pooledVarPopulation data)
 
-        /// <summary>
         /// Converts the input sequence to an array if it is not already an array.
-        /// </summary>
-        /// <param name="xs">The input sequence.</param>
-        /// <returns>An array containing the elements of the input sequence.</returns>
-        /// <example>
-        /// <code>
-        /// let seq = [1; 2; 3; 4; 5]
-        /// let arr = UtilityFunctions.toArrayQuick seq // returns [|1; 2; 3; 4; 5|]
-        /// </code>
-        /// </example>
         let inline internal toArrayQuick (xs: seq<'T>) =
             match xs with
             | :? ('T[]) as arr -> arr
             | _ -> Seq.toArray xs
 
-        /// <summary>
         /// Converts the input sequence to an array if it is not already an array. If the input sequence is already an array, it is copied to a new array.
-        /// </summary>
-        /// <param name="xs">The input sequence.</param>
-        /// <returns>A new array containing the elements of the input sequence.</returns>
-        /// <example>
-        /// <code>
-        /// let arr = [|1; 2; 3; 4; 5|]
-        /// let newArr = UtilityFunctions.toArrayCopyQuick arr // returns a new array [|1; 2; 3; 4; 5|]
-        /// </code>
-        /// </example>
         let inline internal toArrayCopyQuick (xs: seq<'T>) =
             match xs with
             | :? ('T[]) as arr -> Array.copy arr
