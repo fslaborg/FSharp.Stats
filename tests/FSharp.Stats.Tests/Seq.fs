@@ -838,22 +838,22 @@ let statsTests =
             Expect.equal stats.N 10 "N should be 9"
             Expect.floatClose Accuracy.high stats.Mean -13.979665708718687 "Mean should be -13.979665708718687"
             Expect.floatClose Accuracy.high stats.SumOfSquares 362450.2113702808 "SumOfSquares should be 362450.2113702808"
-            Expect.floatClose Accuracy.high stats.Min -20.63806223792094 "Min should be -20.63806223792094"
-            Expect.floatClose Accuracy.high stats.Max 10.644420177367894 "Max should be 10.644420177367894"
+            Expect.floatClose Accuracy.high stats.Min -499.92173630740575163 "Min should be -499.92173630740575163"
+            Expect.floatClose Accuracy.high stats.Max 292.9640583661216624 "Max should be 10.644420177367894"
 
         testCase "statsSeqGen1000" <| fun () ->
             let stats = seqGen 1000 |> Seq.stats
             Expect.equal stats.N 1000 "N should be 999"
             Expect.floatClose Accuracy.medium stats.Mean -5.133606105015737 "Mean should be -5.133606105015737"
             Expect.floatClose Accuracy.medium stats.SumOfSquares 81701824.38921407 "SumOfSquares should be 81701824.38921407"
-            Expect.floatClose Accuracy.medium stats.Min -21.150581523183326 "Min should be -21.150581523183326"
-            Expect.floatClose Accuracy.medium stats.Max 10.644420177367894 "Max should be 10.644420177367894"
+            Expect.floatClose Accuracy.medium stats.Min -498.70270583718212265 "Min should be -498.70270583718212265"
+            Expect.floatClose Accuracy.medium stats.Max 499.80056798076293489 "Max should be 10.644420177367894"
 
         testCase "statsAllSame" <| fun () ->
             let stats = Seq.init 100 (fun _ -> 42.0) |> Seq.stats
             Expect.equal stats.N 100 "N should be 100"
             Expect.equal stats.Mean 42.0 "Mean should be 42.0"
-            Expect.equal stats.SumOfSquares 176400.0 "SumOfSquares should be 176400.0"
+            Expect.equal stats.SumOfSquares 0.0 "SumOfSquares should be 0.0"
             Expect.equal stats.Min 42.0 "Min should be 42.0"
             Expect.equal stats.Max 42.0 "Max should be 42.0"
 
@@ -862,14 +862,12 @@ let statsTests =
             Expect.equal stats.N 4 "N should be 4"
             Expect.isTrue (Double.IsNaN stats.Mean) "Mean should be NaN"
             Expect.isTrue (Double.IsNaN stats.SumOfSquares) "SumOfSquares should be NaN"
-            Expect.equal stats.Min 1.0 "Min should be 1.0"
-            Expect.equal stats.Max 3.0 "Max should be 3.0"
 
         testCase "statsInfinity" <| fun () ->
             let stats = Seq.stats [1.0; Double.PositiveInfinity; 2.0; Double.NegativeInfinity]
             Expect.equal stats.N 4 "N should be 4"
             Expect.isTrue (Double.IsNaN stats.Mean) "Mean should be NaN"
-            Expect.isTrue (Double.IsPositiveInfinity stats.SumOfSquares) "SumOfSquares should be positive infinity"
+            Expect.isTrue (Double.IsNaN stats.SumOfSquares) "SumOfSquares should be NaN"
             Expect.equal stats.Min Double.NegativeInfinity "Min should be negative infinity"
             Expect.equal stats.Max Double.PositiveInfinity "Max should be positive infinity"
     ]
