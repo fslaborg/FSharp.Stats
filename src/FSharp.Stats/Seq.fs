@@ -1201,7 +1201,7 @@ module Seq =
                 let m1' = m1 + deltaN            
                 let m2' = m2 + delta * deltaN * (n-one)
                 loop (n + one) (min current minimum) (max current maximum) m1' m2'
-            | false -> SummaryStats.createSummaryStats (n-one) m1 m2 minimum maximum
+            | false -> SummaryStats.createSummaryStats n m1 m2 minimum maximum
 
         //Init by first value        
         match e.MoveNext() with
