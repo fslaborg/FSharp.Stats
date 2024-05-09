@@ -148,10 +148,10 @@ module Seq =
     /// let m = Seq.meanHarmonic values // returns approximately 2.18978
     /// </code>
     /// </example>
-    let inline meanHarmonic (items:seq<'T>) : 'U  =
+    let inline meanHarmonic (items:seq<'T>) : 'T  =
         use e = items.GetEnumerator()
-        let zero = LanguagePrimitives.GenericZero< 'U > 
-        let one = LanguagePrimitives.GenericOne< 'U >
+        let zero = LanguagePrimitives.GenericZero< 'T > 
+        let one = LanguagePrimitives.GenericOne< 'T >
         let rec loop n (acc) =
             match e.MoveNext() with
             | true  -> loop (n + one ) (acc + (one / e.Current))
@@ -282,9 +282,9 @@ module Seq =
 
 
     /// <summary>
-    /// Computes the truncated (trimmed) mean where x percent of the highest, and x percent of the lowest values are discarded (total 2x).
+    /// Computes the truncated (trimmed) mean where x*count of the highest, and x*count of the lowest values are discarded (total 2x).
     /// </summary>
-    /// <param name="percent">The percentage of values to discard from each end.</param>
+    /// <param name="proportion">The proportion of values to discard from each end.</param>
     /// <param name="data">The input sequence.</param>
     /// <returns>The truncated (trimmed) mean of the input sequence.</returns>
     /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
@@ -295,11 +295,11 @@ module Seq =
     /// let m = Seq.meanTruncated 0.2 values // returns 3.0
     /// </code>
     /// </example>
-    let inline meanTruncated  (percent:float) (data:seq<'T>) : 'U  =
-        let zero = LanguagePrimitives.GenericZero< 'U > 
+    let inline meanTruncated  (proportion:float) (data:seq<'T>) : 'T  =
+        let zero = LanguagePrimitives.GenericZero< 'T > 
         let n = Seq.length(data)
         if (n > 0) then    
-            let k = int ((float n * percent))
+            let k = int ((float n * proportion))
             data
             |> Seq.sort
             |> Seq.skip k
@@ -313,7 +313,7 @@ module Seq =
     /// Computes the truncated (trimmed) mean by applying a function to each element.
     /// </summary>
     /// <param name="f">A function applied to transform each element of the sequence.</param>
-    /// <param name="percent">The percentage of values to discard from each end.</param>
+    /// <param name="proportion">The proportion of values to discard from each end.</param>
     /// <param name="data">The input sequence.</param>
     /// <returns>The truncated (trimmed) mean of the transformed input sequence.</returns>
     /// <exception cref="System.DivideByZeroException">Thrown if the sequence is empty and type cannot divide by zero.</exception>
@@ -324,11 +324,11 @@ module Seq =
     /// let m = Seq.meanTruncatedBy (fun x -> x * 2.0) 0.2 values // returns 7.0
     /// </code>
     /// </example>
-    let inline meanTruncatedBy  (f : 'T -> ^U) (percent:float) (data:seq<'T>) : 'U  =
+    let inline meanTruncatedBy  (f : 'T -> ^U) (proportion:float) (data:seq<'T>) : 'U  =
         let zero = LanguagePrimitives.GenericZero< 'U > 
         let n = Seq.length(data)
         if (n > 0) then    
-            let k = int (floor (float n * percent))
+            let k = int (floor (float n * proportion))
             data
             |> Seq.sort
             |> Seq.skip k
