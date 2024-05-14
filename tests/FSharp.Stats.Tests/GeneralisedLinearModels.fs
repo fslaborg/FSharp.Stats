@@ -210,6 +210,70 @@ let linkerFunctions =
                         actual
                         $" Else Element {i} InverseLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
 
+        testCase "LogitLinkFunction" <| fun () ->
+            let linkInvExpected        = 
+                [|
+                    1.
+                    1.
+                    0.73105858
+                    0.5
+                    0.26894142
+                    0.
+                    0.        
+                |]
+
+            let linkInvDerExpected  =
+                [|
+                    nan
+                    nan
+                    0.19661193
+                    0.25
+                    0.19661193
+                    0.
+                    0.             
+                |]
+            
+            let link            = Fitting.GLM.LinkFunctions.LogitLinkFunction
+            let linkF           = link.getLink
+            let linkFInv        = link.getInvLink
+            let linkFInvDer     = link.getInvLinkDerivative
+
+            let linkFActual             = testingArray |> Array.map(linkF) 
+            let linkFInvActual          = testingArray |> Array.map(linkFInv) 
+            let linkFInvDerActual       = testingArray |> Array.map(linkFInvDer) 
+
+            for i=0 to testingArray.Length-1 do
+                let expected    = linkInvExpected.[i]
+                let actual      = linkFInvActual.[i] 
+                if isInf actual then
+                    Expect.isTrue (isInf expected) $" isInf Element {i} LogitLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNegInf actual then
+                    Expect.isTrue (isNegInf expected) $" isNegInf Element {i} LogitLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNan actual then
+                    Expect.isTrue (isNan expected) $"isNan Element {i} LogitLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                else
+                    Expect.floatClose 
+                        Accuracy.medium
+                        expected
+                        actual
+                        $" Else Element {i} LogitLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+
+            for i=0 to testingArray.Length-1 do
+                let expected    = linkInvDerExpected.[i]
+                let actual      = linkFInvDerActual.[i] 
+                if isInf actual then
+                    Expect.isTrue (isInf expected) $" isInf Element {i} LogitLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNegInf actual then
+                    Expect.isTrue (isNegInf expected) $" isNegInf Element {i} LogitLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNan actual then
+                    Expect.isTrue (isNan expected) $"isNan Element {i} LogitLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                else
+                    Expect.floatClose 
+                        Accuracy.medium
+                        expected
+                        actual
+                        $" Else Element {i} LogitLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+
     ]
 
 [<Tests>]
