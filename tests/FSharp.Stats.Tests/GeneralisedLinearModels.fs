@@ -23,6 +23,17 @@ let internal currentDir  = System.IO.Directory.GetCurrentDirectory()
 
 let internal tolRef = 1e-11
 
+let internal testingArray = 
+    [|
+        FSharp.Stats.Ops.inf
+        888.
+        1.
+        0.
+        -1
+        -888.
+        FSharp.Stats.Ops.infNeg
+    |]
+
 module internal HelperFunctions = 
     
     let internal testingWithOneCreation (matrix: Matrix<float>) =
@@ -70,7 +81,73 @@ module internal HelperFunctions =
 
 [<Tests>]
 let linkerFunctions = 
-    Expect.isTrue true
+    testList "Test Linker functions for GLM" [
+        testCase "Poisson" <| fun () ->
+            let linkInvExpected        = 
+                [|
+                    FSharp.Stats.Ops.inf 
+                    FSharp.Stats.Ops.inf
+                    2.71828183
+                    1.
+                    0.36787944
+                    0.
+                    0.        
+                |]
+
+            let linkInvDerExpected  =
+                [|
+                    FSharp.Stats.Ops.inf
+                    FSharp.Stats.Ops.inf
+                    2.71828183
+                    1.
+                    0.36787944
+                    0.
+                    0.        
+                |]
+            
+            let family          = Fitting.GLM.GlmDistributionFamily.Poisson
+            let link            = Fitting.GLM.GlmDistributionFamily.getLinkFunction family
+            let linkF           = link.getLink
+            let linkFInv        = link.getInvLink
+            let linkFInvDer     = link.getInvLinkDerivative
+
+            let linkFActual             = testingArray |> Array.map(linkF) 
+            let linkFInvActual          = testingArray |> Array.map(linkFInv) 
+            let linkFInvDerActual       = testingArray |> Array.map(linkFInvDer) 
+
+            for i=0 to testingArray.Length-1 do
+                let expected    = linkInvExpected.[i]
+                let actual      = linkFInvActual.[i] 
+                if isInf actual then
+                    Expect.isTrue (isInf expected) $" isInf Element {i} Poisson inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNegInf actual then
+                    Expect.isTrue (isNegInf expected) $" isNegInf Element {i} Poisson inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNan actual then
+                    Expect.isTrue (isNan expected) $"isNan Element {i} Poisson inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                else
+                    Expect.floatClose 
+                        Accuracy.high
+                        expected
+                        actual
+                        $" Else Element {i} Poisson inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+
+            for i=0 to testingArray.Length-1 do
+                let expected    = linkInvDerExpected.[i]
+                let actual      = linkFInvDerActual.[i] 
+                if isInf actual then
+                    Expect.isTrue (isInf expected) $" isInf Element {i} Poisson inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNegInf actual then
+                    Expect.isTrue (isNegInf expected) $" isNegInf Element {i} Poisson inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNan actual then
+                    Expect.isTrue (isNan expected) $"isNan Element {i} Poisson inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                else
+                    Expect.floatClose 
+                        Accuracy.high
+                        expected
+                        actual
+                        $" Else Element {i} Poisson inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+
+    ]
 
 [<Tests>]
 let GLMTestsQR = 
