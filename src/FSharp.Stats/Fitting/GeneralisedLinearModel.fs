@@ -45,10 +45,20 @@ module LinkFunctions =
         }
 
     let InverseLinkFunction: LinkFunction =
+
+               // linkfun <- function(mu) 1/mu
+               //linkinv <- function(eta) 1/eta
+               //mu.eta <- function(eta) -1/(eta^2)
         {
-            getLink                 = fun b -> -1.0 / b
-            getInvLink              = fun a -> -1.0 / a
-            getInvLinkDerivative    = fun a -> -1.0 / (a * a)
+            getLink                 = fun b -> Math.Pow(b,-1.)//1.0 / b
+            getInvLink              = fun a -> Math.Pow(a,-1.)//1.0 / a
+            getInvLinkDerivative    = fun a -> 
+                let inv1 = 1. - -1.
+                let inv2 = inv1 / -1.
+                let inv3 = Math.Pow(a,inv2)
+                inv3 / -1.
+                
+                //-1.0 / (a * a)
         }
 
     let IdentityLinkFunction: LinkFunction =
@@ -85,7 +95,7 @@ module GlmDistributionFamily =
         | GlmDistributionFamily.Multinomial ->
             g * (1.0 - g)
         | GlmDistributionFamily.Gamma ->
-            g * g
+            g ** 2.
         | GlmDistributionFamily.InverseGaussian ->
             g * g * g
         | GlmDistributionFamily.Normal ->
@@ -357,6 +367,7 @@ module IrLS =
 
 
 module QR =
+
     let internal qrAlternative (A:Matrix<float>) =
         let m: int = A.NumRows
         let n: int = A.NumCols
@@ -401,6 +412,39 @@ module QR =
                 r[i, j] <- (nominator/denominator)
     
         q,r
+
+    let internal solveLinearQR (A: Matrix<float>) (t: Vector<float>) =
+        let m = A.NumRows
+        let n = A.NumCols
+
+        System.Diagnostics.Debug.Assert(m >= n) 
+
+        let q,r = qrAlternative A 
+
+        let QT = q.Transpose
+
+        let mX = Vector.zeroCreate n
+
+        let c: Vector<float> = QT * t
+
+        let rec build_mX_inner cross_prod i j =
+            if j=n then 
+                cross_prod
+            else
+                let newCrossprod = cross_prod + (r[i, j] * mX[j])
+                build_mX_inner newCrossprod i (j+1)
+    
+        let rec build_mX_outer i =
+            if i<0 then 
+                ()
+            else
+                let crossProd = build_mX_inner 0. i (i+1)
+                mX[i] <- (c[i] - crossProd) / r[i, i]
+                build_mX_outer (i-1)
+    
+        build_mX_outer (n-1)
+    
+        mX,r
 
     let stepwiseGainQR (A: Matrix<float>) (b: Vector<float>) (mDistributionFamily: GlmDistributionFamily) (t:Vector<float>) (q:Matrix<float>) (Qt:Matrix<float>) (s_old:Vector<float>) = 
         let m = A.NumRows
@@ -448,93 +492,48 @@ module QR =
         let QtWQ: Matrix<float>         = Qt * WQ
         let QtWz: Vector<float>         = Qt * Wz
 
-        //let L = Algebra.LinearAlgebra.Cholesky QtWQ
-        let L = Algebra.LinearAlgebra.Cholesky QtWQ |> fun x -> x.Transpose
-        let Lt = L.Transpose
-
-        let s: Vector<float> = Vector.zeroCreate n 
-        let sy: Vector<float> = Vector.zeroCreate n 
-
-        let rec build_sy_inner cross_prod i k =
-            if k=i then 
-                cross_prod
-            else
-                let newCrossprod = cross_prod + (L[i, k] * sy[k])
-                //printfn $"crossProd {cross_prod} L {L[i, k]} l2 {L[k, i]} sy {sy[k]} k {k}"
-
-                build_sy_inner newCrossprod i (k+1)
-
-        for i=0 to n-1 do
-            let crossProd = build_sy_inner 0. i 0
-            sy[i] <- (QtWz[i] - crossProd) / L[i, i]
-            //printfn $" sy {sy[i]} QrWz {QtWz[i]} crossProd {crossProd} L {L[i, i]}"
-
-        let rec build_s_inner cross_prod i k =
-            if k=n then 
-                cross_prod
-            else
-                let newCrossprod = cross_prod + (Lt[i, k] * s[k])
-                //printfn $"crossProd {cross_prod} Lt {Lt[i, k]}  s {s[k]} k {k}"
-
-                build_s_inner newCrossprod i (k+1)
-        
-        let rec build_s_outer i =
-            if i<0 then 
-                ()
-            else
-                let crossProd = build_s_inner 0. i (i+1)
-                s[i] <- (sy[i] - crossProd) / Lt[i, i]
-                //printfn $" s {s[i]} sy {sy[i]} crossProd {crossProd} L {Lt[i, i]}"
-
-                build_s_outer (i-1)
-        
-        build_s_outer (n-1)
+        let s,sM = solveLinearQR QtWQ QtWz
 
         let t_new: Vector<float> = q * s
         
-        let test = 
-            let ss = s_old|> Vector.toArray
-            let sss = s|> Vector.toArray
-            Array.map2(fun x xnew -> $"sold: {x}\n s: {xnew}\n abs_diff {abs(x-xnew)}\n")ss sss
-        let testString = (String.concat "\n" test)
-        //printfn $"AAAAAAAA {testString}"
-
         //Calculate the cost of this step
         let cost:float = 
             s_old - s 
             |> Vector.norm
-        //printfn $"cost: {cost}"
-        cost,t_new,s,sy,W
+
+        cost,t_new,s,s,W
 
     let loopTilIterQR (A: Matrix<float>) (b: Vector<float>) (mDistributionFamily: GlmDistributionFamily) (maxIter: int) (mTol: float) (q:Matrix<float>) (QT:Matrix<float>) (costFunction: Matrix<float> -> Vector<float> -> GlmDistributionFamily -> Vector<float> -> Matrix<float> -> Matrix<float> -> Vector<float> -> float * Vector<float> * Vector<float> * Vector<float> * Vector<float>) = 
-            let m = A.NumRows
-            let n = A.NumCols
+        let m = A.NumRows
+        let n = A.NumCols
 
-            //Init a empty vector x
-            let s_original: Vector<float>   = Vector.zeroCreate n 
-            let sy_original: Vector<float>  = Vector.zeroCreate n 
-            let t_original: Vector<float>   = Vector.zeroCreate m
-            let W_original: Vector<float>   = Vector.zeroCreate m
+        //Init a empty vector x
+        let s_original: Vector<float>   = Vector.init n (fun i -> 1.)//Vector.zeroCreate n 
+        let sy_original: Vector<float>  = Vector.init n (fun i -> 1.)//Vector.zeroCreate n 
+        let t_original: Vector<float>   = Vector.init m (fun i -> 1.)
+        let W_original: Vector<float>   = Vector.init m (fun i -> 1.)//Vector.zeroCreate m
 
-            //Run the costFunction until maxIter has been reached or the cost for the gain is smaller than mTol
-            let rec loopTilMaxIter (t: Vector<float>) (s: Vector<float>) (sy: Vector<float>) (W: Vector<float>) (loopCount: int)  =
-                if loopCount = maxIter then
-                    t,s,sy,W
-                else
-                    let (cost: float),(t: Vector<float>),(s: Vector<float>),(sy: Vector<float>),(W: Vector<float>) = costFunction A b mDistributionFamily t q QT s
+        //Run the costFunction until maxIter has been reached or the cost for the gain is smaller than mTol
+        let rec loopTilMaxIter (t: Vector<float>) (s: Vector<float>) (sy: Vector<float>) (W: Vector<float>) (loopCount: int)  =
+            if loopCount = maxIter then
+                t,s,sy,W
+            else
+                let (cost: float),(t: Vector<float>),(s: Vector<float>),(sy: Vector<float>),(W: Vector<float>) = costFunction A b mDistributionFamily t q QT s
 
-                    if loopCount%10 = 0 then
-                        printfn $"Iteration {loopCount}, Cost {cost}"
-                    //printfn $" {loopCount}"
+                //if loopCount%10 = 0 then
+                printfn $"Iteration {loopCount}, Cost {cost}"
+                //printfn $" {loopCount}"
                     
-                    if cost < mTol then
-                        t,s,sy,W
+                if cost < mTol then
+                    t,s,sy,W
 
-                    else
-                        loopTilMaxIter t s sy W (loopCount+1)
+                else
+                    let mxTest = solveLinearQR A t |> fst
+                    printfn $"mxTest: {mxTest}"
+                    loopTilMaxIter t s sy W (loopCount+1)
             
             
-            loopTilMaxIter t_original s_original sy_original W_original 0
+        loopTilMaxIter t_original s_original sy_original W_original 0
 
     let solveQrNewton(A: Matrix<float>) (b: Vector<float>) (maxIter: int) (mDistributionFamily: GlmDistributionFamily) (mTol: float) =
         let m = A.NumRows
@@ -549,30 +548,8 @@ module QR =
         // printfn $"Q {q.Dimensions} | r {r.Dimensions} | QT {QT.Dimensions} | A {A.Dimensions}"
         let (t: Vector<float>),(s: Vector<float>),(sy: Vector<float>),(W: Vector<float>) = loopTilIterQR A b mDistributionFamily maxIter mTol q QT stepwiseGainQR 
 
-        let mX = Vector.zeroCreate n
-
-        let c: Vector<float> = QT * t
-
-        let rec build_mX_inner cross_prod i j =
-            if j=n then 
-                cross_prod
-            else
-                let newCrossprod = cross_prod + (r[i, j] * mX[j])
-                //printfn $"newCrossprod {newCrossprod}, cross_prod {cross_prod}, R {r[i, j]}, mX {mX[j]}"
-
-                build_mX_inner newCrossprod i (j+1)
-        
-        let rec build_mX_outer i =
-            if i<0 then 
-                ()
-            else
-                let crossProd = build_mX_inner 0. i (i+1)
-                mX[i] <- (c[i] - crossProd) / r[i, i]
-                //printfn $"mx {mX[i]}, c {c[i]}, crossProd {crossProd}, R {r[i, i]}"
-                build_mX_outer (i-1)
-        
-        build_mX_outer (n-1)
+        let mX,R = solveLinearQR A t
         
         //Update Stats
         let statistics = GLMStatistics.getStatisticsQR A b W mX mDistributionFamily
-        mX,statistics //r,c,t,q,QT
+        mX,statistics 
