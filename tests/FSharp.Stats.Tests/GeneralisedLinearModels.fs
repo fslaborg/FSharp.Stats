@@ -97,35 +97,65 @@ let GLMTestsQR =
                 QR.solveQrNewton cheeseMatrix cheeseVector 200 GlmDistributionFamily.Poisson tolRef
             
 
-            Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "Intecept GLM wrong"
-            Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "Acetic GLM wrong"
-            Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "H2S GLM wrong"
-            Expect.floatClose Accuracy.medium actualResults.[3] expected.[3] "Lactic GLM wrong"
+            Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
+            Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Acetic wrong"
+            Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM H2S wrong"
+            Expect.floatClose Accuracy.medium actualResults.[3] expected.[3] "GLM Lactic wrong"
 
         testCase "Test QR Results on Energy Dataset in F# vs R" <| fun () ->
-                //Results using GLM in R
-                let expected = 
-                    [
-                        3.83535         //Intercept
-                        0.004066056     //Fat
-                        0.008595802     //NonFat
-                    ]
-                    |>Vector.ofList
+            //Results using GLM in R
+            let expected = 
+                [
+                    3.83535         //Intercept
+                    0.004066056     //Fat
+                    0.008595802     //NonFat
+                ]
+                |>Vector.ofList
 
-                let dataPath    = System.IO.Path.Combine(currentDir,"data/glm_test_energy.csv")
-                let energyframe: Frame<int,string> =
-                    Deedle.Frame.ReadCsv(dataPath,hasHeaders=true,inferTypes=true,separators=",")
-                    |> Frame.indexRows "Column1"
+            let dataPath    = System.IO.Path.Combine(currentDir,"data/glm_test_energy.csv")
+            let energyframe: Frame<int,string> =
+                Deedle.Frame.ReadCsv(dataPath,hasHeaders=true,inferTypes=true,separators=",")
+                |> Frame.indexRows "Column1"
 
-                let energyMatrix,energyVector = HelperFunctions.generateBaseMatrixAndVector "Energy" [] energyframe
+            let energyMatrix,energyVector = HelperFunctions.generateBaseMatrixAndVector "Energy" [] energyframe
 
-                let actualResults,actualStats =
-                    QR.solveQrNewton energyMatrix energyVector 200 GlmDistributionFamily.Poisson tolRef
+            let actualResults,actualStats =
+                QR.solveQrNewton energyMatrix energyVector 200 GlmDistributionFamily.Poisson tolRef
             
 
-                Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "Intecept GLM wrong"
-                Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "Fat GLM wrong"
-                Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "NonFat GLM wrong"
+            Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
+            Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Fat wrong"
+            Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM NonFat wrong"
+
+        testCase "Test QR Results on lungcap in F# vs R" <| fun () ->
+            //Results using GLM in R
+            let expected = 
+                [
+                    1.495925        //Intercept
+                    -0.007646505    //Age
+                    -0.0165144      //Ht
+                    -0.0002111909   //Gender
+                    0.01284481      //Smoke
+                ]
+                |>Vector.ofList
+
+            let dataPath    = System.IO.Path.Combine(currentDir,"data/glm_test_lungcap.csv")
+            let lungcapframe: Frame<int,string> =
+                Deedle.Frame.ReadCsv(dataPath,hasHeaders=true,inferTypes=true,separators=",")
+                |> Frame.indexRows "Column1"
+
+            let lungcapMatrix,lungcapVector = HelperFunctions.generateBaseMatrixAndVector "FEV" [] lungcapframe
+
+            let actualResults,actualStats =
+                QR.solveQrNewton lungcapMatrix lungcapVector 200 GlmDistributionFamily.Gamma tolRef
+            
+
+            Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
+            Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Age wrong"
+            Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM Ht wrong"
+            Expect.floatClose Accuracy.medium actualResults.[3] expected.[3] "GLM Gender wrong"
+            Expect.floatClose Accuracy.medium actualResults.[4] expected.[4] "GLM Smoke wrong"
+
     ]
 let GLMTestsIrLS = 
     testList "GLM-IrLS-Results" [
@@ -151,33 +181,63 @@ let GLMTestsIrLS =
                 IrLS.solveIrls cheeseMatrix cheeseVector 200 GlmDistributionFamily.Poisson tolRef
             
 
-            Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "Intecept GLM wrong"
-            Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "Acetic GLM wrong"
-            Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "H2S GLM wrong"
-            Expect.floatClose Accuracy.medium actualResults.[3] expected.[3] "Lactic GLM wrong"
+            Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
+            Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Acetic wrong"
+            Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM H2S wrong"
+            Expect.floatClose Accuracy.medium actualResults.[3] expected.[3] "GLM Lactic wrong"
 
-        testCase "Test IrLs Results on Energy Dataset in F# vs R" <| fun () ->
-                //Results using GLM in R
-                let expected = 
-                    [
-                        3.83535         //Intercept
-                        0.004066056     //Fat
-                        0.008595802     //NonFat
-                    ]
-                    |>Vector.ofList
+        testCase "Test IrLS Results on Energy Dataset in F# vs R" <| fun () ->
+            //Results using GLM in R
+            let expected = 
+                [
+                    3.83535         //Intercept
+                    0.004066056     //Fat
+                    0.008595802     //NonFat
+                ]
+                |>Vector.ofList
 
-                let dataPath    = System.IO.Path.Combine(currentDir,"data/glm_test_energy.csv")
-                let energyframe: Frame<int,string> =
-                    Deedle.Frame.ReadCsv(dataPath,hasHeaders=true,inferTypes=true,separators=",")
-                    |> Frame.indexRows "Column1"
+            let dataPath    = System.IO.Path.Combine(currentDir,"data/glm_test_energy.csv")
+            let energyframe: Frame<int,string> =
+                Deedle.Frame.ReadCsv(dataPath,hasHeaders=true,inferTypes=true,separators=",")
+                |> Frame.indexRows "Column1"
 
-                let energyMatrix,energyVector = HelperFunctions.generateBaseMatrixAndVector "Energy" [] energyframe
+            let energyMatrix,energyVector = HelperFunctions.generateBaseMatrixAndVector "Energy" [] energyframe
 
-                let actualResults,actualStats =
-                    IrLS.solveIrls energyMatrix energyVector 200 GlmDistributionFamily.Poisson tolRef
+            let actualResults,actualStats =
+                IrLS.solveIrls energyMatrix energyVector 200 GlmDistributionFamily.Poisson tolRef
             
 
-                Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "Intecept GLM wrong"
-                Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "Fat GLM wrong"
-                Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "NonFat GLM wrong"
+            Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
+            Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Fat wrong"
+            Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM NonFat wrong"
+
+        testCase "Test IrLS Results on lungcap in F# vs R" <| fun () ->
+            //Results using GLM in R
+            let expected = 
+                [
+                    1.495925        //Intercept
+                    -0.007646505    //Age
+                    -0.0165144      //Ht
+                    -0.0002111909   //Gender
+                    0.01284481      //Smoke
+                ]
+                |>Vector.ofList
+
+            let dataPath    = System.IO.Path.Combine(currentDir,"data/glm_test_lungcap.csv")
+            let lungcapframe: Frame<int,string> =
+                Deedle.Frame.ReadCsv(dataPath,hasHeaders=true,inferTypes=true,separators=",")
+                |> Frame.indexRows "Column1"
+
+            let lungcapMatrix,lungcapVector = HelperFunctions.generateBaseMatrixAndVector "FEV" [] lungcapframe
+
+            let actualResults,actualStats =
+                IrLS.solveIrls lungcapMatrix lungcapVector 200 GlmDistributionFamily.Gamma tolRef
+            
+
+            Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
+            Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Age wrong"
+            Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM Ht wrong"
+            Expect.floatClose Accuracy.medium actualResults.[3] expected.[3] "GLM Gender wrong"
+            Expect.floatClose Accuracy.medium actualResults.[4] expected.[4] "GLM Smoke wrong"
+
     ]

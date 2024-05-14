@@ -39,6 +39,7 @@
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>
+	<EmbeddedResource Include="data/glm_test_lungcap.csv" CopyToOutputDirectory="PreserveNewest" />
 	<EmbeddedResource Include="data/glm_test_energy.csv" CopyToOutputDirectory="PreserveNewest" />
 	<EmbeddedResource Include="data/glm_test_cheese.csv" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/TestDataSAM.txt" CopyToOutputDirectory="PreserveNewest" />
