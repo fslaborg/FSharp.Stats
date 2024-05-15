@@ -426,7 +426,7 @@ let GLMTestsQR =
 
     ]
 
-
+[<Tests>]
 let GLMTestsIrLS = 
     testList "GLM-IrLS-Results" [
         testCase "Test IrLS Results on Cheese Dataset in F# vs R" <| fun () ->
