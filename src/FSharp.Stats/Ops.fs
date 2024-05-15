@@ -54,16 +54,6 @@ module Ops =
     /// </example>
     let log2 x = System.Math.Log(x, 2.0)
     
-    /// <summary>Returns the logarithm for x in base 10.</summary>
-    /// <remarks></remarks>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let log10 x = System.Math.Log10(x)    
-
     /// Returs true if x is nan (generics) equality
     //let inline isNan< ^T when ^T : equality > (num:^T) :  bool = num <> num
     let inline isNan num = num <> num
