@@ -127,7 +127,7 @@ module Ops =
     /// <code>
     /// </code>
     /// </example>
-    let round (digits:int) (x:float) =
+    let roundTo (digits:int) (x:float) =
         System.Math.Round(x, digits)
     
     /// <summary>Signum function, assigns a positive sign to a with respect to the signing of b. </summary>

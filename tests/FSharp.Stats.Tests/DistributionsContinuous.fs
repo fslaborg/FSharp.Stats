@@ -924,10 +924,10 @@ let FDistributionTests =
             let testcase    = 
                 [for i=0 to 10000 do Continuous.F.Sample dof1 dof2]
                 |> List.mean
-                |> round 5
+                |> roundTo 5
                 
             let r_value     = 
-                round 5 (1.000359)
+                roundTo 5 (1.000359)
 
             Expect.floatClose
                 Accuracy.low
