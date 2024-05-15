@@ -338,6 +338,70 @@ let linkerFunctions =
                         actual
                         $" Else Element {i} InverseSquaredLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
 
+        testCase "IdentityLinkFunction" <| fun () ->
+            let linkInvExpected        = 
+                [|
+                    Ops.inf
+                    888.
+                    1.
+                    0.
+                    -1.
+                    -888.
+                    Ops.infNeg
+                |]
+
+            let linkInvDerExpected  =
+                [|
+                    1.
+                    1.
+                    1.
+                    1.
+                    1.
+                    1.
+                    1.
+                |]
+            
+            let link            = Fitting.GLM.LinkFunctions.IdentityLinkFunction
+            let linkF           = link.getLink
+            let linkFInv        = link.getInvLink
+            let linkFInvDer     = link.getInvLinkDerivative
+
+            let linkFActual             = testingArray |> Array.map(linkF) 
+            let linkFInvActual          = testingArray |> Array.map(linkFInv) 
+            let linkFInvDerActual       = testingArray |> Array.map(linkFInvDer) 
+
+            for i=0 to testingArray.Length-1 do
+                let expected    = linkInvExpected.[i]
+                let actual      = linkFInvActual.[i] 
+                if isInf actual then
+                    Expect.isTrue (isInf expected) $" isInf Element {i} IdentityLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNegInf actual then
+                    Expect.isTrue (isNegInf expected) $" isNegInf Element {i} IdentityLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNan actual then
+                    Expect.isTrue (isNan expected) $"isNan Element {i} IdentityLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                else
+                    Expect.floatClose 
+                        Accuracy.medium
+                        expected
+                        actual
+                        $" Else Element {i} IdentityLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+
+            for i=0 to testingArray.Length-1 do
+                let expected    = linkInvDerExpected.[i]
+                let actual      = linkFInvDerActual.[i] 
+                if isInf actual then
+                    Expect.isTrue (isInf expected) $" isInf Element {i} IdentityLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNegInf actual then
+                    Expect.isTrue (isNegInf expected) $" isNegInf Element {i} IdentityLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNan actual then
+                    Expect.isTrue (isNan expected) $"isNan Element {i} IdentityLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                else
+                    Expect.floatClose 
+                        Accuracy.medium
+                        expected
+                        actual
+                        $" Else Element {i} IdentityLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+
     ]
     //InverseSquaredLinkFunction
 [<Tests>]
