@@ -274,8 +274,72 @@ let linkerFunctions =
                         actual
                         $" Else Element {i} LogitLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
 
-    ]
+        testCase "InverseSquaredLinkFunction" <| fun () ->
+            let linkInvExpected        = 
+                [|
+                    0.
+                    0.0335578
+                    1.
+                    Ops.inf 
+                    nan
+                    nan
+                    0.       
+                |]
 
+            let linkInvDerExpected  =
+                [|
+                    -0.00000000e+00
+                    -1.88951592e-05
+                    -5.00000000e-01
+                    Ops.infNeg
+                    nan
+                    nan
+                    -0.00000000e+00          
+                |]
+            
+            let link            = Fitting.GLM.LinkFunctions.InverseSquaredLinkFunction
+            let linkF           = link.getLink
+            let linkFInv        = link.getInvLink
+            let linkFInvDer     = link.getInvLinkDerivative
+
+            let linkFActual             = testingArray |> Array.map(linkF) 
+            let linkFInvActual          = testingArray |> Array.map(linkFInv) 
+            let linkFInvDerActual       = testingArray |> Array.map(linkFInvDer) 
+
+            for i=0 to testingArray.Length-1 do
+                let expected    = linkInvExpected.[i]
+                let actual      = linkFInvActual.[i] 
+                if isInf actual then
+                    Expect.isTrue (isInf expected) $" isInf Element {i} InverseSquaredLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNegInf actual then
+                    Expect.isTrue (isNegInf expected) $" isNegInf Element {i} InverseSquaredLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNan actual then
+                    Expect.isTrue (isNan expected) $"isNan Element {i} InverseSquaredLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                else
+                    Expect.floatClose 
+                        Accuracy.medium
+                        expected
+                        actual
+                        $" Else Element {i} InverseSquaredLinkFunction inverse Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+
+            for i=0 to testingArray.Length-1 do
+                let expected    = linkInvDerExpected.[i]
+                let actual      = linkFInvDerActual.[i] 
+                if isInf actual then
+                    Expect.isTrue (isInf expected) $" isInf Element {i} InverseSquaredLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNegInf actual then
+                    Expect.isTrue (isNegInf expected) $" isNegInf Element {i} InverseSquaredLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNan actual then
+                    Expect.isTrue (isNan expected) $"isNan Element {i} InverseSquaredLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                else
+                    Expect.floatClose 
+                        Accuracy.medium
+                        expected
+                        actual
+                        $" Else Element {i} InverseSquaredLinkFunction inverse derivative Linkfunction is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+
+    ]
+    //InverseSquaredLinkFunction
 [<Tests>]
 let GLMTestsQR = 
     testList "GLM-QR-Results" [
@@ -361,6 +425,8 @@ let GLMTestsQR =
             Expect.floatClose Accuracy.medium actualResults.[4] expected.[4] "GLM Smoke wrong"
 
     ]
+
+
 let GLMTestsIrLS = 
     testList "GLM-IrLS-Results" [
         testCase "Test IrLS Results on Cheese Dataset in F# vs R" <| fun () ->
