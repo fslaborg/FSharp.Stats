@@ -583,7 +583,7 @@ let familyVarianceFunctions =
 [<Tests>]
 let GLMTestsQR = 
     testList "GLM-QR-Results" [
-        testCase "Test QR Results on Cheese Dataset in F# vs R" <| fun () ->
+        testCase "Test QR Poisson on Cheese Dataset in F# vs R" <| fun () ->
             //Results using GLM in R
             let expected = 
                 [
@@ -610,7 +610,7 @@ let GLMTestsQR =
             Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM H2S wrong"
             Expect.floatClose Accuracy.medium actualResults.[3] expected.[3] "GLM Lactic wrong"
 
-        testCase "Test QR Results on Energy Dataset in F# vs R" <| fun () ->
+        testCase "Test QR Poisson on Energy Dataset in F# vs R" <| fun () ->
             //Results using GLM in R
             let expected = 
                 [
@@ -635,7 +635,7 @@ let GLMTestsQR =
             Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Fat wrong"
             Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM NonFat wrong"
 
-        testCase "Test QR Results on lungcap in F# vs R" <| fun () ->
+        testCase "Test QR Gamma on lungcap in F# vs R" <| fun () ->
             //Results using GLM in R
             let expected = 
                 [
@@ -669,7 +669,7 @@ let GLMTestsQR =
 [<Tests>]
 let GLMTestsIrLS = 
     testList "GLM-IrLS-Results" [
-        testCase "Test IrLS Results on Cheese Dataset in F# vs R" <| fun () ->
+        testCase "Test IrLS Poisson on Cheese Dataset in F# vs R" <| fun () ->
             //Results using GLM in R
             let expected = 
                 [
@@ -696,7 +696,7 @@ let GLMTestsIrLS =
             Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM H2S wrong"
             Expect.floatClose Accuracy.medium actualResults.[3] expected.[3] "GLM Lactic wrong"
 
-        testCase "Test IrLS Results on Energy Dataset in F# vs R" <| fun () ->
+        testCase "Test IrLS Poisson on Energy Dataset in F# vs R" <| fun () ->
             //Results using GLM in R
             let expected = 
                 [
@@ -721,7 +721,7 @@ let GLMTestsIrLS =
             Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Fat wrong"
             Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM NonFat wrong"
 
-        testCase "Test IrLS Results on lungcap in F# vs R" <| fun () ->
+        testCase "Test IrLS Gamma on lungcap in F# vs R" <| fun () ->
             //Results using GLM in R
             let expected = 
                 [
