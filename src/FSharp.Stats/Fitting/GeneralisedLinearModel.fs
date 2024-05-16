@@ -20,13 +20,19 @@ type LinkFunction =
     }
 
 module LinkFunctions =
+    let internal clipLogisticValues (p : float)  = 
+        let floatEps = 1e-8 
+        max floatEps (min (1.0-floatEps) p)
 
     let LogitLinkFunction : LinkFunction =
         {
-            getLink = fun b -> System.Math.Log(b / (1.0 - b))
-            getInvLink = fun a -> 1.0 / (1.0 + System.Math.Exp(-a))
+            getLink = fun b -> 
+                let p = clipLogisticValues b
+                System.Math.Log(p / (1.0 - p))
+            getInvLink = fun a -> 
+                1.0 / (1.0 + System.Math.Exp(-a))
             getInvLinkDerivative = fun a ->
-                let t = System.Math.Exp(-a)
+                let t = System.Math.Exp(a)
                 t / ((1.0 + t) * (1.0 + t))
         }
 
