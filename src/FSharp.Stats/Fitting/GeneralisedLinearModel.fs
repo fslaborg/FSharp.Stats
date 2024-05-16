@@ -45,9 +45,13 @@ module LinkFunctions =
 
     let InverseSquaredLinkFunction: LinkFunction =
         {
-            getLink                 = fun b -> -1.0 / (b * b)
-            getInvLink              = fun a -> System.Math.Sqrt(-a)
-            getInvLinkDerivative    = fun a -> -1.0 / System.Math.Sqrt(-a)
+            getLink                 = fun b -> Math.Pow(b,-2.)//1.0 / b
+            getInvLink              = fun a -> Math.Pow(a,(1./ -2.))//1.0 / a
+            getInvLinkDerivative    = fun a -> 
+                let inv1 = 1. - -2.
+                let inv2 = inv1 / -2.
+                let inv3 = Math.Pow(a,inv2)
+                inv3 / -2.
         }
 
     let InverseLinkFunction: LinkFunction =
