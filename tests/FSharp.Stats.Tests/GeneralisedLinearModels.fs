@@ -535,6 +535,27 @@ let familyVarianceFunctions =
                         expected
                         actual
                         $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+        
+        testCase "Gamma" <| fun () ->
+            let formular (x:float) = x**2
+            let expected    = Array.map formular testingArray
+            let actualFormular =  GlmDistributionFamily.getVariance (GlmDistributionFamily.Gamma)
+            let actual      = Array.map actualFormular testingArray
+            for i=0 to testingArray.Length-1 do
+                let expected    = expected.[i]
+                let actual      = actual.[i] 
+                if isInf actual then
+                    Expect.isTrue (isInf expected) $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNegInf actual then
+                    Expect.isTrue (isNegInf expected) $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                elif isNan actual then
+                    Expect.isTrue (isNan expected) $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+                else
+                    Expect.floatClose 
+                        Accuracy.high
+                        expected
+                        actual
+                        $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
 
     ]
 
