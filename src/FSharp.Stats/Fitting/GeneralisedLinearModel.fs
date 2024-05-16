@@ -74,14 +74,6 @@ module LinkFunctions =
             getInvLinkDerivative    = fun a -> 1.
         }
 
-    let BinomialLinkFunction: LinkFunction = 
-        {
-            getLink = fun b -> System.Math.Log(b / (1.0 - b))
-            getInvLink = fun a -> 1.0 / (1.0 + System.Math.Exp(-a))
-            getInvLinkDerivative = fun a ->
-                let t = System.Math.Exp(-a)
-                t / ((1.0 + t) * (1.0 + t))
-        }
 
 type GlmDistributionFamily =
     |Normal
