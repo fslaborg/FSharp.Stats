@@ -97,7 +97,7 @@ module GlmDistributionFamily =
         | GlmDistributionFamily.Multinomial ->
             g * (1.0 - g)
         | GlmDistributionFamily.Gamma ->
-            g ** 2.
+            abs(g) ** -2.
         | GlmDistributionFamily.InverseGaussian ->
             g * g * g
         | GlmDistributionFamily.Normal ->
@@ -107,7 +107,8 @@ module GlmDistributionFamily =
         | GlmDistributionFamily.Bernouli   -> 
             g * (1.0 - g)
         | GlmDistributionFamily.Binomial    -> 
-            g * (1.0 - g)
+            let cleanG = max 1e-8  (min (1.0-1e-8) g)
+            cleanG * (1.0 - cleanG)
         | GlmDistributionFamily.Categorical -> 
             g * (1.0 - g)
         | GlmDistributionFamily.Exponential ->
