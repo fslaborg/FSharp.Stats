@@ -16,6 +16,7 @@ type LinkFunction =
     {
         getLink: float -> float
         getInvLink: float -> float
+        getDeriv: float -> float
         getInvLinkDerivative: float -> float
     }
 
@@ -31,6 +32,9 @@ module LinkFunctions =
                 System.Math.Log(p / (1.0 - p))
             getInvLink = fun a -> 
                 1.0 / (1.0 + System.Math.Exp(-a))
+            getDeriv = fun a ->
+                let p = clipLogisticValues a
+                1./(p*(1.-p))
             getInvLinkDerivative = fun a ->
                 let t = System.Math.Exp(a)
                 t / ((1.0 + t) * (1.0 + t))
@@ -40,6 +44,7 @@ module LinkFunctions =
         {
             getLink                 = fun b -> System.Math.Log(b)
             getInvLink              = fun a -> System.Math.Exp(a)
+            getDeriv                = fun a        -> 1./(clipLogisticValues a) 
             getInvLinkDerivative    = fun a -> System.Math.Exp(a)
         }
 
@@ -47,6 +52,7 @@ module LinkFunctions =
         {
             getLink                 = fun b -> Math.Pow(b,-2.)//1.0 / b
             getInvLink              = fun a -> Math.Pow(a,(1./ -2.))//1.0 / a
+            getDeriv                = fun a -> -2. * (Math.Pow(a,(-2.-1.)))
             getInvLinkDerivative    = fun a -> 
                 let inv1 = 1. - -2.
                 let inv2 = inv1 / -2.
@@ -62,6 +68,7 @@ module LinkFunctions =
         {
             getLink                 = fun b -> Math.Pow(b,-1.)//1.0 / b
             getInvLink              = fun a -> Math.Pow(a,-1.)//1.0 / a
+            getDeriv                = fun a -> -1. * (Math.Pow(a,(-1.-1.)))
             getInvLinkDerivative    = fun a -> 
                 let inv1 = 1. - -1.
                 let inv2 = inv1 / -1.
@@ -75,6 +82,7 @@ module LinkFunctions =
         {
             getLink                 = fun b -> b
             getInvLink              = fun a -> a
+            getDeriv                = fun a -> -1./(1.-(clipLogisticValues a))
             getInvLinkDerivative    = fun a -> 1.
         }
 
@@ -97,7 +105,7 @@ module GlmDistributionFamily =
         | GlmDistributionFamily.Multinomial ->
             g * (1.0 - g)
         | GlmDistributionFamily.Gamma ->
-            abs(g) ** -2.
+            (g) ** -1.
         | GlmDistributionFamily.InverseGaussian ->
             g * g * g
         | GlmDistributionFamily.Normal ->
