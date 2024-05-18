@@ -22,8 +22,13 @@ type LinkFunction =
 
 module LinkFunctions =
     let internal clipLogisticValues (p : float)  = 
-        let floatEps = 1e-8 
+        let floatEps = 2.220446049250313e-16
+
         max floatEps (min (1.0-floatEps) p)
+    let internal clipLogisticValues2 (p : float)  = 
+        let floatEps = 2.220446049250313e-16
+
+        max floatEps p
 
     let LogitLinkFunction : LinkFunction =
         {
@@ -42,9 +47,9 @@ module LinkFunctions =
 
     let LogLinkFunction : LinkFunction =
         {
-            getLink                 = fun b -> System.Math.Log(b)
+            getLink                 = fun b -> System.Math.Log((clipLogisticValues2 b))
             getInvLink              = fun a -> System.Math.Exp(a)
-            getDeriv                = fun a        -> 1./(clipLogisticValues a) 
+            getDeriv                = fun a -> 1./(clipLogisticValues2 a) 
             getInvLinkDerivative    = fun a -> System.Math.Exp(a)
         }
 
@@ -82,7 +87,7 @@ module LinkFunctions =
         {
             getLink                 = fun b -> b
             getInvLink              = fun a -> a
-            getDeriv                = fun a -> -1./(1.-(clipLogisticValues a))
+            getDeriv                = fun a -> 1.
             getInvLinkDerivative    = fun a -> 1.
         }
 
@@ -111,7 +116,7 @@ module GlmDistributionFamily =
         | GlmDistributionFamily.Normal ->
             1.0
         | GlmDistributionFamily.Poisson ->
-            g
+            abs(g)
         | GlmDistributionFamily.Bernouli   -> 
             g * (1.0 - g)
         | GlmDistributionFamily.Binomial    -> 
