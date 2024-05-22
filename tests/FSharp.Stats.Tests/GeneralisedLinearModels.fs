@@ -800,6 +800,104 @@ let familyVarianceFunctions =
 
     ]
 
+
+[<Tests>]
+let GLMStepwise = 
+    testList "GLM-QR-Step" [
+        testCase "Test QR Poisson Step one" <| fun () ->
+            let A       = 
+               [
+                    [9.4000e+01; 2.3000e+01; 8.6000e-01];
+                   [1.7400e+02; 1.5500e+02; 1.5300e+00];
+                   [2.1400e+02; 2.3000e+02; 1.5700e+00];
+                   [3.1700e+02; 1.8010e+03; 1.8100e+00];
+                   [1.0600e+02; 4.5000e+01; 9.9000e-01];
+                   [2.9800e+02; 2.0000e+03; 1.0900e+00];
+                   [3.6200e+02; 6.1610e+03; 1.2900e+00];
+                   [4.3600e+02; 2.8810e+03; 1.7800e+00];
+                   [1.3400e+02; 4.7000e+01; 1.2900e+00];
+                   [1.8900e+02; 6.5000e+01; 1.5800e+00];
+                   [3.1100e+02; 4.6500e+02; 1.6800e+00];
+                   [6.3000e+02; 2.7190e+03; 1.9000e+00];
+                   [8.8000e+01; 2.0000e+01; 1.0600e+00];
+                   [1.8800e+02; 1.4000e+02; 1.3000e+00];
+                   [4.6900e+02; 8.5600e+02; 1.5200e+00];
+                   [5.8100e+02; 1.4589e+04; 1.7400e+00];
+                   [1.2000e+02; 5.0000e+01; 1.1600e+00];
+                   [2.2400e+02; 1.1000e+02; 1.4900e+00];
+                   [1.9000e+02; 4.8000e+02; 1.6300e+00];
+                   [2.3000e+02; 8.6390e+03; 1.9900e+00];
+                   [9.6000e+01; 1.4100e+02; 1.1500e+00];
+                   [2.0000e+02; 1.8500e+02; 1.3300e+00];
+                   [2.3400e+02; 1.0322e+04; 1.4400e+00];
+                   [3.4900e+02; 2.6876e+04; 2.0100e+00];
+                   [2.1400e+02; 3.9000e+01; 1.3100e+00];
+                   [4.2100e+02; 2.5000e+01; 1.4600e+00];
+                   [6.3800e+02; 1.0560e+03; 1.7200e+00];
+                   [2.0600e+02; 5.0000e+01; 1.2500e+00];
+                   [3.3100e+02; 8.0000e+02; 1.0800e+00];
+                   [4.8100e+02; 1.2000e+02; 1.2500e+00]
+                ]|>Matrix.ofJaggedList
+            let b           = 
+                [
+                   12.3; 20.9; 39. ; 47.9;  5.6; 25.9; 37.3; 21.9; 18.1; 21. ; 34.9;
+                   57.2;  0.7; 25.9; 54.9; 40.9; 15.9;  6.4; 18. ; 38.9; 14. ; 15.2;
+                   32. ; 56.7; 16.8; 11.6; 26.5;  0.7; 13.4;  5.5
+                ]|>Vector.ofList
+            let mFam        = GlmDistributionFamily.Poisson
+            let t           = Vector.init b.Length (fun x -> 1.)
+            let oldResults  = Vector.zeroCreate A.NumCols
+            let bMean       = Vector.mean b
+            let mu          = Vector.map(fun x -> ((x+bMean)/2.)) b
+            let linPred     = Vector.init A.NumRows (fun k -> GlmDistributionFamily.getLinkFunction(mFam).getLink(mu[k]))
+
+            
+            let muStartExpected         = 
+                [
+                   18.41666667; 22.71666667; 31.76666667; 36.21666667; 15.06666667;
+                   25.21666667; 30.91666667; 23.21666667; 21.31666667; 22.76666667;
+                   29.71666667; 40.86666667; 12.61666667; 25.21666667; 39.71666667;
+                   32.71666667; 20.21666667; 15.46666667; 21.26666667; 31.71666667;
+                   19.26666667; 19.86666667; 28.26666667; 40.61666667; 20.66666667;
+                   18.06666667; 25.51666667; 12.61666667; 18.96666667; 15.01666667
+                ]
+            let linPredStartExpected    = 
+                [
+                    2.91325605; 3.12309887; 3.45841752; 3.58951942; 2.7124848 ;
+                    3.22750515; 3.43129541; 3.14487041; 3.05948924; 3.12529748;
+                    3.39170806; 3.71031473; 2.53501869; 3.22750515; 3.68177091;
+                    3.48788463; 3.00650735; 2.73868717; 3.0571409 ; 3.45684231;
+                    2.95837649; 2.98904329; 3.34168325; 3.70417849; 3.0285221 ;
+                    2.89406862; 3.23933183; 2.53501869; 2.94268305; 2.7091607 
+                ]
+            let costExpected            = 0.
+            let mu_newExpected          = 
+                [ 
+                    5.93387957; 23.85258586; 26.46314428; 45.4791678 ;  7.75651698;
+                   10.60848283; 16.41901117; 45.91968565; 14.39483127; 26.60531649;
+                   34.94104656; 65.52718178;  8.83137852; 15.16250092; 27.82629458;
+                   45.88264872; 10.9991415 ; 22.67497617; 29.42288129; 61.75247747;
+                   10.62818947; 16.21728283; 20.51875221; 68.28943052; 15.71037585;
+                   23.99103941; 45.92629836; 13.86306533; 10.60971241; 16.31175616
+                ]
+            let linPred_newExpected     = Vector.zeroCreate 10
+            let wlsResult_newExpected   = Vector.zeroCreate 10
+            let wlsendogNewExpected     = Vector.zeroCreate 10
+
+            let costActual,mu_newActual,linPred_newActual,wlsResult_newActual,wlsendogNewActual  = 
+                QR.stepwiseGainQR A b mFam t mu linPred oldResults
+
+            for i=0 to (A.NumRows-1) do
+                Expect.floatClose Accuracy.high mu.[i] muStartExpected.[i] "muStart differs great"
+                Expect.floatClose Accuracy.high mu_newActual.[i] mu_newExpected.[i] "muNew differs great"
+                Expect.floatClose Accuracy.high linPred.[i] linPredStartExpected.[i] "linPredStart differs great"
+                //Expect.floatClose Accuracy.high linPred_newActual.[i] linPred_newExpected.[i] "linPredStart differs great"
+                //Expect.floatClose Accuracy.high wlsResult_newActual.[i] wlsResult_newExpected.[i] "linPredStart differs great"
+                //Expect.floatClose Accuracy.high wlsendogNewActual.[i] wlsendogNewExpected.[i] "linPredStart differs great"
+
+
+    ]
+
 [<Tests>]
 let GLMTestsQR = 
     testList "GLM-QR-Results" [
