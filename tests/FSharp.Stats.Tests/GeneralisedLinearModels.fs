@@ -821,7 +821,7 @@ let GLMTestsQR =
 
             let cheeseMatrix,cheeseVector = HelperFunctions.generateBaseMatrixAndVector "Taste" [] cheeseframe
 
-            let actualResults,actualStats =
+            let actualResults =
                 QR.solveQrNewton cheeseMatrix cheeseVector 200 GlmDistributionFamily.Poisson tolRef
             
 
@@ -847,7 +847,7 @@ let GLMTestsQR =
 
             let energyMatrix,energyVector = HelperFunctions.generateBaseMatrixAndVector "Energy" [] energyframe
 
-            let actualResults,actualStats =
+            let actualResults =
                 QR.solveQrNewton energyMatrix energyVector 200 GlmDistributionFamily.Poisson tolRef
             
 
@@ -874,7 +874,7 @@ let GLMTestsQR =
 
             let lungcapMatrix,lungcapVector = HelperFunctions.generateBaseMatrixAndVector "FEV" [] lungcapframe
 
-            let actualResults,actualStats =
+            let actualResults =
                 QR.solveQrNewton lungcapMatrix lungcapVector 200 GlmDistributionFamily.Gamma tolRef
             
 
