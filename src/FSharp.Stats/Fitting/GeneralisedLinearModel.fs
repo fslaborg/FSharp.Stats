@@ -110,13 +110,13 @@ module GlmDistributionFamily =
         | GlmDistributionFamily.Multinomial ->
             g * (1.0 - g)
         | GlmDistributionFamily.Gamma ->
-            (g) ** -1.
+            (abs(g)) ** 2.
         | GlmDistributionFamily.InverseGaussian ->
             g * g * g
         | GlmDistributionFamily.Normal ->
             1.0
         | GlmDistributionFamily.Poisson ->
-            abs(g)
+            (g)
         | GlmDistributionFamily.Bernouli   -> 
             g * (1.0 - g)
         | GlmDistributionFamily.Binomial    -> 
@@ -544,7 +544,6 @@ module QR =
                 |> Matrix.toJaggedArray
                 |> Array.mapi(fun i x ->
                     x
-                    //|> Array.skip 1
                     |> Array.map(fun v -> v*whalf[i])
                 )
                 |> Matrix.ofJaggedArray
@@ -559,11 +558,11 @@ module QR =
 
         let mu_new = Vector.init m (fun i -> linkFunction.getInvLink(linPred_new[i]))
 
-        //printfn $"wlsResults {wlsResults} \n"
+        printfn $"wlsResults {wlsResults} \n"
         //printfn $"linPred_new {linPred_new}\n"
-        printfn $"wlsmu_newesults {mu_new}\n\n\n\n\n"
+        printfn $"mu_new {mu_new}\n\n\n\n\n"
 
-        let deviance = GlmDistributionFamily.resid_dev wlsendog mu_new (GlmDistributionFamily.getFamilyReisualDeviance mDistributionFamily)
+        //let deviance = GlmDistributionFamily.resid_dev wlsendog mu_new (GlmDistributionFamily.getFamilyReisualDeviance mDistributionFamily)
         //printfn $"deviance {deviance}\n\n\n\n\n"
 
         //Calculate the cost of this step
@@ -600,7 +599,7 @@ module QR =
             let linPredStart: Vector<float> = Vector.init m (fun k -> GlmDistributionFamily.getLinkFunction(mDistributionFamily).getLink(muStart[k]))
 
             printfn $"muStart: {muStart}"
-            //printfn $"linPredStart: {linPredStart}"
+            printfn $"linPredStart: {linPredStart}"
 
             //Run the costFunction until maxIter has been reached or the cost for the gain is smaller than mTol
             let rec loopTilMaxIter (t: Vector<float>) (loopCount: int) (mu:Vector<float>) (linPred:Vector<float>) (wlsResult: Vector<float>) (wlsendog: Vector<float>) =
@@ -647,7 +646,7 @@ module QR =
         let t,mu,linPred,wlsResult,wlsendog = 
             loopTilIterQR A b mDistributionFamily maxIter mTol stepwiseGainQR 
 
-        let mX,R = solveLinearQR A wlsendog
+        let mX,R = wlsResult,wlsendog//solveLinearQR A wlsendog
         
         //Update Stats
         //let statistics = getStatisticsQR A b mX mDistributionFamily
