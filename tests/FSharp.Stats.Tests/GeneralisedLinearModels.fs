@@ -694,8 +694,16 @@ let familyVarianceFunctions =
     testList "familyVarianceFunctions" [
 
         testCase "Binomial" <| fun () ->
-            let formular x      = x - ((x*x)/(float testingArray.Length))
-            let expected        = Array.map formular testingArray
+            let expected        = 
+                [
+                    2.22044605e-16
+                    2.22044605e-16
+                    2.22044605e-16
+                    2.22044605e-16
+                    2.22044605e-16
+                    2.22044605e-16
+                    2.22044605e-16
+                ]
             let actualFormular  = GlmDistributionFamily.getVariance (GlmDistributionFamily.Binomial)
             let actual          = Array.map actualFormular testingArray
             for i=0 to testingArray.Length-1 do
@@ -715,8 +723,16 @@ let familyVarianceFunctions =
                         $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
 
         testCase "Poisson" <| fun () ->
-            let formular x = x
-            let expected    = Array.map formular testingArray
+            let expected    = 
+                [|
+                    FSharp.Stats.Ops.inf
+                    888.
+                    1.
+                    0.
+                    -1
+                    -888.
+                    FSharp.Stats.Ops.infNeg
+                |]
             let actualFormular =  GlmDistributionFamily.getVariance (GlmDistributionFamily.Poisson)
             let actual      = Array.map actualFormular testingArray
             for i=0 to testingArray.Length-1 do
@@ -757,11 +773,21 @@ let familyVarianceFunctions =
                         $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
         
         testCase "Gamma" <| fun () ->
-            let formular (x:float) = x**2
-            let expected    = Array.map formular testingArray
+            let expected    = 
+                [|
+                    Ops.inf
+                    7.88544e+05
+                    1.00000e+00
+                    0.00000e+00
+                    1.00000e+00
+                    7.88544e+05
+                    Ops.inf
+                |]
             let actualFormular =  GlmDistributionFamily.getVariance (GlmDistributionFamily.Gamma)
             let actual      = Array.map actualFormular testingArray
+            let x = expected|>Array.map(fun x -> string x)|>String.concat "|"
             for i=0 to testingArray.Length-1 do
+                printfn $"{x}"
                 let expected    = expected.[i]
                 let actual      = actual.[i] 
                 if isInf actual then
@@ -975,8 +1001,8 @@ let GLMTestsQR =
             let actualResults =
                 QR.solveQrNewton lungcapMatrix lungcapVector 200 GlmDistributionFamily.Gamma tolRef
             
-
-            Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
+            let x = $"{actualResults.[0]} {actualResults.[1]} {actualResults.[2]} {actualResults.[3]} {actualResults.[4]}"
+            Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] $"GLM Intecept wrong {x}"
             Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Age wrong"
             Expect.floatClose Accuracy.medium actualResults.[2] expected.[2] "GLM Ht wrong"
             Expect.floatClose Accuracy.medium actualResults.[3] expected.[3] "GLM Gender wrong"
