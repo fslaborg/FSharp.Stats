@@ -152,6 +152,50 @@ module GlmDistributionFamily =
             LinkFunctions.LogitLinkFunction
         | _ ->
             raise (System.NotImplementedException())
+    
+    let getFamilyWeights (family:GlmDistributionFamily) (mu:Vector<float>) =
+        let link = getLinkFunction family
+        let deriv = link.getDeriv
+        let variance = getVariance family
+    
+        mu
+        |> Vector.map(fun m -> 
+            1./(((deriv m)**2) * (variance m))
+        )
+
+    let internal clean (p: float) = 
+        let floatEps = 2.220446049250313e-16
+
+        max floatEps p
+
+    let internal signFunction x =
+        if x>0. then 1.
+        elif x=0. then 0.
+        else -1.
+
+    let getFamilyReisualDeviance (family:GlmDistributionFamily) (endog: Vector<float>) (mu:Vector<float>) =
+        match family with 
+            |GlmDistributionFamily.Poisson ->
+                Vector.map2(fun endV muV -> 
+                    let a = clean(endV/muV)
+                    let b = System.Math.Log(a)
+                    let c = endV-muV
+                    let d = endV * b - c
+                    2.*d 
+                ) endog mu
+
+            | _ -> 
+                raise (System.NotImplementedException())
+
+    let resid_dev (endog: Vector<float>) (mu: Vector<float>) (func: Vector<float> -> Vector<float> -> Vector<float>) =
+        let residdev = func endog mu
+        Vector.map3(fun endV muV reV -> 
+            let a = signFunction (endV-muV) 
+            let b = clean reV
+            let c = System.Math.Sqrt(b)
+            a*c
+        ) endog mu residdev
+        |>Vector.sum
 
 type GLMStatistics = 
     {
@@ -461,111 +505,150 @@ module QR =
         build_mX_outer (n-1)
     
         mX,r
+    
+    let stepwiseGainQR 
+        (A: Matrix<float>) 
+        (b: Vector<float>) 
+        (mDistributionFamily: GlmDistributionFamily) 
+        (t:Vector<float>) 
+        (mu:Vector<float>)
+        (linPred:Vector<float>)
+        (oldResult:Vector<float>)
+        = 
 
-    let stepwiseGainQR (A: Matrix<float>) (b: Vector<float>) (mDistributionFamily: GlmDistributionFamily) (t:Vector<float>) (q:Matrix<float>) (Qt:Matrix<float>) (s_old:Vector<float>) = 
         let m = A.NumRows
         let n = A.NumCols
-
+        //printfn $"m {m}"
         //Get the link function in accordance to the distribution type
         let linkFunction= GlmDistributionFamily.getLinkFunction mDistributionFamily
 
-        //Get the variance function in accordance to the distribution type
-        let varianceFunction = GlmDistributionFamily.getVariance mDistributionFamily
-
-        let g: Vector<float> = Vector.init m (fun k -> linkFunction.getInvLink(t[k]))
-
-        let gprime: Vector<float> = Vector.init m (fun k -> linkFunction.getInvLinkDerivative(t[k]))
-
-        let z: Vector<float> = Vector.init m (fun k -> t[k] + (b[k] - g[k]) / gprime[k])
+        let famWeight = GlmDistributionFamily.getFamilyWeights mDistributionFamily mu
+        //printfn $"famWeight {famWeight}\n"
+        let selfWeights = 
+            Vector.init m (fun i -> t[i] * (float 1.) * famWeight[i])
+        //printfn $"selfWeights {selfWeights}\n"
         
-        let W_og = Vector.zeroCreate m
-
-        let rec buildW w_kk_min k =
-            if k=m then
-                W_og,w_kk_min
-
-            else
-                let gVariance = varianceFunction (g.[k])
-                let w_kk = gprime[k] * gprime[k] / (gVariance)
-                W_og[k] <- w_kk
-                let w_kk_min_new = System.Math.Min(w_kk, w_kk_min)
-                buildW w_kk_min_new (k+1)
-
-        let W,w_kk_min = 
-            buildW System.Double.MaxValue 0
-
-        if w_kk_min < System.Math.Sqrt(System.Double.Epsilon) then
-            System.Console.WriteLine("Warning: Tiny weights encountered, min(diag(W)) is too small")
+        let derivs = Vector.map(fun x -> linkFunction.getDeriv x) mu
         
-        let WQ: Matrix<float>       = Matrix.zero m n
-        let Wz: Vector<float>       = Vector.zeroCreate m
-        for k=0 to m-1 do 
-            Wz[k] <- z[k] * W[k]
-            for k2 = 0 to n-1 do
-                WQ[k, k2] <- q[k, k2] * W[k]
+        //printfn $"derivs {derivs}\n"
 
-
-        let QtWQ: Matrix<float>         = Qt * WQ
-        let QtWz: Vector<float>         = Qt * Wz
-
-        let s,sM = solveLinearQR QtWQ QtWz
-
-        let t_new: Vector<float> = q * s
+        let wlsendog: Vector<float> = Vector.init m (fun i -> linPred[i] + derivs[i] * (b[i]-mu[i]))
+        //printfn $"wlsendog {wlsendog}\n"
         
+
+        let wlsendog2,wlsexdog: Vector<float>*Matrix<float> = 
+            let whalf = Vector.map(fun x -> System.Math.Sqrt(x)) selfWeights
+            let en = Vector.init m (fun i -> whalf[i] * wlsendog[i])
+            let ex = 
+                A
+                |> Matrix.toJaggedArray
+                |> Array.mapi(fun i x ->
+                    x
+                    //|> Array.skip 1
+                    |> Array.map(fun v -> v*whalf[i])
+                )
+                |> Matrix.ofJaggedArray
+            en,ex
+            
+        //printfn $"wlsendog2 {wlsendog2} \n"
+        //printfn $"wlsexdog {wlsexdog} \n"
+
+        let (wlsResults: Vector<float>),R = solveLinearQR wlsexdog wlsendog2
+
+        let linPred_new: Vector<float> = A * wlsResults
+
+        let mu_new = Vector.init m (fun i -> linkFunction.getInvLink(linPred_new[i]))
+
+        //printfn $"wlsResults {wlsResults} \n"
+        //printfn $"linPred_new {linPred_new}\n"
+        printfn $"wlsmu_newesults {mu_new}\n\n\n\n\n"
+
+        let deviance = GlmDistributionFamily.resid_dev wlsendog mu_new (GlmDistributionFamily.getFamilyReisualDeviance mDistributionFamily)
+        //printfn $"deviance {deviance}\n\n\n\n\n"
+
         //Calculate the cost of this step
         let cost:float = 
-            s_old - s 
+            oldResult - wlsResults 
             |> Vector.norm
 
-        cost,t_new,s,s,W
+        cost,mu_new,linPred_new,wlsResults,wlsendog
 
-    let loopTilIterQR (A: Matrix<float>) (b: Vector<float>) (mDistributionFamily: GlmDistributionFamily) (maxIter: int) (mTol: float) (q:Matrix<float>) (QT:Matrix<float>) (costFunction: Matrix<float> -> Vector<float> -> GlmDistributionFamily -> Vector<float> -> Matrix<float> -> Matrix<float> -> Vector<float> -> float * Vector<float> * Vector<float> * Vector<float> * Vector<float>) = 
-        let m = A.NumRows
-        let n = A.NumCols
+    let loopTilIterQR 
+        (A: Matrix<float>) 
+        (b: Vector<float>) 
+        (mDistributionFamily: GlmDistributionFamily) 
+        (maxIter: int) 
+        (mTol: float) 
+        (costFunction: 
+            Matrix<float> -> 
+            Vector<float> -> 
+            GlmDistributionFamily -> 
+            Vector<float> -> 
+            Vector<float> -> 
+            Vector<float> -> 
+            Vector<float> -> 
+            float * Vector<float> * Vector<float> * Vector<float> * Vector<float>
+        ) = 
+         
+            let m = A.NumRows
+            let n = A.NumCols
 
-        //Init a empty vector x
-        let s_original: Vector<float>   = Vector.init n (fun i -> 1.)//Vector.zeroCreate n 
-        let sy_original: Vector<float>  = Vector.init n (fun i -> 1.)//Vector.zeroCreate n 
-        let t_original: Vector<float>   = Vector.init m (fun i -> 1.)
-        let W_original: Vector<float>   = Vector.init m (fun i -> 1.)//Vector.zeroCreate m
+            //Init a empty vector x
+            let t_original: Vector<float>   = Vector.init m (fun i -> 1.)
+            let bMean: float                = Vector.mean b
+            let muStart:Vector<float>       = Vector.map(fun x -> ((x+bMean)/2.)) b
+            let linPredStart: Vector<float> = Vector.init m (fun k -> GlmDistributionFamily.getLinkFunction(mDistributionFamily).getLink(muStart[k]))
 
-        //Run the costFunction until maxIter has been reached or the cost for the gain is smaller than mTol
-        let rec loopTilMaxIter (t: Vector<float>) (s: Vector<float>) (sy: Vector<float>) (W: Vector<float>) (loopCount: int)  =
-            if loopCount = maxIter then
-                t,s,sy,W
-            else
-                let (cost: float),(t: Vector<float>),(s: Vector<float>),(sy: Vector<float>),(W: Vector<float>) = costFunction A b mDistributionFamily t q QT s
+            printfn $"muStart: {muStart}"
+            //printfn $"linPredStart: {linPredStart}"
 
-                //if loopCount%10 = 0 then
-                printfn $"Iteration {loopCount}, Cost {cost}"
-                //printfn $" {loopCount}"
-                    
-                if cost < mTol then
-                    t,s,sy,W
-
+            //Run the costFunction until maxIter has been reached or the cost for the gain is smaller than mTol
+            let rec loopTilMaxIter (t: Vector<float>) (loopCount: int) (mu:Vector<float>) (linPred:Vector<float>) (wlsResult: Vector<float>) (wlsendog: Vector<float>) =
+                if loopCount = maxIter then
+                    t_original,mu,linPred,wlsResult,wlsendog
                 else
-                    let mxTest = solveLinearQR A t |> fst
-                    printfn $"mxTest: {mxTest}"
-                    loopTilMaxIter t s sy W (loopCount+1)
-            
-            
-        loopTilMaxIter t_original s_original sy_original W_original 0
+                    let cost,mu_new,linPred_new,wlsResult_new,wlsendogNew = 
+                        costFunction 
+                            A 
+                            b 
+                            mDistributionFamily 
+                            t_original  
+                            mu 
+                            linPred 
+                            wlsResult
+                            
 
-    let solveQrNewton(A: Matrix<float>) (b: Vector<float>) (maxIter: int) (mDistributionFamily: GlmDistributionFamily) (mTol: float) =
+                    //if loopCount%10 = 0 then
+                    printfn $"Iteration {loopCount}, Cost {cost}"
+                    ////printfn $" {loopCount}"
+                    
+                    if cost < mTol then
+                       t_original,mu,linPred,wlsResult,wlsendog
+
+                    else
+                        let mxTest = solveLinearQR A wlsendog |> fst
+                        printfn $"mxTest {mxTest}"
+                        loopTilMaxIter t_original (loopCount+1) mu_new linPred_new wlsResult_new wlsendogNew
+            
+            
+            loopTilMaxIter t_original 0 muStart linPredStart (Vector.zeroCreate n) (Vector.zeroCreate m)
+
+    let solveQrNewton
+        (A: Matrix<float>) 
+        (b: Vector<float>) 
+        (maxIter: int) 
+        (mDistributionFamily: GlmDistributionFamily) 
+        (mTol: float) =
         let m = A.NumRows
         let n = A.NumCols
 
         System.Diagnostics.Debug.Assert(m >= n) 
 
-        //let q,r = Algebra.LinearAlgebra.QR A 
-        let q,r = qrAlternative A 
+        let t,mu,linPred,wlsResult,wlsendog = 
+            loopTilIterQR A b mDistributionFamily maxIter mTol stepwiseGainQR 
 
-        let QT = q.Transpose
-        // printfn $"Q {q.Dimensions} | r {r.Dimensions} | QT {QT.Dimensions} | A {A.Dimensions}"
-        let (t: Vector<float>),(s: Vector<float>),(sy: Vector<float>),(W: Vector<float>) = loopTilIterQR A b mDistributionFamily maxIter mTol q QT stepwiseGainQR 
-
-        let mX,R = solveLinearQR A t
+        let mX,R = solveLinearQR A wlsendog
         
         //Update Stats
-        let statistics = GLMStatistics.getStatisticsQR A b W mX mDistributionFamily
-        mX,statistics 
+        //let statistics = getStatisticsQR A b mX mDistributionFamily
+        mX//,statistics 
