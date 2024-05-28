@@ -558,9 +558,9 @@ module QR =
 
         let mu_new = Vector.init m (fun i -> linkFunction.getInvLink(linPred_new[i]))
 
-        printfn $"wlsResults {wlsResults} \n"
+        //printfn $"wlsResults {wlsResults} \n"
         //printfn $"linPred_new {linPred_new}\n"
-        printfn $"mu_new {mu_new}\n\n\n\n\n"
+        //printfn $"mu_new {mu_new}\n\n\n\n\n"
 
         //let deviance = GlmDistributionFamily.resid_dev wlsendog mu_new (GlmDistributionFamily.getFamilyReisualDeviance mDistributionFamily)
         //printfn $"deviance {deviance}\n\n\n\n\n"
@@ -598,8 +598,8 @@ module QR =
             let muStart:Vector<float>       = Vector.map(fun x -> ((x+bMean)/2.)) b
             let linPredStart: Vector<float> = Vector.init m (fun k -> GlmDistributionFamily.getLinkFunction(mDistributionFamily).getLink(muStart[k]))
 
-            printfn $"muStart: {muStart}"
-            printfn $"linPredStart: {linPredStart}"
+            //printfn $"muStart: {muStart}"
+            //printfn $"linPredStart: {linPredStart}"
 
             //Run the costFunction until maxIter has been reached or the cost for the gain is smaller than mTol
             let rec loopTilMaxIter (t: Vector<float>) (loopCount: int) (mu:Vector<float>) (linPred:Vector<float>) (wlsResult: Vector<float>) (wlsendog: Vector<float>) =
@@ -625,8 +625,8 @@ module QR =
                        t_original,mu,linPred,wlsResult,wlsendog
 
                     else
-                        let mxTest = solveLinearQR A wlsendog |> fst
-                        printfn $"mxTest {mxTest}"
+                        //let mxTest = solveLinearQR A wlsendog |> fst
+                        //printfn $"mxTest {mxTest}"
                         loopTilMaxIter t_original (loopCount+1) mu_new linPred_new wlsResult_new wlsendogNew
             
             
@@ -648,6 +648,27 @@ module QR =
 
         let mX,R = wlsResult,wlsendog//solveLinearQR A wlsendog
         
+        let meanOfDist = mu
+        let meanOfDistTotal = mu |> Vector.mean
+
+        let logLikely = 
+            Vector.init (n) (fun i ->
+                let y =  b.[i]
+                let meanDist =  mu.[i] 
+                y * System.Math.Log(meanDist) - meanDist - (SpecialFunctions.Gamma.gammaLn(y+1.0))
+            )
+            |> Vector.sum
+
+        let sumOfSquares = 
+            Vector.init (n) (fun i ->
+                let y =  b.[i]
+                let yi =  linPred.[i] 
+                let a = y - yi
+                a*a
+            )
+            |> Vector.sum
+
+        printfn $"LogLikely: {logLikely} \n meanOfDist: {meanOfDist} \n meanOfDistTotal: {meanOfDistTotal} \n sumOfSquares: {sumOfSquares} \n"
         //Update Stats
-        //let statistics = getStatisticsQR A b mX mDistributionFamily
-        mX//,statistics 
+        let statistics = GLMStatistics.getStatisticsQR A b mu mX mDistributionFamily
+        mX,statistics 
