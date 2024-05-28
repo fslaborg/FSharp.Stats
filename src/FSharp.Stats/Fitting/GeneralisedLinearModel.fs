@@ -622,7 +622,41 @@ module QR =
                     ////printfn $" {loopCount}"
                     
                     if cost < mTol then
-                       t_original,mu,linPred,wlsResult,wlsendog
+                        let meanOfDist = mu_new
+                        let meanOfDistTotal = mu_new |> Vector.mean
+
+                        let logLikely = 
+                            Vector.init (n) (fun i ->
+                                let y =  b.[i]
+                                let meanDist =  mu_new.[i] 
+                                y * System.Math.Log(meanDist) - meanDist - (SpecialFunctions.Gamma.gammaLn(y+1.0))
+                            )
+                            |> Vector.sum
+                        let logLikel2y = 
+                            Vector.init (n-1) (fun i0 ->
+                                let i = i0+1
+                                let y =  b.[i]
+                                let meanDist =  mu_new.[i] 
+                                y * System.Math.Log(meanDist) - meanDist - (SpecialFunctions.Gamma.gammaLn(y+1.0))
+                            )
+                            |> Vector.sum
+                        let sumOfSquares = 
+                            Vector.init (n) (fun i ->
+                                let y =  b.[i]
+                                let yi =  linPred_new.[i] 
+                                let a = y - yi
+                                a*a
+                            )
+                            |> Vector.sum
+
+                        let deviance = GlmDistributionFamily.resid_dev wlsendogNew mu_new (GlmDistributionFamily.getFamilyReisualDeviance mDistributionFamily)
+                        let deviance2 = GlmDistributionFamily.resid_dev b mu_new (GlmDistributionFamily.getFamilyReisualDeviance mDistributionFamily)
+
+
+                        printfn $"LogLikely: {logLikely} \n LogLikely2: {logLikel2y} \n meanOfDist: {meanOfDist} \n meanOfDistTotal: {meanOfDistTotal} \n sumOfSquares: {sumOfSquares} \n Dev: {deviance} \n Dev2: {deviance2} \n"
+                        
+                                    
+                        t_original,mu,linPred,wlsResult,wlsendog
 
                     else
                         //let mxTest = solveLinearQR A wlsendog |> fst
@@ -658,7 +692,14 @@ module QR =
                 y * System.Math.Log(meanDist) - meanDist - (SpecialFunctions.Gamma.gammaLn(y+1.0))
             )
             |> Vector.sum
-
+        let logLikel2y = 
+            Vector.init (n-1) (fun i0 ->
+                let i = i0+1
+                let y =  b.[i]
+                let meanDist =  mu.[i] 
+                y * System.Math.Log(meanDist) - meanDist - (SpecialFunctions.Gamma.gammaLn(y+1.0))
+            )
+            |> Vector.sum
         let sumOfSquares = 
             Vector.init (n) (fun i ->
                 let y =  b.[i]
@@ -668,7 +709,11 @@ module QR =
             )
             |> Vector.sum
 
-        printfn $"LogLikely: {logLikely} \n meanOfDist: {meanOfDist} \n meanOfDistTotal: {meanOfDistTotal} \n sumOfSquares: {sumOfSquares} \n"
+        let deviance = GlmDistributionFamily.resid_dev wlsendog mu (GlmDistributionFamily.getFamilyReisualDeviance mDistributionFamily)
+        let deviance2 = GlmDistributionFamily.resid_dev b mu (GlmDistributionFamily.getFamilyReisualDeviance mDistributionFamily)
+
+
+        printfn $"LogLikely: {logLikely} \n LogLikely2: {logLikel2y} \n meanOfDist: {meanOfDist} \n meanOfDistTotal: {meanOfDistTotal} \n sumOfSquares: {sumOfSquares} \n Dev: {deviance} \n Dev2: {deviance2} \n"
         //Update Stats
         let statistics = GLMStatistics.getStatisticsQR A b mu mX mDistributionFamily
         mX,statistics 
