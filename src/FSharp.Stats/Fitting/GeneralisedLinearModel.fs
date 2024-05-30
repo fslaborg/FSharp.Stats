@@ -318,9 +318,22 @@ module GLMStatistics =
     let getchi2 (b:Vector<float>) (linPred: vector) = 
         Vector.map2(fun y yi -> 
             let a = y - yi
-            let nominator = a*a
+            let nominator = a**2.
             nominator / yi
         ) b linPred
+        |> Vector.sum
+
+
+    let getchi2New _endog mu family =
+        // chisq = (self._endog - self.mu)**2 / self.family.variance(self.mu)
+        // chisq *= self._iweights * self._n_trials
+        // chisqsum = np.sum(chisq)
+        // return chisqsum
+        Vector.map2(fun y yi -> 
+            let a = y - yi
+            let nominator = a**2.
+            nominator / (GlmDistributionFamily.getVariance family yi)
+        ) _endog mu
         |> Vector.sum
 
     let getStatisticsIRLS (A: Matrix<float>) (b: Vector<float>) (mDistributionFamily: GlmDistributionFamily) (vcovmat: Matrix<float>) (mX: Vector<float>)  =
@@ -701,7 +714,7 @@ module QR =
 
         let zStatistic = Vector.map2 (fun x y -> x/y) mX stndError
 
-        printfn $"LogLikely: {(GLMStatistics.getLogLikelihood b mu)} \n Dev: {deviance} \n chi2: {GLMStatistics.getchi2 b linPred} \n stndError: {stndError} \n zStatistic: {zStatistic}"
+        printfn $"LogLikely: {(GLMStatistics.getLogLikelihood b mu)} \n Dev: {deviance} \n chi2: {GLMStatistics.getchi2New b mu mDistributionFamily} \n chi2_2: {GLMStatistics.getchi2New b linPred mDistributionFamily} \n stndError: {stndError} \n zStatistic: {zStatistic}"
         //Update Stats
         let statistics = GLMStatistics.getStatisticsQR A b mu mX mDistributionFamily
-        mX,statistics 
+        mX,(mu,linPred,stndError,zStatistic) 
