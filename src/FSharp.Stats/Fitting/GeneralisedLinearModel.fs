@@ -364,7 +364,7 @@ module QR =
     
         mX,r
     
-    let internal stepwiseGainQR 
+    let stepwiseGainQR 
         (A: Matrix<float>) 
         (b: Vector<float>) 
         (mDistributionFamily: GlmDistributionFamily) 
