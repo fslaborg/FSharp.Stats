@@ -945,9 +945,9 @@ let GLMTestsQR =
 
             let cheeseMatrix,cheeseVector = HelperFunctions.generateBaseMatrixAndVector "Taste" [] cheeseframe
 
-            let actualResults,statistics =
+            let actualResultsRaw =
                 QR.solveQrNewton cheeseMatrix cheeseVector 200 GlmDistributionFamily.Poisson tolRef
-            
+            let actualResults = actualResultsRaw.mX
 
             Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
             Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Acetic wrong"
@@ -971,9 +971,9 @@ let GLMTestsQR =
 
             let energyMatrix,energyVector = HelperFunctions.generateBaseMatrixAndVector "Energy" [] energyframe
 
-            let actualResults,statistics =
+            let actualResultsRaw =
                 QR.solveQrNewton energyMatrix energyVector 200 GlmDistributionFamily.Poisson tolRef
-            
+            let actualResults = actualResultsRaw.mX
 
             Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
             Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Fat wrong"
@@ -998,9 +998,10 @@ let GLMTestsQR =
 
             let lungcapMatrix,lungcapVector = HelperFunctions.generateBaseMatrixAndVector "FEV" [] lungcapframe
 
-            let actualResults,statistics =
+            let actualResultsRaw =
                 QR.solveQrNewton lungcapMatrix lungcapVector 200 GlmDistributionFamily.Gamma tolRef
-            
+            let actualResults = actualResultsRaw.mX
+
             let x = $"{actualResults.[0]} {actualResults.[1]} {actualResults.[2]} {actualResults.[3]} {actualResults.[4]}"
             Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] $"GLM Intecept wrong {x}"
             Expect.floatClose Accuracy.medium actualResults.[1] expected.[1] "GLM Age wrong"

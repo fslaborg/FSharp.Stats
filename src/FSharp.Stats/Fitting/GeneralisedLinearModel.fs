@@ -91,7 +91,6 @@ module LinkFunctions =
             getInvLinkDerivative    = fun a -> 1.
         }
 
-
 type GlmDistributionFamily =
     |Normal
     |Exponential
@@ -188,6 +187,12 @@ module GlmDistributionFamily =
             | _ -> 
                 raise (System.NotImplementedException())
 
+type GLMReturn = 
+    {
+        mX:Vector<float>
+        mu:Vector<float>
+    }
+
 type GLMStatistics = 
     {
         StandardErrors:Vector<float>
@@ -198,7 +203,7 @@ type GLMStatistics =
         AdjustedR2:float
     }
 
-type GLMStatisticsPython = 
+type GLMStatisticsModel = 
     {
         LogLikelihood:float
         Deviance:float
@@ -206,23 +211,47 @@ type GLMStatisticsPython =
         PseudoR2:float
     }
 
+type GLMStatisticsPrameter = 
+    {
+        //Name:string
+        Coefficient:float
+        StandardError:float
+        ZScore:float
+        PersonOfZ:float
+    }
+
 module GLMStatistics =
-    let internal scalarMultiply (matrix:Matrix<float>) (vector:Vector<float>) =
-        let m = matrix.NumRows
-        let n = matrix.NumCols
 
-        let results = Matrix.zero m n 
-        for i=0 to m-1 do
-            let scalar = Vector.get vector i
-            let row = Matrix.getRow matrix i
-            let scalarRow = 
-                row*scalar
-                |> RowVector.toArray|>Vector.ofArray
-            Matrix.setRow results i scalarRow
-        results
-    
+    let internal getLogLikelihood (b:Vector<float>) (mu: vector) = 
+        Vector.mapi(fun i v -> 
+            let y =  b.[i]
+            let meanDist =  v 
+            y * System.Math.Log(meanDist) - meanDist - (SpecialFunctions.Gamma.gammaLn(y+1.0))
+        ) mu
+        |> Vector.sum
+        
+    let internal getChi2 (b:Vector<float>) (mu:Vector<float>) (family: GlmDistributionFamily) =
+        Vector.map2(fun y yi -> 
+            let a = y - yi
+            let nominator = a**2.
+            nominator / (GlmDistributionFamily.getVariance family yi)
+        ) b mu
+        |> Vector.sum
 
-    let getStandardError (A: Matrix<float>) (b: Vector<float>) (W: Vector<float>) (mX:Vector<float>) (mDistributionFamily: GlmDistributionFamily) =
+    let getGLMStatisticsModel (b:Vector<float>) (mu: vector) (family: GlmDistributionFamily) = 
+        let logLikelihood = getLogLikelihood b mu
+        let deviance = GlmDistributionFamily.getFamilyReisualDeviance family b mu 
+        let chi2 = getChi2 b mu family
+        
+        {
+            LogLikelihood=logLikelihood
+            Deviance=deviance
+            PearsonChi2=chi2
+            PseudoR2=0.
+        }
+
+
+    let internal getStandardError (A: Matrix<float>) (b: Vector<float>) (W: Vector<float>) =
         let At :Matrix<float> = Matrix.transpose A
         let WMatrix = Matrix.diag W
         let AtW = At * WMatrix
@@ -238,104 +267,33 @@ module GLMStatistics =
             )
         stndErrors
 
+    let internal getZStatistic (mx: Vector<float>) (stndError: Vector<float>) = 
+        Vector.map2 (fun x y -> 
+            x/y
+        ) mx stndError
 
 
+    let internal getPearsonOfZ (zStatistic: Vector<float>) = 
+        Vector.map(fun x ->
+            let phi = Distributions.Continuous.Normal.CDF 0. 1. (abs(x))
+            let pValue = 2. * (1. - phi)
+            pValue
+        )zStatistic
 
-    let getStatisticsQR (A: Matrix<float>) (b: Vector<float>) (W: Vector<float>) (mX:Vector<float>) (mDistributionFamily: GlmDistributionFamily) =
-        let At :Matrix<float> = Matrix.transpose A
-        let AtW = scalarMultiply At W
-        let AtWA :Matrix<float> = AtW*A
-        let AtWAInv = Algebra.LinearAlgebra.Inverse AtWA
+    let getGLMParameterStatistics (A:Matrix<float>) (b:Vector<float> ) (solved:GLMReturn) =
 
-        let n = AtWAInv.NumRows
-        let m = Vector.length b
-
-        let rec crossProdLoop crossProd i j =
-            if j=n then
-                crossProd
-            else
-                let elementA: float = (Matrix.get A i j)
-                let elementmX: float = mX[j]
-                let crossProdNew = crossProd + (elementA*elementmX)
-                crossProdLoop (crossProdNew) i (j+1)
-
-        let linkFunction = GlmDistributionFamily.getLinkFunction mDistributionFamily
-
-        let stndErrors: Vector<float> = Vector.init n (fun v -> Matrix.get AtWAInv v v)
-
-        let outcomes: Vector<float> = m |> Vector.zeroCreate
-        let residuals: Vector<float> = m |> Vector.zeroCreate
-            
-        for count=0 to m-1 do
-            let crossProd       = crossProdLoop 0. count 0
-            let elementB        = b[count]
-            let link            = linkFunction.getInvLink crossProd
-            
-            residuals[count]    <-  (elementB-link)
-            outcomes[count]     <-  (elementB) 
+        let stndErrors = getStandardError A b solved.mu
+        let zStatistic = getZStatistic solved.mX stndErrors
+        let pValue = getPearsonOfZ zStatistic
+        Seq.init (Vector.length solved.mX) (fun i -> 
+            {
+                Coefficient=solved.mX.[i]
+                StandardError=stndErrors.[i]
+                ZScore=zStatistic.[i]
+                PersonOfZ=pValue.[i]
+            }
+        )
         
-        let getStdDev (vec:Vector<float>) (mean:float) =
-            Vector.fold (fun folder v -> 
-                let a     = v - mean
-                let valNew  = System.Math.Pow(a,2)
-                folder + valNew 
-            ) 0. vec
-            |> fun x -> (System.Math.Sqrt((x)/float vec.Length))
-
-        let residualStdDev = getStdDev residuals 0.
-        let responseMean =   Vector.mean(outcomes)
-        let responseVariance = 
-            let v = getStdDev outcomes responseMean
-            System.Math.Pow(v, 2)
-        let r2 = 1. - residualStdDev * residualStdDev / responseVariance
-        let adjustedR2 = 1. - (residualStdDev * residualStdDev) / responseVariance * (float n) / ((float n) - (float mX.Length) - 1.)
-        
-        {
-            StandardErrors=stndErrors
-            ResidualStandardDeviation=residualStdDev
-            ResponseMean=responseMean
-            ResponseVariance=responseVariance
-            R2=r2
-            AdjustedR2=adjustedR2
-        }
-
-    let getLogLikelihood (b:Vector<float>) (mu: vector) = 
-        Vector.mapi(fun i v -> 
-            let y =  b.[i]
-            let meanDist =  v 
-            y * System.Math.Log(meanDist) - meanDist - (SpecialFunctions.Gamma.gammaLn(y+1.0))
-        ) mu
-        |> Vector.sum
-
-    let getSumOfSquares (b:Vector<float>) (linPred: vector) = 
-        Vector.mapi(fun i v -> 
-            let y =  b.[i]
-            let yi =  v 
-            let a = y - yi
-            a*a
-        ) linPred
-        
-    let getchi2 (b:Vector<float>) (linPred: vector) = 
-        Vector.map2(fun y yi -> 
-            let a = y - yi
-            let nominator = a**2.
-            nominator / yi
-        ) b linPred
-        |> Vector.sum
-
-
-    let getchi2New _endog mu family =
-        // chisq = (self._endog - self.mu)**2 / self.family.variance(self.mu)
-        // chisq *= self._iweights * self._n_trials
-        // chisqsum = np.sum(chisq)
-        // return chisqsum
-        Vector.map2(fun y yi -> 
-            let a = y - yi
-            let nominator = a**2.
-            nominator / (GlmDistributionFamily.getVariance family yi)
-        ) _endog mu
-        |> Vector.sum
-
     let getStatisticsIRLS (A: Matrix<float>) (b: Vector<float>) (mDistributionFamily: GlmDistributionFamily) (vcovmat: Matrix<float>) (mX: Vector<float>)  =
         let n = vcovmat.NumRows
         let m = Vector.length b
@@ -565,7 +523,7 @@ module QR =
     
         mX,r
     
-    let stepwiseGainQR 
+    let internal stepwiseGainQR 
         (A: Matrix<float>) 
         (b: Vector<float>) 
         (mDistributionFamily: GlmDistributionFamily) 
@@ -631,7 +589,7 @@ module QR =
 
         cost,mu_new,linPred_new,wlsResults,wlsendog
 
-    let loopTilIterQR 
+    let internal loopTilIterQR 
         (A: Matrix<float>) 
         (b: Vector<float>) 
         (mDistributionFamily: GlmDistributionFamily) 
@@ -708,13 +666,10 @@ module QR =
 
         let mX,R = wlsResult,wlsendog
 
-        let deviance = GlmDistributionFamily.getFamilyReisualDeviance mDistributionFamily b mu 
-
-        let stndError = GLMStatistics.getStandardError A b mu mX mDistributionFamily
-
-        let zStatistic = Vector.map2 (fun x y -> x/y) mX stndError
-
-        printfn $"LogLikely: {(GLMStatistics.getLogLikelihood b mu)} \n Dev: {deviance} \n chi2: {GLMStatistics.getchi2New b mu mDistributionFamily} \n chi2_2: {GLMStatistics.getchi2New b linPred mDistributionFamily} \n stndError: {stndError} \n zStatistic: {zStatistic}"
-        //Update Stats
-        let statistics = GLMStatistics.getStatisticsQR A b mu mX mDistributionFamily
-        mX,(mu,linPred,stndError,zStatistic) 
+        {mX=mX;mu=mu}
+    
+    let getGLMModelStatistics (b:Vector<float>) (solvedGLM:GLMReturn) (mDistributionFamily:GlmDistributionFamily) = 
+        GLMStatistics.getGLMStatisticsModel b solvedGLM.mu mDistributionFamily
+    
+    let getGLMParameterStatistics (A:Matrix<float>) (b:Vector<float> ) (solved:GLMReturn) =
+        GLMStatistics.getGLMParameterStatistics 
