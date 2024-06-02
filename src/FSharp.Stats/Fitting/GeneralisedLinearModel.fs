@@ -183,7 +183,35 @@ module GlmDistributionFamily =
                     2.*d 
                 ) endog mu
                |> Vector.sum          
-
+            | GlmDistributionFamily.Normal ->
+                Vector.map2(fun endV muV -> 
+                    let a = endV - muV
+                    a**2.
+                ) endog mu
+                |> Vector.sum
+            | GlmDistributionFamily.Gamma ->
+                Vector.map2(fun endV muV -> 
+                    let a = clean(endV/muV)
+                    let b = System.Math.Log(a)
+                    let c = endV-muV
+                    let d = c/muV
+                    let e = -b + d
+                    2.*d 
+                ) endog mu
+                |> Vector.sum
+            // | GlmDistributionFamily.Binomial ->
+            //     Vector.map2(fun endV muV -> 
+            //         let endogmu = clean(endV / (muV + 1e-20))
+            //         let nendogmu = clean((1. - endV) / (1. - muV + 1e-20))
+            //         endV * System.Math.Log(endogmu) + (1. - endV) * System.Math.Log(nendogmu)
+            //         |> fun x -> 2. * x * tries
+            //     ) endog mu
+            //     |> Vector.sum 
+            | GlmDistributionFamily.InverseGaussian ->
+                Vector.map2(fun endV muV -> 
+                    1. / (endV * muV ** 2.) * (endV - muV) ** 2.
+                ) endog mu
+                |> Vector.sum
             | _ -> 
                 raise (System.NotImplementedException())
 
@@ -270,12 +298,13 @@ module GLMStatistics =
             pValue
         )zStatistic
 
-    let getGLMParameterStatistics (A:Matrix<float>) (b:Vector<float> ) (solved:GLMReturn) =
+    let getGLMParameterStatistics (A:Matrix<float>) (b:Vector<float> ) (solved:GLMReturn) (names:string seq) =
 
         let stndErrors = getStandardError A b solved.mu
         let zStatistic = getZStatistic solved.mX stndErrors
         let pValue = getPearsonOfZ zStatistic
         Seq.init (Vector.length solved.mX) (fun i -> 
+            Seq.item i names,
             {
                 Coefficient=solved.mX.[i]
                 StandardError=stndErrors.[i]
@@ -376,23 +405,16 @@ module QR =
 
         let m = A.NumRows
         let n = A.NumCols
-        //printfn $"m {m}"
         //Get the link function in accordance to the distribution type
         let linkFunction= GlmDistributionFamily.getLinkFunction mDistributionFamily
 
         let famWeight = GlmDistributionFamily.getFamilyWeights mDistributionFamily mu
-        //printfn $"famWeight {famWeight}\n"
         let selfWeights = 
             Vector.init m (fun i -> t[i] * (float 1.) * famWeight[i])
-        //printfn $"selfWeights {selfWeights}\n"
         
         let derivs = Vector.map(fun x -> linkFunction.getDeriv x) mu
         
-        //printfn $"derivs {derivs}\n"
-
-        let wlsendog: Vector<float> = Vector.init m (fun i -> linPred[i] + derivs[i] * (b[i]-mu[i]))
-        //printfn $"wlsendog {wlsendog}\n"
-        
+        let wlsendog: Vector<float> = Vector.init m (fun i -> linPred[i] + derivs[i] * (b[i]-mu[i]))        
 
         let wlsendog2,wlsexdog: Vector<float>*Matrix<float> = 
             let whalf = Vector.map(fun x -> System.Math.Sqrt(x)) selfWeights
@@ -406,22 +428,12 @@ module QR =
                 )
                 |> Matrix.ofJaggedArray
             en,ex
-            
-        //printfn $"wlsendog2 {wlsendog2} \n"
-        //printfn $"wlsexdog {wlsexdog} \n"
 
         let (wlsResults: Vector<float>),R = solveLinearQR wlsexdog wlsendog2
 
         let linPred_new: Vector<float> = A * wlsResults
 
         let mu_new = Vector.init m (fun i -> linkFunction.getInvLink(linPred_new[i]))
-
-        //printfn $"wlsResults {wlsResults} \n"
-        //printfn $"linPred_new {linPred_new}\n"
-        //printfn $"mu_new {mu_new}\n\n\n\n\n"
-
-        //let deviance = GlmDistributionFamily.resid_dev wlsendog mu_new (GlmDistributionFamily.getFamilyReisualDeviance mDistributionFamily)
-        //printfn $"deviance {deviance}\n\n\n\n\n"
 
         //Calculate the cost of this step
         let cost:float = 
@@ -456,9 +468,6 @@ module QR =
             let muStart:Vector<float>       = Vector.map(fun x -> ((x+bMean)/2.)) b
             let linPredStart: Vector<float> = Vector.init m (fun k -> GlmDistributionFamily.getLinkFunction(mDistributionFamily).getLink(muStart[k]))
 
-            //printfn $"muStart: {muStart}"
-            //printfn $"linPredStart: {linPredStart}"
-
             //Run the costFunction until maxIter has been reached or the cost for the gain is smaller than mTol
             let rec loopTilMaxIter (t: Vector<float>) (loopCount: int) (mu:Vector<float>) (linPred:Vector<float>) (wlsResult: Vector<float>) (wlsendog: Vector<float>) =
                 if loopCount = maxIter then
@@ -475,17 +484,15 @@ module QR =
                             wlsResult
                             
 
-                    //if loopCount%10 = 0 then
-                    printfn $"Iteration {loopCount}, Cost {cost}"
-                    ////printfn $" {loopCount}"
-                    
+                    if loopCount%10 = 0 then
+                        printfn $"Iteration {loopCount}, Cost {cost}"
+
                     if cost < mTol then
            
                         t_original,mu,linPred,wlsResult,wlsendog
 
                     else
-                        //let mxTest = solveLinearQR A wlsendog |> fst
-                        //printfn $"mxTest {mxTest}"
+
                         loopTilMaxIter t_original (loopCount+1) mu_new linPred_new wlsResult_new wlsendogNew
             
             
@@ -513,4 +520,4 @@ module QR =
         GLMStatistics.getGLMStatisticsModel b solvedGLM.mu mDistributionFamily
     
     let getGLMParameterStatistics (A:Matrix<float>) (b:Vector<float> ) (solved:GLMReturn) =
-        GLMStatistics.getGLMParameterStatistics 
+        GLMStatistics.getGLMParameterStatistics A b solved 
