@@ -82,13 +82,15 @@ In the context of programming, this equation could be implemented in a variety o
 ## Loading the Dataset
 First, let's read some data to learn how to utilize Generalized Linear Models (GLMs). Below is the code to read the cheeseDataset, which is sourced from David S. Moore and George P. McCabe's "Introduction to the Practice of Statistics" (1993), second edition, published by W. H. Freeman and Company, available on the [Statlib database](https://dasl.datadescription.com). It contains information on the taste and concentration of various chemical components in 30 matured cheddar cheeses from the LaTrobe Valley in Victoria, Australia. The final Taste score is an aggregate of the scores given by several tasters.
 *)
+open Plotly.NET
+open FSharp.Stats
+open Deedle
 
 let cheeseDataset :Frame<int,string>= 
     Frame.ReadCsv "/Users/lux/Library/CloudStorage/OneDrive-ComputationalSystemsBiology/Projects/GeneralLinearModel/data/cheese.csv"
     |> Frame.indexRows "Column1"
 
 (***include-value:cheeseDataset***)
-
 
 (**
 ## Creating Histograms
@@ -123,7 +125,8 @@ let histograms =
         |> Chart.withTraceInfo("Lactic")    
     Chart.Grid(2,2) [histogramTaste; histogramAcetic; histogramH2S; histogramLactic]
 
-histograms
+(***include-value:histograms***)
+
 
 (**
 ## Preparing Data for GLM
@@ -156,40 +159,40 @@ let updatedIndependentMatrix =
 The next step we need to take is to determine which linker functions to use in our Model.
 Generalized Linear Models extend linear models to allow for response variables that have error distribution models other than a normal distribution. The choice of distribution family in a GLM depends on the nature of the response variable (dependent variable). Here is a summary of when to use each GLM distribution family:
 
-**Normal (Gaussian) Distribution**:
-   - **Use when**: The response variable is continuous and normally distributed.
-   - **Common applications**: Linear regression, ANOVA, ANCOVA.
+**Normal (Gaussian) Distribution**: <br>
+   - **Use when**: The response variable is continuous and normally distributed. <br>
+   - **Common applications**: Linear regression, ANOVA, ANCOVA. <br>
    - **Examples**: Heights, weights, test scores.
 
-**Binomial Distribution**:
-   - **Use when**: The response variable is binary (0 or 1) or proportion data.
-   - **Common applications**: Logistic regression, probit regression.
+**Binomial Distribution**: <br>
+   - **Use when**: The response variable is binary (0 or 1) or proportion data. <br>
+   - **Common applications**: Logistic regression, probit regression. <br>
    - **Examples**: Yes/No outcomes, success/failure data.
 
-**Poisson Distribution**:
-   - **Use when**: The response variable represents count data, especially counts of rare events.
-   - **Common applications**: Poisson regression.
+**Poisson Distribution**: <br>
+   - **Use when**: The response variable represents count data, especially counts of rare events. <br>
+   - **Common applications**: Poisson regression. <br>
    - **Examples**: Number of customer complaints, number of accidents.
 
-**Negative Binomial Distribution**:
-   - **Use when**: The response variable is count data with overdispersion (variance greater than the mean).
-   - **Common applications**: Negative binomial regression.
+**Negative Binomial Distribution**: <br>
+   - **Use when**: The response variable is count data with overdispersion (variance greater than the mean). <br>
+   - **Common applications**: Negative binomial regression. <br>
    - **Examples**: Number of insurance claims, number of hospital visits.
 
-**Gamma Distribution**:
-   - **Use when**: The response variable is continuous and positive, often for skewed distributions.
-   - **Common applications**: Gamma regression.
+**Gamma Distribution**: <br>
+   - **Use when**: The response variable is continuous and positive, often for skewed distributions. <br>
+   - **Common applications**: Gamma regression. <br>
    - **Examples**: Insurance claims costs, time until an event occurs.
 
-**Inverse Gaussian Distribution**:
-   - **Use when**: The response variable is continuous and positive, and particularly when the data has a long right tail.
-   - **Common applications**: Inverse Gaussian regression.
+**Inverse Gaussian Distribution**: <br>
+   - **Use when**: The response variable is continuous and positive, and particularly when the data has a long right tail. <br>
+   - **Common applications**: Inverse Gaussian regression. <br>
    - **Examples**: Reaction times, survival times.
 
 
-**Multinomial Distribution**:
-   - **Use when**: The response variable represents categorical data with more than two categories.
-   - **Common applications**: Multinomial logistic regression.
+**Multinomial Distribution**: <br>
+   - **Use when**: The response variable represents categorical data with more than two categories. <br>
+   - **Common applications**: Multinomial logistic regression. <br>
    - **Examples**: Survey responses with multiple choices, type of disease diagnosis.
 
 Each distribution family has a corresponding link function that relates the linear predictor to the mean of the distribution. The choice of link function can also be tailored to better fit the specific characteristics of the data. Common link functions include the identity link, log link, logit link, and inverse link, among others.
@@ -207,14 +210,14 @@ let b = dependentVector
 let maxIter = 100
 
 // Distribution family of the dependent variable
-let distributionFamily = Fitting.GLM.GlmDistributionFamily.Poisson
+let distributionFamily = FSharp.Stats.Fitting.GLM.GlmDistributionFamily.Poisson
 
 // Tolerance for the convergence of the algorithm, usually 1e-11 or 1e-6
 let mTol = 1e-6
 
 // Fit the model
 let glm = 
-    Fitting.GLM.QR.solveQrNewton A b maxIter distributionFamily mTol
+    FSharp.Stats.Fitting.GLM.QR.solveQrNewton A b maxIter distributionFamily mTol
 
 glm
 (***include-value:glm***)
@@ -234,7 +237,7 @@ Using this map we can also access the zScore and Pearson scores of each of the p
 *)
 
 let glmPredictions = 
-    Fitting.GLM.QR.getGLMParameterStatistics A b glm ["Intercept"; "Acetic"; "H2S"; "Lactic"]
+    FSharp.Stats.Fitting.GLM.QR.getGLMParameterStatistics A b glm ["Intercept"; "Acetic"; "H2S"; "Lactic"]
     |> Map.ofSeq
 
 (***include-value:glmPredictions***)
@@ -304,4 +307,5 @@ Pearson Chi-Square is another measure of goodness of fit. It assesses how well t
 These statistics together give us a comprehensive view of the model's performance and its ability to explain the variability in the data.
 *)
 
-Fitting.GLM.QR.getGLMModelStatistics b glm distributionFamily
+let glmStats = FSharp.Stats.Fitting.GLM.QR.getGLMModelStatistics b glm distributionFamily
+(***include-value:glmStats***)
