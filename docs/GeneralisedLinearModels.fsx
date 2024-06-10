@@ -82,12 +82,13 @@ In the context of programming, this equation could be implemented in a variety o
 ## Loading the Dataset
 First, let's read some data to learn how to utilize Generalized Linear Models (GLMs). Below is the code to read the cheeseDataset, which is sourced from David S. Moore and George P. McCabe's "Introduction to the Practice of Statistics" (1993), second edition, published by W. H. Freeman and Company, available on the [Statlib database](https://dasl.datadescription.com). It contains information on the taste and concentration of various chemical components in 30 matured cheddar cheeses from the LaTrobe Valley in Victoria, Australia. The final Taste score is an aggregate of the scores given by several tasters.
 *)
+
+open Deedle
 open Plotly.NET
 open FSharp.Stats
-open Deedle
 
 let cheeseDataset :Frame<int,string>= 
-    Frame.ReadCsv "/Users/lux/Library/CloudStorage/OneDrive-ComputationalSystemsBiology/Projects/GeneralLinearModel/data/cheese.csv"
+    Frame.ReadCsv $"{__SOURCE_DIRECTORY__}/data/cheese.csv"
     |> Frame.indexRows "Column1"
 
 (***include-value:cheeseDataset***)
