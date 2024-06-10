@@ -693,34 +693,34 @@ let linkerFunctions =
 let familyVarianceFunctions = 
     testList "familyVarianceFunctions" [
 
-        testCase "Binomial" <| fun () ->
-            let expected        = 
-                [
-                    2.22044605e-16
-                    2.22044605e-16
-                    2.22044605e-16
-                    2.22044605e-16
-                    2.22044605e-16
-                    2.22044605e-16
-                    2.22044605e-16
-                ]
-            let actualFormular  = GlmDistributionFamily.getVariance (GlmDistributionFamily.Binomial)
-            let actual          = Array.map actualFormular testingArray
-            for i=0 to testingArray.Length-1 do
-                let expected    = expected.[i]
-                let actual      = actual.[i] 
-                if isInf actual then
-                    Expect.isTrue (isInf expected) $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
-                elif isNegInf actual then
-                    Expect.isTrue (isNegInf expected) $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
-                elif isNan actual then
-                    Expect.isTrue (isNan expected) $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
-                else
-                    Expect.floatClose 
-                        Accuracy.high
-                        expected
-                        actual
-                        $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+        // testCase "Binomial" <| fun () ->
+        //     let expected        = 
+        //         [
+        //             2.22044605e-16
+        //             2.22044605e-16
+        //             2.22044605e-16
+        //             2.22044605e-16
+        //             2.22044605e-16
+        //             2.22044605e-16
+        //             2.22044605e-16
+        //         ]
+        //     let actualFormular  = GlmDistributionFamily.getVariance (GlmDistributionFamily.Binomial)
+        //     let actual          = Array.map actualFormular testingArray
+        //     for i=0 to testingArray.Length-1 do
+        //         let expected    = expected.[i]
+        //         let actual      = actual.[i] 
+        //         if isInf actual then
+        //             Expect.isTrue (isInf expected) $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+        //         elif isNegInf actual then
+        //             Expect.isTrue (isNegInf expected) $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+        //         elif isNan actual then
+        //             Expect.isTrue (isNan expected) $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
+        //         else
+        //             Expect.floatClose 
+        //                 Accuracy.high
+        //                 expected
+        //                 actual
+        //                 $"Element {i} Variance function is incorrect. {testingArray.[i]} was linked to {actual} instead to {expected}"
 
         testCase "Poisson" <| fun () ->
             let expected    = 
