@@ -63,6 +63,19 @@ module MultipleTesting =
         |> Seq.ofList
 
 
+    // adapted from: https://en.wikipedia.org/wiki/%C5%A0id%C3%A1k_correction   &   https://personal.utdallas.edu/~herve/Abdi-Bonferroni2007-pretty.pdf
+    // checked according to: https://cran.r-project.org/web/packages/aggregation/index.html
+    // original derivation: https://www.tandfonline.com/doi/abs/10.1080/01621459.1967.10482935
+    /// <summary>Computes the Dunn-Sidak correction onto a collection of p-values with a given alpha.</summary>
+    /// <returns>Returns a critical value.</returns>
+    /// <remarks>p-values above the critical value should be rejected. Use this correction to reduce family-wise error rate when performing multiple tests on a dataset. p-values above 1, below 0, inf, and nan are excluded.</remarks>
+    let dunnSidak alpha (pValues : seq<float>) = 
+        let checkedValues = Seq.filter (fun v -> v >= 0. && v <= 1.) pValues
+        let m = float (Seq.length checkedValues)
+        let criticalValue = 1. - (1. - alpha) ** (1. / m)
+        criticalValue
+
+
     // John D. Storey
     // http://dldcc-web.brc.bcm.edu/lilab/liguow/CGI/R/library/qvalue/html/qvalue.html
     // http://qvalue.princeton.edu/
