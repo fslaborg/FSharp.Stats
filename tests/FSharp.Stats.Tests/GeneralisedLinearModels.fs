@@ -911,7 +911,7 @@ let GLMStepwise =
             let wlsendogNewExpected     = Vector.zeroCreate 10
 
             let costActual,mu_newActual,linPred_newActual,wlsResult_newActual,wlsendogNewActual  = 
-                QR.stepwiseGainQR A b mFam t mu linPred oldResults
+                FSharp.Stats.Fitting.GLM.QRSolver.stepwiseGainQR A b mFam t mu linPred oldResults
 
             for i=0 to (A.NumRows-1) do
                 Expect.floatClose Accuracy.high mu.[i] muStartExpected.[i] "muStart differs great"
@@ -946,7 +946,7 @@ let GLMTestsQR =
             let cheeseMatrix,cheeseVector = HelperFunctions.generateBaseMatrixAndVector "Taste" [] cheeseframe
 
             let actualResultsRaw =
-                QR.solveQrNewton cheeseMatrix cheeseVector 200 GlmDistributionFamily.Poisson tolRef
+                SolveGLM.solveQR cheeseMatrix cheeseVector 200 GlmDistributionFamily.Poisson tolRef
             let actualResults = actualResultsRaw.mX
 
             Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
@@ -972,7 +972,7 @@ let GLMTestsQR =
             let energyMatrix,energyVector = HelperFunctions.generateBaseMatrixAndVector "Energy" [] energyframe
 
             let actualResultsRaw =
-                QR.solveQrNewton energyMatrix energyVector 200 GlmDistributionFamily.Poisson tolRef
+                SolveGLM.solveQR energyMatrix energyVector 200 GlmDistributionFamily.Poisson tolRef
             let actualResults = actualResultsRaw.mX
 
             Expect.floatClose Accuracy.medium actualResults.[0] expected.[0] "GLM Intecept wrong"
@@ -999,7 +999,7 @@ let GLMTestsQR =
             let lungcapMatrix,lungcapVector = HelperFunctions.generateBaseMatrixAndVector "FEV" [] lungcapframe
 
             let actualResultsRaw =
-                QR.solveQrNewton lungcapMatrix lungcapVector 200 GlmDistributionFamily.Gamma tolRef
+                SolveGLM.solveQR lungcapMatrix lungcapVector 200 GlmDistributionFamily.Gamma tolRef
             let actualResults = actualResultsRaw.mX
 
             let x = $"{actualResults.[0]} {actualResults.[1]} {actualResults.[2]} {actualResults.[3]} {actualResults.[4]}"

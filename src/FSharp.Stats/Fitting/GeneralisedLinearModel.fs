@@ -3,6 +3,7 @@ namespace FSharp.Stats.Fitting.GLM
 
 open System
 open FSharp.Stats
+open Algebra.LinearAlgebra 
 
 /// 
 /// Represents the distribution families for Generalized Linear Models (GLMs).
@@ -410,95 +411,10 @@ module GLMStatistics =
             }
         )
 
-module QR =
 
-    let internal qrAlternative (A:Matrix<float>) =
-        let m: int = A.NumRows
-        let n: int = A.NumCols
+module QRSolver =
 
-        let q: Matrix<float> = Matrix.zero m n
-        let r: Matrix<float> = Matrix.zero n n
-        let qLengths: Vector<float> = Vector.zeroCreate n
 
-        let getVectorLength (v: Vector<float>) = Vector.fold (fun folder i -> folder+(i*i)) 0. v
-
-        let setqOfA (n: int) =
-            let aN: Vector<float> =  Matrix.getCol A n
-            let qN = 
-                if n = 0 then 
-                    aN 
-                else 
-                    Array.init (n) (fun i -> 
-                        let denominator = qLengths[i]
-                        let forNominator: Vector<float> = Matrix.getCol q i 
-                        let nominator: float = Vector.dot aN forNominator
-                        r.[i, n] <- nominator
-                        (nominator/denominator) * forNominator
-                    )
-                    |> Array.fold (fun folder  e -> folder-e ) aN
-            Matrix.setCol q n qN
-            qN  
-
-        for i=0 to n-1 do
-            let qN = setqOfA i 
-            let qLength = getVectorLength qN
-            let rValue = sqrt(qLength)
-            r[i,i] <- rValue
-            qLengths[i] <- qLength
-
-        for i=0 to n-1 do
-            let qN: Vector<float> = Matrix.getCol q i
-            let updateQ = (1./sqrt( qLengths[i]  )) * qN 
-            Matrix.setCol q i updateQ
-            for j=i+1 to n-1 do
-                let denominator = r[i, i]
-                let nominator = r[i, j]
-                r[i, j] <- (nominator/denominator)
-    
-        q,r
-
-    /// Solves a linear system of equations using QR decomposition.
-    /// 
-    /// Parameters:
-    ///   - A: The coefficient matrix of the linear system.
-    ///   - t: The target vector of the linear system.
-    /// 
-    /// Returns:
-    ///   - mX: The solution vector of the linear system.
-    ///   - r: The upper triangular matrix obtained from QR decomposition.
-    let internal solveLinearQR (A: Matrix<float>) (t: Vector<float>) =
-        let m = A.NumRows
-        let n = A.NumCols
-
-        System.Diagnostics.Debug.Assert(m >= n) 
-
-        let q,r = qrAlternative A 
-
-        let QT = q.Transpose
-
-        let mX = Vector.zeroCreate n
-
-        let c: Vector<float> = QT * t
-
-        let rec build_mX_inner cross_prod i j =
-            if j=n then 
-                cross_prod
-            else
-                let newCrossprod = cross_prod + (r[i, j] * mX[j])
-                build_mX_inner newCrossprod i (j+1)
-    
-        let rec build_mX_outer i =
-            if i<0 then 
-                ()
-            else
-                let crossProd = build_mX_inner 0. i (i+1)
-                mX[i] <- (c[i] - crossProd) / r[i, i]
-                build_mX_outer (i-1)
-    
-        build_mX_outer (n-1)
-    
-        mX,r
-    
     /// Performs a stepwise gain QR calculation for a generalised linear model.
     /// This function calculates the cost, updated mean values, updated linear predictions,
     /// weighted least squares results, and weighted least squares endogenous values for a given
@@ -645,24 +561,18 @@ module QR =
 
         {mX=mX;mu=mu}
 
-    /// Calculates the model statistics for a solved generalized linear model.
-    ///
-    /// Parameters:
-    ///   - b: The response vector.
-    ///   - solvedGLM: The solved generalized linear model.
-    ///   - mDistributionFamily: The distribution family of the model.
-    ///
-    /// Returns: The model statistics.
-    let getGLMModelStatistics (b:Vector<float>) (solvedGLM:GLMReturn) (mDistributionFamily:GlmDistributionFamily) = 
-        GLMStatistics.getGLMStatisticsModel b solvedGLM mDistributionFamily
-        /// Calculates the parameter statistics for a solved generalized linear model.
-    
+module SolveGLM = 
+
+    /// Solves a generalized linear model using the QR decomposition and Newton's method.
     ///
     /// Parameters:
     ///   - A: The design matrix.
     ///   - b: The response vector.
-    ///   - solved: The solved generalized linear model.
+    ///   - maxIter: The maximum number of iterations.
+    ///   - mDistributionFamily: The distribution family of the model.
+    ///   - mTol: The tolerance for convergence.
     ///
-    /// Returns: The parameter statistics.
-    let getGLMParameterStatistics (A:Matrix<float>) (b:Vector<float> ) (solved:GLMReturn) =
-        GLMStatistics.getGLMParameterStatistics A b solved 
+    /// Returns: The solved generalized linear model.
+    let solveQR (A: Matrix<float>) (b: Vector<float>) (maxIter: int) (mDistributionFamily: GlmDistributionFamily) (mTol: float) = 
+        QRSolver.solveQrNewton (A: Matrix<float>) (b: Vector<float>) (maxIter: int) (mDistributionFamily: GlmDistributionFamily) (mTol: float)
+    

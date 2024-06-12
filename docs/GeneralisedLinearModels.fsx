@@ -218,7 +218,7 @@ let mTol = 1e-6
 
 // Fit the model
 let glm = 
-    FSharp.Stats.Fitting.GLM.QR.solveQrNewton A b maxIter distributionFamily mTol
+    FSharp.Stats.Fitting.GLM.SolveGLM.solveQR A b maxIter distributionFamily mTol
 
 glm
 (***include-value:glm***)
@@ -238,7 +238,7 @@ Using this map we can also access the zScore and Pearson scores of each of the p
 *)
 
 let glmPredictions = 
-    FSharp.Stats.Fitting.GLM.QR.getGLMParameterStatistics A b glm ["Intercept"; "Acetic"; "H2S"; "Lactic"]
+    FSharp.Stats.Fitting.GLM.GLMStatistics.getGLMParameterStatistics A b glm ["Intercept"; "Acetic"; "H2S"; "Lactic"]
     |> Map.ofSeq
 
 (***include-value:glmPredictions***)
@@ -308,5 +308,5 @@ Pearson Chi-Square is another measure of goodness of fit. It assesses how well t
 These statistics together give us a comprehensive view of the model's performance and its ability to explain the variability in the data.
 *)
 
-let glmStats = FSharp.Stats.Fitting.GLM.QR.getGLMModelStatistics b glm distributionFamily
+let glmStats = FSharp.Stats.Fitting.GLM.GLMStatistics.getGLMStatisticsModel b glm distributionFamily
 (***include-value:glmStats***)
