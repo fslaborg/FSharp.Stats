@@ -411,8 +411,7 @@ module GLMStatistics =
             }
         )
 
-
-module QRSolver =
+module internal QRSolver =
 
 
     /// Performs a stepwise gain QR calculation for a generalised linear model.
