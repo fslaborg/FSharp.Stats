@@ -5,8 +5,9 @@ open System
 open FSharp.Stats
 open Algebra.LinearAlgebra 
 
-/// 
+/// <summary>
 /// Represents the distribution families for Generalized Linear Models (GLMs).
+/// </summary>
 type GlmDistributionFamily =
     /// Normal distribution family.
     | Normal
@@ -27,16 +28,17 @@ type GlmDistributionFamily =
     /// Multinomial distribution family.
     | Multinomial
 
-// /// <summary>
-// ///   Linear regression is used to estimate the relationship of one variable (y) with another (x) by expressing y in terms of a linear function of x.
-// /// </summary>
+/// <summary>
 /// Represents a collection of link functions used in a generalized linear model.
+/// </summary>
 type LinkFunctions =
     | GetLink of (float -> float)
     | GetInvLink of (float -> float)
     | GetInvLinkDerivative of (float -> float)
 
+/// <summary>
 /// Represents a link function used in a generalized linear model.
+/// </summary>
 type LinkFunction =
     {
         /// Gets the link function.
@@ -48,7 +50,25 @@ type LinkFunction =
         /// Gets the derivative of the inverse link function.
         getInvLinkDerivative: float -> float
     }
+
+/// <summary>
 /// Represents the return type of a Generalised Linear Model (GLM).
+/// </summary>
+/// <remarks>
+/// This type contains the following elements:
+/// <list type="bullet">
+/// <item>
+/// <description>
+/// <c>mX</c>: The coefficients used in the GLM.
+/// </description>
+/// </item>
+/// <item>
+/// <description>
+/// <c>mu</c>: The predicted mean values of the GLM.
+/// </description>
+/// </item>
+/// </list>
+/// </remarks>
 type GLMReturn = 
     {
         /// The coefficients used in the GLM.
@@ -57,7 +77,29 @@ type GLMReturn =
         mu: Vector<float>
     }
 
+/// <summary>
 /// Represents the statistics of a Generalised Linear Model (GLM).
+/// </summary>
+/// <remarks>
+/// This type contains the following elements:
+/// <list type="bullet">
+/// <item>
+/// <description>
+/// <c>LogLikelihood</c>: The log-likelihood of the GLM.
+/// </description>
+/// </item>
+/// <item>
+/// <description>
+/// <c>Deviance</c>: The deviance of the GLM.
+/// </description>
+/// </item>
+/// <item>
+/// <description>
+/// <c>PearsonChi2</c>: The Pearson chi-squared statistic of the GLM.
+/// </description>
+/// </item>
+/// </list>
+/// </remarks>
 type GLMStatisticsModel = 
     {
         /// The log-likelihood of the GLM.
@@ -69,7 +111,34 @@ type GLMStatisticsModel =
         //PseudoR2:float
     }
 
+/// <summary>
 /// Represents the parameters of a Generalised Linear Model (GLM).
+/// </summary>
+/// <remarks>
+/// This type contains the following elements:
+/// <list type="bullet">
+/// <item>
+/// <description>
+/// <c>Coefficient</c>: The coefficient of the parameter.
+/// </description>
+/// </item>
+/// <item>
+/// <description>
+/// <c>StandardError</c>: The standard error of the parameter.
+/// </description>
+/// </item>
+/// <item>
+/// <description>
+/// <c>ZScore</c>: The Z-score of the parameter.
+/// </description>
+/// </item>
+/// <item>
+/// <description>
+/// <c>PersonOfZ</c>: The person of Z of the parameter.
+/// </description>
+/// </item>
+/// </list>
+/// </remarks>
 type GLMStatisticsPrameter = 
     {
         //Name:string
@@ -194,14 +263,12 @@ module GlmDistributionFamily =
         elif x = 0. then 0.
         else -1.
 
+    /// <summary>
     /// Calculates the variance for a given distribution family and value.
-    /// 
-    /// Parameters:
-    ///   - mDistributionFamily: The distribution family.
-    ///   - g: The value for which to calculate the variance.
-    /// 
-    /// Returns:
-    ///   The variance for the given distribution family and value.
+    /// </summary>
+    /// <param name="mDistributionFamily">The distribution family.</param>
+    /// <param name="g">The value for which to calculate the variance.</param>
+    /// <returns>The variance for the given distribution family and value.</returns>
     let getVariance (mDistributionFamily: GlmDistributionFamily) (g: float)  =
 
         match mDistributionFamily with
@@ -227,7 +294,11 @@ module GlmDistributionFamily =
         | _ ->
             raise (System.NotImplementedException())
 
+    /// <summary>
     /// Returns the link function associated with a distribution family.
+    /// </summary>
+    /// <param name="mDistributionFamily">The distribution family.</param>
+    /// <returns>The link function for the distribution family.</returns>
     let getLinkFunction (mDistributionFamily: GlmDistributionFamily) =
         match mDistributionFamily with
         | GlmDistributionFamily.Multinomial ->
@@ -251,7 +322,12 @@ module GlmDistributionFamily =
         | _ ->
             raise (System.NotImplementedException())
     
+    /// <summary>
     /// Returns the weights associated with a distribution family given the mean.
+    /// </summary>
+    /// <param name="family">The distribution family.</param>
+    /// <param name="mu">The mean vector.</param>
+    /// <returns>The weights for the distribution family.</returns>
     let getFamilyWeights (family: GlmDistributionFamily) (mu: Vector<float>) =
         let link = getLinkFunction family
         let deriv = link.getDeriv
@@ -262,7 +338,13 @@ module GlmDistributionFamily =
             1. / (((deriv m) ** 2) * (variance m))
         )
 
+    /// <summary>
     /// Returns the residual deviance associated with a distribution family given the endogenous variable and the mean.
+    /// </summary>
+    /// <param name="family">The distribution family.</param>
+    /// <param name="endog">The endogenous variable.</param>
+    /// <param name="mu">The mean vector.</param>
+    /// <returns>The residual deviance for the distribution family.</returns>
     let getFamilyResidualDeviance (family: GlmDistributionFamily) (endog: Vector<float>) (mu: Vector<float>) =
         match family with 
             | GlmDistributionFamily.Poisson ->
@@ -309,11 +391,12 @@ module GlmDistributionFamily =
 
 module GLMStatistics =
 
+    /// <summary>
     /// Calculates the log-likelihood of a generalised linear model.
-    /// Parameters:
-    ///   - b: The coefficient vector.
-    ///   - mu: The mean vector.
-    /// Returns: The log-likelihood value.
+    /// </summary>
+    /// <param name="b">The coefficient vector.</param>
+    /// <param name="mu">The mean vector.</param>
+    /// <returns>The log-likelihood value.</returns>
     let getLogLikelihood (b: Vector<float>) (mu: Vector<float>) = 
         Vector.mapi(fun i v -> 
             let y =  b.[i]
@@ -322,12 +405,13 @@ module GLMStatistics =
         ) mu
         |> Vector.sum
 
+    /// <summary>
     /// Calculates the chi-square statistic for a generalised linear model.
-    /// Parameters:
-    ///   - b: The coefficient vector.
-    ///   - mu: The mean vector.
-    ///   - family: The distribution family.
-    /// Returns: The chi-square statistic value.
+    /// </summary>
+    /// <param name="b">The coefficient vector.</param>
+    /// <param name="mu">The mean vector.</param>
+    /// <param name="family">The distribution family.</param>
+    /// <returns>The chi-square statistic value.</returns>
     let getChi2 (b: Vector<float>) (mu: Vector<float>) (family: GlmDistributionFamily) =
         Vector.map2(fun y yi -> 
             let a = y - yi
@@ -336,17 +420,13 @@ module GLMStatistics =
         ) b mu
         |> Vector.sum
 
-    // let internal testR2 (b:Vector<float>) (linpred:Vector<float>) = 
-    //     let yMean = Vector.mean b
-    //     let tss = 
-    //         Vector.map(fun y -> (y-yMean)**2.) b  
-    //         |> Vector.sum
-    //     let rss = 
-    //         Vector.map2(fun y yhat -> (y-yhat)**2.) b linpred 
-    //         |> Vector.sum
-    //     let r2 = 1. - (rss / tss)
-    //     r2
-
+    /// <summary>
+    /// Calculates GLM statistics model.
+    /// </summary>
+    /// <param name="b">The coefficient vector.</param>
+    /// <param name="glmResult">The GLM return type.</param>
+    /// <param name="family">The distribution family.</param>
+    /// <returns>The GLM statistics model.</returns>
     let getGLMStatisticsModel (b:Vector<float>) (glmResult:GLMReturn) (family: GlmDistributionFamily) = 
         let logLikelihood = getLogLikelihood b glmResult.mu
         let deviance = GlmDistributionFamily.getFamilyResidualDeviance family b glmResult.mu 
@@ -360,9 +440,15 @@ module GLMStatistics =
             //PseudoR2=0.
         }
 
+    /// <summary>
     /// Calculates the standard errors for the coefficients in a generalized linear model.
     /// The standard errors are calculated using the formula: sqrt(diagonal elements of (A^T * W * A)^-1)
     /// where A is the design matrix, b is the response vector, and W is the weight vector.
+    /// </summary>
+    /// <param name="A">The design matrix.</param>
+    /// <param name="b">The response vector.</param>
+    /// <param name="W">The weight vector.</param>
+    /// <returns>The standard errors.</returns>
     let getStandardError (A: Matrix<float>) (b: Vector<float>) (W: Vector<float>) =
         let At :Matrix<float> = Matrix.transpose A
         let WMatrix = Matrix.diag W
@@ -379,16 +465,25 @@ module GLMStatistics =
             )
         stndErrors
 
+    /// <summary>
     /// Calculates the Z-statistic for the coefficients in a generalized linear model.
     /// The Z-statistic is calculated as the ratio of the coefficient estimate to its standard error.
+    /// </summary>
+    /// <param name="mx">The coefficient vector.</param>
+    /// <param name="stndError">The standard error vector.</param>
+    /// <returns>The Z-statistic vector.</returns>
     let getZStatistic (mx: Vector<float>) (stndError: Vector<float>) = 
         Vector.map2 (fun x y -> 
             x/y
         ) mx stndError
 
+    /// <summary>
     /// Calculates the p-value using the z-statistic.
     /// The p-value is calculated as 2 * (1 - phi), where phi is the cumulative distribution function (CDF) of the standard normal distribution.
     /// The z-statistic is a vector of values for which the p-value is calculated.
+    /// </summary>
+    /// <param name="zStatistic">The Z-statistic vector.</param>
+    /// <returns>The p-value vector.</returns>
     let getPearsonOfZ (zStatistic: Vector<float>) = 
         Vector.map(fun x ->
             let phi = Distributions.Continuous.Normal.CDF 0. 1. (abs(x))
@@ -396,6 +491,14 @@ module GLMStatistics =
             pValue
         )zStatistic
 
+    /// <summary>
+    /// Calculates the GLM parameter statistics.
+    /// </summary>
+    /// <param name="A">The design matrix.</param>
+    /// <param name="b">The response vector.</param>
+    /// <param name="solved">The GLM return type.</param>
+    /// <param name="names">The sequence of parameter names.</param>
+    /// <returns>The sequence of parameter statistics for each element of the given coefficients</returns>
     let getGLMParameterStatistics (A:Matrix<float>) (b:Vector<float> ) (solved:GLMReturn) (names:string seq) =
 
         let stndErrors = getStandardError A b solved.mu
@@ -413,11 +516,20 @@ module GLMStatistics =
 
 module internal QRSolver =
 
-
+    /// <summary>
     /// Performs a stepwise gain QR calculation for a generalised linear model.
     /// This function calculates the cost, updated mean values, updated linear predictions,
     /// weighted least squares results, and weighted least squares endogenous values for a given
     /// matrix A, vector b, distribution family, vector t, vector mu, vector linPred, and old result.
+    /// </summary>
+    /// <param name="A">The design matrix.</param>
+    /// <param name="b">The response vector.</param>
+    /// <param name="mDistributionFamily">The distribution family.</param>
+    /// <param name="t">The vector t.</param>
+    /// <param name="mu">The mean vector.</param>
+    /// <param name="linPred">The linear prediction vector.</param>
+    /// <param name="oldResult">The old result vector.</param>
+    /// <returns>A tuple containing the cost, updated mean values, updated linear predictions, weighted least squares results, and weighted least squares endogenous values.</returns>
     let stepwiseGainQR 
         (A: Matrix<float>) 
         (b: Vector<float>) 
@@ -477,10 +589,19 @@ module internal QRSolver =
 
         cost,mu_new,linPred_new,wlsResults,wlsendog
 
+ /// <summary>
     /// This function performs a loop until the maximum number of iterations or until the cost for the gain is smaller than a given tolerance.
     /// It uses a cost function to calculate the cost, update the parameters, and check the termination condition.
     /// The loop stops when the maximum number of iterations is reached or when the cost is smaller than the tolerance.
     /// Returns the final values of the parameters and intermediate results.
+    /// </summary>
+    /// <param name="A">The design matrix.</param>
+    /// <param name="b">The response vector.</param>
+    /// <param name="mDistributionFamily">The distribution family.</param>
+    /// <param name="maxIter">The maximum number of iterations.</param>
+    /// <param name="mTol">The tolerance for convergence.</param>
+    /// <param name="costFunction">The cost function.</param>
+    /// <returns>A tuple containing the final values of the parameters and intermediate results.</returns>
     let internal loopTilIterQR 
         (A: Matrix<float>) 
         (b: Vector<float>) 
@@ -532,16 +653,16 @@ module internal QRSolver =
 
 
         loopTilMaxIter t_original 0 muStart linPredStart (Vector.zeroCreate n) (Vector.zeroCreate m)
+
+    /// <summary>
     /// Solves a generalized linear model using the QR decomposition and Newton's method.
-    ///
-    /// Parameters:
-    ///   - A: The design matrix.
-    ///   - b: The response vector.
-    ///   - maxIter: The maximum number of iterations.
-    ///   - mDistributionFamily: The distribution family of the model.
-    ///   - mTol: The tolerance for convergence.
-    ///
-    /// Returns: The solved generalized linear model.
+    /// </summary>
+    /// <param name="A">The design matrix.</param>
+    /// <param name="b">The response vector.</param>
+    /// <param name="maxIter">The maximum number of iterations.</param>
+    /// <param name="mDistributionFamily">The distribution family of the model.</param>
+    /// <param name="mTol">The tolerance for convergence.</param>
+    /// <returns>The solved generalized linear model.</returns>
     let solveQrNewton
         (A: Matrix<float>) 
         (b: Vector<float>) 
@@ -562,16 +683,15 @@ module internal QRSolver =
 
 module SolveGLM = 
 
+    /// <summary>
     /// Solves a generalized linear model using the QR decomposition and Newton's method.
-    ///
-    /// Parameters:
-    ///   - A: The design matrix.
-    ///   - b: The response vector.
-    ///   - maxIter: The maximum number of iterations.
-    ///   - mDistributionFamily: The distribution family of the model.
-    ///   - mTol: The tolerance for convergence.
-    ///
-    /// Returns: The solved generalized linear model.
+    /// </summary>
+    /// <param name="A">The design matrix.</param>
+    /// <param name="b">The response vector.</param>
+    /// <param name="maxIter">The maximum number of iterations.</param>
+    /// <param name="mDistributionFamily">The distribution family of the model.</param>
+    /// <param name="mTol">The tolerance for convergence.</param>
+    /// <returns>The solved generalized linear model.</returns>
     let solveQR (A: Matrix<float>) (b: Vector<float>) (maxIter: int) (mDistributionFamily: GlmDistributionFamily) (mTol: float) = 
         QRSolver.solveQrNewton (A: Matrix<float>) (b: Vector<float>) (maxIter: int) (mDistributionFamily: GlmDistributionFamily) (mTol: float)
     
