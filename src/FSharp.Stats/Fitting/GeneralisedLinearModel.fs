@@ -134,7 +134,7 @@ type GLMStatisticsModel =
 /// </item>
 /// <item>
 /// <description>
-/// <c>PersonOfZ</c>: The person of Z of the parameter.
+/// <c>PearsonOfZScore</c>: The Pearson of the Z-score.
 /// </description>
 /// </item>
 /// </list>
@@ -148,8 +148,8 @@ type GLMStatisticsPrameter =
         StandardError: float
         /// The Z-score of the parameter.
         ZScore: float
-        /// The person of Z of the parameter.
-        PersonOfZ: float
+        /// The Pearson of the Z-score.
+        PearsonOfZScore: float
     }
 
 /// This module contains various link functions used in generalized linear models.
@@ -487,8 +487,8 @@ module GLMStatistics =
     let getPearsonOfZ (zStatistic: Vector<float>) = 
         Vector.map(fun x ->
             let phi = Distributions.Continuous.Normal.CDF 0. 1. (abs(x))
-            let pValue = 2. * (1. - phi)
-            pValue
+            let PearsonOfZScore = 2. * (1. - phi)
+            PearsonOfZScore
         )zStatistic
 
     /// <summary>
@@ -503,14 +503,14 @@ module GLMStatistics =
 
         let stndErrors = getStandardError A b solved.mu
         let zStatistic = getZStatistic solved.mX stndErrors
-        let pValue = getPearsonOfZ zStatistic
+        let PearsonOfZScore = getPearsonOfZ zStatistic
         Seq.init (Vector.length solved.mX) (fun i -> 
             Seq.item i names,
             {
                 Coefficient=solved.mX.[i]
                 StandardError=stndErrors.[i]
                 ZScore=zStatistic.[i]
-                PersonOfZ=pValue.[i]
+                PearsonOfZScore=PearsonOfZScore.[i]
             }
         )
 
