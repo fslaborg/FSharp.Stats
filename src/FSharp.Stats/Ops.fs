@@ -3,8 +3,7 @@ namespace FSharp.Stats
 #nowarn "40"
 #nowarn "42"
 
-/// Operations module (automatically opened)
-[<AutoOpen>]
+/// Operations module
 module Ops =
     open System
     open System
@@ -54,16 +53,6 @@ module Ops =
     /// </example>
     let log2 x = System.Math.Log(x, 2.0)
     
-    /// <summary>Returns the logarithm for x in base 10.</summary>
-    /// <remarks></remarks>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let log10 x = System.Math.Log10(x)    
-
     /// Returs true if x is nan (generics) equality
     //let inline isNan< ^T when ^T : equality > (num:^T) :  bool = num <> num
     let inline isNan num = num <> num
@@ -137,7 +126,7 @@ module Ops =
     /// <code>
     /// </code>
     /// </example>
-    let round (digits:int) (x:float) =
+    let roundTo (digits:int) (x:float) =
         System.Math.Round(x, digits)
     
     /// <summary>Signum function, assigns a positive sign to a with respect to the signing of b. </summary>

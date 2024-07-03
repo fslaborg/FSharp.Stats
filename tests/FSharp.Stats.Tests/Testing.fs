@@ -1080,9 +1080,9 @@ let comparisonMetricsTests =
 type MyId = MyId of string
 
 let inline isSameNumber a b =
-    if isNan a && isNan b then true
-    elif isNegInf a && isNegInf b then true
-    elif isPosInf a && isPosInf b then true
+    if Ops.isNan a && Ops.isNan b then true
+    elif Ops.isNegInf a && Ops.isNegInf b then true
+    elif Ops.isPosInf a && Ops.isPosInf b then true
     else a = b
     
 type SAM.SAM<'id> when 'id :> IComparable with

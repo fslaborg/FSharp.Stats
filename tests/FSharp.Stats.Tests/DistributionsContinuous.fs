@@ -420,10 +420,10 @@ let chiSquaredTests =
                 Expect.floatClose Accuracy.veryHigh testCase 0. "Should be equal"
             testCase "CDF.testCaseDof1X-infinity" <| fun () ->
                 let testCase = 1. - (Continuous.ChiSquared.CDF 1. -infinity)
-                Expect.isTrue (isNan testCase) "Should be NaN"
+                Expect.isTrue (Ops.isNan testCase) "Should be NaN"
             testCase "CDF.testCaseDof1XNan" <| fun () ->
                 let testCase = 1. - (Continuous.ChiSquared.CDF 1. nan)
-                Expect.isTrue (isNan testCase) "Should be NaN"
+                Expect.isTrue (Ops.isNan testCase) "Should be NaN"
             //TestCases from Williams RBG, Introduction to Statistics for Geographers and Earth Scientist, 1984, DOI 10.1007/978-1-349-06815-9 p 333
             testCase "CDF.testCase1" <| fun () ->
                 let testCase = 1. - (Continuous.ChiSquared.CDF 20. 12.443)
@@ -540,35 +540,35 @@ let chiSquaredTests =
                 Expect.floatClose Accuracy.medium (testCase.CDF 1.) 0.682689 "Should be equal"
                 Expect.floatClose Accuracy.low (testCase.CDF 10.) 0.998 "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.CDF infinity) 1. "Should be equal"
-                Expect.isTrue (testCase.CDF -1. |> isNan) "Should be equal"
-                Expect.isTrue (testCase.CDF -infinity |> isNan) "Should be equal"
-                Expect.isTrue (testCase.CDF nan |> isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF -1. |> Ops.isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF -infinity |> Ops.isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF nan |> Ops.isNan) "Should be equal"
                 Expect.isTrue (testCase.PDF 0. = infinity) "Should be equal"
                 Expect.floatClose Accuracy.medium (testCase.PDF 1.) 0.24197 "Should be equal"
                 Expect.floatClose Accuracy.low (testCase.PDF 10.) 0.00085 "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF infinity) 0. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF -infinity) 0. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
-                Expect.isTrue (isNan <| testCase.PDF nan) "Should be equal"
+                Expect.isTrue (Ops.isNan <| testCase.PDF nan) "Should be equal"
             testCase "chiSquaredInfinity" <| fun () ->
                 let testCase = Continuous.ChiSquared.Init infinity
                 Expect.isTrue (testCase.Mean = infinity) "Should be equal"
                 Expect.isTrue (testCase.Variance = infinity) "Should be equal"
                 Expect.isTrue (testCase.StandardDeviation = infinity) "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.CDF 0.) 0. "Should be equal"
-                Expect.isTrue (testCase.CDF 1. |> isNan) "Should be equal"
-                Expect.isTrue (testCase.CDF 10. |> isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF 1. |> Ops.isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF 10. |> Ops.isNan) "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.CDF infinity) 1. "Should be equal"
-                Expect.isTrue (testCase.CDF -1. |> isNan) "Should be equal"
-                Expect.isTrue (testCase.CDF -infinity |> isNan) "Should be equal"
-                Expect.isTrue (testCase.CDF nan |> isNan) "Should be equal"
-                Expect.isTrue (testCase.PDF 0. |> isNan) "Should be equal"
-                Expect.isTrue (testCase.PDF 1. |> isNan) "Should be equal"
-                Expect.isTrue (testCase.PDF 10. |> isNan) "Should be equal"
-                Expect.isTrue (testCase.PDF infinity |> isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF -1. |> Ops.isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF -infinity |> Ops.isNan) "Should be equal"
+                Expect.isTrue (testCase.CDF nan |> Ops.isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF 0. |> Ops.isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF 1. |> Ops.isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF 10. |> Ops.isNan) "Should be equal"
+                Expect.isTrue (testCase.PDF infinity |> Ops.isNan) "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF -infinity) 0. "Should be equal"
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
-                Expect.isTrue (isNan <| testCase.PDF nan) "Should be equal"
+                Expect.isTrue (Ops.isNan <| testCase.PDF nan) "Should be equal"
         ]
     ]
 
@@ -840,7 +840,7 @@ let FDistributionTests =
             let testcase3   = Continuous.F.Mean dof1 dof2_2
             let r_value     = nan
             Expect.isTrue
-                ((isNan testcase)&& isNan(r_value)&&isNan(testcase2)&&isNan(testcase3))
+                ((Ops.isNan testcase)&& Ops.isNan(r_value)&&Ops.isNan(testcase2)&&Ops.isNan(testcase3))
                 (sprintf "Continuous.F.Mean with dof<=2 does not return nan %A %A %A" testcase testcase2 testcase3 )
 
         testCase "Continuous.F.Mean_dof1=Infininty" <| fun () ->
@@ -860,7 +860,7 @@ let FDistributionTests =
             let testcase    = Continuous.F.Mean dof1 dof2
             let r_value     = nan
             Expect.isTrue
-                ((isNan testcase)&& isNan(r_value))
+                ((Ops.isNan testcase)&& Ops.isNan(r_value))
                 (sprintf "Continuous.F.Mean with dof<=2 does not return nan %A" testcase  )
         
         testCase "Continuous.F.Mean_dof1&2=Infininty" <| fun () ->
@@ -869,7 +869,7 @@ let FDistributionTests =
             let testcase    = Continuous.F.Mean dof1 dof2
             let r_value     = nan
             Expect.isTrue
-                ((isNan testcase)&& isNan(r_value))
+                ((Ops.isNan testcase)&& Ops.isNan(r_value))
                 (sprintf "Continuous.F.Mean with dof<=2 does not return nan %A" testcase  )
 
         testCase "Continuous.F.Variance" <| fun () ->
@@ -888,11 +888,11 @@ let FDistributionTests =
             let dof2s       = [4. .. 0.5 .. 0.]
             let testcase    = 
                 dof2s|>
-                List.map(fun dof2 -> Continuous.F.Variance dof1 dof2 |> isNan)
+                List.map(fun dof2 -> Continuous.F.Variance dof1 dof2 |> Ops.isNan)
             let r_value     = nan
 
             Expect.isTrue
-                (isNan(r_value)&& (List.contains false testcase|> not))
+                (Ops.isNan(r_value)&& (List.contains false testcase|> not))
                 (sprintf "Continuous.F.Variance with dof<=2 does not return nan")
         
         testCase "Continuous.F.StandardDeviation" <| fun () ->
@@ -911,11 +911,11 @@ let FDistributionTests =
             let dof2s       = [4. .. 0.5 .. 0.]
             let testcase    = 
                 dof2s|>
-                List.map(fun dof2 -> Continuous.F.StandardDeviation dof1 dof2 |> isNan)
+                List.map(fun dof2 -> Continuous.F.StandardDeviation dof1 dof2 |> Ops.isNan)
             let r_value     = nan
 
             Expect.isTrue
-                (isNan(r_value)&& (List.contains false testcase|> not))
+                (Ops.isNan(r_value)&& (List.contains false testcase|> not))
                 (sprintf "Continuous.F.Variance with dof<=2 does not return nan")
         
         testCase "Continuous.F.Sample" <| fun () ->
@@ -924,10 +924,10 @@ let FDistributionTests =
             let testcase    = 
                 [for i=0 to 10000 do Continuous.F.Sample dof1 dof2]
                 |> List.mean
-                |> round 5
+                |> Ops.roundTo 5
                 
             let r_value     = 
-                round 5 (1.000359)
+                Ops.roundTo 5 (1.000359)
 
             Expect.floatClose
                 Accuracy.low
@@ -1025,13 +1025,13 @@ let FDistributionTests =
             let r_value_3     = nan
 
             Expect.isTrue
-                (isNan(testcase_1)&&isNan(r_value_1))
+                (Ops.isNan(testcase_1)&&Ops.isNan(r_value_1))
                 "Continuous.F.CDF with dof2=infinity does not yield the expected value"
             Expect.isTrue
-                (isNan(testcase_2)&&isNan(r_value_2))
+                (Ops.isNan(testcase_2)&&Ops.isNan(r_value_2))
                 "Continuous.F.CDF with dof1=infinity does not yield the expected value"
             Expect.isTrue
-                (isNan(testcase_3)&&isNan(r_value_3))
+                (Ops.isNan(testcase_3)&&Ops.isNan(r_value_3))
                 "Continuous.F.CDF with dof1&dof2=infinity does not yield the expected value"
 
         testCase "Continuous.F.Support" <| fun () ->

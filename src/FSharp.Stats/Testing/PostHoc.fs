@@ -50,7 +50,7 @@ module PostHoc =
         // Step 5. Calculate the F statistic per contrast
         Array.mapi2 (fun i sscV l' -> let fValue = sscV / MSw
                                       //printfn  "%f %b " fValue (nan.Equals(fValue))
-                                      if isNan fValue then
+                                      if Ops.isNan fValue then
                                         createContrast i l' Db MSw nan nan sscV 
                                       else
                                         let FTest = createFTest fValue 1. Dw                                         
@@ -98,7 +98,7 @@ module PostHoc =
     
         // Step 4. Calculate the q statistic per contrast
         Array.mapi  (fun i (qValue,l)  ->
-                            if isNan qValue then
+                            if Ops.isNan qValue then
                                 createContrast i l Dw MSw nan nan Sw  
                             else
                                 let significance = 
@@ -152,7 +152,7 @@ module PostHoc =
         // Step 4. Calculate the F statistic per contrast
         stats
         |> Array.mapi (fun i (tValue,meanDiff)  ->
-            if isNan tValue then
+            if Ops.isNan tValue then
                 createContrast i meanDiff db msw nan nan ssw  
             else
                 let tTest = createTTest tValue dw

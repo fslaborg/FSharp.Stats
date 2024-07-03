@@ -55,7 +55,7 @@ module List =
             | [] ->
                 // place pivot in equal pile
                 cont [] 0 [x] 1 [] 0
-            | y::ys when isNan y -> y
+            | y::ys when Ops.isNan y -> y
             | y::ys ->
                 if y < x then
                     // place item in less-than pile
@@ -84,7 +84,7 @@ module List =
         let rec loop before xs after =
             match xs with
             | [] -> failwith "Median of empty list"
-            | x::xs when isNan x -> x
+            | x::xs when Ops.isNan x -> x
             | x::xs ->
                 partition x xs (fun lts numlt eqs numeq gts numgt ->
                     if before + numlt > numeq + numgt + after then

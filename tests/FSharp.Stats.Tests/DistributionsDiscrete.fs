@@ -127,7 +127,7 @@ let bernoulliTests =
             test_OneCDFCases bernoulliDistribution_one
             //
             Expect.floatClose Accuracy.high (bernoulliDistribution_basicCase.CDF 0.8) (1.0 - bernoulliDistribution_basicCase.Mean) ""
-            Expect.isTrue (isNan <| bernoulliDistribution_nan.CDF 0.8) ""
+            Expect.isTrue (Ops.isNan <| bernoulliDistribution_nan.CDF 0.8) ""
             Expect.floatClose Accuracy.high (bernoulliDistribution_zero.CDF 0.8) (1.0 - bernoulliDistribution_zero.Mean) ""
             Expect.floatClose Accuracy.high (bernoulliDistribution_one.CDF 0.8) (1.0 - bernoulliDistribution_one.Mean) ""
         //// Tbh. i have no idea what this is for

@@ -148,7 +148,7 @@ type Gamma =
         Gamma.CheckParam alpha beta
         match alpha,beta with
         | 0., 0. -> infNeg
-        | a , b when isPosInf(b) -> if a = x then infinity else 0. 
+        | a , b when Ops.isPosInf(b) -> if a = x then infinity else 0. 
         | 1., _ -> beta * exp(-beta*x)
         | _ -> Gamma.PDFLn alpha beta x |> exp
        
@@ -167,7 +167,7 @@ type Gamma =
         //shape rate
         match alpha,beta with
         | 0., 0. -> 0.
-        | a , b when isPosInf(b) -> if a = x then infinity else infNeg 
+        | a , b when Ops.isPosInf(b) -> if a = x then infinity else infNeg 
         | 1., _ -> log(beta) * (-beta*x)
         | _     -> (alpha - 1.) * log(x) - x / beta - (alpha * log(beta)
                     + SpecialFunctions.Gamma.gammaLn(alpha)) 

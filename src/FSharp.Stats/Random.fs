@@ -72,7 +72,7 @@ module Random =
     /// </remarks>
     let boxMullerTransform() =
         let (u1,u2) = rndgen.NextFloat(),rndgen.NextFloat()
-        let z0 = sqrt(-2. * log u1) * cos (2. * pi * u2)
-        let z1 = sqrt(-2. * log u1) * sin (2. * pi * u2)
+        let z0 = sqrt(-2. * log u1) * cos (2. * Ops.pi * u2)
+        let z1 = sqrt(-2. * log u1) * sin (2. * Ops.pi * u2)
         z0,z1
         

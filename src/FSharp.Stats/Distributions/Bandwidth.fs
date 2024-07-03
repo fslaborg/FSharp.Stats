@@ -43,7 +43,7 @@ module Bandwidth =
         /// </code>
         /// </example>
         let sturges ndataLength =
-            ceil (1. + log2 ndataLength)
+            ceil (1. + Ops.log2 ndataLength)
 
 
         /// <summary>The Rice Rule is presented as a simple alternative to Sturges's rule.</summary>
@@ -88,8 +88,8 @@ module Bandwidth =
     let forHistogram data =
         let data' =
             data
-            |> Seq.filter (fun v -> not (isNan v))
-            |> Seq.filter (fun v -> not (isInf v))
+            |> Seq.filter (fun v -> not (Ops.isNan v))
+            |> Seq.filter (fun v -> not (Ops.isInf v))
 
         let interval = Seq.range data' 
         let dmin,dmax = Interval.values interval

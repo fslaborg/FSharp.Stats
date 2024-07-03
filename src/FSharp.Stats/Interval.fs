@@ -205,7 +205,7 @@ type Interval<'a when 'a : comparison> =
                 | true  -> 
                     let current = projection e.Current
                     // fail if collection contains nan
-                    if isfloat && isNan current then 
+                    if isfloat && Ops.isNan current then 
                         //Interval.Empty 
                         invalidOp "Interval cannot be determined if collection contains nan"
                     else

@@ -368,7 +368,7 @@ module Seq =
             let random = Random.rndgen
             let pivotIndex = left + random.NextInt() % (right - left + 1)
             let pivot = items.[pivotIndex]
-            if isNan pivot then
+            if Ops.isNan pivot then
                 ~~~pivotIndex
             else
                 swapInPlace pivotIndex right items // swap random pivot to right.
@@ -383,7 +383,7 @@ module Seq =
                 let rec loop i j =
                     if j <  right then 
                         let v = items.[j]
-                        if isNan v then   // true if nan
+                        if Ops.isNan v then   // true if nan
                             loop (~~~j) right // break beacause nan                    
                         else
                             if (v <= pivot) then        
@@ -1295,7 +1295,7 @@ module Seq =
         /// </example>
         let sumOfSquares (xData:seq<float>) (exData:seq<float>) =
             let xX = Seq.zip xData exData 
-            Seq.fold (fun acc (x,ex) -> acc + square (x - ex)) 0. xX
+            Seq.fold (fun acc (x,ex) -> acc + Ops.square (x - ex)) 0. xX
 
         /// <summary>
         /// Computes the pooled variance of the given values.

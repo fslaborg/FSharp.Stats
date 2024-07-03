@@ -16,7 +16,7 @@ type Multinomial =
         if n < 0 then
             failwith "Multinomial distribution should be parametrized by n >= 0."
         let checkBetween p =
-            p < 0. || p > 1. || isNan(p)
+            p < 0. || p > 1. || Ops.isNan(p)
         if (p |> Seq.map checkBetween |> Seq.exists id) then 
             failwith "Multinomial distribution should be parametrized by 0 ≤ p_i ≤ 1."
         

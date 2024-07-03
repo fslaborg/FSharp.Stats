@@ -121,7 +121,7 @@ module IterativeClustering =
     /// </code>
     /// </example>
     let private meanNaN (input: float []) = 
-        let isValid f = not (isNan f || isInf f)
+        let isValid f = not (Ops.isNan f || Ops.isInf f)
         let rec loop i sum count = 
             if i < input.Length then 
                 let current = input.[i]

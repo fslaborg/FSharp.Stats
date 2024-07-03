@@ -186,32 +186,32 @@ let numericalIntegrationTests =
             testCase "LeftEndpoint 1/x" (fun _ ->
                 let actual = observations2 |> NumericalIntegration.definiteIntegral(LeftEndpoint)
                 //exact result is 0.25
-                let expected = round 5 (log 100.)
-                Expect.floatClose Accuracy.low (round 5 actual) expected "LeftEndpoint did not return the correct result"
+                let expected = Ops.roundTo 5 (log 100.)
+                Expect.floatClose Accuracy.low (Ops.roundTo 5 actual) expected "LeftEndpoint did not return the correct result"
             )
             testCase "RightEndpoint 1/x" (fun _ ->
                 let actual = observations2 |> NumericalIntegration.definiteIntegral(RightEndpoint)
                 //exact result is 0.25
-                let expected = round 5 (log 100.)
-                Expect.floatClose Accuracy.low (round 5 actual) expected "LeftEndpoint did not return the correct result"
+                let expected = Ops.roundTo 5 (log 100.)
+                Expect.floatClose Accuracy.low (Ops.roundTo 5 actual) expected "LeftEndpoint did not return the correct result"
             )
             testCase "Midpoint 1/x" (fun _ ->
                 let actual = observations2 |> NumericalIntegration.definiteIntegral(Midpoint)
                 //exact result is 0.25
-                let expected = round 5 (log 100.)
-                Expect.floatClose Accuracy.high (round 5 actual) expected "LeftEndpoint did not return the correct result"
+                let expected = Ops.roundTo 5 (log 100.)
+                Expect.floatClose Accuracy.high (Ops.roundTo 5 actual) expected "LeftEndpoint did not return the correct result"
             )
             testCase "Trapezoidal 1/x" (fun _ ->
                 let actual = observations2 |> NumericalIntegration.definiteIntegral(Trapezoidal)
                 //exact result is 0.25
-                let expected = round 5 (log 100.)
-                Expect.floatClose Accuracy.high (round 5 actual) expected "LeftEndpoint did not return the correct result"
+                let expected = Ops.roundTo 5 (log 100.)
+                Expect.floatClose Accuracy.high (Ops.roundTo 5 actual) expected "LeftEndpoint did not return the correct result"
             )
             testCase "Simpson 1/x" (fun _ ->
                 let actual = observations2 |> NumericalIntegration.definiteIntegral(Simpson)
                 //exact result is 0.25
-                let expected = round 5 (log 100.)
-                Expect.floatClose Accuracy.high (round 5 actual) expected "LeftEndpoint did not return the correct result"
+                let expected = Ops.roundTo 5 (log 100.)
+                Expect.floatClose Accuracy.high (Ops.roundTo 5 actual) expected "LeftEndpoint did not return the correct result"
             )
         ]
         testList "integrating nan function returns nan" [

@@ -665,11 +665,11 @@ module LinearRegression =
                     let factor = 
                         //[for l = 0 to (level - 1) do yield i-l] 
                         List.init level (fun l -> i-l)
-                        |> List.filter (not << isNan)
+                        |> List.filter (not << Ops.isNan)
                         |> List.fold (fun acc c -> acc * (float c)) 1.
                     factor * coef.Coefficients.[i] * (pown x (i-level))
                     )
-                |> Array.filter (not << isNan)
+                |> Array.filter (not << Ops.isNan)
                 |> Array.sum
 
             /// <summary>

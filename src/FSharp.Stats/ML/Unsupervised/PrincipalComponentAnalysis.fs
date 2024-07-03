@@ -33,7 +33,7 @@ module PCA =
     /// </code>
     /// </example>
     let center m = 
-        if m |> Matrix.exists (fun x -> isNan x || isInf x) then 
+        if m |> Matrix.exists (fun x -> Ops.isNan x || Ops.isInf x) then 
             failwith "Computation not possible. Matrix contains invalid entries. Check for the existence of values equal to nan, infinity or -infinity."
         else
         let columnMeans =
@@ -68,7 +68,7 @@ module PCA =
     /// </code>
     /// </example>
     let compute m =  
-        if m |> Matrix.exists (fun x -> isNan x || isInf x) then 
+        if m |> Matrix.exists (fun x -> Ops.isNan x || Ops.isInf x) then 
             failwith "Computation not possible. Matrix contains invalid entries. Check for the existence of values equal to nan, infinity or -infinity."
         else
         let s,u,v = FSharp.Stats.Algebra.LinearAlgebra.SVD (m) 

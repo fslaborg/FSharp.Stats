@@ -2181,7 +2181,7 @@ module Interpolation =
             let xy = 
                 Seq.zip xData yData
                 // Remove nan
-                |> Seq.filter (fun (x,y) -> not (isNan x || isNan y || isInf x || isInf y))
+                |> Seq.filter (fun (x,y) -> not (Ops.isNan x || Ops.isNan y || Ops.isInf x || Ops.isInf y))
                 // sort by x
                 |> Seq.sortBy fst
                 |> Seq.groupBy fst
