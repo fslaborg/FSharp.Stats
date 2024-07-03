@@ -116,7 +116,7 @@ module DistanceMetrics =
             let mutable dist = 0.
             for i in 0 .. (dim - 1) do
                 let x = v1.[i] - v2.[i]
-                if not (isNan x) then
+                if not (Ops.isNan x) then
                     dist <- dist + abs x
             dist
 
@@ -186,7 +186,7 @@ module DistanceMetrics =
                     let diff = abs (v1.[i] - v2.[i])
                     let d = diff ** p
                     
-                    if not (isNan d) then
+                    if not (Ops.isNan d) then
                         dist <- dist + d
 
                 if p >= 1.0 then
@@ -273,7 +273,7 @@ module DistanceMetrics =
             let mutable dist = 0.0
             for i in 0 .. (dim - 1) do
                 let x = a1.[i] - a2.[i]
-                if not (isNan x) then
+                if not (Ops.isNan x) then
                     dist <- dist + (x * x)
             float dist
 
@@ -311,7 +311,7 @@ module DistanceMetrics =
             let mutable dist = 0.0
             for i in 0 .. (dim - 1) do 
                 let x = a1.[i] - a2.[i]
-                if not (isNan x) then
+                if not (Ops.isNan x) then
                     dist <- dist + System.Math.Abs x
             dist
 
@@ -381,7 +381,7 @@ module DistanceMetrics =
                     let diff = abs (a1.[i] - a2.[i])
                     let d = diff ** p
                     
-                    if not (isNan d) then
+                    if not (Ops.isNan d) then
                         dist <- dist + d
 
                 if p >= 1.0 then

@@ -15,9 +15,9 @@ module Precision =
     /// </code>
     /// </example>
     let almostEqualNormRelative maximumError a b  = 
-        if a |> isInf || b |> isInf then
+        if a |> Ops.isInf || b |> Ops.isInf then
             a = b 
-        elif a |> isNan || b |> isNan then
+        elif a |> Ops.isNan || b |> Ops.isNan then
             false 
         elif ((a - b) |> abs) < maximumError  then 
             true

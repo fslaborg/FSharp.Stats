@@ -23,7 +23,7 @@ let NelderMeadTests =
 
         // Fletcher and Powell's helic valley
         let fphv (x : vector) =
-            100. * (x[2] - 10. * (atan2 x[1] x[0]) / (2. * pi))**2. + 
+            100. * (x[2] - 10. * (atan2 x[1] x[0]) / (2. * Ops.pi))**2. + 
                 (sqrt(x[0]**2. + x[1]**2.) - 1.)**2. + x[2]**2.
 
         // Powell's Singular Function (PSF)

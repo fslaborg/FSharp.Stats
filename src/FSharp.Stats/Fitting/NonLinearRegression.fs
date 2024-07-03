@@ -236,7 +236,7 @@ module NonLinearRegression =
         ///
         let private validateBounds (lowerBound: vector) (upperBound: vector) (parameters: vector) =
             try
-                if Vector.map3 (fun l u x -> if l <= x && u >= x then x else nan) lowerBound upperBound parameters |> Vector.exists isNan then 
+                if Vector.map3 (fun l u x -> if l <= x && u >= x then x else nan) lowerBound upperBound parameters |> Vector.exists Ops.isNan then 
                     failwith "initial parameters are not within Bounds"
                 else 
                     ()

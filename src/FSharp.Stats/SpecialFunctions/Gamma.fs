@@ -186,7 +186,7 @@ module Gamma =
         match x with
         | x when x = 0. -> 0.
         | x when (x < 0.0 || a <= 0.0) -> nan
-        | x when (isPosInf x) -> 1.
+        | x when (Ops.isPosInf x) -> 1.
         | _ -> 
             if (x= 0.0) then 0.0
             elif (a >= ASWITCH) then
@@ -205,7 +205,7 @@ module Gamma =
         match x with
         | x when x = 0. -> 1.
         | x when (x < 0.0 || a <= 0.0) -> nan
-        | x when (isPosInf x) -> 0.
+        | x when (Ops.isPosInf x) -> 0.
         | _ -> 
             if (x= 0.0) then 1.0
             elif (a >= ASWITCH) then

@@ -52,7 +52,7 @@ module FFT =
     // FFT Helper function
     let private fftAux (a : Complex array) n j sign m = 
         let w = 
-            let t = pi * float (sign * m) / float j 
+            let t = Ops.pi * float (sign * m) / float j 
             Complex(cos t, sin t)
         let mutable i = m 
         while i < n do 
@@ -90,7 +90,7 @@ module FFT =
     let private bluestein a = 
     
         let bluesteinSequence n = 
-            let s = pi / float n 
+            let s = Ops.pi / float n 
             Array.init n ( fun k -> 
                 let t = s * float(k * k) 
                 Complex (cos t, sin t)

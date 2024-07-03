@@ -135,7 +135,7 @@ module Beta =
         let ai = 1.0 / a
         let ui = (1.0 - b) * x 
         let t1 = ui / (a + 1.0)
-        let z  = epsilon * ai
+        let z  = Ops.epsilon * ai
 
         let rec loop u t v s n =
             if (abs v > z) then 
@@ -149,12 +149,12 @@ module Beta =
         let s = loop ui ui t1 0. 2.  
         let u = a * log x
         
-        if ((a + b) < Gamma.maximum && abs u < logMax) then
+        if ((a + b) < Gamma.maximum && abs u < Ops.logMax) then
             let t = Gamma.gamma (a + b) / (Gamma.gamma a * Gamma.gamma b)
             s * t * System.Math.Pow(x, a)
         else
             let t = Gamma.gammaLn (a + b) - Gamma.gammaLn a - Gamma.gammaLn b + u + log s
-            if (t < logMin) then
+            if (t < Ops.logMin) then
                 0.0
             else
                 exp t

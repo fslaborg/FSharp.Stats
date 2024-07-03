@@ -21,7 +21,7 @@ type Binomial =
     
     // Binomial distribution helper functions.
     static member CheckParam p n = 
-        if n < 0 || p < 0. || p > 1. || isNan(p) then 
+        if n < 0 || p < 0. || p > 1. || Ops.isNan(p) then 
             failwith "Binomial distribution should be parametrized by n > 0.0 and 0 ≤ p ≤ 1."
 
     /// <summary>Computes the mode.</summary>

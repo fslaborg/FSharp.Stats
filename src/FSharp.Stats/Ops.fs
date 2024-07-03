@@ -3,8 +3,7 @@ namespace FSharp.Stats
 #nowarn "40"
 #nowarn "42"
 
-/// Operations module (automatically opened)
-[<AutoOpen>]
+/// Operations module
 module Ops =
     open System
     open System

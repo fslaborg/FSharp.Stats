@@ -424,14 +424,14 @@ module GoodnessOfFit =
                                 else 
                                     let rnd = rnd.Next(0,n)
                                     let tmp = zippedData.[rnd]
-                                    if not (isNan(fst tmp)) then
+                                    if not (Ops.isNan(fst tmp)) then
                                         zippedData.[rnd] <- (nan,nan)
                                         loop (i+1) (tmp::acc)
                                     else loop i acc
                             loop 0 []
                             )
                     //generate the kth subset out of the left over values in the original data set
-                    let rest = zippedData |> Array.filter (fun (a,b) -> not (isNan a))
+                    let rest = zippedData |> Array.filter (fun (a,b) -> not (Ops.isNan a))
                     //combine all the subsets
                     let subsequence = Array.append [|rest|] chunks 
                     
