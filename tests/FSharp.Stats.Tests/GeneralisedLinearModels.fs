@@ -7,6 +7,7 @@ open FSharp.Stats.Fitting.GLM
 open TestExtensions
 open System
 open Deedle
+open FSharp.Stats.Ops
 
 let private extemes = 
     [   
