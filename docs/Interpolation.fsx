@@ -10,6 +10,10 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
@@ -34,17 +38,6 @@ open Plotly.NET
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.Stats
-
-### Table of contents
-
-- [Summary](#Summary)
-- [Polynomial interpolation](#Polynomial-interpolation)
-- [Cubic interpolating spline](#Cubic-spline-interpolation)
-- [Akima interpolating subspline](#Akima-subspline-interpolation)
-- [Hermite interpolation](#Hermite-interpolation)
-- [Bezier interpolation](#Bezier-interpolation)
-- [Chebyshev function approximation](#Chebyshev-function-approximation)
-
 
 ## Summary
 

@@ -10,10 +10,12 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../src/FSharp.Stats/bin/Release/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Newtonsoft.JSON, 13.0.1"
-#r "nuget: DynamicObj, 2.0.0"
-#r "nuget: Giraffe.ViewEngine, 1.4.0"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -37,17 +39,6 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 
 
 _Summary:_ this tutorial will walk through several ways of fitting data with FSharp.Stats.
-
-### Table of contents
- - [Linear Regression](#Linear-Regression)
-    - [Summary](#Summary)
-    - [Simple Linear Regression](#Simple-Linear-Regression)
-        - [Univariable](#Univariable)
-        - [Multivariable](#Multivariable)
- - [Polynomial Regression](#Polynomial-Regression)
- - [Nonlinear Regression](#Nonlinear-Regression)
- - [LevenbergMarquardtConstrained](#LevenbergMarquardtConstrained)
- - [Smoothing spline](#Smoothing-spline)
 
 ## Linear Regression
 

@@ -10,10 +10,13 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
-#r "nuget: FSharpAux, 1.1.0"
 #r "nuget: Deedle, 3.0.0"
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -24,7 +27,6 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
-#r "nuget: FSharpAux, 1.1.0"
 #r "nuget: Deedle, 3.0.0"
 
 open Plotly.NET
@@ -44,28 +46,6 @@ open Deedle
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial explains how to perform various statistical tests with FSharp.Stats.
-
-### Table of contents
-
- - [Test Statistics](#Test-Statistics)
-    - [T-Test](#T-Test)
-    - [Anova](#Anova)
-    - [F-Test](#F-Test)
-    - [H-Test](#H-Test)
-    - [Friedman-Test](#Friedman-Test)
-    - [Wilcoxon signed-rank Test](#Wilcoxon-Test)
-    - [Chi-Squared Test](#Chi-Squared-Test)
-    - [Bartlett](#Bartlett)
- - [PostHoc](#PostHoc)
-    - [Fisher's LSD](#Fisher-s-LSD)
-    - [Hays](#Hays)
-    - [Tukey HSD](#Tukey-HSD)
-    - [Dunnetts test](#Dunnetts-test)
-    - [Fisher Hotelling](#Fisher-Hotelling)
-- [Multiple testing](#Multiple-testing)
-    - [Benjamini-Hochberg](#Benjamini-Hochberg)
-    - [Q Value](#Q-Value)
-    - [SAM](#SAM)
 
 FSharp.Stats provides hypothesis tests for different applications.
 A hypothesis test is a statistical test that is used to determine whether there is enough evidence 

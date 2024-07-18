@@ -11,6 +11,10 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
@@ -32,15 +36,6 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates how to perform several types of cross validation with FSharp.Stats.
-
-### Table of contents
-
- - [Leave-one-out cross validation (LOOCV)](#Leave-one-out-cross-validation-LOOCV)
-    - [Procedure](#Procedure)
-    - [Polynomial loocv](#Polynomial-loocv)
-    - [Smoothing spline loocv](#Smoothing-spline-loocv)
- - [k fold cross validation](#k-fold-cross-validation)
- - [Shuffle and split cross validation](#Shuffle-and-split-cross-validation)
 
 ## Leave-one-out cross validation (LOOCV)
 

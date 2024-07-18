@@ -11,6 +11,10 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
@@ -33,24 +37,6 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial shows how to use the various types of probability distributions in FSharp.Stats.
-
-### Table of contents
-
-- [Continuous](#Continuous)
-    - [Normal distribution](#Normal-distribution)
-    - [Multivariate normal distribution](#Multivariate-normal-distribution)
-    - [F distribution](#F-distribution)
-- [Discrete](#Discrete)
-    - [Bernoulli distribution](#Bernoulli-distribution)
-    - [Binomial distribution](#Binomial-distribution)
-    - [Multinomial distribution](#Multinomial-distribution)
-    - [Hypergerometric distribution](#Hypergerometric-distribution)
-    - [Poisson distribution](#Poisson-distribution)
-    - [Gamma distribution](#Gamma-distribution)
-    - [Negative binomial distribution](#Negative-binomial-distribution)
-- [Empirical](#Empirical)
-- [Density estimation](#Density-estimation)
-- [Distance](#Distance)
 
 FSharp.Stats provides a wide range of probability distributions. Given the
 distribution parameters they can be used to investigate their statistical properties
