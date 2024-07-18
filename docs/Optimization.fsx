@@ -10,6 +10,10 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
@@ -37,12 +41,7 @@ open Plotly.NET
 
 _Summary:_ This tutorial teaches how to use optimization methods within FSharp.Stats
 
-### Table of contents
-
- - [Nelder-Mead](#Nelder-Mead)
-
 ## Nelder-Mead
-
 
 The Nelder-Mead method (also downhill simplex method) can be used to find the minimum or maximum of an objective function.
 Please check out Mathias' blog post about the [nelder mead algorithm](https://brandewinder.com/2022/03/31/breaking-down-Nelder-Mead/).

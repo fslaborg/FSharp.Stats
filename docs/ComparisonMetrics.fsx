@@ -10,6 +10,10 @@ categoryindex: 0
 (***hide***)
 
 (*** condition: prepare ***)
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
@@ -29,20 +33,6 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Integration.ipynb)
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
-
-#### Table of contents
-- [Confusion matrices](#Confusion-matrices)
-    - [Binary confusion matrix](#Binary-confusion-matrix)
-    - [Multi-label confusion matrix](#Multi-label-confusion-matrix)
-- [Comparison-Metric](#Comparison-Metrics)
-    - [ComparisonMetrics for binary comparisons](#ComparisonMetrics-for-binary-comparisons)
-    - [ComparisonMetrics for multi-label comparisons](#ComparisonMetrics-for-multi-label-comparisons)
-        - [Macro-averaging metrics](#Macro-averaging-metrics)
-        - [Micro-averaging metrics](#Micro-averaging-metrics)
-    - [Creating threshold-dependent metric maps](#Creating-threshold-dependent-metric-maps)
-        - [For binary predictions](#For-binary-predictions)
-        - [For multi-label predictions](#For-multi-label-predictions)
-        - [ROC curve example](#ROC-curve-example)
 
 FSharp.Stats contains a collection for assessing both binary and multi-label comparisons, for example the results of a binary/multi-label classification or the results of a statistical test.
 
@@ -70,11 +60,11 @@ $$predicted = (1,1,1,0,1,0,0)$$
 
 a binary confusion matrix can be filled by comparing actual and predicted values at their respective indices:
 
-|       |      | predicted | |
-| ---   |  --- | ---  |  ---  |
-|       |      | True | False |
-|actual | True |   3  |   1   |
-|       | False|   1  |   2   |
+|              |      | **Predicted**| |
+| ---          |  --- | ---  |  ---  |
+|              |      | True | False |
+|**Actual**    | True |   3  |   1   |
+|              | False|   1  |   2   |
 
 A whole array of prediction/test evaluation metrics can be derived from binary confusion matrices, which are all based on the 4 values of the confusion matrix: 
 
@@ -83,11 +73,12 @@ A whole array of prediction/test evaluation metrics can be derived from binary c
 - FP (False Positives, the actual false labels incorrectly predicted as true)
 - TP (False Negatives, the actual true labels incorrectly predicted as false)
 
-|       |      | Predicted | |
-| ---   |  --- | ---  |  ---  |
-|       |      | True | False |
-|Actual | True |  TP  |   FN  |
-|       | False|  FP  |   TN  |
+|              |      | **Predicted**| |
+| ---          |  --- | ---  |  ---  |
+|              |      | True | False |
+|**Actual**    | True |  TP  |  FN   |
+|              | False|  FP  |  TN   |
+
 
 These 4 base metrics are in principle what comprises the record type `BinaryConfusionMatrix`. 
 
@@ -136,12 +127,12 @@ $$predicted = (A,A,A,B,C,B,B,A,C,C,C,C,A,A)$$
 
 a multi-label confusion matrix can be filled by comparing actual and predicted values at their respective indices:
 
-|        |         | Predicted |         |         |
-| ---    | ---     | ---       | ---     | ---     |
-|        |         |  Label A  | Label B | Label C |
-| Actual | Label A |     3     |    1    |    1    |
-|        | Label B |     1     |    2    |    0    |
-|        | Label C |     2     |    0    |    4    |
+|            |         | **Predicted** |         |         |
+| ---        | ---     | ---           | ---     | ---     |
+|            |         |  Label A      | Label B | Label C |
+| **Actual** | Label A |     3         |    1    |    1    |
+|            | Label B |     1         |    2    |    0    |
+|            | Label C |     2         |    0    |    4    |
 
 A `MultiLabelConfusionMatrix` can be created either
 
@@ -184,11 +175,11 @@ This is done by taking all occurences of the label in the actual labels as posit
 
 As an example, the derived binary confusion matrix for `Label A` in above example would be:
 
-|       |           | Predicted | |
-| ---   |---        | ---  | ---      |
-|       |           | is A | is not A |
-|Actual | is A      |  3   |    2     |
-|       | is not A  |  3   |    6     |
+|           |           | **Predicted** | |
+| ---       |---        | ---  | ---      |
+|           |           | is A | is not A |
+|**Actual** | is A      |  3   |    2     |
+|           | is not A  |  3   |    6     |
 
 Programmatically, this can be done via `MultiLabelConfusionMatrix.oneVsRest`
 *)
@@ -212,29 +203,29 @@ mlcm
 
 It also provides static methods to perform calculation of individual metrics derived from a BinaryConfusionMatrix via the `ComparisonMetrics.calculate<Metric>` functions:
 
-| Metric                        | Formula                                                           | API reference                                          |
-| ---                           |---                                                                | ---                                                    |
-|Sensitivity (TPR)              | $TPR = \frac{TP}{TP+TN}$                                          | [ComparisonMetrics.calculateSensitivity            ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateSensitivity            ) |
-|Specificity (TNR)              | $TNR = \frac{TN}{TN+TP}$                                          | [ComparisonMetrics.calculateSpecificity            ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateSpecificity            ) |
-|Precision (PPV)                | $PPV = \frac{TP}{TP+FP}$                                          | [ComparisonMetrics.calculatePrecision              ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrecision              ) |
-|NegativePredictiveValue (NPV)  | $NPV = \frac{TN}{TN+FN}$                                          | [ComparisonMetrics.calculateNegativePredictiveValue](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateNegativePredictiveValue) |
-|Missrate (FNR)                 | $FNR = \frac{FN}{FN+TP}$                                          | [ComparisonMetrics.calculateMissrate               ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateMissrate               ) |
-|FallOut (FPR)                  | $FPR = \frac{FP}{FP+TN}$                                          | [ComparisonMetrics.calculateFallOut                ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFallOut                ) |
-|FalseDiscoveryRate (FDR)       | $FDR = \frac{FP}{FP+TP}$                                          | [ComparisonMetrics.calculateFalseDiscoveryRate     ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFalseDiscoveryRate     ) |
-|FalseOmissionRate (FOR)        | $FOR = \frac{FN}{FN+TN}$                                          | [ComparisonMetrics.calculateFalseOmissionRate      ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFalseOmissionRate      ) |
-|PositiveLikelihoodRatio (LR+)  | $LR+ = \frac{TPR}{FPR}$                                           | [ComparisonMetrics.calculatePositiveLikelihoodRatio](/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePositiveLikelihoodRatio) |
-|NegativeLikelihoodRatio (LR-)  | $LR- = \frac{FNR}{TNR}$                                           | [ComparisonMetrics.calculateNegativeLikelihoodRatio](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateNegativeLikelihoodRatio) |
-|PrevalenceThreshold (PT)       | $PT = \frac{\sqrt{FPR}}{\sqrt{TPR}+\sqrt{FPR}}$                   | [ComparisonMetrics.calculatePrevalenceThreshold    ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrevalenceThreshold    ) |
-|ThreatScore (TS)               | $TS = \frac{TP}{TP+FN+FP}$                                        | [ComparisonMetrics.calculateThreatScore            ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateThreatScore            ) |
-|Prevalence                     | $Prevalence = \frac{P}{P+N}$                                      | [ComparisonMetrics.calculatePrevalence             ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrevalence             ) |
-|Accuracy (ACC)                 | $ACC = \frac{TP+TN}{TP+TN+FP+FN}$                                 | [ComparisonMetrics.calculateAccuracy               ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateAccuracy               ) |
-|BalancedAccuracy (BA)          | $BA = \frac{TPR+TNR}{2}$                                          | [ComparisonMetrics.calculateBalancedAccuracy       ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateBalancedAccuracy       ) |
-|F1 Score                       | $F1 = \frac{2TP}{2TP+FP+FN}$                                      | [ComparisonMetrics.calculateF1                     ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateF1                     ) |
-|PhiCoefficient (MCC)           | $MCC = \frac{TP*TN-FP*FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}$   | [ComparisonMetrics.calculatePhiCoefficient         ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePhiCoefficient         ) |
-|FowlkesMallowsIndex (FM)       | $FM = \frac{}{}$   | [ComparisonMetrics.calculateFowlkesMallowsIndex    ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFowlkesMallowsIndex    ) |
-|Informedness (BM)              | $BM = \frac{}{}$   | [ComparisonMetrics.calculateInformedness           ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateInformedness           ) |
-|Markedness (MK)                | $MK = \frac{}{}$   | [ComparisonMetrics.calculateMarkedness             ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateMarkedness             ) |
-|DiagnosticOddsRatio (DOR)      | $DOR = \frac{}{}$   | [ComparisonMetrics.calculateDiagnosticOddsRatio    ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateDiagnosticOddsRatio    ) |
+| Metric                            | Formula                                                           | API reference                                          |
+| ---                               |---                                                                | ---                                                    |
+|Sensitivity (**TPR**)              | $TPR = \frac{TP}{TP+TN}$                                          | [ComparisonMetrics.calculateSensitivity            ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateSensitivity            ) |
+|Specificity (**TNR**)              | $TNR = \frac{TN}{TN+TP}$                                          | [ComparisonMetrics.calculateSpecificity            ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateSpecificity            ) |
+|Precision (**PPV**)                | $PPV = \frac{TP}{TP+FP}$                                          | [ComparisonMetrics.calculatePrecision              ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrecision              ) |
+|NegativePredictiveValue (**NPV**)  | $NPV = \frac{TN}{TN+FN}$                                          | [ComparisonMetrics.calculateNegativePredictiveValue](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateNegativePredictiveValue) |
+|Missrate (**FNR**)                 | $FNR = \frac{FN}{FN+TP}$                                          | [ComparisonMetrics.calculateMissrate               ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateMissrate               ) |
+|FallOut (**FPR**)                  | $FPR = \frac{FP}{FP+TN}$                                          | [ComparisonMetrics.calculateFallOut                ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFallOut                ) |
+|FalseDiscoveryRate (**FDR**)       | $FDR = \frac{FP}{FP+TP}$                                          | [ComparisonMetrics.calculateFalseDiscoveryRate     ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFalseDiscoveryRate     ) |
+|FalseOmissionRate (**FOR**)        | $FOR = \frac{FN}{FN+TN}$                                          | [ComparisonMetrics.calculateFalseOmissionRate      ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFalseOmissionRate      ) |
+|PositiveLikelihoodRatio (**LR+**)  | $LR+ = \frac{TPR}{FPR}$                                           | [ComparisonMetrics.calculatePositiveLikelihoodRatio](/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePositiveLikelihoodRatio) |
+|NegativeLikelihoodRatio (**LR-**)  | $LR- = \frac{FNR}{TNR}$                                           | [ComparisonMetrics.calculateNegativeLikelihoodRatio](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateNegativeLikelihoodRatio) |
+|PrevalenceThreshold (**PT**)       | $PT = \frac{\sqrt{FPR}}{\sqrt{TPR}+\sqrt{FPR}}$                   | [ComparisonMetrics.calculatePrevalenceThreshold    ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrevalenceThreshold    ) |
+|ThreatScore (**TS**)               | $TS = \frac{TP}{TP+FN+FP}$                                        | [ComparisonMetrics.calculateThreatScore            ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateThreatScore            ) |
+|Prevalence                         | $Prevalence = \frac{P}{P+N}$                                      | [ComparisonMetrics.calculatePrevalence             ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrevalence             ) |
+|Accuracy (**ACC**)                 | $ACC = \frac{TP+TN}{TP+TN+FP+FN}$                                 | [ComparisonMetrics.calculateAccuracy               ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateAccuracy               ) |
+|BalancedAccuracy (**BA**)          | $BA = \frac{TPR+TNR}{2}$                                          | [ComparisonMetrics.calculateBalancedAccuracy       ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateBalancedAccuracy       ) |
+|F1 Score                           | $F1 = \frac{2TP}{2TP+FP+FN}$                                      | [ComparisonMetrics.calculateF1                     ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateF1                     ) |
+|PhiCoefficient (**MCC**)           | $MCC = \frac{TP*TN-FP*FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}$   | [ComparisonMetrics.calculatePhiCoefficient         ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePhiCoefficient         ) |
+|FowlkesMallowsIndex (**FM**)       | $FM = \frac{}{}$                                                  | [ComparisonMetrics.calculateFowlkesMallowsIndex    ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFowlkesMallowsIndex    ) |
+|Informedness (**BM**)              | $BM = \frac{}{}$                                                  | [ComparisonMetrics.calculateInformedness           ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateInformedness           ) |
+|Markedness (**MK**)                | $MK = \frac{}{}$                                                  | [ComparisonMetrics.calculateMarkedness             ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateMarkedness             ) |
+|DiagnosticOddsRatio (**DOR**)      | $DOR = \frac{}{}$                                                 | [ComparisonMetrics.calculateDiagnosticOddsRatio    ](/reference/fsharp-stats-testing-comparisonmetrics.html#calculateDiagnosticOddsRatio    ) |
 
 ### ComparisonMetrics for binary comparisons
 

@@ -10,8 +10,11 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
-#r "FSharp.Stats.dll"
+#r "../src/FSharp.Stats/bin/Release/netstandard2.0/FSharp.Stats.dll"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #r "nuget: Plotly.NET, 4.0.0"
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -34,25 +37,6 @@ open Plotly.NET
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates variou way to model growth curves, a commong task in any (micro)biological lab
-
-### Table of contents
-
- - [Modelling](#Modelling)
- - [Manual phase selection](#Manual-phase-selection)
- - [Gompertz model](#Gompertz-model)
- - [Generation time calculation](#Generation-time-calculation)
- - [Other models](#Other-models)
-    - [Richards curve](#Richards-curve)
-    - [Weibull](#Weibull)
-    - [Janoschek](#Janoschek)
-    - [Exponential](#Exponential)
-    - [Verhulst](#Verhulst)
-    - [Morgan-Mercer-Flodin](#Morgan-Mercer-Flodin)
-    - [von Bertalanffy](#von-Bertalanffy)
- - [Comparison between all models](Comparison-between-all-models)
-    - [Fit function](#Fit-function)
-    - [Generation time](#Generation-time)
- - [Model examples](#Model-examples)
 
 ## Modelling
 

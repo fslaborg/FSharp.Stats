@@ -10,6 +10,10 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
@@ -36,11 +40,6 @@ open Plotly.NET
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates functionality relevant in the context of machine learning.
-
-### Table of contents
-
- - [Dimensionality Reduction](#Dimensionality-Reduction)
-    - [PCA](#PCA)
 
 ## Dimensionality Reduction
 

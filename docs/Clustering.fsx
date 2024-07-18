@@ -10,12 +10,14 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
-#r "nuget: FSharpAux, 1.0.0"
 #r "nuget: Cyjs.NET"
-#r "nuget: OptimizedPriorityQueue, 5.1.0"
 
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -23,11 +25,8 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 
 (*** condition: ipynb ***)
 #if IPYNB
-#r "nuget: Plotly.NET, 4.0.0"
-#r "nuget: Plotly.NET.Interactive, 4.0.0"
-#r "nuget: OptimizedPriorityQueue, 5.1.0"
-#r "nuget: FSharpAux, 1.0.0"
 #r "nuget: FSharp.Stats"
+#r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: Cyjs.NET"
 #endif // IPYNB
 
@@ -38,22 +37,6 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates several clustering methods in FSharp.Stats and how to visualize the results with Plotly.NET.
-
-### Table of contents
-
- - [Iterative Clustering](#Iterative-Clustering)
-    - [k-means clustering](#k-means-clustering)
- - [Density based clustering](#Density-based-clustering)
-    - [DBSCAN](#DBSCAN)
- - [Hierarchical clustering](#Hierarchical-Clustering)
-    - [Distance measures](#Distance-measures)
-    - [Linkages](#Linkages)
- - [Determining the optimal number of clusters](#Determining-the-optimal-number-of-clusters)
-    - [Rule of thumb](#Rule-of-thumb)
-    - [Elbow criterion](#Elbow-criterion)
-    - [AIC](#AIC)
-    - [Silhouette coefficient](#Silhouette-coefficient)
-    - [GapStatistics](#GapStatistics)
 
 Clustering methods can be used to group elements of a huge data set based on their similarity. Elements sharing similar properties cluster together and can be reported as coherent group.
 

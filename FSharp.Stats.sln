@@ -57,21 +57,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6
 		docs\Intervals.fsx = docs\Intervals.fsx
 		docs\LinearAlgebra.fsx = docs\LinearAlgebra.fsx
 		docs\Matrix_Vector.fsx = docs\Matrix_Vector.fsx
+		docs\ML.fsx = docs\ML.fsx
+		docs\Normalization.fsx = docs\Normalization.fsx
+		docs\NuGet.config = docs\NuGet.config
 		docs\Optimization.fsx = docs\Optimization.fsx
 		docs\Quantiles.fsx = docs\Quantiles.fsx
-		docs\NuGet.config = docs\NuGet.config
 		docs\Rank.fsx = docs\Rank.fsx
 		docs\Signal.fsx = docs\Signal.fsx
-		docs\Normalization.fsx = docs\Normalization.fsx
-		docs\ML.fsx = docs\ML.fsx
 		docs\Testing.fsx = docs\Testing.fsx
-		docs\_template.html = docs\_template.html
-		docs\_template.ipynb = docs\_template.ipynb
+		docs\_head.html = docs\_head.html
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{50E3E339-AA4D-4FD2-8791-DEBD2EBF0504}"
 	ProjectSection(SolutionItems) = preProject
-		docs\content\fsdocs-custom.css = docs\content\fsdocs-custom.css
+		docs\content\fsdocs-theme.css = docs\content\fsdocs-theme.css
 	EndProjectSection
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.Interactive", "src\FSharp.Stats.Interactive\FSharp.Stats.Interactive.fsproj", "{D7BCF5C0-9E2B-4170-9390-607B0B65A8CD}"
