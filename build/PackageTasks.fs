@@ -8,6 +8,7 @@ open TestTasks
 
 open BlackFox.Fake
 open Fake.Core
+open Fake.DotNet
 open Fake.IO.Globbing.Operators
 
 let pack = BuildTask.create "Pack" [clean; build; runTests] {
@@ -23,12 +24,14 @@ let pack = BuildTask.create "Pack" [clean; build; runTests] {
                             "Version",stableVersionTag
                             "PackageReleaseNotes",  (release.Notes |> String.concat "\r\n")
                         ] @ p.MSBuildParams.Properties)
+                        DisableInternalBinLog = true
                     }
                 {
                     p with 
                         MSBuildParams = msBuildParams
                         OutputPath = Some pkgDir
                 }
+                |> DotNet.Options.withCustomParams (Some "--no-dependencies -tl")
             ))
     else failwith "aborted"
 }
@@ -46,6 +49,7 @@ let packPrerelease = BuildTask.create "PackPrerelease" [setPrereleaseTag; clean;
                                     "Version", prereleaseTag
                                     "PackageReleaseNotes",  (release.Notes |> String.toLines )
                                 ] @ p.MSBuildParams.Properties)
+                                DisableInternalBinLog = true
                             }
                         {
                             p with 
@@ -53,6 +57,7 @@ let packPrerelease = BuildTask.create "PackPrerelease" [setPrereleaseTag; clean;
                                 OutputPath = Some pkgDir
                                 MSBuildParams = msBuildParams
                         }
+                        |> DotNet.Options.withCustomParams (Some "--no-dependencies -tl")
             ))
     else
         failwith "aborted"

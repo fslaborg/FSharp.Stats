@@ -10,9 +10,13 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../src/FSharp.Stats/bin/Release/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: FsMath, 0.0.1"
-open FsMath
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "FSharp.Stats.dll"
+
 (*** condition: ipynb ***)
 #if IPYNB
 #r "nuget: FSharp.Stats"
@@ -26,19 +30,6 @@ open FsMath
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial gives an overview over how to do some of the basic statistical measurements with FSharp.Stats.
-
-### Table of contents
-
- - [Central tendency](#Central-tendency)
-    - [Mean](#Mean)
-    - [Truncated mean](#Truncated-mean)
-    - [Median](#Median)
-    - [Harmonic mean](#Harmonic-mean)
-    - [Geometric mean](#Geometric-mean)
- - [Dispersion](#Dispersion)
-    - [Range](#Range)
-    - [Variance and Standard Deviation](#Variance-and-standard-deviation)
-    - [Coefficient of variation](#Coefficient-of-variation)
 
 ## Central tendency
 

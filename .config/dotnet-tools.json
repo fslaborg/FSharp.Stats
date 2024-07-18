@@ -2,17 +2,19 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    "fsdocs-tool": {
-      "version": "16.1.1",
-      "commands": [
-        "fsdocs"
-      ]
-    },
     "fantomas": {
       "version": "6.1.1",
       "commands": [
         "fantomas"
-      ]
+      ],
+      "rollForward": false
+    },
+    "fsdocs-tool": {
+      "version": "20.0.1",
+      "commands": [
+        "fsdocs"
+      ],
+      "rollForward": false
     }
   }
 }
