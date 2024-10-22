@@ -219,8 +219,20 @@ module LinearAlgebra =
         //                    else LinearAlgebraManaged.QR a
         LinearAlgebraManaged.QR a
 
+    /// <summary>
     /// Performs QR decomposition using an alternative algorithm.
-    /// Returns the orthogonal matrix Q and the upper triangular matrix R.
+    /// QR decomposition is a method to decompose a matrix A into two components:
+    /// Q (an orthogonal matrix) and R (an upper triangular matrix),
+    /// such that A = Q * R. It is commonly used in solving linear systems,
+    /// least squares fitting, and eigenvalue problems.
+    /// </summary>
+    /// <returns>
+    /// A tuple containing:
+    /// <list type="bullet">
+    ///   <item><description>Q: The orthogonal matrix obtained from the decomposition.</description></item>
+    ///   <item><description>R: The upper triangular matrix obtained from the decomposition.</description></item>
+    /// </list>
+    /// </returns>
     let qrAlternative (A: Matrix<float>) =
         let m: int = A.NumRows
         let n: int = A.NumCols
@@ -266,15 +278,18 @@ module LinearAlgebra =
 
         q, r
 
+    /// <summary>
     /// Solves a linear system of equations using QR decomposition.
-    /// 
-    /// Parameters:
-    ///   - A: The coefficient matrix of the linear system.
-    ///   - t: The target vector of the linear system.
-    /// 
-    /// Returns:
-    ///   - mX: The solution vector of the linear system.
-    ///   - r: The upper triangular matrix obtained from QR decomposition.
+    /// </summary>
+    /// <param name="A">The coefficient matrix of the linear system.</param>
+    /// <param name="t">The target vector of the linear system.</param>
+    /// <returns>
+    /// A tuple containing:
+    /// <list type="bullet">
+    ///   <item><description>mX: The solution vector of the linear system.</description></item>
+    ///   <item><description>r: The upper triangular matrix obtained from QR decomposition.</description></item>
+    /// </list>
+    /// </returns>
     let solveLinearQR (A: Matrix<float>) (t: Vector<float>) =
         let m = A.NumRows
         let n = A.NumCols
