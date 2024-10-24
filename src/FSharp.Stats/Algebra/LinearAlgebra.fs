@@ -219,6 +219,111 @@ module LinearAlgebra =
         //                    else LinearAlgebraManaged.QR a
         LinearAlgebraManaged.QR a
 
+    /// <summary>
+    /// Performs QR decomposition using an alternative algorithm.
+    /// QR decomposition is a method to decompose a matrix A into two components:
+    /// Q (an orthogonal matrix) and R (an upper triangular matrix),
+    /// such that A = Q * R. It is commonly used in solving linear systems,
+    /// least squares fitting, and eigenvalue problems.
+    /// </summary>
+    /// <returns>
+    /// A tuple containing:
+    /// <list type="bullet">
+    ///   <item><description>Q: The orthogonal matrix obtained from the decomposition.</description></item>
+    ///   <item><description>R: The upper triangular matrix obtained from the decomposition.</description></item>
+    /// </list>
+    /// </returns>
+    let qrAlternative (A: Matrix<float>) =
+        let m: int = A.NumRows
+        let n: int = A.NumCols
+
+        let q: Matrix<float> = Matrix.zero m n
+        let r: Matrix<float> = Matrix.zero n n
+        let qLengths: Vector<float> = Vector.zeroCreate n
+
+        let getVectorLength (v: Vector<float>) = Vector.fold (fun folder i -> folder+(i*i)) 0. v
+
+        let setqOfA (n: int) =
+            let aN: Vector<float> =  Matrix.getCol A n
+            let qN = 
+                if n = 0 then 
+                    aN 
+                else 
+                    Array.init (n) (fun i -> 
+                        let denominator = qLengths[i]
+                        let forNominator: Vector<float> = Matrix.getCol q i 
+                        let nominator: float = Vector.dot aN forNominator
+                        r.[i, n] <- nominator
+                        (nominator/denominator) * forNominator
+                    )
+                    |> Array.fold (fun folder  e -> folder-e ) aN
+            Matrix.setCol q n qN
+            qN  
+
+        for i=0 to n-1 do
+            let qN = setqOfA i 
+            let qLength = getVectorLength qN
+            let rValue = sqrt(qLength)
+            r[i,i] <- rValue
+            qLengths[i] <- qLength
+
+        for i=0 to n-1 do
+            let qN: Vector<float> = Matrix.getCol q i
+            let updateQ = (1./sqrt( qLengths[i]  )) * qN 
+            Matrix.setCol q i updateQ
+            for j=i+1 to n-1 do
+                let denominator = r[i, i]
+                let nominator = r[i, j]
+                r[i, j] <- (nominator/denominator)
+
+        q, r
+
+    /// <summary>
+    /// Solves a linear system of equations using QR decomposition.
+    /// </summary>
+    /// <param name="A">The coefficient matrix of the linear system.</param>
+    /// <param name="t">The target vector of the linear system.</param>
+    /// <returns>
+    /// A tuple containing:
+    /// <list type="bullet">
+    ///   <item><description>mX: The solution vector of the linear system.</description></item>
+    ///   <item><description>r: The upper triangular matrix obtained from QR decomposition.</description></item>
+    /// </list>
+    /// </returns>
+    let solveLinearQR (A: Matrix<float>) (t: Vector<float>) =
+        let m = A.NumRows
+        let n = A.NumCols
+
+        System.Diagnostics.Debug.Assert(m >= n) 
+
+        let q,r = qrAlternative A 
+
+        let QT = q.Transpose
+
+        let mX = Vector.zeroCreate n
+
+        let c: Vector<float> = QT * t
+
+        let rec build_mX_inner cross_prod i j =
+            if j=n then 
+                cross_prod
+            else
+                let newCrossprod = cross_prod + (r[i, j] * mX[j])
+                build_mX_inner newCrossprod i (j+1)
+    
+        let rec build_mX_outer i =
+            if i<0 then 
+                ()
+            else
+                let crossProd = build_mX_inner 0. i (i+1)
+                mX[i] <- (c[i] - crossProd) / r[i, i]
+                build_mX_outer (i-1)
+    
+        build_mX_outer (n-1)
+    
+        mX,r
+    
+
     ///Returns the full Singular Value Decomposition of the input MxN matrix 
     ///
     ///A : A = U * SIGMA * V**T in the tuple (S, U, V**T), 

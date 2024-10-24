@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
@@ -33,11 +33,15 @@
     <Compile Include="Testing.fs" />
     <Compile Include="Interpolation.fs" />
     <Compile Include="Fitting.fs" />
-    <Compile Include="Quantile.fs" />
+	  <Compile Include="GeneralisedLinearModels.fs" />
+	  <Compile Include="Quantile.fs" />
     <Compile Include="Rank.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="data/glm_test_lungcap.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/glm_test_energy.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/glm_test_cheese.csv" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/TestDataSAM.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/testDatahClust.csv" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/benjaminiHochberg_Input_nan.csv" CopyToOutputDirectory="PreserveNewest" />
