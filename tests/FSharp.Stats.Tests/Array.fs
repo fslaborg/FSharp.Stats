@@ -13,6 +13,9 @@ let testArrayNegInfinity = [|10000.;-0.1;14.;-10.;5.;Double.NegativeInfinity|]
 
 let testArrayEvenCountsInt = [|10000;-50;14;-9|]
 let testArrayOddCountsInt = [|10000;-50;14;-10;5|]
+let testArrayEmptyInt : int array = [||]
+let testArrayEmptyFloat : float array = [||]
+let testArrayEmptyDec : decimal array = [||]
 
 [<Tests>]
 let medianTests =
@@ -33,12 +36,21 @@ let medianTests =
             let median = Array.median testArrayNegInfinity
             Expect.floatClose Accuracy.high median 2.45 "Median should be 2.45"
         
-        testCase "testListEvenCountsInt" <| fun () ->
+        testCase "testArrayEvenCountsInt" <| fun () ->
             let median = Array.median testArrayEvenCountsInt
             Expect.equal median 2 "Median should be 2"
-        testCase "testListOddCountsInt" <| fun () ->
+        testCase "testArrayOddCountsInt" <| fun () ->
             let median = Array.median testArrayOddCountsInt
             Expect.equal median 5 "Median should be 5"
+        testCase "testArrayEmptyFloat" <| fun () ->
+            let median = Array.median testArrayEmptyFloat
+            Expect.isTrue (Ops.isNan median) "Median of empty float array should be nan"
+        testCase "testArrayEmptyInt" <| fun () ->
+            let median() = Array.median testArrayEmptyInt
+            Expect.throws (fun () -> median () |> ignore) "Median for empty non-float sequences is not defined"
+        testCase "testArrayEmptyDec" <| fun () ->
+            let median() = Array.median testArrayEmptyDec
+            Expect.throws (fun () -> median () |> ignore) "Median for empty non-float sequences is not defined"
     ]
 
 [<Tests>]
