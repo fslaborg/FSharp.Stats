@@ -260,6 +260,9 @@ module Array =
     /// </code>
     /// </example>
     let inline weightedMean (weights:array<'T>) (items:array<'T>) =
+        // throws an exception if the collection is empty and the file type is not float (returns nan if float collection)
+        if items.Length = 0 && not (box items :? float[]) then
+            failwithf "Array.weightedMean is undefined for an empty non float sequence!"
         // DimensionMismatchException
         if (items.Length <> weights.Length) then
             failwithf "The items and weights must have the same length"
@@ -305,6 +308,10 @@ module Array =
     /// </code>
     /// </example>
     let inline weightedVariance mean (weights:array<'T>) (items:array<'T>) =
+        // throws an exception if the collection is empty and the file type is not float (returns nan if float collection)
+        if items.Length = 0 && not (box items :? float[]) then
+            failwithf "Array.weightedVariance is undefined for an empty non float sequence!"
+
         // DimensionMismatchException
         if (items.Length <> weights.Length) then
             failwithf "The items and weights must have the same length"
@@ -334,7 +341,10 @@ module Array =
     /// <code>
     /// </code>
     /// </example>
-    let inline median (items:array<'T>) =
+    let inline median (items: array<'T>) =
+        // throws an exception if the collection is empty and the file type is not float (returns nan if float collection)
+        if items.Length = 0 && not (box items :? float[]) then
+            failwithf "Array.median is undefined for an empty non float sequence!"
 
         let zero = LanguagePrimitives.GenericZero< 'T > 
         let one = LanguagePrimitives.GenericOne< 'T > 
