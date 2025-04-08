@@ -17,7 +17,8 @@ let pack = BuildTask.create "Pack" [clean; build; runTests] {
             -- "src/bin/*"
             |> Seq.iter (Fake.DotNet.DotNet.pack (fun p ->
                 let msBuildParams =
-                    {p.MSBuildParams with 
+                    {p.MSBuildParams with
+                        DisableInternalBinLog = true
                         Properties = ([
                             "Version",stableVersionTag
                             "PackageReleaseNotes",  (release.Notes |> String.concat "\r\n")
@@ -40,6 +41,7 @@ let packPrerelease = BuildTask.create "PackPrerelease" [setPrereleaseTag; clean;
             |> Seq.iter (Fake.DotNet.DotNet.pack (fun p ->
                         let msBuildParams =
                             {p.MSBuildParams with 
+                                DisableInternalBinLog = true
                                 Properties = ([
                                     "Version", prereleaseTag
                                     "PackageReleaseNotes",  (release.Notes |> String.toLines )

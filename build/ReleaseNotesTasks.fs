@@ -8,9 +8,8 @@ open BlackFox.Fake
 //}
 
 let updateReleaseNotes = BuildTask.createFn "ReleaseNotes" [] (fun config ->
-    Release.exists()
-
-    Release.update(ProjectInfo.gitOwner, ProjectInfo.project, config)
+    ReleaseNotes.ensure()
+    ReleaseNotes.update(ProjectInfo.gitOwner, ProjectInfo.project, config)
 )
 
 //let githubDraft = BuildTask.createFn "GithubDraft" [] (fun config ->
