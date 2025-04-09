@@ -34,7 +34,7 @@ module FSIPrinters =
 
         //print row with row index and vertical separator
         let printRow index = 
-            let currentRow = mat.Row index
+            let currentRow = Matrix.getRow index mat
             let toString (rv) = 
                 rv 
                 |> Seq.map (fun x ->    
