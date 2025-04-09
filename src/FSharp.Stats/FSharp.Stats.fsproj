@@ -28,29 +28,27 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\**" />
+    <Compile Include="Permutation.fs" />
+    <Compile Include="AlgTypes\GenericMath.fs" />
+    <Compile Include="AlgTypes\SIMDUtils.fs" />
+    <Compile Include="AlgTypes\Vector.fs" />
+    <Compile Include="AlgTypes\VectorExt.fs" />
+    <Compile Include="AlgTypes\VectorOps.fs" />
+    <Compile Include="AlgTypes\Matrix.fs" />
+    <Compile Include="AlgTypes\MatrixExt.fs" />
     <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Common.fs" />
     <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />
-    <Compile Include="ServiceLocator.fs" />
     <Compile Include="Interval.fs" />
-    <Compile Include="Permutation.fs" />
-    <Compile Include="BigRational.fs" />
-    <Compile Include="INumeric.fs" />
-    <Compile Include="GlobalAssociations.fs" />
-    <Compile Include="AlgTypes.fs" />
     <Compile Include="RunningStats.fs" />
     <Compile Include="Seq.fs" />
     <Compile Include="Array.fs" />
     <Compile Include="List.fs" />
     <Compile Include="Map.fs" />
     <Compile Include="JaggedCollection.fs" />
-    <Compile Include="Vector.fs" />
-    <Compile Include="RowVector.fs" />
-    <Compile Include="Matrix.fs" />
-    <Compile Include="MatrixTopLevelOperators.fs" />
     <Compile Include="Rank.fs" />
     <Compile Include="Correlation.fs" />
     <Compile Include="DistanceMetrics.fs" />
@@ -64,16 +62,10 @@
     <Compile Include="SpecialFunctions\Erf.fs" />
     <Compile Include="SpecialFunctions\Logistic.fs" />
     <Compile Include="SpecialFunctions\Binomial.fs" />
+    <Compile Include="Algebra\LinearAlgebra.fs" />
     <!-- Algebra -->
     <Compile Include="Algebra\EVD.fs" />
     <Compile Include="Algebra\SVD.fs" />
-    <Compile Include="Algebra\NativeArray.fs" />
-    <Compile Include="Algebra\NativeArrayExtensions.fs" />
-    <Compile Include="Algebra\NativeUtilities.fs" />
-    <Compile Include="Algebra\ILinearAlgebra.fs" />
-    <Compile Include="Algebra\LinearAlgebraServiceManaged.fs" />
-    <Compile Include="Algebra\LinearAlgebraServiceMKL.fs" />
-    <Compile Include="Algebra\LinearAlgebra.fs" />
     <!-- RootFinding -->
     <Compile Include="RootFinding\Brent.fs" />
     <!-- Integration -->
@@ -152,15 +144,12 @@
     <Compile Include="Fitting\LogisticRegression.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
     <Compile Include="Fitting\Spline.fs" />
-    <Compile Include="Fitting\GeneralisedLinearModel.fs" />
     <!-- ML -->
-    <Compile Include="ML\SurprisalAnalysis.fs" />
     <Compile Include="ML\SimilarityMetrics.fs" />
     <Compile Include="ML\Imputation.fs" />
     <Compile Include="ML\Impute.fs" />
     <Compile Include="ML\DistanceMetrics.fs" />
     <!-- ML / Unsupervised -->
-    <Compile Include="ML\Unsupervised\PrincipalComponentAnalysis.fs" />
     <Compile Include="ML\Unsupervised\IterativeClustering.fs" />
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
     <Compile Include="ML\Unsupervised\DbScan.fs" />

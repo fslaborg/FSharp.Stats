@@ -53,60 +53,60 @@ module Baseline =
     let baselineAls (maxiter:int) (lambda:int) (p:float) (data:float[]) =
         let dMatrix' = 
             let dMatrix = Matrix.ofArray2D (diff 2 (diag data.Length 1.))                            
-            (pown 10. lambda) * (dMatrix * dMatrix.Transpose)
+            (pown 10. lambda) * (dMatrix * dMatrix.Transpose())
 
-        let wInitial = Vector.create (data.Length) 1.
-        let y =  Vector.ofArray data        
+        let wInitial = Array.create (data.Length) 1.
+        let y = data        
     
 
         let rec loop niter (w:Vector<float>) =
             if niter < 1 then                                
-                let wMatrix = Matrix.diag w 
+                let wMatrix = Matrix.diagonal w 
                 let zMatrix = wMatrix + dMatrix'
                 
-                Algebra.LinearAlgebra.SolveLinearSystem zMatrix (w .* y)
+                Algebra.LinearAlgebra.solveLinearSystem zMatrix (w .* y)
                 //zMatrix.Solve(w .* y)
             else
-                let wMatrix = Matrix.diag w 
+                let wMatrix = Matrix.diagonal w 
                 let zMatrix = wMatrix + dMatrix'
                 //let z = zMatrix.Solve(w .* y)
-                let z = Algebra.LinearAlgebra.SolveLinearSystem zMatrix (w .* y)
+                let z = Algebra.LinearAlgebra.solveLinearSystem zMatrix (w .* y)
                 // w = p * (y > z) + (1-p) * (y < z)
-                let w' = Vector.map2 (fun yi zi -> if yi > zi then p else (1.-p)) y z
+                let w' = Array.map2 (fun yi zi -> if yi > zi then p else (1.-p)) y z
             
                 loop (niter-1) w'
 
         loop maxiter wInitial
 
-    /// Asymmetric Least Squares Smoothing using sparse Matrix
-    //  by P. Eilers and H. Boelens in 2005
-    let baselineAls' (maxiter:int) (lambda:int) (p:float) (data:float[]) =
-        let dMatrix' = 
-            let dMatrix =
-                (diff 2 (diag data.Length 1.))
-                |> Matrix.sparseOfArray2D
-            (10.**float lambda) * (dMatrix * dMatrix.Transpose)
+    ///// Asymmetric Least Squares Smoothing using sparse Matrix
+    ////  by P. Eilers and H. Boelens in 2005
+    //let baselineAls' (maxiter:int) (lambda:int) (p:float) (data:float[]) =
+    //    let dMatrix' = 
+    //        let dMatrix =
+    //            (diff 2 (diag data.Length 1.))
+    //            |> Matrix.sparseOfArray2D
+    //        (10.**float lambda) * (dMatrix * dMatrix.Transpose)
 
-        let wInitial = Vector.create (data.Length) 1.
-        let y =  Vector.ofArray data 
+    //    let wInitial = Vector.create (data.Length) 1.
+    //    let y =  Vector.ofArray data 
 
 
-        let rec loop niter (w:Vector<float>) =
-            if niter < 1 then
-                let wMatrix = Matrix.toSparse (Matrix.diag w)
-                let zMatrix = wMatrix + dMatrix'
+    //    let rec loop niter (w:Vector<float>) =
+    //        if niter < 1 then
+    //            let wMatrix = Matrix.toSparse (Matrix.diag w)
+    //            let zMatrix = wMatrix + dMatrix'
         
-                FSharp.Stats.Algebra.LinearAlgebraManaged.leastSquares zMatrix (w .* y)
-            else
-                let wMatrix = Matrix.toSparse (Matrix.diag w)
-                let zMatrix = wMatrix + dMatrix'
-                let z = FSharp.Stats.Algebra.LinearAlgebraManaged.leastSquares zMatrix (w .* y)
-                // w = p * (y > z) + (1-p) * (y < z)
-                let w' = Vector.map2 (fun yi zi -> if yi > zi then p else (1.-p)) y z
+    //            FSharp.Stats.Algebra.LinearAlgebraManaged.leastSquares zMatrix (w .* y)
+    //        else
+    //            let wMatrix = Matrix.toSparse (Matrix.diag w)
+    //            let zMatrix = wMatrix + dMatrix'
+    //            let z = FSharp.Stats.Algebra.LinearAlgebraManaged.leastSquares zMatrix (w .* y)
+    //            // w = p * (y > z) + (1-p) * (y < z)
+    //            let w' = Vector.map2 (fun yi zi -> if yi > zi then p else (1.-p)) y z
         
-                loop (niter-1) w'
+    //            loop (niter-1) w'
 
-        loop maxiter wInitial
+    //    loop maxiter wInitial
 
 
 
