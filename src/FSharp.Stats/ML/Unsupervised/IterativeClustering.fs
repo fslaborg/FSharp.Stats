@@ -62,7 +62,7 @@ module IterativeClustering =
 
     // cvmax - Algorithm by Moth’d Belal. Al-Daoud (Ref.: A New Algorithm for Cluster Initialization)
     let initCVMAX (sampleRows: float[] []) k =
-        let dmatrix = matrix sampleRows
+        let dmatrix = Matrix.ofJaggedArray sampleRows
         let cvmax =
             sampleRows
             |> JaggedArray.transpose

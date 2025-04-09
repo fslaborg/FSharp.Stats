@@ -176,21 +176,22 @@ module ClusterNumber =
                 )
             )
 
-        let contingencyMatrix: Matrix<float> = compareall correctLabels clusteredLabels |> matrix
+        let contingencyMatrix: Matrix<float> = 
+            compareall correctLabels clusteredLabels 
+            |> Matrix.ofJaggedArray
                 
         let rowSum =
             contingencyMatrix
-            |> Matrix.Generic.mapRows Seq.sum
-            |> Vector.toArray
+            |> Matrix.getRows
+            |> Array.map Vector.sum
 
         let colSum =
             contingencyMatrix
-            |> Matrix.Generic.mapCols Seq.sum
-            |> RowVector.toArray
+            |> Matrix.getCols
+            |> Array.map Vector.sum
 
         let totalSum =
-            contingencyMatrix
-            |> Matrix.Generic.sum
+            contingencyMatrix.Data |> Vector.sum
 
         let pi = Array.map (fun i -> i / totalSum) rowSum
 
@@ -303,8 +304,16 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
         /// </example>
         let generateUniformPoints (rnd:System.Random) =   
             fun (data:array<float[]>) -> 
-                let min = matrix data |> Matrix.mapiCols (fun i x -> Seq.min x) |> Array.ofSeq
-                let max = matrix data |> Matrix.mapiCols (fun i x -> Seq.max x) |> Array.ofSeq
+                let cols =
+                    data
+                    |> Matrix.ofJaggedArray
+                    |> Matrix.getCols
+                let min =  
+                    cols
+                    |> Array.map (fun v -> Vector.min v)
+                let max = 
+                    cols
+                    |> Array.map (fun v -> Vector.max v)
                 let range = Array.map2 (fun ma mi -> ma - mi) max min 
                 
                 let generateUniform () =
@@ -337,9 +346,12 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
                 //    |> Array.map (fun _ -> generateUniform s))  
                 let dataMat = (JaggedArray.toArray2D data)
                 let (u,s,vt) = Algebra.SVD.compute dataMat
-                let X' = (Matrix.ofJaggedArray data) * (Matrix.ofArray2D vt).Transpose
-                let min = X' |> Matrix.mapiCols (fun i x -> Seq.min x) |> Array.ofSeq
-                let max = X' |> Matrix.mapiCols (fun i x -> Seq.max x) |> Array.ofSeq
+                let X' = (Matrix.ofJaggedArray data) * (Matrix.ofArray2D vt).Transpose()
+                let colsX' =
+                    X'
+                    |> Matrix.getCols     
+                let min = colsX' |> Array.map (fun v -> Vector.min v)
+                let max =  colsX' |> Array.map (fun v -> Vector.max v)
                 let range = Seq.map2 (fun ma mi -> ma - mi) max min |> Array.ofSeq
                 let generateUniform () =
                     min
@@ -349,7 +361,7 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
                 let generateUniformSVD = Array.init data.Length (fun x -> generateUniform())
                 //backtransform points to get reference data
                 (Matrix.ofJaggedArray generateUniformSVD) * (Matrix.ofArray2D vt)  
-                |> Matrix.toJaggedArray
+                |> fun m -> m.toJaggedArray()
 
         [<Obsolete("Use generateUniformPointsPCA instead.")>]
         let generate_uniform_points_PCA (rnd:System.Random) = generateUniformPointsPCA rnd
