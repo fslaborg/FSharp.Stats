@@ -106,3 +106,27 @@ module Matrix =
             // Copy row srcRow from M into row i of the new matrix
             Array.blit M.Data (srcRow * c) newData (i * c) c
         Matrix<'T>(r, c, newData)
+
+    let ofRows (rows : 'T[][]) : Matrix<'T> =
+         Matrix.ofJaggedArray rows
+
+    let mapiRows (f: int -> Vector<'T> -> Vector<'U>)  (m:Matrix<'T>) : Matrix<'U> =
+        Matrix.getRows m
+        |> Array.mapi (fun i v -> f i v)   
+        |> ofRows
+
+    let ofCols (cols : 'T[][]) : Matrix<'T> =
+        Matrix.ofJaggedArray cols
+        |> fun m -> m.Transpose()
+
+    let mapiCols (f: int -> Vector<'T> -> Vector<'U>)  (m:Matrix<'T>) : Matrix<'U> =
+        let cols =
+            Array.init m.NumCols (fun j ->
+                let col = Array.zeroCreate<'T> m.NumRows
+                let mutable offset = j
+                for i = 0 to m.NumRows - 1 do
+                    col.[i] <- m.Data.[offset]
+                    offset <- offset + m.NumCols
+                f j col
+            )
+        ofCols cols
