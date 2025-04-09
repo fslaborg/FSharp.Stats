@@ -1,41 +1,76 @@
-// (c) Microsoft Corporation 2005-2009. 
-
-//namespace Microsoft.FSharp.Math // old namespace
 namespace FSharp.Stats
 
-open System
 
+
+/// <summary>
+/// A permutation represented as a function from indices to indices.
+/// If <c>P</c> is a <c>Permutation</c>, then <c>P(i)</c> gives the
+/// new row index for row <c>i</c> (or vice versa).
+/// </summary>
 type Permutation = int -> int
 
-type permutation = int -> int
 
+/// <summary>
+/// The <c>Permutation</c> module defines a type and helper functions
+/// for representing and constructing permutations from integer arrays.
+/// </summary>
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Permutation =
 
-    let invalidArg arg msg = raise (new System.ArgumentException((msg:string),(arg:string)))        
+    /// <summary>
+    /// Validates that the given integer array <paramref name="arr"/> is a valid
+    /// permutation of length <c>n</c> (i.e., it contains every integer from
+    /// <c>0</c> to <c>n-1</c> exactly once), then returns a function 
+    /// <c>P(i) = arr[i]</c>. <br/>
+    /// Throws an exception if <paramref name="arr"/> is invalid.
+    /// </summary>
+    /// <param name="arr">
+    /// The array containing the permutation. Each element <c>arr[i]</c> must
+    /// be a unique integer in <c>[0..n-1]</c>.
+    /// </param>
+    /// <returns>
+    /// A permutation function <c>Permutation</c> where <c>P(i) = arr[i]</c>.
+    /// </returns>
+    let ofFreshArray (arr: int[]) : Permutation =
+        let n = arr.Length
+        let visited = Array.create n false
 
-    let ofFreshArray (arr:_[]) = 
-        let arr2 = Array.zeroCreate arr.Length
-        for i = 0 to arr.Length - 1 do 
-            let x = arr.[i] 
-            if x < 0 || x >= arr.Length then invalidArg "arr" "invalid permutation" 
-            arr2.[x] <- 1
-        for i = 0 to arr.Length - 1 do 
-            if arr2.[i] <> 1 then invalidArg "arr" "invalid permutation"
-        (fun k -> arr.[k])
+        // Validate that arr[i] is unique and in [0..n-1].
+        for i = 0 to n - 1 do
+            let x = arr.[i]
+            if x < 0 || x >= n then
+                invalidArg (nameof arr) "Permutation array contains out-of-range index."
+            if visited.[x] then
+                invalidArg (nameof arr) "Permutation array contains duplicate indices."
+            visited.[x] <- true
 
-    let ofArray (arr:_[]) = arr |> Array.copy |> ofFreshArray
+        // Return a function P(i) = arr[i].
+        fun i ->
+            if i < 0 || i >= n then
+                invalidArg "i" "Permutation function called with out-of-range index."
+            arr.[i]
 
-    [<Obsolete("Use ofArray instead.")>]
-    let of_array (arr:_[]) = ofArray arr
+    /// <summary>
+    /// Makes a copy of <paramref name="arr"/>, then calls <see cref="ofFreshArray"/>.
+    /// Useful for preserving the original array. 
+    /// </summary>
+    /// <param name="arr">An array of length <c>n</c> that should represent 
+    /// a valid permutation of <c>0..n-1</c>.</param>
+    /// <returns>
+    /// A <c>Permutation</c> function representing the same reordering as
+    /// <paramref name="arr"/>.
+    /// </returns>
+    let ofArray (arr: int[]) : Permutation =
+        // Defensive copy
+        let copy = Array.copy arr
+        ofFreshArray copy
+
 
     let ofPairs  (mappings: seq<int * int>) = 
       let p = dict mappings 
       (fun k -> if p.ContainsKey k then p.[k] else k)
     
-    [<Obsolete("Use ofPairs instead.")>]
-    let of_pairs  (mappings: seq<int * int>) =  ofPairs mappings
 
     let swap (n:int) (m:int) = 
       (fun k -> if k = n then m elif k = m then n else k)
