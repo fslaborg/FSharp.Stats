@@ -41,7 +41,6 @@ module Spline =
         // Some preprocessing
         let basistmp = preprocessBasis basispts
         let xdata,ydata = data |> preprocess |> Array.unzip
-        let ydata = vector ydata
         let n = Array.length xdata
         let n' = Array.length basistmp
         let xm = basistmp.[n'-2]
@@ -60,7 +59,7 @@ module Spline =
  
         // Construct the matrices we need
         let Bt = Matrix.init n' n (fun c r -> basis.[c] xdata.[r])
-        let BtB = Bt * Bt.Transpose
+        let BtB = Bt * Bt.Transpose()
         let penaltyFunc r c =
             let xi = xdata.[-2+min r c]
             let xj = xdata.[-2+max r c]
@@ -74,8 +73,8 @@ module Spline =
         let n' = float n'
         fun (lambda: float) ->
             do checkSmoothingParameter lambda
-            let beta = FSharp.Stats.Algebra.LinearAlgebra.LeastSquares (BtB + n'*lambda*Omega) (Bt * ydata)
-            let helper = Array.zip basis (beta.ToArray())
+            let beta = LinearAlgebra.leastSquares (BtB + n'*lambda*Omega) (Bt * ydata)
+            let helper = Array.zip basis beta
             /// Our actualy smoothing spline
             fun x -> helper |> Array.sumBy  (fun (f,w) -> w * f x)
        
