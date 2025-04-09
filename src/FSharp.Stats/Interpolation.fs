@@ -186,7 +186,7 @@ module Interpolation =
                     pown xData.[i] j
                     )
             let b = yData
-            PolynomialCoef.Create (LinearAlgebra.SolveLinearSystem A b)
+            PolynomialCoef.Create (LinearAlgebra.solveLinearSystem A b)
         
         /// <summary>
         ///   takes polynomial coefficients and x value to predict the corresponding interpolating y value
@@ -1050,11 +1050,11 @@ module Interpolation =
         /// Contains x data, y data (c0), slopes (c1), curvatures (c2), and the third derivative at each knot
         /// </summary>
         type CubicSplineCoef = {
-            XData : vector
+            XData : Vector<float>
             /// <summary>
             /// vector of [a0;b0;c0;d0;a1;b1;...;d(n-2)] where f_n(x) = (an)x^3 + (bn)x^2 + (cn)x + (dn)
             /// </summary>
-            C0_3 : vector} with
+            C0_3 : Vector<float>} with
                 static member Create x c = {XData=x;C0_3=c}
 
                 /// <summary>
@@ -1160,11 +1160,11 @@ module Interpolation =
             let (xVal,yVal) =
                 let indices =
                     xValues
-                    |> Seq.indexed
-                    |> Seq.sortBy snd
-                    |> Seq.map fst
-                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
-                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
+                    |> Array.indexed
+                    |> Array.sortBy snd
+                    |> Array.map fst
+                let sortedXValues = indices |> Array.map (fun i -> xValues.[i])
+                let sortedYValues = indices |> Array.map (fun i -> yValues.[i])
                 sortedXValues,sortedYValues
 
             let intervalNumber = xVal.Length - 1
@@ -1194,12 +1194,12 @@ module Interpolation =
             let (xVal,yVal,c1) =
                 let indices =
                     xValues
-                    |> Seq.indexed
-                    |> Seq.sortBy snd
-                    |> Seq.map fst
-                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
-                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
-                let sortedslopes = indices |> Seq.map (fun i -> slopes.[i]) |> vector
+                    |> Array.indexed
+                    |> Array.sortBy snd
+                    |> Array.map fst
+                let sortedXValues = indices |> Array.map (fun i -> xValues.[i])
+                let sortedYValues = indices |> Array.map (fun i -> yValues.[i])
+                let sortedslopes = indices  |> Array.map (fun i -> slopes.[i])
                 sortedXValues,sortedYValues,sortedslopes
 
             let intervalNumber = xVal.Length - 1
@@ -1232,11 +1232,11 @@ module Interpolation =
             let (xVal,yVal) =
                 let indices =
                     xValues
-                    |> Seq.indexed
-                    |> Seq.sortBy snd
-                    |> Seq.map fst
-                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
-                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
+                    |> Array.indexed
+                    |> Array.sortBy snd
+                    |> Array.map fst
+                let sortedXValues = indices |> Array.map (fun i -> xValues.[i])
+                let sortedYValues = indices |> Array.map (fun i -> yValues.[i])
                 sortedXValues,sortedYValues
 
             let intervalNumber = xVal.Length - 1
@@ -1267,12 +1267,12 @@ module Interpolation =
             let (xVal,yVal,c2) =
                 let indices =
                     xValues
-                    |> Seq.indexed
-                    |> Seq.sortBy snd
-                    |> Seq.map fst
-                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
-                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
-                let sortedslopes = indices |> Seq.map (fun i -> curvature.[i]) |> vector
+                    |> Array.indexed
+                    |> Array.sortBy snd
+                    |> Array.map fst
+                let sortedXValues = indices |> Array.map (fun i -> xValues.[i]) 
+                let sortedYValues = indices |> Array.map (fun i -> yValues.[i]) 
+                let sortedslopes = indices  |> Array.map (fun i -> curvature.[i])
                 sortedXValues,sortedYValues,sortedslopes
 
             let intervalNumber = xVal.Length - 1
@@ -1303,11 +1303,11 @@ module Interpolation =
             let (xVal,yVal) =
                 let indices =
                     xValues
-                    |> Seq.indexed
-                    |> Seq.sortBy snd
-                    |> Seq.map fst
-                let sortedXValues = indices |> Seq.map (fun i -> xValues.[i]) |> vector
-                let sortedYValues = indices |> Seq.map (fun i -> yValues.[i]) |> vector
+                    |> Array.indexed
+                    |> Array.sortBy snd
+                    |> Array.map fst
+                let sortedXValues = indices |> Array.map (fun i -> xValues.[i])
+                let sortedYValues = indices |> Array.map (fun i -> yValues.[i]) 
                 sortedXValues,sortedYValues
 
             let intervalNumber = xVal.Length - 1
@@ -1331,43 +1331,43 @@ module Interpolation =
         /// <summary>
         ///   Interpolates x and y coordinates with given slopes at the knots. Curvature cannot be set anymore
         /// </summary>
-        let interpolateWithSlopes (x: vector) (y: vector) (slopes: vector) = 
+        let interpolateWithSlopes (x: Vector<float>) (y: Vector<float>) (slopes: Vector<float>) = 
             
             let x',y',s' = 
-                let order = x |> Seq.indexed |> Seq.sortBy snd |> Seq.map fst
+                let order = x |> Array.indexed |> Array.sortBy snd |> Array.map fst
                 let l = Seq.length order
-                Vector.init l (fun i -> x.[order |> Seq.item i]),
-                Vector.init l (fun i -> y.[order |> Seq.item i]),
-                Vector.init l (fun i -> slopes.[order |> Seq.item i])
+                Vector.init l (fun i -> x.[order[i]]),
+                Vector.init l (fun i -> y.[order[i]]),
+                Vector.init l (fun i -> slopes.[order[i]])
 
             let interpol,i = getInterpolatingConstraints x' y'
             let slopes,s = getFstDerivativeConstraints x' y' s'
             let (equations,solutions) = 
                 [|interpol;slopes|] |> Array.concat, [|i;s|] |> Array.concat
             let A = Matrix.ofJaggedArray equations
-            let b = Vector.ofArray solutions
+            let b = solutions
 
-            let coeffs = Algebra.LinearAlgebra.SolveLinearSystem A b 
+            let coeffs = Algebra.LinearAlgebra.solveLinearSystem A b 
             CubicSplineCoef.Create x coeffs
 
         /// <summary>
         ///   Interpolates x and y coordinates with given slopes at the knots. Probably makes no sense because slope isnt continuous anymore
         /// </summary>
-        let interpolateWithCurvature (x: vector) (y: vector) (curvatures: vector) = 
+        let interpolateWithCurvature (x: Vector<float>) (y: Vector<float>) (curvatures: Vector<float>) = 
             let x',y',c' = 
-                let order = x |> Seq.indexed |> Seq.sortBy snd |> Seq.map fst
-                let l = Seq.length order
-                Vector.init l (fun i -> x.[order |> Seq.item i]),
-                Vector.init l (fun i -> y.[order |> Seq.item i]),
-                Vector.init l (fun i -> curvatures.[order |> Seq.item i])
+                let order = x |> Array.indexed |> Array.sortBy snd |> Array.map fst
+                let l = Array.length order
+                Vector.init l (fun i -> x.[order[i]]),
+                Vector.init l (fun i -> y.[order[i]]),
+                Vector.init l (fun i -> curvatures.[order[i]])
             let interpol,i = getInterpolatingConstraints x' y' 
             let curv,c = getSndDerivativeConstraints x' y' c'
             let (equations,solutions) = 
                 [|interpol;curv|] |> Array.concat, [|i;c|] |> Array.concat
             let A = Matrix.ofJaggedArray equations
-            let b = Vector.ofArray solutions
+            let b = solutions
 
-            let coeffs = Algebra.LinearAlgebra.SolveLinearSystem A b 
+            let coeffs = Algebra.LinearAlgebra.solveLinearSystem A b 
             CubicSplineCoef.Create x coeffs
 
         /// <summary>
@@ -1566,9 +1566,9 @@ module Interpolation =
                 |> Array.unzip
                 
             let A = Matrix.ofJaggedArray equations
-            let b = Vector.ofArray solutions
+            let b = solutions
 
-            let coeffs = Algebra.LinearAlgebra.SolveLinearSystem A b 
+            let coeffs = Algebra.LinearAlgebra.solveLinearSystem A b 
             CubicSplineCoef.Create xVal coeffs
 
 
@@ -1753,11 +1753,11 @@ module Interpolation =
 
             type HermiteCoef = {
                 /// sample points, sorted ascending
-                XValues : vector
+                XValues : Vector<float>
                 /// Zero order spline coefficients, intersects, y values
-                YValues : vector
+                YValues : Vector<float>
                 /// First order spline coefficients, slopes at knots
-                Slopes : vector
+                Slopes : Vector<float>
                 } with 
                     static member Create xValues yValues slopes  = {
                         XValues=xValues;YValues=yValues;Slopes=slopes
@@ -1822,7 +1822,7 @@ module Interpolation =
                             | t when x <= first -> calculate 0 x
                             | _ ->    
                                 let i = 
-                                    match Array.tryFindIndexBack (fun xs -> xs <= x) (this.XValues |> Vector.toArray) with 
+                                    match Array.tryFindIndexBack (fun xs -> xs <= x) (this.XValues) with 
                                     | Some x -> x 
                                     | None   -> failwith "The given xValue is out of the range defined in xData"
                                 calculate i x
@@ -1965,11 +1965,11 @@ module Interpolation =
                 let (xVal,yVal) =
                     let order =
                         xData
-                        |> Seq.indexed
-                        |> Seq.sortBy snd
-                        |> Seq.map fst
-                    Vector.init xData.Length (fun i -> xData.[Seq.item i order]),
-                    Vector.init xData.Length (fun i -> yData.[Seq.item i order])
+                        |> Array.indexed
+                        |> Array.sortBy snd
+                        |> Array.map fst
+                    Vector.init xData.Length (fun i -> xData.[Array.item i order]),
+                    Vector.init xData.Length (fun i -> yData.[Array.item i order])
 
                 let calcSlope i =
                     let s1 = (xVal.[i+1] - xVal.[i]) / (yVal.[i+1] - yVal.[i])
@@ -1995,8 +1995,8 @@ module Interpolation =
                     let slope = s1 - s2
                     slope
  
-                let slopes = loop 1 [slopeAtFstKnot] 
-                HermiteCoef.Create xVal yVal (slopes |> vector)
+                let slopes = (loop 1 [slopeAtFstKnot]) |> Array.ofList
+                HermiteCoef.Create xVal yVal slopes
 
 
             /// <summary>
@@ -2069,7 +2069,7 @@ module Interpolation =
                     slope
  
                 let slopes = loop 1 [slopeAtFstKnot] 
-                slopes |> vector
+                slopes |> Array.ofList
 
         [<Obsolete("Use Interpolation.CubicSpline instead!")>]
         module Simple = 
@@ -2138,15 +2138,15 @@ module Interpolation =
     ///   Bezier interpolates data between 2 points using a number of control points, which determine the degree of the interpolated curve.
     /// </summary>
     module Bezier =
-        let inline lerp (p1: vector) (p2: vector) (t: float) =
-            p1 + t * (p2 - p1)
+        let inline lerp (p1: Vector<float>) (p2: Vector<float>) (t: float) =
+            p1 .+ t .* (p2 .- p1)
 
         /// <summary>
         ///   This implements Bezier interpolation using De Casteljau's algorithm.
         /// </summary>
         /// <param name="values">an array containg the starting point, the control points, and the end point to use for interpolation</param>
         /// <returns>The generated interpolation function</returns>
-        let interpolate (values: vector []): (float -> vector) =
+        let interpolate (values: Vector<float> []): (float -> Vector<float>) =
             if values.Length < 2 then invalidArg (nameof values) "There must be at least 2 points"
             fun t ->
                 let results = Array.copy values
@@ -2219,7 +2219,7 @@ module Interpolation =
                 center + halfrange * cos(Math.PI * (2. * (float i + 1.) - 1.)/(2. * float n)) 
                 )
             |> Array.sort
-            |> vector
+            
 
         /// <summary>
         ///   Creates a collection of ordered x values within a given interval. The spacing of the values is always the same.
@@ -2247,11 +2247,11 @@ module Interpolation =
             match spacing with
             | Approximation.Equally -> 
                 let xVal = Approximation.equalNodes i n 
-                let yVal = Vector.map f xVal
+                let yVal = Array.map f xVal
                 Polynomial.interpolate xVal yVal
             | Approximation.Chebyshev ->    
                 let xVal = Approximation.chebyshevNodes i n 
-                let yVal = Vector.map f xVal
+                let yVal = Array.map f xVal
                 Polynomial.interpolate xVal yVal
 
         /// <summary>
@@ -2270,14 +2270,14 @@ module Interpolation =
                 let linearSplineCoeff = LinearSpline.interpolate (Array.ofSeq xData) (Array.ofSeq yData)
                 let f = LinearSpline.predict linearSplineCoeff
                 let xVal = Approximation.equalNodes i n 
-                let yVal = Vector.map f xVal
+                let yVal = Array.map f xVal
                 Polynomial.interpolate xVal yVal
             | Approximation.Chebyshev ->    
                 let i = Interval.ofSeq xData
                 let linearSplineCoeff = LinearSpline.interpolate (Array.ofSeq xData) (Array.ofSeq yData)
                 let f = LinearSpline.predict linearSplineCoeff
                 let xVal = Approximation.chebyshevNodes i n 
-                let yVal = Vector.map f xVal
+                let yVal = Array.map f xVal
                 Polynomial.interpolate xVal yVal
 
     //open FSharp.Stats
@@ -2337,7 +2337,7 @@ type HermiteMethod =
     ///   Creates a spline from x,y coordinates. x,y coordinates are interpolated by cubic polynomialsbetween two knots.
     ///   The slope at each knot is defined by a input slope vector.
     /// </summary>
-    | WithSlopes of vector
+    | WithSlopes of Vector<float>
     /// <summary>
     ///   Creates a spline from x,y coordinates. x,y coordinates are interpolated by cubic polynomials between two knots.
     ///   If a region in the raw data is monotone, the resulting interpolator is monotone as well.
@@ -2452,14 +2452,14 @@ type Interpolation() =
             match method with
             | InterpolationMethod.Step              -> Step.interpolate xData yData |> InterpolationCoefficients.StepCoef
             | InterpolationMethod.LinearSpline      -> LinearSpline.interpolate xData yData |> InterpolationCoefficients.LinearSplineCoef
-            | InterpolationMethod.Polynomial        -> Polynomial.interpolate (vector xData) (vector yData) |> InterpolationCoefficients.PolynomialCoef
-            | InterpolationMethod.CubicSpline bc    -> CubicSpline.interpolate bc (vector xData) (vector yData) |> InterpolationCoefficients.CubicSplineCoef
+            | InterpolationMethod.Polynomial        -> Polynomial.interpolate xData yData |> InterpolationCoefficients.PolynomialCoef
+            | InterpolationMethod.CubicSpline bc    -> CubicSpline.interpolate bc xData yData |> InterpolationCoefficients.CubicSplineCoef
             | InterpolationMethod.AkimaSubSpline    -> Akima.interpolate xData yData |> InterpolationCoefficients.AkimaSubSplineCoef
             | InterpolationMethod.HermiteSpline s   -> 
                 match s with
-                | HermiteMethod.CSpline           -> CubicSpline.Hermite.interpolate (vector xData) (vector yData) |> InterpolationCoefficients.HermiteSplineCoef
-                | HermiteMethod.WithSlopes s      -> CubicSpline.Hermite.interpolateWithSlopes (vector xData) (vector yData) s |> InterpolationCoefficients.HermiteSplineCoef
-                | HermiteMethod.PreserveMonotonicity   -> CubicSpline.Hermite.interpolatePreserveMonotonicity (vector xData) (vector yData) |> InterpolationCoefficients.HermiteSplineCoef
+                | HermiteMethod.CSpline           -> CubicSpline.Hermite.interpolate xData yData |> InterpolationCoefficients.HermiteSplineCoef
+                | HermiteMethod.WithSlopes s      -> CubicSpline.Hermite.interpolateWithSlopes xData yData s |> InterpolationCoefficients.HermiteSplineCoef
+                | HermiteMethod.PreserveMonotonicity   -> CubicSpline.Hermite.interpolatePreserveMonotonicity xData yData |> InterpolationCoefficients.HermiteSplineCoef
         interpolate method xValues yValues 
 
     /// <summary>
