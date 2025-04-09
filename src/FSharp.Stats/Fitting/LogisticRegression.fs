@@ -10,22 +10,48 @@ module LogisticRegression =
 
     open System
     
-    // Weights have 1 element more than observations, for constant
-    let internal predict (weights: vector) (obs: vector) =
-        Vector.init (obs.Length+1) (fun i -> if i = 0 then 1. else obs.[i-1])  
-        |> Vector.dot weights 
+    /// Creates a new vector (length = obs.Length + 1) whose
+    /// first element is 1.0 (for the intercept), followed by obs's elements.
+    /// If obs = [x0; x1; ...; xN-1], then withIntercept obs = [1.0; x0; x1; ...; xN-1].
+    let internal withIntercept (obs: Vector<float>) : Vector<float> =
+        let n = obs.Length
+        let result = Vector.zeroCreate (n + 1)
+        result.[0] <- 1.0
+        // copy obs into result[1..], leveraging the library's copy or a loop
+        Array.blit obs 0 result 1 n
+        result    
+
+    /// Logistic regression prediction:
+    ///   weights : Vector<float> of length obs.Length+1
+    ///   obs     : Vector<float> (the features, excluding intercept)
+    /// Returns logistic(dot(weights, [1.0; obs]))
+    let internal predict (weights: Vector<float>) (obs: Vector<float>) =
+        // Build intercept-augmented obs
+        let iobs = withIntercept obs
+        // Dot product => logistic function
+        Vector.dotProduct weights iobs
         |> FSharp.Stats.SpecialFunctions.Logistic.standard
 
-    let internal error (weights: vector) (obs: vector) label =
+    /// Error = (label - prediction)
+    let internal error (weights: Vector<float>) (obs: Vector<float>) label =
         label - predict weights obs
 
-    let internal update alpha (weights: vector) (obs: vector) label =      
-        Vector.add weights (Vector.scale (alpha * (error weights obs label)) (Vector.init (obs.Length+1) (fun i -> if i = 0 then 1. else obs.[i-1])))
+    /// Update rule: weights <- weights + alpha * error * [1.0; obs]
+    let internal update alpha (weights: Vector<float>) (obs: Vector<float>) label =
+        // 1) compute scalar = alpha * error
+        let e = alpha * error weights obs label
+        // 2) build intercept obs
+        let iobs = withIntercept obs
+        // 3) scaled = e * iobs
+        let scaled = e .* iobs
+        // 4) add => new weights
+        Vector.add weights scaled
+
 
     // simple training: returns vector of weights
     // after fixed number of passes / iterations over dataset, 
     // with constant alpha
-    let internal simpleTrain (dataset: (float * vector) seq) passes alpha =
+    let internal simpleTrain (dataset: (float * Vector<float>) seq) passes alpha =
         let rec descent iter curWeights =
             match iter with 
             | 0 -> curWeights
@@ -35,7 +61,7 @@ module LogisticRegression =
                     update alpha w observ label) curWeights
                 |> descent (iter - 1)
 
-        let vars = dataset |> Seq.item 1 |> snd |> Vector.length
+        let vars = dataset |> Seq.item 1 |> snd |> Array.length
         let weights = Vector.zeroCreate (vars+1) // 1 more weight for constant
 
         descent passes weights
@@ -46,9 +72,9 @@ module LogisticRegression =
 
     // rate of change in the weights vector,
     // computed as the % change in norm
-    let private changeRate (before:vector) (after:vector) =
+    let private changeRate (before:Vector<float>) (after:Vector<float>) =
         let numerator = 
-            Vector.sub before after
+            Vector.subtract before after
             |> Vector.norm
         let denominator = Vector.norm before
         numerator / denominator
@@ -81,7 +107,7 @@ module LogisticRegression =
                     indices
                     |> Seq.take len
                     |> Seq.fold (fun w i -> 
-                        let (label, observ) = yData.[i], Vector.singleton xData.[i]
+                        let (label, observ) = yData.[i],  [|xData.[i]|]
                         update alpha w observ label) curWeights
                 if changeRate curWeights updatedWeights <= epsilon
                 then updatedWeights
@@ -106,7 +132,7 @@ module LogisticRegression =
         /// </code>
         /// </example>
         let predict (coef: Vector<float>) x= 
-            predict coef (Vector.singleton x)
+            predict coef ([|x|])
 
         let estimateAlpha epsilon (xData : Vector<float>) (yData : Vector<float>) = 
             let fR2 alpha = 
@@ -143,7 +169,7 @@ module LogisticRegression =
                     indices
                     |> Seq.take len
                     |> Seq.fold (fun w i -> 
-                        let (label, observ) = yData.[i], vector (Matrix.getRow xData i)
+                        let (label, observ) = yData.[i],  (Matrix.getRow i xData)
                         update alpha w observ label) curWeights
                 if changeRate curWeights updatedWeights <= epsilon
                 then updatedWeights
