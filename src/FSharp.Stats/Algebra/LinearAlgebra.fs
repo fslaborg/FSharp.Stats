@@ -1,487 +1,631 @@
-namespace FSharp.Stats.Algebra
+﻿namespace FSharp.Stats.Algebra
 
-open FSharp.Stats
+
 open System
+open FSharp.Stats
 
+type LinearAlgebra =
 
-module LinearAlgebra = 
-    
-    type Factorization = matrix -> (matrix*matrix*matrix)
-
-    //let private LinearAlgebraService = 
-    //    let tmp = new ServiceLocator.ServiceProvider<ILinearAlgebra>([ProviderService.MKLProvider])
-    //    tmp.Start()
-    //    tmp
-    let private MKLService = new ServiceLocator.ServiceProvider<ILinearAlgebra>([ProviderService.LAPACKProvider;(*ProviderService.MKLProvider*)])
-
-
-    let Service() = 
-        match MKLService.Service() with
-        | Some svc -> svc
-        | None     -> failwith "MKL service either not available, or not started"
-    
-    let private HaveService() =
-        MKLService.Available()
-    
-    let SolveTriangularLinearSystem (A:matrix) (b:vector) (isLower:bool) =
-        //if HaveService() then LinearAlgebraService.solveTriangularForVector A b isLower
-        //                    else LinearAlgebraManaged.SolveTriangularLinearSystem A b isLower
-        LinearAlgebraManaged.SolveTriangularLinearSystem A b isLower
-                   
-    let SolveTriangularLinearSystems (A:matrix) (B:matrix) (isLower:bool) =
-        //if HaveService() then LinearAlgebraService.solveTriangularForMatrix A B isLower
-        //                    else LinearAlgebraManaged.SolveTriangularLinearSystems A B isLower
-        LinearAlgebraManaged.SolveTriangularLinearSystems A B isLower
-  
-    let SolveLinearSystem (A:matrix) (b:vector) =
-        //if HaveService() then LinearAlgebraService.preDivideByVector A b
-        //                    else LinearAlgebraManaged.SolveLinearSystem A b
-        LinearAlgebraManaged.SolveLinearSystem A b
-                   
-    let SolveLinearSystems (A:matrix) (B:matrix) =
-        //if HaveService() then LinearAlgebraService.preDivideByMatrix A B
-        //                    else LinearAlgebraManaged.SolveLinearSystems A B
-        LinearAlgebraManaged.SolveLinearSystems A B
-
-    /// <summary>Given A[n,m] and B[n] solve for x[m] such that Ax = B<br />This call may fail.</summary>
-    /// <remarks></remarks>
-    /// <param name="A"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let preDivideByVector A b = 
-        //if HaveService() then LinearAlgebraService.preDivideByVector A b
-        //                    else LinearAlgebraManaged.SolveLinearSystem A b
-        LinearAlgebraManaged.SolveLinearSystem A b
-    
-
-    /// <summary>Given A[n,m] and B[n,k] solve for X[m,k] such that AX = B<br />This call may fail.</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let preDivideByMatrix a b = 
-        //if HaveService() then LinearAlgebraService.preDivideByMatrix a b
-        //                    else LinearAlgebraManaged.SolveLinearSystems a b
-        LinearAlgebraManaged.SolveLinearSystems a b
-    
-    ///Compoutes for an N-by-N real nonsymmetric matrix A, the
-    ///eigenvalue decomposition eigenvalues and right eigenvectors.
-    ///The right eigenvector v(j) of A satisfies
-    ///
-    ///                 A * v(j) = lambda(j) * v(j)
-    ///
-    ///where lambda(j) is its eigenvalue.
-    ///The computed eigenvectors are normalized to have Euclidean norm
-    ///equal to 1 and largest component real. Uses the LAPACK subroutine dgeev with arguments JOBVR = 'V' and JOBVL = 'N'
-    ///
-    /// <summary>Returns the real (first array) and imaginary (second array) parts of the eigenvalues and a matrix containing the corresponding eigenvectors</summary>
-    /// <remarks></remarks>
-    /// <param name="m"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let EVD m = 
-        //if HaveService() then 
-            //Service().dgeev_(m)
-        LinearAlgebraManaged.eigenvectors m
-                           
-    /// <summary>Compute eigenvalues of a square real matrix.<br />Returns arrays containing the eigenvalues which may be complex.<br />This call may fail.</summary>
-    /// <remarks></remarks>
-    /// <param name="m"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let EigenValues m =
-        //if HaveService() then let evals = LinearAlgebraService.eigenvalues m
-        //                        let n = evals.Length
-        //                        Vector.Generic.init n (fun i -> evals.[i])
-        //                    else LinearAlgebraManaged.eigenvalues m
-        LinearAlgebraManaged.eigenvalues m
-
-    /// <summary>Compute eigenvalues for a real symmetric matrix.<br />Returns array of real eigenvalues.<br />This call may fail.</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let EigenValuesWhenSymmetric a =
-        //if HaveService() then let evals = LinearAlgebraService.symmetricEigenvalues a
-        //                        let n = evals.Length
-        //                        Vector.init n (fun i -> evals.[i])
-        //                    else LinearAlgebraManaged.symmetricEigenvalues a
-        LinearAlgebraManaged.symmetricEigenvalues a
-    
-    /// <summary>Compute eigenvalues and eigenvectors for a real symmetric matrix.<br />Returns arrays of the values and vectors (both based on reals).<br />This call may fail.</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let EigenSpectrumWhenSymmetric a =
-        if HaveService() then 
-            Service().dsyevd_(a)
-        else 
-            LinearAlgebraManaged.symmetricEigenvectors a
-
-    
-    /// <summary>Given A[n,n] find it's inverse.<br />This call may fail.</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let Inverse a = 
-        //if HaveService() then LinearAlgebraService.inverse a
-        //                    else LinearAlgebraManaged.Inverse a
-        LinearAlgebraManaged.Inverse a
-
-    /// <summary>Given A[m,n] and B[m] solves AX = B for X[n].<br />When m =&gt; n, have over constrained system, finds least squares solution for X.<br />When m &lt; n, have under constrained system, finds least norm solution for X.</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let LeastSquares a b =
-        //if HaveService() then LinearAlgebraService.leastSquares a b
-        //                    else LinearAlgebraManaged.leastSquares a b
-        LinearAlgebraManaged.leastSquares a b
-    
-    /// <summary>Given A[m,n] and b[m] solves AX = b for X[n].<br />When the system is under constrained,<br />for example when the columns of A are not linearly independent,<br />then it will not give sensible results.</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let LeastSquaresCholesky (a : Matrix<float>) (b : Vector<float>) = 
-        LinearAlgebraManaged.leastSquaresCholesky a b
-
-    /// <summary>Given A[n,n] real symmetric positive definite.<br />Finds the cholesky decomposition L such that L' * L = A.<br />May fail if not positive definite.</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let Cholesky a = 
-        //if HaveService() then LinearAlgebraService.Cholesky a
-        //                    else LinearAlgebraManaged.Cholesky a
-        LinearAlgebraManaged.Cholesky a
-      
-    /// <summary>Given A[n,n] real matrix.<br />Finds P,L,U such that L*U = P*A with L,U lower/upper triangular.</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let LU a = 
-        //if HaveService() then LinearAlgebraService.LU a
-        //                    else LinearAlgebraManaged.LU a
-        LinearAlgebraManaged.LU a
-      
-
-    /// <summary>Given A[m,n] finds Q[m,m] and R[k,n] where k = min m n.<br />Have A = Q.R  when m &lt; =n.<br />Have A = Q.RX when m &gt; n and RX[m,n] is R[n,n] row extended with (m-n) zero rows.</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let QR a = 
-        //if HaveService() then LinearAlgebraService.QR a
-        //                    else LinearAlgebraManaged.QR a
-        LinearAlgebraManaged.QR a
-
-    /// <summary>
-    /// Performs QR decomposition using an alternative algorithm.
-    /// QR decomposition is a method to decompose a matrix A into two components:
-    /// Q (an orthogonal matrix) and R (an upper triangular matrix),
-    /// such that A = Q * R. It is commonly used in solving linear systems,
-    /// least squares fitting, and eigenvalue problems.
-    /// </summary>
-    /// <returns>
-    /// A tuple containing:
-    /// <list type="bullet">
-    ///   <item><description>Q: The orthogonal matrix obtained from the decomposition.</description></item>
-    ///   <item><description>R: The upper triangular matrix obtained from the decomposition.</description></item>
-    /// </list>
-    /// </returns>
-    let qrAlternative (A: Matrix<float>) =
-        let m: int = A.NumRows
-        let n: int = A.NumCols
-
-        let q: Matrix<float> = Matrix.zero m n
-        let r: Matrix<float> = Matrix.zero n n
-        let qLengths: Vector<float> = Vector.zeroCreate n
-
-        let getVectorLength (v: Vector<float>) = Vector.fold (fun folder i -> folder+(i*i)) 0. v
-
-        let setqOfA (n: int) =
-            let aN: Vector<float> =  Matrix.getCol A n
-            let qN = 
-                if n = 0 then 
-                    aN 
-                else 
-                    Array.init (n) (fun i -> 
-                        let denominator = qLengths[i]
-                        let forNominator: Vector<float> = Matrix.getCol q i 
-                        let nominator: float = Vector.dot aN forNominator
-                        r.[i, n] <- nominator
-                        (nominator/denominator) * forNominator
-                    )
-                    |> Array.fold (fun folder  e -> folder-e ) aN
-            Matrix.setCol q n qN
-            qN  
-
-        for i=0 to n-1 do
-            let qN = setqOfA i 
-            let qLength = getVectorLength qN
-            let rValue = sqrt(qLength)
-            r[i,i] <- rValue
-            qLengths[i] <- qLength
-
-        for i=0 to n-1 do
-            let qN: Vector<float> = Matrix.getCol q i
-            let updateQ = (1./sqrt( qLengths[i]  )) * qN 
-            Matrix.setCol q i updateQ
-            for j=i+1 to n-1 do
-                let denominator = r[i, i]
-                let nominator = r[i, j]
-                r[i, j] <- (nominator/denominator)
-
-        q, r
-
-    /// <summary>
-    /// Solves a linear system of equations using QR decomposition.
-    /// </summary>
-    /// <param name="A">The coefficient matrix of the linear system.</param>
-    /// <param name="t">The target vector of the linear system.</param>
-    /// <returns>
-    /// A tuple containing:
-    /// <list type="bullet">
-    ///   <item><description>mX: The solution vector of the linear system.</description></item>
-    ///   <item><description>r: The upper triangular matrix obtained from QR decomposition.</description></item>
-    /// </list>
-    /// </returns>
-    let solveLinearQR (A: Matrix<float>) (t: Vector<float>) =
-        let m = A.NumRows
-        let n = A.NumCols
-
-        System.Diagnostics.Debug.Assert(m >= n) 
-
-        let q,r = qrAlternative A 
-
-        let QT = q.Transpose
-
-        let mX = Vector.zeroCreate n
-
-        let c: Vector<float> = QT * t
-
-        let rec build_mX_inner cross_prod i j =
-            if j=n then 
-                cross_prod
-            else
-                let newCrossprod = cross_prod + (r[i, j] * mX[j])
-                build_mX_inner newCrossprod i (j+1)
-    
-        let rec build_mX_outer i =
-            if i<0 then 
-                ()
-            else
-                let crossProd = build_mX_inner 0. i (i+1)
-                mX[i] <- (c[i] - crossProd) / r[i, i]
-                build_mX_outer (i-1)
-    
-        build_mX_outer (n-1)
-    
-        mX,r
-    
-
-    ///Returns the full Singular Value Decomposition of the input MxN matrix 
-    ///
-    ///A : A = U * SIGMA * V**T in the tuple (S, U, V**T), 
-    ///
-    ///where S is an array containing the diagonal elements of SIGMA.
-    /// <summary>uses the LAPACK routine dgesdd with the argument JOBZ = 'A'</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let SVD (a:Matrix<float>) = 
-        if HaveService() then 
-            let S,U,Vt = Service().dgesdd_ a
-            Vector.ofArray S,U,Vt
-        else
-            LinearAlgebraManaged.SVD a
-
-    /// <summary>spectral norm of a matrix (for Frobenius norm use Matrix.norm)</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let spectralNorm (a:Matrix<float>) =
-            //let maxEigenVal = LinearAlgebra.EigenValues mat |> Seq.max
-            let maxEigenVal = 
-                SVD (a * a.Transpose) 
-                |> fun (S,U,V') -> S 
-                |> Seq.max
-            maxEigenVal |> sqrt
-
-    ///Returns the thin Singular Value Decomposition of the input MxN matrix A 
-    ///
-    ///A = U * SIGMA * V**T in the tuple (S, U, V), 
-    ///
-    ///where S is an array containing the diagonal elements of SIGMA.
-    ///The first min(M,N) columns of U and the first min(M,N) rows of V**T are returned in the arrays U and VT;
-    /// <summary>uses the LAPACK routine dgesdd with the argument JOBZ = 'S'</summary>
-    /// <remarks></remarks>
-    /// <param name="a"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let thinSVD a =
-        if HaveService() then 
-            let S,U,Vt = Service().dgesdd_thin_ a
-            Vector.ofArray S, U, Vt
-        else
-            failwith "managed version not implemented"
-
-    let Hessenberg A =
-        //if HaveService() then failwith "Not implemented yet."// REVIEW LinearAlgebraService.Hessenberg A
-        //                    else LinearAlgebraManaged.Hessenberg A
-        LinearAlgebraManaged.Hessenberg A
+        /// Subtract `scaleVal * src[srcOffset..srcOffset+count-1]` from
+        /// `dst[dstOffset..dstOffset+count-1]` in place.
+    static member inline private subScaledRowInPlace
+        (scaleVal   : 'T)
+        (dstOffset  : int)
+        (srcOffset  : int)
+        (count      : int)
+        (dst        : 'T[])
+        (src        : 'T[]) =
         
-    /// <summary>computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches</summary>
-    /// <remarks></remarks>
-    /// <param name="A"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let hatmatrix A = 
-        LinearAlgebraManaged.hatMatrix A
+        let scaleVec = Numerics.Vector<'T>(scaleVal)
+
+        // Vector-level callback:  dstVec - (scaleVal * srcVec)
+        let fv (dstVec: Numerics.Vector<'T>) (srcVec: Numerics.Vector<'T>) =
+            dstVec - (scaleVec * srcVec)
         
-    /// <summary>computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches</summary>
-    /// <remarks></remarks>
-    /// <param name="A"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let leverageBy A = 
-        LinearAlgebraManaged.leverageBy A
-        
-    /// <summary>computes the leverage directly by QR decomposition of the designmatrix used in ordinary least squares approaches<br />and computing of the diagnonal entries of the Hat matrix, known as the leverages of the regressors</summary>
-    /// <remarks></remarks>
-    /// <param name="A"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let leverage A = 
-        LinearAlgebraManaged.leverage A
-    ///// This method computes the condition number by just dividing the largest singular value
-    ///// by the smallest.
-    //let Condition (A:matrix) =
-    //    let _,D,_ = SVD A
-    //    D.[0] / D.[D.Length-1]
-    
-    /// <summary>Compute the determinant of a matrix by performing an LU decomposition since if A = P'LU,<br />then det(A) = det(P') * det(L) * det(U).</summary>
-    /// <remarks></remarks>
-    /// <param name="A"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let Determinant A =
-        let P,_,U = LU A
-        // Compute the sign of a permutation REVIEW maybe this should go into permutation?
-        let PermutationSign (len,p) =
-            let a = Array.init len (fun i -> p i)                          // Get an array representation of the permutation
-            let v = Array.init len                                         // Find the positions of all the positions in the permutation
-                                (fun i -> Array.findIndex (fun x -> x = i) a)
-            let mutable sign = 1.0                                         // Remember the sign
-            for i=0 to len-2 do                                            // Start transposing elements keeping track of how many
-                if a.[i] <> i then                                         // transpositions we have taken.
-                    a.[v.[i]] <- a.[i]
-                    a.[i] <- i
-                    v.[a.[v.[i]]] <- v.[i]
-                    v.[i] <- i
-                    sign <- -sign
-            assert(a = [|0 .. len-1|])
-            assert(v = [|0 .. len-1|])
-            sign
+        // Scalar fallback: d - (scaleVal * s)
+        let f (d: 'T) (s: 'T) =
+            d - (scaleVal * s)
+        Acceleration.SIMDRangeUtils.map2RangeInPlace fv f dstOffset srcOffset count dst src
+
+    static member inline private householderTransform
+        (A: Matrix<'T>) (i: int) : Vector<'T> =
         let n = A.NumRows
-        let P = (fun i -> P i)
-        (PermutationSign (n,P)) * (Vector.prod U.Diagonal)
+        let v = Vector.zeroCreate<'T> n
+        let aCol = Matrix.getCol i A
+        let norm = Vector.norm aCol
+        v.[i] <- aCol.[i] + if aCol.[i] >= 'T.Zero then -norm else norm
+        for j = 0 to n - 1 do
+            if j <> i then
+                v.[j] <- aCol.[j]
+        v
+    /// <summary>QR decomposition using modified Gram-Schmidt</summary>
+    /// <remarks>Returns Q and R such that A = QR</remarks>
+    static member inline qrModifiedGramSchmidt<'T when 'T :> Numerics.INumber<'T>
+                and 'T : (new: unit -> 'T)
+                and 'T : struct
+                and 'T :> ValueType
+                and 'T :> Numerics.IRootFunctions<'T>>
+        (A: Matrix<'T>) : Matrix<'T> * Matrix<'T> =
+
+        let m, n = A.NumRows, A.NumCols
+
+        let r = Matrix.zeroCreate n n
+        let qCols: Vector<'T>[] = Array.zeroCreate n
+        let aCols = Matrix.getCols A
+
+        for j = 0 to n - 1 do
+            let v = Array.copy aCols.[j]
+
+            for i = 0 to j - 1 do
+                let qi = qCols.[i]
+                let rij = Vector.dotProduct qi v
+                r.[i, j] <- rij
+                for k = 0 to m - 1 do
+                    v.[k] <- v.[k] - rij * qi.[k]
+
+            let norm = Vector.norm v 
+            r.[j, j] <- norm
+            let qj = Vector.divideScalar v norm
+            qCols.[j] <- qj
+
+        let qData = Array.zeroCreate (m * n)
+        for j = 0 to n - 1 do
+            for i = 0 to m - 1 do
+                qData.[i * n + j] <- qCols.[j].[i]
+
+        Matrix(m, n, qData), r
+
+    /// <summary>Back substitute to solve R * x = y</summary>
+    /// <remarks>R is upper triangular</remarks>
+    static member inline backSubstitute<'T when 'T :> Numerics.INumber<'T>
+                and 'T : (new: unit -> 'T)
+                and 'T : struct
+                and 'T :> ValueType>
+        (r: Matrix<'T>) 
+        (y: Vector<'T>) : Vector<'T> =
+
+        let n = r.NumRows
+
+        if r.NumCols <> n || y.Length <> n then
+            invalidArg "dimensions" "R must be square and match the length of y"
+
+        let x = Array.zeroCreate<'T> n
+
+        for i = n - 1 downto 0 do
+            let mutable sum = y.[i]
+            for j = i + 1 to n - 1 do
+                sum <- sum - r.[i, j] * x.[j]
+            x.[i] <- sum / r.[i, i]
+
+        x
+
+
+
+
+    /// Solve A * x = b for x, where A is a square matrix (n×n) and b is a vector (length n).
+    static member inline solveLinearQR<'T when 'T :> Numerics.INumber<'T>
+                and 'T : (new: unit -> 'T)
+                and 'T : struct
+                and 'T :> ValueType
+                and 'T :> Numerics.IRootFunctions<'T>>
+        (A: Matrix<'T>) 
+        (b: Vector<'T>) : Vector<'T> =
+
+        if A.NumRows <> b.Length then
+            invalidArg "b" "Vector length must match number of rows in matrix A"
+
+        let Q, R = LinearAlgebra.qrModifiedGramSchmidt A
+        let Qt = Q.Transpose()
+        let y = Matrix.muliplyVector Qt b
+        LinearAlgebra.backSubstitute R y
+
+
+
+    /// Solve K * X = B for X, where K is a triangular matrix (lower or upper).
+    /// K is square of size n×n; B is n×m. Returns an n×m result X.
+    static member inline solveTriangularLinearSystems
+        (K       : Matrix<'T>)
+        (B       : Matrix<'T>)
+        (isLower : bool)
+        : Matrix<'T> =
+
+        /// Multiply `arr[offset..offset+count-1]` by `scaleVal` in place
+        let inline scaleRowInPlace
+            (scaleVal  : 'T)
+            (offset    : int)
+            (count     : int)
+            (arr       : 'T[]) =
         
-    //// matrix multiplication
-    //let MM A B =
-    //    if HaveService() then
-    //        LinearAlgebraService.MM A B
-    //    else
-    //        A * B
+            let scaleVec = Numerics.Vector<'T>(scaleVal)
 
-type LinearAlgebra() =
+            // Vector-level callback: chunk * scaleVal
+            let fv (chunk: Numerics.Vector<'T>) =
+                chunk * scaleVec
 
-    /// Synonym: kernel / right null space. Returns an orthonormal basis for the null space of matrix A (Ax = 0).<br />The accuracy defines a threshold whether a singular value is considered as zero (default: 1e-08).
-    static member nullspace(?Accuracy :float ) = 
+            // Scalar fallback: x * scaleVal
+            let f (x: 'T) = x * scaleVal
 
-        let accuracy = defaultArg Accuracy 1e-08
+            // mapRangeInPlace fv f offset count arr
+            Acceleration.SIMDRangeUtils.mapRangeInPlace fv f offset count arr  
 
-        fun (a: Matrix<float>) -> 
-                        
-            // Either MKL or fallback implementation of the full SVD
-            let (sigma,U,Vt) = LinearAlgebra.SVD a
+        // Check shape consistency
+        let nK, mK = K.NumRows, K.NumCols
+        let nB, mB = B.NumRows, B.NumCols
+        if nK <> mK || nB <> nK then
+            invalidArg "Matrix" "K must be square and B must have matching row count for K"
 
-            // The rank is the number of nonzero singular values
-            let rank = 
-                sigma
-                |> Seq.sumBy (fun x -> if x >= accuracy then 1 else 0)
+        // Copy B into a new matrix X (the solution)
+        let X = Matrix<'T>(B.NumRows, B.NumCols, Array.copy B.Data)
 
-            let count = Vt.NumRows - rank 
+        let n = nK  // size of the NxN triangular matrix K
+        let m = mB  // # of columns in B (and thus X)
 
-            Matrix.getRows Vt rank count
-            |> Matrix.transpose
+        let Kdata = K.Data
+        let Xdata = X.Data
+
+        // For row i, the contiguous slice in Xdata is [i*m .. i*m + m - 1]
+        // => offset = i*m, length = m
+
+        if isLower then
+            // ------ Forward Substitution ------
+            // for i in [0..n-1]:
+            //   X[i,*] <- X[i,*] - Σ_{j=0..i-1} [K[i,j] * X[j,*]]
+            //   then scale row i by 1/K[i,i]
+            for i = 0 to n - 1 do
+                let baseI = i * m
+                // Subtract scaled rows for j in [0..i-1]
+                for j = 0 to i - 1 do
+                    let kij = Kdata.[i * n + j]  // K[i,j]
+                    if kij <> 'T.Zero then
+                        let baseJ = j * m
+                        // subScaledRowInPlace scaleVal dstOffset srcOffset count dst src
+                        LinearAlgebra.subScaledRowInPlace
+                            kij 
+                            baseI  // row i offset in X
+                            baseJ  // row j offset in X
+                            m      // number of columns
+                            Xdata  
+                            Xdata
+                        //LinearAlgebra.subScaledRowInPlace
+                        //    Xdata
+                        //    baseI  // row i offset in X
+                        //    Xdata
+                        //    baseJ  // row j offset in X
+                        //    m      // number of columns
+                        //    kij  
+                            
+                            
+    
+                // Divide row i by the diagonal K[i,i]
+                let diag = Kdata.[i * n + i]
+                let invDiag = 'T.One / diag
+                // scaleRowInPlace scaleVal offset count arr
+                scaleRowInPlace
+                    invDiag
+                    baseI
+                    m
+                    Xdata
+        else
+            // ------ Backward Substitution ------
+            // for i in [n-1..0]:
+            //   X[i,*] <- X[i,*] - Σ_{j=i+1..n-1} [K[i,j] * X[j,*]]
+            //   then scale row i by 1/K[i,i]
+            for i = n - 1 downto 0 do
+                let baseI = i * m
+                for j = i + 1 to n - 1 do
+                    let kij = Kdata.[i * n + j]  // K[i,j]
+                    if kij <> 'T.Zero then
+                        let baseJ = j * m
+                        LinearAlgebra.subScaledRowInPlace
+                            kij 
+                            baseI
+                            baseJ
+                            m
+                            Xdata
+                            Xdata
+                let diag = Kdata.[i * n + i]
+                let invDiag = 'T.One / diag
+                scaleRowInPlace
+                    invDiag
+                    baseI
+                    m
+                    Xdata
+
+        X
 
 
 
+    /// Solve K * x = v (triangular system) in-place, returning a copy of x.
+    /// K must be n×n, v must be length n. 
+    /// isLower = true => forward substitution
+    /// isLower = false => backward substitution
+    static member inline solveTriangularLinearSystem
+        (K       : Matrix<'T>)
+        (v       : Vector<'T>)
+        (isLower : bool)
+        : Vector<'T> =
+
+        let nK, mK = K.NumRows, K.NumCols
+        let nV = v.Length
+        if nK <> mK || nV <> nK then
+            invalidArg (nameof K) "K must be square, and v must match its dimension."
+
+        let x = Array.copy v
+        let Kdata = K.Data  // row-major flattened
+
+        // Forward or backward substitution
+        if isLower then
+            // For i in [0..n-1]:
+            //   x[i] <- ( x[i] - sum_{j=0..i-1}(K[i,j] * x[j]) ) / K[i,i]
+            for i = 0 to nK - 1 do
+                let mutable s = x.[i]
+                let rowOffset = i * nK
+                for j = 0 to i - 1 do
+                    s <- s - (Kdata.[rowOffset + j] * x.[j])
+                let diag = Kdata.[rowOffset + i]
+                x.[i] <- s / diag
+        else
+            // For i in [n-1..downto..0]:
+            //   x[i] <- ( x[i] - sum_{j=i+1..n-1}(K[i,j] * x[j]) ) / K[i,i]
+            for i = nK - 1 downto 0 do
+                let mutable s = x.[i]
+                let rowOffset = i * nK
+                for j = i + 1 to nK - 1 do
+                    s <- s - (Kdata.[rowOffset + j] * x.[j])
+                let diag = Kdata.[rowOffset + i]
+                x.[i] <- s / diag
+
+        x
+
+
+
+    /// QR decomposition using Householder reflections
+    static member inline qrDecompose (A : Matrix<'T>) : (Matrix<'T> * Matrix<'T>) =
+    // former QR
+        let UpdateQ (Q : Matrix<'T>) (v : Vector<'T>) =
+            let nQ, mQ = Q.NumRows, Q.NumCols
+            let n = v.Length
+            let Qv = Vector.zeroCreate<'T> nQ
+            for i = 0 to nQ - 1 do
+                // offset in Q.Data for row i is i*mQ
+                let rowOffset = i * mQ + (mQ - n)
+                // Dot the subrange Q[i, mQ-n..mQ-1] with v[0..n-1]
+                Qv.[i] <- Acceleration.SIMDRangeUtils.dotRange Q.Data rowOffset v 0 n
+
+            // Update each row i in the subrange of columns [mQ-n..mQ-1]
+            //    Q[i, j] -= 2 * Qv[i] * v[j - (mQ - n)]
+            for i = 0 to nQ - 1 do
+                let alpha = Qv.[i] + Qv.[i]
+                // We want to do a row operation: Q[i, (mQ-n)..(mQ-1)] 
+                // = Q[i, (mQ-n)..(mQ-1)] - alpha * v[0..n-1].
+                let rowOffset = i * mQ + (mQ - n)
+                //LinearAlgebra.subScaledRowInPlace Q.Data rowOffset v 0 n alpha
+                LinearAlgebra.subScaledRowInPlace alpha rowOffset 0 n Q.Data v 
+
+
+
+        let (n, m) = (A.NumRows, A.NumCols)
+
+        // Q starts as identity(n)
+        let Q = Matrix.identity n
+        let R = Matrix.copy A
+
+        for i = 0 to (min n m) - 1 do
+            // 1) Compute Householder transform v for column i
+            let v = LinearAlgebra.householderTransform R i
+            // 2) Update Q
+            UpdateQ Q v
+
+        Q, R
+
+    /// <summary>Given A[m,n] and B[m] solves AX = B for X[n].<br />
+    /// When m =&gt; n, have over constrained system, finds least squares solution for X.<br />
+    /// When m &lt; n, have under constrained system, finds least norm solution for X.</summary>
+    static member inline leastSquares 
+        (A : Matrix<'T>) 
+        (b: Vector<'T>) =
+
+        let (m,n) = A.NumRows, A.NumCols
+        let Qm, R = LinearAlgebra.qrDecompose A
+        let Qtb = Qm.Transpose() * b
+
+        // Is this an overdetermined or underdetermined system?
+        if m > n then
+            LinearAlgebra.solveTriangularLinearSystem R.[0..n-1,0..n-1] Qtb.[0..n-1] false
+        else
+            let s = LinearAlgebra.solveTriangularLinearSystem R.[0..m-1,0..m-1] Qtb false
+            Vector.init n (fun i -> if i < m then s.[i] else 'T.Zero)
+
+
+    /// <summary>
+    /// Computes the Cholesky factor L of a symmetric positive-definite matrix A,
+    /// returning L as a lower-triangular <see cref="Matrix{T}"/> such that A = L * L^T.
+    /// Throws if A is not positive-definite (i.e., if any diagonal element ≤ 0).
+    /// </summary>
+    static member inline cholesky
+            (A : Matrix<'T>)
+            : Matrix<'T> =
+
+        let n = A.NumRows
+        let m = A.NumCols
+        if n <> m then
+            invalidArg (nameof A) "Cholesky: matrix must be square."
+
+        let dataA = A.Data
+        // We'll create an n×n zeroed matrix for L
+        let Ldata = Array.zeroCreate<'T> (n * n)
+
+        // Helper function for indexing row-major arrays:
+        let inline idx r c = r * n + c
+
+        for j = 0 to n - 1 do
+            // 1) Diagonal element L[j,j]
+            //    L[j,j] = sqrt(A[j,j] - ∑(k=0..j-1) L[j,k]^2)
+            let mutable sumjj = dataA.[idx j j]
+            for k = 0 to j - 1 do
+                let ljk = Ldata.[idx j k]
+                sumjj <- sumjj - (ljk * ljk)
+
+            // Check positivity
+            if sumjj <= 'T.Zero then
+                invalidArg "A" "Cholesky: matrix not positive-definite (diagonal <= 0)."
+
+            let ljj = GenericMath.sqrt sumjj
+            Ldata.[idx j j] <- ljj
+
+            // 2) Off-diagonal: L[i,j] for i=j+1..n-1
+            //    L[i,j] = (A[i,j] - ∑(k=0..j-1) L[i,k]*L[j,k]) / L[j,j]
+            for i = j + 1 to n - 1 do
+                let mutable sumij = dataA.[idx i j]
+                for k = 0 to j - 1 do
+                    sumij <- sumij - (Ldata.[idx i k] * Ldata.[idx j k])
+                Ldata.[idx i j] <- sumij / ljj
+
+        Matrix<'T>(n, n, Ldata)
+
+
+    /// <summary>Given A[m,n] and b[m] solves AX = b for X[n].<br />
+    /// When the system is under constrained,<br />
+    /// for example when the columns of A are not linearly independent,<br />
+    /// then it will not give sensible results.</summary>
+    static member inline leastSquaresCholesky 
+        (A : Matrix<'T>) 
+        (b: Vector<'T>) =
+
+        let AT = A.Transpose()
+
+        let upper = (AT * A) |> LinearAlgebra.cholesky
+        let gamma =
+            LinearAlgebra.solveTriangularLinearSystem(upper.Transpose()) (AT * b) true
+        let beta =
+            LinearAlgebra.solveTriangularLinearSystem upper gamma false
+        beta
+
+
+    /// <summary>computes the hat matrix by the QR decomposition of the designmatrix used in ordinary least squares approaches</summary>
+    static member inline hatMatrix 
+        (designMatrix: Matrix<'T>) = 
+        let qm,R = LinearAlgebra.qrDecompose designMatrix
+        let q1 = qm.GetSlice ((Some 0),(Some (qm.NumRows-1)),(Some 0),(Some (R.NumCols-1)))
+        // computes the hatmatrix 
+        q1 * q1.Transpose()
+
+    
+    /// <summary>computes the leverages of every dataPoint of a dataSet given by the diagonal of the hat matrix. </summary>
+    static member inline leverageBy 
+        (hatMatrix: Matrix<'T>) = 
+
+        Matrix.getDiagonal hatMatrix
+
+
+    /// <summary>computes the leverage directly by QR decomposition of the designmatrix used in ordinary least squares approaches<br />
+    /// and computing of the diagnonal entries of the Hat matrix, known as the leverages of the regressors</summary>
+    static member inline leverage 
+        (designMatrix: Matrix<'T>) = 
+        
+        let qm,R = LinearAlgebra.qrDecompose designMatrix
+        let q1 = qm.GetSlice ((Some 0),(Some (qm.NumRows-1)),(Some 0),(Some (R.NumCols-1)))
+        
+        Vector.init q1.NumRows (fun i ->
+            let mutable sumOfSquares = 'T.Zero
+            for j = 0 to q1.NumCols - 1 do
+                let x = q1.[i, j]
+                sumOfSquares <- sumOfSquares + x * x
+            sumOfSquares
+        )
+
+
+    /// <summary>
+    /// Computes the LU factorization of a square matrix A with partial pivoting.
+    /// That is, P * A = L * U, where P is a permutation, and L, U are lower/upper triangular.
+    /// Returns (Permutation P, L, U).
+    /// </summary>
+    static member inline luDecompose (A : Matrix<'T>) =
+        let n, m = A.NumRows, A.NumCols
+        if n <> m then
+            invalidArg (nameof A) "LU: A must be square."
+
+        let U = Matrix.copy A           // We'll transform U in place.
+        let L = Matrix.zeroCreate n n   // We'll fill L below the diagonal.
+        let P = [| 0 .. n-1 |]          // Pivot array
+
+        // Row-swap function for U: swap entire row i, row j
+        let swapRows (M: Matrix<'T>) i j =
+            let rowI = i
+            let rowJ = j
+            for col = 0 to m - 1 do
+                let tmp = M.[rowI, col]
+                M.[rowI, col] <- M.[rowJ, col]
+                M.[rowJ, col] <- tmp
+
+        // Row-swap function for L: only swap the columns up to i-1 (since the rest is not yet set).
+        // Because in Doolittle's method, columns [0..i-1] of L are already determined at pivot step i.
+        let swapRowsPartial (M: Matrix<'T>) i j pivotCol =
+            for col = 0 to pivotCol - 1 do
+                let tmp = M.[i, col]
+                M.[i, col] <- M.[j, col]
+                M.[j, col] <- tmp
+
+        // Perform the decomposition
+        for i = 0 to n - 2 do
+            // 1) Find pivot row by max absolute value in U column i
+            let mutable pivotRow = i
+            let mutable pivotVal = abs(U.[pivotRow, i])
+            for r = i + 1 to n - 1 do
+                let candidate = abs(U.[r, i])
+                if candidate > pivotVal then
+                    pivotVal <- candidate
+                    pivotRow <- r
+
+            // 2) If pivotRow != i, swap rows in U, swap partial in L, and update pivot array
+            if pivotRow <> i then
+                swapRows U i pivotRow
+                swapRowsPartial L i pivotRow i
+                let tmp = P.[i]
+                P.[i] <- P.[pivotRow]
+                P.[pivotRow] <- tmp
+
+            // 3) Eliminate below pivot
+            for j = i + 1 to n - 1 do
+                // L[j,i] = U[j,i] / U[i,i]
+                L.[j,i] <- U.[j,i] / U.[i,i]
+                // Update row j of U
+                for k = i + 1 to n - 1 do
+                    U.[j,k] <- U.[j,k] - L.[j,i] * U.[i,k]
+                U.[j,i] <- 'T.Zero
+
+        // Add identity to L (so diagonal = 1.0)
+        // i.e., L[i,i] <- 1.0
+        for i = 0 to n - 1 do
+            L.[i,i] <- 'T.One
+
+        // Return the permutation (as an array or your custom Permutation type),
+        // plus the final L and U
+        (Permutation.ofArray P, L, U)
+
+    /// <summary>
+    /// Solves the system of linear equations A * X = B using LU factorization.
+    /// A must be square; B must have the same number of rows as A. 
+    /// Returns a matrix X s.t. A*X = B.
+    /// </summary>
+    static member inline solveLinearSystems (A: Matrix<'T>) (B: Matrix<'T>) =
+        let nA, mA = A.NumRows, A.NumCols
+        let nB, mB = B.NumRows, B.NumCols
+
+        // 1) Check shape: A must be square, B's rows must match A's rows
+        if nA <> mA then
+            invalidArg (nameof A) "Matrix A must be square."
+        if nB <> nA then
+            invalidArg (nameof B) "Matrix B must have same number of rows as A."
+
+        // 2) Factor A -> (P, L, U)
+        let (P, L, U) = LinearAlgebra.luDecompose A
+
+        // 3) Permute B according to P (i.e., reorder rows)
+        let Bpermuted = B |> Matrix.permuteRowsBy P
+
+        // 4) Forward substitution: solve L * Y = Bpermuted
+        let Y = LinearAlgebra.solveTriangularLinearSystems L Bpermuted true  // isLower = true
+
+        // 5) Back substitution: solve U * X = Y
+        let X = LinearAlgebra.solveTriangularLinearSystems U Y false         // isLower = false
+
+        X
+
+    /// <summary>
+    /// Solves the system A * x = b for x, using LU factorization with partial pivoting.
+    /// A must be square, and b must have length = A.NumRows.
+    /// </summary>
+    static member inline solveLinearSystem (A : Matrix<'T>) (b : Vector<'T>) =
+        let n, m = A.NumRows, A.NumCols
+        if n <> m then
+            invalidArg (nameof A) "Matrix A must be square."
+        if b.Length <> n then
+            invalidArg (nameof b) "Vector b must have length = A.NumRows."
+
+        // 1) Factor A => (P, L, U)
+        let (P, L, U) = LinearAlgebra.luDecompose A
+
+        // 2) Permute b according to P
+        let bPermuted = b |> Vector.permuteBy P 
+
+        // 3) Forward solve: L * y = bPermuted
+        let y = LinearAlgebra.solveTriangularLinearSystem L bPermuted true  // isLower = true
+
+        // 4) Back solve: U * x = y
+        let x = LinearAlgebra.solveTriangularLinearSystem U y false         // isLower = false
+
+        x
+
+    /// <summary>
+    /// Computes the inverse of a square matrix A using its LU factorization.
+    /// If A is n×n, we factor A = P * L * U, then solve A * X = I for X, returning X = A^-1.
+    /// </summary>
+    /// <param name="A">A square matrix of size n×n.</param>
+    /// <returns>The inverse of A, an n×n matrix.</returns>
+    /// <exception cref="System.ArgumentException">
+    /// Thrown if A is not square, or if factorization fails (e.g., if A is singular).
+    /// </exception>
+    static member inline inverse (A: Matrix<'T>) : Matrix<'T> =
+        let n, m = A.NumRows, A.NumCols
+        if n <> m then
+            invalidArg (nameof A) "Matrix must be square when computing its inverse."
+
+        // 1) Factor A => P, L, U
+        let (P, L, U) = LinearAlgebra.luDecompose A
+
+        // 2) Build the identity matrix I, size n
+        let I = Matrix.identity n
+
+        // 3) Permute I's rows by P (so effectively P*I)
+        let IPerm = I |> Matrix.permuteRowsBy P
+
+        // 4) Forward substitution: solve L * Y = IPerm
+        let Y = LinearAlgebra.solveTriangularLinearSystems L IPerm true
+
+        // 5) Back substitution: solve U * X = Y
+        let X = LinearAlgebra.solveTriangularLinearSystems U Y false
+
+        // X is A^-1
+        X
+
+
+    /// <summary>
+    /// Computes the Moore-Penrose pseudoinverse of a matrix using a QR-based approach. 
+    /// If the matrix is overdetermined (m > n), returns (R⁻¹ Qᵀ) for A = Q R with A[m×n]. 
+    /// If underdetermined (m < n), uses the transpose trick, then returns the transpose of the partial solution.
+    /// </summary>
+    /// <param name="matrix">An m×n matrix.</param>
+    /// <returns>The (n×m) pseudoinverse of <paramref name="matrix"/>.</returns>
+    static member inline pseudoInvers (matrix: Matrix<'T>) =
+        let m, n = matrix.NumRows, matrix.NumCols
+
+        // Overdetermined: A is m×n with m > n
+        if m > n then
+            // A = Q (m×m) * R (m×n)  [or economy size Q (m×n), R (n×n)]
+            let qm, R = LinearAlgebra.qrDecompose matrix
+            // Instead of multiplying qm.Transpose by identity(m×m), just use qm.Transpose
+            // Next, we want sub-blocks: R is m×n, but we only need the top n×n portion,
+            // and we want the top-left n×m portion of qm.Transpose.
+            let Qt = qm.Transpose()
+            // Solve R[0..n-1, 0..n-1] * X = Qt[0..n-1, 0..m-1]  (back-substitution)
+            LinearAlgebra.solveTriangularLinearSystems 
+                R.[0..n-1, 0..n-1] 
+                Qt.[0..n-1, 0..m-1] 
+                false
+
+        // Underdetermined: A is m×n with m < n
+        else
+            // We do matrix.Transpose => n×m
+            // Then QR => qm (n×n?), R (n×m?), etc.
+            let qm, R = LinearAlgebra.qrDecompose (matrix.Transpose())
+            // Again skip identity multiply: just use qm.Transpose
+            let Qt = qm.Transpose()
+            // Solve R[0..m-1, 0..m-1] * X = Qt[0..m-1, 0..n-1]
+            let s = 
+                LinearAlgebra.solveTriangularLinearSystems 
+                    R.[0..m-1, 0..m-1]
+                    Qt.[0..m-1, 0..n-1]
+                    false
+            // Return sᵀ => the actual pseudoinverse shape (n×m)
+            s.Transpose()
