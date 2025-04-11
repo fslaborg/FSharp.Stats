@@ -36,6 +36,7 @@ module VectorOpsSymbols =
     let inline (.-) a b = Minus.Invoke(a, b)
     let inline (.*) a b = Multiply.Invoke(a, b)
     let inline (./) a b = Divide.Invoke(a, b)
+    // Dot product ( @ )
 
 
 //// A type extension on `'T[]` so you can do `myArray.Transposed`.

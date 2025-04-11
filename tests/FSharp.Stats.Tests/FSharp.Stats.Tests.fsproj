@@ -19,6 +19,7 @@
     <Compile Include="Seq.fs" />
     <Compile Include="Clusternumber.fs" />
     <Compile Include="Vector.fs" />
+    <Compile Include="Matrix.fs" />
     <Compile Include="Quantile.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
