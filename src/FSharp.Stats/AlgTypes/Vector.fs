@@ -253,6 +253,6 @@ type Vector =
                  and 'T :> ValueType> 
                  (v:Vector<'T>) : 'T =
         if v.Length = 0 then invalidArg "v" "Cannot compute min of empty vector."
-        Acceleration.SIMDUtils.fold (fun a b -> Numerics.Vector.Max(a, b)) min v.[0] v
+        Acceleration.SIMDUtils.fold (fun a b -> Numerics.Vector.Max(a, b)) max v.[0] v
 
 

@@ -9,16 +9,29 @@ module Vector =
     /// <summary>Computes the vector cross product a^Tb</summary>
     /// <param name="colvec">The first vector is column vector.</param>
     /// <param name="rowvec">The second vector is the row vector.</param> 
-    /// <returns>The cross product of the two vectors.</returns>
+    /// <returns>The cross product (or outer product) of the two vectors.</returns>
     let inline cross<'T when 'T :> Numerics.INumber<'T>                
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
                 and 'T : equality
                 and 'T :> ValueType> (colvec: Vector<'T>) (rowvec:Vector<'T>)  : Matrix<'T> =
+        //TODO: SIMD Acceleration!
+        
         if colvec.Length <> rowvec.Length then
             invalidArg "" "Vector must have the same length to compute the dot product."
-        let data = Acceleration.SIMDUtils.map2Unchecked ( * ) ( * ) colvec rowvec
-        Matrix(colvec.Length,rowvec.Length,data) 
+        let n = colvec.Length
+        let m = rowvec.Length
+    
+        // Allocate the n*m storage
+        let data = Array.zeroCreate<'T> (n * m)
+    
+        // Fill with colvec[i] * rowvec[j], typical row-major arrangement
+        for i in 0 .. n - 1 do
+            for j in 0 .. m - 1 do
+                data.[i * m + j] <- colvec.[i] * rowvec.[j]
+    
+        // Build the matrix (n x m)
+        Matrix<'T>(n, m, data)
 
 
     /// Indexed fold over a vector
