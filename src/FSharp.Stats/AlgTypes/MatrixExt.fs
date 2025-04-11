@@ -110,6 +110,30 @@ module Matrix =
     let ofRows (rows : 'T[][]) : Matrix<'T> =
          Matrix.ofJaggedArray rows
 
+    /// Creates a matrix from a sequence of row sequences
+    let inline ofRowSeq (rows: seq<#seq<'T>>) : Matrix<'T> =
+        // Convert the outer seq to an array of row-seqs
+        let rowArr = rows |> Seq.toArray
+        if rowArr.Length = 0 then
+            invalidArg "rows" "Cannot create a matrix from an empty sequence of rows."
+
+        // Determine the number of columns by checking the first row’s length
+        let colCount = rowArr.[0] |> Seq.length
+
+        // Verify all rows have the same length
+        for i in 1 .. rowArr.Length - 1 do
+            let currentLen = rowArr.[i] |> Seq.length
+            if currentLen <> colCount then
+                invalidArg "rows" (sprintf "Row %d has length %d, expected %d." i currentLen colCount)
+
+        // Flatten all row-seqs into a single array (row-major order)
+        let data =
+            rowArr
+            |> Array.collect (fun rowSeq -> rowSeq |> Seq.toArray)
+
+        // Construct the matrix
+        Matrix<'T>(rowArr.Length, colCount, data)
+
     let mapiRows (f: int -> Vector<'T> -> Vector<'U>)  (m:Matrix<'T>) : Matrix<'U> =
         Matrix.getRows m
         |> Array.mapi (fun i v -> f i v)   

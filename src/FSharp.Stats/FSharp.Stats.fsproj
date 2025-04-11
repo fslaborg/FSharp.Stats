@@ -36,6 +36,7 @@
     <Compile Include="AlgTypes\VectorExt.fs" />
     <Compile Include="AlgTypes\VectorOps.fs" />
     <Compile Include="AlgTypes\MatrixExt.fs" />
+    <Compile Include="AlgTypes\AlgTypesTopLevelOps.fs" />
     <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>

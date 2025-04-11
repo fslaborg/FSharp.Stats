@@ -644,15 +644,15 @@ let chiTests =
     ]
 
 let multivariateNormalTests =
-    let mvn = Continuous.MultivariateNormal.Init (vector [0.;0.;0.;0.;0.]) (Matrix.identity 5)
+    let mvn = Continuous.MultivariateNormal.Init ([|0.;0.;0.;0.;0.|]) (Matrix.identity 5)
     let pdfs=
         [|
-            [0.537667139546100;3.578396939725760;-0.124144348216312;0.488893770311789;-1.068870458168032]
-            [0.318765239858981;0.725404224946106;0.671497133608080;0.293871467096658;0.325190539456195]
-            [-0.433592022305684;0.714742903826096;0.717238651328838;0.888395631757642;1.370298540095228]
+            [| 0.537667139546100;3.578396939725760;-0.124144348216312;0.488893770311789;-1.068870458168032 |]
+            [| 0.318765239858981;0.725404224946106;0.671497133608080;0.293871467096658;0.325190539456195   |]
+            [| -0.433592022305684;0.714742903826096;0.717238651328838;0.888395631757642;1.370298540095228  |]
         |]
         |> Array.map (fun v -> 
-            mvn.PDF (vector v)
+            mvn.PDF v
             )
     // TestCases from Matlab: 
     (*
@@ -665,10 +665,10 @@ let multivariateNormalTests =
     testList "Distributions.multivariateNormal" [
         testCase "Parameters" <| fun () ->
             let param = 
-                match (Continuous.MultivariateNormal.Init (vector [1.;0.4]) (matrix [[0.3;2.3];[1.2;4.3]])).Parameters with
+                match (Continuous.MultivariateNormal.Init  ([|1.;0.4|]) (matrix [[0.3;2.3];[1.2;4.3]])).Parameters with
                 | MultivariateNormal x -> x.Mean,x.StandardDeviation
-                | _ -> (vector [],matrix[])
-            Expect.equal param ((vector [1.;0.4]),(matrix [[0.3;2.3];[1.2;4.3]])) "Distribution parameters are incorrect."
+                | _ -> ([||],matrix[])
+            Expect.equal param (( [|1.;0.4|]),(matrix [[0.3;2.3];[1.2;4.3]])) "Distribution parameters are incorrect."
         testCase "PDF.testCase_1" <| fun () ->
             Expect.floatClose Accuracy.veryHigh 0.000007209186311 pdfs.[0] "Should be equal" 
         testCase "PDF.testCase_2" <| fun () ->
