@@ -13,6 +13,7 @@ module Vector =
     let inline cross<'T when 'T :> Numerics.INumber<'T>                
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
+                and 'T : equality
                 and 'T :> ValueType> (colvec: Vector<'T>) (rowvec:Vector<'T>)  : Matrix<'T> =
         if colvec.Length <> rowvec.Length then
             invalidArg "" "Vector must have the same length to compute the dot product."
