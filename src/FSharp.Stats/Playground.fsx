@@ -1,4 +1,4 @@
-﻿#I "bin/Debug/netstandard2.0"
+﻿#I "bin/Release/.net8.0"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET"
 
@@ -6,6 +6,20 @@ open System
 open FSharp.Stats
 open FSharp.Stats.Distributions
 open Plotly.NET
+
+let a = 1 % 3 // 1
+let b = 2 % 3 // 2
+let c = 3 % 3 // 0
+
+
+let colvec = [| 1.0; 2.0; 3.0 |]
+let rowvec = [| 4.0; 5.0; 6.0 |]
+                
+// The expected 3x3 matrix is computed by: 
+// [ [1.0*4.0, 1.0*5.0, 1.0*6.0]
+//   [2.0*4.0, 2.0*5.0, 2.0*6.0]
+//   [3.0*4.0, 3.0*5.0, 3.0*6.0] ]
+let result   = Vector.cross colvec rowvec
 
 
 let alpha = 9.9 //0.4 
