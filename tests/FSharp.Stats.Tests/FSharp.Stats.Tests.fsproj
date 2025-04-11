@@ -5,6 +5,10 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="TestExtensions.fs" />
+    <Compile Include="Array.fs" />
+    <Compile Include="Clusternumber.fs" />
+    <Compile Include="Testing.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>

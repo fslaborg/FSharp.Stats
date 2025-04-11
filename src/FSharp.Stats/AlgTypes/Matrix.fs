@@ -14,7 +14,8 @@ open System.Runtime.InteropServices
 type Matrix<'T when 'T :> Numerics.INumber<'T>
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
-                and 'T :> ValueType> 
+                and 'T :> ValueType
+                and 'T : equality> 
                 (rows: int, cols: int, data: Vector<'T>) =
 
     /// Exposes the raw underlying data array (row-major flattened).
@@ -36,7 +37,45 @@ type Matrix<'T when 'T :> Numerics.INumber<'T>
             if i < 0 || i >= rows || j < 0 || j >= cols then
                 invalidArg "index" $"Index out of range: ({i}, {j})"
             data.[i * cols + j] <- value
+    
+    // Implement IEquatable<T> so that F# structural equality can use it
+    interface IEquatable<Matrix<'T>> with
+        member this.Equals(other: Matrix<'T>) =
 
+            // 1) Check dimension
+            if rows <> other.NumRows || cols <> other.NumCols then
+                false
+            else
+                // 2) Compare all elements
+                let otherData = other.Data
+                let mutable i = 0
+                let mutable eq = true
+                while eq && i < data.Length do
+                    if data[i] <> otherData[i] then
+                        eq <- false
+                    i <- i + 1
+                eq
+
+    // Override Object.Equals
+    override this.Equals(obj: obj) =
+        match obj with
+        | :? Matrix<'T> as other ->
+            (this :> IEquatable<Matrix<'T>>).Equals(other)
+        | _ -> false
+
+    // Override Object.GetHashCode
+    override this.GetHashCode() =
+        // We'll combine the row/col count plus some portion of the data to avoid huge cost.
+        // There's no perfect hashing for big arrays, but here's a simple example:
+
+        let mutable hash = HashCode()
+        hash.Add(rows)
+        hash.Add(cols)
+        // Optionally: incorporate some or all elements
+        // For big arrays, consider sampling or a rolling hash approach.
+        for i in 0 .. data.Length - 1 do
+            hash.Add(data[i])
+        hash.ToHashCode()
 
     /// <summary>
     /// Returns a new Matrix<'T> that is the slice of rows [rowStart..rowEnd] 
