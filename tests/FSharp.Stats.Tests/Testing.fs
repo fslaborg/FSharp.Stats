@@ -182,10 +182,10 @@ let wilcoxonTestTests =
 [<Tests>]
 let tTestTests = 
     // tested in SPSS version 27
-    let groupA = vector [-5.;-3.;-3.;-4.;-5.;] 
-    let groupB = vector [-2.;-4.;-4.;-6.;-6.;-6.;-5.;] 
-    let groupC = vector [-3.;-7.;-8.;-4.;-2.; 1.;-1.;]   
-    let groupD = vector [1.;-1.;0.;2.;2.;]   
+    let groupA = [|-5.;-3.;-3.;-4.;-5.;|] 
+    let groupB = [|-2.;-4.;-4.;-6.;-6.;-6.;-5.;|] 
+    let groupC = [|-3.;-7.;-8.;-4.;-2.; 1.;-1.;|]   
+    let groupD = [|1.;-1.;0.;2.;2.;|]   
         
     let meanA = Seq.mean groupA
     let meanB = Seq.mean groupB
@@ -271,8 +271,8 @@ let tTestTests =
         testCase "twoSamplePaired" <| fun () -> 
           
            // tested with R function t.test(x, y, paired = TRUE, alternative = "two.sided")
-            let vectorX = vector [1.;2.;4.;8.]
-            let vectorY = vector [10.;23.;11;9.]
+            let vectorX = [|1.;2.;4.;8.|]
+            let vectorY = [|10.;23.;11;9.|]
             let expectedPval = 0.10836944173355316
             let expectedStatistic = 2.26554660552391818
             let twoSamplePaired = Testing.TTest.twoSamplePaired vectorX vectorY
@@ -280,36 +280,36 @@ let tTestTests =
             Expect.floatClose Accuracy.high twoSamplePaired.Statistic expectedStatistic "t statistic should be equal."
             Expect.equal twoSamplePaired.DegreesOfFreedom 3. "df should be equal."
             
-            let vectorZ = vector [-5.;-9.;0.;-8.]
+            let vectorZ = [|-5.;-9.;0.;-8.|]
             let twoSamplePaired2 = Testing.TTest.twoSamplePaired vectorX vectorZ
             let expectedPval1 = 0.041226646225439562
             let expectedStatistic1 = -3.44031028692427698
             Expect.floatClose Accuracy.high twoSamplePaired2.PValue expectedPval1 "pValue should be equal."
             Expect.floatClose Accuracy.high twoSamplePaired2.Statistic expectedStatistic1 "t statistic should be equal."
 
-            let vectorNan = vector [nan;10.;23.;11.]
+            let vectorNan = [|nan;10.;23.;11.|]
             let twoSamplePaired3 = Testing.TTest.twoSamplePaired vectorX vectorNan
             Expect.isTrue (nan.Equals(twoSamplePaired3.PValue)) "pValue should be nan."
             Expect.isTrue (nan.Equals(twoSamplePaired3.Statistic)) "t statistic should be nan."
             
-            let vectorBefore = vector [10.;4.;15.;12.;6.]
+            let vectorBefore = [|10.;4.;15.;12.;6.|]
             let twoSamplePaired4() = Testing.TTest.twoSamplePaired  vectorBefore vectorX |>ignore
             Expect.throws twoSamplePaired4 "Vectors of different length"
 
            // test if exception Test works
            // Expect.throws (fun _ -> Testing.TTest.twoSamplePaired vectorX vectorY|>ignore) "Vetors should have equal length"
            
-            let vectorWithInfinity = vector [infinity;4.;15.;12.]
+            let vectorWithInfinity = [|infinity;4.;15.;12.|]
             let twoSamplePairedInfinity = Testing.TTest.twoSamplePaired vectorWithInfinity vectorX
             Expect.isTrue (nan.Equals(twoSamplePairedInfinity.PValue)) "pValue should be nan."
             Expect.isTrue (nan.Equals(twoSamplePairedInfinity.Statistic)) "t statistic should be nan."
 
-            let vectorWithNegativeInfinity =  vector [infinity;4.;15.;12.]
+            let vectorWithNegativeInfinity =  [|infinity;4.;15.;12.|]
             let twoSampleNegativeInfinity = Testing.TTest.twoSamplePaired vectorWithNegativeInfinity vectorX
             Expect.isTrue (nan.Equals(twoSampleNegativeInfinity.PValue)) "pValue should be nan."
             Expect.isTrue (nan.Equals(twoSampleNegativeInfinity.Statistic)) "t statistic should be nan."
 
-            let vectorNull = vector [0;0;0;0]
+            let vectorNull = [|0.;0.;0.;0.|]
             let twoSamplePairedWithNullVector = Testing.TTest.twoSamplePaired vectorNull vectorY
             let expectedPval2 = 0.0272
             let expectedStatistic2 = 4.0451
@@ -322,12 +322,12 @@ let tTestTests =
 let fTestTests = 
     // F-Test validated against res.ftest <- var.test(samplea, sampleb, alternative = "two.sided") RStudio 2022.02.3+492 "Prairie Trillium" Release (1db809b8323ba0a87c148d16eb84efe39a8e7785, 2022-05-20) for Windows
 
-    let sampleFA = vector [|5.0; 6.0; 5.8; 5.7|] 
-    let sampleFB = vector [|3.5; 3.7; 4.0; 3.3; 3.6|]
-    let sampleNaN = vector [|5.0; 6.0; 5.8; nan|]
-    let sampleInf = vector [|5.0; 6.0; 5.8; infinity|]
-    let sampleNegInf = vector [|5.0; 6.0; 5.8; -infinity|]
-    let sampleties = vector [|5.0; 5.0; 5.8; 5.3|]
+    let sampleFA =  [|5.0; 6.0; 5.8; 5.7|] 
+    let sampleFB =  [|3.5; 3.7; 4.0; 3.3; 3.6|]
+    let sampleNaN =  [|5.0; 6.0; 5.8; nan|]
+    let sampleInf =  [|5.0; 6.0; 5.8; infinity|]
+    let sampleNegInf =  [|5.0; 6.0; 5.8; -infinity|]
+    let sampleties = [|5.0; 5.0; 5.8; 5.3|]
 
     // calculation of the F test 
     let fResult = FTest.testVariances sampleFA sampleFB
@@ -672,7 +672,7 @@ let multiLabelConfusionMatrixTests =
             [2; 0; 4]
         ]
         |> array2D
-        |> Matrix.Generic.ofArray2D
+        |> Matrix.ofArray2D
     
     let expectedMLCM = 
         {
@@ -684,7 +684,7 @@ let multiLabelConfusionMatrixTests =
                     [2; 0; 4]
                 ]
                 |> array2D
-                |> Matrix.Generic.ofArray2D
+                |> Matrix.ofArray2D
         }
 
     let multiLabelCM = MultiLabelConfusionMatrix.create([|"A";"B";"C"|], c)
@@ -816,7 +816,7 @@ let comparisonMetricsTests =
                     [2; 0; 4]
                 ]
                 |> array2D
-                |> Matrix.Generic.ofArray2D
+                |> Matrix.ofArray2D
 
             let multiLabelCM  = MultiLabelConfusionMatrix.create([|"A";"B";"C"|], c)
 
