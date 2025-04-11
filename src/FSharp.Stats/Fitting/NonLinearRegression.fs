@@ -192,10 +192,10 @@ module NonLinearRegression =
                 let jacobian' = updateJacobianInplace model xData currentParamGuess jacobian 
                 let residualVector' = updateResidualVectorInPlace model xData yData currentParamGuess residualVector
                 let hessian = jacobian'.Transpose() * jacobian' 
-                let diagonal = Matrix.initDiagonal (Vector.map (fun x -> ((lambda)*x)) hessian.Diagonal)
+                let diagonal = Matrix.diagonal (Array.map (fun x -> ((lambda)*x)) (Matrix.getDiagonal hessian))
                 let modHessian = (hessian + diagonal) 
-                let step = LinearAlgebra.solveLinearSystem modHessian (Matrix.mulV (jacobian'.Transpose) residualVector')
-                let newParamGuess = currentParamGuess - step
+                let step = LinearAlgebra.solveLinearSystem modHessian (Matrix.muliplyVector (jacobian'.Transpose()) residualVector')
+                let newParamGuess = currentParamGuess .- step
                 let newValueRSS = getRSS model xData yData newParamGuess
                 paramsAtIteration.Add(newParamGuess)     
                 if shouldTerminate currentValueRSS newValueRSS paramsAtIteration.Count currentParamGuess newParamGuess solverOptions then 
@@ -236,7 +236,7 @@ module NonLinearRegression =
         ///
         let private validateBounds (lowerBound: Vector<float>) (upperBound: Vector<float>) (parameters: Vector<float>) =
             try
-                if Vector.map3 (fun l u x -> if l <= x && u >= x then x else nan) lowerBound upperBound parameters |> Vector.exists Ops.isNan then 
+                if Array.map3 (fun l u x -> if l <= x && u >= x then x else nan) lowerBound upperBound parameters |> Array.exists Ops.isNan then 
                     failwith "initial parameters are not within Bounds"
                 else 
                     ()
@@ -245,19 +245,19 @@ module NonLinearRegression =
         
         ///
         let private toInternalParameters (lowerBound: Vector<float>) (upperBound: Vector<float>) (extParameters: Vector<float>) =
-            Vector.map3 (fun l u x -> 
+            Array.map3 (fun l u x -> 
                 Math.Asin((2.0 * (x - l) / (u - l)) - 1.0)
             ) lowerBound upperBound extParameters
         
         ///
         let private toExternalParameters (lowerBound: Vector<float>) (upperBound: Vector<float>) (intParameters: Vector<float>) =
-            Vector.map3 (fun l u x -> 
+            Array.map3 (fun l u x -> 
                 l + (u / 2.0 - l / 2.0) * (Math.Sin(x) + 1.0)
             ) lowerBound upperBound intParameters
             
         ///
         let private calculateJacScaleFactors (lowerBound: Vector<float>) (upperBound: Vector<float>) (intParameters: Vector<float>) = 
-            Vector.map3 (fun l u x -> 
+            Array.map3 (fun l u x -> 
                 (u - l) / 2.0 * Math.Cos(x)
             ) lowerBound upperBound intParameters
         
@@ -285,7 +285,7 @@ module NonLinearRegression =
         /// <code>
         /// </code>
         /// </example>
-        let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (lowerBound: vector) (upperBound: vector) (xData: float[]) (yData: float []) = 
+        let estimatedParamsVerbose (model: Model) (solverOptions: SolverOptions) lambdaInitial lambdaFactor (lowerBound: Vector<float>) (upperBound: Vector<float>) (xData: float[]) (yData: float []) = 
             let paramsAtIteration = new ResizeArray<Vector<float>>()
             let initialParamGuess = solverOptions.InitialParamGuess
             validateBounds lowerBound upperBound initialParamGuess
@@ -293,16 +293,16 @@ module NonLinearRegression =
             let residualVector = Vector.zeroCreate xData.Length
             let jacobian = Matrix.zeroCreate xData.Length solverOptions.InitialParamGuess.Length
             let initialValueRSS = getRSS model xData yData initialParamGuess  
-            let rec loop lambda jacobian residualVector currentParamGuessExt currentParamGuessInt currentValueRSS (paramsAtIteration:ResizeArray<vector>) = 
+            let rec loop lambda jacobian residualVector currentParamGuessExt currentParamGuessInt currentValueRSS (paramsAtIteration:ResizeArray<Vector<float>>) = 
                 let scaleFactors = calculateJacScaleFactors lowerBound upperBound currentParamGuessInt
                 let jacobian' = updateJacobianInplace model xData currentParamGuessExt jacobian 
                 let residualVector' = updateResidualVectorInPlace model xData yData currentParamGuessExt residualVector
-                let gradient = Matrix.mulV (jacobian'.Transpose) residualVector' |> scaleGradient scaleFactors
-                let hessian = jacobian'.Transpose * jacobian' |> scaleJacobian scaleFactors
-                let diagonal = Matrix.initDiagonal (Vector.map (fun x -> ((lambda)*x)) hessian.Diagonal)
+                let gradient = Matrix.muliplyVector (jacobian'.Transpose()) residualVector' |> scaleGradient scaleFactors
+                let hessian = jacobian'.Transpose() * jacobian' |> scaleJacobian scaleFactors
+                let diagonal = Matrix.diagonal (Array.map (fun x -> ((lambda)*x)) (hessian |> Matrix.getDiagonal))
                 let modHessian = (hessian + diagonal) 
-                let step = FSharp.Stats.Algebra.LinearAlgebra.SolveLinearSystem modHessian gradient
-                let newParamGuessInt = currentParamGuessInt - step
+                let step = FSharp.Stats.Algebra.LinearAlgebra.solveLinearSystem modHessian gradient
+                let newParamGuessInt = currentParamGuessInt .- step
                 let newParamGuessExt = toExternalParameters lowerBound upperBound newParamGuessInt        
                 let newValueRSS = getRSS model xData yData newParamGuessExt
                 paramsAtIteration.Add(newParamGuessExt)     
@@ -543,7 +543,7 @@ module NonLinearRegression =
             //gets the linear representation of the problem and solves it by simple linear regression
             let initialParamGuess =
                 let yLn : Vector<float> = yData |> Array.map (fun x -> Math.Log(x)) 
-                let linearReg = LinearRegression.OLS.Linear.Univariable.fit (vector xData) yLn
+                let linearReg = LinearRegression.OLS.Linear.Univariable.fit xData yLn
                 let a = exp linearReg.Constant
                 let b = linearReg.Linear
                 [|a;b|]

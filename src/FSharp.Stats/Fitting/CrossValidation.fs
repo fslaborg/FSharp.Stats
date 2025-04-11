@@ -24,7 +24,7 @@ module CrossValidation =
         /// </example>
         let ssr (y:Vector<float>) (p:Vector<float>)=
             let residuals = y .- p 
-            Vector.dotProduct residuals residuals
+            Vector.dot residuals residuals
 
         /// <summary>Computes root mean square error (RMSE)</summary>
         /// <remarks></remarks>

@@ -12,7 +12,7 @@ open FSharp.Stats.SpecialFunctions
 type Multinomial =
     
     // Multinomial distribution helper functions.
-    static member CheckParam (p: vector) n  = 
+    static member CheckParam (p: Vector<float>) n  = 
         if n < 0 then
             failwith "Multinomial distribution should be parametrized by n >= 0."
         let checkBetween p =
@@ -28,9 +28,9 @@ type Multinomial =
     /// <remarks></remarks>
     /// <param name="p">vector of event probabilities in each trial</param>
     /// <param name="n">number of trails</param>
-    static member Mean (p: vector) (n: int) =
+    static member Mean (p: Vector<float>) (n: int) =
         Multinomial.CheckParam p n
-        p * float n
+        p .* float n
 
     /// <summary>Computes the variance vector</summary>
     /// <remarks></remarks>
@@ -44,9 +44,9 @@ type Multinomial =
     /// <remarks></remarks>
     /// <param name="p">vector of event probabilities in each trial</param>
     /// <param name="n">number of trails</param>
-    static member StandardDeviation p n =
+    static member StandardDeviation p n : Vector<float> =
         Multinomial.CheckParam p n
-        Vector.map sqrt (Multinomial.Variance p n)
+        Array.map sqrt (Multinomial.Variance p n)
 
     /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()). No parameter checking!</summary>
     /// <remarks></remarks>
@@ -88,7 +88,7 @@ type Multinomial =
     ///   // result: 0.118125
     /// </code>
     /// </example>
-    static member PMF_Unchecked (p: vector) (x: Vector<int>) =
+    static member PMF_Unchecked (p: Vector<float>) (x: Vector<int>) =
         //corresponds to function with gamma notation
         let n = x |> Seq.sum |> int
         let a = Factorial.factorialLn n
@@ -96,7 +96,7 @@ type Multinomial =
         let c = p |> Seq.indexed |> Seq.fold (fun acc (i,pi) -> pi**x.[i] * acc) 1.
         floor (0.5 + Math.Exp(a - b)) * c // must be an integer, to compensate for floating point errors: floor +0.5
 
-    static member PMF (p: vector) (x: Vector<int>) =
+    static member PMF (p: Vector<float>) (x: Vector<int>) =
         let n = x |> Seq.sum |> int
         //checks
         Multinomial.CheckParam p n
@@ -118,15 +118,15 @@ type Multinomial =
     /// <code>
     /// </code>
     /// </example>
-    static member Support (p: vector) n =
+    static member Support (p: Vector<float>) n =
         Multinomial.CheckParam p n
-        Vector.Generic.init p.Length (fun xi -> Interval.createClosedOfSize 0 n)
+        Array.init p.Length (fun xi -> Interval.createClosedOfSize 0 n)
 
     /// <summary>A string representation of the distribution.</summary>
     /// <remarks></remarks>
     /// <param name="p">vector of event probabilities in each trial</param>
     /// <param name="n">number of trails</param>
-    static member ToString (p: vector) (n: int) =
+    static member ToString (p: Vector<float>) (n: int) =
         sprintf "Multinomial(p = %A, n = %i,)" p n
 
     /// <summary>Initializes a Multinomial distribution</summary>

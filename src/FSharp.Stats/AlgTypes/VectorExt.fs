@@ -6,8 +6,19 @@ open System.Runtime.InteropServices
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Vector =
     
-    let inline zeroCreate<'T when 'T :> Numerics.INumber<'T>> count : Vector<'T> =
-        Array.zeroCreate<'T> count
+    /// <summary>Computes the vector cross product a^Tb</summary>
+    /// <param name="colvec">The first vector is column vector.</param>
+    /// <param name="rowvec">The second vector is the row vector.</param> 
+    /// <returns>The cross product of the two vectors.</returns>
+    let inline cross<'T when 'T :> Numerics.INumber<'T>                
+                and 'T : (new: unit -> 'T)
+                and 'T : struct
+                and 'T :> ValueType> (colvec: Vector<'T>) (rowvec:Vector<'T>)  : Matrix<'T> =
+        if colvec.Length <> rowvec.Length then
+            invalidArg "" "Vector must have the same length to compute the dot product."
+        let data = Acceleration.SIMDUtils.map2Unchecked ( * ) ( * ) colvec rowvec
+        Matrix(colvec.Length,rowvec.Length,data) 
+
 
     /// Indexed fold over a vector
     let inline foldi<'T when 'T :> Numerics.INumber<'T>> f (state: 'T) (v: Vector<'T>) : 'T =
@@ -145,8 +156,8 @@ module Vector =
         let n = v.Length
         let k = indices.Length
 
-        let nvi = zeroCreate<'T> k
-        let nv  = zeroCreate<'T> (n - k)
+        let nvi = Vector.zeroCreate<'T> k
+        let nv  = Vector.zeroCreate<'T> (n - k)
 
         let mutable iInd = 0
         let mutable iNvi = 0

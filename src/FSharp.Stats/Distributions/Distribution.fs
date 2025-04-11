@@ -37,8 +37,8 @@ module Parameters =
         StandardDeviation : float}
     
     type MultivariateNormal = {
-        Mean              : vector
-        StandardDeviation : matrix}
+        Mean              : Vector<float>
+        StandardDeviation : Matrix<float>}
 
     type Exponential = {
         Lambda : float}

@@ -32,9 +32,9 @@
     <Compile Include="AlgTypes\GenericMath.fs" />
     <Compile Include="AlgTypes\SIMDUtils.fs" />
     <Compile Include="AlgTypes\Vector.fs" />
+    <Compile Include="AlgTypes\Matrix.fs" />
     <Compile Include="AlgTypes\VectorExt.fs" />
     <Compile Include="AlgTypes\VectorOps.fs" />
-    <Compile Include="AlgTypes\Matrix.fs" />
     <Compile Include="AlgTypes\MatrixExt.fs" />
     <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
@@ -62,10 +62,10 @@
     <Compile Include="SpecialFunctions\Erf.fs" />
     <Compile Include="SpecialFunctions\Logistic.fs" />
     <Compile Include="SpecialFunctions\Binomial.fs" />
-    <Compile Include="Algebra\LinearAlgebra.fs" />
     <!-- Algebra -->
     <Compile Include="Algebra\EVD.fs" />
     <Compile Include="Algebra\SVD.fs" />
+    <Compile Include="Algebra\LinearAlgebra.fs" />
     <!-- RootFinding -->
     <Compile Include="RootFinding\Brent.fs" />
     <!-- Integration -->

@@ -7,8 +7,6 @@ namespace FSharp.Stats
 [<RequireQualifiedAccess>]
 module Seq = 
 
-    module OpsS = SpecializedGenericImpl
-
     /// <summary>
     /// Computes the range of the input sequence.
     /// </summary>
@@ -814,8 +812,8 @@ module Seq =
     /// </code>
     /// </example>
     let inline covPopulation (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
-        let v1 = seq1 |> OpsS.seqV
-        let v2 = seq2 |> OpsS.seqV
+        let v1 = seq1 |>Array.ofSeq
+        let v2 = seq2 |>Array.ofSeq
         if v1.Length <> v2.Length then failwith "Inputs need to have the same length."
         let zero = LanguagePrimitives.GenericZero<'U>
         let div = LanguagePrimitives.DivideByInt<'U>
@@ -880,8 +878,8 @@ module Seq =
     /// </code>
     /// </example>
     let inline cov (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
-        let v1 = seq1 |> OpsS.seqV
-        let v2 = seq2 |> OpsS.seqV
+        let v1 = seq1 |>Array.ofSeq
+        let v2 = seq2 |>Array.ofSeq
         if v1.Length <> v2.Length then failwith "Inputs need to have the same length."
         let zero = LanguagePrimitives.GenericZero<'U>
         let div = LanguagePrimitives.DivideByInt<'U>

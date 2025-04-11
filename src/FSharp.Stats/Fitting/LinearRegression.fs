@@ -57,12 +57,12 @@ module LinearRegression =
         
         /// <summary>Gets a x value and predicts the corresponding y value for the given polynomial coefficients.</summary>
         member this.Predict (x: 'T)      = 
-            Vector.dotProduct coefficients (vandermondeRow this.Degree x)
+            Vector.dot coefficients (vandermondeRow this.Degree x)
         
         /// <summary>Gets a x value vector and predicts the corresponding y value for the given polynomial coefficients.</summary>
         member this.Predict (x: Vector<'T>)     = 
             let tmp = Vector.init (x.Length + 1) (fun i -> if i = 0 then 'T.One else x.[i-1])
-            Vector.dotProduct tmp coefficients
+            Vector.dot tmp coefficients
         
         /// <summary>Prints the polynomial function in a human readable form.</summary>
         override this.ToString()            = 
@@ -483,7 +483,7 @@ module LinearRegression =
                 /// </example>
                 let predict (coef: Coefficients) (x: Vector<float>) =
                     let tmp: Vector<float> = Vector.init (x.Length+1) (fun i -> if i = 0 then 1. else x.[i-1])
-                    Vector.dotProduct tmp coef.Coefficients 
+                    Vector.dot tmp coef.Coefficients 
             
             module RidgeRegression =           
                 
@@ -518,7 +518,7 @@ module LinearRegression =
                 /// </example>
                 let predict (coef : Coefficients) (x:Vector<float>) =
                     let tmp :Vector<float> = Vector.init (x.Length+1) (fun i -> if i = 0 then 1. else x.[i-1])
-                    Vector.dotProduct tmp coef.Coefficients 
+                    Vector.dot tmp coef.Coefficients 
 
         /// <summary>
         ///   Linear regression using polynomials as regression function:  f(x) =  a + bx + cx^2 + ....
@@ -640,7 +640,7 @@ module LinearRegression =
             /// </example>
             /// <remarks>If all coefficients are nonzero, the order is equal to the length of the coefficient vector!</remarks>
             let predict (coef: Coefficients) (x: float) =
-                Vector.dotProduct coef.Coefficients (vandermondeRow coef.Degree x)
+                Vector.dot coef.Coefficients (vandermondeRow coef.Degree x)
 
             /// <summary>
             ///   calculates derivative values at X=x with given polynomial coefficients. Level 1 = fst derivative; Level2 = snd derivative ...

@@ -29,7 +29,7 @@ module LogisticRegression =
         // Build intercept-augmented obs
         let iobs = withIntercept obs
         // Dot product => logistic function
-        Vector.dotProduct weights iobs
+        Vector.dot weights iobs
         |> FSharp.Stats.SpecialFunctions.Logistic.standard
 
     /// Error = (label - prediction)

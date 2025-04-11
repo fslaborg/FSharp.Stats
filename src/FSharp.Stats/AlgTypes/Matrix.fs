@@ -563,6 +563,64 @@ type Matrix<'T when 'T :> Numerics.INumber<'T>
 
         Matrix(m.NumRows, cols, resultData)
 
+
+    /// <summary>
+    /// Computes row-vector v (length = mat.NumRows) times matrix mat (size = [NumRows × NumCols]),
+    /// returning a new vector of length mat.NumCols. Uses chunk-based SIMD with manual gather.
+    /// </summary>
+    static member inline multiplyRowVector<'T
+            when 'T :> Numerics.INumber<'T>
+            and 'T : struct
+            and 'T : (new : unit -> 'T)
+            and 'T :> ValueType>
+            (v: Vector<'T>)
+            (mat: Matrix<'T>) : Vector<'T> =
+        
+        let n = mat.NumRows
+        let m = mat.NumCols
+        if v.Length <> n then
+            invalidArg (nameof v) "Vector length must match mat.NumRows."
+
+        let result = Vector.zeroCreate<'T> m
+
+        // We'll chunk over v in blocks of 'simdSize'. For each column j, 
+        // we gather that column's slice [ (i*m + j) for i in 0..n-1 ] in blocks.
+        let simdSize = Numerics.Vector<'T>.Count
+
+        for j in 0 .. m - 1 do
+            // sumVec accumulates partial sums in vector-lanes
+            let mutable sumVec = Numerics.Vector<'T>.Zero
+
+            // 1) Process as many full 'simdSize' blocks as possible
+            let blockCount = n / simdSize
+            let tailStart = blockCount * simdSize
+
+            for blockIndex in 0 .. blockCount - 1 do
+                let baseIdx = blockIndex * simdSize
+
+                // Gather the column’s elements for this block into 'gatherArr'
+                // These are mat.Data.[(baseIdx + s)*m + j] for s in [0..simdSize-1]
+                let gatherArr = Vector.zeroCreate<'T> simdSize
+                for s in 0 .. simdSize - 1 do
+                    gatherArr.[s] <- mat.Data.[(baseIdx + s) * m + j]
+
+                let colVec = Numerics.Vector<'T>(gatherArr)      // column-block chunk
+                let rowVec = Numerics.Vector<'T>(v, baseIdx)     // row vector chunk
+                sumVec <- sumVec + (rowVec * colVec)
+
+            // 2) Reduce sumVec’s lanes into a scalar
+            let mutable colSum = 'T.Zero
+            for lane in 0 .. simdSize - 1 do
+                colSum <- colSum + sumVec.[lane]
+
+            // 3) Handle any leftover elements (remainder)
+            for i in tailStart .. n - 1 do
+                colSum <- colSum + v.[i] * mat.Data.[i*m + j]
+
+            result.[j] <- colSum
+
+        result
+
     // Matrix - matrix operations
     static member inline ( + ) (a: Matrix<'T>, b: Matrix<'T>) = Matrix.add a b
     static member inline ( - ) (a: Matrix<'T>, b: Matrix<'T>) = Matrix.subtract a b
@@ -571,6 +629,7 @@ type Matrix<'T when 'T :> Numerics.INumber<'T>
 
     // Matrix - vector operations
     static member inline ( * ) (m: Matrix<'T>, v: Vector<'T>) = Matrix.muliplyVector m v
+    static member inline ( * ) (v: Vector<'T>, m: Matrix<'T>) = Matrix.multiplyRowVector v m
     // static member inline ( + ) (m: Matrix<'T>, colVector: Vector<'T>) = Matrix.addColVector m colVector
     // static member inline ( +| ) (m: Matrix<'T>, rowVector: Vector<'T>) = Matrix.addRowVector m rowVector
 

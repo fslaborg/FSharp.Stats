@@ -354,7 +354,7 @@ module GoodnessOfFit =
                 Vector.init (order+1) (fun i -> pown x i)        
 
             let calculateANOVA (order) (coef : Vector<float>) (xData) (yData) = 
-                let fitFunction x = Vector.dotProduct coef (vandermondeRow order x)
+                let fitFunction x = Vector.dot coef (vandermondeRow order x)
                 calculateANOVA order fitFunction xData yData 
             
             [<Obsolete("Use Fitting.CrossValidation instead")>]

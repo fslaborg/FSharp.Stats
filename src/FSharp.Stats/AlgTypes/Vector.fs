@@ -3,10 +3,15 @@
 open System
 open System.Runtime.InteropServices
 
-/// Vector as a Array type alias
+/// Vector as an array type alias
 type Vector<'T when 'T :> Numerics.INumber<'T>> = 'T []
 
 type Vector =
+    
+    
+    static member inline zeroCreate<'T when 'T :> Numerics.INumber<'T>> count : Vector<'T> =
+        Array.zeroCreate<'T> count
+
 
     /// Adds two vectors element-wise.
     /// <param name="v1">The first vector.</param>
@@ -184,18 +189,18 @@ type Vector =
         let sum = Vector.sum v
         LanguagePrimitives.DivideByInt<'T> sum v.Length
 
-    /// Computes the dot product of two vectors.
+    /// Computes the dot product ab^T of two vectors. 
     /// <param name="v1">The first vector.</param>
     /// <param name="v2">The second vector.</param>
     /// <returns>The dot product of the two vectors.</returns>
     /// <exception cref="System.ArgumentException">Thrown when the vectors have different lengths.</exception>
-    static member inline dotProduct<'T when 'T :> Numerics.INumber<'T>
+    static member inline dot<'T when 'T :> Numerics.INumber<'T>
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
                 and 'T :> ValueType> (v1 : Vector<'T>) (v2 : Vector<'T>) : 'T =
 
         if v1.Length <> v2.Length then
-            invalidArg "v2" "Arrays must have the same length."
+            invalidArg "v2" "Vector must have the same length to compute the dot product."
         if Numerics.Vector.IsHardwareAccelerated then
             let length = v1.Length
             let slotSize = Numerics.Vector<'T>.Count
@@ -229,7 +234,7 @@ type Vector =
                 and 'T :> Numerics.IRootFunctions<'T>>
                 (v:Vector<'T>) : 'T =
         
-        let sumSquares  = Vector.dotProduct v v
+        let sumSquares  = Vector.dot v v
         'T.Sqrt sumSquares
 
     static member inline min<'T when 'T :> Numerics.INumber<'T>
