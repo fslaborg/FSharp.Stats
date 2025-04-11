@@ -5,37 +5,6 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DistanceMetrics.fs" />
-    <Compile Include="Clusternumber.fs" />
-    <Compile Include="TestExtensions.fs" />
-    <Compile Include="Interval.fs" />
-    <Compile Include="ConfidenceInterval.fs" />
-    <Compile Include="Formatting.fs" />
-    <Compile Include="LinearAlgebra.fs" />
-    <Compile Include="Correlation.fs" />
-    <Compile Include="Covariance.fs" />
-    <Compile Include="Distributions.fs" />
-    <Compile Include="DistributionsContinuous.fs" />
-    <Compile Include="DistributionsDiscrete.fs" />
-    <Compile Include="DistributionsEmpirical.fs" />
-    <Compile Include="Vector.fs" />
-    <Compile Include="RowVector.fs" />
-    <Compile Include="Matrix.fs" />
-    <Compile Include="ML.fs" />
-    <Compile Include="Optimization.fs" />
-    <Compile Include="Array.fs" />
-    <Compile Include="JaggedCollection.fs" />
-    <Compile Include="Seq.fs" />
-    <Compile Include="List.fs" />
-    <Compile Include="Signal.fs" />
-    <Compile Include="SpecialFunctions.fs" />
-    <Compile Include="Integration.fs" />
-    <Compile Include="Testing.fs" />
-    <Compile Include="Interpolation.fs" />
-    <Compile Include="Fitting.fs" />
-	  <Compile Include="GeneralisedLinearModels.fs" />
-	  <Compile Include="Quantile.fs" />
-    <Compile Include="Rank.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>
