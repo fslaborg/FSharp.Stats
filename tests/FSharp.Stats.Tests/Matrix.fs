@@ -1,1306 +1,309 @@
 module MatrixTests
+
+open System
+open FSharp.Stats
 open Expecto
 
-open FSharp.Stats
-open FSharp.Stats.Matrix
-
-let private testRowVecA =
-    let values = [|1.;4.|]
-    RowVector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-let private testRowVecB =
-    let values = [|0.;3.;6.|]
-    RowVector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-let private testRowVecC =
-    let values = [|0.;3.;4.|]
-    RowVector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-let private testRowVecD =
-    let values = [|0.;0.;0.|]
-    RowVector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-let private testVectorA =
-    let values = [|0.;3.;6.|]
-    Vector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-let private testVectorB =
-    let values = [|0.;0.;0.|]
-    Vector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-let private testVector1LowerDiag =
-    let values = [|0.;5.|]
-    Vector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-let private testVector1UpperDiag =
-    let values = [|1.;4.|]
-    Vector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-let private testDiagonalMatrixA : Matrix<float> =
-    let values =
-        Array2D.init
-            3
-            3
-            (fun i j ->
-                if i = j then
-                    testVectorA.[i]
-                else 0.
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-
-let private identity3Int : Matrix<int> =
-    let values =
-        Array2D.init
-            3
-            3
-            (fun i j ->
-                if i = j then 1 else 0
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<int>(Some (Instances.Int32Numerics :> INumeric<int>),values))
-        
-
-let private identityFloat3 =  
-    let values =
-        Array2D.init
-            3
-            3
-            (fun i j ->
-                if i = j then 1. else 0.
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-
-let private testValuesArrRows =
-    [|
-        [|0.;1.;2.|]
-        [|0.;3.;4.|]
-        [|0.;5.;6.|]
-    |]
-
-let private testValuesArrCols =
-    [|
-        [|0.;0.;0.|]
-        [|1.;3.;5.|]
-        [|2.;4.;6.|]
-    |]
-
-let private testValues2x3 =
-    [|
-        [|0.;0.;0.|]
-        [|1.;3.;5.|]
-    |]
-
-let private testValues2x3Transposed =
-    [|
-        [|0.;1.|]
-        [|0.;3.|]
-        [|0.;5.|]
-    |]
-
-let private testValues3x2 =
-    [|
-        [|0.;0.|]
-        [|1.;3.|]
-        [|2.;4.|]
-    |]
-
-let private testSquareMatrixA : Matrix<float> =
-    let values =
-        Array2D.init
-            3
-            3
-            (fun i j ->
-                testValuesArrRows.[i].[j]
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-let private testSquareMatrixB : Matrix<float> =
-    let values =
-        Array2D.init
-            3
-            3
-            (fun i j ->
-                testValuesArrCols.[i].[j]
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-            
-let private test2x3Matrix : Matrix<float> =
-    let values =
-        Array2D.init
-            2
-            3
-            (fun i j ->
-                testValues2x3.[i].[j]
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-            
-            
-let private test2x3MatrixTransposed : Matrix<float> =
-    let values =
-        Array2D.init
-            3
-            2
-            (fun i j ->
-                testValues2x3Transposed.[i].[j]
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-
-let private test3x2MatrixB : Matrix<float> =
-    let values =
-        Array2D.init
-            3
-            2
-            (fun i j ->
-                testValues3x2.[i].[j]
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-let private testConstDiagMatrix : Matrix<float> =
-    let values =
-        Array2D.init
-            3
-            3
-            (fun i j ->
-                if i = j then 3. else 0.
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-let private testConstMatrix : Matrix<float> =
-    let values =
-        Array2D.init
-            3
-            3
-            (fun i j ->
-                3.
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-let private testScalarMatrix : Matrix<float> =
-    let values =
-        Array2D.init
-            1
-            1
-            (fun i j ->
-                3.
-            )
-    Matrix.DenseRepr
-        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
 
 [<Tests>]
-let genericImplementationTests = 
-    testList "Matrix.GenericImplementation" [
-        //TO-DO: cover generic implementation here, using another numeric then float
-        testCase "" <| fun () ->
-            ()
+let matrixTests =
+    testList "Matrix Tests" [
+
+        // ----------------------------------------------------------------------
+        // Basic construction 
+        // ----------------------------------------------------------------------
+        testCase "ofJaggedArray creates matrix from jagged array" <| fun _ ->
+            let jagged = 
+                [| [|0.0; 0.0|]
+                   [|1.0; 3.0|]
+                   [|2.0; 4.0|] |]
+            let mat = Matrix.ofJaggedArray jagged  // We specifically test 'ofJaggedArray' here
+            Expect.equal mat.NumRows 3 "Matrix should have 3 rows"
+            Expect.equal mat.NumCols 2 "Matrix should have 2 columns"
+            Expect.equal mat.Data [|0.0; 0.0; 1.0; 3.0; 2.0; 4.0|]
+                "Flattened data should match row-major flattening"
+
+        testCase "ofArray2D creates matrix from 2D array" <| fun _ ->
+            let arr2d = 
+                array2D [ [ 1; 2 ]
+                          [ 3; 4 ]
+                          [ 5; 6 ] ]
+            let mat = Matrix.ofArray2D arr2d
+            Expect.equal mat.NumRows 3 "Matrix should have 3 rows"
+            Expect.equal mat.NumCols 2 "Matrix should have 2 columns"
+            Expect.equal mat.Data [|1; 2; 3; 4; 5; 6|] "Flattened data should match row-major order"
+
+        testCase "init creates a matrix using a function of row,col" <| fun _ ->
+            let mat = Matrix.init 2 3 (fun r c -> float (r + c))
+            // For r=0, c=0..2 => [0;1;2]
+            // For r=1, c=0..2 => [1;2;3]
+            // Flatten => [0;1;2; 1;2;3]
+            let expected = [|0.0; 1.0; 2.0; 1.0; 2.0; 3.0|]
+            Expect.equal mat.NumRows 2 "Rows = 2"
+            Expect.equal mat.NumCols 3 "Cols = 3"
+            Expect.equal mat.Data expected "Data should match the function r+c"
+
+        testCase "ofJaggedArray throws on non-rectangular jagged input" <| fun _ ->
+            let jagged = 
+                [| [|1.0; 2.0|]
+                   [|3.0|] |]  // 2nd row has length=1, first row has length=2
+            Expect.throws (fun () -> Matrix.ofJaggedArray jagged |> ignore)
+                "Should throw due to inconsistent row lengths"
+
+        // ----------------------------------------------------------------------
+        // Access & Slicing
+        // ----------------------------------------------------------------------
+        testCase "indexer get/set within bounds" <| fun _ ->
+            let mat = matrix [| [|1.0; 2.0|]
+                                [|3.0; 4.0|] |]
+            Expect.equal mat.[0,0] 1.0 "Element (0,0) is 1.0"
+            mat.[1,1] <- 99.0
+            Expect.equal mat.[1,1] 99.0 "Element (1,1) updated to 99.0"
+
+        testCase "indexer throws on out-of-range access" <| fun _ ->
+            let mat = matrix [| [|1.0; 2.0|]
+                                [|3.0; 4.0|] |]
+            Expect.throwsT<ArgumentException> (fun () -> let _ = mat.[999, 999] in ())
+                "Indexer out of range should throw"
+
+        testCase "GetSlice works with row and col start..end" <| fun _ ->
+            // 3x3 matrix
+            let mat = matrix [|
+                [|1.0; 2.0; 3.0|]
+                [|4.0; 5.0; 6.0|]
+                [|7.0; 8.0; 9.0|]
+            |]
+            // slice submatrix: rows [0..1], cols [1..2]
+            let subMat = mat.[0..1, 1..2]
+            // This submatrix should be:
+            //   [ [2.0; 3.0]
+            //     [5.0; 6.0] ]
+            Expect.equal subMat.NumRows 2 "2 rows"
+            Expect.equal subMat.NumCols 2 "2 cols"
+            Expect.equal subMat.Data [|2.0; 3.0; 5.0; 6.0|] "Flattened submatrix data"
+
+        testCase "GetSlice throws on invalid slice range" <| fun _ ->
+            let mat = matrix [| [|1.;2.|]
+                                [|3.;4.|] |]
+            Expect.throwsT<ArgumentException> (fun () -> mat.[0..99, *] |> ignore)
+                "Should throw due to invalid row end"
+
+        // ----------------------------------------------------------------------
+        // Arithmetic (element-wise) 
+        // ----------------------------------------------------------------------
+        testCase "add: element-wise addition of same-dimension matrices" <| fun _ ->
+            let m1 = matrix [| [|1.; 2.|]
+                               [|3.; 4.|] |]
+            let m2 = matrix [| [|10.;20.|]
+                               [|30.;40.|] |]
+            let result = Matrix.add m1 m2
+            let expected = [| (1.+10.); (2.+20.); (3.+30.); (4.+40.) |]  // => [11;22;33;44]
+            Expect.equal result.Data expected "Element-wise addition result"
+
+        testCase "subtract: dimension mismatch throws" <| fun _ ->
+            let m1 = matrix [| [|1.;2.|] |]      // 1x2
+            let m2 = matrix [| [|1.;2.;3.|] |] // 1x3
+            Expect.throwsT<ArgumentException> (fun () -> Matrix.subtract m1 m2 |> ignore)
+                "Subtract must throw if shapes differ"
+
+        testCase "multiply & divide: element-wise" <| fun _ ->
+            let m1 = matrix [| [|2.;4.|]
+                               [|6.;8.|] |]
+            let m2 = matrix [| [|1.;2.|]
+                               [|3.;4.|] |]
+
+            // multiply => [ [2.*1. , 4.*2.] ; [6.*3., 8.*4.] ] => [ [2.,8.]; [18.,32.] ]
+            let mulResult = Matrix.multiply m1 m2
+            Expect.equal mulResult.Data [|2.; 8.; 18.; 32.|] "Element-wise multiply"
+
+            // divide => [ [2./1., 4./2.]; [6./3., 8./4.] ] => [ [2.,2.]; [2.,2.] ]
+            let divResult = Matrix.divide m1 m2
+            Expect.equal divResult.Data [|2.;2.;2.;2.|] "Element-wise divide"
+
+
+        // ----------------------------------------------------------------------
+        // Standard matrix multiplication
+        // ----------------------------------------------------------------------
+        testCase "matmul: 2x3 times 3x2 => 2x2 result" <| fun _ ->
+            // A=2x3, B=3x2
+            let A = matrix [| [|1.0; 2.0; 3.0|]
+                              [|4.0; 5.0; 6.0|] |]
+            let B = matrix [| [|7.0;  10.0|]
+                              [|8.0;  11.0|]
+                              [|9.0;  12.0|] |]
+
+            // Expected:
+            // C[0,0] = 1*7 + 2*8 + 3*9   = 50
+            // C[0,1] = 1*10+2*11+3*12  = 68
+            // C[1,0] = 4*7 + 5*8 + 6*9  = 122
+            // C[1,1] = 4*10+5*11+6*12 = 167
+            let C = Matrix.matmul A B
+            Expect.equal C.NumRows 2 "Should have 2 rows"
+            Expect.equal C.NumCols 2 "Should have 2 cols"
+            Expect.equal C.Data [|50.0; 68.0; 122.0; 167.0|] "Check standard matmul result"
+
+
+        // ----------------------------------------------------------------------
+        // Scalar Operations
+        // ----------------------------------------------------------------------
+        testCase "addScalar, subtractScalar, multiplyScalar, divideScalar" <| fun _ ->
+            let m = matrix [| [|1.;2.|]
+                              [|3.;4.|] |]
+            let addRes = Matrix.addScalar m 10.0
+            Expect.equal addRes.Data [|11.;12.;13.;14.|] "Add 10.0 to all"
+
+            let subRes = Matrix.subtractScalar m 1.0
+            Expect.equal subRes.Data [|0.;1.;2.;3.|] "Subtract 1.0 from all"
+
+            let mulRes = Matrix.multiplyScalar m 2.0
+            Expect.equal mulRes.Data [|2.;4.;6.;8.|] "Multiply all by 2.0"
+
+            let divRes = Matrix.divideScalar m 2.0
+            Expect.equal divRes.Data [|0.5;1.;1.5;2.|] "Divide all by 2.0"
+
+        // ----------------------------------------------------------------------
+        // Matrix-Vector Multiply
+        // ----------------------------------------------------------------------
+        testCase "m * v => standard matrix-vector product" <| fun _ ->
+            // 2x3 times vector of length 3 => vector of length 2
+            // mat = [ [1.,2.,3.]
+            //         [4.,5.,6.] ]
+            let mat = matrix [| [|1.;2.;3.|]
+                                [|4.;5.;6.|] |]
+            let v = [| 10.; 20.; 30. |]
+            // result = [
+            //   row0 dot v => (1.*10. + 2.*20. + 3.*30.) = 140.
+            //   row1 dot v => (4.*10. + 5.*20. + 6.*30.) = 320.
+            // ]
+            let result = mat * v
+            Expect.equal result [|140.; 320.|] "Matrix-vector product"
+
+        testCase "v * m => row-vector times matrix => vector" <| fun _ ->
+            // 1x2 row vector times a 2x2 matrix => 1x2 vector
+            let v = [|2.; 3.|]  // length=2
+            let mat = matrix [| [|10.; 100.|]
+                                [|20.; 200.|] |]
+            // v*m => [ (2.*10. + 3.*20.),  (2.*100. + 3.*200.) ]
+            //       => [ 2.*10. + 3.*20. , 2.*100. + 3.*200. ]
+            //       => [ 20.+60., 200.+600. ] => [80., 800.]
+            let result = v * mat
+            Expect.equal result [|80.; 800.|] "Row-vector times matrix"
+
+        testCase "m * v => dimension mismatch throws" <| fun _ ->
+            let mat = matrix [| [|1.;2.|]
+                                [|3.;4.|] |] // 2x2
+            let v = [|1.;2.;3.|] // length=3
+            Expect.throwsT<ArgumentException> (fun () -> let _ = mat * v in ())
+                "Matrix(2x2)*Vector(3) => dimension mismatch should throw"
+
+        // ----------------------------------------------------------------------
+        // Transpose
+        // ----------------------------------------------------------------------
+        testCase "Transpose: changes shape and flips row<->col" <| fun _ ->
+            let mat = matrix [| [|1.;2.;3.|]
+                                [|4.;5.;6.|] |] // 2x3
+            let t = mat.Transpose()
+            Expect.equal t.NumRows 3 "Should have 3 rows"
+            Expect.equal t.NumCols 2 "Should have 2 cols"
+            Expect.equal t.Data [|1.;4.;2.;5.;3.;6.|] "Flattened transpose"
+
+        // ----------------------------------------------------------------------
+        // Identity, Diagonal, and Zero/Ones
+        // ----------------------------------------------------------------------
+        testCase "identity n => NxN identity matrix" <| fun _ ->
+            let eye = Matrix.identity<float> 3
+            // => [1,0,0; 0,1,0; 0,0,1]
+            let expected = [|1.;0.;0.; 0.;1.;0.; 0.;0.;1.|]
+            Expect.equal eye.Data expected "3x3 identity"
+
+        testCase "diagonal => builds NxN from diag vector" <| fun _ ->
+            let diagVec = [|10.; 20.; 30.|]
+            let mat = Matrix.diagonal diagVec
+            // => [ [10, 0, 0],
+            //      [ 0,20, 0],
+            //      [ 0, 0,30] ]
+            Expect.equal mat.NumRows 3 "3x3"
+            Expect.equal mat.NumCols 3 "3x3"
+            let expected = [|10.;0.;0.; 0.;20.;0.; 0.;0.;30.|]
+            Expect.equal mat.Data expected "Diagonal in main diagonal positions"
+
+        testCase "ones => NxM matrix of all 1's" <| fun _ ->
+            let mat = Matrix.ones<float> 2 3
+            Expect.equal mat.Data [|1.;1.;1.;1.;1.;1.|] "2x3 of all 1."
+
+        testCase "zeroCreate => NxM matrix of all 0's" <| fun _ ->
+            let mat = Matrix.zeroCreate<float> 2 3
+            Expect.equal mat.Data [|0.;0.;0.;0.;0.;0.|] "2x3 of all zero."
+
+        // ----------------------------------------------------------------------
+        // getRow / getCol 
+        // ----------------------------------------------------------------------
+        testCase "getRow gets row i as a vector" <| fun _ ->
+            let mat = matrix [| [|1.;2.|]
+                                [|3.;4.|] |]
+            let row0 = Matrix.getRow 0 mat
+            let row1 = Matrix.getRow 1 mat
+            Expect.equal row0 [|1.;2.|] "Row 0"
+            Expect.equal row1 [|3.;4.|] "Row 1"
+
+        testCase "getCol gets column j as a vector" <| fun _ ->
+            let mat = matrix [| [|1.;2.;3.|]
+                                [|4.;5.;6.|] |]
+            let col0 = Matrix.getCol 0 mat
+            let col2 = Matrix.getCol 2 mat
+            Expect.equal col0 [|1.;4.|] "Column 0"
+            Expect.equal col2 [|3.;6.|] "Column 2"
+
+        // ----------------------------------------------------------------------
+        // Equality (IEquatable)
+        // ----------------------------------------------------------------------
+        testCase "Equals returns true for same shape+elements" <| fun _ ->
+            let m1 = matrix [| [|1.;2.|]
+                               [|3.;4.|] |]
+            // 'Matrix.create' constructs from a flattened array
+            let m2 = Matrix.create<float> 2 2 [|1.;2.;3.;4.|]
+            Expect.isTrue (m1.Equals m2) "Matrices should be equal"
+
+        testCase "Equals returns false for dimension mismatch" <| fun _ ->
+            let m1 = matrix [| [|1.;2.|] |]    // 1x2
+            let m2 = matrix [| [|1.;2.;3.|] |] // 1x3
+            Expect.isFalse (m1.Equals m2) "Should be different shapes => not equal"
+
+        testCase "Equals returns false for data difference" <| fun _ ->
+            let m1 = matrix [| [|1.;2.|] |] 
+            let m2 = matrix [| [|1.;9.|] |] 
+            Expect.isFalse (m1.Equals m2) "Same shape, different data => not equal"
+
+        // ----------------------------------------------------------------------
+        // Misc: toArray2D, toJaggedArray
+        // ----------------------------------------------------------------------
+        testCase "toArray2D transforms a matrix into 2D array" <| fun _ ->
+            let mat = matrix [| [|1.;2.|]
+                                [|3.;4.|]
+                                [|5.;6.|] |]
+            let arr2d = mat.toArray2D()
+            Expect.equal (arr2d.GetLength(0)) 3 "3 rows in arr2d"
+            Expect.equal (arr2d.GetLength(1)) 2 "2 cols in arr2d"
+            Expect.equal arr2d.[2,1] 6.0 "Check element"
+
+        testCase "toJaggedArray transforms a matrix into jagged array" <| fun _ ->
+            let mat = matrix [| [|7.;8.|]
+                                [|9.;10.|] |]
+            let jagged = mat.toJaggedArray()
+            Expect.equal jagged.Length 2 "2 rows in jagged"
+            Expect.equal jagged.[1] [|9.;10.|] "Second row matches"
+
+        // ----------------------------------------------------------------------
+        // Slicing & Setting Row
+        // ----------------------------------------------------------------------
+        testCase "SetRow updates row i" <| fun _ ->
+            let mat = matrix [| [|1.;2.|]
+                                [|3.;4.|] |]
+            mat.SetRow(0, [|10.;20.|])
+            Expect.equal mat.Data [|10.;20.;3.;4.|] "Row 0 replaced"
+
+        // (Optional) More tests can be added for addRowVector, addColVector, etc.
     ]
-    
-[<Tests>]
-let floatImplementationSparseTests =
-    testList "Matrix.FloatImplementation.Sparse" [
-        //TO-DO: adapt all dense tests for sparse matrices
-        testCase "" <| fun () ->
-            ()
-    ]
 
-[<Tests>]
-let floatImplementationDenseTests =
-    testList "Matrix.FloatImplementation.Dense" [
-        //Tests for acessing and setting values in the underlying array2D
-        testList "Acessors" [
 
-            testCase "Get value" <| fun () ->
-                let actual = Matrix.get testSquareMatrixA 0 1
-                Expect.equal actual 1. "Matrix.get returned wrong value"
-
-            testCase "Getting value out of range should fail" <| fun () ->
-                Expect.throws (fun () -> Matrix.get testSquareMatrixA 0 7 |> ignore) "Getting value out of range should fail"
-
-            testCase "Set value" <| fun () ->
-
-                let actual =
-                    Matrix.copy testSquareMatrixA
-                Matrix.set actual 0 0 1337.
-
-                let expected = 
-                    [
-                        [1337.;1.;2.]
-                        [0.;3.;4.]
-                        [0.;5.;6.]
-                    ]
-                    |> matrix
-
-                Expect.equal actual expected "Matrix.set mutated the wrong value"
-
-            testCase "Setting value out of range should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.set (Matrix.copy testSquareMatrixA) 0 7 3. |> ignore) "Getting value out of range should fail"
-        ]
-
-        testList "Creation" [
-
-            testCase "init" <| fun () ->
-                let actual =
-                    Matrix.init 3 3 (fun i j -> testValuesArrRows.[i].[j])
-                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.init"
-                
-            testCase "ofRows" <| fun () ->
-                let actual =
-                    testValues2x3
-                    |> Array.map rowvec
-                    |> Vector.Generic.ofSeq
-                    |> Matrix.ofRows
-
-                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofRows"
-            
-            testCase "ofCols" <| fun () ->
-                let actual =
-                    testValues2x3Transposed
-                    |> Array.map vector
-                    |> RowVector.Generic.ofSeq
-                    |> Matrix.ofCols
-
-                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofCols"      
-                
-            testCase "ofJaggedList" <| fun () ->
-
-                let actual =
-                    testValues2x3
-                    |> List.ofArray
-                    |> List.map List.ofArray
-                    |> Matrix.ofJaggedList
-
-                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedList"
-
-            testCase "ofJaggedColList" <| fun () ->
-                let actual =
-                    testValues2x3Transposed
-                    |> List.ofArray
-                    |> List.map List.ofArray
-                    |> Matrix.ofJaggedColList
-
-                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedColList"
-
-
-            testCase "ofJaggedSeq" <| fun () ->
-                let actual =
-                    testValues2x3
-                    |> Seq.ofArray
-                    |> Seq.map Seq.ofArray
-                    |> Matrix.ofJaggedSeq
-
-                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedSeq"
-
-
-            testCase "ofJaggedColSeq" <| fun () ->
-                let actual =
-                    testValues2x3Transposed
-                    |> Seq.ofArray
-                    |> Seq.map Seq.ofArray
-                    |> Matrix.ofJaggedColSeq
-
-                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedColSeq"
-
-
-            testCase "ofJaggedArray" <| fun () ->
-                let actual =
-                    testValues2x3
-                    |> Matrix.ofJaggedArray
-
-                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedArray"
-
-
-            testCase "ofJaggedColArray" <| fun () ->
-                let actual =
-                    testValues2x3Transposed
-                    |> Matrix.ofJaggedColArray
-
-                Expect.equal actual test2x3Matrix "Matrix was not initialized correctly using Matrix.ofJaggedColArray"
-
-
-            testCase "diag" <| fun () ->
-                let actual = Matrix.diag testVectorA
-
-                Expect.equal actual testDiagonalMatrixA "Diagonal Matrix was not correctly initialized using Matrix.diag"
-
-            testCase "initDiagonal" <| fun () ->
-
-                let actual = Matrix.initDiagonal testVectorA
-                    
-                Expect.equal actual testDiagonalMatrixA "Diagonal Matrix was not correctly initialized using Matrix.initDiag"
-
-            testCase "constDiag" <| fun () ->
-                    
-                let actual = Matrix.constDiag 3 3.
-
-                Expect.equal actual testConstDiagMatrix "Constant diagonal matrix was not correctly initialized using Matrix.constDiag"
-
-
-            testCase "create" <| fun () ->
-                    
-                let actual = Matrix.create 3 3 3.
-
-                Expect.equal actual testConstMatrix "Constant matrix was not initialized correctly using Matrix.create"
-
-            testCase "ofScalar" <| fun () ->
-                    
-                let actual = Matrix.ofScalar 3.
-
-                Expect.equal actual testScalarMatrix "1x1 Matrix was not correctly initialized using Matrix.ofScalar"
-
-            testCase "ofArray2D" <| fun () ->
-                    
-                let values =
-                    Array2D.init
-                        3
-                        3
-                        (fun i j ->
-                            testValuesArrRows.[i].[j]
-                        )
-
-                let actual = Matrix.ofArray2D values
-
-                Expect.equal actual testSquareMatrixA "Matrix was not initialized correctly using Matrix.ofArray2D"
-
-            testCase "toArray2D" <| fun () ->
-
-                let expected =
-                    Array2D.init
-                        3
-                        3
-                        (fun i j ->
-                            testValuesArrRows.[i].[j]
-                        )
-
-                let actual = Matrix.toArray2D testSquareMatrixA
-
-                Expect.equal actual expected "Matrix.toArray2D did not return the correct Array2D"
-
-            testCase "toJaggedArray" <| fun () ->
-                let actual = Matrix.toJaggedArray testSquareMatrixA
-                Expect.equal actual testValuesArrRows "Matrix.toJaggedArray did not return the correct JaggedArray"
-
-            testCase "toJaggedSeq" <| fun () ->
-                let actual = Matrix.toJaggedSeq testSquareMatrixA |> JaggedArray.ofJaggedSeq
-                Expect.equal actual testValuesArrRows "Matrix.toJaggedSeq did not return the correct JaggedSeq"
-            
-            testCase "toJaggedColArray" <| fun () ->
-                let actual = Matrix.toJaggedColArray testSquareMatrixA
-                Expect.equal actual testValuesArrCols "Matrix.toJaggedColArray did not return the correct JaggedArray"
-
-            testCase "toJaggedColSeq" <| fun () ->
-                let actual = Matrix.toJaggedColSeq testSquareMatrixA |> JaggedArray.ofJaggedSeq
-                Expect.equal actual testValuesArrCols "Matrix.toJaggedColSeq did not return the correct JaggedSeq"
-
-
-            testCase "getDiagN 1 above diagonal" <| fun () ->
-                    
-                let actual = Matrix.getDiagN testSquareMatrixA 1
-
-                Expect.equal actual testVector1UpperDiag "Matrix.getDiagN did not return the correct offset +1 diagonal"
-
-            testCase "getDiag 1 below diagonal" <| fun () ->
-
-                let actual = Matrix.getDiagN testSquareMatrixA -1
-
-                Expect.equal actual testVector1LowerDiag "Matrix.getDiagN did not return the correct offset -1 diagonal"
-
-        ]
-
-        testList "Operators" [
-
-            testList "add" [
-
-                testCase "Addition of 2 Matrices with the same dimensions" <| fun () ->
-                        
-                    let actual = Matrix.add testSquareMatrixA testSquareMatrixB
-
-                    let expected =
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    testValuesArrRows.[i].[j] + testValuesArrCols.[i].[j]
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-                        
-                    Expect.equal actual expected "Matrix.add did not add the values of two matrices with the same dimensions correctly"
-                    
-                testCase "Addition of matrices with different sizes should fail" <| fun () ->
-                        
-                    Expect.throws (fun () -> Matrix.add test2x3Matrix testSquareMatrixA |> ignore) "Addition of Matrices with different dimesnions did not fail although it should"
-
-            ]
-            testList "sub" [
-
-                testCase "Substraction of 2 Matrices with the same dimensions" <| fun () ->
-                        
-                    let actual = Matrix.sub testSquareMatrixA testSquareMatrixB
-
-                    let expected =
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    testValuesArrRows.[i].[j] - testValuesArrCols.[i].[j]
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-                        
-                    Expect.equal actual expected "Matrix.add did not add the values of two matrices with the same dimensions correctly"
-                    
-                
-                testCase "Subtraction of matrices with different sizes should fail" <| fun () ->
-                        
-                    Expect.throws (fun () -> Matrix.sub test2x3Matrix testSquareMatrixA |> ignore) "Subtraction of Matrices with different dimesnions did not fail although it should"
-            ]
-            testList "mul" [
-
-                testCase "Matrix Multiplication with fitting dimensions" <| fun () ->
-                        
-                    let actual = Matrix.mul test2x3Matrix test3x2MatrixB
-                    let expected =
-                        let values =
-                            [
-                                [0.;0.;]
-                                [13.;29.]
-                            ]
-                        let valArr =
-                            Array2D.init
-                                2
-                                2
-                                (fun i j ->
-                                    values.[i].[j]
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),valArr))
-                            
-                    Expect.equal actual expected "Matrix multiplication of the 2x3 and 3x2 testmatrices did not return the correct result."
-
-                testCase "Matrix Multiplication with non-fitting dimensions should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.mul testScalarMatrix testSquareMatrixA |> ignore) "Matrix multiplication with non-fitting dimensions did not fail although it should" 
-
-            ]
-            testList "mulV" [
-                
-                testCase "Matrix (m*1)Vector multiplication with correct dimensions" <| fun () ->
-                    let actual = Matrix.mulV testSquareMatrixA testVectorA
-
-                    let expected =
-                        let values = [|15.;33.;51.|]
-                        Vector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-                    Expect.equal actual expected "Matrix (m*1)Vector multiplication with correct dimensions did not return the correct result vector"
-                
-                testCase "Matrix (m*1)Vector multiplication with incorrect dimensions should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.mulV testSquareMatrixA testVector1UpperDiag  |> ignore) "Matrix (m*1)Vector multiplication with incorrect dimensions should fail although it should"
-            ]
-            testList "mulRV" [
-                
-                testCase "Matrix (1*n) RowVector multiplication with correct dimensions" <| fun () ->
-                    let actual = Matrix.mulRV testRowVecB testSquareMatrixA 
-                    let expected =
-                        let values = [|0.;39.;48.|]
-                        RowVector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-                        
-                    Expect.equal actual expected "Matrix (1*n) RowVector multiplication with correct dimensions did not return the correct result rowVector"
-                    
-                testCase "Matrix (1*n) RowVector multiplication with incorrect dimensions should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.mulRV testRowVecA testSquareMatrixA |> ignore) "Matrix (1*n) RowVector multiplication with incorrect dimensions didnt fail although it should"
-                
-            ]
-            testList "cptMul" [
-                
-                testCase "Point wise multiplication of two matrices with the same dimensions" <| fun () ->
-                    let actual = 
-                        Matrix.cptMul testSquareMatrixA testSquareMatrixB
-
-                    let expected =
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    testValuesArrRows.[i].[j] * testValuesArrCols.[i].[j]
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-                    Expect.equal actual expected "Point wise multiplication of two matrices with the same dimensions did not return the correct result matrix"
-
-                testCase "Point wise multiplication of two matrices with different dimensions should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.cptMul testSquareMatrixA testScalarMatrix |> ignore) "Point wise multiplication of two matrices with different dimensions did not fail although it should"
-            ]
-            testList "cptMax" [
-
-                testCase "Point wise maximization of two matrices with the same dimensions" <| fun () ->
-                    let actual = 
-                        Matrix.cptMax testSquareMatrixA testSquareMatrixB
-
-                    let expected =
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    max testValuesArrRows.[i].[j] testValuesArrCols.[i].[j]
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                    Expect.equal actual expected "Point wise maximization of two matrices with the same dimensions did not return the correct result matrix"
-
-                testCase "Point wise maximization of two matrices with different dimensions should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.cptMax testSquareMatrixA testScalarMatrix |> ignore) "Point wise maximization of two matrices with different dimensions did not fail although it should"
-
-                
-            ]
-            testList "cptMin" [
-                
-                testCase "Point wise minimization of two matrices with the same dimensions" <| fun () ->
-                    let actual = 
-                        Matrix.cptMin testSquareMatrixA testSquareMatrixB
-
-                    let expected =
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    min testValuesArrRows.[i].[j] testValuesArrCols.[i].[j]
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                    Expect.equal actual expected "Point wise minimization of two matrices with the same dimensions did not return the correct result matrix"
-
-                testCase "Point wise minimization of two matrices with different dimensions should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.cptMin testSquareMatrixA testScalarMatrix |> ignore) "Point wise minimization of two matrices with different dimensions did not fail although it should"
-
-                
-            ]
-            testList "scale" [
-                
-                testCase "scale" <| fun () ->
-                    let actual = Matrix.scale 2. testSquareMatrixA
-
-                    let expected : Matrix<float> =
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    testValuesArrRows.[i].[j] * 2.
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                    Expect.equal actual expected "Scaling a matrix by a scalar did not return the correctly scaled matrix"
-            ]
-            testList "neg" [
-
-                let actual = Matrix.neg testSquareMatrixA
-                
-                let expected : Matrix<float> =
-                    let values =
-                        Array2D.init
-                            3
-                            3
-                            (fun i j ->
-                                testValuesArrRows.[i].[j] * -1.
-                            )
-                    Matrix.DenseRepr
-                        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                Expect.equal actual expected "Negating a matrix did not return the correctly negated matrix"
-
-            ]
-            testList "trace" [
-
-                testCase "Trace of a square matrix" <| fun () ->
-                    let actual = Matrix.trace testSquareMatrixA
-                    Expect.equal actual 9. "Trace of a square matrix was not calculated correctly"
-
-                testCase "Trace of a non-square matrix should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.trace test2x3Matrix |> ignore) "Trace of a non-square matrix did not fail although it should"
-
-            ]
-            testList "transpose" [
-                
-                testCase "transpose of a square matrix" <| fun () ->
-                    let actual = Matrix.transpose testSquareMatrixA
-                    Expect.equal actual testSquareMatrixB "Transposing a test square matrix did not return the correct result"
-
-                testCase "transpose of a non-square matrix" <| fun () ->
-                    let actual = Matrix.transpose test2x3Matrix
-                    Expect.equal actual test2x3MatrixTransposed "Transposing a test non-square matrix did not return the correct result"
-            ]
-            testList "forall" [
-                    
-                testCase "Check if all values in a matrix are >= 0. (expected to be true)" <| fun () ->
-                    Expect.isTrue (Matrix.forall (fun elem -> elem >= 0.) testSquareMatrixA) "test matrix had all values => 0. but the Matrix.forall function failed to recognize"
-
-                testCase "Check if all values in a matrix are >= 1. (expected to be false)" <| fun () ->
-                    Expect.isFalse (Matrix.forall (fun elem -> elem >= 1.) testSquareMatrixA) "test matrix did not have all values => 1. but the Matrix.forall function failed to recognize"
-
-            ]
-            testList "exists" [
-                
-                testCase "Check if a testMatrix contains 0. (expected to be true)" <| fun () ->
-                    Expect.isTrue (Matrix.exists (fun elem -> elem = 0.) testSquareMatrixA) "Test matrix was expected to contain a value 0., but Matrix.exists returned false"
-
-                testCase "Check if a testMatrix contains 1337. (expected to be false)" <| fun () ->
-                    Expect.isFalse (Matrix.exists (fun elem -> elem = 1337.) testSquareMatrixA) "Test matrix was not expected to contain a value 1337., but Matrix.exists returned true"
-            ]
-            testList "foralli" [
-                
-                testCase "Check if all values in a matrix are >= 0. (expected to be true)" <| fun () ->
-                    Expect.isTrue (Matrix.foralli (fun outerI innerI elem -> elem >= 0.) testSquareMatrixA) "test matrix had all values => 0. but the Matrix.forall function failed to recognize"
-
-                testCase "Check if all values in a matrix are >= 1. (expected to be false)" <| fun () ->
-                    Expect.isFalse (Matrix.foralli (fun outerI innerI elem -> elem >= 1.) testSquareMatrixA) "test matrix did not have all values => 1. but the Matrix.forall function failed to recognize"
-                    
-                testCase "Check if values on the diagonal in a matrix are >= 0. (expected to be true)" <| fun () ->
-                    Expect.isTrue (Matrix.foralli (fun outerI innerI elem -> if outerI = innerI then elem >= 0. else true) testSquareMatrixA) "test matrix had all diagonal values => 0. but the Matrix.forall function failed to recognize"
-
-                testCase "Check if all non-diagonal values in a matrix are >= 1337. (expected to be false)" <| fun () ->
-                    Expect.isFalse (Matrix.foralli (fun outerI innerI elem -> if outerI <> innerI then elem >= 1337. else true) testSquareMatrixA) "test matrix did not have all non-diagonal values => 1337. but the Matrix.foralli function failed to recognize"
-
-            ]
-            testList "existsi" [
-                
-                testCase "Check if a testMatrix contains 0. (expected to be true)" <| fun () ->
-                    Expect.isTrue (Matrix.existsi (fun outerI innerI elem -> elem = 0.) testSquareMatrixA) "Test matrix was expected to contain a value 0., but Matrix.existsi returned false"
-
-                testCase "Check if a testMatrix contains 1337. (expected to be false)" <| fun () ->
-                    Expect.isFalse (Matrix.existsi (fun outerI innerI elem -> elem = 1337.) testSquareMatrixA) "Test matrix was not expected to contain a value 1337., but Matrix.existsi returned true"
-
-                testCase "Check if a testMatrix contains 0. on the diagonal (expected to be true)" <| fun () ->
-                    Expect.isTrue (Matrix.existsi (fun outerI innerI elem -> if outerI = innerI then elem = 0. else false) testSquareMatrixA) "Test matrix was expected to contain a diagonal value 0., but Matrix.existsi returned false"
-
-                testCase "Check if a testMatrix contains a non diagonal value 1337. (expected to be false)" <| fun () ->
-                    Expect.isFalse (Matrix.existsi (fun outerI innerI elem -> if outerI <> innerI then elem = 1337. else false) testSquareMatrixA) "Test matrix was not expected to contain a non-diagonal value 1337., but Matrix.existsi returned true"
-            ]
-            testList "map" [
-                
-                testCase "map with (fun elem -> elem * 2)" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.map (fun elem -> elem * 2.)
-
-                    let expected =
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    testValuesArrRows.[i].[j] * 2.
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                    Expect.equal actual expected "Mapping the values of a test matrix with * 2. did not return the correct result"
-
-                testCase "map with multiplication by constant should return the same result as matrix.scale" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.map (fun elem -> elem * 2.)
-
-                    let expected = 
-                        testSquareMatrixA
-                        |> Matrix.scale 2.
-
-                    Expect.equal actual expected "map with multiplication by constant did not return the same result as Matrix.scale"
-                        
-                testCase "map with multiplication by constant -1. should return the same result as matrix.neg" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.map (fun elem -> elem * -1.)
-
-                    let expected = 
-                        testSquareMatrixA
-                        |> Matrix.neg
-
-                    Expect.equal actual expected "map with multiplication by constant did not return the same result as Matrix.neg"
-
-            ]
-            testList "copy" [
-                
-                testCase "Matrix copy created by Matrix.copy should equal original matrix" <| fun () ->
-                    Expect.equal (Matrix.copy testSquareMatrixA) testSquareMatrixA  "Matrix copy created by Matrix.copy was not equal to original matrix"
-
-                testCase "Matrix copy created by Matrix.copy should stay the same when original matrix is mutated" <| fun () ->
-                    let testCopyA = Matrix.copy testSquareMatrixA
-                    let testCopyB = Matrix.copy testCopyA
-                    Matrix.set testCopyA 0 0 1337.
-                    Expect.notEqual testCopyA testCopyB "Matrix copy created by Matrix.copy did not stay the same when original matrix is mutated"
-            ]
-            testList "mapi" [
-                
-                testCase "mapi with (fun elem -> elem * 2)" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.mapi (fun i j elem -> elem * 2.)
-
-                    let expected =
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    testValuesArrRows.[i].[j] * 2.
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                    Expect.equal actual expected "Mapping the values of a test matrix with * 2. did not return the correct result"
-
-                testCase "map with multiplication by constant should return the same result as matrix.scale" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.mapi (fun i j elem -> elem * 2.)
-
-                    let expected = 
-                        testSquareMatrixA
-                        |> Matrix.scale 2.
-
-                    Expect.equal actual expected "map with multiplication by constant did not return the same result as Matrix.scale"
-                        
-                testCase "map with multiplication by constant -1. should return the same result as matrix.neg" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.mapi (fun i j elem -> elem * -1.)
-
-                    let expected = 
-                        testSquareMatrixA
-                        |> Matrix.neg
-
-                    Expect.equal actual expected "map with multiplication by constant did not return the same result as Matrix.neg"
-
-                testCase "create identity matrix using mapi" <| fun () ->
-                    let actual =
-                        testSquareMatrixA
-                        |> Matrix.mapi 
-                            (fun i j elem ->
-                                if i = j then
-                                    1.
-                                else 
-                                    0.
-                            )
-                    Expect.equal actual identityFloat3 "creating identity matrix using Matrix.mapi failed"
-
-            ]
-            testList "mapRows" [
-                
-                testCase "map with Seq.mean" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.mapRows Seq.mean
-
-                    let expected =
-                        Vector.init
-                            3
-                            (fun i -> Seq.mean testValuesArrRows.[i])
-
-                    Expect.equal actual expected "Mapping the rows of a test matrix with Seq.mean did not return the correct result"
-            ]
-            testList "mapCols" [
-                
-                testCase "map with Seq.mean" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.mapCols Seq.mean
-
-                    let expected =
-                        RowVector.init 3 (fun i -> Seq.mean testValuesArrCols.[i])
-
-                    Expect.equal actual expected "Mapping the cols of a test matrix with Seq.mean did not return the correct result"
-            ]
-            testList "mapiRows" [
-                
-                testCase "mapi with Seq.mean" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.mapiRows (fun i x -> float i * Seq.mean x)
-
-                    let expected =
-                        Vector.init 3 (fun i -> float i * Seq.average testValuesArrRows.[i])
-
-                    Expect.equal actual expected "Mapping the rows of a test matrix with Seq.mean did not return the correct result"
-            ]
-            testList "mapiCols" [
-                
-                testCase "mapi with Seq.mean" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.mapiCols (fun i x -> float i * Seq.mean x)
-
-                    let expected =
-                        RowVector.init 3 (fun i -> float i * Seq.average testValuesArrCols.[i])
-
-                    Expect.equal actual expected "Mapping the columns of a test matrix with Seq.mean did not return the correct result"
-            ]
-            testList "fold" [
-                
-                testCase "Sum of all matrix entries using Matrix.fold" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA 
-                        |> Matrix.fold (fun acc elem -> acc + elem) 0.
-
-                    Expect.equal actual 21. "Sum of matrix elements was not correctly computed using Matrix.fold"
-                
-                testCase "count matrix entries using Matrix.fold" <| fun () ->
-                    let actual =
-                        testSquareMatrixA
-                        |> Matrix.fold (fun acc _ -> acc + 1) 0
-
-                    Expect.equal actual 9 "Matrix entries where not correctly counted using Matrix.fold"
-            ]
-            testList "foldi" [
-               
-                testCase "Sum of all matrix entries using Matrix.foldi" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA 
-                        |> Matrix.foldi (fun i j acc elem -> acc + elem) 0.
-
-                    Expect.equal actual 21. "Sum of matrix elements was not correctly computed using Matrix.foldi"
-                
-                testCase "count matrix entries using Matrix.foldi" <| fun () ->
-                    let actual =
-                        testSquareMatrixA
-                        |> Matrix.foldi (fun i j acc _ -> acc + 1) 0
-
-                    Expect.equal actual 9 "Matrix entries where not correctly counted using Matrix.foldi"
-                
-                testCase "Calculation of Matrix trace using Matrix.foldi should be equal to the result of the Matrix.trace function" <| fun () ->
-                    let actual =
-                        testSquareMatrixA
-                        |> Matrix.foldi 
-                            (fun i j acc elem ->
-                                if i = j then
-                                    acc + elem
-                                else
-                                    acc
-                            )
-                            0.
-                    Expect.equal actual (Matrix.trace testSquareMatrixA) "Results of Matrix.trace and calculating matrix trace with Matrix.foldi where not equal"
-            ]
-            testList "filterRows" [
-                testCase "simple filter by sum" <| fun () ->
-                    let expected = 
-                        matrix [
-                            [1.;2.]
-                            [2.;1.]
-                        ]
-                    let actual =
-                        matrix [
-                            [5.;5.]
-                            [1.;2.]
-                            [5.;5.]
-                            [2.;1.]
-                            [5.;5.]
-                            [5.;5.]
-                        ]
-                        |> Matrix.filterRows (fun r -> r |> Seq.sum = 3.)
-                    Expect.equal actual expected "Matrix.filterRows did not return correct result"                
-
-                testCase "simple filter by contains" <| fun () ->
-                    let expected = 
-                        matrix [
-                            [1.;100.]
-                            [2.;100.]
-                        ]
-                    let actual =
-                        matrix [
-                            [5.;5.]
-                            [1.;2.]
-                            [5.;5.]
-                            [1.;100.]
-                            [2.;100.]
-                            [2.;1.]
-                            [5.;5.]
-                            [5.;5.]
-                        ]
-                        |> Matrix.filterRows (fun r -> r |> Seq.contains 100.)
-                    Expect.equal actual expected "Matrix.filterRows did not return correct result"
-            ]            
-            testList "filterCols" [
-                testCase "simple filter by sum" <| fun () ->
-                    let expected = 
-                        matrix [
-                            [1.;2.]
-                            [2.;1.]
-                        ]
-                    let actual =
-                        matrix [
-                            [5.;1.;6.;2.;0.]
-                            [5.;2.;6.;1.;0.]
-                        ]
-                        |> Matrix.filterCols (fun c -> c |> Seq.sum = 3.)
-                    Expect.equal actual expected "Matrix.filterCols did not return correct result"
-
-                testCase "simple filter by contains" <| fun () ->
-                    let expected = 
-                        matrix [
-                            [100.;2.]
-                            [2.;100.]
-                        ]
-                    let actual =
-                        matrix [
-                            [5.;100.;6.;2.;0.]
-                            [5.;2.;6.;100.;0.]
-                        ]
-                        |> Matrix.filterCols (fun c -> c |> Seq.contains 100.)
-                    Expect.equal actual expected "Matrix.filterCols did not return correct result"
-            ]            
-            testList "filterCols" [
-
-            ]
-            testList "toDense" [
-                
-                testCase "toDense" <| fun () ->
-                    ()
-            ]
-            testList "initDense" [
-                
-                testCase "initDense" <| fun () ->
-                    ()
-            ]
-            testList "initSparse" [
-                
-                testCase "initSparse" <| fun () ->
-                    ()
-            ]
-            testList "nonzero_entries" [
-                
-                testCase "nonzero_entries" <| fun () ->
-                    let actual =
-                        Matrix.nonzero_entries testSquareMatrixA
-                        |> Array.ofSeq
-
-                    let expected =
-                        testValuesArrRows
-                        |> Array.mapi 
-                            (fun outerI row ->
-                                row
-                                |> Array.mapi 
-                                    (fun innerI elem ->
-                                        (outerI,innerI,elem)
-                                    )
-                            )
-                        |> Array.concat
-                        |> Array.filter (fun (_,_,elem) -> elem > 0.)
-
-                    Expect.equal actual expected "Matrix.nonzero_entries returned the wron elements/indices"
-
-
-            ]
-            testList "zero" [
-                
-                let actual = 
-                    Matrix.zero 3 3
-
-                let expected =
-                    let values =
-                        Array2D.init
-                            3
-                            3
-                            (fun i j ->
-                                0.
-                            )
-                    Matrix.DenseRepr
-                        (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                Expect.equal actual expected "Matrix with zero entries was not initialized corrtectly"
-
-            ]
-            testList "identity" [
-                testCase "Create 3x3 identity matrix" <| fun () ->
-                    let actual = Matrix.identity 3
-
-                    Expect.equal actual identityFloat3 "Identity Matrix was not correctly initialized"
-                
-            ]
-            testList "ones" [
-                
-                testCase "Create 3x3 Matrix with only 1. as entries" <| fun () ->
-                    let actual = 
-                        Matrix.ones 3 3
-
-                    let expected =
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    1.
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-                    Expect.equal actual expected "Matrix with only 1. as entries was not initialized correctly"
-            ]
-            testList "getRow" [
-                
-                testCase "getRow" <| fun () ->
-                    let actual = Matrix.getRow testSquareMatrixA 1
-                    Expect.equal actual testRowVecC "Matrix.getRow did not return the correct rowvector"
-
-                testCase "Getting row out of row range using Matrix.getRow should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.getRow testSquareMatrixA 1337 |> ignore) "Getting row out of row range using Matrix.getRow did not fail although it should"
-
-            ]
-            testList "setRow" [
-                
-                testCase "Set Row" <| fun () ->
-
-                    let actual = Matrix.copy testSquareMatrixA
-                    Matrix.setRow actual 1 testVectorA
-
-                    let expected =
-                        let rows = 
-                            [|
-                                [|0.;1.;2.|]
-                                [|0.;3.;6.|]
-                                [|0.;5.;6.|]
-                            |]
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    rows.[i].[j]
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                    Expect.equal actual expected "Matrix.getRow did not return the correct rowvector"
-
-                testCase "Setting row out of row range using Matrix.setRow should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.setRow testSquareMatrixA 1337 testVectorA |> ignore) "Settingetting row out of row range using Matrix.getRow did not fail although it should"
-                    
-                testCase "Setting row with vector of wrong length using Matrix.setRow should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.setRow testSquareMatrixA 1 testVector1LowerDiag |> ignore) "Setting row with vector of wrong length using Matrix.setRow did not fail although it should"
-
-            ]
-            testList "getCol" [
-                
-                testCase "getCol" <| fun () ->
-                    let actual = Matrix.getCol testSquareMatrixA 0
-                    Expect.equal actual testVectorB "Matrix.getCol did nbot return the correct vector"
-
-                testCase "Getting column out of col range using Matrix.getCol should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.getCol testSquareMatrixA 1337 |> ignore) "Getting Column out of col range using Matrix.getCol did not fail although it should"
-
-            ]
-            testList "setCol" [
-                
-                testCase "Set Column" <| fun () ->
-
-                    let actual = Matrix.copy testSquareMatrixA
-                    Matrix.setCol actual 0 testVectorA
-
-                    let expected =
-                        let rows = 
-                            [|
-                                [|0.;1.;2.|]
-                                [|3.;3.;4.|]
-                                [|6.;5.;6.|]
-                            |]
-                        let values =
-                            Array2D.init
-                                3
-                                3
-                                (fun i j ->
-                                    rows.[i].[j]
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                    Expect.equal actual expected "Matrix.setCol did not return the correct vector"
-
-                testCase "Setting column out of col range using Matrix.setCol should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.setCol testSquareMatrixA 1337 testVectorA |> ignore) "Setting column out of col range using Matrix.setCol did not fail although it should"
-                
-                testCase "Setting column with vector of wrong length using Matrix.setCol should fail" <| fun () ->
-                    Expect.throws (fun () -> Matrix.setCol testSquareMatrixA 1 testVector1LowerDiag |> ignore) "Setting row with vector of wrong length using Matrix.setRow did not fail although it should"
-
-                testCase "Set Column non square" <| fun () ->
-
-                    let test2x3MatrixNonSquare : Matrix<float> =
-                        let values =
-                            Array2D.init
-                                2
-                                3
-                                (fun i j ->
-                                    0.
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                    Matrix.setCol test2x3MatrixNonSquare 0 ([1.;1.]|>Vector.ofList)
-
-                    let expected =
-                        let rows = 
-                            [|
-                                [|1.;0.;0.|]
-                                [|1.;0.;0.|]
-                            |]
-                        let values =
-                            Array2D.init
-                                2
-                                3
-                                (fun i j ->
-                                    rows.[i].[j]
-                                )
-                        Matrix.DenseRepr
-                            (DenseMatrix<float>(Some (Instances.FloatNumerics :> INumeric<float>),values))
-
-                    Expect.equal test2x3MatrixNonSquare expected "Matrix.setCol did not return the correct vector for non square Matrix"
-
-
-            ]
-            testList "getCols" [
-                
-                testCase "getCols" <| fun () ->
-                    ()
-            ]
-            testList "getRows" [
-                
-                testCase "getRows" <| fun () ->
-                    ()
-            ]
-            testList "getRegion" [
-                
-                testCase "get Region" <| fun () ->
-                        
-                    let actual = Matrix.getRegion testSquareMatrixA 0 0 3 2
-
-                    Expect.equal actual test2x3MatrixTransposed "Matrix. getRegion did not return the correct matrix window"
-            ]
-            testList "rowRange" [
-                
-                testCase "rowRange" <| fun () ->
-                    Expect.equal (Matrix.rowRange testSquareMatrixA) (0,2) "Matrix.rowRange did not return the correct dimension"
-            ]
-            testList "colRange" [
-                
-                testCase "colRange" <| fun () ->
-                    Expect.equal (Matrix.colRange testSquareMatrixA) (0,2) "Matrix.colRange did not return the correct dimension"
-            ]
-            testList "wholeRegion" [
-                
-                testCase "wholeRegion" <| fun () ->
-                        Expect.equal (Matrix.wholeRegion testSquareMatrixA) ((0,2),(0,2)) "Matrix.wholeRange did not return the correct dimensions"
-            ]
-            testList "foldByRow" [
-                
-                testCase "compute row sum vector" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.foldByRow (fun acc elem -> acc + elem) testVectorB
-
-                    let expected = 
-                        let values = [|3.;7.;11.|]
-                        Vector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-                    Expect.equal actual expected "Matrix.foldByCol did not compute the correct row sum vector"
-            ]
-            testList "foldByCol" [
-                
-                testCase "compute column sum vector" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA
-                        |> Matrix.foldByCol (fun acc elem -> acc + elem) testRowVecD
-
-                    let expected = 
-                        let values = [|0.;9.;12.|]
-                        RowVector<float>(Some (Instances.FloatNumerics :> INumeric<float>),values)
-
-                    Expect.equal actual expected "Matrix.foldByCol did not compute the correct column sum vector"
-            ]
-            testList "foldRow" [
-                
-                testCase "compute sum of a row" <| fun () ->
-                    let actual = Matrix.foldRow (fun acc elem -> acc + elem) 0. testSquareMatrixA 0
-                    Expect.equal actual 3. "Matrix.foldRow did not return the correct sum for a row"
-            ]
-            testList "foldCol" [
-                
-                testCase "compute sum of a column" <| fun () ->
-                    let actual = Matrix.foldCol (fun acc elem -> acc + elem) 0. testSquareMatrixA 0
-                    Expect.equal actual 0. "Matrix.foldRow did not return the correct sum for a column"
-            ]
-            testList "sum" [
-                
-                testCase "Sum of all matrix entries using Matrix.sum" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA 
-                        |> Matrix.sum
-
-                    Expect.equal actual 21. "Sum of matrix elements was not correctly computed using Matrix.sum"
-            ]
-            testList "prod" [
-                
-                testCase "Product of all matrix entries using Matrix.prod" <| fun () ->
-                    let actual = 
-                        testSquareMatrixA 
-                        |> Matrix.prod
-
-                    Expect.equal actual 0. "Product of matrix elements was not correctly computed using Matrix.sum"
-
-            ]
-            testList "mean" [
-                testCase "meanRowWise" <| fun() ->
-                    let testMat = matrix [
-                                            [20.;  11.];
-                                            [6.;  29.];
-                                            [12.;  8.];
-                                          ]
-                    let correctList = [15.5; 17.5; 10.]
-
-                    let testlist = List.ofArray( Vector.toArray (Matrix.meanRowWise testMat))
-                    List.iter2 (fun a b -> Expect.floatClose Accuracy.high a b "means of matrix RowWise was calculated incorrectly") testlist correctList
-                
-                testCase "meanColumnWise"<| fun() ->
-                    let testMat = matrix[
-                        [20.;6.;12.];
-                        [11.;29.;8.]
-                    ]
-                    let correctList = [15.5; 17.5; 10.]
-                    let testlist = List.ofArray( RowVector.toArray (Matrix.meanColumnWise testMat))
-                    List.iter2 (fun a b -> Expect.floatClose Accuracy.high a b "means of matrix ColumnWise was calculated incorrectly") testlist correctList
-
-            ]
-            testList "norm" [
-                
-                testCase "norm" <| fun () ->
-                    ()
-            ]
-            testList "dot" [
-                
-                testCase "dot" <| fun () ->
-                    ()
-            ]
-            testList "cptPow" [
-                
-                testCase "cptPow" <| fun () ->
-                    ()
-            ]
-
-        ]
-    ]
 

@@ -14,8 +14,8 @@ open System.Runtime.InteropServices
 type Matrix<'T when 'T :> Numerics.INumber<'T>
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
-                and 'T :> ValueType
-                and 'T : equality> 
+                and 'T : equality
+                and 'T :> ValueType> 
                 (rows: int, cols: int, data: Vector<'T>) =
 
     /// Exposes the raw underlying data array (row-major flattened).
@@ -421,7 +421,7 @@ type Matrix<'T when 'T :> Numerics.INumber<'T>
         Matrix.map2Unchecked (-) (-) a b
 
 
-
+    /// Hadamard product
     static member inline multiply<'T 
         when 'T :> Numerics.INumber<'T>
         and 'T : (new: unit -> 'T)
@@ -660,11 +660,71 @@ type Matrix<'T when 'T :> Numerics.INumber<'T>
 
         result
 
+    /// <summary>
+    /// Standard matrix multiplication (A x B).
+    /// A is (M x K), B is (K x N) => result is (M x N).
+    /// Then each (row of A) .dot. (row of B^T) is done with Vector<'T> chunks.
+    /// </summary>
+    static member matmul
+            (A: Matrix<'T>) (B: Matrix<'T>) : Matrix<'T> =
+        
+        // 1) Dimension checks
+        if A.NumCols <> B.NumRows then
+            invalidArg (nameof B)
+                $"Inner dimensions mismatch. A is {A.NumRows}x{A.NumCols}, B is {B.NumRows}x{B.NumCols}"
+
+        let M = A.NumRows
+        let K = A.NumCols
+        let N = B.NumCols
+
+        // 2) Transpose B to get B^T => shape [N x K], row j of B^T is col j of B
+        let Btrans = B.Transpose()
+        let bTData = Btrans.Data // Now each "row" in bTData is length=K, contiguous
+
+        // 3) We'll allocate result
+        let resultData = Array.zeroCreate<'T> (M * N)
+        let aData = A.Data
+
+        // 4) For each row i in A, row j in B^T => element in [i*N + j]
+        //    The row i in A is contiguous of length K => offset i*K in aData
+        //    The row j in B^T is contiguous of length K => offset j*K in bTData
+        for i in 0 .. M - 1 do
+            let aRowOffset = i * K
+            let aRowSpan = aData.AsSpan(aRowOffset, K)
+            // Convert A's row to a "Vector<'T>" span
+            let aVecSpan = MemoryMarshal.Cast<'T, Numerics.Vector<'T>>(aRowSpan)
+
+            for j in 0 .. N - 1 do
+                let bTRowOffset = j * K
+                let bTRowSpan = bTData.AsSpan(bTRowOffset, K)
+                // Convert B^T's row j to a "Vector<'T>" span
+                let bTVecSpan = MemoryMarshal.Cast<'T, Numerics.Vector<'T>>(bTRowSpan)
+
+                // 4.a) Do the chunkwise vector multiply-add
+                let mutable accum = Numerics.Vector<'T>.Zero
+                for chunk in 0 .. aVecSpan.Length - 1 do
+                    accum <- accum + (aVecSpan.[chunk] * bTVecSpan.[chunk])
+
+                // 4.b) Sum up the vector lanes to a single scalar
+                let mutable sum = Numerics.Vector.Sum(accum)
+
+                // 4.c) Handle remainder elements if K not multiple of Vector<'T>.Count
+                let remainderStart = aVecSpan.Length * Numerics.Vector<'T>.Count
+                for r in remainderStart .. K - 1 do
+                    sum <- sum + aRowSpan.[r] * bTRowSpan.[r]
+
+                // 4.d) Place result into the final matrix
+                resultData.[i*N + j] <- sum
+
+        Matrix(M, N, resultData)
+
+
     // Matrix - matrix operations
-    static member inline ( + ) (a: Matrix<'T>, b: Matrix<'T>) = Matrix.add a b
-    static member inline ( - ) (a: Matrix<'T>, b: Matrix<'T>) = Matrix.subtract a b
-    static member inline ( * ) (a: Matrix<'T>, b: Matrix<'T>) = Matrix.multiply a b
-    static member inline ( / ) (a: Matrix<'T>, b: Matrix<'T>) = Matrix.divide a b
+    static member inline ( + ) (a: Matrix<'T>, b: Matrix<'T>)  = Matrix.add a b
+    static member inline ( - ) (a: Matrix<'T>, b: Matrix<'T>)  = Matrix.subtract a b
+    static member inline ( .* ) (a: Matrix<'T>, b: Matrix<'T>) = Matrix.multiply a b
+    static member inline ( * ) (a: Matrix<'T>, b: Matrix<'T>)  = Matrix.matmul a b
+    static member inline ( / ) (a: Matrix<'T>, b: Matrix<'T>)  = Matrix.divide a b
 
     // Matrix - vector operations
     static member inline ( * ) (m: Matrix<'T>, v: Vector<'T>) = Matrix.muliplyVector m v
@@ -687,11 +747,7 @@ type Matrix<'T when 'T :> Numerics.INumber<'T>
 
 
     
-    static member inline diagonal<'T
-        when 'T :> Numerics.INumber<'T>
-        and 'T : struct
-        and 'T : (new : unit -> 'T)
-        and 'T :> ValueType>
+    static member inline diagonal
         (diag: Vector<'T>) : Matrix<'T> =
 
         let n = diag.Length
