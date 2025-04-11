@@ -66,6 +66,22 @@ module Permutation =
         let copy = Array.copy arr
         ofFreshArray copy
 
+    /// Computes the sign (+1.0 or -1.0) of a permutation P, 
+    /// given its domain size n. sign(P) = (-1)^(n - numCycles).
+    let sign (n: int) (P: Permutation) : float =
+        let visited = Array.create n false
+        let mutable numCycles = 0
+        for i in 0 .. n - 1 do
+            if not visited.[i] then
+                numCycles <- numCycles + 1
+                let mutable current = i
+                while not visited.[current] do
+                    visited.[current] <- true
+                    current <- P current
+        let numTranspositions = n - numCycles
+        if numTranspositions % 2 = 0 then 1.0 else -1.0
+
+
 
     let ofPairs  (mappings: seq<int * int>) = 
       let p = dict mappings 

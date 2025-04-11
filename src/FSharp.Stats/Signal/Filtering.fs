@@ -54,13 +54,13 @@ module Filtering =
 
         if sLen < kLen then
             // The original code returned a single dot if kernel longer than signal
-            [| Vector.dotProduct kernel signal |]
+            [| Vector.dot kernel signal |]
         else
             // We produce sLen - kLen + 1 outputs
             let outLen = sLen - kLen + 1
             Array.init outLen (fun i ->
                 // dot kernel with signal[i.. i+kLen-1]
-                Vector.dotProduct kernel signal.[i .. i + kLen - 1]
+                Vector.dot kernel signal.[i .. i + kLen - 1]
             )
 
 

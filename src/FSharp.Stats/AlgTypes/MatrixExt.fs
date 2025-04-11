@@ -98,13 +98,13 @@ module Matrix =
     /// <returns>
     /// A new matrix of the same dimensions <c>r x c</c>, with rows permuted by <paramref name="P"/>.
     /// </returns>
-    let permuteRowsBy (P: Permutation) (M: Matrix<'T>) : Matrix<'T> =
-        let r, c = M.NumRows, M.NumCols
+    let permuteRowsBy (P: Permutation) (m: Matrix<'T>) : Matrix<'T> =
+        let r, c = m.NumRows, m.NumCols
         let newData = Array.zeroCreate<'T> (r * c)
         for i = 0 to r - 1 do
             let srcRow = P i
             // Copy row srcRow from M into row i of the new matrix
-            Array.blit M.Data (srcRow * c) newData (i * c) c
+            Array.blit m.Data (srcRow * c) newData (i * c) c
         Matrix<'T>(r, c, newData)
 
     let ofRows (rows : 'T[][]) : Matrix<'T> =
@@ -130,3 +130,59 @@ module Matrix =
                 f j col
             )
         ofCols cols
+
+    /// <summary>
+    /// Applies a function <paramref name="f"/> to each element of the matrix, 
+    /// returning a new matrix with updated values. The iteration occurs in 
+    /// row-major order for performance.
+    /// </summary>
+    /// <param name="f">
+    /// A function taking (rowIndex, colIndex, oldValue) 
+    /// and returning the new value for that position.
+    /// </param>
+    /// <returns>A new Matrix with updated elements.</returns>
+    let mapi (f: int -> int -> 'T -> 'U) (A: Matrix<'T>) : Matrix<'U> =
+        let newData = Array.zeroCreate<'U> A.Data.Length
+        let rows, cols = A.NumRows, A.NumCols
+        for i in 0 .. rows - 1 do
+            let rowOffset = i * cols
+            for j in 0 .. cols - 1 do
+                let idx = rowOffset + j
+                newData.[idx] <- f i j A.Data.[idx]
+        Matrix<'U>(rows, cols, newData)
+
+
+    let map (f: 'T -> 'U)  (m:Matrix<'T>) : Matrix<'U> = 
+        let r, c = m.NumRows, m.NumCols
+        let newData = 
+            m.Data |> Array.map f
+        Matrix<'U>(r, c, newData)
+
+
+    /// <summary>
+    /// Folds over each element in row-major order, accumulating a result of type 'State.
+    /// The callback <paramref name="f"/> receives (currentState, rowIndex, colIndex, elementValue),
+    /// and returns the new state.
+    /// </summary>
+    /// <param name="f">A function taking (state, i, j, value) -> newState.</param>
+    /// <param name="initialState">The initial accumulation state.</param>
+    /// <param name="A">The matrix to fold over.</param>
+    /// <returns>The final accumulated state.</returns>
+    let foldi
+        (f : int -> int -> 'State -> 'T -> 'State )
+        (initialState : 'State)
+        (A : Matrix<'T>)
+        : 'State =
+
+        let mutable acc = initialState
+        let rows, cols = A.NumRows, A.NumCols
+        for i in 0 .. rows - 1 do
+            let rowOffset = i * cols
+            for j in 0 .. cols - 1 do
+                let idx = rowOffset + j
+                acc <- f i j acc A.Data.[idx]
+        acc
+
+    /// <summary> Sums all elements in the matrix. </summary>
+    let sum (m:Matrix<'T>) : 'T =
+        m.Data |> Vector.sum   

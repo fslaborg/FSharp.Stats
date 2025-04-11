@@ -14,50 +14,53 @@ open FSharp.Stats.Ops
 type MultivariateNormal =
     
      // multivariate normal distribution helper functions.
-    static member CheckParam (mu:vector) (sigma:matrix) =
+    static member CheckParam (mu:Vector<float>) (sigma:Matrix<float>) =
         // TODO Implement checkParam for MultivariateNormal 
         if false then 
             failwith "Multivariate normal distribution should be parametrized by "
       
     
     /// Computes the mean.
-    static member Mean (mu:vector) (sigma:matrix) =
+    static member Mean (mu:Vector<float>) (sigma:Matrix<float>) =
         MultivariateNormal.CheckParam mu sigma
         mu
     /// Computes the variance.
-    static member Variance (mu:vector) (sigma:matrix) =
+    static member Variance (mu:Vector<float>) (sigma:Matrix<float>) =
         MultivariateNormal.CheckParam mu sigma
         //sigma*sigma
         failwith "Not implemented yet."
     /// Computes the standard deviation.
-    static member StandardDeviation (mu:vector) (sigma:matrix) =
+    static member StandardDeviation (mu:Vector<float>) (sigma:Matrix<float>) =
         MultivariateNormal.CheckParam mu sigma
         //sigma 
         failwith "Not implemented yet."
     /// Produces a random sample using the current random number generator (from GetSampleGenerator()).
-    static member Sample (mu:vector) (sigma:matrix) =
-        if Vector.length mu = 2 then 
-            let a = Algebra.LinearAlgebra.Cholesky sigma
-            let z = Random.boxMullerTransform() |> fun (a,b) -> vector [a;b]
-            mu + a*z
+    static member Sample (mu:Vector<float>) (sigma:Matrix<float>) =
+        if Array.length mu = 2 then 
+            let a = Algebra.LinearAlgebra.cholesky sigma
+            let z = Random.boxMullerTransform() |> fun (a,b) -> [|a;b|]
+            mu .+ a * z
         else failwith "Not implemented yet."
 
     /// Computes the probability density function.
-    static member PDF (mu:vector) (sigma:matrix) (x:vector) =
+    static member PDF (mu:Vector<float>) (sigma:Matrix<float>) (x:Vector<float>) =
         MultivariateNormal.CheckParam mu sigma
         let k = Seq.length mu |> float
-        let ex = Math.Exp(-0.5 * (x - mu).Transpose * (Algebra.LinearAlgebra.Inverse sigma) * (x-mu))
-        (2.*Math.PI)**(-k/2.) * (Algebra.LinearAlgebra.Determinant sigma ** (-0.5)) * ex
+        let tmp = x .- mu
+        let tmp' = -0.5 .* tmp * (Algebra.LinearAlgebra.inverse sigma)
+        let ex = Math.Exp(Vector.dot tmp' tmp)
+        (2.*Math.PI)**(-k/2.) * (Algebra.LinearAlgebra.determinant sigma ** (-0.5)) * ex
+
     /// Computes the cumulative distribution function.
-    static member CDF (mu:vector) (sigma:matrix) (x:vector) =
+    static member CDF (mu:Vector<float>) (sigma:Matrix<float>) (x:Vector<float>) =
         failwith "Not implemented yet."
     /// Computes the inverse cumulative distribution function (quantile function).
-    static member InvCDF (mu:vector) (sigma:matrix) (x:vector) =
+    static member InvCDF (mu:Vector<float>) (sigma:Matrix<float>) (x:Vector<float>) =
         failwith "InvCDF not implemented yet."
 
     /// Initializes a multivariate normal distribution with mean mu and covariance matrix sigma       
-    static member Init (mu:vector) (sigma:matrix) =
-        { new ContinuousDistribution<vector,vector> with
+    static member Init (mu:Vector<float>) (sigma:Matrix<float>) =
+        { new ContinuousDistribution<Vector<float>,Vector<float>> with
             member d.Mode              = MultivariateNormal.Mean mu sigma
             member d.Mean              = MultivariateNormal.Mean mu sigma
             member d.StandardDeviation = MultivariateNormal.StandardDeviation mu sigma

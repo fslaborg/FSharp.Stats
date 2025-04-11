@@ -58,7 +58,7 @@ type LinearAlgebra =
 
             for i = 0 to j - 1 do
                 let qi = qCols.[i]
-                let rij = Vector.dotProduct qi v
+                let rij = Vector.dot qi v
                 r.[i, j] <- rij
                 for k = 0 to m - 1 do
                     v.[k] <- v.[k] - rij * qi.[k]
@@ -629,3 +629,41 @@ type LinearAlgebra =
                     false
             // Return sᵀ => the actual pseudoinverse shape (n×m)
             s.Transpose()
+
+
+    /// <summary>
+    /// Computes the determinant of a square matrix A by factoring A = P * L * U,
+    /// then det(A) = sign(P) * ∏ diag(U). 
+    /// (Assumes L has diag=1, as in Doolittle.)
+    /// </summary>
+    static member inline determinant (A: Matrix<float>) : float =
+        let n = A.NumRows
+        if n <> A.NumCols then
+            invalidArg (nameof A) "Matrix must be square."
+
+        // 1) Factor A => (P, L, U) 
+        let (P, L, U) = LinearAlgebra.luDecompose A
+
+        // 2) Compute sign from the permutation P with domain size n
+        let permSign = Permutation.sign n P
+
+        // 3) Product of diag(U)
+        let diagProd =
+            let mutable product = 1.0
+            for i = 0 to n - 1 do
+                product <- product * U.Data.[i*n + i]
+            product
+
+        // 4) Return sign(P) * product
+        permSign * diagProd
+
+
+    static member inline SVD (a:Matrix<float>) =
+        let (umatrix,s,vmatrix) = SVD.computeInPlace (a.toArray2D())
+        //Matrix.diag
+        s,Matrix.ofArray2D umatrix,Matrix.ofArray2D vmatrix
+        //(Matrix.ofArray2D umatrix,s,Matrix.ofArray2D vmatrix)
+    
+    static member inline symmetricEigenspectrum (a:Matrix<float>) = 
+        let (e,v,d) = EVD.symmetricEvd (a.toArray2D())
+        (Matrix.ofArray2D v, d)

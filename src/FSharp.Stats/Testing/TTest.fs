@@ -40,8 +40,8 @@ module TTest =
 
     /// Computes a t-test or a Welch test (unequal variances)
     let twoSample (assumeEqualVariances:bool) sample1 sample2 =
-        let s1Stats = Vector.stats sample1
-        let s2Stats = Vector.stats sample2
+        let s1Stats = Seq.stats sample1
+        let s2Stats = Seq.stats sample2
 
         let v1 = SummaryStats.var s1Stats
         let v2 = SummaryStats.var s2Stats
@@ -64,7 +64,7 @@ module TTest =
     //// Computes a paired t-test used to compare two population means where you have two samples in
     /// which observations in one sample can be paired with observations in the other sample.
     let twoSamplePaired (sample1:Vector<float>) (sample2:Vector<float>) =                
-        let deltas = Vector.map2 (fun a b -> b - a) sample1 sample2          
+        let deltas = Array.map2 (fun a b -> b - a) sample1 sample2          
         oneSample deltas 0.
 
     /// Union type indicating whether One Tail or Two Tail Student's T critical value is desired.

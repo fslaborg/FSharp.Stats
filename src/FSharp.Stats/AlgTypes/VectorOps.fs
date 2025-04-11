@@ -36,3 +36,15 @@ module VectorOpsSymbols =
     let inline (.-) a b = Minus.Invoke(a, b)
     let inline (.*) a b = Multiply.Invoke(a, b)
     let inline (./) a b = Divide.Invoke(a, b)
+
+
+//// A type extension on `'T[]` so you can do `myArray.Transposed`.
+//module ArrayExtensions =
+
+//    type Array with
+        
+//        member this.Transpose
+            
+//            with get () =
+//                RowVector<'T>(this)
+
