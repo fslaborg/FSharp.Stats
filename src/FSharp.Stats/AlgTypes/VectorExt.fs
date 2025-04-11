@@ -192,3 +192,7 @@ module Vector =
         for i = 0 to n - 1 do
             result.[i] <- b.[P i]
         result
+
+    ///
+    let inline ofSeq (s:seq<'T>) : Vector<'T> =
+        s |> Array.ofSeq
