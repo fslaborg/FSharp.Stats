@@ -44,7 +44,7 @@
     <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="Interval.fs" />
-    <Compile Include="RunningStats.fs" />
+    <Compile Include="SummaryStats.fs" />
     <Compile Include="Seq.fs" />
     <Compile Include="Array.fs" />
     <Compile Include="List.fs" />

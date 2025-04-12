@@ -8,7 +8,7 @@ type LinearAlgebra =
 
         /// Subtract `scaleVal * src[srcOffset..srcOffset+count-1]` from
         /// `dst[dstOffset..dstOffset+count-1]` in place.
-    static member inline private subScaledRowInPlace
+    static member inline subScaledRowInPlace
         (scaleVal   : 'T)
         (dstOffset  : int)
         (srcOffset  : int)
@@ -27,7 +27,7 @@ type LinearAlgebra =
             d - (scaleVal * s)
         Acceleration.SIMDRangeUtils.map2RangeInPlace fv f dstOffset srcOffset count dst src
 
-    static member inline private householderTransform
+    static member inline householderTransform
         (A: Matrix<'T>) (i: int) : Vector<'T> =
         let n = A.NumRows
         let v = Vector.zeroCreate<'T> n

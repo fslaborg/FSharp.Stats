@@ -209,7 +209,7 @@ type Matrix<'T when 'T :> Numerics.INumber<'T>
 
 
      /// Creates a new matrix by initializing each element with a function `f(row, col)`.
-    static member inline transpose<'T when 'T :> Numerics.INumber<'T>
+    static member inline private transposeByBlock<'T when 'T :> Numerics.INumber<'T>
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
                 and 'T :> ValueType>
@@ -240,9 +240,12 @@ type Matrix<'T when 'T :> Numerics.INumber<'T>
 
         dst
 
+    static member inline transpose (m:Matrix<'T>) : Matrix<'T> =
+        m.Transpose()
+
      member this.Transpose() =
         let blocksize = 16
-        Matrix(this.NumCols, this.NumRows, Matrix.transpose this.NumRows this.NumCols this.Data blocksize)
+        Matrix(this.NumCols, this.NumRows, Matrix.transposeByBlock this.NumRows this.NumCols this.Data blocksize)
      
     static member init<'T when 'T :> Numerics.INumber<'T>
                 and 'T : (new: unit -> 'T)

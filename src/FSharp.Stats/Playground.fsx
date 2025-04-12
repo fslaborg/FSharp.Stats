@@ -9,6 +9,72 @@ open FSharp.Stats.Distributions
 
 
 
+let data = [|1.0; 2.0; 3.0; 4.0; 5.0|]
+
+SummaryStats.ofSeq data
+SummaryStats.ofArray data
+
+let statsC = SummaryStats.ofSeq data
+let calcMean = Seq.mean data 
+let calcSumOfSquares = Seq.sumBy (fun x -> x * x) data
+let calcMin = Seq.min data
+let calcMax = Seq.max data
+let calcN = Seq.length data
+
+
+open FSharp.Stats.Testing
+
+let groupA = [|-5.;-3.;-3.;-4.;-5.;|] 
+let groupB = [|-2.;-4.;-4.;-6.;-6.;-6.;-5.;|] 
+
+let statsA = Seq.stats groupA
+let statsB = Seq.stats groupB
+
+
+let meanA = Seq.mean groupA
+let meanB = Seq.mean groupB
+let varA = Seq.var groupA
+let varB = Seq.var groupB
+let nA = float (Seq.length groupA)
+let nB = float (Seq.length groupB)
+
+// calculation of the H test 
+let tTest1 = TTest.twoSample true groupA groupB
+let tTest2 = TTest.twoSampleFromMeanAndVar true (meanA,varA,nA) (meanB,varB,nB) 
+let tTest3 = TTest.twoSample false groupA groupB
+
+
+
+
+
+let KDiagonal1 =
+    [|
+        [|1.;0.;0.|]
+        [|0.;1.;0.|]
+        [|0.;0.;1.|]
+    |]
+    |> Matrix.ofJaggedArray
+
+let BNegInf =
+    [|
+        [|-infinity;-infinity;-infinity|]
+        [|-infinity;-infinity;-infinity|]
+        [|-infinity;-infinity;-infinity|]
+    |]
+    |> Matrix.ofJaggedArray
+
+
+Algebra.LinearAlgebra .solveTriangularLinearSystems KDiagonal1 BNegInf false
+
+//|> fun res ->
+//    let expected =
+//        matrix [|
+//            [|nan;nan;nan|];
+//            [|nan;nan;nan|];
+//            [|-infinity;-infinity;-infinity|]
+//        |]
+
+
 
 let alpha = 9.9 //0.4 
 let beta  = 31 //4.2
@@ -40,12 +106,12 @@ let samplesHisto = Array.init 999999 (fun _ -> Continuous.Gamma.Sample alpha bet
 let bw       = 1.//FSharp.Stats.Distributions.Bandwidth.forHistogram samplesHisto
 let histo    = FSharp.Stats.Distributions.KernelDensity.estimate KernelDensity.Kernel.gaussian bw samplesHisto
 let histoPdf = histo |> Seq.map (fun (x,y) -> x,Continuous.Gamma.PDF alpha beta x)
-[
-    Chart.Column(histo)
-    Chart.Point(histoPdf)
-]
-|> Chart.combine
-|> Chart.show
+//[
+//    Chart.Column(histo)
+//    Chart.Point(histoPdf)
+//]
+//|> Chart.combine
+//|> Chart.show
 
 
 let alpha', beta' = Continuous.Gamma.Fit samplesHisto
@@ -64,36 +130,3 @@ d.Mean
 
 
 
-open FSharp.Stats
-let rnd = new System.Random(69)
-
-let mDenseInt1 = Matrix.Generic.init 10 10 (fun r c -> $"{r}{c}" )
-let mDenseInt2 = Matrix.Generic.init 10 100 (fun r c -> $"{r}{c}" )
-let mDenseInt3 = Matrix.Generic.init 100 10 (fun r c -> $"{r}{c}" )
-let mDenseInt4 = Matrix.Generic.init 100 100 (fun r c -> $"{r}{c}" )
-
-mDenseInt1.Format(false)
-mDenseInt1.Format(true)
-mDenseInt2.Format(false)
-mDenseInt2.Format(true)
-mDenseInt3.Format(false)
-mDenseInt3.Format(true)
-mDenseInt4.Format(false)
-mDenseInt4.Format(true)
-
-let mDense1 = Matrix.init 10 10 (fun i j -> float i * float j * rnd.NextDouble())
-let mDense2 = Matrix.init 10 100 (fun i j -> float i * float j * rnd.NextDouble())
-let mDense3 = Matrix.init 100 10 (fun i j -> float i * float j * rnd.NextDouble())
-let mDense4 = Matrix.init 100 100 (fun i j -> float i * float j * rnd.NextDouble())
-let mDenseSpecial = matrix[[nan;100000000.;infinity;1.4];[1.337;-nan;4269420.42;-infinity]]
-
-mDense1.Format(false)
-mDense1.Format(true)
-mDense2.Format(false)
-mDense2.Format(true)
-mDense3.Format(false)
-mDense3.Format(true)
-mDense4.Format(false)
-mDense4.Format(true)
-mDenseSpecial.Format(false)
-mDenseSpecial.Format(true)
