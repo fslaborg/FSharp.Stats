@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>FSharp.Stats.Benchmarks.TriangularBenchmark-20250412-194429</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26100.3775)
+13th Gen Intel Core i7-13800H, 1 CPU, 20 logical and 14 physical cores
+.NET SDK 9.0.201
+  [Host]     : .NET 8.0.14 (8.0.1425.11118), X64 RyuJIT AVX2 DEBUG
+  DefaultJob : .NET 8.0.14 (8.0.1425.11118), X64 RyuJIT AVX2
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>Method              </th><th>N</th><th>Mean    </th><th>Error </th><th>StdDev</th><th>Gen0</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>SolveTriangularSystemLower</td><td>10</td><td>186.3 ns</td><td>1.23 ns</td><td>1.09 ns</td><td>0.0172</td><td>216 B</td>
+</tr><tr><td>SolveTriangularSystemUpper</td><td>10</td><td>185.9 ns</td><td>1.33 ns</td><td>1.18 ns</td><td>0.0172</td><td>216 B</td>
+</tr><tr><td>SolveTriangularSystemLower</td><td>500</td><td>372,737.0 ns</td><td>2,926.50 ns</td><td>2,737.45 ns</td><td>0.4883</td><td>8056 B</td>
+</tr><tr><td>SolveTriangularSystemUpper</td><td>500</td><td>357,818.8 ns</td><td>1,729.90 ns</td><td>1,618.15 ns</td><td>0.4883</td><td>8056 B</td>
+</tr><tr><td>SolveTriangularSystemLower</td><td>1000</td><td>1,510,031.5 ns</td><td>7,131.73 ns</td><td>6,671.03 ns</td><td>-</td><td>16057 B</td>
+</tr><tr><td>SolveTriangularSystemUpper</td><td>1000</td><td>1,422,197.8 ns</td><td>8,642.37 ns</td><td>8,084.08 ns</td><td>-</td><td>16057 B</td>
+</tr><tr><td>SolveTriangularSystemLower</td><td>2000</td><td>6,119,478.8 ns</td><td>40,341.69 ns</td><td>37,735.64 ns</td><td>-</td><td>32059 B</td>
+</tr><tr><td>SolveTriangularSystemUpper</td><td>2000</td><td>5,776,260.6 ns</td><td>30,122.54 ns</td><td>28,176.64 ns</td><td>-</td><td>32059 B</td>
+</tr></tbody></table>
+</body>
+</html>

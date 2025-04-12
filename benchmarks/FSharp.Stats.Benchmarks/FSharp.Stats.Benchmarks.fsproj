@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Vector.fs" />
     <Compile Include="Matrix.fs" />
+    <Compile Include="TriangularSolver.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
