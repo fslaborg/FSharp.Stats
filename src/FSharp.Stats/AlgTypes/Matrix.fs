@@ -618,50 +618,24 @@ type Matrix<'T when 'T :> Numerics.INumber<'T>
             (v: Vector<'T>)
             (mat: Matrix<'T>) : Vector<'T> =
         
+        // 1) Dimension checks
         let n = mat.NumRows
         let m = mat.NumCols
         if v.Length <> n then
             invalidArg (nameof v) "Vector length must match mat.NumRows."
 
         let result = Vector.zeroCreate<'T> m
+        let data = mat.Data  // row-major: element (i,j) is data.[i*m + j]
 
-        // We'll chunk over v in blocks of 'simdSize'. For each column j, 
-        // we gather that column's slice [ (i*m + j) for i in 0..n-1 ] in blocks.
-        let simdSize = Numerics.Vector<'T>.Count
-
-        for j in 0 .. m - 1 do
-            // sumVec accumulates partial sums in vector-lanes
-            let mutable sumVec = Numerics.Vector<'T>.Zero
-
-            // 1) Process as many full 'simdSize' blocks as possible
-            let blockCount = n / simdSize
-            let tailStart = blockCount * simdSize
-
-            for blockIndex in 0 .. blockCount - 1 do
-                let baseIdx = blockIndex * simdSize
-
-                // Gather the column’s elements for this block into 'gatherArr'
-                // These are mat.Data.[(baseIdx + s)*m + j] for s in [0..simdSize-1]
-                let gatherArr = Vector.zeroCreate<'T> simdSize
-                for s in 0 .. simdSize - 1 do
-                    gatherArr.[s] <- mat.Data.[(baseIdx + s) * m + j]
-
-                let colVec = Numerics.Vector<'T>(gatherArr)      // column-block chunk
-                let rowVec = Numerics.Vector<'T>(v, baseIdx)     // row vector chunk
-                sumVec <- sumVec + (rowVec * colVec)
-
-            // 2) Reduce sumVec’s lanes into a scalar
-            let mutable colSum = 'T.Zero
-            for lane in 0 .. simdSize - 1 do
-                colSum <- colSum + sumVec.[lane]
-
-            // 3) Handle any leftover elements (remainder)
-            for i in tailStart .. n - 1 do
-                colSum <- colSum + v.[i] * mat.Data.[i*m + j]
-
-            result.[j] <- colSum
+        // O(n*m) nested loops (not SIMD seems to be faster in the row-layout matrix)
+        for j = 0 to m - 1 do
+            let mutable sum = 'T.Zero
+            for i = 0 to n - 1 do
+                sum <- sum + (v.[i] * data.[i*m + j])
+            result.[j] <- sum
 
         result
+
 
     /// <summary>
     /// Standard matrix multiplication (A x B).
