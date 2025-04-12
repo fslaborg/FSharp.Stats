@@ -6,46 +6,7 @@ open System
 open FSharp.Stats
 open FSharp.Stats.Distributions
 //open Plotly.NET
-
-
-
-let data = [|1.0; 2.0; 3.0; 4.0; 5.0|]
-
-SummaryStats.ofSeq data
-SummaryStats.ofArray data
-
-let statsC = SummaryStats.ofSeq data
-let calcMean = Seq.mean data 
-let calcSumOfSquares = Seq.sumBy (fun x -> x * x) data
-let calcMin = Seq.min data
-let calcMax = Seq.max data
-let calcN = Seq.length data
-
-
-open FSharp.Stats.Testing
-
-let groupA = [|-5.;-3.;-3.;-4.;-5.;|] 
-let groupB = [|-2.;-4.;-4.;-6.;-6.;-6.;-5.;|] 
-
-let statsA = Seq.stats groupA
-let statsB = Seq.stats groupB
-
-
-let meanA = Seq.mean groupA
-let meanB = Seq.mean groupB
-let varA = Seq.var groupA
-let varB = Seq.var groupB
-let nA = float (Seq.length groupA)
-let nB = float (Seq.length groupB)
-
-// calculation of the H test 
-let tTest1 = TTest.twoSample true groupA groupB
-let tTest2 = TTest.twoSampleFromMeanAndVar true (meanA,varA,nA) (meanB,varB,nB) 
-let tTest3 = TTest.twoSample false groupA groupB
-
-
-
-
+open FSharp.Stats.Algebra
 
 let KDiagonal1 =
     [|
@@ -64,7 +25,21 @@ let BNegInf =
     |> Matrix.ofJaggedArray
 
 
-Algebra.LinearAlgebra .solveTriangularLinearSystems KDiagonal1 BNegInf false
+Algebra.LinearAlgebra.solveTriangularLinearSystems KDiagonal1 BNegInf false
+
+
+KDiagonal1 
+|> Matrix.mapiCols (fun i v -> 
+                        let m = Vector.norm v
+                        [|m|])
+
+let expected =
+    matrix [|
+        [|nan;nan;nan|];
+        [|nan;nan;nan|];
+        [|-infinity;-infinity;-infinity|]
+    |]
+
 
 //|> fun res ->
 //    let expected =

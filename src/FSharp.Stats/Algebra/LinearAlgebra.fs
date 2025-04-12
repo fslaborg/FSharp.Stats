@@ -179,17 +179,17 @@ type LinearAlgebra =
                 // Subtract scaled rows for j in [0..i-1]
                 for j = 0 to i - 1 do
                     let kij = Kdata.[i * n + j]  // K[i,j]
-                    if kij <> 'T.Zero then
-                        let baseJ = j * m
-                        // subScaledRowInPlace scaleVal dstOffset srcOffset count dst src
-                        LinearAlgebra.subScaledRowInPlace
-                            kij 
-                            baseI  // row i offset in X
-                            baseJ  // row j offset in X
-                            m      // number of columns
-                            Xdata  
-                            Xdata
-                        //LinearAlgebra.subScaledRowInPlace
+                    //if kij <> 'T.Zero then // normaly speed things up, but -inf * 0 = nan
+                    let baseJ = j * m
+                    // subScaledRowInPlace scaleVal dstOffset srcOffset count dst src
+                    LinearAlgebra.subScaledRowInPlace
+                        kij 
+                        baseI  // row i offset in X
+                        baseJ  // row j offset in X
+                        m      // number of columns
+                        Xdata  
+                        Xdata
+                    //LinearAlgebra.subScaledRowInPlace
                         //    Xdata
                         //    baseI  // row i offset in X
                         //    Xdata
@@ -217,15 +217,15 @@ type LinearAlgebra =
                 let baseI = i * m
                 for j = i + 1 to n - 1 do
                     let kij = Kdata.[i * n + j]  // K[i,j]
-                    if kij <> 'T.Zero then
-                        let baseJ = j * m
-                        LinearAlgebra.subScaledRowInPlace
-                            kij 
-                            baseI
-                            baseJ
-                            m
-                            Xdata
-                            Xdata
+                    //if kij <> 'T.Zero then // normaly speed things up, but -inf * 0 = nan
+                    let baseJ = j * m
+                    LinearAlgebra.subScaledRowInPlace
+                        kij 
+                        baseI
+                        baseJ
+                        m
+                        Xdata
+                        Xdata
                 let diag = Kdata.[i * n + i]
                 let invDiag = 'T.One / diag
                 scaleRowInPlace
@@ -670,3 +670,23 @@ type LinearAlgebra =
     static member inline symmetricEigenspectrum (a:Matrix<float>) = 
         let (e,v,d) = EVD.symmetricEvd (a.toArray2D())
         (Matrix.ofArray2D v, d)
+
+    ///// Synonym: kernel / right null space. Returns an orthonormal basis for the null space of matrix A (Ax = 0).<br />The accuracy defines a threshold whether a singular value is considered as zero (default: 1e-08).
+    //static member nullspace(?Accuracy :float ) = 
+
+    //    let accuracy = defaultArg Accuracy 1e-08
+
+    //    fun (a: Matrix<float>) -> 
+                        
+    //        // Either MKL or fallback implementation of the full SVD
+    //        let (sigma,U,Vt) = LinearAlgebra.SVD a
+
+    //        // The rank is the number of nonzero singular values
+    //        let rank = 
+    //            sigma
+    //            |> Seq.sumBy (fun x -> if x >= accuracy then 1 else 0)
+
+    //        let count = Vt.NumRows - rank 
+
+    //        Matrix.getRows Vt rank count
+    //        |> Matrix.transpose

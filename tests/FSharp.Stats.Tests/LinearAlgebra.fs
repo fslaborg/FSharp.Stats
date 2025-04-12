@@ -29,67 +29,70 @@ let managedSVDTests =
             let m' = mEqualNRecov.toJaggedArray() |> Array.concat
             TestExtensions.sequenceEqual Accuracy.high m m' "Matrices computed by SVD did not yield the initial matrix when multiplied."
         
-        //testCase "m=n Matrix: u and vt consist of unit vectors, row- and column- wise." <| fun () -> 
-        //    let u,s,vt = svdManaged mEqualN
-        //    let vecNorms = 
-        //        [
-        //        u |> Matrix.mapiCols (fun _ v -> FSharp.Stats.Vector.norm v)
-        //        vt|> Matrix.mapiCols (fun _ v -> Vector.norm  v)
-        //        u |> Matrix.mapiRows (fun _ x -> x |> Vector.norm) 
-        //        vt|> Matrix.mapiRows (fun _ x -> x |> Vector.norm) 
-        //        ]
-        //        |> Array.concat
-        //    TestExtensions.sequenceEqual Accuracy.high (Array.create vecNorms.Length 1.) vecNorms "Matrices computed by SVD did not consist of unit vectors, row- and column- wise."
+        testCase "m=n Matrix: u and vt consist of unit vectors, row- and column- wise." <| fun () -> 
+            let u,s,vt = svdManaged mEqualN
+            let vecNorms = 
+                [|
+                u |> Matrix.mapiCols (fun _ v -> [|FSharp.Stats.Vector.norm v|])
+                vt|> Matrix.mapiCols (fun _ v -> [|FSharp.Stats.Vector.norm v|])
+                u |> Matrix.mapiRows (fun _ x -> [|FSharp.Stats.Vector.norm x|]) 
+                vt|> Matrix.mapiRows (fun _ x -> [|FSharp.Stats.Vector.norm x|]) 
+                |]
+                |> Array.map (fun m -> m.Data)
+                |> Array.concat
+            TestExtensions.sequenceEqual Accuracy.high (Array.create vecNorms.Length 1.) vecNorms "Matrices computed by SVD did not consist of unit vectors, row- and column- wise."
         
-        //testCase "m=n Matrix: s contains correct singular values." <| fun () -> 
-        //    let s,u,vt = LinearAlgebra.SVD  mEqualN
-        //    TestExtensions.sequenceEqual Accuracy.high ([|15.81461344;2.213142934|]) s "Matrices computed by SVD did not yield correct singular values."
+        testCase "m=n Matrix: s contains correct singular values." <| fun () -> 
+            let s,u,vt = LinearAlgebra.SVD  mEqualN
+            TestExtensions.sequenceEqual Accuracy.high ([|15.81461344;2.213142934|]) s "Matrices computed by SVD did not yield correct singular values."
         
-        //testCase "m<n Matrix: Recover from decomposition" <| fun () -> 
-        //    let u,s,vt = svdManaged mSmallerN
-        //    let mSmallernRecov = (u * s * vt)
-        //    let m = mSmallerN |> Matrix.toJaggedArray |> Array.concat
-        //    let m' = mSmallernRecov |> Matrix.toJaggedArray |> Array.concat
-        //    TestExtensions.sequenceEqual Accuracy.high m m' "Matrices computed by SVD did not yield the initial matrix when multiplied."
+        testCase "m<n Matrix: Recover from decomposition" <| fun () -> 
+            let u,s,vt = svdManaged mSmallerN
+            let mSmallernRecov = (u * s * vt)
+            let m = mSmallerN.Data
+            let m' = mSmallernRecov.Data
+            TestExtensions.sequenceEqual Accuracy.high m m' "Matrices computed by SVD did not yield the initial matrix when multiplied."
         
-        //testCase "m<n Matrix: u and vt consist of unit vectors, row- and column- wise." <| fun () -> 
-        //    let u,s,vt = svdManaged mSmallerN
-        //    let vecNorms = 
-        //        [
-        //        u |> Matrix.mapCols Vector.norm |> RowVector.toArray
-        //        vt|> Matrix.mapCols Vector.norm |> RowVector.toArray
-        //        u |> Matrix.mapRows (fun x -> x.Transpose |> Vector.norm) |> Vector.toArray
-        //        vt|> Matrix.mapRows (fun x -> x.Transpose |> Vector.norm) |> Vector.toArray
-        //        ]
-        //        |> Array.concat
-        //    TestExtensions.sequenceEqual Accuracy.high (Array.create vecNorms.Length 1.) vecNorms "Matrices computed by SVD did not consist of unit vectors, row- and column- wise."
+        testCase "m<n Matrix: u and vt consist of unit vectors, row- and column- wise." <| fun () -> 
+            let u,s,vt = svdManaged mSmallerN
+            let vecNorms = 
+                [|
+                u |> Matrix.mapiCols (fun _ v -> [|FSharp.Stats.Vector.norm v|])
+                vt|> Matrix.mapiCols (fun _ v -> [|FSharp.Stats.Vector.norm v|])
+                u |> Matrix.mapiRows (fun _ x -> [|FSharp.Stats.Vector.norm x|]) 
+                vt|> Matrix.mapiRows (fun _ x -> [|FSharp.Stats.Vector.norm x|]) 
+                |]
+                |> Array.map (fun m -> m.Data)
+                |> Array.concat
+            TestExtensions.sequenceEqual Accuracy.high (Array.create vecNorms.Length 1.) vecNorms "Matrices computed by SVD did not consist of unit vectors, row- and column- wise."
         
-        //testCase "m<n Matrix: s contains correct singular values." <| fun () -> 
-        //    let s,u,vt = LinearAlgebra.SVD  mSmallerN
-        //    TestExtensions.sequenceEqual Accuracy.high ([|22.51999394;6.986424855;2.00991059|]) s "Matrices computed by SVD did not yield correct singular values."
+        testCase "m<n Matrix: s contains correct singular values." <| fun () -> 
+            let s,u,vt = LinearAlgebra.SVD  mSmallerN
+            TestExtensions.sequenceEqual Accuracy.high ([|22.51999394;6.986424855;2.00991059|]) s "Matrices computed by SVD did not yield correct singular values."
             
-        //testCase "m>n Matrix: Recover from decomposition" <| fun () -> 
-        //    let u,s,vt = svdManaged (mSmallerN.Transpose())
-        //    let mSmallernRecov = (u * s * vt)
-        //    let m = mSmallerN.Transpose().toJaggedArray() |> Array.concat
-        //    let m' = mSmallernRecov.toJaggedArray() |> Array.concat
-        //    TestExtensions.sequenceEqual Accuracy.high m m' "Matrices computed by SVD did not yield the initial matrix when multiplied."
+        testCase "m>n Matrix: Recover from decomposition" <| fun () -> 
+            let u,s,vt = svdManaged (mSmallerN.Transpose())
+            let mSmallernRecov = (u * s * vt)
+            let m = mSmallerN.Transpose().Data
+            let m' = mSmallernRecov.Data
+            TestExtensions.sequenceEqual Accuracy.high m m' "Matrices computed by SVD did not yield the initial matrix when multiplied."
     
-        //testCase "m>n Matrix: u and vt consist of unit vectors, row- and column- wise." <| fun () -> 
-        //    let u,s,vt = svdManaged (mSmallerN.Transpose())
-        //    let vecNorms = 
-        //        [
-        //        u |> Matrix.mapCols Vector.norm |> RowVector.toArray
-        //        vt|> Matrix.mapCols Vector.norm |> RowVector.toArray
-        //        u |> Matrix.mapRows (fun x -> x.Transpose |> Vector.norm) |> Vector.toArray
-        //        vt|> Matrix.mapRows (fun x -> x.Transpose |> Vector.norm) |> Vector.toArray
-        //        ]
-        //        |> Array.concat
-        //    TestExtensions.sequenceEqual Accuracy.high (Array.create vecNorms.Length 1.) vecNorms "Matrices computed by SVD did not consist of unit vectors, row- and column- wise."
+        testCase "m>n Matrix: u and vt consist of unit vectors, row- and column- wise." <| fun () -> 
+            let u,s,vt = svdManaged (mSmallerN.Transpose())
+            let vecNorms = 
+                [|
+                u |> Matrix.mapiCols (fun _ v -> [|FSharp.Stats.Vector.norm v|])
+                vt|> Matrix.mapiCols (fun _ v -> [|FSharp.Stats.Vector.norm v|])
+                u |> Matrix.mapiRows (fun _ x -> [|FSharp.Stats.Vector.norm x|]) 
+                vt|> Matrix.mapiRows (fun _ x -> [|FSharp.Stats.Vector.norm x|]) 
+                |]
+                |> Array.map (fun m -> m.Data)
+                |> Array.concat
+            TestExtensions.sequenceEqual Accuracy.high (Array.create vecNorms.Length 1.) vecNorms "Matrices computed by SVD did not consist of unit vectors, row- and column- wise."
         
-        //testCase "m>n Matrix: s contains correct singular values." <| fun () -> 
-        //    let s,u,vt = LinearAlgebra.SVD  (mSmallerN.Transpose())
-        //    TestExtensions.sequenceEqual Accuracy.high ([|22.51999394;6.986424855;2.00991059|]) s "Matrices computed by SVD did not yield correct singular values."
+        testCase "m>n Matrix: s contains correct singular values." <| fun () -> 
+            let s,u,vt = LinearAlgebra.SVD  (mSmallerN.Transpose())
+            TestExtensions.sequenceEqual Accuracy.high ([|22.51999394;6.986424855;2.00991059|]) s "Matrices computed by SVD did not yield correct singular values."
     ]
     
 
