@@ -6,20 +6,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="TestExtensions.fs" />
+    <Compile Include="Array.fs" />
     <Compile Include="SpecialFunctions.fs" />
     <Compile Include="ConfidenceInterval.fs" />
     <Compile Include="Correlation.fs" />
     <Compile Include="Covariance.fs" />
+    <Compile Include="Clusternumber.fs" />
     <Compile Include="DistanceMetrics.fs" />
     <Compile Include="Distributions.fs" />
     <Compile Include="DistributionsEmpirical.fs" />
     <Compile Include="DistributionsContinuous.fs" />
     <Compile Include="DistributionsDiscrete.fs" />
-    <Compile Include="Array.fs" />
     <Compile Include="Seq.fs" />
-    <Compile Include="Clusternumber.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="Matrix.fs" />
+    <Compile Include="LinearAlgebra.fs" />
     <Compile Include="Quantile.fs" />
     <Compile Include="Integration.fs" />
     <Compile Include="Interpolation.fs" />

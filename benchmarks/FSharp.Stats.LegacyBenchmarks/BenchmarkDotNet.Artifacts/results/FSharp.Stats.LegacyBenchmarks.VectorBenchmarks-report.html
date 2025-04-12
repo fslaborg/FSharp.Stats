@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>FSharp.Stats.LegacyBenchmarks.VectorBenchmarks-20250412-165006</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26100.3775)
+13th Gen Intel Core i7-13800H, 1 CPU, 20 logical and 14 physical cores
+.NET SDK 9.0.201
+  [Host]     : .NET 8.0.14 (8.0.1425.11118), X64 RyuJIT AVX2 DEBUG
+  DefaultJob : .NET 8.0.14 (8.0.1425.11118), X64 RyuJIT AVX2
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>Method</th><th>Size</th><th>Mean  </th><th>Error</th><th>StdDev</th><th>Gen0</th><th>Gen1</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>Add</td><td>100</td><td>73.21 ns</td><td>0.966 ns</td><td>0.903 ns</td><td>0.0682</td><td>0.0001</td><td>856 B</td>
+</tr><tr><td>Subtract</td><td>100</td><td>72.11 ns</td><td>0.991 ns</td><td>0.927 ns</td><td>0.0682</td><td>0.0001</td><td>856 B</td>
+</tr><tr><td>DotProduct</td><td>100</td><td>47.26 ns</td><td>0.188 ns</td><td>0.176 ns</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>Norm</td><td>100</td><td>206.61 ns</td><td>0.945 ns</td><td>0.789 ns</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>Add</td><td>1000</td><td>599.70 ns</td><td>6.201 ns</td><td>5.497 ns</td><td>0.6418</td><td>0.0191</td><td>8056 B</td>
+</tr><tr><td>Subtract</td><td>1000</td><td>596.90 ns</td><td>7.515 ns</td><td>7.030 ns</td><td>0.6418</td><td>0.0191</td><td>8056 B</td>
+</tr><tr><td>DotProduct</td><td>1000</td><td>407.63 ns</td><td>1.324 ns</td><td>1.239 ns</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>Norm</td><td>1000</td><td>2,007.79 ns</td><td>18.324 ns</td><td>17.140 ns</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>Add</td><td>10000</td><td>6,141.20 ns</td><td>118.523 ns</td><td>110.867 ns</td><td>6.3629</td><td>1.5869</td><td>80056 B</td>
+</tr><tr><td>Subtract</td><td>10000</td><td>6,006.92 ns</td><td>76.595 ns</td><td>71.647 ns</td><td>6.3629</td><td>1.5869</td><td>80056 B</td>
+</tr><tr><td>DotProduct</td><td>10000</td><td>3,980.27 ns</td><td>28.423 ns</td><td>26.587 ns</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>Norm</td><td>10000</td><td>20,024.93 ns</td><td>137.963 ns</td><td>129.050 ns</td><td>-</td><td>-</td><td>-</td>
+</tr></tbody></table>
+</body>
+</html>

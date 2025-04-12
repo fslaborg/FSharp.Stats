@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>FSharp.Stats.LegacyBenchmarks.MatrixBenchmarks-20250412-172149</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26100.3775)
+13th Gen Intel Core i7-13800H, 1 CPU, 20 logical and 14 physical cores
+.NET SDK 9.0.201
+  [Host]     : .NET 8.0.14 (8.0.1425.11118), X64 RyuJIT AVX2 DEBUG
+  DefaultJob : .NET 8.0.14 (8.0.1425.11118), X64 RyuJIT AVX2
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>Method     </th><th>Size</th><th>Mean         </th><th>Error      </th><th>StdDev     </th><th>Gen0</th><th>Gen1</th><th>Gen2</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>Add</td><td>10</td><td>169.55 ns</td><td>2.046 ns</td><td>1.914 ns</td><td>0.0713</td><td>-</td><td>-</td><td>896 B</td>
+</tr><tr><td>MatMultiply</td><td>10</td><td>1,084.51 ns</td><td>8.513 ns</td><td>7.963 ns</td><td>0.0706</td><td>-</td><td>-</td><td>896 B</td>
+</tr><tr><td>MultiplyVector</td><td>10</td><td>73.57 ns</td><td>0.786 ns</td><td>0.736 ns</td><td>0.0107</td><td>-</td><td>-</td><td>136 B</td>
+</tr><tr><td>MultiplyRowVector</td><td>10</td><td>88.03 ns</td><td>0.853 ns</td><td>0.756 ns</td><td>0.0235</td><td>-</td><td>-</td><td>296 B</td>
+</tr><tr><td>Add</td><td>500</td><td>456,439.67 ns</td><td>3,024.351 ns</td><td>2,681.009 ns</td><td>201.1719</td><td>201.1719</td><td>201.1719</td><td>2000166 B</td>
+</tr><tr><td>MatMultiply</td><td>500</td><td>119,541,061.36 ns</td><td>547,145.379 ns</td><td>671,943.721 ns</td><td>-</td><td>-</td><td>-</td><td>2000196 B</td>
+</tr><tr><td>MultiplyVector</td><td>500</td><td>156,250.79 ns</td><td>1,292.534 ns</td><td>1,145.798 ns</td><td>0.2441</td><td>-</td><td>-</td><td>4056 B</td>
+</tr><tr><td>MultiplyRowVector</td><td>500</td><td>183,556.08 ns</td><td>1,804.318 ns</td><td>1,687.760 ns</td><td>0.4883</td><td>-</td><td>-</td><td>8136 B</td>
+</tr><tr><td>Add</td><td>1000</td><td>2,104,678.07 ns</td><td>35,051.052 ns</td><td>32,786.776 ns</td><td>148.4375</td><td>148.4375</td><td>148.4375</td><td>8000146 B</td>
+</tr><tr><td>MatMultiply</td><td>1000</td><td>1,164,345,128.57 ns</td><td>15,512,547.293 ns</td><td>13,751,469.125 ns</td><td>-</td><td>-</td><td>-</td><td>8000496 B</td>
+</tr><tr><td>MultiplyVector</td><td>1000</td><td>620,032.55 ns</td><td>3,989.956 ns</td><td>3,732.207 ns</td><td>-</td><td>-</td><td>-</td><td>8056 B</td>
+</tr><tr><td>MultiplyRowVector</td><td>1000</td><td>880,712.25 ns</td><td>8,715.623 ns</td><td>8,152.599 ns</td><td>0.9766</td><td>-</td><td>-</td><td>16136 B</td>
+</tr></tbody></table>
+</body>
+</html>
