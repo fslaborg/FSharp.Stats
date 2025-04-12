@@ -21,6 +21,14 @@
     <Compile Include="Vector.fs" />
     <Compile Include="Matrix.fs" />
     <Compile Include="Quantile.fs" />
+    <Compile Include="Integration.fs" />
+    <Compile Include="Interpolation.fs" />
+    <Compile Include="Interval.fs" />
+    <Compile Include="JaggedCollection.fs" />
+    <Compile Include="List.fs" />
+    <Compile Include="Rank.fs" />
+    <Compile Include="Testing.fs" />
+    <Compile Include="SummaryStats.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>

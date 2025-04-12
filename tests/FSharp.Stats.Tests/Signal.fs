@@ -70,7 +70,7 @@ let outlierTests =
 
         testList "Mahalanobi's Distance" [
             testCase "Mahalanobi's Distance for an observation in a matrix"<| fun() ->
-                let obs = Vector.ofList [20.; 11.] 
+                let obs = [|20.; 11.|] 
                 Expect.floatClose Accuracy.high (mahalanobisDistanceOfEntry dataRow    Matrix.Sample     Matrix.RowWise obs) 1.843936618 "Mahalanobi's Distance for an observation(Sample, RowWise) calculated incorrectly"
                 Expect.floatClose Accuracy.high (mahalanobisDistanceOfEntry dataColumn Matrix.Sample     Matrix.ColWise obs) 1.843936618 "Mahalanobi's Distance for an observation calculated(Sample, ColWise) incorrectly"
                 Expect.floatClose Accuracy.high (mahalanobisDistanceOfEntry dataRow    Matrix.Population Matrix.RowWise obs) 1.943679857 "Mahalanobi's Distance for an observation calculated(Population, RowWise) incorrectly"

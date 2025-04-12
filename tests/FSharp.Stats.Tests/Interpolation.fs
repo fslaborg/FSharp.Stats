@@ -21,7 +21,7 @@ let cubicInterpolationTests =
             //https://columbiaeconomics.com/2010/01/20/how-economists-convert-quarterly-data-into-monthly-cubic-spline-interpolation/comment-page-1/
             let coefficientsSpline = 
                 CubicSpline.interpolate CubicSpline.Natural t y            
-            let fitOutPut = tt |> Vector.map (CubicSpline.predict coefficientsSpline)
+            let fitOutPut = tt |> Array.map (CubicSpline.predict coefficientsSpline)
             let expectedValues = vector [187.6; 186.4328125; 185.5425; 185.2059375; 185.7; 187.179375;189.31; 191.635625; 193.7; 195.1528125; 196.0675; 196.6234375;197.0]
             TestExtensions.sequenceEqual Accuracy.low expectedValues fitOutPut "Fitted Values and Expected Output should be equal (double precision)"
     
@@ -43,7 +43,7 @@ let cubicInterpolationTests =
                 CubicSpline.predict coeffParabolic x     
 
             let genrateX = vector [20.0..25.0]
-            let interpParabolic = genrateX |> Vector.map fittingFuncParabolic
+            let interpParabolic = genrateX |> Array.map fittingFuncParabolic
             let parabolicSndDeriv x = CubicSpline.getSecondDerivative coeffParabolic x 
 
             Expect.floatClose Accuracy.high (parabolicSndDeriv interpParabolic.[0])  (parabolicSndDeriv interpParabolic.[1]) "the second derivative at the first and second points should be equal (double precision)"
@@ -101,7 +101,7 @@ let BezierInterpolationTests =
             let p1 = vector [|3.;2.;0.|] //point 1 that should be traversed
             let data = [|p0;p1|]
             let interpolate = Bezier.interpolate data
-            let expectedMiddle = p0 + 0.5 * (p1 - p0)
+            let expectedMiddle = p0 .+ 0.5 .* (p1 .- p0)
             TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.) p0 "Initial point should be equal (double precision)"
             TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.5) expectedMiddle "Middle point should be equal (double precision)"
             TestExtensions.sequenceEqual(Accuracy.high) (interpolate 1.) p1 "Final point should be equal (double precision)"
@@ -112,9 +112,9 @@ let BezierInterpolationTests =
             let p1 = vector [|3.;2.;0.|] //point 1 that should be traversed
             let data = [|p0;c0;p1|]
             let interpolate = Bezier.interpolate data
-            let a = p0 + 0.5 * (c0 - p0)
-            let b = c0 + 0.5 * (p1 - c0)
-            let expectedMiddle = a + 0.5 * (b - a)
+            let a = p0 .+ 0.5 .* (c0 .- p0)
+            let b = c0 .+ 0.5 .* (p1 .- c0)
+            let expectedMiddle = a .+ 0.5 .* (b .- a)
             TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.) p0 "Initial point should be equal (double precision)"
             TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.5) expectedMiddle "Middle point should be equal (double precision)"
             TestExtensions.sequenceEqual(Accuracy.high) (interpolate 1.) p1 "Final point should be equal (double precision)"
@@ -126,12 +126,12 @@ let BezierInterpolationTests =
             let p1 = vector [|3.;2.;0.|] //point 1 that should be traversed
             let data = [|p0;c0;c1;p1|]
             let interpolate = Bezier.interpolate data
-            let a = p0 + 0.5 * (c0 - p0)
-            let b = c0 + 0.5 * (c1 - c0)
-            let c = c1 + 0.5 * (p1 - c1)
-            let d = a + 0.5 * (b - a)
-            let e = b + 0.5 * (c - b)
-            let expectedMiddle = d + 0.5 * (e - d)
+            let a = p0 .+ 0.5 .* (c0 .- p0)
+            let b = c0 .+ 0.5 .* (c1 .- c0)
+            let c = c1 .+ 0.5 .* (p1 .- c1)
+            let d = a .+ 0.5 .* (b .- a)
+            let e = b .+ 0.5 .* (c .- b)
+            let expectedMiddle = d .+ 0.5 .* (e .- d)
             TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.) p0 "Initial point should be equal (double precision)"
             TestExtensions.sequenceEqual(Accuracy.high) (interpolate 0.5) expectedMiddle "Middle point should be equal (double precision)"
             TestExtensions.sequenceEqual(Accuracy.high) (interpolate 1.) p1 "Final point should be equal (double precision)"
