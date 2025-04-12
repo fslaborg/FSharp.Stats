@@ -28,6 +28,7 @@
     <Compile Include="List.fs" />
     <Compile Include="Rank.fs" />
     <Compile Include="Testing.fs" />
+    <Compile Include="Optimization.fs" />
     <Compile Include="SummaryStats.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
