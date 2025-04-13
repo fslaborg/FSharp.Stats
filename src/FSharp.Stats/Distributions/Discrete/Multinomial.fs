@@ -48,17 +48,31 @@ type Multinomial =
         Multinomial.CheckParam p n
         Array.map sqrt (Multinomial.Variance p n)
 
+    /// <summary>
+    /// Converts a probability mass function into an unnormalized cumulative distribution function (CDF).
+    /// </summary>
+    /// <param name="p">An array of probabilities (not validated).</param>
+    /// <returns>An array of cumulative probabilities.</returns>
+    static member ProbabilityMassToCumulativeDistribution (p : float[]) = 
+        let cdfUnnormalized = Array.zeroCreate p.Length
+        cdfUnnormalized[0] <- p[0]
+        for i = 1 to p.Length - 1 do
+            cdfUnnormalized[i] <- cdfUnnormalized[i - 1] + p[i]
+        cdfUnnormalized
+
     /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()). No parameter checking!</summary>
     /// <remarks></remarks>
     /// <param name="p">vector of event probabilities in each trial</param>
-    /// <param name="n">number of trails</param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    static member internal SampleUnchecked p n =          
-        failwithf "Not implemented yet"
+    /// <param name="n">number of trails(must be ≥ 0).</param>
+    /// <returns>An array of counts per category.</returns>
+    static member SampleUnchecked (p : float[]) n =          
+        let cp = Multinomial.ProbabilityMassToCumulativeDistribution p
+        let ret = Array.zeroCreate p.Length
+        for _ = 1 to n do
+            let idx = Categorical.SampleUnchecked cp
+            ret[idx] <- ret[idx] + 1
+        ret
+
 
     /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
     /// <remarks></remarks>
