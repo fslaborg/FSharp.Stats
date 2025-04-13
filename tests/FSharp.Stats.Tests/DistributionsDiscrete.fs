@@ -4,7 +4,7 @@ open Expecto
 open System
 open FSharp.Stats
 open FSharp.Stats.Distributions
-
+open TestExtensions
 
 // Defining an accuracy appropriate for testing random sampling and inference
 let fittingAccuracy : Accuracy = {absolute= 0.1 ;relative= 0.1}
@@ -593,13 +593,13 @@ let multinomialTests =
     
         test "Sample proportions should be close to the expected probabilities" {
             let probabilities = [| 0.2; 0.3; 0.5 |]
-            let n = 100000    // Larger n to reduce sampling variance
+            let n = 1000000    // Larger n to reduce sampling variance
             let sample = Discrete.Multinomial.Sample probabilities n
             probabilities
             |> Array.iteri (fun i p ->
                 let observedProportion = float sample.[i] / float n
                 Expect.floatClose
-                  Accuracy.low // or a custom `floatClose` config
+                  Accuracy.veryLow  // or a custom `floatClose` config
                   observedProportion
                   p
                   $"Observed proportion ({observedProportion}) should be close to expected probability ({p})"

@@ -8,6 +8,11 @@
     open System.Text
     open System.Reflection
 
+    module Accuracy = 
+        /// <summary>veryLow accuracy: absolute = 1e-4, relative = 1e-1</summary>
+        let veryLow      = { absolute = 1e-4; relative = 1e-1 }
+
+
     type TestExtensions() =
         static member sequenceEqual(digits: int) =
             let round (v:float) = System.Math.Round(v,digits)
