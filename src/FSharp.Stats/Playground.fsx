@@ -8,6 +8,84 @@ open FSharp.Stats.Distributions
 //open Plotly.NET
 open FSharp.Stats.Algebra
 
+
+
+let Categorical_SampleUnchecked (probabilities: float[]) =
+    let rnd = Random.rndgen.NextFloat()
+    let rec search i acc =
+        if i >= probabilities.Length then probabilities.Length - 1
+        elif acc + probabilities[i] >= rnd then i
+        else search (i + 1) (acc + probabilities[i])
+    search 0 0.0
+
+
+
+
+/// Helper function to sample many times and collect counts.
+let sampleMany (times: int) (probabilities: float[]) =
+    let counts = Array.zeroCreate probabilities.Length
+    for _ in 1 .. times do
+        let idx = Categorical_SampleUnchecked probabilities
+        counts.[idx] <- counts.[idx] + 1
+    counts
+
+
+
+let p = [| 0.2; 0.3; 0.5 |]
+let iterations = 10000000
+
+Array.init iterations (fun _ -> Categorical_SampleUnchecked p)
+|> Array.countBy id
+
+
+
+// Act
+let counts = sampleMany iterations p
+float counts.[2] / float iterations
+
+
+// Assert
+// All indices should be between 0 and p.Length - 1
+// If out of range, an exception would occur while incrementing counts.
+// So, if we got this far without an exception, the function is generating valid indices.
+// We can add an extra check that the sum of counts equals 'iterations'.
+let total = Array.sum counts
+
+
+let SampleUnchecked (p : float[]) n =          
+    //let cp = Discrete.Multinomial.ProbabilityMassToCumulativeDistribution p
+    let ret = Array.zeroCreate p.Length
+    for _ = 1 to n do
+        let idx = Discrete.Categorical.SampleUnchecked p
+        ret[idx] <- ret[idx] + 1
+    ret
+
+let n = 100000  // Large n to reduce variance
+let probabilities = [| 0.2; 0.3; 0.5 |]
+//// Act
+//let sampleCounts = Categorical_SampleUnchecked probabilities
+
+//probabilities
+//|> Array.iteri (fun i p ->
+//    let observedProportion = float sampleCounts.[i] / float n
+//    printfn $"Probability of {i}: {p}, Observed proportion: {observedProportion}")
+
+
+
+//let n = 100000  // Larger n to reduce sampling variance
+let sample = SampleUnchecked probabilities n
+
+let () = 
+    probabilities
+    |> Array.iteri (fun i p ->
+        let observedProportion = float sample.[i] / float n
+        printfn $"Probability of {i}: {p}, Observed proportion: {observedProportion}")
+
+
+
+Discrete.Multinomial.ProbabilityMassToCumulativeDistribution probabilities
+
+
 let KDiagonal1 =
     [|
         [|1.;0.;0.|]

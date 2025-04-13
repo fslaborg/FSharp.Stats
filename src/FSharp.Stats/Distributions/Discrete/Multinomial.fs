@@ -66,10 +66,10 @@ type Multinomial =
     /// <param name="n">number of trails(must be ≥ 0).</param>
     /// <returns>An array of counts per category.</returns>
     static member SampleUnchecked (p : float[]) n =          
-        let cp = Multinomial.ProbabilityMassToCumulativeDistribution p
+        //let cp = Multinomial.ProbabilityMassToCumulativeDistribution p
         let ret = Array.zeroCreate p.Length
         for _ = 1 to n do
-            let idx = Categorical.SampleUnchecked cp
+            let idx = Categorical.SampleUnchecked p
             ret[idx] <- ret[idx] + 1
         ret
 

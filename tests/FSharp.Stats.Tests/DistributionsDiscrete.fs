@@ -590,6 +590,21 @@ let multinomialTests =
             let x = [|1;2;3|]
             let testCase() = Discrete.Multinomial.PMF prob5 x
             Expect.throws (fun _ -> testCase() |> ignore) "probabilities of 0 is associated to success event"
+    
+        test "Sample proportions should be close to the expected probabilities" {
+            let probabilities = [| 0.2; 0.3; 0.5 |]
+            let n = 100000    // Larger n to reduce sampling variance
+            let sample = Discrete.Multinomial.Sample probabilities n
+            probabilities
+            |> Array.iteri (fun i p ->
+                let observedProportion = float sample.[i] / float n
+                Expect.floatClose
+                  Accuracy.low // or a custom `floatClose` config
+                  observedProportion
+                  p
+                  $"Observed proportion ({observedProportion}) should be close to expected probability ({p})"
+            )    
+        }
     ] 
 
 [<Tests>]
