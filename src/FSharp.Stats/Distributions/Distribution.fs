@@ -92,6 +92,7 @@ type DistributionParameters =
     // Discrete distributions
     | Bernoulli of Parameters.Bernoulli
     | Binomial of Parameters.Binomial
+    | Categorical of float[]
     | NegativeBinomial of Parameters.NegativeBinomial
     | Hypergeometric of Parameters.Hypergeometric
     | Poisson of Parameters.Poisson
