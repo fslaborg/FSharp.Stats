@@ -6,8 +6,8 @@ open FSharp.Stats
 
 type LinearAlgebra =
 
-        /// Subtract `scaleVal * src[srcOffset..srcOffset+count-1]` from
-        /// `dst[dstOffset..dstOffset+count-1]` in place.
+    /// Subtract `scaleVal * src[srcOffset..srcOffset+count-1]` from
+    /// `dst[dstOffset..dstOffset+count-1]` in place.
     static member inline subScaledRowInPlace
         (scaleVal   : 'T)
         (dstOffset  : int)
@@ -27,6 +27,7 @@ type LinearAlgebra =
             d - (scaleVal * s)
         Acceleration.SIMDRangeUtils.map2RangeInPlace fv f dstOffset srcOffset count dst src
 
+
     static member inline householderTransform
         (A: Matrix<'T>) (i: int) : Vector<'T> =
         let n = A.NumRows
@@ -38,6 +39,8 @@ type LinearAlgebra =
             if j <> i then
                 v.[j] <- aCol.[j]
         v
+
+
     /// <summary>QR decomposition using modified Gram-Schmidt</summary>
     /// <remarks>Returns Q and R such that A = QR</remarks>
     static member inline qrModifiedGramSchmidt<'T when 'T :> Numerics.INumber<'T>
