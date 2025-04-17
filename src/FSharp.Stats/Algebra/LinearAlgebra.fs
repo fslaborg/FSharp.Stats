@@ -69,7 +69,7 @@ type LinearAlgebra =
 
             let norm = Vector.norm v 
             r.[j, j] <- norm
-            let qj = Vector.divideScalar v norm
+            let qj = Vector.divideScalar norm v 
             qCols.[j] <- qj
 
         let qData = Array.zeroCreate (m * n)
