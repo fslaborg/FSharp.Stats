@@ -95,7 +95,8 @@ type Vector =
     static member inline addScalar<'T when 'T :> Numerics.INumber<'T>
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
-                and 'T :> ValueType> (v:Vector<'T>) (scalar:'T) : Vector<'T> =
+                and 'T :> ValueType> 
+            (scalar:'T) (v:Vector<'T>) : Vector<'T> =
         
         if Numerics.Vector.IsHardwareAccelerated then
             Acceleration.SIMDUtils.mapScalar (+) (+) v scalar
@@ -110,7 +111,8 @@ type Vector =
     static member inline subtractScalar<'T when 'T :> Numerics.INumber<'T>
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
-                and 'T :> ValueType> (v:Vector<'T>) (scalar:'T) : Vector<'T> =
+                and 'T :> ValueType> 
+            (scalar:'T) (v:Vector<'T>) : Vector<'T> =
         if Numerics.Vector.IsHardwareAccelerated then
             Acceleration.SIMDUtils.mapScalar (-) (-) v scalar
         else
@@ -124,7 +126,8 @@ type Vector =
     static member inline multiplyScalar<'T when 'T :> Numerics.INumber<'T>
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
-                and 'T :> ValueType> (v:Vector<'T>) (scalar:'T) : Vector<'T> =
+                and 'T :> ValueType> 
+            (scalar:'T) (v:Vector<'T>) : Vector<'T> =
 
         if Numerics.Vector.IsHardwareAccelerated then
             Acceleration.SIMDUtils.mapScalar ( * ) ( * ) v scalar
@@ -139,7 +142,8 @@ type Vector =
     static member inline divideScalar<'T when 'T :> Numerics.INumber<'T>
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
-                and 'T :> ValueType> (v:Vector<'T>) (scalar:'T) : Vector<'T> =
+                and 'T :> ValueType> 
+            (scalar:'T) (v:Vector<'T>) : Vector<'T> =
         
         if Numerics.Vector.IsHardwareAccelerated then
             Acceleration.SIMDUtils.mapScalar ( / ) ( / ) v scalar

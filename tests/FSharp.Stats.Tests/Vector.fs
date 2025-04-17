@@ -83,28 +83,28 @@ let vectorTests =
             testCase "addScalar: adds scalar to every element" <| fun _ ->
                 let v = [| 1; 2; 3 |]
                 let scalar = 5
-                let result = Vector.addScalar v scalar
+                let result = Vector.addScalar scalar v
                 let expected = [| 6; 7; 8 |]
                 Expect.equal result expected "Should add the scalar to each element"
 
             testCase "subtractScalar: subtracts scalar from every element" <| fun _ ->
                 let v = [| 1; 2; 3 |]
                 let scalar = 1
-                let result = Vector.subtractScalar v scalar
+                let result = Vector.subtractScalar scalar v
                 let expected = [| 0; 1; 2 |]
                 Expect.equal result expected "Should subtract the scalar from each element"
 
             testCase "multiplyScalar: multiplies scalar to every element" <| fun _ ->
                 let v = [| 2; 4; 6 |]
                 let scalar = 3
-                let result = Vector.multiplyScalar v scalar
+                let result = Vector.multiplyScalar scalar v
                 let expected = [| 6; 12; 18 |]
                 Expect.equal result expected "Should multiply the scalar with each element"
 
             testCase "divideScalar: divides every element by scalar" <| fun _ ->
                 let v = [| 10; 20; 30 |]
                 let scalar = 10
-                let result = Vector.divideScalar v scalar
+                let result = Vector.divideScalar scalar v
                 let expected = [| 1; 2; 3 |]
                 Expect.equal result expected "Should divide each element by the scalar"
 
@@ -279,28 +279,28 @@ let vectorTests =
             testCase "addScalar: adds scalar to every float element" <| fun _ ->
                 let v = [| 1.0; 2.0; 3.0 |]
                 let scalar = 5.5
-                let result = Vector.addScalar v scalar
+                let result = Vector.addScalar scalar v
                 let expected = [| 6.5; 7.5; 8.5 |]
                 Expect.equal result expected "Should add 5.5 to each element"
 
             testCase "subtractScalar: subtract scalar from every float element" <| fun _ ->
                 let v = [| 1.0; 2.5; 3.75 |]
                 let scalar = 1.25
-                let result = Vector.subtractScalar v scalar
+                let result = Vector.subtractScalar scalar v
                 let expected = [| -0.25; 1.25; 2.5 |]
                 Expect.equal result expected "Should subtract 1.25 from each element"
 
             testCase "multiplyScalar: multiplies scalar with every float element" <| fun _ ->
                 let v = [| 2.5; 4.0; 6.0 |]
                 let scalar = 2.0
-                let result = Vector.multiplyScalar v scalar
+                let result = Vector.multiplyScalar scalar v
                 let expected = [| 5.0; 8.0; 12.0 |]
                 Expect.equal result expected "Should multiply each element by 2.0"
 
             testCase "divideScalar: divides every float element by scalar" <| fun _ ->
                 let v = [| 10.0; 20.0; 30.0 |]
                 let scalar = 2.0
-                let result = Vector.divideScalar v scalar
+                let result = Vector.divideScalar scalar v
                 let expected = [| 5.0; 10.0; 15.0 |]
                 Expect.equal result expected "Should divide each element by 2.0"
 
