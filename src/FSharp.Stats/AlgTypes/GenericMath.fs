@@ -45,19 +45,21 @@ module GenericMath =
     let inline cos<'T when 'T :> Numerics.ITrigonometricFunctions<'T>> (x: 'T) : 'T =
         'T.Cos(x)
 
-    // /// Generic pi constant
-    // let inline pi<'T when 'T :> Numerics.IFloatingPointConstants<'T> and 'T :> Numerics.INumber<'T>> () : 'T =
-    //     pi<'T>()
+    /// Generic pi constant
+    let inline pi<'T when 'T :> Numerics.IFloatingPointConstants<'T> and 'T :> Numerics.INumber<'T>> () : 'T =
+         'T.Pi
 
     /// Generic e constant (Euler's number)
     let inline e<'T when 'T :> Numerics.IFloatingPointConstants<'T>> () : 'T =
         'T.E
 
-    // /// Generic tau constant (2 * pi)
-    // let inline tau<'T when 'T :> Numerics.IFloatingPointConstants<'T> and 'T :> Numerics.INumber<'T>> () : 'T =
-    //     T<'T> 2.0 * pi<'T>()
+    /// Generic tau constant (2 * pi)
+    let inline tau<'T when 'T :> Numerics.IFloatingPointConstants<'T> and 'T :> Numerics.INumber<'T>> () : 'T =
+         'T.Tau
 
-
+    /// Generic floor function
+    let inline floor<'T when 'T :> Numerics.IFloatingPoint<'T>> (x: 'T) : 'T =
+        'T. Floor(x)
 
 
     // let inline min x y = if x < y then x else y

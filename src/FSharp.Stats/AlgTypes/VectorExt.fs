@@ -209,3 +209,8 @@ module Vector =
     ///
     let inline ofSeq (s:seq<'T>) : Vector<'T> =
         s |> Array.ofSeq
+
+
+    ///
+    let inline pow (power: 'T) (v:Vector<'T>) : Vector<'T> =
+        v |> Array.map (fun x -> GenericMath.pow x power)
