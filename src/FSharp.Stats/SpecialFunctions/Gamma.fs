@@ -60,6 +60,7 @@ module Gamma =
     ///</remarks>
     /// <param name="z">The function input for approximating Γ(z)</param>
     let gamma z = 
+     //TODO: maybe rename in "complete" for consisteny 
         match z with
         | z when (infinity.Equals(z)) -> infinity
         | z when ((-infinity).Equals(z)) -> nan
