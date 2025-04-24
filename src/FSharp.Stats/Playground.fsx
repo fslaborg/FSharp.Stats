@@ -7,6 +7,12 @@ open FSharp.Stats
 open FSharp.Stats.Distributions
 //open Plotly.NET
 open FSharp.Stats.Algebra
+open FSharp.Stats.Distributions.Continuous
+
+let alpha = 5.0
+let beta  = 1.0
+let p     = 0.95
+let x     = Gamma.InvCDF alpha beta p
 
 
 
