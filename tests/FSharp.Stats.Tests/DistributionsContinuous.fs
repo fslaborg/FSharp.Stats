@@ -118,6 +118,53 @@ let GammaDistributionTests =
                 "Gamma Distribution Fit" 
             Expect.floatClose fittingAccuracy beta beta'
                 "Gamma Distribution Fit" 
+
+        testList "Gamma.InvCDF tests" [
+
+            test "Gamma.InvCDF returns 0.0 for p=0.0" {
+                let alpha = 2.0
+                let beta  = 1.0
+                let p     = 0.0
+                let x     = Gamma.InvCDF alpha beta p
+                Expect.equal x 0.0 "Quantile at p=0 should be 0"
+            }
+
+            test "Gamma.InvCDF returns ~∞ for p=1.0" {
+                let alpha = 2.0
+                let beta  = 1.0
+                let p     = 1.0
+                let x     = Gamma.InvCDF alpha beta p
+                Expect.isGreaterThan x 1e6 "Quantile at p=1 should be very large"
+            }
+
+            test "Gamma.InvCDF round-trip at p=0.5" {
+                let alpha = 3.0
+                let beta  = 2.0
+                let p     = 0.5
+                let x     = Gamma.InvCDF alpha beta p
+                let p2    = Gamma.CDF alpha beta x
+                Expect.floatClose Accuracy.high p p2 "CDF(InvCDF(p)) ≈ p"
+            }
+
+            test "Gamma.InvCDF round-trip at p=0.95" {
+                let alpha = 5.0
+                let beta  = 1.0
+                let p     = 0.95
+                let x     = Gamma.InvCDF alpha beta p
+                let p2    = Gamma.CDF alpha beta x
+                Expect.floatClose Accuracy.high p p2 "CDF(InvCDF(p)) ≈ p"
+            }
+
+            test "Gamma.InvCDF round-trip at p=0.01" {
+                let alpha = 2.0
+                let beta  = 0.5
+                let p     = 0.01
+                let x     = Gamma.InvCDF alpha beta p
+                let p2    = Gamma.CDF alpha beta x
+                Expect.floatClose Accuracy.high p p2 "CDF(InvCDF(p)) ≈ p"
+            }
+        ]
+
    
     ]
 
