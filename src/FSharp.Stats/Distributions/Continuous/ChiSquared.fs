@@ -66,6 +66,15 @@ type ChiSquared =
     static member StandardDeviation dof =
         ChiSquared.CheckParam dof
         sqrt (dof * 2.)
+
+    /// <param name="k">Degrees of freedom (must be positive).</param>
+    /// <returns>A sample from χ²(dof), interpreted as Gamma(dof/2, 2).</returns>
+    static member SampleUnchecked (dof: float) : float =
+        let alpha = dof / 2.0
+        let beta  = 1. / 2.0
+        Gamma.SampleUnchecked alpha beta
+
+
     /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).</summary>
     /// <remarks></remarks>
     /// <param name="dof"></param>
@@ -76,8 +85,7 @@ type ChiSquared =
     /// </example>
     static member Sample dof =
         ChiSquared.CheckParam dof
-        //rndgen.NextFloat() * (max - min) + min
-        raise (NotImplementedException())
+        ChiSquared.SampleUnchecked dof
 
     /// <summary>Computes the probability density function.</summary>
     /// <remarks></remarks>
@@ -127,18 +135,14 @@ type ChiSquared =
         elif isNan x then nan
         else Gamma.lowerIncompleteRegularized (dof/2.) (x/2.)
 
-    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
-    /// <remarks></remarks>
-    /// <param name="dof"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    static member InvCDF dof x =
-        ChiSquared.CheckParam dof
-        failwithf "InvCDF not implemented yet"
+    /// <summary>Computes the inverse CDF (quantile function).</summary>
+    /// <param name="dof">Degrees of freedom.</param>
+    /// <param name="p">The probability value in [0.0, 1.0].</param>
+    /// <returns>The quantile corresponding to the cumulative probability p.</returns>
+    static member InvCDF (dof: float) (p: float) : float =
+        let alpha = dof / 2.0
+        let beta  = 1. / 2.0
+        Gamma.InvCDF alpha beta p
 
     /// <summary>Returns the support of the exponential distribution: [0, Positive Infinity).</summary>
     /// <remarks></remarks>
@@ -163,6 +167,27 @@ type ChiSquared =
     /// </example>
     static member ToString dof =
         sprintf "ChiSquared(dof = %f)" dof
+
+
+    /// <summary>Fits a Chi-squared distribution by method-of-moments from raw observations.</summary>
+    /// <param name="observations">An array of observed values.</param>
+    /// <param name="weights">Optional weights.</param>
+    /// <returns>Estimated degrees of freedom k.</returns>
+    static member inline Fit(observations: 'T[], ?weights: 'T[]) : 'T =
+        let mean =
+            match weights with
+            | None   -> Array.average observations
+            | Some w -> Array.weightedMean w observations
+        // Mean = k ⇒ k = mean
+        mean
+
+    /// <summary>Estimates the Chi-squared distribution from data.</summary>
+    /// <param name="observations">An array of observed values.</param>
+    /// <param name="weights">Optional weights.</param>
+    /// <returns>An initialized Chi-squared distribution with estimated k.</returns>
+    static member inline Estimate(observations: 'T[], ?weights: 'T[]) =
+        let k = ChiSquared.Fit(observations, ?weights = weights)
+        ChiSquared.Init k
 
     /// <summary>Initializes a ChiSquared distribution </summary>
     /// <remarks></remarks>
