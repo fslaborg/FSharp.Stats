@@ -19,7 +19,7 @@ module Beta =
     ///</remarks>
     /// <param name="z">The function input for approximating ln(B(z, w))</param>
     /// <param name="w">The function input for approximating ln(B(z, w))</param>
-    let _betaLn z w = (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
+    let inline _betaLn (z: 'T) (w: 'T) = (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
 
     ///<summary>
     /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -29,7 +29,7 @@ module Beta =
     ///</remarks>
     /// <param name="z">The function input for approximating B(z, w)</param>
     /// <param name="w">The function input for approximating B(z, w)</param>
-    let _beta z w = exp (_betaLn z w)
+    let inline _beta (z: 'T) (w: 'T) = exp (_betaLn z w)
 
     ///<summary>
     /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -40,7 +40,7 @@ module Beta =
     ///</remarks>    
     /// <param name="z">The function input for approximating ln(B(z, w))</param>
     /// <param name="w">The function input for approximating ln(B(z, w))</param>
-    let betaLn z w = (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
+    let inline betaLn (z: 'T) (w: 'T) = (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
 
     ///<summary>
     /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -51,7 +51,7 @@ module Beta =
     ///</remarks>
     /// <param name="z">The function input for approximating B(z, w)</param>
     /// <param name="w">The function input for approximating B(z, w)</param>
-    let beta z w = exp (betaLn z w)
+    let inline beta (z: 'T) (w: 'T) = exp (betaLn z w)
 
     // incomplete beta function 
     /// <summary>
