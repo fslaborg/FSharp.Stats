@@ -2,14 +2,15 @@
 
 open System
 open FSharp.Stats
+open FSharp.Stats.GenericMath
 
 /// The beta function B(p,q), or the beta integral (also called the Eulerian integral of the first kind) is defined by
 ///
 /// B(p, q) = (Γ(p) * Γ(q)) / Γ(p+q)
 module Beta =
 
-    let private EPS = 3.0e-8    // Precision.DoublePrecision;
-    let private FPMIN = 1.0e-30 // 0.0.Increment()/eps
+    let private EPS : 'T = T 3.0e-8    // Precision.DoublePrecision;
+    let private FPMIN : 'T = T 1.0e-30 // 0.0.Increment()/eps
 
     ///<summary>
     /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -19,7 +20,19 @@ module Beta =
     ///</remarks>
     /// <param name="z">The function input for approximating ln(B(z, w))</param>
     /// <param name="w">The function input for approximating ln(B(z, w))</param>
-    let inline _betaLn (z: 'T) (w: 'T) = (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
+    let inline _betaLn<'T when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : equality
+        and 'T :> ValueType
+        and 'T :> System.Numerics.IFloatingPoint<'T>
+        and 'T :> System.Numerics.IExponentialFunctions<'T>
+        and 'T :> System.Numerics.ILogarithmicFunctions<'T>
+        and 'T :> System.Numerics.IRootFunctions<'T>
+        and 'T :> System.Numerics.IPowerFunctions<'T>
+        and 'T : comparison>  
+        (z: 'T) (w: 'T) = 
+        (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
 
     ///<summary>
     /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -29,7 +42,19 @@ module Beta =
     ///</remarks>
     /// <param name="z">The function input for approximating B(z, w)</param>
     /// <param name="w">The function input for approximating B(z, w)</param>
-    let inline _beta (z: 'T) (w: 'T) = exp (_betaLn z w)
+    let inline _beta<'T when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : equality
+        and 'T :> ValueType
+        and 'T :> System.Numerics.IFloatingPoint<'T>
+        and 'T :> System.Numerics.IExponentialFunctions<'T>
+        and 'T :> System.Numerics.ILogarithmicFunctions<'T>
+        and 'T :> System.Numerics.IRootFunctions<'T>
+        and 'T :> System.Numerics.IPowerFunctions<'T>
+        and 'T : comparison> 
+        (z: 'T) (w: 'T) = 
+        exp (_betaLn z w)
 
     ///<summary>
     /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -40,7 +65,19 @@ module Beta =
     ///</remarks>    
     /// <param name="z">The function input for approximating ln(B(z, w))</param>
     /// <param name="w">The function input for approximating ln(B(z, w))</param>
-    let inline betaLn (z: 'T) (w: 'T) = (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
+    let inline betaLn<'T when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : equality
+        and 'T :> ValueType
+        and 'T :> System.Numerics.IFloatingPoint<'T>
+        and 'T :> System.Numerics.IExponentialFunctions<'T>
+        and 'T :> System.Numerics.ILogarithmicFunctions<'T>
+        and 'T :> System.Numerics.IRootFunctions<'T>
+        and 'T :> System.Numerics.IPowerFunctions<'T>
+        and 'T : comparison>  
+        (z: 'T) (w: 'T) = 
+        (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
 
     ///<summary>
     /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -51,7 +88,19 @@ module Beta =
     ///</remarks>
     /// <param name="z">The function input for approximating B(z, w)</param>
     /// <param name="w">The function input for approximating B(z, w)</param>
-    let inline beta (z: 'T) (w: 'T) = exp (betaLn z w)
+    let inline beta<'T when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : equality
+        and 'T :> ValueType
+        and 'T :> System.Numerics.IFloatingPoint<'T>
+        and 'T :> System.Numerics.IExponentialFunctions<'T>
+        and 'T :> System.Numerics.ILogarithmicFunctions<'T>
+        and 'T :> System.Numerics.IRootFunctions<'T>
+        and 'T :> System.Numerics.IPowerFunctions<'T>
+        and 'T : comparison>  
+        (z: 'T) (w: 'T) = 
+        exp (betaLn z w)
 
     // incomplete beta function 
     /// <summary>
@@ -60,59 +109,100 @@ module Beta =
     /// <param name="a">The first Beta parameter, a positive real number.</param>
     /// <param name="b">The second Beta parameter, a positive real number.</param>
     /// <param name="x">The upper limit of the integral.</param>
-    let lowerIncompleteRegularized a b x =       
-        if (a < 0.0) then invalidArg "a" "Argument must not be negative"
-        if (b < 0.0) then invalidArg "b" "Argument must not be negative"
-        if (x < 0.0 || x > 1.0) then invalidArg "x" "Argument XY interval is inclusive"
-        let bt = 
-            if (x = 0.0 || x = 1.0) then
-                0.0
+    let inline lowerIncompleteRegularized
+        (a: ^T when ^T :> Numerics.INumber<^T>
+              and ^T : (new: unit -> ^T)
+              and ^T : struct
+              and ^T : equality
+              and ^T :> ValueType
+              and ^T :> System.Numerics.IFloatingPoint<^T>
+              and ^T :> System.Numerics.IExponentialFunctions<^T>
+              and ^T :> System.Numerics.ILogarithmicFunctions<^T>
+              and ^T :> System.Numerics.IRootFunctions<^T>
+              and ^T :> System.Numerics.IPowerFunctions<^T>
+              and ^T : comparison)
+        (b: ^T when ^T :> Numerics.INumber<^T>
+              and ^T : (new: unit -> ^T)
+              and ^T : struct
+              and ^T : equality
+              and ^T :> ValueType
+              and ^T :> System.Numerics.IFloatingPoint<^T>
+              and ^T :> System.Numerics.IExponentialFunctions<^T>
+              and ^T :> System.Numerics.ILogarithmicFunctions<^T>
+              and ^T :> System.Numerics.IRootFunctions<^T>
+              and ^T :> System.Numerics.IPowerFunctions<^T>
+              and ^T : comparison)
+        (x: ^T when ^T :> Numerics.INumber<^T>
+              and ^T : (new: unit -> ^T)
+              and ^T : struct
+              and ^T : equality
+              and ^T :> ValueType
+              and ^T :> System.Numerics.IFloatingPoint<^T>
+              and ^T :> System.Numerics.IExponentialFunctions<^T>
+              and ^T :> System.Numerics.ILogarithmicFunctions<^T>
+              and ^T :> System.Numerics.IRootFunctions<^T>
+              and ^T :> System.Numerics.IPowerFunctions<^T>
+              and ^T : comparison) =       
+        if (a < T 0.0) then invalidArg "a" "Argument must not be negative"
+        if (b < T 0.0) then invalidArg "b" "Argument must not be negative"
+        if (x < T 0.0 || x > T 1.0) then invalidArg "x" "Argument XY interval is inclusive"
+        let bt: 'T = 
+            if (x = T 0.0 || x = T 1.0) then
+                T 0.0
             else
-                exp (Gamma._gammaLn (a + b) - Gamma._gammaLn a - Gamma._gammaLn b + (a*Math.Log(x)) + (b*Math.Log(1.0 - x)))
+                exp (Gamma._gammaLn (a + b) - Gamma._gammaLn a - Gamma._gammaLn b + (a*log(x)) + (b*log(T 1.0 - x)))
 
-        let isSymmetryTransformation = ( x >= (a + 1.0)/(a + b + 2.0))
+        let isSymmetryTransformation = ( x >= (a + T 1.0)/(a + b + T 2.0))
 
-        let symmetryTransformation a b x =
+        let inline symmetryTransformation 
+            (a: 'T) (b: 'T) (x: 'T) =
             let qab = a + b
-            let qap = a + 1.0
-            let qam = a - 1.0
-            let c = 1.0
-            let d = 
-                let tmp =  1.0 - (qab * x / qap)
-                if (abs tmp < FPMIN) then 1. / FPMIN else 1. / tmp
+            let qap = a + T 1.0
+            let qam = a - T 1.0
+            let c = T 1.0
+            let d: 'T = 
+                let tmp =  T 1.0 - (qab * x / qap)
+                if (abs tmp < FPMIN) then T 1. / FPMIN else T 1. / tmp
             let h = d
-            let rec loop m mm d h c =                
-                let aa = float m * (b - float m)*x/((qam + mm)*(a + mm))
+            let rec loop (m: 'T) (mm: 'T) (d: 'T) (h: 'T) (c: 'T) =                
+                let aa = m * (b - m)*x/((qam + mm)*(a + mm))
                 let d' = 
-                    let tmp = 1.0 + (aa*d)
-                    if (abs tmp < FPMIN) then 1. / FPMIN else 1. / tmp
+                    let tmp = T 1.0 + (aa*d)
+                    if (abs tmp < FPMIN) then T 1. / FPMIN else T 1. / tmp
                 let c' = 
-                    let tmp = 1.0 + (aa/c)
+                    let tmp = T 1.0 + (aa/c)
                     if (abs tmp < FPMIN) then FPMIN else tmp
-                let h' = h * d' * c'
-                let aa' = -(a + float m)*(qab + float m)*x/((a + mm)*(qap + mm))
-                let d'' = 
-                    let tmp = 1.0 + (aa' * d')
-                    if (abs tmp < FPMIN) then 1. / FPMIN else 1. / tmp
-                let c'' = 
-                    let tmp = 1.0 + (aa'/c')
+                let h': 'T = h * d' * c'
+                let aa': 'T = -(a + m)*(qab + m)*x/((a + mm)*(qap + mm))
+                let d'': 'T = 
+                    let tmp = T 1.0 + (aa' * d')
+                    if (abs tmp < FPMIN) then T 1. / FPMIN else T 1. / tmp
+                let c'': 'T = 
+                    let tmp = T 1.0 + (aa'/c')
                     if (abs tmp < FPMIN) then FPMIN else tmp
                 
-                let del = d''*c''
-                let h'' = h' * del
+                let del: 'T = d''*c''
+                let h'': 'T = h' * del
                 
-                if abs (del - 1.0) <= EPS then
-                     if isSymmetryTransformation then 1.0 - (bt*h''/a) else bt*h''/a
-                else
-                    if m < 140 then
-                        loop (m+1) (mm+2.) d'' h'' c''
+                let tepmI: 'T = 
+                    bt*h''/a
+
+                if abs (del - T 1.0) <= EPS then
+                    
+                    if isSymmetryTransformation then 
+                        T 1.0 - tepmI 
                     else 
-                            if isSymmetryTransformation then 1.0 - (bt*h''/a) else bt*h''/a
+                        tepmI
+                else
+                    if m < T 140 then
+                        loop (m+T 1) (mm+T 2.) d'' h'' c''
+                    else 
+                            if isSymmetryTransformation then T 1.0 - tepmI else tepmI
                 
-            loop 1 2. d h c             
+            loop (T 1) (T 2.) d h c             
 
         if isSymmetryTransformation then
-            symmetryTransformation b a (1.0-x)
+            symmetryTransformation b a (T 1.0-x)
         else
             symmetryTransformation a b x
 
@@ -123,7 +213,7 @@ module Beta =
     /// <param name="a">The first Beta parameter, a positive real number.</param>
     /// <param name="b">The second Beta parameter, a positive real number.</param>
     /// <param name="x">The upper limit of the integral.</param>
-    let lowerIncomplete(a, b, x) =
+    let inline lowerIncomplete(a, b, x) : 'T=
         (lowerIncompleteRegularized a b x) * (beta a b)
  
  
@@ -131,11 +221,11 @@ module Beta =
     ///   Power series for incomplete beta integral. Use when b*x
     ///   is small and x not too close to 1.
     /// </summary>
-    let powerSeries a b x =
-        let ai = 1.0 / a
-        let ui = (1.0 - b) * x 
-        let t1 = ui / (a + 1.0)
-        let z  = Ops.epsilon * ai
+    let inline powerSeries a b x =
+        let ai = T 1.0 / a
+        let ui = (T 1.0 - b) * x 
+        let t1 = ui / (a + T 1.0)
+        let z  = Ops.epsilon * ai |> T
 
         let rec loop u t v s n =
             if (abs v > z) then 
