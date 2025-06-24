@@ -1,4 +1,6 @@
 namespace FSharp.Stats.Testing
+open System
+open FSharp.Stats.GenericMath
 
 
 module TestStatistics =
@@ -9,24 +11,30 @@ module TestStatistics =
     ///   Creates a new T-Test for a given statistic
     ///   with given degrees of freedom.
     /// </summary>
-    type TTestStatistics = {
-        /// <summary name="Statistic">The test statistic.</summary>
-        Statistic            : float
-        /// <summary name="DegreesOfFreedom">The degrees of freedom for the numerator.</summary>    
-        DegreesOfFreedom     : float
-        /// <summary name="PValueLeft">One Tailed/Sided.</summary>
-        PValueLeft           : float
-        /// <summary name="PValueRight"> One Tailed/Sided.</summary>   
-        PValueRight          : float
-        /// <summary name="PValue">Two Tailed/Sided.</summary>   
-        PValue               : float            
-    }
+    /// 
+    /// <param name="Statistic">The test statistic.</param>
+    /// <param name="DegreesOfFreedom">The degrees of freedom for the numerator.</param>    
+    /// <param name="PValueLeft">One Tailed/Sided.</param>
+    /// <param name="PValueRight"> One Tailed/Sided.</param>   
+    /// <param name="PValue">Two Tailed/Sided.</param>   
+    type TTestStatistics<'T when 'T :> Numerics.INumber<'T>
+        and Numerics.IFloatingPoint<'T>
+        and Numerics.IExponentialFunctions<'T>
+        and Numerics.IRootFunctions<'T>
+        and Numerics.IPowerFunctions<'T>> = 
+        {
+            Statistic            : 'T
+            DegreesOfFreedom     : 'T
+            PValueLeft           : 'T
+            PValueRight          : 'T
+            PValue               : 'T            
+        }
 
-    let createTTest statistic dof =
-        let cdf  = Distributions.Continuous.StudentT.CDF 0. 1. dof statistic
-        let pvalue = if statistic > 0. then 1. - cdf else cdf
+    let createTTest (statistic: 'T) (dof: 'T) =
+        let cdf: 'T  = Distributions.Continuous.StudentT.CDF 0. 1. ('T.One dof) statistic
+        let pvalue: 'T = if statistic > T 0. then T 1. - cdf else cdf
+        
         {Statistic=statistic; DegreesOfFreedom=dof; PValueLeft=1. - pvalue; PValueRight=pvalue; PValue=pvalue*2.;}
-
 
     /// <summary>
     ///   Creates a new F-Test for a given statistic

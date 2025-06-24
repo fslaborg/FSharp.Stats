@@ -4,6 +4,7 @@ open System
 open FSharp.Stats
 open FSharp.Stats.Distributions
 open FSharp.Stats.Ops
+open FSharp.Stats.GenericMath
 
 // ######
 // Student's T-distribution
@@ -17,10 +18,10 @@ open FSharp.Stats.Ops
 type StudentT =
     
     // Student's T-distribution helper functions.
-    static member CheckParam mu tau dof = 
-        if System.Double.IsNaN(mu) || tau < 0.0 || System.Double.IsNaN(dof)  || dof < 0. then 
+    static member CheckParam (mu: 'T) (tau: 'T) (dof: 'T) = 
+        if isNan(mu) || tau < T 0.0 || isNan(dof)  || dof < T 0. then 
             failwith "Student's T-distribution should be parametrized by mu, tau and dof > 0.0."
-
+            
     /// <summary>Computes the mode.</summary>
     /// <remarks></remarks>
     /// <param name="mu"></param>
@@ -63,7 +64,7 @@ type StudentT =
         StudentT.CheckParam mu tau dof
         match dof with
         | df when System.Double.IsPositiveInfinity(df) -> tau*tau
-        | df when df > 2.0 -> dof*tau*tau/(dof-2.0)
+        | df when df > T 2.0 -> dof*tau*tau/(dof-T 2.0)
         | _ -> System.Double.PositiveInfinity
 
     /// <summary>Computes the standard deviation.</summary>
