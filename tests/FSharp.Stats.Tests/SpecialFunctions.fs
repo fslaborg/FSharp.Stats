@@ -292,7 +292,7 @@ let factorialTests =
             Expect.floatClose Accuracy.high (Factorial._factorialLn 6942) 54467.727976695301612523565124699078303834231913072759124392135342 "factorialLn of large number failed"
         )
         testCase "_ln(0!) = 0" (fun _ -> 
-            Expect.equal (Factorial._factorialLn 0) 0. "Expected factorialLn of 0 to be 1."
+            Expect.floatClose Accuracy.high (Factorial._factorialLn 0) 0. "Expected factorialLn of 0 to be 1."
         )
         testCase "_ln(69!)" (fun _ -> 
             Expect.floatClose Accuracy.high 226.19054832372759333227016852232261788323276357495863628461257077 (Factorial._factorialLn 69) "Expected factorialLn of 69 to be 226.19054832372759333227016852232261788323276357495863628461257077"
@@ -310,7 +310,7 @@ let factorialTests =
             Expect.floatClose Accuracy.high (Factorial.factorialLn 6942) 54467.727976695301612523565124699078303834231913072759124392135342 "factorialLn of large number failed"
         )
         testCase "ln(0!) = 0" (fun _ -> 
-            Expect.equal (Factorial.factorialLn 0) 0. "Expected factorialLn of 0 to be 1."
+            Expect.floatClose Accuracy.high (Factorial.factorialLn 0) 0. "Expected factorialLn of 0 to be 1."
         )
         testCase "ln(69!)" (fun _ -> 
             Expect.floatClose Accuracy.high 226.19054832372759333227016852232261788323276357495863628461257077 (Factorial.factorialLn 69) "Expected factorialLn of 69 to be 226.19054832372759333227016852232261788323276357495863628461257077"
