@@ -2,6 +2,7 @@ namespace FSharp.Stats.Testing
 open System
 open FSharp.Stats.GenericMath
 
+// TODO: Update specific distributions to support generic type 'T to avoid explicit float casting
 
 module TestStatistics =
     
@@ -21,7 +22,9 @@ module TestStatistics =
         and Numerics.IFloatingPoint<'T>
         and Numerics.IExponentialFunctions<'T>
         and Numerics.IRootFunctions<'T>
-        and Numerics.IPowerFunctions<'T>> = 
+        and Numerics.IPowerFunctions<'T>
+        and 'T: (static member op_Explicit: ^T -> float)
+        and 'T : comparison >  = 
         {
             Statistic            : 'T
             DegreesOfFreedom     : 'T
@@ -30,71 +33,162 @@ module TestStatistics =
             PValue               : 'T            
         }
 
-    let createTTest (statistic: 'T) (dof: 'T) =
-        let cdf: 'T  = Distributions.Continuous.StudentT.CDF 0. 1. ('T.One dof) statistic
-        let pvalue: 'T = if statistic > T 0. then T 1. - cdf else cdf
+    let inline createTTest<'T when 'T :> Numerics.INumber<'T>
+        and Numerics.IFloatingPoint<'T>
+        and Numerics.IExponentialFunctions<'T>
+        and Numerics.ILogarithmicFunctions<'T>
+        and Numerics.IRootFunctions<'T>
+        and Numerics.IPowerFunctions<'T> 
+        and 'T: (static member op_Explicit: ^T -> float)
+        and 'T : comparison > 
+        (statistic: 'T) (dof: 'T) =
+        let fstatistic = toFloat statistic
+        let fdof = toFloat dof
         
-        {Statistic=statistic; DegreesOfFreedom=dof; PValueLeft=1. - pvalue; PValueRight=pvalue; PValue=pvalue*2.;}
+        let cdf  = Distributions.Continuous.StudentT.CDF 0. 1. fdof fstatistic |> T
+        let pvalue = if fstatistic > 0. then 1. - cdf else cdf
+        
+        {
+            Statistic=statistic; 
+            DegreesOfFreedom=dof; 
+            PValueLeft= T(1. - pvalue); 
+            PValueRight=T(pvalue); 
+            PValue=T(pvalue*2.);
+        }
 
     /// <summary>
     ///   Creates a new F-Test for a given statistic
     ///   with given degrees of freedom.
     /// </summary>
-    type FTestStatistics = {
-        /// <summary name="statistic">The test statistic.</summary>
-        Statistic            : float
-        /// <summary name="d1">The degrees of freedom for the numerator.</summary>
-        DegreesOfFreedom1    : float
-        /// <summary name="d2">The degrees of freedom for the denominator.</summary>
-        DegreesOfFreedom2    : float
-        PValue               : float 
-        PValueTwoTailed      : float            
-    }
+    /// 
+    /// <param name="statistic">The test statistic.</param>
+    /// <param name="d1">The degrees of freedom for the numerator.</param>
+    /// <param name="d2">The degrees of freedom for the denominator.</param>
+    type FTestStatistics<'T when 'T :> Numerics.INumber<'T>
+        and Numerics.IFloatingPoint<'T>
+        and Numerics.IExponentialFunctions<'T>
+        and Numerics.IRootFunctions<'T>
+        and Numerics.IPowerFunctions<'T>
+        and 'T: (static member op_Explicit: ^T -> float)
+        and 'T : comparison > = 
+        {
+            Statistic            : 'T
+            DegreesOfFreedom1    : 'T
+            DegreesOfFreedom2    : 'T
+            PValue               : 'T 
+            PValueTwoTailed      : 'T            
+        }
 
-    let createFTest statistic dof1 dof2 =
-        let cdf  =  Distributions.Continuous.F.CDF dof1 dof2 statistic            
+    let inline createFTest<'T when 'T :> Numerics.INumber<'T>
+        and Numerics.IFloatingPoint<'T>
+        and Numerics.IExponentialFunctions<'T>
+        and Numerics.IRootFunctions<'T>
+        and Numerics.IPowerFunctions<'T>
+        and 'T: (static member op_Explicit: ^T -> float)
+        and 'T : comparison >
+        (statistic: 'T) (dof1: 'T) (dof2: 'T) =
+        let fstatistic = toFloat statistic
+        let fdof1 = toFloat dof1
+        let fdof2 = toFloat dof2
+        let cdf  =  Distributions.Continuous.F.CDF fdof1 fdof2 fstatistic            
         let pvalue = 1. - cdf
         let pvalueTwoTailed = pvalue * 2.
-        {Statistic=statistic; DegreesOfFreedom1=dof1; DegreesOfFreedom2=dof2; PValue=pvalue; PValueTwoTailed = pvalueTwoTailed}
+        {
+            Statistic=statistic; 
+            DegreesOfFreedom1=dof1; 
+            DegreesOfFreedom2=dof2; 
+            PValue=T pvalue; 
+            PValueTwoTailed = T pvalueTwoTailed
+        }
 
 
     /// <summary>
     ///   Computes the Chi-Square test statistics for a given statistic
     ///   with given degrees of freedom.
     /// </summary>
-    type ChiSquareStatistics = {
-        /// <summary name="Statistic">The test statistic.</summary>
-        Statistic            : float
-        /// <summary name="DegreesOfFreedom">The degrees of freedom for the numerator.</summary>    
-        DegreesOfFreedom     : float
-        /// <summary name="PValueLeft">One Tailed/Sided.</summary>
-        PValueLeft           : float
-        /// <summary name="PValueRight"> One Tailed/Sided.</summary>   
-        PValueRight          : float
-        /// <summary name="PValue">Two Tailed/Sided.</summary>   
-        PValue               : float            
-    }
+    /// 
+    /// <param name="Statistic">The test statistic.</param>
+    /// <param name="DegreesOfFreedom">The degrees of freedom for the numerator.</param>    
+    /// <param name="PValueLeft">One Tailed/Sided.</param>
+    /// <param name="PValueRight"> One Tailed/Sided.</param>   
+    /// <param name="PValue">Two Tailed/Sided.</param>   
+    type ChiSquareStatistics<'T when 'T :> Numerics.INumber<'T>
+        and Numerics.IFloatingPoint<'T>
+        and Numerics.IExponentialFunctions<'T>
+        and Numerics.IRootFunctions<'T>
+        and Numerics.IPowerFunctions<'T>
+        and 'T: (static member op_Explicit: ^T -> float)
+        and 'T : comparison > = 
+        {
+            Statistic            : 'T
+            DegreesOfFreedom     : 'T
+            /// one tailed/sided chiSquare pValue
+            PValueLeft           : 'T
+            /// one tailed/sided chiSquare pValue (default)
+            PValueRight          : 'T
+            /// two tailed/sided chiSquare pValue
+            PValue               : 'T            
+        }
 
 
-    let createChiSquare statistic dof =
-        let cdf  = Distributions.Continuous.ChiSquared.CDF dof statistic
-        let pvalue = if statistic > 0. then 1. - cdf else cdf
-        {Statistic = statistic; DegreesOfFreedom = dof; PValueLeft = 1. - pvalue; PValueRight = pvalue; PValue = pvalue * 2.}
+    let inline createChiSquare<'T when 'T :> Numerics.INumber<'T>
+        and Numerics.IFloatingPoint<'T>
+        and Numerics.IExponentialFunctions<'T>
+        and Numerics.IRootFunctions<'T>
+        and Numerics.IPowerFunctions<'T>
+        and 'T: (static member op_Explicit: ^T -> float)
+        and 'T : comparison > 
+        (statistic:'T) (dof:'T) =
+        let fstatistic = toFloat statistic
+        let fdof = toFloat dof
+        
+        
+        let cdf  = Distributions.Continuous.ChiSquared.CDF fdof fstatistic
+        let pvalue = if fstatistic > 0. then 1. - cdf else cdf
+        {
+            Statistic = statistic; 
+            DegreesOfFreedom = dof; 
+            PValueLeft =T(1. - pvalue); 
+            PValueRight = T pvalue; 
+            PValue = T(pvalue * 2.)
+        }
 
     
     /// <summary>
     ///   Computes the Wilcoxon test statistics for a given statistic.
     /// </summary>
-    type WilcoxonTestStatistics = {
-        /// <summary name="Statistic">The test statistic.</summary>
-        Statistic            : float
-        PValueLeft           : float
-        PValueRight          : float 
-        /// <summary name="PValueTwoTailed">Two Tailed/Sided.</summary>   
-        PValueTwoTailed      : float 
-    }    
-    let createWilcoxon statistic =
-        let cdf  =  Distributions.Continuous.Normal.CDF 0. 1.  statistic         
+    /// <param name="Statistic">The test statistic.</param>
+    /// <param name="PValue">One Tailed/Sided.</param>
+    /// <param name="PValueTwoTailed">Two Tailed/Sided.</param>   
+    type WilcoxonTestStatistics<'T when 'T :> Numerics.INumber<'T>
+        and Numerics.IFloatingPoint<'T>
+        and Numerics.IExponentialFunctions<'T>
+        and Numerics.IRootFunctions<'T>
+        and Numerics.IPowerFunctions<'T>
+        and 'T: (static member op_Explicit: ^T -> float)
+        and 'T : comparison > = 
+        {
+            Statistic            : 'T
+            PValueLeft           : 'T
+            PValueRight          : 'T 
+            PValueTwoTailed      : 'T 
+        }    
+    let inline createWilcoxon<'T when 'T :> Numerics.INumber<'T>
+        and Numerics.IFloatingPoint<'T>
+        and Numerics.IExponentialFunctions<'T>
+        and Numerics.IRootFunctions<'T>
+        and Numerics.IPowerFunctions<'T>
+        and 'T: (static member op_Explicit: ^T -> float)
+        and 'T : comparison >
+        (statistic:'T) =
+        let fstatistic = toFloat statistic
+
+        let cdf  =  Distributions.Continuous.Normal.CDF 0. 1.  fstatistic         
         let pvalue = 1.-  cdf
         let pvalueTwoTailed = pvalue * 2.
-        {Statistic=statistic; PValueLeft=pvalue;PValueRight = cdf; PValueTwoTailed = pvalueTwoTailed}
+        {
+            Statistic=statistic; 
+            PValueLeft=T pvalue;
+            PValueRight = T cdf; 
+            PValueTwoTailed = T pvalueTwoTailed
+        }
