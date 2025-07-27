@@ -5,6 +5,9 @@ open System.Runtime.InteropServices
 open System.Runtime.CompilerServices
 
 
+
+
+
 /// <summary>
 /// A utility class for performing SIMD (Single Instruction, Multiple Data) operations on arrays.
 /// </summary>
@@ -153,6 +156,44 @@ type SIMDUtils() =
             results.[i] <- f v1.[i] scalar
 
         results
+
+
+    static member inline mapFoldUnchecked<'T
+            when 'T :> Numerics.INumber<'T>
+            and 'T : (new: unit -> 'T)
+            and 'T : struct
+            and 'T :> ValueType>
+            (fMapSimd: Numerics.Vector<'T> -> Numerics.Vector<'T>,
+             fMap: 'T -> 'T,
+             fReduceSimd: Numerics.Vector<'T> -> Numerics.Vector<'T> -> Numerics.Vector<'T>,
+             fReduceScalar: 'T -> 'T -> 'T,
+             zero: 'T,
+             input: ReadOnlySpan<'T>)
+            : 'T =
+
+            let len = input.Length
+            let simdSize = Numerics.Vector<'T>.Count
+            let simdBlocks = len / simdSize
+            let tailStart = simdBlocks * simdSize
+
+            // SIMD map + accumulation
+            let mutable accVec = Numerics.Vector<'T>(zero)
+            let inputVec = MemoryMarshal.Cast<'T, Numerics.Vector<'T>>(input)
+
+            for i = 0 to simdBlocks - 1 do
+                let mapped = fMapSimd inputVec[i]
+                accVec <- fReduceSimd accVec mapped
+
+            // Reduce SIMD accumulator to scalar
+            let mutable acc = accVec.[0]
+            for i = 1 to simdSize - 1 do
+                acc <- fReduceScalar acc accVec.[i]
+
+            // Scalar tail
+            for i = tailStart to len - 1 do
+                acc <- fReduceScalar acc (fMap input[i])
+
+            acc
 
 
 

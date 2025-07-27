@@ -211,15 +211,17 @@ type Vector =
             let slotCount = length / slotSize
             let ceiling = slotSize * slotCount
 
-            let mutable result = Numerics.Vector<'T>.Zero
             let v1Span = MemoryMarshal.Cast<'T, Numerics.Vector<'T>>(v1.AsSpan())
             let v2Span = MemoryMarshal.Cast<'T, Numerics.Vector<'T>>(v2.AsSpan())
-            let mutable scalarResult = LanguagePrimitives.GenericZero<'T>
+            let mutable result = Numerics.Vector<'T>.Zero
+            //let mutable scalarResult = LanguagePrimitives.GenericZero<'T>
 
             for i = 0 to slotCount - 1 do
                 result <- Numerics.Vector.Add(result, Numerics.Vector.Multiply(v1Span.[i], v2Span.[i])) 
-                scalarResult <- Numerics.Vector.Sum result
-        
+                //scalarResult <- Numerics.Vector.Sum result
+            
+            let mutable scalarResult = Numerics.Vector.Sum result
+
             for i = ceiling to v1.Length - 1 do
                 scalarResult <- scalarResult + (v1.[i] * v2.[i])
 
