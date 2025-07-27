@@ -1,6 +1,265 @@
 namespace FSharp.Stats.Algebra
 
+
+open System
 open FSharp.Stats
+open FSharp.Stats.Acceleration
+
+[<Struct>]
+type Householder<'T when 'T :> Numerics.INumber<'T>> =
+    {
+        V: Vector<'T>
+        Tau: 'T
+        Beta: 'T
+    }
+
+
+type Householder() =
+
+    static member inline create<'T when 'T :> Numerics.INumber<'T>
+                and 'T : (new: unit -> 'T)                              
+                and 'T : struct
+                and 'T : comparison
+                and 'T :> ValueType
+                and 'T :> Numerics.IRootFunctions<'T>>
+                (x: Vector<'T>) :  Householder<'T> =
+        
+        let xSpan = x.AsSpan()
+        let alpha = xSpan[0]
+        let tail = xSpan.Slice(1)
+
+        let zero = GenericMath.zero<'T>
+        let one = GenericMath.one<'T>
+
+        let sigma =
+            SIMDUtils.mapFoldUnchecked(
+                (fun v -> v * v),
+                (fun x -> x * x),
+                (+),
+                (+),
+                zero,
+                tail
+            )
+
+        if sigma.Equals(zero) then
+            let v = Vector.zeroCreate x.Length
+            v.[0] <- one
+            {
+                V = v
+                Tau = zero
+                Beta = alpha
+            }
+        else
+            let sum = alpha * alpha + sigma
+            let beta = GenericMath.sqrt sum
+
+            let v0 =
+                if alpha <= zero then alpha - beta
+                else -sigma / (alpha + beta)
+
+            let tau =
+                let v0Sq = v0 * v0
+                (v0Sq + v0Sq) / (sigma + v0Sq)
+
+            let v = Vector.divideScalar v0 x // SIMD-aware scalar division
+            v.[0] <- one
+
+            {
+                V = v
+                Tau = tau
+                Beta = beta
+            }
+
+    static member inline applyLeft<'T when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : equality
+        and 'T :> ValueType>
+        (h: Householder<'T>, A: Matrix<'T>, rowOffset: int) =
+
+        let v = h.V
+        let tau = h.Tau
+        let m = A.NumRows
+        let n = A.NumCols
+        let vLen = v.Length
+
+        for j = 0 to n - 1 do
+            let mutable dot = GenericMath.zero<'T>
+            for i = 0 to vLen - 1 do
+                dot <- dot + v.[i] * A.[rowOffset + i, j]
+            let scale = tau * dot
+            for i = 0 to vLen - 1 do
+                A.[rowOffset + i, j] <- A.[rowOffset + i, j] - scale * v.[i]
+
+
+    static member inline applyRight<'T when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : equality
+        and 'T :> ValueType>
+        (h: Householder<'T>, A: Matrix<'T>, colOffset: int) =
+
+        let v = h.V
+        let tau = h.Tau
+        let m = A.NumRows
+        let vLen = v.Length
+
+        for i = 0 to m - 1 do
+            let mutable dot = GenericMath.zero<'T>
+            for j = 0 to vLen - 1 do
+                dot <- dot + A.[i, colOffset + j] * v.[j]
+            let scale = tau * dot
+            for j = 0 to vLen - 1 do
+                A.[i, colOffset + j] <- A.[i, colOffset + j] - scale * v.[j]
+
+type Bidiagonalization() =
+
+    static member inline bidiagonalizeInPlace<'T
+        when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : comparison
+        and 'T :> ValueType
+        and 'T :> Numerics.IRootFunctions<'T>>
+        (A: Matrix<'T>) : unit =
+
+        let m = A.NumCols
+        let n = A.NumRows
+        let minMN = min m n
+
+        for k = 0 to minMN - 1 do
+            // --- LEFT REFLECTION: Column k (zero below diagonal) ---
+            let colLen = m - k
+            let colVector = Array.init colLen (fun i -> A.[k + i, k])
+            let hLeft = Householder.create colVector
+
+            Householder.applyLeft(hLeft, A, k)
+
+            // Overwrite A[k..,k] with Householder beta at top and zeros below
+            A.[k, k] <- hLeft.Beta
+            for i = k + 1 to m - 1 do
+                A.[i, k] <- GenericMath.zero<'T>
+
+            
+
+            // --- RIGHT REFLECTION: Row k (zero right of superdiagonal) ---
+            if k < n - 1 then
+                let rowLen = n - (k + 1)
+                let rowVector = Array.init rowLen (fun j -> A.[k, k + 1 + j])
+                let hRight = Householder.create rowVector
+
+                Householder.applyRight(hRight, A, k + 1)
+
+                // Overwrite A[k,k+1..] with Householder beta at front, zeros right
+                A.[k, k + 1] <- hRight.Beta
+                for j = k + 2 to n - 1 do
+                    A.[k, j] <- GenericMath.zero<'T>
+
+                
+[<Struct>]
+type Bidiagonal<'T when 'T :> Numerics.INumber<'T>> = {
+    D : Vector<'T>   // main diagonal
+    E : Vector<'T>   // superdiagonal (length n-1)
+}
+
+
+/// Givens Rotation (Generic) 
+module Givens =
+
+    let inline compute<'T
+        when 'T :> Numerics.INumber<'T>
+        and 'T : comparison
+        and 'T :> Numerics.IRootFunctions<'T>
+        and 'T :> Numerics.IFloatingPointIeee754<'T>>
+        (a: 'T) (b: 'T) : 'T * 'T =
+
+        if b = GenericMath.zero then GenericMath.one, GenericMath.zero
+        elif GenericMath.abs b > GenericMath.abs a then
+            let t = a / b
+            let s = GenericMath.one / GenericMath.sqrt(GenericMath.one + t * t)
+            s * t, s
+        else
+            let t = b / a
+            let c = GenericMath.one / GenericMath.sqrt(GenericMath.one + t * t)
+            c, c * t
+
+module GolubKahan =
+
+    let inline diagonalize<'T
+        when 'T :> Numerics.INumber<'T>
+        and 'T :> Numerics.IRootFunctions<'T>
+        and 'T :> Numerics.IFloatingPointIeee754<'T>
+        and 'T : comparison
+        and 'T : struct
+        and 'T : (new: unit -> 'T)
+        and 'T :> ValueType>
+        (b: Bidiagonal<'T>) : Vector<'T> =
+
+        let d = Array.copy b.D
+        let e = Array.copy b.E
+        let n = d.Length
+        let eps = GenericMath.epsilon()
+        let two = GenericMath.one + GenericMath.one
+
+        let mutable iter = 0
+        let maxIter = 1000
+        let mutable doneIterating = false
+
+       
+
+        while iter < maxIter && not doneIterating do
+            let mutable converged = true
+            
+            for i = 0 to n - 2 do
+                let tolerance = eps * (GenericMath.abs d.[i] + GenericMath.abs d.[i + 1])
+                if abs e.[i] > tolerance then
+                    converged <- false
+
+            if converged then
+                doneIterating <- true
+            else
+                // Wilkinson shift
+                let m = n - 1
+                let dm1 = d.[m - 1]
+                let dm  = d.[m]
+                let em1 = e.[m - 1]
+
+                let delta = (dm1 - dm) / two
+                let sign =
+                    if delta >= GenericMath.zero then GenericMath.one
+                    else -GenericMath.one
+
+                let denom = abs delta + sqrt (delta * delta + em1 * em1)
+                let mu = dm - sign * (em1 * em1) / denom
+
+                // Initial bulge
+                let mutable x = d.[0] * d.[0] - mu * mu
+                let mutable z = d.[0] * e.[0]
+
+                for k = 0 to n - 2 do
+                    let c, s = Givens.compute x z
+
+                    let dk  = d.[k]
+                    let ek  = e.[k]
+                    let dk1 = d.[k + 1]
+
+                    let tau1 = c * dk + s * ek
+                    let tau2 = -s * dk1
+
+                    d.[k]     <- c * tau1 + s * tau2
+                    e.[k]     <- c * ek - s * dk1
+                    d.[k + 1] <- s * tau1 - c * tau2
+
+                    if k < n - 2 then
+                        x <- e.[k]
+                        z <- -s * e.[k + 1]
+                        e.[k + 1] <- c * e.[k + 1]
+
+                iter <- iter + 1
+
+        d
+
+
 
 module SVD =
 

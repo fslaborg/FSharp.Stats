@@ -56,6 +56,7 @@
     <Compile Include="Quantile.fs" />
     <Compile Include="Precision.fs" />
     <Compile Include="Geometry.fs" />
+    <Compile Include="Table.fs" />
     <!-- SpecialFunctions -->
     <Compile Include="SpecialFunctions\Gamma.fs" />
     <Compile Include="SpecialFunctions\Factorial.fs" />
@@ -123,6 +124,7 @@
     <!-- Testing -->
     <Compile Include="Testing\Tables.fs" />
     <Compile Include="Testing\TestStatistics.fs" />
+    <Compile Include="Testing\ContingencyTable.fs" />
     <Compile Include="Testing\ConfusionMatrix.fs" />
     <Compile Include="Testing\ComparisonMetrics.fs" />
     <Compile Include="Testing\Anova.fs" />

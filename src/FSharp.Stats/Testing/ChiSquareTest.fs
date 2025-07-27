@@ -1,5 +1,8 @@
 ﻿namespace FSharp.Stats.Testing
 
+open System
+open FSharp.Stats
+
 
 /// <summary>
 ///   Two-Sample (Goodness-of-fit) Chi-Square Test (Upper Tail)
@@ -31,14 +34,12 @@
 ///   </list></para>
 /// </remarks>
 /// 
-module ChiSquareTest =
+type ChiSquareTest =
 
-    open System
-    open FSharp.Stats
-
+    
     /// Computes the Chi-Square test
     /// n data points -&gt; degrees of freedom = n - 1 
-    let compute (degreesOfFreedom:int) (expected:seq<float>) (observed:seq<float>) =
+    static member compute (degreesOfFreedom:int) (expected:seq<float>) (observed:seq<float>) =
         //let chechParams =
         //    if expected |> Seq.exists (fun x -> abs x < 5.) then printfn "Warning: A value less than 5 is present in expected values. Results may not be correct!"
         //    let sumEx = Seq.sum expected
@@ -52,5 +53,59 @@ module ChiSquareTest =
         
         TestStatistics.createChiSquare chi2 (float degreesOfFreedom)
 
-        
+    static member pearsonChiSquared (table:ContingencyTable<_,_>) =
+        42.
 
+    static member pearsonChiSquared (table:Contingency2x2<_,_>) =
+        let apply o e =
+          let diff = abs (o - e)
+          diff * diff / e
+        
+        let a = table.A
+        let b = table.B
+        let c = table.C 
+        let d = table.D 
+
+        let N = float (a + b + c + d)
+        let rowSums = [| float (a + b); float (c + d) |]
+        let colSums = [| float (a + c); float (b + d) |]
+
+        // compute Σ (O – E)²/E (with Yates)
+        let chi2 =
+          [| for i in 0..1 do
+               for j in 0..1 do
+                 let O = float table.[i,j]
+                 let E = rowSums.[i] * colSums.[j] / N
+                 yield apply O E |]
+          |> Array.sum
+
+        let df = 1  // (2–1)*(2–1)
+        TestStatistics.createChiSquare chi2 (float df)
+
+        
+    /// Pearson χ² test with **Yates’s continuity correction** (only for 2×2).
+    static member pearsonChiSquaredWithYates (table:Contingency2x2<_,_>) =
+        let applyYates o e =
+          let diff = abs (o - e) - 0.5
+          diff * diff / e
+        
+        let a = table.A
+        let b = table.B
+        let c = table.C 
+        let d = table.D 
+
+        let N = float (a + b + c + d)
+        let rowSums = [| float (a + b); float (c + d) |]
+        let colSums = [| float (a + c); float (b + d) |]
+
+        // compute Σ (O – E)²/E (with Yates)
+        let chi2 =
+          [| for i in 0..1 do
+               for j in 0..1 do
+                 let O = float table.[i,j]
+                 let E = rowSums.[i] * colSums.[j] / N
+                 yield applyYates O E |]
+          |> Array.sum
+
+        let df = 1  // (2–1)*(2–1)
+        TestStatistics.createChiSquare chi2 (float df)

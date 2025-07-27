@@ -9,11 +9,57 @@ open FSharp.Stats.Distributions
 open FSharp.Stats.Algebra
 open FSharp.Stats.Distributions.Continuous
 
+let d = [| 4.0; 3.0 |]
+let e = [| 2.0 |]
+
+let bidiag = {
+    D = d
+    E = e
+}
+
+let sigma = GolubKahan.diagonalize bidiag 
+
+
+let A =
+    matrix [|
+        [| 4.0; 1.0; 2.0 |]
+        [| 3.0; 1.0; 0.0 |]
+        [| 5.0; 1.0; 3.0 |]
+    |]
+
+// Extract column 0
+let colVector = [| A.[0, 0]; A.[1, 0]; A.[2, 0] |]
+let h = Householder.create colVector
+
+// Overwrite A[0..,0] with [β; 0; 0]
+A.[0, 0] <- h.Beta
+for i = 1 to 2 do
+    A.[i, 0] <- 0.0
+
+Householder.applyLeft(h, A, 0)
+
+A.[1, 0] 
+
+//let input =
+//    matrix [|
+//        [| 1.0; 2.0; 3.0 |]
+//        [| 4.0; 5.0; 6.0 |]
+//        [| 7.0; 8.0; 9.0 |]
+//    |]
+
+//let A = input |> Matrix.copy
+
+//Bidiagonalization.bidiagonalizeInPlace A
+//A
+
+
+
+// Apply reflector from the left to matrix A starting at row 0
+
 let alpha = 5.0
 let beta  = 1.0
 let p     = 0.95
 let x     = Gamma.InvCDF alpha beta p
-
 
 
 let Categorical_SampleUnchecked (probabilities: float[]) =

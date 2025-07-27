@@ -61,7 +61,10 @@ module GenericMath =
     let inline floor<'T when 'T :> Numerics.IFloatingPoint<'T>> (x: 'T) : 'T =
         'T. Floor(x)
 
-
+    /// Generic floor function
+    let inline epsilon<'T when 'T :> Numerics.IFloatingPoint<'T>> () : 'T =
+        'T.CreateTruncating System.Double.Epsilon
+ 
     // let inline min x y = if x < y then x else y
     // let inline max x y = if x > y then x else y
 

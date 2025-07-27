@@ -31,6 +31,7 @@
     <Compile Include="Testing.fs" />
     <Compile Include="Optimization.fs" />
     <Compile Include="SummaryStats.fs" />
+    <Compile Include="SVD.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>
