@@ -6,6 +6,7 @@ open System.Runtime.InteropServices
 /// Vector as an array type alias
 type Vector<'T when 'T :> Numerics.INumber<'T>> = 'T []
 
+
 type Vector =
     
     
@@ -22,6 +23,7 @@ type Vector =
                 and 'T : (new: unit -> 'T)
                 and 'T : struct
                 and 'T :> ValueType> (v1 : Vector<'T>) (v2 : Vector<'T>) : Vector<'T> =
+        
         
         if v1.Length <> v2.Length then
             invalidArg "" "Cannot add two vectors of different dimensions."

@@ -37,6 +37,13 @@
                     actual 
                     expected
 
+        static member floatMatrixClose accuracy (A: Matrix<float>) (B: Matrix<float>) message =
+            Expect.equal A.NumCols B.NumCols "Column count mismatch"
+            Expect.equal A.NumRows B.NumRows "Row count mismatch"
+            for i = 0 to A.NumRows - 1 do
+                for j = 0 to A.NumCols - 1 do
+                    Expect.floatClose accuracy A.[i, j] B.[i, j] $"{message} at ({i},{j})"
+
     let assembly = Assembly.GetExecutingAssembly()
     let resnames = assembly.GetManifestResourceNames();
     let readEmbeddedRessource (name:string) = 

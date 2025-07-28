@@ -28,18 +28,19 @@ type LinearAlgebra =
         Acceleration.SIMDRangeUtils.map2RangeInPlace fv f dstOffset srcOffset count dst src
 
 
-    static member inline householderTransform
-        (A: Matrix<'T>) (i: int) : Vector<'T> =
-        let n = A.NumRows
-        let v = Vector.zeroCreate<'T> n
-        let aCol = Matrix.getCol i A
-        let norm = Vector.norm aCol
-        v.[i] <- aCol.[i] + if aCol.[i] >= 'T.Zero then -norm else norm
-        for j = 0 to n - 1 do
-            if j <> i then
-                v.[j] <- aCol.[j]
-        v
-
+    //static member inline householderTransform
+    //    (A: Matrix<'T>) (i: int) : Vector<'T> =
+    //    let n = A.NumRows
+        
+    //    let v = Vector.zeroCreate<'T> n
+    //    let aCol = Matrix.getCol i A
+    //    let norm = Vector.norm aCol.[i..]  // ToDO: use a more efficient norm calculation 
+    //    v.[i] <- aCol.[i] + if aCol.[i] >= 'T.Zero then norm else -norm
+    //    for j = i + 1 to n - 1 do
+    //        v.[j] <- aCol.[j]
+    //    v        
+        
+    
 
     /// <summary>QR decomposition using modified Gram-Schmidt</summary>
     /// <remarks>Returns Q and R such that A = QR</remarks>
@@ -52,6 +53,10 @@ type LinearAlgebra =
         (A: Matrix<'T>) : Matrix<'T> * Matrix<'T> =
 
         let m, n = A.NumRows, A.NumCols
+        
+        if m < n then
+            invalidArg "A" $"QR decomposition via Modified Gram-Schmidt requires m ≥ n, but got {m}×{n} matrix."
+
 
         let r = Matrix.zeroCreate n n
         let qCols: Vector<'T>[] = Array.zeroCreate n
@@ -100,7 +105,10 @@ type LinearAlgebra =
             let mutable sum = y.[i]
             for j = i + 1 to n - 1 do
                 sum <- sum - r.[i, j] * x.[j]
-            x.[i] <- sum / r.[i, i]
+            let diag = r.[i, i]
+            if diag = 'T.Zero then
+                invalidArg $"r[{i},{i}]" "Diagonal element is zero. Cannot divide."            
+            x.[i] <- sum / diag
 
         x
 
@@ -269,6 +277,8 @@ type LinearAlgebra =
                 for j = 0 to i - 1 do
                     s <- s - (Kdata.[rowOffset + j] * x.[j])
                 let diag = Kdata.[rowOffset + i]
+                if diag = 'T.Zero then
+                    invalidArg $"K[{i},{i}]" "Diagonal element is zero. Cannot divide."
                 x.[i] <- s / diag
         else
             // For i in [n-1..downto..0]:
@@ -279,50 +289,119 @@ type LinearAlgebra =
                 for j = i + 1 to nK - 1 do
                     s <- s - (Kdata.[rowOffset + j] * x.[j])
                 let diag = Kdata.[rowOffset + i]
+                if diag = 'T.Zero then
+                    invalidArg $"K[{i},{i}]" "Diagonal element is zero. Cannot divide."
                 x.[i] <- s / diag
 
         x
 
 
 
+    ///// QR decomposition using Householder reflections
+    //static member inline qrDecompose (A : Matrix<'T>) : (Matrix<'T> * Matrix<'T>) =
+    //// former QR
+    //    let updateQ (Q : Matrix<'T>) (v : Vector<'T>) =
+    //        let nQ, mQ = Q.NumRows, Q.NumCols
+    //        let n = v.Length
+    //        let Qv = Vector.zeroCreate<'T> nQ
+    //        for i = 0 to nQ - 1 do
+    //            // offset in Q.Data for row i is i*mQ
+    //            let rowOffset = i * mQ + (mQ - n)
+    //            // Dot the subrange Q[i, mQ-n..mQ-1] with v[0..n-1]
+    //            Qv.[i] <- Acceleration.SIMDRangeUtils.dotRange Q.Data rowOffset v 0 n
+
+    //        // Update each row i in the subrange of columns [mQ-n..mQ-1]
+    //        //    Q[i, j] -= 2 * Qv[i] * v[j - (mQ - n)]
+    //        for i = 0 to nQ - 1 do
+    //            let alpha = Qv.[i] + Qv.[i]
+    //            // We want to do a row operation: Q[i, (mQ-n)..(mQ-1)] 
+    //            // = Q[i, (mQ-n)..(mQ-1)] - alpha * v[0..n-1].
+    //            let rowOffset = i * mQ + (mQ - n)
+    //            //LinearAlgebra.subScaledRowInPlace Q.Data rowOffset v 0 n alpha
+    //            LinearAlgebra.subScaledRowInPlace alpha rowOffset 0 n Q.Data v 
+
+    //    // TODO: Refector in Householder module
+    //    let normalize (v: Vector<'T>) : Vector<'T> =
+    //        let norm = Vector.norm v
+    //        if norm = 'T.Zero then v
+    //        else
+    //            Array.map (fun x -> x / norm) v
+
+    //    let m, n = A.NumRows, A.NumCols
+
+    //    // Q starts as identity(n)
+    //    let Q = Matrix.identity m
+    //    let R = Matrix.copy A
+
+    //    for i = 0 to (min n m) - 1 do
+    //        let x = [| for k in i .. m - 1 -> R.[k, i] |]
+    //        //let a = Matrix.getCol i R
+    //        let hh = Householder.create x //a.[i..] Create Householder reflector for column i
+    //        let v = hh.V |> normalize             
+    //        updateQ Q v
+    //        Householder.applyLeft(hh, R, i)            
+
+
+    //    Q, R
+
+
     /// QR decomposition using Householder reflections
     static member inline qrDecompose (A : Matrix<'T>) : (Matrix<'T> * Matrix<'T>) =
     // former QR
-        let UpdateQ (Q : Matrix<'T>) (v : Vector<'T>) =
+
+        /// Compute normalized Householder vector from a subcolumn x
+        let householderVector (x: 'T[]) : 'T[] =
+            let norm = sqrt (Array.sumBy (fun xi -> xi * xi) x)
+            let v = Array.copy x
+            v.[0] <- v.[0] + (if x.[0] >= 'T.Zero then norm else -norm)
+            let norm_v = sqrt (Array.sumBy (fun vi -> vi * vi) v)
+            if norm_v = 'T.Zero then v
+            else Array.map (fun vi -> vi / norm_v) v
+
+        /// Update Q: Q ← Q * Hᵢ using Householder vector v (from column i)
+        let updateQ (Q: Matrix<'T>) (v: 'T[]) (i: int) =
             let nQ, mQ = Q.NumRows, Q.NumCols
-            let n = v.Length
-            let Qv = Vector.zeroCreate<'T> nQ
-            for i = 0 to nQ - 1 do
-                // offset in Q.Data for row i is i*mQ
-                let rowOffset = i * mQ + (mQ - n)
-                // Dot the subrange Q[i, mQ-n..mQ-1] with v[0..n-1]
-                Qv.[i] <- Acceleration.SIMDRangeUtils.dotRange Q.Data rowOffset v 0 n
+            for row = 0 to nQ - 1 do
+                let mutable dot = 'T.Zero
+                for k = 0 to v.Length - 1 do
+                    dot <- dot + Q.[row, i + k] * v.[k]
+                let alpha = dot + dot
+                for k = 0 to v.Length - 1 do
+                    Q.[row, i + k] <- Q.[row, i + k] - alpha * v.[k]
 
-            // Update each row i in the subrange of columns [mQ-n..mQ-1]
-            //    Q[i, j] -= 2 * Qv[i] * v[j - (mQ - n)]
-            for i = 0 to nQ - 1 do
-                let alpha = Qv.[i] + Qv.[i]
-                // We want to do a row operation: Q[i, (mQ-n)..(mQ-1)] 
-                // = Q[i, (mQ-n)..(mQ-1)] - alpha * v[0..n-1].
-                let rowOffset = i * mQ + (mQ - n)
-                //LinearAlgebra.subScaledRowInPlace Q.Data rowOffset v 0 n alpha
-                LinearAlgebra.subScaledRowInPlace alpha rowOffset 0 n Q.Data v 
+        /// Apply Hᵢ to R from the left: R ← H * R
+        let applyHouseholderLeft (R: Matrix<'T>) (v: 'T[]) (i: int) =
+            let m, n = R.NumRows, R.NumCols
+            for col = i to n - 1 do
+                let mutable dot = 'T.Zero
+                for k = 0 to v.Length - 1 do
+                    let row = i + k
+                    if row < m then
+                        dot <- dot + v.[k] * R.[row, col]
+                let alpha = dot + dot
+                for k = 0 to v.Length - 1 do
+                    let row = i + k
+                    if row < m then
+                        R.[row, col] <- R.[row, col] - alpha * v.[k]
+
+        /// Main QR decomposition function
+        let qrDecompose (A: Matrix<'T>) : Matrix<'T> * Matrix<'T> =
+            let m, n = A.NumRows, A.NumCols
+            let Q = Matrix.identity m
+            let R = Matrix.copy A
+
+            for i = 0 to min m n - 1 do
+                let x = [| for k in i .. m - 1 -> R.[k, i] |]
+                let v = householderVector x
+                updateQ Q v i
+                applyHouseholderLeft R v i
+
+            Q, R
+        
+        qrDecompose A
 
 
 
-        let (n, m) = (A.NumRows, A.NumCols)
-
-        // Q starts as identity(n)
-        let Q = Matrix.identity n
-        let R = Matrix.copy A
-
-        for i = 0 to (min n m) - 1 do
-            // 1) Compute Householder transform v for column i
-            let v = LinearAlgebra.householderTransform R i
-            // 2) Update Q
-            UpdateQ Q v
-
-        Q, R
 
     /// <summary>Given A[m,n] and B[m] solves AX = B for X[n].<br />
     /// When m =&gt; n, have over constrained system, finds least squares solution for X.<br />
@@ -330,17 +409,46 @@ type LinearAlgebra =
     static member inline leastSquares 
         (A : Matrix<'T>) 
         (b: Vector<'T>) =
-
+    // Maybe rename to leastSquaresQR?
         let (m,n) = A.NumRows, A.NumCols
-        let Qm, R = LinearAlgebra.qrDecompose A
-        let Qtb = Qm.Transpose() * b
-
+        
         // Is this an overdetermined or underdetermined system?
-        if m > n then
+        if m >= n then
+            //printfn "Least squares: solving %dx%d system with %d equations." m n n
+            let Qm, R = LinearAlgebra.qrDecompose A
+            let Qtb = Qm.Transpose() * b
             LinearAlgebra.solveTriangularLinearSystem R.[0..n-1,0..n-1] Qtb.[0..n-1] false
         else
-            let s = LinearAlgebra.solveTriangularLinearSystem R.[0..m-1,0..m-1] Qtb false
-            Vector.init n (fun i -> if i < m then s.[i] else 'T.Zero)
+            // underdetermined: solve A^T * x = 0 with min ||x||
+            //printfn "underdetermined- Least squares: solving %dx%d system with %d equations." m n n
+            let AT = A.Transpose()
+            let Q, R = LinearAlgebra.qrDecompose AT
+            let RT   = R.Transpose()
+            let s    = LinearAlgebra.solveTriangularLinearSystem RT.[0..m-1, 0..m-1] b true
+            Q.[0.., 0..m-1] * s
+
+            //let AT = A.Transpose()
+            //let Q, R = LinearAlgebra.qrDecompose AT
+            //let y = Q.Transpose() * b
+            //let s = LinearAlgebra.solveTriangularLinearSystem R.[0..m-1, 0..m-1] y.[0..m-1] false
+          
+            //Q.[0..n,0..m] * s
+
+
+
+
+            //let AT = A.Transpose()
+            //let QT, RT = LinearAlgebra.qrDecompose AT
+            //let y = QT.Transpose() * b
+            //let s = LinearAlgebra.solveTriangularLinearSystem RT.[0..m-1, 0..m-1] y.[0..m-1] false
+            //let s = LinearAlgebra.solveTriangularLinearSystem R.[0..m-1,0..m-1] Qtb false
+            //Vector.init n (fun i -> if i < m then s.[i] else 'T.Zero)
+
+            //// underdetermined: solve min ||x|| such that Ax = b
+            //let AT = A.Transpose()
+            //let QT, RT = LinearAlgebra.qrDecompose AT
+            //let y = LinearAlgebra.solveTriangularLinearSystem (RT.Transpose().[0..m-1, 0..m-1]) b false
+            //QT.[*, 0..m-1] * y
 
 
     /// <summary>
@@ -398,13 +506,16 @@ type LinearAlgebra =
         (A : Matrix<'T>) 
         (b: Vector<'T>) =
 
+        if b.Length <> A.NumRows then
+            invalidArg "b" "Length of b must match the number of rows of A."
+
         let AT = A.Transpose()
 
         let upper = (AT * A) |> LinearAlgebra.cholesky
         let gamma =
-            LinearAlgebra.solveTriangularLinearSystem(upper.Transpose()) (AT * b) true
+            LinearAlgebra.solveTriangularLinearSystem(upper) (AT * b) true
         let beta =
-            LinearAlgebra.solveTriangularLinearSystem upper gamma false
+            LinearAlgebra.solveTriangularLinearSystem (upper.Transpose()) gamma false
         beta
 
 
