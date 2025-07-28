@@ -214,3 +214,13 @@ module Vector =
     ///
     let inline pow (power: 'T) (v:Vector<'T>) : Vector<'T> =
         v |> Array.map (fun x -> GenericMath.pow x power)
+
+
+    /// Returns a subvector from offset i to the end of the vector.
+    let inline sub (i: int) (v: Vector<'T>) : Vector<'T> =
+        if i < 0 || i > v.Length then
+            invalidArg (nameof i) "Index out of bounds."
+        let len = v.Length - i
+        let res = Array.zeroCreate<'T> len
+        Array.blit v i res 0 len
+        res

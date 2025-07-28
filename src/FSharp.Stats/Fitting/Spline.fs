@@ -59,7 +59,7 @@ module Spline =
  
         // Construct the matrices we need
         let Bt = Matrix.init n' n (fun c r -> basis.[c] xdata.[r])
-        let BtB = Bt * Bt.Transpose()
+        let BtB = Bt * (Bt.Transpose())
         let penaltyFunc r c =
             let xi = xdata.[-2+min r c]
             let xj = xdata.[-2+max r c]
