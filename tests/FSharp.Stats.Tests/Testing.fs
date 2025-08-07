@@ -1326,3 +1326,290 @@ let SAMTests =
              Expect.isTrue (SAMResult.areSame result1 result1NonStringId (=)) "the ID type being other than string shouldn't affect the results"
             
      ]
+
+
+[<Tests>]
+let anovaTests = 
+    // tested against R Python
+    let a0 = [|9.105820655954515; 9.03375793269564;  8.915088867146936|]
+    let b0 = [|9.218533797307847; 9.374165278011928; 9.09902059371791|]
+    let a1 = [|9.054802062519045; 8.980015323427445; 9.066383039929153|]
+    let b1 = [|8.819119236212753; 8.96115712165076;  9.042933513927682|]
+    let a2 = [|8.80043362511518;  8.938413526335156; 8.886644395458491|]
+    let b2 = [|8.614386401606065; 8.53829813235829;  8.611071068887409|]
+
+    let oneWaySetup = [|a0;a1;a2|]
+    let twoWaySetup = [|[|a0;b0|];[|a1;b1|];[|a2;b2|]|]
+    
+    let oneWayAnova         = Testing.Anova.oneWayAnova oneWaySetup
+    let twoWayANOVAFixed    = twoWaySetup|>Anova.twoWayANOVA Anova.TwoWayAnovaModel.Fixed 
+    let twoWayANOVAMixed    = twoWaySetup|>Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed 
+    let twoWayANOVARandom   = twoWaySetup|>Anova.twoWayANOVA Anova.TwoWayAnovaModel.Random 
+
+
+    let oneWayAnova_Factor_DegreesOfFreedom     = 0.         
+    let oneWayAnova_Factor_MeanSquares          = 0. 
+    let oneWayAnova_Factor_Significance         = 0.     
+    let oneWayAnova_Factor_Source               = 0.
+    let oneWayAnova_Factor_Statistic            = 0. 
+    let oneWayAnova_Factor_SumOfSquares         = 0.     
+    let oneWayAnova_Error_DegreesOfFreedom      = 0.     
+    let oneWayAnova_Error_MeanSquares           = 0. 
+    let oneWayAnova_Error_Significance          = 0. 
+    let oneWayAnova_Error_Source                = 0.
+    let oneWayAnova_Error_Statistic             = 0. 
+    let oneWayAnova_Error_SumOfSquares          = 0. 
+    let oneWayAnova_Total_DegreesOfFreedom      = 0.     
+    let oneWayAnova_Total_MeanSquares           = 0. 
+    let oneWayAnova_Total_Significance          = 0. 
+    let oneWayAnova_Total_Source                = 0.
+    let oneWayAnova_Total_Statistic             = 0. 
+    let oneWayAnova_Total_SumOfSquares          = 0. 
+
+    let twoWayANOVAFixed_FactorFst_DegreesOfFreedom     = 0.            
+    let twoWayANOVAFixed_FactorFst_MeanSquares          = 0.    
+    let twoWayANOVAFixed_FactorFst_Significance         = 0.        
+    let twoWayANOVAFixed_FactorFst_Source               = 0.
+    let twoWayANOVAFixed_FactorFst_Statistic            = 0.    
+    let twoWayANOVAFixed_FactorFst_SumOfSquares         = 0.        
+    let twoWayANOVAFixed_FactorSnd_DegreesOfFreedom     = 0.            
+    let twoWayANOVAFixed_FactorSnd_MeanSquares          = 0.    
+    let twoWayANOVAFixed_FactorSnd_Significance         = 0.        
+    let twoWayANOVAFixed_FactorSnd_Source               = 0.
+    let twoWayANOVAFixed_FactorSnd_Statistic            = 0.    
+    let twoWayANOVAFixed_FactorSnd_SumOfSquares         = 0.        
+    let twoWayANOVAFixed_Interaction_DegreesOfFreedom   = 0.              
+    let twoWayANOVAFixed_Interaction_MeanSquares        = 0.        
+    let twoWayANOVAFixed_Interaction_Significance       = 0.        
+    let twoWayANOVAFixed_Interaction_Source             = 0.    
+    let twoWayANOVAFixed_Interaction_Statistic          = 0.    
+    let twoWayANOVAFixed_Interaction_SumOfSquares       = 0.        
+    let twoWayANOVAFixed_Cells_DegreesOfFreedom         = 0.        
+    let twoWayANOVAFixed_Cells_MeanSquares              = 0.
+    let twoWayANOVAFixed_Cells_Significance             = 0.    
+    let twoWayANOVAFixed_Cells_Source                   = 0.
+    let twoWayANOVAFixed_Cells_Statistic                = 0.
+    let twoWayANOVAFixed_Cells_SumOfSquares             = 0.    
+    let twoWayANOVAFixed_Error_DegreesOfFreedom         = 0.        
+    let twoWayANOVAFixed_Error_MeanSquares              = 0.
+    let twoWayANOVAFixed_Error_Significance             = 0.    
+    let twoWayANOVAFixed_Error_Source                   = 0.
+    let twoWayANOVAFixed_Error_Statistic                = 0.
+    let twoWayANOVAFixed_Error_SumOfSquares             = 0.    
+    let twoWayANOVAFixed_Total_DegreesOfFreedom         = 0.        
+    let twoWayANOVAFixed_Total_MeanSquares              = 0.
+    let twoWayANOVAFixed_Total_Significance             = 0.    
+    let twoWayANOVAFixed_Total_Source                   = 0.
+    let twoWayANOVAFixed_Total_Statistic                = 0.
+    let twoWayANOVAFixed_Total_SumOfSquares             = 0.    
+
+    let twoWayANOVAMixed_FactorFst_DegreesOfFreedom     = 0.             
+    let twoWayANOVAMixed_FactorFst_MeanSquares          = 0.         
+    let twoWayANOVAMixed_FactorFst_Significance         = 0.         
+    let twoWayANOVAMixed_FactorFst_Source               = 0.     
+    let twoWayANOVAMixed_FactorFst_Statistic            = 0.         
+    let twoWayANOVAMixed_FactorFst_SumOfSquares         = 0.         
+    let twoWayANOVAMixed_FactorSnd_DegreesOfFreedom     = 0.             
+    let twoWayANOVAMixed_FactorSnd_MeanSquares          = 0.         
+    let twoWayANOVAMixed_FactorSnd_Significance         = 0.         
+    let twoWayANOVAMixed_FactorSnd_Source               = 0.     
+    let twoWayANOVAMixed_FactorSnd_Statistic            = 0.         
+    let twoWayANOVAMixed_FactorSnd_SumOfSquares         = 0.         
+    let twoWayANOVAMixed_Interaction_DegreesOfFreedom   = 0.                 
+    let twoWayANOVAMixed_Interaction_MeanSquares        = 0.             
+    let twoWayANOVAMixed_Interaction_Significance       = 0.             
+    let twoWayANOVAMixed_Interaction_Source             = 0.     
+    let twoWayANOVAMixed_Interaction_Statistic          = 0.         
+    let twoWayANOVAMixed_Interaction_SumOfSquares       = 0.             
+    let twoWayANOVAMixed_Cells_DegreesOfFreedom         = 0.         
+    let twoWayANOVAMixed_Cells_MeanSquares              = 0.     
+    let twoWayANOVAMixed_Cells_Significance             = 0.     
+    let twoWayANOVAMixed_Cells_Source                   = 0. 
+    let twoWayANOVAMixed_Cells_Statistic                = 0.     
+    let twoWayANOVAMixed_Cells_SumOfSquares             = 0.     
+    let twoWayANOVAMixed_Error_DegreesOfFreedom         = 0.         
+    let twoWayANOVAMixed_Error_MeanSquares              = 0.     
+    let twoWayANOVAMixed_Error_Significance             = 0.     
+    let twoWayANOVAMixed_Error_Source                   = 0. 
+    let twoWayANOVAMixed_Error_Statistic                = 0.     
+    let twoWayANOVAMixed_Error_SumOfSquares             = 0.     
+    let twoWayANOVAMixed_Total_DegreesOfFreedom         = 0.         
+    let twoWayANOVAMixed_Total_MeanSquares              = 0.     
+    let twoWayANOVAMixed_Total_Significance             = 0.     
+    let twoWayANOVAMixed_Total_Source                   = 0. 
+    let twoWayANOVAMixed_Total_Statistic                = 0.     
+    let twoWayANOVAMixed_Total_SumOfSquares             = 0.     
+
+    let twoWayANOVARandom_FactorFst_DegreesOfFreedom        = 0.            
+    let twoWayANOVARandom_FactorFst_MeanSquares             = 0.        
+    let twoWayANOVARandom_FactorFst_Significance            = 0.        
+    let twoWayANOVARandom_FactorFst_Source                  = 0. 
+    let twoWayANOVARandom_FactorFst_Statistic               = 0.    
+    let twoWayANOVARandom_FactorFst_SumOfSquares            = 0.        
+    let twoWayANOVARandom_FactorSnd_DegreesOfFreedom        = 0.            
+    let twoWayANOVARandom_FactorSnd_MeanSquares             = 0.        
+    let twoWayANOVARandom_FactorSnd_Significance            = 0.        
+    let twoWayANOVARandom_FactorSnd_Source                  = 0. 
+    let twoWayANOVARandom_FactorSnd_Statistic               = 0.    
+    let twoWayANOVARandom_FactorSnd_SumOfSquares            = 0.        
+    let twoWayANOVARandom_Interaction_DegreesOfFreedom      = 0.           
+    let twoWayANOVARandom_Interaction_MeanSquares           = 0.        
+    let twoWayANOVARandom_Interaction_Significance          = 0.        
+    let twoWayANOVARandom_Interaction_Source                = 0.    
+    let twoWayANOVARandom_Interaction_Statistic             = 0.        
+    let twoWayANOVARandom_Interaction_SumOfSquares          = 0.        
+    let twoWayANOVARandom_Cells_DegreesOfFreedom            = 0.        
+    let twoWayANOVARandom_Cells_MeanSquares                 = 0.    
+    let twoWayANOVARandom_Cells_Significance                = 0.    
+    let twoWayANOVARandom_Cells_Source                      = 0.     
+    let twoWayANOVARandom_Cells_Statistic                   = 0. 
+    let twoWayANOVARandom_Cells_SumOfSquares                = 0.    
+    let twoWayANOVARandom_Error_DegreesOfFreedom            = 0.        
+    let twoWayANOVARandom_Error_MeanSquares                 = 0.    
+    let twoWayANOVARandom_Error_Significance                = 0.    
+    let twoWayANOVARandom_Error_Source                      = 0.
+    let twoWayANOVARandom_Error_Statistic                   = 0. 
+    let twoWayANOVARandom_Error_SumOfSquares                = 0.    
+    let twoWayANOVARandom_Total_DegreesOfFreedom            = 0.        
+    let twoWayANOVARandom_Total_MeanSquares                 = 0.    
+    let twoWayANOVARandom_Total_Significance                = 0.    
+    let twoWayANOVARandom_Total_Source                      = 0.
+    let twoWayANOVARandom_Total_Statistic                   = 0. 
+    let twoWayANOVARandom_Total_SumOfSquares                = 0.    
+
+    testList "Testing.Anova" [
+        testCase "onewayAnova" <| fun () -> 
+            Expect.floatClose Accuracy.high oneWayAnova_Factor_DegreesOfFreedom   oneWayAnova.Factor.DegreesOfFreedom   "Factor.DegreesOfFreedom deviates from expected value"       
+            Expect.floatClose Accuracy.high oneWayAnova_Factor_MeanSquares        oneWayAnova.Factor.MeanSquares        "Factor.MeanSquares deviates from expected value"
+            Expect.floatClose Accuracy.high oneWayAnova_Factor_Significance       oneWayAnova.Factor.Significance       "Factor.Significance deviates from expected value"
+            Expect.floatClose Accuracy.high oneWayAnova_Factor_Source             oneWayAnova.Factor.Source             "Factor.Source deviates from expected value" 
+            Expect.floatClose Accuracy.high oneWayAnova_Factor_Statistic          oneWayAnova.Factor.Statistic          "Factor.Statistic deviates from expected value"  
+            Expect.floatClose Accuracy.high oneWayAnova_Factor_SumOfSquares       oneWayAnova.Factor.SumOfSquares       "Factor.SumOfSquares deviates from expected value"
+            Expect.floatClose Accuracy.high oneWayAnova_Error_DegreesOfFreedom    oneWayAnova.Error.DegreesOfFreedom    "Error.DegreesOfFreedom deviates from expected value"      
+            Expect.floatClose Accuracy.high oneWayAnova_Error_MeanSquares         oneWayAnova.Error.MeanSquares         "Error.MeanSquares deviates from expected value" 
+            Expect.floatClose Accuracy.high oneWayAnova_Error_Significance        oneWayAnova.Error.Significance        "Error.Significance deviates from expected value"
+            Expect.floatClose Accuracy.high oneWayAnova_Error_Source              oneWayAnova.Error.Source              "Error.Source deviates from expected value"  
+            Expect.floatClose Accuracy.high oneWayAnova_Error_Statistic           oneWayAnova.Error.Statistic           "Error.Statistic deviates from expected value"
+            Expect.floatClose Accuracy.high oneWayAnova_Error_SumOfSquares        oneWayAnova.Error.SumOfSquares        "Error.SumOfSquares deviates from expected value"
+            Expect.floatClose Accuracy.high oneWayAnova_Total_DegreesOfFreedom    oneWayAnova.Total.DegreesOfFreedom    "Total.DegreesOfFreedom deviates from expected value"      
+            Expect.floatClose Accuracy.high oneWayAnova_Total_MeanSquares         oneWayAnova.Total.MeanSquares         "Total.MeanSquares deviates from expected value" 
+            Expect.floatClose Accuracy.high oneWayAnova_Total_Significance        oneWayAnova.Total.Significance        "Total.Significance deviates from expected value"
+            Expect.floatClose Accuracy.high oneWayAnova_Total_Source              oneWayAnova.Total.Source              "Total.Source deviates from expected value"  
+            Expect.floatClose Accuracy.high oneWayAnova_Total_Statistic           oneWayAnova.Total.Statistic           "Total.Statistic deviates from expected value"
+            Expect.floatClose Accuracy.high oneWayAnova_Total_SumOfSquares        oneWayAnova.Total.SumOfSquares        "Total.SumOfSquares deviates from expected value"
+
+        testCase "twoWayANOVAFixed" <| fun () -> 
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorFst_DegreesOfFreed         twoWayANOVAFixed.FactorFst.DegreesOfFreed     "FactorFst.DegreesOfFreed deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorFst_MeanSquares            twoWayANOVAFixed.FactorFst.MeanSquares        "FactorFst.MeanSquares deviated from expected value"                                  
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorFst_Significance           twoWayANOVAFixed.FactorFst.Significance       "FactorFst.Significance deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorFst_Source                 twoWayANOVAFixed.FactorFst.Source             "FactorFst.Source deviated from expected value"                       
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorFst_Statistic              twoWayANOVAFixed.FactorFst.Statistic          "FactorFst.Statistic deviated from expected value"                            
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorFst_SumOfSquares           twoWayANOVAFixed.FactorFst.SumOfSquares       "FactorFst.SumOfSquares deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorSnd_DegreesOfFreed         twoWayANOVAFixed.FactorSnd.DegreesOfFreed     "FactorSnd.DegreesOfFreed deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorSnd_MeanSquares            twoWayANOVAFixed.FactorSnd.MeanSquares        "FactorSnd.MeanSquares deviated from expected value"                                  
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorSnd_Significance           twoWayANOVAFixed.FactorSnd.Significance       "FactorSnd.Significance deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorSnd_Source                 twoWayANOVAFixed.FactorSnd.Source             "FactorSnd.Source deviated from expected value"                       
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorSnd_Statistic              twoWayANOVAFixed.FactorSnd.Statistic          "FactorSnd.Statistic deviated from expected value"                            
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_FactorSnd_SumOfSquares           twoWayANOVAFixed.FactorSnd.SumOfSquares       "FactorSnd.SumOfSquares deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Interaction_DegreesOfFre         twoWayANOVAFixed.Interaction.DegreesOfFre     "Interaction.DegreesOfFre deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Interaction_MeanSquares          twoWayANOVAFixed.Interaction.MeanSquares      "Interaction.MeanSquares deviated from expected value"                                    
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Interaction_Significance         twoWayANOVAFixed.Interaction.Significance     "Interaction.Significance deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Interaction_Source               twoWayANOVAFixed.Interaction.Source           "Interaction.Source deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Interaction_Statistic            twoWayANOVAFixed.Interaction.Statistic        "Interaction.Statistic deviated from expected value"                                  
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Interaction_SumOfSquares         twoWayANOVAFixed.Interaction.SumOfSquares     "Interaction.SumOfSquares deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Cells_DegreesOfFreedom           twoWayANOVAFixed.Cells.DegreesOfFreedom       "Cells.DegreesOfFreedom deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Cells_MeanSquares                twoWayANOVAFixed.Cells.MeanSquares            "Cells.MeanSquares deviated from expected value"                              
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Cells_Significance               twoWayANOVAFixed.Cells.Significance           "Cells.Significance deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Cells_Source                     twoWayANOVAFixed.Cells.Source                 "Cells.Source deviated from expected value"           
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Cells_Statistic                  twoWayANOVAFixed.Cells.Statistic              "Cells.Statistic deviated from expected value"                        
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Cells_SumOfSquares               twoWayANOVAFixed.Cells.SumOfSquares           "Cells.SumOfSquares deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Error_DegreesOfFreedom           twoWayANOVAFixed.Error.DegreesOfFreedom       "Error.DegreesOfFreedom deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Error_MeanSquares                twoWayANOVAFixed.Error.MeanSquares            "Error.MeanSquares deviated from expected value"                              
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Error_Significance               twoWayANOVAFixed.Error.Significance           "Error.Significance deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Error_Source                     twoWayANOVAFixed.Error.Source                 "Error.Source deviated from expected value"           
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Error_Statistic                  twoWayANOVAFixed.Error.Statistic              "Error.Statistic deviated from expected value"                        
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Error_SumOfSquares               twoWayANOVAFixed.Error.SumOfSquares           "Error.SumOfSquares deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Total_DegreesOfFreedom           twoWayANOVAFixed.Total.DegreesOfFreedom       "Total.DegreesOfFreedom deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Total_MeanSquares                twoWayANOVAFixed.Total.MeanSquares            "Total.MeanSquares deviated from expected value"                              
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Total_Significance               twoWayANOVAFixed.Total.Significance           "Total.Significance deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Total_Source                     twoWayANOVAFixed.Total.Source                 "Total.Source deviated from expected value"           
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Total_Statistic                  twoWayANOVAFixed.Total.Statistic              "Total.Statistic deviated from expected value"                        
+            Expect.floatClose Accuracy.high twoWayANOVAFixed_Total_SumOfSquares               twoWayANOVAFixed.Total.SumOfSquares           "Total.SumOfSquares deviated from expected value"                             
+                        
+        testCase "twoWayANOVAMixed" <| fun () -> 
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorFst_DegreesOfFreed         twoWayANOVAMixed.FactorFst.DegreesOfFreed     "FactorFst.DegreesOfFreed deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorFst_MeanSquares            twoWayANOVAMixed.FactorFst.MeanSquares        "FactorFst.MeanSquares deviated from expected value"                                  
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorFst_Significance           twoWayANOVAMixed.FactorFst.Significance       "FactorFst.Significance deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorFst_Source                 twoWayANOVAMixed.FactorFst.Source             "FactorFst.Source deviated from expected value"                       
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorFst_Statistic              twoWayANOVAMixed.FactorFst.Statistic          "FactorFst.Statistic deviated from expected value"                            
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorFst_SumOfSquares           twoWayANOVAMixed.FactorFst.SumOfSquares       "FactorFst.SumOfSquares deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorSnd_DegreesOfFreed         twoWayANOVAMixed.FactorSnd.DegreesOfFreed     "FactorSnd.DegreesOfFreed deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorSnd_MeanSquares            twoWayANOVAMixed.FactorSnd.MeanSquares        "FactorSnd.MeanSquares deviated from expected value"                                  
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorSnd_Significance           twoWayANOVAMixed.FactorSnd.Significance       "FactorSnd.Significance deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorSnd_Source                 twoWayANOVAMixed.FactorSnd.Source             "FactorSnd.Source deviated from expected value"                       
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorSnd_Statistic              twoWayANOVAMixed.FactorSnd.Statistic          "FactorSnd.Statistic deviated from expected value"                            
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_FactorSnd_SumOfSquares           twoWayANOVAMixed.FactorSnd.SumOfSquares       "FactorSnd.SumOfSquares deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Interaction_DegreesOfFre         twoWayANOVAMixed.Interaction.DegreesOfFre     "Interaction.DegreesOfFre deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Interaction_MeanSquares          twoWayANOVAMixed.Interaction.MeanSquares      "Interaction.MeanSquares deviated from expected value"                                    
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Interaction_Significance         twoWayANOVAMixed.Interaction.Significance     "Interaction.Significance deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Interaction_Source               twoWayANOVAMixed.Interaction.Source           "Interaction.Source deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Interaction_Statistic            twoWayANOVAMixed.Interaction.Statistic        "Interaction.Statistic deviated from expected value"                                  
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Interaction_SumOfSquares         twoWayANOVAMixed.Interaction.SumOfSquares     "Interaction.SumOfSquares deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Cells_DegreesOfFreedom           twoWayANOVAMixed.Cells.DegreesOfFreedom       "Cells.DegreesOfFreedom deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Cells_MeanSquares                twoWayANOVAMixed.Cells.MeanSquares            "Cells.MeanSquares deviated from expected value"                              
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Cells_Significance               twoWayANOVAMixed.Cells.Significance           "Cells.Significance deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Cells_Source                     twoWayANOVAMixed.Cells.Source                 "Cells.Source deviated from expected value"           
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Cells_Statistic                  twoWayANOVAMixed.Cells.Statistic              "Cells.Statistic deviated from expected value"                        
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Cells_SumOfSquares               twoWayANOVAMixed.Cells.SumOfSquares           "Cells.SumOfSquares deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Error_DegreesOfFreedom           twoWayANOVAMixed.Error.DegreesOfFreedom       "Error.DegreesOfFreedom deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Error_MeanSquares                twoWayANOVAMixed.Error.MeanSquares            "Error.MeanSquares deviated from expected value"                              
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Error_Significance               twoWayANOVAMixed.Error.Significance           "Error.Significance deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Error_Source                     twoWayANOVAMixed.Error.Source                 "Error.Source deviated from expected value"           
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Error_Statistic                  twoWayANOVAMixed.Error.Statistic              "Error.Statistic deviated from expected value"                        
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Error_SumOfSquares               twoWayANOVAMixed.Error.SumOfSquares           "Error.SumOfSquares deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Total_DegreesOfFreedom           twoWayANOVAMixed.Total.DegreesOfFreedom       "Total.DegreesOfFreedom deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Total_MeanSquares                twoWayANOVAMixed.Total.MeanSquares            "Total.MeanSquares deviated from expected value"                              
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Total_Significance               twoWayANOVAMixed.Total.Significance           "Total.Significance deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Total_Source                     twoWayANOVAMixed.Total.Source                 "Total.Source deviated from expected value"           
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Total_Statistic                  twoWayANOVAMixed.Total.Statistic              "Total.Statistic deviated from expected value"                        
+            Expect.floatClose Accuracy.high twoWayANOVAMixed_Total_SumOfSquares               twoWayANOVAMixed.Total.SumOfSquares           "Total.SumOfSquares deviated from expected value"                             
+             
+        testCase "twoWayANOVARandom" <| fun () -> 
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorFst_DegreesOfFreed         twoWayANOVARandom.FactorFst.DegreesOfFreed     "FactorFst.DegreesOfFreed deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorFst_MeanSquares            twoWayANOVARandom.FactorFst.MeanSquares        "FactorFst.MeanSquares deviated from expected value"                                  
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorFst_Significance           twoWayANOVARandom.FactorFst.Significance       "FactorFst.Significance deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorFst_Source                 twoWayANOVARandom.FactorFst.Source             "FactorFst.Source deviated from expected value"                       
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorFst_Statistic              twoWayANOVARandom.FactorFst.Statistic          "FactorFst.Statistic deviated from expected value"                            
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorFst_SumOfSquares           twoWayANOVARandom.FactorFst.SumOfSquares       "FactorFst.SumOfSquares deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorSnd_DegreesOfFreed         twoWayANOVARandom.FactorSnd.DegreesOfFreed     "FactorSnd.DegreesOfFreed deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorSnd_MeanSquares            twoWayANOVARandom.FactorSnd.MeanSquares        "FactorSnd.MeanSquares deviated from expected value"                                  
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorSnd_Significance           twoWayANOVARandom.FactorSnd.Significance       "FactorSnd.Significance deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorSnd_Source                 twoWayANOVARandom.FactorSnd.Source             "FactorSnd.Source deviated from expected value"                       
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorSnd_Statistic              twoWayANOVARandom.FactorSnd.Statistic          "FactorSnd.Statistic deviated from expected value"                            
+            Expect.floatClose Accuracy.high twoWayANOVARandom_FactorSnd_SumOfSquares           twoWayANOVARandom.FactorSnd.SumOfSquares       "FactorSnd.SumOfSquares deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Interaction_DegreesOfFre         twoWayANOVARandom.Interaction.DegreesOfFre     "Interaction.DegreesOfFre deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Interaction_MeanSquares          twoWayANOVARandom.Interaction.MeanSquares      "Interaction.MeanSquares deviated from expected value"                                    
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Interaction_Significance         twoWayANOVARandom.Interaction.Significance     "Interaction.Significance deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Interaction_Source               twoWayANOVARandom.Interaction.Source           "Interaction.Source deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Interaction_Statistic            twoWayANOVARandom.Interaction.Statistic        "Interaction.Statistic deviated from expected value"                                  
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Interaction_SumOfSquares         twoWayANOVARandom.Interaction.SumOfSquares     "Interaction.SumOfSquares deviated from expected value"                                   
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Cells_DegreesOfFreedom           twoWayANOVARandom.Cells.DegreesOfFreedom       "Cells.DegreesOfFreedom deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Cells_MeanSquares                twoWayANOVARandom.Cells.MeanSquares            "Cells.MeanSquares deviated from expected value"                              
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Cells_Significance               twoWayANOVARandom.Cells.Significance           "Cells.Significance deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Cells_Source                     twoWayANOVARandom.Cells.Source                 "Cells.Source deviated from expected value"           
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Cells_Statistic                  twoWayANOVARandom.Cells.Statistic              "Cells.Statistic deviated from expected value"                        
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Cells_SumOfSquares               twoWayANOVARandom.Cells.SumOfSquares           "Cells.SumOfSquares deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Error_DegreesOfFreedom           twoWayANOVARandom.Error.DegreesOfFreedom       "Error.DegreesOfFreedom deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Error_MeanSquares                twoWayANOVARandom.Error.MeanSquares            "Error.MeanSquares deviated from expected value"                              
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Error_Significance               twoWayANOVARandom.Error.Significance           "Error.Significance deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Error_Source                     twoWayANOVARandom.Error.Source                 "Error.Source deviated from expected value"           
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Error_Statistic                  twoWayANOVARandom.Error.Statistic              "Error.Statistic deviated from expected value"                        
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Error_SumOfSquares               twoWayANOVARandom.Error.SumOfSquares           "Error.SumOfSquares deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Total_DegreesOfFreedom           twoWayANOVARandom.Total.DegreesOfFreedom       "Total.DegreesOfFreedom deviated from expected value"                                 
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Total_MeanSquares                twoWayANOVARandom.Total.MeanSquares            "Total.MeanSquares deviated from expected value"                              
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Total_Significance               twoWayANOVARandom.Total.Significance           "Total.Significance deviated from expected value"                             
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Total_Source                     twoWayANOVARandom.Total.Source                 "Total.Source deviated from expected value"           
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Total_Statistic                  twoWayANOVARandom.Total.Statistic              "Total.Statistic deviated from expected value"                        
+            Expect.floatClose Accuracy.high twoWayANOVARandom_Total_SumOfSquares               twoWayANOVARandom.Total.SumOfSquares           "Total.SumOfSquares deviated from expected value"                             
+                  
+        ]
