@@ -246,20 +246,20 @@ module Anova =
         // Create the F-Statistics
         let fstFactorSig,sndFactorSig,factorSig =
             match anovaType with
-            | Fixed -> 
-                // Model 1: Factors A and B fixed
+            | Random -> 
+                // Model 1: Factors A and B random
                 (
                  (Testing.TestStatistics.createFTest  (fstFactorMeanSquares / factorMeanSquares) fstFactorDf factorDf),
                  (Testing.TestStatistics.createFTest  (sndFactorMeanSquares / factorMeanSquares) sndFactorDf factorDf),
                  (Testing.TestStatistics.createFTest  (factorMeanSquares / errorMeanSquares) factorDf errorDf))
-            | Mixed ->  
-                // Model 2: Factors A and B random
+            | Fixed->  
+                // Model 2: Factors A and B fixed
                 (
                  (Testing.TestStatistics.createFTest (fstFactorMeanSquares / errorMeanSquares) fstFactorDf errorDf),
                  (Testing.TestStatistics.createFTest (sndFactorMeanSquares / errorMeanSquares) sndFactorDf errorDf),
                  (Testing.TestStatistics.createFTest (factorMeanSquares / errorMeanSquares) factorDf errorDf)
                 )
-            | Random -> 
+            | Mixed -> 
                 // Model 3: Factor A fixed, factor B random
                 (
                  (Testing.TestStatistics.createFTest(fstFactorMeanSquares / factorMeanSquares) fstFactorDf factorDf),
