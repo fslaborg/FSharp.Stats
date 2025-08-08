@@ -15,6 +15,8 @@ categoryindex: 0
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: FSharpAux, 1.1.0"
 #r "nuget: Deedle, 3.0.0"
+#r "nuget: FsMath, 0.0.1"
+open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)

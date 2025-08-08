@@ -3,6 +3,8 @@ namespace FSharp.Stats.ML.Unsupervised
 open System
 open FSharp.Stats
 open FSharpAux
+open FsMath
+
 
 module ClusterNumber =
 

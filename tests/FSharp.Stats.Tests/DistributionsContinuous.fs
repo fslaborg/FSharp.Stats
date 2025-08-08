@@ -2,6 +2,7 @@
 
 open Expecto
 open System
+open FsMath
 open FSharp.Stats
 open FSharp.Stats.Distributions
 open FSharp.Stats.Distributions.Continuous

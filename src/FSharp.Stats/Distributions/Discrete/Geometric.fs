@@ -4,7 +4,8 @@ open System
 open System.Numerics
 open FSharp.Stats
 open FSharp.Stats.Distributions
-open FSharp.Stats.GenericMath
+open FsMath
+open FsMath.GenericMath
 
 //IFloatingPoint
 

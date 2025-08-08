@@ -4,6 +4,8 @@ open System
 open FSharp.Stats
 open FSharp.Stats.Distributions
 open FSharp.Stats.SpecialFunctions
+open FsMath
+
     
 // n is the number of trails,
 // k is the vector of observed successes

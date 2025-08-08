@@ -13,6 +13,8 @@ categoryindex: 0
 #I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: FsMath, 0.0.1"
+open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
@@ -22,6 +24,8 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
+#r "nuget: FsMath, 0.0.1"
+open FsMath
 
 open Plotly.NET
 #endif // IPYNB

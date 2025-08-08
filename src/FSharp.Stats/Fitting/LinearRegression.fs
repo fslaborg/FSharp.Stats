@@ -3,7 +3,8 @@ namespace FSharp.Stats.Fitting
 
 open System
 open FSharp.Stats
-open FSharp.Stats.Algebra
+open FsMath
+open FsMath.Algebra
 
 /// <summary>
 ///   Linear regression is used to estimate the relationship of one variable (y) with another (x) by expressing y in terms of a linear function of x.

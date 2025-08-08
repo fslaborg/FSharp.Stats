@@ -1,6 +1,7 @@
 ﻿namespace FSharp.Stats.Testing
 
 open FSharp.Stats
+open FsMath
 
 module PostHoc =    
 

@@ -2,7 +2,8 @@ namespace FSharp.Stats.Signal
 
 open FSharp.Stats
 open System
-
+open FsMath
+open FsMath.Algebra
 
 
 module PeakDetection =

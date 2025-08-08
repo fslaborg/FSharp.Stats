@@ -3,7 +3,8 @@
 module NelderMead =
     
     open FSharp.Stats
-    open FSharp.Stats.Algebra
+    open FsMath
+    open FsMath.Algebra
 
     type NmConfig = {
         ///<summary> Delta used to generate initial simplex for non-zero value elements </summary>

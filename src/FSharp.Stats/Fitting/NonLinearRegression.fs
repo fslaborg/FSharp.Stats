@@ -7,7 +7,8 @@ we estimate the relationship of one variable with another by expressing one in t
 *)
 module NonLinearRegression =    
     open FSharp.Stats
-    open FSharp.Stats.Algebra
+    open FsMath
+    open FsMath.Algebra
 
     ///
     let standardErrorOfPrediction dOF (predicted:float []) (actual:float [])  =
@@ -301,7 +302,7 @@ module NonLinearRegression =
                 let hessian = jacobian'.Transpose() * jacobian' |> scaleJacobian scaleFactors
                 let diagonal = Matrix.diagonal (Array.map (fun x -> ((lambda)*x)) (hessian |> Matrix.getDiagonal))
                 let modHessian = (hessian + diagonal) 
-                let step = FSharp.Stats.Algebra.LinearAlgebra.solveLinearSystem modHessian gradient
+                let step = LinearAlgebra.solveLinearSystem modHessian gradient
                 let newParamGuessInt = currentParamGuessInt .- step
                 let newParamGuessExt = toExternalParameters lowerBound upperBound newParamGuessInt        
                 let newValueRSS = getRSS model xData yData newParamGuessExt

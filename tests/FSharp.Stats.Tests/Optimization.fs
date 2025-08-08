@@ -3,6 +3,7 @@
 
 open Expecto
 open System
+open FsMath
 open FSharp.Stats
 open FSharp.Stats.Optimization
 

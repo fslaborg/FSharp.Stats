@@ -2,6 +2,7 @@
 open Expecto
 open FSharp.Stats
 open FSharp.Stats.DistanceMetrics.Vector
+open FsMath
 open FSharp.Stats.DistanceMetrics
 [<Tests>]
 let hammingfunctiontests =

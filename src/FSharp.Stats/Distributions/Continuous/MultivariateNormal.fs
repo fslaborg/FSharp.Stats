@@ -1,9 +1,13 @@
 ﻿namespace FSharp.Stats.Distributions.Continuous
 
+
 open System
 open FSharp.Stats
 open FSharp.Stats.Distributions
-open FSharp.Stats.Ops
+
+open FsMath
+open FsMath.Algebra
+
 
 // ######
 // Multivariate normal distribution

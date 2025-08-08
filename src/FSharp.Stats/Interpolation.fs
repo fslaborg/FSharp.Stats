@@ -2,7 +2,8 @@
 
 open System
 open FSharp.Stats
-open FSharp.Stats.Algebra
+open FsMath
+open FsMath.Algebra
 
 /// <summary>
 ///   This module contains functionalities to perform various interpolation methods for two dimensional data.

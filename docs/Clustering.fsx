@@ -16,7 +16,8 @@ categoryindex: 0
 #r "nuget: FSharpAux, 1.0.0"
 #r "nuget: Cyjs.NET"
 #r "nuget: OptimizedPriorityQueue, 5.1.0"
-
+#r "nuget: FsMath, 0.0.1"
+open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)

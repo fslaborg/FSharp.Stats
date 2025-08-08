@@ -1,5 +1,7 @@
 ﻿namespace FSharp.Stats.Testing
 
+open FsMath
+
 module FTest = 
 
     open FSharp.Stats

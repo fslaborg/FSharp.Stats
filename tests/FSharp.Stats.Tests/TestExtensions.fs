@@ -1,6 +1,7 @@
 ﻿module TestExtensions
 
     open Expecto
+    open FsMath
     open FSharp.Stats
     open FSharp.Stats.Testing
     open System

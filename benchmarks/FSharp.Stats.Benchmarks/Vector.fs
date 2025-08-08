@@ -5,6 +5,8 @@ open System
 open BenchmarkDotNet.Attributes
 open BenchmarkDotNet.Running
 open FSharp.Stats
+open FsMath
+
 
 [<MemoryDiagnoser>]
 type VectorBenchmarks() =
@@ -34,11 +36,6 @@ type VectorBenchmarks() =
     [<Benchmark>]
     member _.DotProduct() =
         let result = Vector.dot vector1 vector2
-        GC.KeepAlive(result) // Prevents the result from being optimized away
-
-    [<Benchmark>]
-    member _.CrossProduct() =
-        let result = Vector.cross vector1 vector2
         GC.KeepAlive(result) // Prevents the result from being optimized away
 
     [<Benchmark>]

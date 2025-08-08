@@ -29,15 +29,6 @@
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\**" />
     <Compile Include="Permutation.fs" />
-    <Compile Include="AlgTypes\GenericMath.fs" />
-    <Compile Include="AlgTypes\SIMDUtils.fs" />
-    <Compile Include="AlgTypes\Vector.fs" />
-    <Compile Include="AlgTypes\Matrix.fs" />
-    <Compile Include="AlgTypes\VectorExt.fs" />
-    <Compile Include="AlgTypes\VectorOps.fs" />
-    <Compile Include="AlgTypes\MatrixExt.fs" />
-    <Compile Include="AlgTypes\AlgTypesTopLevelOps.fs" />
-    <Compile Include="AlgTypes\Householder.fs" />
     <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +57,6 @@
     <Compile Include="SpecialFunctions\Logistic.fs" />
     <Compile Include="SpecialFunctions\Binomial.fs" />
     <!-- Algebra -->
-    <Compile Include="Algebra\EVD.fs" />
-    <Compile Include="Algebra\SVD.fs" />
-    <Compile Include="Algebra\LinearAlgebra.fs" />
     <!-- RootFinding -->
     <Compile Include="RootFinding\Brent.fs" />
     <!-- Integration -->
@@ -172,9 +160,18 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="..\..\lib\libblas.dll" />
+    <Content Remove="..\..\lib\libgcc_s_seh-1.dll" />
+    <Content Remove="..\..\lib\libgfortran-4.dll" />
+    <Content Remove="..\..\lib\liblapack.dll" />
+    <Content Remove="..\..\lib\libquadmath-0.dll" />
+    <Content Remove="..\..\lib\libwinpthread-1.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="FSharpAux.Core" Version="2.0.0" />
     <PackageReference Include="FSharpAux" Version="2.0.0" />
     <PackageReference Include="FSharpAux.IO" Version="2.0.0" />
+    <PackageReference Include="FsMath" Version="0.0.1" />
     <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>

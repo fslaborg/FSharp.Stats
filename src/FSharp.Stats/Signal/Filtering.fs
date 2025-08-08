@@ -2,7 +2,8 @@
 
 open System
 open FSharp.Stats
-open FSharp.Stats.Algebra
+open FsMath
+open FsMath.Algebra
 
 module Filtering =
     

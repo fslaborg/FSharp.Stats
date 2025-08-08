@@ -4,7 +4,8 @@ namespace FSharp.Stats.Fitting
 module Spline =
 
     open FSharp.Stats
-    open FSharp.Stats.Algebra
+    open FsMath
+    open FsMath.Algebra
 
     /// <summary>Some preprocessing of the input data</summary>
     /// <remarks></remarks>
