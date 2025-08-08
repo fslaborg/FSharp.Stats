@@ -9,6 +9,7 @@ open FSharp.Stats
 module LogisticRegression =
 
     open System
+    open FsMath
     
     /// Creates a new vector (length = obs.Length + 1) whose
     /// first element is 1.0 (for the intercept), followed by obs's elements.

@@ -3,7 +3,7 @@
 
 module Outliers =
     open FSharp.Stats
-    open Matrix
+    open FsMath
 
     /// <summary>Tukey's fences based on interquartile range. c defines the magnitude of interquartile range that is added/subtracted to Q3 and Q1 respectively.<br />Commonly c is 1.5 for outliers and 3 for points 'far out' (Tukey 1977).</summary>
     /// <remarks></remarks>

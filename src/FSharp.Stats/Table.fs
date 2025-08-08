@@ -3,7 +3,8 @@
 
 open System
 open FSharp.Stats
-
+open FsMath
+open FsMath.Algebra
 
 open System
 open System.Collections.Generic
@@ -50,7 +51,7 @@ type Table<'R,'C,'T
      and 'T :> Numerics.INumber<'T>
      and 'T : (new: unit -> 'T)
      and 'T : struct
-     and 'T : equality
+     and 'T : comparison
      and 'T :> ValueType>
   ( rowKeys : 'R[],
     colKeys : 'C[],

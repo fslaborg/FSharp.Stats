@@ -1,8 +1,11 @@
 ﻿module TestingTests
 open Expecto
 open System
-open FSharp.Stats.Testing
+
+open FsMath
 open FSharp.Stats
+open FSharp.Stats.Testing
+
 open TestExtensions
 open FSharp.Stats.Testing.SAM
 open Deedle

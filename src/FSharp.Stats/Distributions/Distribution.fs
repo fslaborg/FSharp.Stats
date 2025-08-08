@@ -1,6 +1,8 @@
 namespace FSharp.Stats.Distributions
 
 open FSharp.Stats
+open FsMath
+
 
 module Parameters = 
 

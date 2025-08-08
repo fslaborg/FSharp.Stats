@@ -6,6 +6,7 @@ module IterativeClustering =
     
     open FSharp.Stats
     open FSharp.Stats.DistanceMetrics    
+    open FsMath
     
 
 

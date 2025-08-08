@@ -6,7 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="TestExtensions.fs" />
-    <Compile Include="Acceleration.fs" />
     <Compile Include="Array.fs" />
     <Compile Include="SpecialFunctions.fs" />
     <Compile Include="ConfidenceInterval.fs" />
@@ -20,9 +19,6 @@
     <Compile Include="DistributionsDiscrete.fs" />
     <Compile Include="Fitting.fs" />
     <Compile Include="Seq.fs" />
-    <Compile Include="Vector.fs" />
-    <Compile Include="Matrix.fs" />
-    <Compile Include="LinearAlgebra.fs" />
     <Compile Include="Quantile.fs" />
     <Compile Include="Integration.fs" />
     <Compile Include="Interpolation.fs" />
@@ -33,7 +29,6 @@
     <Compile Include="Testing.fs" />
     <Compile Include="Optimization.fs" />
     <Compile Include="SummaryStats.fs" />
-    <Compile Include="SVD.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>

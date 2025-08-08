@@ -3,6 +3,7 @@
 module FSIPrinters =
     open System    
     open System.Linq
+    open FsMath
 
     let matrix (mat: Matrix<_>) =
         //TODO: Difficult to read because of all exceptions. Simplified version!

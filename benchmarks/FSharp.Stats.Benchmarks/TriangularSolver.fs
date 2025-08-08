@@ -4,7 +4,8 @@ open System
 open BenchmarkDotNet.Attributes
 open BenchmarkDotNet.Running
 open FSharp.Stats
-open FSharp.Stats.Algebra
+open FsMath
+open FsMath.Algebra
 
 [<MemoryDiagnoser>]
 type TriangularBenchmark() =

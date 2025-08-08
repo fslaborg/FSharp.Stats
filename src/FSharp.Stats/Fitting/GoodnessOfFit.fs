@@ -8,6 +8,9 @@ we estimate the relationship of one variable with another by expressing one in t
 module GoodnessOfFit =    
     open FSharp.Stats
     open System
+    open FsMath
+    
+
     /// Three sum of squares 
     type SumOfSquares = {
         /// Regression sum of squares (SSR: explained); Sum((yFit-yMean)**2.)

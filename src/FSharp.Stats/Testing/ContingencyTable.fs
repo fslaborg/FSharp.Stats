@@ -3,7 +3,7 @@
 open System
 open System.Collections.Generic
 open FSharp.Stats
-
+open FsMath
 
 /// An estimate with its standard‐error uncertainty.
 type UncertainValue = {

@@ -1,5 +1,7 @@
 ﻿namespace FSharp.Stats.Fitting
 
+open FsMath
+
 
 (*
 

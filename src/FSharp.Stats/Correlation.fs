@@ -1,4 +1,7 @@
 namespace FSharp.Stats
+
+open FsMath
+
 /// Contains correlation functions for different data types 
 module Correlation =
 

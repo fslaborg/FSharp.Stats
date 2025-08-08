@@ -4,6 +4,7 @@ namespace FSharp.Stats.Testing
 module TTest =
     open System
     open FSharp.Stats
+    open FsMath
 
     /// Equal or unequal sample sizes, assume nothing about variance.
     /// input: (mean1,variance1,N1) (mean2,variance2,N3)

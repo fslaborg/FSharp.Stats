@@ -6,6 +6,8 @@ open System
 open FSharp.Stats.SpecialFunctions
 open FSharp.Stats.Quantile
 open FSharp.Stats.Interpolation
+open FsMath
+
 
 module QQPlot =
 

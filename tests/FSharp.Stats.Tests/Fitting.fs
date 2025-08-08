@@ -1,7 +1,7 @@
 module FittingTests
 
 open Expecto
-
+open FsMath
 open FSharp.Stats
 open FSharp.Stats.Fitting
 open FSharp.Stats.Fitting.NonLinearRegression

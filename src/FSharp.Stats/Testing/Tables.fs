@@ -1,6 +1,8 @@
 ﻿namespace FSharp.Stats.Testing
 
 open FSharp.Stats
+open FsMath
+
 
 /// Some statistical tests lack in distributions for exact p value calculation. In order to enable the usage of these tests
 module Tables =

@@ -4,6 +4,8 @@ open System
 open BenchmarkDotNet.Attributes
 open BenchmarkDotNet.Running
 open FSharp.Stats
+open FsMath
+open FsMath.Algebra
 
 [<MemoryDiagnoser>]
 type MatrixBenchmarks() =

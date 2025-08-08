@@ -1,5 +1,7 @@
 namespace FSharp.Stats
 
+open FsMath
+
 ///Functions for computing distances of elements or sets
 module DistanceMetrics =
 

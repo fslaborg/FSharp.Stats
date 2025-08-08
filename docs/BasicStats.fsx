@@ -11,7 +11,8 @@ categoryindex: 0
 
 (*** condition: prepare ***)
 #r "../src/FSharp.Stats/bin/Release/netstandard2.0/FSharp.Stats.dll"
-
+#r "nuget: FsMath, 0.0.1"
+open FsMath
 (*** condition: ipynb ***)
 #if IPYNB
 #r "nuget: FSharp.Stats"

@@ -2,6 +2,8 @@
 
 open System
 open FSharp.Stats
+open FsMath
+
 
 [<Obsolete("Use FSharp.Stats.DistanceMetrics instead")>]
 module DistanceMetrics =
