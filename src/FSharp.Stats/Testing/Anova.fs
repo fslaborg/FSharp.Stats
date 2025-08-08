@@ -262,8 +262,8 @@ module Anova =
             | Mixed -> 
                 // Model 3: Factor A fixed, factor B random
                 (
-                 (Testing.TestStatistics.createFTest(fstFactorMeanSquares / factorMeanSquares) fstFactorDf factorDf),
-                 (Testing.TestStatistics.createFTest(sndFactorMeanSquares / errorMeanSquares) sndFactorDf errorDf),
+                 (Testing.TestStatistics.createFTest(fstFactorMeanSquares / errorMeanSquares) fstFactorDf errorDf),
+                 (Testing.TestStatistics.createFTest(sndFactorMeanSquares / factorMeanSquares) sndFactorDf factorDf),
                  (Testing.TestStatistics.createFTest(factorMeanSquares / errorMeanSquares) factorDf errorDf)
                 )
 
