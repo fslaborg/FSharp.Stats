@@ -404,6 +404,88 @@ let pearsonTests =
 
 
 [<Tests>]
+let holmTests =
+
+
+    let largeSetnan        = 
+        Frame.ReadCsv(location = @"data/holmHochberg_Input_nan.csv",hasHeaders = true,separators = ",").GetColumn<float>("pValues")
+        |> Series.valuesAll
+        |> Array.ofSeq
+        |> Array.map (fun x -> if x.IsSome then x.Value else nan ) 
+ 
+    let largeSet        = 
+        largeSetnan |> Array.filter (fun x -> not (nan.Equals x))
+
+    let largeSet_Expectednan        = 
+        Frame.ReadCsv(location = @"data/fwer_holm_results.csv",hasHeaders = true,separators = ",").GetColumn<float>("pValues")
+        |> Series.valuesAll
+        |> Array.ofSeq
+        |> Array.map (fun x -> if x.IsSome then x.Value else nan ) 
+
+    let largeSet_Expected        = 
+        largeSet_Expectednan 
+        |> Array.filter (fun x -> not (nan.Equals x))
+
+    testList "Testing.MultipleTesting.holmFWER" [
+        
+        testCase "testHolmLarge" (fun () -> 
+            Expect.sequenceEqual 
+                (largeSet |> MultipleTesting.holmFWER |> Seq.map (fun x -> Math.Round(x,9))) 
+                (largeSet_Expected |> Seq.map (fun x -> Math.Round(x,9)))
+                "adjusted pValues should be equal to the reference implementation."
+        )
+
+        testCase "testHolmLargeNaN" (fun () -> 
+            TestExtensions.sequenceEqualRoundedNaN 9
+                (largeSetnan |> MultipleTesting.holmFWER |> Seq.ofArray) 
+                (largeSet_Expectednan |> Seq.ofArray)
+                "adjusted pValues should be equal to the reference implementation."
+        )
+
+    ]
+
+[<Tests>]
+let hochbergTests =
+
+
+    let largeSetnan        = 
+        Frame.ReadCsv(location = @"data/holmHochberg_Input_nan.csv",hasHeaders = true,separators = ",").GetColumn<float>("pValues")
+        |> Series.valuesAll
+        |> Array.ofSeq
+        |> Array.map (fun x -> if x.IsSome then x.Value else nan ) 
+ 
+    let largeSet        = 
+        largeSetnan |> Array.filter (fun x -> not (nan.Equals x))
+
+    let largeSet_Expectednan        = 
+        Frame.ReadCsv(location = @"data/fwer_hochberg_results.csv",hasHeaders = true,separators = ",").GetColumn<float>("pValues")
+        |> Series.valuesAll
+        |> Array.ofSeq
+        |> Array.map (fun x -> if x.IsSome then x.Value else nan ) 
+
+    let largeSet_Expected        = 
+        largeSet_Expectednan 
+        |> Array.filter (fun x -> not (nan.Equals x))
+
+    testList "Testing.MultipleTesting.hochbergFWER" [
+        
+        testCase "testHochbergLarge" (fun () -> 
+            Expect.sequenceEqual 
+                (largeSet |> MultipleTesting.hochbergFWER |> Seq.map (fun x -> Math.Round(x,9))) 
+                (largeSet_Expected |> Seq.map (fun x -> Math.Round(x,9)))
+                "adjusted pValues should be equal to the reference implementation."
+        )
+
+        testCase "testHochbergLargeNaN" (fun () -> 
+            TestExtensions.sequenceEqualRoundedNaN 9
+                (largeSetnan |> MultipleTesting.hochbergFWER |> Seq.ofArray) 
+                (largeSet_Expectednan |> Seq.ofArray)
+                "adjusted pValues should be equal to the reference implementation."
+        )
+
+    ]
+
+[<Tests>]
 let benjaminiHochbergTests =
 
 

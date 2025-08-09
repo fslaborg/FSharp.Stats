@@ -1,9 +1,81 @@
 ﻿namespace FSharp.Stats.Testing
 
+open System
 open FSharp.Stats
 
 /// This module contains functions to adjust for multiple testing errors in statistical tests.
 module MultipleTesting = 
+
+
+    /// Holm–Bonferroni (step-down) FWER adjustment (NaN-safe)
+    /// NaN p-values are ignored in the computation and preserved at their original indices.
+    let inline holmFWER (p : float[]) : float[] =
+        let m = p.Length
+        let indexed = p |> Array.mapi (fun i v -> i, v)
+
+        // keep only finite p-values for the adjustment
+        let valid  = indexed |> Array.filter (fun (_, v) -> not (Double.IsNaN v))
+        let nValid = valid.Length
+
+        // start with an all-NaN result and fill only valid positions
+        let result = Array.create m Double.NaN
+
+        if nValid = 0 then result else
+            let sorted = valid |> Array.sortBy snd
+
+            // (nValid - i)·p_(i) for i = 0…nValid-1
+            let raw =
+                sorted
+                |> Array.mapi (fun i (_, pv) -> float (nValid - i) * pv)
+
+            // running max from the left, capped at 1.0
+            let adjAsc =
+                raw
+                |> Array.scan (fun runningMax r -> max runningMax r) 0.0
+                |> Array.tail
+                |> Array.map (min 1.0)
+
+            // write adjusted values back into their original indices
+            Array.zip (sorted |> Array.map fst) adjAsc
+            |> Array.iter (fun (i, adj) -> result.[i] <- adj)
+
+            result
+
+    /// Hochberg (step-up) FWER adjustment (NaN-safe)
+    /// NaN p-values are ignored in the computation and preserved at their original indices.
+    let inline hochbergFWER (p : float[]) : float[] =
+        let m = p.Length
+        let indexed = p |> Array.mapi (fun i v -> i, v)
+
+        // keep only finite p-values for the adjustment
+        let valid  = indexed |> Array.filter (fun (_, v) -> not (Double.IsNaN v))
+        let nValid = valid.Length
+
+        // start with an all-NaN result and fill only valid positions
+        let result = Array.create m Double.NaN
+
+        if nValid = 0 then result else
+            let sorted = valid |> Array.sortBy snd
+
+            // (nValid - i)·p_(i), same raw values pattern as Holm
+            let raw =
+                sorted
+                |> Array.mapi (fun i (_, pv) -> float (nValid - i) * pv)
+
+            // running min from the right, capped at 1.0
+            let adjDesc =
+                raw
+                |> Array.rev
+                |> Array.scan (fun runningMin r -> min runningMin r) 1.0
+                |> Array.tail
+                |> Array.rev
+                |> Array.map (min 1.0)
+
+            // write adjusted values back into their original indices
+            Array.zip (sorted |> Array.map fst) adjDesc
+            |> Array.iter (fun (i, adj) -> result.[i] <- adj)
+
+            result
 
 
     /// Benjamini-Hochberg Correction (BH)

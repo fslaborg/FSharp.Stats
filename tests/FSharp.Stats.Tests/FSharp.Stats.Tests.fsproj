@@ -62,6 +62,9 @@
     <EmbeddedResource Include="data/SparseMatrixFormat1NoInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/SparseMatrixFormat1WithInfo.txt" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="data/TableFormat.txt" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/fwer_hochberg_results.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/fwer_holm_results.csv" CopyToOutputDirectory="PreserveNewest" />
+    <EmbeddedResource Include="data/holmHochberg_Input_nan.csv" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

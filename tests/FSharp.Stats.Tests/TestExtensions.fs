@@ -66,7 +66,6 @@
             | [|a;b|] -> a, float b
             | _ -> failwith "invalid csv format"
          )
-
  
     let comparisonMetricsEqualRounded (digits : int) (actual: ComparisonMetrics) (expected: ComparisonMetrics) message =
         let actual = 
