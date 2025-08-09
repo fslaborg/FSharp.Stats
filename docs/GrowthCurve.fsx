@@ -10,13 +10,14 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../src/FSharp.Stats/bin/Release/netstandard2.0/FSharp.Stats.dll"
 #r "nuget: FSharpAux.Core, 2.0.0"
 #r "nuget: FSharpAux, 2.0.0"
 #r "nuget: FSharpAux.IO, 2.0.0"
 #r "nuget: OptimizedPriorityQueue, 5.1.0"
-#r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: FsMath, 0.0.1"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
+#r "FSharp.Stats.dll"
+#r "nuget: Plotly.NET, 4.0.0"
 open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
