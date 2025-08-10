@@ -67,7 +67,7 @@ type ChiSquared =
         ChiSquared.CheckParam dof
         sqrt (dof * 2.)
 
-    /// <param name="k">Degrees of freedom (must be positive).</param>
+    /// <param name="dof">Degrees of freedom (must be positive).</param>
     /// <returns>A sample from χ²(dof), interpreted as Gamma(dof/2, 2).</returns>
     static member SampleUnchecked (dof: float) : float =
         let alpha = dof / 2.0

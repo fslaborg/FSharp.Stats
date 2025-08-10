@@ -161,7 +161,7 @@ module LinearRegression =
                 /// <code> 
                 ///   let mySlope = 17.8
                 ///   
-                ///   // get the f�tting function that fits through the origin
+                ///   // get the fitting function that fits through the origin
                 ///   let myF = 
                 ///       LinearRegression.OLS.Linear.RTO.predictFunc mySlope
                 ///   
@@ -451,7 +451,7 @@ module LinearRegression =
                 ///   Takes linear coefficients and x vector to predict the corresponding y value.
                 /// </summary>
                 /// <param name="coef">Coefficients from linear regression.</param>
-                /// <param name="c">x vector for which the y value should be predicted</param>
+                /// <param name="x">x vector for which the y value should be predicted</param>
                 /// <returns>predicted y value with given coefficients at X=x</returns>
                 /// <example> 
                 /// <code> 
@@ -620,7 +620,6 @@ module LinearRegression =
             /// <summary>
             ///   Takes polynomial coefficients and x value to predict the corresponding y value.
             /// </summary>
-            /// <param name="order">order of the polynomial (1 = linear, 2 = quadratic, ... )</param>
             /// <param name="coef">vector of polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [intercept;constant;quadratic;...]</param>
             /// <param name="x">x value of which the corresponding y value should be predicted</param>
             /// <returns>predicted y value with given polynomial coefficients at X=x</returns>
@@ -858,14 +857,12 @@ module LinearRegression =
 /// <summary>
 ///   Defines if regression function should pass any specific point.
 /// </summary>
-/// <param name="'a">float*float coordinate</param>
 type Constraint<'a> =
     /// <summary>No constraints are given.</summary>
     | Unconstrained
     /// <summary>The regression line must go through the origin (0,0)</summary>
     | RegressionThroughOrigin
     /// <summary>The regression line must go through a specified point, defined as float*float tuple ('xCorrdinate*'yCoordinate)</summary>
-    /// <param name="'a">float*float coordinate</param>
     | RegressionThroughXY of 'a
     
 /// <summary>
@@ -1022,7 +1019,7 @@ type LinearRegression() =
     ///   Creates prediction function for linear regression.
     /// </summary>
     /// <param name="coeff">Linear regression coefficients (e.g. from LinearRegression.fit())</param>
-    /// <param name="x">x value of which the corresponding y value should be predicted</param>
+    /// <param name="xValue">x value of which the corresponding y value should be predicted</param>
     /// <returns>Prediction function that takes an x value and predicts its corresponding y value.</returns>
     /// <example> 
     /// <code> 
@@ -1046,7 +1043,7 @@ type LinearRegression() =
     ///   Creates prediction function for multivariate linear regression.
     /// </summary>
     /// <param name="coeff">Multivariate linear regression coefficients (e.g. from LinearRegression.fit())</param>
-    /// <param name="x">x value of which the corresponding y value should be predicted</param>
+    /// <param name="xVector">x value of which the corresponding y value should be predicted</param>
     /// <returns>Prediction function that takes an x vector and predicts its corresponding y value.</returns>
     /// <example> 
     /// <code> 

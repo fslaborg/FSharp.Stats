@@ -542,7 +542,7 @@ module Quantile =
 
     /// <summary>Computes percentiles<br />percentiles: Each percentile must be between 0.0 and 1.0 (inclusive)<br />CalcMethod should be ofSorted array</summary>
     /// <remarks></remarks>
-    /// <param name="(calcMethod)"></param>
+    /// <param name="calcMethod"></param>
     /// <param name="percentile"></param>
     /// <param name="data"></param>
     /// <returns></returns>

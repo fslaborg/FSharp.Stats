@@ -82,7 +82,6 @@ type Binomial =
 
     /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).<br />No parameter checking!</summary>
     /// <remarks></remarks>
-    /// <param name="SampleUnchecked"></param>
     /// <param name="p"></param>
     /// <param name="n"></param>
     /// <returns></returns>

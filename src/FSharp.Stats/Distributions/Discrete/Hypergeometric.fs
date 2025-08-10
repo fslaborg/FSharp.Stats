@@ -100,7 +100,6 @@ type Hypergeometric =
 
     /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).<br />No parameter checking!</summary>
     /// <remarks></remarks>
-    /// <param name="SampleUnchecked"></param>
     /// <param name="N"></param>
     /// <param name="K"></param>
     /// <param name="n"></param>
@@ -253,11 +252,17 @@ type Hypergeometric =
     
     /// <summary> Initializes a hypergeometric distribution.
     /// 
-    /// <summary>The hypergeometric distribution is a discrete probability distribution<br />that describes the probability of `k` successes (random draws for which the object<br />drawn has a specified feature) in `n` draws, without replacement, from a finite<br />population of size `N` that contains exactly `K` objects with that feature,<br />wherein each draw is either a success (`1.0`) or a failure (`0.0`).</summary><br /><param name="N">The population size</param><br /><param name="K">The number of success states in the population</param><br /><param name="n">The number of draws</param></summary>
+    /// <summary>
+    /// The hypergeometric distribution is a discrete probability distribution
+    /// that describes the probability of `k` successes (random draws for which the object
+    /// drawn has a specified feature) in `n` draws, without replacement, from a finite
+    /// population of size `N` that contains exactly `K` objects with that feature,
+    /// wherein each draw is either a success (`1.0`) or a failure (`0.0`).
+    /// </summary>
+    /// <param name="N">The population size</param>
+    /// <param name="K">The number of success states in the population</param>
+    /// <param name="n">The number of draws</param>
     /// <remarks></remarks>
-    /// <param name="N"></param>
-    /// <param name="K"></param>
-    /// <param name="n"></param>
     /// <returns></returns>
     /// <example>
     /// <code>

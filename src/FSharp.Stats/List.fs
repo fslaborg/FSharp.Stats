@@ -39,9 +39,9 @@ module List =
     /// </example>
     let inline median (xs: 'T list) =
         let one = LanguagePrimitives.GenericOne<'T>
+
         /// <summary>Partition list into three piles; less-than, equal and greater-than<br />x:    Current pivot<br />xs:   Sublist to partition<br />cont: Continuation function</summary>
         /// <remarks></remarks>
-        /// <param name="partition"></param>
         /// <param name="x"></param>
         /// <param name="xs"></param>
         /// <param name="cont"></param>
@@ -70,9 +70,9 @@ module List =
                     // place item in greater-than pile
                     partition x ys (fun lts n1 eqs n2 gts n3 ->
                         cont lts n1 eqs n2 (y::gts) (n3+1))
+
         /// <summary>Partition input and recurse into the part than contains the median<br />before: Number of elements before this sublist.<br />xs:     Current sublist.<br />after:  Number of elements after this sublist.</summary>
         /// <remarks></remarks>
-        /// <param name="loop"></param>
         /// <param name="before"></param>
         /// <param name="xs"></param>
         /// <param name="after"></param>
@@ -228,7 +228,7 @@ module ListExtension =
         /// </summary>
         /// <param name="start">start value (is included)</param>
         /// <param name="stop">end value (by default is included )</param>
-        /// <param name="Num">sets the number of elements in the list. If not set, stepsize = 1.</param>
+        /// <param name="num">sets the number of elements in the list. If not set, stepsize = 1.</param>
         /// <param name="IncludeEndpoint">If false, the list does not contain the stop value</param>
         static member linspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : float list = 
         
@@ -241,7 +241,7 @@ module ListExtension =
         /// </summary>
         /// <param name="start">start value (is included)</param>
         /// <param name="stop">end value (by default is included)</param>
-        /// <param name="Num">sets the number of elements in the list. Defaults to 50.</param>
+        /// <param name="num">sets the number of elements in the list. Defaults to 50.</param>
         /// <param name="IncludeEndpoint">If false, the list does not contain the stop value. Defaults to true.</param>
         static member geomspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : float list = 
             let includeEndpoint = defaultArg IncludeEndpoint true

@@ -645,7 +645,7 @@ module ArrayExtension =
         /// </summary>
         /// <param name="start">start value (is included)</param>
         /// <param name="stop">end value (by default is included )</param>
-        /// <param name="um">sets the number of elements in the array. If not set, stepsize = 1.</param>
+        /// <param name="num">sets the number of elements in the array. If not set, stepsize = 1.</param>
         /// <param name="IncludeEndpoint">If false, the array does not contain the stop value</param>
         static member linspace(start:float,stop:float,num:int,?IncludeEndpoint:bool) : float [] = 
         

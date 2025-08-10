@@ -9,17 +9,16 @@ module TestStatistics =
     ///   Creates a new T-Test for a given statistic
     ///   with given degrees of freedom.
     /// </summary>
-    /// 
-    /// <param name="Statistic">The test statistic.</param>
-    /// <param name="DegreesOfFreedom">The degrees of freedom for the numerator.</param>    
-    /// <param name="PValueLeft">One Tailed/Sided.</param>
-    /// <param name="PValueRight"> One Tailed/Sided.</param>   
-    /// <param name="PValue">Two Tailed/Sided.</param>   
     type TTestStatistics = {
+        /// <summary name="Statistic">The test statistic.</summary>
         Statistic            : float
+        /// <summary name="DegreesOfFreedom">The degrees of freedom for the numerator.</summary>    
         DegreesOfFreedom     : float
+        /// <summary name="PValueLeft">One Tailed/Sided.</summary>
         PValueLeft           : float
+        /// <summary name="PValueRight"> One Tailed/Sided.</summary>   
         PValueRight          : float
+        /// <summary name="PValue">Two Tailed/Sided.</summary>   
         PValue               : float            
     }
 
@@ -33,13 +32,12 @@ module TestStatistics =
     ///   Creates a new F-Test for a given statistic
     ///   with given degrees of freedom.
     /// </summary>
-    /// 
-    /// <param name="statistic">The test statistic.</param>
-    /// <param name="d1">The degrees of freedom for the numerator.</param>
-    /// <param name="d2">The degrees of freedom for the denominator.</param>
     type FTestStatistics = {
+        /// <summary name="statistic">The test statistic.</summary>
         Statistic            : float
+        /// <summary name="d1">The degrees of freedom for the numerator.</summary>
         DegreesOfFreedom1    : float
+        /// <summary name="d2">The degrees of freedom for the denominator.</summary>
         DegreesOfFreedom2    : float
         PValue               : float 
         PValueTwoTailed      : float            
@@ -56,20 +54,16 @@ module TestStatistics =
     ///   Computes the Chi-Square test statistics for a given statistic
     ///   with given degrees of freedom.
     /// </summary>
-    /// 
-    /// <param name="Statistic">The test statistic.</param>
-    /// <param name="DegreesOfFreedom">The degrees of freedom for the numerator.</param>    
-    /// <param name="PValueLeft">One Tailed/Sided.</param>
-    /// <param name="PValueRight"> One Tailed/Sided.</param>   
-    /// <param name="PValue">Two Tailed/Sided.</param>   
     type ChiSquareStatistics = {
+        /// <summary name="Statistic">The test statistic.</summary>
         Statistic            : float
+        /// <summary name="DegreesOfFreedom">The degrees of freedom for the numerator.</summary>    
         DegreesOfFreedom     : float
-        /// one tailed/sided chiSquare pValue
+        /// <summary name="PValueLeft">One Tailed/Sided.</summary>
         PValueLeft           : float
-        /// one tailed/sided chiSquare pValue (default)
+        /// <summary name="PValueRight"> One Tailed/Sided.</summary>   
         PValueRight          : float
-        /// two tailed/sided chiSquare pValue
+        /// <summary name="PValue">Two Tailed/Sided.</summary>   
         PValue               : float            
     }
 
@@ -83,13 +77,12 @@ module TestStatistics =
     /// <summary>
     ///   Computes the Wilcoxon test statistics for a given statistic.
     /// </summary>
-    /// <param name="Statistic">The test statistic.</param>
-    /// <param name="PValue">One Tailed/Sided.</param>
-    /// <param name="PValueTwoTailed">Two Tailed/Sided.</param>   
     type WilcoxonTestStatistics = {
+        /// <summary name="Statistic">The test statistic.</summary>
         Statistic            : float
         PValueLeft           : float
         PValueRight          : float 
+        /// <summary name="PValueTwoTailed">Two Tailed/Sided.</summary>   
         PValueTwoTailed      : float 
     }    
     let createWilcoxon statistic =

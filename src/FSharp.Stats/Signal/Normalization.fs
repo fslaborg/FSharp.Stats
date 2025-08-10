@@ -17,10 +17,10 @@ module Normalization =
     /// </code> 
     /// </example>
     /// <remarks>Bortz J., Schuster C., Statistik für Human- und Sozialwissenschaftler, 7 (2010), p. 35</remarks>
-    let zScoreTransformPopulation (yVal:Vector<float>) : Vector<float> =
-        let yMean = Seq.mean yVal 
-        let std   = Seq.stDevPopulation yVal
-        yVal |> Array.map (fun x -> (x - yMean) / std) 
+    let zScoreTransformPopulation (yData:Vector<float>) : Vector<float> =
+        let yMean = Seq.mean yData 
+        let std   = Seq.stDevPopulation yData
+        yData |> Array.map (fun x -> (x - yMean) / std) 
 
     /// <summary>
     ///   z score normalization/transformation using the sample standard deviation. Rarely used since variance is not equal to 1.
@@ -34,10 +34,10 @@ module Normalization =
     /// </code> 
     /// </example>
     /// <remarks>Bortz J., Schuster C., Statistik für Human- und Sozialwissenschaftler, 7 (2010), p. 35</remarks>
-    let zScoreTransform (yVal:Vector<float>) : Vector<float> =
-        let yMean = Seq.mean yVal
-        let std   = Seq.stDev yVal
-        yVal |> Array.map (fun x -> (x - yMean) / std) 
+    let zScoreTransform (yData:Vector<float>) : Vector<float> =
+        let yMean = Seq.mean yData
+        let std   = Seq.stDev yData
+        yData |> Array.map (fun x -> (x - yMean) / std) 
 
     /// Summary of the median of ratios (mor) normalization with normed data, determined correctionfactors, and transformation function.
     type MorResult = {

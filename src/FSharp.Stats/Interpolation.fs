@@ -31,7 +31,6 @@ module Interpolation =
                 /// <summary>
                 ///   takes x value to predict the corresponding interpolating y value
                 /// </summary>
-                /// <param name="x">x value of which the corresponding y value should be predicted</param>
                 /// <returns>predicted y value with given polynomial coefficients at X=x</returns>
                 /// <example> 
                 /// <code> 
@@ -355,7 +354,6 @@ module Interpolation =
                 /// <summary>
                 ///   Predicts the y value at point x. A straight line is fitted between the neighboring x values given.
                 /// </summary>
-                /// <param name="x">X value at which the corresponding y value should be predicted</param>
                 /// <returns>Y value corresponding to the given x value.</returns>
                 /// <example> 
                 /// <code> 
@@ -598,7 +596,6 @@ module Interpolation =
                 /// <summary>
                 ///   Predicts the y value at point x. A straight line is fitted between the neighboring x values given.
                 /// </summary>
-                /// <param name="x">X value at which the corresponding y value should be predicted</param>
                 /// <returns>Y value corresponding to the given x value.</returns>
                 /// <example> 
                 /// <code> 
@@ -772,7 +769,6 @@ module Interpolation =
                 /// <summary>
                 ///   Returns function that takes x value and predicts the corresponding interpolating y value. 
                 /// </summary>
-                /// <param name="xVal">X value of which the y value should be predicted.</param>
                 /// <returns>Function that takes an x value and returns function value.</returns>
                 /// <example> 
                 /// <code> 
@@ -1015,7 +1011,7 @@ module Interpolation =
         /// <summary>
         ///   Returns integral from interpolating function from x=xVal1 to x=xVal2. 
         /// </summary>
-        /// <param name="splineCoeffs">Interpolation functions coefficients.</param>
+        /// <param name="integrateF">Integration function.</param>
         /// <param name="xVal1">X value from where the integral should be calculated.</param>
         /// <param name="xVal2">X value up to which the integral should be calculated.</param>
         /// <returns>Integral (area under the curve) from x=xVal1 to x=xVal2</returns>
@@ -1061,7 +1057,6 @@ module Interpolation =
                 /// <summary>
                 ///   Returns function that takes x value (that lies within the range of input x values) and predicts the corresponding interpolating y value.
                 /// </summary>
-                /// <param name="x">X value of which the y value should be predicted.</param>
                 /// <returns>Function that takes an x value and returns function value.</returns>
                 /// <example> 
                 /// <code> 
@@ -1106,7 +1101,6 @@ module Interpolation =
                 /// <summary>
                 ///   Returns function that takes x value and predicts the corresponding interpolating y value.
                 /// </summary>
-                /// <param name="x">X value of which the y value should be predicted.</param>
                 /// <returns>Function that takes an x value and returns function value.</returns>
                 /// <example> 
                 /// <code> 
@@ -1767,7 +1761,6 @@ module Interpolation =
                     /// <summary>
                     ///   Returns function that takes x value and predicts the corresponding interpolating y value. 
                     /// </summary>
-                    /// <param name="x">X value of which the y value should be predicted.</param>
                     /// <returns>Function that takes an x value and returns function value.</returns>
                     /// <example> 
                     /// <code> 
@@ -1944,6 +1937,7 @@ module Interpolation =
             ///   If the knots are monotone in/decreasing, the spline also is monotone (CJC Kruger method)
             ///   The x data has to be sorted ascending
             /// </summary>
+            /// <param name="xData">x values</param>
             /// <param name="yData">function value at x values</param>
             /// <returns>Coefficients that define the interpolating function.</returns>
             /// <example> 
@@ -2003,7 +1997,7 @@ module Interpolation =
             /// <summary>
             ///   Returns function that takes x value and predicts the corresponding interpolating y value. 
             /// </summary>
-            /// <param name="coefficients">Interpolation functions coefficients.</param>
+            /// <param name="coef">Interpolation functions coefficients.</param>
             /// <param name="x">X value of which the y value should be predicted.</param>
             /// <returns>Function that takes an x value and returns function value.</returns>
             /// <example> 
@@ -2366,7 +2360,6 @@ type InterpolationMethod =
     /// <summary>
     ///   Creates a spline as piecewise cubic polynomials with continuous first and second derivative at the knots.
     /// </summary>
-    /// <param name="CubicSpline.BoundaryCondition">One of four conditions to manipulate the curvatures at the outer knots.</param>
     | CubicSpline of CubicSpline.BoundaryCondition
     /// <summary>
     ///   Creates a subspline as piecewise cubic polynomials with continuous first derivative but DIScontinuous second derivative at the knots.
@@ -2375,7 +2368,6 @@ type InterpolationMethod =
     /// <summary>
     ///   Creates a spline as piecewise cubic polynomials with given slope.
     /// </summary>
-    /// <param name="HermiteMethod">choose between cSpline, given slopes or monotonicity when appropriate</param>
     | HermiteSpline of HermiteMethod
 
 

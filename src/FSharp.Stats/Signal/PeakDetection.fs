@@ -331,7 +331,6 @@ module PeakDetection =
                     0
             /// <summary>Inspects the sourrounding of the peak. The function walks in the direction given by the step parameter. The function accumulates all<br />lift offs till till the next peak or the end of the signal trace is reached. Returns the last index, the number of lift offs and a bool<br />indicating if a flanking peak is present.</summary>
             /// <remarks></remarks>
-            /// <param name="loopF"></param>
             /// <param name="step"></param>
             /// <param name="labeledSndDevData"></param>
             /// <param name="currentIdx"></param>
