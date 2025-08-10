@@ -1,4 +1,4 @@
-﻿Fkspace FSharp.Stats.Distributions.Discrete
+﻿namespace FSharp.Stats.Distributions.Discrete
 
 open System
 open FSharp.Stats
