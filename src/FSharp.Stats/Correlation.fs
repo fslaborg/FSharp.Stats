@@ -298,19 +298,19 @@ module Correlation =
             /// <summary>
             /// Tau A - Make no adjustments for ties
             /// </summary>
-            /// <param name="x">The first array of observations.</param>
-            /// <param name="y">The second array of observations.</param>
+            /// <param name="_x">The first array of observations.</param>
+            /// <param name="_y">The second array of observations.</param>
             /// <param name="pq">Number of concordant minues the number of discordant pairs.</param>
             /// <param name="n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
-            /// <param name="n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
-            /// <param name="n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
+            /// <param name="_n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
+            /// <param name="_n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
             /// <returns>The Kendall tau A statistic.</returns>
             let tauA _x _y pq n0 _n1 _n2  = pq / float n0
             /// <summary>
             /// Tau B - Adjust for ties. tau_b = pq / sqrt((n0 - n1)(n0 - n2))
             /// </summary>
-            /// <param name="x">The first array of observations.</param>
-            /// <param name="y">The second array of observations.</param>
+            /// <param name="_x">The first array of observations.</param>
+            /// <param name="_y">The second array of observations.</param>
             /// <param name="pq">Number of concordant minues the number of discordant pairs.</param>
             /// <param name="n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
             /// <param name="n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
@@ -325,9 +325,9 @@ module Correlation =
             /// <param name="x">The first array of observations.</param>
             /// <param name="y">The second array of observations.</param>
             /// <param name="pq">Number of concordant minues the number of discordant pairs.</param>
-            /// <param name="n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
-            /// <param name="n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
-            /// <param name="n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
+            /// <param name="_n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
+            /// <param name="_n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
+            /// <param name="_n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
             /// <returns>The Kendall tau C statistic.</returns>
             let tauC (x : _[]) y pq _n0 _n1 _n2 = 
                 let n = x.Length

@@ -31,11 +31,11 @@ module SummaryStats =
     /// <summary>
     /// Creates a <c>SummaryStats</c> record from the given fields.
     /// </summary>
-    /// <param name="count">The number of observed data points.</param>
+    /// <param name="n">The number of observed data points.</param>
     /// <param name="mean">The running mean of the data points.</param>
-    /// <param name="sumOfSquares">The sum of squared deviations fom the mean</param>
-    /// <param name="minVal">The minimum observed value.</param>
-    /// <param name="maxVal">The maximum observed value.</param>
+    /// <param name="sos">The sum of squared deviations fom the mean</param>
+    /// <param name="min">The minimum observed value.</param>
+    /// <param name="max">The maximum observed value.</param>
     /// <returns>A new <c>SummaryStats</c> record.</returns>
     let createSummaryStats n mean sos min max =
         {N=n;Mean=mean;SumSqrdDevations=sos;Min=min;Max=max}
@@ -110,6 +110,7 @@ module SummaryStats =
     /// <param name="items">A sequence of numeric data.</param>
     /// <returns>
     /// A <c>SummaryStats</c> record containing the final count, mean, sum of squares, min, and max.
+    /// </returns>
     let inline ofSeq (items: seq<'T>) =
         use e = items.GetEnumerator()
         let zero = LanguagePrimitives.GenericZero<'T>

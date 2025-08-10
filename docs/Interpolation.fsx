@@ -10,10 +10,14 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#r "nuget: FsMath, 0.0.1"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
-#r "nuget: FsMath, 0.0.1"
 open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -36,17 +40,6 @@ open Plotly.NET
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ This tutorial demonstrates several ways of interpolating with FSharp.Stats
-
-### Table of contents
-
-- [Summary](#Summary)
-- [Polynomial interpolation](#Polynomial-interpolation)
-- [Cubic interpolating spline](#Cubic-spline-interpolation)
-- [Akima interpolating subspline](#Akima-subspline-interpolation)
-- [Hermite interpolation](#Hermite-interpolation)
-- [Bezier interpolation](#Bezier-interpolation)
-- [Chebyshev function approximation](#Chebyshev-function-approximation)
-
 
 ## Summary
 
@@ -395,7 +388,7 @@ let bezierInterpolation =
     let c2 = vector [|6.5;-1.5|] //control point 2
     let c3 = vector [|13.5;4.|] //control point 3
     let p1 = vector [|10.;5.|] //point 1 that should be traversed
-    let toPoint (v : vector) = v[0],v[1]
+    let toPoint (v : Vector<float>) = v[0],v[1]
     let interpolate = Bezier.interpolate [|p0;c0;c1;c2;c3;p1|] >> toPoint
 
     [
@@ -431,7 +424,7 @@ let bezierInterpolation3d =
     let c0 = vector [|1.5;2.1;2.|] //control point 0
     let c1 = vector [|5.8;1.6;1.4|] //control point 1
     let p1 = vector [|3.;2.;0.|] //point 1 that should be traversed
-    let to3Dpoint (v : vector) = v[0],v[1],v[2]
+    let to3Dpoint (v : Vector<float>) = v[0],v[1],v[2]
     let interpolate = Bezier.interpolate [|p0;c0;c1;p1|] >> to3Dpoint
 
     [
@@ -542,7 +535,7 @@ let xs_cheby =
 // to get the corresponding y values to the xs_cheby a linear spline is generated that approximates the new y values
 let ys_cheby =
     let ls = Interpolation.LinearSpline.interpolate xs ys
-    xs_cheby |> Vector.map (Interpolation.LinearSpline.predict ls)
+    xs_cheby |> Array.map (Interpolation.LinearSpline.predict ls)
 
 // again polynomial interpolation coefficients are determined, but here with the x and y data that correspond to the chebyshev spacing
 let coeffs_cheby = Interpolation.Polynomial.interpolate xs_cheby ys_cheby

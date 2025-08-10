@@ -10,10 +10,14 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#r "nuget: FsMath, 0.0.1"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
-#r "nuget: FsMath, 0.0.1"
 open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -36,25 +40,6 @@ open Plotly.NET
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates variou way to model growth curves, a commong task in any (micro)biological lab
-
-### Table of contents
-
- - [Modelling](#Modelling)
- - [Manual phase selection](#Manual-phase-selection)
- - [Gompertz model](#Gompertz-model)
- - [Generation time calculation](#Generation-time-calculation)
- - [Other models](#Other-models)
-    - [Richards curve](#Richards-curve)
-    - [Weibull](#Weibull)
-    - [Janoschek](#Janoschek)
-    - [Exponential](#Exponential)
-    - [Verhulst](#Verhulst)
-    - [Morgan-Mercer-Flodin](#Morgan-Mercer-Flodin)
-    - [von Bertalanffy](#von-Bertalanffy)
- - [Comparison between all models](Comparison-between-all-models)
-    - [Fit function](#Fit-function)
-    - [Generation time](#Generation-time)
- - [Model examples](#Model-examples)
 
 ## Modelling
 
@@ -280,10 +265,10 @@ The four parameter Gompertz model allows the determination of generation times f
 
 *)
 
-let generationtime (parametervector:vector) (logTransform:float -> float) =
+let generationtime (parametervector:Vector<float>) (logTransform:float -> float) =
     logTransform 2. * Math.E / (parametervector.[1] * parametervector.[2])
 
-let lag (parametervector:vector) =
+let lag (parametervector:Vector<float>) =
     (parametervector.[3] - 1.) / parametervector.[1]
 
 let g = sprintf "The generation time (Gompertz) is: %.1f min" (60. * (generationtime gompertzParams log))
@@ -351,7 +336,7 @@ let fittingFunctionRichards =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeRichards (richardParameters:vector) =
+let generationtimeRichards (richardParameters:Vector<float>) =
     let l = richardParameters.[0]
     let k = richardParameters.[1]
     let y = richardParameters.[2] //x value of inflection point
@@ -434,7 +419,7 @@ let fittingFunctionWeibull =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeWeibull (weibullParameters:vector) =
+let generationtimeWeibull (weibullParameters:Vector<float>) =
     let b = weibullParameters.[0]
     let l = weibullParameters.[1]
     let k = weibullParameters.[2]
@@ -520,7 +505,7 @@ let fittingFunctionJanoschek =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeJanoschek (janoschekParameters:vector) =
+let generationtimeJanoschek (janoschekParameters:Vector<float>) =
     let b = janoschekParameters.[0]
     let l = janoschekParameters.[1]
     let k = janoschekParameters.[2]
@@ -608,7 +593,7 @@ let fittingFunctionExponential =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeExponential (expParameters:vector) =
+let generationtimeExponential (expParameters:Vector<float>) =
     let b = expParameters.[0]
     let l = expParameters.[1]
     let k = expParameters.[2]
@@ -699,7 +684,7 @@ let fittingFunctionVerhulst() =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeVerhulst (verhulstParameters:vector) =
+let generationtimeVerhulst (verhulstParameters:Vector<float>) =
     let lmax = verhulstParameters.[0]
     let k    = verhulstParameters.[1]
     let d    = verhulstParameters.[2]
@@ -783,7 +768,7 @@ let fittingFunctionMMF() =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeMmf (mmfParameters:vector) =
+let generationtimeMmf (mmfParameters:Vector<float>) =
     let b = mmfParameters.[0]
     let l = mmfParameters.[1]
     let k = mmfParameters.[2]

@@ -30,6 +30,7 @@ module Padding =
         /// <summary>median spacing of the data points</summary>
         /// <remarks></remarks>
         /// <param name="data"></param>
+        /// <param name="getDiff"></param>
         /// <returns></returns>
         /// <example>
         /// <code>

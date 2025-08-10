@@ -10,10 +10,14 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#r "nuget: FsMath, 0.0.1"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
-#r "nuget: FsMath, 0.0.1"
 open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -47,7 +51,7 @@ let error() = rnd.Next(11)
 
 let sampleA = Vector.init 50 (fun x -> float x)
 let sampleB = Vector.init 50 (fun x -> float (x + error()))
-let sampleBHigh = sampleB |> Vector.map (fun x -> 200. + x)
+let sampleBHigh = sampleB |> Array.map (fun x -> 200. + x)
 let sampleC = Vector.init 50 (fun x -> 100. - float (x + 3 * error()))
 let sampleD = Vector.init 50 (fun x -> 100. + float (10 * error()))
 

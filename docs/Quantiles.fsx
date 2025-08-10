@@ -10,10 +10,14 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#r "nuget: FsMath, 0.0.1"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
-#r "nuget: FsMath, 0.0.1"
 open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -36,16 +40,6 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates how to handle quantiles and QQ-Plots
-
-### Table of contents
-
- - [Quantiles](#Quantiles)
- - [QQ plot](#QQ-plot)
-   - [Comparing two sample distributions](#Comparing-two-sample-distributions)
-   - [Comparing a sample against a distribution](#Comparing-a-sample-against-a-distribution)
-     - [Normal distribution](#Normal-distribution)
-     - [Uniform Distribution](#Uniform-Distribution)
-- [Quantile normalization](#Quantile-normalization)
 
 ## Quantiles
 

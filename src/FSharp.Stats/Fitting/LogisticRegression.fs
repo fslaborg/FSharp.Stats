@@ -127,6 +127,7 @@ module LogisticRegression =
         /// <summary>Returns the regression function</summary>
         /// <remarks></remarks>
         /// <param name="coef"></param>
+        /// <param name="x"></param>
         /// <returns></returns>
         /// <example>
         /// <code>
@@ -204,6 +205,7 @@ module LogisticRegression =
         /// <summary>Returns the regression function</summary>
         /// <remarks></remarks>
         /// <param name="coef"></param>
+        /// <param name="x"></param>
         /// <returns></returns>
         /// <example>
         /// <code>

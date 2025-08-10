@@ -124,8 +124,8 @@ module DistanceMetrics =
 
         /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two vectors of order `p`.</summary>
         /// <remarks>The two vectors need not have equal lengths: when one vectors is exhausted any remaining elements in the other vectors are ignored.</remarks>
-        /// <param name="s1">first vector</param>
-        /// <param name="s2">second vector</param>
+        /// <param name="v1">first vector</param>
+        /// <param name="v2">second vector</param>
         /// <param name="p">float constrained to `p > 0`</param>
         /// <returns>Minkowski distance between elements of given vectors. Returns NaN if vectors contain NaN.</returns>
         /// <example> 
@@ -163,8 +163,8 @@ module DistanceMetrics =
         /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two vectors (ignores NaN) of order `p`.</summary>
         /// <remarks>Non-regular differences between the sequences are ignored.
         /// The two vectors need not have equal lengths: when one vectors is exhausted any remaining elements in the other vectors are ignored.</remarks>
-        /// <param name="s1">first vector</param>
-        /// <param name="s2">second vector</param>
+        /// <param name="v1">first vector</param>
+        /// <param name="v2">second vector</param>
         /// <param name="p">float constrained to `p > 0`</param>
         /// <returns>Minkowski distance between elements of given vectors.</returns>
         /// <example> 
@@ -319,8 +319,8 @@ module DistanceMetrics =
 
         /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two arrays of order `p`.</summary>
         /// <remarks>The two arrays need not have equal lengths: when one array is exhausted any remaining elements in the other array are ignored.</remarks>
-        /// <param name="s1">first array</param>
-        /// <param name="s2">second array</param>
+        /// <param name="a1">first array</param>
+        /// <param name="a2">second array</param>
         /// <param name="p">float constrained to `p > 0`</param>
         /// <returns>Minkowski distance between elements of given arrays. Returns NaN if arrays contain NaN.</returns>
         /// <example> 
@@ -358,8 +358,8 @@ module DistanceMetrics =
         /// <summary>The [Minkowski distance](https://en.wikipedia.org/wiki/Minkowski_distance) between two arrays (ignores NaN) of order `p`.</summary>
         /// <remarks>Non-regular differences between the sequences are ignored.
         /// The two arrays need not have equal lengths: when one array is exhausted any remaining elements in the other array are ignored.</remarks>
-        /// <param name="s1">first array</param>
-        /// <param name="s2">second array</param>
+        /// <param name="a1">first array</param>
+        /// <param name="a2">second array</param>
         /// <param name="p">float constrained to `p > 0`</param>
         /// <returns>Minkowski distance between elements of given arrays.</returns>
         /// <example> 

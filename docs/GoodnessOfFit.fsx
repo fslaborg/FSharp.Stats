@@ -10,10 +10,14 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#r "nuget: FsMath, 0.0.1"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
-#r "nuget: FsMath, 0.0.1"
 open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -38,13 +42,6 @@ open Plotly.NET
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial shows how to assess fit quality with FSharp.Stats
-
-### Table of contents
-
- - [Linear regression report](#Linear-regression-report)
- - [Confidence bands](#Confidence-bands)
- - [Prediction bands](#Prediction-bands)
- - [Cook's distance](#Cook-s-distance)
 
 ## Linear regression report
 
@@ -199,12 +196,11 @@ let fitValues = xData |> Seq.map (fun xi -> xi,(predictionFunction xi))
 ///calculate confidence band errors for every x value
 let confidence = 
     xData
-    |> Vector.map (calculateConfidenceBandError xData yData 0.95)
+    |> Array.map (calculateConfidenceBandError xData yData 0.95)
 
 ///lower and upper bounds of the 95% confidence band sorted according to x values
 let (lower,upper) = 
     xData 
-    |> Vector.toArray
     |> Array.mapi (fun i xi -> (predictionFunction xi) - confidence.[i],(predictionFunction xi) + confidence.[i]) 
     |> Array.unzip
 
@@ -244,12 +240,11 @@ let newXValues =
 ///calculate confidence band errors for every x value
 let newConfidence = 
     newXValues
-    |> Vector.map (calculateConfidenceBandError xData yData 0.95)
+    |> Array.map (calculateConfidenceBandError xData yData 0.95)
 
 ///lower and upper bounds of the 95% confidence band sorted according to x values
 let (newLower,newUpper) = 
     newXValues 
-    |> Vector.toArray
     |> Array.mapi (fun i xi -> (predictionFunction xi) - newConfidence.[i],(predictionFunction xi) + newConfidence.[i]) 
     |> Array.unzip
 
@@ -283,12 +278,11 @@ let predictionXValues = vector [|1. .. 0.5 .. 15.|]
 ///calculate preditcion band errors for every x value
 let prediction = 
     predictionXValues
-    |> Vector.map (calculatePredictionBandError xData yData 0.95)
+    |> Array.map (calculatePredictionBandError xData yData 0.95)
 
 ///lower and upper bounds of the 95% prediction band sorted according to x values
 let (pLower,pUpper) = 
     predictionXValues 
-    |> Vector.toArray
     |> Array.mapi (fun i xi -> (predictionFunction xi) - prediction.[i],(predictionFunction xi) + prediction.[i]) 
     |> Array.unzip
 

@@ -19,6 +19,7 @@ module CrossValidation =
         /// <summary>Computes sum of squared residuals (SSR)</summary>
         /// <remarks></remarks>
         /// <param name="y"></param>
+        /// <param name="p"></param>
         /// <returns></returns>
         /// <example>
         /// <code>
@@ -31,6 +32,7 @@ module CrossValidation =
         /// <summary>Computes root mean square error (RMSE)</summary>
         /// <remarks></remarks>
         /// <param name="y"></param>
+        /// <param name="p"></param>
         /// <returns></returns>
         /// <example>
         /// <code>
@@ -50,7 +52,13 @@ module CrossValidation =
 
     /// <summary>Computes a repeated k fold cross-validation,<br />k: training set size (and number of iterations),<br />iterations: number of random subset creation,<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps a xData row vector to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate,<br />getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)</summary>
     /// <remarks></remarks>
-    /// <param name="repeatedKFold"></param>
+    /// <param name="k"></param>
+    /// <param name="iterations"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="fit"></param>
+    /// <param name="error"></param>
+    /// <param name="getStDev"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -113,7 +121,10 @@ module CrossValidation =
 
     /// <summary>Computes a leave one out cross-validation<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps an xData row vector to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate</summary>
     /// <remarks></remarks>
-    /// <param name="loocv"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="fitFunc"></param>
+    /// <param name="error"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -141,13 +152,18 @@ module CrossValidation =
 
     /// <summary>Computes a repeated shuffel-and-split cross validation<br />p: percentage of training set size from original size,<br />iterations: number of random subset creation,<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps a xData row vector to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate,<br />getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)</summary>
     /// <remarks></remarks>
-    /// <param name="shuffelAndSplit"></param>
+    /// <param name="p"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="fit"></param>
+    /// <param name="error"></param>
+    /// <param name="getStDev"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
     /// </code>
     /// </example>
-    let inline shuffelAndSplit 
+    let inline shuffleAndSplit 
             p (iterations: int) (xData:Matrix< ^T >) (yData:Vector< ^T >)
                 (fit: Matrix< ^T > -> Vector< ^T > -> Vector< ^T > -> ^T)
                 (error: ^T -> ^T -> ^T) 

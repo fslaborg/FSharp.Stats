@@ -9,7 +9,6 @@ module Spline =
 
     /// <summary>Some preprocessing of the input data</summary>
     /// <remarks></remarks>
-    /// <param name="preprocess"></param>
     /// <param name="data"></param>
     /// <returns></returns>
     /// <example>
@@ -32,6 +31,7 @@ module Spline =
     /// <summary>Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts.<br />The resulting function takes lambda (regularization parameter) and a x_Value as input. </summary>
     /// <remarks></remarks>
     /// <param name="data"></param>
+    /// <param name="basispts"></param>
     /// <returns></returns>
     /// <example>
     /// <code>

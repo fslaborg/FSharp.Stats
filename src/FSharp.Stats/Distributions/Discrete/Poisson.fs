@@ -86,7 +86,6 @@ type Poisson =
 
     /// <summary>Produces a random sample using the current random number generator (from GetSampleGenerator()).<br />No parameter checking!</summary>
     /// <remarks></remarks>
-    /// <param name="SampleUnchecked"></param>
     /// <param name="lambda"></param>
     /// <returns></returns>
     /// <example>

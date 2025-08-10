@@ -11,10 +11,14 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
-#r "FSharp.Stats.dll"
-#r "nuget: Plotly.NET, 4.0.0"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
 #r "nuget: FsMath, 0.0.1"
+#r "nuget: Plotly.NET, 4.0.0"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
+#r "FSharp.Stats.dll"
 open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -35,24 +39,6 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial shows how to use the various types of probability distributions in FSharp.Stats.
-
-### Table of contents
-
-- [Continuous](#Continuous)
-    - [Normal distribution](#Normal-distribution)
-    - [Multivariate normal distribution](#Multivariate-normal-distribution)
-    - [F distribution](#F-distribution)
-- [Discrete](#Discrete)
-    - [Bernoulli distribution](#Bernoulli-distribution)
-    - [Binomial distribution](#Binomial-distribution)
-    - [Multinomial distribution](#Multinomial-distribution)
-    - [Hypergerometric distribution](#Hypergerometric-distribution)
-    - [Poisson distribution](#Poisson-distribution)
-    - [Gamma distribution](#Gamma-distribution)
-    - [Negative binomial distribution](#Negative-binomial-distribution)
-- [Empirical](#Empirical)
-- [Density estimation](#Density-estimation)
-- [Distance](#Distance)
 
 FSharp.Stats provides a wide range of probability distributions. Given the
 distribution parameters they can be used to investigate their statistical properties
@@ -725,7 +711,7 @@ _1 from town B_, and _3 from town C_? The individual success probabilities can b
 let multiNomProb = vector [(3./30.); (7./30.); (20./30.)]
 
 // the success combination that is of interest
-let multiNomKs   = Vector.Generic.ofList [1; 1; 3]
+let multiNomKs   = vector [1; 1; 3]
 
 // gives the probability of obtaining exactly the pattern 1,1,3
 let mNom = Discrete.Multinomial.PMF multiNomProb multiNomKs
@@ -745,7 +731,7 @@ multinomial distribution you have to give the corresponding anto-probability:
 *)
 
 let mNom_bin_A = (Discrete.Binomial.PMF 0.123 200 20)
-let mNom_bin_B = Discrete.Multinomial.PMF (vector [|0.123; 0.877|]) (Vector.Generic.ofArray [|20; 180|])
+let mNom_bin_B = Discrete.Multinomial.PMF ([|0.123; 0.877|]) ([|20; 180|])
 
 mNom_bin_A //0.0556956956889893
 mNom_bin_B //0.0556956956889898

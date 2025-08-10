@@ -376,6 +376,8 @@ module NonLinearRegression =
         /// <summary>Returns an estimate for an initial parameter for the linear least square estimator for a given dataset (xData, yData).<br />The initial estimation is intended for a logistic function.<br />The returned parameters are the max y value, the steepness of the curve and the x value in the middle of the slope.</summary>
         /// <remarks></remarks>
         /// <param name="xData"></param>
+        /// <param name="yData"></param>
+        /// <param name="cutoffPercentage"></param>
         /// <returns></returns>
         /// <example>
         /// <code>
@@ -535,6 +537,7 @@ module NonLinearRegression =
         /// <summary>Takes the result of the linearization as initialGuessParams</summary>
         /// <remarks></remarks>
         /// <param name="xData"></param>
+        /// <param name="yData"></param>
         /// <returns></returns>
         /// <example>
         /// <code>

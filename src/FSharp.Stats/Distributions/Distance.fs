@@ -201,13 +201,13 @@ module Distance =
         /// <param name="xs"></param>
         /// <param name="ys"></param>
         /// <param name="xWeights"></param>
-        /// <param name="yWeights "></param>
+        /// <param name="yWeights"></param>
         /// <returns></returns>
         /// <example>
         /// <code>
         /// </code>
         /// </example>
-        let cdfDistanceWeighted p (xs : float []) (ys : float [])  xWeights yWeights =
+        let cdfDistanceWeighted p (xs : float []) (ys : float []) xWeights yWeights =
 
             if xs.Length = 0 then failwith "Given distribtuion xs is empty"
             if ys.Length = 0 then failwith "Given distribtuion ys is empty"
