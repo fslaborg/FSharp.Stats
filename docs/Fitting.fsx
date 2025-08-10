@@ -203,12 +203,13 @@ let xVectorMulti =
     [5.; 4. ;18. ]
     [6.; 3. ;22. ]
     ]
-    |> Matrix.ofJaggedSeq
+    |> matrix
 
 let yVectorMulti = 
     let transformX (x:Matrix<float>) =
         x
-        |> Matrix.mapiRows (fun _ v -> 100. + (v.[0] * 2.5) + (v.[1] * 4.) + (v.[2] * 0.5))
+        |> Matrix.getRows
+        |> Array.map (fun v -> 100. + (v.[0] * 2.5) + (v.[1] * 4.) + (v.[2] * 0.5))
     xVectorMulti
     |> transformX
     |> vector
@@ -249,7 +250,7 @@ let predictionFunctionPol x =
 let orderP = 3
 
 //define the weighting vector
-let weights = yDataP |> Vector.map (fun y -> 1. / y)
+let weights = yDataP |> Array.map (fun y -> 1. / y)
 let coefficientsPolW = 
     OLS.Polynomial.fitWithWeighting orderP weights xDataP yDataP 
 let predictionFunctionPolW x = 

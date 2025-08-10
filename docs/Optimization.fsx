@@ -65,7 +65,7 @@ open Plotly.NET
 open Plotly.NET.TraceObjects
 
 
-let myFunction (xs: vector) = 
+let myFunction (xs: Vector<float>) = 
     let x = xs.[0]
     x**2. + 0.32*x + 0.13
 
@@ -121,7 +121,7 @@ Lets define the function, and a starting coordinate for the optimization task.
 
 
 // Rosenbrock's valley or Rosenbrock's banana function
-let rosenbrock (xs: vector) =
+let rosenbrock (xs: Vector<float>) =
     let x, y = xs.[0], xs.[1]
     pown (1.0 - x) 2 + 100.0 * pown (y - pown x 2) 2
 
@@ -232,7 +232,7 @@ The Auckley function has many valleys, with one center and global minimum at $(0
 
 
 // Auckley function
-let auckley (xs: vector) =
+let auckley (xs: Vector<float>) =
     let x, y = xs.[0], xs.[1]
     -20.*exp(-0.2*sqrt(0.5*(x**2. + y**2))) - 
     exp(0.5*(cos(2. * Math.PI * x) + cos(2. * Math.PI * y))) + 
@@ -299,7 +299,7 @@ The Nelder-Mead method is able to identiy a local minimum, but misses the global
 
 
 // Beale function function
-let beale (xs: vector) =
+let beale (xs: Vector<float>) =
     let x, y = xs.[0], xs.[1]
     (1.5 - x + x*y)**2. + 
     (2.25 - x + x*y**2)**2. + 

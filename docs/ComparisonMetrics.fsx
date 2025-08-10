@@ -18,7 +18,7 @@ categoryindex: 0
 #I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
-open FsMath
+
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
@@ -27,6 +27,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 #if IPYNB
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: Plotly.NET.Interactive, 4.0.0"
+#r "nuget: FsMath, 0.0.1"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -91,6 +92,7 @@ A BinaryConfusionMatrix can be created in various ways :
 let actual = [1;1;1;1;0;0;0]
 let predicted = [1;1;1;0;1;0;0]
 
+open FsMath
 open FSharp.Stats.Testing
 
 BinaryConfusionMatrix.ofPredictions(1,actual,predicted)

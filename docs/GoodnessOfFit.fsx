@@ -196,12 +196,11 @@ let fitValues = xData |> Seq.map (fun xi -> xi,(predictionFunction xi))
 ///calculate confidence band errors for every x value
 let confidence = 
     xData
-    |> Vector.map (calculateConfidenceBandError xData yData 0.95)
+    |> Array.map (calculateConfidenceBandError xData yData 0.95)
 
 ///lower and upper bounds of the 95% confidence band sorted according to x values
 let (lower,upper) = 
     xData 
-    |> Vector.toArray
     |> Array.mapi (fun i xi -> (predictionFunction xi) - confidence.[i],(predictionFunction xi) + confidence.[i]) 
     |> Array.unzip
 
@@ -241,12 +240,11 @@ let newXValues =
 ///calculate confidence band errors for every x value
 let newConfidence = 
     newXValues
-    |> Vector.map (calculateConfidenceBandError xData yData 0.95)
+    |> Array.map (calculateConfidenceBandError xData yData 0.95)
 
 ///lower and upper bounds of the 95% confidence band sorted according to x values
 let (newLower,newUpper) = 
     newXValues 
-    |> Vector.toArray
     |> Array.mapi (fun i xi -> (predictionFunction xi) - newConfidence.[i],(predictionFunction xi) + newConfidence.[i]) 
     |> Array.unzip
 
@@ -280,12 +278,11 @@ let predictionXValues = vector [|1. .. 0.5 .. 15.|]
 ///calculate preditcion band errors for every x value
 let prediction = 
     predictionXValues
-    |> Vector.map (calculatePredictionBandError xData yData 0.95)
+    |> Array.map (calculatePredictionBandError xData yData 0.95)
 
 ///lower and upper bounds of the 95% prediction band sorted according to x values
 let (pLower,pUpper) = 
     predictionXValues 
-    |> Vector.toArray
     |> Array.mapi (fun i xi -> (predictionFunction xi) - prediction.[i],(predictionFunction xi) + prediction.[i]) 
     |> Array.unzip
 

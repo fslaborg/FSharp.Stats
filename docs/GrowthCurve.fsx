@@ -265,10 +265,10 @@ The four parameter Gompertz model allows the determination of generation times f
 
 *)
 
-let generationtime (parametervector:vector) (logTransform:float -> float) =
+let generationtime (parametervector:Vector<float>) (logTransform:float -> float) =
     logTransform 2. * Math.E / (parametervector.[1] * parametervector.[2])
 
-let lag (parametervector:vector) =
+let lag (parametervector:Vector<float>) =
     (parametervector.[3] - 1.) / parametervector.[1]
 
 let g = sprintf "The generation time (Gompertz) is: %.1f min" (60. * (generationtime gompertzParams log))
@@ -336,7 +336,7 @@ let fittingFunctionRichards =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeRichards (richardParameters:vector) =
+let generationtimeRichards (richardParameters:Vector<float>) =
     let l = richardParameters.[0]
     let k = richardParameters.[1]
     let y = richardParameters.[2] //x value of inflection point
@@ -419,7 +419,7 @@ let fittingFunctionWeibull =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeWeibull (weibullParameters:vector) =
+let generationtimeWeibull (weibullParameters:Vector<float>) =
     let b = weibullParameters.[0]
     let l = weibullParameters.[1]
     let k = weibullParameters.[2]
@@ -505,7 +505,7 @@ let fittingFunctionJanoschek =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeJanoschek (janoschekParameters:vector) =
+let generationtimeJanoschek (janoschekParameters:Vector<float>) =
     let b = janoschekParameters.[0]
     let l = janoschekParameters.[1]
     let k = janoschekParameters.[2]
@@ -593,7 +593,7 @@ let fittingFunctionExponential =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeExponential (expParameters:vector) =
+let generationtimeExponential (expParameters:Vector<float>) =
     let b = expParameters.[0]
     let l = expParameters.[1]
     let k = expParameters.[2]
@@ -684,7 +684,7 @@ let fittingFunctionVerhulst() =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeVerhulst (verhulstParameters:vector) =
+let generationtimeVerhulst (verhulstParameters:Vector<float>) =
     let lmax = verhulstParameters.[0]
     let k    = verhulstParameters.[1]
     let d    = verhulstParameters.[2]
@@ -768,7 +768,7 @@ let fittingFunctionMMF() =
 
 (**Here is a pre-evaluated version (to save time during the build process, as the solver takes quite some time.)*)
 
-let generationtimeMmf (mmfParameters:vector) =
+let generationtimeMmf (mmfParameters:Vector<float>) =
     let b = mmfParameters.[0]
     let l = mmfParameters.[1]
     let k = mmfParameters.[2]

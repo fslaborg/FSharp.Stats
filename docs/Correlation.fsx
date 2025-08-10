@@ -19,7 +19,7 @@ categoryindex: 0
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: FsMath, 0.0.1"
-open FsMath
+
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
@@ -29,7 +29,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
-
+#r "nuget: FsMath, 0.0.1"
 #endif // IPYNB
 
 (** 
@@ -45,6 +45,7 @@ _Summary_: This tutorial demonstrates how to calculate correlation coefficients 
 
 *)
 open Plotly.NET
+open FsMath
 open FSharp.Stats
 open FSharp.Stats.Correlation
 
@@ -175,7 +176,7 @@ let table2 =
             let proportion =  int (255. * (value - min) / (max - min))
             Color.fromARGB 1 (255 - proportion) 255  proportion
         pearsonCorrelationMatrix
-        |> Matrix.toJaggedArray
+        |> fun m -> m.toJaggedArray()
         |> JaggedArray.map (mapColor -1. 1.)
         |> JaggedArray.transpose
         |> Array.map Color.fromColors
@@ -183,7 +184,7 @@ let table2 =
 
     let values = 
         pearsonCorrelationMatrix 
-        |> Matrix.toJaggedArray
+        |> fun m -> m.toJaggedArray()
         |> JaggedArray.map (sprintf "%.3f")
 
     Chart.Table(["colindex 0";"colindex 1";"colindex 2";"colindex 3"],values,CellsFillColor=cellcolors)

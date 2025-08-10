@@ -51,7 +51,7 @@ let error() = rnd.Next(11)
 
 let sampleA = Vector.init 50 (fun x -> float x)
 let sampleB = Vector.init 50 (fun x -> float (x + error()))
-let sampleBHigh = sampleB |> Vector.map (fun x -> 200. + x)
+let sampleBHigh = sampleB |> Array.map (fun x -> 200. + x)
 let sampleC = Vector.init 50 (fun x -> 100. - float (x + 3 * error()))
 let sampleD = Vector.init 50 (fun x -> 100. + float (10 * error()))
 

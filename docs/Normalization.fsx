@@ -162,8 +162,9 @@ let rawData =
 
 // visualization of the raw data
 let rawDataChart = 
-    rawData.Transpose
-    |> Matrix.toJaggedArray
+    rawData
+    |> Matrix.transpose
+    |> (fun m -> m.toJaggedArray())
     |> Array.mapi (fun sampleID sample -> 
         let sampleIntensities = 
             sample 
@@ -220,8 +221,9 @@ corrFactors
 
 // visualization of the normed data
 let normedDataChart =
-    morNormedData.Transpose
-    |> Matrix.toJaggedArray
+    morNormedData
+    |> Matrix.transpose
+    |> (fun m -> m.toJaggedArray())
     |> Array.mapi (fun sampleID sample -> 
         let sampleIntensities = 
             sample 
@@ -314,8 +316,9 @@ let quantileNorm =
 
 // visualization of the normed data
 let normedDataQuantileChart =
-    quantileNorm.Transpose
-    |> Matrix.toJaggedArray
+    quantileNorm
+    |> Matrix.transpose
+    |> (fun m -> m.toJaggedArray())
     |> Array.mapi (fun sampleID sample -> 
         let sampleIntensities = 
             sample 

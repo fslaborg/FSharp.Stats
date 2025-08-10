@@ -711,7 +711,7 @@ _1 from town B_, and _3 from town C_? The individual success probabilities can b
 let multiNomProb = vector [(3./30.); (7./30.); (20./30.)]
 
 // the success combination that is of interest
-let multiNomKs   = Vector.Generic.ofList [1; 1; 3]
+let multiNomKs   = vector [1; 1; 3]
 
 // gives the probability of obtaining exactly the pattern 1,1,3
 let mNom = Discrete.Multinomial.PMF multiNomProb multiNomKs
@@ -731,7 +731,7 @@ multinomial distribution you have to give the corresponding anto-probability:
 *)
 
 let mNom_bin_A = (Discrete.Binomial.PMF 0.123 200 20)
-let mNom_bin_B = Discrete.Multinomial.PMF (vector [|0.123; 0.877|]) (Vector.Generic.ofArray [|20; 180|])
+let mNom_bin_B = Discrete.Multinomial.PMF ([|0.123; 0.877|]) ([|20; 180|])
 
 mNom_bin_A //0.0556956956889893
 mNom_bin_B //0.0556956956889898
