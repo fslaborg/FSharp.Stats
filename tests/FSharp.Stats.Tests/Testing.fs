@@ -406,7 +406,6 @@ let pearsonTests =
 [<Tests>]
 let holmTests =
 
-
     let largeSetnan        = 
         Frame.ReadCsv(location = @"data/holmHochberg_Input_nan.csv",hasHeaders = true,separators = ",").GetColumn<float>("pValues")
         |> Series.valuesAll
@@ -415,7 +414,8 @@ let holmTests =
  
     let largeSet        = 
         largeSetnan |> Array.filter (fun x -> not (nan.Equals x))
-
+        
+    // calculated using stats "The R Stats Package" v.4.5.1, using the p.adjust with method parameter set to  "holm" 
     let largeSet_Expectednan        = 
         Frame.ReadCsv(location = @"data/fwer_holm_results.csv",hasHeaders = true,separators = ",").GetColumn<float>("pValues")
         |> Series.valuesAll
@@ -457,6 +457,7 @@ let hochbergTests =
     let largeSet        = 
         largeSetnan |> Array.filter (fun x -> not (nan.Equals x))
 
+    // calculated using stats "The R Stats Package" v.4.5.1, using the p.adjust with method parameter set to  "hochberg"
     let largeSet_Expectednan        = 
         Frame.ReadCsv(location = @"data/fwer_hochberg_results.csv",hasHeaders = true,separators = ",").GetColumn<float>("pValues")
         |> Series.valuesAll
