@@ -2,7 +2,8 @@
 
 open System
 open FSharp.Stats
-open FSharp.Stats.GenericMath
+open FsMath
+open FsMath.GenericMath
 
 // TODO: Generalize lowerIncompleteRegularized, lowerIncomplete, and powerSeries to support generic type 'T instead of using float
 

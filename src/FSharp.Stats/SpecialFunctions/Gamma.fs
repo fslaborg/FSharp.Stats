@@ -1,7 +1,8 @@
 ﻿namespace FSharp.Stats.SpecialFunctions
 
 open System
-open FSharp.Stats.GenericMath
+open FsMath
+open FsMath.GenericMath
 
 /// Approximations for the gamma function and related functions.
 ///

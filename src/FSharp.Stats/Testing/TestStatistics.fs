@@ -1,6 +1,7 @@
 namespace FSharp.Stats.Testing
 open System
-open FSharp.Stats.GenericMath
+open FsMath
+open FsMath.GenericMath
 
 // TODO: Update specific distributions to support generic type 'T to avoid explicit float casting
 
