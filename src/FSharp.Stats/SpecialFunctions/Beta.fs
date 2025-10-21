@@ -2,14 +2,21 @@
 
 open System
 open FSharp.Stats
+open FsMath
+open FsMath.GenericMath
+
+// TODO: Generalize lowerIncompleteRegularized, lowerIncomplete, and powerSeries to support generic type 'T instead of using float
 
 /// The beta function B(p,q), or the beta integral (also called the Eulerian integral of the first kind) is defined by
 ///
 /// B(p, q) = (Γ(p) * Γ(q)) / Γ(p+q)
 module Beta =
 
-    let private EPS = 3.0e-8    // Precision.DoublePrecision;
-    let private FPMIN = 1.0e-30 // 0.0.Increment()/eps
+    // let private EPS : 'T = T 3.0e-8    // Precision.DoublePrecision;
+    // let private FPMIN : 'T = T 1.0e-30 // 0.0.Increment()/eps
+
+    let private f_EPS = T 3.0e-8    // Precision.DoublePrecision;
+    let private f_FPMIN = T 1.0e-30 // 0.0.Increment()/eps
 
     ///<summary>
     /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -19,7 +26,19 @@ module Beta =
     ///</remarks>
     /// <param name="z">The function input for approximating ln(B(z, w))</param>
     /// <param name="w">The function input for approximating ln(B(z, w))</param>
-    let _betaLn z w = (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
+    let inline _betaLn<'T when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : equality
+        and 'T :> ValueType
+        and 'T :> System.Numerics.IFloatingPoint<'T>
+        and 'T :> System.Numerics.IExponentialFunctions<'T>
+        and 'T :> System.Numerics.ILogarithmicFunctions<'T>
+        and 'T :> System.Numerics.IRootFunctions<'T>
+        and 'T :> System.Numerics.IPowerFunctions<'T>
+        and 'T : comparison>  
+        (z: 'T) (w: 'T) = 
+        (Gamma._gammaLn z) + (Gamma._gammaLn w) - (Gamma._gammaLn (z+w))
 
     ///<summary>
     /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -29,7 +48,19 @@ module Beta =
     ///</remarks>
     /// <param name="z">The function input for approximating B(z, w)</param>
     /// <param name="w">The function input for approximating B(z, w)</param>
-    let _beta z w = exp (_betaLn z w)
+    let inline _beta<'T when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : equality
+        and 'T :> ValueType
+        and 'T :> System.Numerics.IFloatingPoint<'T>
+        and 'T :> System.Numerics.IExponentialFunctions<'T>
+        and 'T :> System.Numerics.ILogarithmicFunctions<'T>
+        and 'T :> System.Numerics.IRootFunctions<'T>
+        and 'T :> System.Numerics.IPowerFunctions<'T>
+        and 'T : comparison> 
+        (z: 'T) (w: 'T) = 
+        exp (_betaLn z w)
 
     ///<summary>
     /// Computes an approximation of the real value of the log beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -40,7 +71,19 @@ module Beta =
     ///</remarks>    
     /// <param name="z">The function input for approximating ln(B(z, w))</param>
     /// <param name="w">The function input for approximating ln(B(z, w))</param>
-    let betaLn z w = (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
+    let inline betaLn<'T when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : equality
+        and 'T :> ValueType
+        and 'T :> System.Numerics.IFloatingPoint<'T>
+        and 'T :> System.Numerics.IExponentialFunctions<'T>
+        and 'T :> System.Numerics.ILogarithmicFunctions<'T>
+        and 'T :> System.Numerics.IRootFunctions<'T>
+        and 'T :> System.Numerics.IPowerFunctions<'T>
+        and 'T : comparison>  
+        (z: 'T) (w: 'T) = 
+        (Gamma.gammaLn z) + (Gamma.gammaLn w) - (Gamma.gammaLn (z+w))
 
     ///<summary>
     /// Computes an approximation of the real value of the beta function using approximations for the gamma function using Lanczos Coefficients described in Numerical Recipes (Press et al) 
@@ -51,7 +94,19 @@ module Beta =
     ///</remarks>
     /// <param name="z">The function input for approximating B(z, w)</param>
     /// <param name="w">The function input for approximating B(z, w)</param>
-    let beta z w = exp (betaLn z w)
+    let inline beta<'T when 'T :> Numerics.INumber<'T>
+        and 'T : (new: unit -> 'T)
+        and 'T : struct
+        and 'T : equality
+        and 'T :> ValueType
+        and 'T :> System.Numerics.IFloatingPoint<'T>
+        and 'T :> System.Numerics.IExponentialFunctions<'T>
+        and 'T :> System.Numerics.ILogarithmicFunctions<'T>
+        and 'T :> System.Numerics.IRootFunctions<'T>
+        and 'T :> System.Numerics.IPowerFunctions<'T>
+        and 'T : comparison>  
+        (z: 'T) (w: 'T) = 
+        exp (betaLn z w)
 
     // incomplete beta function 
     /// <summary>
@@ -79,29 +134,29 @@ module Beta =
             let c = 1.0
             let d = 
                 let tmp =  1.0 - (qab * x / qap)
-                if (abs tmp < FPMIN) then 1. / FPMIN else 1. / tmp
+                if (abs tmp < f_FPMIN) then 1. / f_FPMIN else 1. / tmp
             let h = d
             let rec loop m mm d h c =                
                 let aa = float m * (b - float m)*x/((qam + mm)*(a + mm))
                 let d' = 
                     let tmp = 1.0 + (aa*d)
-                    if (abs tmp < FPMIN) then 1. / FPMIN else 1. / tmp
+                    if (abs tmp < f_FPMIN) then 1. / f_FPMIN else 1. / tmp
                 let c' = 
                     let tmp = 1.0 + (aa/c)
-                    if (abs tmp < FPMIN) then FPMIN else tmp
+                    if (abs tmp < f_FPMIN) then f_FPMIN else tmp
                 let h' = h * d' * c'
                 let aa' = -(a + float m)*(qab + float m)*x/((a + mm)*(qap + mm))
                 let d'' = 
                     let tmp = 1.0 + (aa' * d')
-                    if (abs tmp < FPMIN) then 1. / FPMIN else 1. / tmp
+                    if (abs tmp < f_FPMIN) then 1. / f_FPMIN else 1. / tmp
                 let c'' = 
                     let tmp = 1.0 + (aa'/c')
-                    if (abs tmp < FPMIN) then FPMIN else tmp
+                    if (abs tmp < f_FPMIN) then f_FPMIN else tmp
                 
                 let del = d''*c''
                 let h'' = h' * del
                 
-                if abs (del - 1.0) <= EPS then
+                if abs (del - 1.0) <= f_EPS then
                      if isSymmetryTransformation then 1.0 - (bt*h''/a) else bt*h''/a
                 else
                     if m < 140 then

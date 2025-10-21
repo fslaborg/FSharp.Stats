@@ -172,7 +172,7 @@
     <PackageReference Include="FSharpAux.Core" Version="2.0.0" />
     <PackageReference Include="FSharpAux" Version="2.0.0" />
     <PackageReference Include="FSharpAux.IO" Version="2.0.0" />
-    <PackageReference Include="FsMath" Version="0.0.1" />
+    <PackageReference Include="FsMath" Version="0.0.2" />
     <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>

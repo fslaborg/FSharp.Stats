@@ -14,7 +14,7 @@ categoryindex: 0
 #r "nuget: FSharpAux, 2.0.0"
 #r "nuget: FSharpAux.IO, 2.0.0"
 #r "nuget: OptimizedPriorityQueue, 5.1.0"
-#r "nuget: FsMath, 0.0.1"
+#r "nuget: FsMath, 0.0.2"
 #I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
@@ -27,7 +27,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 #if IPYNB
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: Plotly.NET.Interactive, 4.0.0"
-#r "nuget: FsMath, 0.0.1"
+#r "nuget: FsMath, 0.0.2"
 #r "nuget: FSharp.Stats"
 #endif // IPYNB
 
@@ -154,7 +154,7 @@ let mlcm =
                 [2; 0; 4]
             ]
             |> array2D
-            |> Matrix.Generic.ofArray2D
+            |> Matrix.ofArray2D
         )
     )
 (**

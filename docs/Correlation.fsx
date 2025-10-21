@@ -14,11 +14,11 @@ categoryindex: 0
 #r "nuget: FSharpAux, 2.0.0"
 #r "nuget: FSharpAux.IO, 2.0.0"
 #r "nuget: OptimizedPriorityQueue, 5.1.0"
-#r "nuget: FsMath, 0.0.1"
+#r "nuget: FsMath, 0.0.2"
 #I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
-#r "nuget: FsMath, 0.0.1"
+#r "nuget: FsMath, 0.0.2"
 
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
@@ -29,7 +29,7 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
-#r "nuget: FsMath, 0.0.1"
+#r "nuget: FsMath, 0.0.2"
 #endif // IPYNB
 
 (** 

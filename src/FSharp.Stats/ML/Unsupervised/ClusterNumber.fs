@@ -28,6 +28,8 @@ module ClusterNumber =
     /// <summary>Akaike Information Criterion (AIC)</summary>
     /// <remarks></remarks>
     /// <param name="bootstraps"></param>
+    /// <param name="iClustering"></param>
+    /// <param name="maxK"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -299,6 +301,7 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
         /// <summary>Generate uniform points within the range of `data`.</summary>
         /// <remarks></remarks>
         /// <param name="rnd"></param>
+        /// <param name="data"></param>
         /// <returns></returns>
         /// <example>
         /// <code>

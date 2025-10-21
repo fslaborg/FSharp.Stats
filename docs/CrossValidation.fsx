@@ -15,7 +15,7 @@ categoryindex: 0
 #r "nuget: FSharpAux, 2.0.0"
 #r "nuget: FSharpAux.IO, 2.0.0"
 #r "nuget: OptimizedPriorityQueue, 5.1.0"
-#r "nuget: FsMath, 0.0.1"
+#r "nuget: FsMath, 0.0.2"
 #I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
@@ -357,7 +357,7 @@ let shuffleAndSplitPolynomial p iterations (xData: Vector<float>) (yData: Vector
    let getFitFuncPol xTrain yTrain (xTest:Vector<float>) = 
        getFitFuncPolynomial xTrain yTrain xTest order
    
-   CrossValidation.shuffelAndSplit p iterations xDataMat yData getFitFuncPol error Seq.stDev
+   CrossValidation.shuffleAndSplit p iterations xDataMat yData getFitFuncPol error Seq.stDev
 
 //creates an output for 5 iterations where random 20 % of the data set are taken as testing data set
 let sasPolynomial order = shuffleAndSplitPolynomial 0.2 5 xV yV order
@@ -368,7 +368,7 @@ let shuffleAndSplitSpline p iterations (xData: Vector<float>) (yData: Vector<flo
     let getFitFuncSpl xDat yDat (xDatTrain: Vector<float>) =
         getFitFuncSpline xDat yDat xDatTrain lambda
    
-    CrossValidation.shuffelAndSplit p iterations xDataMat yData getFitFuncSpl errorSpl Seq.stDev
+    CrossValidation.shuffleAndSplit p iterations xDataMat yData getFitFuncSpl errorSpl Seq.stDev
 
 //creates an output for 5 iterations where random 20 % of the data set are taken as testing data set
 let sasSpline lambda = shuffleAndSplitSpline 0.2 5 xV yV lambda

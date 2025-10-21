@@ -156,6 +156,7 @@ module LinearRegression =
                 ///   Returns the regression function of a line through the origin
                 /// </summary>
                 /// <param name="coef">The functions slope</param>
+                /// <param name="x">x value of which the corresponding y value should be predicted</param>
                 /// <returns>Function that takes a x value and returns the predicted y value</returns>
                 /// <example> 
                 /// <code> 
